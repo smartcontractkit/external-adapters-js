@@ -102,7 +102,7 @@ The follow steps is the general pattern for writing an integration test.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
 
-## Soak Testing (Chainlink Team only)
+## Soak Testing (Chainlink Labs)
 
 In order to soak test adapters we need to create and push the adapter out to the sdlc cluster. From there we can use the Flux Emulator or K6 to send traffic to it for the amount of time you need.
 
