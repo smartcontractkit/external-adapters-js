@@ -9,7 +9,7 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 3. [Output](#Output)
 4. [Common Patterns](#Common-Patterns)
 5. [Mock Integration Testing](#Mock-Integration-Testing)
-6. [Soak Testing (Chainlink Team only)](<#Soak-Testing-(Chainlink-Team-only)>)
+6. [Soak Testing (Chainlink Labs)](<#Soak-Testing-(Chainlink-Labs)>)
 7. [Adding Provider API Rate Limits](#Adding-Provider-API-Rate-Limits)
 
 ## Creating A New Adapter
