@@ -13,18 +13,20 @@ export const inputParameters: InputParameters = {
     aliases: ['from', 'coin'],
     required: true,
     description: 'The symbol of the currency to query',
+    type: 'string',
   },
   quote: {
     aliases: ['to', 'market'],
     required: true,
     description: 'The symbol of the currency to convert to',
+    type: 'string',
   },
-  field: {
+  resultPath: {
     required: false,
     description: 'The object path to access the value that will be returned as the result.',
     default: 'bid',
+    type: 'string',
   },
-  resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

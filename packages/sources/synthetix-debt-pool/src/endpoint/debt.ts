@@ -24,7 +24,7 @@ export interface ResponseSchema {
 export const inputParameters: InputParameters = {
   chainSources: {
     required: false,
-    description: `Chains to pull debt from. Options are 'ethereum', 'optimism'`,
+    description: `Array of chains to pull debt from. Options for array elements are 'ethereum', 'optimism'`,
     type: 'array',
   },
 }

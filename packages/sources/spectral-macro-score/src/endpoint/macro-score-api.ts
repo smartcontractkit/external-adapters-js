@@ -40,11 +40,13 @@ export interface ScoreResponse {
 export const inputParameters: InputParameters = {
   tokenIdInt: {
     required: true,
-    description: 'The tokenID for the user as an integer value\t',
+    description: 'The tokenID for the user as an integer value',
+    type: 'string',
   },
   tickSetId: {
     required: true,
-    description: 'The set of ticks used to compute the MACRO Score as in integer value\t',
+    description: 'The set of ticks used to compute the MACRO Score as in integer value',
+    type: 'string',
   },
 }
 
