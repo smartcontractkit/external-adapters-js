@@ -1,5 +1,36 @@
 # @chainlink/token-allocation-adapter
 
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [ab4f8eeb]
+  - @chainlink/nomics-adapter@1.0.14
+
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/cryptocompare-adapter@1.1.14
+
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [1b015ae2]
+  - @chainlink/ea-bootstrap@1.4.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/amberdata-adapter@1.1.12
+  - @chainlink/coinapi-adapter@1.0.13
+  - @chainlink/coingecko-adapter@1.0.14
+  - @chainlink/coinmarketcap-adapter@1.2.9
+  - @chainlink/coinpaprika-adapter@1.0.14
+  - @chainlink/cryptocompare-adapter@1.1.13
+  - @chainlink/kaiko-adapter@1.0.13
+  - @chainlink/nomics-adapter@1.0.13
+  - @chainlink/tiingo-adapter@1.2.10
+
 ## 1.0.16
 
 ### Patch Changes

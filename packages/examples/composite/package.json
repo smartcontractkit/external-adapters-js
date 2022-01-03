@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/example-composite-adapter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Chainlink example composite adapter.",
   "keywords": [
     "Chainlink",

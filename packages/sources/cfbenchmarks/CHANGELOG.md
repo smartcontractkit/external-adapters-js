@@ -1,5 +1,19 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 19381a8d: Bugfix for broken adapter WS
+
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [1b015ae2]
+  - @chainlink/ea-bootstrap@1.4.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.12
 
 ### Patch Changes
