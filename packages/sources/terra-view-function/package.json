@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/terra-view-function-adapter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Chainlink terra-view-function adapter.",
   "keywords": [
     "Chainlink",

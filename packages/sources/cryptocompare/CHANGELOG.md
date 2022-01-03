@@ -1,5 +1,19 @@
 # @chainlink/cryptocompare-adapter
 
+## 1.1.14
+
+### Patch Changes
+
+- Lower batch property limits to reflect character limit
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [1b015ae2]
+  - @chainlink/ea-bootstrap@1.4.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.12
 
 ### Patch Changes
