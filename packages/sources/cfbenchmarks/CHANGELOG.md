@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 19381a8d: Bugfix for broken adapter WS
+
 ## 1.0.13
 
 ### Patch Changes

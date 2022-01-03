@@ -1,5 +1,11 @@
 # @chainlink/nomics-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- ab4f8eeb: input parameters changed
+
 ## 1.0.13
 
 ### Patch Changes

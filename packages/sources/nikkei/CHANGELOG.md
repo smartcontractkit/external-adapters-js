@@ -1,5 +1,11 @@
 # @chainlink/nikkei-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- ab4f8eeb: input parameters changed
+
 ## 1.1.6
 
 ### Patch Changes
