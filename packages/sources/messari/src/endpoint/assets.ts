@@ -14,8 +14,19 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'market', 'to', 'quote'],
-  resultPath: false,
+  base: {
+    required: true,
+    aliases: ['market', 'to', 'quote'],
+    type: 'string',
+    description: 'The symbol of the currency to',
+  },
+  resultPath: {
+    required: false,
+    description:
+      'The object path to access the value that will be returned as the result. Deeply nested values can be accessed with a `.` delimiter.',
+    type: 'string',
+    default: 'marketcap.marketcap_dominance_percent',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

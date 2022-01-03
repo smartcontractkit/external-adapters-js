@@ -7,9 +7,24 @@ export const supportedEndpoints = ['stock', 'eod']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  interval: false,
-  limit: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  interval: {
+    required: false,
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+    default: '1min',
+  },
+  limit: {
+    required: false,
+    description: 'The limit for number of results',
+    type: 'number',
+    default: 1,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

@@ -8,7 +8,12 @@ export const methodName = 'Filecoin.WalletBalance'
 export const supportedEndpoints = ['balance', methodName]
 
 export const inputParameters: InputParameters = {
-  addresses: ['addresses', 'result'],
+  addresses: {
+    required: true,
+    aliases: ['result'],
+    description: 'An array of addresses to get the balances of',
+    type: 'array',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {

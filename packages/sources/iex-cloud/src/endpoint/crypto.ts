@@ -5,8 +5,18 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['crypto']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'asset', 'symbol'],
-  quote: ['quote', 'to', 'market'],
+  base: {
+    aliases: ['from', 'coin', 'asset', 'symbol'],
+    description: 'The symbol to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol to convert to',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
