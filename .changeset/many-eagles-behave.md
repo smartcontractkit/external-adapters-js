@@ -1,9 +1,10 @@
 ---
-'@chainlink/satoshitango-adapter': patch
-'@chainlink/sochain-adapter': patch
-'@chainlink/spectral-macro-score-adapter': patch
-'@chainlink/stasis-adapter': patch
-'@chainlink/synthetix-debt-pool-adapter': patch
+'@chainlink/satoshitango-adapter': minor
+'@chainlink/snowflake-adapter': minor
+'@chainlink/sochain-adapter': minor
+'@chainlink/spectral-macro-score-adapter': minor
+'@chainlink/stasis-adapter': minor
+'@chainlink/synthetix-debt-pool-adapter': minor
 ---
 
 input parameters changed
