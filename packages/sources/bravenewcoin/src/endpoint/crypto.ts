@@ -10,12 +10,14 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to query',
     options: ['BTC', 'ETH', 'USD'],
     required: true,
+    type: 'string',
   },
   quote: {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     options: ['BTC', 'ETH', 'USD'],
     required: true,
+    type: 'string',
   },
 }
 
