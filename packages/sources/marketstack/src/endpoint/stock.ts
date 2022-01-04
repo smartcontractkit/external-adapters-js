@@ -11,21 +11,23 @@ export const inputParameters: InputParameters = {
 }
 
 export interface ResponseSchema {
-  open: number
-  high: number
-  low: number
-  close: number
-  volume: number
-  adj_high: number
-  adj_low: number
-  adj_close: number
-  adj_open: number
-  adj_volume: number
-  split_factor: number
-  dividend: number
-  symbol: string
-  exchange: string
-  date: string
+  data: {
+    open: number
+    high: number
+    low: number
+    close: number
+    volume: number
+    adj_high: number
+    adj_low: number
+    adj_close: number
+    adj_open: number
+    adj_volume: number
+    split_factor: number
+    dividend: number
+    symbol: string
+    exchange: string
+    date: string
+  }[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
