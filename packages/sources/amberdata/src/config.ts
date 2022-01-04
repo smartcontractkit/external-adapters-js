@@ -26,7 +26,7 @@ export const BLOCKCHAINS: { [ticker: string]: string } = {
   zec: 'zcash',
 }
 
-const DEFAULT_ENDPOINT = 'price'
+const DEFAULT_ENDPOINT = 'crypto'
 
 export const makeConfig = (prefix = ''): Config => {
   const config = Requester.getDefaultConfig(prefix, true)

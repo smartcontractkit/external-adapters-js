@@ -19,9 +19,24 @@ const tokenOptions = (from: string, to: string) => ({
 })
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  includes: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
+  includes: {
+    required: false,
+    description:
+      'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json).',
+    type: 'object',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {

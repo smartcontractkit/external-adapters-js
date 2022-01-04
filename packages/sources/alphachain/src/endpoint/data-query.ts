@@ -9,16 +9,19 @@ export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
+    type: 'string',
     required: true,
   },
   quote: {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
+    type: 'string',
     required: true,
   },
   field: {
     description: 'The object path to access the value that will be returned as the result',
     default: 'result',
+    type: 'string',
   },
 }
 
@@ -29,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
-  const resultPath = validator.validated.data.resultPath || 'result'
+  const resultPath = validator.validated.data.resultPath
   const url = '/data-query'
   const host = 'alpha-chain2.p.rapidapi.com'
   const headers = {

@@ -27,6 +27,7 @@ export const inputParameters: InputParameters = {
   overrides: {
     description:
       'If base provided is found in overrides, that will be used. Overrides list can be found here [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
+    type: 'object',
   },
 }
 

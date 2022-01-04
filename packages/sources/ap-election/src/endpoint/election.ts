@@ -62,24 +62,33 @@ export const inputParameters: InputParameters = {
   date: {
     description: 'The date of the election formatted as YYYY-MM-DD',
     required: true,
+    type: 'string',
   },
   statePostal: {
     description:
       "The state's two letter code e.g CA. `US` to get the results of a nationwide election",
     required: true,
+    type: 'string',
   },
   officeID: {
     description:
       'The office ID the election is for. List can be found here https://aphelp.ap.org/Content/SupportDocs/Elections/API/#t=Office_ID_Examples.htm',
+    type: 'string',
   },
   raceID: {
     description: 'The race ID the election is for',
+    type: 'string',
   },
   raceType: {
     description:
       'The race type the election is for. The race type can be `D(Dem Primary)`, `R(GOP Primary)`, `G(General)`, `E(Dem Caucus)`, `S(GOP Caucus)`, `X(Open Primary or special use cases)`',
     options: ['D', 'R', 'G', 'E', 'S', 'X'],
     default: 'D',
+    type: 'string',
+  },
+  resultsType: {
+    type: 'string',
+    default: 'l',
   },
 }
 
@@ -98,7 +107,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     raceTypeID: raceType,
     format: 'json',
     winner: 'X',
-    resultsType: resultsType || 'l',
+    resultsType: resultsType,
     apikey: config.apiKey,
   }
 

@@ -55,9 +55,26 @@ export enum Unit {
 export const supportedEndpoints = ['current-conditions']
 
 export const inputParameters: InputParameters = {
-  locationKey: true,
-  units: true,
-  encodeResult: false,
+  locationKey: {
+    required: true,
+    description:
+      'The location unique ID (to be optained via [location](#get-location-endpoint) endpoint)',
+    type: 'number',
+  },
+  units: {
+    required: true,
+    description: 'The measurement system for the output',
+    type: 'string',
+    options: ['imperial', 'metric'],
+  },
+  encodeResult: {
+    required: false,
+    description:
+      'When `true` the result is ABI encoded (as tuple). When `false` the result is a JSON',
+    type: 'boolean',
+    options: [true, false],
+    default: true,
+  },
 }
 
 export const unitsConditionKey: ReadonlyMap<Unit, string> = new Map([

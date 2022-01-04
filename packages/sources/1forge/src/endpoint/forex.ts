@@ -9,17 +9,22 @@ export const inputParameters: InputParameters = {
     aliases: ['from'],
     description: 'The symbol of the currency to query',
     required: true,
+    type: 'string',
   },
   quote: {
     aliases: ['to'],
     description: ' The symbol of the currency to convert to',
     required: true,
+    type: 'string',
   },
   quantity: {
     description: 'An additional amount of the original currency',
+    type: 'number',
+    default: 1,
   },
   overrides: {
     description: `If base provided is found in overrides, that will be used [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)`,
+    type: 'object',
   },
 }
 
@@ -31,7 +36,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/convert`
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
-  const quantity = validator.validated.data.quantity || 1
+  const quantity = validator.validated.data.quantity
 
   const params = {
     ...config.api.params,

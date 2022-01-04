@@ -15,23 +15,21 @@ export const inputParameters: InputParameters = {
   },
   debug: {
     description: 'Switch to show `raw` trade value',
-    type: 'string',
-    default: 'false',
+    type: 'boolean',
+    default: false,
   },
   roundDay: {
-    description: 'TSwitch to round the start and end to midnight UTC',
-    type: 'string',
-    default: 'false',
+    description: 'Round the start and end to midnight UTC',
+    type: 'boolean',
+    default: false,
   },
   start: {
-    description: 'Epoch timestamp in seconds',
+    description: 'Epoch timestamp in seconds. Defaults to current time - 24hrs.',
     type: 'string',
-    default: '$now - 24h',
   },
   end: {
-    description: 'Epoch timestamp in seconds',
+    description: 'Epoch timestamp in seconds. Defaults to current time.',
     type: 'string',
-    default: '$now',
   },
 }
 
@@ -87,8 +85,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   // TODO: validate this is a checksum address
   const address = validator.validated.data.address
-  const debug = validator.validated.data.debug || false
-  const roundDay = validator.validated.data.roundDay || false
+  const debug = validator.validated.data.debug
+  const roundDay = validator.validated.data.roundDay
   let start = validator.validated.data.start
   let end = validator.validated.data.end
 
