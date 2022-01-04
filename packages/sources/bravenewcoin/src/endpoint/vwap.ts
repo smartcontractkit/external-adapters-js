@@ -8,7 +8,6 @@ export const inputParameters: InputParameters = {
   symbol: {
     aliases: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
     description: ' Retrieve all the OHLCV values for a particular asset or market',
-    options: ['BTC', 'ETH', 'USD'],
     required: true,
     type: 'string',
   },

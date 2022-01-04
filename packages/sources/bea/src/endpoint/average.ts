@@ -67,8 +67,7 @@ const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   series: {
-    description: 'The series code to query',
-    options: ['DGDSRG', 'DPCERG', 'etc'],
+    description: 'The series code to query (`DGDSRG`, `DPCERG`, etc.)',
     type: 'string',
     default: 'DPCERG',
   },
@@ -85,8 +84,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const year = new Date().getFullYear()
-  const series = validator.validated.data.series || 'DPCERG'
-  const last = validator.validated.data.last || 3
+  const series = validator.validated.data.series
+  const last = validator.validated.data.last
   const url = `/data`
 
   const defaultParams = {
