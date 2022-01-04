@@ -4,6 +4,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 export const inputParameters: InputParameters = {
   market: {
     required: false,
+    type: 'string',
     options: ['brent', 'wti'],
     default: 'brent',
   },
@@ -21,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const market = validator.validated.data.market || 'brent'
+  const market = validator.validated.data.market
   const url = `https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com/${
     endpoints[market.toLowerCase()]
   }`

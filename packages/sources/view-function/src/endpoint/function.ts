@@ -16,10 +16,12 @@ export const inputParameters: InputParameters = {
     aliases: ['contract'],
     required: true,
     description: 'Address of the contract',
+    type: 'string',
   },
   inputParams: {
     required: false,
     description: 'Array of function parameters in order',
+    type: 'array',
   },
 }
 
