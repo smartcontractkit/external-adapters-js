@@ -111,7 +111,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       unsubscribe: (input) => getSubscription(getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
-      subsFromMessage: (message: UpdateMessage) => message.data && getSubscription(message.data[1]),
+      subsFromMessage: (message: UpdateMessage, _, input: AdapterRequest) =>
+        message.data && message.messageType === 'A' && getSubscription(getTicker(input)),
       toResponse: (message: UpdateMessage) => {
         const result = Requester.validateResultNumber(message.data, [5])
         return Requester.success('1', { data: { result } }, true)
