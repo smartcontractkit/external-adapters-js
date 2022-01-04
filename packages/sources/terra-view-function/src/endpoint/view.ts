@@ -22,8 +22,8 @@ export const inputParameters: InputParameters = {
   },
   chainId: {
     required: false,
-    description: 'Which chain ID to connect to. Default is `DEFAULT_CHAIN_ID` environment variable',
-    options: ['columbus-5', 'bombay-12', 'localterra'],
+    description:
+      'Which chain ID to connect to. Default is `DEFAULT_CHAIN_ID` environment variable (`columbus-5`, `bombay-12`, `localterra`, etc.)',
     type: 'string',
   },
   resultPath: {
