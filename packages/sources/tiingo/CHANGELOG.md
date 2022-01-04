@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.3.0
+
+### Minor Changes
+
+- 56be0406: fix ws
+
 ## 1.2.10
 
 ### Patch Changes
