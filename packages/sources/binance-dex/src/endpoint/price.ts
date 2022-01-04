@@ -11,11 +11,13 @@ export const inputParameters: InputParameters = {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
     required: true,
+    type: 'string',
   },
   quote: {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
+    type: 'string',
   },
 }
 

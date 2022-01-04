@@ -10,12 +10,14 @@ export const inputParameters: InputParameters = {
     description: ' Retrieve all the OHLCV values for a particular asset or market',
     options: ['BTC', 'ETH', 'USD'],
     required: true,
+    type: 'string',
   },
   indexType: {
     aliases: ['to', 'market'],
     description: 'Restrict the OHLCV results to the index type.',
     options: ['MWA', 'GWA'],
     default: 'GWA',
+    type: 'string',
   },
   timestamp: {
     // TODO: currently unused, deprecate or utilize me
