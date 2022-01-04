@@ -31,7 +31,6 @@ export const inputParameters: InputParameters = {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
-    options: ['USD', 'EUR'],
     type: 'string',
   },
 }

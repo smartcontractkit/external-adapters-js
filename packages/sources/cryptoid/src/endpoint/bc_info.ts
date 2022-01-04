@@ -6,10 +6,10 @@ export const supportedEndpoints = ['height', 'difficulty']
 
 export const inputParameters: InputParameters = {
   blockchain: {
-    aliases: ['blockchain', 'coin'],
+    aliases: ['coin'],
     required: true,
     type: 'string',
-    description: 'The blockchain name (required).',
+    description: 'The blockchain name.',
   },
   endpoint: {
     description: 'Name of the endpoint to use',

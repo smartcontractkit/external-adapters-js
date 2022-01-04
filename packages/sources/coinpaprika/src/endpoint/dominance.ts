@@ -7,7 +7,6 @@ export const inputParameters: InputParameters = {
   market: {
     aliases: ['to', 'quote'],
     description: 'The symbol of the currency to convert to',
-    options: [`BTC`],
     required: true,
     type: 'string',
   },

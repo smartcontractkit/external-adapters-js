@@ -59,7 +59,7 @@ export const inputParameters: InputParameters = {
     type: 'string',
   },
   convert: {
-    aliases: ['quote', 'to', 'market', 'convert'],
+    aliases: ['quote', 'to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
     type: 'string',
@@ -77,6 +77,7 @@ export const inputParameters: InputParameters = {
   overrides: {
     description:
       'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
+    type: 'object',
   },
   resultPath: {
     description: 'The path for the result',

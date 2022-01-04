@@ -144,7 +144,6 @@ export const inputParameters: InputParameters = {
     type: 'string',
   },
   endpoint: {
-    description: '',
     type: 'string',
   },
 }

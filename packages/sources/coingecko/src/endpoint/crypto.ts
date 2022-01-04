@@ -35,7 +35,7 @@ export const endpointResultPaths: {
 }
 
 export const inputParameters: InputParameters = {
-  conid: {
+  coinid: {
     description:
       'The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy base will need to be supplied)',
     required: false,
@@ -44,19 +44,23 @@ export const inputParameters: InputParameters = {
     aliases: ['from', 'coin'],
     description: 'The symbol or array of symbols of the currency to query',
     required: true,
+    type: 'string',
   },
   quote: {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
+    type: 'string',
   },
   resultPath: {
     description: 'The path for the result',
     required: false,
+    type: 'string',
   },
   endpoint: {
     description: 'Name of the endpoint to use',
     required: false,
+    type: 'string',
   },
 }
 

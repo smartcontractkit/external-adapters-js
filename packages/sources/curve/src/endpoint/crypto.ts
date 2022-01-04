@@ -61,6 +61,7 @@ export const inputParameters: InputParameters = {
     description:
       ' The exchange amount to get the rate of. The amount is in full units, e.g. 1 USDC, 1 ETH',
     type: 'number',
+    default: 1,
   },
   resultPath: {
     description: 'The path for the result',
@@ -74,7 +75,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const { address: from, decimals: fromDecimals } = await getTokenDetails(validator, 'from', config)
   const { address: to, decimals: toDecimals } = await getTokenDetails(validator, 'to', config)
-  const inputAmount = validator.validated.data.amount || 1
+  const inputAmount = validator.validated.data.amount
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
   const resultPath = validator.validated.data.resultPath
 

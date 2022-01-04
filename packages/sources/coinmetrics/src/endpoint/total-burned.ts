@@ -38,13 +38,14 @@ export const inputParameters: InputParameters = {
   },
   frequency: {
     description: 'At which interval to calculate the number of coins/tokens burned',
-    options: ['1d, 1b'],
+    options: [Frequency.ONE_DAY, Frequency.ONE_BLOCK],
     type: 'string',
     required: false,
+    default: Frequency.ONE_DAY,
   },
   pageSize: {
     description: 'Number of results to get per page. From 1 to 10000',
-    default: 10000,
+    default: DEFAULT_PAGE_SIZE,
     type: 'number',
     required: false,
   },
@@ -88,8 +89,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const asset = validator.overrideSymbol(AdapterName, validator.validated.data.asset)
-  const frequency = validator.validated.data.frequency || Frequency.ONE_DAY
-  const pageSize = validator.validated.data.pageSize || DEFAULT_PAGE_SIZE
+  const frequency = validator.validated.data.frequency
+  const pageSize = validator.validated.data.pageSize
   const startTime = validator.validated.data.startTime
   const endTime = validator.validated.data.endTime
 

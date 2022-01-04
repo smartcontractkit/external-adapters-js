@@ -72,7 +72,6 @@ export const inputParameters: InputParameters = {
   coinid: {
     description: 'The coin ID to select the specific coin (in case of duplicate `from` symbols)',
     required: false,
-    type: 'string',
   },
   referenceCurrencyUuid: {
     description: 'Optional UUID of the `to` currency',

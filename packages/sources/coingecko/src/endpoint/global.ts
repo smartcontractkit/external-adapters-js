@@ -15,7 +15,7 @@ const customError = (data: any) => {
 
 export const inputParameters: InputParameters = {
   market: {
-    aliases: ['quote', 'to', 'market', 'coin'],
+    aliases: ['quote', 'to', 'coin'],
     description:
       'The ticker of the coin to query. [Supported tickers](https://api.coingecko.com/api/v3/global)',
     required: true,

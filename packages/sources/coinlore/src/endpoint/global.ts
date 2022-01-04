@@ -12,7 +12,6 @@ export const endpointResultPaths: EndpointResultPaths = {
 export const inputParameters: InputParameters = {
   base: {
     description: 'When using a field of `d`, the currency to prefix the field with (e.g. `usd_d`',
-    options: ['btc', 'eth'],
     required: false,
     type: 'string',
     default: 'btc',

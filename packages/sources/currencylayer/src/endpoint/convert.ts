@@ -20,9 +20,10 @@ export const inputParameters: InputParameters = {
     type: 'string',
   },
   amount: {
-    description: ' An amount of the currency',
+    description: 'An amount of the currency',
     required: false,
-    type: 'string',
+    type: 'number',
+    default: 1,
   },
 }
 
@@ -34,7 +35,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/convert`
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
-  const amount = validator.validated.data.amount || 1
+  const amount = validator.validated.data.amount
 
   const params = {
     ...config.api.params,

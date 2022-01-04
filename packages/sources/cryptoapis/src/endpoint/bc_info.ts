@@ -14,6 +14,7 @@ export const inputParameters: InputParameters = {
     description: 'The blockchain to retrieve info for',
     options: ['BTC', 'ETH', 'LTC', 'ETC', 'BCH', 'DOGE', 'DASH'],
     required: true,
+    type: 'string',
   },
   resultPath: {
     description: 'The path for the result',
@@ -24,6 +25,7 @@ export const inputParameters: InputParameters = {
     description: 'The blockchain network name',
     default: 'mainnet',
     required: true,
+    type: 'string',
   },
 }
 

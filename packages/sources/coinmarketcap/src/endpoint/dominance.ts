@@ -7,7 +7,6 @@ export const inputParameters: InputParameters = {
   market: {
     aliases: ['quote', 'to'],
     description: 'The symbol of the currency to query',
-    options: ['BTC', 'ETH'],
     required: true,
     type: 'string',
   },

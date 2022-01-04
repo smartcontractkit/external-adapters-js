@@ -11,7 +11,7 @@ export const inputParameters: InputParameters = {
     type: 'string',
   },
   convert: {
-    aliases: ['quote', 'to', 'market', 'convert'],
+    aliases: ['quote', 'to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
     type: 'string',
@@ -39,22 +39,13 @@ export const inputParameters: InputParameters = {
     default: '5m',
   },
   cid: {
-    description: 'The CMC coin ID (optional to use in place of base',
+    description: 'The CMC coin ID (optional to use in place of base)',
     required: false,
     type: 'string',
   },
   aux: {
     description: 'Optionally specify a comma-separated list of supplemental data fields to return',
     required: false,
-    options: [
-      'price',
-      'volume',
-      'market_cap',
-      'quote_timestamp',
-      'is_active',
-      'is_fiat',
-      'search_interval',
-    ],
     type: 'string',
   },
   skipInvalid: {
