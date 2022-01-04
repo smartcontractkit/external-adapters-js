@@ -11,6 +11,10 @@ export const inputParameters: InputParameters = {
   end: true,
 }
 
+export interface ResponseSchema {
+  matches: string
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -28,8 +32,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig)
-  response.data.result = parseInt(response.data.matches)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const result = Requester.validateResultNumber(response.data, ['matches'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
