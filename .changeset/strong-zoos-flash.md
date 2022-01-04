@@ -1,16 +1,16 @@
 ---
-'@chainlink/taapi-adapter': patch
-'@chainlink/terra-view-function-adapter': patch
-'@chainlink/therundown-adapter': patch
-'@chainlink/tradermade-adapter': patch
-'@chainlink/tradingeconomics-adapter': patch
-'@chainlink/trueusd-adapter': patch
-'@chainlink/twelvedata-adapter': patch
-'@chainlink/unibit-adapter': patch
-'@chainlink/uniswap-v2-adapter': patch
-'@chainlink/uniswap-v3-adapter': patch
-'@chainlink/upvest-adapter': patch
-'@chainlink/uscpi-one-adapter': patch
+'@chainlink/taapi-adapter': minor
+'@chainlink/terra-view-function-adapter': minor
+'@chainlink/therundown-adapter': minor
+'@chainlink/tradermade-adapter': minor
+'@chainlink/tradingeconomics-adapter': minor
+'@chainlink/trueusd-adapter': minor
+'@chainlink/twelvedata-adapter': minor
+'@chainlink/unibit-adapter': minor
+'@chainlink/uniswap-v2-adapter': minor
+'@chainlink/uniswap-v3-adapter': minor
+'@chainlink/upvest-adapter': minor
+'@chainlink/uscpi-one-adapter': minor
 ---
 
 input parameters changed
