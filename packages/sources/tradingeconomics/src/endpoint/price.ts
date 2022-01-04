@@ -9,6 +9,7 @@ export const inputParameters: InputParameters = {
     aliases: ['from', 'asset'],
     required: true,
     description: 'The symbol of the asset to query',
+    type: 'string',
   },
 }
 

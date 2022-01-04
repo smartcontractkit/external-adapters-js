@@ -8,9 +8,10 @@ const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   base: {
-    aliases: ['base', 'from', 'coin', 'market'],
+    aliases: ['from', 'coin', 'market', 'symbol'],
     required: true,
     description: 'The symbol of the currency to query',
+    type: 'string',
   },
 }
 

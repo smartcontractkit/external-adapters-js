@@ -10,11 +10,13 @@ export const inputParameters: InputParameters = {
   },
   date: {
     required: true,
-    description: 'The date to get events from	',
+    description: 'The date to get events from',
+    type: 'string',
   },
   status: {
     required: false,
     description: 'Optional status param to filter events on',
+    type: 'string',
   },
 }
 

@@ -10,6 +10,7 @@ export const inputParameters: InputParameters = {
     aliases: ['contract'],
     required: true,
     description: 'The address to query',
+    type: 'string',
   },
   query: {
     required: true,
@@ -17,17 +18,19 @@ export const inputParameters: InputParameters = {
   },
   params: {
     required: false,
-    description: 'Optional params object to include in the query	',
+    description: 'Optional params object to include in the query',
   },
   chainId: {
     required: false,
     description: 'Which chain ID to connect to. Default is `DEFAULT_CHAIN_ID` environment variable',
     options: ['columbus-5', 'bombay-12', 'localterra'],
+    type: 'string',
   },
   resultPath: {
     required: false,
     description:
-      ' The [object-path](https://github.com/mariocasciaro/object-path) string to parse a single `result` value. When not provided the entire response will be provided.',
+      'The [object-path](https://github.com/mariocasciaro/object-path) string to parse a single `result` value. When not provided the entire response will be provided.',
+    type: 'string',
   },
 }
 

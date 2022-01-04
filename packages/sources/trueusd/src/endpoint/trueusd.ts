@@ -13,6 +13,7 @@ export const inputParameters: InputParameters = {
     options: ['totalTrust', 'totalToken'],
     default: 'totalTrust',
     required: false,
+    type: 'string',
   },
 }
 

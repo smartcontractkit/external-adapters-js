@@ -7,6 +7,7 @@ export const inputParameters: InputParameters = {
   eventId: {
     required: true,
     description: 'The ID of the event to query',
+    type: 'string',
   },
 }
 

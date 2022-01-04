@@ -37,19 +37,23 @@ export const inputParameters: InputParameters = {
     required: false,
     description: 'The US CPI Data serieID (`CUSR0000SA0`, `LNS14000000`, etc)',
     default: 'CUSR0000SA0',
+    type: 'string',
   },
   year: {
     required: false,
     description:
       'The year serie filter (`2021`, `2020`, etc). It is mandatory to specify the `month` and `year` values together.',
+    type: 'string',
   },
   month: {
     required: false,
     description:
-      'The month serie filter  `may`, `july`, etc. It is mandatory to specify the `month` and `year` values together. ',
+      'The month serie filter  `may`, `july`, etc. It is mandatory to specify the `month` and `year` values together.',
+    type: 'string',
   },
   resultPath: {
     required: false,
+    type: 'string',
   },
 }
 

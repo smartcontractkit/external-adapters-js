@@ -22,6 +22,7 @@ export const inputParameters: InputParameters = {
     description: 'The desired speed',
     options: ['slow', 'medium', 'fast', 'fastest'],
     default: 'fast',
+    type: 'string',
   },
 }
 

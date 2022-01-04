@@ -13,11 +13,13 @@ export const inputParameters: InputParameters = {
     required: true,
     aliases: ['from', 'coin'],
     description: 'The base currency in the market to query',
+    type: 'string',
   },
   quote: {
     aliases: ['to', 'market'],
     required: true,
     description: 'The quote currency in the market to query',
+    type: 'string',
   },
   exchange: {
     required: true,
