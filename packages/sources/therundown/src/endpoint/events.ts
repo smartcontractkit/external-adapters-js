@@ -15,6 +15,11 @@ export interface ResponseSchema {
       event_status: string
     }
   }[]
+  result: {
+    score: {
+      event_status: string
+    }
+  }[]
 }
 
 const formatDate = (date: Date): string => {
@@ -52,9 +57,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
   if (status !== undefined) {
-    response.data.events = (response.data as ResponseSchema).events.filter(
+    response.data.events = response.data.events.filter(
       ({ score: { event_status } }) => event_status === status,
     )
   }
