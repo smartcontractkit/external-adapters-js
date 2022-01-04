@@ -63,18 +63,6 @@ const customParams = {
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
-  const getSubscription = (ticker: string | undefined, subscribe = true) => {
-    const defaultConfig = config || makeConfig()
-    if (!ticker) return
-    return {
-      eventName: subscribe ? 'subscribe' : 'unsubscribe',
-      authorization: defaultConfig?.apiKey,
-      eventData: {
-        thresholdLevel: 5, // only Last Trade updates
-        tickers: [ticker],
-      },
-    }
-  }
   const getFxTicker = (input: AdapterRequest): string | undefined => {
     const validator = new Validator(input, customParams, {}, false)
     if (validator.error) return
@@ -86,7 +74,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     const validator = new Validator(input, endpoints.prices.inputParameters, {}, false)
     if (validator.error) return
     const { base, quote } = validator.validated.data
-    return `${base}${quote}`.toLowerCase()
+    return `${base}/${quote}`.toLowerCase()
   }
   const isCrypto = (input: AdapterRequest): boolean =>
     endpoints.prices.supportedEndpoints.includes(input.data.endpoint)
@@ -100,20 +88,48 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return undefined
   }
 
+  const getWSUrl = (baseURL: string, input: AdapterRequest): string => {
+    if (isFx(input)) {
+      return `${baseURL}/iex`
+    }
+    return `${baseURL}/crypto`
+  }
+
+  const getSubscription = (input: AdapterRequest, ticker: string | undefined, subscribe = true) => {
+    const defaultConfig = config || makeConfig()
+    if (!ticker) return
+    return {
+      eventName: subscribe ? 'subscribe' : 'unsubscribe',
+      authorization: defaultConfig?.apiKey,
+      eventData: {
+        thresholdLevel: isCrypto(input) ? 6 : 5, // only Last Trade updates
+        tickers: [ticker],
+      },
+    }
+  }
+
   return () => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        getUrl: async (input) =>
+          getWSUrl(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
       },
       shouldNotServeInputUsingWS: (input) => !isFx(input) && !isCrypto(input),
-      subscribe: (input) => getSubscription(getTicker(input)),
-      unsubscribe: (input) => getSubscription(getTicker(input), false),
+      subscribe: (input) => getSubscription(input, getTicker(input)),
+      unsubscribe: (input) => getSubscription(input, getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
-      subsFromMessage: (message: UpdateMessage) => message.data && getSubscription(message.data[1]),
-      toResponse: (message: UpdateMessage) => {
-        const result = Requester.validateResultNumber(message.data, [5])
+      subsFromMessage: (message: UpdateMessage, _, input: AdapterRequest) =>
+        message.data && message.messageType === 'A' && getSubscription(input, getTicker(input)),
+      toResponse: (message: UpdateMessage, input: AdapterRequest) => {
+        let result
+        if (isFx(input)) {
+          result = Requester.validateResultNumber(message.data, [5])
+        } else {
+          // Crypto
+          result = Requester.validateResultNumber(message.data, [4])
+        }
         return Requester.success('1', { data: { result } }, true)
       },
     }
