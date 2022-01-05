@@ -52,10 +52,17 @@ interface TradeUpdateData {
   4: number // The amount of crypto volume done at the last price in the base currency.
   5: number // The last price the last trade was executed at.
 }
+interface SyntheticMessage {
+  0: 'SA'
+  1: string // Ticker
+  2: string // A string representing the datetime this trade quote came in.
+  3: string // The exchange the trade was done one.
+  4: number // The last price the last trade was executed at.
+}
 interface UpdateMessage extends Message {
   messageType: 'A'
   service: 'crypto_data'
-  data: TopOfBookUpdateData | TradeUpdateData
+  data: TopOfBookUpdateData | TradeUpdateData | SyntheticMessage
 }
 
 const customParams = {
@@ -92,7 +99,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     if (isFx(input)) {
       return `${baseURL}/iex`
     }
-    return `${baseURL}/crypto`
+    return `${baseURL}/crypto-synth`
   }
 
   const getSubscription = (input: AdapterRequest, ticker: string | undefined, subscribe = true) => {
