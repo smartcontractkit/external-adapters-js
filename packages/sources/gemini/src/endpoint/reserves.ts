@@ -21,13 +21,13 @@ export const inputParameters: InputParameters = {
     required: false,
     description: 'An identifier for which network of the blockchain to use',
     type: 'string',
-    default: 'mainnet'
+    default: 'mainnet',
   },
   network: {
     required: false,
     type: 'string',
-    default: 'filecoin'
-  }
+    default: 'filecoin',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
