@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.4.0
+
+### Minor Changes
+
+- cd01b0c5: Change crypto WS endpoint and fix incorrect WS cache key usage
+
 ## 1.3.0
 
 ### Minor Changes
