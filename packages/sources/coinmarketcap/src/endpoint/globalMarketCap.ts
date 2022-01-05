@@ -9,7 +9,6 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to query',
     required: true,
     type: 'string',
-    default: 'usd',
   },
 }
 
