@@ -8,7 +8,7 @@ export const inputParameters: InputParameters = {
   addresses: {
     aliases: ['result'],
     required: true,
-    type: 'object',
+    type: 'array',
     description:
       'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
   },
