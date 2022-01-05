@@ -29,13 +29,11 @@ export const inputParameters: InputParameters = {
   lat: {
     aliases: ['latitude'],
     description: 'The latitude (WGS84 standard). Must be `-90` to `90`.',
-    type: 'number',
     required: true,
   },
   lon: {
     aliases: ['long', 'longitude'],
     description: 'The longitude (WGS84 standard). Must be `-180` to `180`.',
-    type: 'number',
     required: true,
   },
   units: {
