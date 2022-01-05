@@ -8,22 +8,25 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['forex', 'price']
+export const supportedEndpoints = ['latest']
 export const batchablePropertyPath = [{ name: 'quote' }]
+
+export interface ResponseSchema {
+  success: boolean
+  timestamp: number
+  base: string
+  date: string
+  rates: {
+    [key: string]: number
+  }
+}
+
+const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
-}
-
-export interface ResponseSchema {
-  disclaimer: string
-  license: string
-  timestamp: number
-  base: string
-  rates: {
-    [key: string]: number
-  }
+  amount: false,
 }
 
 const handleBatchedRequest = (
@@ -52,32 +55,31 @@ const handleBatchedRequest = (
   )
 }
 
+// NOTE: This endpoint has not been acceptance tested and will need to be once
+// a valid API Key is obtained.
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = 'latest.json'
-  const base = validator.overrideSymbol(AdapterName)
+  const from = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
+  const url = `latest`
+
+  const symbols = Array.isArray(to) ? to.join() : to
 
   const params = {
-    base,
-    app_id: config.apiKey,
+    access_key: config.apiKey,
+    base: from,
+    symbols,
   }
 
-  const options = {
-    ...config.api,
-    params,
-    url,
-  }
+  const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options)
-
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'rates', to)
 
   const result = Requester.validateResultNumber(response.data, ['rates', to])
-
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result),

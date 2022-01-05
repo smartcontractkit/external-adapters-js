@@ -8,22 +8,26 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['forex', 'price']
+export const supportedEndpoints = ['latest']
 export const batchablePropertyPath = [{ name: 'quote' }]
+
+const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
+  amount: false,
 }
 
 export interface ResponseSchema {
-  disclaimer: string
-  license: string
-  timestamp: number
+  success: true
+  timestamp: string
+  date: string
   base: string
   rates: {
     [key: string]: number
   }
+  unit: string
 }
 
 const handleBatchedRequest = (
@@ -57,27 +61,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = 'latest.json'
-  const base = validator.overrideSymbol(AdapterName)
+  const from = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
+  const url = `latest`
 
   const params = {
-    base,
-    app_id: config.apiKey,
+    access_key: config.apiKey,
+    from,
   }
 
-  const options = {
-    ...config.api,
-    params,
-    url,
-  }
+  const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options)
-
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'rates', to)
 
   const result = Requester.validateResultNumber(response.data, ['rates', to])
-
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result),

@@ -8,22 +8,24 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['forex', 'price']
+export const supportedEndpoints = ['live']
 export const batchablePropertyPath = [{ name: 'quote' }]
+
+const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
+  amount: false,
 }
 
 export interface ResponseSchema {
-  disclaimer: string
-  license: string
+  success: boolean
+  terms: string
+  privacy: string
   timestamp: number
-  base: string
-  rates: {
-    [key: string]: number
-  }
+  source: string
+  quotes: { [key: string]: string }
 }
 
 const handleBatchedRequest = (
@@ -35,13 +37,13 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const symbol of symbols) {
-    const from = response.data.base
+    const from = response.data.source
     payload.push([
       {
         ...request,
         data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
       },
-      Requester.validateResultNumber(response.data, [resultPath, symbol]),
+      Requester.validateResultNumber(response.data, [resultPath, from + symbol]),
     ])
   }
   return Requester.success(
@@ -52,32 +54,30 @@ const handleBatchedRequest = (
   )
 }
 
+// NOTE: This endpoint has not been acceptance tested and will need to be once
+// a valid API Key is obtained.
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = 'latest.json'
-  const base = validator.overrideSymbol(AdapterName)
+  const from = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
+  const url = `live`
+  const currencies = Array.isArray(to) ? to.join() : to
 
   const params = {
-    base,
-    app_id: config.apiKey,
+    access_key: config.apiKey,
+    source: from,
+    currencies,
   }
 
-  const options = {
-    ...config.api,
-    params,
-    url,
-  }
+  const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options)
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'quotes', to)
 
-  if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'rates', to)
-
-  const result = Requester.validateResultNumber(response.data, ['rates', to])
-
+  const result = Requester.validateResultNumber(response.data, ['quotes', from + to])
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result),
