@@ -40,8 +40,8 @@ The balance endpoint will fetch the balance of each address in the query and the
   "id": "1",
   "data": {
     "addresses": [
-      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+      { "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi" },
+      { "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay" }
     ]
   }
 }
