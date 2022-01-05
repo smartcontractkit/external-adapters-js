@@ -16,10 +16,19 @@ export const inputParameters: InputParameters = {
   quote: ['quote', 'to'],
   quantity: false,
 }
+
+export interface ResponseSchema {
+  p: number
+  a: number
+  b: number
+  s: string
+  t: number
+}
+
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<any>,
+  response: AxiosResponse<ResponseSchema>,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -67,11 +76,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options)
-
+  const response = await Requester.request<ResponseSchema[]>(options)
   if (Array.isArray(from) || Array.isArray(to))
     return handleBatchedRequest(jobRunID, request, response, 'a')
 
-  response.data.result = Requester.validateResultNumber(response.data[0], ['a'])
-  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
+  const result = Requester.validateResultNumber(response.data[0], ['a'])
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }

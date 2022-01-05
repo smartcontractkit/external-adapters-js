@@ -11,6 +11,16 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['latest']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
+export interface ResponseSchema {
+  success: boolean
+  timestamp: number
+  base: string
+  date: string
+  rates: {
+    [key: string]: number
+  }
+}
+
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
@@ -22,7 +32,7 @@ export const inputParameters: InputParameters = {
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<any>,
+  response: AxiosResponse<ResponseSchema>,
   resultPath: string,
   symbols: string[],
 ) => {
@@ -56,17 +66,24 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const to = validator.validated.data.quote
   const url = `latest`
 
+  const symbols = Array.isArray(to) ? to.join() : to
+
   const params = {
     access_key: config.apiKey,
     base: from,
-    symbols: to.join(),
+    symbols,
   }
 
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request(reqConfig, customError)
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'rates', to)
 
-  response.data.result = Requester.validateResultNumber(response.data, ['rates', to])
-  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
+  const result = Requester.validateResultNumber(response.data, ['rates', to])
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }

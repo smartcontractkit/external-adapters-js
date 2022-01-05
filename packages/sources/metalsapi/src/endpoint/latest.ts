@@ -19,10 +19,21 @@ export const inputParameters: InputParameters = {
   amount: false,
 }
 
+export interface ResponseSchema {
+  success: true
+  timestamp: string
+  date: string
+  base: string
+  rates: {
+    [key: string]: number
+  }
+  unit: string
+}
+
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<any>,
+  response: AxiosResponse<ResponseSchema>,
   resultPath: string,
   symbols: string[],
 ) => {
@@ -61,9 +72,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request(reqConfig, customError)
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'rates', to)
 
-  response.data.result = Requester.validateResultNumber(response.data, ['rates', to])
-  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
+  const result = Requester.validateResultNumber(response.data, ['rates', to])
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }

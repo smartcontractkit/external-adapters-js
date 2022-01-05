@@ -15,10 +15,25 @@ export const customParams = {
   quote: ['quote', 'to', 'market', 'convert'],
 }
 
+export interface ResponseSchema {
+  endpoint: string
+  quotes: Quote[]
+  requested_time: string
+  timestamp: number
+}
+
+export interface Quote {
+  ask: number
+  base_currency: string
+  bid: number
+  mid: number
+  quote_currency: string
+}
+
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<any>,
+  response: AxiosResponse<ResponseSchema>,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -65,10 +80,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const options = { ...config.api, params }
-  const response = await Requester.request(options)
+  const response = await Requester.request<ResponseSchema>(options)
   if (Array.isArray(symbol) || Array.isArray(to))
     return handleBatchedRequest(jobRunID, request, response, 'mid')
 
-  response.data.result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
-  return Requester.success(jobRunID, response, config.api.verbose, batchablePropertyPath)
+  const result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.api.verbose,
+    batchablePropertyPath,
+  )
 }

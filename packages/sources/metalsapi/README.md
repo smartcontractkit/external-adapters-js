@@ -71,6 +71,7 @@
 {
   "id": "1",
   "data": {
+    "endpoint": "latest",
     "base": "USD",
     "quote": ["EUR", "AUD"]
   }
