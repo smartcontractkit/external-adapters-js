@@ -28,8 +28,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
-  Requester.logConfig(config)
-
   const jobRunID = validator.validated.jobRunID
   const { graphqlEndpoint, query, variables, headers } = request.data
   const reqConfig = {

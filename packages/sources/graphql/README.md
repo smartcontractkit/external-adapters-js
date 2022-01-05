@@ -1,32 +1,62 @@
 # Chainlink External Adapter for GraphQL
 
-Version: 1.0.8
+### Environment Variables
 
-## Environment Variables
+No adapter specific environment variables required
 
-There are no environment variables for this adapter.
+### Input Parameters
 
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [graphql](#graphql-endpoint) | `graphql` |
+| Required? |      Name       |                Description                |       Options       | Defaults to |
+| :-------: | :-------------: | :---------------------------------------: | :-----------------: | :---------: |
+|    ✅     | graphqlEndpoint | The GraphQL endpoint to make a request to | (#Graphql-Endpoint) |             |
 
 ---
 
 ## Graphql Endpoint
 
-`graphql` is the only supported name for this endpoint.
-
 ### Input Params
 
-| Required? |      Name       | Aliases |                    Description                     |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------------: | :-----: | :------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | graphqlEndpoint |         |     The GraphQL endpoint to make a request to      | string |         |         |            |                |
-|           |     headers     |         |                                                    |        |         |         |            |                |
-|    ✅     |      query      |         |           The GraphQL query as a string            | string |         |         |            |                |
-|           |    variables    |         | An object of variables to be passed into the query | object |         |         |            |                |
+| Required? |    Name     |                    Description                     | Options | Defaults to |
+| :-------: | :---------: | :------------------------------------------------: | :-----: | :---------: |
+|    ✅     |   `query`   |           The GraphQL query as a string            |         |             |
+|           | `variables` | An object of variables to be passed into the query |         |             |
 
-There are no examples for this endpoint.
+### Sample Input
+
+```json
+{
+  "jobRunId": 1,
+  "data": {
+    "query": "{\n  token(id:\"0x00000000000045166c45af0fc6e4cf31d9e14b9a\") {\n    id,\n    symbol\n  }\n}\n",
+    "variables": null,
+    "graphqlEndpoint": "https://api.thegraph.com/subgraphs/name/benesjan/uniswap-v3-subgraph"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": {
+    "data": {
+      "token": {
+        "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
+        "symbol": "BID"
+      }
+    }
+  },
+  "statusCode": 200,
+  "data": {
+    "result": {
+      "data": {
+        "token": {
+          "id": "0x00000000000045166c45af0fc6e4cf31d9e14b9a",
+          "symbol": "BID"
+        }
+      }
+    }
+  }
+}
+```
