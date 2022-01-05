@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.4.0
+
+### Minor Changes
+
+- 1b015ae2: Modify the way metrics are calculated on DP errors for the http_total_requests metric
+
 ## 1.3.6
 
 ### Patch Changes
@@ -49,6 +55,12 @@
 ### Patch Changes
 
 - b78f8e06: Print out actual used port when bootstrapping server
+
+## 1.2.2
+
+### Patch Changes
+
+- 34b40ed33: Fix rate limit capacity parsing
 
 ## 1.2.1
 

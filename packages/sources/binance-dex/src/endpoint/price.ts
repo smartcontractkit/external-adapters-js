@@ -2,7 +2,9 @@ import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { DEFAULT_DATA_ENDPOINT } from '../config'
 
-const customError = (data: any) => data.length < 1
+export const NAME = 'price'
+
+const customError = (data: ResponseSchema[]) => data.length === 0
 
 export const supportedEndpoints = ['price']
 
@@ -19,6 +21,32 @@ export const inputParameters: InputParameters = {
     required: true,
     type: 'string',
   },
+}
+
+export interface ResponseSchema {
+  symbol: string
+  baseAssetName: string
+  quoteAssetName: string
+  priceChange: string
+  priceChangePercent: string
+  prevClosePrice: string
+  lastPrice: string
+  lastQuantity: string
+  openPrice: string
+  highPrice: string
+  lowPrice: string
+  openTime: number
+  closeTime: number
+  firstId: string
+  lastId: string
+  bidPrice: string
+  bidQuantity: string
+  askPrice: string
+  askQuantity: string
+  weightedAvgPrice: string
+  volume: string
+  quoteVolume: string
+  count: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -42,13 +70,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request<ResponseSchema[]>(options, customError)
 
-  // Replace array by the first object in array
-  // to avoid unexpected behavior when returning arrays.
-  response.data = response.data[0]
-
-  const lastUpdate = response.data.closeTime
+  const lastUpdate = response.data[0].closeTime
   const curTime = new Date()
   // If data is older than 10 minutes, discard it
   if (lastUpdate < curTime.setMinutes(curTime.getMinutes() - 10))
@@ -58,7 +82,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 500,
     })
 
-  response.data.result = Requester.validateResultNumber(response.data, ['lastPrice'])
+  const result = Requester.validateResultNumber(response.data, [0, 'lastPrice'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

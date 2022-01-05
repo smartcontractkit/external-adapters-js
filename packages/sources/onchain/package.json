@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/onchain-adapter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Chainlink onchain adapter.",
   "keywords": [
     "Chainlink",

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/uniswap-v3-adapter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Chainlink uniswap-v3 adapter.",
   "keywords": [
     "Chainlink",
