@@ -39,8 +39,8 @@ export const inputParameters: InputParameters = {
     description: 'Blockchain network',
     options: networks,
     type: 'string',
-    required: true
-  }
+    required: true,
+  },
 }
 
 const abi = [
