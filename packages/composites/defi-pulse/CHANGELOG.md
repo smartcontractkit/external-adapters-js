@@ -1,5 +1,17 @@
 # @chainlink/defi-pulse-adapter
 
+## 1.0.21
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.21
+
+## 1.0.20
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.20
+
 ## 1.0.19
 
 ### Patch Changes

@@ -52,10 +52,17 @@ interface TradeUpdateData {
   4: number // The amount of crypto volume done at the last price in the base currency.
   5: number // The last price the last trade was executed at.
 }
+interface SyntheticMessage {
+  0: 'SA'
+  1: string // Ticker
+  2: string // A string representing the datetime this trade quote came in.
+  3: string // The exchange the trade was done one.
+  4: number // The last price the last trade was executed at.
+}
 interface UpdateMessage extends Message {
   messageType: 'A'
   service: 'crypto_data'
-  data: TopOfBookUpdateData | TradeUpdateData
+  data: TopOfBookUpdateData | TradeUpdateData | SyntheticMessage
 }
 
 const customParams = {
@@ -92,17 +99,17 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     if (isFx(input)) {
       return `${baseURL}/iex`
     }
-    return `${baseURL}/crypto`
+    return `${baseURL}/crypto-synth`
   }
 
-  const getSubscription = (input: AdapterRequest, ticker: string | undefined, subscribe = true) => {
+  const getSubscription = (ticker: string | undefined, subscribe = true) => {
     const defaultConfig = config || makeConfig()
     if (!ticker) return
     return {
       eventName: subscribe ? 'subscribe' : 'unsubscribe',
       authorization: defaultConfig?.apiKey,
       eventData: {
-        thresholdLevel: isCrypto(input) ? 6 : 5, // only Last Trade updates
+        thresholdLevel: ticker.includes('/') ? 6 : 5, // Crypto is the only ticker type that uses "/", and should use level 6 for synthetic updates
         tickers: [ticker],
       },
     }
@@ -116,12 +123,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
           getWSUrl(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
       },
       shouldNotServeInputUsingWS: (input) => !isFx(input) && !isCrypto(input),
-      subscribe: (input) => getSubscription(input, getTicker(input)),
-      unsubscribe: (input) => getSubscription(input, getTicker(input), false),
+      subscribe: (input) => getSubscription(getTicker(input)),
+      unsubscribe: (input) => getSubscription(getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
-      subsFromMessage: (message: UpdateMessage, _, input: AdapterRequest) =>
-        message.data && message.messageType === 'A' && getSubscription(input, getTicker(input)),
+      subsFromMessage: (message: UpdateMessage) =>
+        message.data && message.messageType === 'A' && getSubscription(message.data[1]), // The ticker is always index 1
       toResponse: (message: UpdateMessage, input: AdapterRequest) => {
         let result
         if (isFx(input)) {

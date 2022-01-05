@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dxdao-adapter",
-  "version": "1.0.19",
+  "version": "1.0.21",
   "description": "Chainlink dxdao adapter.",
   "keywords": [
     "Chainlink",

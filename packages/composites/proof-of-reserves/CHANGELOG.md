@@ -1,5 +1,24 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [4d3c0a79]
+- Updated dependencies [4d3c0a79]
+- Updated dependencies [4d3c0a79]
+- Updated dependencies [4d3c0a79]
+- Updated dependencies [4d3c0a79]
+- Updated dependencies [4d3c0a79]
+- Updated dependencies [4d3c0a79]
+- Updated dependencies [4d3c0a79]
+  - @chainlink/ada-balance-adapter@2.0.0
+  - @chainlink/chain-reserve-wallet-adapter@2.0.0
+  - @chainlink/renvm-address-set-adapter@1.1.0
+  - @chainlink/gemini-adapter@2.0.0
+  - @chainlink/lotus-adapter@2.0.0
+  - @chainlink/wbtc-address-set-adapter@1.1.0
+
 ## 1.1.9
 
 ### Patch Changes
