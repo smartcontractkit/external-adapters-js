@@ -1,5 +1,18 @@
 # @chainlink/ncfx-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- e6700270: Remove token option limits on ncfx forex endpoint
+- d1c5127a: allow more tokens to be passed to ncfx
+
+## 1.0.14
+
+### Patch Changes
+
+- ab4f8eeb: input parameters changed
+
 ## 1.0.13
 
 ### Patch Changes

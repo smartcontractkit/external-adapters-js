@@ -1,5 +1,11 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 4d3c0a79: added 'network' and 'chainId' to the response
+
 ## 1.0.13
 
 ### Patch Changes

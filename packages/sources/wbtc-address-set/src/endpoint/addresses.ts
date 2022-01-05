@@ -36,7 +36,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const result = response.data.result
     .filter((a) => a.type == 'custodial' && a.balance)
-    .map((a) => ({ ...a, coin: 'btc', chain: 'mainnet' }))
+    .map((a) => ({ ...a, coin: 'btc', chainId: 'mainnet', network: 'bitcoin' }))
 
   const output = { ...response, data: { ...response.data, result } }
   return Requester.success(jobRunID, output, config.verbose)

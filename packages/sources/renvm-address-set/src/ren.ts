@@ -107,3 +107,19 @@ export const getTokenName = (
       return getTokenName(parseRenContract(tokenOrContract).asset)
   }
 }
+
+export const getTokenNetwork = (token: Asset | ('BTC' | 'ZEC' | 'BCH')): string => {
+  switch (token) {
+    case Asset.BTC:
+    case 'BTC':
+      return 'bitcoin'
+    case Asset.ZEC:
+    case 'ZEC':
+      return 'zcash'
+    case Asset.BCH:
+    case 'BCH':
+      return 'bitcoincash'
+    default:
+      throw new Error(`Unexpected token ${token}`)
+  }
+}
