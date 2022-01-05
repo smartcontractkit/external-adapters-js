@@ -15,13 +15,11 @@ export const inputParameters: InputParameters = {
     required: false,
     description: 'The CID to read. Required if IPNS is not set',
     exclusive: ['ipns'],
-    type: 'string',
   },
   ipns: {
     required: false,
     description: 'The IPNS to read. Required if CID is not set',
     exclusive: ['cid'],
-    type: 'string',
   },
   codec: {
     required: false,
