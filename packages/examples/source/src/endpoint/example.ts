@@ -23,13 +23,18 @@ export const inputParameters: InputParameters = {
   // See InputParameters type for more config options
   base: {
     aliases: ['from', 'coin'],
+    description: 'Base asset to convert',
     required: true,
   },
   quote: {
     aliases: ['to', 'market'],
+    description: 'Quote asset to convert to',
     required: true,
   },
-  resultPath: {},
+  resultPath: {
+    description: 'Object path to find result',
+    default: 'price',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
