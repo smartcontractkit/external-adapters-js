@@ -1912,7 +1912,6 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
-    "@openzeppelin/contracts": ^3.3.0
     "@types/jest": 27.0.3
     "@types/node": 14.17.34
     ethers: 5.4.7
@@ -7285,13 +7284,6 @@ __metadata:
     mkdirp: ^1.0.4
     rimraf: ^3.0.2
   checksum: c96381d4a37448ea280951e46233f7e541058cf57a57d4094dd4bdcaae43fa5872b5f2eb6bfb004591a68e29c5877abe3cdc210cb3588cbf20ab2877f31a7de7
-  languageName: node
-  linkType: hard
-
-"@openzeppelin/contracts@npm:^3.3.0":
-  version: 3.4.1
-  resolution: "@openzeppelin/contracts@npm:3.4.1"
-  checksum: e42ad730179764de75ddfbca740def7f536181271e11d5276bfd750d89188a3788ee39152b6edaa0bbd66611a450e681c6a139a59e97e23b51a89bd2584a79ae
   languageName: node
   linkType: hard
 

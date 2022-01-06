@@ -4105,7 +4105,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@openzeppelin/contracts", "npm:3.4.1"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:14.17.34"],
             ["ethers", "npm:5.4.7"],
@@ -9894,15 +9893,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@npmcli/move-file", "npm:1.1.2"],
             ["mkdirp", "npm:1.0.4"],
             ["rimraf", "npm:3.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@openzeppelin/contracts", [
-        ["npm:3.4.1", {
-          "packageLocation": "./.yarn/cache/@openzeppelin-contracts-npm-3.4.1-994ce92f8a-e42ad73017.zip/node_modules/@openzeppelin/contracts/",
-          "packageDependencies": [
-            ["@openzeppelin/contracts", "npm:3.4.1"]
           ],
           "linkType": "HARD",
         }]
