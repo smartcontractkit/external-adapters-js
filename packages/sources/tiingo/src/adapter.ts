@@ -139,6 +139,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
         }
         return Requester.success('1', { data: { result } }, true)
       },
+      minTimeToNextMessageUpdateInS: 1,
     }
   }
 }

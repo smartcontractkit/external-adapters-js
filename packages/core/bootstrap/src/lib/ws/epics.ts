@@ -361,7 +361,15 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   context: payload.context,
                   connectionInfo: payload.connectionInfo,
                   wsHandler,
+                  timestamp: Date.now(),
                 }
+                const lastUpdatedAt = state.ws.subscriptions.all[subscriptionKey].lastUpdatedAt
+                if (
+                  !!wsHandler.minTimeToNextMessageUpdateInS &&
+                  !!lastUpdatedAt &&
+                  Date.now() - lastUpdatedAt < wsHandler.minTimeToNextMessageUpdateInS * 1000
+                )
+                  return EMPTY
                 if (!isActiveSubscription) {
                   logger.info('WS: Subscribed', subscriptionMeta(payload))
                   return of(subscribeFulfilled(payload), messageReceived(actionPayload))

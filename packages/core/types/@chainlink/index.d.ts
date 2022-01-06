@@ -283,6 +283,8 @@ declare module '@chainlink/types' {
     shouldNotRetryConnection?: (error: unknown) => boolean
     // Should try resubscribing to a connection again after an error
     shouldNotRetrySubscription?: (subscription: unknown) => boolean
+    // Time to wait until adapter should handle next WS message
+    minTimeToNextMessageUpdateInS?: number
   }
 
   /* INPUT TYPE VALIDATIONS */
