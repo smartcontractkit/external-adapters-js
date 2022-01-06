@@ -4,8 +4,16 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['feed']
 
 export const inputParameters: InputParameters = {
-  product: true,
-  feedId: true,
+  product: {
+    required: true,
+    description: 'The product to query',
+    type: 'string',
+  },
+  feedId: {
+    required: true,
+    description: 'The feed ID to use',
+    type: 'number',
+  },
 }
 
 export interface ResponseSchema {

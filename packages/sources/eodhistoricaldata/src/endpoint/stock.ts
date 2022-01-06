@@ -4,7 +4,13 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['price', 'stock']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'asset', 'from', 'symbol'],
+  base: {
+    required: true,
+    aliases: ['asset', 'from', 'symbol'],
+    type: 'string',
+    description:
+      'The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/)',
+  },
 }
 
 const commonKeys: { [key: string]: string } = {
