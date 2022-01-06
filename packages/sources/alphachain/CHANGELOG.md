@@ -1,5 +1,19 @@
 # @chainlink/alphachain-adapter
 
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.14
+
+### Patch Changes
+
+- 26063d77: added response types for data-query endpoint
+
 ## 1.0.13
 
 ### Patch Changes

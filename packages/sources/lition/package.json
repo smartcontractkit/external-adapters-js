@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/lition-adapter",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "Chainlink Lition adapter.",
   "keywords": [
     "Chainlink",

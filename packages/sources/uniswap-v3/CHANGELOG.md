@@ -1,5 +1,13 @@
 # @chainlink/uniswap-v3-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.13
 
 ### Patch Changes

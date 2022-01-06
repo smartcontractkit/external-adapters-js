@@ -1,5 +1,20 @@
 # @chainlink/defi-pulse-adapter
 
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/token-allocation-adapter@1.0.23
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.22
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.22
+
 ## 1.0.21
 
 ### Patch Changes

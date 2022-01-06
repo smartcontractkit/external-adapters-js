@@ -9,6 +9,19 @@ const customParams = {
   to: false,
 }
 
+export interface ResponseSchema {
+  endpoint: string
+  quotes: {
+    ask: number
+    base_currency: string
+    bid: number
+    mid: number
+    quote_currency: string
+  }[]
+  requested_time: string
+  timestamp: number
+}
+
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, customParams)
   if (validator.error) throw validator.error
@@ -31,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const options = { ...config.api, params }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

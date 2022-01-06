@@ -1,5 +1,19 @@
 # @chainlink/blockstream-adapter
 
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.10
+
+### Patch Changes
+
+- 2473f126: added response types for block height endpoint
+
 ## 1.1.9
 
 ### Patch Changes

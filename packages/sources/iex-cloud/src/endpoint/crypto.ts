@@ -9,6 +9,20 @@ export const inputParameters: InputParameters = {
   quote: ['quote', 'to', 'market'],
 }
 
+export interface ResponseSchema {
+  symbol: string
+  primaryExchange: string
+  sector: string
+  calculationPrice: string
+  high: string
+  low: string
+  latestPrice: string
+  latestSource: string
+  latestUpdate: number
+  latestVolume: string
+  previousClose: string
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -28,8 +42,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig)
-  response.data.result = Requester.validateResultNumber(response.data, ['latestPrice'])
+  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const result = Requester.validateResultNumber(response.data, ['latestPrice'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

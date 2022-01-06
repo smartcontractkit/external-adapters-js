@@ -18,6 +18,17 @@ export const inputParameters: InputParameters = {
   },
 }
 
+export interface ResponseSchema {
+  payload: {
+    weightedAveragePrice: number
+    amount: number
+    timestamp: number
+    datetime: string
+    baseAsset: string
+    quoteAsset: string
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -29,10 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const reqConfig = { ...config.api, url }
 
-  const response = await Requester.request(reqConfig)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'payload',
-    'weightedAveragePrice',
-  ])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const result = Requester.validateResultNumber(response.data, ['payload', 'weightedAveragePrice'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

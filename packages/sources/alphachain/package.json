@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/alphachain-adapter",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "Chainlink alphachain adapter.",
   "keywords": [
     "Chainlink",
