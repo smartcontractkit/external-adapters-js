@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/enzyme-adapter",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Chainlink enzyme adapter.",
   "keywords": [
     "Chainlink",

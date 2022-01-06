@@ -1,5 +1,14 @@
 # @chainlink/metalsapi-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 73a47414: added response types for convert endpoint
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.0
 
 ### Minor Changes

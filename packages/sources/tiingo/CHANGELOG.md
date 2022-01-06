@@ -1,5 +1,17 @@
 ## v1.1.0
 
+## 1.5.0
+
+### Minor Changes
+
+- 9b3cd511: limit number of times ws message handled
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.4.0
 
 ### Minor Changes

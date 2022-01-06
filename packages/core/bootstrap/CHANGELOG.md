@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.5.0
+
+### Minor Changes
+
+- 9b3cd511: limit number of times ws message handled
+
 ## 1.4.0
 
 ### Minor Changes
