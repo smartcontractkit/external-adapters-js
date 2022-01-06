@@ -10,7 +10,6 @@ export type Config = {
   autoRetry: boolean
   maxRetries: number
   location?: string
-
   api: RequestConfig
 }
 
