@@ -64,6 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
         dataLocation: locationResponse.data.data,
         result,
       },
+      status: locationResponse.providerStatusCode,
     }
     return Requester.success(jobRunID, endpointResponse, config.verbose)
   }
@@ -103,6 +104,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       dataCurrentConditions: currentConditionsResponse.data.data,
       result,
     },
+    status: locationResponse.providerStatusCode,
   }
 
   return Requester.success(jobRunID, endpointResponse, config.verbose)

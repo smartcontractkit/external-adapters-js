@@ -6,6 +6,7 @@ Object {
     "result": 4483.820268,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 4483.820268,
   "statusCode": 200,
 }
@@ -21,7 +22,8 @@ Object {
     "url": "https:/openexchangerates.org/api/latest.json",
   },
   "jobRunID": "1",
+  "providerStatusCode": 400,
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 200,
 }
 `;

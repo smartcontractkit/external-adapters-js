@@ -23,6 +23,7 @@ Object {
     ],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Array [
     Object {
       "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",

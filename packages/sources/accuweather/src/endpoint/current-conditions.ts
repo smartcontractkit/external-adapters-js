@@ -248,6 +248,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       data: currentConditionsList,
       result,
     },
+    status: response.status,
   }
 
   return Requester.success(jobRunID, endpointResponse, config.verbose)
