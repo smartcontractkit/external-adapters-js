@@ -1,5 +1,14 @@
 # @chainlink/nomics-adapter
 
+## 1.0.15
+
+### Patch Changes
+
+- e722b647: added response types
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.14
 
 ### Patch Changes
