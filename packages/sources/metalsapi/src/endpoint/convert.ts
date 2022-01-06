@@ -23,12 +23,6 @@ export const inputParameters: InputParameters = {
     description: 'The amount fo the `base` currency',
     default: 1,
   },
-  overrides: {
-    required: false,
-    type: 'object',
-    description:
-      'If base provided is found in overrides, that will be used. Follows this [format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
