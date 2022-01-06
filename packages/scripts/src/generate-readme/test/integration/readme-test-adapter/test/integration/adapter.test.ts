@@ -2,15 +2,16 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import http from 'http'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
 import { mockBalanceResponse, mockMarketcapResponse, mockPriceResponse } from './fixtures'
+import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
 
 describe('readme test adapter', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -20,6 +21,7 @@ describe('readme test adapter', () => {
       nock.recorder.rec()
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
     process.env = oldEnv
