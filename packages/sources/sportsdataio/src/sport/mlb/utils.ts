@@ -35,7 +35,7 @@ export const getGamesByDate = async (date: string, config: Config): Promise<Game
 }
 
 export const getGamesByTeam = (games: GameResponse[], teamID: string): GameResponse[] => {
-  const lowercaseTeamID =  teamID.toLowerCase()
+  const lowercaseTeamID = teamID.toLowerCase()
   return games.filter(
     (game) =>
       game.AwayTeam.toLowerCase() === lowercaseTeamID ||
