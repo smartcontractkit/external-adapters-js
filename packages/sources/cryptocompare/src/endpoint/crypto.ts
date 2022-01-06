@@ -10,8 +10,10 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [
-  { name: 'base', limit: 1000 },
-  { name: 'quote', limit: 100 },
+  // NOTE: Cryptocompare limits by character length of fsyms
+  { name: 'base', limit: 200 }, // actual limit: 1000 characters
+  { name: 'quote', limit: 20 }, // actual limit: 100 characters
+  // TODO handle character length limits
 ]
 
 export const endpointResultPaths = {
@@ -124,10 +126,26 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'fsym'],
-  quote: ['quote', 'to', 'market', 'tsyms'],
-  resultPath: false,
-  endpoint: false,
+  base: {
+    aliases: ['from', 'coin', 'fsym'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market', 'tsym'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
+  endpoint: {
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (

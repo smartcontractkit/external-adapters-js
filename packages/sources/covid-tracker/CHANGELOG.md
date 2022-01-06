@@ -1,5 +1,59 @@
 # @chainlink/covid-tracker-adapter
 
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.8
+
+### Patch Changes
+
+- 2d163497: added response types for us endpoint
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies [1b015ae2]
+  - @chainlink/ea-bootstrap@1.4.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [39e18f66]
+  - @chainlink/ea-bootstrap@1.3.6
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.3.5
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [790b2fa4]
+  - @chainlink/ea-bootstrap@1.3.4
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [946b778c]
+  - @chainlink/ea-bootstrap@1.3.3
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.2
 
 ### Patch Changes
@@ -31,6 +85,13 @@
 - Updated dependencies [c93e5654]
 - Updated dependencies [ccff5d7f]
   - @chainlink/ea-bootstrap@1.3.0
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [34b40ed33]
+  - @chainlink/ea-bootstrap@1.2.2
   - @chainlink/ea-test-helpers@1.0.1
 
 ## 1.0.6

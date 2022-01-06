@@ -17,7 +17,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
     url: getBalanceURI(account.address, config.confirmations as number),
   }
 
-  const response = await Requester.request(reqConfig)
+  const response = await Requester.request<number>(reqConfig)
 
   return {
     payload: response.data,

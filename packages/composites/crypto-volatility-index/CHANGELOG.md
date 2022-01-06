@@ -1,5 +1,95 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/token-allocation-adapter@1.0.23
+  - @chainlink/ea-reference-data-reader@1.0.14
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.22
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.22
+
+## 1.0.21
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.21
+
+## 1.0.20
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.20
+
+## 1.0.19
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.19
+
+## 1.0.18
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.18
+
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [1b015ae2]
+  - @chainlink/ea-bootstrap@1.4.0
+  - @chainlink/token-allocation-adapter@1.0.17
+  - @chainlink/ea-reference-data-reader@1.0.13
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [39e18f66]
+  - @chainlink/ea-bootstrap@1.3.6
+  - @chainlink/token-allocation-adapter@1.0.16
+  - @chainlink/ea-reference-data-reader@1.0.12
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.3.5
+  - @chainlink/token-allocation-adapter@1.0.15
+  - @chainlink/ea-reference-data-reader@1.0.11
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies [790b2fa4]
+  - @chainlink/ea-bootstrap@1.3.4
+  - @chainlink/token-allocation-adapter@1.0.14
+  - @chainlink/ea-reference-data-reader@1.0.10
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [946b778c]
+  - @chainlink/ea-bootstrap@1.3.3
+  - @chainlink/token-allocation-adapter@1.0.13
+  - @chainlink/ea-reference-data-reader@1.0.9
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.12
 
 ### Patch Changes
@@ -18,19 +108,23 @@
 - Updated dependencies [9e3e1cbb6]
 - Updated dependencies [a3b352bb5]
 - Updated dependencies [97bbbfc69]
+
   - @chainlink/ea-bootstrap@1.3.1
   - @chainlink/token-allocation-adapter@1.0.11
   - @chainlink/ea-reference-data-reader@1.0.7
   - @chainlink/ea-test-helpers@1.0.1
 
-## 1.0.10
-
-### Patch Changes
-
 - Updated dependencies [b78f8e06]
 - Updated dependencies [c93e5654]
 - Updated dependencies [ccff5d7f]
   - @chainlink/ea-bootstrap@1.3.0
+
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies [34b40ed33]
+  - @chainlink/ea-bootstrap@1.2.2
   - @chainlink/token-allocation-adapter@1.0.10
   - @chainlink/ea-reference-data-reader@1.0.6
   - @chainlink/ea-test-helpers@1.0.1

@@ -1,8 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const supportedEndpoints = ['height', 'difficulty']
 
 export const endpointResultPaths = {
@@ -11,7 +9,28 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  resultPath: false,
+  resultPath: {
+    aliases: ['field'],
+    description:
+      'The path for the result. When using `difficulty` or `height` the field will be filled as the endpoint.',
+    type: 'string',
+  },
+}
+
+export interface ResponseSchema {
+  id: string
+  height: number
+  version: number
+  timestamp: number
+  tx_count: number
+  size: number
+  weight: number
+  merkle_root: string
+  previousblockhash: string
+  mediantime: number
+  nonce: number
+  bits: number
+  difficulty: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -28,8 +47,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     timeout: 10000,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [0, resultPath])
+  const response = await Requester.request<ResponseSchema[]>(options)
+  const result = Requester.validateResultNumber(response.data, [0, resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

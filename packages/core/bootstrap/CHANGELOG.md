@@ -1,5 +1,41 @@
 # @chainlink/ea-bootstrap
 
+## 1.5.0
+
+### Minor Changes
+
+- 9b3cd511: limit number of times ws message handled
+
+## 1.4.0
+
+### Minor Changes
+
+- 1b015ae2: Modify the way metrics are calculated on DP errors for the http_total_requests metric
+
+## 1.3.6
+
+### Patch Changes
+
+- 39e18f66: Redis request coalescing sends a string value
+
+## 1.3.5
+
+### Patch Changes
+
+- Add additional logs for Redis
+
+## 1.3.4
+
+### Patch Changes
+
+- 790b2fa4: Add Coinpaprika KNC override
+
+## 1.3.3
+
+### Patch Changes
+
+- 946b778c: Increase default local cache MAX_ITEMS to 1000
+
 ## 1.3.2
 
 ### Patch Changes
@@ -25,6 +61,12 @@
 ### Patch Changes
 
 - b78f8e06: Print out actual used port when bootstrapping server
+
+## 1.2.2
+
+### Patch Changes
+
+- 34b40ed33: Fix rate limit capacity parsing
 
 ## 1.2.1
 

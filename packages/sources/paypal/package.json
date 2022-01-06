@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/paypal-adapter",
-  "version": "1.0.8",
+  "version": "1.0.14",
   "description": "Chainlink paypal adapter.",
   "keywords": [
     "Chainlink",

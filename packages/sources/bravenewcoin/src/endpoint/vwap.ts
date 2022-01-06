@@ -5,9 +5,42 @@ import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 export const supportedEndpoints = ['vwap']
 
 export const inputParameters: InputParameters = {
-  symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
-  indexType: false,
-  timestamp: false, // TODO: currently unused, deprecate or utilize me
+  symbol: {
+    aliases: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
+    description: ' Retrieve all the OHLCV values for a particular asset or market',
+    required: true,
+    type: 'string',
+  },
+  indexType: {
+    aliases: ['to', 'market'],
+    description: 'Restrict the OHLCV results to the index type.',
+    options: ['MWA', 'GWA'],
+    default: 'GWA',
+    type: 'string',
+  },
+  timestamp: {
+    // TODO: currently unused, deprecate or utilize me
+    description:
+      'Retrieve all daily OHLCV records from the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ',
+  },
+}
+
+export interface ResponseSchema {
+  content: {
+    close: number
+    endTimestamp: string
+    high: number
+    id: string
+    indexId: string
+    indexType: string
+    low: number
+    open: number
+    startTimestamp: string
+    timestamp: string
+    twap: number
+    volume: number
+    vwap: number
+  }[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -39,8 +72,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

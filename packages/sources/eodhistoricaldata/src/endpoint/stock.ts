@@ -3,16 +3,34 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['price', 'stock']
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
-  base: ['base', 'asset', 'from', 'symbol'],
+  base: {
+    required: true,
+    aliases: ['asset', 'from', 'symbol'],
+    type: 'string',
+    description:
+      'The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/)',
+  },
 }
 
 const commonKeys: { [key: string]: string } = {
   N225: 'N225.INDX',
   FTSE: 'FTSE.INDX',
   BZ: 'BZ.COMM',
+}
+
+export interface ResponseSchema {
+  code: string
+  timestamp: number
+  gmtoffset: number
+  open: number
+  high: number
+  low: number
+  close: number
+  volume: number
+  previousClose: number
+  change: number
+  change_p: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -37,8 +55,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['close'])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['close'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

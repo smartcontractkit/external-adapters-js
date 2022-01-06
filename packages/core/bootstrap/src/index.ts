@@ -124,9 +124,14 @@ const withMetrics: Middleware = async (execute, context) => async (input: Adapte
     }
     const end = metrics.httpRequestDurationSeconds.startTimer()
 
-    return (statusCode?: number, type?: metrics.HttpRequestType) => {
-      labels.type = type
-      labels.status_code = metrics.util.normalizeStatusCode(statusCode)
+    return (props: {
+      providerStatusCode?: number
+      statusCode?: number
+      type?: metrics.HttpRequestType
+    }) => {
+      labels.type = props.type
+      labels.status_code = metrics.util.normalizeStatusCode(props.statusCode)
+      labels.provider_status_code = metrics.util.normalizeStatusCode(props.providerStatusCode)
       end()
       metrics.httpRequestsTotal.labels(labels).inc()
     }
@@ -135,15 +140,20 @@ const withMetrics: Middleware = async (execute, context) => async (input: Adapte
   const record = recordMetrics()
   try {
     const result = await execute({ ...input, metricsMeta }, context)
-    record(
-      result.statusCode,
-      result.data.maxAge || (result as any).maxAge
-        ? metrics.HttpRequestType.CACHE_HIT
-        : metrics.HttpRequestType.DATA_PROVIDER_HIT,
-    )
+    record({
+      statusCode: result.statusCode,
+      type:
+        result.data.maxAge || (result as any).maxAge
+          ? metrics.HttpRequestType.CACHE_HIT
+          : metrics.HttpRequestType.DATA_PROVIDER_HIT,
+    })
     return { ...result, metricsMeta: { ...result.metricsMeta, ...metricsMeta } }
   } catch (error) {
-    record()
+    const providerStatusCode: number | undefined = error.cause?.response?.status
+    record({
+      statusCode: providerStatusCode ? 200 : 500,
+      providerStatusCode,
+    })
     throw error
   }
 }
@@ -218,7 +228,12 @@ export const executeSync: ExecuteSync = async (
     const feedID = metrics.util.getFeedId(data)
     return callback(
       error.statusCode || 500,
-      Requester.errored(data.id, error, error.statusCode, feedID),
+      Requester.errored(
+        data.id,
+        error,
+        error.providerResponseStatusCode || error.statusCode,
+        feedID,
+      ),
     )
   }
 }

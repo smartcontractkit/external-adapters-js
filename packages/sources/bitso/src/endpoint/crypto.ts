@@ -4,9 +4,42 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['ticker', 'crypto']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  resultPath: {
+    description: 'The object path to access the value that will be returned as the result',
+    default: 'vwap',
+    type: 'string',
+  },
+}
+
+const customError = (data: ResponseSchema) => data.error
+
+export interface ResponseSchema {
+  success: boolean
+  payload: {
+    high: string
+    last: string
+    created_at: string
+    book: string
+    volume: string
+    vwap: string
+    low: string
+    ask: string
+    bid: string
+    change_24: string
+  }
+  error: { code: string; message: string }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -28,8 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['payload', resultPath])
-
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['payload', resultPath])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

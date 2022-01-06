@@ -8,11 +8,18 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  resultPath: false,
-  date: false,
+  resultPath: {
+    aliases: ['field'],
+    description: 'The object path to access the value that will be returned as the result',
+    default: 'death',
+    type: 'string',
+  },
+  date: {
+    description: 'The date to query formatted by `[YEAR][MONTH][DAY]` (e.g. `20201012`)',
+  },
 }
 
-const validDate = (date: any) => {
+const validDate = (date: string) => {
   if (date) {
     if (isNaN(Number(date))) return false
     if (date.length != 8) return false
@@ -20,7 +27,7 @@ const validDate = (date: any) => {
   return true
 }
 
-const findDay = (payload: any, date: any) => {
+const findDay = (payload: ResponseSchema[], date: string) => {
   if (!date) return payload[0]
   // All historical dates are given, find the the correct one
   for (const index in payload) {
@@ -33,6 +40,34 @@ const findDay = (payload: any, date: any) => {
     }
   }
   return null
+}
+
+export interface ResponseSchema {
+  date: number
+  states: number
+  positive: number
+  negative: number
+  pending: number
+  hospitalizedCurrently: number
+  hospitalizedCumulative: number
+  inIcuCurrently: number
+  inIcuCumulative: number
+  onVentilatorCurrently: number
+  onVentilatorCumulative: number
+  dateChecked: string
+  death: number
+  hospitalized: number
+  totalTestResults: number
+  lastModified: string
+  recovered: number
+  total: number
+  posNeg: number
+  deathIncrease: number
+  hospitalizedIncrease: number
+  negativeIncrease: number
+  positiveIncrease: number
+  totalTestResultsIncrease: number
+  hash: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -56,7 +91,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
+  const response = await Requester.request<ResponseSchema[]>(options)
   const day = findDay(response.data, date)
   if (!day)
     throw new AdapterError({
@@ -64,6 +99,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       message: 'Date not found in response data',
       statusCode: 400,
     })
-  response.data.result = Requester.validateResultNumber(day, [resultPath])
-  return Requester.success(jobRunID, response, config.verbose)
+  const result = Requester.validateResultNumber(day, [resultPath])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

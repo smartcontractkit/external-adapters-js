@@ -17,6 +17,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 200000,
   "statusCode": 200,
 }

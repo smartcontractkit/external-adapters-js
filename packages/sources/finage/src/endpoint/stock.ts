@@ -11,8 +11,13 @@ import { NAME } from '../config'
 export const supportedEndpoints = ['stock']
 export const batchablePropertyPath = [{ name: 'base' }]
 
-export const inputParams: InputParameters = {
-  base: ['base', 'from', 'symbol'],
+export const inputParameters: InputParameters = {
+  base: {
+    required: true,
+    aliases: ['from', 'symbol'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -25,7 +30,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
