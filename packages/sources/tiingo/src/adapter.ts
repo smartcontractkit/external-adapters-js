@@ -115,8 +115,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     }
   }
 
+  const defaultConfig = config || makeConfig()
+
   return () => {
-    const defaultConfig = config || makeConfig()
     return {
       connection: {
         getUrl: async (input) =>
