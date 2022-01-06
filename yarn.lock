@@ -2856,6 +2856,7 @@ __metadata:
     "@actions/core": 1.6.0
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/types": "workspace:*"
+    "@types/command-line-args": ^5.2.0
     "@types/jest": 27.0.3
     "@types/shelljs": 0.8.9
     "@types/swagger-jsdoc": 6.0.1
@@ -8105,6 +8106,13 @@ __metadata:
     "@types/connect": "*"
     "@types/node": "*"
   checksum: 2990656ea2de81f3529a3359a79a13b67feb4c627caf7a367fdc0017a178e567b0cc410546bdd219104ad7197c5ee5a90b70193f5253839ea43d9cdb2d2dacee
+  languageName: node
+  linkType: hard
+
+"@types/command-line-args@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "@types/command-line-args@npm:5.2.0"
+  checksum: 423121d2d083765f5b78d090115f3be82d53a39cec9de63719cbd07021e6330fab19b75e2290af1f7dda84efd7964dc498eb10b2b465991de27045db95aa1eef
   languageName: node
   linkType: hard
 

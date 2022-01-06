@@ -5286,6 +5286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@actions/core", "npm:1.6.0"],
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/command-line-args", "npm:5.2.0"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/shelljs", "npm:0.8.9"],
             ["@types/swagger-jsdoc", "npm:6.0.1"],
@@ -10839,6 +10840,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/body-parser", "npm:1.19.1"],
             ["@types/connect", "npm:3.4.35"],
             ["@types/node", "npm:16.6.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/command-line-args", [
+        ["npm:5.2.0", {
+          "packageLocation": "./.yarn/cache/@types-command-line-args-npm-5.2.0-3454e6d6cf-423121d2d0.zip/node_modules/@types/command-line-args/",
+          "packageDependencies": [
+            ["@types/command-line-args", "npm:5.2.0"]
           ],
           "linkType": "HARD",
         }]
