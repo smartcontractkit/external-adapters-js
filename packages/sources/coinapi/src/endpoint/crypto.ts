@@ -19,8 +19,18 @@ export const endpointOverride = (request: AdapterRequest): string | null => {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: {
+    aliases: ['from', 'coin'],
+    type: 'string',
+    required: true,
+    description: 'The symbol of the currency to query [crypto](#Crypto-Endpoint)',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    type: 'string',
+    required: true,
+    description: 'The symbol of the currency to convert to',
+  },
 }
 
 export interface ResponseSchema {

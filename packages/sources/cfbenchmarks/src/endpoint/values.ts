@@ -5,7 +5,11 @@ import { NAME } from '../config'
 export const supportedEndpoints = ['values', 'crypto', 'price']
 
 export const inputParameters: InputParameters = {
-  index: true,
+  index: {
+    description: 'The ID of the index',
+    type: 'string',
+    required: true,
+  },
 }
 
 interface PayloadValue {
