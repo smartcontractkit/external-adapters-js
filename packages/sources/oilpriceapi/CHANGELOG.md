@@ -1,5 +1,22 @@
 # @chainlink/oilpriceapi-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 456e3620: 'endpoint' input parameter renamed to 'url'
+
+### Minor Changes
+
+- 456e3620: input parameters changed
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.8
 
 ### Patch Changes

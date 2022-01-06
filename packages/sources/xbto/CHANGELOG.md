@@ -1,5 +1,19 @@
 # @chainlink/xbto-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 942c636b: input params changed
+- 942c636b: added endpoint folder, config.ts
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.10
 
 ### Patch Changes

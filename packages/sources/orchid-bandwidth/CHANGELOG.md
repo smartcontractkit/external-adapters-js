@@ -1,5 +1,19 @@
 # @chainlink/orchid-bandwidth-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 456e3620: input parameters changed
+
+### Patch Changes
+
+- a1e4e763: added response types
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.14
 
 ### Patch Changes
