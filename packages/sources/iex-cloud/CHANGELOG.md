@@ -1,5 +1,19 @@
 # @chainlink/iex-cloud-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 1f4d0ca5: Input param changes
+
+### Patch Changes
+
+- 1f5112f4: added response types
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.14
 
 ### Patch Changes
