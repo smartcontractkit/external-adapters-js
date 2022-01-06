@@ -24,11 +24,6 @@ export const inputParameters: InputParameters = {
       'The symbol of the currency to convert to. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)',
     required: true,
   },
-  overrides: {
-    description:
-      'If base provided is found in overrides, that will be used. Overrides list can be found here [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
-    type: 'object',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
