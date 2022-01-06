@@ -18,6 +18,7 @@ Object {
     "result": 71.47,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 71.47,
   "statusCode": 200,
 }
