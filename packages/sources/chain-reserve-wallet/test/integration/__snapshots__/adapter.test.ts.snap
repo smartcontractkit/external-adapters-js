@@ -13,7 +13,6 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": Array [
     Object {
       "address": "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m",

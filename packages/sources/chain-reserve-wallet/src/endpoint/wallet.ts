@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 
 const networks = ['cardano', 'doge']
@@ -80,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: {
       result: response,
     },
-    status: 200,
+    statusCode: 200,
   }
 
   return Requester.success(jobRunID, result, config.verbose)
