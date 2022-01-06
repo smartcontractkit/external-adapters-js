@@ -4,7 +4,7 @@ import { Config } from '@chainlink/types'
 export const NAME = 'POLYGON'
 
 export const DEFAULT_ENDPOINT = 'forex'
-export const DEFAULT_BASE_URL = 'https://api.polygon.io/v1/'
+export const DEFAULT_BASE_URL = 'https://api.polygon.io'
 
 export const makeConfig = (prefix = ''): Config => {
   const config = Requester.getDefaultConfig(prefix, true)

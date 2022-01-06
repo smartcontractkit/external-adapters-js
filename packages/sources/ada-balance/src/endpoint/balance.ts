@@ -23,11 +23,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses
-  if (addresses.length === 0) {
-    throw new AdapterError({ jobRunID, statusCode: 400, message: 'Addresses cannot be empty' })
+
+  if (!Array.isArray(addresses) || addresses.length === 0) {
+    throw new AdapterError({
+      jobRunID,
+      message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      statusCode: 400,
+    })
   }
+
   const result = await getAddressBalances(
-    addresses,
+    addresses.map((address) => address.address),
     config.api.baseWsUrl,
     config.rpcPort || DEFAULT_RPC_PORT,
   )

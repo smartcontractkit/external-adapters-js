@@ -15,6 +15,14 @@ export const inputParameters: InputParameters = {
   },
 }
 
+interface ResponseSchema {
+  symbol: string
+  exchange: string
+  currency: string
+  datetime: string
+  close: string
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -34,8 +42,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['close'])
+  const response = await Requester.request<ResponseSchema>(options, customError)
 
-  return Requester.success(jobRunID, response, config.verbose)
+  const result = Requester.validateResultNumber(response.data, ['close'])
+
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

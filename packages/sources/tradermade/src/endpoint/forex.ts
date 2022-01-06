@@ -1,6 +1,12 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { execute as liveExecute } from './live'
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, util } from '@chainlink/ea-bootstrap'
+import {
+  ExecuteWithConfig,
+  Config,
+  AdapterRequest,
+  AxiosResponse,
+  InputParameters,
+} from '@chainlink/types'
+import { NAME } from '../config'
 
 /**
  * This endpoint is similar to live but is supposed to only be used to fetch forex data.  This is why quote is a required parameter.
@@ -8,6 +14,7 @@ import { Validator } from '@chainlink/ea-bootstrap'
  */
 
 export const supportedEndpoints = ['forex']
+export const batchablePropertyPath = [{ name: 'from' }, { name: 'to' }]
 
 export const inputParameters: InputParameters = {
   base: {
@@ -24,15 +31,80 @@ export const inputParameters: InputParameters = {
   },
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
-  const transformedInputData = {
-    ...input,
-    data: {
-      ...input.data,
-      to: validator.validated.data.quote,
-    },
+export interface ResponseSchema {
+  endpoint: string
+  quotes: Quote[]
+  requested_time: string
+  timestamp: number
+}
+
+export interface Quote {
+  ask: number
+  base_currency: string
+  bid: number
+  mid: number
+  quote_currency: string
+}
+
+const handleBatchedRequest = (
+  jobRunID: string,
+  request: AdapterRequest,
+  response: AxiosResponse<ResponseSchema>,
+  resultPath: string,
+) => {
+  const payload: [AdapterRequest, number][] = []
+  for (const pair of response.data.quotes) {
+    const symbol = pair.base_currency
+    const to = pair.quote_currency
+
+    payload.push([
+      {
+        ...request,
+        data: { ...request.data, from: symbol.toUpperCase(), to: to.toUpperCase() },
+      },
+      Requester.validateResultNumber(pair, [resultPath]),
+    ])
   }
-  return await liveExecute(transformedInputData, context, config)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
+}
+
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  const validator = new Validator(request, inputParameters)
+  if (validator.error) throw validator.error
+  Requester.logConfig(config)
+
+  const jobRunID = validator.validated.id
+  const symbol = validator.overrideSymbol(NAME)
+  const to = validator.validated.data.quote || ''
+  const pairArray = []
+
+  for (const fromCurrency of util.formatArray(symbol)) {
+    for (const toCurrency of util.formatArray(to)) {
+      pairArray.push(`${fromCurrency.toUpperCase() + toCurrency.toUpperCase()}`)
+    }
+  }
+
+  const currencies = pairArray.toString()
+  const params = {
+    ...config.api.params,
+    currencies,
+  }
+
+  const options = { ...config.api, params }
+  const response = await Requester.request<ResponseSchema>(options)
+  if (Array.isArray(symbol) || Array.isArray(to))
+    return handleBatchedRequest(jobRunID, request, response, 'mid')
+
+  const result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.api.verbose,
+    batchablePropertyPath,
+  )
 }

@@ -91,6 +91,7 @@ import * as polygon from '@chainlink/polygon-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
+import * as snowflake from '@chainlink/snowflake-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
@@ -209,6 +210,7 @@ export default {
   reduce,
   renvm_adapter_address,
   satoshitango,
+  snowflake,
   sochain,
   spectral_macro_score,
   sportsdataio,

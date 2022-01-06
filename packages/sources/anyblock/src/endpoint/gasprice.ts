@@ -3,14 +3,23 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['gasprice']
 
-const customError = (data: any) => {
+const customError = (data: ResponseSchema) => {
   if (Object.keys(data).length < 1) return true
-  if (!('health' in data) || !data.health) return true
-  return false
+  return !('health' in data) || !data.health
 }
 
 export const inputParameters: InputParameters = {
   speed: false,
+}
+
+export interface ResponseSchema {
+  health: boolean
+  blockNumber: number
+  blockTime: number
+  slow: number
+  standard: number
+  fast: number
+  instant: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -26,8 +35,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [speed]) * 1e9
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
