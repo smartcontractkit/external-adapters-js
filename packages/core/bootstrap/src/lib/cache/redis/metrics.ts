@@ -11,6 +11,7 @@ export const redis_retries_count = new client.Counter({
 })
 
 export enum CMD_SENT_STATUS {
+  TIMEOUT = 'TIMEOUT',
   FAIL = 'FAIL',
   SUCCESS = 'SUCCESS',
 }

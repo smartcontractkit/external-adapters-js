@@ -3,7 +3,7 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['vwap']
 
-const customError = (data: any) => {
+const customError = (data: ResponseSchema) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
 }
 
@@ -15,14 +15,40 @@ export const inputParameters: InputParameters = {
   end: false,
 }
 
-const buildVWAP = (response: any, debug: boolean) => {
-  const sources = response.data.hits.hits.map((i: any) => {
-    const reserve0 = i._source.args.find((j: any) => j.pos === 0)
-    const reserve1 = i._source.args.find((j: any) => j.pos === 1)
+export interface ResponseSchema {
+  took: number
+  timed_out: boolean
+  _shards: { total: number; successful: number; skipped: number; failed: number }
+  hits: {
+    total: []
+    max_score: number
+    hits: {
+      _index: string
+      _type: string
+      _id: string
+      _score: number
+      _source: {
+        args: {
+          'value.hex': string
+          pos: number
+          name: string
+          'value.type': string
+        }[]
+        timestamp: number
+      }
+      sort: []
+    }[]
+  }
+}
+
+const buildVWAP = (data: ResponseSchema, status: number, debug: boolean) => {
+  const sources = data.hits.hits.map((i) => {
+    const reserve0 = i._source.args.find((j) => j.pos === 0)
+    const reserve1 = i._source.args.find((j) => j.pos === 1)
     return {
       timestamp: i._source.timestamp,
-      reserve0: parseInt(reserve0['value.hex'], 16),
-      reserve1: parseInt(reserve1['value.hex'], 16),
+      reserve0: parseInt(reserve0 ? reserve0['value.hex'] : '0', 16),
+      reserve1: parseInt(reserve1 ? reserve1['value.hex'] : '0', 16),
     }
   })
 
@@ -36,8 +62,8 @@ const buildVWAP = (response: any, debug: boolean) => {
   }
 
   const vwap = sumAmountAndPrices / overallVolume
-  const resp: any = {
-    status: response.status,
+  const resp: { status: number; data: { result: number; raw?: Record<string, number>[] } } = {
+    status: status,
     data: { result: vwap },
   }
 
@@ -119,7 +145,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: body,
   }
 
-  const response = await Requester.request(options, customError)
-  const vwapResp = buildVWAP(response, debug)
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const vwapResp = buildVWAP(response.data, response.status, debug)
   return Requester.success(jobRunID, vwapResp, config.verbose)
 }

@@ -14,6 +14,21 @@ export const inputParameters: InputParameters = {
   network: false,
 }
 
+export interface ResponseSchema {
+  payload: {
+    difficulty: number
+    headers: number
+    chain: string
+    chainWork: string
+    mediantime: number
+    blocks: number
+    bestBlockHash: string
+    currency: string
+    transactions: number
+    verificationProgress: number
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -26,8 +41,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const reqConfig = { ...config.api, url }
 
-  const response = await Requester.request(reqConfig)
-  response.data.result = Requester.validateResultNumber(response.data, ['payload', resultPath])
+  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const result = Requester.validateResultNumber(response.data, ['payload', resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

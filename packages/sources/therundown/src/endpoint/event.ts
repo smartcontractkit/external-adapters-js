@@ -28,7 +28,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request(reqConfig)
-  response.data.result = response.data
+  response.data.result = { ...response.data }
 
   return Requester.success(jobRunID, response, config.verbose)
 }

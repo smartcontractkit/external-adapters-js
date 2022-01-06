@@ -18,9 +18,15 @@ This endpoint fetches an address's balance and outputs it in Lovelace.
 
 ### Input Params
 
-| Required? |    Name     |                 Description                 | Options | Defaults to |
-| :-------: | :---------: | :-----------------------------------------: | :-----: | :---------: | --- |
-|    ✅     | `addresses` | An array of addresses to query balances for |         |             |     |
+| Required? |    Name     |                                           Description                                           | Options | Defaults to |
+| :-------: | :---------: | :---------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `addresses` | An array of addresses to query the balances for (this may also be under the 'result' parameter) |         |             |
+
+`addresses` or `result` is an array of objects that contain the following information:
+
+| Required? |   Name    |   Description    | Options | Defaults to |
+| :-------: | :-------: | :--------------: | :-----: | :---------: |
+|    ✅     | `address` | Address to query |         |
 
 ### Sample Input
 
@@ -29,7 +35,9 @@ This endpoint fetches an address's balance and outputs it in Lovelace.
   "id": "1",
   "data": {
     "addresses": [
-      "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m"
+      {
+        "address": "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m"
+      }
     ]
   }
 }

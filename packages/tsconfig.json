@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "./composites/anchor"
+    },
+    {
       "path": "./composites/apy-finance"
     },
     {
@@ -37,6 +40,9 @@
     },
     {
       "path": "./composites/google-weather"
+    },
+    {
+      "path": "./composites/historical-average"
     },
     {
       "path": "./composites/linear-finance"
@@ -102,10 +108,10 @@
       "path": "./sources/1forge"
     },
     {
-      "path": "./sources/ada-balance"
+      "path": "./sources/accuweather"
     },
     {
-      "path": "./sources/accuweather"
+      "path": "./sources/ada-balance"
     },
     {
       "path": "./sources/alphachain"
@@ -378,6 +384,9 @@
       "path": "./sources/satoshitango"
     },
     {
+      "path": "./sources/snowflake"
+    },
+    {
       "path": "./sources/sochain"
     },
     {
@@ -439,6 +448,9 @@
     },
     {
       "path": "./sources/wootrade"
+    },
+    {
+      "path": "./sources/wrapped"
     },
     {
       "path": "./sources/xbto"

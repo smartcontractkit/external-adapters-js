@@ -1,10 +1,11 @@
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
 import { mockLotusResponseSuccess } from './fixtures'
+import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -33,11 +34,14 @@ afterAll(() => {
 describe('execute', () => {
   const id = '1'
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
+
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
   })
+
   afterAll((done) => {
     server.close(done)
   })
@@ -46,7 +50,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        addresses: ['f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi'],
+        addresses: [{ address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi' }],
       },
     }
 
@@ -69,8 +73,8 @@ describe('execute', () => {
       id,
       data: {
         addresses: [
-          'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi',
-          'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay',
+          { address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi' },
+          { address: 'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay' },
         ],
       },
     }
@@ -94,8 +98,8 @@ describe('execute', () => {
       id,
       data: {
         result: [
-          'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi',
-          'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay',
+          { address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi' },
+          { address: 'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay' },
         ],
       },
     }

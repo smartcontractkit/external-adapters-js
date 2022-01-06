@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/vesper-adapter",
-  "version": "1.0.4",
+  "version": "1.0.23",
   "description": "Chainlink vesper adapter.",
   "keywords": [
     "Chainlink",

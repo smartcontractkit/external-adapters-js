@@ -3,7 +3,7 @@ import { parseBool } from '../util'
 import { CacheEntry } from './types'
 
 // Options
-const DEFAULT_CACHE_MAX_ITEMS = 500
+const DEFAULT_CACHE_MAX_ITEMS = 1000
 const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 1.5 // 1.5 minutes
 const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
 
@@ -29,9 +29,18 @@ type CacheOptions = Omit<
   'max' | 'maxAge' | 'updateAgeOnGet'
 > &
   ReturnType<typeof defaultOptions>
+
 export class LocalLRUCache {
   options: CacheOptions
   client: LRU<string, CacheEntry | boolean>
+  static cacheInstance: LocalLRUCache
+
+  static getInstance(options: CacheOptions): LocalLRUCache {
+    if (!LocalLRUCache.cacheInstance) {
+      this.cacheInstance = new LocalLRUCache(options)
+    }
+    return this.cacheInstance
+  }
 
   constructor(options: CacheOptions) {
     this.options = options

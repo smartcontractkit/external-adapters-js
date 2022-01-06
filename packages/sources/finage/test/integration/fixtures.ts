@@ -57,6 +57,16 @@ export const mockResponseSuccess = (): nock =>
       'Connection',
       'close',
     ])
+    .get('/last/crypto/BTCUSD')
+    .query({ apikey: 'fake-api-key' })
+    .reply(200, { symbol: 'BTCUSD', price: 50940.12, timestamp: 1638898619885 }, [
+      'Content-Type',
+      'application/json; charset=utf-8',
+      'Content-Length',
+      '73',
+      'Connection',
+      'close',
+    ])
 
 export const mockResponseFailure = (): nock =>
   nock('https://api.finage.co.uk', {

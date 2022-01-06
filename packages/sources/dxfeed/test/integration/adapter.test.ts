@@ -2,17 +2,19 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import http from 'http'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { mockPriceEndpoint } from './fixtures'
+import { AddressInfo } from 'net'
 
 describe('dxfeed', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
     process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
     process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'

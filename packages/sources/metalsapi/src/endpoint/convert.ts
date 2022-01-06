@@ -4,12 +4,22 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['convert', 'price']
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) => !data.success
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
   amount: false,
+}
+
+export interface ResponseSchema {
+  success: boolean
+  query: { from: string; to: string; amount: number }
+  info: { timestamp: number; rate: number }
+  historical: boolean
+  date: string
+  result: number
+  unit: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -31,6 +41,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request(reqConfig, customError)
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  const result = Requester.validateResultNumber(response.data, ['result'])
+
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
