@@ -5,7 +5,12 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['eod-close', 'eod']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'asset', 'symbol'],
+  base: {
+    aliases: ['from', 'coin', 'asset', 'symbol'],
+    description: 'The symbol to query',
+    required: true,
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {

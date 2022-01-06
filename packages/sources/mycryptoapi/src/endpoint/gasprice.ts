@@ -12,7 +12,13 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    default: 'fast',
+    options: ['safeLow', 'standard', 'fast', 'fastest'],
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
