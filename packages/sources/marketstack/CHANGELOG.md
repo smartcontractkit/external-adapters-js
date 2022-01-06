@@ -1,5 +1,11 @@
 # @chainlink/marketstack-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 0b234936: added response types for stock endpoint, removed customError function
+
 ## 1.1.9
 
 ### Patch Changes

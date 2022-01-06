@@ -1,5 +1,11 @@
 # @chainlink/bravenewcoin-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- b9425639: added response types
+
 ## 1.0.13
 
 ### Patch Changes

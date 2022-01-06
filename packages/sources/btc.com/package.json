@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/btc.com-adapter",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Chainlink adapter to query BTC address balance from BTC.com.",
   "keywords": [
     "Chainlink",

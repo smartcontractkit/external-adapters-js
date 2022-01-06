@@ -1,5 +1,11 @@
 # @chainlink/paxos-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 998f3375: removed customError function
+
 ## 1.1.9
 
 ### Patch Changes

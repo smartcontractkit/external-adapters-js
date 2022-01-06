@@ -1,5 +1,11 @@
 # @chainlink/lition-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- 43180301: added response types for energy endpoint
+
 ## 1.0.13
 
 ### Patch Changes

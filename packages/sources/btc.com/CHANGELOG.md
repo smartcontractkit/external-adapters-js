@@ -1,5 +1,11 @@
 # @chainlink/btc.com-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- d80df3e5: [Refactor] modified response return type
+
 ## 1.0.13
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/cache.gold-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- c880676e: added response types for cacheGold endpoint
+
 ## 1.1.9
 
 ### Patch Changes

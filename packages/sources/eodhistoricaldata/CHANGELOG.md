@@ -1,5 +1,11 @@
 # @chainlink/eodhistoricaldata-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- e804f9df: added response types for stock endpoint, removed customError function
+
 ## 1.1.9
 
 ### Patch Changes

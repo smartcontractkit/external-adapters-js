@@ -1,5 +1,11 @@
 # @chainlink/messari-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- c6f4dfde: added response types for assets endpoint
+
 ## 1.0.13
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/anyblock-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- ca203b25: added response types for vwap and gasprice endpoints
+
 ## 1.0.13
 
 ### Patch Changes

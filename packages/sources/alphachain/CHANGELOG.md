@@ -1,5 +1,11 @@
 # @chainlink/alphachain-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- 26063d77: added response types for data-query endpoint
+
 ## 1.0.13
 
 ### Patch Changes

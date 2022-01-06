@@ -1,5 +1,11 @@
 # @chainlink/geodb-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- 3a912f28: added response types
+
 ## 1.0.13
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/binance-dex-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 3c44ee55: added response types for price endpoint
+
 ## 1.1.9
 
 ### Patch Changes

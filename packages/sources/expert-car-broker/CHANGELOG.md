@@ -1,5 +1,11 @@
 # @chainlink/expert-car-broker-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 5b0da1c2: added response types for feed endpoint
+
 ## 1.1.9
 
 ### Patch Changes

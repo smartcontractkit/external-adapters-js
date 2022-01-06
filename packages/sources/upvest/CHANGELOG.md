@@ -1,5 +1,11 @@
 # @chainlink/upvest-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- e4b3aace: changed response type for custom error
+
 ## 1.1.9
 
 ### Patch Changes

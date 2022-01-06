@@ -1,5 +1,11 @@
 # @chainlink/etherscan-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 543228e2: added ErrorSchema for customError
+
 ## 1.1.9
 
 ### Patch Changes

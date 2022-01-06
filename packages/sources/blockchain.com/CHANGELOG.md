@@ -1,5 +1,11 @@
 # @chainlink/blockchain.com-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- 945a659c: added response types for balance, difficulty and height endpoints
+
 ## 1.0.13
 
 ### Patch Changes

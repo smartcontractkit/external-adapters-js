@@ -1,5 +1,74 @@
 # @chainlink/ea
 
+## 1.0.26
+
+### Patch Changes
+
+- Updated dependencies [43180301]
+- Updated dependencies [5b0da1c2]
+- Updated dependencies [406506ec]
+- Updated dependencies [e804f9df]
+- Updated dependencies [543228e2]
+- Updated dependencies [c6f4dfde]
+- Updated dependencies [945a659c]
+- Updated dependencies [c880676e]
+- Updated dependencies [f9000994]
+- Updated dependencies [186c1621]
+- Updated dependencies [fc8d05ff]
+- Updated dependencies [b9425639]
+- Updated dependencies [9b9d6c5a]
+- Updated dependencies [3c44ee55]
+- Updated dependencies [bc8303ac]
+- Updated dependencies [9fbe5c6f]
+- Updated dependencies [e4b3aace]
+- Updated dependencies [0b234936]
+- Updated dependencies [8ee3290d]
+- Updated dependencies [ca203b25]
+- Updated dependencies [26063d77]
+- Updated dependencies [69410b05]
+- Updated dependencies [a183d94a]
+- Updated dependencies [2d163497]
+- Updated dependencies [2473f126]
+- Updated dependencies [150a8502]
+- Updated dependencies [998f3375]
+- Updated dependencies [118b8955]
+- Updated dependencies [3a912f28]
+- Updated dependencies [d80df3e5]
+  - @chainlink/lition-adapter@1.0.14
+  - @chainlink/expert-car-broker-adapter@1.1.10
+  - @chainlink/polygon-adapter@1.2.0
+  - @chainlink/eodhistoricaldata-adapter@1.1.10
+  - @chainlink/etherscan-adapter@1.1.10
+  - @chainlink/messari-adapter@1.0.14
+  - @chainlink/blockchain.com-adapter@1.0.14
+  - @chainlink/cache.gold-adapter@1.1.10
+  - @chainlink/coinlore-adapter@1.1.10
+  - @chainlink/1forge-adapter@1.2.0
+  - @chainlink/currencylayer-adapter@1.1.0
+  - @chainlink/fixer-adapter@1.1.0
+  - @chainlink/metalsapi-adapter@1.2.0
+  - @chainlink/openexchangerates-adapter@1.1.0
+  - @chainlink/tradermade-adapter@1.3.0
+  - @chainlink/satoshitango-adapter@1.1.10
+  - @chainlink/bravenewcoin-adapter@1.0.14
+  - @chainlink/unibit-adapter@1.1.10
+  - @chainlink/binance-dex-adapter@1.1.10
+  - @chainlink/coinpaprika-adapter@1.0.15
+  - @chainlink/coinbase-adapter@1.1.10
+  - @chainlink/upvest-adapter@1.1.10
+  - @chainlink/marketstack-adapter@1.1.10
+  - @chainlink/binance-adapter@1.1.6
+  - @chainlink/anyblock-adapter@1.0.14
+  - @chainlink/alphachain-adapter@1.0.14
+  - @chainlink/etherchain-adapter@1.1.10
+  - @chainlink/bitso-adapter@1.1.10
+  - @chainlink/covid-tracker-adapter@1.1.8
+  - @chainlink/blockstream-adapter@1.1.10
+  - @chainlink/paxos-adapter@1.1.10
+  - @chainlink/nikkei-adapter@1.1.8
+  - @chainlink/geodb-adapter@1.0.14
+  - @chainlink/btc.com-adapter@1.0.14
+
 ## 1.0.25
 
 ### Patch Changes

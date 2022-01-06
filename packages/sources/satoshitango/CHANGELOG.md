@@ -1,5 +1,11 @@
 # @chainlink/satoshitango-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- fc8d05ff: added response types for crypto endpoint
+
 ## 1.1.9
 
 ### Patch Changes
