@@ -7,7 +7,18 @@ import { ethers } from 'ethers'
 export const supportedEndpoints = ['lastblock']
 
 export const inputParameters: InputParameters = {
-  stagingAddress: true,
+  stagingAddress: {
+    required: true,
+    description: 'The address of the staging contract',
+    type: 'string',
+  },
+  network: {
+    required: false,
+    description: 'The network',
+    default: DEFAULT_NETWORK,
+    type: 'string',
+    options: ['ETHEREUM', 'POLYGON'],
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -15,9 +26,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { stagingAddress } = validator.validated.data
+  const { network, stagingAddress } = validator.validated.data
 
-  const network = validator.validated.data.network || DEFAULT_NETWORK
   const rpcUrl = network.toUpperCase() == ETH ? config.ethereumRpcUrl : config.polygonRpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
 

@@ -5,9 +5,24 @@ import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 export const supportedEndpoints = ['vwap']
 
 export const inputParameters: InputParameters = {
-  symbol: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
-  indexType: false,
-  timestamp: false, // TODO: currently unused, deprecate or utilize me
+  symbol: {
+    aliases: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
+    description: ' Retrieve all the OHLCV values for a particular asset or market',
+    required: true,
+    type: 'string',
+  },
+  indexType: {
+    aliases: ['to', 'market'],
+    description: 'Restrict the OHLCV results to the index type.',
+    options: ['MWA', 'GWA'],
+    default: 'GWA',
+    type: 'string',
+  },
+  timestamp: {
+    // TODO: currently unused, deprecate or utilize me
+    description:
+      'Retrieve all daily OHLCV records from the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ',
+  },
 }
 
 export interface ResponseSchema {

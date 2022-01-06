@@ -9,7 +9,12 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  resultPath: false,
+  resultPath: {
+    aliases: ['field'],
+    description:
+      'The path for the result. When using `difficulty` or `height` the field will be filled as the endpoint.',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
