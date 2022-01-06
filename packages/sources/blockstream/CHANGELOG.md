@@ -1,5 +1,11 @@
 # @chainlink/blockstream-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 2473f126: added response types for block height endpoint
+
 ## 1.1.9
 
 ### Patch Changes

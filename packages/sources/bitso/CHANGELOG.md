@@ -1,5 +1,11 @@
 # @chainlink/bitso-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- a183d94a: added response types for convert endpoint
+
 ## 1.1.9
 
 ### Patch Changes

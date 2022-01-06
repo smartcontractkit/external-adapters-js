@@ -1,5 +1,11 @@
 # @chainlink/coinbase-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 9fbe5c6f: added response types for crypto endpoint
+
 ## 1.1.9
 
 ### Patch Changes

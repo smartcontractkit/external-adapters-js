@@ -1,5 +1,14 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [945a659c]
+- Updated dependencies [d80df3e5]
+  - @chainlink/blockchain.com-adapter@1.0.14
+  - @chainlink/btc.com-adapter@1.0.14
+
 ## 1.1.10
 
 ### Patch Changes

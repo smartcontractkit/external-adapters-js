@@ -1,5 +1,11 @@
 # @chainlink/binance-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- 8ee3290d: added response types for crypto endpoint, removed customError function
+
 ## 1.1.5
 
 ### Patch Changes

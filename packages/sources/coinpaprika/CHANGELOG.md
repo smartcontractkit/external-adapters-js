@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.0.15
+
+### Patch Changes
+
+- bc8303ac: added response types for globalmarketcap dominance and crypto endpoints
+
 ## 1.0.14
 
 ### Patch Changes

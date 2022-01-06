@@ -1,5 +1,11 @@
 # @chainlink/nikkei-adapter
 
+## 1.1.8
+
+### Patch Changes
+
+- 118b8955: added response types for stock endpoint, removed customError function
+
 ## 1.1.7
 
 ### Patch Changes

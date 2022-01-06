@@ -1,5 +1,11 @@
 # @chainlink/coinlore-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- f9000994: added response types for global endpoint
+
 ## 1.1.9
 
 ### Patch Changes

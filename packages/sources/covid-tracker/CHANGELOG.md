@@ -1,5 +1,11 @@
 # @chainlink/covid-tracker-adapter
 
+## 1.1.8
+
+### Patch Changes
+
+- 2d163497: added response types for us endpoint
+
 ## 1.1.7
 
 ### Patch Changes

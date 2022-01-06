@@ -1,5 +1,15 @@
 # @chainlink/polygon-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 186c1621: This PR Includes changes for the following adapters: (and their from to to abilities)Polygon: from: many to: manyOpenExchangeRates: from: one to:many1Forge: from: many to: manyTradermade: from: ma
+
+### Patch Changes
+
+- 406506ec: added response types for forex endpoint
+
 ## 1.1.9
 
 ### Patch Changes

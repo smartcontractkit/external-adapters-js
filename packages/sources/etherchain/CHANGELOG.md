@@ -1,5 +1,11 @@
 # @chainlink/etherchain-adapter
 
+## 1.1.10
+
+### Patch Changes
+
+- 69410b05: removed customError function
+
 ## 1.1.9
 
 ### Patch Changes
