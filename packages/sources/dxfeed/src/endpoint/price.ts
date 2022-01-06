@@ -14,7 +14,12 @@ export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: {
+    required: true,
+    aliases: ['from', 'coin', 'market'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 const quoteEventSymbols: { [key: string]: boolean } = {
