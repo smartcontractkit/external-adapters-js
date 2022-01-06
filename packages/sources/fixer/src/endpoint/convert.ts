@@ -25,12 +25,6 @@ export const inputParameters: InputParameters = {
     type: 'number',
     default: 1,
   },
-  overrides: {
-    required: false,
-    description:
-      'If base provided is found in overrides, that will be used (default presets defined [here](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json))',
-    type: 'object',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
