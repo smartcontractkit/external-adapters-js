@@ -121,13 +121,19 @@ describe('execute', () => {
       },
     ]
 
-    request.forEach((req) => {
+    const expectedProviderStatusCodes = [0, 500]
+
+    request.forEach((req, i) => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.input, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError(
+            { expected: expectedProviderStatusCodes[i], actual: errorResp.providerStatusCode },
+            errorResp,
+            jobID,
+          )
         }
       })
     })

@@ -41,9 +41,9 @@ export function currentConditionsTests(context: SuiteContext): void {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(200)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.body.providerStatusCode }, response.body, id)
       })
     })
 
@@ -67,7 +67,7 @@ export function currentConditionsTests(context: SuiteContext): void {
           .expect('Content-Type', /json/)
           .expect(500)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.status }, response.body, id)
       })
 
       it('should throw an exception if the response is missing data', async () => {
@@ -89,7 +89,7 @@ export function currentConditionsTests(context: SuiteContext): void {
           .expect('Content-Type', /json/)
           .expect(500)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.status }, response.body, id)
       })
 
       it('should throw an exception if there is a NaN condition', async () => {
@@ -111,7 +111,7 @@ export function currentConditionsTests(context: SuiteContext): void {
           .expect('Content-Type', /json/)
           .expect(500)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.status }, response.body, id)
       })
     })
   })

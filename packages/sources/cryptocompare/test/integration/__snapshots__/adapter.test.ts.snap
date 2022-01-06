@@ -9,8 +9,9 @@ Object {
     "url": "https:/min-api.cryptocompare.com/data/pricemultifull",
   },
   "jobRunID": "1",
+  "providerStatusCode": 500,
   "status": "errored",
-  "statusCode": 500,
+  "statusCode": 200,
 }
 `;
 
@@ -20,6 +21,7 @@ Object {
     "result": 7694679.153236445,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 7694679.153236445,
   "statusCode": 200,
 }
@@ -31,6 +33,7 @@ Object {
     "result": 0.06543,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 0.06543,
   "statusCode": 200,
 }
@@ -42,6 +45,7 @@ Object {
     "result": 12999.111610148046,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 12999.111610148046,
   "statusCode": 200,
 }

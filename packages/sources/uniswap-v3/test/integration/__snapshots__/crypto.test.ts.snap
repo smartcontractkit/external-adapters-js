@@ -13,6 +13,7 @@ Object {
     "result": 145.41052981159743,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 145.41052981159743,
   "statusCode": 200,
 }
@@ -31,6 +32,7 @@ Object {
     "result": 0.999148,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 0.999148,
   "statusCode": 200,
 }

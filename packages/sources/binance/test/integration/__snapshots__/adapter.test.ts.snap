@@ -6,6 +6,7 @@ Object {
     "result": 0.070773,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 0.070773,
   "statusCode": 200,
 }
@@ -20,7 +21,8 @@ Object {
     "url": "https:/api.binance.com/api/v3/ticker/price",
   },
   "jobRunID": "1",
+  "providerStatusCode": 400,
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 200,
 }
 `;
