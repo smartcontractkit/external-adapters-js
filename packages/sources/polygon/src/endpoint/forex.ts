@@ -36,12 +36,6 @@ export const inputParameters: InputParameters = {
     default: 6,
     type: 'number',
   },
-  overrides: {
-    required: false,
-    description:
-      'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
-    type: 'object',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
