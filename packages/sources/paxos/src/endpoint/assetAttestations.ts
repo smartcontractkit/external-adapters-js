@@ -5,7 +5,10 @@ import { DEFAULT_BASE_URL } from '../config'
 export const supportedEndpoints = ['assetAttestation']
 
 export const inputParameters: InputParameters = {
-  asset: true,
+  asset: {
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
 }
 
 type Attestation = {

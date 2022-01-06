@@ -12,8 +12,16 @@ export const supportedEndpoints = ['forex', 'price']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: {
+    aliases: ['from', 'coin'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+  },
 }
 
 export interface ResponseSchema {
