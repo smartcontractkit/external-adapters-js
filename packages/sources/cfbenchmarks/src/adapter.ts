@@ -29,7 +29,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   }
   const getSubscription = (type: 'subscribe' | 'unsubscribe', id?: string) => {
     if (!id) return
-    return { type, id, stream: 'value' }
+    return { type, id, stream: 'value', cacheID: id } // Temporarily add another key named cacheID that won't be ignored when generating the subscription key in getSubsID
   }
   return () => {
     const defaultConfig = config || makeConfig()

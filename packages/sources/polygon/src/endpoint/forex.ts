@@ -7,7 +7,13 @@ const DEFAULT_PRECISION = 6
 
 export const supportedEndpoints = ['forex', 'price']
 
-const customError = (data: any) => {
+export interface ErrorResponseSchema {
+  status: string
+  request_id: string
+  error: string
+}
+
+const customError = (data: ErrorResponseSchema) => {
   return data.status === 'ERROR'
 }
 
@@ -16,6 +22,17 @@ export const inputParameters: InputParameters = {
   quote: ['quote', 'to'],
   amount: false,
   precision: false,
+}
+
+export interface ResponseSchema {
+  converted: number
+  from: string
+  initialAmount: number
+  last: { ask: number; bid: number; exchange: number; timestamp: number }
+  request_id: string
+  status: string
+  symbol: string
+  to: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -37,7 +54,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['converted'])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['converted'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

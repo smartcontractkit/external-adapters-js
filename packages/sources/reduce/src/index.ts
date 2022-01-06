@@ -3,4 +3,5 @@ import { execute } from './adapter'
 
 const NAME = 'REDUCE'
 
-export = { NAME, execute, ...expose(NAME, execute) }
+const { server } = expose(NAME, execute)
+export { NAME, execute, server }

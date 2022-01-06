@@ -351,6 +351,7 @@ describe('side effect tests', () => {
           actions.warmupUnsubscribed({
             key: batchKeyParent,
             reason: 'Unsubscribe test',
+            isBatched: true,
           }),
         ),
       ).toEqual({})
@@ -369,6 +370,7 @@ describe('side effect tests', () => {
           b: actions.warmupUnsubscribed({
             key: key1,
             reason: 'Unsubscribe test',
+            isBatched: true,
           }),
           c: actions.warmupSubscribed({
             executeFn: stub(),
@@ -408,6 +410,7 @@ describe('side effect tests', () => {
           b: actions.warmupUnsubscribed({
             key: key1,
             reason: 'Unsubscribe test',
+            isBatched: true,
           }),
           c: actions.warmupSubscribed({
             executeFn: stub(),
@@ -653,6 +656,7 @@ describe('side effect tests', () => {
       })
     })
   })
+
   describe('warmupUnsubscriber', () => {
     it('should match on request failures and emit nothing while under the error threshold', () => {
       scheduler.run(({ hot, expectObservable }) => {
@@ -682,7 +686,7 @@ describe('side effect tests', () => {
       scheduler.run(({ hot, expectObservable }) => {
         const action$ = actionStream(hot, 'a', {
           a: actions.warmupFailed({
-            key: key1,
+            key: key2,
             error: Error('We havin a bad time'),
             feedLabel: '{"data":{"data":{"foo":"bar"},"id":"0"}}',
           }),
@@ -690,17 +694,33 @@ describe('side effect tests', () => {
         const state$ = stateStream({
           cacheWarmer: {
             warmups: {
-              [key1]: {
+              [key2]: {
                 error: null,
                 errorCount: 3,
                 successCount: 0,
+              },
+            },
+            subscriptions: {
+              [key2]: {
+                executeFn: async () => null,
+                origin: adapterRequest2,
+                startedAt: Date.now(),
+                isDuplicate: false,
+                batchablePropertyPath: [{ name: 'foo' }],
+                childLastSeenById: {
+                  [key2]: 2,
+                },
               },
             },
           },
         })
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$).toBe('a', {
-          a: actions.warmupUnsubscribed({ key: key1, reason: 'Errored: We havin a bad time' }),
+          a: actions.warmupUnsubscribed({
+            key: key2,
+            isBatched: true,
+            reason: 'Errored: We havin a bad time',
+          }),
         })
       })
     })
@@ -743,11 +763,33 @@ describe('side effect tests', () => {
             result: adapterResult,
           }),
         })
-        const state$ = stateStream({ cacheWarmer: {} })
+        const state$ = stateStream({
+          cacheWarmer: {
+            warmups: {
+              [key2]: {
+                error: null,
+                errorCount: 0,
+                successCount: 0,
+              },
+            },
+            subscriptions: {
+              [key2]: {
+                executeFn: async () => null,
+                origin: adapterRequest2,
+                startedAt: Date.now(),
+                isDuplicate: false,
+                batchablePropertyPath: [{ name: 'foo' }],
+                childLastSeenById: {
+                  [key2]: 2,
+                },
+              },
+            },
+          },
+        })
         const output$ = warmupUnsubscriber(action$, state$, epicDependencies)
         expectObservable(output$, '^ 120m !').toBe('50m -- a 9m 59s 998ms b 40m - a', {
           a: actions.warmupSubscriptionTimeoutReset({ key: key1 }),
-          b: actions.warmupUnsubscribed({ key: key2, reason: 'Timeout' }),
+          b: actions.warmupUnsubscribed({ key: key2, isBatched: true, reason: 'Timeout' }),
         })
       })
     })

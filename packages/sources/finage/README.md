@@ -2,19 +2,21 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                    Options                     | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [eod](#EOD-endpoint), [stock](#Stock-endpoint) |   `stock`   |
+| Required? |   Name   |     Description     |                                               Options                                                | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [eod](#EOD-endpoint), [stock](#Stock-endpoint), [forex](#Forex-endpoint), [crypto](#Crypto-endpoint) |   `stock`   |
 
 ### Configuration
 
 The adapter takes the following environment variables:
 
-| Required? |          Name           |                     Description                     | Options |            Defaults to            |
-| :-------: | :---------------------: | :-------------------------------------------------: | :-----: | :-------------------------------: |
-|    ✅     |        `API_KEY`        |                                                     |         |                                   |
-|           | `STOCK_WS_API_ENDPOINT` | The Websocket endpoint to connect to for stock data |         | `wss://e4s39ar3mr.finage.ws:7002` |
-|           | `FOREX_WS_API_ENDPOINT` | The Websocket endpoint to connect to for forex data |         | `wss://w29hxx2ndd.finage.ws:8001` |
+| Required? |           Name           |                               Description                               | Options |            Defaults to            |
+| :-------: | :----------------------: | :---------------------------------------------------------------------: | :-----: | :-------------------------------: |
+|    ✅     |        `API_KEY`         |   An API key that can be obtained from the data provider's dashboard    |         |                                   |
+|           |     `WS_SOCKET_KEY`      | A WEBSOCKET key that can be obtained from the data provider's dashboard |         |                                   |
+|           | `STOCK_WS_API_ENDPOINT`  |           The Websocket endpoint to connect to for stock data           |         | `wss://e4s39ar3mr.finage.ws:7002` |
+|           | `FOREX_WS_API_ENDPOINT`  |           The Websocket endpoint to connect to for forex data           |         | `wss://w29hxx2ndd.finage.ws:8001` |
+|           | `CRYPTO_WS_API_ENDPOINT` |          The Websocket endpoint to connect to for crypto data           |         | `wss://72x8wsyx7t.finage.ws:6008` |
 
 ---
 
@@ -127,5 +129,41 @@ The result will be calculated as the midpoint between the ask and the bid.
   },
   "result": 6395.5,
   "statusCode": 200
+}
+```
+
+---
+
+## Crypto endpoint
+
+### Input Params
+
+| Required? |            Name             |               Description                | Options | Defaults to |
+| :-------: | :-------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `symbol` |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, or `market`  | The symbol of the currency to convert to |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "BTC",
+    "to": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 51200,
+  "statusCode": 200,
+  "data": {
+    "result": 51200
+  }
 }
 ```

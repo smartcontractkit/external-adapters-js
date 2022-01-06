@@ -11,6 +11,7 @@ export async function generateImageName(): Promise<string> {
   const branch = process.env.BRANCH || ''
   const prefix = process.env.IMAGE_PREFIX || ''
   const useLatest = !!process.env.LATEST
+  const tag = process.env.IMAGE_TAG || ''
 
   if (!descopedName) {
     throw Error(
@@ -18,7 +19,7 @@ export async function generateImageName(): Promise<string> {
     )
   }
 
-  const dockerfile = await generateFileJSON({ prefix, branch, useLatest }, { context: '.' })
+  const dockerfile = await generateFileJSON({ prefix, branch, useLatest, tag }, { context: '.' })
   const adapters = Object.entries(dockerfile.services)
     .filter(([k]) => k === descopedName)
     .map(([, v]) => v.image)

@@ -12,7 +12,7 @@ export type AdapterNames =
   | 'coinmarketcap'
 
 interface AdapterConfig {
-  name: AdapterNames
+  name: AdapterNames | string
   /**
    * How many seconds to wait inbetween each call to this adapter
    */

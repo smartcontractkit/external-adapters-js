@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../../config'
 
-export const supportedEndpoints = ['prices', 'crypto', 'volume']
+export const supportedEndpoints = ['prices', 'crypto', 'volume', 'crypto-synth']
 
 export const endpointResultPaths = {
   prices: 'fxClose',

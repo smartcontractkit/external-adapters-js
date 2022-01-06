@@ -9,7 +9,7 @@ export const ENV_API_USERNAME = 'API_USERNAME'
 export const ENV_API_PASSWORD = 'API_PASSWORD'
 
 export const DEFAULT_ENDPOINT = 'values'
-export const DEFAULT_API_ENDPOINT = 'https://oracleprod1.cfbenchmarks.com/api'
+export const DEFAULT_API_ENDPOINT = 'https://www.cfbenchmarks.com/api'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://www.cfbenchmarks.com/ws/v4'
 
 export const makeConfig = (prefix?: string): Config => {

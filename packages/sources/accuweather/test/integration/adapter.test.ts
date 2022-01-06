@@ -9,6 +9,10 @@ import { locationCurrentConditionsTests } from './location-current-conditions'
 
 let oldEnv: NodeJS.ProcessEnv
 
+export interface SuiteContext {
+  server: http.Server
+}
+
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.API_KEY = 'test_api_key'
@@ -31,17 +35,19 @@ afterAll(() => {
 })
 
 describe('execute', () => {
-  let server: http.Server
+  const context: SuiteContext = {
+    server: null,
+  }
 
   beforeAll(async () => {
-    server = await startServer()
+    context.server = await startServer()
   })
 
   afterAll((done) => {
-    server.close(done)
+    context.server.close(done)
   })
 
-  describe('location endpoint', () => locationTests())
-  describe('current-conditions endpoint', () => currentConditionsTests())
-  describe('location-current-conditions endpoint', () => locationCurrentConditionsTests())
+  describe('location endpoint', () => locationTests(context))
+  describe('current-conditions endpoint', () => currentConditionsTests(context))
+  describe('location-current-conditions endpoint', () => locationCurrentConditionsTests(context))
 })

@@ -16,36 +16,70 @@ const { Requester, Validator } = require('@chainlink/ea-bootstrap')
 
 ## Validator
 
-Custom parameters can be given to the Validator in order to ensure that the requester supplied parameters which are expected by the endpoint.
+Input parameter configuration can be given to the Validator in order to ensure that the requester supplied parameters which are expected by the endpoint.
+
+Here is the type for configuration options (all attributes optional):
 
 ```javascript
-const customParams = {
-  // An array of strings can be used to indicate that one of
-  // the following keys must be supplied by the requester
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  // Specific keys can be given a Boolean flag to indicate
-  // whether or not the requester is required to provide
-  // a value
-  endpoint: false,
+  export type InputParameter = {
+    aliases?: string[]
+    description?: string
+    type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string'
+    required?: boolean
+    options?: any[] // enumerated options, ex. ['ADA', 'BTC', 'ETH']
+    default?: any
+    dependsOn?: string[] // other inputs this one depends on
+    exclusive?: string[] // other inputs that cannot be present with this one
+  }
+  export type InputParameters = {
+    // boolean and string[] are present for backwards compatibility (officially deprecated)
+    [name: string]: InputParameter | boolean | string[]
+  }
+```
+
+Example:
+
+```javascript
+const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'Symbol of base asset for price.',
+    required: true,
+    default: 'BTC',
+    type: 'string',
+    dependsOn: ['quote'],
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'Symbol of quote asset for price.',
+    required: true,
+    default: 'USD',
+    type: 'string',
+    dependsOn: ['base'],
+  },
+  endpoint: {
+    description: 'Alternate endpoint to query.',
+    required: false,
+    type: 'string',
+  },
 }
 ```
 
 ### Validator
 
-The Validator relies on the data supplied in the customParams object to ensure that a requester supplied the expected parameters.
+The Validator relies on the data supplied in the inputParameters object to ensure that a requester supplied the expected parameters.
 
 #### Arguments
 
 - `callback` (Function): The callback function to execute if validation fails
 - `input` (Object): The request payload from the Chainlink node
-- `customParams` (Object): A customParams object as shown above
+- `inputParameters` (Object): A configuration object as shown above
 
 Validation of the requester's input parameters can be done by creating an instance of the Validator.
 
 ```javascript
 // The input data is validated upon instantiating the Validator
-const validator = new Validator(input, customParams)
+const validator = new Validator(input, inputParameters)
 // Check for error, and callback if exists
 if (validator.error) return callback(validator.error.statusCode, validator.errored)
 ```

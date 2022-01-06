@@ -11,6 +11,10 @@ const convert: { [key: string]: string } = {
   BTC: 'bitcoin',
 }
 
+export interface ResponseSchema {
+  [key: string]: string | number
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -23,10 +27,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const symbol: string = validator.validated.data.market.toUpperCase()
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, [
     `${convert[symbol]}_dominance_percentage`,
   ])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

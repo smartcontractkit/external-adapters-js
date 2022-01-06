@@ -1,12 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt pool 1`] = `
+exports[`synthetix-debt-pool errors throws an error if the request contains a source without a chain configuration 1`] = `
 Object {
-  "data": Object {
-    "result": "464590202399031116379217447",
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"chainSources\\":[\\"ethereum-fake\\"]}}",
+    "message": "Missing configuration for chain: ETHEREUM-FAKE",
+    "name": "AdapterError",
   },
   "jobRunID": 1,
-  "result": "464590202399031116379217447",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt pool across all chains if chainSources is empty 1`] = `
+Object {
+  "data": Object {
+    "result": "325481815165042223715009953",
+  },
+  "jobRunID": 1,
+  "result": "325481815165042223715009953",
+  "statusCode": 200,
+}
+`;
+
+exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt pool across all chains if chainSources is missing 1`] = `
+Object {
+  "data": Object {
+    "result": "325481815165042223715009953",
+  },
+  "jobRunID": 1,
+  "result": "325481815165042223715009953",
+  "statusCode": 200,
+}
+`;
+
+exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt pool for only one chain 1`] = `
+Object {
+  "data": Object {
+    "result": "274504021465419663278269593",
+  },
+  "jobRunID": 1,
+  "result": "274504021465419663278269593",
   "statusCode": 200,
 }
 `;
