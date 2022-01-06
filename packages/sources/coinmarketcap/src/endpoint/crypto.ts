@@ -74,11 +74,6 @@ export const inputParameters: InputParameters = {
     required: false,
     type: 'string',
   },
-  overrides: {
-    description:
-      'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
-    type: 'object',
-  },
   resultPath: {
     description: 'The path for the result',
     required: false,
