@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.4.1
+
+### Patch Changes
+
+- 5c57c317: Fix input param types for batchable properties
+
 ## 1.4.0
 
 ### Minor Changes
