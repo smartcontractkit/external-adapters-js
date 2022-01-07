@@ -10,13 +10,13 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
+| Required? |   Name   |     Description     |                         Options                         | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [convert](#Convert-Endpoint) [latest](#Latest-Endpoint) |   latest    |
 
 ---
 
-## Price Endpoint
+## Convert Endpoint
 
 ### Input Params
 

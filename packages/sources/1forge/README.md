@@ -10,15 +10,13 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                       Options                        | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [forex](#Forex-Endpoint), [quotes](#Quotes-Endpoint) |    forex    |
+| Required? |   Name   |     Description     |                         Options                          | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [quotes](#Quotes-Endpoint), [convert](#Convert-Endpoint) |   convert   |
 
 ---
 
-## Forex Endpoint
-
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
+## Convert Endpoint
 
 [`/convert`](https://1forge.com/api#convert) - Convert from one currency to another
 
@@ -48,6 +46,8 @@
 ```
 
 ## Quotes Endpoint
+
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `quotes` endpoint instead.
 
 #### Returns a batched price comparison from a list currencies to a list of other currencies.
 

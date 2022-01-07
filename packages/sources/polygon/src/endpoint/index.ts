@@ -1,2 +1,2 @@
 export * as forex from './forex'
-export * as tickers from './tickers'
+export * as conversion from './conversion'
