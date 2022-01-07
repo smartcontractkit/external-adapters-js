@@ -22,9 +22,23 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  symbol: true,
-  network: false,
-  chainId: false,
+  symbol: {
+    description: 'The symbol of the currency to query (`BTC`, `ETH`, `LTC`, etc.).',
+    type: 'string',
+    required: true,
+  },
+  network: {
+    description:
+      'The network of the currency to query (`ethereum`, `bitcoin`, `litecoin`, `stellar`, etc.).',
+    required: false,
+    type: 'string',
+  },
+  chainId: {
+    description: 'The chainId of the currency to query',
+    required: false,
+    type: 'string',
+    default: 'mainnet',
+  },
 }
 
 const networks: Networks = {
@@ -52,7 +66,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol
-  const chainId = validator.validated.data.chainId || 'mainnet'
+  const chainId = validator.validated.data.chainId
   const network = validator.validated.data.network || networks[symbol]
   const url = `/deposits`
 

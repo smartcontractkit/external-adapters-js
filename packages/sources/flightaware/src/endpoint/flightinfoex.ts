@@ -39,9 +39,20 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  departure: true,
-  flight: true,
-  resultPath: false,
+  departure: {
+    required: true,
+    description: 'The departure time of the flight as a UNIX timestamp in seconds',
+    type: 'number',
+  },
+  flight: {
+    required: true,
+    description: 'The flight ID',
+    type: 'string',
+  },
+  resultPath: {
+    required: false,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

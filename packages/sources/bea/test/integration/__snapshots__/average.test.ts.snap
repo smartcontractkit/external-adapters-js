@@ -6,6 +6,7 @@ Object {
     "result": 115.85033333333334,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 115.85033333333334,
   "statusCode": 200,
 }

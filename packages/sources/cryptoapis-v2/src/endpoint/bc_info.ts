@@ -31,9 +31,24 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  blockchain: ['blockchain', 'coin'],
-  endpoint: false,
-  network: false,
+  blockchain: {
+    aliases: ['coin', 'market'],
+    description: 'The blockchain to retrieve info for',
+    options: ['BTC', 'ETH', 'LTC', 'ETC', 'BCH', 'DOGE', 'DASH'],
+    required: true,
+    type: 'string',
+  },
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
+  network: {
+    description: 'The blockchain network name',
+    default: 'mainnet',
+    required: true,
+    type: 'string',
+  },
 }
 
 const payloadDataPaths: { [key: string]: string[] } = {

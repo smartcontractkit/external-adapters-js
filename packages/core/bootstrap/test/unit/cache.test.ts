@@ -1,6 +1,7 @@
 import { AdapterContext, Execute } from '@chainlink/types'
 import { useFakeTimers } from 'sinon'
 import { defaultOptions, withCache } from '../../src/lib/cache'
+import { LocalLRUCache } from '../../src/lib/cache/local'
 
 const callAndExpect = async (fn: any, n: number, result: any) => {
   while (n--) {
@@ -23,6 +24,11 @@ const counterFrom =
   }
 
 describe('cache', () => {
+  afterEach(() => {
+    // We need to reset the local cache instance after each test so that we can start a fresh test with notihing cached
+    LocalLRUCache.cacheInstance = null
+  })
+
   describe('options defaults', () => {
     beforeEach(() => {
       delete process.env.CACHE_ENABLED

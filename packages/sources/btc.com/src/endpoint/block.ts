@@ -43,7 +43,11 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  resultPath: false,
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -59,12 +63,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
+  const response = await Requester.request<ResponseSchema>(options)
 
-  response.data.result = Requester.validateResultNumber(response.data as ResponseSchema, [
-    'data',
-    resultPath,
-  ])
+  const result = Requester.validateResultNumber(response.data, ['data', resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

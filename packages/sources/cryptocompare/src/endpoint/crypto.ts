@@ -126,10 +126,26 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'fsym'],
-  quote: ['quote', 'to', 'market', 'tsyms'],
-  resultPath: false,
-  endpoint: false,
+  base: {
+    aliases: ['from', 'coin', 'fsym'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market', 'tsym'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
+  endpoint: {
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (

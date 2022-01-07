@@ -1,5 +1,32 @@
 # @chainlink/eodhistoricaldata-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 307d3954: input param changes
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.10
+
+### Patch Changes
+
+- e804f9df: added response types for stock endpoint, removed customError function
+
 ## 1.1.9
 
 ### Patch Changes

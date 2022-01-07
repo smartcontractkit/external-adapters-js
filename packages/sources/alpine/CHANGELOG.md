@@ -1,5 +1,24 @@
 # @chainlink/alpine-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- bea9f065: input parameters changed
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+
 ## 1.0.2
 
 ### Patch Changes

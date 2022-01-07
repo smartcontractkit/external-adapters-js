@@ -7,6 +7,7 @@ export function mockCoinpaprikaAdapterResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         result: 12.049759759496,
         statusCode: 200,
         data: { result: 12.049759759496 },

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/augur-adapter",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "Chainlink augur adapter.",
   "keywords": [
     "Chainlink",
@@ -41,7 +41,7 @@
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/luxon": "1.27.1",
-    "@types/node": "14.17.34",
+    "@types/node": "16.11.19",
     "typescript": "4.3.5"
   }
 }

@@ -7,9 +7,24 @@ export const supportedEndpoints = ['convert', 'price']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  amount: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  amount: {
+    description: 'An amount of the currency',
+    required: false,
+    type: 'number',
+    default: 1,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -20,7 +35,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/convert`
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
-  const amount = validator.validated.data.amount || 1
+  const amount = validator.validated.data.amount
 
   const params = {
     ...config.api.params,

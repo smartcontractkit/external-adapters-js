@@ -1,5 +1,34 @@
 # @chainlink/blockchain.com-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- bea9f065: input parameters changed
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-factories@1.0.15
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-factories@1.0.14
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.14
+
+### Patch Changes
+
+- 945a659c: added response types for balance, difficulty and height endpoints
+
 ## 1.0.13
 
 ### Patch Changes

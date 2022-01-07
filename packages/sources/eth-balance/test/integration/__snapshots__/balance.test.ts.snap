@@ -15,6 +15,7 @@ Object {
     ],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Array [
     Object {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
@@ -40,6 +41,7 @@ Object {
     ],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Array [
     Object {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",

@@ -1,5 +1,26 @@
 # @chainlink/lotus-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- 1f4d0ca5: Input param changes
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/json-rpc-adapter@1.1.11
+
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/json-rpc-adapter@1.1.10
+
 ## 2.0.0
 
 ### Major Changes

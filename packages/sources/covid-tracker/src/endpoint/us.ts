@@ -8,8 +8,15 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  resultPath: false,
-  date: false,
+  resultPath: {
+    aliases: ['field'],
+    description: 'The object path to access the value that will be returned as the result',
+    default: 'death',
+    type: 'string',
+  },
+  date: {
+    description: 'The date to query formatted by `[YEAR][MONTH][DAY]` (e.g. `20201012`)',
+  },
 }
 
 const validDate = (date: string) => {
