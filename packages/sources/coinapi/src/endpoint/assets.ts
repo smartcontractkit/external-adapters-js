@@ -40,7 +40,6 @@ export const inputParameters: InputParameters = {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to convert to ',
     required: true,
-    type: 'string',
   },
   resultPath: {
     description: 'The path for the result',

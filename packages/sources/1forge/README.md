@@ -81,8 +81,7 @@
   "debug": {
     "staleness": 0,
     "performance": 0.340576126,
-    "providerCost": 1,
-    "batchablePropertyPath": ["from", "to"]
+    "providerCost": 1
   },
   "statusCode": 200,
   "data": {
