@@ -16,7 +16,6 @@ export const inputParameters: InputParameters = {
     required: true,
     aliases: ['from', 'symbol'],
     description: 'The symbol of the currency to query',
-    type: 'string',
   },
 }
 
