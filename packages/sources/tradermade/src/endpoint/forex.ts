@@ -14,20 +14,18 @@ import { NAME } from '../config'
  */
 
 export const supportedEndpoints = ['forex']
-export const batchablePropertyPath = [{ name: 'from' }, { name: 'to' }]
+export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'symbol', 'market'],
     required: true,
     description: 'The symbol of the currency to query',
-    type: 'string',
   },
   quote: {
     aliases: ['to', 'market', 'convert'],
     required: true,
     description: 'The quote currency',
-    type: 'string',
   },
 }
 
