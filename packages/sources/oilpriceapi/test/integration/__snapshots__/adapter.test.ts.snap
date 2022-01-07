@@ -15,11 +15,11 @@ Object {
 exports[`execute oilprice api wti should return success 1`] = `
 Object {
   "data": Object {
-    "result": 70.71,
+    "result": 71.47,
   },
   "jobRunID": "1",
-  "maxAge": 90000,
-  "result": 70.71,
+  "providerStatusCode": 200,
+  "result": 71.47,
   "statusCode": 200,
 }
 `;

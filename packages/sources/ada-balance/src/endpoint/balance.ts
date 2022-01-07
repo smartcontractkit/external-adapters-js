@@ -14,7 +14,12 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  addresses: ['addresses', 'result'],
+  addresses: {
+    aliases: ['result'],
+    description: 'An array of addresses to query balances for',
+    type: 'array',
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

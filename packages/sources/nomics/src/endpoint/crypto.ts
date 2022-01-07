@@ -104,11 +104,6 @@ export const inputParameters: InputParameters = {
   resultPath: {
     required: false,
   },
-  overrides: {
-    required: false,
-    description:
-      'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
-  },
 }
 
 const convertId: Record<string, string> = {

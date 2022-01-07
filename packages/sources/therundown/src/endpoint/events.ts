@@ -4,9 +4,20 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['events']
 
 export const inputParameters: InputParameters = {
-  sportId: true,
-  date: true,
-  status: false,
+  sportId: {
+    required: true,
+    description: 'The ID of the sport to get events from',
+  },
+  date: {
+    required: true,
+    description: 'The date to get events from',
+    type: 'string',
+  },
+  status: {
+    required: false,
+    description: 'Optional status param to filter events on',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {

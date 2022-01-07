@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tiingo-adapter",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Chainlink tiingo adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "14.17.34",
+    "@types/node": "16.11.19",
     "@types/supertest": "2.0.11",
     "nock": "13.2.1",
     "supertest": "6.1.6",

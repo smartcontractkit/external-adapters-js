@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 1.6.0
+
+### Minor Changes
+
+- f272a595: Implement cache fallback method
+- 1d55bbde: Change data provider error surfacing, return 200 and use new providerStatusCode field
+
 ## 1.5.0
 
 ### Minor Changes

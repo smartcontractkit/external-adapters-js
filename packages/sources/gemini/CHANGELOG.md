@@ -1,5 +1,18 @@
 # @chainlink/gemini-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- 6feacbc2: Input param changes
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.0.1
 
 ### Patch Changes

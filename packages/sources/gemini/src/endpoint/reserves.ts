@@ -10,9 +10,24 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  token: ['token', 'asset', 'coin'],
-  network: false,
-  chainId: false,
+  token: {
+    required: true,
+    aliases: ['asset', 'coin'],
+    description: 'The symbol of the token to query',
+    default: 'EFIL',
+    type: 'string',
+  },
+  chainId: {
+    required: false,
+    description: 'An identifier for which network of the blockchain to use',
+    type: 'string',
+    default: 'mainnet',
+  },
+  network: {
+    required: false,
+    type: 'string',
+    default: 'filecoin',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

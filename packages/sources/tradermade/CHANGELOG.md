@@ -1,5 +1,19 @@
 ## v1.1.0
 
+## 1.4.0
+
+### Minor Changes
+
+- ccf9d4fa: input parameters changed
+
+### Patch Changes
+
+- e3f8f92d: added response types for live endpoint
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.3.1
 
 ### Patch Changes

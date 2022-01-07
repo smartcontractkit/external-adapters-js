@@ -8,11 +8,29 @@ const customError = (data: ResponseSchema) => {
 }
 
 export const inputParameters: InputParameters = {
-  address: true,
-  debug: false,
-  roundDay: false,
-  start: false,
-  end: false,
+  address: {
+    description: 'Uniswap pool **checksum address**',
+    type: 'string',
+    required: true,
+  },
+  debug: {
+    description: 'Switch to show `raw` trade value',
+    type: 'boolean',
+    default: false,
+  },
+  roundDay: {
+    description: 'Round the start and end to midnight UTC',
+    type: 'boolean',
+    default: false,
+  },
+  start: {
+    description: 'Epoch timestamp in seconds. Defaults to current time - 24hrs.',
+    type: 'string',
+  },
+  end: {
+    description: 'Epoch timestamp in seconds. Defaults to current time.',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -93,8 +111,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   // TODO: validate this is a checksum address
   const address = validator.validated.data.address
-  const debug = validator.validated.data.debug || false
-  const roundDay = validator.validated.data.roundDay || false
+  const debug = validator.validated.data.debug
+  const roundDay = validator.validated.data.roundDay
   let start = validator.validated.data.start
   let end = validator.validated.data.end
 

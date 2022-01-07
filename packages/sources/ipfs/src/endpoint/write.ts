@@ -6,26 +6,55 @@ import { IPFSPath } from './read'
 
 export const supportedEndpoints = ['write']
 
-const customParams = {
-  data: true,
-  codec: false,
-  cidVersion: false,
-  type: false,
-  format: false,
-  hashAlg: false,
+const inputParameters = {
+  data: {
+    required: true,
+    description: 'The data to write',
+  },
+  codec: {
+    required: false,
+    description: 'The codec to convert the data, if necessary when type is `raw`',
+    type: 'string',
+    options: ['json', 'dag-cbor'],
+  },
+  cidVersion: {
+    required: false,
+    description: 'The CID version to be returned',
+    type: 'number',
+    default: 0,
+  },
+  type: {
+    required: false,
+    description: 'The type of data to read',
+    type: 'string',
+    options: ['raw', 'dag'],
+    default: 'raw',
+  },
+  format: {
+    required: false,
+    description: 'The DAG format to use',
+    type: 'string',
+    default: 'dag-cbor',
+  },
+  hashAlg: {
+    required: false,
+    description: 'The DAG hashing algorithm to use',
+    type: 'string',
+    default: 'sha2-256',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const data = validator.validated.data.data
   const codec = validator.validated.data.codec
-  const cidVersion = validator.validated.data.cidVersion || 0
-  const type = validator.validated.data.type || 'raw'
-  const format = validator.validated.data.format || 'dag-cbor'
-  const hashAlg = validator.validated.data.hashAlg || 'sha2-256'
+  const cidVersion = validator.validated.data.cidVersion
+  const type = validator.validated.data.type
+  const format = validator.validated.data.format
+  const hashAlg = validator.validated.data.hashAlg
 
   const client = create({ url: config.api.baseURL })
   const options = { cidVersion }

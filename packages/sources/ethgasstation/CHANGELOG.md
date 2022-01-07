@@ -1,5 +1,19 @@
 # @chainlink/ethgasstation-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 307d3954: input param changes
+
+### Patch Changes
+
+- a9fade7b: added response types for gasprice endpoint
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.11
 
 ### Patch Changes

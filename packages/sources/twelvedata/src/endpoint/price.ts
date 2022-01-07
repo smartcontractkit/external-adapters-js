@@ -7,7 +7,12 @@ export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: {
+    aliases: ['from', 'coin', 'market', 'symbol'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 interface ResponseSchema {

@@ -35,7 +35,13 @@ interface ErrorSchema {
 const customError = (data: ErrorSchema) => data.status === '0'
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    type: 'string',
+    options: ['safe', 'medium', 'fast'],
+    default: 'fast',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
