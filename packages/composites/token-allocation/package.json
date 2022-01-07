@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-adapter",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Chainlink token allocation adapter",
   "keywords": [
     "Chainlink",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "14.17.34",
+    "@types/node": "16.11.19",
     "nock": "13.2.1",
     "typescript": "4.3.5"
   }

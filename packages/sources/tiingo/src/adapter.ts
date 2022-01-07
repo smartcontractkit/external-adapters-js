@@ -102,21 +102,21 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return `${baseURL}/crypto-synth`
   }
 
-  const getSubscription = (ticker: string | undefined, subscribe = true) => {
-    const defaultConfig = config || makeConfig()
-    if (!ticker) return
-    return {
-      eventName: subscribe ? 'subscribe' : 'unsubscribe',
-      authorization: defaultConfig?.apiKey,
-      eventData: {
-        thresholdLevel: ticker.includes('/') ? 6 : 5, // Crypto is the only ticker type that uses "/", and should use level 6 for synthetic updates
-        tickers: [ticker],
-      },
-    }
-  }
-
   return () => {
     const defaultConfig = config || makeConfig()
+
+    const getSubscription = (ticker: string | undefined, subscribe = true) => {
+      if (!ticker) return
+      return {
+        eventName: subscribe ? 'subscribe' : 'unsubscribe',
+        authorization: defaultConfig?.apiKey,
+        eventData: {
+          thresholdLevel: ticker.includes('/') ? 6 : 5, // Crypto is the only ticker type that uses "/", and should use level 6 for synthetic updates
+          tickers: [ticker],
+        },
+      }
+    }
+
     return {
       connection: {
         getUrl: async (input) =>
