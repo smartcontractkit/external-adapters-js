@@ -1,5 +1,22 @@
 # @chainlink/ea
 
+## 1.0.29
+
+### Patch Changes
+
+- Updated dependencies [2adbb4a3]
+- Updated dependencies [5c57c317]
+  - @chainlink/btc.com-adapter@1.2.0
+  - @chainlink/coinapi-adapter@1.1.1
+  - @chainlink/coingecko-adapter@1.1.1
+  - @chainlink/coinmarketcap-adapter@1.3.1
+  - @chainlink/coinpaprika-adapter@1.1.1
+  - @chainlink/cryptocompare-adapter@1.2.1
+  - @chainlink/dxfeed-adapter@1.2.1
+  - @chainlink/finage-adapter@1.3.1
+  - @chainlink/tradermade-adapter@1.4.1
+  - @chainlink/dxfeed-secondary-adapter@1.1.13
+
 ## 1.0.28
 
 ### Patch Changes

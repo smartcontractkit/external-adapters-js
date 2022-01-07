@@ -1,5 +1,16 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 2adbb4a3: Btc.com src export change
+
+### Patch Changes
+
+- Updated dependencies [2adbb4a3]
+  - @chainlink/btc.com-adapter@1.2.0
+
 ## 1.2.0
 
 ### Minor Changes

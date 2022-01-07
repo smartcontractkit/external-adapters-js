@@ -1,5 +1,11 @@
 # @chainlink/cryptocompare-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 5c57c317: Fix input param types for batchable properties
+
 ## 1.2.0
 
 ### Minor Changes
