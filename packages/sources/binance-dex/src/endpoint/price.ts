@@ -1,15 +1,26 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { DEFAULT_DATA_ENDPOINT } from '../config'
 
 export const NAME = 'price'
 
 const customError = (data: ResponseSchema[]) => data.length === 0
 
-const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  endpoint: false,
+export const supportedEndpoints = ['price']
+
+export const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -39,7 +50,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

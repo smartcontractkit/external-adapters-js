@@ -6,6 +6,7 @@ Object {
     "result": 50940.12,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 50940.12,
   "statusCode": 200,
 }
@@ -17,6 +18,7 @@ Object {
     "result": 26.3,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 26.3,
   "statusCode": 200,
 }
@@ -28,6 +30,7 @@ Object {
     "result": 1.3443049999999999,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 1.3443049999999999,
   "statusCode": 200,
 }
@@ -39,6 +42,7 @@ Object {
     "result": 25.8,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 25.8,
   "statusCode": 200,
 }
@@ -54,7 +58,8 @@ Object {
     "url": "https:/api.finage.co.uk/last/stock/NON-EXISTING",
   },
   "jobRunID": "1",
+  "providerStatusCode": 400,
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 200,
 }
 `;

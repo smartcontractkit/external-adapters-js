@@ -1,15 +1,16 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
-export const NAME = 'lockedgold' // This should be filled in with a lowercase name corresponding to the API endpoint
+export const supportedEndpoints = ['lockedGold']
 
-const customParams = {}
+export const inputParameters: InputParameters = {}
+
 export interface ResponseSchema {
   grams_locked: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

@@ -64,6 +64,7 @@ export function mockTiingoResponse() {
     .post('/', { id: '1', data: { base: 'USDC', quote: 'USD', endpoint: 'price' } })
     .reply(200, {
       jobRunID: '1',
+      providerStatusCode: 200,
       data: {
         sources: [],
         payload: {
@@ -92,6 +93,7 @@ export function mockTiingoResponse() {
     .post('/', { id: '1', data: { base: 'WETH', quote: 'USD', endpoint: 'price' } })
     .reply(200, {
       jobRunID: '1',
+      providerStatusCode: 200,
       data: {
         sources: [],
         payload: {

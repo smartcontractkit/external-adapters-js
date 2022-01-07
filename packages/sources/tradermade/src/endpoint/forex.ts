@@ -1,5 +1,11 @@
-import { ExecuteWithConfig, Config, AdapterRequest, AxiosResponse } from '@chainlink/types'
 import { Validator, Requester, util } from '@chainlink/ea-bootstrap'
+import {
+  ExecuteWithConfig,
+  Config,
+  AdapterRequest,
+  AxiosResponse,
+  InputParameters,
+} from '@chainlink/types'
 import { NAME } from '../config'
 
 /**
@@ -10,9 +16,19 @@ import { NAME } from '../config'
 export const supportedEndpoints = ['forex']
 export const batchablePropertyPath = [{ name: 'from' }, { name: 'to' }]
 
-export const customParams = {
-  base: ['base', 'from', 'symbol', 'market'],
-  quote: ['quote', 'to', 'market', 'convert'],
+export const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'symbol', 'market'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market', 'convert'],
+    required: true,
+    description: 'The quote currency',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -58,7 +74,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
   Requester.logConfig(config)
 

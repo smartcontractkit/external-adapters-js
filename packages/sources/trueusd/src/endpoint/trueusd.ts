@@ -1,12 +1,20 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const NAME = 'trueusd'
 
+export const supportedEndpoints = ['trueusd']
+
 const customError = (data: any) => data.Response === 'Error'
 
-const customParams = {
-  resultPath: false,
+export const inputParameters: InputParameters = {
+  resultPath: {
+    description: 'The data point to return from the API response data',
+    options: ['totalTrust', 'totalToken'],
+    default: 'totalTrust',
+    required: false,
+    type: 'string',
+  },
 }
 
 interface ResponseSchema {
@@ -23,11 +31,11 @@ interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const resultPath = validator.validated.data.resultPath || 'totalTrust'
+  const resultPath = validator.validated.data.resultPath
   const url = '/trusttoken/TrueUSD'
 
   const options = { ...config.api, url }

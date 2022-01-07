@@ -5,9 +5,24 @@ import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
 export const supportedEndpoints = ['stock', 'eod']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  interval: false,
-  limit: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  interval: {
+    required: false,
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+    default: '1min',
+  },
+  limit: {
+    required: false,
+    description: 'The limit for number of results',
+    type: 'number',
+    default: 1,
+  },
 }
 
 export interface ResponseSchema {

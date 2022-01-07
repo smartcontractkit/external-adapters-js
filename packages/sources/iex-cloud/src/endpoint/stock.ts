@@ -6,7 +6,12 @@ import { ResponseSchema } from './eod'
 export const supportedEndpoints = ['stock']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'asset', 'symbol'],
+  base: {
+    aliases: ['from', 'coin', 'asset', 'symbol'],
+    description: 'The symbol to query',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

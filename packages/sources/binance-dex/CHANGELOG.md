@@ -1,5 +1,18 @@
 # @chainlink/binance-dex-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- bea9f065: input parameters changed
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.11
 
 ### Patch Changes

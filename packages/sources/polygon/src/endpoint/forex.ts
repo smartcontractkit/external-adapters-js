@@ -18,10 +18,30 @@ const customError = (data: ErrorResponseSchema) => {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
-  amount: false,
-  precision: false,
+  base: {
+    aliases: ['from'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
+  amount: {
+    required: false,
+    description: 'The amount of the `base` to convert ',
+    default: 1,
+    type: 'number',
+  },
+  precision: {
+    required: false,
+    description: 'The number of significant figures to include',
+    default: 6,
+    type: 'number',
+  },
 }
 
 export interface ResponseSchema {

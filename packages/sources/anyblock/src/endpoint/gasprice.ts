@@ -9,7 +9,12 @@ const customError = (data: ResponseSchema) => {
 }
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    description: 'The desired speed',
+    type: 'string',
+    default: 'standard',
+    options: ['slow', 'standard', 'fast', 'instant'],
+  },
 }
 
 export interface ResponseSchema {

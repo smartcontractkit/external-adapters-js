@@ -7,9 +7,22 @@ export const supportedEndpoints = ['convert', 'price']
 const customError = (data: ResponseSchema) => !data.success
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  amount: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+  },
+  amount: {
+    required: false,
+    type: 'number',
+    description: 'The amount fo the `base` currency',
+    default: 1,
+  },
 }
 
 export interface ResponseSchema {
@@ -29,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
-  const amount = validator.validated.data.amount || 1
+  const amount = validator.validated.data.amount
   const url = `convert`
 
   const params = {
