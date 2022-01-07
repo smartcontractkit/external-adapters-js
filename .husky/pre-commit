@@ -1,15 +1,15 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn generate:readme -a
+STAGED_FILES=$(git diff --name-only --cached)
+
+yarn generate:readme -f $STAGED_FILES
 README_GENERATOR_EXIT_CODE=$?
 
 if [ $README_GENERATOR_EXIT_CODE -ne 0 ]; then
     echo "README(s) could not be generated. Aborting commit."
     exit 1
 else
-    README_FILES=$(git diff --name-only)
-    git add $README_FILES
     echo "README(s) generated successfully."
 fi
 
