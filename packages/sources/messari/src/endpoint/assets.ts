@@ -8,14 +8,52 @@ export const endpointResultPaths = {
   assets: 'marketcap.marketcap_dominance_percent',
 }
 
-const customError = (data: any) => {
-  if (data.Response === 'Error') return true
-  return false
+export const inputParameters: InputParameters = {
+  base: {
+    required: true,
+    aliases: ['market', 'to', 'quote'],
+    type: 'string',
+    description: 'The symbol of the currency to',
+  },
+  resultPath: {
+    required: false,
+    description:
+      'The object path to access the value that will be returned as the result. Deeply nested values can be accessed with a `.` delimiter.',
+    type: 'string',
+    default: 'marketcap.marketcap_dominance_percent',
+  },
 }
 
-export const inputParameters: InputParameters = {
-  base: ['base', 'market', 'to', 'quote'],
-  resultPath: false,
+export interface ResponseSchema {
+  status: {
+    elapsed: number
+    timestamp: string
+  }
+  data: {
+    id: string
+    symbol: string
+    name: string
+    slug: string
+    contract_addresses: string
+    _internal_temp_agora_id: string
+    market_data: Record<string, number | string | Record<string, number>>
+    marketcap: {
+      rank: number
+      marketcap_dominance_percent: number
+      current_marketcap_usd: number
+      y_2050_marketcap_usd: number
+      y_plus10_marketcap_usd: number
+      liquid_marketcap_usd: number
+      volume_turnover_last_24_hours_percent: number
+      realized_marketcap_usd: number
+      outstanding_marketcap_usd: number
+    }
+    supply: Record<string, number>
+    blockchain_stats_24_hours: Record<string, number>
+    all_time_high: Record<string, number | string>
+    cycle_low: Record<string, number | string>
+    supply_activity: Record<string, number>
+  }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -32,8 +70,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', resultPath])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['data', resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

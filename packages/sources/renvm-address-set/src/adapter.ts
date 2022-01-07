@@ -5,6 +5,7 @@ import { btc } from './coins'
 import { DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT, makeConfig } from './config'
 import {
   getTokenName,
+  getTokenNetwork,
   isAsset,
   isRenContract,
   isRenNetwork,
@@ -66,11 +67,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const address = await _getAddress()
+  const coin = getTokenName(renContract)
   const result = [
     {
       address,
-      coin: getTokenName(renContract).toLowerCase(),
-      chain: network,
+      coin: coin.toLowerCase(),
+      network: getTokenNetwork(coin),
+      chainId: network,
     },
   ]
 

@@ -3,14 +3,34 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['stock', 'price']
 
-const customError = (data: any) => data.Response === 'Error'
-
 const commonKeys: Record<string, string> = {
   N225: 'nk225',
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
+  base: {
+    aliases: ['from', 'coin'],
+    description:
+      'The symbol of the index to query [list](https://indexes.nikkei.co.jp/en/nkave/index)',
+    required: true,
+  },
+}
+
+export interface ResponseSchema {
+  price: string
+  diff: string
+  diff_xs: string
+  price_diff: string
+  datedtime: string
+  datedtime_nkave: string
+  open_price: string
+  opentime: string
+  high_price: string
+  hightime: string
+  low_price: string
+  lowtime: string
+  divisor: string
+  divisor_date: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -34,7 +54,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig, customError)
-  response.data.result = parseFloat(response.data.price.replace(',', ''))
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const price = response.data.price.replace(',', '')
+  const result = Requester.validateResultNumber({ result: price }, ['result'])
+
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

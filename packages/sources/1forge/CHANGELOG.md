@@ -1,5 +1,33 @@
 # @chainlink/1forge-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- bea9f065: input parameters changed
+
+### Patch Changes
+
+- 54777505: added response types
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 186c1621: This PR Includes changes for the following adapters: (and their from to to abilities)Polygon: from: many to: manyOpenExchangeRates: from: one to:many1Forge: from: many to: manyTradermade: from: ma
+
 ## 1.1.10
 
 ### Patch Changes

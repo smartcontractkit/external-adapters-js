@@ -140,6 +140,7 @@ export interface SubscriptionsState {
       subscriptionParams?: any
       connectionKey: string
       shouldNotRetry?: boolean
+      lastUpdatedAt?: number
     }
   }
 }
@@ -216,6 +217,11 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     builder.addCase(actions.disconnectFulfilled, (state) => {
       state.all = {}
       return state
+    })
+
+    builder.addCase(actions.messageReceived, (state, action) => {
+      const key = action.payload.subscriptionKey
+      state.all[key].lastUpdatedAt = action.payload.timestamp
     })
 
     builder.addMatcher(
