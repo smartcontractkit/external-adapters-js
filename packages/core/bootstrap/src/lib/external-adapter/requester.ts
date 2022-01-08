@@ -109,7 +109,7 @@ export class Requester {
       throw new AdapterError({ message })
     }
     if (Number(result) === 0 || isNaN(Number(result))) {
-      const message = 'Invalid result'
+      const message = 'Invalid result received'
       logger.error(message, { data, path })
       throw new AdapterError({ message })
     }
