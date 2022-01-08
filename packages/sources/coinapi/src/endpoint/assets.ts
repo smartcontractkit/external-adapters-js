@@ -36,8 +36,17 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to convert to ',
+    required: true,
+  },
+  resultPath: {
+    description: 'The path for the result',
+    default: 'result',
+    required: false,
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (

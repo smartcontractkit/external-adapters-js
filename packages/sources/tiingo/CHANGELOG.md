@@ -1,5 +1,51 @@
 ## v1.1.0
 
+## 1.6.1
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.6.0
+
+### Minor Changes
+
+- 427e27da: only create default config once for tiingo ws
+
+### Patch Changes
+
+- f26b3896: added response types
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.5.0
+
+### Minor Changes
+
+- 9b3cd511: limit number of times ws message handled
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.4.0
+
+### Minor Changes
+
+- cd01b0c5: Change crypto WS endpoint and fix incorrect WS cache key usage
+
+## 1.3.0
+
+### Minor Changes
+
+- 56be0406: fix ws
+
 ## 1.2.10
 
 ### Patch Changes

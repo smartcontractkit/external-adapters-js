@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ipfs-adapter",
-  "version": "1.0.13",
+  "version": "1.1.1",
   "description": "Chainlink IPFS adapter.",
   "keywords": [
     "Chainlink",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "14.17.34",
+    "@types/node": "16.11.19",
     "nock": "13.2.1",
     "type-fest": "2.6.0",
     "typescript": "4.3.5"

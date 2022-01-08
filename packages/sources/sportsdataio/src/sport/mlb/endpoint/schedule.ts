@@ -26,6 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       result: encodedGames,
     },
     result: encodedGames,
+    status: 200,
   }
   return Requester.success(jobRunID, respData, config.verbose)
 }

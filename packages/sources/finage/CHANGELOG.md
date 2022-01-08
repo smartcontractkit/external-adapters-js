@@ -1,5 +1,40 @@
 ## v1.1.0
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.1
+
+### Patch Changes
+
+- 5c57c317: Fix input param types for batchable properties
+
+## 1.3.0
+
+### Minor Changes
+
+- 6feacbc2: Input param changes
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.6
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.5
 
 ### Patch Changes

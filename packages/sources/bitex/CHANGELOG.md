@@ -1,5 +1,34 @@
 # @chainlink/bitex-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.0
+
+### Minor Changes
+
+- bea9f065: input parameters changed
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.10
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.9
 
 ### Patch Changes

@@ -1,5 +1,40 @@
 # @chainlink/agoric-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.0.0
+
+### Major Changes
+
+- 7d08e489: Agoric \$LINK is now 18 decimal places and serialised as a string.
+
+  This was done to make fees precise and require no scaling, since they are now represented on the Agoric chain as JavaScript BigInts.
+
+  Please update to the latest: https://github.com/Agoric/dapp-oracle
+
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.13
 
 ### Patch Changes

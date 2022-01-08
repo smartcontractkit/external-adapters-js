@@ -1,11 +1,17 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import { ResponseSchema } from './eod'
 
 export const supportedEndpoints = ['stock']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'asset', 'symbol'],
+  base: {
+    aliases: ['from', 'coin', 'asset', 'symbol'],
+    description: 'The symbol to query',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -26,8 +32,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig)
-  response.data.result = Requester.validateResultNumber(response.data, ['latestPrice'])
+  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const result = Requester.validateResultNumber(response.data, ['latestPrice'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

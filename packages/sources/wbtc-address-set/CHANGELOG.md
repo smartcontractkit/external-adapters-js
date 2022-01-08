@@ -1,5 +1,40 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 942c636b: input params changed
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.0
+
+### Minor Changes
+
+- 4d3c0a79: added 'network' and 'chainId' to the response
+
 ## 1.0.13
 
 ### Patch Changes

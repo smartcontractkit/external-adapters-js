@@ -18,8 +18,18 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

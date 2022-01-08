@@ -7,13 +7,11 @@ export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
-    options: ['BTC', 'ETH', 'USD'],
     required: true,
   },
   quote: {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
-    options: ['BTC', 'ETH', 'USD'],
     required: true,
   },
 }

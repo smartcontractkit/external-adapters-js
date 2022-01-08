@@ -5,9 +5,29 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['price', 'forex']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
-  quantity: false,
+  base: {
+    aliases: ['from'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to'],
+    description: ' The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  quantity: {
+    description: 'An additional amount of the original currency',
+    type: 'number',
+    default: 1,
+  },
+}
+
+interface ResponseSchema {
+  value: string
+  text: string
+  timestamp: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -18,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/convert`
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
-  const quantity = validator.validated.data.quantity || 1
+  const quantity = validator.validated.data.quantity
 
   const params = {
     ...config.api.params,
@@ -33,8 +53,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['value'])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['value'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

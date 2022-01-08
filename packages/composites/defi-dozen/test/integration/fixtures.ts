@@ -30,6 +30,7 @@ export const mockDataProviderResponses = (): nock => {
         200,
         {
           jobRunID: '1',
+          providerStatusCode: 200,
           result: 20.509267101358265,
           statusCode: 200,
           data: {

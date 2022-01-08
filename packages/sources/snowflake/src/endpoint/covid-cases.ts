@@ -6,8 +6,16 @@ import { buildSnowflakeJWT } from '../util'
 export const supportedEndpoints = ['covid-cases']
 
 export const inputParameters: InputParameters = {
-  state: ['state'],
-  county: ['county'],
+  state: {
+    required: true,
+    description: 'The state of the desired county',
+    type: 'string',
+  },
+  county: {
+    required: true,
+    description: 'Name of the desired county',
+    type: 'string',
+  },
 }
 
 type UUIDv4 = string

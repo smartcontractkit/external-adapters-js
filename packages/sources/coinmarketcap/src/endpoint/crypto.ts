@@ -52,11 +52,31 @@ const presetIds: { [symbol: string]: number } = {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'sym', 'symbol'],
-  convert: ['quote', 'to', 'market', 'convert'],
-  cid: false,
-  slug: false,
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'sym', 'symbol'],
+    description: 'The symbol of the currency to query',
+    required: true,
+  },
+  convert: {
+    aliases: ['quote', 'to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+  cid: {
+    description: 'The CMC coin ID (optional to use in place of base)',
+    required: false,
+    type: 'string',
+  },
+  slug: {
+    description: 'The CMC coin ID (optional to use in place of base)',
+    required: false,
+    type: 'string',
+  },
+  resultPath: {
+    description: 'The path for the result',
+    required: false,
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (
