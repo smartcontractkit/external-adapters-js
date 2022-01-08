@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitcoin-json-rpc-adapter",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "",
   "author": "Evangelos Barakos (evangelos@smartcontract.com)",
   "license": "MIT",
