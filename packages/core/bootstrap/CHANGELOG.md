@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.7.0
+
+### Minor Changes
+
+- 85360aa9: remove source maps
+
 ## 1.6.0
 
 ### Minor Changes
