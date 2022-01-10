@@ -67,7 +67,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const lastElemIdx = elements.length - 1
   const treeProof = getMerkleTreeProof(elements, lastElemIdx)
   const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl)
-  const l2Proof: any = await getProofFromL2Resolver(
+  const l2Proof = await getProofFromL2Resolver(
     node,
     address,
     optimismGatewayStubABI,

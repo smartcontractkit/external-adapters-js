@@ -29,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const response = await Requester.request(reqConfig, customError)
   const coinData = response.data.payload.find(
-    (asset: Record<string, any>) => asset.symbol.toUpperCase() === coin.toUpperCase(),
+    (asset: { symbol: string }) => asset.symbol.toUpperCase() === coin.toUpperCase(),
   )
   response.data.result = Requester.validateResultNumber(coinData, [resultPath])
 

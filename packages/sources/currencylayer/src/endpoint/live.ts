@@ -11,7 +11,7 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['live', 'forex', 'price']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) => !data.success
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
