@@ -64,7 +64,7 @@ export interface ResponseSchema {
 }
 
 const customError = (data: { BEAAPI: { Results: { Error: Record<string, unknown> } } }) =>
-  Object.keys(data.BEAAPI.Results.Error).length > 0
+  Object.keys(data?.BEAAPI?.Results?.Error || {}).length > 0
 
 export const inputParameters: InputParameters = {
   series: {
