@@ -1,73 +1,35 @@
 # Chainlink External Adapter for Gemini
 
+Version: 2.1.1
+
 An external adapter to get data from Gemini
 
-### Environment Variables
+## Environment Variables
 
-This adapter takes no environment variables.
+| Required? |     Name     | Description |  Type  | Options |         Default          |
+| :-------: | :----------: | :---------: | :----: | :-----: | :----------------------: |
+|           | API_ENDPOINT |             | string |         | `https://api.gemini.com` |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |            Options             | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [reserves](#Reserves-Endpoint) |  reserves   |
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [reserves](#reserves-endpoint) | `reserves` |
 
 ---
 
 ## Reserves Endpoint
 
+`reserves` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |            Name             |                       Description                        | Options | Defaults to |
-| :-------: | :-------------------------: | :------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `token`, `asset`, or `coin` |             The symbol of the token to query             | `EFIL`  |             |
-|           |          `chainId`          | An identifier for which network of the blockchain to use |         |  `mainnet`  |
-|           |          `network`          |                                                          |         | `filecoin`  |
+| Required? |  Name   |     Aliases     |                       Description                        |  Type  | Options |  Default   | Depends On | Not Valid With |
+| :-------: | :-----: | :-------------: | :------------------------------------------------------: | :----: | :-----: | :--------: | :--------: | :------------: |
+|    ✅     |  token  | `asset`, `coin` |             The symbol of the token to query             | string |         |   `EFIL`   |            |                |
+|           | chainId |                 | An identifier for which network of the blockchain to use | string |         | `mainnet`  |            |                |
+|           | network |                 |                                                          | string |         | `filecoin` |            |                |
 
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "token": "EFIL"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": [
-    {
-      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "chainId": "mainnet",
-      "network": "filecoin"
-    },
-    {
-      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-      "chainId": "mainnet",
-      "network": "filecoin"
-    }
-  ],
-  "statusCode": 200,
-  "data": {
-    "result": [
-      {
-        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-        "chainId": "mainnet",
-        "network": "filecoin"
-      },
-      {
-        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-        "chainId": "mainnet",
-        "network": "filecoin"
-      }
-    ]
-  }
-}
-```
+There are no examples for this endpoint.

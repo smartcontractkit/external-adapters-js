@@ -1,34 +1,57 @@
 # Chainlink External Adapter for Etherchain
 
-### Input Parameters
+Version: 1.2.1
 
-| Required? |   Name   |     Description     |            Options             | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |           Default            |
+| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://www.etherchain.org` |
 
 ---
 
-## Gas Price Endpoint
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
+
+---
+
+## Gasprice Endpoint
+
+`gasprice` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name   |    Description    |               Options                | Defaults to |
-| :-------: | :-----: | :---------------: | :----------------------------------: | :---------: |
-|    🟡     | `speed` | The desired speed | `safeLow`,`average`,`fast`,`fastest` |  `average`  |
+| Required? | Name  | Aliases |    Description    |  Type  |                 Options                  |  Default   | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :---------------: | :----: | :--------------------------------------: | :--------: | :--------: | :------------: |
+|           | speed |         | The desired speed | string | `safeLow`, `standard`, `fast`, `fastest` | `standard` |            |                |
 
-### Output Format
+### Example
+
+Request:
 
 ```json
 {
-  "jobRunID": "1",
+  "id": "1",
   "data": {
-    "safeLow": "7.0",
-    "standard": "8.3",
-    "fast": "13.0",
-    "fastest": "15.0",
-    "result": 13000000000
-  },
-  "result": 13000000000,
-  "statusCode": 200
+    "endpoint": "gasprice",
+    "speed": "fast"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "safeLow": 1,
+  "standard": 1,
+  "fast": 1.5,
+  "fastest": 2,
+  "currentBaseFee": 126.6,
+  "recommendedBaseFee": 257,
+  "result": 1500000000
 }
 ```

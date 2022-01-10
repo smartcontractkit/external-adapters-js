@@ -1,41 +1,49 @@
 # Chainlink External Adapter for Cache.gold
 
-### Input Parameters
-
-| Required? |   Name   |     Description     |          Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [lockedGold](#lockedGold) | lockedGold  |
-
----
-
-## LokedGold Endpoint
+Version: 1.2.1
 
 Query the total gold grams locked in [cache.gold](https://contract.cache.gold/api/lockedGold)
 
+## Environment Variables
+
+There are no environment variables for this adapter.
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |              Options               |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [lockedgold](#lockedgold-endpoint) | `lockedGold` |
+
+---
+
+## LockedGold Endpoint
+
+`lockedGold` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? | Name |                 Description                  | Options | Defaults to |
-| :-------: | :--: | :------------------------------------------: | :-----: | :---------: |
-|  ⛔ None  | None | no parameters are needed to make the request |         |             |
+There are no input parameters for this endpoint.
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
-  "data": {}
+  "data": {
+    "endpoint": "lockedGold"
+  }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "result": 62293.77,
-  "statusCode": 200,
-  "data": {
-    "result": 62293.77
-  }
+  "grams_locked": "91571.93000000",
+  "result": 91571.93
 }
 ```

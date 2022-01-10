@@ -1,56 +1,81 @@
 # Chainlink External Adapter for TrueUSD
 
-### Input Parameters
+Version: 1.1.1
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [trueusd](#TrueUSD-Endpoint) |  `trueusd`  |
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |                       Default                        |
+| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------------------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://core-api.real-time-attest.trustexplorer.io` |
 
 ---
 
-## TrueUSD Endpoint
+## Input Parameters
 
-https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
+| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [trueusd](#trueusd-endpoint) | `trueusd` |
+
+---
+
+## Trueusd Endpoint
+
+`trueusd` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name   |                     Description                     |          Options           | Defaults to  |
-| :-------: | :-----: | :-------------------------------------------------: | :------------------------: | :----------: |
-|           | `field` | The data point to return from the API response data | `totalTrust`, `totalToken` | `totalTrust` |
+| Required? |    Name    | Aliases |                     Description                     |  Type  |          Options           |   Default    | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :-------------------------------------------------: | :----: | :------------------------: | :----------: | :--------: | :------------: |
+|           | resultPath |         | The data point to return from the API response data | string | `totalTrust`, `totalToken` | `totalTrust` |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "field": "totalToken"
+    "field": "totalTrust"
   }
 }
 ```
 
-### Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "responseData": {
-      "accountName": "TrueUSD",
-      "totalTrust": 347215038.53,
-      "totalToken": 343465335.4587567,
-      "updatedAt": "2020-10-16T22:02:31.560Z",
-      "token": [
-        { "tokenName": "TUSDB", "principle": 4766109.0487567 },
-        { "tokenName": "TUSD", "principle": 338699226.40999997 }
-      ]
-    },
-    "message": [{ "msg": "get contractSupply successfully" }],
-    "success": true,
-    "responseCode": 200,
-    "result": 343465335.4587567
+  "responseData": {
+    "accountName": "TrueUSD",
+    "totalTrust": 1256102560.69,
+    "totalToken": 1250717352.7853243,
+    "updatedAt": "2021-11-08T13:49:45.112Z",
+    "token": [
+      {
+        "tokenName": "TUSDB (BNB)",
+        "principle": 617032.83532437
+      },
+      {
+        "tokenName": "TUSD (TRON)",
+        "principle": 269206919.78
+      },
+      {
+        "tokenName": "TUSD (ETH)",
+        "principle": 980893400.1700001
+      },
+      {
+        "tokenName": "TUSD (AVA)",
+        "principle": 0
+      }
+    ]
   },
-  "result": 343465335.4587567,
-  "statusCode": 200
+  "message": [
+    {
+      "msg": "get contractSupply successfully"
+    }
+  ],
+  "success": true,
+  "responseCode": 200,
+  "result": 1256102560.69
 }
 ```

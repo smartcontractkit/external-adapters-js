@@ -1,71 +1,33 @@
 # Chainlink Lotus Composite Adapter
 
+Version: 2.1.1
+
 An external adapter to interact with the Lotus node API
 
-## Configuration
+## Environment Variables
 
-The adapter takes the following environment variables:
+| Required? |  Name   |                                            Description                                             |  Type  | Options | Default |
+| :-------: | :-----: | :------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | Your Lotus node [API key/token](https://docs.filecoin.io/build/lotus/api-tokens/#obtaining-tokens) | string |         |         |
 
-| Required? |   Name    |                                               Description                                                | Options | Defaults to |
-| :-------: | :-------: | :------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `RPC_URL` | URL to the Lotus node's [HTTP RPC-API endpoint](https://docs.filecoin.io/reference/lotus-api/#endpoints) |         |             |
-|    ✅     | `API_KEY` |    Your Lotus node [API key/token](https://docs.filecoin.io/build/lotus/api-tokens/#obtaining-tokens)    |         |             |
+---
 
-## Running
+## Input Parameters
 
-See the [Composite Adapter README](../README.md) for more information on how to get started.
-
-### Input Parameters
-
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [balance](#Balance-Endpoint) |   balance   |
+| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
 
 ---
 
 ## Balance Endpoint
 
-The balance endpoint will fetch the balance of each address in the query and the total sum.
+Supported names for this endpoint are: `balance`, `Filecoin.WalletBalance`.
 
 ### Input Params
 
-| Required? |    Name     |                 Description                  | Options | Defaults to |
-| :-------: | :---------: | :------------------------------------------: | :-----: | :---------: |
-|    ✅     | `addresses` | An array of addresses to get the balances of |         |             |
+| Required? |   Name    | Aliases  |                 Description                  | Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :------: | :------------------------------------------: | :---: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | addresses | `result` | An array of addresses to get the balances of | array |         |         |            |                |
 
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "addresses": [
-      { "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi" },
-      { "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay" }
-    ]
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": "33427594125000000000000",
-  "statusCode": 200,
-  "data": {
-    "balances": [
-      {
-        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-        "result": "33426744125000000000000"
-      },
-      {
-        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-        "result": "850000000000000000"
-      }
-    ],
-    "result": "33427594125000000000000"
-  }
-}
-```
+There are no examples for this endpoint.

@@ -1,128 +1,83 @@
 # Chainlink CurrencyLayer External Adapter
 
-### Environment Variables
+Version: 1.2.1
 
-| Required? |  Name   |                                  Description                                   | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://currencylayer.com/product) |         |             |
+## Environment Variables
 
----
-
-### Input Parameters
-
-| Required? |   Name   |     Description     |                     Options                      | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint), [live](#Live-Endpoint) |   `price`   |
+| Required? |  Name   |                                  Description                                   |  Type  | Options | Default |
+| :-------: | :-----: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://currencylayer.com/product) | string |         |         |
 
 ---
 
-## Price Endpoint
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                       Options                        |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [live](#live-endpoint) | `convert` |
+
+---
+
+## Convert Endpoint
+
+Supported names for this endpoint are: `convert`, `price`.
 
 ### Input Params
 
-| Required? |          Name           |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :---------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, `market` |         The symbol of the currency to convert to          |                                                                                      |             |
-|    🟡     |        `amount`         |                 An amount of the currency                 |                                                                                      |      1      |
-|    🟡     |       `overrides`       | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? |  Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `from`, `coin` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote  | `to`, `market` | The symbol of the currency to convert to | string |         |         |            |                |
+|           | amount |                |        An amount of the currency         | number |         |   `1`   |            |                |
 
-### Output
+### Example
 
-```json
-{
-  "jobRunID": "2",
-  "data": {
-    "success": true,
-    "terms": "https://currencylayer.com/terms",
-    "privacy": "https://currencylayer.com/privacy",
-    "query": {
-      "from": "BTC",
-      "to": "USD",
-      "amount": 1
-    },
-    "info": {
-      "timestamp": 1612912326,
-      "quote": 46500.7849
-    },
-    "result": 46500.7849
-  },
-  "result": 46500.7849,
-  "statusCode": 200
-}
-```
-
-## Live Endpoint
-
-#### Returns a batched price comparison from one currency to a list of other currencies.
-
-### Input Params
-
-| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, or `market` |        The symbol of the currencies to convert to         |                                                                                      |      1      |
-|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
-
-## Input
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "base": "USD",
-    "quote": ["EUR", "AUD"]
+    "endpoint": "convert",
+    "base": "BTC",
+    "quote": "USD",
+    "amount": 1
   }
 }
 ```
 
-## Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "debug": {
-    "staleness": 0,
-    "performance": 0.965477773,
-    "providerCost": 1
+  "success": true,
+  "terms": "https://currencylayer.com/terms",
+  "privacy": "https://currencylayer.com/privacy",
+  "query": {
+    "from": "BTC",
+    "to": "USD",
+    "amount": 1
   },
-  "statusCode": 200,
-  "data": {
-    "success": true,
-    "terms": "https://currencylayer.com/terms",
-    "privacy": "https://currencylayer.com/privacy",
-    "timestamp": 1432400348,
-    "source": "USD",
-    "quotes": {
-      "USDAUD": 1.278342,
-      "USDEUR": 1.278342,
-      "USDGBP": 0.908019,
-      "USDPLN": 3.731504
-    },
-    "results": [
-      [
-        {
-          "id": "1",
-          "data": {
-            "base": "USD",
-            "quote": "AUD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        1.278342
-      ],
-      [
-        {
-          "id": "1",
-          "data": {
-            "base": "USD",
-            "quote": "EUR"
-          },
-          "rateLimitMaxAge": 960
-        },
-        1.278342
-      ]
-    ]
-  }
+  "info": {
+    "timestamp": 1635800883,
+    "quote": 60535.74
+  },
+  "result": 60535.74
 }
 ```
+
+---
+
+## Live Endpoint
+
+`live` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name  |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `base`, `from`, `coin`  |             |      |         |         |            |                |
+|    ✅     | quote  | `quote`, `to`, `market` |             |      |         |         |            |                |
+|           | amount |                         |             |      |         |         |            |                |
+
+There are no examples for this endpoint.

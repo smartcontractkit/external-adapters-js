@@ -1,90 +1,50 @@
 # Chainlink External Adapter for Alpine
 
-This adapter gets the tvl of Ethereum vaults as well as the block numbers of the last cross chain transfers.
+Version: 1.1.1
 
-### Environment Variables
+This adapter gets the tvl of Ethereum vaults as well as the block numbers of the last cross chain transfers. The TVL endpoint gets the tvl of a vault on Ethereum. The LastBlock endpoint gets the lastblock of a cross chain transfer from the given chain.
 
-| Required? |        Name        |         Description          | Options | Defaults to |
-| :-------: | :----------------: | :--------------------------: | :-----: | :---------: |
-|           | {network}\_RPC_URL | RPC url for Ethereum/Polygon |         |             |
+## Environment Variables
 
----
-
-### Input Parameters
-
-| Required? |   Name   |     Description     |                        Options                         | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------------------: | :---------: |
-|    ✅     | endpoint | The endpoint to use | [tvl](#TVL-Endpoint), [lastBlock](#LastBlock-Endpoint) |     tvl     |
-|    ✅     | network  |     The network     |             Etiher "ETHEREUM" or "POLYGON"             |  ETHEREUM   |
+| Required? |       Name       | Description |  Type  | Options | Default |
+| :-------: | :--------------: | :---------: | :----: | :-----: | :-----: |
+|           | ETHEREUM_RPC_URL |             | string |         |         |
+|           | POLYGON_RPC_URL  |             | string |         |         |
 
 ---
 
-## TVL Endpoint
+## Input Parameters
 
-This gets the tvl of a vault on Ethereum
+| Required? |   Name   |     Description     |  Type  |                        Options                         | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [lastblock](#lastblock-endpoint), [tvl](#tvl-endpoint) |   ``    |
 
-### Input Params
+---
 
-| Required? |      Name      |            Description            | Options | Defaults to |
-| :-------: | :------------: | :-------------------------------: | :-----: | :---------: |
-|    ✅     | `vaultAddress` | The address of the vault contract |         |             |
+## Lastblock Endpoint
 
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "vaultAddress": "0xA0F3BC193651c902C0cae9779c6E7F10761bF2Ac",
-    "endpoint": "tvl",
-    "network": "ETHEREUM"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "result": "100000"
-  },
-  "statusCode": 200
-}
-```
-
-## LastBlock Endpoint
-
-This gets the lastblock of a cross chain transfer from the given chain
+`lastblock` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |       Name       |             Description             | Options | Defaults to |
-| :-------: | :--------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | `stagingAddress` | The address of the staging contract |         |             |
+| Required? |      Name      | Aliases |             Description             |  Type  |        Options        |  Default   | Depends On | Not Valid With |
+| :-------: | :------------: | :-----: | :---------------------------------: | :----: | :-------------------: | :--------: | :--------: | :------------: |
+|    ✅     | stagingAddress |         | The address of the staging contract | string |                       |            |            |                |
+|           |    network     |         |             The network             | string | `ETHEREUM`, `POLYGON` | `ETHEREUM` |            |                |
 
-### Sample Input
+There are no examples for this endpoint.
 
-```json
-{
-  "id": "1",
-  "data": {
-    "stagingAddress": "0xd5c81d46D8237b06fa6110aEB43363b6F63bC247",
-    "endpoint": "lastblock",
-    "network": "POLYGON"
-  }
-}
-```
+---
 
-### Sample Output
+## Tvl Endpoint
 
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "result": "21170874"
-  },
-  "statusCode": 200
-}
-```
+`tvl` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |     Name     | Aliases |            Description            |  Type  |        Options        |  Default   | Depends On | Not Valid With |
+| :-------: | :----------: | :-----: | :-------------------------------: | :----: | :-------------------: | :--------: | :--------: | :------------: |
+|    ✅     | vaultAddress |         | The address of the vault contract | string |                       |            |            |                |
+|           |   network    |         |            The network            | string | `ETHEREUM`, `POLYGON` | `ETHEREUM` |            |                |
+
+There are no examples for this endpoint.

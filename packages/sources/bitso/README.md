@@ -1,59 +1,69 @@
 # Chainlink External Adapter for Bitso
 
-### Input Parameters
+Version: 1.2.1
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |  `crypto`   |
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+
+## Environment Variables
+
+There are no environment variables for this adapter.
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+Supported names for this endpoint are: `ticker`, `crypto`.
 
 ### Input Params
 
-| Required? |            Name            |                               Description                               | Options | Defaults to |
-| :-------: | :------------------------: | :---------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |                   The symbol of the currency to query                   |         |             |
-|    ✅     | `quote`, `to`, or `market` |                The symbol of the currency to convert to                 |         |             |
-|           |          `field`           | The object path to access the value that will be returned as the result |         |   `vwap`    |
+| Required? |    Name    |    Aliases     |                               Description                               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :---------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    base    | `from`, `coin` |                   The symbol of the currency to query                   | string |         |         |            |                |
+|    ✅     |   quote    | `to`, `market` |                The symbol of the currency to convert to                 | string |         |         |            |                |
+|           | resultPath |                | The object path to access the value that will be returned as the result | string |         | `vwap`  |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "ticker",
     "base": "BTC",
-    "quote": "ARS"
-  }
+    "quote": "ARS",
+    "resultPath": "vwap"
+  },
+  "rateLimitMaxAge": 1111
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "success": true,
-    "payload": {
-      "high": "1581920.78",
-      "last": "1567306.98",
-      "created_at": "2020-10-06T10:57:38+00:00",
-      "book": "btc_ars",
-      "volume": "16.96252687",
-      "vwap": "1568906.7103474855",
-      "low": "1553404.00",
-      "ask": "1574120.27",
-      "bid": "1567306.98",
-      "change_24": "2345.15"
-    },
-    "result": 1567306.98
+  "success": true,
+  "payload": {
+    "high": "13504981.32",
+    "last": "12550294.29",
+    "created_at": "2021-11-16T18:50:20+00:00",
+    "book": "btc_ars",
+    "volume": "5.79730623",
+    "vwap": "12806994.5372860099",
+    "low": "12100000.00",
+    "ask": "12550291.01",
+    "bid": "12520297.85",
+    "change_24": "-849449.19"
   },
-  "result": 1567306.98,
-  "statusCode": 200
+  "result": 12806994.53728601
 }
 ```

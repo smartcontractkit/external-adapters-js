@@ -1,49 +1,58 @@
 # Chainlink External Adapter for Binance
 
+Version: 1.2.1
+
 Adapter using the public Binance market API for both HTTP(s) and WS.
 
-### Input Parameters
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   ticker    |
+## Environment Variables
+
+There are no environment variables for this adapter.
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
-
-An example endpoint description
+Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Input Params
 
-| Required? |            Name            |               Description                | Options | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `from`, `coin` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `to`, `market` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "USDT"
-  }
+    "quote": "BTC"
+  },
+  "rateLimitMaxAge": 55
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "result": 2429.02,
-  "data": {
-    "result": 2429.02
-  },
-  "statusCode": 200
+  "symbol": "ETHBTC",
+  "price": "0.07077300",
+  "result": 0.070773
 }
 ```

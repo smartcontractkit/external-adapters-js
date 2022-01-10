@@ -1,12 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { serialize } from '../codec'
 import { IPFSPath } from './read'
 
 export const supportedEndpoints = ['write']
 
-const inputParameters = {
+export const inputParameters: InputParameters = {
   data: {
     required: true,
     description: 'The data to write',
