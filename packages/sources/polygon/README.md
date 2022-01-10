@@ -93,8 +93,7 @@ Get FOREX price conversions
   "debug": {
     "staleness": 0,
     "performance": 0.138425665,
-    "providerCost": 1,
-    "batchablePropertyPath": ["base", "quote"]
+    "providerCost": 1
   },
   "statusCode": 200,
   "data": {
