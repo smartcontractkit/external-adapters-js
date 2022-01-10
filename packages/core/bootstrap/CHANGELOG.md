@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.7.1
+
+### Patch Changes
+
+- dfc4545b3: Btc_com rate limit
+
 ## 1.7.0
 
 ### Minor Changes
