@@ -56,13 +56,11 @@ export const inputParameters: InputParameters = {
     aliases: ['from', 'coin', 'sym', 'symbol'],
     description: 'The symbol of the currency to query',
     required: true,
-    type: 'string',
   },
   convert: {
     aliases: ['quote', 'to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
-    type: 'string',
   },
   cid: {
     description: 'The CMC coin ID (optional to use in place of base)',

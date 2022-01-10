@@ -1,5 +1,19 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.1
+
+### Patch Changes
+
+- 5c57c317: Fix input param types for batchable properties
+
 ## 1.3.0
 
 ### Minor Changes

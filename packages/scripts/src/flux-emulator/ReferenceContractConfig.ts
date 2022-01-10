@@ -108,7 +108,9 @@ export const fetchConfigFromUrl = (
  * @returns {ReferenceContractConfig[]} The verified input as a config array
  */
 export const parseConfig = (rawConfig: Record<string, unknown>[]): ReferenceContractConfig[] => {
-  return transformAndValidateSync(ReferenceContractConfig, rawConfig)
+  return transformAndValidateSync(ReferenceContractConfig, rawConfig, {
+    validator: { forbidUnknownValues: true },
+  })
 }
 
 /**
