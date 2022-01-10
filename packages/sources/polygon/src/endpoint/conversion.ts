@@ -5,7 +5,7 @@ import { NAME as AdapterName } from '../config'
 const DEFAULT_AMOUNT = 1
 const DEFAULT_PRECISION = 6
 
-export const supportedEndpoints = ['forex', 'price']
+export const supportedEndpoints = ['conversion']
 
 export interface ErrorResponseSchema {
   status: string

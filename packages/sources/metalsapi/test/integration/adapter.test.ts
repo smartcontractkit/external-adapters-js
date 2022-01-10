@@ -4,7 +4,7 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseSuccessConvertEndpoint, mockResponseSuccessLatestEndpoint } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -36,13 +36,38 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'convert',
         base: 'XAU',
         quote: 'USD',
       },
     }
 
     it('should return success', async () => {
-      mockResponseSuccess()
+      mockResponseSuccessConvertEndpoint()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('latest api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'latest',
+        base: 'XAU',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccessLatestEndpoint()
 
       const response = await req
         .post('/')
