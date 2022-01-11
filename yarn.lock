@@ -3212,7 +3212,7 @@ __metadata:
     "@babel/preset-env": 7.16.4
     "@babel/preset-typescript": 7.16.0
     "@changesets/cli": 2.18.1
-    "@types/babel__core": 7.1.16
+    "@types/babel__core": 7.1.18
     "@types/babel__preset-env": 7.9.2
     "@types/eslint": 7.29.0
     "@types/jest": 27.0.3
@@ -8004,16 +8004,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:7.1.16":
-  version: 7.1.16
-  resolution: "@types/babel__core@npm:7.1.16"
+"@types/babel__core@npm:7.1.18":
+  version: 7.1.18
+  resolution: "@types/babel__core@npm:7.1.18"
   dependencies:
     "@babel/parser": ^7.1.0
     "@babel/types": ^7.0.0
     "@types/babel__generator": "*"
     "@types/babel__template": "*"
     "@types/babel__traverse": "*"
-  checksum: d5aa154ce8c63e5fd47f5b9286a2689eea1e6dd3e1005b0c608bfe72363a44cb32be1e104f81d4b976e8a9f1f802d03184e64a055984fd43a359c5518a0f94cf
+  checksum: 2e5b5d7c84f347d3789575486e58b0df5c91613abc3d27e716274aba3048518e07e1f068250ba829e2ed58532ccc88da595ce95ba2688e7bbcd7c25a3c6627ed
   languageName: node
   linkType: hard
 
@@ -18776,7 +18776,7 @@ fsevents@~2.1.1:
     "@babel/plugin-proposal-object-rest-spread": 7.16.0
     "@babel/preset-env": 7.16.4
     "@babel/preset-typescript": 7.16.0
-    "@types/babel__core": 7.1.16
+    "@types/babel__core": 7.1.18
     "@types/babel__preset-env": 7.9.2
     babel-loader: 8.2.3
     clean-webpack-plugin: 4.0.0
