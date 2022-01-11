@@ -28,11 +28,13 @@ const sharedInputConfig = excludableInternalAdapterRequestProperties.reduce<Reco
 )
 
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
+
+type InputType = {
+  id?: string
+  data?: any
+}
 export class Validator {
-  input: {
-    id?: string
-    data?: any
-  }
+  input: InputType
   inputConfigs: InputParameters
   options: Record<string, any[]>
   validated: any
@@ -40,12 +42,19 @@ export class Validator {
   errored: AdapterErrorResponse | undefined
   shouldLogError: boolean
 
-  constructor(input = {}, inputConfigs = {}, options = {}, shouldLogError = true) {
+  constructor(
+    input: InputType = { id: '1', data: {} },
+    inputConfigs = {},
+    options = {},
+    shouldLogError = true,
+  ) {
     this.input = { ...input }
+    if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
+    if (!this.input.data) this.input.data = {}
     this.inputConfigs = { ...inputConfigs, ...sharedInputConfig }
     this.options = { ...options }
     this.shouldLogError = shouldLogError
-    this.validated = { id: this.input.id || '1', data: {} }
+    this.validated = { id: this.input.id, data: {} }
     this.validateInput()
     this.validateOverrides('overrides', presetSymbols)
     this.validateOverrides('tokenOverrides', presetTokens)
@@ -57,17 +66,16 @@ export class Validator {
       for (const key in this.inputConfigs) {
         const options = this.options[key]
         const inputConfig = this.inputConfigs[key]
-
         if (Array.isArray(inputConfig)) {
           // TODO move away from alias arrays in favor of InputParameter config type
           const usedKey = this.getUsedKey(key, inputConfig)
           if (!usedKey) this.throwInvalid(`None of aliases used for required key ${key}`)
-          this.validateRequiredParam(this.input.data?.[usedKey as string], key, options)
+          this.validateRequiredParam(this.input.data[usedKey as string], key, options)
         } else if (typeof inputConfig === 'boolean') {
           // TODO move away from required T/F in favor of InputParameter config type
           inputConfig
-            ? this.validateRequiredParam(this.input.data?.[key], key, options)
-            : this.validateOptionalParam(this.input.data?.[key], key, options)
+            ? this.validateRequiredParam(this.input.data[key], key, options)
+            : this.validateOptionalParam(this.input.data[key], key, options)
         } else {
           this.validateObjectParam(key)
         }
