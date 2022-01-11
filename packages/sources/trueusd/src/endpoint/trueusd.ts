@@ -5,6 +5,10 @@ export const NAME = 'trueusd'
 
 export const supportedEndpoints = ['trueusd']
 
+export const endpointResultPaths = {
+  trueusd: 'totalTrust',
+}
+
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {}
@@ -27,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const resultPath = validator.validated.data.resultPath || 'totalTrust'
+  const resultPath = validator.validated.data.resultPath
   const url = '/trusttoken/TrueUSD'
 
   const options = { ...config.api, url }
