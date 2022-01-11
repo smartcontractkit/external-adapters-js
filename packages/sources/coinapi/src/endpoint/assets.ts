@@ -41,12 +41,6 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to convert to ',
     required: true,
   },
-  resultPath: {
-    description: 'The path for the result',
-    default: 'result',
-    required: false,
-    type: 'string',
-  },
 }
 
 const handleBatchedRequest = (
