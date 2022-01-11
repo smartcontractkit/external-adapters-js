@@ -7,15 +7,6 @@ describe('Validator', () => {
       endpoint: false,
     }
 
-    it('errors if no input data is supplied', () => {
-      const validator = new Validator({}, params, {}, false)
-      expect(validator.validated.id).toEqual('1')
-      expect(validator.validated.data).toEqual({})
-      expect(validator.error).toBeTruthy()
-      expect(validator?.error?.statusCode).toEqual(400)
-      expect(validator?.error?.status).toEqual('errored')
-    })
-
     it('does not error if optional params are included', () => {
       const input = {
         id: 'abc123',

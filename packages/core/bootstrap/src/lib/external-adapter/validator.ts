@@ -62,12 +62,12 @@ export class Validator {
           // TODO move away from alias arrays in favor of InputParameter config type
           const usedKey = this.getUsedKey(key, inputConfig)
           if (!usedKey) this.throwInvalid(`None of aliases used for required key ${key}`)
-          this.validateRequiredParam(this.input.data[usedKey as string], key, options)
+          this.validateRequiredParam(this.input.data?.[usedKey as string], key, options)
         } else if (typeof inputConfig === 'boolean') {
           // TODO move away from required T/F in favor of InputParameter config type
           inputConfig
-            ? this.validateRequiredParam(this.input.data[key], key, options)
-            : this.validateOptionalParam(this.input.data[key], key, options)
+            ? this.validateRequiredParam(this.input.data?.[key], key, options)
+            : this.validateOptionalParam(this.input.data?.[key], key, options)
         } else {
           this.validateObjectParam(key)
         }
