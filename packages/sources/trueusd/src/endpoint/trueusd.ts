@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = validator.validated.data.resultPath || 'totalTrust'
   const url = '/trusttoken/TrueUSD'
 
   const options = { ...config.api, url }
