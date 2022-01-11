@@ -10,7 +10,7 @@ import {
   Config,
 } from '@chainlink/types'
 import { merge } from 'lodash'
-import { isArray, isObject } from '../util'
+import { isArray, isObject, excludableInternalAdapterRequestProperties } from '../util'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import presetSymbols from './overrides/presetSymbols.json'
@@ -18,6 +18,14 @@ import presetTokens from './overrides/presetTokens.json'
 import presetIncludes from './overrides/presetIncludes.json'
 import { Requester } from './requester'
 import { inputParameters } from './builder'
+
+const sharedInputConfig = excludableInternalAdapterRequestProperties.reduce<Record<string, false>>(
+  (config, name) => {
+    config[name] = false
+    return config
+  },
+  {},
+)
 
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
 export class Validator {
@@ -34,7 +42,7 @@ export class Validator {
 
   constructor(input = {}, inputConfigs = {}, options = {}, shouldLogError = true) {
     this.input = { ...input }
-    this.inputConfigs = { ...inputConfigs }
+    this.inputConfigs = { ...inputConfigs, ...sharedInputConfig }
     this.options = { ...options }
     this.shouldLogError = shouldLogError
     this.validated = { id: this.input.id || '1', data: {} }
