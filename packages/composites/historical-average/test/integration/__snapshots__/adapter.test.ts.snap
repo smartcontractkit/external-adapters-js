@@ -6,6 +6,7 @@ Object {
     "result": 4526.04602020095,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 4526.04602020095,
   "statusCode": 200,
 }
@@ -17,6 +18,7 @@ Object {
     "result": 4526.04602020095,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 4526.04602020095,
   "statusCode": 200,
 }
@@ -28,6 +30,7 @@ Object {
     "result": 4526.04602020095,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 4526.04602020095,
   "statusCode": 200,
 }

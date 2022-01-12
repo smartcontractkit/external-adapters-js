@@ -8,8 +8,19 @@ const customError = (data: ResponseSchema) => {
 }
 
 export const inputParameters: InputParameters = {
-  speed: false,
-  blockchain: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    type: 'string',
+    options: ['safeLow', 'average', 'fast', 'fastest'],
+    default: 'average',
+  },
+  blockchain: {
+    required: false,
+    description: 'The blockchain id to get gas prices from',
+    type: 'string',
+    default: 'ethereum-mainnet',
+  },
 }
 
 export interface ResponseSchema {

@@ -11,8 +11,18 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  blockchain: ['blockchain', 'coin'],
-  resultPath: false,
+  blockchain: {
+    aliases: ['coin'],
+    description: '',
+    type: 'string',
+    required: true,
+  },
+  endpoint: {
+    description: 'The parameter to query for',
+    type: 'string',
+    default: 'difficulty',
+    required: false,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {

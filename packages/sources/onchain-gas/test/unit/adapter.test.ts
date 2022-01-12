@@ -13,7 +13,12 @@ describe('execute', () => {
   })
 
   describe('validation error', () => {
-    const requests = [{ name: 'empty body', testData: {} }]
+    const requests = [
+      {
+        name: 'incorrect numBlocks type',
+        testData: { data: { numBlocks: 'abc' } },
+      },
+    ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {

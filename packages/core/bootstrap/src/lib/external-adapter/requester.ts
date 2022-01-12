@@ -54,7 +54,8 @@ export class Requester {
         // Request error
         if (n === 1) {
           throw new AdapterError({
-            statusCode: error?.response?.status,
+            statusCode: 200,
+            providerStatusCode: error?.response?.status ?? 0, // 0 -> connection error
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
@@ -70,7 +71,13 @@ export class Requester {
         if (n === 1) {
           const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
           const cause = response.data.error || 'customError'
-          throw new AdapterError({ message, cause, url })
+          throw new AdapterError({
+            statusCode: 200,
+            providerStatusCode: response.data.error?.code ?? response.status,
+            message,
+            cause,
+            url,
+          })
         }
 
         return await _delayRetry(`Error in response. Retrying: ${JSON.stringify(response.data)}`)
@@ -102,7 +109,7 @@ export class Requester {
       throw new AdapterError({ message })
     }
     if (Number(result) === 0 || isNaN(Number(result))) {
-      const message = 'Invalid result'
+      const message = 'Invalid result received'
       logger.error(message, { data, path })
       throw new AdapterError({ message })
     }
@@ -179,13 +186,20 @@ export class Requester {
     batchablePropertyPath?: reducer.BatchableProperty[],
   ): AdapterResponse {
     const debug = batchablePropertyPath ? { batchablePropertyPath } : undefined
-    return {
+
+    const adapterResponse = {
       jobRunID,
       data: verbose ? response.data : { result: response.data?.result },
       result: response.data?.result,
-      statusCode: response.status || 200,
+      statusCode: 200,
       debug,
+    } as AdapterResponse
+
+    if (response.status) {
+      adapterResponse.providerStatusCode = response.status
     }
+
+    return adapterResponse
   }
 
   static getDefaultConfig = getDefaultConfig

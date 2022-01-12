@@ -8,8 +8,12 @@ const customError = (data: ResponseSchema) => {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  resultPath: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
