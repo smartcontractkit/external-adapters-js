@@ -30,7 +30,6 @@ export const runReduceAdapter = async (
   // but needs to be converted from their base unit
   switch (indexer) {
     case bitcoinJsonRpc.NAME:
-      return returnParsedUnits(input.jobRunID, input.data.result, 8)
     case bitcoinPorIndexer.NAME:
       return returnParsedUnits(input.jobRunID, input.data.result, 8)
     case lotus.NAME:
