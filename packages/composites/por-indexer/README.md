@@ -1,6 +1,6 @@
-# Bitcoin Proof-of-Reserves Indexer Service Adapter
+# Proof-of-Reserves Indexer Service Adapter
 
-The adapter provides an interface for retrieving total reserves for sets of addresses a Bitcoin PoR Indexer Service.
+The adapter provides an interface for retrieving total reserves for sets of addresses from a PoR Indexer Service.
 
 ## Configuration
 
