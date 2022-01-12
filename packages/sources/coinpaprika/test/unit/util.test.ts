@@ -1,5 +1,40 @@
 import { getCoin, getSymbolToId } from '../../src/util'
 import { ResponseSchema } from '../../src/endpoint/crypto'
+import { makeConfig } from '../../src/config'
+
+describe('config tests', () => {
+  beforeEach(() => {
+    delete process.env['API_KEY']
+    delete process.env['IS_TEST_MODE']
+  })
+
+  describe('makeConfig', () => {
+    it('does not use an API key if none is set', () => {
+      const config = makeConfig()
+      expect(config.api.headers['Authorization']).toBeUndefined()
+    })
+
+    it('does not start the adapter in test mode if the IS_IN_TEST_MODE env var is not set', () => {
+      const config = makeConfig()
+      const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
+      expect(testModeHeader).toBeUndefined()
+    })
+
+    it('uses an API key if one is set', () => {
+      process.env.API_KEY = 'test-key'
+      const config = makeConfig()
+      const authHeader = config.api.headers['Authorization']
+      expect(authHeader).toEqual(process.env.API_KEY)
+    })
+
+    it('starts the adapter in test mode if the IS_IN_TEST_MODE env var is set', () => {
+      process.env.IS_TEST_MODE = 'true'
+      const config = makeConfig()
+      const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
+      expect(testModeHeader).toBe(true)
+    })
+  })
+})
 
 describe('utils tests', () => {
   describe('getCoin', () => {
