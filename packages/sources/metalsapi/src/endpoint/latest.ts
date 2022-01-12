@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -11,14 +11,19 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['latest', 'forex']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  amount: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+  },
 }
-
 export interface ResponseSchema {
   success: true
   timestamp: string
@@ -64,21 +69,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const base = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
   const url = `latest`
-  if (Array.isArray(base))
-    throw new AdapterError({
-      jobRunID,
-      message: `Base symbol ${base} is not batchable.`,
-      statusCode: 400,
-    })
 
   const params = {
     access_key: config.apiKey,
     base,
+    symbols: Array.isArray(to) ? to.join(',') : to,
   }
 
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'rates', to)
 
   const result = Requester.validateResultNumber(response.data, ['rates', to])
