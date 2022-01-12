@@ -72,11 +72,6 @@ export const inputParameters: InputParameters = {
     required: false,
     type: 'string',
   },
-  resultPath: {
-    description: 'The path for the result',
-    required: false,
-    type: 'string',
-  },
 }
 
 const handleBatchedRequest = (

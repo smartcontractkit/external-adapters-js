@@ -66,12 +66,6 @@ export const inputParameters: InputParameters = {
     default: 1,
     type: 'number',
   },
-  resultPath: {
-    required: false,
-    description: 'The result to fetch',
-    default: 'rate',
-    type: 'string',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

@@ -9,7 +9,6 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'unknown date format',
