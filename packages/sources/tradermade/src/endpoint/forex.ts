@@ -87,10 +87,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     }
   }
 
-  const currencies = pairArray.toString()
+  const currency = pairArray.toString()
   const params = {
     ...config.api.params,
-    currencies,
+    currency,
   }
 
   const options = { ...config.api, params }
