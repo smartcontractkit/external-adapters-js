@@ -1,5 +1,25 @@
 # @chainlink/openexchangerates-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.0
+
+### Minor Changes
+
+- e61e849e3: Refactored endpoint names to support new forex endpoints as defaults
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.1
 
 ### Patch Changes

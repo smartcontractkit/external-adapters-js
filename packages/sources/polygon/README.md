@@ -12,15 +12,13 @@ This adapter is for [Polygon.io](https://polygon.io/) and supports the conversio
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [forex](#Forex-Endpoint) |    forex    |
+| Required? |   Name   |     Description     |                             Options                              | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [tickers](#Tickers-Endpoint), [conversion](#Conversion-Endpoint) |   tickers   |
 
 ---
 
-## Forex Endpoint
-
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
+## Conversion Endpoint
 
 Get FOREX price conversions
 
@@ -59,6 +57,8 @@ Get FOREX price conversions
 ```
 
 ## Tickers Endpoint
+
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `tickers` endpoint instead.
 
 #### Convert a currency or currencies into another currency or currencies
 

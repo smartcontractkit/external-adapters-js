@@ -1,5 +1,19 @@
 # @chainlink/alpine-adapter
 
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+
 ## 1.1.1
 
 ### Patch Changes

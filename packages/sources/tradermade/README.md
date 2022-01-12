@@ -17,7 +17,7 @@ This adapter has Websocket support for only the forex endpoint
 
 | Required? |           Name            |                                                                   Description                                                                   |                       Options                        | Defaults to |
 | :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------: | :---------: |
-|           |        `endpoint`         |                                                               The endpoint to use                                                               | [`live`](#Live-Endpoint), [`forex`](#Forex-Endpoint) |   `live`    |
+|           |        `endpoint`         |                                                               The endpoint to use                                                               | [`live`](#Live-Endpoint), [`forex`](#Forex-Endpoint) |   `forex`   |
 |    ✅     | `base`, `from`, or `coin` |                                                The symbol of the currency or currencies to query                                                |                                                      |             |
 |           |        `overrides`        | If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |                                                      |             |
 
@@ -69,49 +69,6 @@ Aliases: `commodities`
   "statusCode": 200,
   "data": {
     "result": 0.841432
-  }
-}
-```
-
-## Batch Example
-
-## Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": ["USD", "CAD"],
-    "to": ["EUR", "AUD"]
-  }
-}
-```
-
-## Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": 153.605,
-  "debug": {
-    "staleness": 0,
-    "performance": 0.611584299,
-    "providerCost": 1
-  },
-  "statusCode": 200,
-  "data": {
-    "endpoint": "live",
-    "quotes": [
-      {
-        "ask": 153.61,
-        "bid": 153.6,
-        "instrument": "AAPL",
-        "mid": 153.605
-      }
-    ],
-    "requested_time": "Fri, 03 Sep 2021 01:09:03 GMT",
-    "timestamp": 1630631344,
-    "result": 153.605
   }
 }
 ```

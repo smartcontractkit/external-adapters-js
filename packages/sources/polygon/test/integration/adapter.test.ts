@@ -4,8 +4,12 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockResponseSuccess } from './fixtures'
+import {
+  mockResponseSuccessConversionEndpoint,
+  mockResponseSuccessTickersEndpoint,
+} from './fixtures'
 import { AddressInfo } from 'net'
+import { conversion } from '../../src/endpoint'
 
 describe('execute', () => {
   const id = '1'
@@ -36,13 +40,37 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'conversion',
         base: 'USD',
         quote: 'GBP',
       },
     }
 
     it('should return success', async () => {
-      mockResponseSuccess()
+      mockResponseSuccessConversionEndpoint()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+  describe('forex batch api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'tickers',
+        base: 'USD',
+        quote: 'GBP',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccessTickersEndpoint()
 
       const response = await req
         .post('/')

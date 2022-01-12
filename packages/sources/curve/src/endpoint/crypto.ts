@@ -63,10 +63,6 @@ export const inputParameters: InputParameters = {
     type: 'number',
     default: 1,
   },
-  resultPath: {
-    description: 'The path for the result',
-    type: 'string',
-  },
 }
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)

@@ -42,13 +42,7 @@ export interface ResponseSchema {
   status: string
 }
 
-export const inputParameters: InputParameters = {
-  resultPath: {
-    description: 'The path for the result',
-    required: false,
-    type: 'string',
-  },
-}
+export const inputParameters: InputParameters = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)

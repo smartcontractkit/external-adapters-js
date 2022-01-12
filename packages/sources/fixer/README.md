@@ -12,13 +12,13 @@ This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpo
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |    price    |
+| Required? |   Name   |     Description     |                         Options                         | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [convert](#Convert-Endpoint) [latest](#Latest-Endpoint) |   latest    |
 
 ---
 
-## Price Endpoint
+## Convert Endpoint
 
 ### Input Params
 
@@ -54,7 +54,7 @@ This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpo
 }
 ```
 
-## Live Endpoint
+## Latest Endpoint
 
 #### Returns a batched price comparison from one currency to a list of other currencies.
 
