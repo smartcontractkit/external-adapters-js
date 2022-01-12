@@ -8452,6 +8452,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:14.17.21":
+  version: 14.17.21
+  resolution: "@types/node@npm:14.17.21"
+  checksum: f5fc54b1a857f6a3a266c25521cddda28c711979ec6e443187076b0c99df08b8578c5c0bef64af35f13fc1475f8fd8a71619dd708219b855a8f28629f7880bbb
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:16.11.19":
   version: 16.11.19
   resolution: "@types/node@npm:16.11.19"
