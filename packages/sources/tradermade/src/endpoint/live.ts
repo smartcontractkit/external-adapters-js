@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME } from '../config'
 
-export const supportedEndpoints = ['live', 'commodities']
+export const supportedEndpoints = ['live', 'commodities', 'stock']
 
 export const inputParameters: InputParameters = {
   base: {
