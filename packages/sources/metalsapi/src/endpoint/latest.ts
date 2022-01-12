@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -38,12 +38,12 @@ const handleBatchedRequest = (
   symbols: string[],
 ) => {
   const payload: [AdapterRequest, number][] = []
+  const base = response.data.base.toUpperCase()
   for (const symbol of symbols) {
-    const from = response.data.base
     payload.push([
       {
         ...request,
-        data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
+        data: { ...request.data, base, quote: symbol.toUpperCase() },
       },
       Requester.validateResultNumber(response.data, [resultPath, symbol]),
     ])
@@ -61,13 +61,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const from = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
   const url = `latest`
+  if (Array.isArray(base))
+    throw new AdapterError({
+      jobRunID,
+      message: `Base symbol ${base} is not batchable.`,
+      statusCode: 400,
+    })
 
   const params = {
     access_key: config.apiKey,
-    from,
+    base,
   }
 
   const reqConfig = { ...config.api, params, url }
