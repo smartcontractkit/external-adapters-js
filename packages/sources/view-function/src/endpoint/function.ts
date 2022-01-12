@@ -6,9 +6,23 @@ import { utils } from 'ethers'
 export const supportedEndpoints = ['function']
 
 export const inputParameters: InputParameters = {
-  signature: ['function', 'signature'],
-  address: ['address', 'contract'],
-  inputParams: false,
+  signature: {
+    aliases: ['function'],
+    required: true,
+    description:
+      'Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts)',
+  },
+  address: {
+    aliases: ['contract'],
+    required: true,
+    description: 'Address of the contract',
+    type: 'string',
+  },
+  inputParams: {
+    required: false,
+    description: 'Array of function parameters in order',
+    type: 'array',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

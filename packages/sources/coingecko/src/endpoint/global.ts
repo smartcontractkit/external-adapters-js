@@ -13,8 +13,13 @@ const customError = (data: ResponseSchema) => {
 }
 
 export const inputParameters: InputParameters = {
-  market: ['quote', 'to', 'market', 'coin'],
-  resultPath: false,
+  market: {
+    aliases: ['quote', 'to', 'coin'],
+    description:
+      'The ticker of the coin to query. [Supported tickers](https://api.coingecko.com/api/v3/global)',
+    required: true,
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {

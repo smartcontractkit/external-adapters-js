@@ -91,9 +91,16 @@ interface ResponseSchema {
 const customError = (data: ResponseSchema[]) => data.length === 0
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'ids'],
-  quote: ['quote', 'to', 'market', 'convert'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'ids'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to', 'market', 'convert'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+  },
 }
 
 const convertId: Record<string, string> = {

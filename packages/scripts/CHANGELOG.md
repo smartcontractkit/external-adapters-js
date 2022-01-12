@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 1.1.2
+
+### Patch Changes
+
+- 2eb5ef680: Fix security vulnerability in validator
+
 ## 1.1.1
 
 ### Patch Changes

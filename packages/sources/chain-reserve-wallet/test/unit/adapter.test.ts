@@ -27,7 +27,7 @@ describe('execute', () => {
         name: 'without contract address',
         testData: {
           data: {
-            chainID: 0,
+            chainId: 'testnet',
           },
         },
       },

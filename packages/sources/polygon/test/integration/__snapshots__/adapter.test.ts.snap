@@ -6,7 +6,20 @@ Object {
     "result": 0.7536,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 0.7536,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute forex batch api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 28.5,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 28.5,
   "statusCode": 200,
 }
 `;

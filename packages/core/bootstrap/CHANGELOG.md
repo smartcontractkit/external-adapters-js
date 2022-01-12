@@ -1,5 +1,36 @@
 # @chainlink/ea-bootstrap
 
+## 1.8.0
+
+### Minor Changes
+
+- 1b54ee913: Add internal properties to validator so it doesn't remove them
+
+## 1.7.1
+
+### Patch Changes
+
+- dfc4545b3: Btc_com rate limit
+
+## 1.7.0
+
+### Minor Changes
+
+- 85360aa9: remove source maps
+
+## 1.6.0
+
+### Minor Changes
+
+- f272a595: Implement cache fallback method
+- 1d55bbde: Change data provider error surfacing, return 200 and use new providerStatusCode field
+
+## 1.5.0
+
+### Minor Changes
+
+- 9b3cd511: limit number of times ws message handled
+
 ## 1.4.0
 
 ### Minor Changes

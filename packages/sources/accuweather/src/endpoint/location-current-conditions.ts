@@ -26,10 +26,30 @@ export type LocationCurrentConditionsResultEncoded = [boolean, string, string]
 export const supportedEndpoints = ['location-current-conditions']
 
 export const inputParameters: InputParameters = {
-  lat: ['lat', 'latitude'],
-  lon: ['lon', 'long', 'longitude'],
-  units: true,
-  encodeResult: false,
+  lat: {
+    aliases: ['latitude'],
+    description: 'The latitude (WGS84 standard). Must be `-90` to `90`.',
+    required: true,
+  },
+  lon: {
+    aliases: ['long', 'longitude'],
+    description: 'The longitude (WGS84 standard). Must be `-180` to `180`.',
+    required: true,
+  },
+  units: {
+    required: true,
+    description: 'The measurement system for the output',
+    type: 'string',
+    options: ['imperial', 'metric'],
+  },
+  encodeResult: {
+    required: false,
+    description:
+      'When `true` the result is ABI encoded (as tuple). When `false` the result is a JSON.',
+    type: 'boolean',
+    options: [true, false],
+    default: true,
+  },
 }
 
 // Result when the request was successful but no location was found by a given geolocation
@@ -64,6 +84,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
         dataLocation: locationResponse.data.data,
         result,
       },
+      status: locationResponse.providerStatusCode,
     }
     return Requester.success(jobRunID, endpointResponse, config.verbose)
   }
@@ -103,6 +124,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       dataCurrentConditions: currentConditionsResponse.data.data,
       result,
     },
+    status: locationResponse.providerStatusCode,
   }
 
   return Requester.success(jobRunID, endpointResponse, config.verbose)
