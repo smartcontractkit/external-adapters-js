@@ -281,11 +281,11 @@ exports[`execute latest api should error with batched base symbols 1`] = `
 Object {
   "error": Object {
     "feedID": "[BTC|XAU]/USD",
-    "message": "Base symbol XAU,BTC is not batchable",
+    "message": "Base symbol XAU,BTC is not batchable.",
     "name": "AdapterError",
   },
   "jobRunID": "1",
   "status": "errored",
-  "statusCode": 500,
+  "statusCode": 400,
 }
 `;
