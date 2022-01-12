@@ -6,12 +6,12 @@ const protocolEnvironmentVariables = [
 const indexerEnvironmentVariables = [
   { envKey: 'AMBERDATA_ADAPTER_URL', value: 'amberdata' },
   { envKey: 'BITCOIN_JSON_RPC_ADAPTER_URL', value: 'bitcoin_json_rpc' },
-  { envKey: 'POR_INDEXER_ADAPTER_URL', value: 'por_indexer' },
   { envKey: 'BLOCKCHAIN_COM_ADAPTER_URL', value: 'blockchain_com' },
   { envKey: 'BLOCKCYPHER_ADAPTER_URL', value: 'blockcypher' },
   { envKey: 'BLOCKCHAIR_ADAPTER_URL', value: 'blockchair' },
   { envKey: 'BTC_COM_ADAPTER_URL', value: 'btc_com' },
   { envKey: 'CRYPTOAPIS_ADAPTER_URL', value: 'cryptoapis' },
+  { envKey: 'POR_INDEXER_ADAPTER_URL', value: 'por_indexer' },
   { envKey: 'SOCHAIN_ADAPTER_URL', value: 'sochain' },
 ]
 
