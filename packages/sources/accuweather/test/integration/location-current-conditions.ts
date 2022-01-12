@@ -40,9 +40,9 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(200)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.body.providerStatusCode }, response.body, id)
       })
     })
 
@@ -66,9 +66,9 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(200)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.body.providerStatusCode }, response.body, id)
       })
     })
   })

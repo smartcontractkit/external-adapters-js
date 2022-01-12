@@ -7,8 +7,14 @@ import FundValueCalculatorABI from '../abis/FundValueCalculator.json'
 export const supportedEndpoints = ['calcGav']
 
 export const inputParameters: InputParameters = {
-  calculatorContract: true,
-  vaultProxy: true,
+  calculatorContract: {
+    required: true,
+    type: 'string',
+  },
+  vaultProxy: {
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

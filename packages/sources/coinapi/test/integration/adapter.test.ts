@@ -4,7 +4,7 @@ import http from 'http'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
-import { mockCryptoEndpoint } from './cryptoFixtures'
+import { mockAssetEndpoint, mockCryptoEndpoint } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('coinapi', () => {
@@ -51,6 +51,29 @@ describe('coinapi', () => {
         const response = await req
           .post('/')
           .send(cryptoRequest)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+  })
+
+  describe('assets endpoint', () => {
+    describe('when sending well-formed request', () => {
+      it('should reply with success', async () => {
+        const assetRequest: AdapterRequest = {
+          id: '1',
+          data: {
+            endpoint: 'assets',
+            base: 'ETH',
+          },
+        }
+        mockAssetEndpoint()
+        const response = await req
+          .post('/')
+          .send(assetRequest)
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)

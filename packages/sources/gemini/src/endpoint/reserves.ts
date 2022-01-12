@@ -10,7 +10,24 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  token: ['token', 'asset', 'coin'],
+  token: {
+    required: true,
+    aliases: ['asset', 'coin'],
+    description: 'The symbol of the token to query',
+    default: 'EFIL',
+    type: 'string',
+  },
+  chainId: {
+    required: false,
+    description: 'An identifier for which network of the blockchain to use',
+    type: 'string',
+    default: 'mainnet',
+  },
+  network: {
+    required: false,
+    type: 'string',
+    default: 'filecoin',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -19,12 +36,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const token = validator.validated.data.token
+  const network = validator.validated.data.network || 'filecoin'
+  const chainId = validator.validated.data.chainId || 'mainnet'
   const url = `/v1/tokens/${token.toLowerCase()}/reserves`
 
   const options = { ...config.api, url }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = response.data.addresses
+  const result = response.data.addresses.map((address) => ({ address, network, chainId }))
 
   const output = { ...response, data: { ...response.data, result } }
 

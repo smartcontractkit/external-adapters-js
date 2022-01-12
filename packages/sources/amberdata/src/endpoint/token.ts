@@ -8,8 +8,12 @@ const customError = (data: any) => {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  resultPath: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {

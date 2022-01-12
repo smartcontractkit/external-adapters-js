@@ -52,10 +52,17 @@ interface TradeUpdateData {
   4: number // The amount of crypto volume done at the last price in the base currency.
   5: number // The last price the last trade was executed at.
 }
+interface SyntheticMessage {
+  0: 'SA'
+  1: string // Ticker
+  2: string // A string representing the datetime this trade quote came in.
+  3: string // The exchange the trade was done one.
+  4: number // The last price the last trade was executed at.
+}
 interface UpdateMessage extends Message {
   messageType: 'A'
   service: 'crypto_data'
-  data: TopOfBookUpdateData | TradeUpdateData
+  data: TopOfBookUpdateData | TradeUpdateData | SyntheticMessage
 }
 
 const customParams = {
@@ -63,18 +70,6 @@ const customParams = {
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
-  const getSubscription = (ticker: string | undefined, subscribe = true) => {
-    const defaultConfig = config || makeConfig()
-    if (!ticker) return
-    return {
-      eventName: subscribe ? 'subscribe' : 'unsubscribe',
-      authorization: defaultConfig?.apiKey,
-      eventData: {
-        thresholdLevel: 5, // only Last Trade updates
-        tickers: [ticker],
-      },
-    }
-  }
   const getFxTicker = (input: AdapterRequest): string | undefined => {
     const validator = new Validator(input, customParams, {}, false)
     if (validator.error) return
@@ -86,7 +81,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     const validator = new Validator(input, endpoints.prices.inputParameters, {}, false)
     if (validator.error) return
     const { base, quote } = validator.validated.data
-    return `${base}${quote}`.toLowerCase()
+    return `${base}/${quote}`.toLowerCase()
   }
   const isCrypto = (input: AdapterRequest): boolean =>
     endpoints.prices.supportedEndpoints.includes(input.data.endpoint)
@@ -100,22 +95,51 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return undefined
   }
 
+  const getWSUrl = (baseURL: string, input: AdapterRequest): string => {
+    if (isFx(input)) {
+      return `${baseURL}/iex`
+    }
+    return `${baseURL}/crypto-synth`
+  }
+
   return () => {
     const defaultConfig = config || makeConfig()
+
+    const getSubscription = (ticker: string | undefined, subscribe = true) => {
+      if (!ticker) return
+      return {
+        eventName: subscribe ? 'subscribe' : 'unsubscribe',
+        authorization: defaultConfig?.apiKey,
+        eventData: {
+          thresholdLevel: ticker.includes('/') ? 6 : 5, // Crypto is the only ticker type that uses "/", and should use level 6 for synthetic updates
+          tickers: [ticker],
+        },
+      }
+    }
+
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        getUrl: async (input) =>
+          getWSUrl(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
       },
       shouldNotServeInputUsingWS: (input) => !isFx(input) && !isCrypto(input),
       subscribe: (input) => getSubscription(getTicker(input)),
       unsubscribe: (input) => getSubscription(getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
-      subsFromMessage: (message: UpdateMessage) => message.data && getSubscription(message.data[1]),
-      toResponse: (message: UpdateMessage) => {
-        const result = Requester.validateResultNumber(message.data, [5])
+      subsFromMessage: (message: UpdateMessage) =>
+        message.data && message.messageType === 'A' && getSubscription(message.data[1]), // The ticker is always index 1
+      toResponse: (message: UpdateMessage, input: AdapterRequest) => {
+        let result
+        if (isFx(input)) {
+          result = Requester.validateResultNumber(message.data, [5])
+        } else {
+          // Crypto
+          result = Requester.validateResultNumber(message.data, [4])
+        }
         return Requester.success('1', { data: { result } }, true)
       },
+      minTimeToNextMessageUpdateInS: 1,
     }
   }
 }

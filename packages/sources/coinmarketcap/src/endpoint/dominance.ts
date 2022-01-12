@@ -5,7 +5,12 @@ import { ResponseSchema } from './globalMarketCap'
 export const supportedEndpoints = ['dominance']
 
 export const inputParameters: InputParameters = {
-  market: ['market', 'to', 'quote'],
+  market: {
+    aliases: ['quote', 'to'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

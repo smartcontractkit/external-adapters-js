@@ -1,7 +1,6 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeConfig, makeExecute } from './adapter'
+import { endpointSelector, makeExecute } from './adapter'
+import { makeConfig, NAME } from './config'
 
-const NAME = 'XBTO'
-
-const { server } = expose(NAME, makeExecute())
-export { NAME, makeExecute, makeConfig, server }
+const { server } = expose(NAME, makeExecute(), undefined, endpointSelector)
+export { NAME, makeExecute, makeConfig, server, endpointSelector }

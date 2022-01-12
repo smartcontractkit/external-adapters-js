@@ -6,6 +6,7 @@ Object {
     "result": 1,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 1,
   "statusCode": 200,
 }
@@ -20,7 +21,8 @@ Object {
     "url": "https:/dex-asiapacific.binance.org/api/v1/ticker/24hr",
   },
   "jobRunID": "1",
+  "providerStatusCode": 400,
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 200,
 }
 `;

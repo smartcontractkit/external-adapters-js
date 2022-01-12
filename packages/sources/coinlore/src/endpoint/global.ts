@@ -10,9 +10,31 @@ export const endpointResultPaths: EndpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  base: false,
-  resultPath: false,
-  endpoint: false,
+  base: {
+    description: 'When using a field of `d`, the currency to prefix the field with (e.g. `usd_d`',
+    required: false,
+    type: 'string',
+    default: 'btc',
+  },
+  endpoint: {
+    description: 'The adapter endpoint to use',
+    required: false,
+    type: 'string',
+  },
+}
+
+interface ResponseSchema {
+  coins_count: number
+  active_markets: number
+  total_mcap: number
+  total_volume: number
+  btc_d: string
+  eth_d: string
+  mcap_change: string
+  volume_change: string
+  avg_change_percent: string
+  volume_ath: number
+  mcap_ath: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -30,7 +52,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data[0], [resultPath])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema[]>(options)
+  const result = Requester.validateResultNumber(response.data[0], [resultPath])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

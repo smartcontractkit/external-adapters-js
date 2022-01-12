@@ -21,12 +21,16 @@ export interface ResponseSchema {
   }
 }
 
-const inputParams: InputParameters = {
-  chainSources: false,
+export const inputParameters: InputParameters = {
+  chainSources: {
+    required: false,
+    description: `Array of chains to pull debt from. Options for array elements are 'ethereum', 'optimism'`,
+    type: 'array',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
   let { chainSources } = validator.validated.data

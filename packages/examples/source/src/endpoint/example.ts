@@ -27,7 +27,6 @@ export const inputParameters: InputParameters = {
     aliases: ['to', 'market'],
     required: true,
   },
-  resultPath: {},
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
