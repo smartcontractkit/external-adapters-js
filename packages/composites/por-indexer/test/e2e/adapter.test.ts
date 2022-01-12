@@ -57,7 +57,7 @@ describe('execute', () => {
     ]
 
     for (const req of requests) {
-      it(`${req.name}`, async () => {
+      it(req.name, async () => {
         const data = await execute(req.testData as AdapterRequest, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
       })
@@ -144,7 +144,7 @@ describe('execute', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
+      it(req.name, async () => {
         try {
           await execute(req.testData as AdapterRequest, {})
         } catch (error) {
