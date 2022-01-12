@@ -4,7 +4,11 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockResponseSuccessConvertEndpoint, mockResponseSuccessLatestEndpoint } from './fixtures'
+import {
+  mockResponseSuccessConvertEndpoint,
+  mockResponseSuccessLatestEndpoint,
+  mockResponseSuccessLatestBtcEndpoint,
+} from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -57,16 +61,15 @@ describe('execute', () => {
   })
 
   describe('latest api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        endpoint: 'latest',
-        base: 'XAU',
-        quote: 'USD',
-      },
-    }
-
-    it('should return success', async () => {
+    it('returns success with single base/quote pair', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          endpoint: 'latest',
+          base: 'XAU',
+          quote: 'USD',
+        },
+      }
       mockResponseSuccessLatestEndpoint()
 
       const response = await req
@@ -76,6 +79,48 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns success with batched quote symbols', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          endpoint: 'latest',
+          base: 'BTC',
+          quote: ['USD', 'XAU'],
+        },
+      }
+      mockResponseSuccessLatestBtcEndpoint()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should error with batched base symbols', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          endpoint: 'latest',
+          base: ['XAU', 'BTC'],
+          quote: 'USD',
+        },
+      }
+      mockResponseSuccessLatestEndpoint()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
       expect(response.body).toMatchSnapshot()
     })
   })

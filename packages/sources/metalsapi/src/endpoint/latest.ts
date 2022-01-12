@@ -38,12 +38,12 @@ const handleBatchedRequest = (
   symbols: string[],
 ) => {
   const payload: [AdapterRequest, number][] = []
+  const from = response.data.base.toUpperCase()
   for (const symbol of symbols) {
-    const from = response.data.base
     payload.push([
       {
         ...request,
-        data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
+        data: { ...request.data, base: from, quote: symbol.toUpperCase() },
       },
       Requester.validateResultNumber(response.data, [resultPath, symbol]),
     ])
@@ -64,10 +64,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const from = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
   const url = `latest`
+  if (Array.isArray(from)) throw Error(`Base symbol ${from} is not batchable`)
 
   const params = {
     access_key: config.apiKey,
-    from,
+    base: from,
   }
 
   const reqConfig = { ...config.api, params, url }
