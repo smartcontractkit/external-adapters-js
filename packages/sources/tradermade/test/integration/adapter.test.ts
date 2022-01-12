@@ -4,7 +4,12 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockResponseFailure, mockResponseSuccess } from './fixtures'
+import {
+  mockForexSingleSuccess,
+  mockForexBatchedSuccess,
+  mockLiveSuccess,
+  mockResponseFailure,
+} from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -34,18 +39,38 @@ describe('execute', () => {
   })
 
   describe('forex  api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        endpoint: 'forex',
-        base: 'ETH',
-        quote: 'USD',
-      },
-    }
+    it('should return success for single base/quote pair', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          endpoint: 'forex',
+          base: 'ETH',
+          quote: 'USD',
+        },
+      }
 
-    it('should return success', async () => {
-      mockResponseSuccess()
+      mockForexSingleSuccess()
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
 
+    it('should return success for batched base/quote pairs', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          endpoint: 'forex',
+          base: ['ETH', 'BTC'],
+          quote: ['USD', 'JPY'],
+        },
+      }
+
+      mockForexBatchedSuccess()
       const response = await req
         .post('/')
         .send(data)
@@ -67,7 +92,7 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockResponseSuccess()
+      mockLiveSuccess()
 
       const response = await req
         .post('/')

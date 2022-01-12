@@ -1,6 +1,127 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute forex  api should return success 1`] = `
+exports[`execute forex  api should return success for batched base/quote pairs 1`] = `
+Object {
+  "data": Object {
+    "endpoint": "live",
+    "quotes": Array [
+      Object {
+        "ask": 3388.15,
+        "base_currency": "ETH",
+        "bid": 3387.93,
+        "mid": 3388.04,
+        "quote_currency": "USD",
+      },
+      Object {
+        "ask": 389663,
+        "base_currency": "ETH",
+        "bid": 388814,
+        "mid": 389238.5,
+        "quote_currency": "JPY",
+      },
+      Object {
+        "ask": 43833.68,
+        "base_currency": "BTC",
+        "bid": 43823.78,
+        "mid": 43828.73,
+        "quote_currency": "USD",
+      },
+      Object {
+        "ask": 5036923,
+        "base_currency": "BTC",
+        "bid": 5028879,
+        "mid": 5032901,
+        "quote_currency": "JPY",
+      },
+    ],
+    "requested_time": "Fri, 05 Nov 2021 17:11:25 GMT",
+    "results": Array [
+      Array [
+        Object {
+          "data": Object {
+            "base": Array [
+              "ETH",
+              "BTC",
+            ],
+            "endpoint": "forex",
+            "from": "ETH",
+            "quote": Array [
+              "USD",
+              "JPY",
+            ],
+            "to": "USD",
+          },
+          "id": "1",
+        },
+        3388.04,
+      ],
+      Array [
+        Object {
+          "data": Object {
+            "base": Array [
+              "ETH",
+              "BTC",
+            ],
+            "endpoint": "forex",
+            "from": "ETH",
+            "quote": Array [
+              "USD",
+              "JPY",
+            ],
+            "to": "JPY",
+          },
+          "id": "1",
+        },
+        389238.5,
+      ],
+      Array [
+        Object {
+          "data": Object {
+            "base": Array [
+              "ETH",
+              "BTC",
+            ],
+            "endpoint": "forex",
+            "from": "BTC",
+            "quote": Array [
+              "USD",
+              "JPY",
+            ],
+            "to": "USD",
+          },
+          "id": "1",
+        },
+        43828.73,
+      ],
+      Array [
+        Object {
+          "data": Object {
+            "base": Array [
+              "ETH",
+              "BTC",
+            ],
+            "endpoint": "forex",
+            "from": "BTC",
+            "quote": Array [
+              "USD",
+              "JPY",
+            ],
+            "to": "JPY",
+          },
+          "id": "1",
+        },
+        5032901,
+      ],
+    ],
+    "timestamp": 1636132286,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute forex  api should return success for single base/quote pair 1`] = `
 Object {
   "data": Object {
     "result": 4494.0249,

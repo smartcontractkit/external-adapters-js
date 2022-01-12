@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.0.33
+
+### Patch Changes
+
+- Updated dependencies [41920d9dc]
+- Updated dependencies [f625d6afa]
+  - @chainlink/tradermade-adapter@1.6.0
+  - @chainlink/metalsapi-adapter@1.6.0
+
 ## 1.0.32
 
 ### Patch Changes
