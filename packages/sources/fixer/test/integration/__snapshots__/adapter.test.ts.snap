@@ -6,6 +6,7 @@ Object {
     "result": 0.862805,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 0.862805,
   "statusCode": 200,
 }
@@ -20,7 +21,8 @@ Object {
     "url": "https:/data.fixer.io/api/convert",
   },
   "jobRunID": "1",
+  "providerStatusCode": 402,
   "status": "errored",
-  "statusCode": 500,
+  "statusCode": 200,
 }
 `;

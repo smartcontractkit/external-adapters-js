@@ -110,7 +110,7 @@ describe('synthetix-debt-pool', () => {
       const request = {
         id: 1,
         data: {
-          chainSources: [],
+          chainSources: null,
         },
       }
       const response = await req

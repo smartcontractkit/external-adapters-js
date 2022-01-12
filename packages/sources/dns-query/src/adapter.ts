@@ -1,49 +1,19 @@
-import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterRequest,
+  APIEndpoint,
+  Config,
+  ExecuteFactory,
+  ExecuteWithConfig,
+} from '@chainlink/types'
+import { Builder } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
-import { DNSQueryResponse } from './types'
+import * as endpoints from './endpoint'
 
-export const inputParams = {
-  name: true,
-  type: true,
-  do: false,
-  cd: false,
-}
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) =>
+  Builder.buildSelector(request, context, config, endpoints)
 
-const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParams)
-  if (validator.error) throw validator.error
-
-  const jobRunID = validator.validated.id
-  const { name, type, do: doBit, cd: cdBit } = validator.validated.data
-
-  const params = {
-    name,
-    type,
-    ...(doBit && { do: doBit }),
-    ...(cdBit && { cd: cdBit }),
-  }
-  const headers = {
-    Accept: 'application/dns-json',
-  }
-
-  const result = await Requester.request<DNSQueryResponse>({
-    url: config.api?.url,
-    headers,
-    params,
-  })
-
-  const data = { ...result.data }
-
-  return Requester.success(
-    jobRunID,
-    {
-      status: 200,
-      data: data,
-    },
-    config.verbose,
-  )
-}
+export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
+  Builder.selectEndpoint(request, makeConfig(), endpoints)
 
 export const makeExecute: ExecuteFactory<Config> = (config?: Config) => (input, context) =>
   execute(input, context, config || makeConfig())

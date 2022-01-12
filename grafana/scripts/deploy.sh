@@ -20,6 +20,7 @@ EA_DATA_SOURCE="${EA_DATA_SOURCE:-Prometheus}"
 EA_PROMETHEUS_NAMESPACE="${EA_PROMETHEUS_NAMESPACE:-adapters}"
 
 pushd >/dev/null "$(git rev-parse --show-toplevel)/grafana" || exit 1
+mkdir -p generated
 jsonnet \
   --ext-str dashboardTitle="$EA_DETAILED_DASHBOARD_TITLE" \
   --ext-str dashboardUid="$(echo "$EA_DETAILED_DASHBOARD_TITLE" | sha1sum | awk '{ print $1 }')" \

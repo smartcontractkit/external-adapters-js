@@ -46,6 +46,7 @@ Object {
     "status": "REQUEST_SUCCEEDED",
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 272.265,
   "statusCode": 200,
 }

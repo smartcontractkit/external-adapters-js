@@ -27,6 +27,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
   return {
     payload: response.data,
     result: [{ ...account, balance }],
+    status: response.status,
   }
 }
 

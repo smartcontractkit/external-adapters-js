@@ -8,10 +8,8 @@
 
 #### Websocket support
 
-This adapter has Websocket support. However, the Tiingo WS API only offers price updates from individual exchanges with
-no aggregation. Because of this, Tiingo WS should not be used to provide data to the Chainlink price feeds. To avoid
-node operators accidentally running this with WS enabled, WS will only be enabled when run in development mode. To
-enable WS, set `NODE_ENV=development` in addition to `WS_ENABLED=true`.
+The Tiingo WS does not support aggregated updates for anything other than crypto prices. Enabling WS for anything other
+than this should be proceeded with caution.
 
 ---
 

@@ -112,6 +112,7 @@ Object {
     "winnerVoteCount": 271187,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "271187,Biden",
   "statusCode": 200,
 }
@@ -197,6 +198,7 @@ Object {
     "winnerVoteCount": 271187,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": "271187,Herring",
   "statusCode": 200,
 }

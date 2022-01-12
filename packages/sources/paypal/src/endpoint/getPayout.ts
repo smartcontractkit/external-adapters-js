@@ -5,8 +5,18 @@ import * as paypal from '@paypal/payouts-sdk'
 export const supportedEndpoints = ['getpayout', 'read']
 
 export const inputParameters: InputParameters = {
-  payout_id: true,
-  type: false,
+  payout_id: {
+    required: true,
+    description: 'ID of the payout batch or item to lookup',
+    type: 'string',
+  },
+  type: {
+    required: false,
+    description: 'Type of payout to lookup',
+    options: ['ITEM', 'BATCH'],
+    default: 'BATCH',
+    type: 'string',
+  },
 }
 
 const paramOptions = {

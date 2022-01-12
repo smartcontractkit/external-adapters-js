@@ -6,7 +6,20 @@ Object {
     "result": 1785.0181286441143,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 1785.0181286441143,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute latest api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1,
   "statusCode": 200,
 }
 `;

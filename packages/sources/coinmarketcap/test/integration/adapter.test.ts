@@ -77,7 +77,8 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(429)
+          .expect(200)
+
         expect(response.body).toMatchSnapshot()
       })
     })
@@ -116,7 +117,8 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(429)
+          .expect(200)
+
         expect(response.body).toMatchSnapshot()
       })
     })
@@ -232,7 +234,8 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(429)
+          .expect(200)
+
         expect(response.body).toMatchSnapshot()
       })
     })

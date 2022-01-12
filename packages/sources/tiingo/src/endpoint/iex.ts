@@ -13,6 +13,26 @@ export const inputParameters: InputParameters = {
   resultPath: false,
 }
 
+interface ResponseSchema {
+  prevClose: number
+  last: number
+  lastSaleTimestamp: string
+  low: number
+  bidSize: number
+  askPrice: number
+  open: number
+  mid: number
+  volume: number
+  lastSize: number
+  tngoLast: number
+  ticker: string
+  askSize: number
+  quoteTimestamp: string
+  bidPrice: number
+  timestamp: string
+  high: number
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
@@ -30,8 +50,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [0, resultPath])
+  const response = await Requester.request<ResponseSchema[]>(options)
+  const result = Requester.validateResultNumber(response.data, [0, resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

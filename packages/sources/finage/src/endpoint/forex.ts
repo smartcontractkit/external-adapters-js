@@ -4,9 +4,19 @@ import { NAME } from '../config'
 
 export const supportedEndpoints = ['forex']
 
-export const inputParams: InputParameters = {
-  base: ['base', 'from', 'symbol'],
-  quote: ['quote', 'to', 'market'],
+export const inputParameters: InputParameters = {
+  base: {
+    required: true,
+    aliases: ['from', 'symbol'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -17,7 +27,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

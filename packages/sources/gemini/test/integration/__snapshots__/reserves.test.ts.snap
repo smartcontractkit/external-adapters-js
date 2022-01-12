@@ -10,14 +10,31 @@ Object {
     "currency": "EFIL",
     "ethereum_supply": 33427.594125,
     "result": Array [
-      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+      Object {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "chainId": "mainnet",
+        "network": "filecoin",
+      },
+      Object {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+        "chainId": "mainnet",
+        "network": "filecoin",
+      },
     ],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Array [
-    "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-    "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+    Object {
+      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+      "chainId": "mainnet",
+      "network": "filecoin",
+    },
+    Object {
+      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+      "chainId": "mainnet",
+      "network": "filecoin",
+    },
   ],
   "statusCode": 200,
 }
