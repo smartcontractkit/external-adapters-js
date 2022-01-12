@@ -1,5 +1,17 @@
 # @chainlink/metalsapi-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- a1e3fd204: Add endpointSelector to expose method inputs
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.4.0
 
 ### Minor Changes

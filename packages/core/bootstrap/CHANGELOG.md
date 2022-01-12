@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.8.0
+
+### Minor Changes
+
+- 1b54ee913: Add internal properties to validator so it doesn't remove them
+
 ## 1.7.1
 
 ### Patch Changes
