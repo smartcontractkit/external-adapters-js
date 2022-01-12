@@ -9,9 +9,35 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
+}
+
+export interface ResponseSchema {
+  data: {
+    ticker: {
+      [key: string]: {
+        date: string
+        timestamp: number
+        bid: number
+        ask: number
+        high: number
+        low: number
+        volume: number
+      }
+    }
+    code: 'success'
+  }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -29,13 +55,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'data',
-    'ticker',
-    base,
-    resultPath,
-  ])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['data', 'ticker', base, resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

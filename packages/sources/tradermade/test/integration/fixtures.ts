@@ -5,23 +5,25 @@ export const mockResponseSuccess = (): nock =>
     encodedQueryParams: true,
   })
     .get('/api/v1/live')
-    .query({ api_key: 'fake-api-key', currency: 'ETHUSD' })
+    .query({ api_key: 'fake-api-key', currencies: 'ETHUSD' })
     .reply(
       200,
-      (_, request) => ({
-        endpoint: 'live',
-        quotes: [
-          {
-            ask: 4494.03,
-            base_currency: 'ETH',
-            bid: 4494.02,
-            mid: 4494.0249,
-            quote_currency: 'USD',
-          },
-        ],
-        requested_time: 'Fri, 05 Nov 2021 17:11:25 GMT',
-        timestamp: 1636132286,
-      }),
+      (_, request) => {
+        return {
+          endpoint: 'live',
+          quotes: [
+            {
+              ask: 4494.03,
+              base_currency: 'ETH',
+              bid: 4494.02,
+              mid: 4494.0249,
+              quote_currency: 'USD',
+            },
+          ],
+          requested_time: 'Fri, 05 Nov 2021 17:11:25 GMT',
+          timestamp: 1636132286,
+        }
+      },
       [
         'Content-Type',
         'application/json',

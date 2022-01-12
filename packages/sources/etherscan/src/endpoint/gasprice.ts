@@ -14,16 +14,34 @@ export interface ResponseSchema {
   }
 }
 
-const speedType: any = {
+interface Speed {
+  safe: string
+  medium: string
+  fast: string
+}
+
+const speedType: Speed = {
   safe: 'SafeGasPrice',
   medium: 'ProposeGasPrice',
   fast: 'FastGasPrice',
 }
 
-const customError = (data: any) => data.Response === 'Error'
+interface ErrorSchema {
+  status: '0' | '1'
+  message: string
+  result: string
+}
+
+const customError = (data: ErrorSchema) => data.status === '0'
 
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    type: 'string',
+    options: ['safe', 'medium', 'fast'],
+    default: 'fast',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -31,8 +49,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const speedValue = validator.validated.data.speed
-  const speed = speedType[speedValue] || speedType['fast']
+  const speedValue: keyof Speed = validator.validated.data.speed
+  const speed = speedType[speedValue] || speedType.fast
   const url = `/api`
 
   const params = {

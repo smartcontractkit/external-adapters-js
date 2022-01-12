@@ -6,6 +6,7 @@ Object {
     "result": 934877.7183770883,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 934877.7183770883,
   "statusCode": 200,
 }
@@ -20,7 +21,8 @@ Object {
     "url": "https:/bitex.la/api/tickers/NON_EXISTING",
   },
   "jobRunID": "1",
+  "providerStatusCode": 404,
   "status": "errored",
-  "statusCode": 404,
+  "statusCode": 200,
 }
 `;

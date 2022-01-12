@@ -161,6 +161,7 @@ Object {
     "sources": Array [],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 8496.3706079905,
   "statusCode": 200,
 }
@@ -315,6 +316,7 @@ Object {
     "sources": Array [],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 8496.3706079905,
   "statusCode": 200,
 }

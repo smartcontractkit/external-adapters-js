@@ -3,10 +3,15 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['quote', 'price', 'stock']
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema[]) => data.length === 0
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'asset', 'from'],
+  base: {
+    required: true,
+    aliases: ['asset', 'from'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 const commonKeys: { [key: string]: string } = {
@@ -17,6 +22,31 @@ const commonKeys: { [key: string]: string } = {
   EUR: 'EURUSD',
   GBP: 'GBPUSD',
   JPY: 'JPYUSD',
+}
+
+export interface ResponseSchema {
+  symbol: string
+  name: string
+  price: number
+  changesPercentage: number
+  change: number
+  dayLow: number
+  dayHigh: number
+  yearHigh: number
+  yearLow: number
+  marketCap: number
+  priceAvg50: number
+  priceAvg200: number
+  volume: number
+  avgVolume: number
+  exchange: string
+  open: number
+  previousClose: number
+  eps: number
+  pe: number
+  earningsAnnouncement: number
+  sharesOutstanding: number
+  timestamp: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -35,8 +65,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [0, 'price'])
+  const response = await Requester.request<ResponseSchema[]>(options, customError)
+  const result = Requester.validateResultNumber(response.data, [0, 'price'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

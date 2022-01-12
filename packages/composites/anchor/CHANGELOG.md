@@ -1,5 +1,82 @@
 # @chainlink/anchor-adapter
 
+## 1.1.17
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+- Updated dependencies [1b54ee913]
+  - @chainlink/terra-view-function-adapter@1.1.3
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/token-allocation-adapter@1.0.28
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/token-allocation-adapter@1.0.27
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.2
+
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/token-allocation-adapter@1.0.26
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.1
+
+## 1.1.14
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.25
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+- Updated dependencies [ccf9d4fa]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/terra-view-function-adapter@1.1.0
+  - @chainlink/token-allocation-adapter@1.0.24
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/token-allocation-adapter@1.0.23
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.0.14
+
+## 1.1.11
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.22
+
+## 1.1.10
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.21
+
+## 1.1.9
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.0.20
+
 ## 1.1.8
 
 ### Patch Changes

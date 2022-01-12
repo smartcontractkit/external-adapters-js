@@ -30,16 +30,18 @@
     "result": [
       {
         "address": "19iqYbeATe4RxghQZJnYVFU4mjUUu76EA6",
+        "chainId": "testnet",
         "coin": "btc",
-        "chain": "mainnet"
+        "network": "bitcoin"
       }
     ]
   },
   "result": [
     {
       "address": "19iqYbeATe4RxghQZJnYVFU4mjUUu76EA6",
+      "chainId": "testnet",
       "coin": "btc",
-      "chain": "mainnet"
+      "network": "bitcoin"
     }
   ],
   "statusCode": 200

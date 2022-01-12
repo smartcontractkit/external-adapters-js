@@ -141,8 +141,9 @@ Object {
     "url": "https:/pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest",
   },
   "jobRunID": "1",
+  "providerStatusCode": 429,
   "status": "errored",
-  "statusCode": 429,
+  "statusCode": 200,
 }
 `;
 
@@ -152,6 +153,7 @@ Object {
     "result": 6602.60701122,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 6602.60701122,
   "statusCode": 200,
 }
@@ -163,6 +165,7 @@ Object {
     "result": 6602.60701122,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 6602.60701122,
   "statusCode": 200,
 }
@@ -174,6 +177,7 @@ Object {
     "result": 6602.60701122,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 6602.60701122,
   "statusCode": 200,
 }
@@ -185,6 +189,7 @@ Object {
     "result": 6602.60701122,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 6602.60701122,
   "statusCode": 200,
 }
@@ -199,8 +204,9 @@ Object {
     "url": "https:/pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest",
   },
   "jobRunID": "1",
+  "providerStatusCode": 429,
   "status": "errored",
-  "statusCode": 429,
+  "statusCode": 200,
 }
 `;
 
@@ -210,6 +216,7 @@ Object {
     "result": 44.897494474523,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 44.897494474523,
   "statusCode": 200,
 }
@@ -224,8 +231,9 @@ Object {
     "url": "https:/pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest",
   },
   "jobRunID": "1",
+  "providerStatusCode": 429,
   "status": "errored",
-  "statusCode": 429,
+  "statusCode": 200,
 }
 `;
 
@@ -235,6 +243,7 @@ Object {
     "result": 1939416192105.152,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 1939416192105.152,
   "statusCode": 200,
 }
