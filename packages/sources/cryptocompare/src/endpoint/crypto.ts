@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -8,16 +8,22 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
-export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
+export const batchablePropertyPath = [
+  // NOTE: Cryptocompare limits by character length of fsyms
+  { name: 'base', limit: 200 }, // actual limit: 1000 characters
+  { name: 'quote', limit: 20 }, // actual limit: 100 characters
+  // TODO handle character length limits
+]
 
 export const endpointResultPaths = {
   crypto: 'PRICE',
   price: 'PRICE',
   marketcap: 'MKTCAP',
+  volume: 'VOLUME24HOURTO',
 }
 
-interface ResponseSchema {
+export interface ResponseSchema {
   RAW: {
     [fsym: string]: {
       [tsym: string]: {
@@ -26,7 +32,7 @@ interface ResponseSchema {
         FROMSYMBOL: string
         TOSYMBOL: string
         FLAGS: string
-        PRICE: number
+        PRICE?: number
         LASTUPDATE: number
         MEDIAN: number
         LASTVOLUME: number
@@ -120,10 +126,19 @@ interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
-  endpoint: false,
+  base: {
+    aliases: ['from', 'coin', 'fsym'],
+    description: 'The symbol of the currency to query',
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market', 'tsym'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+  endpoint: {
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (
@@ -135,19 +150,24 @@ const handleBatchedRequest = (
 ) => {
   const payload: [AdapterRequest, number][] = []
   for (const base of request.data.base) {
-    const baseWithOverride = validator.overrideSymbol(AdapterName, base)
+    const baseWithOverride = (validator.overrideSymbol(AdapterName, base) as string)?.toUpperCase()
+    // Skip if the response does not contain the base
+    if (!response.data.RAW[baseWithOverride]) {
+      Logger.warn(`${baseWithOverride} not found in batch response data`)
+      continue
+    }
     for (const quote in response.data.RAW[baseWithOverride]) {
+      // Skip this pair if CC doesn't have resultPath for this pair
+      if (!(resultPath in response.data.RAW[baseWithOverride][quote])) {
+        Logger.warn(`${resultPath} not found in batch response data's ${baseWithOverride}.${quote}`)
+        continue
+      }
       payload.push([
         {
           ...request,
           data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
         },
-        Requester.validateResultNumber(response.data, [
-          'RAW',
-          baseWithOverride as string,
-          quote,
-          resultPath,
-        ]),
+        Requester.validateResultNumber(response.data, ['RAW', baseWithOverride, quote, resultPath]),
       ])
     }
   }
@@ -191,7 +211,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (Array.isArray(symbol) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
-  const result = Requester.validateResultNumber(response.data, ['RAW', symbol, quote, resultPath])
+  const result = Requester.validateResultNumber(response.data, [
+    'RAW',
+    (symbol as string).toUpperCase(),
+    quote,
+    resultPath,
+  ])
 
   return Requester.success(
     jobRunID,

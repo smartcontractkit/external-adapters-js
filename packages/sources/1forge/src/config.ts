@@ -1,9 +1,9 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = '1FORGE'
+export const NAME = 'ADAPTER_1FORGE'
 
-export const DEFAULT_ENDPOINT = 'forex'
+export const DEFAULT_ENDPOINT = 'quotes'
 export const DEFAULT_BASE_URL = 'https://api.1forge.com/'
 
 export const makeConfig = (prefix?: string): Config => {

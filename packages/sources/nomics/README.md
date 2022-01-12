@@ -10,9 +10,9 @@
 
 ### Input Parameters
 
-| Required? |    Name    |     Description     |                                                         Options                                                         | Defaults to |
-| :-------: | :--------: | :-----------------: | :---------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint) |  `crypto`   |
+| Required? |    Name    |     Description     |                                                                                       Options                                                                                       | Defaults to |
+| :-------: | :--------: | :-----------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint), [filtered](#Filtered-Endpoint) |  `crypto`   |
 
 ---
 
@@ -396,6 +396,78 @@ Fetch the market cap of the requested asset
   "statusCode": 200,
   "data": {
     "result": 178200927834
+  }
+}
+```
+
+## Volume Endpoint
+
+Fetch the volume of the requested pair of assets for past 24-hr
+
+### Input Params
+
+| Required? |               Name                |               Description                | Options | Defaults to |
+| :-------: | :-------------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     |   `base`, `from`, `coin`, `ids`   |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`,`market`, `convert` | The symbol of the currency to convert to |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "LINK",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 1665493647.38,
+  "statusCode": 200,
+  "data": {
+    "result": 1665493647.38
+  }
+}
+```
+
+## Filtered Endpoint
+
+Fetch the price of an asset using specified exchanges
+
+### Input Params
+
+| Required? |             Name              |              Description               | Options | Defaults to |
+| :-------: | :---------------------------: | :------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `ids` |  The symbol of the currency to query   |         |             |
+|    ✅     |          `exchanges`          | Comma delimited list of exchange names |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "LINK",
+    "exchanges": "binance,binance_us,bitfinex,bitflyer,bithumb,bitstamp,bittrex,bkex,btcturk,cex,citex,gdax,coincheck,coinex,coinflex,coinone,cryptocom,etorox,ftx,gemini,hitbtc,itbit,korbit,kraken,kucoin,lbank,okcoinusd,okex,poloniex,tokok,trade_ogre"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 777.777,
+  "statusCode": 200,
+  "data": {
+    "result": 777.777
   }
 }
 ```

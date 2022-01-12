@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute convert api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.862701,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.862701,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute quotes api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.8828,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.8828,
+  "statusCode": 200,
+}
+`;

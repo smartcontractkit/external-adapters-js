@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute closing api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 20.8675,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 20.8675,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute price api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 20.8675,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 20.8675,
+  "statusCode": 200,
+}
+`;

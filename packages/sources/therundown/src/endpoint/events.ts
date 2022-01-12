@@ -1,12 +1,23 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['events']
 
 export const inputParameters: InputParameters = {
-  sportId: true,
-  date: true,
-  status: false,
+  sportId: {
+    required: true,
+    description: 'The ID of the sport to get events from',
+  },
+  date: {
+    required: true,
+    description: 'The date to get events from',
+    type: 'string',
+  },
+  status: {
+    required: false,
+    description: 'Optional status param to filter events on',
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -28,8 +39,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const sportId = validator.validated.data.sportId
-  const date = validator.validated.data.date
+  let date = validator.validated.data.date
   const status = validator.validated.data.status
+  date = new Date(date)
+  if (date.toString() === 'Invalid Date') {
+    throw new AdapterError({
+      jobRunID,
+      message: `Invalid date format`,
+      statusCode: 400,
+    })
+  }
   const url = `/sports/${sportId}/events/${formatDate(date)}`
 
   const reqConfig = {

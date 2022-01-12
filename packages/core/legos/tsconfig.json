@@ -14,6 +14,12 @@
       "path": "../../sources/1forge"
     },
     {
+      "path": "../../sources/accuweather"
+    },
+    {
+      "path": "../../sources/ada-balance"
+    },
+    {
       "path": "../../sources/alphachain"
     },
     {
@@ -24,6 +30,12 @@
     },
     {
       "path": "../../sources/anyblock"
+    },
+    {
+      "path": "../../sources/ap-election"
+    },
+    {
+      "path": "../../sources/bea"
     },
     {
       "path": "../../sources/binance"
@@ -60,6 +72,9 @@
     },
     {
       "path": "../../sources/cfbenchmarks"
+    },
+    {
+      "path": "../../sources/chain-reserve-wallet"
     },
     {
       "path": "../../sources/coinapi"
@@ -119,6 +134,9 @@
       "path": "../../sources/dns-query"
     },
     {
+      "path": "../../sources/durin"
+    },
+    {
       "path": "../../sources/dwolla"
     },
     {
@@ -132,6 +150,9 @@
     },
     {
       "path": "../../sources/eodhistoricaldata"
+    },
+    {
+      "path": "../../sources/eth-balance"
     },
     {
       "path": "../../sources/etherchain"
@@ -161,7 +182,13 @@
       "path": "../../sources/fixer"
     },
     {
+      "path": "../../sources/flightaware"
+    },
+    {
       "path": "../../sources/fmpcloud"
+    },
+    {
+      "path": "../../sources/gemini"
     },
     {
       "path": "../../sources/genesis-volatility"
@@ -182,6 +209,9 @@
       "path": "../../sources/intrinio"
     },
     {
+      "path": "../../sources/ipfs"
+    },
+    {
       "path": "../../sources/json-rpc"
     },
     {
@@ -198,6 +228,9 @@
     },
     {
       "path": "../../sources/lition"
+    },
+    {
+      "path": "../../sources/lotus"
     },
     {
       "path": "../../sources/marketstack"
@@ -257,6 +290,9 @@
       "path": "../../sources/satoshitango"
     },
     {
+      "path": "../../sources/snowflake"
+    },
+    {
       "path": "../../sources/sochain"
     },
     {
@@ -273,6 +309,9 @@
     },
     {
       "path": "../../sources/taapi"
+    },
+    {
+      "path": "../../sources/terra-view-function"
     },
     {
       "path": "../../sources/therundown"
@@ -296,16 +335,28 @@
       "path": "../../sources/unibit"
     },
     {
+      "path": "../../sources/uniswap-v2"
+    },
+    {
+      "path": "../../sources/uniswap-v3"
+    },
+    {
       "path": "../../sources/upvest"
     },
     {
       "path": "../../sources/uscpi-one"
     },
     {
+      "path": "../../sources/view-function"
+    },
+    {
       "path": "../../sources/wbtc-address-set"
     },
     {
       "path": "../../sources/wootrade"
+    },
+    {
+      "path": "../../sources/wrapped"
     },
     {
       "path": "../../sources/xbto"

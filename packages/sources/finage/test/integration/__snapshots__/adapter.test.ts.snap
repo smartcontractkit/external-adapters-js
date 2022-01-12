@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute crypto api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 50940.12,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 50940.12,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute eod api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 26.3,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 26.3,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute forex api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.3443049999999999,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1.3443049999999999,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stock api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 25.8,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 25.8,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stock api with invalid base should return failure 1`] = `
+Object {
+  "error": Object {
+    "errorResponse": "Please check the symbol and try again.",
+    "feedID": "{\\"data\\":{\\"endpoint\\":\\"stock\\",\\"base\\":\\"non-existing\\"}}",
+    "message": "Request failed with status code 400",
+    "name": "AdapterError",
+    "url": "https:/api.finage.co.uk/last/stock/NON-EXISTING",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 400,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;

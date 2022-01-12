@@ -43,6 +43,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.CACHE_ENABLED = 'false'
   process.env.TIINGO_DATA_PROVIDER_URL =
     process.env.TIINGO_DATA_PROVIDER_URL || 'http://localhost:3000'
   if (process.env.RECORD) {

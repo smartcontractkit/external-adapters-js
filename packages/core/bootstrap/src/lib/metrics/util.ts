@@ -1,6 +1,7 @@
 import { AdapterRequest } from '@chainlink/types'
 import { logger, Validator } from '../external-adapter'
 import { excludableAdapterRequestProperties } from '../util'
+import * as crypto from 'crypto'
 
 /**
  * Normalizes http status codes.
@@ -12,11 +13,7 @@ import { excludableAdapterRequestProperties } from '../util'
  * @returns {string} the normalized status code.
  */
 export function normalizeStatusCode(status?: number): string {
-  if (!status) {
-    return '5XX'
-  }
-
-  if (status >= 200 && status < 300) {
+  if (!status || (status >= 200 && status < 300)) {
     return '2XX'
   }
 
@@ -28,6 +25,38 @@ export function normalizeStatusCode(status?: number): string {
     return '4XX'
   }
   return '5XX'
+}
+
+/**
+ * Maxiumum number of characters that a feedId can contain.
+ */
+export const MAX_FEED_ID_LENGTH = 300
+
+/**
+ * Fixed label value for cache warmer feed_id
+ */
+export const WARMER_FEED_ID = 'CACHE_WARMER'
+
+/**
+ * Builds a string from the provided data, either a symbol string or an array of them. E.g.:
+ *   - "ETH"
+ *   - "[BTC|DOGE|ETH]"
+ * @param data The input data from validated params
+ * @returns {string}
+ */
+function buildSymbolString(data: string | string[]): string {
+  if (Array.isArray(data)) {
+    if (data.length > 1) {
+      return `[${data
+        .map((b: string) => b.toUpperCase())
+        .sort((b1, b2) => b1.localeCompare(b2))
+        .join('|')}]`
+    } else {
+      return data[0].toUpperCase()
+    }
+  }
+
+  return data.toUpperCase()
 }
 
 /**
@@ -46,6 +75,14 @@ export const getFeedId = (input: AdapterRequest): string => {
     return Object.keys(input.data).includes(param)
   }
 
+  /**
+   * If the request is coming from the cache warmer, use a fixed id. This is to reduce the
+   * cardinality of the feed_id label in prometheus, which can be overloaded quickly
+   */
+  if (input.debug?.warmer) {
+    return WARMER_FEED_ID
+  }
+
   // run through validator if input.data object has keys that match potential base and quote parameters
   if (commonFeedParams.base.some(includesCheck) && commonFeedParams.quote.some(includesCheck)) {
     const validationResult = new Validator(input, commonFeedParams)
@@ -55,18 +92,13 @@ export const getFeedId = (input: AdapterRequest): string => {
     }
 
     const { base, quote } = validationResult.validated.data
+
     /**
      * With batched requests, the base can either be an array of bases, or a single base.
-     * Quotes are currently only a string
+     * The same type constraints apply to the quote param.
      */
-    if (Array.isArray(base)) {
-      const bases = `[${base.map((b: string) => b.toUpperCase()).join('|')}]`
-      return typeof quote === 'string' ? `${bases}/${quote.toUpperCase()}` : bases
-    }
-
-    if (typeof base === 'string') {
-      const upperBase = base.toUpperCase()
-      return typeof quote === 'string' ? `${upperBase}/${quote.toUpperCase()}` : upperBase
+    if (base) {
+      return `${buildSymbolString(base)}` + (quote ? `/${buildSymbolString(quote)}` : '')
     }
   }
 
@@ -74,5 +106,10 @@ export const getFeedId = (input: AdapterRequest): string => {
     .filter((prop) => !excludableAdapterRequestProperties[prop])
     .map((k) => [k, input[k as keyof AdapterRequest]])
 
-  return JSON.stringify(Object.fromEntries(entries))
+  const rawFeedId = JSON.stringify(Object.fromEntries(entries))
+
+  // If feedId exceed the max length use the md5 hash
+  return rawFeedId.length > MAX_FEED_ID_LENGTH
+    ? crypto.createHash('md5').update(rawFeedId).digest('hex')
+    : rawFeedId
 }

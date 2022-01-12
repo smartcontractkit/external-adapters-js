@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute forex rate api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4483.820268,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 4483.820268,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute forex rate api with invalid base should return failure 1`] = `
+Object {
+  "error": Object {
+    "errorResponse": true,
+    "feedID": "NON-EXISTING/USD",
+    "message": "Request failed with status code 400",
+    "name": "AdapterError",
+    "url": "https:/openexchangerates.org/api/latest.json",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 400,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;

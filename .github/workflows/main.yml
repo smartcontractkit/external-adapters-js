@@ -33,7 +33,7 @@ jobs:
         run: npm install -g yarn
       - run: yarn install
       - run: yarn setup
-      - run: yarn test:ci:integration
+      - run: timeout 300 yarn test:ci:integration
       - uses: codecov/codecov-action@v2
         with:
           flags: integration

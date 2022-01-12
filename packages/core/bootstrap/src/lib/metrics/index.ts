@@ -2,13 +2,14 @@ import * as client from 'prom-client'
 import { parseBool } from '../util'
 export * as util from './util'
 
-client.collectDefaultMetrics()
-client.register.setDefaultLabels(
-  // we'll inject both name and versions in
-  // when EAEE gets merged, because it'll be a lot easier
-  // to refactor with full type coverage support
-  { app_name: process.env.METRICS_NAME || 'N/A', app_version: 'N/A' },
-)
+export const setupMetrics = (name: string): void => {
+  client.collectDefaultMetrics()
+  client.register.setDefaultLabels({
+    app_name: process.env.METRICS_NAME || name || 'N/A',
+    app_version: process.env.npm_package_version,
+  })
+}
+
 export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
 
 export enum HttpRequestType {
@@ -19,7 +20,15 @@ export enum HttpRequestType {
 export const httpRequestsTotal = new client.Counter({
   name: 'http_requests_total',
   help: 'The number of http requests this external adapter has serviced for its entire uptime',
-  labelNames: ['method', 'status_code', 'retry', 'type', 'is_cache_warming', 'feed_id'] as const,
+  labelNames: [
+    'method',
+    'status_code',
+    'retry',
+    'type',
+    'is_cache_warming',
+    'feed_id',
+    'provider_status_code',
+  ] as const,
 })
 
 export const httpRequestDurationSeconds = new client.Histogram({
@@ -46,4 +55,9 @@ export const httpRequestsDataProviderHits = new client.Counter({
   name: 'http_requests_data_provider_hits',
   help: 'The number of http requests that hit the provider',
   labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
+})
+
+export const httpRateLimit = new client.Counter({
+  name: 'http_requests_rate_limit',
+  help: 'The number of denied requests because of server rate limiting',
 })

@@ -1,6 +1,6 @@
 # Chainlink Proof of Reserves composite adapter
 
-This composite adapter first queries a list of custodial contracts of a protocol, then queries the BTC balances of each of these addresses, and finally reduces the balances to one total result.
+This composite adapter first queries a list of custodial contracts of a protocol, then queries the BTC or ETH balances of each of these addresses, and finally reduces the balances to one total result.
 
 ## Configuration
 
@@ -10,10 +10,13 @@ At least one of each of the following categories must be set as an environment v
 
 1. A protocol adapter to retrieve custodial addresses (if not using `list`)
 
-   | Required? |        Name         |               Description                | Options | Defaults to |
-   | :-------: | :-----------------: | :--------------------------------------: | :-----: | :---------: |
-   |           | `WBTC_ADAPTER_URL`  | The location of a WBTC external adapter  |         |             |
-   |           | `RENVM_ADAPTER_URL` | The location of a RenVM external adapter |         |             |
+   | Required? |                Name                |                  Description                   | Options | Defaults to |
+   | :-------: | :--------------------------------: | :--------------------------------------------: | :-----: | :---------: |
+   |           |         `WBTC_ADAPTER_URL`         |    The location of a WBTC external adapter     |         |             |
+   |           |        `RENVM_ADAPTER_URL`         |    The location of a RenVM external adapter    |         |             |
+   |           |        `GEMINI_ADAPTER_URL`        |   The location of a Gemini external adapter    |         |             |
+   |           | `CHAIN_RESERVE_WALLET_ADAPTER_URL` | The location of a Chain reserve wallet adapter |         |             |
+   |           |       `WRAPPED_ADAPTER_URL`        |   The location of a Wrapped external adapter   |         |             |
 
 2. An indexer adapter to retrieve account balances for each custodial address
 
@@ -27,6 +30,9 @@ At least one of each of the following categories must be set as an environment v
    |           |     `BTC_COM_ADAPTER_URL`      |      The location of a BTC.com external adapter      |         |             |
    |           |    `CRYPTOAPIS_ADAPTER_URL`    |    The location of a Crypto APIs external adapter    |         |             |
    |           |     `SOCHAIN_ADAPTER_URL`      |      The location of a SoChain external adapter      |         |             |
+   |           |      `LOTUS_ADAPTER_URL`       |       The location of a Lotus external adapter       |         |             |
+   |           |   `ETH_BALANCE_ADAPTER_URL`    |    The location of a EthBalance external adapter     |         |             |
+   |           |   `ADA_BALANCE_ADAPTER_URL`    |    The location of a Ada balance external adapter    |         |             |
 
 ## Running
 
@@ -34,12 +40,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |      Name       |                                             Description                                              |                                                      Options                                                      | Defaults to |
-| :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                              `renvm`, `wbtc`, `list`                                              |             |
-|    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `amberdata`, `bitcoin_json_rpc`, `blockchain_com`, `blockcypher`. `blockchair`, `btc_com`,`cryptoapis`, `sochain` |             |
-|           | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                                                   |      6      |
-|           |   `addresses`   |           An array of addresses to get the balance from, when "protocol" is set to `list`            |                                                                                                                   |             |
+| Required? |      Name       |                                             Description                                              |                                                                         Options                                                                          | Defaults to |
+| :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                           `chain_reserve_wallet`, `gemini`, `list`, `renvm`, `wbtc`, `wrapped`                                           |             |
+|    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `ada_balance`, `amberdata`, `bitcoin_json_rpc`, `blockchain_com`. `blockchair`, `blockcypher`,`btc_com`, `cryptoapis`, `eth_balance`, `lotus`, `sochain` |             |
+|           | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                                                                                          |      6      |
+|           |   `addresses`   |           An array of addresses to get the balance from, when "protocol" is set to `list`            |                                                                                                                                                          |             |
 
 Additionally the first underlying adapter in the sequence, in this case the protocol adapter, may have parameters.
 

@@ -4,14 +4,35 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['crypto', 'ticker']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'fsym'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market', 'tsym'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const endpointResultPaths = {
-  crypto: 'last_price',
-  ticker: 'last_price',
+  crypto: 'last',
+  ticker: 'last',
+}
+
+interface ResponseSchema {
+  ask: string
+  bid: string
+  last: string
+  low: string
+  high: string
+  open: string
+  volume: string
+  volume_quote: string
+  timestamp: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -19,21 +40,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const url = 'ticker'
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const resultPath = validator.validated.data.resultPath
   const market = base + quote
-
-  const params = { market }
+  const url = `public/ticker/${market}`
 
   const options = {
     ...config.api,
     url,
-    params,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', 0, resultPath])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, [resultPath])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

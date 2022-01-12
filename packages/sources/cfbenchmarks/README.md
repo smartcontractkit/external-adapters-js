@@ -1,19 +1,42 @@
 # Chainlink External Adapter for cfbenchmarks
 
-### Configuration
-
-The adapter takes the following environment variables:
+### Environment variables
 
 | Required? |      Name      | Description | Options | Defaults to |
 | :-------: | :------------: | :---------: | :-----: | :---------: |
 |    ✅     | `API_USERNAME` |             |         |             |
 |    ✅     | `API_PASSWORD` |             |         |             |
 
-## Input Params
+---
 
-- `index`: The ID of the index to query
+### Input Parameters
 
-## Sample Output
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [values](#Values-Endpoint) |  `values`   |
+
+---
+
+## Values Endpoint
+
+### Input Params
+
+| Required? |  Name   |     Description     | Options | Defaults to |
+| :-------: | :-----: | :-----------------: | :-----: | :---------: |
+|    ✅     | `index` | The ID of the index |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "index": "BRR"
+  }
+}
+```
+
+### Sample Output
 
 ```json
 {

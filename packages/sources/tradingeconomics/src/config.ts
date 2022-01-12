@@ -9,13 +9,15 @@ export type Config = config & {
 }
 
 export const NAME = 'TRADINGECONOMICS'
+export const DEFAULT_ENDPOINT = 'price'
 
 export const DEFAULT_API_ENDPOINT = 'https://api.tradingeconomics.com/markets'
-export const DEFAULT_WS_API_ENDPOINT = 'ws://stream.tradingeconomics.com/'
+export const DEFAULT_WS_API_ENDPOINT = 'wss://stream.tradingeconomics.com/'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
 
   return {
     ...config,

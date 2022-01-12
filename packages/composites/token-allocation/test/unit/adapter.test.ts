@@ -24,7 +24,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
@@ -64,7 +64,7 @@ describe('execute', () => {
           },
         },
       }
-      const value = priceTotalValue(allocations, 'USD', data)
+      const value = priceTotalValue('test', allocations, 'USD', data)
       const expectedValue = 11
       expect(value).toBe(expectedValue)
     })
@@ -86,7 +86,7 @@ describe('execute', () => {
           },
         },
       }
-      const value = priceTotalValue(allocations, 'USD', data)
+      const value = priceTotalValue('test', allocations, 'USD', data)
       const expectedValue = 34.1
       expect(value).toBe(expectedValue)
     })

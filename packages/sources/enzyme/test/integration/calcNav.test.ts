@@ -1,16 +1,18 @@
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
-import { ENV_RPC_URL } from '../../src/config'
+import { ENV_ETHEREUM_RPC_URL } from '../../src/config'
+import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env[ENV_RPC_URL] = process.env[ENV_RPC_URL] || 'http://localhost:8545/'
+  process.env.CACHE_ENABLED = 'false'
+  process.env[ENV_ETHEREUM_RPC_URL] = process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8545/'
   process.env.API_VERBOSE = 'true'
   if (process.env.RECORD) {
     nock.recorder.rec()
@@ -31,10 +33,14 @@ afterAll(() => {
 describe('execute', () => {
   const id = '1'
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
+
   beforeAll(async () => {
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    process.env.CACHE_ENABLED = 'false'
   })
+
   afterAll((done) => {
     server.close(done)
   })

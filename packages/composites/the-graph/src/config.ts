@@ -9,6 +9,8 @@ export type Config = DefaultConfig & {
   }
 }
 
+export const DEFAULT_NETWORK = 'ETHEREUM'
+
 export const WETH = 'WETH'
 export const UNISWAP = 'UNISWAP'
 const DEFAULT_UNISWAP_V2_SUBGRAPH_ENDPOINT =

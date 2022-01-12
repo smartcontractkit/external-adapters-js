@@ -8,13 +8,14 @@ import {
   InputParameters,
 } from '@chainlink/types'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'convert', limit: 120 }]
 
 export const endpointResultPaths = {
   crypto: 'price',
   price: 'price',
   marketcap: 'market_cap',
+  volume: 'volume_24h',
 }
 
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
@@ -42,7 +43,6 @@ const presetIds: { [symbol: string]: number } = {
   AAVE: 7278,
   UMA: 5617,
   SNX: 2586,
-  RAI2: 8525,
   REN: 2539,
   KNC: 1982,
   SUSHI: 6758,
@@ -52,11 +52,26 @@ const presetIds: { [symbol: string]: number } = {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'sym', 'symbol'],
-  convert: ['quote', 'to', 'market', 'convert'],
-  cid: false,
-  slug: false,
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'sym', 'symbol'],
+    description: 'The symbol of the currency to query',
+    required: true,
+  },
+  convert: {
+    aliases: ['quote', 'to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+  cid: {
+    description: 'The CMC coin ID (optional to use in place of base)',
+    required: false,
+    type: 'string',
+  },
+  slug: {
+    description: 'The CMC coin ID (optional to use in place of base)',
+    required: false,
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (

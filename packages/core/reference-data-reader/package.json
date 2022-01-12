@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-reference-data-reader",
-  "version": "0.0.4",
+  "version": "1.0.18",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,14 +17,14 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^0.0.11",
-    "@chainlink/ea-bootstrap": "*",
+    "@chainlink/ea-bootstrap": "workspace:*",
     "ethers": "^4.0.48",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/types": "0.0.1",
-    "@types/jest": "27.0.1",
-    "@types/node": "14.17.17",
+    "@chainlink/types": "workspace:*",
+    "@types/jest": "27.0.3",
+    "@types/node": "16.11.19",
     "typescript": "4.3.5"
   }
 }

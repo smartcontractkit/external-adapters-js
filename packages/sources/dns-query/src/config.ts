@@ -11,6 +11,8 @@ export const endpoints: Record<string, string> = {
   [DNSProviders.Google]: 'https://dns.google/resolve',
 }
 
+export const DEFAULT_ENDPOINT = 'dnsQuery'
+
 export const makeConfig = (): Config => {
   const customEndpoint = util.getEnv('CUSTOM_ENDPOINT')
   if (customEndpoint) {
@@ -20,6 +22,11 @@ export const makeConfig = (): Config => {
   if (!Object.values(DNSProviders).includes(provider))
     throw new Error(`Unknown DNS Provider: ${provider}`)
 
-  const config: Config = { api: { url: endpoints[provider] } }
+  const config: Config = {
+    api: {
+      url: endpoints[provider],
+    },
+    defaultEndpoint: DEFAULT_ENDPOINT,
+  }
   return config
 }

@@ -21,7 +21,7 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
   const getSubscription = (pair?: string) => {
     const defaultConfig = config || makeConfig()
     if (!pair) return
@@ -32,7 +32,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return sub
   }
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.forex.customParams, {}, false)
+    const validator = new Validator(input, endpoints.forex.inputParameters, {}, false)
     if (validator.error) return
     const base = validator.validated.data.base.toUpperCase()
     const quote = validator.validated.data.quote.toUpperCase()

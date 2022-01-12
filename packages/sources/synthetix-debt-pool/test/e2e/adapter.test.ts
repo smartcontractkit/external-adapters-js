@@ -1,5 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
+import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
@@ -10,8 +9,24 @@ describe('execute', () => {
   describe('successful calls @integration', () => {
     const requests = [
       {
-        name: 'id not supplied',
+        name: 'aggregate debt across all chains without defining chainSources',
         testData: { data: {} },
+      },
+      {
+        name: 'aggregate debt across all chains',
+        testData: {
+          data: {
+            chainSources: [],
+          },
+        },
+      },
+      {
+        name: 'get debt from just a single chain',
+        testData: {
+          data: {
+            chainSources: ['ethereum'],
+          },
+        },
       },
     ]
 

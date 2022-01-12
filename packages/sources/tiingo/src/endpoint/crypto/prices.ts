@@ -2,11 +2,12 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../../config'
 
-export const supportedEndpoints = ['prices', 'crypto']
+export const supportedEndpoints = ['prices', 'crypto', 'volume', 'crypto-synth']
 
 export const endpointResultPaths = {
   prices: 'fxClose',
   crypto: 'fxClose',
+  volume: 'volumeNotional',
 }
 
 export interface ResponseSchema {
@@ -62,13 +63,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data as ResponseSchema[], [
-    0,
-    'priceData',
-    0,
-    resultPath,
-  ])
+  const response = await Requester.request<ResponseSchema[]>(options, customError)
+  const result = Requester.validateResultNumber(response.data, [0, 'priceData', 0, resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

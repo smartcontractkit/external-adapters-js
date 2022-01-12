@@ -29,8 +29,8 @@ Each source in `sources` needs to have a defined `*_ADAPTER_URL` defined as an e
 _E.g. for a request with `"sources": ["coingecko", "coinpaprika"]`, you will need to have pre-set the following env vars:_
 
 ```
-COINGECKO_ADAPTER_URL=http://coingecko_adapter_url/
-COINPAPRIKA_ADAPTER_URL=http://coinpaprika_adapter_url/
+COINGECKO_ADAPTER_URL=https://coingecko_adapter_url/
+COINPAPRIKA_ADAPTER_URL=https://coinpaprika_adapter_url/
 ```
 
 ### Sample Input

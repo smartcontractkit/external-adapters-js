@@ -24,6 +24,7 @@ const DEFAULT_WS_CONNECTION_RETRY_DELAY = 1000
 const DEFAULT_WS_SUBSCRIPTION_LIMIT = 10
 const DEFAULT_WS_SUBSCRIPTION_TTL = 120000
 const DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL = 120000
+const DEFAULT_WS_HEARTBEAT_INTERVAL = 30000
 
 /** Load WSConfig from environment variables */
 export const getWSConfig = (endpoint?: string): WSConfig => ({
@@ -42,7 +43,10 @@ export const getWSConfig = (endpoint?: string): WSConfig => ({
   subscriptionUnresponsiveTTL:
     Number(getEnv(ENV_WS_SUBSCRIPTION_UNRESPONSIVE_TTL)) ||
     DEFAULT_WS_SUBSCRIPTION_UNRESPONSIVE_TTL,
-  subscriptionPriorityList: (getEnv(ENV_WS_SUBSCRIPTION_PRIORITY_LIST) || []) as Array<string>, // TODO: load array
+  subscriptionPriorityList: (getEnv(ENV_WS_SUBSCRIPTION_PRIORITY_LIST) || []) as Array<string>, // TODO: load array,
+  defaultHeartbeatIntervalInMS: Number(
+    getEnv('DEFAULT_WS_HEARTBEAT_INTERVAL') || DEFAULT_WS_HEARTBEAT_INTERVAL,
+  ),
 })
 
 export const wsRedactPaths = [

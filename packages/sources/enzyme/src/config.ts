@@ -4,7 +4,8 @@ import { ethers } from 'ethers'
 
 export const NAME = 'ENZYME'
 
-export const ENV_RPC_URL = 'RPC_URL'
+export const ENV_ETHEREUM_RPC_URL = 'ETHEREUM_RPC_URL'
+export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 
 export const DEFAULT_ENDPOINT = 'calcNav'
 
@@ -13,7 +14,11 @@ export type Config = BaseConfig & {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const rpcURL = util.getRequiredEnv(ENV_RPC_URL, prefix)
+  const rpcURL = util.getRequiredEnvWithFallback(
+    ENV_ETHEREUM_RPC_URL,
+    [ENV_FALLBACK_RPC_URL],
+    prefix,
+  )
 
   return {
     ...Requester.getDefaultConfig(prefix),

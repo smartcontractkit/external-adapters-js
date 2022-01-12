@@ -49,7 +49,7 @@ describe('execute', () => {
           data: {
             queryId: 'push-3',
             reply: 'abc',
-            requiredFee: 0,
+            requiredFee: '12',
           },
         },
       ],
@@ -68,7 +68,7 @@ describe('execute', () => {
           data: {
             queryId: 'push-3',
             reply: 'abc',
-            requiredFee: 120,
+            requiredFee: '120000000000000',
           },
         },
       ],
@@ -87,7 +87,7 @@ describe('execute', () => {
           data: {
             queryId: 'bad',
             reply: 'abc',
-            requiredFee: 120,
+            requiredFee: '120000000000000',
           },
         },
         {

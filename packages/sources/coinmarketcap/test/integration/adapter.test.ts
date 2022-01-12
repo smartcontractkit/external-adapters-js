@@ -1,7 +1,8 @@
 import { AdapterRequest } from '@chainlink/types'
 import http from 'http'
+import { AddressInfo } from 'net'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
 import {
   mockCoinMarketCapErrorTooManyRequests,
@@ -12,21 +13,25 @@ import {
   mockFailedGlobalMetricsResponse,
   mockSuccessfulGlobalMetricsResponse,
 } from './globalMetricsFixtures'
+import { mockSuccessfulHistoricalCapResponse } from './historicalFixtures'
 
 let oldEnv: NodeJS.ProcessEnv
 
 describe('coinmarketcap', () => {
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.CACHE_ENABLED = 'false'
     process.env.API_KEY = process.env.API_KEY || 'mock-api-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     process.env = oldEnv
     if (process.env.RECORD) {
@@ -64,9 +69,6 @@ describe('coinmarketcap', () => {
 
     describe('coinmarketcap replies with error due to too many requests', () => {
       it('should reply with failure', async () => {
-        // Fail 3 times to mimic retries
-        mockFailedGlobalMetricsResponse('USD')
-        mockFailedGlobalMetricsResponse('USD')
         mockFailedGlobalMetricsResponse('USD')
 
         const response = await req
@@ -75,7 +77,8 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(429)
+          .expect(200)
+
         expect(response.body).toMatchSnapshot()
       })
     })
@@ -106,9 +109,6 @@ describe('coinmarketcap', () => {
 
     describe('coinmarketcap replies with error due to too many requests', () => {
       it('should reply with failure', async () => {
-        // Fail 3 times to mimic retries
-        mockFailedGlobalMetricsResponse()
-        mockFailedGlobalMetricsResponse()
         mockFailedGlobalMetricsResponse()
 
         const response = await req
@@ -117,7 +117,8 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(429)
+          .expect(200)
+
         expect(response.body).toMatchSnapshot()
       })
     })
@@ -225,9 +226,6 @@ describe('coinmarketcap', () => {
 
     describe('coinmarketcap replies with error due to too many requests', () => {
       it('should reply with failure', async () => {
-        // Fail 3 times to mimic retries
-        mockCoinMarketCapErrorTooManyRequests()
-        mockCoinMarketCapErrorTooManyRequests()
         mockCoinMarketCapErrorTooManyRequests()
 
         const response = await req
@@ -236,8 +234,36 @@ describe('coinmarketcap', () => {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(429)
+          .expect(200)
+
         expect(response.body).toMatchSnapshot()
+      })
+    })
+  })
+
+  describe('coinmarketcap replies with success when request historical endpoint', () => {
+    const data: AdapterRequest = {
+      id: '1',
+      data: {
+        endpoint: 'historical',
+        symbol: 'ETH',
+        convert: 'BTC',
+        start: '2021-07-23T14',
+      },
+    }
+
+    describe('coinmarketcap replies with success', () => {
+      it('should reply with success', async () => {
+        mockSuccessfulHistoricalCapResponse()
+
+        const response = await req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body.data).toMatchSnapshot()
       })
     })
   })

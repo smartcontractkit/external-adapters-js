@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute api with invalid token should return failure 1`] = `
+Object {
+  "error": Object {
+    "feedID": "ETH/XXX",
+    "message": "Request failed with status code 500",
+    "name": "AdapterError",
+    "url": "https:/min-api.cryptocompare.com/data/pricemultifull",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 500,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute marketcap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 7694679.153236445,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 7694679.153236445,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute price api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.06543,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.06543,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute volume api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 12999.111610148046,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 12999.111610148046,
+  "statusCode": 200,
+}
+`;

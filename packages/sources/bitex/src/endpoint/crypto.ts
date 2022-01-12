@@ -4,9 +4,36 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['crypto', 'tickers']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+}
+
+interface ResponseSchema {
+  data: {
+    id: string
+    type: string
+    attributes: {
+      last: number
+      open: number
+      high: number
+      low: number
+      vwap: number
+      volume: number
+      bid: number
+      ask: number
+      price_before_last: number
+    }
+  }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -24,12 +51,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'data',
-    'attributes',
-    resultPath,
-  ])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['data', 'attributes', resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

@@ -44,12 +44,19 @@ export interface WarmupSubscribedPayload extends WarmupExecutePayload {
    */
   childLastSeenById?: { [childKey: string]: number }
 }
-interface WarmupUnsubscribedPayload {
+
+export interface WarmupSubscribedMultiplePayload {
+  members: WarmupSubscribedPayload[]
+}
+
+export interface WarmupUnsubscribedPayload {
   key: string
+  isBatched: boolean
   reason: string
 }
-interface WarmupStoppedPayload {
-  key: string
+export interface WarmupStoppedPayload {
+  keys: string[]
+  isBatched: boolean
 }
 interface WarmupSubscriptionTimeoutResetPayload {
   key: string
@@ -66,6 +73,9 @@ interface WarmupLeaveGroupPayload {
 }
 
 export const warmupSubscribed = createAction<WarmupSubscribedPayload>('WARMUP/SUBSCRIBED')
+export const warmupSubscribedMultiple = createAction<WarmupSubscribedMultiplePayload>(
+  'WARMUP/SUBSCRIBED_MULTIPLE',
+)
 export const warmupSubscriptionTimeoutReset = createAction<WarmupSubscriptionTimeoutResetPayload>(
   'WARMUP/SUBSCRIPTION_TIMEOUT_RESET',
 )
@@ -73,6 +83,7 @@ export const warmupUnsubscribed = createAction<WarmupUnsubscribedPayload>('WARMU
 export const warmupStopped = createAction<WarmupStoppedPayload>('WARMUP/STOPPED')
 export const warmupJoinGroup = createAction<WarmupJoinGroupPayload>('WARMUP/JOIN_GROUP')
 export const warmupLeaveGroup = createAction<WarmupLeaveGroupPayload>('WARMUP/LEAVE_GROUP')
+export const warmupShutdown = createAction('WARMUP/SHUTDOWN')
 
 interface WarmupRequestedPayload {
   /**

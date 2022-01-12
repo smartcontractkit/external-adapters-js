@@ -8,13 +8,14 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['crypto', 'price', 'marketcap']
+export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }]
 
 export const endpointResultPaths = {
   crypto: 'price',
   price: 'price',
   marketcap: 'market_cap',
+  volume: ['1d', 'volume'],
 }
 
 interface ResponseSchema {
@@ -90,9 +91,16 @@ interface ResponseSchema {
 const customError = (data: ResponseSchema[]) => data.length === 0
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'ids'],
-  quote: ['quote', 'to', 'market', 'convert'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'ids'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to', 'market', 'convert'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+  },
 }
 
 const convertId: Record<string, string> = {

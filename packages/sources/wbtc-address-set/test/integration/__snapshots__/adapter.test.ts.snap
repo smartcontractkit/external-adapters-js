@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute addresses api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
+        "balance": "0",
+        "chainId": "mainnet",
+        "coin": "btc",
+        "id": "601c5e4b11b1d4001e37091aa2618ee9",
+        "network": "bitcoin",
+        "type": "custodial",
+        "verified": false,
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": Array [
+    Object {
+      "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
+      "balance": "0",
+      "chainId": "mainnet",
+      "coin": "btc",
+      "id": "601c5e4b11b1d4001e37091aa2618ee9",
+      "network": "bitcoin",
+      "type": "custodial",
+      "verified": false,
+    },
+  ],
+  "statusCode": 200,
+}
+`;
+
+exports[`execute members api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
+        "balance": "0",
+        "chainId": "mainnet",
+        "coin": "btc",
+        "id": "601323767069d60008cb538b32c33cb1",
+        "network": "bitcoin",
+        "type": "custodial",
+        "verified": false,
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": Array [
+    Object {
+      "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
+      "balance": "0",
+      "chainId": "mainnet",
+      "coin": "btc",
+      "id": "601323767069d60008cb538b32c33cb1",
+      "network": "bitcoin",
+      "type": "custodial",
+      "verified": false,
+    },
+  ],
+  "statusCode": 200,
+}
+`;

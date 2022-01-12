@@ -1,5 +1,5 @@
 import { Requester, AdapterError } from '@chainlink/ea-bootstrap'
-import { RequestConfig } from '@chainlink/types'
+import { InputParameters, RequestConfig } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
 import { getNFCAddress } from '../abi/NFCRegistry'
@@ -12,6 +12,8 @@ export const MacroScoreAPIName = 'submit'
 export interface ICustomError {
   Response: string
 }
+
+export const supportedEndpoints = ['spectral-proxy']
 
 const customError = (data: ICustomError) => {
   if (data.Response === 'Error') return true
@@ -47,6 +49,19 @@ export interface CalculationResponse {
 export interface ResolveResponse {
   score: string // numeric,
   message: string
+}
+
+export const inputParameters: InputParameters = {
+  tokenIdInt: {
+    required: true,
+    description: 'The tokenID for the user as an integer value',
+    type: 'string',
+  },
+  tickSetId: {
+    required: true,
+    description: 'The set of ticks used to compute the MACRO Score as in integer value',
+    type: 'string',
+  },
 }
 
 export const computeTickWithScore = (score: number, tickSet: BigNumber[]): number => {

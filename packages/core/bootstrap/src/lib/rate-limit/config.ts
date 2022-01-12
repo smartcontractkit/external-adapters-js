@@ -2,6 +2,9 @@ import { getRateLimit, getHTTPLimit } from '../provider-limits'
 import { getEnv, parseBool } from '../util'
 import { logger } from '../external-adapter'
 import { AdapterContext } from '@chainlink/types'
+import { DEFAULT_CACHE_ENABLED } from '../cache'
+
+export const DEFAULT_RATE_LIMIT_ENABLED = true
 
 export interface Config {
   /**
@@ -19,8 +22,16 @@ export interface Config {
 }
 
 export function get(context: AdapterContext): Config {
-  const enabled = parseBool(getEnv('EXPERIMENTAL_RATE_LIMIT_ENABLED'))
+  const enabled =
+    parseBool(getEnv('CACHE_ENABLED') ?? DEFAULT_CACHE_ENABLED) &&
+    parseBool(getEnv('RATE_LIMIT_ENABLED') ?? DEFAULT_RATE_LIMIT_ENABLED)
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
+  const perSecRateLimit = getEnv('RATE_LIMIT_CAPACITY_SECOND')
+  const perMinuteRateLimit = getEnv('RATE_LIMIT_CAPACITY_MINUTE')
+  const shouldIgnorePerSecLimit = perSecRateLimit && parseInt(perSecRateLimit) <= 0
+  const shouldIgnorePerMinLimit = perMinuteRateLimit && parseInt(perMinuteRateLimit) <= 0
+  if (perSecRateLimit) capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
+  if (perMinuteRateLimit) capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
   if (!capacity && enabled) {
     const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
@@ -38,17 +49,18 @@ export function get(context: AdapterContext): Config {
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
       const limit = getHTTPLimit(provider, tier, 'rateLimit1s')
-      burstCapacity1s = Number(limit)
+      burstCapacity1s = shouldIgnorePerSecLimit ? 0 : Number(limit)
     } catch {
       // Ignore
     }
     try {
       const limit = getHTTPLimit(provider, tier, 'rateLimit1m')
-      burstCapacity1m = Number(limit)
+      burstCapacity1m = shouldIgnorePerMinLimit ? 0 : Number(limit)
     } catch {
       // Ignore
     }
   }
+
   return {
     burstCapacity1s,
     burstCapacity1m,

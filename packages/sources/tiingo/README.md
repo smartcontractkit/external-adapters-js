@@ -8,18 +8,16 @@
 
 #### Websocket support
 
-This adapter has Websocket support. However, the Tiingo WS API only offers price updates from individual exchanges with
-no aggregation. Because of this, Tiingo WS should not be used to provide data to the Chainlink price feeds. To avoid
-node operators accidentally running this with WS enabled, WS will only be enabled when run in development mode. To
-enable WS, set `NODE_ENV=development` in addition to `WS_ENABLED=true`.
+The Tiingo WS does not support aggregated updates for anything other than crypto prices. Enabling WS for anything other
+than this should be proceeded with caution.
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                           Options                                                           | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                                                                                   Options                                                                                                    | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint), [`forex`, `fx` or `commodities`](#Forex-Endpoint) |  `crypto`   |
 
 ---
 
@@ -176,6 +174,92 @@ This endpoint does a VWAP of all the exchanges on the current day and across bas
     "result": 130.27
   },
   "result": 130.27,
+  "statusCode": 200
+}
+```
+
+---
+
+## Volume Endpoint
+
+Crypto prices endpoint from:
+
+https://api.tiingo.com/documentation/crypto
+
+This endpoint gets the 24h volume for a pair
+
+### Input Params
+
+| Required? |            Name            |                Description                 | Options | Defaults to |
+| :-------: | :------------------------: | :----------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |     The cryptocurrency symbol to query     |         |             |
+|    ✅     | `quote`, `to`, or `market` | The output currency to return the price in |         |             |
+|           |          `field`           |            The value to return             |         | `lastPrice` |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "volume",
+    "base": "btc",
+    "quote": "usd"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 6034249067.971378
+  },
+  "result": 6034249067.971378,
+  "statusCode": 200
+}
+```
+
+--
+
+## Forex Endpoint
+
+Aliases: `fx`, `commodities`
+
+https://api.tiingo.com/documentation/forex
+
+### Input Params
+
+| Required? |                Name                 |        Description        | Options | Defaults to |
+| :-------: | :---------------------------------: | :-----------------------: | :-----: | :---------: |
+|    ✅     | `base`, `asset`, `market` or `from` |    The asset to query     |         |             |
+|    ✅     |           `quote` or `to`           |  The quote to convert to  |         |             |
+|           |            `resultPath`             | The result path to return |         | `midPrice`  |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "forex",
+    "from": "GBP",
+    "to": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 1.33605
+  },
+  "result": 1.33605,
   "statusCode": 200
 }
 ```

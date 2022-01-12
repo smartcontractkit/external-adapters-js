@@ -3,10 +3,31 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['gasprice']
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    type: 'string',
+    options: ['slow', 'normal', 'fast', 'instant'],
+    default: 'fast',
+  },
+}
+
+export interface ResponseSchema {
+  slow: { gwei: number; usd: number }
+  normal: { gwei: number; usd: number }
+  fast: { gwei: number; usd: number }
+  instant: { gwei: number; usd: number }
+  ethPrice: number
+  lastUpdated: number
+  sources: {
+    name: string
+    source: string
+    fast: number
+    standard: number
+    slow: number
+    lastBlock: number
+  }[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -14,7 +35,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const speed = validator.validated.data.speed || 'fast'
+  const speed = validator.validated.data.speed
   const url = `/api/gas`
 
   const options = {
@@ -22,7 +43,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, [speed, 'gwei'])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

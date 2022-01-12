@@ -47,7 +47,7 @@ export const getTokenAllocations = async (
   )
   return [
     {
-      symbol: 'WETH',
+      symbol: 'ETH', // Instead of querying the WETH price, get ETH price
       balance: tvlInWei.toString(),
       decimals: 18,
     },

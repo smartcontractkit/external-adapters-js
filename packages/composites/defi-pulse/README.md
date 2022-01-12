@@ -2,7 +2,13 @@
 
 The adapter combines real-time DPI allocation data from on-chain with off-chain price sources in order to calculate an accurate price for the DPI.
 
+## IMPORTANT
+
+This EA will be deprecated, set-token-index will be used for future reference. [Go to Set Token Index](../set-token-index/README.md)
+
 ## NOTICE
+
+This EA will be deprecated,
 
 As explained before, this adapter makes use of some onchain data. The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code). Note that this implementation won't work in other networks unless we deploy a copy of the contract.
 
@@ -15,10 +21,10 @@ The ChainlinkAdapter.getAllocations(ISetToken \_setToken) should be reimplemente
 
 The adapter takes the following environment variables:
 
-| Required? |      Name       |                       Description                       | Options | Defaults to |
-| :-------: | :-------------: | :-----------------------------------------------------: | :-----: | :---------: |
-|    ✅     |    `RPC_URL`    | Blockchain RPC endpoint to get the needed on-chain data |         |             |
-|           | `DEFAULT_QUOTE` |         Currency that the price will be fetched         |         |    `USD`    |
+| Required? |        Name        |                          Description                          | Options | Defaults to |
+| :-------: | :----------------: | :-----------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `ETHEREUM_RPC_URL` | Mainnet Ethereum RPC endpoint to get the needed on-chain data |         |             |
+|           |  `DEFAULT_QUOTE`   |            Currency that the price will be fetched            |         |    `USD`    |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
