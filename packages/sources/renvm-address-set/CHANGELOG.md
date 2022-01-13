@@ -1,5 +1,11 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- e50223f49: added 'chainId' and 'network' in the response, removed 'chain' from the response
+
 ## 1.0.13
 
 ### Patch Changes

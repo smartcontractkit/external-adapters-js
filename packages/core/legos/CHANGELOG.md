@@ -1,5 +1,24 @@
 # @chainlink/ea
 
+## 1.0.24
+
+### Patch Changes
+
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+  - @chainlink/ada-balance-adapter@2.0.0
+  - @chainlink/chain-reserve-wallet-adapter@2.0.0
+  - @chainlink/renvm-address-set-adapter@1.1.0
+  - @chainlink/gemini-adapter@2.0.0
+  - @chainlink/lotus-adapter@2.0.0
+  - @chainlink/wbtc-address-set-adapter@1.1.0
+
 ## 1.0.23
 
 ### Patch Changes
