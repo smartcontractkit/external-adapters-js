@@ -5,11 +5,11 @@ import { Config } from '../config'
 
 export const NAME = 'txsend'
 
-const encode = (type: any, value: any) => {
+const encode = (type: string, value: string | number) => {
   let retVal
   switch (type) {
     case 'bytes32':
-      retVal = ethers.utils.formatBytes32String(value)
+      retVal = ethers.utils.formatBytes32String(value as string)
       break
     default:
       retVal = ethers.utils.defaultAbiCoder.encode([type], [value])
