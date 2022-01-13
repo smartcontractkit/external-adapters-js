@@ -81,7 +81,6 @@ async function generate(type: string) {
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
   const tsconfig = JSON.parse(JSON.stringify(require(path.relative(__dirname, tsconfigPath))))
-  console.log(tsconfig)
   tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
   writeData = { ...writeData, [tsconfigPath]: tsconfig }
 
