@@ -1,5 +1,15 @@
 # @chainlink/gemini-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- e50223f49: added new input parameters, changed response schema
+
+### Patch Changes
+
+- e50223f49: changed default network
+
 ## 1.0.13
 
 ### Patch Changes

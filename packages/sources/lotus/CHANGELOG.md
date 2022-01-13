@@ -1,5 +1,11 @@
 # @chainlink/lotus-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- e50223f49: changed 'addresses' input param which now expects an array of objects, instead of array of strings
+
 ## 1.0.14
 
 ### Patch Changes

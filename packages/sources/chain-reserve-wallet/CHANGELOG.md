@@ -1,5 +1,15 @@
 # @chainlink/chain-reserve-wallet-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- e50223f49: added new required input parameters, 'chainId' and 'network'. changed the response schema from array of strings to array of objects
+
+### Patch Changes
+
+- e50223f49: added type checks
+
 ## 1.0.13
 
 ### Patch Changes
