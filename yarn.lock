@@ -2174,6 +2174,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/celsius-address-set-adapter@workspace:*, @chainlink/celsius-address-set-adapter@workspace:packages/sources/celsius-address-set":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/celsius-address-set-adapter@workspace:packages/sources/celsius-address-set"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    ethers: 5.4.7
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/cfbenchmarks-adapter@workspace:*, @chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks":
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
@@ -2183,21 +2198,6 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
-    tslib: ^2.3.1
-    typescript: 4.3.5
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/chain-reserve-wallet-adapter@workspace:*, @chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/types": "workspace:*"
-    "@types/jest": 27.0.3
-    "@types/node": 16.11.19
-    ethers: 5.4.7
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2919,8 +2919,8 @@ __metadata:
     "@chainlink/bravenewcoin-adapter": "workspace:*"
     "@chainlink/btc.com-adapter": "workspace:*"
     "@chainlink/cache.gold-adapter": "workspace:*"
+    "@chainlink/celsius-address-set-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"
-    "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
     "@chainlink/coinbase-adapter": "workspace:*"
     "@chainlink/coincodex-adapter": "workspace:*"
@@ -3990,7 +3990,7 @@ __metadata:
     "@chainlink/blockchair-adapter": "workspace:*"
     "@chainlink/blockcypher-adapter": "workspace:*"
     "@chainlink/btc.com-adapter": "workspace:*"
-    "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
+    "@chainlink/celsius-address-set-adapter": "workspace:*"
     "@chainlink/cryptoapis-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"

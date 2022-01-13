@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/chain-reserve-wallet-adapter",
+  "name": "@chainlink/celsius-address-set-adapter",
   "version": "2.1.3",
-  "description": "Chainlink chain-reserve-wallet adapter.",
+  "description": "Chainlink celsius-address-set adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "chain-reserve-wallet"
+    "celsius-address-set"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

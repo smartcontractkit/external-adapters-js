@@ -24,7 +24,7 @@
     { "path": "../../sources/gemini" },
     { "path": "../../sources/eth-balance" },
     { "path": "../../sources/ada-balance" },
-    { "path": "../../sources/chain-reserve-wallet" },
+    { "path": "../../sources/celsius-address-set" },
     { "path": "../../sources/wrapped" }
   ]
 }

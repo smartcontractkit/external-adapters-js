@@ -1,7 +1,6 @@
-# Chainlink External Adapter for Chain-reserve-wallet
+# Chainlink External Adapter for Celsius Address Set
 
-This adapter fetches a list of addresses on a target chain that hold the reserves for the Proof of Reserve adapter. It does this by fetching the
-addresses from a deployed smart contract.
+This adapter fetches a list of addresses on a target chain that hold the Celsius reserves for the Proof of Reserve adapter. It does this by fetching the addresses from Celsius' smart contract.
 
 ### Environment Variables
 
@@ -11,17 +10,17 @@ addresses from a deployed smart contract.
 
 ---
 
-## Chain-reserve-wallet Endpoint
+## Celsius Address Set Endpoint
 
-This endpoint reads the set of custodial addresses from a smart contract and returns in as a response.
+This endpoint reads the set of custodial addresses from Celsius' smart contract and returns it as a response.
 
 ### Input Params
 
-| Required? |      Name       |                            Description                             |     Options      | Defaults to |
-| :-------: | :-------------: | :----------------------------------------------------------------: | :--------------: | :---------: |
-|    ✅     |     chainId     |                  The ID of the target PoR chain.                   | mainnet, testnet |             |
-|    ✅     |     network     |                         Blockchain network                         |  cardano, doge   |             |
-|    ✅     | contractAddress | The address of the smart contract holding the custodial addresses. |                  |             |
+| Required? |      Name       |                            Description                             |      Options      | Defaults to |
+| :-------: | :-------------: | :----------------------------------------------------------------: | :---------------: | :---------: |
+|    ✅     |     chainId     |                  The ID of the target PoR chain.                   | mainnet, testnet  |             |
+|    ✅     |     network     |                         Blockchain network                         | cardano, dogecoin |             |
+|    ✅     | contractAddress | The address of the smart contract holding the custodial addresses. |                   |             |
 
 ### Sample Input
 

@@ -1,4 +1,4 @@
-# @chainlink/chain-reserve-wallet-adapter
+# @chainlink/celsius-address-set-adapter
 
 ## 2.1.3
 

@@ -38,7 +38,7 @@
     "@chainlink/blockchair-adapter": "workspace:*",
     "@chainlink/blockcypher-adapter": "workspace:*",
     "@chainlink/btc.com-adapter": "workspace:*",
-    "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
+    "@chainlink/celsius-address-set-adapter": "workspace:*",
     "@chainlink/cryptoapis-adapter": "workspace:*",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",

@@ -24,7 +24,7 @@ jest.mock('ethers', () => ({
 
 let oldEnv: NodeJS.ProcessEnv
 
-describe('chain-reserve-wallet', () => {
+describe('celsius-address-set', () => {
   let execute: Execute
 
   beforeAll(async () => {

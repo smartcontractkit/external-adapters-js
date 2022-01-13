@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`chain-reserve-wallet when making a request to fetch the contract addresses is successful 1`] = `
+exports[`celsius-address-set when making a request to fetch the contract addresses is successful 1`] = `
 Object {
   "data": Object {
     "result": Array [
