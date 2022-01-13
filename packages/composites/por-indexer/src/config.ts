@@ -3,6 +3,7 @@ import { Config } from '@chainlink/types'
 
 export interface ExtendedConfig extends Config {
   BITCOIN_MAINNET_POR_INDEXER_URL: string
+  DOGECOIN_TESTNET_POR_INDEXER_URL: string
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
@@ -10,8 +11,13 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
     'BITCOIN_MAINNET_POR_INDEXER_URL',
     prefix,
   )
+  const DOGECOIN_TESTNET_POR_INDEXER_URL = util.getRequiredEnv(
+    'DOGECOIN_TESTNET_POR_INDEXER_URL',
+    prefix,
+  )
   return {
     ...Requester.getDefaultConfig(prefix),
     BITCOIN_MAINNET_POR_INDEXER_URL,
+    DOGECOIN_TESTNET_POR_INDEXER_URL,
   }
 }
