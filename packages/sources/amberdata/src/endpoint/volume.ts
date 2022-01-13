@@ -54,7 +54,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request(reqConfig, customError)
-  console.log(response.data.payload.data)
   response.data.result = Requester.validateResultNumber(
     response.data,
     ['payload', 'data', 0, 'volume'],
