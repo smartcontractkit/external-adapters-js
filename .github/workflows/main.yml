@@ -38,7 +38,10 @@ jobs:
         with:
           flags: integration
           fail_ci_if_error: true
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+          # PR merge commit for PRs, current commit for push events, what checkout@v2 uses by default
+          override_commit: ${{ github.sha }}
+          # Base branch SHA for PRs, previous commit for push events
+          commit_parent: ${{ github.event.pull_request.base.sha || github.event.before }}
 
   run-unit-tests:
     name: Run unit tests
@@ -57,7 +60,10 @@ jobs:
         with:
           flags: unit
           fail_ci_if_error: true
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+          # PR merge commit for PRs, current commit for push events, what checkout@v2 uses by default
+          override_commit: ${{ github.sha }}
+          # Base branch SHA for PRs, previous commit for push events
+          commit_parent: ${{ github.event.pull_request.base.sha || github.event.before }}
 
   run-basic-checks:
     name: Run linters and unit tests
