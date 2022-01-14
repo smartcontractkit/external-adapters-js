@@ -26,6 +26,8 @@ jobs:
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # Uses merge commit by default, change to PR head
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
@@ -38,13 +40,14 @@ jobs:
         with:
           flags: integration
           fail_ci_if_error: true
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-unit-tests:
     name: Run unit tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # Uses merge commit by default, change to PR head
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
@@ -57,7 +60,6 @@ jobs:
         with:
           flags: unit
           fail_ci_if_error: true
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-basic-checks:
     name: Run linters and unit tests
