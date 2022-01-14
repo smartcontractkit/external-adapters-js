@@ -87,7 +87,6 @@ export const storeJsonTree = async (
   data: MerkleTreeData,
   context: AdapterContext,
 ): Promise<string> => {
-  // TODO: Verify this is right return type
   const params = { id: jobRunID, data: { endpoint: 'write', data, codec: 'json', cidVersion: 1 } }
   const response = await ipfs(params, context)
   return response.result

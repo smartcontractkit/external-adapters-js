@@ -145,8 +145,6 @@ export const calcMarketMakerRewards = (
   addressRewards: AddressRewards,
   marketMakerRewardsAmount: bn.BigNumber,
 ): void => {
-  // TODO: If epoch number is >= 5, have a different calculation
-
   const quoteScoreSum = Object.keys(epochData.quoteScore).reduce(
     (sum, addr) => sum.plus(epochData.quoteScore[addr]),
     new bn.BigNumber(0),
