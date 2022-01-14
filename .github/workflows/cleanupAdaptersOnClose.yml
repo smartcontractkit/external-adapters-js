@@ -1,4 +1,4 @@
-name: Actions
+name: Clean up on PR close
 
 on:
   pull_request:
