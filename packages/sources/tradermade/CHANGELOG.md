@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.6.0
+
+### Minor Changes
+
+- 41920d9dc: Update arg name for forex endpoint
+
 ## 1.5.1
 
 ### Patch Changes

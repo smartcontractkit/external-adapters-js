@@ -13,7 +13,7 @@ import { NAME } from '../config'
  * The reason for this split is that we want to enable WS for this endpoint but not for live.
  */
 
-export const supportedEndpoints = ['forex']
+export const supportedEndpoints = ['forex', 'crypto']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 export const inputParameters: InputParameters = {
@@ -87,10 +87,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     }
   }
 
-  const currencies = pairArray.toString()
+  const currency = pairArray.toString()
   const params = {
     ...config.api.params,
-    currencies,
+    currency,
   }
 
   const options = { ...config.api, params }
