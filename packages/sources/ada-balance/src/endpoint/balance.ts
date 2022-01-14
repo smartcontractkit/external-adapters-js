@@ -1,8 +1,7 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Address, Utxo } from '@cardano-ogmios/schema'
-import * as client from '@cardano-ogmios/client'
-import { DEFAULT_RPC_PORT } from '../config'
+import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { createInteractionContext, Schema, StateQuery } from '@cardano-ogmios/client'
+import { ExtendedConfig, DEFAULT_RPC_PORT } from '../config'
 import { BigNumber } from 'ethers'
 
 export const supportedEndpoints = ['balance']
@@ -22,7 +21,7 @@ export const inputParameters: InputParameters = {
   },
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
@@ -38,9 +37,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const result = await getAddressBalances(
+    jobRunID,
     addresses.map((address) => address.address),
     config.api.baseWsUrl,
     config.rpcPort || DEFAULT_RPC_PORT,
+    config.isTLSEnabled,
   )
 
   return {
@@ -54,22 +55,33 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 }
 
 const getAddressBalances = async (
-  addresses: Address[],
+  jobRunID: string,
+  addresses: Schema.Address[],
   wsUrl: string,
   port: number,
+  isTLSEnabled: boolean,
 ): Promise<string> => {
-  const utxo = await client.utxo(addresses, {
+  const errorHandler = (error: Error) => {
+    throw new AdapterError({
+      jobRunID,
+      message: `Cardano Ogmios Error Name: "${error.name}" Message: "${error.message}"`,
+      statusCode: 500,
+    })
+  }
+
+  const closeHandler = (code: number, reason: string) => {
+    Logger.info(`Cardano Ogmios WS connection closed.  Code: "${code}" Reason: "${reason}"`)
+  }
+
+  const interactionContext = await createInteractionContext(errorHandler, closeHandler, {
     connection: {
-      port,
       host: wsUrl,
-      protocol: 'ws',
+      port,
+      tls: isTLSEnabled,
     },
   })
-
-  // TODO:  Figure out error that shows up whenever we try to pull in Ogmios V4.1.0
-  // The issue here is that we are using the V3.2.0 client, which has a different response type than
-  // what is being returned from the API.  The API returns v4.1.0.  This code works ut casting utxo is ugly.
-  const balanceAsBigNum = (utxo as unknown as Utxo).reduce(
+  const utxo = await StateQuery.utxo(interactionContext, addresses)
+  const balanceAsBigNum = utxo.reduce(
     (total, [_, out]) => total.add(BigNumber.from(out.value.coins)),
     BigNumber.from(0),
   )
