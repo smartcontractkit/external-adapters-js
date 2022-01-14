@@ -21,6 +21,14 @@ jobs:
       - name: Re-download dependencies & verify checksum
         run: yarn install --check-cache
 
+  dump:
+    name: Dump GitHub context
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    env:
+      GITHUB_CONTEXT: ${{ toJson(github) }}
+    steps:
+      - run: echo "$GITHUB_CONTEXT"
+
   run-integration-tests:
     name: Run integration tests
     runs-on: [self-hosted, sdlc-ghr-prod]
