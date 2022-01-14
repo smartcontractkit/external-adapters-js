@@ -150,9 +150,9 @@ function initExpressMiddleware(app: express.Express) {
     windowMs,
     max, // limit each IP's requests per windowMs
     keyGenerator: () => '*', // use one key for all incoming requests
-    handler: ((req, res) => {
+    handler: ((req, res, next) => {
       if (req.url === '/health') {
-        res.status(200).send({ message: 'OK', version })
+        next()
       } else {
         httpRateLimit.inc()
         res.status(429).send('Too many requests, please try again later.')
