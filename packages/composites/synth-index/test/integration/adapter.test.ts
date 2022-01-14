@@ -87,7 +87,7 @@ describe('synth-index X coingecko', () => {
       })
     })
     describe('and coingecko replies with a failure repeatedly', () => {
-      it.only('should try 3 times and then fail', async () => {
+      it('should try 3 times and then fail', async () => {
         mockCoingeckoConnectionFailure((server.address() as AddressInfo).port, 4)
 
         const response = await req

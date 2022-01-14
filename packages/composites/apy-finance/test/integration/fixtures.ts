@@ -1,61 +1,131 @@
 import nock from 'nock'
 
 export function mockEthereumCalls() {
-  nock('http://localhost:8545')
+  nock('https://geth-main.eth.devnet.tools:443', { encodedQueryParams: true })
     .persist()
-    .post('/v3/4d97c9da8e764ff3b1d466e1e091724f', {
+    .post('/', {
       method: 'eth_chainId',
       params: [],
       id: /^\d+$/,
       jsonrpc: '2.0',
     })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }), [
-      'Date',
-      'Thu, 26 Aug 2021 19:32:18 GMT',
-      'Content-Type',
-      'application/json',
-      'Content-Length',
-      '40',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-    .post('/*', {
+    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }), [])
+    .post('/', {
       method: 'eth_call',
-      params: [
-        {
-          to: '0x00000000000c2e074ec69a0dfb2997ba6c7d2e1e',
-          data: '0x0178b8bf5dbc4a41e3633cb8fb4fe64b14f15ba82b7d15b34fdc239d4fc96a9610b03b92',
-        },
-        'latest',
-      ],
-      id: 45,
+      params: [{ to: '0x7ec81b7035e91f8435bdeb2787dcbd51116ad303', data: '0xfcbf6ef8' }, 'latest'],
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
       200,
-      {
+      (_, request) => ({
         jsonrpc: '2.0',
-        id: 45,
-        result: '0x0000000000000000000000000000000000000000000000000000000000000000',
-      },
-      [
-        'Date',
-        'Thu, 26 Aug 2021 19:32:19 GMT',
-        'Content-Type',
-        'application/json',
-        'Content-Length',
-        '103',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
+        id: request['id'],
+        result: '0x00000000000000000000000074a07a137e347590b7d6fa63b70c2c331af94a8b',
+      }),
+      [],
+    )
+    .post('/', {
+      method: 'eth_call',
+      params: [{ to: '0x74a07a137e347590b7d6fa63b70c2c331af94a8b', data: '0xd8de0947' }, 'latest'],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result:
+          '0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000011893e362eeaefe364facfb30daa986746b65eb67000000000000000000000000',
+      }),
+      [],
+    )
+    .post('/', {
+      method: 'eth_call',
+      params: [
+        {
+          to: '0x74a07a137e347590b7d6fa63b70c2c331af94a8b',
+          data: '0xd87e053c1893e362eeaefe364facfb30daa986746b65eb67060000000000000000000000',
+        },
+        'latest',
       ],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result:
+          '0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000044652415800000000000000000000000000000000000000000000000000000000',
+      }),
+      [],
+    )
+    .post('/', {
+      method: 'eth_call',
+      params: [
+        {
+          to: '0x74a07a137e347590b7d6fa63b70c2c331af94a8b',
+          data: '0xd87e053c1893e362eeaefe364facfb30daa986746b65eb67000000000000000000000000',
+        },
+        'latest',
+      ],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result:
+          '0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000034441490000000000000000000000000000000000000000000000000000000000',
+      }),
+      [],
+    )
+    .post('/', {
+      method: 'eth_call',
+      params: [
+        {
+          to: '0x74a07a137e347590b7d6fa63b70c2c331af94a8b',
+          data: '0x6c7f15421893e362eeaefe364facfb30daa986746b65eb67000000000000000000000000',
+        },
+        'latest',
+      ],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x0000000000000000000000000000000000000000000000000000000000000000',
+      }),
+      [],
+    )
+    .post('/', {
+      method: 'eth_call',
+      params: [
+        {
+          to: '0x74a07a137e347590b7d6fa63b70c2c331af94a8b',
+          data: '0xdab09d9f1893e362eeaefe364facfb30daa986746b65eb67000000000000000000000000',
+        },
+        'latest',
+      ],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x0000000000000000000000000000000000000000000000000000000000000012',
+      }),
+      [],
     )
 }
 
@@ -90,31 +160,24 @@ export function mockTiingoResponse() {
     })
 
   nock('http://localhost:3000')
-    .post('/', { id: '1', data: { base: 'WETH', quote: 'USD', endpoint: 'price' } })
+    .post('/', { id: '1', data: { base: 'DAI', quote: 'USD', endpoint: 'crypto' } })
     .reply(200, {
       jobRunID: '1',
       providerStatusCode: 200,
       data: {
         sources: [],
         payload: {
-          WETH: {
+          DAI: {
             quote: {
               USD: {
-                price: '1800',
-              },
-            },
-          },
-          LINK: {
-            quote: {
-              USD: {
-                price: '2000',
+                price: '1.0',
               },
             },
           },
         },
-        result: 2000,
+        result: 1.0,
       },
-      result: 2000,
+      result: 1.0,
       statusCode: 200,
     })
 }
