@@ -4,23 +4,31 @@ import '@cardano-ogmios/client'
 
 jest.mock('@cardano-ogmios/client', () => {
   return {
-    utxo: async () => [
-      [
-        {
-          txId: '86a50ff8136e8b5d9f6f249a24330a5b43b657688021980f54bc887bc0cb7f4d',
-          index: 0,
-        },
-        {
-          address:
-            'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
-          value: {
-            coins: 5000000,
-            assets: {},
+    createInteractionContext: () => ({
+      connection: {
+        host: 'test-endpoint',
+        port: 1337,
+      },
+    }),
+    StateQuery: {
+      utxo: async () => [
+        [
+          {
+            txId: '86a50ff8136e8b5d9f6f249a24330a5b43b657688021980f54bc887bc0cb7f4d',
+            index: 0,
           },
-          datum: null,
-        },
+          {
+            address:
+              'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
+            value: {
+              coins: 5000000,
+              assets: {},
+            },
+            datum: null,
+          },
+        ],
       ],
-    ],
+    },
   }
 })
 
@@ -48,7 +56,10 @@ describe('execute', () => {
       id,
       data: {
         addresses: [
-          'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
+          {
+            address:
+              'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
+          },
         ],
       },
     }
