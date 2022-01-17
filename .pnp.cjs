@@ -3860,13 +3860,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cardano-ogmios/client", [
-        ["npm:3.2.0", {
-          "packageLocation": "./.yarn/cache/@cardano-ogmios-client-npm-3.2.0-22ab3c53f5-86e3aee853.zip/node_modules/@cardano-ogmios/client/",
+        ["npm:5.0.0", {
+          "packageLocation": "./.yarn/cache/@cardano-ogmios-client-npm-5.0.0-09feb13e9c-57032b3d7a.zip/node_modules/@cardano-ogmios/client/",
           "packageDependencies": [
-            ["@cardano-ogmios/client", "npm:3.2.0"],
-            ["@cardano-ogmios/schema", "npm:3.2.0"],
-            ["isomorphic-ws", "virtual:22ab3c53f53e2e171f8bab2f60af9d9db5bf2b7f554b804d58b5066fb7daca178f2b3888ee758b410f7bb65f7d657d655807529978e84ee8f734ee0677fad5f1#npm:4.0.1"],
-            ["nanoid", "npm:3.1.30"],
+            ["@cardano-ogmios/client", "npm:5.0.0"],
+            ["@cardano-ogmios/schema", "npm:5.0.0"],
+            ["@cardanosolutions/json-bigint", "npm:1.0.0"],
+            ["@types/json-bigint", "npm:1.0.1"],
+            ["cross-fetch", "npm:3.1.4"],
+            ["fastq", "npm:1.13.0"],
+            ["isomorphic-ws", "virtual:09feb13e9ca02cb60fa2459830a3cce1f4b237c9019543abeb2bbcb438ed2897678a95e83d3a385424d827ceaa7d32f4e2b36a11fa869d930dbb12a67a99e847#npm:4.0.1"],
+            ["nanoid", "npm:3.1.32"],
             ["ts-custom-error", "npm:3.2.0"],
             ["ws", "virtual:7254fd8ce77b68d889a3bdd3adbb30714345e4eabc20dd8acb030d6e3eee243c63ff0ce6a1521e60e11dc5384028500cf1f4f630567b5957b27a769fdfe8d8c4#npm:7.5.3"]
           ],
@@ -3874,17 +3878,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cardano-ogmios/schema", [
-        ["npm:3.2.0", {
-          "packageLocation": "./.yarn/cache/@cardano-ogmios-schema-npm-3.2.0-5eca02034e-a124a9f3aa.zip/node_modules/@cardano-ogmios/schema/",
+        ["npm:5.0.0", {
+          "packageLocation": "./.yarn/cache/@cardano-ogmios-schema-npm-5.0.0-a5cbf9e81c-5d6000fb82.zip/node_modules/@cardano-ogmios/schema/",
           "packageDependencies": [
-            ["@cardano-ogmios/schema", "npm:3.2.0"]
+            ["@cardano-ogmios/schema", "npm:5.0.0"]
           ],
           "linkType": "HARD",
-        }],
-        ["npm:4.2.1", {
-          "packageLocation": "./.yarn/cache/@cardano-ogmios-schema-npm-4.2.1-f844367482-78bfb85aad.zip/node_modules/@cardano-ogmios/schema/",
+        }]
+      ]],
+      ["@cardanosolutions/json-bigint", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@cardanosolutions-json-bigint-npm-1.0.0-1a4f51f9ee-5df5986de7.zip/node_modules/@cardanosolutions/json-bigint/",
           "packageDependencies": [
-            ["@cardano-ogmios/schema", "npm:4.2.1"]
+            ["@cardanosolutions/json-bigint", "npm:1.0.0"],
+            ["bignumber.js", "npm:9.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -3933,8 +3940,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ada-balance/",
           "packageDependencies": [
             ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],
-            ["@cardano-ogmios/client", "npm:3.2.0"],
-            ["@cardano-ogmios/schema", "npm:4.2.1"],
+            ["@cardano-ogmios/client", "npm:5.0.0"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -11051,6 +11057,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/json-bigint", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@types-json-bigint-npm-1.0.1-1fbfe75fdf-b39e55a811.zip/node_modules/@types/json-bigint/",
+          "packageDependencies": [
+            ["@types/json-bigint", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/json-schema", [
         ["npm:7.0.8", {
           "packageLocation": "./.yarn/cache/@types-json-schema-npm-7.0.8-39e64e8908-f1d0fe76ab.zip/node_modules/@types/json-schema/",
@@ -17938,6 +17953,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["reusify", "npm:1.0.4"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:1.13.0", {
+          "packageLocation": "./.yarn/cache/fastq-npm-1.13.0-a45963881c-32cf15c29a.zip/node_modules/fastq/",
+          "packageDependencies": [
+            ["fastq", "npm:1.13.0"],
+            ["reusify", "npm:1.0.4"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["fb-watchman", [
@@ -21339,10 +21362,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:22ab3c53f53e2e171f8bab2f60af9d9db5bf2b7f554b804d58b5066fb7daca178f2b3888ee758b410f7bb65f7d657d655807529978e84ee8f734ee0677fad5f1#npm:4.0.1", {
-          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-ec31a2f637/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",
+        ["virtual:09feb13e9ca02cb60fa2459830a3cce1f4b237c9019543abeb2bbcb438ed2897678a95e83d3a385424d827ceaa7d32f4e2b36a11fa869d930dbb12a67a99e847#npm:4.0.1", {
+          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-b92517e66c/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",
           "packageDependencies": [
-            ["isomorphic-ws", "virtual:22ab3c53f53e2e171f8bab2f60af9d9db5bf2b7f554b804d58b5066fb7daca178f2b3888ee758b410f7bb65f7d657d655807529978e84ee8f734ee0677fad5f1#npm:4.0.1"],
+            ["isomorphic-ws", "virtual:09feb13e9ca02cb60fa2459830a3cce1f4b237c9019543abeb2bbcb438ed2897678a95e83d3a385424d827ceaa7d32f4e2b36a11fa869d930dbb12a67a99e847#npm:4.0.1"],
             ["@types/ws", null],
             ["ws", "virtual:7254fd8ce77b68d889a3bdd3adbb30714345e4eabc20dd8acb030d6e3eee243c63ff0ce6a1521e60e11dc5384028500cf1f4f630567b5957b27a769fdfe8d8c4#npm:7.5.3"]
           ],
@@ -25384,10 +25407,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:3.1.30", {
-          "packageLocation": "./.yarn/cache/nanoid-npm-3.1.30-58cf6fe7ec-276d0d4b0c.zip/node_modules/nanoid/",
+        ["npm:3.1.32", {
+          "packageLocation": "./.yarn/cache/nanoid-npm-3.1.32-f818be5ad9-7389375c7d.zip/node_modules/nanoid/",
           "packageDependencies": [
-            ["nanoid", "npm:3.1.30"]
+            ["nanoid", "npm:3.1.32"]
           ],
           "linkType": "HARD",
         }]
