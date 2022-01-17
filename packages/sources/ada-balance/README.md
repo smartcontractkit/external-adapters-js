@@ -5,10 +5,11 @@ lightweight bridge interface that allows clients to query the Cardano node using
 
 ### Environment Variables
 
-| Required? |      Name       |                  Description                   | Options | Defaults to |
-| :-------: | :-------------: | :--------------------------------------------: | :-----: | :---------: |
-|    ✅     | WS_API_ENDPOINT |    The WS API endpoint of the Cardano node     |         |             |
-|           |    RPC_PORT     | The port the Cardano Ogmios node is running on |         |    1337     |
+| Required? |      Name       |                                       Description                                       | Options | Defaults to |
+| :-------: | :-------------: | :-------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | WS_API_ENDPOINT |                         The WS API endpoint of the Cardano node                         |         |             |
+|           |    RPC_PORT     |                     The port the Cardano Ogmios node is running on                      |         |    1337     |
+|           | IS_TLS_ENABLED  | Flag to determine whether or not to use a TLS connection to connect to the Cardano node |         |    1337     |
 
 ---
 
