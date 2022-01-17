@@ -14,7 +14,7 @@
     "json-schema-ref-parser": "9.0.9",
     "mockserver-client": "5.11.2",
     "rxjs": "7.4.0",
-    "shelljs": "0.8.4",
+    "shelljs": "0.8.5",
     "snake-case": "3.0.4",
     "swagger-jsdoc": "6.1.0",
     "tslib": "2.3.1",

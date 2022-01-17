@@ -5296,7 +5296,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["json-schema-ref-parser", "npm:9.0.9"],
             ["mockserver-client", "npm:5.11.2"],
             ["rxjs", "npm:7.4.0"],
-            ["shelljs", "npm:0.8.4"],
+            ["shelljs", "npm:0.8.5"],
             ["snake-case", "npm:3.0.4"],
             ["swagger-jsdoc", "npm:6.1.0"],
             ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.0.7"],
@@ -29055,10 +29055,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["shelljs", [
-        ["npm:0.8.4", {
-          "packageLocation": "./.yarn/cache/shelljs-npm-0.8.4-e2890f4ce2-27f83206ef.zip/node_modules/shelljs/",
+        ["npm:0.8.5", {
+          "packageLocation": "./.yarn/cache/shelljs-npm-0.8.5-44be43f84a-7babc46f73.zip/node_modules/shelljs/",
           "packageDependencies": [
-            ["shelljs", "npm:0.8.4"],
+            ["shelljs", "npm:0.8.5"],
             ["glob", "npm:7.1.7"],
             ["interpret", "npm:1.4.0"],
             ["rechoir", "npm:0.6.2"]
