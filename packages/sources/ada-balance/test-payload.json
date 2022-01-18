@@ -3,7 +3,15 @@
     "id": "1",
     "data": {
       "addresses": [
-          "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m"
+        {
+          "address": "addr1q9jyl8a85aw0xhguastv88qwc5nd4xu80hpjgyeedau9a5ua5v6fs45wwxcd0a59mpjku97mha6cfeycsdcfuvlssmcqy9dt6k"
+        },
+        {
+          "address": "addr1q95vqvy2072r0mr2f4neps0pny4v9y5e6hdvdtvdmepdqt2r954r95uefzakhvt2ssfc395fs4vfhy2czj6vwntj74gqutnzpq"
+        },
+        {
+          "address": "addr1qxvvz2fz4d8du5kphhslrh8qnn50vkluc60lcm4gnf5ayalg20e2jetnmwv3a2zyk24e3ztx4th9ms34xarw2x5sdtwqt0mjqh"
+        }
       ]
     }
   }]
