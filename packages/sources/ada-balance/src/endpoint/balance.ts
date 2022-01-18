@@ -3,7 +3,7 @@ import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Schema, StateQuery } from '@cardano-ogmios/client'
 import { ExtendedConfig } from '../config'
 import { BigNumber } from 'ethers'
-import { createInteractionContext } from './ogmios/Connection'
+import { createInteractionContext } from './ogmios'
 
 export const supportedEndpoints = ['balance']
 

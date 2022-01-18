@@ -1,14 +1,36 @@
 import { AdapterRequest, Execute } from '@chainlink/types'
 import * as adaBalance from '../../src/'
 import '@cardano-ogmios/client'
+import '../../src/endpoint/ogmios'
+import { InteractionContext } from '@cardano-ogmios/client'
+import 'ws'
 
-jest.mock('@cardano-ogmios/client', () => {
-  return {
-    createInteractionContext: () => ({
+const TEST_HTTP_ENDPOINT = 'http://test-ogmios-url.com'
+const TEST_WS_ENDPOINT = 'wss://test-ogmios-url.com'
+
+jest.mock('../../src/endpoint/ogmios', () => ({
+  createInteractionContext: (): InteractionContext => {
+    return {
       connection: {
         host: 'test-endpoint',
         port: 1337,
+        maxPayload: 1000,
+        address: {
+          http: TEST_HTTP_ENDPOINT,
+          webSocket: TEST_WS_ENDPOINT,
+        },
+        tls: false,
       },
+      socket: jest.mock('ws'),
+      afterEach: jest.fn(),
+    }
+  },
+}))
+
+jest.mock('@cardano-ogmios/client', () => {
+  return {
+    getServerHealth: () => ({
+      lastTipUpdate: '2022-01-15T18:56:42.635812292Z',
     }),
     StateQuery: {
       utxo: async () => [
@@ -36,8 +58,8 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.WS_OGMIOS_URL = 'wss://test-ogmios-url.com'
-  process.env.HTTP_OGMIOS_URL = 'https://test-ogmios-url.com'
+  process.env.WS_OGMIOS_URL = TEST_WS_ENDPOINT
+  process.env.HTTP_OGMIOS_URL = TEST_HTTP_ENDPOINT
 })
 
 afterAll(() => {
