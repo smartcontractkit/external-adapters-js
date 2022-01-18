@@ -7,6 +7,7 @@
     "packages/**/*"
   ],
   "scripts": {
+    "versions": "ts-node-transpile-only ./packages/scripts/src/versions",
     "new": "ts-node-transpile-only ./packages/scripts/src/new",
     "bundle": "ncc build",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
