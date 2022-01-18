@@ -1,8 +1,9 @@
 import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { createInteractionContext, Schema, StateQuery } from '@cardano-ogmios/client'
-import { ExtendedConfig, DEFAULT_RPC_PORT } from '../config'
+import { Schema, StateQuery } from '@cardano-ogmios/client'
+import { ExtendedConfig } from '../config'
 import { BigNumber } from 'ethers'
+import { createInteractionContext } from './ogmios'
 
 export const supportedEndpoints = ['balance']
 
@@ -31,17 +32,17 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
       jobRunID,
-      message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      message: `Input at 'addresses' or 'result' path, must be a non-empty array.`,
       statusCode: 400,
     })
   }
 
+  const [wsOgmiosURL, httpOgmiosURL] = getOgmiosHosts(jobRunID, config)
   const result = await getAddressBalances(
     jobRunID,
     addresses.map((address) => address.address),
-    config.api.baseWsUrl,
-    config.rpcPort || DEFAULT_RPC_PORT,
-    config.isTLSEnabled,
+    wsOgmiosURL,
+    httpOgmiosURL,
   )
 
   return {
@@ -54,12 +55,30 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   }
 }
 
+const getOgmiosHosts = (jobRunID: string, config: ExtendedConfig): string[] => {
+  let { wsOgmiosURL, httpOgmiosURL } = config
+  if (!wsOgmiosURL || !httpOgmiosURL) {
+    const { host, port, isTLSEnabled } = config
+    if (!host) {
+      throw new AdapterError({
+        jobRunID,
+        message: "Cannot construct Ogmios URLs as 'host' environment variable not set",
+        statusCode: 500,
+      })
+    }
+    const wsProtocol = isTLSEnabled ? 'wss' : 'ws'
+    const httpProtocol = isTLSEnabled ? 'https' : 'http'
+    wsOgmiosURL = `${wsProtocol}://${host}:${port}`
+    httpOgmiosURL = `${httpProtocol}://${host}:${port}`
+  }
+  return [wsOgmiosURL, httpOgmiosURL]
+}
+
 const getAddressBalances = async (
   jobRunID: string,
   addresses: Schema.Address[],
-  wsUrl: string,
-  port: number,
-  isTLSEnabled: boolean,
+  wsURL: string,
+  httpURL: string,
 ): Promise<string> => {
   const errorHandler = (error: Error) => {
     throw new AdapterError({
@@ -73,13 +92,12 @@ const getAddressBalances = async (
     Logger.info(`Cardano Ogmios WS connection closed.  Code: "${code}" Reason: "${reason}"`)
   }
 
-  const interactionContext = await createInteractionContext(errorHandler, closeHandler, {
-    connection: {
-      host: wsUrl,
-      port,
-      tls: isTLSEnabled,
-    },
-  })
+  const interactionContext = await createInteractionContext(
+    errorHandler,
+    closeHandler,
+    wsURL,
+    httpURL,
+  )
   const utxo = await StateQuery.utxo(interactionContext, addresses)
   const balanceAsBigNum = utxo.reduce(
     (total, [_, out]) => total.add(BigNumber.from(out.value.coins)),
