@@ -12,7 +12,7 @@ import {
   InteractionContext,
 } from '@cardano-ogmios/client'
 
-export const createConnectionObject = (wsOgmiosURL: string, httpOgmiosURL: string): Connection => {
+const createConnectionObject = (wsOgmiosURL: string, httpOgmiosURL: string): Connection => {
   const _128MB = 128 * 1024 * 1024
   const url = new URL(httpOgmiosURL)
   const base: Required<ConnectionConfig> = {
