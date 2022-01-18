@@ -1770,9 +1770,11 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+    "@types/ws": ^7.4.0
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
+    ws: ^7.4.6
   languageName: unknown
   linkType: soft
 
@@ -8739,7 +8741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:7.4.7":
+"@types/ws@npm:7.4.7, @types/ws@npm:^7.4.0":
   version: 7.4.7
   resolution: "@types/ws@npm:7.4.7"
   dependencies:

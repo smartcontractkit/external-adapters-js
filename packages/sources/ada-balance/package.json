@@ -31,8 +31,10 @@
     "@cardano-ogmios/client": "^5.0.0",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
+    "@types/ws": "^7.4.0",
     "ethers": "^5.4.6",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@chainlink/types": "workspace:*",
