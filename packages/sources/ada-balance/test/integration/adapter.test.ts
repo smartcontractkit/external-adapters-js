@@ -36,7 +36,8 @@ let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.WS_API_ENDPOINT = 'test-endpoint'
+  process.env.WS_OGMIOS_URL = 'wss://test-ogmios-url.com'
+  process.env.HTTP_OGMIOS_URL = 'https://test-ogmios-url.com'
 })
 
 afterAll(() => {

@@ -8,24 +8,19 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
+  const TEST_WS_URL = 'test-ws-endpoint'
+  const TEST_HTTP_URL = 'test-http-endpoint'
+
   beforeAll(() => {
-    process.env.WS_API_ENDPOINT = 'test-endpoint'
+    process.env.WS_OGMIOS_URL = TEST_WS_URL
+    process.env.HTTP_OGMIOS_URL = TEST_HTTP_URL
   })
 
   describe('makeConfig', () => {
-    beforeEach(() => {
-      delete process.env.IS_TLS_ENABLED
-    })
-
-    it('sets isTLSEnabled if the IS_TLS_ENABLED env var is set', () => {
-      process.env.IS_TLS_ENABLED = true
+    it('sets the correct rpc URLs', () => {
       const config = makeConfig()
-      expect(config.isTLSEnabled).toBeTruthy()
-    })
-
-    it('does not set isTLSEnabled if the IS_TLS_ENABLED env var is not set', () => {
-      const config = makeConfig()
-      expect(config.isTLSEnabled).toBeFalsy()
+      expect(config.wsOgmiosURL).toEqual(TEST_WS_URL)
+      expect(config.httpOgmiosURL).toEqual(TEST_HTTP_URL)
     })
   })
 

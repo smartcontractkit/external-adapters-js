@@ -32,10 +32,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "@types/ws": "^7.4.0",
-    "cross-fetch": "^3.1.4",
     "ethers": "^5.4.6",
-    "isomorphic-ws": "^4.0.1",
-    "ts-custom-error": "^3.2.0",
     "tslib": "^2.3.1",
     "ws": "^7.4.6"
   },

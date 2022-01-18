@@ -1,53 +1,17 @@
 /** File mostly copied from Ogmios Typescript Client library with some updates to allow for specifying custom RPC URLs */
 
-import { getServerHealth } from './ServerHealth'
-import { ServerNotReady } from './errors'
 import WebSocket from 'ws'
 import { URL } from 'url'
+import {
+  getServerHealth,
+  ServerNotReady,
+  Connection,
+  ConnectionConfig,
+  WebSocketErrorHandler,
+  WebSocketCloseHandler,
+  InteractionContext,
+} from '@cardano-ogmios/client'
 
-export interface ConnectionConfig {
-  host?: string
-  port?: number
-  tls?: boolean
-  maxPayload?: number
-}
-
-export interface Connection extends Required<ConnectionConfig> {
-  maxPayload: number
-  address: {
-    http: string
-    webSocket: string
-  }
-}
-
-/**
- * An interaction context used by Ouroboros clients to interact with the server.
- *
- * @category Connection
- */
-export interface InteractionContext {
-  connection: Connection
-  socket: WebSocket
-  afterEach: (cb: () => void) => void
-}
-
-export type InteractionType = 'LongRunning' | 'OneTime'
-
-/** @category Connection */
-export type WebSocketErrorHandler = (error: Error) => void
-
-interface CloseEvent {
-  wasClean: boolean
-  code: number
-  reason: string
-  type: string
-  target: WebSocket
-}
-
-/** @category Connection */
-export type WebSocketCloseHandler = (code: CloseEvent['code'], reason: CloseEvent['reason']) => void
-
-/** @category Constructor */
 export const createConnectionObject = (wsOgmiosURL: string, httpOgmiosURL: string): Connection => {
   const _128MB = 128 * 1024 * 1024
   const url = new URL(httpOgmiosURL)
@@ -66,7 +30,6 @@ export const createConnectionObject = (wsOgmiosURL: string, httpOgmiosURL: strin
   }
 }
 
-/** @category Constructor */
 export const createInteractionContext = async (
   errorHandler: WebSocketErrorHandler,
   closeHandler: WebSocketCloseHandler,
