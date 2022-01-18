@@ -33,8 +33,19 @@ See the [Composite Adapter README](../README.md) for more information on how to 
   "jobID": "1",
   "data": {
     "endpoint": "index",
-    "addresses": ["39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE", "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR"],
-    "minConfirmations": 0
+    "addresses": [
+      {
+        "id": "613278e7818b98001e5313cb6d45cbdd",
+        "address": "bc1qlh50jpjrrlcuy6sslrucksjg22h6e0d65ken6sc54exfkrln932snwg523",
+        "balance": "0",
+        "type": "custodial",
+        "verified": false,
+        "coin": "btc",
+        "chainId": "mainnet",
+        "network": "bitcoin"
+      }
+    ],
+    "minConfirmations": 6
   }
 }
 ```
@@ -44,9 +55,10 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 ```json
 {
   "jobRunID": "1",
+  "result": "26678537601804",
   "statusCode": 200,
   "data": {
-    "result": "105049.28265606"
+    "result": "26678537601804"
   }
 }
 ```
