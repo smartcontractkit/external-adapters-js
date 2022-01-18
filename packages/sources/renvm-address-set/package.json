@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/renvm-address-set-adapter",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "Chainlink adapter to query RenVM address set.",
   "keywords": [
     "Chainlink",
