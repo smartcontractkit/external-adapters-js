@@ -16,6 +16,7 @@ import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInp
 
 const inputParams = {
   network: false,
+  chainId: false,
   tokenOrContract: false,
 }
 
@@ -33,8 +34,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     throw Error(`Unsupported Ren network: ${config.network}.`)
   }
 
-  const network = data.network || DEFAULT_NETWORK
-  if (!isRenNetwork(network)) {
+  const chainId = data.chainId || DEFAULT_NETWORK
+  if (!isRenNetwork(chainId)) {
     throw Error(`Unknown Ren network: ${data.network}`)
   }
 
@@ -52,14 +53,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     throw Error(`Unsupported token: ${tokenOrContract}`)
   }
 
-  const bitcoinNetwork = btc.getNetwork(network)
+  const bitcoinNetwork = btc.getNetwork(chainId)
   if (!bitcoinNetwork) {
-    throw Error(`Unknown Bitcoin network: ${network}`)
+    throw Error(`Unknown Bitcoin network: ${chainId}`)
   }
 
   const _getAddress = async (): Promise<string | undefined> => {
     if (!config.api) return undefined
-    const { renVM } = new RenJS(network, {
+    const { renVM } = new RenJS(chainId, {
       // use v1 legacy version
       useV2TransactionFormat: false,
     })
@@ -78,7 +79,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       address,
       coin: coin.toLowerCase(),
       network: getTokenNetwork(coin),
-      chainId: network,
+      chainId,
     },
   ]
 
