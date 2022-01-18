@@ -1,6 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
+import { makeConfig } from '../../src'
 import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {
@@ -9,6 +10,23 @@ describe('execute', () => {
 
   beforeAll(() => {
     process.env.WS_API_ENDPOINT = 'test-endpoint'
+  })
+
+  describe('makeConfig', () => {
+    beforeEach(() => {
+      delete process.env.IS_TLS_ENABLED
+    })
+
+    it('sets isTLSEnabled if the IS_TLS_ENABLED env var is set', () => {
+      process.env.IS_TLS_ENABLED = true
+      const config = makeConfig()
+      expect(config.isTLSEnabled).toBeTruthy()
+    })
+
+    it('does not set isTLSEnabled if the IS_TLS_ENABLED env var is not set', () => {
+      const config = makeConfig()
+      expect(config.isTLSEnabled).toBeFalsy()
+    })
   })
 
   describe('validation error', () => {
