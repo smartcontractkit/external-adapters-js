@@ -3970,7 +3970,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
+"@chainlink/por-indexer-adapter@workspace:*, @chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 14.17.21
+    decimal.js: ^10.3.1
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/proof-of-reserves-adapter@workspace:*, @chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
   dependencies:
@@ -3988,6 +4004,7 @@ __metadata:
     "@chainlink/eth-balance-adapter": "workspace:*"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
+    "@chainlink/por-indexer-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
@@ -4041,6 +4058,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@renproject/interfaces": ^2.5.1
     "@renproject/ren": ^2.5.1
@@ -4537,6 +4555,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -8444,6 +8463,13 @@ __metadata:
   version: 11.11.6
   resolution: "@types/node@npm:11.11.6"
   checksum: 075f1c011cf568e49701419acbcb55c24906b3bb5a34d9412a3b88f228a7a78401a5ad4d3e1cd6855c99aaea5ef96e37fc86ca097e50f06da92cf822befc1fff
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:14.17.21":
+  version: 14.17.21
+  resolution: "@types/node@npm:14.17.21"
+  checksum: f5fc54b1a857f6a3a266c25521cddda28c711979ec6e443187076b0c99df08b8578c5c0bef64af35f13fc1475f8fd8a71619dd708219b855a8f28629f7880bbb
   languageName: node
   linkType: hard
 

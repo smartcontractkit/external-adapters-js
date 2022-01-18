@@ -95,6 +95,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/outlier-detection"
       },
       {
+        "name": "@chainlink/por-indexer-adapter",
+        "reference": "workspace:packages/composites/por-indexer"
+      },
+      {
         "name": "@chainlink/proof-of-reserves-adapter",
         "reference": "workspace:packages/composites/proof-of-reserves"
       },
@@ -785,6 +789,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],
       ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
+      ["@chainlink/por-indexer-adapter", ["workspace:packages/composites/por-indexer"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],
@@ -6383,6 +6388,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/por-indexer-adapter", [
+        ["workspace:packages/composites/por-indexer", {
+          "packageLocation": "./packages/composites/por-indexer/",
+          "packageDependencies": [
+            ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:14.17.21"],
+            ["decimal.js", "npm:10.3.1"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/proof-of-reserves-adapter", [
         ["workspace:packages/composites/proof-of-reserves", {
           "packageLocation": "./packages/composites/proof-of-reserves/",
@@ -6402,6 +6425,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],
+            ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
@@ -6461,6 +6485,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@renproject/interfaces", "npm:2.5.1"],
             ["@renproject/ren", "npm:2.5.1"],
@@ -7014,6 +7039,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
@@ -11233,6 +11259,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-12.20.36-d06e056a72-096748b23e.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:12.20.36"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:14.17.21", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.17.21-499809933c-f5fc54b1a8.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:14.17.21"]
           ],
           "linkType": "HARD",
         }],
