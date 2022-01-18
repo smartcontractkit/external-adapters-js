@@ -46,14 +46,8 @@ export const createInteractionContext = async (
       maxPayload: connection.maxPayload,
     })
 
-    const closeOnCompletion = 'OneTime'
     const afterEach = (cb: () => void) => {
-      if (closeOnCompletion) {
-        socket.once('close', cb)
-        socket.close()
-      } else {
-        cb()
-      }
+      cb()
     }
 
     const onInitialError = (error: Error) => {

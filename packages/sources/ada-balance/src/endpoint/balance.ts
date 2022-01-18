@@ -32,16 +32,17 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
       jobRunID,
-      message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      message: `Input at 'addresses' or 'result' path, must be a non-empty array.`,
       statusCode: 400,
     })
   }
 
+  const [wsOgmiosURL, httpOgmiosURL] = getOgmiosHosts(jobRunID, config)
   const result = await getAddressBalances(
     jobRunID,
     addresses.map((address) => address.address),
-    config.wsOgmiosURL,
-    config.httpOgmiosURL,
+    wsOgmiosURL,
+    httpOgmiosURL,
   )
 
   return {
@@ -52,6 +53,25 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     },
     statusCode: 200,
   }
+}
+
+const getOgmiosHosts = (jobRunID: string, config: ExtendedConfig): string[] => {
+  let { wsOgmiosURL, httpOgmiosURL } = config
+  if (!wsOgmiosURL || !httpOgmiosURL) {
+    const { host, port, isTLSEnabled } = config
+    if (!host) {
+      throw new AdapterError({
+        jobRunID,
+        message: "Cannot construct Ogmios URLs as 'host' environment variable not set",
+        statusCode: 500,
+      })
+    }
+    const wsProtocol = isTLSEnabled ? 'wss' : 'ws'
+    const httpProtocol = isTLSEnabled ? 'https' : 'http'
+    wsOgmiosURL = `${wsProtocol}://${host}:${port}`
+    httpOgmiosURL = `${httpProtocol}://${host}:${port}`
+  }
+  return [wsOgmiosURL, httpOgmiosURL]
 }
 
 const getAddressBalances = async (
