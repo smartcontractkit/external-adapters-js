@@ -744,6 +744,8 @@
 
 ### Patch Changes
 
+### Patch Changes
+
 - Updated dependencies [4d3c0a79]
 - Updated dependencies [cd01b0c5]
 - Updated dependencies [4d3c0a79]
@@ -765,11 +767,15 @@
 
 ### Patch Changes
 
-- Updated dependencies [56be0406]
-- Updated dependencies [e6700270]
-- Updated dependencies [d1c5127a]
-  - @chainlink/tiingo-adapter@1.3.0
-  - @chainlink/ncfx-adapter@1.1.0
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+  - @chainlink/ada-balance-adapter@2.0.0
 
 ## 1.0.23
 

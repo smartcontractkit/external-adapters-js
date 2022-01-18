@@ -164,14 +164,14 @@
 
 ### Patch Changes
 
-- Updated dependencies [4d3c0a79]
-- Updated dependencies [4d3c0a79]
-- Updated dependencies [4d3c0a79]
-- Updated dependencies [4d3c0a79]
-- Updated dependencies [4d3c0a79]
-- Updated dependencies [4d3c0a79]
-- Updated dependencies [4d3c0a79]
-- Updated dependencies [4d3c0a79]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
+- Updated dependencies [e50223f49]
   - @chainlink/ada-balance-adapter@2.0.0
   - @chainlink/chain-reserve-wallet-adapter@2.0.0
   - @chainlink/renvm-address-set-adapter@1.1.0
