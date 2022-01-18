@@ -1,5 +1,19 @@
 # @chainlink/ada-balance-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- de40c34fa: Add TLS support
+- 94eba627b: Add WS_OGMIOS_URL and HTTP_OGMIOS_URL environment variables
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.1.3
 
 ### Patch Changes

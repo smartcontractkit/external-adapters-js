@@ -1,5 +1,18 @@
 # @chainlink/chain-reserve-wallet-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- 61b95d06c: change network name for chain-reserve-wallet doge -> dogecoin
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.1.3
 
 ### Patch Changes

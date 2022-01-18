@@ -1,5 +1,21 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 61b95d06c: fix missing chainId param in renvm-address-set-adapter
+- 61b95d06c: Implement por-indexer adapter to query PoR indexer service
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+- Updated dependencies [61b95d06c]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/proof-of-reserves-adapter@1.4.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.5
 
 ### Patch Changes
