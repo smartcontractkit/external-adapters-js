@@ -3946,9 +3946,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/ws", "npm:7.4.7"],
+            ["cross-fetch", "npm:3.1.4"],
             ["ethers", "npm:5.4.6"],
+            ["isomorphic-ws", "virtual:668d0a4aac67496ce414980d614586c6ec9a2fd1b0db43056a5f06ca163a292c972ae13d16ca49d4c1f4baee9922415eb20a5747fe9637323072e02f9b7c7817#npm:4.0.1"],
+            ["ts-custom-error", "npm:3.2.0"],
             ["tslib", "npm:2.3.1"],
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"],
+            ["ws", "virtual:7254fd8ce77b68d889a3bdd3adbb30714345e4eabc20dd8acb030d6e3eee243c63ff0ce6a1521e60e11dc5384028500cf1f4f630567b5957b27a769fdfe8d8c4#npm:7.5.3"]
           ],
           "linkType": "SOFT",
         }]
@@ -21367,6 +21372,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["isomorphic-ws", "virtual:09feb13e9ca02cb60fa2459830a3cce1f4b237c9019543abeb2bbcb438ed2897678a95e83d3a385424d827ceaa7d32f4e2b36a11fa869d930dbb12a67a99e847#npm:4.0.1"],
             ["@types/ws", null],
+            ["ws", "virtual:7254fd8ce77b68d889a3bdd3adbb30714345e4eabc20dd8acb030d6e3eee243c63ff0ce6a1521e60e11dc5384028500cf1f4f630567b5957b27a769fdfe8d8c4#npm:7.5.3"]
+          ],
+          "packagePeers": [
+            "@types/ws",
+            "ws"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:668d0a4aac67496ce414980d614586c6ec9a2fd1b0db43056a5f06ca163a292c972ae13d16ca49d4c1f4baee9922415eb20a5747fe9637323072e02f9b7c7817#npm:4.0.1", {
+          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-db5596c526/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",
+          "packageDependencies": [
+            ["isomorphic-ws", "virtual:668d0a4aac67496ce414980d614586c6ec9a2fd1b0db43056a5f06ca163a292c972ae13d16ca49d4c1f4baee9922415eb20a5747fe9637323072e02f9b7c7817#npm:4.0.1"],
+            ["@types/ws", "npm:7.4.7"],
             ["ws", "virtual:7254fd8ce77b68d889a3bdd3adbb30714345e4eabc20dd8acb030d6e3eee243c63ff0ce6a1521e60e11dc5384028500cf1f4f630567b5957b27a769fdfe8d8c4#npm:7.5.3"]
           ],
           "packagePeers": [
