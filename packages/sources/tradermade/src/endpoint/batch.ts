@@ -19,7 +19,7 @@ export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
 export const inputParameters: InputParameters = {
   base: {
-    aliases: ['from', 'symbol', 'market'],
+    aliases: ['from', 'symbol'],
     required: true,
     description: 'The symbol of the currency to query',
   },
