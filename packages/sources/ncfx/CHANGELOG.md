@@ -1,5 +1,14 @@
 # @chainlink/ncfx-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.5
 
 ### Patch Changes
