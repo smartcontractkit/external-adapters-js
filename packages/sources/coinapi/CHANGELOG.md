@@ -1,5 +1,67 @@
 # @chainlink/coinapi-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.4
+
+### Patch Changes
+
+- 1b54ee913: Remove resultPath from all input parameter configurations
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.1
+
+### Patch Changes
+
+- 5c57c317: Fix input param types for batchable properties
+
+## 1.1.0
+
+### Minor Changes
+
+- 6b7f9d56: input parameters changed
+
+### Patch Changes
+
+- cf81f1b1: added respone types for crypto endpoint
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.13
 
 ### Patch Changes

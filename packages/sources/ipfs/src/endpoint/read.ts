@@ -1,7 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
-import { IPFS } from 'ipfs-core-types'
-import { create } from 'ipfs-http-client'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { CID } from 'multiformats/cid'
 import { AsyncReturnType } from 'type-fest'
 import { deserialize } from '../codec'
@@ -10,15 +9,34 @@ export { CID }
 
 export const supportedEndpoints = ['read']
 
-const customParams = {
-  cid: false,
-  ipns: false,
-  codec: false,
-  type: false,
+export const inputParameters: InputParameters = {
+  cid: {
+    required: false,
+    description: 'The CID to read. Required if IPNS is not set',
+    exclusive: ['ipns'],
+  },
+  ipns: {
+    required: false,
+    description: 'The IPNS to read. Required if CID is not set',
+    exclusive: ['cid'],
+  },
+  codec: {
+    required: false,
+    description: 'The codec to convert the data, if necessary when type is `raw`',
+    type: 'string',
+    options: ['json', 'dag-cbor'],
+  },
+  type: {
+    required: false,
+    description: 'The type of data to read',
+    type: 'string',
+    options: ['raw', 'dag'],
+    default: 'raw',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -60,7 +78,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, response)
 }
 
-const readFile = async (cid: IPFSPath, codec: string, client: IPFS) => {
+const readFile = async (cid: IPFSPath, codec: string, client: IPFSHTTPClient) => {
   const stream = client.cat(cid)
 
   let data = Buffer.from([])
@@ -71,7 +89,7 @@ const readFile = async (cid: IPFSPath, codec: string, client: IPFS) => {
   return deserialize(data, codec)
 }
 
-const readDag = async (cid: IPFSPath, client: IPFS) => {
+const readDag = async (cid: IPFSPath, client: IPFSHTTPClient) => {
   if (typeof cid === 'string') {
     cid = CID.parse(cid)
   }

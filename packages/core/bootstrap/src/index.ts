@@ -153,6 +153,9 @@ const withMetrics: Middleware = async (execute, context) => async (input: Adapte
     record({
       statusCode: providerStatusCode ? 200 : 500,
       providerStatusCode,
+      type: providerStatusCode
+        ? metrics.HttpRequestType.DATA_PROVIDER_HIT
+        : metrics.HttpRequestType.ADAPTER_ERROR,
     })
     throw error
   }
@@ -228,7 +231,12 @@ export const executeSync: ExecuteSync = async (
     const feedID = metrics.util.getFeedId(data)
     return callback(
       error.statusCode || 500,
-      Requester.errored(data.id, error, error.statusCode, feedID),
+      Requester.errored(
+        data.id,
+        error,
+        error.providerResponseStatusCode || error.statusCode,
+        feedID,
+      ),
     )
   }
 }

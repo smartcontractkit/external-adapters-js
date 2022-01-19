@@ -6,7 +6,14 @@ export function mockLunaUSDPrice() {
     .post('/', { id: '1', data: { base: 'LUNA', quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
-      { jobRunID: '1', result: 69.24, maxAge: 30000, statusCode: 200, data: { result: 69.24 } },
+      {
+        jobRunID: '1',
+        providerStatusCode: 200,
+        result: 69.24,
+        maxAge: 30000,
+        statusCode: 200,
+        data: { result: 69.24 },
+      },
       [
         'X-Powered-By',
         'Express',
@@ -36,7 +43,14 @@ export function mockSTEthUSDPrice() {
     .post('/', { id: '1', data: { base: 'STETH', quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
-      { jobRunID: '1', result: 4507.32, maxAge: 30000, statusCode: 200, data: { result: 4507.32 } },
+      {
+        jobRunID: '1',
+        providerStatusCode: 200,
+        result: 4507.32,
+        maxAge: 30000,
+        statusCode: 200,
+        data: { result: 4507.32 },
+      },
       [
         'X-Powered-By',
         'Express',
@@ -65,7 +79,14 @@ export function mockETHUSDPrice() {
     .post('/', { id: '1', data: { base: 'ETH', quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
-      { jobRunID: '1', result: 4538.52, maxAge: 30000, statusCode: 200, data: { result: 4538.52 } },
+      {
+        jobRunID: '1',
+        providerStatusCode: 200,
+        result: 4538.52,
+        maxAge: 30000,
+        statusCode: 200,
+        data: { result: 4538.52 },
+      },
       [
         'X-Powered-By',
         'Express',
@@ -94,7 +115,14 @@ export function mockBTCUSDPrice() {
     .post('/', { id: '1', data: { base: 'BTC', quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
-      { jobRunID: '1', result: 56606, maxAge: 30000, statusCode: 200, data: { result: 56606 } },
+      {
+        jobRunID: '1',
+        providerStatusCode: 200,
+        result: 56606,
+        maxAge: 30000,
+        statusCode: 200,
+        data: { result: 56606 },
+      },
       [
         'X-Powered-By',
         'Express',

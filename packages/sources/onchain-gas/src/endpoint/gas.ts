@@ -5,8 +5,18 @@ import { DEFAULT_NUM_BLOCKS, MAX_BLOCKS_TO_QUERY } from '../config'
 export const supportedEndpoints = ['gas']
 
 export const inputParameters: InputParameters = {
-  numBlocks: false,
-  blockIdx: false,
+  numBlocks: {
+    required: false,
+    default: 1,
+    type: 'number',
+    description: 'The number of blocks to use to determine the gas price.',
+  },
+  blockIdx: {
+    required: false,
+    default: 0,
+    type: 'number',
+    description: 'The index of the block used for the result field in the response',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request) => {

@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute forex  api should return success 1`] = `
+exports[`execute forex  api should return success for single base/quote pair 1`] = `
 Object {
   "data": Object {
     "result": 4494.0249,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 4494.0249,
   "statusCode": 200,
 }
@@ -17,6 +18,7 @@ Object {
     "result": 150.50501,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 150.50501,
   "statusCode": 200,
 }

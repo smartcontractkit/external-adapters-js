@@ -17,10 +17,11 @@ This endpoint reads the set of custodial addresses from a smart contract and ret
 
 ### Input Params
 
-| Required? |      Name       |                            Description                             |        Options        | Defaults to |
-| :-------: | :-------------: | :----------------------------------------------------------------: | :-------------------: | :---------: |
-|    ✅     |     chainID     |                  The ID of the target PoR chain.                   | 0 (Cardano), 1 (Doge) |             |
-|    ✅     | contractAddress | The address of the smart contract holding the custodial addresses. |                       |             |
+| Required? |      Name       |                            Description                             |     Options      | Defaults to |
+| :-------: | :-------------: | :----------------------------------------------------------------: | :--------------: | :---------: |
+|    ✅     |     chainId     |                  The ID of the target PoR chain.                   | mainnet, testnet |             |
+|    ✅     |     network     |                         Blockchain network                         |  cardano, doge   |             |
+|    ✅     | contractAddress | The address of the smart contract holding the custodial addresses. |                  |             |
 
 ### Sample Input
 
@@ -28,7 +29,8 @@ This endpoint reads the set of custodial addresses from a smart contract and ret
 {
   "id": "1",
   "data": {
-    "chainID": 0,
+    "chainId": "testnet",
+    "network": "cardano",
     "contractAddress": "0xAe1932a83DeD75db2afD1E4EC6c0D4241554100A"
   }
 }
@@ -40,12 +42,20 @@ This endpoint reads the set of custodial addresses from a smart contract and ret
 {
   "jobRunID": "1",
   "result": [
-    "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m"
+    {
+      "address": "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m",
+      "chainId": "testnet",
+      "network": "cardano"
+    }
   ],
   "statusCode": 200,
   "data": {
     "result": [
-      "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m"
+      {
+        "address": "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m",
+        "chainId": "testnet",
+        "network": "cardano"
+      }
     ]
   }
 }

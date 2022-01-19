@@ -11,10 +11,14 @@ export interface ResponseSchema {
   blockNum: number
 }
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
-  speed: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    default: 'fast',
+    options: ['safeLow', 'standard', 'fast', 'fastest'],
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -28,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ...config.api,
   }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, [speed])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

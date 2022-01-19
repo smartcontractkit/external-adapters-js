@@ -54,10 +54,21 @@ export const endpointResultPaths = {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  coinid: false,
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+  coinid: {
+    description: 'The coin ID (optional to use in place of `base`)',
+    required: false,
+    type: 'string',
+  },
 }
 
 interface RequestedData {

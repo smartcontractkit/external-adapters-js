@@ -6,7 +6,44 @@ export const apiHeaders = {
   'x-rapidapi-key': process.env.API_KEY || 'test-api-key',
 }
 
-export const authenticate = async () => {
+export interface Change {
+  change24h: number
+  change30d: number
+  change7d: number
+}
+
+export interface MarketCap {
+  content: {
+    assetId: string
+    freeFloatSupply: number
+    id: string
+    marketCap: number
+    marketCapPercentChange: Change
+    marketCapRank: number
+    price: number
+    pricePercentChange: Change
+    timestamp: string
+    totalMarketCap: number
+    totalMarketCapPercentChange: Change
+    totalSupply: number
+    volume: number
+    volumePercentChange: Change
+    volumeRank: number
+  }[]
+}
+
+export interface Asset {
+  content: {
+    id: string
+    name: string
+    status: string
+    symbol: string
+    type: string
+    url: string
+  }[]
+}
+
+export const authenticate = async (): Promise<string> => {
   const response = await Requester.request({
     method: 'POST',
     url: `https://${host}/oauth/token`,
@@ -25,8 +62,8 @@ export const authenticate = async () => {
   return response.data.access_token
 }
 
-export const getAssetId = async (symbol: any) => {
-  const response = await Requester.request({
+export const getAssetId = async (symbol: string): Promise<string> => {
+  const response = await Requester.request<Asset>({
     url: `https://${host}/asset`,
     headers: {
       'content-type': 'application/octet-stream',
@@ -41,10 +78,14 @@ export const getAssetId = async (symbol: any) => {
   return response.data.content[0].id
 }
 
-export const convert = async (token: any, baseAssetId: any, quoteAssetId: any) => {
+export const convert = async (
+  token: string,
+  baseAssetId: string,
+  quoteAssetId: string,
+): Promise<{ status: number; data: { result: number }; result: number }> => {
   const url = `https://${host}/market-cap`
   const path = ['content', 0, 'price']
-  const base = await Requester.request({
+  const base = await Requester.request<MarketCap>({
     url,
     headers: {
       ...apiHeaders,
@@ -64,7 +105,7 @@ export const convert = async (token: any, baseAssetId: any, quoteAssetId: any) =
       result,
     }
   }
-  const quote = await Requester.request({
+  const quote = await Requester.request<MarketCap>({
     url,
     headers: {
       ...apiHeaders,

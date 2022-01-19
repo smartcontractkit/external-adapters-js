@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
 
 export const supportedEndpoints = ['addresses']
 
@@ -18,6 +19,7 @@ type Address = {
 }
 
 type AddressType = 'custodial' | 'merchant' | 'deposit'
+export const inputParameters: InputParameters = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request)
@@ -36,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const result = response.data.result
     .filter((a) => a.type == 'custodial' && a.balance)
-    .map((a) => ({ ...a, coin: 'btc', chain: 'mainnet' }))
+    .map<PorInputAddress>((a) => ({ ...a, coin: 'btc', chainId: 'mainnet', network: 'bitcoin' }))
 
   const output = { ...response, data: { ...response.data, result } }
   return Requester.success(jobRunID, output, config.verbose)

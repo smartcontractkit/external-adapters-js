@@ -4,12 +4,45 @@ import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
 
 export const supportedEndpoints = ['stock', 'eod']
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  interval: false,
-  limit: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  interval: {
+    required: false,
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+    default: '1min',
+  },
+  limit: {
+    required: false,
+    description: 'The limit for number of results',
+    type: 'number',
+    default: 1,
+  },
+}
+
+export interface ResponseSchema {
+  data: {
+    open: number
+    high: number
+    low: number
+    close: number
+    volume: number
+    adj_high: number
+    adj_low: number
+    adj_close: number
+    adj_open: number
+    adj_volume: number
+    split_factor: number
+    dividend: number
+    symbol: string
+    exchange: string
+    date: string
+  }[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -35,8 +68,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', 0, 'close'])
+  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const result = Requester.validateResultNumber(response.data, ['data', 0, 'close'])
 
-  return Requester.success(jobRunID, response)
+  return Requester.success(jobRunID, Requester.withResult(response, result))
 }

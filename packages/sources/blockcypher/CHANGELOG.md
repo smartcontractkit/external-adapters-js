@@ -1,5 +1,65 @@
 # @chainlink/blockcypher-adapter
 
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-factories@1.0.19
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.3
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/ea-factories@1.0.18
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/ea-factories@1.0.17
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-factories@1.0.16
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.0
+
+### Minor Changes
+
+- bea9f065: input parameters changed
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/ea-factories@1.0.15
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/ea-factories@1.0.14
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.9
 
 ### Patch Changes

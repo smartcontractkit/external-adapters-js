@@ -141,7 +141,7 @@ describe('Requester', () => {
         Requester.validateResultNumber(data, ['result'])
         expect(false).toBe(true)
       } catch (error) {
-        expect(error.message).toEqual('Invalid result')
+        expect(error.message).toEqual('Invalid result received')
       }
     })
   })

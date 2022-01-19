@@ -6,6 +6,7 @@ Object {
     "result": 1.15894,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 1.15894,
   "statusCode": 200,
 }
@@ -15,7 +16,7 @@ exports[`execute rate api with invalid base should return failure 1`] = `
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"base\\":\\"NON-EXISTING\\"}}",
-    "message": "Invalid result",
+    "message": "Invalid result received",
     "name": "AdapterError",
   },
   "jobRunID": "1",
