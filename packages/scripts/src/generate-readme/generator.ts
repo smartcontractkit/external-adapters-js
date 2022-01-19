@@ -322,11 +322,12 @@ export async function main(): Promise<void | string> {
   try {
     // define command line options
     const options = commandLineArgs([
-      { name: 'all', alias: 'a', type: Boolean },
-      { name: 'files', alias: 'f', multiple: true },
-      { name: 'verbose', alias: 'v', type: Boolean },
-      { name: 'testPath', alias: 't', type: String },
-      { name: 'adapters', multiple: true, defaultOption: true },
+      { name: 'all', alias: 'a', type: Boolean }, // Generate READMEs for all source EAs not in blacklist
+      { name: 'files', alias: 'f', multiple: true }, // Generate READMEs for all file paths provided that originate in source EAs
+      { name: 'verbose', alias: 'v', type: Boolean }, // Include extra logs for each generation process
+      { name: 'stage', alias: 's', type: Boolean }, // Stage READMEs after generation
+      { name: 'testPath', alias: 't', type: String }, // Run script as test for EA along given path
+      { name: 'adapters', multiple: true, defaultOption: true }, // Generate READMEs for all source EAs given by name
     ])
 
     // test setting
@@ -374,7 +375,7 @@ export async function main(): Promise<void | string> {
     // save README files
     console.log('Saving READMEs')
     for (const adapter of readmeQueue) {
-      createReadmeFile(adapter[0], adapter[1], true)
+      createReadmeFile(adapter[0], adapter[1], options.stage)
     }
   } catch (e) {
     console.log(`Error: ${e}`)

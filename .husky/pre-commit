@@ -3,7 +3,7 @@
 
 STAGED_FILES=$(git diff --name-only --cached)
 
-yarn generate:readme -f $STAGED_FILES
+yarn generate:readme -s -f $STAGED_FILES
 README_GENERATOR_EXIT_CODE=$?
 
 if [ $README_GENERATOR_EXIT_CODE -ne 0 ]; then
