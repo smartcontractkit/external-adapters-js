@@ -1770,9 +1770,11 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+    "@types/ws": ^7.4.0
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.3.5
+    ws: ^7.4.6
   languageName: unknown
   linkType: soft
 
@@ -3510,7 +3512,7 @@ __metadata:
     "@types/node": 16.11.19
     cids: ^1.1.8
     ipfs: ^0.60.0
-    ipfs-core-types: ^0.7.1
+    ipfs-core-types: ^0.9.0
     ipfs-http-client: ^52.0.3
     ipld-dag-cbor: ^1.0.1
     multiformats: ^9.4.1
@@ -3968,7 +3970,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
+"@chainlink/por-indexer-adapter@workspace:*, @chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/por-indexer-adapter@workspace:packages/composites/por-indexer"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 14.17.21
+    decimal.js: ^10.3.1
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/proof-of-reserves-adapter@workspace:*, @chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
   version: 0.0.0-use.local
   resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
   dependencies:
@@ -3986,6 +4004,7 @@ __metadata:
     "@chainlink/eth-balance-adapter": "workspace:*"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
+    "@chainlink/por-indexer-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
@@ -4039,6 +4058,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@renproject/interfaces": ^2.5.1
     "@renproject/ren": ^2.5.1
@@ -4535,6 +4555,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
@@ -8445,6 +8466,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:14.17.21":
+  version: 14.17.21
+  resolution: "@types/node@npm:14.17.21"
+  checksum: f5fc54b1a857f6a3a266c25521cddda28c711979ec6e443187076b0c99df08b8578c5c0bef64af35f13fc1475f8fd8a71619dd708219b855a8f28629f7880bbb
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:16.11.19":
   version: 16.11.19
   resolution: "@types/node@npm:16.11.19"
@@ -8739,7 +8767,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:7.4.7":
+"@types/ws@npm:7.4.7, @types/ws@npm:^7.4.0":
   version: 7.4.7
   resolution: "@types/ws@npm:7.4.7"
   dependencies:
@@ -12954,13 +12982,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.8.0":
-  version: 5.8.2
-  resolution: "enhanced-resolve@npm:5.8.2"
+"enhanced-resolve@npm:^5.8.3":
+  version: 5.8.3
+  resolution: "enhanced-resolve@npm:5.8.3"
   dependencies:
     graceful-fs: ^4.2.4
     tapable: ^2.2.0
-  checksum: 6e871ec5b183220dbcdaff8580cbdacee5425e321790e5846abd1b573d20d2bcb37f73ee983fd10c6d6878d31a2d08e234e72fc91a81236d64623ee6ba7d6611
+  checksum: d79fbe531106448b768bb0673fb623ec0202d7ee70373ab7d4f4745d5dfe0806f38c9db7e7da8c941288fe475ab3d538db3791fce522056eeea40ca398c9e287
   languageName: node
   linkType: hard
 
@@ -13073,10 +13101,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^0.7.1":
-  version: 0.7.1
-  resolution: "es-module-lexer@npm:0.7.1"
-  checksum: c66fb633cc521529862818caf603897d58d30442c885a1a1ed16823ddbbb8a437e3952454a4b2650242df1c1b4d0efa42fedbe49594e3ef2ceb3c891cf1211dd
+"es-module-lexer@npm:^0.9.0":
+  version: 0.9.3
+  resolution: "es-module-lexer@npm:0.9.3"
+  checksum: 84bbab23c396281db2c906c766af58b1ae2a1a2599844a504df10b9e8dc77ec800b3211fdaa133ff700f5703d791198807bba25d9667392d27a5e9feda344da8
   languageName: node
   linkType: hard
 
@@ -15194,6 +15222,13 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"graceful-fs@npm:^4.2.9":
+  version: 4.2.9
+  resolution: "graceful-fs@npm:4.2.9"
+  checksum: 68ea4e07ff2c041ada184f9278b830375f8e0b75154e3f080af6b70f66172fabb4108d19b3863a96b53fc068a310b9b6493d86d1291acc5f3861eb4b79d26ad6
+  languageName: node
+  linkType: hard
+
 "grapheme-splitter@npm:^1.0.4":
   version: 1.0.4
   resolution: "grapheme-splitter@npm:1.0.4"
@@ -16235,6 +16270,17 @@ fsevents@~2.1.1:
     multiaddr: ^10.0.0
     multiformats: ^9.4.13
   checksum: 0bf10eb1a469404b4af302356d16c8fb517fb7df15a4d02d3a3930b8fd7d78133220aaf3357b6066e6961187270af611f00483762c4383d24f91884c412c2099
+  languageName: node
+  linkType: hard
+
+"ipfs-core-types@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "ipfs-core-types@npm:0.9.0"
+  dependencies:
+    interface-datastore: ^6.0.2
+    multiaddr: ^10.0.0
+    multiformats: ^9.4.13
+  checksum: 22db8e039348dc372c99b45a87ce8dce81e15fa710cee410c1731004d528e0bd0da96b5a4c5571d501313fae93316af3b902c2220c486d2fade2e53f07a7d17b
   languageName: node
   linkType: hard
 
@@ -18803,7 +18849,7 @@ fsevents@~2.1.1:
     clean-webpack-plugin: 4.0.0
     core-js: 3.20.3
     typescript: 4.3.5
-    webpack: 5.51.2
+    webpack: 5.66.0
     webpack-cli: 4.8.0
   languageName: unknown
   linkType: soft
@@ -26840,13 +26886,13 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"watchpack@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "watchpack@npm:2.2.0"
+"watchpack@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "watchpack@npm:2.3.1"
   dependencies:
     glob-to-regexp: ^0.4.1
     graceful-fs: ^4.1.2
-  checksum: e275f48fae29edee3195c51a8312b609581b9be5ce323d3102ffd082cb124f48d7a393ce05e4110239e4354379e04d78a97ceb26ae367746e7e218bf258135c8
+  checksum: 70a34f92842d94b5d842980f866d568d7a467de667c96ae5759c759f46587e49265863171f4650bdbafc5f3870a28f2b4453e9e847098ec4b718b38926d47d22
   languageName: node
   linkType: hard
 
@@ -27498,10 +27544,10 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"webpack-sources@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "webpack-sources@npm:3.2.0"
-  checksum: 8f1d686bd6aab2eda330579a07e14803cb2e01415f5a603697402aea3c36e98c1d2731167c3e97e50170cf1b0214cf8ef945fc639b100d1e3b67c023feb35716
+"webpack-sources@npm:^3.2.2":
+  version: 3.2.3
+  resolution: "webpack-sources@npm:3.2.3"
+  checksum: 989e401b9fe3536529e2a99dac8c1bdc50e3a0a2c8669cbafad31271eadd994bc9405f88a3039cd2e29db5e6d9d0926ceb7a1a4e7409ece021fe79c37d9c4607
   languageName: node
   linkType: hard
 
@@ -27537,9 +27583,9 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.51.2":
-  version: 5.51.2
-  resolution: "webpack@npm:5.51.2"
+"webpack@npm:5.66.0":
+  version: 5.66.0
+  resolution: "webpack@npm:5.66.0"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.50
@@ -27550,12 +27596,12 @@ resolve@1.17.0:
     acorn-import-assertions: ^1.7.6
     browserslist: ^4.14.5
     chrome-trace-event: ^1.0.2
-    enhanced-resolve: ^5.8.0
-    es-module-lexer: ^0.7.1
+    enhanced-resolve: ^5.8.3
+    es-module-lexer: ^0.9.0
     eslint-scope: 5.1.1
     events: ^3.2.0
     glob-to-regexp: ^0.4.1
-    graceful-fs: ^4.2.4
+    graceful-fs: ^4.2.9
     json-parse-better-errors: ^1.0.2
     loader-runner: ^4.2.0
     mime-types: ^2.1.27
@@ -27563,14 +27609,14 @@ resolve@1.17.0:
     schema-utils: ^3.1.0
     tapable: ^2.1.1
     terser-webpack-plugin: ^5.1.3
-    watchpack: ^2.2.0
-    webpack-sources: ^3.2.0
+    watchpack: ^2.3.1
+    webpack-sources: ^3.2.2
   peerDependenciesMeta:
     webpack-cli:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: f767bf26afb89e6105757462a0d2d829583699aca0b76894339e2c60fc6dc0fbfc569fc070ef2d5e295f47b4ec649ab68db16bbc1fb593de9f5bb771afd85aca
+  checksum: 5a44664a840fd64c5383aa78847b205ae0b42b607f85ee1d6a568617a210c1b9caab1822bce40a89a3b5eb0f626a83fb5fe2055c638aa230897bf224030d28e8
   languageName: node
   linkType: hard
 
