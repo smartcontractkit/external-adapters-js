@@ -15,6 +15,9 @@
       "path": "./composites/bitcoin-json-rpc"
     },
     {
+      "path": "./composites/por-indexer"
+    },
+    {
       "path": "./composites/bob"
     },
     {
