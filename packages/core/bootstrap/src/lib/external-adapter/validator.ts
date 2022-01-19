@@ -12,7 +12,6 @@ import {
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError } from './errors'
-import { logger } from './logger'
 import presetSymbols from './overrides/presetSymbols.json'
 import presetTokens from './overrides/presetTokens.json'
 import presetIncludes from './overrides/presetIncludes.json'
@@ -32,20 +31,12 @@ export class Validator {
   validated: any
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
-  shouldLogError: boolean
-
-  constructor(
-    input: InputType = { id: '1', data: {} },
-    inputConfigs = {},
-    options = {},
-    shouldLogError = true,
-  ) {
+  constructor(input: InputType = { id: '1', data: {} }, inputConfigs = {}, options = {}) {
     this.input = { ...input }
     if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
     if (!this.input.data) this.input.data = {}
     this.inputConfigs = { ...baseInputParameters, ...inputConfigs }
     this.options = { ...options }
-    this.shouldLogError = shouldLogError
     this.validated = { id: this.input.id, data: {} }
     this.validateInput()
     this.validateOverrides('overrides', presetSymbols)
@@ -110,16 +101,6 @@ export class Validator {
         message,
         cause: error,
       })
-    if (this.shouldLogError) {
-      logger.error(message, {
-        error: this.error,
-        context: {
-          input: this.input,
-          options: this.options,
-          inputConfigs: this.inputConfigs,
-        },
-      })
-    }
     this.errored = Requester.errored(this.validated.id, this.error)
   }
 
