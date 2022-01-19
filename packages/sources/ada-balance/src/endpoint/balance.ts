@@ -1,9 +1,9 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Address, Utxo } from '@cardano-ogmios/schema'
-import * as client from '@cardano-ogmios/client'
-import { DEFAULT_RPC_PORT } from '../config'
+import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Schema, StateQuery } from '@cardano-ogmios/client'
+import { ExtendedConfig } from '../config'
 import { BigNumber } from 'ethers'
+import { createInteractionContext } from './ogmios'
 
 export const supportedEndpoints = ['balance']
 
@@ -14,10 +14,15 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  addresses: ['addresses', 'result'],
+  addresses: {
+    aliases: ['result'],
+    description: 'An array of addresses to query balances for',
+    type: 'array',
+    required: true,
+  },
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
@@ -27,15 +32,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
       jobRunID,
-      message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      message: `Input at 'addresses' or 'result' path, must be a non-empty array.`,
       statusCode: 400,
     })
   }
 
+  const [wsOgmiosURL, httpOgmiosURL] = getOgmiosHosts(jobRunID, config)
   const result = await getAddressBalances(
+    jobRunID,
     addresses.map((address) => address.address),
-    config.api.baseWsUrl,
-    config.rpcPort || DEFAULT_RPC_PORT,
+    wsOgmiosURL,
+    httpOgmiosURL,
   )
 
   return {
@@ -48,23 +55,51 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 }
 
-const getAddressBalances = async (
-  addresses: Address[],
-  wsUrl: string,
-  port: number,
-): Promise<string> => {
-  const utxo = await client.utxo(addresses, {
-    connection: {
-      port,
-      host: wsUrl,
-      protocol: 'ws',
-    },
-  })
+const getOgmiosHosts = (jobRunID: string, config: ExtendedConfig): string[] => {
+  let { wsOgmiosURL, httpOgmiosURL } = config
+  if (!wsOgmiosURL || !httpOgmiosURL) {
+    const { host, port, isTLSEnabled } = config
+    if (!host) {
+      throw new AdapterError({
+        jobRunID,
+        message: "Cannot construct Ogmios URLs as 'host' environment variable not set",
+        statusCode: 500,
+      })
+    }
+    const wsProtocol = isTLSEnabled ? 'wss' : 'ws'
+    const httpProtocol = isTLSEnabled ? 'https' : 'http'
+    wsOgmiosURL = `${wsProtocol}://${host}:${port}`
+    httpOgmiosURL = `${httpProtocol}://${host}:${port}`
+  }
+  return [wsOgmiosURL, httpOgmiosURL]
+}
 
-  // TODO:  Figure out error that shows up whenever we try to pull in Ogmios V4.1.0
-  // The issue here is that we are using the V3.2.0 client, which has a different response type than
-  // what is being returned from the API.  The API returns v4.1.0.  This code works ut casting utxo is ugly.
-  const balanceAsBigNum = (utxo as unknown as Utxo).reduce(
+const getAddressBalances = async (
+  jobRunID: string,
+  addresses: Schema.Address[],
+  wsURL: string,
+  httpURL: string,
+): Promise<string> => {
+  const errorHandler = (error: Error) => {
+    throw new AdapterError({
+      jobRunID,
+      message: `Cardano Ogmios Error Name: "${error.name}" Message: "${error.message}"`,
+      statusCode: 500,
+    })
+  }
+
+  const closeHandler = (code: number, reason: string) => {
+    Logger.info(`Cardano Ogmios WS connection closed.  Code: "${code}" Reason: "${reason}"`)
+  }
+
+  const interactionContext = await createInteractionContext(
+    errorHandler,
+    closeHandler,
+    wsURL,
+    httpURL,
+  )
+  const utxo = await StateQuery.utxo(interactionContext, addresses)
+  const balanceAsBigNum = utxo.reduce(
     (total, [_, out]) => total.add(BigNumber.from(out.value.coins)),
     BigNumber.from(0),
   )

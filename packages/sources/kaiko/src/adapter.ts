@@ -59,9 +59,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const response = await Requester.request(requestConfig, customError)
 
+  const data = response.data.data.filter((x: any) => x.price !== null)
+  if (data.length == 0) {
+    throw 'Unsupported Price Pair'
+  }
+
   response.data.result = Requester.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
-    response.data.data.filter((x: any) => x.price !== null),
+    data,
     [0, 'price'],
     { inverse },
   )

@@ -8,7 +8,7 @@ export const endpointResultPaths = {
   filtered: 'price',
 }
 
-const customError = (data: any) => {
+const customError = (data: Record<string, unknown>) => {
   return Object.keys(data).length === 0
 }
 
@@ -22,9 +22,11 @@ export const inputParameters: InputParameters = {
     required: true,
     description: 'Comma delimited list of exchange names',
   },
-  resultPath: {
-    required: false,
-  },
+}
+
+export interface ResponseSchema {
+  currency: string
+  price: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -49,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(reqConfig, customError)
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
 
   const result = Requester.validateResultNumber(response.data, resultPath)
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)

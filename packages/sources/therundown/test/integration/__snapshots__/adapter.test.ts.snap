@@ -777,6 +777,7 @@ Object {
     },
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Object {
     "event_date": "2020-09-20T17:00:00Z",
     "event_id": "5527455bb80a5e9884153786aeb5f2b2",
@@ -11598,6 +11599,7 @@ Object {
     ],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": Array [
     Object {
       "event_date": "2020-09-20T17:00:00Z",
@@ -21648,6 +21650,7 @@ Object {
     "result": 30,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 30,
   "statusCode": 200,
 }

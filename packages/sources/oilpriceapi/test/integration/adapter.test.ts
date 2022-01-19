@@ -36,7 +36,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        base: 'BZ',
+        base: 'bz',
       },
     }
 
@@ -58,7 +58,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        base: 'BZ',
+        base: 'wti',
       },
     }
 

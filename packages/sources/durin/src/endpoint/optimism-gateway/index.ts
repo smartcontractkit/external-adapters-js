@@ -19,9 +19,22 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  to: true,
-  data: true,
-  abi: true,
+  to: {
+    required: true,
+    description: 'The **L1** address of the original called L1 contract.',
+    type: 'string',
+  },
+  data: {
+    required: true,
+    description: 'The hex encoded function call of the original function called in the L1 contract',
+    type: 'string',
+  },
+  abi: {
+    required: true,
+    description:
+      'The ABI of the originally called L1 contract. In this example it is the OptimismResolverStub contract.',
+    type: 'array',
+  },
 }
 
 const CALL_TYPE_FN = 'addr'

@@ -9,7 +9,12 @@ describe('execute', () => {
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   describe('validation error', () => {
-    const requests = [{ name: 'empty body', testData: {} }]
+    const requests = [
+      {
+        name: 'wrong "last" type',
+        testData: { data: { last: 'abc' } },
+      },
+    ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {

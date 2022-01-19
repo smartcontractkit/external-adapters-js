@@ -19,15 +19,10 @@ const inputParams = {
   payment: ['payment'],
 }
 
-// FIXME: Ideally, these would be the same.
-const LINK_UNIT = BigNumber.from(10).pow(BigNumber.from(18))
-const LINK_AGORIC_UNIT = BigNumber.from(10).pow(BigNumber.from(6))
-
 // Convert the payment in $LINK into Agoric's pegged $LINK token.
-export const getRequiredFee = (value: string | number): number => {
+export const getRequiredFee = (value: string | number): string => {
   const paymentCL = BigNumber.from(value)
-  const paymentAgoricLink = paymentCL.mul(LINK_AGORIC_UNIT).div(LINK_UNIT)
-  return paymentAgoricLink.toNumber()
+  return paymentCL.toString()
 }
 
 export interface PostReply {

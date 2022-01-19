@@ -1,5 +1,150 @@
 # @chainlink/token-allocation-adapter
 
+## 1.0.29
+
+### Patch Changes
+
+- Updated dependencies [385d7d1cb]
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+- Updated dependencies [a7e322c51]
+  - @chainlink/amberdata-adapter@1.3.0
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/coinapi-adapter@1.1.5
+  - @chainlink/coingecko-adapter@1.1.5
+  - @chainlink/coinmarketcap-adapter@1.3.5
+  - @chainlink/coinpaprika-adapter@1.1.5
+  - @chainlink/cryptocompare-adapter@1.2.5
+  - @chainlink/kaiko-adapter@1.0.19
+  - @chainlink/nomics-adapter@1.0.20
+  - @chainlink/tiingo-adapter@1.6.4
+
+## 1.0.28
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+- Updated dependencies [1b54ee913]
+  - @chainlink/amberdata-adapter@1.2.3
+  - @chainlink/coinapi-adapter@1.1.4
+  - @chainlink/coingecko-adapter@1.1.4
+  - @chainlink/coinmarketcap-adapter@1.3.4
+  - @chainlink/coinpaprika-adapter@1.1.4
+  - @chainlink/cryptocompare-adapter@1.2.4
+  - @chainlink/nomics-adapter@1.0.19
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/kaiko-adapter@1.0.18
+  - @chainlink/tiingo-adapter@1.6.3
+
+## 1.0.27
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/amberdata-adapter@1.2.2
+  - @chainlink/coinapi-adapter@1.1.3
+  - @chainlink/coingecko-adapter@1.1.3
+  - @chainlink/coinmarketcap-adapter@1.3.3
+  - @chainlink/coinpaprika-adapter@1.1.3
+  - @chainlink/cryptocompare-adapter@1.2.3
+  - @chainlink/kaiko-adapter@1.0.17
+  - @chainlink/nomics-adapter@1.0.18
+  - @chainlink/tiingo-adapter@1.6.2
+
+## 1.0.26
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/amberdata-adapter@1.2.1
+  - @chainlink/coinapi-adapter@1.1.2
+  - @chainlink/coingecko-adapter@1.1.2
+  - @chainlink/coinmarketcap-adapter@1.3.2
+  - @chainlink/coinpaprika-adapter@1.1.2
+  - @chainlink/cryptocompare-adapter@1.2.2
+  - @chainlink/kaiko-adapter@1.0.16
+  - @chainlink/nomics-adapter@1.0.17
+  - @chainlink/tiingo-adapter@1.6.1
+
+## 1.0.25
+
+### Patch Changes
+
+- Updated dependencies [5c57c317]
+  - @chainlink/coinapi-adapter@1.1.1
+  - @chainlink/coingecko-adapter@1.1.1
+  - @chainlink/coinmarketcap-adapter@1.3.1
+  - @chainlink/coinpaprika-adapter@1.1.1
+  - @chainlink/cryptocompare-adapter@1.2.1
+
+## 1.0.24
+
+### Patch Changes
+
+- Updated dependencies [cf81f1b1]
+- Updated dependencies [f272a595]
+- Updated dependencies [6b7f9d56]
+- Updated dependencies [f26b3896]
+- Updated dependencies [1d55bbde]
+- Updated dependencies [427e27da]
+- Updated dependencies [bea9f065]
+  - @chainlink/coinapi-adapter@1.1.0
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/coingecko-adapter@1.1.0
+  - @chainlink/coinmarketcap-adapter@1.3.0
+  - @chainlink/coinpaprika-adapter@1.1.0
+  - @chainlink/cryptocompare-adapter@1.2.0
+  - @chainlink/tiingo-adapter@1.6.0
+  - @chainlink/amberdata-adapter@1.2.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/kaiko-adapter@1.0.15
+  - @chainlink/nomics-adapter@1.0.16
+
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [e722b647]
+- Updated dependencies [9b3cd511]
+  - @chainlink/nomics-adapter@1.0.15
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/tiingo-adapter@1.5.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/amberdata-adapter@1.1.13
+  - @chainlink/coinapi-adapter@1.0.14
+  - @chainlink/coingecko-adapter@1.0.15
+  - @chainlink/coinmarketcap-adapter@1.2.10
+  - @chainlink/coinpaprika-adapter@1.0.16
+  - @chainlink/cryptocompare-adapter@1.1.15
+  - @chainlink/kaiko-adapter@1.0.14
+
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [bc8303ac]
+  - @chainlink/coinpaprika-adapter@1.0.15
+
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies [cd01b0c5]
+  - @chainlink/tiingo-adapter@1.4.0
+
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [56be0406]
+  - @chainlink/tiingo-adapter@1.3.0
+
 ## 1.0.19
 
 ### Patch Changes

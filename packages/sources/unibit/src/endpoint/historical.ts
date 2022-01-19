@@ -1,9 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 // Should also be supported for "EOD"
 export const NAME = 'historical'
+export const supportedEndpoints = ['historical']
 
 export interface ResponseSchema {
   meta_data: {
@@ -26,16 +27,23 @@ export interface ResponseSchema {
       },
     ]
   }
+  cost: number
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) =>
+  !data.result_data || Object.keys(data.result_data).length === 0
 
-const customParams = {
-  base: ['base', 'from', 'coin', 'market', 'symbol'],
+export const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'coin', 'market', 'symbol'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -53,13 +61,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data.result_data, [
-    symbol,
-    0,
-    'close',
-  ])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['result_data', symbol, 0, 'close'])
   response.data.cost = 10
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

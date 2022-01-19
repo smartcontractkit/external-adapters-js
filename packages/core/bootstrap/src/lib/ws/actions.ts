@@ -155,6 +155,7 @@ export interface WSMessagePayload {
   context: AdapterContext
   connectionInfo: WSConnectionInfo
   wsHandler: WSHandlerOverride
+  timestamp: number
 }
 
 export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMessagePayload>())

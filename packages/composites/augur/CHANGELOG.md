@@ -1,5 +1,62 @@
 # @chainlink/augur-adapter
 
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/sportsdataio-adapter@1.1.18
+  - @chainlink/therundown-adapter@1.2.4
+
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/sportsdataio-adapter@1.1.17
+  - @chainlink/therundown-adapter@1.2.3
+
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/sportsdataio-adapter@1.1.16
+  - @chainlink/therundown-adapter@1.2.2
+
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/sportsdataio-adapter@1.1.15
+  - @chainlink/therundown-adapter@1.2.1
+
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+- Updated dependencies [ccf9d4fa]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/therundown-adapter@1.2.0
+  - @chainlink/sportsdataio-adapter@1.1.14
+
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/sportsdataio-adapter@1.1.13
+  - @chainlink/therundown-adapter@1.1.8
+
 ## 1.0.14
 
 ### Patch Changes

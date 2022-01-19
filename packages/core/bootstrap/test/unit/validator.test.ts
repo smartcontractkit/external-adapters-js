@@ -2,19 +2,32 @@ import { InputParameters } from '@chainlink/types'
 import { Validator } from '../../src/lib/external-adapter/validator'
 
 describe('Validator', () => {
-  describe('without required params', () => {
-    const params = {
+  describe('with no input parameter configuration', () => {
+    it('does not error if no input and no input parameters', () => {
+      const validator = new Validator()
+      expect(validator.validated.id).toEqual('1')
+      expect(validator.error).not.toBeDefined()
+    })
+
+    it('does not error when input is empty', () => {
+      const validator = new Validator({})
+      expect(validator.validated.id).toEqual('1')
+      expect(validator.error).not.toBeDefined()
+    })
+
+    it('does not error if input data is excluded', () => {
+      const input = { id: 'abc123' }
+
+      const validator = new Validator(input)
+      expect(validator.validated.id).toEqual(input.id)
+      expect(validator.error).not.toBeDefined()
+    })
+  })
+
+  describe('with optional params', () => {
+    const inputParameters: InputParameters = {
       endpoint: false,
     }
-
-    it('errors if no input data is supplied', () => {
-      const validator = new Validator({}, params, {}, false)
-      expect(validator.validated.id).toEqual('1')
-      expect(validator.validated.data).toEqual({})
-      expect(validator.error).toBeTruthy()
-      expect(validator?.error?.statusCode).toEqual(400)
-      expect(validator?.error?.status).toEqual('errored')
-    })
 
     it('does not error if optional params are included', () => {
       const input = {
@@ -24,25 +37,9 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, params)
+      const validator = new Validator(input, inputParameters)
       expect(validator.validated.id).toEqual(input.id)
       expect(validator.validated.data.endpoint).toEqual(input.data.endpoint)
-      expect(validator.error).not.toBeDefined()
-    })
-
-    it('does not error if input data is excluded', () => {
-      const input = {
-        id: 'abc123',
-      }
-
-      const validator = new Validator(input)
-      expect(validator.validated.id).toEqual(input.id)
-      expect(validator.error).not.toBeDefined()
-    })
-
-    it('does not error if input data and params are excluded', () => {
-      const validator = new Validator()
-      expect(validator.validated.id).toEqual('1')
       expect(validator.error).not.toBeDefined()
     })
   })

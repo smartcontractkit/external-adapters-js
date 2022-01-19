@@ -126,6 +126,10 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
   return val
 }
 
+// format input as an array regardless of if it is a string or an array already
+export const formatArray = (input: string | string[]): string[] =>
+  typeof input === 'string' ? [input] : input
+
 /**
  * @description
  * Takes an Array<V>, and a grouping function,
@@ -196,7 +200,7 @@ export const includableAdapterRequestProperties: string[] = ['data'].concat(
 )
 
 /** Common keys within adapter requests that should be ignored within "data" to create a stable key*/
-const excludableInternalAdapterRequestProperties = [
+export const excludableInternalAdapterRequestProperties = [
   'resultPath',
   'overrides',
   'tokenOverrides',

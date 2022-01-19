@@ -4,9 +4,18 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['crypto', 'ticker']
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'fsym'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market', 'tsym'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
 }
 
 export const endpointResultPaths = {

@@ -35,9 +35,7 @@ describe('execute', () => {
   describe('api', () => {
     const data: AdapterRequest = {
       id,
-      data: {
-        field: 'totalTrust',
-      },
+      data: {},
     }
 
     it('should return success', async () => {

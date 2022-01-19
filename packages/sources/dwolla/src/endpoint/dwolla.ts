@@ -4,7 +4,46 @@ import { InputParameters } from '@chainlink/types'
 export const supportedEndpoints = ['dwolla']
 
 export const inputParameters: InputParameters = {
-  method: false,
+  method: {
+    required: false,
+    description: 'API Method to use (overrided by `process.env.API_METHOD` if present)',
+    options: ['sendtransfer', 'gettransfer'],
+    type: 'string',
+  },
+  transfer_id: {
+    required: false,
+    description: 'Required if `method` is `gettransfer`',
+    exclusive: ['destination', 'amount', 'currency', 'source'],
+    type: 'string',
+  },
+  amount: {
+    required: false,
+    description: 'Required if `method` is `sendtransfer`',
+    dependsOn: ['destination'],
+    exclusive: ['transfer_id'],
+    type: 'string',
+  },
+  currency: {
+    required: false,
+    description: 'Funding currency for `sendtransfer` method',
+    default: 'USD',
+    exclusive: ['transfer_id'],
+    type: 'string',
+  },
+  destination: {
+    required: false,
+    description: 'Required if `method` is `sendtransfer`',
+    dependsOn: ['amount'],
+    exclusive: ['transfer_id'],
+    type: 'string',
+  },
+  source: {
+    required: false,
+    description:
+      'Funding source for `sendtransfer` method, defaults to `process.env.FUNDING_SOURCE`',
+    exclusive: ['transfer_id'],
+    type: 'string',
+  },
 }
 
 type Response = {

@@ -154,5 +154,29 @@
         "tokens": true
       }
     ]
+  },
+  {
+    "from": "BTC",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "ETH",
+        "to": "BTC",
+        "adapters": ["AMBERDATA"],
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USDC",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "ETH",
+        "to": "USDC",
+        "adapters": ["AMBERDATA"],
+        "inverse": true
+      }
+    ]
   }
 ]

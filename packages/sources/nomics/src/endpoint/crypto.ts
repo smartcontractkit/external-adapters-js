@@ -101,14 +101,6 @@ export const inputParameters: InputParameters = {
     required: true,
     description: 'The symbol of the currency to convert to',
   },
-  resultPath: {
-    required: false,
-  },
-  overrides: {
-    required: false,
-    description:
-      'If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)',
-  },
 }
 
 const convertId: Record<string, string> = {

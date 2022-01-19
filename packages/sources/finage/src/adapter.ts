@@ -29,7 +29,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getStockSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.stock.inputParams, {}, false)
+    const validator = new Validator(input, endpoints.stock.inputParameters, {}, false)
     if (validator.error) return
     return validator.validated.data.base.toUpperCase()
   }
@@ -40,7 +40,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     endpoints.crypto.supportedEndpoints.includes(input.data.endpoint)
 
   const getCryptoSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.crypto.inputParams, {}, false)
+    const validator = new Validator(input, endpoints.crypto.inputParameters, {}, false)
     if (validator.error) return
     const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
     const to = validator.validated.data.quote.toUpperCase()
@@ -48,7 +48,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   }
 
   const getForexSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.forex.inputParams, {}, false)
+    const validator = new Validator(input, endpoints.forex.inputParameters, {}, false)
     if (validator.error) return
     const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
     const to = validator.validated.data.quote.toUpperCase()

@@ -6,7 +6,78 @@ Object {
     "result": 1785.0181286441143,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 1785.0181286441143,
   "statusCode": 200,
+}
+`;
+
+exports[`execute latest api returns success with batched quote symbols 1`] = `
+Object {
+  "data": Object {
+    "base": "BTC",
+    "date": "2022-01-12",
+    "rates": Object {
+      "USD": 42968.36778447169,
+      "XAU": 0.04228229144046888,
+    },
+    "results": Array [
+      Array [
+        Object {
+          "data": Object {
+            "base": "BTC",
+            "endpoint": "latest",
+            "quote": "USD",
+          },
+          "id": "1",
+          "rateLimitMaxAge": 176470588,
+        },
+        42968.36778447169,
+      ],
+      Array [
+        Object {
+          "data": Object {
+            "base": "BTC",
+            "endpoint": "latest",
+            "quote": "XAU",
+          },
+          "id": "1",
+          "rateLimitMaxAge": 176470588,
+        },
+        0.04228229144046888,
+      ],
+    ],
+    "success": true,
+    "timestamp": 1641990180,
+    "unit": "per ounce",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute latest api returns success with single base/quote pair 1`] = `
+Object {
+  "data": Object {
+    "result": 1817.0552439305814,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1817.0552439305814,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute latest api should error with batched base symbols 1`] = `
+Object {
+  "error": Object {
+    "feedID": "[BTC|XAU]/USD",
+    "message": "Required parameter base must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
 }
 `;
