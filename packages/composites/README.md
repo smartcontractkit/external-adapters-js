@@ -17,6 +17,7 @@ They are published to NPM under the `@chainlink` organization.
 [Reference Transform](./reference-transform/README.md)
 [Synth Index](./synth-index/README.md)
 [Token Allocation](./token-allocation/README.md)
+[PoR Indexer](./por-indexer/README.md)
 
 ## Service Discovery
 

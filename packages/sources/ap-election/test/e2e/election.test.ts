@@ -26,7 +26,6 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const adapterResponse = await execute(req.testData as AdapterRequest)
-        console.log(adapterResponse)
         assertSuccess(adapterResponse.statusCode, adapterResponse, jobID)
       })
     })

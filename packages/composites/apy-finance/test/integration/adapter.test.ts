@@ -8,8 +8,8 @@ describe('execute', () => {
   let execute: Execute
   const id = '1'
 
-  beforeAll(() => {
-    execute = apyFinanceAdapter.makeExecute()
+  beforeAll(async () => {
+    execute = await apyFinanceAdapter.makeExecute()
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.CACHE_ENABLED = 'false'
     process.env.REGISTRY_ADDRESS =
@@ -18,13 +18,13 @@ describe('execute', () => {
       process.env.TIINGO_DATA_PROVIDER_URL || 'http://localhost:3000'
     process.env.ETHEREUM_RPC_URL =
       process.env.ETHEREUM_RPC_URL || 'https://geth-main.eth.devnet.tools'
+
+    if (process.env.RECORD) nock.recorder.rec()
   })
 
   afterAll(() => {
     process.env = oldEnv
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
+    if (process.env.RECORD) nock.recorder.play()
 
     nock.restore()
     nock.cleanAll()
@@ -41,7 +41,7 @@ describe('execute', () => {
       },
     }
 
-    it.skip('should return success', async () => {
+    it('should return success', async () => {
       const resp = await execute(data, {})
       expect(resp).toMatchSnapshot()
     })

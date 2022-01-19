@@ -60,26 +60,27 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
 
-    it('should return success for batched base/quote pairs', async () => {
-      const data: AdapterRequest = {
-        id,
-        data: {
-          endpoint: 'forex',
-          base: ['ETH', 'BTC'],
-          quote: ['USD', 'JPY'],
-        },
-      }
+    // NOTE: batching currently disabled, awaiting service agreement
+    //   it('should return success for batched base/quote pairs', async () => {
+    //     const data: AdapterRequest = {
+    //       id,
+    //       data: {
+    //         endpoint: 'forex',
+    //         base: ['ETH', 'BTC'],
+    //         quote: ['USD', 'JPY'],
+    //       },
+    //     }
 
-      mockForexBatchedSuccess()
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
+    //     mockForexBatchedSuccess()
+    //     const response = await req
+    //       .post('/')
+    //       .send(data)
+    //       .set('Accept', '*/*')
+    //       .set('Content-Type', 'application/json')
+    //       .expect('Content-Type', /json/)
+    //       .expect(200)
+    //     expect(response.body).toMatchSnapshot()
+    //   })
   })
 
   describe('live  api', () => {

@@ -1,5 +1,15 @@
 # @chainlink/metalsapi-adapter
 
+## 1.6.1
+
+### Patch Changes
+
+- 1f1fb0be0: Revert to using convert endpoint without batching
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.6.0
 
 ### Minor Changes
