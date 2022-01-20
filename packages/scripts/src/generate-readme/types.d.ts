@@ -1,10 +1,13 @@
 import { InputParameters } from '@chainlink/types'
 
-export type Blacklist = {
-  blacklist: string[]
+export type Adapter = {
+  name: string
+  skipTests?: boolean
 }
 
-export type BooleanMap = Record<string, boolean>
+export type Blacklist = { blacklist: string[] }
+
+export type BooleanMap = { [key: string]: boolean }
 
 export type EndpointDetails = {
   [endpointName: string]: {
@@ -22,14 +25,21 @@ export type EnvVars = {
   }
 }
 
-export type IOMap = Record<string, IOPair[]>
+export type IOMap = { [endpoint: string]: IOPair[] }
 
 type IOPair = {
   input: JsonObject
   output: JsonObject
 }
 
-export type JsonObject = Record<string, any>
+export type JsonObject = { [key: string]: any }
+
+export type MappedAdapters = {
+  [name: string]: {
+    generatedReadme: boolean
+    testsUpdated?: boolean
+  }
+}
 
 export type MaxColChars = number[]
 

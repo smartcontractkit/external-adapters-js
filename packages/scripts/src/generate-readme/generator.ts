@@ -4,12 +4,14 @@ import { balance } from '@chainlink/ea-factories'
 import commandLineArgs from 'command-line-args'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import {
+  Adapter,
   Blacklist,
   BooleanMap,
   EndpointDetails,
   EnvVars,
   IOMap,
   JsonObject,
+  MappedAdapters,
   Package,
   Schema,
   TableText,
@@ -28,6 +30,15 @@ const testEnvOverrides = {
   RECORD: undefined,
 }
 
+const genSig =
+  'This README was generated automatically. Please see [scripts](../../scripts) for more info.'
+const genSigGrep =
+  'This README was generated automatically\\. Please see \\[scripts\\]\\(\\.\\.\\/\\.\\.\\/scripts\\) for more info\\.'
+
+const exampleTextHeader = '### Example\n'
+
+const noExampleText = 'There are no examples for this endpoint.'
+
 const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
 
 const wrapJson = (o: string): string => `\`\`\`json\n${o}\n\`\`\``
@@ -39,12 +50,8 @@ const codeList = (a: (string | number)[] = []): string => a.map((d) => wrapCode(
 const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
 
 const checkFilePath = (filePath: string): string => {
-  if (!shell.test('-f', filePath)) throw Error(`${filePath} is not a file`)
+  if (!shell.test('-f', filePath)) throw Error(`Error: ${filePath} is not a file`)
   else return filePath
-}
-
-const checkOptionalFilePath = (filePath: string): string | null => {
-  return shell.test('-f', filePath) ? filePath : null
 }
 
 const createReadmeFile = (adapterPath: string, readmeText: string, stage?: boolean): void => {
@@ -54,44 +61,44 @@ const createReadmeFile = (adapterPath: string, readmeText: string, stage?: boole
   shellString.to(readmePath)
 
   if (stage) shell.exec(`git add ${readmePath}`)
-
-  console.log(`README saved at ${readmePath}`)
 }
 
 class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
-  defaultEndpoint = ''
+  defaultEndpoint: string
   endpointDetails: EndpointDetails = {}
   envVars: EnvVars
   integrationTestPath: string | null
   name: string
   readmeText = ''
   requiredEnvVars: string[]
+  skipTests: boolean
   verbose: boolean
   version: string
 
-  constructor(adapterPath: string, verbose = false) {
+  constructor(adapterPath: string, verbose = false, skipTests = false) {
     this.verbose = verbose
 
-    if (verbose) console.log('Confirming file paths')
     if (!adapterPath.endsWith('/')) adapterPath += '/'
 
-    if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
+    if (verbose) console.log(`${adapterPath}: Confirming file paths`)
+
+    if (!shell.test('-d', adapterPath)) throw Error(`Error: ${adapterPath} is not a directory`)
 
     const packagePath = checkFilePath(adapterPath + 'package.json')
     const schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
-    this.integrationTestPath = checkOptionalFilePath(
-      adapterPath + 'test/integration/adapter.test.ts',
-    )
+
+    this.skipTests = skipTests
+    this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
 
     this.adapterPath = adapterPath
 
-    if (verbose) console.log('Checking package.json')
+    if (verbose) console.log(`${adapterPath}: Checking package.json`)
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
 
-    if (verbose) console.log('Checking schema/env.json')
+    if (verbose) console.log(`${adapterPath}: Checking schema/env.json`)
     const schema = getJsonFile(schemaPath) as Schema
     this.schemaDescription = schema.description ?? ''
     this.name = schema.title ?? packageJson.name ?? ''
@@ -102,11 +109,11 @@ class ReadmeGenerator {
   async fetchImports(): Promise<void> {
     // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
 
-    if (this.verbose) console.log('Importing src/config.ts')
+    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config.ts`)
     const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
-    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT ?? ''
+    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
 
-    if (this.verbose) console.log('Importing src/endpoint/index.ts')
+    if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
     const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
     this.endpointDetails = await require(localPathToRoot + endpointPath)
   }
@@ -116,7 +123,7 @@ class ReadmeGenerator {
   }
 
   getReadme(): string {
-    console.log(`Generating README text for ${this.adapterPath}`)
+    if (this.verbose) console.log(`${this.adapterPath}: Generating README text`)
 
     this.addIntroSection()
     this.addEnvVarSection()
@@ -127,14 +134,15 @@ class ReadmeGenerator {
   }
 
   addIntroSection(): void {
-    if (this.verbose) console.log('Adding title and version...')
+    if (this.verbose) console.log(`${this.adapterPath}: Adding title and version`)
 
     this.readmeText = `# ${this.name}\n\nVersion: ${this.version}\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
+    this.readmeText += `${genSig}\n\n`
   }
 
   addEnvVarSection(): void {
-    if (this.verbose) console.log('Adding environment variables...')
+    if (this.verbose) console.log(`${this.adapterPath}: Adding environment variables`)
 
     const envVars = this.envVars
 
@@ -156,7 +164,7 @@ class ReadmeGenerator {
   }
 
   addInputParamsSection(): void {
-    if (this.verbose) console.log('Adding input parameters...')
+    if (this.verbose) console.log(`${this.adapterPath}: Adding input parameters`)
 
     const endpointList = Object.keys(this.endpointDetails).map((e) => {
       const lowercase = e.toLowerCase()
@@ -169,7 +177,7 @@ class ReadmeGenerator {
         'The endpoint to use',
         'string',
         endpointList.join(', '),
-        wrapCode(this.defaultEndpoint),
+        this.defaultEndpoint ? wrapCode(this.defaultEndpoint) : '',
       ],
     ]
 
@@ -180,12 +188,28 @@ class ReadmeGenerator {
     this.readmeText += `## Input Parameters\n\n${inputParamTable}\n\n---\n\n`
   }
 
-  addEndpointSections(): void {
-    if (this.verbose) console.log('Extracting example requests and responses...')
+  addEndpointSections() {
+    // Store IO Examples for each endpoint
+    const endpointExampleText: { [endpoint: string]: string } = {}
+    if (this.skipTests) {
+      if (this.verbose)
+        console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
 
-    // Fetch input/output examples
-    let endpointIO = {} as IOMap
-    if (this.integrationTestPath) {
+      const currentReadmeText = shell.cat(this.adapterPath + 'README.md').toString()
+
+      let regex: RegExp
+      const defaultText = exampleTextHeader + noExampleText
+      for (const endpointName of Object.keys(this.endpointDetails)) {
+        regex = new RegExp(
+          `## ${capitalize(endpointName)} Endpoint(\n|.)*?(?<text>### Example(\n|.)*?)\n\n---`,
+        )
+        endpointExampleText[endpointName] =
+          currentReadmeText.match(regex).groups.text ?? defaultText
+      }
+    } else {
+      if (this.verbose)
+        console.log(`${this.adapterPath}: Running integration tests to get updated I/O examples`)
+
       const testOutput = shell
         .exec(`yarn test ${this.integrationTestPath}`, {
           fatal: true,
@@ -193,6 +217,8 @@ class ReadmeGenerator {
           env: { ...process.env, ...testEnvOverrides },
         })
         .toString()
+
+      if (this.verbose) console.log(`${this.adapterPath}: Processing example data`)
 
       const logObjects: JsonObject[][] = testOutput
         .split('\n')
@@ -208,7 +234,7 @@ class ReadmeGenerator {
           }
         }, [])
 
-      endpointIO = logObjects.reduce((ioMap: IOMap, inOutPair) => {
+      const endpointIO = logObjects.reduce((ioMap: IOMap, inOutPair) => {
         if (inOutPair.length === 2) {
           const endpoint = inOutPair[0]?.data?.endpoint ?? this.defaultEndpoint
           ioMap[endpoint] = ioMap[endpoint] ?? []
@@ -216,11 +242,36 @@ class ReadmeGenerator {
         }
         return ioMap
       }, {})
+
+      for (const [endpointName, endpointDetails] of Object.entries(this.endpointDetails)) {
+        const ioExamples = []
+
+        for (const endpoint of endpointDetails.supportedEndpoints) {
+          for (const ioPair of endpointIO[endpoint] ?? []) {
+            const { input, output } = ioPair
+            const inputJson = JSON.stringify(input, null, 2)
+            const outputJson = JSON.stringify(output, null, 2)
+            ioExamples.push(`Request:\n${wrapJson(inputJson)}\nResponse:\n${wrapJson(outputJson)}`)
+          }
+        }
+
+        let ioExamplesText = exampleTextHeader
+        if (ioExamples.length === 0) ioExamplesText += noExampleText
+        else ioExamplesText += ioExamples[0]
+
+        if (ioExamples.length > 1)
+          ioExamplesText += `\n<details>\n<summary>Additional Examples</summary>\n\n${ioExamples
+            .slice(1)
+            .join('\n')}\n</details>`
+
+        endpointExampleText[endpointName] = ioExamplesText
+      }
     }
 
     const endpointSections = Object.entries(this.endpointDetails)
       .map(([endpointName, endpointDetails]) => {
-        if (this.verbose) console.log(`Adding ${endpointName} endpoint section...`)
+        if (this.verbose)
+          console.log(`${this.adapterPath}: Adding ${endpointName} endpoint section`)
 
         const sectionTitle = `## ${capitalize(endpointName)} Endpoint`
 
@@ -287,43 +338,24 @@ class ReadmeGenerator {
             ? `${endpointNames} is the only supported name for this endpoint.`
             : 'There are no supported names for this endpoint.'
 
-        // Fetch input/output text
-        const ioExamples = []
-        for (const supportedName of endpointDetails.supportedEndpoints) {
-          if (supportedName in endpointIO) {
-            for (const ioPair of endpointIO[supportedName]) {
-              const { input, output } = ioPair
-              const inputJson = JSON.stringify(input, null, 2)
-              const outputJson = JSON.stringify(output, null, 2)
-              ioExamples.push(
-                `Request:\n${wrapJson(inputJson)}\nResponse:\n${wrapJson(outputJson)}`,
-              )
-            }
-          }
-        }
-        let ioExamplesText = ''
-        if (ioExamples.length === 0) ioExamplesText = 'There are no examples for this endpoint.'
-        else ioExamplesText = '### Example\n' + ioExamples[0]
+        const exampleText = endpointExampleText[endpointName]
 
-        if (ioExamples.length > 1)
-          ioExamplesText += `\n<details>\n<summary>Additional Examples</summary>\n\n${ioExamples
-            .slice(1)
-            .join('\n\n')}\n</details>\n`
-
-        return [sectionTitle, supportedEndpointText, inputTableSection, ioExamplesText].join('\n\n')
+        return [sectionTitle, supportedEndpointText, inputTableSection, exampleText].join('\n\n')
       })
       .join('\n\n---\n\n')
 
-    this.readmeText += endpointSections + '\n'
+    this.readmeText += endpointSections + '\n\n---\n'
   }
 }
 
 export async function main(): Promise<void | string> {
   try {
+    console.log('Generating READMEs')
+
     // define command line options
     const options = commandLineArgs([
       { name: 'all', alias: 'a', type: Boolean }, // Generate READMEs for all source EAs not in blacklist
-      { name: 'files', alias: 'f', multiple: true }, // Generate READMEs for all file paths provided that originate in source EAs
+      { name: 'stagedFiles', alias: 'f', multiple: true }, // Generate READMEs for all staged file paths (source EAs only)
       { name: 'verbose', alias: 'v', type: Boolean }, // Include extra logs for each generation process
       { name: 'stage', alias: 's', type: Boolean }, // Stage READMEs after generation
       { name: 'testPath', alias: 't', type: String }, // Run script as test for EA along given path
@@ -340,18 +372,44 @@ export async function main(): Promise<void | string> {
     }
 
     // fetch list of adapters
-    let adapters: string[] = []
+    let adapters: Adapter[]
 
     if (options.all) {
-      adapters = shell.ls('-A', pathToSources).filter((name) => name !== 'README.md')
-    } else if (options.files?.length) {
-      adapters = options.files.reduce((list: string[], file: string) => {
-        const filePath = file.split('/')
-        if (filePath[1] === 'sources' && !list.includes(filePath[2])) list.push(filePath[2])
-        return list
-      }, [])
+      adapters = shell
+        .ls('-A', pathToSources)
+        .filter((name) => name !== 'README.md')
+        .map((name) => ({ name }))
+    } else if (options.stagedFiles?.length) {
+      const mappedAdapters: MappedAdapters = options.stagedFiles.reduce(
+        (map: MappedAdapters, file: string) => {
+          const filePath = file.split('/')
+          if (filePath[1] === 'sources') {
+            const name = filePath[2]
+            if (!map[name]) {
+              map[name] = {
+                generatedReadme: !!shell.grep(
+                  genSigGrep,
+                  filePath.slice(0, 3).join('/') + '/README.md',
+                ),
+              }
+            }
+
+            if (filePath[3] === 'test' && filePath[4] === 'integration') {
+              map[name].testsUpdated = true
+            }
+          }
+          return map
+        },
+        {},
+      )
+
+      adapters = Object.keys(mappedAdapters).map((name) => {
+        const options = mappedAdapters[name]
+        const skipTests = options?.generatedReadme && !options?.testsUpdated
+        return { name, skipTests }
+      })
     } else if (options.adapters?.length) {
-      adapters = options.adapters
+      adapters = options.adapters.map((name) => ({ name }))
     }
 
     // filter list by blacklist
@@ -360,25 +418,29 @@ export async function main(): Promise<void | string> {
       map[a] = true
       return map
     }, {})
-    adapters = adapters.filter((a) => !adapterInBlacklist[a])
+    adapters = adapters.filter((a) => !adapterInBlacklist[a.name])
 
     // collect new README versions
-    console.log('Collecting README updates')
     const readmeQueue = await Promise.all(
-      adapters.map(async (target) => {
-        const readmeGenerator = new ReadmeGenerator(pathToSources + target, options.verbose)
+      adapters.map(async (adapter: Adapter) => {
+        const readmeGenerator = new ReadmeGenerator(
+          pathToSources + adapter.name,
+          options.verbose,
+          adapter.skipTests,
+        )
         await readmeGenerator.fetchImports()
         return [readmeGenerator.getAdapterPath(), readmeGenerator.getReadme()]
       }),
     )
 
     // save README files
-    console.log('Saving READMEs')
     for (const adapter of readmeQueue) {
       createReadmeFile(adapter[0], adapter[1], options.stage)
     }
+    console.log(`${readmeQueue.length} README(s) updated.`)
+    process.exit(0)
   } catch (e) {
-    console.log(`Error: ${e}`)
+    console.error(`Error: ${e}`)
     process.exit(1)
   }
 }
