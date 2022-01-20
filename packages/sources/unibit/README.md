@@ -19,6 +19,8 @@
 
 ## Historical Endpoint
 
+Supported names for this endpoint are: `historical`, `eod`.
+
 This historical endpoint provides the closing price of the previous day as detailed in [Unibit documentation](https://unibit.ai/api/docs/V2.0/historical_stock_price).
 
 NOTE: each request sent to this endpoint has a cost of 10 credits
