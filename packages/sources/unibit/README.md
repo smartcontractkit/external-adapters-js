@@ -2,10 +2,10 @@
 
 ### Environment Variables
 
-| Required? |     Name     |         Description          | Options |          Defaults to           |
-| :-------: | :----------: | :--------------------------: | :-----: | :----------------------------: |
-|    ✅     |   API_KEY    |      API key for Unibit      |         |                                |
-|           | API_ENDPOINT | The endpoint for your Unibit |         | `https://api-v2.intrinio.com/` |
+| Required? |     Name     |         Description          | Options |            Defaults to            |
+| :-------: | :----------: | :--------------------------: | :-----: | :-------------------------------: |
+|    ✅     |   API_KEY    |      API key for Unibit      |         |                                   |
+|           | API_ENDPOINT | The endpoint for your Unibit |         | `https://api.unibit.ai/v2/stock/` |
 
 ---
 
