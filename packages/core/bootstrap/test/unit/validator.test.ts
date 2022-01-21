@@ -66,7 +66,7 @@ describe('Validator', () => {
           endpoint: '',
         },
       }
-      const validator = new Validator(input, params)
+      const validator = new Validator(input, params, {}, false)
       expect(validator.validated.id).toEqual('1')
       expect(validator.validated.data).toEqual({})
       expect(validator.error).toBeTruthy()

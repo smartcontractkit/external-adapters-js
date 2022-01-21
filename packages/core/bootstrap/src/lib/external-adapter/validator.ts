@@ -31,12 +31,19 @@ export class Validator {
   validated: any
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
-  constructor(input: InputType = { id: '1', data: {} }, inputConfigs = {}, options = {}) {
+  shouldThrowError: boolean
+  constructor(
+    input: InputType = { id: '1', data: {} },
+    inputConfigs = {},
+    options = {},
+    shouldThrowError = true,
+  ) {
     this.input = { ...input }
     if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
     if (!this.input.data) this.input.data = {}
     this.inputConfigs = { ...baseInputParameters, ...inputConfigs }
     this.options = { ...options }
+    this.shouldThrowError = shouldThrowError
     this.validated = { id: this.input.id, data: {} }
     this.validateInput()
     this.validateOverrides('overrides', presetSymbols)
@@ -102,6 +109,9 @@ export class Validator {
         cause: error,
       })
     this.errored = Requester.errored(this.validated.id, this.error)
+    if (this.shouldThrowError) {
+      throw this.error
+    }
   }
 
   overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
