@@ -50,11 +50,6 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-  endpoint: {
-    description: 'Name of the endpoint to use',
-    required: false,
-    type: 'string',
-  },
 }
 
 const handleBatchedRequest = (

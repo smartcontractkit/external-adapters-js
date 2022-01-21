@@ -136,9 +136,6 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-  endpoint: {
-    type: 'string',
-  },
 }
 
 const handleBatchedRequest = (
