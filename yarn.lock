@@ -1826,7 +1826,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alpine-adapter@workspace:packages/sources/alpine":
+"@chainlink/alpine-adapter@workspace:*, @chainlink/alpine-adapter@workspace:packages/sources/alpine":
   version: 0.0.0-use.local
   resolution: "@chainlink/alpine-adapter@workspace:packages/sources/alpine"
   dependencies:
@@ -2911,6 +2911,7 @@ __metadata:
     "@chainlink/ada-balance-adapter": "workspace:*"
     "@chainlink/alphachain-adapter": "workspace:*"
     "@chainlink/alphavantage-adapter": "workspace:*"
+    "@chainlink/alpine-adapter": "workspace:*"
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
@@ -2987,6 +2988,7 @@ __metadata:
     "@chainlink/ncfx-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
+    "@chainlink/nop-olympics-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
     "@chainlink/onchain-adapter": "workspace:*"
     "@chainlink/onchain-gas-adapter": "workspace:*"
@@ -3800,6 +3802,20 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.1
     supertest: 6.1.6
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/nop-olympics-adapter@workspace:*, @chainlink/nop-olympics-adapter@workspace:packages/sources/nop-olympics":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/nop-olympics-adapter@workspace:packages/sources/nop-olympics"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown

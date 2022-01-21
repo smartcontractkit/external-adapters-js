@@ -26,6 +26,9 @@
       "path": "../../sources/alphavantage"
     },
     {
+      "path": "../../sources/alpine"
+    },
+    {
       "path": "../../sources/amberdata"
     },
     {
@@ -252,6 +255,9 @@
     },
     {
       "path": "../../sources/nomics"
+    },
+    {
+      "path": "../../sources/nop-olympics"
     },
     {
       "path": "../../sources/oilpriceapi"

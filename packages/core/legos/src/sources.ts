@@ -3,6 +3,7 @@ import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
+import * as alpine from '@chainlink/alpine-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
@@ -79,6 +80,7 @@ import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
+import * as nop_olympics from '@chainlink/nop-olympics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain from '@chainlink/onchain-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
@@ -122,6 +124,7 @@ export default {
   ada_balance,
   alphachain,
   alphavantage,
+  alpine,
   amberdata,
   anyblock,
   ap_election,
@@ -198,6 +201,7 @@ export default {
   ncfx,
   nikkei,
   nomics,
+  nop_olympics,
   oilpriceapi,
   onchain,
   onchain_gas,
