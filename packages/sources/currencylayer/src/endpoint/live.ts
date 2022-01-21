@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['live']
+export const supportedEndpoints = ['live', 'forex', 'price']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
 const customError = (data: any) => data.Response === 'Error'

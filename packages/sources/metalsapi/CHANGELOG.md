@@ -1,5 +1,45 @@
 # @chainlink/metalsapi-adapter
 
+## 1.6.1
+
+### Patch Changes
+
+- 1f1fb0be0: Revert to using convert endpoint without batching
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.6.0
+
+### Minor Changes
+
+- f625d6afa: Update latest endpoint for metals api
+
+## 1.5.0
+
+### Minor Changes
+
+- a1e3fd204: Add endpointSelector to expose method inputs
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.4.0
+
+### Minor Changes
+
+- e61e849e3: Refactored endpoint names to support new forex endpoints as defaults
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.3.1
 
 ### Patch Changes

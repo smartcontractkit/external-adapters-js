@@ -2,14 +2,10 @@
 
 Version: 1.2.1
 
-This historical endpoint provides the closing price of the previous day as detailed in [Unibit documentation](https://unibit.ai/api/docs/V2.0/historical_stock_price). NOTE: each request sent to this endpoint has a cost of 10 credits
-
-## Environment Variables
-
-| Required? |     Name     |         Description          |  Type  | Options |            Default             |
-| :-------: | :----------: | :--------------------------: | :----: | :-----: | :----------------------------: |
-|    ✅     |   API_KEY    |      API key for Unibit      | string |         |                                |
-|           | API_ENDPOINT | The endpoint for your Unibit |        |         | `https://api-v2.intrinio.com/` |
+| Required? |     Name     |         Description          | Options |            Defaults to            |
+| :-------: | :----------: | :--------------------------: | :-----: | :-------------------------------: |
+|    ✅     |   API_KEY    |      API key for Unibit      |         |                                   |
+|           | API_ENDPOINT | The endpoint for your Unibit |         | `https://api.unibit.ai/v2/stock/` |
 
 ---
 
@@ -23,7 +19,11 @@ This historical endpoint provides the closing price of the previous day as detai
 
 ## Historical Endpoint
 
-`historical` is the only supported name for this endpoint.
+Supported names for this endpoint are: `historical`, `eod`.
+
+This historical endpoint provides the closing price of the previous day as detailed in [Unibit documentation](https://unibit.ai/api/docs/V2.0/historical_stock_price).
+
+NOTE: each request sent to this endpoint has a cost of 10 credits
 
 ### Input Params
 

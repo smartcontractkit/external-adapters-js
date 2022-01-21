@@ -11,14 +11,19 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['latest']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  amount: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+  },
 }
-
 export interface ResponseSchema {
   success: true
   timestamp: string
@@ -38,12 +43,12 @@ const handleBatchedRequest = (
   symbols: string[],
 ) => {
   const payload: [AdapterRequest, number][] = []
+  const base = response.data.base.toUpperCase()
   for (const symbol of symbols) {
-    const from = response.data.base
     payload.push([
       {
         ...request,
-        data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
+        data: { ...request.data, base, quote: symbol.toUpperCase() },
       },
       Requester.validateResultNumber(response.data, [resultPath, symbol]),
     ])
@@ -61,18 +66,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const from = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(AdapterName)
   const to = validator.validated.data.quote
   const url = `latest`
 
   const params = {
     access_key: config.apiKey,
-    from,
+    base,
+    symbols: Array.isArray(to) ? to.join(',') : to,
   }
 
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
   if (Array.isArray(to)) return handleBatchedRequest(jobRunID, request, response, 'rates', to)
 
   const result = Requester.validateResultNumber(response.data, ['rates', to])

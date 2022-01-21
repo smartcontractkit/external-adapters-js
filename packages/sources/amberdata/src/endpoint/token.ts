@@ -14,11 +14,6 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to query',
     type: 'string',
   },
-  resultPath: {
-    required: false,
-    description: 'The object path to access the value that will be returned as the result',
-    type: 'string',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {

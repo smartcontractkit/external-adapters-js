@@ -412,7 +412,7 @@ export async function main(): Promise<void | string> {
     } else if (options.adapters?.length) {
       adapters = options.adapters.map((name) => ({ name }))
     }
-
+    adapters = [] // TODO unset after merge commit
     // filter list by blacklist
     const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
     const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {

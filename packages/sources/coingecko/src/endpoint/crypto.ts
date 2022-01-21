@@ -50,11 +50,6 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-  resultPath: {
-    description: 'The path for the result',
-    required: false,
-    type: 'string',
-  },
   endpoint: {
     description: 'Name of the endpoint to use',
     required: false,

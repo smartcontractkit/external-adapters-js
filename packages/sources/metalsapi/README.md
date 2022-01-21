@@ -4,14 +4,17 @@ Version: 1.3.1
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |           Default           |
-| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------: |
-|    ✅     |   API_KEY    |             | string |         |                             |
-|           | API_ENDPOINT |             | string |         | `https://some_endpoint.com` |
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |                         Options                         | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [convert](#Convert-Endpoint) [latest](#Latest-Endpoint) |   latest    |
 
 ---
 
-## Input Parameters
+## Convert Endpoint
 
 | Required? |   Name   |     Description     |  Type  |                         Options                          |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------: | :-------: |

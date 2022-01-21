@@ -16,13 +16,6 @@ export const inputParameters: InputParameters = {
     type: 'string',
     default: 'btc',
   },
-  resultPath: {
-    aliases: ['field'],
-    description: 'The object path to access the value that will be returned as the result',
-    required: false,
-    type: 'string',
-    default: 'd',
-  },
   endpoint: {
     description: 'The adapter endpoint to use',
     required: false,

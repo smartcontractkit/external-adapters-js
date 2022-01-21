@@ -16,11 +16,6 @@ export const inputParameters: InputParameters = {
     required: true,
     type: 'string',
   },
-  resultPath: {
-    description: 'The object path to access the value that will be returned as the result',
-    default: 'vwap',
-    type: 'string',
-  },
 }
 
 interface ResponseSchema {

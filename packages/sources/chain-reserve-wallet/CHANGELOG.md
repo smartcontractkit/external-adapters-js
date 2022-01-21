@@ -1,5 +1,34 @@
 # @chainlink/chain-reserve-wallet-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- 61b95d06c: change network name for chain-reserve-wallet doge -> dogecoin
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.1.3
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.1.2
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.1.1
 
 ### Patch Changes
@@ -33,11 +62,11 @@
 
 ### Major Changes
 
-- 4d3c0a79: added new required input parameters, 'chainId' and 'network'. changed the response schema from array of strings to array of objects
+- e50223f49: added new required input parameters, 'chainId' and 'network'. changed the response schema from array of strings to array of objects
 
 ### Patch Changes
 
-- 4d3c0a79: added type checks
+- e50223f49: added type checks
 
 ## 1.0.13
 

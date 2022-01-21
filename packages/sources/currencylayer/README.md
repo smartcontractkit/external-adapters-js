@@ -4,13 +4,17 @@ Version: 1.2.1
 
 ## Environment Variables
 
-| Required? |  Name   |                                  Description                                   |  Type  | Options | Default |
-| :-------: | :-----: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://currencylayer.com/product) | string |         |         |
+---
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |                       Options                        | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [convert](#Convert-Endpoint), [live](#Live-Endpoint) |   `price`   |
 
 ---
 
-## Input Parameters
+## Convert Endpoint
 
 | Required? |   Name   |     Description     |  Type  |                       Options                        |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------: | :-------: |

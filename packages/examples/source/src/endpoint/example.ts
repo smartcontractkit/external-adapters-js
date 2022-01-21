@@ -31,10 +31,6 @@ export const inputParameters: InputParameters = {
     description: 'Quote asset to convert to',
     required: true,
   },
-  resultPath: {
-    description: 'Object path to find result',
-    default: 'price',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

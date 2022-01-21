@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['latest']
+export const supportedEndpoints = ['latest', 'price', 'forex']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
 export interface ResponseSchema {

@@ -16,9 +16,11 @@ Version: 1.4.2
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                     Options                      | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [live](#live-endpoint), [forex](#forex-endpoint) | `live`  |
+| Required? |           Name            |                                                                   Description                                                                   |                       Options                        | Defaults to |
+| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------: | :---------: |
+|           |        `endpoint`         |                                                               The endpoint to use                                                               | [`live`](#Live-Endpoint), [`forex`](#Forex-Endpoint) |   `forex`   |
+|    ✅     | `base`, `from`, or `coin` |                                                The symbol of the currency or currencies to query                                                |                                                      |             |
+|           |        `overrides`        | If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |                                                      |             |
 
 ---
 
@@ -46,27 +48,6 @@ Request:
   }
 }
 ```
-
-Response:
-
-```json
-{
-  "endpoint": "live",
-  "quotes": [
-    {
-      "ask": 150.51,
-      "bid": 150.5,
-      "instrument": "AAPL",
-      "mid": 150.50501
-    }
-  ],
-  "requested_time": "Fri, 05 Nov 2021 17:12:07 GMT",
-  "timestamp": 1636132328,
-  "result": 150.50501
-}
-```
-
----
 
 ## Forex Endpoint
 

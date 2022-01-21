@@ -66,12 +66,6 @@ export const inputParameters: InputParameters = {
     default: 1,
     type: 'number',
   },
-  resultPath: {
-    required: false,
-    description: 'The result to fetch',
-    default: 'rate',
-    type: 'string',
-  },
   feeTiers: {
     required: false,
     description: 'Optional param of fee tiers to iterate through when quoting a pairs swap price',

@@ -21,12 +21,6 @@ export const inputParameters: InputParameters = {
     required: true,
     type: 'string',
   },
-  resultPath: {
-    description: 'The path for the result',
-    default: 'result',
-    required: false,
-    type: 'string',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

@@ -1,5 +1,24 @@
 # @chainlink/ea-bootstrap
 
+## 1.9.0
+
+### Minor Changes
+
+- a74101705: Ignore health checks in rate limiter
+- 703b60579: added 'type' label for metrics for failed requests
+
+## 1.8.0
+
+### Minor Changes
+
+- 1b54ee913: Add internal properties to validator so it doesn't remove them
+
+## 1.7.1
+
+### Patch Changes
+
+- dfc4545b3: Btc_com rate limit
+
 ## 1.7.0
 
 ### Minor Changes

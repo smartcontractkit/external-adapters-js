@@ -101,9 +101,6 @@ export const inputParameters: InputParameters = {
     required: true,
     description: 'The symbol of the currency to convert to',
   },
-  resultPath: {
-    required: false,
-  },
 }
 
 const convertId: Record<string, string> = {

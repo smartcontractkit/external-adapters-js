@@ -4,20 +4,15 @@ Version: 2.1.1
 
 This adapter can be used to query Cardano address balances. The balance is queried from a Cardano node that has Ogmios running on top of it. Ogmios is a lightweight bridge interface that allows clients to query the Cardano node using JSON-RPC. More details can be found on their website https://ogmios.dev/.
 
-## Environment Variables
+The first two environment variable will take precedence over the others.
 
-| Required? |      Name       |                  Description                   |  Type  | Options | Default |
-| :-------: | :-------------: | :--------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | WS_API_ENDPOINT |    The WS API endpoint of the Cardano node     | string |         |         |
-|           |    RPC_PORT     | The port the Cardano Ogmios node is running on | number |         | `1337`  |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
+| Required? |      Name       |                                            Description                                             | Options | Defaults to |
+| :-------: | :-------------: | :------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           | HTTP_OGMIOS_URL |         The HTTP API endpoint of the Cardano node. Required if `WS_API_ENDPOINT` not set.          |         |             |
+|           |  WS_OGMIOS_URL  |          The WS API endpoint of the Cardano node. Required if `WS_API_ENDPOINT` not set.           |         |             |
+|           | WS_API_ENDPOINT | The WS host url of the Cardano node. Required if `HTTP_OGMIOS_URL` and `WS_OGMIOS_URL` are not set |         |             |
+|           |    RPC_PORT     |                           The port the Cardano Ogmios node is running on                           |         |    1337     |
+|           | IS_TLS_ENABLED  |      Flag to determine whether or not to use a TLS connection to connect to the Cardano node       |         |    false    |
 
 ---
 
