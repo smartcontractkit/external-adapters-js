@@ -1,5 +1,21 @@
 ## v1.1.0
 
+## 1.6.1
+
+### Patch Changes
+
+- 586df619f: Remove batch endpoint usage
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.6.0
+
+### Minor Changes
+
+- 41920d9dc: Update arg name for forex endpoint
+
 ## 1.5.1
 
 ### Patch Changes

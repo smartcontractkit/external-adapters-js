@@ -1,5 +1,14 @@
 # @chainlink/conflux-adapter
 
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.18
 
 ### Patch Changes

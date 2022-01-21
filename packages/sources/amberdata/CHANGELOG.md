@@ -1,5 +1,20 @@
 # @chainlink/amberdata-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 385d7d1cb: Add additional inverse pair presets for amberdata
+
+### Patch Changes
+
+- a7e322c51: Remove console.log
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-factories@1.0.19
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.3
 
 ### Patch Changes
