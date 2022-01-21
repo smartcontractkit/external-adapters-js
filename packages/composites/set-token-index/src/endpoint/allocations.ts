@@ -58,8 +58,12 @@ const ABI = [
 ]
 
 export const inputParameters: InputParameters = {
-  contractAddress: true,
-  setAddress: true,
+  contractAddress: {
+    required: true,
+  },
+  setAddress: {
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
