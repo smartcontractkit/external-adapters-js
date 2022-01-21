@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ResponseSchema } from './globalMarketCap'
 
 export const supportedEndpoints = ['dominance']
 
@@ -28,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const symbol = validator.validated.data.market.toLowerCase()
   const dataKey = `${symbol}_dominance`
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', dataKey])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['data', dataKey])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
