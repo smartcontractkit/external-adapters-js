@@ -1,7 +1,8 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Logger, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, SUPPORTED_CHAINS } from '../config'
 import { ethers, utils, BigNumber } from 'ethers'
+import { isZeroAddress } from '@chainlink/ea-reference-data-reader'
 
 export const supportedEndpoints = ['debt']
 
@@ -41,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     chainSources = Object.values(SUPPORTED_CHAINS)
   }
 
-  const debt = await getCurrentDebt(chainSources, config.chains)
+  const debt = await getCurrentDebt(jobRunID, chainSources, config.chains)
   const result = {
     data: {
       result: debt,
@@ -110,10 +111,11 @@ const ADDRESS_PROVIDER_ABI = [
 ]
 
 const getCurrentDebt = async (
+  jobRunID: string,
   chainSources: string[],
   chainConfigs: Config['chains'],
 ): Promise<string> => {
-  const responses = await Promise.all(
+  const chainResponses = await Promise.all(
     chainSources.map(async (chain): Promise<CurrentDebtResults> => {
       chain = chain.toUpperCase()
       const chainConfig = chainConfigs[chain]
@@ -129,11 +131,23 @@ const getCurrentDebt = async (
       const debtCacheAddress = await addressProvider.getAddress(
         utils.formatBytes32String('DebtCache'),
       )
+      if (isZeroAddress(debtCacheAddress)) {
+        throw new AdapterError({
+          jobRunID,
+          message: `Found zero address for DebtCache contract on chain ${chain}`,
+        })
+      }
       const debtCache = new ethers.Contract(debtCacheAddress, DEBT_POOL_ABI, provider)
 
       const synthetixDebtShareAddress = await addressProvider.getAddress(
         utils.formatBytes32String('SynthetixDebtShare'),
       )
+      if (isZeroAddress(synthetixDebtShareAddress)) {
+        throw new AdapterError({
+          jobRunID,
+          message: `Found zero address for SynthetixDebtShare contract on chain ${chain}`,
+        })
+      }
       const synthetixDebtShare = new ethers.Contract(
         synthetixDebtShareAddress,
         SYNTHETIX_DEBT_SHARE_ABI,
@@ -153,9 +167,9 @@ const getCurrentDebt = async (
   let totalSnxBackedDebt = BigNumber.from(0)
   let totalDebtShares = BigNumber.from(0)
 
-  for (const response of responses) {
-    totalSnxBackedDebt = totalSnxBackedDebt.add(response.totalSnxBackedDebt)
-    totalDebtShares = totalDebtShares.add(response.totalDebtShares)
+  for (const chain of chainResponses) {
+    totalSnxBackedDebt = totalSnxBackedDebt.add(chain.totalSnxBackedDebt)
+    totalDebtShares = totalDebtShares.add(chain.totalDebtShares)
   }
 
   const totalSnxBackedDebtPart = totalSnxBackedDebt.toHexString().slice(2).padStart(32, '0')
