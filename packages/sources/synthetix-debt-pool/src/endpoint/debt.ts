@@ -10,14 +10,13 @@ export const endpointResultPaths = {
 }
 
 interface CurrentDebtResults {
-  total: ethers.BigNumber
-  isInvalid: boolean
+  totalSnxBackedDebt: ethers.BigNumber
+  totalDebtShares: ethers.BigNumber
 }
 
 export interface ResponseSchema {
   data: {
-    total: string
-    isInvalid: boolean
+    result: string
   }
 }
 
@@ -45,8 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const debt = await getCurrentDebt(chainSources, config.chains)
   const result = {
     data: {
-      result: debt.total.toString(),
-      isInvalid: debt.isInvalid,
+      result: debt,
     },
   }
   return Requester.success(jobRunID, result, config.verbose)
@@ -73,6 +71,30 @@ const DEBT_POOL_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    constant: true,
+    inputs: [],
+    name: 'totalNonSnxBackedDebt',
+    outputs: [
+      { internalType: 'uint256', name: 'excludedDebt', type: 'uint256' },
+      { internalType: 'bool', name: 'isInvalid', type: 'bool' },
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
+const SYNTHETIX_DEBT_SHARE_ABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 const ADDRESS_PROVIDER_ABI = [
@@ -90,7 +112,7 @@ const ADDRESS_PROVIDER_ABI = [
 const getCurrentDebt = async (
   chainSources: string[],
   chainConfigs: Config['chains'],
-): Promise<CurrentDebtResults> => {
+): Promise<string> => {
   const responses = await Promise.all(
     chainSources.map(async (chain): Promise<CurrentDebtResults> => {
       chain = chain.toUpperCase()
@@ -104,28 +126,39 @@ const getCurrentDebt = async (
         ADDRESS_PROVIDER_ABI,
         provider,
       )
-      const debtPoolAddress = await addressProvider.getAddress(
+      const debtCacheAddress = await addressProvider.getAddress(
         utils.formatBytes32String('DebtCache'),
       )
-      const debtPool = new ethers.Contract(debtPoolAddress, DEBT_POOL_ABI, provider)
-      const [totalDebt, isInvalid] = await debtPool.currentDebt()
+      const debtCache = new ethers.Contract(debtCacheAddress, DEBT_POOL_ABI, provider)
+
+      const synthetixDebtShareAddress = await addressProvider.getAddress(
+        utils.formatBytes32String('SynthetixDebtShare'),
+      )
+      const synthetixDebtShare = new ethers.Contract(
+        synthetixDebtShareAddress,
+        SYNTHETIX_DEBT_SHARE_ABI,
+        provider,
+      )
+
+      const [chainTotalDebt] = await debtCache.currentDebt()
+      const [chainTotalDebtNonSnxBackedDebt] = await debtCache.totalNonSnxBackedDebt()
+      const chainTotalDebtShare = await synthetixDebtShare.totalSupply()
       return {
-        total: totalDebt,
-        isInvalid,
+        totalDebtShares: chainTotalDebt.sub(chainTotalDebtNonSnxBackedDebt),
+        totalSnxBackedDebt: chainTotalDebtShare,
       }
     }),
   )
 
-  let totalDebt = BigNumber.from(0)
-  let isInvalid = false
+  let totalSnxBackedDebt = BigNumber.from(0)
+  let totalDebtShares = BigNumber.from(0)
 
   for (const response of responses) {
-    totalDebt = totalDebt.add(response.total)
-    isInvalid = isInvalid || isInvalid
+    totalSnxBackedDebt = totalSnxBackedDebt.add(response.totalSnxBackedDebt)
+    totalDebtShares = totalDebtShares.add(response.totalDebtShares)
   }
 
-  return {
-    total: totalDebt,
-    isInvalid,
-  }
+  const totalSnxBackedDebtPart = totalSnxBackedDebt.toHexString().slice(2).padStart(32, '0')
+  const totalDebtSharesPart = totalDebtShares.toHexString().slice(2).padStart(32, '0')
+  return '0x' + totalSnxBackedDebtPart + totalDebtSharesPart
 }
