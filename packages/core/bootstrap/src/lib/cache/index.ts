@@ -133,6 +133,10 @@ export class AdapterCache {
     return `${this.options.key.group}:${hash(data, this.hashOptions)}`
   }
 
+  public get instance(): Cache {
+    return this.cache
+  }
+
   public getCoalescingKey(key: string): string {
     return `inFlight:${key}`
   }
@@ -249,6 +253,21 @@ const handleFailedCacheRead = async (
   }
 }
 
+export const buildDefaultLocalAdapterCache = async (
+  context: AdapterContext,
+): Promise<AdapterCache> => {
+  const options = defaultOptions(true)
+  options.instance = await options.cacheBuilder(options.cacheImplOptions)
+
+  return new AdapterCache({
+    ...context,
+    cache: {
+      ...context.cache,
+      instance: options.instance,
+    },
+  })
+}
+
 export const withCache =
   (rateLimit?: Store<reducer.BurstLimitState>): Middleware =>
   async (execute, context: AdapterContext) => {
@@ -256,19 +275,8 @@ export const withCache =
     if (!context?.cache?.instance) return (data: AdapterRequest) => execute(data, context)
 
     const adapterCache = new AdapterCache(context)
+    const localAdapterCache = await buildDefaultLocalAdapterCache(context)
 
-    const localCacheOptions = defaultOptions(true)
-    localCacheOptions.instance = await localCacheOptions.cacheBuilder(
-      localCacheOptions.cacheImplOptions,
-    )
-
-    const localAdapterCache = new AdapterCache({
-      ...context,
-      cache: {
-        ...context.cache,
-        instance: localCacheOptions.instance,
-      },
-    })
     const {
       cache: options,
       cache: { instance: cache },
@@ -301,7 +309,7 @@ export const withCache =
           if (response) {
             return response
           }
-          cacheToUse = localCacheOptions.instance
+          cacheToUse = localAdapterCache.instance
           adapterCacheToUse = localAdapterCache
         }
       }
