@@ -10,8 +10,8 @@ describe('execute', () => {
   describe('validation error', () => {
     const requests = [
       {
-        name: 'empty body',
-        testData: {},
+        name: 'incorrect speed parameter',
+        testData: { data: { speed: 'speedier' } },
       },
     ]
 

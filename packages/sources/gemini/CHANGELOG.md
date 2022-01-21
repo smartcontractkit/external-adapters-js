@@ -1,5 +1,14 @@
 # @chainlink/gemini-adapter
 
+## 2.1.4
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.1.3
 
 ### Patch Changes
@@ -49,11 +58,11 @@
 
 ### Major Changes
 
-- 4d3c0a79: added new input parameters, changed response schema
+- e50223f49: added new input parameters, changed response schema
 
 ### Patch Changes
 
-- 4d3c0a79: changed default network
+- e50223f49: changed default network
 
 ## 1.0.13
 
