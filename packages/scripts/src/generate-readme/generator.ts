@@ -24,7 +24,8 @@ const pathToBlacklist = 'packages/scripts/src/generate-readme/readme-blacklist.j
 const pathToSources = 'packages/sources/'
 
 const testEnvOverrides = {
-  API_VERBOSE: 'true',
+  API_VERBOSE: undefined,
+  EA_PORT: '0',
   LOG_LEVEL: 'debug',
   NODE_ENV: undefined,
   RECORD: undefined,
