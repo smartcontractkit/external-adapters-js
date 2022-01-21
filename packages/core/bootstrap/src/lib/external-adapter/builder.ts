@@ -11,13 +11,34 @@ import {
 import { logger } from '../external-adapter'
 
 export const baseInputParameters: InputParameters = {
-  endpoint: false,
+  endpoint: {
+    description: 'The External Adapter "endpoint" name to use.',
+    required: false,
+    type: 'string',
+  },
 
-  resultPath: false,
+  resultPath: {
+    description: 'The path to key into the API response the retrieve the result',
+    required: false,
+    // type: 'string', TODO: Once multiple types are supported this could be string or array of strings
+  },
 
-  overrides: false,
-  tokenOverrides: false,
-  includes: false,
+  overrides: {
+    description: 'Override the mapping of token symbols to another token symbol',
+    required: false,
+    // type: 'string', TODO: Once complex types are supported this could be { [adapter: string]: { [token: string]: string } }
+  },
+  tokenOverrides: {
+    description: 'Override the mapping of token symbols to smart contract address',
+    required: false,
+    // type: 'string', TODO: Once complex types are supported this could be { [network: string]: { [token: string]: string } }
+  },
+  includes: {
+    description:
+      'Override the array of includes that holds additional input parameters when matching a pair of symbols',
+    required: false,
+    // type: 'string', TODO: Once complex types are supported this could be { from: string, to: string, includes: [{ from: string, to: string, adapters: string[], inverse: boolean, tokens: boolean }] } }[]
+  },
 }
 
 const findSupportedEndpoint = <C extends Config>(
