@@ -1,5 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
@@ -9,11 +9,13 @@ import {
   mockCryptoResponseSuccess,
   mockReferenceCurrenciesSuccess,
 } from './fixtures'
+import { AddressInfo } from 'net'
 
 describe('execute', () => {
   const id = '1'
   let server: http.Server
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
+
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
     process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
@@ -21,7 +23,9 @@ describe('execute', () => {
       nock.recorder.rec()
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     if (process.env.RECORD) {
       nock.recorder.play()

@@ -19,7 +19,6 @@ describe('execute', () => {
         try {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
-          console.log(error)
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

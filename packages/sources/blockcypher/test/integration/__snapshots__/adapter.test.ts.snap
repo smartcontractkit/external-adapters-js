@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute blockcypher api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
+        "balance": "547",
+        "chain": "mainnet",
+        "coin": "btc",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
+      "balance": "547",
+      "chain": "mainnet",
+      "coin": "btc",
+    },
+  ],
+  "statusCode": 200,
+}
+`;

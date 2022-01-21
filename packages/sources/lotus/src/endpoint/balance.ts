@@ -1,14 +1,23 @@
-import JSONRPC from '@chainlink/json-rpc-adapter'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import * as JSONRPC from '@chainlink/json-rpc-adapter'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { BigNumber } from 'ethers'
+
+interface Address {
+  address: string
+}
 
 export const methodName = 'Filecoin.WalletBalance'
 
 export const supportedEndpoints = ['balance', methodName]
 
 export const inputParameters: InputParameters = {
-  addresses: ['addresses', 'result'],
+  addresses: {
+    required: true,
+    aliases: ['result'],
+    description: 'An array of addresses to get the balances of',
+    type: 'array',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
@@ -16,10 +25,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const addresses: string[] = validator.validated.data.addresses
+  const addresses: Address[] = validator.validated.data.addresses
 
   const jsonRpcConfig = JSONRPC.makeConfig()
   jsonRpcConfig.api.headers['Authorization'] = `Bearer ${config.apiKey}`
+
+  if (!Array.isArray(addresses) || addresses.length === 0) {
+    throw new AdapterError({
+      jobRunID,
+      message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
+      statusCode: 400,
+    })
+  }
 
   const _getBalance = async (address: string, requestId: number) => {
     const requestData = {
@@ -37,7 +54,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     }
   }
 
-  const balances = await Promise.all(addresses.map(_getBalance))
+  const balances = await Promise.all(
+    addresses.map((addr, index) => _getBalance(addr.address, index)),
+  )
   const response = {
     statusText: 'OK',
     status: 200,

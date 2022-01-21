@@ -18,9 +18,15 @@ export interface ResponseSchema {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  // See InputParameters type for more config options
+  base: {
+    aliases: ['from', 'coin'],
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

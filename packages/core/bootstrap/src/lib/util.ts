@@ -100,8 +100,10 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = ''): string | undefined =>
-  process.env[getEnvName(name, prefix)]
+export const getEnv = (name: string, prefix = ''): string | undefined => {
+  const envVar = process.env[getEnvName(name, prefix)]
+  return envVar === '' ? undefined : envVar
+}
 
 // Custom error for required env variable.
 export class RequiredEnvError extends Error {
@@ -123,6 +125,10 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
   if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
   return val
 }
+
+// format input as an array regardless of if it is a string or an array already
+export const formatArray = (input: string | string[]): string[] =>
+  typeof input === 'string' ? [input] : input
 
 /**
  * @description
@@ -194,7 +200,7 @@ export const includableAdapterRequestProperties: string[] = ['data'].concat(
 )
 
 /** Common keys within adapter requests that should be ignored within "data" to create a stable key*/
-const excludableInternalAdapterRequestProperties = [
+export const excludableInternalAdapterRequestProperties = [
   'resultPath',
   'overrides',
   'tokenOverrides',

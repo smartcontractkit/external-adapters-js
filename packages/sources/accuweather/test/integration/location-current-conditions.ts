@@ -1,6 +1,6 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import {
   mockAWCurrentConditionsResponseError,
   mockAWCurrentConditionsResponseSuccess,
@@ -9,10 +9,16 @@ import {
   mockAWLocationResponseSuccessLocationNotFound,
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
+import { SuiteContext } from './adapter.test'
+import { AddressInfo } from 'net'
 
-export function locationCurrentConditionsTests(): void {
-  const req = request('localhost:8080')
+export function locationCurrentConditionsTests(context: SuiteContext): void {
   const id = '1'
+  let req: SuperTest<Test>
+
+  beforeAll(() => {
+    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+  })
 
   describe('error calls', () => {
     describe('when the location endpoint fails', () => {
@@ -34,9 +40,9 @@ export function locationCurrentConditionsTests(): void {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(200)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.body.providerStatusCode }, response.body, id)
       })
     })
 
@@ -60,9 +66,9 @@ export function locationCurrentConditionsTests(): void {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(200)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.body.providerStatusCode }, response.body, id)
       })
     })
   })

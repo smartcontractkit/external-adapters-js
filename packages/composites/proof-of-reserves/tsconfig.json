@@ -10,6 +10,7 @@
     { "path": "../../core/test-helpers" },
     { "path": "../../sources/amberdata" },
     { "path": "../bitcoin-json-rpc" },
+    { "path": "../por-indexer" },
     { "path": "../../sources/blockchain.com" },
     { "path": "../../sources/blockchair" },
     { "path": "../../sources/blockcypher" },
@@ -23,6 +24,7 @@
     { "path": "../../sources/gemini" },
     { "path": "../../sources/eth-balance" },
     { "path": "../../sources/ada-balance" },
-    { "path": "../../sources/chain-reserve-wallet" }
+    { "path": "../../sources/chain-reserve-wallet" },
+    { "path": "../../sources/wrapped" }
   ]
 }

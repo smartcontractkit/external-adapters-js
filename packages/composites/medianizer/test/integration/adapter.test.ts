@@ -1,175 +1,156 @@
-import sinon, { createSandbox } from 'sinon'
-import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
-import { Requester } from '@chainlink/ea-bootstrap'
-import { Execute, Config } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
-import { makeExecute } from '../../src/adapter'
-import { makeConfig } from '../../src/config'
+import { server as startServer } from '../../src'
+import nock from 'nock'
+import http from 'http'
+import request, { SuperTest, Test } from 'supertest'
+import {
+  mockSuccessfulResponsesWithCommaSeparatedSources,
+  mockSuccessfulResponsesWithoutCommaSeparatedSources,
+  mockSuccessfulResponsesWithSingleSource,
+} from './fixtures'
+import { AddressInfo } from 'net'
 
-const AdapterStubs: Record<string, any> = {
-  COINGECKO: {
-    jobRunID: '1',
-    data: {
-      result: 1000,
-    },
-    result: 1000,
-    statusCode: 200,
-  },
-  COINPAPRIKA: {
-    jobRunID: '1',
-    data: {
-      result: 2000,
-    },
-    result: 2000,
-    statusCode: 200,
-  },
-}
+let oldEnv: NodeJS.ProcessEnv
 
 const setupEnvironment = (adapters: string[]) => {
   for (const a of adapters) {
-    process.env[`${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`] = `http://test/${a}`
+    process.env[
+      `${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`
+    ] = `https://adapters.main.stage.cldev.sh/${a}`
   }
 }
 
 describe('medianizer', () => {
-  let execute: Execute
-  let config: Config
-  let sandbox: sinon.SinonSandbox
-  let server: sinon.SinonFakeServer
+  let server: http.Server
+  let req: SuperTest<Test>
 
-  beforeEach(() => {
-    execute = makeExecute()
-    config = makeConfig()
-    sandbox = createSandbox()
-    server = sandbox.useFakeServer()
-  })
-  afterEach(() => {
-    server.restore()
-    sandbox.restore()
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
+    if (process.env.RECORD) {
+      nock.recorder.rec()
+    }
   })
 
-  setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
-  beforeAll(() => ({}))
+  afterAll((done) => {
+    if (process.env.RECORD) {
+      nock.recorder.play()
+    }
+    process.env = oldEnv
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
+    server.close(done)
+  })
 
   describe('successful calls', () => {
     const jobID = '1'
 
-    const requests = [
-      {
-        name: 'successful adapter call',
-        input: {
-          id: jobID,
-          data: {
-            sources: ['coingecko', 'coinpaprika'],
-            from: 'ETH',
-            to: 'USD',
-          },
+    it('return success without comma separated sources', async () => {
+      mockSuccessfulResponsesWithoutCommaSeparatedSources()
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          sources: ['coingecko', 'coinpaprika'],
+          from: 'ETH',
+          to: 'USD',
         },
-        output: 1500,
-      },
-      {
-        name: 'comma separated sources',
-        input: {
-          id: jobID,
-          data: {
-            sources: 'coingecko,coinpaprika',
-            from: 'ETH',
-            to: 'USD',
-          },
-        },
-        output: 1500,
-      },
-    ]
+      }
 
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const HTTP = sandbox.stub(Requester, 'request')
-        for (const stub in AdapterStubs) {
-          HTTP.withArgs({
-            ...config.api,
-            method: 'post',
-            url: process.env[`${stub.toUpperCase()}_${util.ENV_ADAPTER_URL}`],
-            data: req.input,
-          }).returns(new Promise<any>((resolve) => resolve(AdapterStubs[stub])))
-        }
-        const data = await execute(req.input, {})
-        assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result).toEqual(req.output)
-        expect(data.data.result).toEqual(req.output)
-      })
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns success with comma separated sources', async () => {
+      mockSuccessfulResponsesWithCommaSeparatedSources()
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          sources: 'coingecko,coinpaprika',
+          from: 'ETH',
+          to: 'USD',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 
   describe('erroring calls', () => {
     const jobID = '1'
 
-    const requests = [
-      {
-        name: 'returns error if not reaching minAnswers',
-        input: {
-          id: jobID,
-          data: {
-            sources: 'coingecko',
-            from: 'ETH',
-            to: 'USD',
-            minAnswers: 2,
-          },
+    it('returns error if not reaching minAnswers', async () => {
+      mockSuccessfulResponsesWithSingleSource()
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          sources: 'coingecko',
+          from: 'ETH',
+          to: 'USD',
+          minAnswers: 2,
         },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        const HTTP = sandbox.stub(Requester, 'request')
-        for (const stub in AdapterStubs) {
-          HTTP.withArgs({
-            ...config.api,
-            method: 'post',
-            url: process.env[`${stub.toUpperCase()}_${util.ENV_ADAPTER_URL}`],
-            data: req.input,
-          }).returns(new Promise<any>((resolve) => resolve(AdapterStubs[stub])))
-        }
-        try {
-          await await execute(req.input, {})
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
+      }
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
     })
   })
 
   describe('validation error', () => {
     const jobID = '2'
 
-    const requests = [
-      {
-        name: 'empty data',
-        input: { id: jobID, data: {} },
-      },
-      {
-        name: 'unsupported source',
-        input: {
-          id: jobID,
-          data: {
-            source: 'NOT_REAL',
-            from: 'ETH',
-            to: 'USD',
-          },
-        },
-        output: 999,
-      },
-    ]
+    it('returns a validation error if the request data is empty', async () => {
+      const data: AdapterRequest = { id: jobID, data: {} }
 
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.input, {})
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('returns a validation error if the request contains unsupported sources', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          source: 'NOT_REAL',
+          from: 'ETH',
+          to: 'USD',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+      expect(response.body).toMatchSnapshot()
     })
   })
 })

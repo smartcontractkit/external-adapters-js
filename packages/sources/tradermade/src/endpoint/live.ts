@@ -1,16 +1,39 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME } from '../config'
 
-export const supportedEndpoints = ['live', 'commodities']
+export const supportedEndpoints = ['live', 'commodities', 'stock']
 
-const customParams = {
-  base: ['base', 'from', 'symbol', 'market'],
-  to: false,
+export const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'symbol', 'market'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'convert'],
+    required: false,
+    description: 'The quote currency',
+    type: 'string',
+  },
+}
+
+export interface ResponseSchema {
+  endpoint: string
+  quotes: {
+    ask: number
+    base_currency: string
+    bid: number
+    mid: number
+    quote_currency: string
+  }[]
+  requested_time: string
+  timestamp: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
   Requester.logConfig(config)
@@ -21,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   /**
    * Note that currency can also mean equity.  This is why "to" is not a required variable
    */
-  const to = (validator.validated.data.to || '').toUpperCase()
+  const to = (validator.validated.data.quote || '').toUpperCase()
   const currency = `${symbol}${to}`
 
   const params = {
@@ -31,7 +54,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const options = { ...config.api, params }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
-  return Requester.success(jobRunID, response, config.verbose)
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

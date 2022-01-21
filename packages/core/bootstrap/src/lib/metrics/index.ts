@@ -15,12 +15,21 @@ export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLE
 export enum HttpRequestType {
   CACHE_HIT = 'cacheHit',
   DATA_PROVIDER_HIT = 'dataProviderHit',
+  ADAPTER_ERROR = 'adapterError',
 }
 
 export const httpRequestsTotal = new client.Counter({
   name: 'http_requests_total',
   help: 'The number of http requests this external adapter has serviced for its entire uptime',
-  labelNames: ['method', 'status_code', 'retry', 'type', 'is_cache_warming', 'feed_id'] as const,
+  labelNames: [
+    'method',
+    'status_code',
+    'retry',
+    'type',
+    'is_cache_warming',
+    'feed_id',
+    'provider_status_code',
+  ] as const,
 })
 
 export const httpRequestDurationSeconds = new client.Histogram({

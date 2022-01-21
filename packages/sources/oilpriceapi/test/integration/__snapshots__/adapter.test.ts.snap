@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute oilprice api bz should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 70.71,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 70.71,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute oilprice api wti should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 71.47,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 71.47,
+  "statusCode": 200,
+}
+`;

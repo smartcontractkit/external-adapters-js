@@ -11,11 +11,16 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { addresses: ['f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi'] } },
+        testData: {
+          data: { addresses: [{ address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi' }] },
+        },
       },
       {
         name: 'single address supplied',
-        testData: { id: jobID, data: { addresses: ['f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi'] } },
+        testData: {
+          id: jobID,
+          data: { addresses: [{ address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi' }] },
+        },
       },
       {
         name: 'multiple addresses supplied',
@@ -23,8 +28,8 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [
-              'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi',
-              'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay',
+              { address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi' },
+              { address: 'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay' },
             ],
           },
         },
@@ -45,7 +50,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'invalid address',
-        testData: { id: jobID, data: { addresses: ['not_real'] } },
+        testData: { id: jobID, data: { addresses: [{ address: 'not_real' }] } },
       },
     ]
 

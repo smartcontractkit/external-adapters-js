@@ -81,7 +81,6 @@ async function generate(type: string) {
   // add to packages/tsconfig.json
   const tsconfigPath = 'packages/tsconfig.json'
   const tsconfig = JSON.parse(JSON.stringify(require(path.relative(__dirname, tsconfigPath))))
-  console.log(tsconfig)
   tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
   writeData = { ...writeData, [tsconfigPath]: tsconfig }
 
@@ -108,7 +107,7 @@ async function generate(type: string) {
         return { ...obj, [key]: legoPackage.dependencies[key] }
       }, {}) // capture other dependencies (non-adapter)
     legoPackage.dependencies = adapterList.reduce((obj, adapter) => {
-      return { ...obj, [adapter.name]: '*' }
+      return { ...obj, [adapter.name]: 'workspace:*' }
     }, otherPackages)
     writeData = { ...writeData, [legoPackagePath]: legoPackage }
 

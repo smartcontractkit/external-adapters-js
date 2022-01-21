@@ -19,8 +19,37 @@ export const endpointOverride = (request: AdapterRequest): string | null => {
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
+  base: {
+    aliases: ['from', 'coin'],
+    type: 'string',
+    required: true,
+    description: 'The symbol of the currency to query [crypto](#Crypto-Endpoint)',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    type: 'string',
+    required: true,
+    description: 'The symbol of the currency to convert to',
+  },
+}
+
+export interface ResponseSchema {
+  time: string
+  asset_id_base: string
+  asset_id_quote: string
+  rate: number
+  src_side_base: {
+    time: string
+    asset: string
+    rate: number
+    volume: number
+  }[]
+  src_side_quote: {
+    time: string
+    asset: string
+    rate: number
+    volume: number
+  }[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -38,8 +67,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['rate'])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['rate'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

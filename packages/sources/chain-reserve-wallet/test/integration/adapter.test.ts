@@ -41,7 +41,8 @@ describe('chain-reserve-wallet', () => {
     const data: AdapterRequest = {
       id: '1',
       data: {
-        chainID: 0,
+        chainId: 'testnet',
+        network: 'cardano',
         contractAddress: '0xAe1932a83DeD75db2afD1E4EC6c0D4241554100A',
       },
     }

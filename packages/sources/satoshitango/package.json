@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/satoshitango-adapter",
-  "version": "1.0.2",
+  "version": "1.2.4",
   "description": "Chainlink SatoshiTango adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,10 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "14.17.34",
+    "@types/node": "16.11.19",
+    "@types/supertest": "2.0.11",
+    "nock": "13.2.1",
+    "supertest": "6.1.6",
     "typescript": "4.3.5"
   }
 }

@@ -71,6 +71,7 @@ declare module '@chainlink/types' {
     maxAge?: number
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
+    providerStatusCode?: number
   }
 
   /* ERRORS */
@@ -98,6 +99,7 @@ declare module '@chainlink/types' {
     jobRunID: string
     status: string
     statusCode: number
+    providerStatusCode?: number
     error: ErrorBasic | ErrorFull
   }
 
@@ -144,10 +146,18 @@ declare module '@chainlink/types' {
 
   export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
-  export type RequiredInputParameter = boolean
-  export type InputParameterAliases = string[]
+  export type InputParameter = {
+    aliases?: string[]
+    description?: string
+    type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string'
+    required?: boolean
+    options?: any[] // enumerated options, ex. ['ADA', 'BTC', 'ETH']
+    default?: any
+    dependsOn?: string[] // other inputs this one depends on
+    exclusive?: string[] // other inputs that cannot be present with this one
+  }
   export type InputParameters = {
-    [name: string]: RequiredInputParameter | InputParameterAliases
+    [name: string]: InputParameter | boolean | string[]
   }
 
   export interface APIEndpoint<C extends Config = Config> {
@@ -275,6 +285,8 @@ declare module '@chainlink/types' {
     shouldNotRetryConnection?: (error: unknown) => boolean
     // Should try resubscribing to a connection again after an error
     shouldNotRetrySubscription?: (subscription: unknown) => boolean
+    // Time to wait until adapter should handle next WS message
+    minTimeToNextMessageUpdateInS?: number
   }
 
   /* INPUT TYPE VALIDATIONS */

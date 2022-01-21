@@ -30,6 +30,7 @@ export function mockDataProviderResponses() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         result: 3139.726053759448,
         statusCode: 200,
         data: {
@@ -58,6 +59,7 @@ export function mockDataProviderResponses() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         result: 3068.06,
         statusCode: 200,
         data: {

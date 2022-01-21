@@ -7,9 +7,18 @@ import FundValueCalculatorABI from '../abis/FundValueCalculator.json'
 export const supportedEndpoints = ['calcNetValueForSharesHolder']
 
 export const inputParameters: InputParameters = {
-  calculatorContract: true,
-  vaultProxy: true,
-  sharesHolder: true,
+  calculatorContract: {
+    required: true,
+    type: 'string',
+  },
+  vaultProxy: {
+    required: true,
+    type: 'string',
+  },
+  sharesHolder: {
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

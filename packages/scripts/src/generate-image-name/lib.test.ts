@@ -31,6 +31,7 @@ describe('generateImageName', () => {
       )
     })
   })
+
   describe('when an adapter name is provided', () => {
     const name = 'coinmarketcap-adapter'
     const prefix = 'aws/'

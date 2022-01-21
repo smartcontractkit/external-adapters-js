@@ -14,6 +14,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 336.69,
@@ -58,6 +59,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 5.92,
@@ -102,6 +104,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 7.4,
@@ -146,6 +149,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 0.697611,
@@ -190,6 +194,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 6.87,
@@ -234,6 +239,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 18.05,
@@ -278,6 +284,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 0.44541,
@@ -322,6 +329,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 235.78,
@@ -366,6 +374,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 6.33,
@@ -410,6 +419,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 38.66,
@@ -454,6 +464,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 9.26,
@@ -498,6 +509,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 20.31,
@@ -542,6 +554,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 142.07,
@@ -586,6 +599,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 2565.7,
@@ -630,6 +644,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 3.19,
@@ -674,6 +689,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 1.71,
@@ -718,6 +734,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 2.39,
@@ -762,6 +779,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 0.353853,
@@ -806,6 +824,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 1.59,
@@ -850,6 +869,7 @@ export function mockCoingeckoResponseSuccess() {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
         result: 32468,
@@ -1012,8 +1032,8 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
  *
  * @param postInitialFailures The number of failures to return
  */
-export function mockCoingeckoConnectionFailure(times = 1) {
-  nock('http://localhost:8080', { encodedQueryParams: true })
+export function mockCoingeckoConnectionFailure(port: number, times = 1) {
+  nock(`http://localhost:${port}`, { encodedQueryParams: true })
     .post('/', { id: '1', data: { base: 'sDEFI', to: 'usd', source: 'coingecko' } })
     .times(times)
     .reply(

@@ -2,14 +2,15 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import http from 'http'
 import nock from 'nock'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
-import { mockCryptoEndpoint } from './cryptoFixtures'
+import { mockAssetEndpoint, mockCryptoEndpoint } from './fixtures'
+import { AddressInfo } from 'net'
 
 describe('coinapi', () => {
   let server: http.Server
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  const req = request('localhost:8080')
+  let req: SuperTest<Test>
 
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
@@ -20,7 +21,9 @@ describe('coinapi', () => {
       process.env.API_KEY = 'mock-api-key'
     }
     server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
+
   afterAll((done) => {
     process.env = oldEnv
     if (util.parseBool(process.env.RECORD)) {
@@ -48,6 +51,29 @@ describe('coinapi', () => {
         const response = await req
           .post('/')
           .send(cryptoRequest)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+    })
+  })
+
+  describe('assets endpoint', () => {
+    describe('when sending well-formed request', () => {
+      it('should reply with success', async () => {
+        const assetRequest: AdapterRequest = {
+          id: '1',
+          data: {
+            endpoint: 'assets',
+            base: 'ETH',
+          },
+        }
+        mockAssetEndpoint()
+        const response = await req
+          .post('/')
+          .send(assetRequest)
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)

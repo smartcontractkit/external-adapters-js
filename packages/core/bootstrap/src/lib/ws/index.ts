@@ -1,9 +1,15 @@
-import { AdapterContext, AdapterRequest, MakeWSHandler, Middleware } from '@chainlink/types'
+import {
+  AdapterContext,
+  AdapterRequest,
+  AdapterResponse,
+  MakeWSHandler,
+  Middleware,
+} from '@chainlink/types'
 import { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
 import { RootState } from './reducer'
-import { AdapterCache } from '../cache'
+import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
 
 export * as actions from './actions'
@@ -77,13 +83,23 @@ const isConnected = (store: Store<RootState>, connectionKey: string): boolean =>
   return isActiveConnection && !isConnecting && hasOnConnectChainCompleted
 }
 
-const awaitResult = async (context: AdapterContext, input: AdapterRequest, deadline: number) => {
+const awaitResult = async (
+  context: AdapterContext,
+  input: AdapterRequest,
+  deadline: number,
+): Promise<AdapterResponse> => {
   const adapterCache = new AdapterCache(context)
   const pollInterval = 1_000
 
   while (Date.now() < deadline - pollInterval) {
-    const cachedAdapterResponse = await adapterCache.getResultForRequest(input)
-    if (cachedAdapterResponse) return cachedAdapterResponse
+    try {
+      const cachedAdapterResponse = await adapterCache.getResultForRequest(input)
+      if (cachedAdapterResponse) return cachedAdapterResponse
+    } catch (error) {
+      const localAdapterCache = await buildDefaultLocalAdapterCache(context)
+      const cachedAdapterResponse = await localAdapterCache.getResultForRequest(input)
+      if (cachedAdapterResponse) return cachedAdapterResponse
+    }
     await sleep(pollInterval)
   }
 

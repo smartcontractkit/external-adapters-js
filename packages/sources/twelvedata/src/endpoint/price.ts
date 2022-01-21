@@ -7,7 +7,16 @@ export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
 const customError = (data: any) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'market'],
+  base: {
+    aliases: ['from', 'coin', 'market', 'symbol'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+}
+
+interface ResponseSchema {
+  price: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -29,8 +38,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['price'])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['price'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

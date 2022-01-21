@@ -1,8 +1,11 @@
 import objectHash from 'object-hash'
 import { getHashOpts } from '../util'
+import { logger } from '../external-adapter'
 
 export const WARMUP_REQUEST_ID = '9001'
 export const WARMUP_BATCH_REQUEST_ID = '9002'
+export const MINIMUM_WARMUP_INTERVAL = 500
+export const WARMUP_POLL_OFFSET = 1000
 
 export interface Config {
   /**
@@ -32,6 +35,13 @@ export interface Config {
 }
 
 export function get(): Config {
+  const warmupInterval = Number(process.env.WARMUP_INTERVAL)
+  if (warmupInterval < MINIMUM_WARMUP_INTERVAL) {
+    logger.warn(
+      `Warmup Interval configured at ${warmupInterval}ms. Using minimum allowed time of ${MINIMUM_WARMUP_INTERVAL}ms`,
+    )
+  }
+
   return {
     hashOpts: getHashOpts(),
     unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,

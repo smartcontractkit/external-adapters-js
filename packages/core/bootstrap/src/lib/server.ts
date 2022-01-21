@@ -7,7 +7,6 @@ import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, storeSlice, withMiddleware } from '../index'
 import { defaultOptions } from './cache'
-import * as redis from './cache/redis'
 import { loadTestPayload } from './config/test-payload-loader'
 import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
@@ -18,6 +17,7 @@ import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './rate-limit/config'
 import { toObjectWithNumbers } from './util'
 import { warmupShutdown } from './cache-warmer/actions'
+import { AddressInfo } from 'net'
 
 const app = express()
 const version = process.env.npm_package_version
@@ -65,14 +65,15 @@ export const initHandler =
     })
 
     app.get(join(baseUrl, 'health'), async (_, res) => {
-      if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
-        logger.debug('Checking if redis connection initialized')
-        const cache = context.cache.instance as redis.RedisCache
-        if (!cache.client.connected) {
-          res.status(500).send({ message: 'Redis not connected', version })
-          return
-        }
-      }
+      // TODO https://app.shortcut.com/chainlinklabs/story/23810/update-redis-server-healthcheck
+      // if (cacheOptions.enabled && cacheOptions.cacheImplOptions.type === 'redis') {
+      //   logger.debug('Checking if redis connection initialized')
+      //   const cache = context.cache.instance as redis.RedisCache
+      //   if (!cache.client.connected) {
+      //     res.status(500).send({ message: 'Redis not connected', version })
+      //     return
+      //   }
+      // }
 
       res.status(200).send({ message: 'OK', version })
     })
@@ -116,7 +117,7 @@ export const initHandler =
           context.cache?.instance?.close()
         })
 
-        logger.info(`Listening on port ${port}!`)
+        logger.info(`Listening on port ${(server.address() as AddressInfo).port}!`)
         resolve(server)
       })
     })
@@ -149,9 +150,13 @@ function initExpressMiddleware(app: express.Express) {
     windowMs,
     max, // limit each IP's requests per windowMs
     keyGenerator: () => '*', // use one key for all incoming requests
-    handler: ((_, res) => {
-      httpRateLimit.inc()
-      res.status(429).send('Too many requests, please try again later.')
+    handler: ((req, res, next) => {
+      if (req.url === '/health') {
+        next()
+      } else {
+        httpRateLimit.inc()
+        res.status(429).send('Too many requests, please try again later.')
+      }
     }) as express.RequestHandler,
   })
   app.use(rateLimiter)
@@ -164,5 +169,5 @@ function initExpressMiddleware(app: express.Express) {
   })
   app.use(speedLimiter)
 
-  app.use(express.json())
+  app.use(express.json({ limit: '1mb' }))
 }

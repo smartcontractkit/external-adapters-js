@@ -29,15 +29,26 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getStockSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.stock.inputParams, {}, false)
+    const validator = new Validator(input, endpoints.stock.inputParameters, {}, false)
     if (validator.error) return
     return validator.validated.data.base.toUpperCase()
   }
   const isStock = (input: AdapterRequest): boolean =>
     endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
 
+  const isCrypto = (input: AdapterRequest): boolean =>
+    endpoints.crypto.supportedEndpoints.includes(input.data.endpoint)
+
+  const getCryptoSymbol = (input: AdapterRequest) => {
+    const validator = new Validator(input, endpoints.crypto.inputParameters, {}, false)
+    if (validator.error) return
+    const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
+    const to = validator.validated.data.quote.toUpperCase()
+    return `${from}${to}`
+  }
+
   const getForexSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.forex.inputParams, {}, false)
+    const validator = new Validator(input, endpoints.forex.inputParameters, {}, false)
     if (validator.error) return
     const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
     const to = validator.validated.data.quote.toUpperCase()
@@ -51,6 +62,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       return getStockSymbol(input)
     } else if (isForex(input)) {
       return getForexSymbol(input)
+    } else if (isCrypto(input)) {
+      return getCryptoSymbol(input)
     }
     return undefined
   }
@@ -70,10 +83,15 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
             key: 'forex',
             url: defaultConfig.forexWsEndpoint,
           }
+        } else if (isCrypto(input)) {
+          return {
+            key: 'crypto',
+            url: defaultConfig.cryptoWsEndpoint,
+          }
         }
         return undefined
       },
-      shouldNotServeInputUsingWS: (input) => !isForex(input) && !isStock(input),
+      shouldNotServeInputUsingWS: (input) => !isForex(input) && !isStock(input) && !isCrypto(input),
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
       subsFromMessage: (message) => {

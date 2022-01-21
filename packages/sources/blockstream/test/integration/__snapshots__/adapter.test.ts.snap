@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute block api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 22335659268936,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 22335659268936,
+  "statusCode": 200,
+}
+`;

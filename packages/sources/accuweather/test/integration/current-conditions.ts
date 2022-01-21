@@ -1,6 +1,6 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import request from 'supertest'
+import request, { SuperTest, Test } from 'supertest'
 import {
   mockAWCurrentConditionsResponseError,
   mockAWCurrentConditionsResponseSuccess,
@@ -9,10 +9,16 @@ import {
   mockAWCurrentConditionsResponseSuccessMalformed3,
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
+import { SuiteContext } from './adapter.test'
+import { AddressInfo } from 'net'
 
-export function currentConditionsTests(): void {
-  const req = request('localhost:8080')
+export function currentConditionsTests(context: SuiteContext): void {
   const id = '1'
+  let req: SuperTest<Test>
+
+  beforeAll(() => {
+    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+  })
 
   describe('error calls', () => {
     const locationKey = 123456
@@ -35,9 +41,9 @@ export function currentConditionsTests(): void {
           .set('Accept', '*/*')
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(500)
+          .expect(200)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.body.providerStatusCode }, response.body, id)
       })
     })
 
@@ -61,7 +67,7 @@ export function currentConditionsTests(): void {
           .expect('Content-Type', /json/)
           .expect(500)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.status }, response.body, id)
       })
 
       it('should throw an exception if the response is missing data', async () => {
@@ -83,7 +89,7 @@ export function currentConditionsTests(): void {
           .expect('Content-Type', /json/)
           .expect(500)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.status }, response.body, id)
       })
 
       it('should throw an exception if there is a NaN condition', async () => {
@@ -105,7 +111,7 @@ export function currentConditionsTests(): void {
           .expect('Content-Type', /json/)
           .expect(500)
 
-        assertError({ expected: 500, actual: response.statusCode }, response.body, id)
+        assertError({ expected: 500, actual: response.status }, response.body, id)
       })
     })
   })

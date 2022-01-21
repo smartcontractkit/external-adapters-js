@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with token should return success 1`] = `
+Object {
+  "data": Object {
+    "estimates": Object {
+      "fast": 131.363,
+      "fastest": 132.055,
+      "medium": 113.447,
+      "slow": 110.747,
+    },
+    "result": 131.363,
+    "success": true,
+    "updated": "2021-11-30T15:46:00.048Z",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 131.363,
+  "statusCode": 200,
+}
+`;

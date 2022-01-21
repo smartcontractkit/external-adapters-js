@@ -93,6 +93,7 @@ Object {
     "sources": Array [],
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 246.11120521629917,
   "statusCode": 200,
 }

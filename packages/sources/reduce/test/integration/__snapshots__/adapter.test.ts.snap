@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reduce adapter should return success 1`] = `
+Object {
+  "data": Object {
+    "result": "1533118873139",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "1533118873139",
+  "statusCode": 200,
+}
+`;
