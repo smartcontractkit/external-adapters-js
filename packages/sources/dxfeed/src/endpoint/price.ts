@@ -13,6 +13,8 @@ export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 
 const customError = (data: { status: string }) => data.status !== 'OK'
 
+type Events = 'Quote' | 'Trade'
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,
@@ -77,16 +79,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const quotePath = ['Quote', symbol, 'bidPrice']
   const tradePath = ['Trade', symbol, 'price']
-  const result = Requester.validateResultNumber(
-    response.data,
-    events === 'Quote' ? quotePath : tradePath,
-  )
+  const result = Requester.validateResultNumber(response.data, getResultPath(events, symbol))
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result),
     config.verbose,
     batchablePropertyPath,
   )
+}
+
+const getResultPath = (events: Events, symbol: string, isArray = false): Array<string | number> => {
+  const path = events === 'Quote' ? 'bidPrice' : 'price'
+  if (isArray) return [events, symbol, 0, path]
+  else return [events, symbol, path]
 }
 
 const handleBatchedRequest = (
@@ -106,10 +111,7 @@ const handleBatchedRequest = (
           base: response.data[events][base],
         },
       },
-      Requester.validateResultNumber(
-        response.data,
-        isArray ? [events, base, 0, 'price'] : [events, base, 'price'],
-      ),
+      Requester.validateResultNumber(response.data, getResultPath(events as Events, base, isArray)),
     ])
   }
   return Requester.success(
