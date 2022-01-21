@@ -48,13 +48,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     params,
   })
 
-  const data = { ...result.data }
+  const data = { ...result.data, result: result.data }
 
   return Requester.success(
     jobRunID,
     {
       status: 200,
-      data: data,
+      data,
     },
     config.verbose,
   )
