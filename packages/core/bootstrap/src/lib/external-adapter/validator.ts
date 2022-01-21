@@ -43,7 +43,7 @@ export class Validator {
     this.input = { ...input }
     if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
     if (!this.input.data) this.input.data = {}
-    this.inputConfigs = { ...inputConfigs, ...baseInputParameters }
+    this.inputConfigs = { ...baseInputParameters, ...inputConfigs }
     this.options = { ...options }
     this.shouldLogError = shouldLogError
     this.validated = { id: this.input.id, data: {} }
