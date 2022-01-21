@@ -10,8 +10,14 @@ import {
 } from '@chainlink/types'
 import { logger } from '../external-adapter'
 
-export const inputParameters: InputParameters = {
+export const baseInputParameters: InputParameters = {
   endpoint: false,
+
+  resultPath: false,
+
+  overrides: false,
+  tokenOverrides: false,
+  includes: false,
 }
 
 const findSupportedEndpoint = <C extends Config>(
@@ -35,7 +41,7 @@ const selectEndpoint = <C extends Config>(
   apiEndpoints: Record<string, APIEndpoint<C>>,
   customParams?: InputParameters,
 ): APIEndpoint<C> => {
-  const params = customParams || inputParameters
+  const params = customParams || baseInputParameters
   const validator = new Validator(request, params)
 
   const jobRunID = validator.validated.id
