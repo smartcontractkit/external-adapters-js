@@ -412,7 +412,7 @@ export async function main(): Promise<void | string> {
     } else if (options.adapters?.length) {
       adapters = options.adapters.map((name) => ({ name }))
     }
-    adapters = [] // TODO unset after merge commit
+
     // filter list by blacklist
     const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
     const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {
@@ -438,7 +438,7 @@ export async function main(): Promise<void | string> {
     for (const adapter of readmeQueue) {
       createReadmeFile(adapter[0], adapter[1], options.stage)
     }
-    console.log(`${readmeQueue.length} README(s) updated.`)
+    console.log(`${readmeQueue.length} README(s) generated.`)
     process.exit(0)
   } catch (e) {
     console.error(`Error: ${e}`)
