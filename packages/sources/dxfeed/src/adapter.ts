@@ -25,7 +25,7 @@ export type DXFeedMessage = {
   channel: string
   clientId?: string
   id: string
-  data: any[]
+  data: [string, string[]]
   successful?: boolean
   advice?: {
     interval: number
@@ -58,7 +58,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     const isDataMessage = (message: DXFeedMessage) =>
       Array.isArray(message) && message[0].channel === SERVICE_DATA
-    const isDataSubscriptionMsg = (subscriptionMessage: any) =>
+    const isDataSubscriptionMsg = (subscriptionMessage: DXFeedMessage) =>
       Array.isArray(subscriptionMessage) && subscriptionMessage[0].channel === SERVICE_SUB
 
     const handshakeMsg = [
@@ -160,10 +160,11 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         },
       ],
       heartbeatIntervalInMS: 30000,
-      shouldSaveToStore: (subscriptionMessage: any) => isDataSubscriptionMsg(subscriptionMessage),
+      shouldSaveToStore: (subscriptionMessage: DXFeedMessage) =>
+        isDataSubscriptionMsg(subscriptionMessage),
       isOnConnectChainMessage: (message: DXFeedMessage) =>
         message[0].channel === META_HANDSHAKE || message[0].channel === META_CONNECT,
-      isDataMessage: (message: unknown) => isDataSubscriptionMsg(message),
+      isDataMessage: (message) => isDataSubscriptionMsg(message as DXFeedMessage),
       onConnectChain: [
         {
           payload: handshakeMsg,

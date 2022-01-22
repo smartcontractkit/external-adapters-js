@@ -56,8 +56,6 @@ export interface ResponseSchema {
   }[]
 }
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
   date: {
     description: 'The date of the election formatted as YYYY-MM-DD',
@@ -98,7 +96,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   validateRequest(request)
 
   const jobRunID = validator.validated.id
-  const { raceType, date, resultsType, ...rest } = validator.validated.data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { raceType, date, resultsType, endpoint, ...rest } = validator.validated.data
   const url = `/elections/${date}`
 
   const params = {
@@ -113,7 +112,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   validateResponse(response.data)
 
   const race = response.data.races[0]
