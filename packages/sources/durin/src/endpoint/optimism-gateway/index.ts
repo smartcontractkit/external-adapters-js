@@ -76,7 +76,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       l1Provider,
       l2Provider,
     )
-  
+
   const ret = [
     node,
     {
