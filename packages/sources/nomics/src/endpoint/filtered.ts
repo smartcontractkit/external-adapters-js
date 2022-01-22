@@ -22,9 +22,6 @@ export const inputParameters: InputParameters = {
     required: true,
     description: 'Comma delimited list of exchange names',
   },
-  resultPath: {
-    required: false,
-  },
 }
 
 export interface ResponseSchema {

@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME } from '../config'
 
-export const supportedEndpoints = ['live', 'commodities']
+export const supportedEndpoints = ['live', 'commodities', 'stock']
 
 export const inputParameters: InputParameters = {
   base: {
@@ -11,7 +11,8 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to query',
     type: 'string',
   },
-  to: {
+  quote: {
+    aliases: ['to', 'convert'],
     required: false,
     description: 'The quote currency',
     type: 'string',
@@ -43,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   /**
    * Note that currency can also mean equity.  This is why "to" is not a required variable
    */
-  const to = (validator.validated.data.to || '').toUpperCase()
+  const to = (validator.validated.data.quote || '').toUpperCase()
   const currency = `${symbol}${to}`
 
   const params = {

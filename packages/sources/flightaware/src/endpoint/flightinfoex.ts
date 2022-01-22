@@ -49,10 +49,6 @@ export const inputParameters: InputParameters = {
     description: 'The flight ID',
     type: 'string',
   },
-  resultPath: {
-    required: false,
-    type: 'string',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

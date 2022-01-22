@@ -1,7 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { IPFS } from 'ipfs-core-types'
-import { create } from 'ipfs-http-client'
+import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { CID } from 'multiformats/cid'
 import { AsyncReturnType } from 'type-fest'
 import { deserialize } from '../codec'
@@ -79,7 +78,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, response)
 }
 
-const readFile = async (cid: IPFSPath, codec: string, client: IPFS) => {
+const readFile = async (cid: IPFSPath, codec: string, client: IPFSHTTPClient) => {
   const stream = client.cat(cid)
 
   let data = Buffer.from([])
@@ -90,7 +89,7 @@ const readFile = async (cid: IPFSPath, codec: string, client: IPFS) => {
   return deserialize(data, codec)
 }
 
-const readDag = async (cid: IPFSPath, client: IPFS) => {
+const readDag = async (cid: IPFSPath, client: IPFSHTTPClient) => {
   if (typeof cid === 'string') {
     cid = CID.parse(cid)
   }

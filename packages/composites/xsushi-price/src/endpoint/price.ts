@@ -29,11 +29,24 @@ export function getRatio(context: AdapterContext, id: string): Promise<string> {
 }
 
 export const inputParameters: InputParameters = {
-  from: ['base', 'from', 'coin'],
+  from: {
+    required: true,
+    aliases: ['base', 'coin'],
+    description: 'The symbol of the currency to query',
+    default: 'xSUSHI',
+  },
   // These input params go directly to TA
-  quote: ['quote', 'to', 'market'],
-  source: false,
-  method: false,
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    options: ['BTC', 'ETH', 'USD'],
+  },
+  source: {
+    required: false,
+    description: 'The data provider to query. This is required if not specified in config.',
+  },
+  method: { required: false },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {

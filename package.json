@@ -7,6 +7,7 @@
     "packages/**/*"
   ],
   "scripts": {
+    "versions": "ts-node-transpile-only ./packages/scripts/src/versions",
     "new": "ts-node-transpile-only ./packages/scripts/src/new",
     "bundle": "ncc build",
     "clean": "tsc -b --clean  ./packages/tsconfig.json",
@@ -44,7 +45,7 @@
     "jest": "27.3.1"
   },
   "devDependencies": {
-    "@types/babel__core": "7.1.16",
+    "@types/babel__core": "7.1.18",
     "@types/babel__preset-env": "7.9.2",
     "@types/eslint": "7.29.0",
     "@types/node": "16.11.19",

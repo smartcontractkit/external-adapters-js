@@ -150,9 +150,13 @@ function initExpressMiddleware(app: express.Express) {
     windowMs,
     max, // limit each IP's requests per windowMs
     keyGenerator: () => '*', // use one key for all incoming requests
-    handler: ((_, res) => {
-      httpRateLimit.inc()
-      res.status(429).send('Too many requests, please try again later.')
+    handler: ((req, res, next) => {
+      if (req.url === '/health') {
+        next()
+      } else {
+        httpRateLimit.inc()
+        res.status(429).send('Too many requests, please try again later.')
+      }
     }) as express.RequestHandler,
   })
   app.use(rateLimiter)
@@ -165,5 +169,5 @@ function initExpressMiddleware(app: express.Express) {
   })
   app.use(speedLimiter)
 
-  app.use(express.json())
+  app.use(express.json({ limit: '1mb' }))
 }

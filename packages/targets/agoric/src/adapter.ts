@@ -75,8 +75,8 @@ const tryExecuteLogError =
     try {
       return await execute(request, context, config)
     } catch (e) {
-      const queryId: any = request.data?.request_id
-      const rest: any = { queryId }
+      const queryId = request.data?.request_id
+      const rest = { queryId }
 
       await Requester.request(
         {

@@ -23,11 +23,6 @@ export const inputParameters: InputParameters = {
     default: 'difficulty',
     required: false,
   },
-  resultPath: {
-    description: 'The path for the result',
-    type: 'string',
-    required: false,
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {

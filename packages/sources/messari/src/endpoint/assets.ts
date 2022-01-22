@@ -15,13 +15,6 @@ export const inputParameters: InputParameters = {
     type: 'string',
     description: 'The symbol of the currency to',
   },
-  resultPath: {
-    required: false,
-    description:
-      'The object path to access the value that will be returned as the result. Deeply nested values can be accessed with a `.` delimiter.',
-    type: 'string',
-    default: 'marketcap.marketcap_dominance_percent',
-  },
 }
 
 export interface ResponseSchema {
