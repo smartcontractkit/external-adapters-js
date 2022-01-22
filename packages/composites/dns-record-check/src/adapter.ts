@@ -6,7 +6,10 @@ import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/t
 import { makeConfig } from './config'
 
 const inputParams = {
-  record: true,
+  name: ['name', 'record'],
+  type: true,
+  do: false,
+  cd: false,
 }
 
 const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
@@ -14,12 +17,12 @@ const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const { record } = validator.validated.data
+  const { name } = validator.validated.data
 
   const dnsExecute = DNS.makeExecute(config)
   const dnsResponse = await dnsExecute(input, context)
-  const dnsData: DNSQueryResponse = { ...dnsResponse.data }
-  const foundRecord = dnsData.Answer.find((ans: DNSAnswer) => ans.data.includes(record))
+  const dnsData: DNSQueryResponse = { ...dnsResponse.result }
+  const foundRecord = dnsData.Answer.find((ans: DNSAnswer) => ans.name.includes(name))
 
   return Requester.success(
     jobRunID,
