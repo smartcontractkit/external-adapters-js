@@ -40,7 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = {
     ...config.api,
     url: '',
-    method: 'POST' as any,
+    method: 'POST',
     data: payload,
   }
 
