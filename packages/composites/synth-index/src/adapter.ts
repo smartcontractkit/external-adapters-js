@@ -19,7 +19,7 @@ export interface Synth {
     category: string
     units: number
   }[]
-  inverted?: Record<string, any>
+  inverted?: Record<string, unknown>
 }
 
 export type SynthIndex = SetRequired<Synth, 'index'>

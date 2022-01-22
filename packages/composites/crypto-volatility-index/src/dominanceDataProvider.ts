@@ -8,14 +8,16 @@ export const getDominanceAdapter = (): Execute => {
 }
 
 export const dominanceByCurrency = (
-  response: Record<string, any>,
+  response: {
+    result: number
+    payload: Record<string, { quote: Record<string, { marketCap: number }> }>
+  },
   quote: string,
 ): Record<string, number> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { result, payload } = response
   return Object.fromEntries(
     Object.entries(payload).map(([symbol, data]) => {
-      const marketCap = (data as any).quote[quote].marketCap
+      const marketCap = data.quote[quote].marketCap
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return [symbol, marketCap! / result]
     }),

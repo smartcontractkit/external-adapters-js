@@ -22,6 +22,24 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  s: string
+  i: string
+  pch: number
+  nch: number
+  bid: number
+  ask: number
+  price: number
+  dt: number
+  state: string
+  type: string
+  dhigh: number
+  dlow: number
+  o: number
+  prev: number
+  topic: string
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // http://api.tradingeconomics.com/documentation/Streaming
   // https://github.com/boxhock/tradingeconomics-nodejs-stream/blob/master/src/index.ts
@@ -48,12 +66,15 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return getSubscription(base)
       },
       unsubscribe: () => undefined,
-      subsFromMessage: (message) => getSubscription(message?.s),
-      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      subsFromMessage: (message: Message) => {
+        return getSubscription(message?.s)
+      },
+      isError: (message: { TYPE: string }) =>
+        Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: (message) => {
         return message.topic && message.topic !== 'keepalive'
       },
-      toResponse: (wsResponse: any): AdapterResponse =>
+      toResponse: (wsResponse: Message): AdapterResponse =>
         Requester.success(undefined, { data: { result: wsResponse?.price } }),
     }
   }

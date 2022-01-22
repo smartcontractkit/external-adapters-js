@@ -4,7 +4,7 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['convert']
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) => !data.success
 
 export const inputParameters: InputParameters = {
   base: {

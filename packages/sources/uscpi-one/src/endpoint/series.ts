@@ -30,8 +30,6 @@ export interface DataSchema {
   footnotes: []
 }
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
   serie: {
     required: false,
@@ -67,7 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const url = `/timeseries/data/${serie}`
   const options = { ...config.api, url }
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   const data = response.data.Results.series[0].data
 
   let filter
