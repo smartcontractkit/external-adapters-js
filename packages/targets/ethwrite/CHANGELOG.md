@@ -1,5 +1,15 @@
 # @chainlink/ethwrite-adapter
 
+## 1.0.20
+
+### Patch Changes
+
+- 344432fbb: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.19
 
 ### Patch Changes
