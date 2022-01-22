@@ -82,7 +82,7 @@ export const getStatusByTransaction = async (
       to: wallet.address,
     },
   }
-  const _getErrorMessage = (e: any): string => {
+  const _getErrorMessage = (e: Record<string, unknown>): string => {
     const paths = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],

@@ -19,10 +19,10 @@ export const runProtocolAdapter = async (
   jobRunID: string,
   context: AdapterContext,
   protocol: Protocol,
-  data: any,
+  data: { token: string; chainId: string; network: string } | { addresses: string[] },
   config: Config,
 ): Promise<AdapterResponse> => {
-  if (protocol === LIST_ADAPTER) return listAdapter(jobRunID, data)
+  if (protocol === LIST_ADAPTER) return listAdapter(jobRunID, data as { addresses: string[] })
 
   const execute = makeRequestFactory(config, protocol)
   const next = {
@@ -32,7 +32,7 @@ export const runProtocolAdapter = async (
   return callAdapter(execute, context, next, '_onProtocol')
 }
 
-const listAdapter = (jobRunID: string, data: any) => {
+const listAdapter = (jobRunID: string, data: { addresses: string[] }) => {
   if (!('addresses' in data)) {
     throw Error(`Missing "addresses" in request data`)
   }

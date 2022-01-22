@@ -4,9 +4,8 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['forex', 'price']
 
-const customError = (data: any) => {
-  if (data['Error Message']) return true
-  return false
+const customError = (data: Record<string, unknown>) => {
+  return !!data['Error Message']
 }
 
 export const inputParameters: InputParameters = {
