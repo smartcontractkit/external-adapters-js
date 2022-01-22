@@ -21,6 +21,14 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  symbol: string
+  ts: string
+  bid: number
+  ask: number
+  mid: number
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
   const getSubscription = (pair?: string) => {
     const defaultConfig = config || makeConfig()
@@ -48,13 +56,13 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
         endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) === -1,
       subscribe: (input: AdapterRequest) => getSubscription(getPair(input)),
       unsubscribe: () => null, // Tradermade does not support unsubscribing.
-      subsFromMessage: (message) => {
+      subsFromMessage: (message: Message) => {
         if (!message.symbol) return undefined
         return getSubscription(message.symbol)
       },
       isError: () => false, // No error
-      filter: (message: any) => !!message.mid,
-      toResponse: (message: any) => {
+      filter: (message: Message) => !!message.mid,
+      toResponse: (message: Message) => {
         const result = Requester.validateResultNumber(message, ['mid'])
         return Requester.success('1', { data: { result } })
       },

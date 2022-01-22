@@ -20,12 +20,6 @@ import { AxiosResponse } from 'axios'
 export type SourceRequestOptions = { [source: string]: RequestConfig }
 export type CheckRequestOptions = { [check: string]: RequestConfig }
 
-export type AdapterOptions = {
-  sources: SourceRequestOptions
-  checks: CheckRequestOptions
-  api: any
-}
-
 const customParams = {
   referenceContract: ['referenceContract', 'contract'],
   multiply: true,

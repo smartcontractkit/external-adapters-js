@@ -10,13 +10,6 @@ import { AxiosResponse } from 'axios'
 import { makeConfig } from './config'
 
 export type SourceRequestOptions = { [source: string]: RequestConfig }
-export type CheckRequestOptions = { [check: string]: RequestConfig }
-
-export type AdapterOptions = {
-  sources: SourceRequestOptions
-  checks: CheckRequestOptions
-  api: any
-}
 
 const customParams = {
   sources: true,

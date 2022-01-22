@@ -57,7 +57,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const reqConfig = {
     ...config.api,
     url,
-    method: 'GET' as any,
+    method: 'GET',
     headers,
     data,
   }

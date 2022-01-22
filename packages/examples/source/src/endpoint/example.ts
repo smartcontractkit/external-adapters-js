@@ -15,7 +15,7 @@ export interface ResponseSchema {
   }
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: Record<string, unknown>) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   // See InputParameters type for more config options

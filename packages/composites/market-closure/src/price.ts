@@ -8,8 +8,8 @@ export enum PriceDataProvider {
   FCS_API = 'fcsapi',
 }
 
-const isPriceDataProvider = (envVar?: string): envVar is PriceDataProvider =>
-  Object.values(PriceDataProvider).includes(envVar as any)
+const isPriceDataProvider = (envVar?: string): boolean =>
+  Object.values(PriceDataProvider).includes(envVar as PriceDataProvider)
 
 export const getPriceDataProvider = (): PriceDataProvider | undefined => {
   const priceDataProvider = process.env.PRICE_ADAPTER
