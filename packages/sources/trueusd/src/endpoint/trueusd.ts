@@ -5,17 +5,13 @@ export const NAME = 'trueusd'
 
 export const supportedEndpoints = ['trueusd']
 
+export const endpointResultPaths = {
+  trueusd: 'totalTrust',
+}
+
 const customError = (data: any) => data.Response === 'Error'
 
-export const inputParameters: InputParameters = {
-  resultPath: {
-    description: 'The data point to return from the API response data',
-    options: ['totalTrust', 'totalToken'],
-    default: 'totalTrust',
-    required: false,
-    type: 'string',
-  },
-}
+export const inputParameters: InputParameters = {}
 
 interface ResponseSchema {
   responseData: {

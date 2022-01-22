@@ -24,7 +24,7 @@ RUN yarn
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
 
-FROM node:14-alpine
+FROM node:17-alpine
 ARG location
 
 EXPOSE 8080

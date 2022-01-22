@@ -4,7 +4,7 @@ import { NAME as AdapterName } from '../config'
 
 // Should also be supported for "EOD"
 export const NAME = 'historical'
-export const supportedEndpoints = ['historical']
+export const supportedEndpoints = ['historical', 'eod']
 
 export interface ResponseSchema {
   meta_data: {

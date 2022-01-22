@@ -91,7 +91,7 @@ const getExecuteMedian = async (
     .filter((result) => result.status === 'fulfilled' && 'value' in result)
     .map(
       (result) =>
-        (result as PromiseFulfilledResult<AxiosResponse<Record<string, any>>>).value.data.result,
+        (result as PromiseFulfilledResult<AxiosResponse<Record<string, number>>>).value.data.result,
     )
   if (values.length === 0) throw Error('Unable to fetch value from any of the data providers')
   return median(values)

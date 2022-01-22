@@ -16,11 +16,6 @@ export const inputParameters: InputParameters = {
     required: true,
     type: 'string',
   },
-  resultPath: {
-    description: 'The path for the result',
-    required: false,
-    type: 'string',
-  },
   network: {
     description: 'The blockchain network name',
     default: 'mainnet',

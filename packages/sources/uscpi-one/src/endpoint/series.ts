@@ -51,10 +51,6 @@ export const inputParameters: InputParameters = {
       'The month serie filter  `may`, `july`, etc. It is mandatory to specify the `month` and `year` values together.',
     type: 'string',
   },
-  resultPath: {
-    required: false,
-    type: 'string',
-  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

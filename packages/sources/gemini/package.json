@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/gemini-adapter",
-  "version": "2.1.2",
+  "version": "2.1.4",
   "description": "Chainlink gemini adapter.",
   "keywords": [
     "Chainlink",
