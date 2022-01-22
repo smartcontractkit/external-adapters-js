@@ -1,11 +1,11 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockForexSingleSuccess = () =>
   nock('https://marketdata.tradermade.com', {
     encodedQueryParams: true,
   })
     .get('/api/v1/live')
-    .query({ api_key: 'fake-api-key', currencies: 'ETHUSD' })
+    .query({ api_key: 'fake-api-key', currency: 'ETHUSD' })
     .reply(
       200,
       (_, request) => {
@@ -35,6 +35,68 @@ export const mockResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+
+export const mockForexBatchedSuccess = () =>
+  nock('https://marketdata.tradermade.com', {
+    encodedQueryParams: true,
+  })
+    .get('/api/v1/live')
+    .query({ api_key: 'fake-api-key', currency: 'ETHUSD,ETHJPY,BTCUSD,BTCJPY' })
+    .reply(
+      200,
+      (_, request) => {
+        return {
+          endpoint: 'live',
+          quotes: [
+            {
+              ask: 3388.15,
+              base_currency: 'ETH',
+              bid: 3387.93,
+              mid: 3388.04,
+              quote_currency: 'USD',
+            },
+            {
+              ask: 389663,
+              base_currency: 'ETH',
+              bid: 388814,
+              mid: 389238.5,
+              quote_currency: 'JPY',
+            },
+            {
+              ask: 43833.68,
+              base_currency: 'BTC',
+              bid: 43823.78,
+              mid: 43828.73,
+              quote_currency: 'USD',
+            },
+            {
+              ask: 5036923,
+              base_currency: 'BTC',
+              bid: 5028879,
+              mid: 5032901,
+              quote_currency: 'JPY',
+            },
+          ],
+          requested_time: 'Fri, 05 Nov 2021 17:11:25 GMT',
+          timestamp: 1636132286,
+        }
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+
+export const mockLiveSuccess = () =>
+  nock('https://marketdata.tradermade.com', {
+    encodedQueryParams: true,
+  })
     .get('/api/v1/live')
     .query({ api_key: 'fake-api-key', currency: 'AAPL' })
     .reply(
@@ -64,7 +126,7 @@ export const mockResponseSuccess = (): nock =>
       ],
     )
 
-export const mockResponseFailure = (): nock =>
+export const mockResponseFailure = () =>
   nock('https://marketdata.tradermade.com', {
     encodedQueryParams: true,
   })

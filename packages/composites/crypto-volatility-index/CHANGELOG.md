@@ -1,5 +1,16 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.0.29
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/token-allocation-adapter@1.0.29
+  - @chainlink/ea-reference-data-reader@1.0.19
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.28
 
 ### Patch Changes
