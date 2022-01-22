@@ -1,485 +1,296 @@
 # Chainlink External Adapter for CoinGecko
 
-Version: 1.1.2
+### Environment Variables
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+| Required? |  Name   |             Description             | Options | Defaults to |
+| :-------: | :-----: | :---------------------------------: | :-----: | :---------: |
+|           | API_KEY | An optional API key for the Pro API |         |             |
 
-## Environment Variables
+### Input Parameters
 
-| Required? |  Name   |             Description             |  Type  | Options | Default |
-| :-------: | :-----: | :---------------------------------: | :----: | :-----: | :-----: |
-|           | API_KEY | An optional API key for the Pro API | string |         |         |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |                                     Options                                      | Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [global](#global-endpoint), [coins](#coins-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |                                                                                        Options                                                                                        | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [dominance](#Dominance-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint) |    price    |
 
 ---
 
 ## Crypto Endpoint
 
-Supported names for this endpoint are: `crypto`, `price`, `marketcap`, `volume`.
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 
 ### Input Params
 
-| Required? |    Name    |    Aliases     |                                                                 Description                                                                  |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :------------: | :------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           |   coinid   |                | The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy base will need to be supplied) |        |         |         |            |                |
-|    ✅     |    base    | `from`, `coin` |                                           The symbol or array of symbols of the currency to query                                            |        |         |         |            |                |
-|    ✅     |   quote    | `to`, `market` |                                                   The symbol of the currency to convert to                                                   |        |         |         |            |                |
-|           | resultPath |                |                                                           The path for the result                                                            | string |         |         |            |                |
-|           |  endpoint  |                |                                                         Name of the endpoint to use                                                          | string |         |         |            |                |
-
-There are no examples for this endpoint.
-
----
-
-## Global Endpoint
-
-Supported names for this endpoint are: `globalmarketcap`, `dominance`.
+Query the crypto price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
 
 ### Input Params
 
-| Required? |    Name    |        Aliases        |                                          Description                                          |  Type  | Options | Default  | Depends On | Not Valid With |
-| :-------: | :--------: | :-------------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
-|    ✅     |   market   | `quote`, `to`, `coin` | The ticker of the coin to query. [Supported tickers](https://api.coingecko.com/api/v3/global) | string |         |          |            |                |
-|           | resultPath |                       |                                    The path for the result                                    | string |         | `result` |            |                |
+|         Required?          |            Name            |                                                                  Description                                                                   |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  (✅ if not using `base`)  |          `coinid`          | The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy `base` will need to be supplied) | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |                                            The symbol or array of symbols of the currency to query                                             |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` |                                                    The symbol of the currency to convert to                                                    |                                           ↑                                            |             |
+|                            |        `overrides`         |                                           If base provided is found in overrides, that will be used                                            |  [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)  |             |
 
-### Example
+### Sample Input
 
-Request:
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "ethereum": {
+      "usd": 157.24
+    },
+    "result": 157.24
+  },
+  "result": 157.24,
+  "statusCode": 200
+}
+```
+
+## Global Market Capitalization Endpoint
+
+Query the global market cap from [Coingecko](https://api.coingecko.com/api/v3/global)
+
+### Input Params
+
+| Required? |               Name                |           Description           |                           Options                            | Defaults to |
+| :-------: | :-------------------------------: | :-----------------------------: | :----------------------------------------------------------: | :---------: |
+|    ✅     | `market`, `to`, `quote` or `coin` | The ticker of the coin to query | [Supported tickers](https://api.coingecko.com/api/v3/global) |             |
+
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
     "endpoint": "globalmarketcap",
-    "market": "USD",
-    "resultPath": "total_market_cap"
+    "coin": "ETH"
   }
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
+  "jobRunID": "1",
   "data": {
-    "active_cryptocurrencies": 10029,
-    "upcoming_icos": 0,
-    "ongoing_icos": 50,
-    "ended_icos": 3375,
-    "markets": 667,
-    "total_market_cap": {
-      "btc": 43392107.56791172,
-      "eth": 651337294.4845811,
-      "ltc": 14040165762.183441,
-      "bch": 4401904771.003934,
-      "bnb": 5641701018.399031,
-      "eos": 569331947506.4436,
-      "xrp": 2501539206645.6313,
-      "xlm": 7182453997899.23,
-      "link": 85202625465.10268,
-      "dot": 61625216827.17345,
-      "yfi": 78546480.50774597,
-      "usd": 2744386468602.4453,
-      "aed": 10080680376470.477,
-      "ars": 273029129969970.34,
-      "aud": 3661697645732.8086,
-      "bdt": 235036903031814.94,
-      "bhd": 1034666631300.7429,
-      "bmd": 2744386468602.4453,
-      "brl": 15214329704638.227,
-      "cad": 3399883176628.1387,
-      "chf": 2524429381916.8945,
-      "clp": 2217107496389857,
-      "cny": 17525103111201.486,
-      "czk": 60792644607033.875,
-      "dkk": 17583832981629.572,
-      "eur": 2363740065407.286,
-      "gbp": 1993453721131.101,
-      "hkd": 21334723187591.96,
-      "huf": 864717754846070.6,
-      "idr": 38892210059122960,
-      "ils": 8784643866673.003,
-      "inr": 205905701724526.38,
-      "jpy": 312050463412440.7,
-      "krw": 3205665525968423,
-      "kwd": 827322744824.891,
-      "lkr": 554351987955109.5,
-      "mmk": 5076990753238587,
-      "mxn": 55383036241902.23,
-      "myr": 11393320424403.066,
-      "ngn": 1125774773285409,
-      "nok": 22939558062836.62,
-      "nzd": 3830447225300.7056,
-      "php": 139063540159477.1,
-      "pkr": 478552390462549.2,
-      "pln": 10906965743210.256,
-      "rub": 191529359450530.12,
-      "sar": 10293087655980.916,
-      "sek": 23628346923112.938,
-      "sgd": 3696688573207.49,
-      "thb": 90732679727508.1,
-      "try": 26311530829079.09,
-      "twd": 76494835661035.95,
-      "uah": 72453948881323.11,
-      "vef": 274795417101.16254,
-      "vnd": 62514384640261260,
-      "zar": 40401485397530.9,
-      "xdr": 1939246599603.2627,
-      "xag": 111794476425.18367,
-      "xau": 1519045354.236139,
-      "bits": 43392107567911.72,
-      "sats": 4339210756791172
+    "data": {
+      "active_cryptocurrencies": 5957,
+      "upcoming_icos": 0,
+      "ongoing_icos": 52,
+      "ended_icos": 3373,
+      "markets": 541,
+      "total_market_cap": {
+        "btc": 30989831.79926188,
+        "eth": 1002584380.7395577,
+        "ltc": 7874292256.0918255,
+        "bch": 1532212026.6933346,
+        "bnb": 12865279127.650606,
+        "eos": 146311079039.56436,
+        "xrp": 1516169090335.9976,
+        "xlm": 4552439205624.754,
+        "link": 37340996120.73051,
+        ...
+      },
+      "total_volume": {
+        "btc": 3796204.0720707024,
+        "eth": 122814958.57775663,
+        "ltc": 964588014.5745924,
+        "bch": 187693485.16268748,
+        "bnb": 1575975801.6459033,
+        "eos": 17922869592.737896,
+        "xrp": 185728251510.49503,
+        "xlm": 557666410137.1028,
+        "link": 4574211388.00985,
+        ...
+      },
+      "market_cap_percentage": {
+        "btc": 59.76998558746993,
+        "eth": 11.279054372152645,
+        "usdt": 4.2918601818054105,
+        "xrp": 2.9844952413180397,
+        "bch": 1.2106035362038838,
+        "bnb": 1.1507246890199336,
+        "link": 1.050511825669937,
+        "dot": 0.9735970943267678,
+        "ada": 0.8605029833772749,
+        "ltc": 0.8346408581868999
+      },
+      "market_cap_change_percentage_24h_usd": -0.2995489834770486,
+      "updated_at": 1603237580
     },
-    "total_volume": {
-      "btc": 1974791.4923271015,
-      "eth": 29642610.600796975,
-      "ltc": 638973339.9012328,
-      "bch": 200332377.91475627,
-      "bnb": 256755981.62524852,
-      "eos": 25910515742.663963,
-      "xrp": 113846010712.31677,
-      "xlm": 326876241880.7026,
-      "link": 3877604230.8865137,
-      "dot": 2804587302.2565384,
-      "yfi": 3574680.515717531,
-      "usd": 124898082937.58684,
-      "aed": 458775638246.3428,
-      "ars": 12425660638361.94,
-      "aud": 166645267159.47504,
-      "bdt": 10696619788834,
-      "bhd": 47088076044.465385,
-      "bmd": 124898082937.58684,
-      "brl": 692409992189.3934,
-      "cad": 154729990047.2294,
-      "chf": 114887751386.30504,
-      "clp": 100901414262788.25,
-      "cny": 797574178022.8416,
-      "czk": 2766696620535.069,
-      "dkk": 800246996997.7057,
-      "eur": 107574718834.14354,
-      "gbp": 90722844993.78963,
-      "hkd": 970951451852.6522,
-      "huf": 39353637360472.51,
-      "idr": 1769999427254157.2,
-      "ils": 399792518579.0688,
-      "inr": 9370847621329.434,
-      "jpy": 14201536520418.295,
-      "krw": 145891070121934.28,
-      "kwd": 37651776082.36482,
-      "lkr": 25228772026227.047,
-      "mmk": 231055800422404.62,
-      "mxn": 2520503264760.31,
-      "myr": 518514391315.3924,
-      "ngn": 51234442601827.484,
-      "nok": 1043988103812.0653,
-      "nzd": 174325125381.22437,
-      "php": 6328835159021.062,
-      "pkr": 21779103212241.6,
-      "pln": 496380202853.35803,
-      "rub": 8716574759172.706,
-      "sar": 468442375171.46387,
-      "sek": 1075335149565.8241,
-      "sgd": 168237717716.9293,
-      "thb": 4129279125737.237,
-      "try": 1197447880355.82,
-      "twd": 3481309370234.0195,
-      "uah": 3297407059853.1543,
-      "vef": 12506045044.540556,
-      "vnd": 2845053671164496.5,
-      "zar": 1838687127965.6843,
-      "xdr": 88255858059.60628,
-      "xag": 5087809588.139813,
-      "xau": 69132337.88678366,
-      "bits": 1974791492327.1016,
-      "sats": 197479149232710.16
-    },
-    "market_cap_percentage": {
-      "btc": 43.44997991532859,
-      "eth": 18.127134683884314,
-      "bnb": 2.980048065608618,
-      "usdt": 2.573658498168007,
-      "ada": 2.52629821004899,
-      "sol": 2.3331943922773264,
-      "xrp": 1.876316404018816,
-      "dot": 1.693595215859927,
-      "doge": 1.2632700876945198,
-      "usdc": 1.1923497139339645
-    },
-    "market_cap_change_percentage_24h_usd": 5.41419196485212,
-    "updated_at": 1635189786
+    "result": 30989831.79926188
   },
-  "result": 2744386468602.4453
+  "result": 30989831.79926188,
+  "statusCode": 200
 }
 ```
 
-<details>
-<summary>Additional Examples</summary>
+## Dominance Endpoint
 
-Request:
+Query the market dominance percentage from [Coingecko](https://api.coingecko.com/api/v3/global)
+
+### Input Params
+
+| Required? |               Name                |           Description           |                           Options                            | Defaults to |
+| :-------: | :-------------------------------: | :-----------------------------: | :----------------------------------------------------------: | :---------: |
+|    ✅     | `market`, `to`, `quote` or `coin` | The ticker of the coin to query | [Supported tickers](https://api.coingecko.com/api/v3/global) |             |
+
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
     "endpoint": "dominance",
-    "market": "ETH",
-    "resultPath": "market_cap_percentage"
+    "coin": "ETH"
   }
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
+  "jobRunID": "1",
   "data": {
-    "active_cryptocurrencies": 10029,
-    "upcoming_icos": 0,
-    "ongoing_icos": 50,
-    "ended_icos": 3375,
-    "markets": 667,
-    "total_market_cap": {
-      "btc": 43392107.56791172,
-      "eth": 651337294.4845811,
-      "ltc": 14040165762.183441,
-      "bch": 4401904771.003934,
-      "bnb": 5641701018.399031,
-      "eos": 569331947506.4436,
-      "xrp": 2501539206645.6313,
-      "xlm": 7182453997899.23,
-      "link": 85202625465.10268,
-      "dot": 61625216827.17345,
-      "yfi": 78546480.50774597,
-      "usd": 2744386468602.4453,
-      "aed": 10080680376470.477,
-      "ars": 273029129969970.34,
-      "aud": 3661697645732.8086,
-      "bdt": 235036903031814.94,
-      "bhd": 1034666631300.7429,
-      "bmd": 2744386468602.4453,
-      "brl": 15214329704638.227,
-      "cad": 3399883176628.1387,
-      "chf": 2524429381916.8945,
-      "clp": 2217107496389857,
-      "cny": 17525103111201.486,
-      "czk": 60792644607033.875,
-      "dkk": 17583832981629.572,
-      "eur": 2363740065407.286,
-      "gbp": 1993453721131.101,
-      "hkd": 21334723187591.96,
-      "huf": 864717754846070.6,
-      "idr": 38892210059122960,
-      "ils": 8784643866673.003,
-      "inr": 205905701724526.38,
-      "jpy": 312050463412440.7,
-      "krw": 3205665525968423,
-      "kwd": 827322744824.891,
-      "lkr": 554351987955109.5,
-      "mmk": 5076990753238587,
-      "mxn": 55383036241902.23,
-      "myr": 11393320424403.066,
-      "ngn": 1125774773285409,
-      "nok": 22939558062836.62,
-      "nzd": 3830447225300.7056,
-      "php": 139063540159477.1,
-      "pkr": 478552390462549.2,
-      "pln": 10906965743210.256,
-      "rub": 191529359450530.12,
-      "sar": 10293087655980.916,
-      "sek": 23628346923112.938,
-      "sgd": 3696688573207.49,
-      "thb": 90732679727508.1,
-      "try": 26311530829079.09,
-      "twd": 76494835661035.95,
-      "uah": 72453948881323.11,
-      "vef": 274795417101.16254,
-      "vnd": 62514384640261260,
-      "zar": 40401485397530.9,
-      "xdr": 1939246599603.2627,
-      "xag": 111794476425.18367,
-      "xau": 1519045354.236139,
-      "bits": 43392107567911.72,
-      "sats": 4339210756791172
+    "data": {
+      "active_cryptocurrencies": 5957,
+      "upcoming_icos": 0,
+      "ongoing_icos": 52,
+      "ended_icos": 3373,
+      "markets": 541,
+      "total_market_cap": {
+        "btc": 30989831.79926188,
+        "eth": 1002584380.7395577,
+        "ltc": 7874292256.0918255,
+        "bch": 1532212026.6933346,
+        "bnb": 12865279127.650606,
+        "eos": 146311079039.56436,
+        "xrp": 1516169090335.9976,
+        "xlm": 4552439205624.754,
+        "link": 37340996120.73051,
+        ...
+      },
+      "total_volume": {
+        "btc": 3796204.0720707024,
+        "eth": 122814958.57775663,
+        "ltc": 964588014.5745924,
+        "bch": 187693485.16268748,
+        "bnb": 1575975801.6459033,
+        "eos": 17922869592.737896,
+        "xrp": 185728251510.49503,
+        "xlm": 557666410137.1028,
+        "link": 4574211388.00985,
+        ...
+      },
+      "market_cap_percentage": {
+        "btc": 59.76998558746993,
+        "eth": 11.279054372152645,
+        "usdt": 4.2918601818054105,
+        "xrp": 2.9844952413180397,
+        "bch": 1.2106035362038838,
+        "bnb": 1.1507246890199336,
+        "link": 1.050511825669937,
+        "dot": 0.9735970943267678,
+        "ada": 0.8605029833772749,
+        "ltc": 0.8346408581868999
+      },
+      "market_cap_change_percentage_24h_usd": -0.2995489834770486,
+      "updated_at": 1603237580
     },
-    "total_volume": {
-      "btc": 1974791.4923271015,
-      "eth": 29642610.600796975,
-      "ltc": 638973339.9012328,
-      "bch": 200332377.91475627,
-      "bnb": 256755981.62524852,
-      "eos": 25910515742.663963,
-      "xrp": 113846010712.31677,
-      "xlm": 326876241880.7026,
-      "link": 3877604230.8865137,
-      "dot": 2804587302.2565384,
-      "yfi": 3574680.515717531,
-      "usd": 124898082937.58684,
-      "aed": 458775638246.3428,
-      "ars": 12425660638361.94,
-      "aud": 166645267159.47504,
-      "bdt": 10696619788834,
-      "bhd": 47088076044.465385,
-      "bmd": 124898082937.58684,
-      "brl": 692409992189.3934,
-      "cad": 154729990047.2294,
-      "chf": 114887751386.30504,
-      "clp": 100901414262788.25,
-      "cny": 797574178022.8416,
-      "czk": 2766696620535.069,
-      "dkk": 800246996997.7057,
-      "eur": 107574718834.14354,
-      "gbp": 90722844993.78963,
-      "hkd": 970951451852.6522,
-      "huf": 39353637360472.51,
-      "idr": 1769999427254157.2,
-      "ils": 399792518579.0688,
-      "inr": 9370847621329.434,
-      "jpy": 14201536520418.295,
-      "krw": 145891070121934.28,
-      "kwd": 37651776082.36482,
-      "lkr": 25228772026227.047,
-      "mmk": 231055800422404.62,
-      "mxn": 2520503264760.31,
-      "myr": 518514391315.3924,
-      "ngn": 51234442601827.484,
-      "nok": 1043988103812.0653,
-      "nzd": 174325125381.22437,
-      "php": 6328835159021.062,
-      "pkr": 21779103212241.6,
-      "pln": 496380202853.35803,
-      "rub": 8716574759172.706,
-      "sar": 468442375171.46387,
-      "sek": 1075335149565.8241,
-      "sgd": 168237717716.9293,
-      "thb": 4129279125737.237,
-      "try": 1197447880355.82,
-      "twd": 3481309370234.0195,
-      "uah": 3297407059853.1543,
-      "vef": 12506045044.540556,
-      "vnd": 2845053671164496.5,
-      "zar": 1838687127965.6843,
-      "xdr": 88255858059.60628,
-      "xag": 5087809588.139813,
-      "xau": 69132337.88678366,
-      "bits": 1974791492327.1016,
-      "sats": 197479149232710.16
-    },
-    "market_cap_percentage": {
-      "btc": 43.44997991532859,
-      "eth": 18.127134683884314,
-      "bnb": 2.980048065608618,
-      "usdt": 2.573658498168007,
-      "ada": 2.52629821004899,
-      "sol": 2.3331943922773264,
-      "xrp": 1.876316404018816,
-      "dot": 1.693595215859927,
-      "doge": 1.2632700876945198,
-      "usdc": 1.1923497139339645
-    },
-    "market_cap_change_percentage_24h_usd": 5.41419196485212,
-    "updated_at": 1635189786
+    "result": 30989831.79926188
   },
-  "result": 18.127134683884314
+  "result": 59.76998558746993,
+  "statusCode": 200
 }
 ```
 
-</details>
+## Marketcap Endpoint
 
----
-
-## Coins Endpoint
-
-`coins` is the only supported name for this endpoint.
+Query the Market Cap for the requested assets
 
 ### Input Params
 
-There are no input parameters for this endpoint.
+|         Required?          |            Name            |                  Description                   |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :--------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  (✅ if not using `base`)  |          `coinid`          |     The CoinGecko id of the coin to query      | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |      The symbol of the currency to query       |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` | The symbol of the currency to fecth market cap |                                           ↑                                            |             |
 
-### Example
-
-Request:
-
-```json
-{
-  "data": {
-    "endpoint": "coins",
-    "maxAge": 3600000
-  },
-  "method": "post",
-  "id": "1"
-}
-```
-
-Response:
-
-```json
-[
-  {
-    "id": "ethereum",
-    "symbol": "eth",
-    "name": "Ethereum"
-  }
-]
-```
-
-<details>
-<summary>Additional Examples</summary>
-
-Request:
+### Sample Input
 
 ```json
 {
+  "jobId": "1",
   "data": {
-    "endpoint": "coins",
-    "maxAge": 3600000
-  },
-  "method": "post",
-  "id": "1"
+    "endpoint": "marketcap",
+    "base": "ETH",
+    "quote": "USD"
+  }
 }
 ```
 
-Response:
-
-```json
-[
-  {
-    "id": "ethereum",
-    "symbol": "eth",
-    "name": "Ethereum"
-  }
-]
-```
-
-Request:
+### Sample Output
 
 ```json
 {
+  "jobRunID": "1",
+  "result": 177000170328.04462,
+  "statusCode": 200,
   "data": {
-    "endpoint": "coins",
-    "maxAge": 3600000
-  },
-  "method": "post",
-  "id": "1"
+    "result": 177000170328.04462
+  }
 }
 ```
 
-Response:
+## Volume Endpoint
+
+Query the volume for the requested assets
+
+### Input Params
+
+|         Required?          |            Name            |                  Description                   |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :--------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  (✅ if not using `base`)  |          `coinid`          |     The CoinGecko id of the coin to query      | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |      The symbol of the currency to query       |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` | The symbol of the currency to fecth market cap |                                           ↑                                            |             |
+
+### Sample Input
 
 ```json
-[
-  {
-    "id": "ethereum",
-    "symbol": "eth",
-    "name": "Ethereum"
+{
+  "jobId": "1",
+  "data": {
+    "endpoint": "volume",
+    "base": "ETH",
+    "quote": "USD"
   }
-]
+}
 ```
 
-</details>
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": ,
+  "statusCode": 200,
+  "data": {
+    "result": 1243245791.6128
+  }
+}
+```

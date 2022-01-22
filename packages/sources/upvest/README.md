@@ -1,29 +1,30 @@
 # Chainlink External Adapter for Upvest
 
-Version: 1.2.1
+### Input Parameters
 
-## Environment Variables
-
-There are no environment variables for this adapter.
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
+| Required? |   Name   |     Description     |            Options             | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
 
 ---
 
-## Gasprice Endpoint
-
-`gasprice` is the only supported name for this endpoint.
+## Gas Price Endpoint
 
 ### Input Params
 
-| Required? | Name  | Aliases |    Description    |  Type  |               Options               | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
-|           | speed |         | The desired speed | string | `slow`, `medium`, `fast`, `fastest` | `fast`  |            |                |
+| Required? |  Name   |    Description    |             Options              | Defaults to |
+| :-------: | :-----: | :---------------: | :------------------------------: | :---------: |
+|    🟡     | `speed` | The desired speed | `slow`,`medium`,`fast`,`fastest` |   `fast`    |
 
-There are no examples for this endpoint.
+### Output Format
+
+```json
+{
+  "jobRunID": "1",
+  "result": 33,
+  "statusCode": 200,
+  "data": {
+    "result": 33
+  }
+}
+```

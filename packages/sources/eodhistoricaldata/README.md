@@ -1,63 +1,51 @@
 # Chainlink EOD Historical Data External Adapter
 
-Version: 1.2.1
+### Environment Variables
 
-## Environment Variables
-
-| Required? |     Name     | Description |  Type  | Options |             Default             |
-| :-------: | :----------: | :---------: | :----: | :-----: | :-----------------------------: |
-|    ✅     |   API_KEY    |             | string |         |                                 |
-|           | API_ENDPOINT |             | string |         | `https://eodhistoricaldata.com` |
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|    ✅     | API_KEY |             |         |             |
 
 ---
 
-## Input Parameters
+### Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [stock](#stock-endpoint) | `stock` |
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [stock](#Stock-Endpoint) |   `stock`   |
 
 ---
 
 ## Stock Endpoint
 
-Supported names for this endpoint are: `price`, `stock`.
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.
 
 ### Input Params
 
-| Required? | Name |          Aliases          |                                                       Description                                                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-----------------------: | :----------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `from`, `symbol` | The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/) | string |         |         |            |                |
+| Required? |               Name                |             Description             |                                  Options                                  | Defaults to |
+| :-------: | :-------------------------------: | :---------------------------------: | :-----------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `asset`, `from`, `symbol` | The symbol of the currency to query | [list](https://eodhistoricaldata.com/financial-apis/category/data-feeds/) |             |
 
-### Example
-
-Request:
+### Output
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "base": "FTSE"
+    "code": "CL.COMM",
+    "timestamp": 1585167540,
+    "gmtoffset": 0,
+    "open": 24.37,
+    "high": 25.24,
+    "low": 22.91,
+    "close": 24.3,
+    "volume": 590048,
+    "previousClose": 24.01,
+    "change": 0.29,
+    "change_p": 1.208,
+    "result": 24.3
   },
-  "rateLimitMaxAge": 960
-}
-```
-
-Response:
-
-```json
-{
-  "code": "FTSE.INDX",
-  "timestamp": 1637858100,
-  "gmtoffset": 0,
-  "open": 7286.3198,
-  "high": 7311.9399,
-  "low": 7286.3198,
-  "close": 7310.3701,
-  "volume": 0,
-  "previousClose": 7286.2998,
-  "change": 24.0703,
-  "change_p": 0.3304,
-  "result": 7310.3701
+  "result": 24.3,
+  "statusCode": 200
 }
 ```

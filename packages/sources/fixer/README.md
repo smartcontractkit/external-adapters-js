@@ -1,19 +1,16 @@
 # Chainlink Fixer External Adapter
 
-Version: 1.2.1
-
 This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpoint.
 
-## Environment Variables
+### Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |         Default         |
-| :-------: | :----------: | :---------: | :----: | :-----: | :---------------------: |
-|    ✅     |   API_KEY    |             | string |         |                         |
-|           | API_ENDPOINT |             | string |         | `https://data.fixer.io` |
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|    ✅     | API_KEY |             |         |             |
 
 ---
 
-## Input Parameters
+### Input Parameters
 
 | Required? |   Name   |     Description     |                         Options                         | Defaults to |
 | :-------: | :------: | :-----------------: | :-----------------------------------------------------: | :---------: |
@@ -59,61 +56,96 @@ This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpo
 
 ## Latest Endpoint
 
-Supported names for this endpoint are: `convert`, `price`.
+#### Returns a batched price comparison from one currency to a list of other currencies.
 
 ### Input Params
 
-| Required? |  Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `from`, `coin` |   The symbol of the currency to query    | string |         |         |            |                |
-|    ✅     | quote  | `to`, `market` | The symbol of the currency to convert to | string |         |         |            |                |
-|           | amount |                |      The amount of `base` currency       | number |         |   `1`   |            |                |
+| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
+|    ✅     | `quote`, `to`, or `market` |        The symbol of the currencies to convert to         |                                                                                      |      1      |
+|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
 
-### Example
-
-Request:
+## Input
 
 ```json
 {
   "id": "1",
   "data": {
-    "base": "EUR",
-    "quote": "USD"
+    "base": "USD",
+    "quote": ["EUR", "AUD"]
   }
 }
 ```
 
-Response:
+## Output
 
 ```json
 {
-  "success": true,
-  "query": {
-    "from": "USD",
-    "to": "EUR",
-    "amount": 1
+  "jobRunID": "1",
+  "debug": {
+    "staleness": 0,
+    "performance": 0.965477773,
+    "providerCost": 1
   },
-  "info": {
-    "timestamp": 1636390923,
-    "rate": 0.862805
-  },
-  "date": "2021-11-08",
-  "result": 0.862805
+  "statusCode": 200,
+  "data": {
+    "success": true,
+    "timestamp": 1519296206,
+    "base": "USD",
+    "date": "2021-07-29",
+    "rates": {
+      "AUD": 1.278342,
+      "EUR": 1.278342,
+      "GBP": 0.908019,
+      "PLN": 3.731504
+    },
+    "results": [
+      [
+        {
+          "id": "1",
+          "data": {
+            "base": "USD",
+            "quote": "AUD"
+          },
+          "rateLimitMaxAge": 960
+        },
+        1.278342
+      ],
+      [
+        {
+          "id": "1",
+          "data": {
+            "base": "USD",
+            "quote": "EUR"
+          },
+          "rateLimitMaxAge": 960
+        },
+        1.278342
+      ],
+      [
+        {
+          "id": "1",
+          "data": {
+            "base": "USD",
+            "quote": "GBP"
+          },
+          "rateLimitMaxAge": 960
+        },
+        0.908019
+      ],
+      [
+        {
+          "id": "1",
+          "data": {
+            "base": "USD",
+            "quote": "PLN"
+          },
+          "rateLimitMaxAge": 960
+        },
+        3.731504
+      ]
+    ]
+  }
 }
 ```
-
----
-
-## Latest Endpoint
-
-`latest` is the only supported name for this endpoint.
-
-### Input Params
-
-| Required? |  Name  |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `base`, `from`, `coin`  |             |      |         |         |            |                |
-|    ✅     | quote  | `quote`, `to`, `market` |             |      |         |         |            |                |
-|           | amount |                         |             |      |         |         |            |                |
-
-There are no examples for this endpoint.

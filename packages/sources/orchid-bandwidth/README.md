@@ -1,49 +1,18 @@
 # Chainlink External Adapter for Orchid bandwidth
 
-Version: 1.1.1
+## Input Params
 
-## Environment Variables
+_None_
 
-| Required? |     Name     | Description |  Type  | Options |             Default              |
-| :-------: | :----------: | :---------: | :----: | :-----: | :------------------------------: |
-|           | API_ENDPOINT |             | string |         | `https://chainlink.orchid.com/0` |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |             Options              |   Default   |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | string | [bandwidth](#bandwidth-endpoint) | `bandwidth` |
-
----
-
-## Bandwidth Endpoint
-
-`bandwidth` is the only supported name for this endpoint.
-
-### Input Params
-
-There are no input parameters for this endpoint.
-
-### Example
-
-Request:
+## Output
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
   "data": {
-    "endpoint": "bandwidth"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "payload": 0.06491712005868808,
-  "result": 0.06491712005868808
+    "result": 0.059012542392806594
+  },
+  "result": 0.059012542392806594,
+  "statusCode": 200
 }
 ```

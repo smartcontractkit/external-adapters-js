@@ -1,67 +1,57 @@
 # Chainlink External Adapter for AlphaVantage
 
-Version: 1.1.1
-
 Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage.co/documentation/) from a Chainlink node.
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
+### Environment Variables
 
-## Environment Variables
-
-| Required? |  Name   |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-----: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://www.alphavantage.co/support/#api-key) | string |         |         |
+| Required? |  Name   |                                        Description                                        | Options | Defaults to |
+| :-------: | :-----: | :---------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://www.alphavantage.co/support/#api-key) |         |             |
 
 ---
 
-## Input Parameters
+### Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [forex](#forex-endpoint) | `forex` |
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [forex](#Forex-Endpoint) |    forex    |
 
 ---
 
 ## Forex Endpoint
 
-Supported names for this endpoint are: `forex`, `price`.
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.
+
+Returns the exchange rate from a currency's current price to a given currency
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                                                                                                                   Description                                                                                                                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `from`, `coin` |   The symbol of the currency to query. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/)    | string |         |         |            |                |
-|    ✅     | quote | `to`, `market` | The symbol of the currency to convert to. The full list of options can be found here [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) | string |         |         |            |                |
+| Required? |            Name            |                        Description                        |                                                                          Options                                                                           | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
+|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          | [Physical Currency list](https://www.alphavantage.co/physical_currency_list/) or [Cryptocurrency list](https://www.alphavantage.co/digital_currency_list/) |             |
+|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used |                                    [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)                                    |             |
 
-### Example
-
-Request:
+### Output
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
   "data": {
-    "base": "GBP",
-    "quote": "USD"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "Realtime Currency Exchange Rate": {
-    "1. From_Currency Code": "GBP",
-    "2. From_Currency Name": "British Pound Sterling",
-    "3. To_Currency Code": "USD",
-    "4. To_Currency Name": "United States Dollar",
-    "5. Exchange Rate": "1.36606000",
-    "6. Last Refreshed": "2021-11-01 19:33:43",
-    "7. Time Zone": "UTC",
-    "8. Bid Price": "1.36602600",
-    "9. Ask Price": "1.36612700"
+    "Realtime Currency Exchange Rate": {
+      "1. From_Currency Code": "ETH",
+      "2. From_Currency Name": "Ethereum",
+      "3. To_Currency Code": "USD",
+      "4. To_Currency Name": "United States Dollar",
+      "5. Exchange Rate": "170.88000000",
+      "6. Last Refreshed": "2020-04-16 19:15:01",
+      "7. Time Zone": "UTC",
+      "8. Bid Price": "170.84000000",
+      "9. Ask Price": "170.88000000"
+    },
+    "result": 170.88
   },
-  "result": 1.36606
+  "result": 170.88,
+  "statusCode": 200
 }
 ```

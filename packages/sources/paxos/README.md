@@ -1,51 +1,25 @@
 # Chainlink External Adapter for paxos
 
-Version: 1.2.1
-
 Query Paxos asset attestations like: https://api.paxos.com/v1/asset-attestations/PAX
 
-## Environment Variables
+## Input Params
 
-There are no environment variables for this adapter.
+- `asset`: The symbol of the currency to query
 
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |                Options                 |      Default       |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------: | :----------------: |
-|           | endpoint | The endpoint to use | string | [attestations](#attestations-endpoint) | `assetAttestation` |
-
----
-
-## Attestations Endpoint
-
-`assetAttestation` is the only supported name for this endpoint.
-
-### Input Params
-
-| Required? | Name  | Aliases |             Description             | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | asset |         | The symbol of the currency to query |      |         |         |            |                |
-
-### Example
-
-Request:
+## Output
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
   "data": {
-    "endpoint": "assetAttestation",
-    "asset": "PAX"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": 922265979.98
+    "asset": "PAX",
+    "auditorName": "withum",
+    "lastAttestedAt": "2020-11-30T17:00:00.00-05:00",
+    "amount": 404707843.4,
+    "verified": true,
+    "result": 404707843.4
+  },
+  "result": 404707843.4,
+  "statusCode": 200
 }
 ```

@@ -1,8 +1,9 @@
 # Chainlink External Adapter for Ada-balance
 
-Version: 2.1.1
+This adapter can be used to query Cardano address balances. The balance is queried from a Cardano node that has Ogmios running on top of it. Ogmios is a
+lightweight bridge interface that allows clients to query the Cardano node using JSON-RPC. More details can be found on their website https://ogmios.dev/.
 
-This adapter can be used to query Cardano address balances. The balance is queried from a Cardano node that has Ogmios running on top of it. Ogmios is a lightweight bridge interface that allows clients to query the Cardano node using JSON-RPC. More details can be found on their website https://ogmios.dev/.
+### Environment Variables
 
 The first two environment variable will take precedence over the others.
 
@@ -16,14 +17,46 @@ The first two environment variable will take precedence over the others.
 
 ---
 
-## Balance Endpoint
+## Ada-balance Endpoint
 
-`balance` is the only supported name for this endpoint.
+This endpoint fetches an address's balance and outputs it in Lovelace.
 
 ### Input Params
 
-| Required? |   Name    | Aliases  |                 Description                 | Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :------: | :-----------------------------------------: | :---: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | addresses | `result` | An array of addresses to query balances for | array |         |         |            |                |
+| Required? |    Name     |                                           Description                                           | Options | Defaults to |
+| :-------: | :---------: | :---------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `addresses` | An array of addresses to query the balances for (this may also be under the 'result' parameter) |         |             |
 
-There are no examples for this endpoint.
+`addresses` or `result` is an array of objects that contain the following information:
+
+| Required? |   Name    |   Description    | Options | Defaults to |
+| :-------: | :-------: | :--------------: | :-----: | :---------: |
+|    ✅     | `address` | Address to query |         |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m"
+      }
+    ]
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 5000000,
+  "statusCode": 200,
+  "data": {
+    "result": 5000000
+  }
+}
+```

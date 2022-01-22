@@ -1,51 +1,29 @@
 # Chainlink External Adapter for cryptoID
 
-Version: 1.2.1
+### Configuration
 
-## Environment Variables
+The adapter takes the following environment variables:
 
-| Required? |  Name   | Description |  Type  | Options | Default |
-| :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY |             | string |         |         |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |           Options            |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [bc_info](#bc_info-endpoint) | `difficulty` |
+| Required? |  Name   | Description | Options | Defaults to |
+| :-------: | :-----: | :---------: | :-----: | :---------: |
+|           | API_KEY |             |         |             |
 
 ---
 
-## Bc_info Endpoint
+## Input Params
 
-Supported names for this endpoint are: `height`, `difficulty`.
+- `blockchain` or `coin`: The blockchain name (required).
+- `endpoint`: The requested data point. One of (`difficulty`|`height`). Defaults: `difficulty`.
 
-### Input Params
-
-| Required? |    Name    | Aliases |         Description         |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :-------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | blockchain | `coin`  |    The blockchain name.     | string |         |         |            |                |
-|           |  endpoint  |         | Name of the endpoint to use | string |         |         |            |                |
-
-### Example
-
-Request:
+## Sample Output
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
   "data": {
-    "coin": "BTC"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": 22674148233453.1
+    "result": 19298087186262.6
+  },
+  "result": 19298087186262.6,
+  "statusCode": 200
 }
 ```

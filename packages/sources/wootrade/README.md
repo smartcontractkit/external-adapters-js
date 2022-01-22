@@ -1,34 +1,55 @@
 # Chainlink External Adapter for Wootrade
 
-Version: 1.1.1
-
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
-## Environment Variables
+### Input Parameters
 
-| Required? |  Name   |            Description            | Type | Options | Default |
-| :-------: | :-----: | :-------------------------------: | :--: | :-----: | :-----: |
-|           | API_KEY | An key to use the wootrade WS API |      |         |         |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
 
 ---
 
 ## Crypto Endpoint
 
-Supported names for this endpoint are: `crypto`, `ticker`.
-
 ### Input Params
 
-| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `from`, `coin` |   The symbol of the currency to query    | string |         |         |            |                |
-|    ✅     | quote | `to`, `market` | The symbol of the currency to convert to | string |         |         |            |                |
+| Required? |            Name            |               Description                | Options | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
 
-There are no examples for this endpoint.
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USDT"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "result": 2230.02,
+  "data": {
+    "result": 2230.02
+  },
+  "statusCode": 200
+}
+```
+
+### Web Sockets
+
+### Environment Variables
+
+| Required? |  Name   |            Description            | Options | Defaults to |
+| :-------: | :-----: | :-------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An key to use the wootrade WS API |         |             |
+
+---

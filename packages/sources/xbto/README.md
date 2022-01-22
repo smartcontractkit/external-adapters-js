@@ -1,76 +1,43 @@
 # Chainlink External Adapter for XBTO
 
-Version: 1.2.1
-
-## Environment Variables
-
-| Required? |  Name   | Description |  Type  | Options | Default |
-| :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY |             | string |         |         |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
-
----
-
-## Price Endpoint
-
-`price` is the only supported name for this endpoint.
-
 ### Input Params
 
-| Required? |  Name  | Aliases | Description |  Type  |    Options     | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :---------: | :----: | :------------: | :-----: | :--------: | :------------: |
-|           | market |         |             | string | `brent`, `wti` | `brent` |            |                |
+| Required? |   Name   | Description |    Options     | Defaults to |
+| :-------: | :------: | :---------: | :------------: | :---------: |
+|           | `market` |             | `brent`, `wti` |   `brent`   |
 
-### Example
-
-Request:
+### Sample Input
 
 ```json
 {
   "id": "1",
+  "data": {}
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
   "data": {
-    "endpoint": "price",
-    "market": "brent"
-  }
+    "index": 40.12795,
+    "duration": 35.71406,
+    "1st_sym": "BRNF1",
+    "1st_dte": 27.13591,
+    "1st_mid": 40.005,
+    "1st_wt": 0.7140615,
+    "2nd_sym": "BRNG1",
+    "2nd_dte": 57.13591,
+    "2nd_mid": 40.435,
+    "2nd_wt": 0.2859385,
+    "3rd_sym": "BRNH1",
+    "3rd_dte": 87.13591,
+    "3rd_mid": 40.865,
+    "3rd_wt": 0,
+    "result": 40.12795
+  },
+  "result": 40.12795,
+  "statusCode": 200
 }
 ```
-
-Response:
-
-```json
-{
-  "result": 83.86309
-}
-```
-
-<details>
-<summary>Additional Examples</summary>
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "price",
-    "market": "wti"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": 82.5261
-}
-```
-
-</details>

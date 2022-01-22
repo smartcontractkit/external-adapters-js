@@ -1,61 +1,40 @@
 # Chainlink External Adapter for Coinbase
 
-Version: 1.2.1
-
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
+
+---
+
+## Price Endpoint
 
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 
-## Environment Variables
-
-There are no environment variables for this adapter.
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
-
----
-
-## Crypto Endpoint
-
-Supported names for this endpoint are: `crypto`, `price`.
-
 ### Input Params
 
-| Required? |  Name   |            Aliases            |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----: | :---------------------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | symbol  | `base`, `from`, `coin`, `sym` |   The symbol of the currency to query    | string |         |         |            |                |
-|    ✅     | convert |    `quote`, `to`, `market`    | The symbol of the currency to convert to | string |         |         |            |                |
+| Required? |            Name            |               Description                |       Options       | Defaults to |
+| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
+|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
 
-### Example
-
-Request:
+### Output
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
   "data": {
-    "endpoint": "crypto",
-    "symbol": "BTC",
-    "convert": "USD"
+    "data": {
+      "base": "BTC",
+      "currency": "USD",
+      "amount": "46823.85"
+    },
+    "result": 46823.85
   },
-  "rateLimitMaxAge": 370
-}
-```
-
-Response:
-
-```json
-{
-  "data": {
-    "base": "BTC",
-    "currency": "USD",
-    "amount": "57854.29"
-  },
-  "result": 57854.29
+  "result": 46823.85,
+  "statusCode": 200
 }
 ```

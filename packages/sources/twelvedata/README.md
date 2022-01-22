@@ -1,96 +1,93 @@
 # Chainlink External Adapter for Twelvedata
 
-Version: 1.1.1
+### Environment Variables
 
-`closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
-
-`price` endpoint provides the real-time price as detailed in [Twelvedata documentation](https://twelvedata.com/docs#real-time-price).
-
-## Environment Variables
-
-| Required? |     Name     |           Description            |  Type  | Options |            Default            |
-| :-------: | :----------: | :------------------------------: | :----: | :-----: | :---------------------------: |
-|    ✅     |   API_KEY    |      API key for Twelvedata      | string |         |                               |
-|           | API_ENDPOINT | The endpoint for your Twelvedata | string |         | `https://api.twelvedata.com/` |
+| Required? |     Name     |           Description            | Options |          Defaults to          |
+| :-------: | :----------: | :------------------------------: | :-----: | :---------------------------: |
+|    ✅     |   API_KEY    |      API key for Twelvedata      |         |                               |
+|           | API_ENDPOINT | The endpoint for your Twelvedata |         | `https://api.twelvedata.com/` |
 
 ---
 
-## Input Parameters
+### Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                        Options                         |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [closing](#closing-endpoint), [price](#price-endpoint) | `closing` |
+| Required? |   Name   |     Description     |                        Options                         | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [closing](#Closing-Endpoint), [price](#Price-Endpoint) |  `closing`  |
 
 ---
 
 ## Closing Endpoint
 
-Supported names for this endpoint are: `closing`, `eod`.
+This `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
 
 ### Input Params
 
-| Required? | Name |              Aliases               |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `from`, `coin`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+| Required? |               Name               |             Description             | Options | Defaults to |
+| :-------: | :------------------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `market` | The symbol of the currency to query |         |             |
 
-### Example
-
-Request:
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
-    "endpoint": "closing",
     "base": "VXX"
   }
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
-  "symbol": "VXX",
-  "exchange": "CBOE",
-  "currency": "USD",
-  "datetime": "2021-11-05",
-  "close": "20.86750",
-  "result": 20.8675
+  "jobRunID": "1",
+  "result": 9.975,
+  "statusCode": 200,
+  "data": {
+    "symbol": "VXX",
+    "exchange": "CBOE",
+    "currency": "USD",
+    "datetime": "2021-04-14",
+    "close": "9.97500",
+    "result": 9.975
+  }
 }
 ```
-
----
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `price`, `crypto`, `stock`, `forex`.
+This `price` endpoint provides the real-time price as detailed in [Twelvedata documentation](https://twelvedata.com/docs#real-time-price).
 
 ### Input Params
 
-| Required? | Name |              Aliases               |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `from`, `coin`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+| Required? |               Name               |             Description             | Options | Defaults to |
+| :-------: | :------------------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `market` | The symbol of the currency to query |         |             |
 
-### Example
-
-Request:
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
-    "base": "VXX"
+    "base": "VXX",
+    "endpoint": "price"
   }
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
-  "price": "20.86750",
-  "result": 20.8675
+  "jobRunID": "1",
+  "result": 10.0756,
+  "statusCode": 200,
+  "data": {
+    "price": "10.07560",
+    "result": 10.0756
+  }
 }
 ```

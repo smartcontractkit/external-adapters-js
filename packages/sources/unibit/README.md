@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Unibit
 
-Version: 1.2.1
+### Environment Variables
 
 | Required? |     Name     |         Description          | Options |            Defaults to            |
 | :-------: | :----------: | :--------------------------: | :-----: | :-------------------------------: |
@@ -9,11 +9,11 @@ Version: 1.2.1
 
 ---
 
-## Input Parameters
+### Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |              Options               |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [historical](#historical-endpoint) | `historical` |
+| Required? |   Name   |     Description     |              Options               | Defaults to  |
+| :-------: | :------: | :-----------------: | :--------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | [historical](#Historical-Endpoint) | `historical` |
 
 ---
 
@@ -27,49 +27,50 @@ NOTE: each request sent to this endpoint has a cost of 10 credits
 
 ### Input Params
 
-| Required? | Name |              Aliases               |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `from`, `coin`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+| Required? |               Name               |             Description             | Options | Defaults to |
+| :-------: | :------------------------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `market` | The symbol of the currency to query |         |             |
 
-### Example
-
-Request:
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
     "base": "VXX"
-  },
-  "rateLimitMaxAge": 57603
+  }
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
-  "meta_data": {
-    "api_name": "historical_stock_price_v2",
-    "num_total_data_points": 1,
-    "credit_cost": 10,
-    "start_date": "yesterday",
-    "end_date": "yesterday"
-  },
-  "result_data": {
-    "VXX": [
-      {
-        "date": "2021-11-26",
-        "volume": 82949400,
-        "high": 26.44,
-        "low": 22.625,
-        "adj_close": 26.16,
-        "close": 26.16,
-        "open": 22.97
-      }
-    ]
-  },
-  "cost": 10,
-  "result": 26.16
+  "jobRunID": "1",
+  "result": 10.09,
+  "statusCode": 200,
+  "data": {
+    "meta_data": {
+      "api_name": "historical_stock_price_v2",
+      "num_total_data_points": 1,
+      "credit_cost": 10,
+      "start_date": "yesterday",
+      "end_date": "yesterday"
+    },
+    "result_data": {
+      "VXX": [
+        {
+          "date": "2021-04-13",
+          "volume": 48604615,
+          "high": 10.21,
+          "low": 10,
+          "adj_close": 10.09,
+          "close": 10.09,
+          "open": 10.17
+        }
+      ]
+    },
+    "result": 10.09
+  }
 }
 ```

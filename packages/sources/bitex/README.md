@@ -1,73 +1,69 @@
 # Chainlink External Adapter for Bitex
 
-Version: 1.3.1
+### Environment Variables
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+The adapter takes the following environment variables:
 
-## Environment Variables
+| Required? |   Name    |     Description      | Options | Defaults to |
+| :-------: | :-------: | :------------------: | :-----: | :---------: |
+|           | `API_KEY` | Bitex API key to use |         |             |
 
-| Required? |  Name   |     Description      |  Type  | Options | Default |
-| :-------: | :-----: | :------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | Bitex API key to use | string |         |         |
+### Input Parameters
 
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
 
 ---
 
 ## Crypto Endpoint
 
-Supported names for this endpoint are: `crypto`, `tickers`.
+##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 
 ### Input Params
 
-| Required? |    Name    |    Aliases     |                               Description                               |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :------------: | :---------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    base    | `from`, `coin` |                   The symbol of the currency to query                   | string |         |         |            |                |
-|    ✅     |   quote    | `to`, `market` |                The symbol of the currency to convert to                 | string |         |         |            |                |
-|           | resultPath |                | The object path to access the value that will be returned as the result | string |         | `vwap`  |            |                |
+| Required? |            Name            |                               Description                               | Options | Defaults to |
+| :-------: | :------------------------: | :---------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |                   The symbol of the currency to query                   |         |             |
+|    ✅     | `quote`, `to`, or `market` |                The symbol of the currency to convert to                 |         |             |
+|           |          `field`           | The object path to access the value that will be returned as the result |         |   `vwap`    |
 
-### Example
-
-Request:
+### Sample Input
 
 ```json
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "ARS",
-    "resultPath": "vwap"
-  },
-  "rateLimitMaxAge": 222
+    "quote": "ARS"
+  }
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
+  "jobRunID": "1",
   "data": {
-    "id": "eth_ars",
-    "type": "tickers",
-    "attributes": {
-      "last": 935234,
-      "open": 934713,
-      "high": 935234,
-      "low": 907110,
-      "vwap": 934877.7183770883,
-      "volume": 1.257,
-      "bid": 879407,
-      "ask": 930127,
-      "price_before_last": 920016
-    }
+    "data": {
+      "id": "btc_ars",
+      "type": "tickers",
+      "attributes": {
+        "last": 1625000,
+        "open": 1592499,
+        "high": 1637900,
+        "low": 1572000,
+        "vwap": 1613873.6183712287,
+        "volume": 2.51892688,
+        "bid": 1585000,
+        "ask": 1631800,
+        "price_before_last": 1605000
+      }
+    },
+    "result": 1625000
   },
-  "result": 934877.7183770883
+  "result": 1625000,
+  "statusCode": 200
 }
 ```

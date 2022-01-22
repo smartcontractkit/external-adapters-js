@@ -1,53 +1,38 @@
 # Chainlink External Adapter for EtherScan
 
-Version: 1.2.1
+### Environment Variables
 
-## Environment Variables
-
-| Required? |  Name   |                            Description                            |  Type  | Options |          Default           |
-| :-------: | :-----: | :---------------------------------------------------------------: | :----: | :-----: | :------------------------: |
-|    ✅     | API_KEY | An API key that can be obtained [here](https://etherscan.io/apis) | string |         | `https://api.etherscan.io` |
+| Required? |  Name   |                            Description                            | Options | Defaults to |
+| :-------: | :-----: | :---------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key that can be obtained [here](https://etherscan.io/apis) |         |             |
 
 ---
 
-## Input Parameters
+### Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
+| Required? |   Name   |     Description     |            Options             | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
 
 ---
 
-## Gasprice Endpoint
-
-`gasprice` is the only supported name for this endpoint.
+## Gas Price Endpoint
 
 ### Input Params
 
-| Required? | Name  | Aliases |    Description    |  Type  |         Options          | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------------: | :----: | :----------------------: | :-----: | :--------: | :------------: |
-|           | speed |         | The desired speed | string | `safe`, `medium`, `fast` | `fast`  |            |                |
+| Required? |  Name   |    Description    |        Options         | Defaults to |
+| :-------: | :-----: | :---------------: | :--------------------: | :---------: |
+|    🟡     | `speed` | The desired speed | `safe`,`medium`,`fast` |   `fast`    |
 
-### Example
-
-Request:
+### Output Format
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
+  "result": 33,
+  "statusCode": 200,
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "result": 33
   }
-}
-```
-
-Response:
-
-```json
-{
-  "status": "1",
-  "message": "OK",
-  "result": 128
 }
 ```

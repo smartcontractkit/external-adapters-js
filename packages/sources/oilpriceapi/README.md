@@ -1,81 +1,41 @@
 # Chainlink OilpriceAPI External Adapter
 
-Version: 2.0.1
-
-## Environment Variables
-
-| Required? |  Name   | Description |  Type  | Options | Default |
-| :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY |             | string |         |         |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
-
----
-
-## Price Endpoint
-
-`price` is the only supported name for this endpoint.
-
 ### Input Params
 
-| Required? | Name |              Aliases              |              Description              | Type |       Options        |     Default     | Depends On | Not Valid With |
-| :-------: | :--: | :-------------------------------: | :-----------------------------------: | :--: | :------------------: | :-------------: | :--------: | :------------: |
-|    ✅     | base | `type`, `asset`, `from`, `market` | The type of oil to get the price from |      | `bz`, `brent`, `wti` |                 |            |                |
-|           | url  |                                   |          The endpoint to use          |      |                      | `prices/latest` |            |                |
+| Required? |                Name                |              Description              |       Options        |   Defaults to   |
+| :-------: | :--------------------------------: | :-----------------------------------: | :------------------: | :-------------: |
+|    ✅     | `type`, `base`, `asset`, of `from` | The type of oil to get the price from | `bz`, `brent`, `wti` |                 |
+|           |             `endpoint`             |          The endpoint to use          |                      | `prices/latest` |
 
-### Example
-
-Request:
+### Sample Input
 
 ```json
 {
-  "id": "1",
+  "id": 1,
   "data": {
-    "endpoint": "price",
-    "base": "bz",
-    "url": "prices/latest"
-  },
-  "rateLimitMaxAge": 292184
+    "base": "BZ"
+  }
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
-  "result": 70.71
-}
-```
-
-<details>
-<summary>Additional Examples</summary>
-
-Request:
-
-```json
-{
-  "id": "1",
+  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "endpoint": "price",
-    "base": "wti",
-    "url": "prices/latest"
+    "status": "success",
+    "data": {
+      "price": 26.71,
+      "formatted": "$26.71",
+      "currency": "USD",
+      "code": "BRENT_CRUDE_USD",
+      "created_at": "2020-03-25T14:10:00.424Z",
+      "type": "spot_price"
+    },
+    "result": 26.71
   },
-  "rateLimitMaxAge": 584368
+  "result": 26.71,
+  "statusCode": 200
 }
 ```
-
-Response:
-
-```json
-{
-  "result": 71.47
-}
-```
-
-</details>

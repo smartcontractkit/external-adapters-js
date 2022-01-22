@@ -1,37 +1,49 @@
 # Chainlink External Adapter for Spectral-MACRO-Score
 
-Version: 1.1.1
-
 Used to retrieve a MACRO Score for a given token ID.
 
-## Environment Variables
+### Environment Variables
 
-| Required? |       Name       |                            Description                             |  Type  | Options |                             Default                              |
-| :-------: | :--------------: | :----------------------------------------------------------------: | :----: | :-----: | :--------------------------------------------------------------: |
-|    ✅     |     API_KEY      | An API key that can be obtained from the data provider's dashboard | string |         |                                                                  |
-|    ✅     | ETHEREUM_RPC_URL |                          Ethereum RPC URL                          | string |         |                                                                  |
-|    ✅     |   NFC_ADDRESS    |                    Address of the NFC contract                     | string |         |                                                                  |
-|           |   API_ENDPOINT   |                      MACRO Score API Endpoint                      | string |         | `https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default` |
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |                 Options                  |     Default      |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------: | :--------------: |
-|           | endpoint | The endpoint to use | string | [macroscoreapi](#macroscoreapi-endpoint) | `spectral-proxy` |
+| Required? |       Name       |                            Description                             | Options |                          Defaults to                           |
+| :-------: | :--------------: | :----------------------------------------------------------------: | :-----: | :------------------------------------------------------------: |
+|    ✅     |     API_KEY      | An API key that can be obtained from the data provider's dashboard |         |                                                                |
+|    ✅     | ETHEREUM_RPC_URL |                          Ethereum RPC URL                          |         |                                                                |
+|    ✅     |   NFC_ADDRESS    |                    Address of the NFC contract                     |         |                                                                |
+|           |   API_ENDPOINT   |                      MACRO Score API Endpoint                      |         | https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default |
 
 ---
 
-## MacroScoreAPI Endpoint
+## Spectral-MACRO-Score Endpoint
 
-`spectral-proxy` is the only supported name for this endpoint.
+Default endpoint used to retrieve a MACRO Score for a given token ID.
 
 ### Input Params
 
-| Required? |    Name    | Aliases |                             Description                              |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | tokenIdInt |         |             The tokenID for the user as an integer value             | string |         |         |            |                |
-|    ✅     | tickSetId  |         | The set of ticks used to compute the MACRO Score as in integer value | string |         |         |            |                |
+| Required? |     Name     |                             Description                              | Options | Defaults to |
+| :-------: | :----------: | :------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `tokenIdInt` |             The tokenID for the user as an integer value             |         |             |
+|    ✅     |  `tickSet`   | The set of ticks used to compute the MACRO Score as in integer value |         |             |
 
-There are no examples for this endpoint.
+### Sample Input
+
+```json
+{
+  "id": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "data": {
+    "tokenIdInt": "106006608980615540182575301024074047146897433631717113916135614816662076801843",
+    "tickeSet": "1"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "data": {
+    "result": 1 // this will be the resulting MACRO Score tick
+  },
+  "statusCode": 200
+}
+```

@@ -1,115 +1,30 @@
-# Chainlink External Adapter for EthGasWatch
+# Chainlink External Adapter for EtgGasWatch
 
-Version: 1.2.1
+### Input Parameters
 
-## Environment Variables
-
-| Required? |     Name     | Description |  Type  | Options |        Default         |
-| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------: |
-|           | API_ENDPOINT |             | string |         | `https://ethgas.watch` |
+| Required? |   Name   |     Description     |            Options             | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
 
 ---
 
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
-
----
-
-## Gasprice Endpoint
-
-`gasprice` is the only supported name for this endpoint.
+## Gas Price Endpoint
 
 ### Input Params
 
-| Required? | Name  | Aliases |    Description    |  Type  |               Options               | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
-|           | speed |         | The desired speed | string | `slow`, `normal`, `fast`, `instant` | `fast`  |            |                |
+| Required? |  Name   |    Description    |             Options              | Defaults to |
+| :-------: | :-----: | :---------------: | :------------------------------: | :---------: |
+|    🟡     | `speed` | The desired speed | `slow`,`normal`,`fast`,`instant` |   `fast`    |
 
-### Example
-
-Request:
+### Output Format
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
+  "result": 33,
+  "statusCode": 200,
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "result": 33
   }
-}
-```
-
-Response:
-
-```json
-{
-  "slow": {
-    "gwei": 141,
-    "usd": 13.42
-  },
-  "normal": {
-    "gwei": 148,
-    "usd": 14.09
-  },
-  "fast": {
-    "gwei": 170,
-    "usd": 16.18
-  },
-  "instant": {
-    "gwei": 192,
-    "usd": 18.28
-  },
-  "ethPrice": 4533.01,
-  "lastUpdated": 1637862962320,
-  "sources": [
-    {
-      "name": "Etherscan",
-      "source": "https://etherscan.io/gastracker",
-      "fast": 145,
-      "standard": 144,
-      "slow": 144,
-      "lastBlock": 13684916
-    },
-    {
-      "name": "Gas station",
-      "source": "https://ethgasstation.info/",
-      "instant": 183,
-      "fast": 172,
-      "standard": 148,
-      "slow": 132,
-      "lastBlock": 13684915
-    },
-    {
-      "name": "MyCrypto",
-      "source": "https://gas.mycryptoapi.com/",
-      "instant": 208,
-      "fast": 168,
-      "standard": 148,
-      "slow": 138,
-      "lastBlock": 13684915
-    },
-    {
-      "name": "POA Network",
-      "source": "https://gasprice.poa.network/",
-      "instant": null,
-      "fast": 152,
-      "standard": null,
-      "slow": 127,
-      "lastBlock": null
-    },
-    {
-      "name": "Upvest",
-      "source": "https://doc.upvest.co/reference#ethereum-fees",
-      "instant": 192,
-      "fast": 192,
-      "standard": 166,
-      "slow": 162,
-      "lastUpdate": 1637862962296
-    }
-  ],
-  "result": 170
 }
 ```

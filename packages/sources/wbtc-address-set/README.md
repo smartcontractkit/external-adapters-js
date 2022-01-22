@@ -1,104 +1,62 @@
 # Chainlink External Adapters to query wBTC custodial address set
 
-Version: 1.2.1
+## Configuration
 
-## Environment Variables
+The adapter takes the following environment variables:
 
-| Required? |        Name        |                                  Description                                  |  Type  | Options | Default |
-| :-------: | :----------------: | :---------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|           |  MEMBERS_ENDPOINT  | wBTC endpoint of members (and their addresses). Required for members endpoint | string |         |         |
-|           | ADDRESSES_ENDPOINT |          wBTC endpoint of addresses. Required for addresses endpoint          | string |         |         |
+| Required? |         Name         |                  Description                   | Options | Defaults to |
+| :-------: | :------------------: | :--------------------------------------------: | :-----: | :---------: |
+|           |  `MEMBERS_ENDPOINT`  | wBTC endpoint of members (and their addresses) |         |             |
+|           | `ADDRESSES_ENDPOINT` |           wBTC endpoint of addresses           |         |             |
 
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |                            Options                             |   Default   |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | string | [addresses](#addresses-endpoint), [members](#members-endpoint) | `addresses` |
-
----
-
-## Addresses Endpoint
-
-`addresses` is the only supported name for this endpoint.
+## Running
 
 ### Input Params
 
-There are no input parameters for this endpoint.
+| Required? |    Name    |                                                         Description                                                          |      Options       | Defaults to |
+| :-------: | :--------: | :--------------------------------------------------------------------------------------------------------------------------: | :----------------: | :---------: |
+|           | `endpoint` | Which endpoint to use. Requires that the selected endpoint has been set as an env var (see [configuration](#configuration)). | members, addresses |  addresses  |
 
-### Example
-
-Request:
+### Sample Input
 
 ```json
 {
   "id": "1",
-  "data": {
-    "endpoint": "addresses"
-  }
+  "data": {}
 }
 ```
 
-Response:
+### Sample Output
 
 ```json
 {
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
+        "balance": "0",
+        "chainId": "mainnet",
+        "coin": "btc",
+        "id": "601c5e4b11b1d4001e37091aa2618ee9",
+        "network": "bitcoin",
+        "type": "custodial",
+        "verified": false
+      }
+    ]
+  },
   "result": [
     {
-      "id": "601c5e4b11b1d4001e37091aa2618ee9",
       "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
       "balance": "0",
-      "type": "custodial",
-      "verified": false,
-      "coin": "btc",
       "chainId": "mainnet",
-      "network": "bitcoin"
+      "coin": "btc",
+      "id": "601c5e4b11b1d4001e37091aa2618ee9",
+      "network": "bitcoin",
+      "type": "custodial",
+      "verified": false
     }
   ],
-  "count": 1
-}
-```
-
----
-
-## Members Endpoint
-
-`members` is the only supported name for this endpoint.
-
-### Input Params
-
-There are no input parameters for this endpoint.
-
-### Example
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "members"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": [
-    {
-      "id": "601323767069d60008cb538b32c33cb1",
-      "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
-      "type": "custodial",
-      "balance": "0",
-      "verified": false,
-      "coin": "btc",
-      "chainId": "mainnet",
-      "network": "bitcoin"
-    }
-  ],
-  "count": 1
+  "statusCode": 200
 }
 ```

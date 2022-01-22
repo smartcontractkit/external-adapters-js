@@ -1,54 +1,48 @@
 # Chainlink External Adapter for MyCryptoApi
 
-Version: 1.2.1
+### Input Parameters
 
-## Environment Variables
-
-There are no environment variables for this adapter.
-
----
-
-## Input Parameters
-
-| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
+| Required? |   Name   |     Description     |            Options             | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
 
 ---
 
-## Gasprice Endpoint
-
-`gasprice` is the only supported name for this endpoint.
+## Gas Price Endpoint
 
 ### Input Params
 
-| Required? | Name  | Aliases |    Description    |  Type  |                 Options                  | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------------: | :----: | :--------------------------------------: | :-----: | :--------: | :------------: |
-|           | speed |         | The desired speed | string | `safeLow`, `standard`, `fast`, `fastest` | `fast`  |            |                |
+| Required? |  Name   |    Description    |                Options                | Defaults to |
+| :-------: | :-----: | :---------------: | :-----------------------------------: | :---------: |
+|    🟡     | `speed` | The desired speed | `safeLow`,`standard`,`fast`,`fastest` |   `fast`    |
 
-### Example
-
-Request:
+### Output Format
 
 ```json
 {
-  "id": "1",
+  "jobRunID": "1",
+  "result": 33,
+  "statusCode": 200,
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "result": 33
   }
 }
 ```
 
-Response:
+### Verbose Output Format
 
 ```json
 {
-  "safeLow": 122,
-  "standard": 134,
-  "fast": 148,
-  "fastest": 160,
-  "blockNum": 13722866,
-  "result": 148
+  "jobRunID": "1",
+  "result": 59,
+  "statusCode": 200,
+  "data": {
+    "safeLow": 47,
+    "standard": 52,
+    "fast": 59,
+    "fastest": 69,
+    "blockNum": 13063324,
+    "result": 59
+  }
 }
 ```

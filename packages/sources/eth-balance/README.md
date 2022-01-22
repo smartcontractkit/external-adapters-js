@@ -1,33 +1,82 @@
 # Chainlink External Adapter for Eth-balance
 
-Version: 1.1.1
-
 External adapter for fetching balances for ETH addresses
 
-## Environment Variables
+### Environment Variables
 
-| Required? |       Name       |             Description             |  Type  | Options | Default |
-| :-------: | :--------------: | :---------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ETHEREUM_RPC_URL | RPC URL of an Ethereum Mainnet node | string |         |         |
+The adapter takes the following environment variables:
+
+| Required? |       Name       |             Description             | Options | Defaults to |
+| :-------: | :--------------: | :---------------------------------: | :-----: | :---------: |
+|    ✅     | ETHEREUM_RPC_URL | RPC URL of an Ethereum Mainnet node |         |             |
 
 ---
 
-## Input Parameters
+### Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
+| Required? |   Name   |     Description     |           Options            | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [balance](#Balance-Endpoint) |   balance   |
 
 ---
 
 ## Balance Endpoint
 
-`balance` is the only supported name for this endpoint.
+The balance endpoint will fetch the balance of each address in the query.
 
 ### Input Params
 
-| Required? |   Name    | Aliases  |                                            Description                                            | Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :------: | :-----------------------------------------------------------------------------------------------: | :---: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | addresses | `result` | An array of addresses to get the balances of (as an object with string `address` as an attribute) | array |         |         |            |                |
+| Required? |    Name     |                                         Description                                          | Options | Defaults to |
+| :-------: | :---------: | :------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `addresses` | An array of addresses to get the balances of (this may also be under the 'result' parameter) |         |             |
 
-There are no examples for this endpoint.
+`addresses` or `result` is an array of objects that contain the following information:
+
+| Required? |   Name    |   Description    | Options | Defaults to |
+| :-------: | :-------: | :--------------: | :-----: | :---------: |
+|    ✅     | `address` | Address to query |         |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      { "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588" },
+      { "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d" }
+    ]
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": [
+    {
+      "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588",
+      "balance": "0.0"
+    },
+    {
+      "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d",
+      "balance": "0.046572563850192871"
+    }
+  ],
+  "statusCode": 200,
+  "data": {
+    "result": [
+      {
+        "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588",
+        "balance": "0.0"
+      },
+      {
+        "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d",
+        "balance": "0.046572563850192871"
+      }
+    ]
+  }
+}
+```
