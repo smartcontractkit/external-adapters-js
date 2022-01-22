@@ -98,7 +98,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   validateRequest(request)
 
   const jobRunID = validator.validated.id
-  const { raceType, date, resultsType, ...rest } = validator.validated.data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { raceType, date, resultsType, endpoint, ...rest } = validator.validated.data
   const url = `/elections/${date}`
 
   const params = {
