@@ -2,10 +2,10 @@
 
 ### Environment Variables
 
-| Required? |     Name     |         Description          | Options |          Defaults to           |
-| :-------: | :----------: | :--------------------------: | :-----: | :----------------------------: |
-|    ✅     |   API_KEY    |      API key for Unibit      |         |                                |
-|           | API_ENDPOINT | The endpoint for your Unibit |         | `https://api-v2.intrinio.com/` |
+| Required? |     Name     |         Description          | Options |            Defaults to            |
+| :-------: | :----------: | :--------------------------: | :-----: | :-------------------------------: |
+|    ✅     |   API_KEY    |      API key for Unibit      |         |                                   |
+|           | API_ENDPOINT | The endpoint for your Unibit |         | `https://api.unibit.ai/v2/stock/` |
 
 ---
 
@@ -18,6 +18,8 @@
 ---
 
 ## Historical Endpoint
+
+Supported names for this endpoint are: `historical`, `eod`.
 
 This historical endpoint provides the closing price of the previous day as detailed in [Unibit documentation](https://unibit.ai/api/docs/V2.0/historical_stock_price).
 

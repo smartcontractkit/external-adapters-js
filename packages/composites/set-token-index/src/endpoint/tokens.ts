@@ -86,7 +86,9 @@ export const getToken = async (
 }
 
 export const inputParameters: InputParameters = {
-  address: true,
+  address: {
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
