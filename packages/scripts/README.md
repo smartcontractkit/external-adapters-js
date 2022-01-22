@@ -4,174 +4,54 @@ Folder containing various scripts and functions to make development simpler.
 
 **Table of Contents**
 
-- [Documentation Generator](#Documentation-Generator)
-- [Docker Deployment](#Docker-Deployment)
-- [Docker Container Creator](#Docker-Container-Creator)
-- [New Adapter](#New-Adapter)
+- [README Generator](#Readme-Generator)
 
-## [Documentation Generator](./src/docgen.ts)
+## [README Generator](./src/generate-readme)
 
-Script used to generate an OpenAPI Specification (OAS) from code comments for each external adapter (EA).
+The README Generator is a tool used to automatically regenerate README files for source adapters. When a new source adapter is added or existing ones updated, the script will automatically regenerate the files on commit. There are a number of ways to use the tool:
 
-### Usage
+### Auto-Generation
 
-The following functions can be run from the root EA directory:
+When a user runs `git commit -m "<Message here>"`, the script takes all staged files and compiles a list of updated source adapters from the list. This is done in the [husky pre-commit step](../../.husky/pre-commit). It will then filter out adapters from the [blacklist](./src/generate-readme/readme-blacklist.json) so it only operates on adapters that meet the requirements for README auto-generation. Namely, composite adapters, target adapters, adapters without integration tests, and adapters with incorrect file structures are currently blacklisted. Finally, the script runs through each adapter and collects data from relevant files, then constructs each README and saves them if no errors occurred in the collection process. If you make changes to many adapters in a single PR, expect the README generation process to take up to ~10 seconds to complete.
+
+### Manual Usage
+
+If you would like to see the output of the constructed README ahead of time, you can run the script from the command line. This operation will not stage the README unless you pass a specific flag to it, and if the adapter does not meet the requirements for the README to be generated, the script will exit without saving any change.
+
+**Note: All examples assume the user is in the [root](../../) of the `external-adapters-js/` repo.**
+
+Generate a single README (excluding blacklist):
 
 ```bash
-# for generating a single OAS file: yarn generate:oas <adapter-type> <adapter-name>
-yarn generate:oas source coingecko
-
-# for generating OAS file for all EAs
-yarn generate:oas:all
+$ yarn generate:readme <adapter-name>
 ```
 
-#### Code Comment Structure
+Generate multiple READMEs (excluding blacklist):
 
-The goal is to keep the comments as close to the respective code as possible. See the [coingecko adapter](../sources/coingecko) for a complete example.
-
-Comments are:
-
-- Typically inserted below the package declarations and above the remaining code
-- Written in a YAML format
-
-##### Environment Variables in `config.ts`
-
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *    API_ENDPOINT:
- *      required: false
- *      default: https://some_endpoint.com
- */
+```bash
+$ yarn generate:readme <adapter-1> <adapter-2> ...
 ```
 
-Additional environment variables can be added similar to `API_KEY`. If no environment variables are needed the comment can be not included or can be written with an empty object (see below).
+Generate README with verbose logging:
 
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables: {}
- */
+```bash
+$ yarn generate:readme -v <adapter-name>
 ```
 
-If an environment variable can be dynamically named, use parentheses to indicate. `{}` will throw an error.
+Generate all non-blacklisted READMEs (`-v` is encouraged for monitoring since this operation takes a while):
 
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    (SOURCE)_ADAPTER_URL:
- *      required: true
- */
+```bash
+$ yarn generate:readme -a -v
 ```
 
-Additionally, `oneOf` can be used to indicate a list of environment variables where at least one must be present. The example below shows the EA requires a source adapter and requires one of `XBTO`, `GENESIS_VOLATILITY`, or `DXFEED` provider URLS to be present.
+Generate README and stage it:
 
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    source-adapter:
- *      oneOf:
- *        - XBTO_ADAPTER_URL
- *        - GENESIS_VOLATILITY_ADAPTER_URL
- *        - DXFEED_ADAPTER_URL
- *    check-adapter:
- *      oneOf:
- *        - DERIBIT_ADAPTER_URL
- *        - OILPRICEAPI_COM_ADAPTER_URL
- *        - DXFEED_ADAPTER_URL
- *    RPC_URL:
- *      required: false
- */
+```bash
+$ yarn generate:readme -s <adapter-name>
 ```
 
-##### Endpoints in `adapter.ts`
+Generate README for any adapter outside the source directory (only works for 1 adapter at a time):
 
+```bash
+$ yarn generate:readme -t <path-to-adapter>
 ```
-/**
- * @swagger
- * /:
- *  post:
- *    requestBody:
- *      description: request body for EA
- *      schema:
- *        properties:
- *          endpoint:
- *            type: string
- *            default: price
- *            enum:
- *              - price
- *              - globalmarketcap
- *              - dominance
- *              - marketcap
- *        required:
- *          oneOf:
- *            - $ref: '#/endpoints/price'
- *            - $ref: '#/endpoints/globalmarketcap'
- *            - $ref: '#/endpoints/dominance'
- *            - $ref: '#/endpoints/marketcap'
- */
-```
-
-This comment describes the overall structure which shows:
-
-- the API uses a `POST` request to the `/` endpoint
-- in the request body it is expecting a `endpoint` parameter
-- the `endpoint` parameter defaults to `price` and has options: `price`, `globalmarketcap`, etc
-- the request body also requires one of the corresponding parameter definitions depending on `endpoint`
-
-##### Endpoint definitions in `endpoint/*.ts`
-
-```
-/**
- * @swagger
- * endpoints:
- *  price:
- *    properties:
- *      - coinid
- *      - base
- *      - from
- *      - coin
- *      - quote
- *      - to
- *      - market
- *    required:
- *      - oneOf:
- *        - coinid
- *        - oneOf:
- *            - base
- *            - from
- *            - coin
- *      - oneOf:
- *        - quote
- *        - to
- *        - market
- */
-```
-
-This describes a endpoint named `price` with the following properties:
-
-- It uses a list of all possible properties: `coinid`, `base`, `from`, etc
-- The required section dictates which parameters are required through `oneOf`:
-  - One of `base`, `from`, or `coin` is required if `coinid` is not defined
-  - One of `quote`, `to`, or `market` is required
-
-## [Docker Deployment](./src/docker-build.ts)
-
-More documentation coming soon!
-
-## [Docker Container Creator](./src/docker.ts)
-
-More documentation coming soon! See the root [README](../../README.md) for now.
-
-## [New Adapter](./new.ts)
-
-More documentation coming soon! See the root [README](../../README.md) for now.

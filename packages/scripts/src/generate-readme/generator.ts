@@ -131,6 +131,8 @@ class ReadmeGenerator {
     this.addInputParamsSection()
     this.addEndpointSections()
 
+    console.log(`${this.adapterPath}: New README text has been prepared`)
+
     return this.readmeText
   }
 
