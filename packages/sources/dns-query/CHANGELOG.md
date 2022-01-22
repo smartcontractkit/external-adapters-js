@@ -1,5 +1,18 @@
 # @chainlink/dns-query-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 520db3ed1: Add result field to DNS Query response
+
+### Patch Changes
+
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.4
 
 ### Patch Changes

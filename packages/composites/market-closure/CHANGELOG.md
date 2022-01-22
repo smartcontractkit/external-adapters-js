@@ -1,5 +1,19 @@
 # @chainlink/market-closure-adapter
 
+## 1.0.20
+
+### Patch Changes
+
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [b24ae3b0a]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/fcsapi-adapter@1.0.20
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-reference-data-reader@1.0.20
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/finnhub-adapter@1.0.20
+
 ## 1.0.19
 
 ### Patch Changes
