@@ -4,6 +4,8 @@ Version: 1.2.3
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
 ## Environment Variables
 
 | Required? |     Name     |                                                Description                                                 |  Type  |          Options          |             Default              |
@@ -67,23 +69,6 @@ Response:
 
 ```json
 {
-  "responses": [
-    {
-      "status": 200,
-      "title": "OK",
-      "description": "Successful request",
-      "payload": {
-        "address": {
-          "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
-        },
-        "blockchainId": "408fa195a34b533de9ad9889f076045e",
-        "blockNumber": "693286",
-        "timestampNanoseconds": 0,
-        "value": "2188",
-        "timestamp": "2021-07-29T20:54:39.000Z"
-      }
-    }
-  ],
   "result": [
     {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
@@ -132,7 +117,6 @@ Response:
 
 ```json
 {
-  "marketcap": 1000000000,
   "result": 1000000000
 }
 ```
@@ -159,7 +143,6 @@ Response:
 
 ```json
 {
-  "marketcap": 1000000000,
   "result": 1000000000
 }
 ```
@@ -202,7 +185,6 @@ Response:
 
 ```json
 {
-  "price": 123456,
   "result": 123456
 }
 ```
@@ -229,9 +211,10 @@ Response:
 
 ```json
 {
-  "price": 123456,
   "result": 123456
 }
 ```
 
 </details>
+
+---
