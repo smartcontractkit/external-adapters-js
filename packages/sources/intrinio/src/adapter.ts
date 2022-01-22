@@ -6,7 +6,7 @@ import {
   InputParameters,
   MakeWSHandler,
 } from '@chainlink/types'
-import { IntrinioRealtime } from './util'
+import { IexMessage, IntrinioRealtime } from './util'
 import { makeConfig, NAME } from './config'
 
 export const inputParameters: InputParameters = {
@@ -70,10 +70,13 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       subscribe: (input) => ws._makeJoinMessage(getBase(input)),
       unsubscribe: (input) => ws._makeLeaveMessage(getBase(input)),
       subsFromMessage: (message) => ws._makeJoinMessage(message.payload.ticker),
-      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: (message) => message.event == 'quote' && message.payload?.type == 'last',
-      toResponse: (wsResponse: any): AdapterResponse =>
-        Requester.success(undefined, { data: { result: wsResponse?.payload?.price } }),
+      isError: (message: { TYPE: string }) =>
+        Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: (message: IexMessage) => message.event == 'quote' && message.payload?.type == 'last',
+      toResponse: (wsResponse: IexMessage): AdapterResponse => {
+        return Requester.success(undefined, { data: { result: wsResponse?.payload?.price } })
+      },
+
       heartbeatIntervalInMS: 3000, // Same as the one from the Intrinio WS SDK
       heartbeatMessage: () => ws._makeHeartbeatMessage(),
     }
