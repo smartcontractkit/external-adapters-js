@@ -67,14 +67,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const lastElemIdx = elements.length - 1
   const treeProof = getMerkleTreeProof(elements, lastElemIdx)
   const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl)
-  const l2Proof: any = await getProofFromL2Resolver(
-    node,
-    address,
-    optimismGatewayStubABI,
-    stateBatchHeader,
-    l1Provider,
-    l2Provider,
-  )
+  const l2Proof: { accountProof: string; storageProof: Record<string, unknown>[] } =
+    await getProofFromL2Resolver(
+      node,
+      address,
+      optimismGatewayStubABI,
+      stateBatchHeader,
+      l1Provider,
+      l2Provider,
+    )
 
   const ret = [
     node,
@@ -88,7 +89,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       stateTrieWitness: RLP.encode(l2Proof.accountProof),
       storageTrieWitness: RLP.encode(l2Proof.storageProof[0].proof),
     },
-  ]
+  ] as const
   const result: HandlerResponse = {
     returnType: toInterface(optimismGatewayStubABI).getFunction(RETURN_TYPE_FN),
     response: ret,
@@ -172,7 +173,7 @@ const getElementsToConstructProof = (stateBatchHeader: StateBatchHeader): string
   return elements
 }
 
-const getMerkleTreeProof = (elements: string[], index: number): any[] => {
+const getMerkleTreeProof = (elements: string[], index: number): Buffer[] => {
   const hash = (el: Buffer | string): Buffer => {
     return Buffer.from(ethers.utils.keccak256(el).slice(2), 'hex')
   }

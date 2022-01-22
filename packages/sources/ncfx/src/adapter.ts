@@ -21,6 +21,18 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  timestamp: string
+  ccy?: string
+  type?: string
+  tenor?: string
+  rate?: string
+  currencyPair?: string
+  bid?: number
+  offer?: number
+  mid?: number
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, endpoints.crypto.inputParameters, {}, false)
@@ -35,11 +47,6 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (request: 'subscribe' | 'unsubscribe', pair?: string) => {
     if (!pair) return
     return { request, ccy: pair }
-  }
-
-  interface NCFXWSResponse {
-    ccy?: string
-    currencyPair?: string
   }
 
   const isForexEndpoint = (endpoint: string) =>
@@ -62,25 +69,24 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       noHttp: true,
       subscribe: (input) => getSubscription('subscribe', getPair(input)),
       unsubscribe: (input) => getSubscription('unsubscribe', getPair(input)),
-      subsFromMessage: (message, subscriptionMsg, input) => {
+      subsFromMessage: (message: Message[], subscriptionMsg, input) => {
         if (Array.isArray(message) && message.length > 0) {
           const pairField = getPairFieldFromNCFXResponse(input.data.endpoint)
-          const pairMessage = message.find(
-            (m: NCFXWSResponse) => m[pairField] === subscriptionMsg.ccy,
-          )
+          const pairMessage = message.find((m) => m[pairField] === subscriptionMsg.ccy)
           if (!pairMessage) return
           return getSubscription('subscribe', `${pairMessage.currencyPair || pairMessage.ccy}`)
         }
         return getSubscription('subscribe', `${message}`)
       },
-      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: (message: any) => {
+      isError: (message: { TYPE: string }) =>
+        Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: (message: Message[]) => {
         return Array.isArray(message) && message.length > 0
       },
-      toResponse: (message: any, input: AdapterRequest) => {
+      toResponse: (message: Message[], input: AdapterRequest) => {
         const pair = getPair(input)
         const pairMessage = message.find(
-          (m: NCFXWSResponse) => m[getPairFieldFromNCFXResponse(input.data.endpoint)] === pair,
+          (m) => m[getPairFieldFromNCFXResponse(input.data.endpoint)] === pair,
         )
         if (!pairMessage) {
           throw new Error(`${pair} not found in message`)

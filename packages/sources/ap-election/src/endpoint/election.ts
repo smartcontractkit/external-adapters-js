@@ -56,8 +56,6 @@ export interface ResponseSchema {
   }[]
 }
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
   date: {
     description: 'The date of the election formatted as YYYY-MM-DD',
@@ -114,7 +112,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   validateResponse(response.data)
 
   const race = response.data.races[0]
