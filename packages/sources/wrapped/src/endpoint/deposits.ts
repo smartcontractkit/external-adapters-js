@@ -17,7 +17,7 @@ export type Address = {
   chainId: string
 }
 
-const customError = (data: any) => {
+const customError = (data: unknown) => {
   return typeof data !== 'object'
 }
 

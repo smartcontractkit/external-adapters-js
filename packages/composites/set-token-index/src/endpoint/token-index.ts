@@ -36,10 +36,16 @@ export function getAllocations(
 }
 
 export const inputParameters: InputParameters = {
-  address: true,
-  adapter: true,
-  source: false,
-  quote: false,
+  address: {
+    required: true,
+    description: 'Address of the SetToken',
+  },
+  adapter: {
+    required: true,
+    description: 'Address of the adapter contract',
+  },
+  source: { required: false },
+  quote: { required: false },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
