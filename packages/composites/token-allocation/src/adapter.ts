@@ -1,6 +1,6 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from './config'
-import { TokenAllocations, Config, ResponsePayload, GetPrices } from './types'
+import { TokenAllocations, Config, ResponsePayload, GetPrices, TokenAllocation } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
@@ -48,7 +48,7 @@ export const marketCapTotalValue = (
     .toNumber()
 }
 
-const toValidAllocations = (allocations: any[]): TokenAllocations => {
+const toValidAllocations = (allocations: TokenAllocation[]) => {
   const _toValidSymbol = (symbol: string) => {
     if (!symbol)
       throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
@@ -70,12 +70,12 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
       throw new AdapterError({ message: `Balance cannot be negative`, statusCode: 400 })
     return balance
   }
-  return allocations.map((t: any) => {
+  return allocations.map((t) => {
     const decimals = _toValidDecimals(t.decimals)
     return {
       symbol: _toValidSymbol(t.symbol),
       decimals,
-      balance: _toValidBalance(t.balance, decimals),
+      balance: _toValidBalance(t.balance as number, decimals),
     }
   })
 }

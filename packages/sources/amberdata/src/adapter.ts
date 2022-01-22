@@ -23,8 +23,17 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  params: {
+    result: {
+      last: number
+      pair: string
+    }
+    subscription: string
+  }
+}
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
-  const subscriptions: any = {}
+  const subscriptions: Record<string, unknown> = {}
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(input, crypto.inputParameters, {}, false)
     if (validator.error) return
@@ -49,15 +58,15 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
       },
       subscribe: (input) => getSubscription(getPair(input)),
       unsubscribe: (input) => getUnsubscription(getPair(input)),
-      subsFromMessage: (message) => {
+      subsFromMessage: (message: Message) => {
         const pair = message?.params?.result?.pair
         subscriptions[pair] = message?.params?.subscription
         return getSubscription(message?.params?.result?.pair)
       },
       // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
       isError: () => false, // Amberdata never receives error types?
-      filter: (message: any) => !!message.params,
-      toResponse: (message: any) => {
+      filter: (message: Message) => !!message.params,
+      toResponse: (message: Message) => {
         const result = Requester.validateResultNumber(message, ['params', 'result', 'last'])
         return Requester.success('1', { data: { result } })
       },

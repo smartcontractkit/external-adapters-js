@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { balance } from '@chainlink/ea-factories'
-import { Config, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteFactory, RequestConfig } from '@chainlink/types'
 import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
@@ -29,7 +29,7 @@ const getBlockchainHeader = (coin?: string) => {
 }
 
 const getBalance: balance.GetBalance = async (account, config) => {
-  const reqConfig: any = {
+  const reqConfig: RequestConfig = {
     ...config.api,
     url: getBalanceURI(account.address),
     headers: {

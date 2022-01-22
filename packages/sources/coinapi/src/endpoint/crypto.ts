@@ -16,8 +16,6 @@ export const endpointOverride = (request: AdapterRequest): string | null => {
   return null
 }
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -67,7 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, ['rate'])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
