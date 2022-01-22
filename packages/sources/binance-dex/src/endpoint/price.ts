@@ -1,6 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { DEFAULT_DATA_ENDPOINT } from '../config'
 
 export const NAME = 'price'
 
@@ -54,8 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || DEFAULT_DATA_ENDPOINT
-  const url = `/api/${endpoint}`
+  const url = `/api/v1/ticker/24hr`
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const symbol = `${base}_${quote}`
