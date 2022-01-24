@@ -157,7 +157,6 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const url = 'cryptocurrency/quotes/latest'
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName)

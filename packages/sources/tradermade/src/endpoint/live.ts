@@ -34,7 +34,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   Requester.logConfig(config)
 

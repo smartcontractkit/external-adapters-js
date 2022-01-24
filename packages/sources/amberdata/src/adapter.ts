@@ -35,7 +35,7 @@ interface Message {
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
   const subscriptions: Record<string, unknown> = {}
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, crypto.inputParameters, {}, false)
+    const validator = new Validator(input, crypto.inputParameters, {}, { shouldThrowError: false })
     if (validator.error) return
     const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
     const quote = validator.validated.data.quote.toLowerCase()

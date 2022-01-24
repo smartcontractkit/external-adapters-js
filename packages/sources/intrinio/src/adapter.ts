@@ -20,7 +20,6 @@ export const inputParameters: InputParameters = {
 
 export const execute = async (input: AdapterRequest, config: Config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base.toUpperCase()
@@ -50,7 +49,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://github.com/intrinio/intrinio-realtime-node-sdk
 
   const getBase = (input: AdapterRequest): string => {
-    const validator = new Validator(input, inputParameters, {}, false)
+    const validator = new Validator(input, inputParameters, {}, { shouldThrowError: false })
     if (validator.error) {
       return ''
     }

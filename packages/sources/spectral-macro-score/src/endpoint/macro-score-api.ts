@@ -59,7 +59,6 @@ export const computeTickWithScore = (score: number, tickSet: BigNumber[]): numbe
 
 export const execute = async (request: IRequestInput, config: SpectralAdapterConfig) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const tokenIdInt = validator.validated.data.tokenIdInt
   const tickSetId = validator.validated.data.tickSetId

@@ -35,7 +35,6 @@ const statusCompleted = [
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, resolveParams)
-  if (validator.error) throw validator.error
 
   const sport = validator.validated.data.sport.toLowerCase()
   const contractAddress = validator.validated.data.contractAddress

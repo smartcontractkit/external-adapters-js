@@ -213,7 +213,6 @@ export const encodeCurrentConditionsResult = (result: CurrentConditionsResult): 
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const locationKey = validator.validated.data.locationKey

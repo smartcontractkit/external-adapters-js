@@ -115,7 +115,6 @@ const inputParams = {
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const paramOptions = makeOptions(config)
   const validator = new Validator(input, inputParams, paramOptions)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { quote = config.defaultQuote, method = config.defaultMethod } = validator.validated.data

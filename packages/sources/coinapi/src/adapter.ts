@@ -38,7 +38,12 @@ export const makeWSHandler =
         url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
       subscribe: (input) => {
-        const validator = new Validator(input, crypto.inputParameters, {}, false)
+        const validator = new Validator(
+          input,
+          crypto.inputParameters,
+          {},
+          { shouldThrowError: false },
+        )
         if (validator.error) return
         const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
         const quote = validator.validated.data.quote.toLowerCase()

@@ -29,7 +29,6 @@ const transform = (offchain: number, onchain: number, operator: string, dividend
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams, { source: Object.keys(config.sources) })
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const source = validator.validated.data.source
