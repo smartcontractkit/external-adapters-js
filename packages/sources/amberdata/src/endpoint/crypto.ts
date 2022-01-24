@@ -47,9 +47,8 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
-  const jobRunID = validator.validated.id
 
+  const jobRunID = validator.validated.id
   const { url, params, inverse } = getOptions(validator)
   const reqConfig = { ...config.api, params, url }
 

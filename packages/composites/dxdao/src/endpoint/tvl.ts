@@ -37,7 +37,7 @@ export const getTokenAllocations = async (
   config: Config,
 ): Promise<TokenAllocation.types.TokenAllocation[]> => {
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
+
   const wethContractAddress = config.wethContractAddress
   const { pairContractAddress } = validator.validated.data
   const tvlInWei = await getTvlAtAddressInWei(

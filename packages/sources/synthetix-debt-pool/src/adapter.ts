@@ -8,8 +8,7 @@ export const execute = async (
   context: AdapterContext,
   config: AdapterConfig,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator(request)
-  if (validator.error) throw validator.error
+  new Validator(request)
   Requester.logConfig(config)
   return await endpoints.debt.execute(request, context, config)
 }

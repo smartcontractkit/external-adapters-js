@@ -20,7 +20,6 @@ export const execute = async (
     `WARN: This EA will be deprecated, 'set-token-index' will be used for future reference.`,
   )
   const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const asset = validator.validated.data

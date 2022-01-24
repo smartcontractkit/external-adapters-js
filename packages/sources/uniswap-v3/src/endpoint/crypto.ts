@@ -77,7 +77,6 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
   const { address: from, decimals: fromDecimals } = await getTokenDetails(validator, 'from', config)
   const { address: to, decimals: toDecimals } = await getTokenDetails(validator, 'to', config)

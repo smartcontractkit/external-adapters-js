@@ -44,7 +44,6 @@ const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   if (!config.addressManagerContract) throw Error('AddressManagerContract address not set')
   if (!config.l2RpcUrl) throw Error('L2 RPC URL not set')
