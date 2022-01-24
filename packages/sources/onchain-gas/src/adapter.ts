@@ -62,7 +62,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       filter: (message: Message) => message.method === 'eth_subscription',
       toResponse: async (message: Message, input: AdapterRequest) => {
         const validator = new Validator(input, endpoints.gas.inputParameters)
-        if (validator.error) throw validator.error
+
         const hexedBlockNum: string = message.params.result.number
         const medianGasPrices = await endpoints.gas.getTransactionsInPastBlocks(
           input.id,

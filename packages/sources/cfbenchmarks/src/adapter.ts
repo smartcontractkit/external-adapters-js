@@ -30,7 +30,12 @@ interface Message {
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getId = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.values.inputParameters)
+    const validator = new Validator(
+      input,
+      endpoints.values.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     return validator.overrideSymbol(NAME, validator.validated.data.index) as string
   }

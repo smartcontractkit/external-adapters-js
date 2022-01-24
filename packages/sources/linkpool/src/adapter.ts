@@ -13,7 +13,6 @@ const commonKeys: Record<string, string> = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let market = validator.validated.data.market.toLowerCase()

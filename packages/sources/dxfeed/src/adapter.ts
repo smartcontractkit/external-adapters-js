@@ -99,13 +99,23 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         url: defaultConfig.api.baseWsURL,
       },
       subscribe: (input) => {
-        const validator = new Validator(input, endpoints.price.inputParameters)
+        const validator = new Validator(
+          input,
+          endpoints.price.inputParameters,
+          {},
+          { shouldThrowError: false },
+        )
         if (validator.errored) throw validator.errored
         const ticker = validator.validated.data.base
         return getSubscription('subscribe', ticker)
       },
       unsubscribe: (input) => {
-        const validator = new Validator(input, endpoints.price.inputParameters)
+        const validator = new Validator(
+          input,
+          endpoints.price.inputParameters,
+          {},
+          { shouldThrowError: false },
+        )
         if (validator.errored) throw validator.errored
         const ticker = validator.validated.data.base
         return getSubscription('unsubscribe', ticker)

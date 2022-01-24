@@ -31,7 +31,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const wallet = new ethers.Wallet(config.privateKey, provider)
 
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
 
   const getUint256 = '0xc2b12a73'
 

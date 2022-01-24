@@ -47,7 +47,6 @@ export const execute: ExecuteWithConfig<Config> = async (
   config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
 
   const provider = new Conflux({
     url: config.rpcUrl,

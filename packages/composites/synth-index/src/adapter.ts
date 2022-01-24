@@ -72,7 +72,6 @@ export function getSynthIndexFor(network: string, base: string): SynthIndex | un
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
 
   const { base, network = config.defaultNetwork } = validator.validated.data
   const synthIndex = getSynthIndexFor(network, base)

@@ -17,7 +17,6 @@ const DEFAULT_DATA_PATH = 'result'
 // Export function to integrate with Chainlink node
 export const execute: Execute = async (request) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
 
