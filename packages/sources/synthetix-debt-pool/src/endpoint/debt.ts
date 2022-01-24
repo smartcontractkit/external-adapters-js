@@ -148,6 +148,7 @@ const getCurrentDebt = async (
           message: `Found zero address for SynthetixDebtShare contract on chain ${chain}`,
         })
       }
+
       const synthetixDebtShare = new ethers.Contract(
         synthetixDebtShareAddress,
         SYNTHETIX_DEBT_SHARE_ABI,
