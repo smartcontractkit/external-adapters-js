@@ -1,5 +1,15 @@
 # @chainlink/medianizer-adapter
 
+## 1.0.20
+
+### Patch Changes
+
+- b24ae3b0a: changed explicit typescript 'any' types to correct ones
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+
 ## 1.0.19
 
 ### Patch Changes

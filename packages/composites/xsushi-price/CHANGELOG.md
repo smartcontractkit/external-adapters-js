@@ -1,5 +1,16 @@
 # @chainlink/xsushi-price-adapter
 
+## 1.0.30
+
+### Patch Changes
+
+- 9f3bd5b75: input parameters changed
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/token-allocation-adapter@1.0.30
+  - @chainlink/ea-bootstrap@1.9.1
+
 ## 1.0.29
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @chainlink/amberdata-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- d33384599: added response types
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-factories@1.0.20
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.3.0
 
 ### Minor Changes
