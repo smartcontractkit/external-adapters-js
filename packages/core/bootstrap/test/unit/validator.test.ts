@@ -84,7 +84,13 @@ describe('Validator', () => {
 
       const validator = new Validator(input, params, {}, false)
       expect(validator.validated.id).toEqual(input.id)
-      expect(validator.validated.data).toEqual({})
+      expect(validator.validated.data).toEqual({
+        endpoint: 'test',
+        includes: undefined,
+        overrides: undefined,
+        resultPath: undefined,
+        tokenOverrides: undefined,
+      })
       expect(validator?.error).toBeTruthy()
       expect(validator?.error?.statusCode).toEqual(400)
       expect(validator?.error?.status).toEqual('errored')

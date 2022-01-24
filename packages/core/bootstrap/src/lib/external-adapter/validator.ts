@@ -10,22 +10,14 @@ import {
   Config,
 } from '@chainlink/types'
 import { merge } from 'lodash'
-import { isArray, isObject, excludableInternalAdapterRequestProperties } from '../util'
+import { isArray, isObject } from '../util'
 import { AdapterError } from './errors'
 import { logger } from './logger'
 import presetSymbols from './overrides/presetSymbols.json'
 import presetTokens from './overrides/presetTokens.json'
 import presetIncludes from './overrides/presetIncludes.json'
 import { Requester } from './requester'
-import { inputParameters } from './builder'
-
-const sharedInputConfig = excludableInternalAdapterRequestProperties.reduce<Record<string, false>>(
-  (config, name) => {
-    config[name] = false
-    return config
-  },
-  {},
-)
+import { baseInputParameters } from './builder'
 
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
 
@@ -51,7 +43,7 @@ export class Validator {
     this.input = { ...input }
     if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
     if (!this.input.data) this.input.data = {}
-    this.inputConfigs = { ...inputConfigs, ...sharedInputConfig }
+    this.inputConfigs = { ...baseInputParameters, ...inputConfigs }
     this.options = { ...options }
     this.shouldLogError = shouldLogError
     this.validated = { id: this.input.id, data: {} }
@@ -332,7 +324,7 @@ export function normalizeInput<C extends Config>(
   if (!apiEndpoint.supportedEndpoints.includes(input.data.endpoint))
     input.data.endpoint = apiEndpoint.supportedEndpoints[0]
 
-  const fullParameters = { ...inputParameters, ...apiEndpoint.inputParameters }
+  const fullParameters = { ...baseInputParameters, ...apiEndpoint.inputParameters }
   const validator = new Validator(request, fullParameters)
 
   // remove undefined values

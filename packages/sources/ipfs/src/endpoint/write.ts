@@ -81,14 +81,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 const putFile = async (
   data: string | Uint8Array,
   client: IPFSHTTPClient,
-  options: Record<string, any>,
+  options: Record<string, unknown>,
 ) => {
   const { cid } = await client.add(data, options)
   return cid.toString()
 }
 
 const putDag = async (
-  node: Record<string, any>,
+  node: Record<string, unknown>,
   client: IPFSHTTPClient,
-  options: Record<string, any>,
+  options: Record<string, unknown>,
 ): Promise<IPFSPath> => client.dag.put(node, options)

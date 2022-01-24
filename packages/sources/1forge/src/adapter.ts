@@ -61,7 +61,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       onConnectChain: [
         {
           payload: `login|${defaultConfig.apiKey}`,
-          filter: (message: any) => message.data.indexOf('post_login_success') !== -1,
+          filter: (message: { data: string }) => message.data.indexOf('post_login_success') !== -1,
         },
       ],
     }

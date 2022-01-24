@@ -31,6 +31,19 @@ export interface WSErrorType {
 
 export const INVALID_SUB = 'INVALID_SUB'
 
+interface Message {
+  PRICE: number
+  TYPE: number
+  MARKET: string
+  FLAGS: number
+  FROMSYMBOL: string
+  TOSYMBOL: string
+  VOLUMEDAY: number
+  VOLUME24HOUR: number
+  VOLUMEDAYTO: number
+  VOLUME24HOURTO: number
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://min-api.cryptocompare.com/documentation/websockets
   const subscriptions = {
@@ -39,12 +52,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     aggregate: 5,
   }
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(
-      input,
-      { endpoint: false, ...crypto.inputParameters },
-      {},
-      false,
-    )
+    const validator = new Validator(input, crypto.inputParameters, {}, false)
     if (validator.error) return false
     const endpoint = validator.validated.data.endpoint?.toLowerCase()
     if (endpoint == 'marketcap') return false
@@ -72,16 +80,16 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       subscribe: (input) => getSubscription('SubAdd', getPair(input)),
       unsubscribe: (input) => getSubscription('SubRemove', getPair(input)),
-      subsFromMessage: (message) =>
+      subsFromMessage: (message: Message) =>
         getSubscription('SubAdd', `${message?.FROMSYMBOL}~${message?.TOSYMBOL}`),
-      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: (message) => {
+      isError: (message: Message) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: (message: Message) => {
         // Ignore everything is not from the wanted channels
         const code = Number(message.TYPE)
         const flag = Number(message.FLAGS) // flags = 4 (means price unchanged, PRICE parameter not included)
         return (code === subscriptions.ticker || code === subscriptions.aggregate) && flag !== 4
       },
-      toResponse: (message: any) => {
+      toResponse: (message: Message) => {
         const result = Requester.validateResultNumber(message, ['PRICE'])
         return Requester.success('1', { data: { result } })
       },

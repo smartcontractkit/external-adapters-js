@@ -3,8 +3,6 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 
-const customError = (data: any) => data.Response === 'Error'
-
 const customParams = {
   market: ['market', 'from', 'future'],
 }
@@ -33,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     headers,
   }
 
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, ['result'])
   return Requester.success(jobRunID, response)
 }

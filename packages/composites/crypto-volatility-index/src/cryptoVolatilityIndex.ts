@@ -5,12 +5,24 @@ import { SigmaCalculator } from './sigmaCalculator'
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
-import { AdapterContext, AdapterRequest } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/types'
 import { DEFAULT_NETWORK } from './config'
 
+interface InputData {
+  contract: string
+  multiply: number
+  heartbeatMinutes: number
+  isAdaptive: boolean
+  cryptoCurrencies: string[]
+  deviationThreshold: number
+  lambdaMin: number
+  lambdaK: number
+  network: string
+}
+
 export const calculate = async (
-  validated: Record<string, any>,
-  requestParams: any,
+  validated: { data: InputData; id: string },
+  requestParams: AdapterRequestData,
   context: AdapterContext,
 ): Promise<number> => {
   const {
@@ -81,7 +93,7 @@ const calculateVixValues = async (
 const calculateWeighted = async (
   vixData: Array<Decimal>,
   id: string,
-  requestParams: any,
+  requestParams: AdapterRequestData,
   context: AdapterContext,
   cryptoCurrencies: string[],
 ) => {
@@ -107,7 +119,7 @@ const calculateWeighted = async (
 
 const getDominanceByCurrency = async (
   id: string,
-  requestParams: any,
+  requestParams: AdapterRequestData,
   context: AdapterContext,
   cryptoCurrencies: string[],
 ) => {

@@ -16,7 +16,7 @@ export interface ResponseSchema {
   }
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: Record<string, unknown>) => data.Response === 'Error'
 
 // The inputParameters object must be present for README generation.
 export const inputParameters: InputParameters = {

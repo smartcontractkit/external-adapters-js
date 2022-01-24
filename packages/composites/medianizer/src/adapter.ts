@@ -10,13 +10,6 @@ import { AxiosResponse } from 'axios'
 import { makeConfig } from './config'
 
 export type SourceRequestOptions = { [source: string]: RequestConfig }
-export type CheckRequestOptions = { [check: string]: RequestConfig }
-
-export type AdapterOptions = {
-  sources: SourceRequestOptions
-  checks: CheckRequestOptions
-  api: any
-}
 
 const customParams = {
   sources: true,
@@ -70,7 +63,7 @@ const getExecuteMedian = async (
     .filter((result) => result.status === 'fulfilled' && 'value' in result)
     .map(
       (result) =>
-        (result as PromiseFulfilledResult<AxiosResponse<Record<string, any>>>).value.data.result,
+        (result as PromiseFulfilledResult<AxiosResponse<Record<string, number>>>).value.data.result,
     )
   if (values.length < minAnswers)
     throw Error(

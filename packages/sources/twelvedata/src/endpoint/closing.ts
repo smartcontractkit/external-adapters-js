@@ -4,7 +4,7 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['closing', 'eod']
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: { status: string }) => data.status === 'error'
 
 export const inputParameters: InputParameters = {
   base: {
