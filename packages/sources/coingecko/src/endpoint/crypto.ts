@@ -18,7 +18,7 @@ const customError = (data: ResponseSchema) => {
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   const quote = validator.validated.data.quote
   if (Array.isArray(quote)) return ''
   return `${quote.toLowerCase()}${path}`
@@ -97,7 +97,6 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const endpoint = validator.validated.data.endpoint
   const jobRunID = validator.validated.id

@@ -14,9 +14,6 @@ export const execute = async (
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) {
-    throw validator.error
-  }
 
   Requester.logConfig(config)
 

@@ -10,7 +10,7 @@ export const getSymbols = async (): Promise<Array<{ symbol: string }>> => {
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, _) => {
   const validator = new Validator(input)
-  if (validator.error) throw validator.error
+
   const jobRunID = validator.validated.jobRunID
   const allocations = await getSymbols()
   const _execute = TokenAllocation.makeExecute()

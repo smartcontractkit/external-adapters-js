@@ -13,7 +13,6 @@ export const execute: ExecuteWithConfig<Config> = async (
   config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   Requester.logConfig(config)
 

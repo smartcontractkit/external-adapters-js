@@ -30,8 +30,7 @@ export interface WebsocketResponseSchema {
 }
 
 const getSubKeyInfo = (input: AdapterRequest) => {
-  const validator = new Validator(input, endpoints.price.inputParameters, {}, false)
-  if (validator.error) throw validator.error
+  const validator = new Validator(input, endpoints.price.inputParameters)
   const asset = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toUpperCase()
   if (quote !== 'USD' && quote !== 'EUR')

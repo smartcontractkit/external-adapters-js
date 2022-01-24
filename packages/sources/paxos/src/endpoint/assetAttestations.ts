@@ -23,7 +23,7 @@ const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUppe
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
+
   const asset = validator.validated.data.asset
   const jobRunID = validator.validated.id
 

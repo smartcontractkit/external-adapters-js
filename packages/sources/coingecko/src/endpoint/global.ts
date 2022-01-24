@@ -39,7 +39,7 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market.toLowerCase()
   const resultPath = validator.validated.data.resultPath

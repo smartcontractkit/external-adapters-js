@@ -12,7 +12,6 @@ import {
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError } from './errors'
-import { logger } from './logger'
 import presetSymbols from './overrides/presetSymbols.json'
 import presetTokens from './overrides/presetTokens.json'
 import presetIncludes from './overrides/presetIncludes.json'
@@ -25,27 +24,29 @@ type InputType = {
   id?: string
   data?: any
 }
+export interface ValidatorOptions {
+  shouldThrowError?: boolean
+}
 export class Validator {
   input: InputType
   inputConfigs: InputParameters
-  options: Record<string, any[]>
+  inputOptions: Record<string, any[]>
+  validatorOptions: ValidatorOptions
   validated: any
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
-  shouldLogError: boolean
-
   constructor(
     input: InputType = { id: '1', data: {} },
     inputConfigs = {},
-    options = {},
-    shouldLogError = true,
+    inputOptions = {},
+    validatorOptions: ValidatorOptions = {},
   ) {
     this.input = { ...input }
     if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
     if (!this.input.data) this.input.data = {}
     this.inputConfigs = { ...baseInputParameters, ...inputConfigs }
-    this.options = { ...options }
-    this.shouldLogError = shouldLogError
+    this.inputOptions = { ...inputOptions }
+    this.validatorOptions = { shouldThrowError: true, ...validatorOptions }
     this.validated = { id: this.input.id, data: {} }
     this.validateInput()
     this.validateOverrides('overrides', presetSymbols)
@@ -56,7 +57,7 @@ export class Validator {
   validateInput(): void {
     try {
       for (const key in this.inputConfigs) {
-        const options = this.options[key]
+        const options = this.inputOptions[key]
         const inputConfig = this.inputConfigs[key]
         if (Array.isArray(inputConfig)) {
           // TODO move away from alias arrays in favor of InputParameter config type
@@ -110,17 +111,10 @@ export class Validator {
         message,
         cause: error,
       })
-    if (this.shouldLogError) {
-      logger.error(message, {
-        error: this.error,
-        context: {
-          input: this.input,
-          options: this.options,
-          inputConfigs: this.inputConfigs,
-        },
-      })
-    }
     this.errored = Requester.errored(this.validated.id, this.error)
+    if (this.validatorOptions.shouldThrowError) {
+      throw this.error
+    }
   }
 
   overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
@@ -325,7 +319,7 @@ export function normalizeInput<C extends Config>(
     input.data.endpoint = apiEndpoint.supportedEndpoints[0]
 
   const fullParameters = { ...baseInputParameters, ...apiEndpoint.inputParameters }
-  const validator = new Validator(request, fullParameters)
+  const validator = new Validator(request, fullParameters, {}, { shouldThrowError: false })
 
   // remove undefined values
   const data = JSON.parse(JSON.stringify(validator.validated.data))
