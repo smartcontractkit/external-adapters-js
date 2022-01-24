@@ -105,10 +105,10 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "marketcap",
+    "resultPath": "marketcap",
     "base": "BTC",
     "quote": "USD",
-    "coinid": 1,
-    "resultPath": "marketcap"
+    "coinid": 1
   }
 }
 ```
@@ -131,10 +131,10 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "mc",
+    "resultPath": "marketcap",
     "base": "BTC",
     "quote": "USD",
-    "coinid": 2,
-    "resultPath": "marketcap"
+    "coinid": 2
   }
 }
 ```
@@ -173,10 +173,10 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "price",
+    "resultPath": "price",
     "base": "BTC",
     "quote": "USD",
-    "amount": 1,
-    "resultPath": "price"
+    "amount": 1
   }
 }
 ```
@@ -199,10 +199,10 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "convert",
+    "resultPath": "price",
     "base": "BTC",
     "quote": "USD",
-    "amount": 10,
-    "resultPath": "price"
+    "amount": 10
   }
 }
 ```
