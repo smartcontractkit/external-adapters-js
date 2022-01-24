@@ -1,5 +1,18 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.35
+
+### Patch Changes
+
+- b24ae3b0a: changed explicit typescript 'any' types to correct ones
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea@1.0.35
+  - @chainlink/ea-reference-data-reader@1.0.20
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.34
 
 ### Patch Changes

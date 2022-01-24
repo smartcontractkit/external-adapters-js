@@ -27,7 +27,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { name, type, do: doBit, cd: cdBit } = validator.validated.data
@@ -48,13 +47,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     params,
   })
 
-  const data = { ...result.data }
+  const data = { ...result.data, result: result.data }
 
   return Requester.success(
     jobRunID,
     {
       status: 200,
-      data: data,
+      data,
     },
     config.verbose,
   )

@@ -8,7 +8,7 @@ const customParams = {
 
 export const isMarketClosed = async (input: AdapterRequest): Promise<boolean> => {
   const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
+
   const schedule = validator.validated.data.schedule || {}
   if (Object.keys(schedule).length === 0) return false // Empty schedule, just pass
 

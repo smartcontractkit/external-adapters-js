@@ -10,8 +10,8 @@ export enum CheckProvider {
   TradingHours = 'tradinghours',
 }
 
-const isCheckProvider = (envVar?: string): envVar is CheckProvider =>
-  Object.values(CheckProvider).includes(envVar as any)
+const isCheckProvider = (envVar?: string): boolean =>
+  Object.values(CheckProvider).includes(envVar as CheckProvider)
 
 export const getCheckProvider = (check: string): CheckProvider | undefined => {
   return isCheckProvider(check) ? (check as CheckProvider) : undefined

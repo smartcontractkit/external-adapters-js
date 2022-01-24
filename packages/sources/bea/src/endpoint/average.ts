@@ -63,7 +63,8 @@ export interface ResponseSchema {
   result: Decimal
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: { BEAAPI: { Results: { Error: Record<string, unknown> } } }) =>
+  Object.keys(data?.BEAAPI?.Results?.Error || {}).length > 0
 
 export const inputParameters: InputParameters = {
   series: {
@@ -80,7 +81,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const year = new Date().getFullYear()

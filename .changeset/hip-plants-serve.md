@@ -2,4 +2,4 @@
 '@chainlink/ea-bootstrap': patch
 ---
 
-Add fallback to local cache for WS
+removed error log from validator.ts

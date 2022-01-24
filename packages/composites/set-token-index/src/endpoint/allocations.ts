@@ -58,13 +58,16 @@ const ABI = [
 ]
 
 export const inputParameters: InputParameters = {
-  contractAddress: true,
-  setAddress: true,
+  contractAddress: {
+    required: true,
+  },
+  setAddress: {
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const contractAddress = validator.validated.data.contractAddress

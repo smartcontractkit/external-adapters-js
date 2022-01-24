@@ -77,7 +77,7 @@ export const inputParameters: InputParameters = {
 
 export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
+
   if (!config) throw new Error('No configuration supplied')
   if (!config.getBalance && !config.getBalances)
     throw new Error('Request handling logic not supplied')

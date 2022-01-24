@@ -1,5 +1,37 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [344432fbb]
+- Updated dependencies [d33384599]
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [92dcb7c5a]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/wrapped-adapter@2.1.5
+  - @chainlink/amberdata-adapter@1.3.1
+  - @chainlink/blockchair-adapter@1.1.5
+  - @chainlink/renvm-address-set-adapter@1.2.1
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/sochain-adapter@1.2.5
+  - @chainlink/por-indexer-adapter@1.0.2
+  - @chainlink/wbtc-address-set-adapter@1.3.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.21
+  - @chainlink/lotus-adapter@2.1.5
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/ada-balance-adapter@2.2.1
+  - @chainlink/blockchain.com-adapter@1.1.5
+  - @chainlink/blockcypher-adapter@1.2.5
+  - @chainlink/btc.com-adapter@1.2.5
+  - @chainlink/chain-reserve-wallet-adapter@2.2.1
+  - @chainlink/cryptoapis-adapter@1.1.5
+  - @chainlink/eth-balance-adapter@1.1.5
+  - @chainlink/gemini-adapter@2.1.5
+  - @chainlink/reduce-adapter@1.1.16
+
 ## 1.4.0
 
 ### Minor Changes

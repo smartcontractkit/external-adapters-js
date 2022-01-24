@@ -14,7 +14,6 @@ const inputParams = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const address = validator.validated.data.address

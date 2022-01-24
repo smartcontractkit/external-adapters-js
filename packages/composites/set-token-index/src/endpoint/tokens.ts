@@ -86,12 +86,13 @@ export const getToken = async (
 }
 
 export const inputParameters: InputParameters = {
-  address: true,
+  address: {
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const address = validator.validated.data.address
