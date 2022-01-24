@@ -1,5 +1,5 @@
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/src/lib/ws/recorder'
-import { Client, Server, WebSocket } from 'mock-socket'
+import { Server, WebSocket } from 'mock-socket'
 
 /**
  * Sets the mocked websocket instance in the provided provider class.
@@ -24,25 +24,6 @@ export type WsMessageExchange = {
   response: unknown
 }
 
-export const mockMessageResponse = (
-  exchange: WsMessageExchange,
-  client: Client,
-): Promise<boolean> => {
-  const { request, response } = exchange
-  return new Promise((resolve) => {
-    client.on('message', (received) => {
-      if (received === JSON.stringify(request)) {
-        if (Array.isArray(response) && response.length > 0) {
-          response.forEach((r) => client.send(JSON.stringify(r)))
-        } else {
-          client.send(JSON.stringify(response))
-        }
-        resolve(true)
-      }
-    })
-  })
-}
-
 /**
  * This function will add listeners for messages on the mocked server, checking if they match one
  * of the expected messages and replying with the provided responses. It does not enforce the sequence
@@ -55,12 +36,30 @@ export const mockMessageResponse = (
 export const mockWebSocketFlow = async (
   server: Server,
   flow: WsMessageExchange[],
-): Promise<void> => {
+): Promise<boolean> => {
   return new Promise((resolve) => {
+    let currentExchange = 0
     server.on('connection', async (connection) => {
-      const exchangesFulfilled = flow.map((exchange) => mockMessageResponse(exchange, connection))
-      await Promise.all(exchangesFulfilled)
-      resolve()
+      connection.on('message', (received) => {
+        const { request, response } = flow[currentExchange]
+        const expected = JSON.stringify(request)
+        if (received === expected) {
+          if (Array.isArray(response) && response.length > 0) {
+            response.forEach((r) => connection.send(JSON.stringify(r)))
+          } else {
+            connection.send(JSON.stringify(response))
+          }
+
+          currentExchange++
+          if (currentExchange === flow.length) {
+            resolve(true)
+          }
+        } else {
+          throw Error(
+            `The WS message received does not match the expected one. \nExpected: ${expected}\nReceived${received}`,
+          )
+        }
+      })
     })
   })
 }

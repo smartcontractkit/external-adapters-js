@@ -6,7 +6,7 @@ export const mockLoginResponse = {
   },
   response: {
     Type: 'Info',
-    Message: 'Logged in as user: chainlink',
+    Message: 'Logged in as user: user',
   },
 }
 

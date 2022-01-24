@@ -14,16 +14,16 @@ import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/ws/reco
 
 let oldEnv: NodeJS.ProcessEnv
 
-jest.setTimeout(20000)
-
 describe('price-beth', () => {
   let mockedWsServer: Server
   let server: http.Server
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    mockedWsServer = mockWebSocketServer('wss://feed.newchangefx.com/cryptodata')
-    mockWebSocketProvider(WebSocketClassProvider)
+    if (!process.env.RECORD) {
+      mockedWsServer = mockWebSocketServer('wss://feed.newchangefx.com/cryptodata')
+      mockWebSocketProvider(WebSocketClassProvider)
+    }
 
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_USERNAME = 'user'

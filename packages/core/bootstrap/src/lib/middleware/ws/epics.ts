@@ -16,7 +16,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
-// import WebSocket from 'ws'
 import { withCache } from '../cache'
 import { censor, logger } from '../../modules'
 import { getFeedId } from '../../metrics/util'

@@ -9,12 +9,11 @@ export class WsMessageRecorder {
   private static messages: Array<WsMessage> = []
 
   static add(message: WsMessage): void {
-    console.log(`${message.type} WS message: ${JSON.stringify(message.data)}`)
     this.messages.push(message)
   }
 
   static print(): void {
-    console.log(JSON.stringify(this.messages))
+    console.log(`Recorded WebSocketMessages: ${JSON.stringify(this.messages)}`)
   }
 }
 

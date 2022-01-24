@@ -100,6 +100,14 @@ The follow steps is the general pattern for writing an integration test.
 3. Using the generated fixture data from step 2, write a `fixtures.ts` file to return the mock data instead.
 4. Run the tests again with nock recording disabled (`unset RECORD`). API requests should now be intercepted and mocked using the fixture data. Be sure to run tests with the `--updateSnapshot` flags to update the integration snapshot if necessary.
 
+If the external adapter uses WebSockets, you can use a similar feature that's written as part of the [test-helpers](./packages/core/test-helpers/src/websocket.ts). The steps are as follows:
+
+1. Run your tests, using live API endpoints with recording on (`export RECORD=true`)
+2. You will see a log statement with the message "Recorded WebSocketMessages: {JSON Object}". This JSON object contains all the WebSocket messages sent and received, but they are not printed as code as in the case of the Nock features, due to their asynchronous nature.
+3. Using the recorded messages, write a `fixtures.ts` file with "Exchanges", i.e. request and response(s) pairs that will be asserted as part of your test (see this [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts)).
+4. Write your tests (example in [ncfx adapter test](./packages/sources/ncfx/test/integration/adapter.test.ts)) using the helper functions from the `test-helpers` package. Note the necessary setup performed in the `beforeAll` function.
+5. Finally, run your tests with recording disabled (`unset RECORD`). The WebSocket connection should be replaced and mocked.
+
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
 
 ## Soak Testing (Chainlink Labs)
