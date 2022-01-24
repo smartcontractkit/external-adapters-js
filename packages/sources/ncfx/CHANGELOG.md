@@ -1,5 +1,15 @@
 # @chainlink/ncfx-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- b24ae3b0a: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.6
 
 ### Patch Changes

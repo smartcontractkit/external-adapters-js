@@ -1,5 +1,16 @@
 # @chainlink/dxfeed-adapter
 
+## 1.2.6
+
+### Patch Changes
+
+- b24ae3b0a: changed explicit typescript 'any' types to correct ones
+- e8a4e0e6c: added response types
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.5
 
 ### Patch Changes
