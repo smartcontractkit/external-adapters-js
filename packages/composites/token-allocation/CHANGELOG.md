@@ -1,5 +1,29 @@
 # @chainlink/token-allocation-adapter
 
+## 1.0.30
+
+### Patch Changes
+
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [b24ae3b0a]
+- Updated dependencies [741b391bd]
+- Updated dependencies [d33384599]
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [ccc5a3af3]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/kaiko-adapter@1.0.20
+  - @chainlink/coingecko-adapter@1.1.6
+  - @chainlink/amberdata-adapter@1.3.1
+  - @chainlink/coinapi-adapter@1.1.6
+  - @chainlink/cryptocompare-adapter@1.2.6
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/coinmarketcap-adapter@1.3.6
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/coinpaprika-adapter@1.1.6
+  - @chainlink/nomics-adapter@1.0.21
+  - @chainlink/tiingo-adapter@1.6.5
+
 ## 1.0.29
 
 ### Patch Changes

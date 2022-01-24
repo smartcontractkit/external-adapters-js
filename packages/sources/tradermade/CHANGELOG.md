@@ -1,5 +1,16 @@
 ## v1.1.0
 
+## 1.6.2
+
+### Patch Changes
+
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- 9a20810a3: Move market alias back to base parameter
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.6.1
 
 ### Patch Changes
