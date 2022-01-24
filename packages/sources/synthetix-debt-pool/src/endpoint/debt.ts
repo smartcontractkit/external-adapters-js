@@ -31,7 +31,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-
   const jobRunID = validator.validated.id
   let { chainSources } = validator.validated.data
 
