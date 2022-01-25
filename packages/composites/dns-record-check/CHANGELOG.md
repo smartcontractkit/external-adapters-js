@@ -1,5 +1,18 @@
 # @chainlink/dns-record-check-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/dns-query-adapter@1.2.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.0
 
 ### Minor Changes
