@@ -601,7 +601,7 @@
         "rateLimit1h": 1.38,
         "note": "could be off, no mention on their site but found here: https://github.com/ethgasstation/ethgasstation-api/blob/ec36f7dd78fccbb6a67ddffc0e12ac1150db8e80/settings.docker.conf"
       },
-      "started": {
+      "starter": {
         "rateLimit1h": 1388.88
       }
     },
