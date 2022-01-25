@@ -1,5 +1,16 @@
 # @chainlink/example-composite-adapter
 
+## 1.0.21
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+
 ## 1.0.20
 
 ### Patch Changes

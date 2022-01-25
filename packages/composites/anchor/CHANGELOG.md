@@ -1,5 +1,19 @@
 # @chainlink/anchor-adapter
 
+## 1.1.20
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/token-allocation-adapter@1.0.31
+  - @chainlink/terra-view-function-adapter@1.1.6
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.19
 
 ### Patch Changes
