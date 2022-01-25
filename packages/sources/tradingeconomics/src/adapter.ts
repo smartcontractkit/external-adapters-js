@@ -58,7 +58,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         ),
       },
       subscribe: (input) => {
-        const validator = new Validator(input, inputParameters, {}, false)
+        const validator = new Validator(input, inputParameters, {}, { shouldThrowError: false })
         if (validator.error) {
           return
         }

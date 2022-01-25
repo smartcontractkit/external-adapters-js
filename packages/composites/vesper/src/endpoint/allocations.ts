@@ -103,7 +103,6 @@ const getPoolValue = async (poolAddress: string, provider: ethers.providers.Prov
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, {})
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const controllerAddress = config.controllerAddress

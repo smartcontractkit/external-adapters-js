@@ -9,7 +9,7 @@ const buildPath =
   (path: string) =>
   (request: AdapterRequest): string => {
     const validator = new Validator(request, inputParameters)
-    if (validator.error) throw validator.error
+
     const quote = validator.validated.data.quote
     return `quotes.${quote.toUpperCase()}.${path}`
   }
@@ -76,7 +76,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName) as string

@@ -1,5 +1,21 @@
 # @chainlink/dns-record-check-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 520db3ed1: Add alias for `record` input param.
+
+### Patch Changes
+
+- 520db3ed1: dns-record-check src export change
+- Updated dependencies [520db3ed1]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/dns-query-adapter@1.2.0
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.19
 
 ### Patch Changes

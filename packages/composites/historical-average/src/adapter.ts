@@ -22,7 +22,6 @@ export const execute: ExecuteWithConfig<Config> = async (
   config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
 

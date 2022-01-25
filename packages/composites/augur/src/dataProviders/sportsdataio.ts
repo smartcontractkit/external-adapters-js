@@ -288,7 +288,6 @@ const createParams = {
 
 export const createTeam: Execute = async (input, context) => {
   const validator = new Validator(input, createParams)
-  if (validator.error) throw validator.error
 
   const sport = validator.validated.data.sport.toLowerCase()
   if (!SPORTS_SUPPORTED.includes(sport)) {
@@ -442,7 +441,6 @@ const getFights = async (
 
 export const createFighter: Execute = async (input, context) => {
   const validator = new Validator(input, createParams)
-  if (validator.error) throw validator.error
 
   const sport = validator.validated.data.sport.toLowerCase()
   if (!SPORTS_SUPPORTED.includes(sport)) {
@@ -561,7 +559,6 @@ const findEventScore = async (
 
 export const resolveTeam: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
-  if (validator.error) throw validator.error
 
   const eventId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport
@@ -610,7 +607,6 @@ const getFight = async (
 
 export const resolveFight: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
-  if (validator.error) throw validator.error
 
   const fightId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport

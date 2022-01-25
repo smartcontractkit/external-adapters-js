@@ -63,7 +63,7 @@ const selectEndpoint = <C extends Config>(
   customParams?: InputParameters,
 ): APIEndpoint<C> => {
   const params = customParams || baseInputParameters
-  const validator = new Validator(request, params)
+  const validator = new Validator(request, params, {}, { shouldThrowError: false })
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || config.defaultEndpoint

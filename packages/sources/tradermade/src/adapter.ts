@@ -40,7 +40,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return sub
   }
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.forex.inputParameters, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.forex.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     const base = validator.validated.data.base.toUpperCase()
     const quote = validator.validated.data.quote.toUpperCase()

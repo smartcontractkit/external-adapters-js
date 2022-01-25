@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 1.9.1
+
+### Patch Changes
+
+- da1207541: Add fallback to local cache for WS
+- 1b6d4f1dd: Include 'endpoint' as a base input parameter
+
 ## 1.9.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @chainlink/cryptoapis-v2-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- 8f0903b8a: added response types for balance endpoint
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-factories@1.0.20
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.4
 
 ### Patch Changes

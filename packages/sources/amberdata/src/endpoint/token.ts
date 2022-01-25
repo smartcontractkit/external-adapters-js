@@ -41,9 +41,8 @@ export interface Payload {
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
-  const jobRunID = validator.validated.id
 
+  const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const resultPath = validator.validated.data.resultPath || 'marketCapUSD'
   const url = `/api/v2/market/tokens/prices/${coin.toLowerCase()}/latest`

@@ -1,5 +1,15 @@
 # @chainlink/coingecko-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- 741b391bd: added response types for crypto and global endpoints
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.5
 
 ### Patch Changes

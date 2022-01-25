@@ -33,9 +33,6 @@ export interface PostReply {
 
 const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) {
-    throw validator.error
-  }
 
   Requester.logConfig(config)
 

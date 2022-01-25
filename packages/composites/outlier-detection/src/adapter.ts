@@ -33,7 +33,6 @@ const customParams = {
 const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const paramOptions = makeOptions(config)
   const validator = new Validator(input, customParams, paramOptions)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const source = validator.validated.data.source.toUpperCase()

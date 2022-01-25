@@ -26,7 +26,6 @@ const getAllocations = async (registry: ethers.Contract): Promise<types.TokenAll
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, {})
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
 
