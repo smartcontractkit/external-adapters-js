@@ -12,7 +12,7 @@
     "BCH": "bitcoin-cash",
     "LEO": "leo-token",
     "FIL": "filecoin",
-    "RENFIL": "FIL"
+    "RENFIL": "filecoin"
   },
   "coinmarketcap": {
     "PAX": "USDP",
