@@ -12,7 +12,6 @@ const commonKeys: Record<string, string> = {
 
 export const isMarketClosed = async (input: AdapterRequest): Promise<boolean> => {
   const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
 
   const symbol = validator.validated.data.symbol
   const url = 'https://www.tradinghours.com/api/v2/status'

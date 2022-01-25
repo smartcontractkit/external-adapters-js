@@ -1,5 +1,15 @@
 # @chainlink/json-rpc-adapter
 
+## 1.1.16
+
+### Patch Changes
+
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.15
 
 ### Patch Changes

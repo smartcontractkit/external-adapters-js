@@ -19,7 +19,7 @@ export const execute = async (
   taAdapterResponse: AdapterResponse,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
+
   const _config = view.makeConfig()
   const _execute = view.makeExecute(_config)
   const viewFunctionAdapterRequest: AdapterRequest = {

@@ -21,9 +21,21 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  type: 'subscribe' | 'unsubscribe' | 'value'
+  id: string
+  value: string
+  time: number
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getId = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.values.inputParameters)
+    const validator = new Validator(
+      input,
+      endpoints.values.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     return validator.overrideSymbol(NAME, validator.validated.data.index) as string
   }
@@ -42,12 +54,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       subscribe: (input) => getSubscription('subscribe', getId(input)),
       unsubscribe: (input) => getSubscription('unsubscribe', getId(input)),
-      subsFromMessage: (message) => getSubscription('subscribe', `${message?.id}`),
-      isError: (message: any) => 'success' in message && message.success === false,
-      filter: (message) => {
+      subsFromMessage: (message: Message) => getSubscription('subscribe', `${message?.id}`),
+      isError: (message: { success: boolean }) => 'success' in message && !message.success,
+      filter: (message: Message) => {
         return message.type === 'value'
       },
-      toResponse: (message: any) => {
+      toResponse: (message: Message) => {
         const result = Requester.validateResultNumber(message, ['value'])
         return Requester.success('1', { data: { result } })
       },

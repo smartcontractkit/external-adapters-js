@@ -3,8 +3,6 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 
-const customError = (data: any) => data.Response === 'Error'
-
 const customParams = {
   market: ['market', 'from', 'future'],
 }
@@ -15,7 +13,6 @@ const commonKeys: Record<string, string> = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let market = validator.validated.data.market.toLowerCase()
@@ -33,7 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     headers,
   }
 
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, ['result'])
   return Requester.success(jobRunID, response)
 }

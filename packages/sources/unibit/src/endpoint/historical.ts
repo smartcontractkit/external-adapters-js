@@ -4,7 +4,7 @@ import { NAME as AdapterName } from '../config'
 
 // Should also be supported for "EOD"
 export const NAME = 'historical'
-export const supportedEndpoints = ['historical']
+export const supportedEndpoints = ['historical', 'eod']
 
 export interface ResponseSchema {
   meta_data: {
@@ -44,7 +44,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()

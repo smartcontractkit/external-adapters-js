@@ -10,9 +10,16 @@ export const inputParameters: InputParameters = {
   },
 }
 
+export interface ResponseSchema {
+  score: {
+    event_status: string
+    score_away: string
+    score_home: string
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const matchId = validator.validated.data.matchId
@@ -30,7 +37,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
 
   if (response.data.score.event_status !== 'STATUS_FINAL') {
     throw new AdapterError({
@@ -40,7 +47,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  response.data.result =
-    parseInt(response.data.score.score_away) + parseInt(response.data.score.score_home)
-  return Requester.success(jobRunID, response, config.verbose)
+  const result = parseInt(response.data.score.score_away) + parseInt(response.data.score.score_home)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

@@ -136,9 +136,6 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-  endpoint: {
-    type: 'string',
-  },
 }
 
 const handleBatchedRequest = (
@@ -181,7 +178,6 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`

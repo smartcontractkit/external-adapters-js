@@ -1,5 +1,18 @@
 # @chainlink/unibit-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- fdd545c47: added eod endpoint alias
+
+### Patch Changes
+
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.4
 
 ### Patch Changes

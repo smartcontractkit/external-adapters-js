@@ -16,7 +16,6 @@ const customParams = {
 
 export const execute: Execute = async (input: AdapterRequest, context: AdapterContext) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
 

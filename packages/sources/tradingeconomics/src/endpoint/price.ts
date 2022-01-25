@@ -19,7 +19,6 @@ export const execute: ExecuteWithConfig<Config> = async (
   config: Config,
 ) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()

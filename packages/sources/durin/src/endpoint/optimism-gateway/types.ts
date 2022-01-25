@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 
-interface StateRootBatchHeader {
+export interface StateRootBatchHeader {
   batchIndex: ethers.BigNumber
   batchRoot: string
   batchSize: ethers.BigNumber
