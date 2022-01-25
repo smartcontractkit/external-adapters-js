@@ -11,15 +11,18 @@
     "grt": "the-graph",
     "BCH": "bitcoin-cash",
     "LEO": "leo-token",
-    "FIL": "filecoin"
+    "FIL": "filecoin",
+    "RENFIL": "FIL"
   },
   "coinmarketcap": {
-    "PAX": "USDP"
+    "PAX": "USDP",
+    "RENFIL": "FIL"
   },
   "coinpaprika": {
     "GRT": "grt-the-graph",
     "PAX": "usdp-paxos-standard-token",
-    "KNC": "knc-kyber-network"
+    "KNC": "knc-kyber-network",
+    "RENFIL": "fil-filecoin"
   },
   "cryptocompare": {
     "PAX": "USDP"
@@ -61,11 +64,13 @@
     "MDX": "MDX2",
     "MIOTA": "IOT",
     "RAI": "RAI3",
-    "WING": "WING2"
+    "WING": "WING2",
+    "RENFIL": "FIL"
   },
   "tiingo": {
     "MIOTA": "IOTA",
-    "WTI": "usoil"
+    "WTI": "usoil",
+    "RENFIL": "FIL"
   },
   "tradermade": {
     "BRENT": "UKOIL",
