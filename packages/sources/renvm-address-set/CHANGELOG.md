@@ -1,5 +1,18 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/proof-of-reserves-adapter@1.4.2
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.1
 
 ### Patch Changes

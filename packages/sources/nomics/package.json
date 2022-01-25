@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nomics-adapter",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "Chainlink nomics adapter.",
   "keywords": [
     "Chainlink",
