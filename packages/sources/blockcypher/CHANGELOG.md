@@ -1,5 +1,14 @@
 # @chainlink/blockcypher-adapter
 
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-factories@1.0.22
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.6
 
 ### Patch Changes
