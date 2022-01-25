@@ -6,13 +6,13 @@ export const supportedEndpoints = ['live', 'commodities', 'stock']
 
 export const inputParameters: InputParameters = {
   base: {
-    aliases: ['from', 'symbol'],
+    aliases: ['from', 'symbol', 'market'],
     required: true,
     description: 'The symbol of the currency to query',
     type: 'string',
   },
   quote: {
-    aliases: ['to', 'market', 'convert'],
+    aliases: ['to', 'convert'],
     required: false,
     description: 'The quote currency',
     type: 'string',
@@ -34,7 +34,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   Requester.logConfig(config)
 

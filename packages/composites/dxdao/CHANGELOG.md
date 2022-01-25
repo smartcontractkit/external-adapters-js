@@ -1,5 +1,38 @@
 # @chainlink/dxdao-adapter
 
+## 1.0.32
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/token-allocation-adapter@1.0.32
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.31
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/token-allocation-adapter@1.0.31
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.30
+
+### Patch Changes
+
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/token-allocation-adapter@1.0.30
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.29
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/medianizer-adapter",
-  "version": "1.0.19",
+  "version": "1.0.22",
   "description": "Chainlink medianizer adapter.",
   "keywords": [
     "Chainlink",

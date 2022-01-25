@@ -13,6 +13,30 @@ export const supportedEndpoints = ['balance']
 
 export const inputParameters = balance.inputParameters
 
+interface ResponseSchema {
+  apiVersion: string
+  requestId: string
+  data: {
+    item: {
+      transactionsCount: number
+      confirmedBalance: {
+        amount: string
+        unit: string
+      }
+      totalReceived: {
+        amount: string
+        unit: string
+      }
+      totalSpent: {
+        amount: string
+        unit: string
+      }
+      incomingTransactionsCount: number
+      outgoingTransactionsCount: number
+    }
+  }
+}
+
 const getBalanceURI = (address: string, chain: string, coin: string) => {
   if (chain === 'testnet')
     chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS_BY_PLATFORM) || chain
@@ -28,7 +52,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
     ...config.api,
     url: getBalanceURI(account.address, account.chain as string, coin as string),
   }
-  const response = await Requester.request(options)
+  const response = await Requester.request<ResponseSchema>(options)
   const balance = response.data.data.item.confirmedBalance.amount
 
   return {

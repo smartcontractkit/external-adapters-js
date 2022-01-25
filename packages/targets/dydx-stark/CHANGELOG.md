@@ -1,5 +1,35 @@
 # @chainlink/dydx-stark-adapter
 
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.21
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.20
+
+### Patch Changes
+
+- 344432fbb: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.19
 
 ### Patch Changes
