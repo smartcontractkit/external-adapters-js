@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.10.1
+
+### Patch Changes
+
+- 4476ff385: Modify Coingecko RENFIL override
+
 ## 1.10.0
 
 ### Minor Changes
