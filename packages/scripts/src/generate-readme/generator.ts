@@ -2,6 +2,7 @@ import * as shell from 'shelljs'
 import { buildTable } from './table'
 import { balance } from '@chainlink/ea-factories'
 import commandLineArgs from 'command-line-args'
+import commandLineUsage from 'command-line-usage'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import {
   Adapter,
@@ -353,17 +354,64 @@ class ReadmeGenerator {
 
 export async function main(): Promise<void | string> {
   try {
-    console.log('Generating READMEs')
+    const commandLineOptions = [
+      {
+        name: 'all',
+        alias: 'a',
+        type: Boolean,
+        description: 'Generate READMEs for all source EAs not in blacklist',
+      },
+      {
+        name: 'stagedFiles',
+        alias: 'f',
+        multiple: true,
+        description: 'Generate READMEs for all staged file paths (source EAs only)',
+      },
+      {
+        name: 'verbose',
+        alias: 'v',
+        type: Boolean,
+        description: 'Include extra logs for each generation process',
+      },
+      { name: 'stage', alias: 's', type: Boolean, description: 'Stage READMEs after generation' },
+      {
+        name: 'testPath',
+        alias: 't',
+        type: String,
+        description: 'Run script as test for EA along given path',
+      },
+      {
+        name: 'adapters',
+        multiple: true,
+        defaultOption: true,
+        description: 'Generate READMEs for all source EAs given by name',
+      },
+      { name: 'help', alias: 'h', type: Boolean, description: 'Display usage guide' },
+    ]
+    const options = commandLineArgs(commandLineOptions)
 
-    // define command line options
-    const options = commandLineArgs([
-      { name: 'all', alias: 'a', type: Boolean }, // Generate READMEs for all source EAs not in blacklist
-      { name: 'stagedFiles', alias: 'f', multiple: true }, // Generate READMEs for all staged file paths (source EAs only)
-      { name: 'verbose', alias: 'v', type: Boolean }, // Include extra logs for each generation process
-      { name: 'stage', alias: 's', type: Boolean }, // Stage READMEs after generation
-      { name: 'testPath', alias: 't', type: String }, // Run script as test for EA along given path
-      { name: 'adapters', multiple: true, defaultOption: true }, // Generate READMEs for all source EAs given by name
-    ])
+    // Generate usage guide
+    if (options.help) {
+      const usage = commandLineUsage([
+        {
+          header: 'README Generator Script',
+          content:
+            'This script is run from the root of the external-adapter-js/ repo to generate READMEs for supported external adapters. This functionality is currently limited to a subset of source adapters only.',
+        },
+        {
+          header: 'Options',
+          optionList: commandLineOptions,
+        },
+        {
+          content:
+            'Source code: {underline https://github.com/smartcontractkit/external-adapters-js/packages/scripts/src/generate-readme/ }',
+        },
+      ])
+      console.log(usage)
+      return
+    }
+
+    console.log('Generating READMEs')
 
     // test setting
     if (options.testPath) {
@@ -375,7 +423,7 @@ export async function main(): Promise<void | string> {
     }
 
     // fetch list of adapters
-    let adapters: Adapter[]
+    let adapters: Adapter[] = []
 
     if (options.all) {
       adapters = shell
