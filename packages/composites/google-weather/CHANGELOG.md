@@ -1,5 +1,25 @@
 # @chainlink/google-weather-adapter
 
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/google-bigquery-adapter@1.1.7
+
+## 1.0.22
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/google-bigquery-adapter@1.1.6
+
 ## 1.0.21
 
 ### Patch Changes

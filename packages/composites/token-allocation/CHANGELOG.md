@@ -1,5 +1,43 @@
 # @chainlink/token-allocation-adapter
 
+## 1.0.32
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/amberdata-adapter@1.3.3
+  - @chainlink/coinapi-adapter@1.1.8
+  - @chainlink/coingecko-adapter@1.1.8
+  - @chainlink/coinmarketcap-adapter@1.3.8
+  - @chainlink/coinpaprika-adapter@1.1.8
+  - @chainlink/cryptocompare-adapter@1.2.8
+  - @chainlink/kaiko-adapter@1.0.22
+  - @chainlink/nomics-adapter@1.0.23
+  - @chainlink/tiingo-adapter@1.6.7
+
+## 1.0.31
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/amberdata-adapter@1.3.2
+  - @chainlink/coinapi-adapter@1.1.7
+  - @chainlink/coingecko-adapter@1.1.7
+  - @chainlink/coinmarketcap-adapter@1.3.7
+  - @chainlink/coinpaprika-adapter@1.1.7
+  - @chainlink/cryptocompare-adapter@1.2.7
+  - @chainlink/kaiko-adapter@1.0.21
+  - @chainlink/nomics-adapter@1.0.22
+  - @chainlink/tiingo-adapter@1.6.6
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.30
 
 ### Patch Changes
