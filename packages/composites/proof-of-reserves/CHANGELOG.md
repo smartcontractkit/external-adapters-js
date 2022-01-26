@@ -1,5 +1,61 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.4.3
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.23
+  - @chainlink/por-indexer-adapter@1.0.4
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/ada-balance-adapter@2.2.3
+  - @chainlink/amberdata-adapter@1.3.3
+  - @chainlink/blockchain.com-adapter@1.1.7
+  - @chainlink/blockchair-adapter@1.1.7
+  - @chainlink/blockcypher-adapter@1.2.7
+  - @chainlink/btc.com-adapter@1.2.7
+  - @chainlink/chain-reserve-wallet-adapter@2.2.3
+  - @chainlink/cryptoapis-adapter@1.1.7
+  - @chainlink/eth-balance-adapter@1.1.7
+  - @chainlink/gemini-adapter@2.1.7
+  - @chainlink/lotus-adapter@2.1.7
+  - @chainlink/reduce-adapter@1.1.18
+  - @chainlink/renvm-address-set-adapter@1.2.3
+  - @chainlink/sochain-adapter@1.2.7
+  - @chainlink/wbtc-address-set-adapter@1.3.3
+  - @chainlink/wrapped-adapter@2.1.7
+
+## 1.4.2
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.22
+  - @chainlink/por-indexer-adapter@1.0.3
+  - @chainlink/ada-balance-adapter@2.2.2
+  - @chainlink/amberdata-adapter@1.3.2
+  - @chainlink/blockchain.com-adapter@1.1.6
+  - @chainlink/blockchair-adapter@1.1.6
+  - @chainlink/btc.com-adapter@1.2.6
+  - @chainlink/chain-reserve-wallet-adapter@2.2.2
+  - @chainlink/cryptoapis-adapter@1.1.6
+  - @chainlink/eth-balance-adapter@1.1.6
+  - @chainlink/gemini-adapter@2.1.6
+  - @chainlink/lotus-adapter@2.1.6
+  - @chainlink/reduce-adapter@1.1.17
+  - @chainlink/renvm-address-set-adapter@1.2.2
+  - @chainlink/wbtc-address-set-adapter@1.3.2
+  - @chainlink/wrapped-adapter@2.1.6
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/blockcypher-adapter@1.2.6
+  - @chainlink/sochain-adapter@1.2.6
+
 ## 1.4.1
 
 ### Patch Changes

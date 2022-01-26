@@ -1,5 +1,23 @@
 # @chainlink/ea-bootstrap
 
+## 1.10.1
+
+### Patch Changes
+
+- 4476ff385: Modify Coingecko RENFIL override
+
+## 1.10.0
+
+### Minor Changes
+
+- 99ed864d0: Added RENFIL -> FIL overrides for coingecko, coinmarketcap, nomics, tiingo, and set override ID for RENFIL on coinpaprika
+
+### Patch Changes
+
+- de5d083e8: added shouldThrowError option in Validator class which handles error throwing for bad input
+- de5d083e8: removed error log from validator.ts
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+
 ## 1.9.1
 
 ### Patch Changes
