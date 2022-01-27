@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.10.2
+
+### Patch Changes
+
+- 452ba71f0: Allow indefinite subscriptions by leaving out unsubscribe handler
+
 ## 1.10.1
 
 ### Patch Changes
