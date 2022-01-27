@@ -1,5 +1,15 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.4.4
+
+### Patch Changes
+
+- Updated dependencies [952aec962]
+  - @chainlink/ada-balance-adapter@2.3.0
+  - @chainlink/por-indexer-adapter@1.0.5
+  - @chainlink/renvm-address-set-adapter@1.2.4
+  - @chainlink/wbtc-address-set-adapter@1.3.4
+
 ## 1.4.3
 
 ### Patch Changes

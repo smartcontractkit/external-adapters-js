@@ -1,5 +1,11 @@
 # @chainlink/ada-balance-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- 952aec962: close ws connection after completing request
+
 ## 2.2.3
 
 ### Patch Changes
