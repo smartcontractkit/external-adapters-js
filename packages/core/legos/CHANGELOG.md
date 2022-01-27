@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.0.38
+
+### Patch Changes
+
+- Updated dependencies [952aec962]
+  - @chainlink/ada-balance-adapter@2.3.0
+  - @chainlink/renvm-address-set-adapter@1.2.4
+  - @chainlink/wbtc-address-set-adapter@1.3.4
+
 ## 1.0.37
 
 ### Patch Changes
