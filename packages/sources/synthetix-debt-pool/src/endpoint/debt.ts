@@ -50,6 +50,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(jobRunID, result, config.verbose)
 }
 
+// Contract addresses https://docs.synthetix.io/addresses/
+
 const DEBT_POOL_ABI = [
   {
     constant: true,
