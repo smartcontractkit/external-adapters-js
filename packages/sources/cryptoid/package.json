@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptoid-adapter",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Chainlink cryptoid adapter.",
   "keywords": [
     "Chainlink",
