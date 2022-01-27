@@ -2,67 +2,63 @@ import * as limits from '../../../src/lib/config/provider-limits'
 
 const limitsJSONPath = '../../../src/lib/config/provider-limits/limits.json'
 
-jest.mock(
-  '../../../src/lib/provider-limits/limits.json',
-  () => ({
-    amberdata: {
-      http: {
-        starter: {
-          rateLimit1h: 10,
-        },
-        premium: {
-          rateLimit1h: 20,
-        },
-        business: {
-          rateLimit1h: 30,
-        },
+const mockLimits = {
+  amberdata: {
+    http: {
+      starter: {
+        rateLimit1h: 10,
       },
-      ws: {
-        starter: {
-          connections: 10,
-          subscriptions: 20,
-        },
+      premium: {
+        rateLimit1h: 20,
+      },
+      business: {
+        rateLimit1h: 30,
       },
     },
-  }),
-  { virtual: true },
-)
+    ws: {
+      starter: {
+        connections: 10,
+        subscriptions: 20,
+      },
+    },
+  },
+}
 
 describe('Provider Limits', () => {
   describe('Limits API', () => {
     it('gets the correct rate limits', () => {
-      const limit = limits.getRateLimit('amberdata', 'free')
+      const limit = limits.getRateLimit('amberdata', mockLimits, 'free')
       expect(limit.minute).toBe(83.33 / 60)
       expect(limit.second).toBe(1)
     })
 
     it('rate limit defaults to lowest tier if no tier match', () => {
-      const limit = limits.getRateLimit('amberdata', 'non-existant')
+      const limit = limits.getRateLimit('amberdata', mockLimits, 'non-existant')
       expect(limit.minute).toBe(83.33 / 60)
       expect(limit.second).toBe(1)
     })
 
     it('rate limit throws if no provider match', () => {
       expect(() => {
-        limits.getRateLimit('non-existent', 'non-existent')
+        limits.getRateLimit('non-existent', mockLimits, 'non-existent')
       }).toThrow(Error)
     })
 
     it('gets the correct ws limits', () => {
-      const limit = limits.getWSLimits('amberdata', 'free')
+      const limit = limits.getWSLimits('amberdata', mockLimits, 'free')
       expect(limit.connections).toBe(1)
       expect(limit.subscriptions).toBe(10)
     })
 
     it('WS defaults to lowest tier if no tier match', () => {
-      const limit = limits.getWSLimits('amberdata', 'non-existant')
+      const limit = limits.getWSLimits('amberdata', mockLimits, 'non-existant')
       expect(limit.connections).toBe(1)
       expect(limit.subscriptions).toBe(10)
     })
 
     it('WS limit throws if no provider match', () => {
       expect(() => {
-        limits.getWSLimits('non-existent', 'non-existent')
+        limits.getWSLimits('non-existent', mockLimits, 'non-existent')
       }).toThrow(Error)
     })
 

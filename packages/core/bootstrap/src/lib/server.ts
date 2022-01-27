@@ -29,11 +29,12 @@ export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
-  (name: string, execute: Execute, middleware: Middleware[]) => async (): Promise<http.Server> => {
+  (name: string, execute: Execute, middleware: Middleware[], rateLimits?: Limits) =>
+  async (): Promise<http.Server> => {
     const context: AdapterContext = {
       name,
       cache: null,
-      rateLimit: getRateLimitConfig({ name }),
+      rateLimit: getRateLimitConfig({ limits: rateLimits || {}, name }),
     }
     const cacheOptions = defaultOptions()
     if (cacheOptions.enabled) {
