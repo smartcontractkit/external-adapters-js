@@ -114,7 +114,9 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
           filterMultiplex: wsHandler.onConnectChain
             ? wsHandler.onConnectChain[0].filter
             : undefined,
+          shouldNeverUnsubscribe: !wsHandler.unsubscribe,
         }
+        console.log(subscriptionPayload)
         subscriptionPayloads.push(subscriptionPayload)
       })
       return subscriptionPayloads
@@ -207,6 +209,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   },
                   subscriptionMsg: wsHandler.subscribe(info.input),
                   input: info.input,
+                  shouldNeverUnsubscribe: !wsHandler.unsubscribe,
                 } as WSSubscriptionPayload),
             )
           const toUnsubscribed = (payload: WSSubscriptionPayload) => unsubscribeFulfilled(payload)
@@ -309,7 +312,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 return subMsg
               },
               () =>
-                wsHandler.unsubscribe(
+                wsHandler.unsubscribe?.(
                   payload.input,
                   state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams,
                 ),
@@ -461,6 +464,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           )
         }),
         mergeMap(([{ payload }, state]) => {
+          console.log('withContinueOnConnectChain$')
           const { input, context, message } = payload
           const onConnectIdx = state.ws.connections.all[payload.connectionInfo.key]
             ? state.ws.connections.all[payload.connectionInfo.key].requestId
@@ -490,9 +494,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               ? undefined
               : wsHandler.onConnectChain[onConnectIdx].filter,
             shouldNeverUnsubscribe: onConnectChainFinished
-              ? false
+              ? !!wsHandler.unsubscribe
               : wsHandler.onConnectChain[onConnectIdx].shouldNeverUnsubscribe,
           }
+          console.log('HERE')
+          console.log(subscriptionPayload)
           const subscribeRequestedAction = subscribeRequested(subscriptionPayload)
           if (onConnectChainFinished) {
             return of(subscribeRequestedAction, onConnectComplete(subscriptionPayload))
@@ -609,6 +615,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               subscriptionMsg: wsHandler.subscribe(input),
               connectionInfo: { key: connectionKey, url },
               context,
+              shouldNeverUnsubscribe: !wsHandler.unsubscribe,
             }
 
             const subReqAction = subscribeRequested(action)
