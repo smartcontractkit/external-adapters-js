@@ -128,8 +128,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
           getWSUrl(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
       },
       shouldNotServeInputUsingWS: (input) => !isFx(input) && !isCrypto(input),
-      subscribe: (input) => getSubscription(getTicker(input)),
-      unsubscribe: (input) => getSubscription(getTicker(input), false),
+      subscribe: (input: AdapterRequest) => getSubscription(getTicker(input)),
+      unsubscribe: null,
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
       subsFromMessage: (message: UpdateMessage) =>

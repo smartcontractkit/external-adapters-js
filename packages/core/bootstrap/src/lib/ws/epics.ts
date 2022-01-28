@@ -309,7 +309,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 return subMsg
               },
               () =>
-                wsHandler.unsubscribe(
+                wsHandler.unsubscribe?.(
                   payload.input,
                   state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams,
                 ),

@@ -1,5 +1,13 @@
 # @chainlink/gemini-adapter
 
+## 2.1.8
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.1.7
 
 ### Patch Changes
