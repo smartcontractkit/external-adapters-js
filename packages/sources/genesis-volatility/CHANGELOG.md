@@ -1,5 +1,13 @@
 # @chainlink/genesis-volatility-adapter
 
+## 1.2.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.8
 
 ### Patch Changes
