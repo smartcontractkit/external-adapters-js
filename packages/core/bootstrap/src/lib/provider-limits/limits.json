@@ -16,6 +16,23 @@
     },
     "ws": {}
   },
+  "adapter_1forge": {
+    "http": {
+      "starter": {
+        "rateLimit1h": 208.33
+      },
+      "premium": {
+        "rateLimit1h": 4166.66
+      },
+      "business": {
+        "rateLimit1h": 41666.66
+      },
+      "business+": {
+        "rateLimit1h": 416666.66
+      }
+    },
+    "ws": {}
+  },
   "alphachain": {
     "http": {
       "basic": {
