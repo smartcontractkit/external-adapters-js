@@ -1,7 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
+import { getIdFromInputs, inputParameters } from '../../src/endpoint/values'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -17,7 +18,7 @@ afterAll(() => {
 })
 
 describe('execute', () => {
-  const jobID = '1'
+  const id = '1'
   const execute = makeExecute()
 
   describe('validation error', () => {
@@ -31,9 +32,47 @@ describe('execute', () => {
         try {
           await execute(req.testData as AdapterRequest, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+          const errorResp = Requester.errored(id, error)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, id)
         }
+      })
+    })
+  })
+
+  describe('getIdFromInputs', () => {
+    const tests: { name: string; input: AdapterRequest; output: string }[] = [
+      { name: 'uses index if present', input: { id, data: { index: 'BRTI' } }, output: 'BRTI' },
+      {
+        name: 'uses from/to if present',
+        input: { id, data: { from: 'ETH', to: 'USD' } },
+        output: 'ETHUSD_RTI',
+      },
+      {
+        name: 'uses aliases base/quote if present',
+        input: { id, data: { base: 'USDT', quote: 'USD' } },
+        output: 'USDTUSD_RTI',
+      },
+      {
+        name: 'ignores from/to if index present',
+        input: { id, data: { index: 'LINKUSD_RTI', from: 'ETH', to: 'USD' } },
+        output: 'LINKUSD_RTI',
+      },
+      {
+        name: 'maps BTC/USD to BRTI',
+        input: { id, data: { from: 'BTC', to: 'USD' } },
+        output: 'BRTI',
+      },
+      {
+        name: 'maps SOL/USD to U_SOLUSD_RTI',
+        input: { id, data: { from: 'SOL', to: 'USD' } },
+        output: 'U_SOLUSD_RTI',
+      },
+    ]
+
+    tests.forEach((test) => {
+      it(`${test.name}`, async () => {
+        const validator = new Validator(test.input, inputParameters)
+        expect(getIdFromInputs(validator)).toEqual(test.output)
       })
     })
   })
