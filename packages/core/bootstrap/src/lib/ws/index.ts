@@ -55,7 +55,6 @@ export const withWebSockets =
           subscriptionMsg,
           input: singleInput,
           context,
-          shouldNeverUnsubscribe: !wsHandler.unsubscribe,
         }
 
         store.dispatch(subscribeRequested(subscriptionPayload))
