@@ -1,5 +1,21 @@
 # @chainlink/agoric-adapter
 
+## 2.0.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.0.8
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.0.7
 
 ### Patch Changes
