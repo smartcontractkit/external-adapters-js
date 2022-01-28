@@ -57,6 +57,16 @@ describe('execute', () => {
         input: { id, data: { index: 'LINKUSD_RTI', from: 'ETH', to: 'USD' } },
         output: 'LINKUSD_RTI',
       },
+      {
+        name: 'maps BTC/USD to BRTI',
+        input: { id, data: { from: 'BTC', to: 'USD' } },
+        output: 'BRTI',
+      },
+      {
+        name: 'maps SOL/USD to U_SOLUSD_RTI',
+        input: { id, data: { from: 'SOL', to: 'USD' } },
+        output: 'U_SOLUSD_RTI',
+      },
     ]
 
     tests.forEach((test) => {

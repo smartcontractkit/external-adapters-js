@@ -4,7 +4,11 @@ import { NAME } from '../config'
 
 export const supportedEndpoints = ['values', 'crypto', 'price']
 
-const idFromBaseQuoteSymbol: { [baseQuote: string]: string } = {}
+const idFromBaseQuoteSymbol: { [baseQuote: string]: string } = {
+  'BTC/USD': 'BRTI',
+  'SOL/USD': 'U_SOLUSD_RTI',
+  'USDC/USD': 'U_USDCUSD_RTI',
+}
 
 export const inputParameters: InputParameters = {
   index: {
