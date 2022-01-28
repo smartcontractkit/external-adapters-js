@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 109111420: Extend cfbenchmarks values endpoint to support from/to input params
+
 ## 1.2.8
 
 ### Patch Changes
