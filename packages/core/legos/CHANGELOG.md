@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.40
+
+### Patch Changes
+
+- Updated dependencies [109111420]
+  - @chainlink/cfbenchmarks-adapter@1.3.0
+
 ## 1.0.39
 
 ### Patch Changes
