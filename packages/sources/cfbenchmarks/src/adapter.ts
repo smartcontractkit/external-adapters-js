@@ -7,7 +7,7 @@ import {
   APIEndpoint,
   MakeWSHandler,
 } from '@chainlink/types'
-import { AUTHORIZATION_HEADER, makeConfig, NAME } from './config'
+import { AUTHORIZATION_HEADER, makeConfig } from './config'
 import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
@@ -37,7 +37,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       { shouldThrowError: false },
     )
     if (validator.error) return
-    return validator.overrideSymbol(NAME, validator.validated.data.index) as string
+    return endpoints.values.getIdFromInputs(validator, false)
   }
   const getSubscription = (type: 'subscribe' | 'unsubscribe', id?: string) => {
     if (!id) return

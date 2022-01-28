@@ -21,9 +21,11 @@
 
 ### Input Params
 
-| Required? |  Name   |     Description     | Options | Defaults to |
-| :-------: | :-----: | :-----------------: | :-----: | :---------: |
-|    ✅     | `index` | The ID of the index |         |             |
+| Required? |  Name   |                                          Description                                           | Options | Defaults to |
+| :-------: | :-----: | :--------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           | `index` |                                      The ID of the index                                       |         |             |
+|           | `base`  |     The base asset to convert from (if index is not present), aliased to `from` and `coin`     |         |             |
+|           | `quote` | The quote asset to convert to (if index is not present), aliased to `to`, `market`, and `term` |         |             |
 
 ### Sample Input
 
@@ -45,6 +47,31 @@
     "result": 30363.12
   },
   "result": 30363.12,
+  "statusCode": 200
+}
+```
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 3000.12
+  },
+  "result": 3000.12,
   "statusCode": 200
 }
 ```
