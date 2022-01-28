@@ -37,7 +37,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       { shouldThrowError: false },
     )
     if (validator.error) return
-    return validator.overrideSymbol(NAME, validator.validated.data.index) as string
+    return endpoints.values.getIdFromInputs(validator)
   }
   const getSubscription = (type: 'subscribe' | 'unsubscribe', id?: string) => {
     if (!id) return
