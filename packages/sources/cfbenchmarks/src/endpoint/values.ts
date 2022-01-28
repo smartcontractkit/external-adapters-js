@@ -1,13 +1,11 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { NAME } from '../config'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, NAME } from '../config'
 
 export const supportedEndpoints = ['values', 'crypto', 'price']
 
 const idFromBaseQuoteSymbol: { [baseQuote: string]: string } = {
   'BTC/USD': 'BRTI',
-  'SOL/USD': 'U_SOLUSD_RTI', //Unconfirmed, may need to query different server
-  'USDC/USD': 'U_USDCUSD_RTI', //Unconfirmed, may need to query different server
 }
 
 export const inputParameters: InputParameters = {
@@ -30,20 +28,25 @@ export const inputParameters: InputParameters = {
   },
 }
 
-const getIdFromBaseQuoteSymbols = (base: string, quote: string) => {
+const getIdFromBaseQuoteSymbols = (config: Config, base: string, quote: string) => {
   const baseQuote = `${base}/${quote}`
 
   let id = idFromBaseQuoteSymbol[baseQuote] // Check hardcoded conversions first
 
   if (!id) {
     // If not hardcoded, use template
-    id = `${base}${quote}_RTI`
+    if (config.useSecondary) {
+      id = `U_${base}${quote}_RTI`
+    } else {
+      id = `${base}${quote}_RTI`
+    }
   }
 
   return id
 }
 
 export const getIdFromInputs = (
+  config: Config,
   validator: Validator,
   shouldThrowError = true,
 ): string | undefined => {
@@ -67,7 +70,11 @@ export const getIdFromInputs = (
 
   return validator.validated.data.index
     ? (validator.overrideSymbol(NAME, validator.validated.data.index) as string)
-    : getIdFromBaseQuoteSymbols(validator.validated.data.base, validator.validated.data.quote)
+    : getIdFromBaseQuoteSymbols(
+        config,
+        validator.validated.data.base,
+        validator.validated.data.quote,
+      )
 }
 
 interface PayloadValue {
@@ -84,7 +91,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
 
-  const id = getIdFromInputs(validator)
+  const id = getIdFromInputs(config, validator)
 
   const url = `/v1/values`
 

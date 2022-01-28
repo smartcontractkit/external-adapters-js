@@ -2,10 +2,11 @@
 
 ### Environment variables
 
-| Required? |      Name      | Description | Options | Defaults to |
-| :-------: | :------------: | :---------: | :-----: | :---------: |
-|    ✅     | `API_USERNAME` |             |         |             |
-|    ✅     | `API_PASSWORD` |             |         |             |
+| Required? |      Name       |                 Description                  |   Options    | Defaults to |
+| :-------: | :-------------: | :------------------------------------------: | :----------: | :---------: |
+|    ✅     | `API_USERNAME`  |                                              |              |             |
+|    ✅     | `API_PASSWORD`  |                                              |              |             |
+|           | `API_SECONDARY` | Use the secondary endpoint from cfbenchmarks | true / false |    false    |
 
 ---
 
