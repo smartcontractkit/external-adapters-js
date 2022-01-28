@@ -173,8 +173,9 @@ const getCurrentDebt = async (
     totalSnxBackedDebt = totalSnxBackedDebt.add(chain.totalSnxBackedDebt)
     totalDebtShares = totalDebtShares.add(chain.totalDebtShares)
   }
-
-  const totalSnxBackedDebtPart = totalSnxBackedDebt.toHexString().slice(2).padStart(32, '0')
-  const totalDebtSharesPart = totalDebtShares.toHexString().slice(2).padStart(32, '0')
+  const totalSnxBackedDebtPart = remove0xPrefix(totalSnxBackedDebt.toHexString()).padStart(32, '0')
+  const totalDebtSharesPart = remove0xPrefix(totalDebtShares.toHexString()).padStart(32, '0')
   return '0x' + totalSnxBackedDebtPart + totalDebtSharesPart
 }
+
+const remove0xPrefix = (hex: string): string => hex.slice(2)
