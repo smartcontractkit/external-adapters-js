@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/spectral-macro-score-adapter",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Chainlink spectral-macro-score adapter.",
   "keywords": [
     "Chainlink",
