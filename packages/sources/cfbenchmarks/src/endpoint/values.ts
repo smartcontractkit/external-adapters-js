@@ -6,8 +6,8 @@ export const supportedEndpoints = ['values', 'crypto', 'price']
 
 const idFromBaseQuoteSymbol: { [baseQuote: string]: string } = {
   'BTC/USD': 'BRTI',
-  'SOL/USD': 'U_SOLUSD_RTI',
-  'USDC/USD': 'U_USDCUSD_RTI',
+  'SOL/USD': 'U_SOLUSD_RTI', //Unconfirmed, may need to query different server
+  'USDC/USD': 'U_USDCUSD_RTI', //Unconfirmed, may need to query different server
 }
 
 export const inputParameters: InputParameters = {
