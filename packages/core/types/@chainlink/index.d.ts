@@ -239,7 +239,7 @@ declare module '@chainlink/types' {
     // Filter to whether or not modify subscription payload
     shouldModifyPayload?: (payload: any) => bool
     // Get unsubscribe message necessary to unsubscribe to the feed channel
-    unsubscribe: null | ((input: any, subscriptionParams: any) => any | undefined)
+    unsubscribe: (input: any, subscriptionParams: any) => any | undefined
     // Map to response from the incoming message and formats it into an AdapterResponse
     toResponse: (message: any, input: AdapterRequest) => Promise<AdapterResponse> | AdapterResponse
     // Filter any message that is not from a subscribed channel
