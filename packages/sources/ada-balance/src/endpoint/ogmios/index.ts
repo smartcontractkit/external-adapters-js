@@ -47,7 +47,8 @@ export const createInteractionContext = async (
     })
 
     const afterEach = (cb: () => void) => {
-      cb()
+      socket.once('close', cb)
+      socket.close()
     }
 
     const onInitialError = (error: Error) => {

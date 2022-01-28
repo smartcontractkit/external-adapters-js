@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/lotus-adapter",
-  "version": "2.1.7",
+  "version": "2.1.9",
   "description": "Chainlink lotus adapter.",
   "keywords": [
     "Chainlink",
