@@ -1,9 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-STAGED_FILES=$(git diff --name-only --cached)
-
-yarn generate:readme -s -f $STAGED_FILES
+yarn generate:readme -s
 README_GENERATOR_EXIT_CODE=$?
 
 if [ $README_GENERATOR_EXIT_CODE -ne 0 ]; then

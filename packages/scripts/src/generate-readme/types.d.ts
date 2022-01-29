@@ -36,8 +36,9 @@ export type JsonObject = { [key: string]: any }
 
 export type MappedAdapters = {
   [name: string]: {
-    generatedReadme: boolean
+    readmeIsGenerated: boolean
     testsUpdated?: boolean
+    endpointIndexUpdated?: boolean
   }
 }
 

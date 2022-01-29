@@ -44,12 +44,6 @@ Generate all non-blacklisted READMEs (`-v` is encouraged for monitoring since th
 yarn generate:readme -a -v
 ```
 
-Generate README and stage it:
-
-```bash
-yarn generate:readme -s <adapter-name> ...
-```
-
 Generate README for any adapter outside the source directory (only works for 1 adapter at a time):
 
 ```bash

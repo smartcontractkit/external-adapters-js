@@ -1,6 +1,7 @@
 import * as shell from 'shelljs'
 import { buildTable } from './table'
 import { balance } from '@chainlink/ea-factories'
+import { Logger } from '@chainlink/ea-bootstrap'
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
@@ -52,7 +53,7 @@ const codeList = (a: (string | number)[] = []): string => a.map((d) => wrapCode(
 const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
 
 const checkFilePath = (filePath: string): string => {
-  if (!shell.test('-f', filePath)) throw Error(`Error: ${filePath} is not a file`)
+  if (!shell.test('-f', filePath)) throw Error(`${filePath} is not a file`)
   else return filePath
 }
 
@@ -84,9 +85,9 @@ class ReadmeGenerator {
 
     if (!adapterPath.endsWith('/')) adapterPath += '/'
 
-    if (verbose) console.log(`${adapterPath}: Confirming file paths`)
+    if (verbose) Logger.debug({ adapterPath, msg: 'Confirming file paths' })
 
-    if (!shell.test('-d', adapterPath)) throw Error(`Error: ${adapterPath} is not a directory`)
+    if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
     const packagePath = checkFilePath(adapterPath + 'package.json')
     const schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
@@ -96,11 +97,11 @@ class ReadmeGenerator {
 
     this.adapterPath = adapterPath
 
-    if (verbose) console.log(`${adapterPath}: Checking package.json`)
+    if (verbose) Logger.debug({ adapterPath, msg: 'Checking package.json' })
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
 
-    if (verbose) console.log(`${adapterPath}: Checking schema/env.json`)
+    if (verbose) Logger.debug({ adapterPath, msg: 'Checking schema/env.json' })
     const schema = getJsonFile(schemaPath) as Schema
     this.schemaDescription = schema.description ?? ''
     this.name = schema.title ?? packageJson.name ?? ''
@@ -111,11 +112,13 @@ class ReadmeGenerator {
   async fetchImports(): Promise<void> {
     // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
 
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config.ts`)
+    if (this.verbose)
+      Logger.debug({ adapterPath: this.adapterPath, msg: 'Importing src/config.ts' })
     const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
     this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
 
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
+    if (this.verbose)
+      Logger.debug({ adapterPath: this.adapterPath, msg: 'Importing src/endpoint/index.ts' })
     const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
     this.endpointDetails = await require(localPathToRoot + endpointPath)
   }
@@ -125,20 +128,21 @@ class ReadmeGenerator {
   }
 
   getReadme(): string {
-    if (this.verbose) console.log(`${this.adapterPath}: Generating README text`)
+    if (this.verbose) Logger.debug({ adapterPath: this.adapterPath, msg: 'Generating README text' })
 
     this.addIntroSection()
     this.addEnvVarSection()
     this.addInputParamsSection()
     this.addEndpointSections()
 
-    console.log(`${this.adapterPath}: New README text has been prepared`)
+    Logger.info(`${this.adapterPath}: New README text has been prepared`)
 
     return this.readmeText
   }
 
   addIntroSection(): void {
-    if (this.verbose) console.log(`${this.adapterPath}: Adding title and version`)
+    if (this.verbose)
+      Logger.debug({ adapterPath: this.adapterPath, msg: 'Adding title and version' })
 
     this.readmeText = `# ${this.name}\n\nVersion: ${this.version}\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
@@ -146,7 +150,8 @@ class ReadmeGenerator {
   }
 
   addEnvVarSection(): void {
-    if (this.verbose) console.log(`${this.adapterPath}: Adding environment variables`)
+    if (this.verbose)
+      Logger.debug({ adapterPath: this.adapterPath, msg: 'Adding environment variables' })
 
     const envVars = this.envVars
 
@@ -168,7 +173,8 @@ class ReadmeGenerator {
   }
 
   addInputParamsSection(): void {
-    if (this.verbose) console.log(`${this.adapterPath}: Adding input parameters`)
+    if (this.verbose)
+      Logger.debug({ adapterPath: this.adapterPath, msg: 'Adding input parameters' })
 
     const endpointList = Object.keys(this.endpointDetails).map((e) => {
       const lowercase = e.toLowerCase()
@@ -197,7 +203,10 @@ class ReadmeGenerator {
     const endpointExampleText: { [endpoint: string]: string } = {}
     if (this.skipTests) {
       if (this.verbose)
-        console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
+        Logger.debug({
+          adapterPath: this.adapterPath,
+          msg: 'Pulling I/O examples from existing README',
+        })
 
       const currentReadmeText = shell.cat(this.adapterPath + 'README.md').toString()
 
@@ -207,12 +216,16 @@ class ReadmeGenerator {
         regex = new RegExp(
           `## ${capitalize(endpointName)} Endpoint(\n|.)*?(?<text>### Example(\n|.)*?)\n\n---`,
         )
+
         endpointExampleText[endpointName] =
-          currentReadmeText.match(regex).groups.text ?? defaultText
+          currentReadmeText.match(regex)?.groups?.text ?? defaultText
       }
     } else {
       if (this.verbose)
-        console.log(`${this.adapterPath}: Running integration tests to get updated I/O examples`)
+        Logger.debug({
+          adapterPath: this.adapterPath,
+          msg: 'Running integration tests to get updated I/O examples',
+        })
 
       const testOutput = shell
         .exec(`yarn test ${this.integrationTestPath}`, {
@@ -222,7 +235,8 @@ class ReadmeGenerator {
         })
         .toString()
 
-      if (this.verbose) console.log(`${this.adapterPath}: Processing example data`)
+      if (this.verbose)
+        Logger.debug({ adapterPath: this.adapterPath, msg: 'Processing example data' })
 
       const logObjects: JsonObject[][] = testOutput
         .split('\n')
@@ -275,7 +289,10 @@ class ReadmeGenerator {
     const endpointSections = Object.entries(this.endpointDetails)
       .map(([endpointName, endpointDetails]) => {
         if (this.verbose)
-          console.log(`${this.adapterPath}: Adding ${endpointName} endpoint section`)
+          Logger.debug({
+            adapterPath: this.adapterPath,
+            msg: `Adding ${endpointName} endpoint section`,
+          })
 
         const sectionTitle = `## ${capitalize(endpointName)} Endpoint`
 
@@ -362,18 +379,18 @@ export async function main(): Promise<void | string> {
         description: 'Generate READMEs for all source EAs not in blacklist',
       },
       {
-        name: 'stagedFiles',
-        alias: 'f',
-        multiple: true,
-        description: 'Generate READMEs for all staged file paths (source EAs only)',
-      },
-      {
         name: 'verbose',
         alias: 'v',
         type: Boolean,
         description: 'Include extra logs for each generation process',
       },
-      { name: 'stage', alias: 's', type: Boolean, description: 'Stage READMEs after generation' },
+      {
+        name: 'stage',
+        alias: 's',
+        type: Boolean,
+        description:
+          'Generate READMEs for staged file paths and stage the changes (used for pre-commit hook)',
+      },
       {
         name: 'testPath',
         alias: 't',
@@ -411,7 +428,7 @@ export async function main(): Promise<void | string> {
       return
     }
 
-    console.log('Generating READMEs')
+    Logger.info({ msg: 'Generating READMEs' })
 
     // test setting
     if (options.testPath) {
@@ -430,23 +447,25 @@ export async function main(): Promise<void | string> {
         .ls('-A', pathToSources)
         .filter((name) => name !== 'README.md')
         .map((name) => ({ name }))
-    } else if (options.stagedFiles?.length) {
-      const mappedAdapters: MappedAdapters = options.stagedFiles.reduce(
+    } else if (options.stage) {
+      const stagedFiles = shell.exec('git diff --name-only --cached').toString().split('\n')
+
+      const mappedAdapters: MappedAdapters = stagedFiles.reduce(
         (map: MappedAdapters, file: string) => {
           const filePath = file.split('/')
           if (filePath[1] === 'sources') {
             const name = filePath[2]
             if (!map[name]) {
+              const readmePath = filePath.slice(0, 3).join('/') + '/README.md'
               map[name] = {
-                generatedReadme: !!shell.grep(
-                  genSigGrep,
-                  filePath.slice(0, 3).join('/') + '/README.md',
-                ),
+                readmeIsGenerated: shell.cat(readmePath).toString()?.match(genSigGrep)?.length > 0,
               }
             }
 
-            if (filePath[3] === 'test' && filePath[4] === 'integration') {
+            if (filePath.slice(3, 5).join('/') === 'test/integration') {
               map[name].testsUpdated = true
+            } else if (filePath.slice(3, 6).join('/') === 'src/endpoint/index.ts') {
+              map[name].endpointIndexUpdated = true
             }
           }
           return map
@@ -456,7 +475,8 @@ export async function main(): Promise<void | string> {
 
       adapters = Object.keys(mappedAdapters).map((name) => {
         const options = mappedAdapters[name]
-        const skipTests = options?.generatedReadme && !options?.testsUpdated
+        const skipTests =
+          options.readmeIsGenerated && !options?.testsUpdated && !options?.endpointIndexUpdated
         return { name, skipTests }
       })
     } else if (options.adapters?.length) {
@@ -488,10 +508,10 @@ export async function main(): Promise<void | string> {
     for (const adapter of readmeQueue) {
       createReadmeFile(adapter[0], adapter[1], options.stage)
     }
-    console.log(`${readmeQueue.length} README(s) generated.`)
+    Logger.info({ msg: `${readmeQueue.length} README(s) generated.` })
     process.exit(0)
-  } catch (e) {
-    console.error(`Error: ${e}`)
+  } catch (error) {
+    Logger.error({ error: error.message, stack: error.stack })
     process.exit(1)
   }
 }
