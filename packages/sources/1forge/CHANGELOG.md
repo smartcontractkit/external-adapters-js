@@ -1,5 +1,11 @@
 # @chainlink/1forge-adapter
 
+## 1.4.9
+
+### Patch Changes
+
+- 8ad41e761: Uses new limits from core
+
 ## 1.4.8
 
 ### Patch Changes
