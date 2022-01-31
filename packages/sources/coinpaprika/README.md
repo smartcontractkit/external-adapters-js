@@ -307,3 +307,42 @@ Fetch one or multiple assets for volume
   "statusCode": 200
 }
 ```
+
+## Vwap Endpoint
+
+Aliases: vwap, crypto-vwap
+
+### Input Params
+
+| Required? |          Name          |                   Description                    | Options | Defaults to |
+| :-------: | :--------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin` |       The symbol of the currency to query        |         |             |
+|    🟡     |        `coinid`        | The coin ID (optional to use in place of `base`) |         |             |
+|           |        `hours`         |    Number of hours to calculate the VWAP for     |         |    `24`     |
+|           |      `resultPath`      |               The value to return                |         |  `0.price`  |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "AMPL",
+    "endpoint": "crypto-vwap"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 0.949723,
+  "providerStatusCode": 200,
+  "statusCode": 200,
+  "data": {
+    "result": 0.949723
+  }
+}
+```
