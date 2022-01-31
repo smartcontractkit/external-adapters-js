@@ -2,7 +2,8 @@
   "1forge": {
     "http": {
       "starter": {
-        "rateLimit1h": 208.33
+        "rateLimit1h": 208.33,
+        "note": "https://1forge.com/pricing"
       },
       "premium": {
         "rateLimit1h": 4166.66
@@ -19,7 +20,8 @@
   "adapter_1forge": {
     "http": {
       "starter": {
-        "rateLimit1h": 208.33
+        "rateLimit1h": 208.33,
+        "note": "https://1forge.com/pricing"
       },
       "premium": {
         "rateLimit1h": 4166.66
