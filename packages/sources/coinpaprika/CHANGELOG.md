@@ -1,5 +1,17 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 229f80eba: Add APIKEY support
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.10
 
 ### Patch Changes
