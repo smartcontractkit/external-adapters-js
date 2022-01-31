@@ -1,5 +1,19 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- c66aeef1a: implement changes to sip-165
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+- Updated dependencies [c66aeef1a]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/ea-reference-data-reader@1.1.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.9
 
 ### Patch Changes
