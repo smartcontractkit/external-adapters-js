@@ -1,5 +1,16 @@
 # @chainlink/ea-reference-data-reader
 
+## 1.1.0
+
+### Minor Changes
+
+- c66aeef1a: implement changes to sip-165
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+
 ## 1.0.24
 
 ### Patch Changes
