@@ -101,7 +101,13 @@ export async function main(): Promise<void | string> {
         .filter((name) => name !== 'README.md')
         .map((name) => ({ name }))
     } else if (options.stage) {
-      const stagedFiles = shell.exec('git diff --name-only --cached').toString().split('\n')
+      const stagedFiles = shell
+        .exec('git diff --name-only --cached', {
+          fatal: true,
+          silent: true,
+        })
+        .toString()
+        .split('\n')
 
       const mappedAdapters: MappedAdapters = stagedFiles.reduce(
         (map: MappedAdapters, file: string) => {
@@ -168,3 +174,5 @@ export async function main(): Promise<void | string> {
     process.exit(1)
   }
 }
+
+main()
