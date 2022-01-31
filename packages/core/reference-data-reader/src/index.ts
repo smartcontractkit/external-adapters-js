@@ -70,3 +70,8 @@ export const getRpcUrl = (network: string): string => {
     `Network ${network} must be configured with an environment variable ${`${network.toUpperCase()}_RPC_URL`}`,
   )
 }
+
+export const isZeroAddress = (address: string): boolean => {
+  const ZERO_ADDRESS = '0x' + '00'.repeat(20)
+  return address === ZERO_ADDRESS
+}

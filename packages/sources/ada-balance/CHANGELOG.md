@@ -1,5 +1,70 @@
 # @chainlink/ada-balance-adapter
 
+## 2.3.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.3.1
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.3.0
+
+### Minor Changes
+
+- 952aec962: close ws connection after completing request
+
+## 2.2.3
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.2.2
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.2.1
+
+### Patch Changes
+
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 2.2.0
+
+### Minor Changes
+
+- de40c34fa: Add TLS support
+- 94eba627b: Add WS_OGMIOS_URL and HTTP_OGMIOS_URL environment variables
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.1.3
 
 ### Patch Changes
@@ -49,7 +114,7 @@
 
 ### Major Changes
 
-- 4d3c0a79: changed 'addresses' input param which now expects an array of objects, instead of array of strings
+- e50223f49: changed 'addresses' input param which now expects an array of objects, instead of array of strings
 
 ## 1.0.13
 

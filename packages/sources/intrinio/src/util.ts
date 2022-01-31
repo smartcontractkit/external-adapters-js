@@ -10,8 +10,31 @@ const EventEmitter = events.EventEmitter
 
 const SELF_HEAL_BACKOFFS = [0, 100, 500, 1000, 2000]
 
+interface Options {
+  api_key?: string
+  password?: string
+  username?: string
+  provider: string
+  agent?: https.Agent
+}
+
+export interface IexMessage {
+  topic: string
+  event: string
+  payload: { ticker?: string; type?: string; price?: string }
+  ref: string | null
+}
+
+interface QuoddMessage {
+  event: string
+  data: {
+    ticker: string | number
+    action: string
+  }
+}
+
 export class IntrinioRealtime extends EventEmitter {
-  options: any
+  options: Options
   token: null | string = null
   websocket = null
   ready = false
@@ -23,7 +46,7 @@ export class IntrinioRealtime extends EventEmitter {
   quote_callback = null
   error_callback = null
 
-  constructor(options: any) {
+  constructor(options: Options) {
     super()
 
     this.options = options
@@ -67,11 +90,9 @@ export class IntrinioRealtime extends EventEmitter {
     }
   }
 
-  _throw(e: any) {
+  _throw(e: string): void {
     let handled = false
-    if (typeof e === 'string') {
-      e = 'IntrinioRealtime | ' + e
-    }
+    e = 'IntrinioRealtime | ' + e
     if (this.listenerCount('error') > 0) {
       Logger.error(e)
       handled = true
@@ -116,7 +137,7 @@ export class IntrinioRealtime extends EventEmitter {
     return auth_url
   }
 
-  _makeAPIAuthUrl(auth_url: any): any {
+  _makeAPIAuthUrl(auth_url: { host: string; path: string }): { host: string; path: string } {
     let path = auth_url.path
 
     if (path.includes('?')) {
@@ -160,7 +181,7 @@ export class IntrinioRealtime extends EventEmitter {
         headers: headers,
       }
 
-      const req = https.get(options, (res: any) => {
+      const req = https.get(options, (res) => {
         if (res.statusCode == 401) {
           this._throw('Unable to authorize')
           reject()
@@ -170,7 +191,7 @@ export class IntrinioRealtime extends EventEmitter {
           )
           reject()
         } else {
-          res.on('data', (data: any) => {
+          res.on('data', (data: string) => {
             this.token = Buffer.from(data, 'base64').toString()
             Logger.debug('Received auth token!')
             fulfill()
@@ -214,15 +235,18 @@ export class IntrinioRealtime extends EventEmitter {
     return ''
   }
 
-  _makeHeartbeatMessage(): any {
+  _makeHeartbeatMessage(): IexMessage | QuoddMessage | undefined {
     if (this.options.provider == 'quodd') {
       return { event: 'heartbeat', data: { action: 'heartbeat', ticker: Date.now() } }
     } else if (['iex', 'cryptoquote', 'fxcm'].includes(this.options.provider)) {
       return { topic: 'phoenix', event: 'heartbeat', payload: {}, ref: null }
+    } else {
+      this._throw('Unsupported provider')
+      return undefined
     }
   }
 
-  _makeJoinMessage(channel: string): any {
+  _makeJoinMessage(channel: string): IexMessage | QuoddMessage | undefined {
     if (this.options.provider == 'iex') {
       return {
         topic: this._parseIexTopic(channel),
@@ -245,10 +269,13 @@ export class IntrinioRealtime extends EventEmitter {
         payload: {},
         ref: null,
       }
+    } else {
+      this._throw('Unsupported provider')
+      return undefined
     }
   }
 
-  _makeLeaveMessage(channel: string): any {
+  _makeLeaveMessage(channel: string): IexMessage | QuoddMessage | undefined {
     if (this.options.provider == 'iex') {
       return {
         topic: this._parseIexTopic(channel),
@@ -271,6 +298,9 @@ export class IntrinioRealtime extends EventEmitter {
         payload: {},
         ref: null,
       }
+    } else {
+      this._throw('Unsupported provider')
+      return undefined
     }
   }
 

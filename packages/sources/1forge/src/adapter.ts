@@ -27,7 +27,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return subscribe ? `subscribe_to|${symbol}` : `unsubscribe_from|${symbol}`
   }
   const getSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.quotes.inputParameters, {})
+    const validator = new Validator(
+      input,
+      endpoints.quotes.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     const symbol = validator.validated.data.base.toUpperCase()
     const convert = validator.validated.data.quote.toUpperCase()
@@ -61,7 +66,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       onConnectChain: [
         {
           payload: `login|${defaultConfig.apiKey}`,
-          filter: (message: any) => message.data.indexOf('post_login_success') !== -1,
+          filter: (message: { data: string }) => message.data.indexOf('post_login_success') !== -1,
         },
       ],
     }

@@ -61,7 +61,6 @@ export const noEndpointResultEncoded: LocationCurrentConditionsResultEncoded = [
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   // Request Locations API
   const jobRunID = validator.validated.id

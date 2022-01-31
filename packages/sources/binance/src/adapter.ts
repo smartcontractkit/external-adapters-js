@@ -21,6 +21,19 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  e: string
+  E: number
+  s: string
+  c: string
+  o: string
+  h: string
+  l: string
+  v: string
+  q: string
+  type?: string
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (symbol?: string, subscribe = true) => {
     if (!symbol) return
@@ -31,7 +44,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.crypto.inputParameters, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.crypto.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     const symbol = validator.validated.data.base.toUpperCase()
     const convert = validator.validated.data.quote.toUpperCase()
@@ -45,14 +63,14 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
-      subsFromMessage: (message) => {
+      subsFromMessage: (message: Message) => {
         if (!message.s) return undefined
         return getSubscription(`${message.s.toLowerCase()}`)
       },
-      isError: (message: any) => message.type === 'error',
+      isError: (message: Message) => message.type === 'error',
       // Ignore everything is not a ticker message. Throw an error on incoming errors.
-      filter: (message: any) => message.e === '24hrMiniTicker',
-      toResponse: (message: any) => {
+      filter: (message: Message) => message.e === '24hrMiniTicker',
+      toResponse: (message: Message) => {
         const result = Requester.validateResultNumber(message, ['c'])
         return Requester.success('1', { data: { result } })
       },

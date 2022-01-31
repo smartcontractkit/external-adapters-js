@@ -21,6 +21,12 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  jsonrpc: string
+  params: { result: { number: string }; subscription: string }
+  method: string
+}
+
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   return () => {
     const defaultConfig = config || makeConfig()
@@ -28,7 +34,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       connection: {
         url: defaultConfig.api.baseURL,
       },
-      toSaveFromFirstMessage: (message: any) => {
+      toSaveFromFirstMessage: (message: Message) => {
         if (message.method !== 'eth_subscription' || !message.params) return null
         return {
           subscriptionId: message.params.subscription,
@@ -53,10 +59,10 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         }
       },
       isError: () => false,
-      filter: (message) => message.method === 'eth_subscription',
-      toResponse: async (message: any, input: AdapterRequest) => {
+      filter: (message: Message) => message.method === 'eth_subscription',
+      toResponse: async (message: Message, input: AdapterRequest) => {
         const validator = new Validator(input, endpoints.gas.inputParameters)
-        if (validator.error) throw validator.error
+
         const hexedBlockNum: string = message.params.result.number
         const medianGasPrices = await endpoints.gas.getTransactionsInPastBlocks(
           input.id,

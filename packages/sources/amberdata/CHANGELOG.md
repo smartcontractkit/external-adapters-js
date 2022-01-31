@@ -1,5 +1,72 @@
 # @chainlink/amberdata-adapter
 
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-factories@1.0.24
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.4
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-factories@1.0.23
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.3
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-factories@1.0.22
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.2
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/ea-factories@1.0.21
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.1
+
+### Patch Changes
+
+- d33384599: added response types
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-factories@1.0.20
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.3.0
+
+### Minor Changes
+
+- 385d7d1cb: Add additional inverse pair presets for amberdata
+
+### Patch Changes
+
+- a7e322c51: Remove console.log
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-factories@1.0.19
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.3
 
 ### Patch Changes

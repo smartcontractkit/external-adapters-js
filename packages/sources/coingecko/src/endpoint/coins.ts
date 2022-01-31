@@ -13,7 +13,6 @@ export interface CoinsResponse {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const url = '/coins/list'

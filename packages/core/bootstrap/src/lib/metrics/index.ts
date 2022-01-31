@@ -15,6 +15,7 @@ export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLE
 export enum HttpRequestType {
   CACHE_HIT = 'cacheHit',
   DATA_PROVIDER_HIT = 'dataProviderHit',
+  ADAPTER_ERROR = 'adapterError',
 }
 
 export const httpRequestsTotal = new client.Counter({

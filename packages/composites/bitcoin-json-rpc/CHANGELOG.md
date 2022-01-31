@@ -1,5 +1,66 @@
 # @chainlink/bitcoin-json-rpc-adapter
 
+## 1.0.25
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/json-rpc-adapter@1.1.20
+
+## 1.0.24
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/json-rpc-adapter@1.1.19
+
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/json-rpc-adapter@1.1.18
+
+## 1.0.22
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/json-rpc-adapter@1.1.17
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/json-rpc-adapter@1.1.16
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/json-rpc-adapter@1.1.15
+
 ## 1.0.19
 
 ### Patch Changes

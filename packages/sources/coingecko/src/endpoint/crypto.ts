@@ -12,14 +12,13 @@ import { getCoinIds, getSymbolsToIds } from '../util'
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
-const customError = (data: any) => {
-  if (Object.keys(data).length === 0) return true
-  return false
+const customError = (data: ResponseSchema) => {
+  return Object.keys(data).length === 0
 }
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   const quote = validator.validated.data.quote
   if (Array.isArray(quote)) return ''
   return `${quote.toLowerCase()}${path}`
@@ -50,17 +49,16 @@ export const inputParameters: InputParameters = {
     description: 'The symbol of the currency to convert to',
     required: true,
   },
-  endpoint: {
-    description: 'Name of the endpoint to use',
-    required: false,
-    type: 'string',
-  },
+}
+
+export interface ResponseSchema {
+  [key: string]: Record<string, number>
 }
 
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse,
+  response: AxiosResponse<ResponseSchema>,
   validator: Validator,
   endpoint: string,
   idToSymbol: Record<string, string>,
@@ -89,13 +87,16 @@ const handleBatchedRequest = (
       } else Logger.debug('WARNING: Symbol not found ', base)
     }
   }
-  response.data.results = payload
-  return Requester.success(jobRunID, response, true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const endpoint = validator.validated.data.endpoint
   const jobRunID = validator.validated.id
@@ -128,14 +129,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     params,
   }
 
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request<ResponseSchema>(options, customError)
 
   if (Array.isArray(base) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, validator, endpoint, idToSymbol)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    ids.toLowerCase(),
-    resultPath,
-  ])
+  const result = Requester.validateResultNumber(response.data, [ids.toLowerCase(), resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }

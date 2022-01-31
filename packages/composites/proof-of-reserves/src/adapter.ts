@@ -47,7 +47,6 @@ const inputParams = {
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const paramOptions = makeOptions()
   const validator = new Validator(input, inputParams, paramOptions)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const protocol = validator.validated.data.protocol.toUpperCase()

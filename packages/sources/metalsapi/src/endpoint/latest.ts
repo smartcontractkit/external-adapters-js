@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['latest', 'forex']
+export const supportedEndpoints = ['latest']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
 export const inputParameters: InputParameters = {
@@ -63,7 +63,6 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)
