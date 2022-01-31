@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['convert']
+export const supportedEndpoints = ['convert', 'forex']
 
 const customError = (data: ResponseSchema) => !data.success
 
@@ -37,7 +37,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()

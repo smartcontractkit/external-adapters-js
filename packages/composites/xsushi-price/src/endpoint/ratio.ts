@@ -31,7 +31,6 @@ export function getSushiAddress(context: AdapterContext, id: string): Promise<st
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, {})
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const xsushiAddress = config.xsushiAddress

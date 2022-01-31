@@ -1,5 +1,83 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.42
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-reference-data-reader@1.0.24
+  - @chainlink/ea@1.0.42
+
+## 1.0.41
+
+### Patch Changes
+
+- @chainlink/ea@1.0.41
+
+## 1.0.40
+
+### Patch Changes
+
+- @chainlink/ea@1.0.40
+
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-reference-data-reader@1.0.23
+  - @chainlink/ea@1.0.39
+
+## 1.0.38
+
+### Patch Changes
+
+- @chainlink/ea@1.0.38
+
+## 1.0.37
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-reference-data-reader@1.0.22
+  - @chainlink/ea@1.0.37
+
+## 1.0.36
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/ea-reference-data-reader@1.0.21
+  - @chainlink/ea@1.0.36
+
+## 1.0.35
+
+### Patch Changes
+
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea@1.0.35
+  - @chainlink/ea-reference-data-reader@1.0.20
+
+## 1.0.34
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea@1.0.34
+  - @chainlink/ea-reference-data-reader@1.0.19
+
 ## 1.0.33
 
 ### Patch Changes

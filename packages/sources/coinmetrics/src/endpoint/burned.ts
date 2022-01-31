@@ -19,8 +19,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  new Validator(request, inputParameters)
 
   request.data.pageSize = 1
   request.data.isBurnedEndpointMode = true

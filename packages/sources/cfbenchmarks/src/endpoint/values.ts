@@ -1,15 +1,80 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { NAME } from '../config'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, NAME } from '../config'
 
 export const supportedEndpoints = ['values', 'crypto', 'price']
+
+const idFromBaseQuoteSymbol: { [baseQuote: string]: string } = {
+  'BTC/USD': 'BRTI',
+}
 
 export const inputParameters: InputParameters = {
   index: {
     description: 'The ID of the index',
     type: 'string',
-    required: true,
+    required: false,
   },
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The base asset to convert from (if index is not present)',
+    type: 'string',
+    required: false,
+  },
+  quote: {
+    aliases: ['to', 'market', 'term'],
+    description: 'The quote asset to convert to (if index is not present)',
+    type: 'string',
+    required: false,
+  },
+}
+
+const getIdFromBaseQuoteSymbols = (config: Config, base: string, quote: string) => {
+  const baseQuote = `${base}/${quote}`
+
+  let id = idFromBaseQuoteSymbol[baseQuote] // Check hardcoded conversions first
+
+  if (!id) {
+    // If not hardcoded, use template
+    if (config.useSecondary) {
+      id = `U_${base}${quote}_RTI`
+    } else {
+      id = `${base}${quote}_RTI`
+    }
+  }
+
+  return id
+}
+
+export const getIdFromInputs = (
+  config: Config,
+  validator: Validator,
+  shouldThrowError = true,
+): string | undefined => {
+  if (
+    !(
+      validator.validated.data.index ||
+      (validator.validated.data.base && validator.validated.data.quote)
+    )
+  ) {
+    const missingInput = !validator.validated.data.index ? 'index' : 'base /or quote'
+    if (shouldThrowError) {
+      throw new AdapterError({
+        jobRunID: validator.validated.id,
+        statusCode: 400,
+        message: `Error: missing ${missingInput} input parameters`,
+      })
+    } else {
+      return
+    }
+  }
+
+  return validator.validated.data.index
+    ? (validator.overrideSymbol(NAME, validator.validated.data.index) as string)
+    : getIdFromBaseQuoteSymbols(
+        config,
+        validator.validated.data.base,
+        validator.validated.data.quote,
+      )
 }
 
 interface PayloadValue {
@@ -23,10 +88,11 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const id = validator.overrideSymbol(NAME, validator.validated.data.index)
+
+  const id = getIdFromInputs(config, validator)
+
   const url = `/v1/values`
 
   const params = {

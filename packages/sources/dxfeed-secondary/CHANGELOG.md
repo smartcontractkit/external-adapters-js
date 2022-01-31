@@ -1,5 +1,66 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 1.1.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/dxfeed-adapter@1.2.10
+
+## 1.1.21
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/dxfeed-adapter@1.2.9
+
+## 1.1.20
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/dxfeed-adapter@1.2.8
+
+## 1.1.19
+
+### Patch Changes
+
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/dxfeed-adapter@1.2.7
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.18
+
+### Patch Changes
+
+- Updated dependencies [b24ae3b0a]
+- Updated dependencies [da1207541]
+- Updated dependencies [e8a4e0e6c]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/dxfeed-adapter@1.2.6
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.17
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/dxfeed-adapter@1.2.5
+
 ## 1.1.16
 
 ### Patch Changes

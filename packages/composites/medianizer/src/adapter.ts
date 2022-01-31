@@ -10,13 +10,6 @@ import { AxiosResponse } from 'axios'
 import { makeConfig } from './config'
 
 export type SourceRequestOptions = { [source: string]: RequestConfig }
-export type CheckRequestOptions = { [check: string]: RequestConfig }
-
-export type AdapterOptions = {
-  sources: SourceRequestOptions
-  checks: CheckRequestOptions
-  api: any
-}
 
 const customParams = {
   sources: true,
@@ -25,7 +18,6 @@ const customParams = {
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const sources = parseSources(validator.validated.data.sources)
@@ -70,7 +62,7 @@ const getExecuteMedian = async (
     .filter((result) => result.status === 'fulfilled' && 'value' in result)
     .map(
       (result) =>
-        (result as PromiseFulfilledResult<AxiosResponse<Record<string, any>>>).value.data.result,
+        (result as PromiseFulfilledResult<AxiosResponse<Record<string, number>>>).value.data.result,
     )
   if (values.length < minAnswers)
     throw Error(

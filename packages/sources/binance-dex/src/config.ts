@@ -5,7 +5,6 @@ export const NAME = 'BINANCE_DEX'
 export const DEFAULT_ENDPOINT = 'price'
 
 export const DEFAULT_API_ENDPOINT = 'dex-asiapacific'
-export const DEFAULT_DATA_ENDPOINT = 'v1/ticker/24hr'
 
 // TODO: this usage of the process.env.API_ENDPOINT differs from most other adapters and should be changed
 const getBaseURL = (region: string) => `https://${region}.binance.org`

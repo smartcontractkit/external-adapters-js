@@ -32,7 +32,6 @@ const supportedSymbols = [beth.FROM, bluna.FROM]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const { from, to, quoteDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()

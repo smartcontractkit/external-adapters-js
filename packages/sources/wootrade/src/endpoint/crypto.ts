@@ -2,14 +2,8 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 export interface ResponseSchema {
-  data: {
-    success: boolean
-    rows: MarketTrades[]
-  }[]
-  error?: {
-    type: string
-    message: string
-  }
+  success: boolean
+  rows: MarketTrades[]
 }
 export interface MarketTrades {
   symbol: string
@@ -21,7 +15,7 @@ export interface MarketTrades {
 
 export const supportedEndpoints = ['crypto', 'ticker']
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) => data?.rows?.length === 0
 
 export const inputParameters: InputParameters = {
   base: {
@@ -40,7 +34,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let base = validator.overrideSymbol(AdapterName)

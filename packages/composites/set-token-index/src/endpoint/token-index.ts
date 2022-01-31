@@ -36,15 +36,20 @@ export function getAllocations(
 }
 
 export const inputParameters: InputParameters = {
-  address: true,
-  adapter: true,
-  source: false,
-  quote: false,
+  address: {
+    required: true,
+    description: 'Address of the SetToken',
+  },
+  adapter: {
+    required: true,
+    description: 'Address of the adapter contract',
+  },
+  source: { required: false },
+  quote: { required: false },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const contractAddress = validator.validated.data.address

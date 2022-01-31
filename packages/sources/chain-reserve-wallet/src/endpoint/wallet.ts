@@ -2,14 +2,14 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 
-const networks = ['cardano', 'doge']
+const networks = ['cardano', 'dogecoin']
 const chainIds = ['mainnet', 'testnet']
 
 const networkChainMap: { [key: string]: number } = {
   cardano_testnet: 0,
-  doge_testnet: 1,
+  dogecoin_testnet: 1,
   cardano_mainnet: 2,
-  doge_mainnet: 3,
+  dogecoin_mainnet: 3,
 }
 
 const isNetwork = (maybeNetwork: string) => networks.indexOf(maybeNetwork) !== -1
@@ -67,7 +67,6 @@ const abi = [
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { chainId, contractAddress, network } = validator.validated.data

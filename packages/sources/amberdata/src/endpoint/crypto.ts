@@ -4,7 +4,7 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price']
 
-const customError = (data: any) => {
+const customError = (data: ResponseSchema) => {
   return Object.keys(data.payload).length === 0
 }
 
@@ -33,19 +33,30 @@ export const inputParameters: InputParameters = {
   },
 }
 
+export interface ResponseSchema {
+  status: number
+  title: string
+  description: string
+  payload: {
+    timestamp: number
+    pair: string
+    price: string
+    volume: string
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
-  const jobRunID = validator.validated.id
 
+  const jobRunID = validator.validated.id
   const { url, params, inverse } = getOptions(validator)
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'], {
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  const result = Requester.validateResultNumber(response.data, ['payload', 'price'], {
     inverse,
   })
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
 const getOptions = (
