@@ -24,7 +24,7 @@
 
 ## Quality Assurance
 
-- [ ] Ran `yarn changeset`
+- [ ] Ran `yarn changeset` if adapter source code was changed
 - [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `<ADAPTER_PACKAGE>/schemas/env.json` and `<ADAPTER_PACKAGE>/README.md`
 - [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `infra-k8s` configuration file.
 - [ ] The branch naming follows git flow (`feature/x`, `chore/x`, `release/x`, `hotfix/x`, `fix/x`) or is created from Clubhouse/Shortcut
