@@ -15,9 +15,9 @@ than this should be proceeded with caution.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                                                                       Options                                                                                                                        | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint), [`forex`, `fx` or `commodities`](#Forex-Endpoint), [`crypto-vwap`](#Crypto-Vwap-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                                                                                                            Options                                                                                                                             | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint), [`forex`, `fx` or `commodities`](#Forex-Endpoint), [`vwap` or `crypto-vwap`](#Crypto-Vwap-Endpoint) |  `crypto`   |
 
 ---
 
@@ -265,6 +265,8 @@ https://api.tiingo.com/documentation/forex
 ```
 
 ## Crypto-Vwap Endpoint
+
+Aliases: vwap, crypto-vwap
 
 Crypto VWAP prices endpoint from:
 

@@ -22,6 +22,7 @@ export const inputParameters: InputParameters = {
     required: true,
   },
   hours: {
+    description: 'Number of hours to get VWAP for',
     type: 'number',
     default: 24,
   },
