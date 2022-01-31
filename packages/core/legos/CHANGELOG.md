@@ -1,5 +1,15 @@
 # @chainlink/ea
 
+## 1.0.44
+
+### Patch Changes
+
+- Updated dependencies [e7e466138]
+- Updated dependencies [8ad41e761]
+  - @chainlink/dxfeed-adapter@1.2.12
+  - @chainlink/1forge-adapter@1.4.9
+  - @chainlink/dxfeed-secondary-adapter@1.1.24
+
 ## 1.0.43
 
 ### Patch Changes
