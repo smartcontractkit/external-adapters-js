@@ -278,6 +278,19 @@ export class ReadmeGenerator {
 
         const sectionTitle = `## ${capitalize(endpointName)} Endpoint`
 
+        const endpointNames = codeList(endpointDetails.supportedEndpoints)
+
+        let sectionDescription = endpointDetails.description
+          ? endpointDetails.description + '\n\n'
+          : ''
+
+        sectionDescription +=
+          endpointDetails.supportedEndpoints.length > 1
+            ? `Supported names for this endpoint are: ${endpointNames}.`
+            : endpointDetails.supportedEndpoints.length === 1
+            ? `${endpointNames} is the only supported name for this endpoint.`
+            : 'There are no supported names for this endpoint.'
+
         // Build input parameters table
         let inputTable = ''
         if (endpointDetails.inputParameters === balance.inputParameters) {
@@ -333,18 +346,9 @@ export class ReadmeGenerator {
 
         const inputTableSection = '### Input Params\n' + inputTable
 
-        // Add I/O example section
-        const endpointNames = codeList(endpointDetails.supportedEndpoints)
-        const supportedEndpointText =
-          endpointDetails.supportedEndpoints.length > 1
-            ? `Supported names for this endpoint are: ${endpointNames}.`
-            : endpointDetails.supportedEndpoints.length === 1
-            ? `${endpointNames} is the only supported name for this endpoint.`
-            : 'There are no supported names for this endpoint.'
-
         const exampleText = endpointExampleText[endpointName]
 
-        return [sectionTitle, supportedEndpointText, inputTableSection, exampleText].join('\n\n')
+        return [sectionTitle, sectionDescription, inputTableSection, exampleText].join('\n\n')
       })
       .join('\n\n---\n\n')
 

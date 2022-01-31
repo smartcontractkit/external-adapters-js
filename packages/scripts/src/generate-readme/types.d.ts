@@ -13,6 +13,7 @@ export type EndpointDetails = {
   [endpointName: string]: {
     supportedEndpoints: string[]
     inputParameters: InputParameters
+    description?: string
   }
 }
 
