@@ -11,7 +11,7 @@ export const makeConfig = (prefix?: string): Config => {
   const headers: { [T: string]: string | boolean } = {}
   if (config.apiKey) headers['Authorization'] = config.apiKey
 
-  const isInTestMode = util.getEnv('IS_TEST_MODE', prefix)
+  const isInTestMode = util.parseBool(util.getEnv('IS_TEST_MODE', prefix))
   if (isInTestMode) headers['COINPAPRIKA-API-KEY-VERIFY'] = true
 
   config.api = {

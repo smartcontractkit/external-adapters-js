@@ -33,6 +33,13 @@ describe('config tests', () => {
       const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
       expect(testModeHeader).toBe(true)
     })
+
+    it('does not start the adapter in test mode if the IS_IN_TEST_MODE env var is set to false', () => {
+      process.env.IS_TEST_MODE = 'false'
+      const config = makeConfig()
+      const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
+      expect(testModeHeader).toBeUndefined()
+    })
   })
 })
 
