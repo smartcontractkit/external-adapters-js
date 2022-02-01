@@ -1,5 +1,12 @@
 # Chainlink CoinPaprika External Adapter
 
+### Environment Variables
+
+| Required? |     Name     |                                                   Description                                                   | Options | Defaults to |
+| :-------: | :----------: | :-------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|           |   API_KEY    |                       An API key that can be obtained from the data provider's dashboard                        |         |             |
+|           | IS_TEST_MODE | Whether or not the Coinpaprika API is running in testmode. This will be removed once their API is in production |         |             |
+
 ### Input Parameters
 
 | Required? |   Name   |     Description     |                                                                                                        Options                                                                                                         | Defaults to |
