@@ -378,20 +378,14 @@
   "coinpaprika": {
     "http": {
       "free": {
-        "rateLimit1s": 0.0193,
-        "rateLimit1m": 1.157,
         "rateLimit1h": 69.44,
         "note": "50k/mo for free"
       },
       "pro": {
-        "rateLimit1s": 0.096,
-        "rateLimit1m": 5.787,
         "rateLimit1h": 347.22,
         "note": "250k/mo for pro"
       },
       "business": {
-        "rateLimit1s": 0.386,
-        "rateLimit1m": 23.148,
         "rateLimit1h": 1388.888,
         "note": "1mil/mo for business"
       }
