@@ -37,10 +37,10 @@ flag_management:
         target: auto
         threshold: 1%
         informational: true # TODO: Delete once coverage reports are consistent
-        if_ci_fails: success # TODO: Delete once coverage reports are consistent
+        if_ci_failed: success # TODO: Delete once coverage reports are consistent
       # Every PR must have a minimum of 90% coverage on adjusted lines
       - name_prefix: patch-
         type: patch
         target: 90%
         informational: true # TODO: Delete once coverage reports are consistent
-        if_ci_fails: success # TODO: Delete once coverage reports are consistent
+        if_ci_failed: success # TODO: Delete once coverage reports are consistent
