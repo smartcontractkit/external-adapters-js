@@ -37,7 +37,7 @@ export type ResponseSchema = {
 
 const customError = (data: ResponseSchema) => !data.length
 
-const formatUtcDate = (date: Date) => `${date.toISOString().split('T')[0]}T00:00:00Z`
+const formatUtcDate = (date: Date) => date.toISOString().split('T')[0]
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
@@ -63,7 +63,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const params = {
     start: formatUtcDate(startDate),
-    end: formatUtcDate(endDate),
     interval: `${hours}h`,
   }
 
