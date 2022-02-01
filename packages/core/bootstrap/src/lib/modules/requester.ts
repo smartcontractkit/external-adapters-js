@@ -51,9 +51,9 @@ export class Requester {
       } catch (error) {
         // Request error
         if (error.code === 'ECONNABORTED') {
-          // axios timeout code
+          // Axios timeout code
           throw new AdapterError({
-            statusCode: 200,
+            statusCode: 408,
             name: 'Request Timeout error',
             providerStatusCode: error?.response?.status ?? 408,
             message: error?.message,
