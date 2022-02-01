@@ -30,6 +30,9 @@ const tokenOptions = (from: string, to: string) => ({
   },
 })
 
+export const description =
+  'Gets the [24h-volume for historical of a pair](https://docs.amberdata.io/reference#spot-price-pair-historical) from Amberdata.'
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,

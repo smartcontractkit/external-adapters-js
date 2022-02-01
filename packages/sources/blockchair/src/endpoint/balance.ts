@@ -5,6 +5,8 @@ import { COINS, isCoinType, isChainType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const description = '[Address Balance Mass Check](https://blockchair.com/api/docs#link_390)'
+
 export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (addresses: string[], coin: string, chain: string) => {

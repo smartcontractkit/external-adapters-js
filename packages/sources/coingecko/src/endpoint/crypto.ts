@@ -33,6 +33,9 @@ export const endpointResultPaths: {
   volume: buildResultPath('_24h_vol'),
 }
 
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**\n\n'
+
 export const inputParameters: InputParameters = {
   coinid: {
     description:

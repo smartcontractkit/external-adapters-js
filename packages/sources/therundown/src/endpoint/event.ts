@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['event']
 
+export const description = 'Returns data for a specific event'
+
 export const inputParameters: InputParameters = {
   eventId: {
     required: true,

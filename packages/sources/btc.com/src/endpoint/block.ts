@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from 
 
 export const supportedEndpoints = ['height', 'difficulty']
 
+export const description = '[Block](https://btc.com/api-doc#Block)'
+
 export const endpointResultPaths: EndpointResultPaths = {
   height: 'height',
   difficulty: 'difficulty',

@@ -3,6 +3,9 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['dominance']
 
+export const description =
+  "Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.com/v1/global)"
+
 export const inputParameters: InputParameters = {
   market: {
     aliases: ['to', 'quote'],

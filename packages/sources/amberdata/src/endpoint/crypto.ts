@@ -18,6 +18,9 @@ const tokenOptions = (from: string, to: string) => ({
   params: {},
 })
 
+export const description =
+  'Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.\n\n**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,
