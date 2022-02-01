@@ -13,7 +13,6 @@ import { combineReducers, Store } from 'redux'
 import { Cache, withCache } from './lib/middleware/cache'
 import * as cacheWarmer from './lib/middleware/cache-warmer'
 import { AdapterError, logger as Logger, Requester, Validator, Builder } from './lib/modules'
-import { Limits } from './lib/config/provider-limits'
 import * as metrics from './lib/metrics'
 import * as RateLimit from './lib/middleware/rate-limit'
 import * as burstLimit from './lib/middleware/burst-limit'
@@ -131,15 +130,14 @@ export type ExecuteHandler = {
 }
 
 export const expose = <C extends Config>(
-  name: string,
+  context: AdapterContext,
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
-  rateLimits?: Limits,
 ): ExecuteHandler => {
   const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
   return {
-    server: server.initHandler(name, execute, middleware, rateLimits),
+    server: server.initHandler(context.name || '', execute, middleware, context.rateLimit),
   }
 }
 
