@@ -1,5 +1,11 @@
 # @chainlink/dydx-rewards-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 02c3a64bb: Update DYDX rewards formulas for DIP-7
+
 ## 1.0.25
 
 ### Patch Changes
