@@ -1826,7 +1826,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alpine-adapter@workspace:packages/sources/alpine":
+"@chainlink/alpine-adapter@workspace:*, @chainlink/alpine-adapter@workspace:packages/sources/alpine":
   version: 0.0.0-use.local
   resolution: "@chainlink/alpine-adapter@workspace:packages/sources/alpine"
   dependencies:
@@ -2913,6 +2913,7 @@ __metadata:
     "@chainlink/ada-balance-adapter": "workspace:*"
     "@chainlink/alphachain-adapter": "workspace:*"
     "@chainlink/alphavantage-adapter": "workspace:*"
+    "@chainlink/alpine-adapter": "workspace:*"
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
@@ -2975,6 +2976,7 @@ __metadata:
     "@chainlink/iex-cloud-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
+    "@chainlink/jpegd-adapter": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*"
@@ -3521,6 +3523,20 @@ __metadata:
     nock: 13.2.1
     tslib: ^2.1.0
     type-fest: 2.6.0
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/jpegd-adapter@workspace:*, @chainlink/jpegd-adapter@workspace:packages/sources/jpegd":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/jpegd-adapter@workspace:packages/sources/jpegd"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
   linkType: soft
