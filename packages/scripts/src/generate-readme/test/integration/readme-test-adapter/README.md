@@ -94,8 +94,8 @@ Supported names for this endpoint are: `marketcap`, `mc`.
 
 | Required? |         Name          |    Aliases     |                   Description                    |  Type  |                         Options                          | Default  | Depends On |     Not Valid With      |
 | :-------: | :-------------------: | :------------: | :----------------------------------------------: | :----: | :------------------------------------------------------: | :------: | :--------: | :---------------------: |
-|    ✅     |         base          | `from`, `coin` |       The symbol of the currency to query        | string |                                                          |          |            |                         |
-|    ✅     |         quote         | `to`, `market` |     The symbol of the currency to convert to     | string |                                                          |          |            |                         |
+|    ✅     |         base          | `coin`, `from` |       The symbol of the currency to query        | string |                                                          |          |            |                         |
+|    ✅     |         quote         | `market`, `to` |     The symbol of the currency to convert to     | string |                                                          |          |            |                         |
 |           |        coinid         |                | The coin ID (optional to use in place of `base`) | number |                                                          |          |            | `referenceCurrencyUuid` |
 |           |      resultPath       |                |             The path for the result              | string | `address`, `addresses`, `marketcap`, `result`, `results` | `result` |            |                         |
 |           | referenceCurrencyUuid |                |      The reference currency UUID to utilize      | string |                                                          |          |            |        `coinid`         |
@@ -157,14 +157,14 @@ Response:
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `price`, `convert`.
+Supported names for this endpoint are: `convert`, `price`.
 
 ### Input Params
 
 | Required? |    Name    |    Aliases     |               Description                |  Type  |                       Options                        | Default  |  Depends On  | Not Valid With |
 | :-------: | :--------: | :------------: | :--------------------------------------: | :----: | :--------------------------------------------------: | :------: | :----------: | :------------: |
-|    ✅     |    base    | `from`, `coin` |   The symbol of the currency to query    | string |                                                      |          |              |                |
-|    ✅     |   quote    | `to`, `market` | The symbol of the currency to convert to | string |                                                      |          |              |                |
+|    ✅     |    base    | `coin`, `from` |   The symbol of the currency to query    | string |                                                      |          |              |                |
+|    ✅     |   quote    | `market`, `to` | The symbol of the currency to convert to | string |                                                      |          |              |                |
 |           |   amount   |    `value`     |       Amount of currency to price        | number |                                                      |          | `resultPath` |                |
 |           | resultPath |                |         The path for the result          | string | `address`, `addresses`, `price`, `result`, `results` | `result` |   `amount`   |                |
 

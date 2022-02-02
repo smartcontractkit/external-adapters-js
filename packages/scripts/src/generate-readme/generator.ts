@@ -32,7 +32,11 @@ const wrapJson = (o: string): string => `\`\`\`json\n${o}\n\`\`\``
 
 const wrapCode = (s: string | number = ''): string => `\`${s.toString()}\``
 
-const codeList = (a: (string | number)[] = []): string => a.map((d) => wrapCode(d)).join(', ')
+const codeList = (a: (string | number)[] = []): string =>
+  a
+    .sort()
+    .map((d) => wrapCode(d))
+    .join(', ')
 
 export const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
 
@@ -125,7 +129,7 @@ export class ReadmeGenerator {
       const name = key ?? ''
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
-      const options = codeList(envVar.options ?? [])
+      const options = codeList(envVar.options)
       const defaultText = Object.keys(envVar).includes('default') ? wrapCode(envVar.default) : ''
       return [required, name, description, type, options, defaultText]
     })
