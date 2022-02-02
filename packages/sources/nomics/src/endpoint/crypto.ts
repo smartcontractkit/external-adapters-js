@@ -90,8 +90,9 @@ interface ResponseSchema {
 
 const customError = (data: ResponseSchema[]) => data.length === 0
 
-export const description =
-  'The `crypto` endpoint fetches the price of a requested asset, the `marketcap` endpoint fetches the market cap of the requested asset, and the `volume` endpoint fetches the volume of the requested pair of assets for past 24-hr.\n\n**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+export const description = `The \`crypto\` endpoint fetches the price of a requested asset, the \`marketcap\` endpoint fetches the market cap of the requested asset, and the \`volume\` endpoint fetches the volume of the requested pair of assets for past 24-hr.
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
 export const inputParameters: InputParameters = {
   base: {

@@ -32,8 +32,11 @@ export interface ResponseSchema {
   }[]
 }
 
-export const description =
-  'The `crypto`, `volume`, and `prices` endpoints come from https://api.tiingo.com/documentation/crypto.\n\n`crypto` and `volume` endpoints return a VWAP of all the exchanges on the current day and across base tokens.\n\n`volume` returns the 24h volume for a pair.'
+export const description = `The \`crypto\`, \`volume\`, and \`prices\` endpoints come from https://api.tiingo.com/documentation/crypto.
+
+\`crypto\` and \`prices\` endpoints return a VWAP of all the exchanges on the current day and across base tokens.
+
+\`volume\` returns the 24h volume for a pair.`
 
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],

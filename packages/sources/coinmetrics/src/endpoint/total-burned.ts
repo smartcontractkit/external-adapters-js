@@ -29,8 +29,8 @@ const METRICS = 'FeeTotNtv,RevNtv,IssTotNtv'
 const DEFAULT_PAGE_SIZE = 10_000
 const URL = 'timeseries/asset-metrics'
 
-export const description =
-  'Endpoint to calculate the total number of burned coins/tokens for an asset.\n\nThis endpoint requires that the asset has the following metrics available: `FeeTotNtv`, `RevNtv` and `IssTotNtv`.'
+export const description = `Endpoint to calculate the total number of burned coins/tokens for an asset.
+This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
 
 export const inputParameters: InputParameters = {
   asset: {

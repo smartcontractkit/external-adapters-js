@@ -33,8 +33,9 @@ export interface ResponseSchema {
 const customError = (data: ResponseSchema) =>
   !data.result_data || Object.keys(data.result_data).length === 0
 
-export const description =
-  'This historical endpoint provides the closing price of the previous day as detailed in [Unibit documentation](https://unibit.ai/api/docs/V2.0/historical_stock_price).\n\n**NOTE: each request sent to this endpoint has a cost of 10 credits**'
+export const description = `This historical endpoint provides the closing price of the previous day as detailed in [Unibit documentation](https://unibit.ai/api/docs/V2.0/historical_stock_price).
+
+**NOTE: each request sent to this endpoint has a cost of 10 credits**`
 
 export const inputParameters: InputParameters = {
   base: {

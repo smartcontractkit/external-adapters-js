@@ -56,8 +56,9 @@ export interface ResponseSchema {
   }[]
 }
 
-export const description =
-  "This endpoint fetches the results from an election and reports back a winner. This adapter adds several restrictions on top of AP Election's API.\n\n- Adapter only accepts a single state postal code\n- Adapter will only return races where a winner has already been declared."
+export const description = `This endpoint fetches the results from an election and reports back a winner. This adapter adds several restrictions on top of AP Election's API.
+- Adapter only accepts a single state postal code
+- Adapter will only return races where a winner has already been declared.`
 
 export const inputParameters: InputParameters = {
   date: {

@@ -38,8 +38,9 @@ export interface ResponseSchema {
   }
 }
 
-export const description =
-  'Supports the following endpoint params to return a field in the response data:\n\n- `estimatedarrivaltime`: Returns the estimatedarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint'
+export const description = `Supports the following endpoint params to return a field in the response data:
+- \`estimatedarrivaltime\`: Returns the estimatedarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint
+- \`actualarrivaltime\`: Returns the actualarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint`
 
 export const inputParameters: InputParameters = {
   departure: {

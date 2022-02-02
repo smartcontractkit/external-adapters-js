@@ -11,8 +11,8 @@ import { NAME } from '../config'
 export const supportedEndpoints = ['stock']
 export const batchablePropertyPath = [{ name: 'base' }]
 
-export const description =
-  'https://finage.co.uk/docs/api/stock-last-quote\n\nThe result will be calculated as the midpoint between the ask and the bid.'
+export const description = `https://finage.co.uk/docs/api/stock-last-quote
+The result will be calculated as the midpoint between the ask and the bid.`
 
 export const inputParameters: InputParameters = {
   base: {

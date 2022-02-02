@@ -4,8 +4,8 @@ import { totalBurned } from '.'
 
 export const supportedEndpoints = ['burned']
 
-export const description =
-  'Endpoint to calculate the number of burned coins/tokens for an asset either on the previous day or on the previous block.\n\nThis endpoint requires that the asset has the following metrics available: `FeeTotNtv`, `RevNtv` and `IssTotNtv`.'
+export const description = `Endpoint to calculate the number of burned coins/tokens for an asset either on the previous day or on the previous block.
+This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
 
 export const inputParameters: InputParameters = {
   asset: {

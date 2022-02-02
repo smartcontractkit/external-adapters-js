@@ -4,8 +4,9 @@ import { authenticate, convert, getAssetId } from '../helpers'
 
 export const supportedEndpoints = ['crypto', 'price']
 
-export const description =
-  "[BraveNewCoin's AssetTicker endpoint](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_836afc67-19d2-45ae-bb56-c576cec9f602).\n\n**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**"
+export const description = `[BraveNewCoin's AssetTicker endpoint](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_836afc6
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
 export const inputParameters: InputParameters = {
   base: {

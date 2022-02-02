@@ -8,8 +8,9 @@ const customError = (data: Record<string, unknown>) => {
   return !!data['Error Message']
 }
 
-export const description =
-  "Returns the exchange rate from a currency's current price to a given currency.\n\n**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.**"
+export const description = `Returns the exchange rate from a currency's current price to a given currency.
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`forex\` endpoint instead.**"`
 
 export const inputParameters: InputParameters = {
   base: {
