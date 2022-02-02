@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['globalmarketcap']
 
+export const description = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
+
 export const inputParameters: InputParameters = {
   market: {
     aliases: ['quote', 'to'],

@@ -5,6 +5,8 @@ export const supportedEndpoints = ['dataquery']
 
 const customError = (data: ResponseSchema) => data.status !== '200'
 
+export const description = 'Retrieves price data for a given currency pair.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

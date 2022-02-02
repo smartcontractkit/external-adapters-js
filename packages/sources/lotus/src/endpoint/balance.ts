@@ -11,6 +11,9 @@ export const methodName = 'Filecoin.WalletBalance'
 
 export const supportedEndpoints = ['balance', methodName]
 
+export const description =
+  'The balance endpoint will fetch the balance of each address in the query and the total sum.'
+
 export const inputParameters: InputParameters = {
   addresses: {
     required: true,

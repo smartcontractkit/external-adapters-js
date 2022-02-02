@@ -6,6 +6,9 @@ import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const description =
+  'https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-address-info-endpoint'
+
 export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
