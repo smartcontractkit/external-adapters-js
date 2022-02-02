@@ -18,6 +18,8 @@ export interface ResponseSchema {
 
 const customError = (data: any) => data.Response === 'Error'
 
+export const description = 'Marketcap endpoint, which has many optional input parameters.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

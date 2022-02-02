@@ -20,13 +20,15 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                         Options                                          |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [marketcap](#marketcap-endpoint), [price](#price-endpoint) | `balance` |
+| Required? |   Name   |     Description     |  Type  |                                                                     Options                                                                     |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [convert](#price-endpoint), [marketcap](#marketcap-endpoint), [mc](#marketcap-endpoint), [price](#price-endpoint) | `balance` |
 
 ---
 
 ## Balance Endpoint
+
+Balance endpoint for test adapter
 
 `balance` is the only supported name for this endpoint.
 
@@ -40,11 +42,11 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 Address objects within `addresses` have the following properties:
 
-| Required? |  Name   |                 Description                  |  Type  |                  Options                  |  Default  |
-| :-------: | :-----: | :------------------------------------------: | :----: | :---------------------------------------: | :-------: |
-|    ✅     | address |               Address to query               | string |                                           |           |
-|           |  chain  | Chain to query (Ethereum testnet is Rinkeby) | string |           `mainnet`, `testnet`            | `mainnet` |
-|           |  coin   |              Currency to query               | string | `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec` |   `btc`   |
+| Required? |  Name   |                 Description                  |  Type  |                    Options                    |  Default  |
+| :-------: | :-----: | :------------------------------------------: | :----: | :-------------------------------------------: | :-------: |
+|    ✅     | address |               Address to query               | string |                                               |           |
+|           |  chain  | Chain to query (Ethereum testnet is Rinkeby) | string |             `mainnet`, `testnet`              | `mainnet` |
+|           |  coin   |              Currency to query               | string | Ex. `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec` |   `btc`   |
 
 ### Example
 
@@ -83,6 +85,8 @@ Response:
 ---
 
 ## Marketcap Endpoint
+
+Marketcap endpoint, which has many optional input parameters.
 
 Supported names for this endpoint are: `marketcap`, `mc`.
 

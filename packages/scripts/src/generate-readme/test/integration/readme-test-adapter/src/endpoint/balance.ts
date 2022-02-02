@@ -4,6 +4,8 @@ import { Config, ExecuteFactory } from '@chainlink/types'
 
 export const supportedEndpoints = ['balance']
 
+export const description = 'Balance endpoint for test adapter'
+
 export const inputParameters = balance.inputParameters
 
 const getBalance: balance.GetBalance = async (account, config) => {

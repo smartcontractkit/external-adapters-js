@@ -1,5 +1,4 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { logger } from '@chainlink/ea-bootstrap/dist/lib/external-adapter'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 

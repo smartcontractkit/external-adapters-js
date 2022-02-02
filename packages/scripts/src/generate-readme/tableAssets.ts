@@ -48,7 +48,14 @@ const addressesInputParams = [
     '`mainnet`, `testnet`',
     '`mainnet`',
   ],
-  ['', 'coin', 'Currency to query', 'string', '`bch`, `btc`, `btsv`, `eth`, `ltc`, `zec`', '`btc`'],
+  [
+    '',
+    'coin',
+    'Currency to query',
+    'string',
+    'Ex. `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec`',
+    '`btc`',
+  ],
 ]
 
 export function getBalanceTable(): string {

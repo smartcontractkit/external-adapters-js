@@ -150,17 +150,21 @@ export class ReadmeGenerator {
   addInputParamsSection(): void {
     if (this.verbose) Logger.info({ adapterPath: this.adapterPath, msg: 'Adding input parameters' })
 
-    const endpointList = Object.keys(this.endpointDetails).map((e) => {
-      const lowercase = e.toLowerCase()
-      return `[${lowercase}](#${lowercase}-endpoint)`
-    })
+    const endpointList = Object.keys(this.endpointDetails).reduce((list, e) => {
+      const { supportedEndpoints = [] } = this.endpointDetails[e]
+      for (const supportedEndpoint of supportedEndpoints) {
+        list.push(`[${supportedEndpoint}](#${e.toLowerCase()}-endpoint)`)
+      }
+      return list
+    }, [])
+
     const tableText = [
       [
         '',
         'endpoint',
         'The endpoint to use',
         'string',
-        endpointList.join(', '),
+        endpointList.sort().join(', '),
         this.defaultEndpoint ? wrapCode(this.defaultEndpoint) : '',
       ],
     ]
