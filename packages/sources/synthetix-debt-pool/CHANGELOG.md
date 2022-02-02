@@ -1,5 +1,55 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- c66aeef1a: implement changes to sip-165
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+- Updated dependencies [c66aeef1a]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/ea-reference-data-reader@1.1.0
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.8
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.6
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.5
 
 ### Patch Changes

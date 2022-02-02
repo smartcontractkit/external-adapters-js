@@ -4,6 +4,8 @@ import { ResponseSchema } from './globalMarketCap'
 
 export const supportedEndpoints = ['dominance']
 
+export const description = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
+
 export const inputParameters: InputParameters = {
   market: {
     aliases: ['quote', 'to'],

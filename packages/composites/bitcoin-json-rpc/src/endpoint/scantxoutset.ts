@@ -4,6 +4,10 @@ import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'scantxoutset'
 
+export const description = `Calls \`"method": "scantxoutset"\` on the Bitcoin node and returns the total balance of all supplied addresses.
+
+**NOTE:** Requests to this endpoint may exceed the configured \`API_TIMEOUT\`. If a scan in progress, the adapter will wait an additional \`API_TIMEOUT\` period for the in-progress scan to complete. If the timeout is hit while a scan is in progress, a request to abort the scan is sent with an additional 1s timeout. This makes the theoretically maximum timeout for requests to this endpoint \`2 x API_TIMEOUT + 1000\` ms.`
+
 const inputParams = {
   scanobjects: ['addresses', 'scanobjects'],
   confirmations: false,

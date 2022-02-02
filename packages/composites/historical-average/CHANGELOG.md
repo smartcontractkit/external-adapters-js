@@ -1,5 +1,49 @@
 # @chainlink/historical-average-adapter
 
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/coinmarketcap-adapter@1.3.11
+
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/coinmarketcap-adapter@1.3.10
+
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/coinmarketcap-adapter@1.3.9
+
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/coinmarketcap-adapter@1.3.8
+
+## 1.0.18
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/coinmarketcap-adapter@1.3.7
+
 ## 1.0.17
 
 ### Patch Changes

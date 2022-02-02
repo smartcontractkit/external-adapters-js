@@ -1,5 +1,62 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.4.0
+
+### Minor Changes
+
+- 109111420: Extend cfbenchmarks values endpoint to support from/to input params
+- a133567b9: Added support for a secondary API endpoint
+
+## 1.3.0
+
+### Minor Changes
+
+- 109111420: Extend cfbenchmarks values endpoint to support from/to input params
+
+## 1.2.8
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.6
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.2.5
 
 ### Patch Changes

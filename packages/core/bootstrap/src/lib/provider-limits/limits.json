@@ -2,7 +2,26 @@
   "1forge": {
     "http": {
       "starter": {
-        "rateLimit1h": 208.33
+        "rateLimit1h": 208.33,
+        "note": "https://1forge.com/pricing"
+      },
+      "premium": {
+        "rateLimit1h": 4166.66
+      },
+      "business": {
+        "rateLimit1h": 41666.66
+      },
+      "business+": {
+        "rateLimit1h": 416666.66
+      }
+    },
+    "ws": {}
+  },
+  "adapter_1forge": {
+    "http": {
+      "starter": {
+        "rateLimit1h": 208.33,
+        "note": "https://1forge.com/pricing"
       },
       "premium": {
         "rateLimit1h": 4166.66
@@ -872,8 +891,8 @@
   "satoshitango": {
     "http": {
       "free": {
-        "rateLimit1m": 6,
-        "note": "60req/10m or IP gets banned"
+        "rateLimit1m": 4,
+        "note": "Docs say '60req/10m or IP gets banned', but reduced due to differences in observed rate limiting"
       }
     },
     "ws": {}

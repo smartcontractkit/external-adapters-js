@@ -28,6 +28,9 @@ export interface ResponseSchema {
   }[]
 }
 
+export const description =
+  'The top of order book endpoint from https://api.tiingo.com/documentation/crypto'
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],

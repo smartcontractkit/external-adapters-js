@@ -7,6 +7,8 @@ const customError = (data: ResponseSchema) => {
   return Object.keys(data.payload).length === 0
 }
 
+export const description = 'Gets the asset USD Market Cap from Amberdata.'
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,

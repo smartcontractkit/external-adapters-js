@@ -7,6 +7,8 @@ export const endpointResultPaths: EndpointResultPaths = {
   eod: 'close',
 }
 
+export const description = 'https://api.tiingo.com/documentation/end-of-day'
+
 export const inputParameters: InputParameters = {
   ticker: ['ticker', 'base', 'from', 'coin'],
   resultPath: false,
