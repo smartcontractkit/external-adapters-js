@@ -503,10 +503,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/oilpriceapi"
       },
       {
-        "name": "@chainlink/onchain-adapter",
-        "reference": "workspace:packages/sources/onchain"
-      },
-      {
         "name": "@chainlink/onchain-gas-adapter",
         "reference": "workspace:packages/sources/onchain-gas"
       },
@@ -780,7 +776,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
-      ["@chainlink/onchain-adapter", ["workspace:packages/sources/onchain"]],
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],
@@ -5157,7 +5152,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
-            ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],
@@ -6218,22 +6212,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
-            ["tslib", "npm:2.3.1"],
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/onchain-adapter", [
-        ["workspace:packages/sources/onchain", {
-          "packageLocation": "./packages/sources/onchain/",
-          "packageDependencies": [
-            ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.3"],
-            ["@types/node", "npm:16.11.19"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
