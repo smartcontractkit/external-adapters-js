@@ -13,6 +13,7 @@ const testEnvOverrides = {
   LOG_LEVEL: 'debug',
   NODE_ENV: undefined,
   RECORD: undefined,
+  WS_ENABLED: undefined,
 }
 
 // Note: genSig and genSigGrep parsed text must match
@@ -62,13 +63,13 @@ export class ReadmeGenerator {
 
     if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
-    if (verbose) Logger.debug({ adapterPath, msg: 'Checking package.json' })
+    if (verbose) Logger.info({ adapterPath, msg: 'Checking package.json' })
 
     const packagePath = checkFilePath(adapterPath + 'package.json')
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
 
-    if (verbose) Logger.debug({ adapterPath, msg: 'Checking schema/env.json' })
+    if (verbose) Logger.info({ adapterPath, msg: 'Checking schema/env.json' })
 
     const schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
     const schema = getJsonFile(schemaPath) as Schema
@@ -85,14 +86,13 @@ export class ReadmeGenerator {
   async fetchImports(): Promise<void> {
     // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
 
-    if (this.verbose)
-      Logger.debug({ adapterPath: this.adapterPath, msg: 'Importing src/config.ts' })
+    if (this.verbose) Logger.info({ adapterPath: this.adapterPath, msg: 'Importing src/config.ts' })
 
     const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
     this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
 
     if (this.verbose)
-      Logger.debug({ adapterPath: this.adapterPath, msg: 'Importing src/endpoint/index.ts' })
+      Logger.info({ adapterPath: this.adapterPath, msg: 'Importing src/endpoint/index.ts' })
 
     const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
     this.endpointDetails = await require(localPathToRoot + endpointPath)
@@ -103,7 +103,7 @@ export class ReadmeGenerator {
   }
 
   getReadme(): string {
-    if (this.verbose) Logger.debug({ adapterPath: this.adapterPath, msg: 'Generating README text' })
+    if (this.verbose) Logger.info({ adapterPath: this.adapterPath, msg: 'Generating README text' })
 
     this.addIntroSection()
     this.addEnvVarSection()
@@ -117,7 +117,7 @@ export class ReadmeGenerator {
 
   addIntroSection(): void {
     if (this.verbose)
-      Logger.debug({ adapterPath: this.adapterPath, msg: 'Adding title and version' })
+      Logger.info({ adapterPath: this.adapterPath, msg: 'Adding title and version' })
 
     this.readmeText = `# ${this.name}\n\nVersion: ${this.version}\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
@@ -126,7 +126,7 @@ export class ReadmeGenerator {
 
   addEnvVarSection(): void {
     if (this.verbose)
-      Logger.debug({ adapterPath: this.adapterPath, msg: 'Adding environment variables' })
+      Logger.info({ adapterPath: this.adapterPath, msg: 'Adding environment variables' })
 
     const envVars = this.envVars
 
@@ -148,8 +148,7 @@ export class ReadmeGenerator {
   }
 
   addInputParamsSection(): void {
-    if (this.verbose)
-      Logger.debug({ adapterPath: this.adapterPath, msg: 'Adding input parameters' })
+    if (this.verbose) Logger.info({ adapterPath: this.adapterPath, msg: 'Adding input parameters' })
 
     const endpointList = Object.keys(this.endpointDetails).map((e) => {
       const lowercase = e.toLowerCase()
@@ -179,7 +178,7 @@ export class ReadmeGenerator {
     if (this.skipTests) {
       // If skipping tests, pull from existing README
       if (this.verbose)
-        Logger.debug({
+        Logger.info({
           adapterPath: this.adapterPath,
           msg: 'Pulling I/O examples from existing README',
         })
@@ -199,7 +198,7 @@ export class ReadmeGenerator {
     } else {
       // If not skipping tests, run through yarn test with testEnvOverrides variables
       if (this.verbose)
-        Logger.debug({
+        Logger.info({
           adapterPath: this.adapterPath,
           msg: 'Running integration tests to get updated I/O examples',
         })
@@ -213,7 +212,7 @@ export class ReadmeGenerator {
         .toString()
 
       if (this.verbose)
-        Logger.debug({ adapterPath: this.adapterPath, msg: 'Processing example data' })
+        Logger.info({ adapterPath: this.adapterPath, msg: 'Processing example data' })
 
       // Pull out paired input/outputs from test logs. Assumes no "output" will print
       // without its corresponding "input" printed beforehand
@@ -271,7 +270,7 @@ export class ReadmeGenerator {
     const endpointSections = Object.entries(this.endpointDetails)
       .map(([endpointName, endpointDetails]) => {
         if (this.verbose)
-          Logger.debug({
+          Logger.info({
             adapterPath: this.adapterPath,
             msg: `Adding ${endpointName} endpoint section`,
           })
