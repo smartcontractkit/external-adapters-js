@@ -3,6 +3,9 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['matches']
 
+export const description =
+  'Counts the number of matches within the circle specified by a radius and coordinates during the selected time period.'
+
 export const inputParameters: InputParameters = {
   lat: {
     required: true,

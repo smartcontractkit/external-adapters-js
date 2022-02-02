@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinmetrics-adapter",
-  "version": "1.2.5",
+  "version": "1.2.10",
   "description": "Chainlink coinmetrics adapter.",
   "keywords": [
     "Chainlink",

@@ -44,7 +44,7 @@ const checkFilePath = (filePath: string): string => {
 export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
-  defaultEndpoint: string
+  defaultEndpoint = ''
   endpointDetails: EndpointDetails = {}
   envVars: EnvVars
   integrationTestPath: string | null

@@ -14,7 +14,7 @@
     "class-transformer-validator": "0.9.1",
     "class-validator": "0.13.1",
     "command-line-args": "5.2.0",
-    "command-line-usage": "^6.1.1",
+    "command-line-usage": "6.1.1",
     "json-schema-ref-parser": "9.0.9",
     "mockserver-client": "5.11.2",
     "rxjs": "7.4.0",
@@ -26,7 +26,8 @@
   },
   "devDependencies": {
     "@chainlink/types": "workspace:*",
-    "@types/command-line-args": "^5.2.0",
+    "@types/command-line-args": "5.2.0",
+    "@types/command-line-usage": "5.0.2",
     "@types/jest": "27.0.3",
     "@types/shelljs": "0.8.9",
     "@types/swagger-jsdoc": "6.0.1",

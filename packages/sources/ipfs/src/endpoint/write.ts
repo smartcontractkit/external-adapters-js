@@ -6,6 +6,8 @@ import { IPFSPath } from './read'
 
 export const supportedEndpoints = ['write']
 
+export const description = 'Write data to IPFS'
+
 export const inputParameters: InputParameters = {
   data: {
     required: true,

@@ -8,6 +8,8 @@ import { ethers } from 'ethers'
  */
 export const supportedEndpoints = ['tvl']
 
+export const description = 'This gets the tvl of a vault on Ethereum.'
+
 export const inputParameters: InputParameters = {
   vaultAddress: {
     required: true,

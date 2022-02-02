@@ -8,6 +8,9 @@ export const endpointResultPaths = {
   difficulty: 'difficulty',
 }
 
+export const description =
+  'https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common'
+
 export const inputParameters: InputParameters = {
   blockchain: {
     aliases: ['coin', 'market'],

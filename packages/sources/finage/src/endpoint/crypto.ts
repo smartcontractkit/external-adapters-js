@@ -22,7 +22,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-
   const jobRunID = validator.validated.id
   const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()

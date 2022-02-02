@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/linear-finance-adapter",
-  "version": "1.1.27",
+  "version": "1.1.32",
   "description": "Chainlink linear-finance adapter.",
   "keywords": [
     "Chainlink",

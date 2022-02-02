@@ -6,6 +6,8 @@ import FundValueCalculatorABI from '../abis/FundValueCalculator.json'
 
 export const supportedEndpoints = ['calcNav']
 
+export const description = 'Endpoint to call the `calcNav` function on the contract.'
+
 export const inputParameters: InputParameters = {
   calculatorContract: {
     required: true,

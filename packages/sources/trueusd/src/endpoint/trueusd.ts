@@ -11,6 +11,8 @@ export const endpointResultPaths = {
 
 const customError = (data: ResponseSchema) => !data.success
 
+export const description = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
+
 export const inputParameters: InputParameters = {}
 
 interface ResponseSchema {

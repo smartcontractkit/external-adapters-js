@@ -17,6 +17,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description =
+  'https://developers.cryptoapis.io/technical-documentation/market-data/exchange-rates/get-exchange-rate-by-asset-symbols'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

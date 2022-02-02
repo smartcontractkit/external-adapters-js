@@ -18,6 +18,9 @@ export interface ResponseSchema {
 
 const customError = (data: Record<string, unknown>) => data.Response === 'Error'
 
+// The description string is used to explain how the endpoint works, and is used for part of the endpoint's README section
+export const description = 'This is an example endpoint description for example adapter.'
+
 // The inputParameters object must be present for README generation.
 export const inputParameters: InputParameters = {
   // See InputParameters type for more config options

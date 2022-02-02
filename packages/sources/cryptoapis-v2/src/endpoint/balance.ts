@@ -11,6 +11,9 @@ import {
 
 export const supportedEndpoints = ['balance']
 
+export const description =
+  'https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-address-details'
+
 export const inputParameters = balance.inputParameters
 
 interface ResponseSchema {

@@ -8,6 +8,8 @@ export const endpointResultPaths: EndpointResultPaths = {
   stock: 'tngoLast',
 }
 
+export const description = 'https://api.tiingo.com/documentation/iex'
+
 export const inputParameters: InputParameters = {
   ticker: ['ticker', 'base', 'from', 'coin'],
   resultPath: false,

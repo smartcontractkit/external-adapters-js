@@ -507,10 +507,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/oilpriceapi"
       },
       {
-        "name": "@chainlink/onchain-adapter",
-        "reference": "workspace:packages/sources/onchain"
-      },
-      {
         "name": "@chainlink/onchain-gas-adapter",
         "reference": "workspace:packages/sources/onchain-gas"
       },
@@ -784,7 +780,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
-      ["@chainlink/onchain-adapter", ["workspace:packages/sources/onchain"]],
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],
@@ -5162,7 +5157,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
-            ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],
             ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],
@@ -5305,6 +5299,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/command-line-args", "npm:5.2.0"],
+            ["@types/command-line-usage", "npm:5.0.2"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/shelljs", "npm:0.8.9"],
             ["@types/swagger-jsdoc", "npm:6.0.1"],
@@ -6235,22 +6230,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/onchain-adapter", [
-        ["workspace:packages/sources/onchain", {
-          "packageLocation": "./packages/sources/onchain/",
-          "packageDependencies": [
-            ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.3"],
-            ["@types/node", "npm:16.11.19"],
-            ["tslib", "npm:2.3.1"],
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@chainlink/onchain-gas-adapter", [
         ["workspace:packages/sources/onchain-gas", {
           "packageLocation": "./packages/sources/onchain-gas/",
@@ -6703,6 +6682,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
@@ -10889,6 +10869,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-command-line-args-npm-5.2.0-3454e6d6cf-423121d2d0.zip/node_modules/@types/command-line-args/",
           "packageDependencies": [
             ["@types/command-line-args", "npm:5.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/command-line-usage", [
+        ["npm:5.0.2", {
+          "packageLocation": "./.yarn/cache/@types-command-line-usage-npm-5.0.2-e127800321-9c0eabf5e8.zip/node_modules/@types/command-line-usage/",
+          "packageDependencies": [
+            ["@types/command-line-usage", "npm:5.0.2"]
           ],
           "linkType": "HARD",
         }]

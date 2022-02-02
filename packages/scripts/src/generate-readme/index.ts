@@ -114,10 +114,11 @@ export async function main(): Promise<void | string> {
           const filePath = file.split('/')
           if (filePath[1] === 'sources') {
             const name = filePath[2]
-            if (!map[name]) {
+            if (!map[name] && name !== 'README.md') {
               const readmePath = filePath.slice(0, 3).join('/') + '/README.md'
               map[name] = {
-                readmeIsGenerated: shell.cat(readmePath).toString()?.match(genSigGrep)?.length > 0,
+                readmeIsGenerated:
+                  (shell.cat(readmePath).toString()?.match(genSigGrep) ?? []).length > 0,
               }
             }
 
@@ -139,7 +140,7 @@ export async function main(): Promise<void | string> {
         return { name, skipTests }
       })
     } else if (options.adapters?.length) {
-      adapters = options.adapters.map((name) => ({ name }))
+      adapters = options.adapters.map((name: string) => ({ name }))
     }
 
     // Filter list by blacklist

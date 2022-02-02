@@ -101,7 +101,7 @@ export class Validator {
     }
   }
 
-  parseError(error: any): void {
+  parseError(error: Error): void {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
     else
@@ -248,11 +248,7 @@ export class Validator {
       }
 
       if (inputConfig.options && !inputConfig.options.includes(param))
-        this.throwInvalid(
-          `${key} parameter is not in the set of available options: [${inputConfig.options.join(
-            ', ',
-          )}]`,
-        )
+        this.throwInvalid(`${key} parameter is not in the set of available options`)
 
       for (const dependency of inputConfig.dependsOn ?? []) {
         const usedDependencyKey = this.getUsedKey(

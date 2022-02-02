@@ -8,6 +8,8 @@ export const customParams = {
   recipient_type: ['EMAIL', 'PHONE', 'PAYPAL_ID'],
 }
 
+export const description = 'Endpoint used to send currency to a specified receiver.'
+
 export const inputParameters: InputParameters = {
   amount: {
     required: true,

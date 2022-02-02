@@ -393,7 +393,7 @@ describe('Validator', () => {
 
       const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual(
-        'bigInt parameter is not in the set of available options: [0, 1, 2]',
+        'bigInt parameter is not in the set of available options',
       )
     })
   })

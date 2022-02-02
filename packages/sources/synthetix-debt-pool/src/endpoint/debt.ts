@@ -1,7 +1,8 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Logger, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, SUPPORTED_CHAINS } from '../config'
 import { ethers, utils, BigNumber } from 'ethers'
+import { isZeroAddress } from '@chainlink/ea-reference-data-reader'
 
 export const supportedEndpoints = ['debt']
 
@@ -10,14 +11,13 @@ export const endpointResultPaths = {
 }
 
 interface CurrentDebtResults {
-  total: ethers.BigNumber
-  isInvalid: boolean
+  totalSnxBackedDebt: ethers.BigNumber
+  totalDebtShares: ethers.BigNumber
 }
 
 export interface ResponseSchema {
   data: {
-    total: string
-    isInvalid: boolean
+    result: string
   }
 }
 
@@ -31,7 +31,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-
   const jobRunID = validator.validated.id
   let { chainSources } = validator.validated.data
 
@@ -42,15 +41,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     chainSources = Object.values(SUPPORTED_CHAINS)
   }
 
-  const debt = await getCurrentDebt(chainSources, config.chains)
+  const debt = await getCurrentDebt(jobRunID, chainSources, config.chains)
   const result = {
     data: {
-      result: debt.total.toString(),
-      isInvalid: debt.isInvalid,
+      result: debt,
     },
   }
   return Requester.success(jobRunID, result, config.verbose)
 }
+
+// Contract addresses https://docs.synthetix.io/addresses/
 
 const DEBT_POOL_ABI = [
   {
@@ -73,6 +73,30 @@ const DEBT_POOL_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    constant: true,
+    inputs: [],
+    name: 'totalNonSnxBackedDebt',
+    outputs: [
+      { internalType: 'uint256', name: 'excludedDebt', type: 'uint256' },
+      { internalType: 'bool', name: 'isInvalid', type: 'bool' },
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
+const SYNTHETIX_DEBT_SHARE_ABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 const ADDRESS_PROVIDER_ABI = [
@@ -88,10 +112,11 @@ const ADDRESS_PROVIDER_ABI = [
 ]
 
 const getCurrentDebt = async (
+  jobRunID: string,
   chainSources: string[],
   chainConfigs: Config['chains'],
-): Promise<CurrentDebtResults> => {
-  const responses = await Promise.all(
+): Promise<string> => {
+  const chainResponses = await Promise.all(
     chainSources.map(async (chain): Promise<CurrentDebtResults> => {
       chain = chain.toUpperCase()
       const chainConfig = chainConfigs[chain]
@@ -104,28 +129,53 @@ const getCurrentDebt = async (
         ADDRESS_PROVIDER_ABI,
         provider,
       )
-      const debtPoolAddress = await addressProvider.getAddress(
+      const debtCacheAddress = await addressProvider.getAddress(
         utils.formatBytes32String('DebtCache'),
       )
-      const debtPool = new ethers.Contract(debtPoolAddress, DEBT_POOL_ABI, provider)
-      const [totalDebt, isInvalid] = await debtPool.currentDebt()
+      if (isZeroAddress(debtCacheAddress)) {
+        throw new AdapterError({
+          jobRunID,
+          message: `Found zero address for DebtCache contract on chain ${chain}`,
+        })
+      }
+      const debtCache = new ethers.Contract(debtCacheAddress, DEBT_POOL_ABI, provider)
+
+      const synthetixDebtShareAddress = await addressProvider.getAddress(
+        utils.formatBytes32String('SynthetixDebtShare'),
+      )
+      if (isZeroAddress(synthetixDebtShareAddress)) {
+        throw new AdapterError({
+          jobRunID,
+          message: `Found zero address for SynthetixDebtShare contract on chain ${chain}`,
+        })
+      }
+
+      const synthetixDebtShare = new ethers.Contract(
+        synthetixDebtShareAddress,
+        SYNTHETIX_DEBT_SHARE_ABI,
+        provider,
+      )
+
+      const [chainTotalDebt] = await debtCache.currentDebt()
+      const [chainTotalDebtNonSnxBackedDebt] = await debtCache.totalNonSnxBackedDebt()
+      const chainTotalDebtShare = await synthetixDebtShare.totalSupply()
       return {
-        total: totalDebt,
-        isInvalid,
+        totalDebtShares: chainTotalDebt.sub(chainTotalDebtNonSnxBackedDebt),
+        totalSnxBackedDebt: chainTotalDebtShare,
       }
     }),
   )
 
-  let totalDebt = BigNumber.from(0)
-  let isInvalid = false
+  let totalSnxBackedDebt = BigNumber.from(0)
+  let totalDebtShares = BigNumber.from(0)
 
-  for (const response of responses) {
-    totalDebt = totalDebt.add(response.total)
-    isInvalid = isInvalid || isInvalid
+  for (const chain of chainResponses) {
+    totalSnxBackedDebt = totalSnxBackedDebt.add(chain.totalSnxBackedDebt)
+    totalDebtShares = totalDebtShares.add(chain.totalDebtShares)
   }
-
-  return {
-    total: totalDebt,
-    isInvalid,
-  }
+  const totalSnxBackedDebtPart = remove0xPrefix(totalSnxBackedDebt.toHexString()).padStart(32, '0')
+  const totalDebtSharesPart = remove0xPrefix(totalDebtShares.toHexString()).padStart(32, '0')
+  return '0x' + totalSnxBackedDebtPart + totalDebtSharesPart
 }
+
+const remove0xPrefix = (hex: string): string => hex.slice(2)

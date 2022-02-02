@@ -5,6 +5,8 @@ import { NAME } from '../config'
 export const supportedEndpoints = ['eod']
 export const batchablePropertyPath = [{ name: 'base' }]
 
+export const description = 'https://finage.co.uk/docs/api/stock-market-previous-close'
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,
