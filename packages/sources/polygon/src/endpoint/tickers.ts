@@ -11,6 +11,10 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['tickers', 'forex', 'price']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
+export const description = `Convert a currency or currencies into another currency or currencies
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`tickers\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from'],
   quote: ['quote', 'to'],

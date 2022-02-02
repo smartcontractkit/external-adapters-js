@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['events']
 
+export const description = 'Returns all events within the specified params'
+
 export const inputParameters: InputParameters = {
   sportId: {
     required: true,

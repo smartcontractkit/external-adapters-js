@@ -9,6 +9,8 @@ export { CID }
 
 export const supportedEndpoints = ['read']
 
+export const description = 'Read data from IPFS'
+
 export const inputParameters: InputParameters = {
   cid: {
     required: false,

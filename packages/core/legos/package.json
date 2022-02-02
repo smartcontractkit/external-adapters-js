@@ -111,7 +111,6 @@
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
-    "@chainlink/onchain-adapter": "workspace:*",
     "@chainlink/onchain-gas-adapter": "workspace:*",
     "@chainlink/openexchangerates-adapter": "workspace:*",
     "@chainlink/orchid-bandwidth-adapter": "workspace:*",

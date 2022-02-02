@@ -23,6 +23,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description =
+  'This endpoint reads the set of custodial addresses from a smart contract and returns in as a response.'
+
 export const inputParameters: InputParameters = {
   chainId: {
     description: 'The ID of the target PoR chain.',

@@ -7,6 +7,9 @@ const customError = (data: ResponseSchema) => {
   return !data.hits || !data.hits.hits || data.hits.hits.length < 1
 }
 
+export const description =
+  'Service to calculate the volume weighted average price (VWAP) for any Uniswap asset.'
+
 export const inputParameters: InputParameters = {
   address: {
     description: 'Uniswap pool **checksum address**',

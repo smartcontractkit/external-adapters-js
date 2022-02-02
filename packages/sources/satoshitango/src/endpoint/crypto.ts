@@ -8,6 +8,9 @@ export const endpointResultPaths = {
   ticker: 'bid',
 }
 
+export const description =
+  '**NOTE: the `ticker` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
