@@ -1,25 +1,13 @@
 import * as shell from 'shelljs'
-import { Logger } from '@chainlink/ea-bootstrap'
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
-import { Adapter, Blacklist, BooleanMap, JsonObject, MappedAdapters } from './types'
+import { Adapter, Blacklist, BooleanMap, MappedAdapters } from './types'
 
-import { ReadmeGenerator, genSigGrep } from './generator'
+import { ReadmeGenerator, genSigGrep, getJsonFile } from './generator'
 
 const pathToBlacklist = 'packages/scripts/src/generate-readme/readmeBlacklist.json'
 
 const pathToSources = 'packages/sources/'
-
-const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
-
-const createReadmeFile = (adapterPath: string, readmeText: string, stage?: boolean): void => {
-  const readmePath = adapterPath + 'README.md'
-
-  const shellString = new shell.ShellString(readmeText)
-  shellString.to(readmePath)
-
-  if (stage) shell.exec(`git add ${readmePath}`)
-}
 
 export async function main(): Promise<void | string> {
   try {
@@ -74,21 +62,21 @@ export async function main(): Promise<void | string> {
         },
         {
           content:
-            'Source code: {underline https://github.com/smartcontractkit/external-adapters-js/packages/scripts/src/generate-readme/ }',
+            'Source code: {underline https://github.com/smartcontractkit/external-adapters-\njs/packages/scripts/src/generate-readme/}',
         },
       ])
       console.log(usage)
       return
     }
 
-    Logger.info({ msg: 'Generating READMEs' })
+    console.log('Generating READMEs')
 
     // Test setting
     if (options.testPath) {
       const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
       await readmeGenerator.fetchImports()
-
-      createReadmeFile(readmeGenerator.getAdapterPath(), readmeGenerator.getReadme())
+      readmeGenerator.buildReadme()
+      readmeGenerator.createReadmeFile()
       return
     }
 
@@ -160,18 +148,19 @@ export async function main(): Promise<void | string> {
           adapter.skipTests,
         )
         await readmeGenerator.fetchImports()
-        return [readmeGenerator.getAdapterPath(), readmeGenerator.getReadme()]
+        readmeGenerator.buildReadme()
+        return readmeGenerator
       }),
     )
 
     // Save README files
-    for (const adapter of readmeQueue) {
-      createReadmeFile(adapter[0], adapter[1], options.stage)
+    for (const generator of readmeQueue) {
+      generator.createReadmeFile(options.stage)
     }
-    Logger.info({ msg: `${readmeQueue.length} README(s) generated.` })
+    console.log(`${readmeQueue.length} README(s) generated.`)
     process.exit(0)
   } catch (error) {
-    Logger.error({ error: error.message, stack: error.stack })
+    console.error({ error: error.message, stack: error.stack })
     process.exit(1)
   }
 }

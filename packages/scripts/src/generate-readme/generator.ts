@@ -1,7 +1,6 @@
 import * as shell from 'shelljs'
 import { buildTable } from './table'
 import { balance } from '@chainlink/ea-factories'
-import { Logger } from '@chainlink/ea-bootstrap'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema, TableText } from './types'
 
@@ -35,7 +34,7 @@ const wrapCode = (s: string | number = ''): string => `\`${s.toString()}\``
 
 const codeList = (a: (string | number)[] = []): string => a.map((d) => wrapCode(d)).join(', ')
 
-const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
+export const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
 
 const checkFilePath = (filePath: string): string => {
   if (!shell.test('-f', filePath)) throw Error(`${filePath} is not a file`)
@@ -63,13 +62,13 @@ export class ReadmeGenerator {
 
     if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
-    if (verbose) Logger.info({ adapterPath, msg: 'Checking package.json' })
+    if (verbose) console.log(`${adapterPath}: Checking package.json`)
 
     const packagePath = checkFilePath(adapterPath + 'package.json')
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
 
-    if (verbose) Logger.info({ adapterPath, msg: 'Checking schema/env.json' })
+    if (verbose) console.log(`${adapterPath}: Checking schema/env.json`)
 
     const schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
     const schema = getJsonFile(schemaPath) as Schema
@@ -86,38 +85,30 @@ export class ReadmeGenerator {
   async fetchImports(): Promise<void> {
     // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
 
-    if (this.verbose) Logger.info({ adapterPath: this.adapterPath, msg: 'Importing src/config.ts' })
+    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config.ts`)
 
     const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
     this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
 
-    if (this.verbose)
-      Logger.info({ adapterPath: this.adapterPath, msg: 'Importing src/endpoint/index.ts' })
+    if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
 
     const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
     this.endpointDetails = await require(localPathToRoot + endpointPath)
   }
 
-  getAdapterPath(): string {
-    return this.adapterPath
-  }
-
-  getReadme(): string {
-    if (this.verbose) Logger.info({ adapterPath: this.adapterPath, msg: 'Generating README text' })
+  buildReadme(): void {
+    if (this.verbose) console.log(`${this.adapterPath}: Generating README text`)
 
     this.addIntroSection()
     this.addEnvVarSection()
     this.addInputParamsSection()
     this.addEndpointSections()
 
-    Logger.info(`${this.adapterPath}: New README text has been prepared`)
-
-    return this.readmeText
+    console.log(`${this.adapterPath}: README has been generated (unsaved)`)
   }
 
   addIntroSection(): void {
-    if (this.verbose)
-      Logger.info({ adapterPath: this.adapterPath, msg: 'Adding title and version' })
+    if (this.verbose) console.log(`${this.adapterPath}: Adding title and version`)
 
     this.readmeText = `# ${this.name}\n\nVersion: ${this.version}\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
@@ -125,8 +116,7 @@ export class ReadmeGenerator {
   }
 
   addEnvVarSection(): void {
-    if (this.verbose)
-      Logger.info({ adapterPath: this.adapterPath, msg: 'Adding environment variables' })
+    if (this.verbose) console.log(`${this.adapterPath}: Adding environment variables`)
 
     const envVars = this.envVars
 
@@ -148,7 +138,7 @@ export class ReadmeGenerator {
   }
 
   addInputParamsSection(): void {
-    if (this.verbose) Logger.info({ adapterPath: this.adapterPath, msg: 'Adding input parameters' })
+    if (this.verbose) console.log(`${this.adapterPath}: Adding input parameters`)
 
     const endpointList = Object.keys(this.endpointDetails).reduce((list, e) => {
       const { supportedEndpoints = [] } = this.endpointDetails[e]
@@ -182,10 +172,7 @@ export class ReadmeGenerator {
     if (this.skipTests) {
       // If skipping tests, pull from existing README
       if (this.verbose)
-        Logger.info({
-          adapterPath: this.adapterPath,
-          msg: 'Pulling I/O examples from existing README',
-        })
+        console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
 
       const currentReadmeText = shell.cat(this.adapterPath + 'README.md').toString()
 
@@ -202,10 +189,7 @@ export class ReadmeGenerator {
     } else {
       // If not skipping tests, run through yarn test with testEnvOverrides variables
       if (this.verbose)
-        Logger.info({
-          adapterPath: this.adapterPath,
-          msg: 'Running integration tests to get updated I/O examples',
-        })
+        console.log(`${this.adapterPath}: Running integration tests to get updated I/O examples`)
 
       const testOutput = shell
         .exec(`yarn test ${this.integrationTestPath}`, {
@@ -215,8 +199,7 @@ export class ReadmeGenerator {
         })
         .toString()
 
-      if (this.verbose)
-        Logger.info({ adapterPath: this.adapterPath, msg: 'Processing example data' })
+      if (this.verbose) console.log(`${this.adapterPath}: Processing example data`)
 
       // Pull out paired input/outputs from test logs. Assumes no "output" will print
       // without its corresponding "input" printed beforehand
@@ -274,10 +257,7 @@ export class ReadmeGenerator {
     const endpointSections = Object.entries(this.endpointDetails)
       .map(([endpointName, endpointDetails]) => {
         if (this.verbose)
-          Logger.info({
-            adapterPath: this.adapterPath,
-            msg: `Adding ${endpointName} endpoint section`,
-          })
+          console.log(`${this.adapterPath}: Adding ${endpointName} endpoint section`)
 
         const sectionTitle = `## ${capitalize(endpointName)} Endpoint`
 
@@ -356,5 +336,16 @@ export class ReadmeGenerator {
       .join('\n\n---\n\n')
 
     this.readmeText += endpointSections + '\n\n---\n'
+  }
+
+  createReadmeFile(stage?: boolean): void {
+    const readmePath = this.adapterPath + 'README.md'
+
+    const shellString = new shell.ShellString(this.readmeText)
+    shellString.to(readmePath)
+
+    if (stage) shell.exec(`git add ${readmePath}`)
+
+    console.log(`${this.adapterPath}: README has been saved`)
   }
 }
