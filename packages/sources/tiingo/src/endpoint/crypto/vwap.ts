@@ -12,12 +12,12 @@ export const endpointResultPaths = {
 
 export const inputParameters: InputParameters = {
   base: {
-    aliases: ['base', 'from', 'coin'],
+    aliases: ['from', 'coin'],
     type: 'string',
     required: true,
   },
   quote: {
-    aliases: ['quote', 'to', 'market'],
+    aliases: ['to', 'market'],
     type: 'string',
     required: true,
   },

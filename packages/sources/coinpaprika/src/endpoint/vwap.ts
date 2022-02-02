@@ -12,7 +12,7 @@ export const endpointResultPaths = {
 
 export const inputParameters: InputParameters = {
   base: {
-    aliases: ['base', 'from', 'coin'],
+    aliases: ['from', 'coin'],
     type: 'string',
     required: true,
   },
