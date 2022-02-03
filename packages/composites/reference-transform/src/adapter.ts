@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError, Logger } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, AdapterError, Logger } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
 import { makeConfig, Config, DEFAULT_NETWORK } from './config'
 import { getRpcLatestAnswer } from '@chainlink/ea-reference-data-reader'
@@ -66,12 +66,12 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     })
 
   const options = config.sources[source]
-  const response = (await Requester.request({ ...options, data: input })).data
+  const response = (await HTTP.request({ ...options, data: input })).data
   response.data.result = transform(response.result, price, operator, dividend)
 
   Logger.debug('New result: ' + response.data.result)
 
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }
 
 export const makeExecute = (config?: Config): Execute => {

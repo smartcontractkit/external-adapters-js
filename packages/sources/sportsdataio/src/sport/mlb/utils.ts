@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import { Config } from '../../config'
 import { GameResponse } from './types'
 
@@ -8,7 +8,7 @@ export const getGamesByDate = async (date: string, config: Config): Promise<Game
     key: config.mlbKey,
   }
   const options = { ...config.api, params, url }
-  const response = await Requester.request<GameResponse[]>(options)
+  const response = await HTTP.request<GameResponse[]>(options)
   return response.data.map(
     ({
       GameID,

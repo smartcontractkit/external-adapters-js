@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util } from '@chainlink/ea-bootstrap'
+import { AdapterError, HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
@@ -30,7 +30,7 @@ export const makeConfig = (prefix = ''): Config => {
     }
   }
   const client = new paypal.core.PayPalHttpClient(environment)
-  const config = Requester.getDefaultConfig(prefix)
+  const config = HTTP.getDefaultConfig(prefix)
   config.api = { ...config.api, client }
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

@@ -1,5 +1,5 @@
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { DNSQueryResponse } from './../types'
 
 export const supportedEndpoints = ['dnsQuery']
@@ -41,7 +41,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     Accept: 'application/dns-json',
   }
 
-  const result = await Requester.request<DNSQueryResponse>({
+  const result = await HTTP.request<DNSQueryResponse>({
     url: config.api?.url,
     headers,
     params,
@@ -49,7 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const data = { ...result.data, result: result.data }
 
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
     {
       status: 200,

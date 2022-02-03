@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/types'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { serialize } from '../codec'
@@ -76,7 +76,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: { result: cid, cid },
   }
 
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }
 
 const putFile = async (

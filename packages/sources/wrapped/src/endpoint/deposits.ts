@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
 
 export const supportedEndpoints = ['deposits']
@@ -70,7 +70,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/deposits`
 
   const options = { ...config.api, url }
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await HTTP.request<ResponseSchema>(options, customError)
   const addresses = response.data[symbol]
 
   if (!addresses) {
@@ -88,8 +88,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     chainId,
   }))
 
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result as AxiosResponse<Address[]>),
-  )
+  return HTTP.success(jobRunID, HTTP.withResult(response, result as AxiosResponse<Address[]>))
 }

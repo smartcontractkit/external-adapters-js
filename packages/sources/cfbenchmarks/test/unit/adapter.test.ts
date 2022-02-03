@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
@@ -33,7 +33,7 @@ describe('execute', () => {
         try {
           await execute(req.testData as AdapterRequest, {})
         } catch (error) {
-          const errorResp = Requester.errored(id, error)
+          const errorResp = HTTP.errored(id, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, id)
         }
       })

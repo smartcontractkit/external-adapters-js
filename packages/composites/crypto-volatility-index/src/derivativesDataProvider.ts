@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Logger } from '@chainlink/ea-bootstrap'
+import { AdapterError, HTTP, Logger } from '@chainlink/ea-bootstrap'
 import moment from 'moment'
 import { Decimal } from 'decimal.js'
 
@@ -65,9 +65,9 @@ const getCurrencyData = async (currency: string) => {
     url: currencyEndpoint,
     params: { currency },
   }
-  const response = await Requester.request(config)
+  const response = await HTTP.request(config)
   const path = ['result', currency]
-  return Requester.validateResultNumber(response.data, path)
+  return HTTP.validateResultNumber(response.data, path)
 }
 
 const getInstrumentData = async (currency: string) => {
@@ -75,7 +75,7 @@ const getInstrumentData = async (currency: string) => {
     url: instrumentEndpoint,
     params: { currency },
   }
-  const response = await Requester.request(config)
+  const response = await HTTP.request(config)
   return response.data.result
 }
 
@@ -99,7 +99,7 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   }
 
   try {
-    const response = await Requester.request(config)
+    const response = await HTTP.request(config)
     const result = response.data.result
     const calls: Record<number, Array<OptionData>> = {}
     const puts: Record<number, Array<OptionData>> = {}

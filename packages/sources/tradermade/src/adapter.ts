@@ -6,7 +6,7 @@ import {
   ExecuteFactory,
   APIEndpoint,
 } from '@chainlink/types'
-import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, Builder } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
 import overrides from './config/symbols.json'
@@ -69,8 +69,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       isError: () => false, // No error
       filter: (message: Message) => !!message.mid,
       toResponse: (message: Message) => {
-        const result = Requester.validateResultNumber(message, ['mid'])
-        return Requester.success('1', { data: { result } })
+        const result = HTTP.validateResultNumber(message, ['mid'])
+        return HTTP.success('1', { data: { result } })
       },
     }
   }

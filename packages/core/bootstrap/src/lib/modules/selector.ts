@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '.'
+import { AdapterError, HTTP, Validator } from '.'
 import {
   AdapterRequest,
   Config,
@@ -120,7 +120,7 @@ const buildSelector = <C extends Config>(
   apiEndpoints: Record<string, APIEndpoint<C>>,
   customParams?: InputParameters,
 ): Promise<AdapterResponse> => {
-  Requester.logConfig(config)
+  HTTP.logConfig(config)
 
   const apiEndpoint = selectEndpoint<C>(request, config, apiEndpoints, customParams)
 

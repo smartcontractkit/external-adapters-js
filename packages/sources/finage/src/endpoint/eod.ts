@@ -1,5 +1,5 @@
 import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -45,13 +45,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request<ResponseSchema>(options)
+  const response = await HTTP.request<ResponseSchema>(options)
   if (Array.isArray(base)) {
     return handleBatchedRequest(jobRunID, response)
   }
 
-  const result = Requester.validateResultNumber(response.data, ['results', 0, 'c'])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  const result = HTTP.validateResultNumber(response.data, ['results', 0, 'c'])
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }
 
 const handleBatchedRequest = (jobRunID: string, response: AxiosResponse<ResponseSchema>) => {
@@ -61,8 +61,8 @@ const handleBatchedRequest = (jobRunID: string, response: AxiosResponse<Response
       symbol: response.data[base].symbol,
       bid: response.data[base].bid,
     })
-    Requester.validateResultNumber(response.data, [base, 'bid'])
+    HTTP.validateResultNumber(response.data, [base, 'bid'])
   }
   response.data.result = payload
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }

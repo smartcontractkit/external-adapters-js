@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../../../config'
 import { ethers } from 'ethers'
@@ -36,7 +36,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     status: 200,
   }
 
-  return Requester.success(jobRunID, respData, config.verbose)
+  return HTTP.success(jobRunID, respData, config.verbose)
 }
 
 const encodeGame = (game: GameResponse): string => {

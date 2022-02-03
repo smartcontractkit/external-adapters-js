@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import Decimal from 'decimal.js'
 
@@ -103,7 +103,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const options = { ...config.api, params, url }
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await HTTP.request<ResponseSchema>(options, customError)
   const values = [] as ValueSchema[]
   response.data.BEAAPI.Results.Data.forEach((element: DataSchema) => {
     if (element.SeriesCode === series) {
@@ -125,6 +125,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const sum = Decimal.sum(...values.slice(0, last).map((element) => element.value))
   response.data.result = count !== 0 ? sum.div(count) : new Decimal(0)
 
-  const result = Requester.validateResultNumber(response.data, ['result'])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  const result = HTTP.validateResultNumber(response.data, ['result'])
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }

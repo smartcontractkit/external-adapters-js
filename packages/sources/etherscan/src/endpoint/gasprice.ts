@@ -1,4 +1,4 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['gasprice']
@@ -64,10 +64,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await HTTP.request<ResponseSchema>(options, customError)
   if (!config.apiKey) {
     Logger.warn(response.data.message)
   }
-  const result = Requester.validateResultNumber(response.data, ['result', speed])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  const result = HTTP.validateResultNumber(response.data, ['result', speed])
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }

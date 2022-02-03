@@ -1,4 +1,4 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import * as TheRundown from '@chainlink/therundown-adapter'
 import { ethers } from 'ethers'
@@ -185,7 +185,7 @@ export const create: Execute = async (input, context) => {
   Logger.debug(`Augur theRundown: Skipping ${skipTBDTeams} due to TBD teams`)
   Logger.debug(`Augur theRundown: Skipping ${cantCreate} due to no market to create`)
 
-  return Requester.success(input.id, {
+  return HTTP.success(input.id, {
     data: { result: eventsToCreate },
   })
 }
@@ -246,7 +246,7 @@ export const resolve: Execute = async (input, context) => {
     awayScore: response.score.score_away,
   }
 
-  return Requester.success(input.id, {
+  return HTTP.success(input.id, {
     data: { result: event },
   })
 }

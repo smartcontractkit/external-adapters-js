@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import * as types from '@chainlink/types'
 
 export type Config = types.Config & {
@@ -12,7 +12,7 @@ export const DEFAULT_ENDPOINT = 'tvl'
 
 export const makeConfig = (prefix?: string): Config => {
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
     controllerAddress: util.getEnv('CONTROLLER_ADDRESS') || DEFAULT_CONTROLLER_ADDRESS,
     defaultEndpoint: DEFAULT_ENDPOINT,

@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../config'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['allocations']
 
@@ -143,5 +143,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     data: allocations,
   }
 
-  return Requester.success(jobRunID, response, true)
+  return HTTP.success(jobRunID, response, true)
 }

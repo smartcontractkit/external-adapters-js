@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -106,7 +106,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<Array<Location>>(options)
+  const response = await HTTP.request<Array<Location>>(options)
 
   const locations = response.data
   if (!Array.isArray(locations)) {
@@ -146,5 +146,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     status: response.status,
   }
 
-  return Requester.success(jobRunID, endpointResponse, config.verbose)
+  return HTTP.success(jobRunID, endpointResponse, config.verbose)
 }

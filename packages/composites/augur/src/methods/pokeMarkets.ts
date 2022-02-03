@@ -1,4 +1,4 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/types'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
@@ -91,7 +91,7 @@ export async function execute(
 
   await pokeMarkets(contract, context, config)
 
-  return Requester.success(jobRunID, {})
+  return HTTP.success(jobRunID, {})
 }
 
 async function fetchResolutionRoundIds(

@@ -23,7 +23,7 @@ const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const dnsData: DNSQueryResponse = { ...dnsResponse.result }
   const foundRecord = dnsData.Answer.find((ans: DNSAnswer) => ans.name.includes(name))
 
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
     {
       status: 200,

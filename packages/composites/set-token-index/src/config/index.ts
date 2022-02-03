@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import * as types from '@chainlink/types'
 
 export const NAME = 'SET_TOKEN_INDEX'
@@ -12,7 +12,7 @@ export type Config = types.Config & {
 
 export const makeConfig = (prefix?: string, network = 'mainnet'): Config => {
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
     network,
     defaultEndpoint: DEFAULT_ENDPOINT,

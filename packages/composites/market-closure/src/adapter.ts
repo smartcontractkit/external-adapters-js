@@ -1,5 +1,5 @@
 import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import { Config, makeConfig, DEFAULT_NETWORK } from './config'
 import { getCheckImpl, getCheckProvider } from './checks'
@@ -26,7 +26,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   const halted = await getCheckImpl(getCheckProvider(check))(input)
   if (halted) {
     const result = await getLatestAnswer(network, referenceContract, multiply, input.meta)
-    return Requester.success(jobRunID, { data: { result }, status: 200 })
+    return HTTP.success(jobRunID, { data: { result }, status: 200 })
   }
 
   return await config.getPriceAdapter(source)(input)

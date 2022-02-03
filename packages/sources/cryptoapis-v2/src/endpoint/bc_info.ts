@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { BLOCKCHAIN_NAME_BY_TICKER, BlockchainTickers } from '../config'
 
@@ -72,8 +72,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     BLOCKCHAIN_NAME_BY_TICKER[blockchain.toLowerCase() as BlockchainTickers]
   }-specific/${network.toLowerCase()}/blocks/last`
   const options = { ...config.api, url }
-  const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, resultPath)
+  const response = await HTTP.request<ResponseSchema>(options)
+  const result = HTTP.validateResultNumber(response.data, resultPath)
   const responseWithCost = { ...response, data: { ...response.data } }
-  return Requester.success(jobRunID, Requester.withResult(responseWithCost, result), config.verbose)
+  return HTTP.success(jobRunID, HTTP.withResult(responseWithCost, result), config.verbose)
 }

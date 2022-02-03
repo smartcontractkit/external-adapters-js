@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['getcoin']
@@ -23,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url: `get_coin/${base}`,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['last_price_usd'])
-  return Requester.success(jobRunID, response)
+  const response = await HTTP.request(options)
+  response.data.result = HTTP.validateResultNumber(response.data, ['last_price_usd'])
+  return HTTP.success(jobRunID, response)
 }

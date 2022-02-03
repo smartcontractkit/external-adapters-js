@@ -1,5 +1,5 @@
 import { AdapterImplementation, Config, AdapterResponse, AdapterContext } from '@chainlink/types'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from './adapter'
 // protocol adapters
 import * as renVM from '@chainlink/renvm-address-set-adapter'
@@ -38,5 +38,5 @@ const listAdapter = (jobRunID: string, data: { addresses: string[] }) => {
   }
 
   const result = data.addresses.map((address: string) => ({ address }))
-  return Requester.success(jobRunID, { data: { result } })
+  return HTTP.success(jobRunID, { data: { result } })
 }

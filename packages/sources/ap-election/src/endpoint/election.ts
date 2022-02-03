@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -116,7 +116,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options)
+  const response = await HTTP.request<ResponseSchema>(options)
   validateResponse(response.data)
 
   const race = response.data.races[0]
@@ -132,9 +132,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   response.data.winnerParty = raceWinner.party
   response.data.candidates = encodeCandidates(reportingUnit.candidates)
 
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
-    Requester.withResult(response, concatenateName(raceWinner)),
+    HTTP.withResult(response, concatenateName(raceWinner)),
     config.verbose,
   )
 }

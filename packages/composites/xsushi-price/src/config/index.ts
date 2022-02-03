@@ -1,5 +1,5 @@
 import { Config as BaseConfig } from '@chainlink/types'
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 
 export const ENV_XSUSHI_ADDRESS = 'XSUSHI_ADDRESS'
@@ -23,7 +23,7 @@ export const makeConfig = (prefix?: string): Config => {
   )
 
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     xsushiAddress: util.getEnv(ENV_XSUSHI_ADDRESS, prefix) || DEFAULT_XSUSHI_ADDRESS,
     provider: new ethers.providers.JsonRpcProvider(rpcUrl),
     defaultEndpoint: DEFAULT_ENDPOINT,

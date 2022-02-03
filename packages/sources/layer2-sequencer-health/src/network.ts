@@ -1,4 +1,4 @@
-import { Logger, Requester } from '@chainlink/ea-bootstrap'
+import { Logger, HTTP } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
 import { BigNumber, ethers } from 'ethers'
 
@@ -13,10 +13,10 @@ export const getSequencerHealth: NetworkHealthCheck = async (
     Logger.info(`Health endpoint not available for network: ${network}`)
     return
   }
-  const response = await Requester.request({
+  const response = await HTTP.request({
     url: HEALTH_ENDPOINTS[network]?.endpoint,
   })
-  const isHealthy = !!Requester.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
+  const isHealthy = !!HTTP.getResult(response.data, HEALTH_ENDPOINTS[network]?.responsePath)
   Logger.info(
     `Health endpoint for network ${network} returned a ${
       isHealthy ? 'healthy' : 'unhealthy'
@@ -39,7 +39,7 @@ export const requestBlockHeight = async (network: Networks): Promise<number> => 
       id: 1,
     },
   }
-  const response = await Requester.request(request)
+  const response = await HTTP.request(request)
   const hexBlock = response?.data?.result
   if (!hexBlock) {
     throw new Error(`Block number not found on network: ${network}`)
@@ -87,7 +87,7 @@ export const getStatusByTransaction = async (
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
     }
-    return (Requester.getResult(e, paths[network]) as string) || ''
+    return (HTTP.getResult(e, paths[network]) as string) || ''
   }
   const _setTxTimeout = (timeout: number): Promise<never> =>
     new Promise((_, rej) =>

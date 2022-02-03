@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
@@ -46,11 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     config: {},
     data: { netValue: netValue.toString() },
   }
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, netValue.toString()),
-    config.verbose,
-  )
+  return HTTP.success(jobRunID, HTTP.withResult(response, netValue.toString()), config.verbose)
 }
 
 const calcNetValueForSharesHolder = (

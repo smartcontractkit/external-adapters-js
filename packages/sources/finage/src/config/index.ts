@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'FINAGE'
@@ -20,7 +20,7 @@ export type Config = BaseConfig & {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix, true)
+  const config = HTTP.getDefaultConfig(prefix, true)
   const stockWsUrl = util.getEnv(ENV_STOCK_WS_API_ENDPOINT) || DEFAULT_STOCK_WS_API_ENDPOINT
   const forexWsUrl = util.getEnv(ENV_FOREX_WS_API_ENDPOINT) || DEFAULT_FOREX_WS_API_ENDPOINT
   const cryptoWsUrl = util.getEnv(ENV_CRYPTO_WS_API_ENDPOINT) || DEFAULT_CRYPTO_WS_API_ENDPOINT

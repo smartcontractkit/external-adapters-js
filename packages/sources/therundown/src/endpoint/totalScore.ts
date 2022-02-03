@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['total-score']
@@ -40,7 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const response = await HTTP.request<ResponseSchema>(reqConfig)
 
   if (response.data.score.event_status !== 'STATUS_FINAL') {
     throw new AdapterError({
@@ -51,5 +51,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const result = parseInt(response.data.score.score_away) + parseInt(response.data.score.score_home)
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }

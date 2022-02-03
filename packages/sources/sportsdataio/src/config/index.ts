@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config as ChainlinkConfig } from '@chainlink/types'
 
 export const NAME = 'SPORTSDATAIO'
@@ -23,7 +23,7 @@ export type Config = ChainlinkConfig & {
 
 export const makeConfig = (prefix?: string): Config => {
   const config: Config = {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     nflScoresKey: util.getEnv(ENV_NFL_SCORES_API_KEY, prefix),
     mmaStatsKey: util.getEnv(ENV_MMA_STATS_API_KEY, prefix),
     cfbScoresKey: util.getEnv(ENV_CFB_SCORES_API_KEY, prefix),

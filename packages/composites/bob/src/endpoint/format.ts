@@ -65,5 +65,5 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   )
   response.data = response.data as ResponseSchema
   response.data.result = response.data.result.slice(2)
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }

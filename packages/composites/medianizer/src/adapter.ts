@@ -1,4 +1,4 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, util, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   ExecuteWithConfig,
@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const result = await getExecuteMedian(urls, input, minAnswers, config)
 
   const response = { data: { result }, status: 200 }
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }
 
 export const parseSources = (sources: string | string[]): string[] => {
@@ -50,7 +50,7 @@ const getExecuteMedian = async (
   const responses = await Promise.allSettled(
     urls.map(
       async (url) =>
-        await Requester.request({
+        await HTTP.request({
           ...config.api,
           method: 'post',
           url,

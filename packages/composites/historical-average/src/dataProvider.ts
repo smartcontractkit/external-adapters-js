@@ -1,5 +1,5 @@
 import { RequestConfig, AdapterResponse } from '@chainlink/types'
-import { Logger, Requester } from '@chainlink/ea-bootstrap'
+import { Logger, HTTP } from '@chainlink/ea-bootstrap'
 import * as cmc from '@chainlink/coinmarketcap-adapter'
 
 export type ResponsePayload = {
@@ -52,7 +52,7 @@ const getCoinMarketCapPrice = async (
       // Specifying count is not necessary since we have provided a [start, end] interval
     },
   }
-  const response = await Requester.request<AdapterResponse>({ ...config, data })
+  const response = await HTTP.request<AdapterResponse>({ ...config, data })
   const responseData = response.data.data as cmc.types.historical.ResponseSchema
   return responseData.data.quotes.map((entry) => ({
     timestamp: new Date(entry.timestamp),

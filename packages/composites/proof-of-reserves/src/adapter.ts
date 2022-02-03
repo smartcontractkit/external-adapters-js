@@ -8,7 +8,7 @@ import {
   AdapterResponse,
   AdapterContext,
 } from '@chainlink/types'
-import { Validator, Requester } from '@chainlink/ea-bootstrap'
+import { Validator, HTTP } from '@chainlink/ea-bootstrap'
 import { makeConfig, makeOptions, DEFAULT_CONFIRMATIONS } from './config'
 import { runProtocolAdapter } from './protocol'
 import { Indexer, runBalanceAdapter } from './balance'
@@ -18,7 +18,7 @@ export const makeRequestFactory =
   (config: Config, prefix: string): Execute =>
   async (input: AdapterRequest) =>
     (
-      await Requester.request({
+      await HTTP.request({
         ...config.api,
         method: 'post',
         url: util.getURL(prefix, true),

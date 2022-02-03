@@ -1,5 +1,5 @@
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['volatility']
 
@@ -61,12 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data,
   }
 
-  const response = await Requester.request(reqConfig)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'data',
-    'ChainlinkIv',
-    0,
-    days,
-  ])
-  return Requester.success(jobRunID, response)
+  const response = await HTTP.request(reqConfig)
+  response.data.result = HTTP.validateResultNumber(response.data, ['data', 'ChainlinkIv', 0, days])
+  return HTTP.success(jobRunID, response)
 }

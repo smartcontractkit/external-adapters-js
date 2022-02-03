@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['indicator']
@@ -58,7 +58,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, ['value'])
-  return Requester.success(jobRunID, response)
+  const response = await HTTP.request(options)
+  response.data.result = HTTP.validateResultNumber(response.data, ['value'])
+  return HTTP.success(jobRunID, response)
 }

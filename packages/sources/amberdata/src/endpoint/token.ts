@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import includes from './../config/includes.json'
 
@@ -52,13 +52,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const reqConfig = { ...config.api, url }
 
-  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  const response = await HTTP.request<ResponseSchema>(reqConfig, customError)
   const coinData = response.data.payload.find(
     (asset: { symbol: string }) => asset.symbol.toUpperCase() === coin.toUpperCase(),
   )
   if (coinData) {
-    const result = Requester.validateResultNumber(coinData, [resultPath])
-    return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+    const result = HTTP.validateResultNumber(coinData, [resultPath])
+    return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
   }
 
   throw new AdapterError({

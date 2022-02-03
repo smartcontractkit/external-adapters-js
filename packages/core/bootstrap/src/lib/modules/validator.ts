@@ -9,8 +9,15 @@ import {
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError } from './error'
+<<<<<<< HEAD:packages/core/bootstrap/src/lib/modules/validator.ts
 import presetTokens from '../config/overrides/presetTokens.json'
 import { Requester } from './requester'
+=======
+import presetSymbols from '../config/overrides/presetSymbols.json'
+import presetTokens from '../config/overrides/presetTokens.json'
+import presetIncludes from '../config/overrides/presetIncludes.json'
+import { HTTP } from './http'
+>>>>>>> 85497cf1f (Organize bootstrap folder structure):packages/core/bootstrap/src/lib/external-adapter/validator.ts
 import { baseInputParameters } from './selector'
 
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
@@ -113,7 +120,7 @@ export class Validator {
         message,
         cause: error,
       })
-    this.errored = Requester.errored(this.validated.id, this.error)
+    this.errored = HTTP.errored(this.validated.id, this.error)
     if (this.validatorOptions.shouldThrowError) {
       throw this.error
     }

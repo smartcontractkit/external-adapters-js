@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   APIEndpoint,
@@ -138,12 +138,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       toResponse: (message: UpdateMessage, input: AdapterRequest) => {
         let result
         if (isFx(input)) {
-          result = Requester.validateResultNumber(message.data, [5])
+          result = HTTP.validateResultNumber(message.data, [5])
         } else {
           // Crypto
-          result = Requester.validateResultNumber(message.data, [4])
+          result = HTTP.validateResultNumber(message.data, [4])
         }
-        return Requester.success('1', { data: { result } }, true)
+        return HTTP.success('1', { data: { result } }, true)
       },
       minTimeToNextMessageUpdateInS: 1,
     }

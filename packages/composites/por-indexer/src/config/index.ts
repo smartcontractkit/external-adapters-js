@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'POR_INDEXER'
@@ -14,7 +14,7 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const DOGECOIN_MAINNET_POR_INDEXER_URL = util.getEnv('DOGECOIN_MAINNET_POR_INDEXER_URL', prefix)
   const DOGECOIN_TESTNET_POR_INDEXER_URL = util.getEnv('DOGECOIN_TESTNET_POR_INDEXER_URL', prefix)
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     BITCOIN_MAINNET_POR_INDEXER_URL,
     DOGECOIN_MAINNET_POR_INDEXER_URL,
     DOGECOIN_TESTNET_POR_INDEXER_URL,

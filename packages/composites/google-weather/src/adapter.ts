@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import * as BigQuery from '@chainlink/google-bigquery-adapter'
 import { Config, makeConfig } from './config'
@@ -58,9 +58,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
   const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() }, context)
-  const imperialValue = Requester.validateResultNumber(response.result, [0, 'result'])
+  const imperialValue = HTTP.validateResultNumber(response.result, [0, 'result'])
   const result = convertUnits(column, imperialValue, units)
-  return Requester.success(jobRunID, { data: { result } })
+  return HTTP.success(jobRunID, { data: { result } })
 }
 
 const convertUnits = (column: string, value: number, units: string): number => {

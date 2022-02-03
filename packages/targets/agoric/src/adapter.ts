@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 
 import { makeConfig } from './config'
 
@@ -34,7 +34,7 @@ export interface PostReply {
 const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
 
-  Requester.logConfig(config)
+  HTTP.logConfig(config)
 
   const jobRunID = validator.validated.id
   const { request_id: queryId, result, payment } = validator.validated.data
@@ -45,7 +45,7 @@ const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
     data: { queryId, reply: result, requiredFee },
   }
 
-  const response = await Requester.request(
+  const response = await HTTP.request(
     {
       ...config.api,
       method: 'POST',
@@ -60,7 +60,7 @@ const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
     throw Error(`${obj.type} response failed: ${pr.rej}`)
   }
 
-  return Requester.success(jobRunID, {
+  return HTTP.success(jobRunID, {
     data: { result },
     status: 200,
   })
@@ -75,7 +75,7 @@ const tryExecuteLogError =
       const queryId = request.data?.request_id
       const rest = { queryId }
 
-      await Requester.request(
+      await HTTP.request(
         {
           ...config.api,
           method: 'POST',
