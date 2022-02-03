@@ -29,6 +29,7 @@ fi
 
 if [ "$is_valid_change" -eq 0 ] ; then
     echo "⚠️ NOTICE: Adapter changes must also have a changeset. Generate a changeset with 'yarn changeset' and include it in your commit."
+    exit 1;
 fi
 
-exit "$is_valid_change"
+exit 0;
