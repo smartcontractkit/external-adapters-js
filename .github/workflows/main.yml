@@ -84,15 +84,9 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Check modified files
+      - name: Check whether adapter change also has a changeset
         id: adapter_change_has_changeset
         run: ./.github/isvalidadapterchange.sh
-      - name: Checks whether adapter change also has a changeset
-        if: steps.adapter_change_has_changeset.outputs != 0
-        uses: actions/github-script@v3
-        with:
-          script: |
-            core.setFailed('Adapter change detected without a changeset. Run `yarn changeset` to generate a changeset for your PR.')
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
