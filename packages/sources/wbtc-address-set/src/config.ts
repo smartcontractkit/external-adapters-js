@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'WBTC'
@@ -14,7 +14,7 @@ export type Config = BaseConfig & {
 }
 
 export const makeConfig = (prefix = ''): Config => ({
-  ...Requester.getDefaultConfig(prefix),
+  ...HTTP.getDefaultConfig(prefix),
   defaultEndpoint: DEFAULT_ENDPOINT,
   membersEndpoint: util.getEnv(ENV_MEMBERS_ENDPOINT, prefix),
   addressesEndpoint: util.getEnv(ENV_ADDRESSES_ENDPOINT, prefix),

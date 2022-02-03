@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -139,7 +139,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       toResponse: (message: DXFeedMessage) => {
         const data = message[0].data[1]
         const result = data[6]
-        return Requester.success('1', { data: { ...message[0], result } }, defaultConfig.verbose)
+        return HTTP.success('1', { data: { ...message[0], result } }, defaultConfig.verbose)
       },
       saveOnConnectToConnection: (message: DXFeedMessage) => {
         return {

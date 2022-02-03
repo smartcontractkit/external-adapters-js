@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
+import { makeMiddleware, HTTP, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
@@ -92,5 +92,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     data: allocations,
   }
 
-  return Requester.success(jobRunID, response, true)
+  return HTTP.success(jobRunID, response, true)
 }

@@ -1,6 +1,6 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { ExecuteWithConfig } from '@chainlink/types'
-import { Validator, Requester } from '@chainlink/ea-bootstrap'
+import { Validator, HTTP } from '@chainlink/ea-bootstrap'
 import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
 
@@ -65,5 +65,5 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   )
   response.data = response.data as ResponseSchema
   response.data.result = response.data.result.slice(2)
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }

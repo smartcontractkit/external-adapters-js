@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'SNOWFLAKE'
@@ -33,7 +33,7 @@ export const makeConfig = (prefix?: string): SnowflakeConfig => {
   const baseURL = `https://${fullAccount}.snowflakecomputing.com/api`
 
   const config = {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     account,
     baseURL,
     database,

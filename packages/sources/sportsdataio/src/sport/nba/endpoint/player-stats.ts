@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../../../config'
 import { utils } from 'ethers'
@@ -110,12 +110,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options)
+  const response = await HTTP.request<ResponseSchema>(options)
   const d = DateTime.fromISO(response.data.DateTime, { zone: 'GMT' })
   const epochSeconds = d.valueOf() / 1000
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
-    Requester.withResult(response, packResponse(response.data, epochSeconds)),
+    HTTP.withResult(response, packResponse(response.data, epochSeconds)),
     config.verbose,
   )
 }

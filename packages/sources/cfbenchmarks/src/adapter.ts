@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   ExecuteFactory,
@@ -59,8 +59,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return message.type === 'value'
       },
       toResponse: (message: Message) => {
-        const result = Requester.validateResultNumber(message, ['value'])
-        return Requester.success('1', { data: { result } })
+        const result = HTTP.validateResultNumber(message, ['value'])
+        return HTTP.success('1', { data: { result } })
       },
     }
   }

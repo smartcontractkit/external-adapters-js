@@ -1,4 +1,4 @@
-import { Validator, Requester, AdapterError } from '@chainlink/ea-bootstrap'
+import { Validator, HTTP, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
 import { Config } from '../config'
 
@@ -51,9 +51,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: balances,
   }
 
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
-    Requester.withResult(response, balances as AxiosResponse<AddressWithBalance[]>),
+    HTTP.withResult(response, balances as AxiosResponse<AddressWithBalance[]>),
   )
 }
 

@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
@@ -43,7 +43,7 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   if (isCacheEnabled) {
     throw new Error('Cache cannot be enabled on this adapter')
   }
-  const config = Requester.getDefaultConfig(prefix)
+  const config = HTTP.getDefaultConfig(prefix)
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT

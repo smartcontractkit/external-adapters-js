@@ -1,6 +1,6 @@
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Validator } from '@chainlink/ea-bootstrap'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import DNS from '@chainlink/dns-query-adapter'
 import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'
 import { makeConfig } from './config'
@@ -23,7 +23,7 @@ const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const dnsData: DNSQueryResponse = { ...dnsResponse.result }
   const foundRecord = dnsData.Answer.find((ans: DNSAnswer) => ans.name.includes(name))
 
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
     {
       status: 200,

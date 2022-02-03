@@ -1,5 +1,5 @@
 import { ExecuteFactory } from '@chainlink/types'
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig, Networks, makeConfig } from './config'
 import {
@@ -82,7 +82,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   }
 
   const _respond = (isHealthy: boolean) =>
-    Requester.success(
+    HTTP.success(
       jobRunID,
       {
         data: {

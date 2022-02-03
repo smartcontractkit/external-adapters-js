@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory } from '@chainlink/types'
 import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '../config'
 
@@ -12,7 +12,7 @@ export const description =
 export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
-  if (chain === 'testnet') chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain
+  if (chain === 'testnet') chain = HTTP.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain
   return `/v1/bc/${coin}/${chain}/address/${address}`
 }
 
@@ -22,7 +22,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
     url: getBalanceURI(account.address, account.chain as string, account.coin as string),
   }
 
-  const response = await Requester.request(options)
+  const response = await HTTP.request(options)
   // Each BTC has 8 decimal places
   const balance = ethers.utils.parseUnits(response.data.payload.balance, 8).toString()
 

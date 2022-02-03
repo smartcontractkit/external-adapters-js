@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['series']
@@ -64,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const url = `/timeseries/data/${serie}`
   const options = { ...config.api, url }
-  const response = await Requester.request<ResponseSchema>(options)
+  const response = await HTTP.request<ResponseSchema>(options)
   const data = response.data.Results.series[0].data
 
   let filter
@@ -77,8 +77,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       return obj['year'] === year && obj['periodName'] === month
     })
   }
-  const result = Requester.validateResultNumber(filter, [0, resultPath])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  const result = HTTP.validateResultNumber(filter, [0, resultPath])
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }
 
 const capitalizeFirstLetter = (string: string) => {

@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { LCDClient } from '@terra-money/terra.js'
 import { Config, ChainId, SUPPORTED_CHAIN_IDS } from '../config'
@@ -52,12 +52,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   })
 
   const response = await terra.wasm.contractQuery<Record<string, unknown>>(address, query, params)
-  const result = resultPath ? Requester.validateResultNumber(response, [resultPath]) : response
+  const result = resultPath ? HTTP.validateResultNumber(response, [resultPath]) : response
 
   const output = {
     data: { result },
     result,
   }
 
-  return Requester.success(jobRunID, output, config.verbose)
+  return HTTP.success(jobRunID, output, config.verbose)
 }

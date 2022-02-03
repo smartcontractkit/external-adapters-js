@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
 
@@ -49,7 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     headers,
   }
 
-  const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['data', 'price'])
-  return Requester.success(jobRunID, response)
+  const response = await HTTP.request(reqConfig, customError)
+  response.data.result = HTTP.validateResultNumber(response.data, ['data', 'price'])
+  return HTTP.success(jobRunID, response)
 }

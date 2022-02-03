@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { DEFAULT_BASE_URL, ExtendedConfig, makeConfig } from './config'
 
@@ -38,10 +38,10 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     data: JSON.parse(JSON.stringify(data)),
   }
 
-  const response = await Requester.request(options)
+  const response = await HTTP.request(options)
   if (response.status >= 400) throw response.data.error
 
-  return Requester.success(request.id, response)
+  return HTTP.success(request.id, response)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

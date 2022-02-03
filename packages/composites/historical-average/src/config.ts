@@ -1,5 +1,5 @@
 import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { AdapterImplementation, Config as DefaultConfig } from '@chainlink/types'
 
 export type SourceRequestOptions = { [source: string]: DefaultConfig }
@@ -20,7 +20,7 @@ export const makeConfig = (prefix = ''): Config => {
     const name = a.NAME
     const url = util.getURL(name.toUpperCase())
     if (url) {
-      const defaultConfig = Requester.getDefaultConfig(prefix)
+      const defaultConfig = HTTP.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
       defaultConfig.api.method = 'post'
       sources[name.toLowerCase()] = defaultConfig

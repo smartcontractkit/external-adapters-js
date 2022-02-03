@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import { balance } from '@chainlink/ea-factories'
 import { Config, ExecuteFactory, RequestConfig } from '@chainlink/types'
 import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
@@ -24,7 +24,7 @@ export interface ResponseSchema {
 const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
 
 const getBlockchainHeader = (coin?: string) => {
-  const network = Requester.toVendorName(coin, BLOCKCHAINS)
+  const network = HTTP.toVendorName(coin, BLOCKCHAINS)
   return `${network}-mainnet`
 }
 
@@ -37,7 +37,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
       'x-amberdata-blockchain-id': getBlockchainHeader(account.coin),
     },
   }
-  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const response = await HTTP.request<ResponseSchema>(reqConfig)
   return {
     payload: response.data,
     result: [{ ...account, balance: response.data.payload.value }],

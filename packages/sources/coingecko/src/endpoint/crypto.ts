@@ -1,4 +1,4 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -82,7 +82,7 @@ const handleBatchedRequest = (
         }
         payload.push([
           individualRequest,
-          Requester.validateResultNumber(response.data, [
+          HTTP.validateResultNumber(response.data, [
             base,
             endpointResultPaths[endpoint](individualRequest),
           ]),
@@ -90,9 +90,9 @@ const handleBatchedRequest = (
       } else Logger.debug('WARNING: Symbol not found ', base)
     }
   }
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
-    Requester.withResult(response, undefined, payload),
+    HTTP.withResult(response, undefined, payload),
     true,
     batchablePropertyPath,
   )
@@ -132,15 +132,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     params,
   }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await HTTP.request<ResponseSchema>(options, customError)
 
   if (Array.isArray(base) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, validator, endpoint, idToSymbol)
-  const result = Requester.validateResultNumber(response.data, [ids.toLowerCase(), resultPath])
+  const result = HTTP.validateResultNumber(response.data, [ids.toLowerCase(), resultPath])
 
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
-    Requester.withResult(response, result),
+    HTTP.withResult(response, result),
     config.verbose,
     batchablePropertyPath,
   )

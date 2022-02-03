@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import { makeExecute, makeConfig } from '../../src/index'
 
 /**
@@ -196,7 +196,7 @@ const getOriginalGatewayResponse = async () => {
     params: [API_CALL_PARAMS],
     id: 1,
   }
-  const gatewayServerResp = await Requester.request({
+  const gatewayServerResp = await HTTP.request({
     method: 'post',
     url: process.env.GATEWAY_SERVER_URL || 'http://localhost:8081/query',
     data: body,

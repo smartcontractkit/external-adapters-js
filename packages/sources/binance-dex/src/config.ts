@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'BINANCE_DEX'
@@ -10,7 +10,7 @@ export const DEFAULT_API_ENDPOINT = 'dex-asiapacific'
 const getBaseURL = (region: string) => `https://${region}.binance.org`
 
 export const makeConfig = (prefix = ''): Config => {
-  const config = Requester.getDefaultConfig(prefix)
+  const config = HTTP.getDefaultConfig(prefix)
   config.api.baseURL = getBaseURL(config.api.baseURL || DEFAULT_API_ENDPOINT)
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

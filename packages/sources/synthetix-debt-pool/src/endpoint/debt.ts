@@ -1,4 +1,4 @@
-import { Requester, Validator, Logger, AdapterError } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, Logger, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, SUPPORTED_CHAINS } from '../config'
 import { ethers, utils, BigNumber } from 'ethers'
@@ -47,7 +47,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       result: debt,
     },
   }
-  return Requester.success(jobRunID, result, config.verbose)
+  return HTTP.success(jobRunID, result, config.verbose)
 }
 
 // Contract addresses https://docs.synthetix.io/addresses/

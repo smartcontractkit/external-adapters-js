@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/types'
 
 export const DEFAULT_ENDPOINT = 'price'
@@ -9,7 +9,7 @@ export interface Config extends DefaultConfig {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
+  const config = HTTP.getDefaultConfig(prefix)
   config.rpcUrl = util.getRequiredEnv('RPC_URL', prefix)
   config.defaultEndpoint = DEFAULT_ENDPOINT
 

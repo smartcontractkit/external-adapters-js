@@ -1,5 +1,5 @@
 import { ExecuteWithConfig } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config } from '../config'
 import xsushiABI from '../abi/xsushi.json'
@@ -21,5 +21,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     data: sushi,
   }
 
-  return Requester.success(jobRunID, response, true)
+  return HTTP.success(jobRunID, response, true)
 }

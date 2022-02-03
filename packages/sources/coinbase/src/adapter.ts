@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
@@ -62,8 +62,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       // Ignore everything is not a ticker message. Throw an error on incoming errors.
       filter: (message: Message) => message.type === 'ticker',
       toResponse: (message: Message) => {
-        const result = Requester.validateResultNumber(message, ['price'])
-        return Requester.success('1', { data: { result } })
+        const result = HTTP.validateResultNumber(message, ['price'])
+        return HTTP.success('1', { data: { result } })
       },
     }
   }

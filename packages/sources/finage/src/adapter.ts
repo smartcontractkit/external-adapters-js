@@ -5,7 +5,7 @@ import {
   ExecuteWithConfig,
   MakeWSHandler,
 } from '@chainlink/types'
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { Config, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
 
@@ -128,14 +128,14 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       filter: (message: Message) => !!message.p || (!!message.a && !!message.b),
       toResponse: (message: Message) => {
         if (message.p) {
-          const result = Requester.validateResultNumber(message, ['p'])
-          return Requester.success('1', { data: { result } })
+          const result = HTTP.validateResultNumber(message, ['p'])
+          return HTTP.success('1', { data: { result } })
         }
 
-        const ask = Requester.validateResultNumber(message, ['a'])
-        const bid = Requester.validateResultNumber(message, ['b'])
+        const ask = HTTP.validateResultNumber(message, ['a'])
+        const bid = HTTP.validateResultNumber(message, ['b'])
         const result = (ask + bid) / 2
-        return Requester.success('1', { data: { result } })
+        return HTTP.success('1', { data: { result } })
       },
     }
   }

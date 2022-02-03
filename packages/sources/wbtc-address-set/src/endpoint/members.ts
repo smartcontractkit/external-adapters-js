@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
 
@@ -37,7 +37,7 @@ export const inputParameters: InputParameters = {}
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  Requester.logConfig(config)
+  HTTP.logConfig(config)
 
   const jobRunID = validator.validated.id
 
@@ -46,7 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const options = { ...config.api, baseURL: config.membersEndpoint }
-  const response = await Requester.request<APIMembersResponse>(options)
+  const response = await HTTP.request<APIMembersResponse>(options)
 
   const result = response.data.result
     .filter((member) => member.token === 'wbtc')
@@ -55,5 +55,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     .map((a) => ({ ...a, coin: 'btc', chainId: 'mainnet', network: 'bitcoin' }))
 
   const output = { ...response, data: { ...response.data, result } }
-  return Requester.success(jobRunID, output, config.verbose)
+  return HTTP.success(jobRunID, output, config.verbose)
 }

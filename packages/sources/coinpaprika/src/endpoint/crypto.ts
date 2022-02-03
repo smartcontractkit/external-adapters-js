@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -106,14 +106,14 @@ const handleBatchedRequest = (
             quote: quote.toUpperCase(),
           },
         },
-        Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
+        HTTP.validateResultNumber(coin, ['quotes', quote, resultPath]),
       ])
     }
   })
 
   // We'll reset the response data to not output the entire CP coins list
-  const result = Requester.withResult({ ...response, data: {} }, undefined, payload)
-  return Requester.success(jobRunID, result, true, batchablePropertyPath)
+  const result = HTTP.withResult({ ...response, data: {} }, undefined, payload)
+  return HTTP.success(jobRunID, result, true, batchablePropertyPath)
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -152,28 +152,28 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       }
     }
 
-    const response = await Requester.request<ResponseSchema[]>(options)
+    const response = await HTTP.request<ResponseSchema[]>(options)
     return handleBatchedRequest(jobRunID, request, response, requestedData, resultPath)
   }
 
   // If coinid was provided or base was overridden, that symbol will be fetched
   const coin = coinid || (symbol !== validator.validated.data.base && symbol ? symbol : undefined)
 
-  const response = await Requester.request<ResponseSchema[]>(options)
+  const response = await HTTP.request<ResponseSchema[]>(options)
 
   const coinData = getCoin(response.data, symbol, coin)
   if (!coinData) {
     throw new Error(`unable to find coin: ${coin || symbol}`)
   }
 
-  const result = Requester.validateResultNumber(coinData, [
+  const result = HTTP.validateResultNumber(coinData, [
     'quotes',
     requestedQuotes.toUpperCase(),
     resultPath,
   ])
-  return Requester.success(
+  return HTTP.success(
     jobRunID,
-    Requester.withResult(response, result),
+    HTTP.withResult(response, result),
     config.verbose,
     batchablePropertyPath,
   )

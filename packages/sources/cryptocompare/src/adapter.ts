@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
@@ -90,8 +90,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return (code === subscriptions.ticker || code === subscriptions.aggregate) && flag !== 4
       },
       toResponse: (message: Message) => {
-        const result = Requester.validateResultNumber(message, ['PRICE'])
-        return Requester.success('1', { data: { result } })
+        const result = HTTP.validateResultNumber(message, ['PRICE'])
+        return HTTP.success('1', { data: { result } })
       },
       shouldNotRetrySubscription: (error) => shouldNotRetryAfterError(error as WSErrorType),
     }

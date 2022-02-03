@@ -1,4 +1,4 @@
-import { Requester, util, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { HTTP, util, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   AdapterResponse,
   AdapterRequest,
@@ -37,9 +37,9 @@ const getResults = async (
 ): Promise<AdapterResponse> => {
   try {
     Logger.info(`Trying to get result from ${sources[0]}`)
-    return Requester.success(
+    return HTTP.success(
       jobRunID,
-      await Requester.request({
+      await HTTP.request({
         ...config.api,
         method: 'post',
         url: urls[0],
@@ -48,9 +48,9 @@ const getResults = async (
     )
   } catch (e) {
     Logger.info(`Could not get result from ${sources[0]}, trying to get result from ${sources[1]}`)
-    return Requester.success(
+    return HTTP.success(
       jobRunID,
-      await Requester.request({
+      await HTTP.request({
         ...config.api,
         method: 'post',
         url: urls[1],

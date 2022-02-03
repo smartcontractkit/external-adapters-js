@@ -5,7 +5,7 @@ import {
   ExecuteWithConfig,
   InputParameters,
 } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 
 export const supportedEndpoints = ['stock']
@@ -51,13 +51,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request<ResponseSchema>(options)
+  const response = await HTTP.request<ResponseSchema>(options)
   if (Array.isArray(base)) {
     return handleBatchedRequest(jobRunID, request, response, validator)
   }
 
-  const result = Requester.validateResultNumber(response.data, ['bid'])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  const result = HTTP.validateResultNumber(response.data, ['bid'])
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }
 
 const getStockURL = (base: string | string[], symbol: string) => {
@@ -77,8 +77,8 @@ const handleBatchedRequest = (
   for (const base in response.data) {
     const symbol = validator.overrideReverseLookup(NAME, 'overrides', response.data[base].symbol)
 
-    const ask = Requester.validateResultNumber(response.data, [base, 'ask'])
-    const bid = Requester.validateResultNumber(response.data, [base, 'bid'])
+    const ask = HTTP.validateResultNumber(response.data, [base, 'ask'])
+    const bid = HTTP.validateResultNumber(response.data, [base, 'bid'])
     const result = (ask + bid) / 2
 
     payload.push([
@@ -93,5 +93,5 @@ const handleBatchedRequest = (
     ])
   }
   response.data.result = payload
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }

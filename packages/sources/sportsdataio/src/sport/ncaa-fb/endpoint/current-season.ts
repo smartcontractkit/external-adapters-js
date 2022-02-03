@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../../../config'
 
@@ -18,11 +18,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request(options)
+  const response = await HTTP.request(options)
   const result = response.data
   response.data = {
     result,
   }
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return HTTP.success(jobRunID, response, config.verbose)
 }

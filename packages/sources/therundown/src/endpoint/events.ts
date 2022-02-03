@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['events']
@@ -69,7 +69,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request<ResponseSchema>(reqConfig)
+  const response = await HTTP.request<ResponseSchema>(reqConfig)
   if (status !== undefined) {
     response.data.events = response.data.events.filter(
       ({ score: { event_status } }) => event_status === status,
@@ -77,5 +77,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   response.data.result = response.data.events
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return HTTP.success(jobRunID, response, config.verbose)
 }

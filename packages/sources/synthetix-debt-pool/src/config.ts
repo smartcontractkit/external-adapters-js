@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/types'
 
 export const NAME = 'SYNTHETIX_DEBT_POOL'
@@ -21,7 +21,7 @@ export interface Config extends DefaultConfig {
 
 export const makeConfig = (prefix?: string): Config => {
   const config: Config = {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
     chains: {},
   }

@@ -4,7 +4,7 @@ import * as CoinGecko from '@chainlink/coingecko-adapter'
 import * as CoinMarketCap from '@chainlink/coinmarketcap-adapter'
 import * as CoinPaprika from '@chainlink/coinpaprika-adapter'
 import * as CryptoCompare from '@chainlink/cryptocompare-adapter'
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import * as Kaiko from '@chainlink/kaiko-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
@@ -35,7 +35,7 @@ export const makeConfig = (prefix = ''): Config => {
     const name = a.NAME
     const url = util.getURL(name.toUpperCase())
     if (url) {
-      const defaultConfig = Requester.getDefaultConfig(prefix)
+      const defaultConfig = HTTP.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
       defaultConfig.api.method = 'post'
       sources[name.toLowerCase()] = defaultConfig

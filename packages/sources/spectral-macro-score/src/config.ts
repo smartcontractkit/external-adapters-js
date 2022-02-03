@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'SPECTRAL_MACRO_SCORE'
@@ -13,7 +13,7 @@ export interface SpectralAdapterConfig extends Config {
 }
 
 export const makeConfig = (prefix?: string): SpectralAdapterConfig => {
-  const config = <SpectralAdapterConfig>Requester.getDefaultConfig(prefix)
+  const config = <SpectralAdapterConfig>HTTP.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
   config.api.timeout = DEFAULT_TIMEOUT
   config.rpcUrl = util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix)

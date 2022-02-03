@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const DEFAULT_ENDPOINT = 'difficulty'
@@ -12,7 +12,7 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const RPC_URL = util.getEnv('BITCOIN_RPC_URL', prefix)
   const RPC_URL_FALLBACK = util.getEnv('RPC_URL', prefix)
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     RPC_URL: RPC_URL || RPC_URL_FALLBACK || DEFAULT_BITCOIN_RPC_URL,
   }
 }

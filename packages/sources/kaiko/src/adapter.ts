@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory, Includes, IncludePair } from '@chainlink/types'
 import {
   DEFAULT_INTERVAL,
@@ -58,7 +58,7 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
 
-  Requester.logConfig(config)
+  HTTP.logConfig(config)
 
   const jobRunID = validator.validated.id
 
@@ -85,21 +85,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
     timeout: 10000,
   }
-  const response = await Requester.request<ResponseSchema>(requestConfig, customError)
+  const response = await HTTP.request<ResponseSchema>(requestConfig, customError)
 
   const data = response.data.data.filter((x) => x.price !== null)
   if (data.length == 0) {
     throw 'Unsupported Price Pair'
   }
 
-  const result = Requester.validateResultNumber(
+  const result = HTTP.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
     data,
     [0, 'price'],
     { inverse },
   )
 
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

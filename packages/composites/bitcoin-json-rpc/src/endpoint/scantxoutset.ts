@@ -1,6 +1,6 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
-import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
+import { Validator, HTTP, Logger } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'scantxoutset'
 
@@ -31,9 +31,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const response = await scanWithRetries(params, request, context, config)
 
   response.data.result = String(
-    Requester.validateResultNumber(response.data, ['result', 'total_amount']),
+    HTTP.validateResultNumber(response.data, ['result', 'total_amount']),
   )
-  return Requester.success(jobRunID, response)
+  return HTTP.success(jobRunID, response)
 }
 
 const scanWithRetries = async (

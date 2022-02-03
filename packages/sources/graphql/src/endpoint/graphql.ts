@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['graphql']
@@ -39,12 +39,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     headers,
   }
   try {
-    const response = await Requester.request(reqConfig)
+    const response = await HTTP.request(reqConfig)
 
     // Prevent circular reference
     const responseData = JSON.parse(JSON.stringify(response.data))
     response.data.result = responseData
-    return Requester.success(jobRunID, response, config.verbose)
+    return HTTP.success(jobRunID, response, config.verbose)
   } catch (e) {
     throw new AdapterError({
       jobRunID,

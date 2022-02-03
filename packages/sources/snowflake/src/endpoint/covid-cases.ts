@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { SnowflakeConfig } from '../config'
 import { buildSnowflakeJWT } from '../util'
@@ -66,7 +66,7 @@ export const execute: ExecuteWithConfig<SnowflakeConfig> = async (request, _, co
     qualifiedUsername: config.qualifiedUsername,
   })
 
-  const response = await Requester.request<ResponseSchema>({
+  const response = await HTTP.request<ResponseSchema>({
     baseURL: config.baseURL,
     url: '/statements',
     method: 'POST',
@@ -102,6 +102,6 @@ export const execute: ExecuteWithConfig<SnowflakeConfig> = async (request, _, co
     },
   })
 
-  const result = Requester.validateResultNumber(response.data, ['data', '0', '0'])
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  const result = HTTP.validateResultNumber(response.data, ['data', '0', '0'])
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }

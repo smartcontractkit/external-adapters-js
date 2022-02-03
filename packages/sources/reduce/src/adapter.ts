@@ -1,5 +1,5 @@
 import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Execute } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
@@ -101,7 +101,7 @@ export const execute: Execute = async (request) => {
   // Avoid printing scientific notation on output with `result.toString()`
   const resultStr = util.toFixedMax(result, MAX_DECIMALS)
 
-  return Requester.success(jobRunID, {
+  return HTTP.success(jobRunID, {
     data: { result: resultStr },
     status: 200,
   })

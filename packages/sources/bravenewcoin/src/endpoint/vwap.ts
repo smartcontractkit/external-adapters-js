@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 
@@ -74,8 +74,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   }
 
-  const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, ['content', 0, 'vwap'])
+  const response = await HTTP.request<ResponseSchema>(options)
+  const result = HTTP.validateResultNumber(response.data, ['content', 0, 'vwap'])
 
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
 }

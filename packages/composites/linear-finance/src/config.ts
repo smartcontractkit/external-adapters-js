@@ -1,5 +1,5 @@
 import { Config as BaseConfig } from '@chainlink/types'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { HTTP } from '@chainlink/ea-bootstrap'
 import xbci from './indices/xbci'
 import xlci from './indices/xlci'
 
@@ -14,7 +14,7 @@ export type Config = BaseConfig & {
 
 export const makeConfig = (prefix?: string): Config => {
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     indices: {
       xbci,
       xlci,

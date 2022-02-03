@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteFactory, AdapterRequest, AdapterContext, AdapterResponse } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
 import { MacroScoreAPI } from './endpoint'
@@ -15,7 +15,7 @@ export const execute = async (
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParams)
 
-  Requester.logConfig(config)
+  HTTP.logConfig(config)
 
   request.data.jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT

@@ -1,6 +1,6 @@
 import { Config as DefaultConfig } from '@chainlink/types'
 import { ethers } from 'ethers'
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 
 export type Config = DefaultConfig & {
   wallet: ethers.Wallet
@@ -13,7 +13,7 @@ export const makeConfig = (prefix?: string): Config => {
   const wallet = new ethers.Wallet(privateKey, provider)
 
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     verbose: true,
     wallet,
   }

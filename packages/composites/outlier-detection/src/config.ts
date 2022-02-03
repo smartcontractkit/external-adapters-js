@@ -1,5 +1,5 @@
 import legos from '@chainlink/ea'
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig, RequestConfig } from '@chainlink/types'
 
 export const DEFAULT_CHECK_THRESHOLD = 0
@@ -29,7 +29,7 @@ export const makeConfig = (prefix = ''): Config => {
 }
 
 export const makeRequestOptions = (prefix: string, url: string): RequestConfig => {
-  const defaultConfig = Requester.getDefaultConfig(prefix)
+  const defaultConfig = HTTP.getDefaultConfig(prefix)
   return {
     ...defaultConfig.api,
     method: 'post',

@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'CFBENCHMARKS'
@@ -21,7 +21,7 @@ export type Config = BaseConfig & {
 
 export const makeConfig = (prefix?: string): Config => {
   const config = {
-    ...Requester.getDefaultConfig(prefix),
+    ...HTTP.getDefaultConfig(prefix),
     useSecondary: util.parseBool(util.getEnv(ENV_API_SECONDARY)),
   }
 

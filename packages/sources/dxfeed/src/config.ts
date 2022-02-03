@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { HTTP, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'DXFEED'
@@ -7,7 +7,7 @@ export const DEFAULT_ENDPOINT = 'price'
 export const DEMO_ENDPOINT = 'https://tools.dxfeed.com/webservice/rest'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
+  const config = HTTP.getDefaultConfig(prefix)
   config.name = NAME
   config.api.baseURL = config.api.baseURL || DEMO_ENDPOINT
   config.api.baseWsURL = config.api.baseWsURL || ''
