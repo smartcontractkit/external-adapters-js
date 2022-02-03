@@ -1,4 +1,4 @@
-import { HTTP } from '../../src/lib/external-adapter/HTTP'
+import { HTTP } from '../../src/lib/modules/http'
 import { Server, SUCCESS_ARRAY_RESPONSE } from '../helpers/server'
 
 describe('HTTP', () => {
