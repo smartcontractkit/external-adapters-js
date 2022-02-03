@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'GRAPHQL'
@@ -6,7 +6,7 @@ export const NAME = 'GRAPHQL'
 export const DEFAULT_ENDPOINT = 'graphql'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = HTTP.getDefaultConfig(prefix)
+  const config = Requester.getDefaultConfig(prefix)
   config.api.method = 'post'
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

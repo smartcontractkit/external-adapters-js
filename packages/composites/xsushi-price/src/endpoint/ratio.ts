@@ -1,5 +1,5 @@
 import { AdapterContext, ExecuteWithConfig } from '@chainlink/types'
-import { makeMiddleware, HTTP, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
+import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import { Config } from '../config'
 import xsushiABI from '../abi/xsushi.json'
@@ -49,5 +49,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     data: ratio.toString(),
   }
 
-  return HTTP.success(jobRunID, response, true)
+  return Requester.success(jobRunID, response, true)
 }

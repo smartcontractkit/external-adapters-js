@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { AdapterError, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 
@@ -70,5 +70,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const result = balances.reduce((sum, balance) => sum.add(balance.result), BigNumber.from(0))
 
-  return HTTP.success(jobRunID, HTTP.withResult(response, result.toString()), config.verbose)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result.toString()),
+    config.verbose,
+  )
 }

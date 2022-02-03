@@ -1,4 +1,4 @@
-import { HTTP, Validator, Builder } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
@@ -73,8 +73,8 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
       isError: () => false, // Amberdata never receives error types?
       filter: (message: Message) => !!message.params,
       toResponse: (message: Message) => {
-        const result = HTTP.validateResultNumber(message, ['params', 'result', 'last'])
-        return HTTP.success('1', { data: { result } })
+        const result = Requester.validateResultNumber(message, ['params', 'result', 'last'])
+        return Requester.success('1', { data: { result } })
       },
     }
   }

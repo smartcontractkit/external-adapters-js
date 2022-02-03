@@ -1,4 +1,4 @@
-import { HTTP, Builder } from '@chainlink/ea-bootstrap'
+import { Requester, Builder } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -10,7 +10,7 @@ import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  HTTP.logConfig(config)
+  Requester.logConfig(config)
   return await Builder.buildSelector(request, context, config, endpoints)
 }
 

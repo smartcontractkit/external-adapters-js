@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest } from '@chainlink/types'
 
 const customParams = {
@@ -25,7 +25,7 @@ export const isMarketClosed = async (input: AdapterRequest): Promise<boolean> =>
     params,
   }
 
-  const response = await HTTP.request(config)
-  const status = (HTTP.getResult(response.data, [market, 'status']) as string).toLowerCase()
+  const response = await Requester.request(config)
+  const status = (Requester.getResult(response.data, [market, 'status']) as string).toLowerCase()
   return status !== 'open'
 }

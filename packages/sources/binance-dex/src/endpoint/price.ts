@@ -1,4 +1,4 @@
-import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const NAME = 'price'
@@ -67,7 +67,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await HTTP.request<ResponseSchema[]>(options, customError)
+  const response = await Requester.request<ResponseSchema[]>(options, customError)
 
   const lastUpdate = response.data[0].closeTime
   const curTime = new Date()
@@ -79,7 +79,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 500,
     })
 
-  const result = HTTP.validateResultNumber(response.data, [0, 'lastPrice'])
+  const result = Requester.validateResultNumber(response.data, [0, 'lastPrice'])
 
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

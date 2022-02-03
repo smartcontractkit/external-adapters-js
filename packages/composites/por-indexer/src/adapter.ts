@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, makeConfig } from './config'
 import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
 import Decimal from 'decimal.js'
@@ -39,7 +39,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
       throw new Error(`No PoR Indexer endpoint configured for ${indexerEndpointEnvName}`)
     }
 
-    const response = HTTP.request({
+    const response = Requester.request({
       ...config.api,
       method: 'post',
       url: indexerUrl,
@@ -66,7 +66,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
     })
     .reduce((p, c) => p.add(c), new Decimal(0))
 
-  return HTTP.success(jobRunID, {
+  return Requester.success(jobRunID, {
     data: {
       result: summedTotalReserves.toString(),
     },

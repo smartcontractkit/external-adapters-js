@@ -13,7 +13,7 @@ export type Config = {
 export const makeConfig = (prefix = ''): Config => {
   const getPriceAdapter: GetPriceAdapter = (name) => {
     const dataProviderUrl = util.getRequiredEnv('ADAPTER_URL', name.toUpperCase())
-    const defaultConfig = HTTP.getDefaultConfig(prefix)
+    const defaultConfig = Requester.getDefaultConfig(prefix)
     defaultConfig.api.baseURL = dataProviderUrl
     defaultConfig.api.method = 'post'
     return getDataProvider(defaultConfig.api)

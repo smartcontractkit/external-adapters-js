@@ -1,4 +1,4 @@
-export const OracleHTTP = [
+export const OracleRequester = [
   {
     inputs: [
       { internalType: 'bytes32', name: 'merkleRoot', type: 'bytes32' },

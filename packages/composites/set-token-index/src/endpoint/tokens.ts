@@ -1,5 +1,5 @@
 import { ethers, utils } from 'ethers'
-import { Logger, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
 
@@ -106,5 +106,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     data: token,
   }
 
-  return HTTP.success(jobRunID, response, true)
+  return Requester.success(jobRunID, response, true)
 }

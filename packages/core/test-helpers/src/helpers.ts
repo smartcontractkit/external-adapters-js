@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Execute } from '@chainlink/types'
 
 const mockContext = {}
@@ -28,7 +28,7 @@ function buildErrors(label: string, code: number, requests: any[], execute: Exec
           await execute(req.testData as AdapterRequest, mockContext)
         } catch (error) {
           const id = req.testData.id ?? '1'
-          const errorResp = HTTP.errored(id, error)
+          const errorResp = Requester.errored(id, error)
           assertError({ expected: code, actual: errorResp.statusCode }, errorResp, id)
         }
       })

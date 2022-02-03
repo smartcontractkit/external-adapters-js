@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory } from '@chainlink/types'
 import { getBaseURL, ChainType, isCoinType, isChainType } from '../config'
 
@@ -17,7 +17,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
     url: getBalanceURI(account.address, config.confirmations as number),
   }
 
-  const response = await HTTP.request<number>(reqConfig)
+  const response = await Requester.request<number>(reqConfig)
 
   return {
     payload: response.data,

@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
 import { calculate } from './cryptoVolatilityIndex'
 
@@ -21,7 +21,7 @@ export const execute: Execute = async (input: AdapterRequest, context: AdapterCo
 
   const result = await calculate(validator.validated, input.data, context)
   const response = { data: { result }, status: 200 }
-  return HTTP.success(jobRunID, response)
+  return Requester.success(jobRunID, response)
 }
 
 export default execute

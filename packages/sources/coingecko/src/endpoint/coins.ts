@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import overrides from './../config/symbols.json'
 
@@ -24,6 +24,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       x_cg_pro_api_key: config.apiKey,
     },
   }
-  const response = await HTTP.request<CoinsResponse[]>(options)
-  return HTTP.success(jobRunID, response, true)
+  const response = await Requester.request<CoinsResponse[]>(options)
+  return Requester.success(jobRunID, response, true)
 }

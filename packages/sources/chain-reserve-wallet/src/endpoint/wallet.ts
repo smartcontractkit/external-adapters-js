@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 
@@ -99,5 +99,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     statusCode: 200,
   }
 
-  return HTTP.success(jobRunID, result, config.verbose)
+  return Requester.success(jobRunID, result, config.verbose)
 }

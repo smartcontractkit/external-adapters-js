@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'EODHISTORICALDATA'
@@ -7,7 +7,7 @@ export const DEFAULT_ENDPOINT = 'stock'
 export const DEFAULT_API_ENDPOINT = 'https://eodhistoricaldata.com'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = HTTP.getDefaultConfig(prefix, true)
+  const config = Requester.getDefaultConfig(prefix, true)
   config.api = {
     ...config.api,
     baseURL: config.api.baseURL || DEFAULT_API_ENDPOINT,

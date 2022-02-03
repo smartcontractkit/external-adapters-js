@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'KAIKO'
@@ -10,7 +10,7 @@ export const DEFAULT_ENDPOINT = 'trades'
 export const DEFAULT_API_ENDPOINT = 'https://us.market-api.kaiko.io/v2/data/trades.v1'
 
 export const makeConfig = (prefix = ''): Config => {
-  const config = HTTP.getDefaultConfig(prefix, true)
+  const config = Requester.getDefaultConfig(prefix, true)
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
   config.api.headers['X-Api-Key'] = config.apiKey
   config.defaultEndpoint = DEFAULT_ENDPOINT

@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['vwap']
@@ -165,7 +165,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: body,
   }
 
-  const response = await HTTP.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options, customError)
   const vwapResp = buildVWAP(response.data, response.status, debug)
-  return HTTP.success(jobRunID, vwapResp, config.verbose)
+  return Requester.success(jobRunID, vwapResp, config.verbose)
 }

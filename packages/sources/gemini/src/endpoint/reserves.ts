@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['reserves']
@@ -41,10 +41,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, url }
 
-  const response = await HTTP.request<ResponseSchema>(options)
+  const response = await Requester.request<ResponseSchema>(options)
   const result = response.data.addresses.map((address) => ({ address, network, chainId }))
 
   const output = { ...response, data: { ...response.data, result } }
 
-  return HTTP.success(jobRunID, output, config.verbose)
+  return Requester.success(jobRunID, output, config.verbose)
 }

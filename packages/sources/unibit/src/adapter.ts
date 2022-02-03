@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT } from './config'
 import { historical } from './endpoint'
@@ -10,7 +10,7 @@ const inputParams = {
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
 
-  HTTP.logConfig(config)
+  Requester.logConfig(config)
 
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
 

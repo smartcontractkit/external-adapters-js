@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterResponse,
   AxiosResponse,
@@ -85,7 +85,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       },
       status: locationResponse.providerStatusCode,
     }
-    return HTTP.success(jobRunID, endpointResponse, config.verbose)
+    return Requester.success(jobRunID, endpointResponse, config.verbose)
   }
   // Request CurrentConditions API
   request.data.locationKey = locationResult.locationKey
@@ -126,5 +126,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     status: locationResponse.providerStatusCode,
   }
 
-  return HTTP.success(jobRunID, endpointResponse, config.verbose)
+  return Requester.success(jobRunID, endpointResponse, config.verbose)
 }

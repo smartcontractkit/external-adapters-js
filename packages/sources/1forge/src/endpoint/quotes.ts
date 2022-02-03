@@ -1,4 +1,4 @@
-import { HTTP, Validator, util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -45,12 +45,12 @@ const handleBatchedRequest = (
         ...request,
         data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
       },
-      HTTP.validateResultNumber(pair, [resultPath]),
+      Requester.validateResultNumber(pair, [resultPath]),
     ])
   }
-  return HTTP.success(
+  return Requester.success(
     jobRunID,
-    HTTP.withResult(response, undefined, payload),
+    Requester.withResult(response, undefined, payload),
     true,
     batchablePropertyPath,
   )
@@ -81,14 +81,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await HTTP.request<ResponseSchema[]>(options)
+  const response = await Requester.request<ResponseSchema[]>(options)
   if (Array.isArray(from) || Array.isArray(to))
     return handleBatchedRequest(jobRunID, request, response, 'a')
 
-  const result = HTTP.validateResultNumber(response.data[0], ['a'])
-  return HTTP.success(
+  const result = Requester.validateResultNumber(response.data[0], ['a'])
+  return Requester.success(
     jobRunID,
-    HTTP.withResult(response, result),
+    Requester.withResult(response, result),
     config.verbose,
     batchablePropertyPath,
   )

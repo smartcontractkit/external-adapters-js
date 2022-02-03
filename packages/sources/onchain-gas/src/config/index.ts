@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'ONCHAIN_GAS'
@@ -9,7 +9,7 @@ export const DEFAULT_BLOCK_IDX = 0
 export const MAX_BLOCKS_TO_QUERY = 10
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = HTTP.getDefaultConfig(prefix)
+  const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = util.getRequiredEnvWithFallback(
     'ETHEREUM_WS_RPC_URL',
     ['WS_RPC_URL'],

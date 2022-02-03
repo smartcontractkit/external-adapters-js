@@ -1,5 +1,5 @@
 import { assertError } from '@chainlink/ea-test-helpers'
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import * as circuitbreakerAllocationAdapter from '../../src/index'
 import { dataProviderConfig, mockDataProviderResponses } from './fixtures'
 import nock from 'nock'
@@ -128,7 +128,7 @@ describe('execute', () => {
         try {
           await execute(req.input, {})
         } catch (error) {
-          const errorResp = HTTP.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error)
           assertError(
             { expected: expectedProviderStatusCodes[i], actual: errorResp.providerStatusCode },
             errorResp,
@@ -214,7 +214,7 @@ describe('execute', () => {
         try {
           await execute(req.input, {})
         } catch (error) {
-          const errorResp = HTTP.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

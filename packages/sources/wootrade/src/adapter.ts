@@ -1,4 +1,4 @@
-import { Builder, Validator, HTTP } from '@chainlink/ea-bootstrap'
+import { Builder, Validator, Requester } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -73,8 +73,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const ask = message.data.ask
         const bid = message.data.bid
         const price = (ask + bid) / 2 // average
-        const result = HTTP.validateResultNumber({ price }, ['price'])
-        return HTTP.success('1', { data: { result } })
+        const result = Requester.validateResultNumber({ price }, ['price'])
+        return Requester.success('1', { data: { result } })
       },
     }
   }

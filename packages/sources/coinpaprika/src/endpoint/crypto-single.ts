@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
@@ -101,9 +101,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     params,
   }
 
-  const response = await HTTP.request<ResponseSchema>(options)
-  const result = HTTP.validateResultNumber(response.data, resultPath)
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, resultPath)
   response.data.cost = 2
 
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

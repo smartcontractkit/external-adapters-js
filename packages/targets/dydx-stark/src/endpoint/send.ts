@@ -1,6 +1,6 @@
 import objectPath from 'object-path'
 import { ExecuteWithConfig } from '@chainlink/types'
-import { HTTP, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_DATA_PATH } from '../config'
 import { PriceDataPoint, requireNormalizedPrice, getPricePayload } from './starkex'
 
@@ -43,8 +43,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: payload,
   }
 
-  const response = await HTTP.request(options)
+  const response = await Requester.request(options)
   response.data.result = response.data
 
-  return HTTP.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, response, config.verbose)
 }

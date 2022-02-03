@@ -1,4 +1,4 @@
-import { AdapterError, Builder, HTTP, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { AdapterError, Builder, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -75,8 +75,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       filter: () => true,
       toResponse: (message: WebsocketResponseSchema, input) => {
         const { metrics } = getSubKeyInfo(input)
-        const result = HTTP.validateResultNumber(message, [metrics])
-        return HTTP.success('1', { data: { result } })
+        const result = Requester.validateResultNumber(message, [metrics])
+        return Requester.success('1', { data: { result } })
       },
       programmaticConnectionInfo: (input) => {
         const { asset, metrics } = getSubKeyInfo(input)

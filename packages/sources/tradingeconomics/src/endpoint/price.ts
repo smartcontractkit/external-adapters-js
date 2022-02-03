@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, NAME } from '../config'
 import overrides from '../config/symbols.json'
@@ -37,7 +37,7 @@ export const execute: ExecuteWithConfig<Config> = async (
     params,
   }
 
-  const response = await HTTP.request(request)
+  const response = await Requester.request(request)
   if (!response.data || response.data.length < 1) {
     throw new Error('no result for query')
   }
@@ -45,6 +45,6 @@ export const execute: ExecuteWithConfig<Config> = async (
   // to avoid unexpected behavior when returning arrays.
   response.data = response.data[0]
 
-  response.data.result = HTTP.validateResultNumber(response.data, ['Last'])
-  return HTTP.success(jobRunID, response)
+  response.data.result = Requester.validateResultNumber(response.data, ['Last'])
+  return Requester.success(jobRunID, response)
 }

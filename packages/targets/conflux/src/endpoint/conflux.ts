@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, ExecuteWithConfig } from '@chainlink/types'
 import { Conflux } from 'js-conflux-sdk'
 import { ethers } from 'ethers'
@@ -75,7 +75,7 @@ export const execute: ExecuteWithConfig<Config> = async (
     value,
   )
 
-  return HTTP.success(jobRunID, {
+  return Requester.success(jobRunID, {
     data: { result: txHash },
     status: 200,
   })

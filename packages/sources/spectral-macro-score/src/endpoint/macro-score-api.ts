@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { InputParameters, RequestConfig } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
@@ -74,8 +74,12 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     },
   }
   const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, tickSetId)
-  const response = await HTTP.request<ScoreResponse[]>(options, customError)
-  const score = HTTP.validateResultNumber(response.data[0], ['score'])
+  const response = await Requester.request<ScoreResponse[]>(options, customError)
+  const score = Requester.validateResultNumber(response.data[0], ['score'])
   const tick = computeTickWithScore(score, tickSet)
-  return HTTP.success(request.data.jobRunID, HTTP.withResult(response, tick), config.verbose)
+  return Requester.success(
+    request.data.jobRunID,
+    Requester.withResult(response, tick),
+    config.verbose,
+  )
 }

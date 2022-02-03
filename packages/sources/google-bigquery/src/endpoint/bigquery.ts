@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
 import { BigQuery, BigQueryOptions } from '@google-cloud/bigquery'
@@ -27,7 +27,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  HTTP.logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const query = validator.validated.data.query
@@ -44,5 +44,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const [rows] = await bigqueryClient.query({ query, params })
   const response = { data: { result: rows } }
 
-  return HTTP.success(jobRunID, response, true)
+  return Requester.success(jobRunID, response, true)
 }

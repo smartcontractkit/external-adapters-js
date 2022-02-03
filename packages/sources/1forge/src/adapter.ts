@@ -1,4 +1,4 @@
-import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -61,7 +61,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       filter: (message) => message.data.indexOf('update') !== -1,
       toResponse: (message) => {
         const { data } = parseResponse(message.data)
-        return HTTP.success('1', { data: { result: data.p } })
+        return Requester.success('1', { data: { result: data.p } })
       },
       onConnectChain: [
         {

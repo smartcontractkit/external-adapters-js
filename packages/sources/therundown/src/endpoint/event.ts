@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['event']
@@ -39,8 +39,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await HTTP.request<ResponseSchema>(reqConfig)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
   response.data.result = { ...response.data }
 
-  return HTTP.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, response, config.verbose)
 }

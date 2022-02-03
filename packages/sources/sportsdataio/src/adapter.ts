@@ -1,4 +1,4 @@
-import { HTTP, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_SPORT } from './config'
 import { MMA, NFL, NCAA_FB, NBA, MLB } from './sport'
@@ -10,7 +10,7 @@ const inputParams = {
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
 
-  HTTP.logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const sport = validator.validated.data.sport || DEFAULT_SPORT

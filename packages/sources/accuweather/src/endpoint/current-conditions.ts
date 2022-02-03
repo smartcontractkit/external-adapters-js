@@ -1,4 +1,4 @@
-import { AdapterError, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -229,7 +229,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await HTTP.request<Array<CurrentConditions>>(options)
+  const response = await Requester.request<Array<CurrentConditions>>(options)
 
   const currentConditionsList = response.data
   if (!Array.isArray(currentConditionsList)) {
@@ -267,5 +267,5 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     status: response.status,
   }
 
-  return HTTP.success(jobRunID, endpointResponse, config.verbose)
+  return Requester.success(jobRunID, endpointResponse, config.verbose)
 }

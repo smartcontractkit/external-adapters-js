@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'TERRA_VIEW_FUNCTION'
@@ -20,7 +20,7 @@ export type Config = BaseConfig & {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const baseConfig = HTTP.getDefaultConfig(prefix)
+  const baseConfig = Requester.getDefaultConfig(prefix)
 
   return {
     ...baseConfig,

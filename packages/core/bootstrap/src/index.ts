@@ -109,7 +109,12 @@ export const executeSync: ExecuteSync = async (
     const feedID = metrics.util.getFeedId(data)
     return callback(
       error.statusCode || 500,
-      HTTP.errored(data.id, error, error.providerResponseStatusCode || error.statusCode, feedID),
+      Requester.errored(
+        data.id,
+        error,
+        error.providerResponseStatusCode || error.statusCode,
+        feedID,
+      ),
     )
   }
 }
@@ -136,4 +141,4 @@ export const expose = <C extends Config>(
   }
 }
 
-export { HTTP, Validator, AdapterError, Builder, Logger, util, server, Cache, RateLimit }
+export { Requester, Validator, AdapterError, Builder, Logger, util, server, Cache, RateLimit }

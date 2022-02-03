@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
@@ -67,8 +67,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await HTTP.request<ResponseSchema>(options)
-  const result = HTTP.validateResultNumber(response.data, ['rate'])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['rate'])
 
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

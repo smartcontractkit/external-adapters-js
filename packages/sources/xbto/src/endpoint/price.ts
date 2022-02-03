@@ -1,5 +1,5 @@
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 
 export const inputParameters: InputParameters = {
   market: {
@@ -37,7 +37,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     auth,
   }
 
-  const response = await HTTP.request(reqConfig)
-  response.data.result = HTTP.validateResultNumber(response.data, ['index'])
-  return HTTP.success(jobRunID, response)
+  const response = await Requester.request(reqConfig)
+  response.data.result = Requester.validateResultNumber(response.data, ['index'])
+  return Requester.success(jobRunID, response)
 }

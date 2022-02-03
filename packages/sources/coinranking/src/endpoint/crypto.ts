@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap']
@@ -88,7 +88,7 @@ const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<st
     ...config.api,
     url,
   }
-  const response = await HTTP.request<ReferenceCurrenciesResponseSchema>(options)
+  const response = await Requester.request<ReferenceCurrenciesResponseSchema>(options)
   const currency = response.data.data.currencies.find(
     (x) => x.symbol.toLowerCase() === symbol.toLowerCase(),
   )
@@ -122,7 +122,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     params,
   }
 
-  const response = await HTTP.request<ResponseSchema & { cost?: number }>(options)
+  const response = await Requester.request<ResponseSchema & { cost?: number }>(options)
 
   // If coinid was provided or base was overridden, that UUID will be fetched
   const coinUuid = coinid || (overridenCoinid !== symbol && overridenCoinid)
@@ -135,7 +135,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     throw new Error(`Unable to find coin: ${coinUuid || symbol}`)
   }
 
-  const result = HTTP.validateResultNumber(coindata, resultPath)
+  const result = Requester.validateResultNumber(coindata, resultPath)
   response.data.cost = cost
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
