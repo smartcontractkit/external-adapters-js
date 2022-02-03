@@ -40,6 +40,7 @@ export interface IRequestInput {
 
 export interface AddressesResponse {
   signed_addresses: string[]
+  unsigned_addresses: string[]
   primary_address: string
 }
 export interface CalculationResponse {
@@ -87,13 +88,32 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
   }
 
   const addressResponse = await Requester.request<AddressesResponse>(addressOptions, customError)
+  const unsignedAddresses = addressResponse.data.unsigned_addresses
   const addresses = addressResponse.data.signed_addresses
   const primaryAddress = addressResponse.data.primary_address
 
   if (!primaryAddress) {
     throw new AdapterError({
-      message: 'FastAPI + Macro API error',
+      message: 'FastAPI Error: Primary address does not exist on FAST API',
       cause: 'Primary address does not exist on FAST API',
+    })
+  }
+
+  if (unsignedAddresses.length > 0) {
+    throw new AdapterError({
+      message: 'FastAPI Error: The bundle contains unsigned addresses',
+      cause: 'The bundle contains unsigned addresses',
+    })
+  }
+
+  const primaryUnsigned = unsignedAddresses.find(
+    (address: String) => address.toLowerCase() === primaryAddress.toLowerCase(),
+  )
+
+  if (primaryUnsigned) {
+    throw new AdapterError({
+      message: 'FastAPI Error: Primary is unsigned',
+      cause: 'Primary is unsigned',
     })
   }
 
@@ -134,7 +154,6 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
     }
   }
 
-  console.log('Pending calculation for: ', primaryAddress)
   const resolveOptions: RequestConfig = {
     baseURL: `${config.BASE_URL_MACRO_API}`,
     headers: {
