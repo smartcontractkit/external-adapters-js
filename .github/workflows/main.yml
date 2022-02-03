@@ -74,6 +74,48 @@ jobs:
       - run: yarn lint
       - run: yarn format:check
 
+  # Changeset check
+  adapter-change-has-changeset:
+    name: Adapter changes accompanied by a changeset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Check modified files
+        id: adapter_change_has_changeset
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          echo "::set-output name=has_adapter_change::false"
+          echo "::set-output name=has_changeset::false"
+
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file == packages/sources/*/src/* || $file == packages/composites/*/src/* || $file == packages/targets/*/src/* ]]; then
+              echo "This PR contains an adapter src code change."
+              echo "::set-output name=has_adapter_change::true"
+            fi
+
+            if [[ $file == .changeset/* ]]; then
+              echo "This PR contains a changeset file."
+              echo "::set-output name=has_changeset::true"
+            fi
+          done < files.txt
+
+      - name: Checks whether adapter change also has a changeset
+        if: ${{ steps.adapter_change_has_changeset.outputs.has_adapter_change == 'true' && steps.adapter_change_has_changeset.outputs.has_changeset == 'false' }}
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('Adapter change detected without a changeset. Run `yarn changeset` to generate a changeset for your PR.')
+
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
     runs-on: ubuntu-latest
