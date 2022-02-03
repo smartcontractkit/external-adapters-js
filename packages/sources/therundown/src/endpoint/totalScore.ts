@@ -3,6 +3,9 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['total-score']
 
+export const description =
+  "Returns the sum of both teams' scores for a match (match status must be final)"
+
 export const inputParameters: InputParameters = {
   matchId: {
     required: true,

@@ -11,6 +11,12 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['quotes', 'forex', 'price']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
+export const description = `Returns a batched price comparison from a list currencies to a list of other currencies.
+
+[\`/quotes\`](https://1forge.com/api#quotes) - Convert from one currency to another.
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`quotes\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from'],
   quote: ['quote', 'to'],

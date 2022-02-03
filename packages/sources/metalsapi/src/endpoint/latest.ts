@@ -11,6 +11,9 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['latest']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
+export const description =
+  'Returns a batched price comparison from one currency to a list of other currencies.'
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,

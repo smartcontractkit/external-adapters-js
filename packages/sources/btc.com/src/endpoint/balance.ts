@@ -5,6 +5,8 @@ import { isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const description = '[Address](https://btc.com/api-doc#Address)'
+
 export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (address: string) => `/v3/address/${address}`

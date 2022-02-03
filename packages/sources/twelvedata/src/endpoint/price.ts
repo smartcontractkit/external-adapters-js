@@ -6,6 +6,9 @@ export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
 
 const customError = (data: { status: string }) => data.status === 'error'
 
+export const description =
+  'This `price` endpoint provides the real-time price as detailed in [Twelvedata documentation](https://twelvedata.com/docs#real-time-price).'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin', 'market', 'symbol'],

@@ -3,6 +3,9 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['lockedGold']
 
+export const description =
+  'Query the total gold grams locked in [cache.gold](https://contract.cache.gold/api/lockedGold).'
+
 export const inputParameters: InputParameters = {}
 
 export interface ResponseSchema {

@@ -12,6 +12,8 @@ const customError = (data: Record<string, unknown>) => {
   return Object.keys(data).length === 0
 }
 
+export const description = 'Fetches the price of an asset using specified exchanges.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin', 'id'],
