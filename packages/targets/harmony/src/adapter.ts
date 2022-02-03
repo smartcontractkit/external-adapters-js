@@ -5,6 +5,8 @@ import { getAddress, hexToByteArray, hexlify, concat } from '@harmony-js/crypto'
 import { ChainType } from '@harmony-js/utils'
 import { Config, makeConfig, DEFAULT_API_ENDPOINT } from './config'
 
+console.log('foobar')
+
 const inputParams = {
   address: ['address'],
   functionSelector: ['functionSelector'],
