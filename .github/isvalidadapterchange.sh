@@ -19,6 +19,7 @@ if [[ $file == .changeset/* ]]; then
     has_changeset=1
 fi
 done < $filename.txt
+rm $filename.txt
 
 is_valid_change=1
 if [ "$has_adapter_change" -eq 1 ] && [ "$has_changeset" -eq 0 ] ; then
