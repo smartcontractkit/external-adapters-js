@@ -90,6 +90,8 @@ jobs:
           yarn install
       - name: Build Repo
         run: yarn setup
+      - name: Test Master List Generation
+        run: yarn generate:master-list -v
       - name: Test README Generation
         run: yarn generate:readme -a -v
 

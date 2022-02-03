@@ -36,8 +36,9 @@ jobs:
       - name: Build Repo
         run: yarn setup
 
-      - name: Generate READMEs
+      - name: Generate Documentation
         run: |
+          yarn generate:master-list -v
           yarn generate:readme -a -v
           git add *
           yarn lint-staged
