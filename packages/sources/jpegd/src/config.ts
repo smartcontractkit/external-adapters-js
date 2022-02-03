@@ -1,10 +1,10 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'EXAMPLE' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
+export const NAME = 'JPEGD'
 
-export const DEFAULT_ENDPOINT = 'example'
-export const DEFAULT_BASE_URL = 'http://localhost:18081'
+export const DEFAULT_ENDPOINT = 'punks'
+export const DEFAULT_BASE_URL = 'https://jpegapi.com'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
