@@ -31,6 +31,6 @@ export const makeConfig = (prefix?: string): Config => {
     mlbKey: util.getEnv(ENV_MLB_API_KEY, prefix),
   }
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.defaultEndpoint = DEFAULT_ENDPOINT
+
   return config
 }
