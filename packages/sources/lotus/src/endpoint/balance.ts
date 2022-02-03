@@ -31,6 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const jsonRpcConfig = JSONRPC.makeConfig()
   jsonRpcConfig.api.headers['Authorization'] = `Bearer ${config.apiKey}`
+  const _execute = JSONRPC.makeExecute(jsonRpcConfig)
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
@@ -49,7 +50,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
         requestId: requestId + 1,
       },
     }
-    const result = await JSONRPC.execute(requestData, context, jsonRpcConfig)
+    const result = await _execute(requestData, context)
     return {
       address,
       result: result.data.result,
