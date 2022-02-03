@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import {
   assertError,
   assertSuccess,
@@ -169,7 +169,7 @@ describe('execute', () => {
             data: { ...req.testData.data, exAddr: address },
           } as AdapterRequest)
         } catch (error) {
-          const errorResp = HTTP.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

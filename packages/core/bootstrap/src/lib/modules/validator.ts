@@ -15,7 +15,7 @@ import { AdapterError } from './error'
 import presetSymbols from '../config/overrides/presetSymbols.json'
 import presetTokens from '../config/overrides/presetTokens.json'
 import presetIncludes from '../config/overrides/presetIncludes.json'
-import { HTTP } from './http'
+import { Requester } from './requester'
 import { baseInputParameters } from './selector'
 
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
@@ -111,7 +111,7 @@ export class Validator {
         message,
         cause: error,
       })
-    this.errored = HTTP.errored(this.validated.id, this.error)
+    this.errored = Requester.errored(this.validated.id, this.error)
     if (this.validatorOptions.shouldThrowError) {
       throw this.error
     }

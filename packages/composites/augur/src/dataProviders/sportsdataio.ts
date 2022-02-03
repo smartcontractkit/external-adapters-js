@@ -1,4 +1,4 @@
-import { Logger, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterContext, Execute } from '@chainlink/types'
 import * as Sportsdataio from '@chainlink/sportsdataio-adapter'
 import { BigNumber, ethers } from 'ethers'
@@ -360,7 +360,7 @@ export const createTeam: Execute = async (input, context) => {
   Logger.debug(`Augur sportsdataio: Skipping ${skipDaysInAdvance} due to daysInAdvance`)
   Logger.debug(`Augur sportsdataio: Skipping ${cantCreate} due to no market to create`)
 
-  return HTTP.success(input.id, {
+  return Requester.success(input.id, {
     data: { result: createEvents },
   })
 }
@@ -525,7 +525,7 @@ export const createFighter: Execute = async (input, context) => {
   )
   Logger.debug(`Augur sportsdataio: Skipping ${cantCreate} due to no market to create`)
 
-  return HTTP.success(input.id, {
+  return Requester.success(input.id, {
     data: { result: createEvents },
   })
 }
@@ -581,7 +581,7 @@ export const resolveTeam: Execute = async (input, context) => {
     awayScore: event.AwayScore || 0,
   }
 
-  return HTTP.success(input.id, {
+  return Requester.success(input.id, {
     data: { result: resolveEvent },
   })
 }
@@ -657,7 +657,7 @@ export const resolveFight: Execute = async (input, context) => {
     draw,
   }
 
-  return HTTP.success(input.id, {
+  return Requester.success(input.id, {
     data: { result: resolveEvent },
   })
 }

@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as config } from '@chainlink/types'
 
 export type Config = config & {
@@ -15,7 +15,7 @@ export const DEFAULT_API_ENDPOINT = 'https://api.tradingeconomics.com/markets'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://stream.tradingeconomics.com/'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = HTTP.getDefaultConfig(prefix)
+  const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
   config.defaultEndpoint = DEFAULT_ENDPOINT
 

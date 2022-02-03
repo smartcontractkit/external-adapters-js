@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['lockedGold']
@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = '/lockedGold'
   const options = { ...config.api, url }
 
-  const response = await HTTP.request<ResponseSchema>(options)
-  const result = await HTTP.validateResultNumber(response.data, ['grams_locked'])
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = await Requester.validateResultNumber(response.data, ['grams_locked'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

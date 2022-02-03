@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig, ConfigFactory } from '@chainlink/types'
 
 export const NAME = 'ALPINE'
@@ -12,7 +12,7 @@ export type Config = BaseConfig & {
 
 export const makeConfig: ConfigFactory<Config> = (prefix?: string) => {
   return {
-    ...HTTP.getDefaultConfig(prefix),
+    ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: 'tvl',
     ethereumRpcUrl: util.getEnv('ETHEREUM_RPC_URL') || '',
     polygonRpcUrl: util.getEnv('POLYGON_RPC_URL') || '',

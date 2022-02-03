@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import { NAME as AdapterName } from '../config'
@@ -111,7 +111,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let response
   /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
   while (true) {
-    response = await HTTP.request<ResponseSchema>(options)
+    response = await Requester.request<ResponseSchema>(options)
 
     const responseData = response.data
     const { data: assetMetricsList } = responseData
@@ -128,9 +128,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     options.params.next_page_token = nextPageToken
   }
 
-  return HTTP.success(
+  return Requester.success(
     jobRunID,
-    HTTP.withResult(response, ethers.utils.formatEther(totalBurnedTKN.toString())),
+    Requester.withResult(response, ethers.utils.formatEther(totalBurnedTKN.toString())),
     config.verbose,
   )
 }

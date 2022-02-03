@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'AMBERDATA'
@@ -29,7 +29,7 @@ export const BLOCKCHAINS: { [ticker: string]: string } = {
 const DEFAULT_ENDPOINT = 'crypto'
 
 export const makeConfig = (prefix = ''): Config => {
-  const config = HTTP.getDefaultConfig(prefix, true)
+  const config = Requester.getDefaultConfig(prefix, true)
   config.api.headers['x-api-key'] = config.apiKey
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
   config.defaultEndpoint = DEFAULT_ENDPOINT

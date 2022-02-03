@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { RequestConfig } from '@chainlink/types'
 import { ResponsePayload } from './types'
 import { Logger } from '@chainlink/ea-bootstrap'
@@ -34,7 +34,7 @@ export const getPriceProvider =
           data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'crypto' },
         }
         try {
-          const response = await HTTP.request({ ...apiConfig, data: data })
+          const response = await Requester.request({ ...apiConfig, data: data })
           return response.data.result
         } catch (error) {
           Logger.error(`Request to ${source} adapter failed: ${error}`)

@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['globalmarketcap', 'dominance']
@@ -57,8 +57,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   }
 
-  const response = await HTTP.request<ResponseSchema>(options, customError)
-  const result = HTTP.validateResultNumber(response.data, ['data', resultPath, market])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['data', resultPath, market])
 
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

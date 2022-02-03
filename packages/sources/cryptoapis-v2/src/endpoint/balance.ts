@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory } from '@chainlink/types'
 import {
   isCoinType,
@@ -41,7 +41,8 @@ interface ResponseSchema {
 }
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
-  if (chain === 'testnet') chain = HTTP.toVendorName(coin, TESTNET_BLOCKCHAINS_BY_PLATFORM) || chain
+  if (chain === 'testnet')
+    chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS_BY_PLATFORM) || chain
   return `/v2/blockchain-data/${coin}/${chain}/addresses/${address}`
 }
 
@@ -54,7 +55,7 @@ const getBalance: balance.GetBalance = async (account, config) => {
     ...config.api,
     url: getBalanceURI(account.address, account.chain as string, coin as string),
   }
-  const response = await HTTP.request<ResponseSchema>(options)
+  const response = await Requester.request<ResponseSchema>(options)
   const balance = response.data.data.item.confirmedBalance.amount
 
   return {

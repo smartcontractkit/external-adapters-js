@@ -1,8 +1,8 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
-import { OracleHTTP } from '../contracts'
+import { OracleRequester } from '../contracts'
 import {
   AddressRewards,
   getDataForCID,
@@ -99,7 +99,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const activeRootIpfsCidBase64 = Buffer.from(validator.validated.data.activeRootIpfsCid, 'base64')
   const activeRootIpfsCid = activeRootIpfsCidBase64.toString()
 
-  const HTTPContract = new ethers.Contract(callbackAddress, OracleHTTP, config.wallet)
+  const requesterContract = new ethers.Contract(callbackAddress, OracleRequester, config.wallet)
 
   const ipfs = IPFS.makeExecute(IPFS.makeConfig(IPFS.NAME))
   const rewardsInput: Input = {
@@ -120,7 +120,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree, context)
 
-  const tx = await HTTPContract.writeOracleData(
+  const tx = await requesterContract.writeOracleData(
     `0x${merkleTree.getRoot().toString('hex')}`,
     newEpoch,
     Buffer.from(newIpfsCid),
@@ -128,7 +128,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   await tx.wait()
 
   const response = { data: { result: 1 }, status: 200 }
-  return HTTP.success(jobRunID, response)
+  return Requester.success(jobRunID, response)
 }
 
 export const calculateRewards = async (

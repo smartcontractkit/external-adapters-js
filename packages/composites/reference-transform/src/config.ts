@@ -1,5 +1,5 @@
 import legos from '@chainlink/ea'
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/types'
 
 export const DEFAULT_NETWORK = 'ETHEREUM'
@@ -13,7 +13,7 @@ export const makeConfig = (prefix = ''): Config => {
   for (const a of legos.sources) {
     const url = util.getURL(a.toUpperCase())
     if (url) {
-      const defaultConfig = HTTP.getDefaultConfig(prefix)
+      const defaultConfig = Requester.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
       defaultConfig.api.method = 'post'
       sources[a.toLowerCase()] = defaultConfig

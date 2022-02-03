@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
 
 export const supportedEndpoints = ['height', 'difficulty']
@@ -58,9 +58,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await HTTP.request<ResponseSchema>(options)
+  const response = await Requester.request<ResponseSchema>(options)
 
-  const result = HTTP.validateResultNumber(response.data, ['data', resultPath])
+  const result = Requester.validateResultNumber(response.data, ['data', resultPath])
 
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

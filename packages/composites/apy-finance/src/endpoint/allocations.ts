@@ -3,7 +3,7 @@ import registryAbi from '../abi/IRegistry.json'
 import assetAllocationAbi from '../abi/IAssetAllocation.json'
 import { types } from '@chainlink/token-allocation-adapter'
 import { ExecuteWithConfig } from '@chainlink/types'
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { BigNumberish } from 'ethers'
 
@@ -43,5 +43,5 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     data: allocations,
   }
 
-  return HTTP.success(jobRunID, response, true)
+  return Requester.success(jobRunID, response, true)
 }

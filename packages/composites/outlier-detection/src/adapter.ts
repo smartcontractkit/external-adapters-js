@@ -5,7 +5,7 @@ import {
   ExecuteWithConfig,
   RequestConfig,
 } from '@chainlink/types'
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import {
   makeConfig,
@@ -74,7 +74,7 @@ const getExecuteMedian = async (
   const responses = await Promise.allSettled(
     adapters.split(',').map(
       async (a) =>
-        await HTTP.request({
+        await Requester.request({
           ...options[a],
           data: request,
         }),
@@ -104,7 +104,7 @@ const difference = (a: number, b: number): number => {
 
 const success = (jobRunID: string, result: number): AdapterResponse => {
   const response = { data: { result }, status: 200 }
-  return HTTP.success(jobRunID, response)
+  return Requester.success(jobRunID, response)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

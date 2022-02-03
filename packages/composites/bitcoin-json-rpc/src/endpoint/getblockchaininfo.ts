@@ -1,6 +1,6 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
-import { Validator, HTTP } from '@chainlink/ea-bootstrap'
+import { Validator, Requester } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'getblockchaininfo'
 const DEFAULT_FIELD = 'difficulty'
@@ -29,6 +29,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     config,
   )
 
-  response.data.result = HTTP.validateResultNumber(response.data, ['result', resultPath])
-  return HTTP.success(jobRunID, response)
+  response.data.result = Requester.validateResultNumber(response.data, ['result', resultPath])
+  return Requester.success(jobRunID, response)
 }

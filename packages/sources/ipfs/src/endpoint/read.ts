@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { CID } from 'multiformats/cid'
@@ -76,7 +76,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: { result },
   }
 
-  return HTTP.success(jobRunID, response)
+  return Requester.success(jobRunID, response)
 }
 
 const readFile = async (cid: IPFSPath, codec: string, client: IPFSHTTPClient) => {

@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'COINGECKO'
@@ -8,7 +8,7 @@ export const DEFAULT_API_ENDPOINT = 'https://api.coingecko.com/api/v3'
 export const PRO_API_ENDPOINT = 'https://pro-api.coingecko.com/api/v3'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = HTTP.getDefaultConfig(prefix)
+  const config = Requester.getDefaultConfig(prefix)
   if (!config.api.baseURL) {
     config.api.baseURL = config.apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
   }

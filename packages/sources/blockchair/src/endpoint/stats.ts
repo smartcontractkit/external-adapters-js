@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { COINS } from '../config'
 
@@ -31,12 +31,15 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
 
-  const blockchain = HTTP.toVendorName(validator.validated.data.blockchain.toLowerCase(), COINS)
+  const blockchain = Requester.toVendorName(
+    validator.validated.data.blockchain.toLowerCase(),
+    COINS,
+  )
   const url = `/${blockchain}/stats`
 
   const reqConfig = { ...config.api, url }
 
-  const response = await HTTP.request(reqConfig)
-  response.data.result = HTTP.validateResultNumber(response.data, ['data', resultPath])
-  return HTTP.success(jobRunID, response)
+  const response = await Requester.request(reqConfig)
+  response.data.result = Requester.validateResultNumber(response.data, ['data', resultPath])
+  return Requester.success(jobRunID, response)
 }

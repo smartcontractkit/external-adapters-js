@@ -6,7 +6,7 @@ import {
   MakeWSHandler,
   ExecuteFactory,
 } from '@chainlink/types'
-import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME, Config } from './config'
 import * as endpoints from './endpoint'
 import { inputParameters } from './endpoint/price'
@@ -75,7 +75,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return message.topic && message.topic !== 'keepalive'
       },
       toResponse: (wsResponse: Message): AdapterResponse =>
-        HTTP.success(undefined, { data: { result: wsResponse?.price } }),
+        Requester.success(undefined, { data: { result: wsResponse?.price } }),
     }
   }
 }

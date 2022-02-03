@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 import { Config, Account, ExecuteFactory, RequestConfig } from '@chainlink/types'
 import { COINS, isCoinType, isChainType } from '../config'
 
@@ -10,7 +10,7 @@ export const description = '[Address Balance Mass Check](https://blockchair.com/
 export const inputParameters = balance.inputParameters
 
 const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
-  coin = HTTP.toVendorName(coin, COINS)
+  coin = Requester.toVendorName(coin, COINS)
   if (chain === 'testnet') coin = `${coin}-${chain}`
   return `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
 }
@@ -24,7 +24,7 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
     url: getBalanceURI(addresses, coin as string, chain as string),
   }
 
-  const response = await HTTP.request(reqConfig)
+  const response = await Requester.request(reqConfig)
 
   const toResultWithBalance = (acc: Account) => {
     // NOTE: Blockchair does not return 0 balances

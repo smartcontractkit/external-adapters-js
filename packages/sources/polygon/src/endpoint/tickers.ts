@@ -1,4 +1,4 @@
-import { HTTP, Validator, util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -97,7 +97,7 @@ const handleBatchedRequest = (
         ...request,
         data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
       },
-      HTTP.validateResultNumber(pair, resultPath),
+      Requester.validateResultNumber(pair, resultPath),
     ])
   }
 
@@ -106,9 +106,9 @@ const handleBatchedRequest = (
       console.log(`Currency pair not supported: ${JSON.stringify(pairDict[key])}`)
     }
   }
-  return HTTP.success(
+  return Requester.success(
     jobRunID,
-    HTTP.withResult(response, undefined, payload),
+    Requester.withResult(response, undefined, payload),
     true,
     batchablePropertyPath,
   )
@@ -137,13 +137,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await HTTP.request<ResponseSchema>(options)
+  const response = await Requester.request<ResponseSchema>(options)
   if (Array.isArray(from) || Array.isArray(to))
     return handleBatchedRequest(jobRunID, request, response, ['min', 'c'])
-  const result = HTTP.validateResultNumber(response.data.tickers[0], ['min', 'c'])
-  return HTTP.success(
+  const result = Requester.validateResultNumber(response.data.tickers[0], ['min', 'c'])
+  return Requester.success(
     jobRunID,
-    HTTP.withResult(response, result),
+    Requester.withResult(response, result),
     config.verbose,
     batchablePropertyPath,
   )

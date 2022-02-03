@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 
@@ -30,9 +30,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     headers,
   }
 
-  const response = await HTTP.request(options)
-  response.data.result = HTTP.validateResultNumber(response.data, ['result'])
-  return HTTP.success(jobRunID, response)
+  const response = await Requester.request(options)
+  response.data.result = Requester.validateResultNumber(response.data, ['result'])
+  return Requester.success(jobRunID, response)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { DEFAULT_ENDPOINT } from '../config'
 
@@ -26,7 +26,7 @@ const endpointToApiFunctionName: { [key: string]: string } = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  HTTP.logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
@@ -41,8 +41,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
     baseURL: config.api.baseURL || `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
   }
-  const response = await HTTP.request(reqConfig)
+  const response = await Requester.request(reqConfig)
   response.data = { result: response.data }
 
-  return HTTP.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, response, config.verbose)
 }

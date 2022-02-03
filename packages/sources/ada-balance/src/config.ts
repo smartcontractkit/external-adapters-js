@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'ADA_BALANCE'
@@ -15,7 +15,7 @@ export interface ExtendedConfig extends BaseConfig {
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
-  const baseConfig = HTTP.getDefaultConfig(prefix)
+  const baseConfig = Requester.getDefaultConfig(prefix)
   baseConfig.defaultEndpoint = DEFAULT_ENDPOINT
   const rpcPort = util.getEnv('RPC_PORT', prefix)
   return {

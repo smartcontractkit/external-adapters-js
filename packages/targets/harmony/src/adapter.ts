@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { Harmony } from '@harmony-js/core'
 import { getAddress, hexToByteArray, hexlify, concat } from '@harmony-js/crypto'
@@ -45,9 +45,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   hmy.wallet.addByPrivateKey(config.privateKey)
   const signedTxn = await hmy.wallet.signTransaction(transaction)
   const result = await hmy.blockchain.sendTransaction(signedTxn)
-  const txHash = HTTP.validateResultNumber(result, ['result'])
+  const txHash = Requester.validateResultNumber(result, ['result'])
 
-  return HTTP.success(jobRunID, {
+  return Requester.success(jobRunID, {
     data: { txHash },
     status: 200,
   })

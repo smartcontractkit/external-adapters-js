@@ -1,4 +1,4 @@
-import { Validator, Logger, HTTP } from '@chainlink/ea-bootstrap'
+import { Validator, Logger, Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { DEFAULT_NUM_BLOCKS, MAX_BLOCKS_TO_QUERY } from '../config'
 
@@ -74,7 +74,7 @@ const getBlock = async (
     },
     method: 'post',
   }
-  return await HTTP.request(requestConfig)
+  return await Requester.request(requestConfig)
 }
 
 const getMedianGasPrice = (block: Block): number => {

@@ -1,4 +1,4 @@
-import { AdapterError, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { getPriceProvider } from './dataProvider'
 import { Config, makeConfig } from './config'
@@ -61,7 +61,11 @@ export const execute: ExecuteWithConfig<Config> = async (
     headers: {},
     config: {},
   }
-  return HTTP.success(jobRunID, HTTP.withResult(response, result.toNumber()), config.verbose)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result.toNumber()),
+    config.verbose,
+  )
 }
 
 const addDays = (date: Date, days: number): Date => {

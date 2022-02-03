@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME } from '../config'
 
@@ -35,7 +35,7 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
 
-  HTTP.logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
@@ -53,7 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const options = { ...config.api, params }
 
-  const response = await HTTP.request<ResponseSchema>(options)
-  const result = HTTP.validateResultNumber(response.data, ['quotes', 0, 'mid'])
-  return HTTP.success(jobRunID, HTTP.withResult(response, result), config.verbose)
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['quotes', 0, 'mid'])
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import {
   ExecuteWithConfig,
@@ -143,16 +143,16 @@ const handleBatchedRequest = (
             convert: quote.toUpperCase(),
           },
         },
-        HTTP.validateResultNumber(response.data, ['data', base, 'quote', quote, resultPath]),
+        Requester.validateResultNumber(response.data, ['data', base, 'quote', quote, resultPath]),
       ])
     }
   }
 
   const results = payload
-  response.data.cost = HTTP.validateResultNumber(response.data, ['status', 'credit_count'])
-  return HTTP.success(
+  response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
+  return Requester.success(
     jobRunID,
-    HTTP.withResult(response, undefined, results),
+    Requester.withResult(response, undefined, results),
     true,
     batchablePropertyPath,
   )
@@ -207,7 +207,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
     params,
   }
-  const response = await HTTP.request<ResponseSchema>(options)
+  const response = await Requester.request<ResponseSchema>(options)
   if (Array.isArray(symbol) || Array.isArray(convert))
     return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
@@ -224,16 +224,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const key = params.id || _keyForSlug(response.data, params.slug || '') || params.symbol
-  const result = HTTP.validateResultNumber(response.data, [
+  const result = Requester.validateResultNumber(response.data, [
     'data',
     key,
     'quote',
     convert,
     resultPath,
   ])
-  return HTTP.success(
+  return Requester.success(
     jobRunID,
-    HTTP.withResult(response, result),
+    Requester.withResult(response, result),
     config.verbose,
     batchablePropertyPath,
   )

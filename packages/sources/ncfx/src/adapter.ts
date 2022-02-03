@@ -1,4 +1,4 @@
-import { HTTP, Validator, Builder } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -98,8 +98,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         }
         const endpoint = input.data.endpoint
         const resultField = isForexEndpoint(endpoint) ? 'rate' : 'mid'
-        const result = HTTP.validateResultNumber(pairMessage, [resultField])
-        return HTTP.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
+        const result = Requester.validateResultNumber(pairMessage, [resultField])
+        return Requester.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
       },
       onConnect: (input: AdapterRequest) => {
         const endpoint = input.data.endpoint

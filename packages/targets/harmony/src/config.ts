@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import types from '@chainlink/types'
 
 export const DEFAULT_API_ENDPOINT = 'https://api.s0.t.hmny.io'
@@ -16,7 +16,7 @@ export type Config = types.Config & {
 }
 
 export const makeConfig = (prefix?: string): Config => {
-  const defaultConfig = HTTP.getDefaultConfig(prefix)
+  const defaultConfig = Requester.getDefaultConfig(prefix)
   defaultConfig.api.baseURL = defaultConfig.api.baseURL || DEFAULT_API_ENDPOINT
   return {
     ...defaultConfig,

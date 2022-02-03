@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'DURIN'
@@ -12,7 +12,7 @@ export interface Config extends BaseConfig {
 
 export const makeConfig = (prefix?: string): Config => {
   return {
-    ...HTTP.getDefaultConfig(prefix),
+    ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
     rpcUrl: util.getRequiredEnv('RPC_URL', prefix),
     l2RpcUrl: util.getEnv('L2_RPC_URL', prefix),

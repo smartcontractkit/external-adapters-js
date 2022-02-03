@@ -1,11 +1,11 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { adapters as BalanceAdapters, Indexer } from './balance'
 import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from './protocol'
 
 export const DEFAULT_CONFIRMATIONS = 6
 
-export const makeConfig = (prefix?: string): Config => HTTP.getDefaultConfig(prefix)
+export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 
 export type Options = {
   protocol: Protocol[]

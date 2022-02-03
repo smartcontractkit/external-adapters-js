@@ -1,4 +1,4 @@
-import { Logger, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
 import { Config } from '../config'
 import { FIGHTER_SPORTS, NFL_ABI, TEAM_ABI, TEAM_SPORTS } from './index'
@@ -137,7 +137,7 @@ const createTeam = async (
   Logger.debug(`Augur: ${succeeded} created markets`)
   Logger.debug(`Augur: ${failed} markets failed to create`)
 
-  return HTTP.success(jobRunID, {})
+  return Requester.success(jobRunID, {})
 }
 
 const createFighter = async (
@@ -202,5 +202,5 @@ const createFighter = async (
   Logger.debug(`Augur: ${succeeded} created markets`)
   Logger.debug(`Augur: ${failed} markets failed to create`)
 
-  return HTTP.success(jobRunID, {})
+  return Requester.success(jobRunID, {})
 }

@@ -1,4 +1,4 @@
-import { Validator, HTTP, Logger } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 import { Config, WETH, DEFAULT_NETWORK } from '../../config'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../../types'
@@ -61,7 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   } catch (e) {
     throw new Error(`Failed to get price.  Reason "${e}"`)
   }
-  return HTTP.success(
+  return Requester.success(
     jobRunID,
     {
       status: 200,

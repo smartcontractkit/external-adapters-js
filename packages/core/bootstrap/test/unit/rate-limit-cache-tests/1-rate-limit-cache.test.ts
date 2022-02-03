@@ -48,145 +48,145 @@ describe('Rate Limit/Cache - Integration', () => {
   })
 
   it('Single feed requests stay under capacity', async () => {
-    // const [clock, restoreClock] = setupClock()
-    // for (let cost = 1; cost < 4; cost++) {
-    const store = createStore(rateLimit.reducer.rootReducer, {})
-    const dataProvider = dataProviderMock(1)
-    // const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
-    //   withCache(),
-    //   rateLimit.withRateLimit(store),
-    //   withDebug,
-    // ])
-    //   const secsInMin = 60
-    //   for (let i = 0; i < secsInMin; i++) {
-    //     const input = { id: '6', data: { test1: 1 } }
-    //     await executeWithMiddleware(input, context)
-    //     clock.tick(1000)
-    //   }
-    //   const state = store.getState()
-    //   const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
-    //   const minute = cost - 1
-    //   expect(rlPerMinute[minute]).toBeLessThan(capacity)
-    // }
-    // restoreClock()
+    const [clock, restoreClock] = setupClock()
+    for (let cost = 1; cost < 4; cost++) {
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const dataProvider = dataProviderMock(1)
+      const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
+        withCache(),
+        rateLimit.withRateLimit(store),
+        withDebug,
+      ])
+      const secsInMin = 60
+      for (let i = 0; i < secsInMin; i++) {
+        const input = { id: '6', data: { test1: 1 } }
+        await executeWithMiddleware(input, context)
+        clock.tick(1000)
+      }
+      const state = store.getState()
+      const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
+      const minute = cost - 1
+      expect(rlPerMinute[minute]).toBeLessThan(capacity)
+    }
+    restoreClock()
   })
 
-  // it('Multiple feed with no cost requests stay under capacity', async () => {
-  //   const [clock, restoreClock] = setupClock()
+  it('Multiple feed with no cost requests stay under capacity', async () => {
+    const [clock, restoreClock] = setupClock()
 
-  //   const store = createStore(rateLimit.reducer.rootReducer, {})
-  //   const dataProvider = dataProviderMock()
-  //   const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
-  //     withCache(),
-  //     rateLimit.withRateLimit(store),
-  //     withDebug,
-  //   ])
+    const store = createStore(rateLimit.reducer.rootReducer, {})
+    const dataProvider = dataProviderMock()
+    const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
+      withCache(),
+      rateLimit.withRateLimit(store),
+      withDebug,
+    ])
 
-  //   const timeBetweenRequests = 500
-  //   const feedsNumber = 10
-  //   for (let i = 0; i < (1000 / timeBetweenRequests) * 60; i++) {
-  //     const feedId = i % feedsNumber
-  //     const input = { id: '6', data: { multiple1: feedId } }
-  //     await executeWithMiddleware(input, context)
-  //     clock.tick(timeBetweenRequests)
-  //   }
+    const timeBetweenRequests = 500
+    const feedsNumber = 10
+    for (let i = 0; i < (1000 / timeBetweenRequests) * 60; i++) {
+      const feedId = i % feedsNumber
+      const input = { id: '6', data: { multiple1: feedId } }
+      await executeWithMiddleware(input, context)
+      clock.tick(timeBetweenRequests)
+    }
 
-  //   const state = store.getState()
-  //   const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
+    const state = store.getState()
+    const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
-  //   expect(rlPerMinute[0]).toBeLessThan(capacity)
-  //   restoreClock()
-  // })
+    expect(rlPerMinute[0]).toBeLessThan(capacity)
+    restoreClock()
+  })
 
-  // it('Multiple feed with high costs go over capacity on initialization, then stabilize', async () => {
-  //   const [clock, restoreClock] = setupClock()
+  it('Multiple feed with high costs go over capacity on initialization, then stabilize', async () => {
+    const [clock, restoreClock] = setupClock()
 
-  //   const cost = 4
-  //   const store = createStore(rateLimit.reducer.rootReducer, {})
-  //   const dataProvider = dataProviderMock(cost)
-  //   const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
-  //     withCache(),
-  //     rateLimit.withRateLimit(store),
-  //     withDebug,
-  //   ])
+    const cost = 4
+    const store = createStore(rateLimit.reducer.rootReducer, {})
+    const dataProvider = dataProviderMock(cost)
+    const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
+      withCache(),
+      rateLimit.withRateLimit(store),
+      withDebug,
+    ])
 
-  //   const timeBetweenRequests = 500
-  //   const feedsNumber = 10
-  //   for (let i = 0; i < (1000 / timeBetweenRequests) * 120; i++) {
-  //     const feedId = i % feedsNumber
-  //     const input = { id: '6', data: { [`multiple_cost:${cost}`]: feedId } }
-  //     await executeWithMiddleware(input, context)
-  //     clock.tick(timeBetweenRequests)
-  //   }
+    const timeBetweenRequests = 500
+    const feedsNumber = 10
+    for (let i = 0; i < (1000 / timeBetweenRequests) * 120; i++) {
+      const feedId = i % feedsNumber
+      const input = { id: '6', data: { [`multiple_cost:${cost}`]: feedId } }
+      await executeWithMiddleware(input, context)
+      clock.tick(timeBetweenRequests)
+    }
 
-  //   const state = store.getState()
-  //   const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
+    const state = store.getState()
+    const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
-  //   expect(rlPerMinute[0]).toBeGreaterThan(capacity)
-  //   expect(rlPerMinute[1]).toBeLessThanOrEqual(capacity)
-  //   restoreClock()
-  // })
+    expect(rlPerMinute[0]).toBeGreaterThan(capacity)
+    expect(rlPerMinute[1]).toBeLessThanOrEqual(capacity)
+    restoreClock()
+  })
 
-  // it('Single Feed with Cache warmer stay under capacity', async () => {
-  //   const [clock, restoreClock] = setupClock()
-  //   const dataProvider = dataProviderMock()
-  //   const store = newStore()
-  //   const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
+  it('Single Feed with Cache warmer stay under capacity', async () => {
+    const [clock, restoreClock] = setupClock()
+    const dataProvider = dataProviderMock()
+    const store = newStore()
+    const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
 
-  //   const secsInMin = 60
-  //   for (let i = 0; i < secsInMin; i++) {
-  //     const input = { id: '6', data: { warmer1: 1 } }
-  //     await executeWithWarmer(input)
-  //     clock.tick(1000)
-  //   }
+    const secsInMin = 60
+    for (let i = 0; i < secsInMin; i++) {
+      const input = { id: '6', data: { warmer1: 1 } }
+      await executeWithWarmer(input)
+      clock.tick(1000)
+    }
 
-  //   const state = store.getState()
-  //   const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
+    const state = store.getState()
+    const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
-  //   expect(rlPerMinute[0]).toBeLessThan(capacity)
-  //   restoreClock()
-  // })
+    expect(rlPerMinute[0]).toBeLessThan(capacity)
+    restoreClock()
+  })
 
-  // it('1 h simulation', async () => {
-  //   const [clock, restoreClock] = setupClock()
-  //   const dataProvider = dataProviderMock()
-  //   const store = newStore()
-  //   const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
+  it('1 h simulation', async () => {
+    const [clock, restoreClock] = setupClock()
+    const dataProvider = dataProviderMock()
+    const store = newStore()
+    const executeWithWarmer = await makeExecuteWithWarmer(dataProvider.execute, store)
 
-  //   // 120 Feeds: 3 Composite, rest are single feeds
-  //   const totalFeeds = 120
-  //   const composite = 3
-  //   const feeds = new Array(totalFeeds).fill('').map((_, feedId) => {
-  //     if (feedId % (totalFeeds / composite) === 0) {
-  //       return new Array(10).fill('').map((_, internalReq) => {
-  //         return { id: '6', data: { singleFeed: feedId, quote: internalReq } }
-  //       })
-  //     }
-  //     return [{ id: '6', data: { singleFeed: feedId, quote: 1 } }]
-  //   })
+    // 120 Feeds: 3 Composite, rest are single feeds
+    const totalFeeds = 120
+    const composite = 3
+    const feeds = new Array(totalFeeds).fill('').map((_, feedId) => {
+      if (feedId % (totalFeeds / composite) === 0) {
+        return new Array(10).fill('').map((_, internalReq) => {
+          return { id: '6', data: { singleFeed: feedId, quote: internalReq } }
+        })
+      }
+      return [{ id: '6', data: { singleFeed: feedId, quote: 1 } }]
+    })
 
-  //   const _getRandomFeed = () => {
-  //     return feeds[Math.floor(Math.random() * feeds.length)]
-  //   }
+    const _getRandomFeed = () => {
+      return feeds[Math.floor(Math.random() * feeds.length)]
+    }
 
-  //   const timeBetweenRequests = 1000
-  //   const hours = 1
-  //   for (let i = 0; i < (1000 / timeBetweenRequests) * hours * 60 * 60; i++) {
-  //     const feed = _getRandomFeed()
-  //     for (let i = 0; i < feed.length; i++) {
-  //       const input = feed[i]
-  //       await executeWithWarmer(input)
-  //     }
-  //     clock.tick(timeBetweenRequests)
-  //   }
+    const timeBetweenRequests = 1000
+    const hours = 1
+    for (let i = 0; i < (1000 / timeBetweenRequests) * hours * 60 * 60; i++) {
+      const feed = _getRandomFeed()
+      for (let i = 0; i < feed.length; i++) {
+        const input = feed[i]
+        await executeWithWarmer(input)
+      }
+      clock.tick(timeBetweenRequests)
+    }
 
-  //   const state = store.getState()
-  //   const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
+    const state = store.getState()
+    const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
-  //   Object.values(rlPerMinute).forEach((req) => {
-  //     // TODO: check that + 20 is the right capacity
-  //     expect(req).toBeLessThan(capacity + 20)
-  //   })
-  //   restoreClock()
-  // })
+    Object.values(rlPerMinute).forEach((req) => {
+      // TODO: check that + 20 is the right capacity
+      expect(req).toBeLessThan(capacity + 20)
+    })
+    restoreClock()
+  })
 })

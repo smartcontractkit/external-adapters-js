@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 import { ethers } from 'ethers'
 
@@ -19,7 +19,7 @@ export const makeConfig = (prefix?: string): Config => {
     prefix,
   )
   return {
-    ...HTTP.getDefaultConfig(prefix),
+    ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
     provider: new ethers.providers.JsonRpcProvider(rpcURL),
   }

@@ -11,12 +11,12 @@ yarn add @chainlink/external-adapter
 ## Usage
 
 ```javascript
-const { HTTP, Validator } = require('@chainlink/ea-bootstrap')
+const { Requester, Validator } = require('@chainlink/ea-bootstrap')
 ```
 
 ## Validator
 
-Input parameter configuration can be given to the Validator in order to ensure that the HTTP supplied parameters which are expected by the endpoint.
+Input parameter configuration can be given to the Validator in order to ensure that the Requester supplied parameters which are expected by the endpoint.
 
 Here is the type for configuration options (all attributes optional):
 
@@ -67,7 +67,7 @@ const inputParameters: InputParameters = {
 
 ### Validator
 
-The Validator relies on the data supplied in the inputParameters object to ensure that a HTTP supplied the expected parameters.
+The Validator relies on the data supplied in the inputParameters object to ensure that a Requester supplied the expected parameters.
 
 #### Arguments
 
@@ -75,7 +75,7 @@ The Validator relies on the data supplied in the inputParameters object to ensur
 - `input` (Object): The request payload from the Chainlink node
 - `inputParameters` (Object): A configuration object as shown above
 
-Validation of the HTTP's input parameters can be done by creating an instance of the Validator.
+Validation of the Requester's input parameters can be done by creating an instance of the Validator.
 
 ```javascript
 // The input data is validated upon instantiating the Validator
@@ -91,7 +91,7 @@ Validated params can be obtained from the `validator.validated` object.
 // it's not supplied upon invoking the external adapter, it will default
 // to '1'
 const jobRunID = validator.validated.id
-// Since endpoint doesn't need to be supplied by the HTTP, we can
+// Since endpoint doesn't need to be supplied by the Requester, we can
 // assign a default value
 const endpoint = validator.validated.data.endpoint || 'price'
 // We specified that one of the values in the base array should be a
@@ -149,9 +149,9 @@ const tokenOverride = validator.overrideIncludesToken(
 // }
 ```
 
-## HTTP
+## Requester
 
-The HTTP is a wrapper around a retryable pattern for reaching out to an endpoint. It can be supplied with a customError object to describe the custom error cases which the adapter should retry fetching data even if the response was successful.
+The Requester is a wrapper around a retryable pattern for reaching out to an endpoint over the HTTP protocol. It can be supplied with a customError object to describe the custom error cases which the adapter should retry fetching data even if the response was successful.
 
 ```javascript
 const customError = (data) => {
@@ -171,18 +171,18 @@ const customError = (data) => {
 - `retries` (Number): The number of retries the adapter should attempt to call the API
 - `delay` (Number): The delay between retries (value in ms)
 
-Call `HTTP.request` to have the adapter retry failed connection attempts (along with any customError cases) for the given URL within the config.
+Call `Requester.request` to have the adapter retry failed connection attempts (along with any customError cases) for the given URL within the config.
 
 ```javascript
-HTTP.request(config, customError, retries, delay)
+Requester.request(config, customError, retries, delay)
   .then((response) => {
     // Optionally store the desired result at data.result
-    response.data.result = HTTP.validateResultNumber(response.data, ['eth', 'usd'])
+    response.data.result = Requester.validateResultNumber(response.data, ['eth', 'usd'])
     // Return the successful response back to the Chainlink node
-    callback(response.statusCode, HTTP.success(jobRunID, response))
+    callback(response.statusCode, Requester.success(jobRunID, response))
   })
   .catch((error) => {
-    callback(500, HTTP.errored(jobRunID, error))
+    callback(500, Requester.errored(jobRunID, error))
   })
 ```
 
@@ -205,7 +205,7 @@ HTTP.request(config, customError, retries, delay)
 You can use `validateResultNumber` to obtain the value at the given path and receive a number. It takes the response data's object and an array representing the JSON path to return. If the value at the given path is `undefined` or `0`, an error will be thrown.
 
 ```javascript
-const result = HTTP.validateResultNumber(response.data, ['eth', 'usd'])
+const result = Requester.validateResultNumber(response.data, ['eth', 'usd'])
 ```
 
 ### getResult
@@ -218,7 +218,7 @@ const result = HTTP.validateResultNumber(response.data, ['eth', 'usd'])
 The `getResult` function is similar to `validateResultNumber` but if the value at the given path is not found, no error will be thrown.
 
 ```javascript
-const result = HTTP.getResult(response.data, ['eth', 'usd'])
+const result = Requester.getResult(response.data, ['eth', 'usd'])
 ```
 
 ### errored
@@ -232,7 +232,7 @@ Returns the error object formatted in a way which is expected by the Chainlink n
 
 ```javascript
 .catch(error => {
-  callback(500, HTTP.errored(jobRunID, error))
+  callback(500, Requester.errored(jobRunID, error))
 })
 ```
 
@@ -247,6 +247,6 @@ Returns the response object formatted in a way which is expected by the Chainlin
 
 ```javascript
 .then(response => {
-  callback(response.statusCode, HTTP.success(jobRunID, response))
+  callback(response.statusCode, Requester.success(jobRunID, response))
 })
 ```

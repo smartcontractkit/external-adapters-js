@@ -19,7 +19,7 @@ const getFalse = () => false
 
 const DEFAULT_RETRY = 1
 
-export class HTTP {
+export class Requester {
   static async request<T extends AdapterRequestData>(
     config: RequestConfig,
     customError?: any,

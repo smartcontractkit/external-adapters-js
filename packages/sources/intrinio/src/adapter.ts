@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   AdapterResponse,
@@ -35,10 +35,10 @@ export const execute = async (input: AdapterRequest, config: Config) => {
     params,
   }
 
-  const response = await HTTP.request(request)
-  response.data.result = HTTP.validateResultNumber(response.data, ['last_price'])
+  const response = await Requester.request(request)
+  response.data.result = Requester.validateResultNumber(response.data, ['last_price'])
 
-  return HTTP.success(jobRunID, response)
+  return Requester.success(jobRunID, response)
 }
 
 export const makeExecute = (config?: Config) => {
@@ -73,7 +73,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
       filter: (message: IexMessage) => message.event == 'quote' && message.payload?.type == 'last',
       toResponse: (wsResponse: IexMessage): AdapterResponse => {
-        return HTTP.success(undefined, { data: { result: wsResponse?.payload?.price } })
+        return Requester.success(undefined, { data: { result: wsResponse?.payload?.price } })
       },
 
       heartbeatIntervalInMS: 3000, // Same as the one from the Intrinio WS SDK

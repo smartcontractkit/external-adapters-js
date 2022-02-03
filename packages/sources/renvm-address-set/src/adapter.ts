@@ -1,4 +1,4 @@
-import { HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Account, Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import RenJS from '@renproject/ren'
 import { btc } from './coins'
@@ -24,7 +24,7 @@ const inputParams = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
 
-  HTTP.logConfig(config)
+  Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
   const { data } = validator.validated
@@ -82,7 +82,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   ]
 
-  return HTTP.success(
+  return Requester.success(
     jobRunID,
     {
       data: { result },

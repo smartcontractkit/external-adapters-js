@@ -1,4 +1,4 @@
-import { HTTP } from '@chainlink/ea-bootstrap'
+import { Requester } from '@chainlink/ea-bootstrap'
 
 export const host = 'bravenewcoin.p.rapidapi.com'
 export const apiHeaders = {
@@ -44,7 +44,7 @@ export interface Asset {
 }
 
 export const authenticate = async (): Promise<string> => {
-  const response = await HTTP.request({
+  const response = await Requester.request({
     method: 'POST',
     url: `https://${host}/oauth/token`,
     headers: {
@@ -63,7 +63,7 @@ export const authenticate = async (): Promise<string> => {
 }
 
 export const getAssetId = async (symbol: string): Promise<string> => {
-  const response = await HTTP.request<Asset>({
+  const response = await Requester.request<Asset>({
     url: `https://${host}/asset`,
     headers: {
       'content-type': 'application/octet-stream',
@@ -85,7 +85,7 @@ export const convert = async (
 ): Promise<{ status: number; data: { result: number }; result: number }> => {
   const url = `https://${host}/market-cap`
   const path = ['content', 0, 'price']
-  const base = await HTTP.request<MarketCap>({
+  const base = await Requester.request<MarketCap>({
     url,
     headers: {
       ...apiHeaders,
@@ -96,7 +96,7 @@ export const convert = async (
       assetId: baseAssetId,
     },
   })
-  const basePrice = HTTP.validateResultNumber(base.data, path)
+  const basePrice = Requester.validateResultNumber(base.data, path)
   if (quoteAssetId.toUpperCase() === 'USD') {
     const result = basePrice
     return {
@@ -105,7 +105,7 @@ export const convert = async (
       result,
     }
   }
-  const quote = await HTTP.request<MarketCap>({
+  const quote = await Requester.request<MarketCap>({
     url,
     headers: {
       ...apiHeaders,
@@ -116,7 +116,7 @@ export const convert = async (
       assetId: quoteAssetId,
     },
   })
-  const quotePrice = HTTP.validateResultNumber(quote.data, path)
+  const quotePrice = Requester.validateResultNumber(quote.data, path)
   const result = basePrice / quotePrice
   return {
     status: 200,

@@ -1,4 +1,4 @@
-import { HTTP, util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const NAME = 'COINPAPRIKA'
@@ -7,7 +7,7 @@ export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinpaprika.com'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = HTTP.getDefaultConfig(prefix)
+  const config = Requester.getDefaultConfig(prefix)
   const headers: { [T: string]: string | boolean } = {}
   if (config.apiKey) headers['Authorization'] = config.apiKey
 

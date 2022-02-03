@@ -1,4 +1,4 @@
-import { Builder, HTTP, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -72,7 +72,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           defaultConfig,
         )
         const blockIdx = validator.validated.data.blockIdx || DEFAULT_BLOCK_IDX
-        return HTTP.success(
+        return Requester.success(
           input.id,
           {
             data: {
