@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "=============== list modified files ==============="
 git diff --name-only HEAD^ HEAD
 
