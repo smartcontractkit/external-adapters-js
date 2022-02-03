@@ -86,7 +86,7 @@ jobs:
 
       - name: Check modified files
         id: adapter_change_has_changeset
-        run: PATH/script.sh
+        run: .github/script.sh
       - name: Checks whether adapter change also has a changeset
         if: ${{ steps.adapter_change_has_changeset.outputs.has_adapter_change == 'true' && steps.adapter_change_has_changeset.outputs.has_changeset == 'false' }}
         uses: actions/github-script@v3
