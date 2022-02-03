@@ -1,6 +1,4 @@
 #!/bin/bash
-# echo "=============== list modified files ==============="
-git diff --name-only HEAD^ HEAD
 
 # echo "========== check paths of modified files =========="
 filename=$(date +%s)
