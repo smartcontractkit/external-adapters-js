@@ -114,6 +114,7 @@ export const createOutput = (adapters: ChangedAdapters): string => {
 
 export async function main(): Promise<void> {
   const file = checkArgs()
+  console.log(file)
   const changedFiles = loadChangedFileList(file)
   const changedAdapters = generateFilteredAdaptersListByType(changedFiles)
   console.log(createOutput(changedAdapters))
