@@ -1,37 +1,32 @@
-# Chainlink External Adapter for Jpegd
+# Chainlink External Adapter for JPEG'd
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
-(please fill out with corresponding information)
-
-An example adapter description
+Query NFT collection values from the JPEG'd API.
 
 ### Environment Variables
 
-| Required? |  Name   |                                                        Description                                                         | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard (add a ✅ in `Required?` if this parameter is required) |         |             |
+| Required? |  Name   |              Description               | Options | Defaults to |
+| :-------: | :-----: | :------------------------------------: | :-----: | :---------: |
+|    ✅     | API_KEY | An API key provided by the JPEG'd team |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [example](#Jpegd-Endpoint) |   example   |
+| Required? |   Name   |     Description     |         Options          | Defaults to |
+| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
+|           | endpoint | The endpoint to use | [punks](#Punks-Endpoint) |    punks    |
 
 ---
 
-## Jpegd Endpoint
+## Punks Endpoint
 
-An example endpoint description
+Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |  Name   |             Description              | Options | Defaults to |
+| :-------: | :-----: | :----------------------------------: | :-----: | :---------: |
+|    ✅     | `block` | The block data is being queried from |         |             |
 
 ### Sample Input
 
@@ -39,8 +34,7 @@ An example endpoint description
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "block": 9999999
   }
 }
 ```
@@ -51,8 +45,9 @@ An example endpoint description
 {
   "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
+    "success": true,
+    "block": 9999999,
+    "value": 100
   },
   "statusCode": 200
 }
