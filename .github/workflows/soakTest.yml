@@ -1,4 +1,4 @@
-name: Actions
+name: Soak Test
 
 on:
   pull_request: ~

@@ -1,4 +1,4 @@
-name: Actions
+name: Validate PR
 
 on:
   push:
