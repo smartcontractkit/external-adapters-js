@@ -1,10 +1,6 @@
 import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-<<<<<<< HEAD:packages/core/bootstrap/src/lib/middleware/cache-warmer/index.ts
 import { withMiddleware } from '../../../index'
-=======
-import { withMiddleware } from '../../..'
->>>>>>> 85497cf1f (Organize bootstrap folder structure):packages/core/bootstrap/src/lib/cache-warmer/index.ts
 import { logger } from '../../modules'
 import { getFeedId } from '../../metrics/util'
 import * as util from '../../util'
