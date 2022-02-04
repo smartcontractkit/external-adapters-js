@@ -1,4 +1,4 @@
-import presetSymbols from '../../src/lib/external-adapter/overrides/presetSymbols.json'
+import presetSymbols from '../../src/lib/config/overrides/presetSymbols.json'
 
 describe('presetSymbols', () => {
   it('Should not contain any overrides that lead to another override', () => {
