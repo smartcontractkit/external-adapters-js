@@ -11,8 +11,8 @@ export const mockPunksValueResponseSuccess = (): nock =>
       200,
       (_, request) => ({
         success: true,
-        block: '14000000',
-        value: '14000000',
+        block: 14000000,
+        value: 14000000,
       }),
       [
         'Content-Type',
