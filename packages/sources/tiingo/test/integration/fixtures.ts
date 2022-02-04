@@ -215,3 +215,67 @@ export const mockResponseSuccess = (): nock =>
         'close',
       ],
     )
+    .get('/tiingo/crypto/prices')
+    .query({
+      token: 'fake-api-key',
+      baseCurrency: 'amplcvwap',
+      convertCurrency: 'usd',
+      consolidateBaseCurrency: true,
+      resampleFreq: '24hour',
+      startDate: /^\d{4}-\d{2}-\d{2}$/,
+      endDate: /^\d{4}-\d{2}-\d{2}$/,
+    })
+    .reply(
+      200,
+      [
+        {
+          ticker: 'amplusd',
+          baseCurrency: 'ampl',
+          quoteCurrency: 'usd',
+          priceData: [
+            {
+              fxLow: 0.6687492814959118,
+              volume: 3040820.8077948317,
+              volumeNotional: 2156262.1333203353,
+              close: 0.7091192957589304,
+              tradesDone: 15128.0,
+              fxRate: 1.0,
+              open: 0.7253618170091394,
+              date: '2022-01-10T00:00:00+00:00',
+              low: 0.6687492814959118,
+              fxOpen: 0.7253618170091394,
+              fxClose: 0.7091192957589304,
+              high: 0.7421611700495103,
+              fxVolumeNotional: 2156262.1333203353,
+              fxHigh: 0.7421611700495103,
+            },
+            {
+              fxLow: 0.7021978513298123,
+              volume: 3046332.756485964,
+              volumeNotional: 2594073.9097942426,
+              close: 0.851625908515737,
+              tradesDone: 22817.0,
+              fxRate: 1.0,
+              open: 0.708183339731143,
+              date: '2022-01-11T00:00:00+00:00',
+              low: 0.7021978513298123,
+              fxOpen: 0.708183339731143,
+              fxClose: 0.851625908515737,
+              high: 0.8598988101118933,
+              fxVolumeNotional: 2594073.9097942426,
+              fxHigh: 0.8598988101118933,
+            },
+          ],
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
