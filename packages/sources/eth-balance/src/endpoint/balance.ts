@@ -4,6 +4,9 @@ import { Config } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const description =
+  'The balance endpoint will fetch the balance of each address in the query.'
+
 export const inputParameters: InputParameters = {
   addresses: {
     aliases: ['result'],

@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['historical']
 
+export const description = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],

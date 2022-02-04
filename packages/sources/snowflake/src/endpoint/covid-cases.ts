@@ -5,6 +5,9 @@ import { buildSnowflakeJWT } from '../util'
 
 export const supportedEndpoints = ['covid-cases']
 
+export const description =
+  'Queries US confirmed Covid cases per County, using the John Hopkins University table from the [StarSchema COVID-19 Epidemiological dataset](https://www.snowflake.com/datasets/starschema-covid-19-epidemiological-data/).'
+
 export const inputParameters: InputParameters = {
   state: {
     required: true,

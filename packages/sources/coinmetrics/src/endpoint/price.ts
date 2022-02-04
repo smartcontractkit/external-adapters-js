@@ -20,6 +20,8 @@ export interface ResponseSchema {
 
 const customError = (data: ResponseSchema) => !!data.error
 
+export const description = 'Endpoint to get the reference price of the asset.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

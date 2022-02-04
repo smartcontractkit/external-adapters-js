@@ -6,6 +6,9 @@ import { ethers } from 'ethers'
 
 export const NAME = 'format'
 
+export const description =
+  'The format endpoint encodes the chainId, block hash, and block receiptsRoot as bytes and returns that without a 0x prefix.'
+
 export const inputParams = {
   url: false,
   chainId: true,

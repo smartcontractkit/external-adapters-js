@@ -4,6 +4,9 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'ticker']
 
+export const description =
+  '**Note: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

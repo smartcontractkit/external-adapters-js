@@ -59,7 +59,6 @@
 - [Nikkei](./nikkei/README.md)
 - [Nomics](./nomics/README.md)
 - [Oilpriceapi](./oilpriceapi/README.md)
-- [Onchain](./onchain/README.md)
 - [Openexchangerates](./openexchangerates/README.md)
 - [Orchid Bandwidth](./orchid-bandwidth/README.md)
 - [Paxos](./paxos/README.md)

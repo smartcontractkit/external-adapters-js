@@ -35,6 +35,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description =
+  'https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-latest-mined-block'
+
 export const inputParameters: InputParameters = {
   blockchain: {
     aliases: ['coin', 'market'],

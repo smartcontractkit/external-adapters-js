@@ -10,6 +10,8 @@ export const endpointResultPaths = {
   commodities: 'midPrice',
 }
 
+export const description = 'https://api.tiingo.com/documentation/forex'
+
 export const inputParameters: InputParameters = {
   base: ['base', 'asset', 'from', 'market'],
   quote: ['quote', 'to'],

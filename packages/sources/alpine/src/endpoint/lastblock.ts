@@ -6,6 +6,8 @@ import { ethers } from 'ethers'
 
 export const supportedEndpoints = ['lastblock']
 
+export const description = 'This gets the lastblock of a cross chain transfer from the given chain.'
+
 export const inputParameters: InputParameters = {
   stagingAddress: {
     required: true,
