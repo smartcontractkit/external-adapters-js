@@ -1,0 +1,4 @@
+adapter-change:
+  - packages/sources/*/src/*
+  - packages/composites/*/src/*
+  - packages/targets/*/src/*
