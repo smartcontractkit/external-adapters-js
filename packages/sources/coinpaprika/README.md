@@ -9,9 +9,9 @@
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                                                        Options                                                                                                         | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint), crypto-single, marketcap-single |  `crypto`   |
+| Required? |   Name   |     Description     |                                                                                                                            Options                                                                                                                            | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint), crypto-single, marketcap-single, [vwap or crypto-vwap](#Vwap-Endpoint) |  `crypto`   |
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
@@ -305,5 +305,44 @@ Fetch one or multiple assets for volume
   },
   "result": 8256159044.3763,
   "statusCode": 200
+}
+```
+
+## Vwap Endpoint
+
+Aliases: vwap, crypto-vwap
+
+### Input Params
+
+| Required? |          Name          |                   Description                    | Options | Defaults to |
+| :-------: | :--------------------: | :----------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin` |       The symbol of the currency to query        |         |             |
+|    🟡     |        `coinid`        | The coin ID (optional to use in place of `base`) |         |             |
+|           |        `hours`         |    Number of hours to calculate the VWAP for     |         |    `24`     |
+|           |      `resultPath`      |               The value to return                |         |  `0.price`  |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "AMPL",
+    "endpoint": "crypto-vwap"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 0.949723,
+  "providerStatusCode": 200,
+  "statusCode": 200,
+  "data": {
+    "result": 0.949723
+  }
 }
 ```
