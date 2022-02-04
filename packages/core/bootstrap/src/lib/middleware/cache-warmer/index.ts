@@ -1,6 +1,6 @@
 import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-import { withMiddleware } from '../../..'
+import { withMiddleware } from '../../../index'
 import { logger } from '../../modules'
 import { getFeedId } from '../../metrics/util'
 import * as util from '../../util'

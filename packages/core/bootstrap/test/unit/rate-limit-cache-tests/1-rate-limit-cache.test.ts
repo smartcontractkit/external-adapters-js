@@ -51,7 +51,7 @@ describe('Rate Limit/Cache - Integration', () => {
     const [clock, restoreClock] = setupClock()
     for (let cost = 1; cost < 4; cost++) {
       const store = createStore(rateLimit.reducer.rootReducer, {})
-      const dataProvider = dataProviderMock(1)
+      const dataProvider = dataProviderMock(cost)
       const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
         withCache(),
         rateLimit.withRateLimit(store),

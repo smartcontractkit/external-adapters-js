@@ -1,13 +1,12 @@
 import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
-import { combineReducers, Store } from 'redux'
+import { createStore, combineReducers, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
+import { withMiddleware } from '../../../src/index'
 import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
 import * as cacheWarmer from '../../../src/lib/middleware/cache-warmer'
 import * as rateLimit from '../../../src/lib/middleware/rate-limit'
 import { get } from '../../../src/lib/middleware/rate-limit/config'
-import { configureStore } from '../../../src/lib/store'
-import { withMiddleware } from '../../../src/index'
 
 export const newStore = () => {
   const initState = { cacheWarmer: {}, rateLimit: {} }
@@ -15,8 +14,8 @@ export const newStore = () => {
     cacheWarmer: cacheWarmer.reducer.rootReducer,
     rateLimit: rateLimit.reducer.rootReducer,
   })
-  cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
-  return configureStore(rootReducer, initState, [cacheWarmer.epics.epicMiddleware])
+  const store = createStore(rootReducer, initState)
+  return store
 }
 
 export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
