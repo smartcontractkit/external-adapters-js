@@ -1,28 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# Validate that adapter changes accompanied by a changeset
-filename=$(date +%s)
-git diff --name-only HEAD^ HEAD > $filename.txt
-has_adapter_change=0
-has_changeset=0
-
-while IFS= read -r file
-do
-# echo $file
-if [[ $file == packages/sources/*/src/* || $file == packages/composites/*/src/* || $file == packages/targets/*/src/* ]]; then
-    # echo "This PR contains an adapter src code change."
-    has_adapter_change=1
-fi
-
-if [[ $file == .changeset/* ]]; then
-    # echo "This PR contains a changeset file."
-    has_changeset=1
-fi
-done < $filename.txt
-
-if [ "$has_adapter_change" -eq 1 ] && [ "$has_changeset" -eq 0 ] ; then
-    echo "⚠️ NOTICE: Adapter changes must also have a changeset. Generate a changeset with 'yarn changeset' and include it in your commit."
-fi
-
-rm $filename.txt
+./.github/isvalidadapterchange.sh
