@@ -1,14 +1,14 @@
 import { AdapterRequest, AdapterContext, Execute } from '@chainlink/types'
 import { createStore, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
-import * as rateLimit from '../../src/lib/rate-limit'
-import { Config, get } from '../../src/lib/rate-limit/config'
+import * as rateLimit from '../../src/lib/middleware/rate-limit'
+import { Config, get } from '../../src/lib/middleware/rate-limit/config'
 import {
   IntervalNames,
   Intervals,
   selectParticiantsHeartbeatsFor,
   selectTotalNumberOfHeartbeatsFor,
-} from '../../src/lib/rate-limit/reducer'
+} from '../../src/lib/middleware/rate-limit/reducer'
 
 const counterFrom =
   (i = 0): Execute =>

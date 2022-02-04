@@ -3,7 +3,7 @@ import { Decimal } from 'decimal.js'
 import { flatMap, values, pick, omit } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
-import { CacheEntry } from './cache/types'
+import { CacheEntry } from './middleware/cache/types'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
