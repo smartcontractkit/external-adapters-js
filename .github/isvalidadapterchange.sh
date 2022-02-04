@@ -8,7 +8,7 @@ has_changeset=0
 
 while IFS= read -r file
 do
-# echo $file
+echo $file
 if [[ $file == packages/sources/*/src/* || $file == packages/composites/*/src/* || $file == packages/targets/*/src/* ]]; then
     # echo "This PR contains an adapter src code change."
     has_adapter_change=1
