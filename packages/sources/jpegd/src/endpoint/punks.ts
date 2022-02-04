@@ -5,8 +5,8 @@ export const supportedEndpoints = ['punks']
 
 export interface ResponseSchema {
   success: boolean
-  block: string
-  value: string
+  block: number
+  value: number
 }
 
 export const inputParameters: InputParameters = {
@@ -23,10 +23,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const block = validator.validated.data.block
-  const url = `/punks/${block}`
+  const url = `/punks`
 
   const params = {
+    block: validator.validated.data.block,
     api_key: config.apiKey,
   }
 
