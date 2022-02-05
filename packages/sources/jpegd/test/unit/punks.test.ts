@@ -13,12 +13,8 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'block not supplied',
-        testData: { id: jobID, data: { api_key: 'test-key' } },
-      },
-      {
-        name: 'api_key not supplied',
-        testData: { id: jobID, data: { block: 14000000 } },
+        name: 'block not set to number',
+        testData: { id: jobID, data: { block: null } },
       },
     ]
 
