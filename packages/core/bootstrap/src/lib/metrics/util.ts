@@ -1,5 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
-import { logger, Validator } from '../external-adapter'
+import { logger, Validator } from '../modules'
 import { excludableAdapterRequestProperties } from '../util'
 import * as crypto from 'crypto'
 

@@ -1,5 +1,5 @@
 import { stub } from 'sinon'
-import { logger } from '../../../src/lib/external-adapter'
+import { logger } from '../../../src/lib/modules'
 import {
   dataProviderMock,
   getRLTokenSpentPerMinute,

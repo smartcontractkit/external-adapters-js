@@ -1,5 +1,5 @@
 import { InputParameters } from '@chainlink/types'
-import { Validator } from '../../src/lib/external-adapter/validator'
+import { Validator } from '../../src/lib/modules/validator'
 
 describe('Validator', () => {
   describe('with no input parameter configuration', () => {
