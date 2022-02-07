@@ -1,4 +1,4 @@
-import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/src/lib/ws/recorder'
+import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/src/lib/middleware/ws/recorder'
 import { Server, WebSocket } from 'mock-socket'
 
 /**
@@ -23,6 +23,10 @@ export type WsMessageExchange = {
   request: unknown
   response: unknown
 }
+
+// Export this here so adapter packages don't have to add the mock library themselves.
+// Note: Types aren't working properly, due to the object-like export in this package's index
+export const MockWsServer = Server
 
 /**
  * This function will add listeners for messages on the mocked server, checking if they match one

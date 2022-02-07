@@ -3,19 +3,19 @@ import { server as startServer } from '../../src'
 import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
-import { Server } from 'mock-socket'
 import { mockLoginResponse, mockSubscribeResponse, mockUnsubscribeResponse } from './fixtures'
 import {
   mockWebSocketFlow,
   mockWebSocketProvider,
   mockWebSocketServer,
+  MockWsServer,
 } from '@chainlink/ea-test-helpers'
-import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/ws/recorder'
+import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
 let oldEnv: NodeJS.ProcessEnv
 
 describe('price-beth', () => {
-  let mockedWsServer: Server
+  let mockedWsServer: InstanceType<typeof MockWsServer>
   let server: http.Server
   let req: SuperTest<Test>
 

@@ -2899,7 +2899,7 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     hardhat: 2.7.0
-    mock-socket: ^9.1.0
+    mock-socket: 9.1.0
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -3789,7 +3789,6 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
-    mock-socket: ^9.1.0
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -20909,7 +20908,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"mock-socket@npm:^9.1.0":
+"mock-socket@npm:9.1.0":
   version: 9.1.0
   resolution: "mock-socket@npm:9.1.0"
   checksum: 19b16017da9810bbdcc2bc8e7e2b3ff0c7aa57d0f1edf5ab354e468457c1bace8d3d15c885123a614aa9cf916f6b40de5075b94f56b314a53a0ed2fbdff02e14
