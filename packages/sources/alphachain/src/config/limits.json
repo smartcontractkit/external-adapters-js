@@ -1,0 +1,13 @@
+{
+  "alphachain": {
+    "http": {
+      "basic": {
+        "rateLimit1m": 10
+      },
+      "pro": {
+        "rateLimit1m": 50
+      }
+    },
+    "ws": {}
+  }
+}

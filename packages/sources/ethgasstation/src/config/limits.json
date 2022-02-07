@@ -1,0 +1,11 @@
+{
+  "ethgasstation": {
+    "http": {
+      "free": {
+        "rateLimit1m": 120,
+        "note": "could be off, no mention on their site but found here: https://github.com/ethgasstation/ethgasstation-api/blob/ec36f7dd78fccbb6a67ddffc0e12ac1150db8e80/settings.docker.conf"
+      }
+    },
+    "ws": {}
+  }
+}

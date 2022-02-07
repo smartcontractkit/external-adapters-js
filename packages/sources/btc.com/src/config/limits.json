@@ -1,0 +1,10 @@
+{
+  "btc_com": {
+    "http": {
+      "default": {
+        "rateLimit1m": 1
+      }
+    },
+    "ws": {}
+  }
+}

@@ -7,6 +7,7 @@ import {
   InputParameters,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [
@@ -180,7 +181,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`

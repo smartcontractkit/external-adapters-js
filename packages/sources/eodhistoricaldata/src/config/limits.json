@@ -1,0 +1,11 @@
+{
+  "eodhistoricaldata": {
+    "http": {
+      "all": {
+        "rateLimit1h": 4166.66,
+        "note": "all feeds have the same limit"
+      }
+    },
+    "ws": {}
+  }
+}

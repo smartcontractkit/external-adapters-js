@@ -1,0 +1,13 @@
+{
+  "coinpaprika": {
+    "http": {
+      "free": {
+        "rateLimit1s": 10,
+        "rateLimit1m": 600,
+        "rateLimit1h": 34246.5,
+        "note": "600/m and 25M/mo for free"
+      }
+    },
+    "ws": {}
+  }
+}

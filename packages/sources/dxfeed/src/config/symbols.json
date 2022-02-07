@@ -1,0 +1,14 @@
+{
+  "dxfeed": {
+    "AAPL": "AAPL:BFX",
+    "AMZN": "AMZN:BFX",
+    "FB": "FB:BFX",
+    "FTSE": "UKX.IND:TEI",
+    "GOOGL": "GOOGL:BFX",
+    "MSFT": "MSFT:BFX",
+    "N225": "NKY.IND:TEI",
+    "NFLX": "NFLX:BFX",
+    "TSLA": "TSLA:BFX",
+    "WTI": "USO/USD:AFX"
+  }
+}

@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, NAME } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['price']
 
@@ -18,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   _,
   config: Config,
 ) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator(input, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
