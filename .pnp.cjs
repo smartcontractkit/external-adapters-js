@@ -427,6 +427,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/google-bigquery"
       },
       {
+        "name": "@chainlink/gramchain-adapter",
+        "reference": "workspace:packages/sources/gramchain"
+      },
+      {
         "name": "@chainlink/graphql-adapter",
         "reference": "workspace:packages/sources/graphql"
       },
@@ -756,6 +760,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
       ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],
       ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],
+      ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],
@@ -5139,6 +5144,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],
+            ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
@@ -5766,6 +5772,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["convert-units", "npm:2.3.4"],
             ["geojson-validation", "npm:1.0.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/gramchain-adapter", [
+        ["workspace:packages/sources/gramchain", {
+          "packageLocation": "./packages/sources/gramchain/",
+          "packageDependencies": [
+            ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -25784,6 +25809,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/nock-npm-13.2.3-3c20d9a160-037ff30226.zip/node_modules/nock/",
           "packageDependencies": [
             ["nock", "npm:13.2.3"],
+            ["debug", "virtual:40c87ada7f2f684a486a15e9daad470176b55201376bfdeb15dad896f5233b78f99666966eda31038040b4d17aa8b8f8bf53fddc6773a558064319b9a0677061#npm:4.3.2"],
+            ["json-stringify-safe", "npm:5.0.1"],
+            ["lodash.set", "npm:4.3.2"],
+            ["propagate", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:13.2.4", {
+          "packageLocation": "./.yarn/cache/nock-npm-13.2.4-f1ad2d6861-2750a82ea2.zip/node_modules/nock/",
+          "packageDependencies": [
+            ["nock", "npm:13.2.4"],
             ["debug", "virtual:40c87ada7f2f684a486a15e9daad470176b55201376bfdeb15dad896f5233b78f99666966eda31038040b4d17aa8b8f8bf53fddc6773a558064319b9a0677061#npm:4.3.2"],
             ["json-stringify-safe", "npm:5.0.1"],
             ["lodash.set", "npm:4.3.2"],

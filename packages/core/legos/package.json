@@ -93,6 +93,7 @@
     "@chainlink/genesis-volatility-adapter": "workspace:*",
     "@chainlink/geodb-adapter": "workspace:*",
     "@chainlink/google-bigquery-adapter": "workspace:*",
+    "@chainlink/gramchain-adapter": "workspace:*",
     "@chainlink/graphql-adapter": "workspace:*",
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
