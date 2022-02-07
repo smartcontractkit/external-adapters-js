@@ -1,7 +1,5 @@
 # Chainlink External Adapter for Gramchain
 
-A template to be used as an example for new [External Adapters](https://github.com/smartcontractkit/external-adapters-js)
-
 An external adapter to return the grams of gold (PureGrams) under custody
 
 ---
