@@ -1,5 +1,18 @@
 ## v1.1.0
 
+## 1.7.0
+
+### Minor Changes
+
+- 0652238d0: Add crypto VWAP endpoint support
+
+### Patch Changes
+
+- b2e1df0c3: Add description for endpoints from READMEs
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.6.10
 
 ### Patch Changes

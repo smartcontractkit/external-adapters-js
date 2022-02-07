@@ -1,5 +1,13 @@
 # @chainlink/durin-adapter
 
+## 1.1.11
+
+### Patch Changes
+
+- b2e1df0c3: Add description for endpoints from READMEs
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+
 ## 1.1.10
 
 ### Patch Changes
