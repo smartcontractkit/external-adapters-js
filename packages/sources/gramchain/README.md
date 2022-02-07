@@ -8,9 +8,9 @@ An external adapter to return the grams of gold (PureGrams) under custody
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                Options                 | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [getgrambalances](#Gramchain-Endpoint) |   example   |
+| Required? |   Name   |     Description     |                   Options                    | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [getgrambalances](#GetGramBalances-Endpoint) |   example   |
 
 ---
 
