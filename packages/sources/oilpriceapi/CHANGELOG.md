@@ -1,5 +1,13 @@
 # @chainlink/oilpriceapi-adapter
 
+## 2.0.11
+
+### Patch Changes
+
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 2.0.10
 
 ### Patch Changes
