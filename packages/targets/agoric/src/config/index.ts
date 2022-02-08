@@ -2,6 +2,7 @@ import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export const DEFAULT_API_ENDPOINT = 'http://localhost:8000/api/oracle'
+export const NAME = 'AGORIC'
 
 // This environment variable is needed for the Hack the Orb oracle
 // instructions to remain correct.

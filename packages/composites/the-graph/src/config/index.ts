@@ -1,7 +1,9 @@
 import { Config as DefaultConfig } from '@chainlink/types'
-import { DexSubgraph } from './types'
-import { uniswapSubgraph } from './methods/prices/dex'
+import { DexSubgraph } from '../types'
+import { uniswapSubgraph } from '../methods/prices/dex'
 import { util } from '@chainlink/ea-bootstrap'
+
+export const NAME = 'THE_GRAPH'
 
 export type Config = DefaultConfig & {
   dexSubgraphs: {

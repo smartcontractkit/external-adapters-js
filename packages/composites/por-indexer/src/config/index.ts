@@ -1,6 +1,8 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
+export const NAME = 'POR_INDEXER'
+
 export interface ExtendedConfig extends Config {
   BITCOIN_MAINNET_POR_INDEXER_URL?: string
   DOGECOIN_MAINNET_POR_INDEXER_URL?: string

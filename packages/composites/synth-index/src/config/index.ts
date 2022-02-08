@@ -2,6 +2,8 @@ import { util } from '@chainlink/ea-bootstrap'
 import * as ta from '@chainlink/token-allocation-adapter'
 import { Config as BaseConfig } from '@chainlink/types'
 
+export const NAME = 'SYNTH_INDEX'
+
 export interface Config extends BaseConfig {
   defaultNetwork: string
   taConfig: ta.types.Config

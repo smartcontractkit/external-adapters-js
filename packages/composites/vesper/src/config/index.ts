@@ -6,6 +6,7 @@ export type Config = types.Config & {
   controllerAddress: string
 }
 
+export const NAME = 'VESPER'
 export const DEFAULT_CONTROLLER_ADDRESS = '0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217'
 export const DEFAULT_ENDPOINT = 'tvl'
 

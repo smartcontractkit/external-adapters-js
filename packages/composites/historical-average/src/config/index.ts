@@ -3,6 +3,7 @@ import { Requester, util } from '@chainlink/ea-bootstrap'
 import { AdapterImplementation, Config as DefaultConfig } from '@chainlink/types'
 
 export type SourceRequestOptions = { [source: string]: DefaultConfig }
+export const NAME = 'HISTORICAL_AVERAGE'
 
 export type Config = DefaultConfig & {
   sources: SourceRequestOptions

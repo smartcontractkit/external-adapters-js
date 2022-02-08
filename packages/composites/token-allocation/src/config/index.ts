@@ -9,7 +9,7 @@ import * as Kaiko from '@chainlink/kaiko-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
 import { AdapterImplementation } from '@chainlink/types'
-import { Config, SourceRequestOptions } from './types'
+import { Config, SourceRequestOptions } from '../types'
 
 export const adapters: AdapterImplementation[] = [
   Amberdata,
@@ -27,6 +27,8 @@ export type Source = typeof adapters[number]['NAME']
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
+
+export const NAME = 'TOKEN_ALLOCATION'
 
 export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}

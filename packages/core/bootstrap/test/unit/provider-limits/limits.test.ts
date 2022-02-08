@@ -5,20 +5,27 @@ const limitsJSONPath = '../../../src/lib/config/provider-limits/limits.json'
 const mockLimits = {
   amberdata: {
     http: {
-      starter: {
-        rateLimit1h: 10,
+      free: {
+        rateLimit1s: 1,
+        rateLimit1h: 83.33,
       },
-      premium: {
-        rateLimit1h: 20,
-      },
-      business: {
-        rateLimit1h: 30,
+      'on-demand': {
+        rateLimit1s: 15,
+        rateLimit1h: 12500,
       },
     },
     ws: {
-      starter: {
-        connections: 10,
-        subscriptions: 20,
+      free: {
+        connections: 1,
+        subscriptions: 10,
+      },
+      'on-demand': {
+        connections: 2,
+        subscriptions: -1,
+      },
+      enterprise: {
+        connections: 2,
+        subscriptions: -1,
       },
     },
   },

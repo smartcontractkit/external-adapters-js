@@ -18,6 +18,7 @@ import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { AddressInfo } from 'net'
+import { Limits } from './config/provider-limits'
 
 const app = express()
 const version = process.env.npm_package_version

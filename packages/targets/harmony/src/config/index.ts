@@ -1,6 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import types from '@chainlink/types'
 
+export const NAME = 'HARMONY'
 export const DEFAULT_API_ENDPOINT = 'https://api.s0.t.hmny.io'
 export const DEFAULT_CHAIN_ID = 1
 export const DEFAULT_GAS_LIMIT = 6721900

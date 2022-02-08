@@ -1,9 +1,11 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
-import { adapters as BalanceAdapters, Indexer } from './balance'
-import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from './protocol'
+import { adapters as BalanceAdapters, Indexer } from '../balance'
+import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from '../protocol'
 
 export const DEFAULT_CONFIRMATIONS = 6
+
+export const NAME = 'PROOF_OF_RESERVES'
 
 export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
 

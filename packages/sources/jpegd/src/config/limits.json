@@ -1,0 +1,10 @@
+{
+  "jpegd": {
+    "http": {
+      "default": {
+        "rateLimit1m": 12
+      }
+    },
+    "ws": {}
+  }
+}

@@ -2,6 +2,7 @@ import { util } from '@chainlink/ea-bootstrap'
 import { RequestConfig } from '@chainlink/types'
 
 export const DEFAULT_DATASET = 'bigquery-public-data.noaa_gsod'
+export const NAME = 'GOOGLE_WEATHER'
 
 export type Config = {
   dataset: string
