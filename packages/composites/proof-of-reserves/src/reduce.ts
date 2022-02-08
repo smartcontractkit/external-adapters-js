@@ -1,4 +1,4 @@
-import * as reduce from '@chainlink/reduce-adapter/src/endpoint/reduce'
+import * as reduce from '@chainlink/reduce-adapter'
 import { AdapterContext, AdapterResponse } from '@chainlink/types'
 import { callAdapter } from './adapter'
 import { Indexer } from './balance'

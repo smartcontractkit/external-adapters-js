@@ -1,4 +1,4 @@
-import * as JSONRPC from '@chainlink/json-rpc-adapter/src/adapter'
+import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 
