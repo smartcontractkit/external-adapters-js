@@ -19,9 +19,9 @@ The Mock EA is to only be used by the integration team for soak testing. It will
 
 ---
 
-## mock-ea Endpoint
+## price Endpoint
 
-An example endpoint description
+The mock price endpoint that will return a mock price
 
 ### Input Params
 

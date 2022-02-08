@@ -81,7 +81,7 @@ import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
-import * as nop_olympics from '@chainlink/mock-ea-adapter'
+import * as mock_ea from '@chainlink/mock-ea-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
@@ -198,11 +198,11 @@ export default {
   marketstack,
   messari,
   metalsapi,
+  mock_ea,
   mycryptoapi,
   ncfx,
   nikkei,
   nomics,
-  nop_olympics,
   oilpriceapi,
   onchain_gas,
   openexchangerates,
