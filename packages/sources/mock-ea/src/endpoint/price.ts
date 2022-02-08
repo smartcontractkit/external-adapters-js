@@ -29,9 +29,13 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const lastUpdated = responseInfo.lastUpdated
   const now = Date.now()
   if (!lastUpdated || now - lastUpdated >= config.updateIntervalInMS) {
-    responseInfo.result += config.deviationAmount
+    responseInfo.result =
+      now % 2 === 0
+        ? responseInfo.result + config.deviationAmount
+        : responseInfo.result - config.deviationAmount
     responseInfo.lastUpdated = now
   }
+  response.result = Math.max(0, response.result)
   return {
     jobRunID,
     data: { result: responseInfo.result },
