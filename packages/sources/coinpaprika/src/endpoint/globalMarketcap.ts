@@ -3,6 +3,9 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['globalmarketcap']
 
+export const description =
+  'Returns the global market capitilization from the [global endpoint](https://api.coinpaprika.com/v1/global)'
+
 export const inputParameters: InputParameters = {
   market: {
     aliases: ['to', 'quote'],

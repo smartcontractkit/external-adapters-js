@@ -16,6 +16,9 @@ export const endpointOverride = (request: AdapterRequest): string | null => {
   return null
 }
 
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

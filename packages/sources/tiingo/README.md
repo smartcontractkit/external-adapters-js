@@ -15,9 +15,9 @@ than this should be proceeded with caution.
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                                                                                                   Options                                                                                                    | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint), [`forex`, `fx` or `commodities`](#Forex-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                                                                                                            Options                                                                                                                             | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [`eod`](#EOD-Endpoint), [`iex` or `stock`](#IEX-Endpoint), [`top`](#Top-Endpoint), [`prices` or `crypto`](#Prices-Endpoint), [`volume`](#Volume-Endpoint), [`forex`, `fx` or `commodities`](#Forex-Endpoint), [`vwap` or `crypto-vwap`](#Crypto-Vwap-Endpoint) |  `crypto`   |
 
 ---
 
@@ -261,5 +261,49 @@ https://api.tiingo.com/documentation/forex
   },
   "result": 1.33605,
   "statusCode": 200
+}
+```
+
+## Crypto-Vwap Endpoint
+
+Aliases: vwap, crypto-vwap
+
+Crypto VWAP prices endpoint from:
+
+https://api.tiingo.com/documentation/crypto
+
+### Input Params
+
+| Required? |            Name            |                Description                 | Options | Defaults to |
+| :-------: | :------------------------: | :----------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |     The cryptocurrency symbol to query     |         |             |
+|    ✅     | `quote`, `to`, or `market` | The output currency to return the price in |         |             |
+|           |          `hours`           | Number of hours to calculate the VWAP for  |         |    `24`     |
+|           |        `resultPath`        |            The value to return             |         |  `fxClose`  |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "AMPL",
+    "to": "USD",
+    "endpoint": "crypto-vwap"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 0.9435181537600603,
+  "providerStatusCode": 200,
+  "statusCode": 200,
+  "data": {
+    "result": 0.9435181537600603
+  }
 }
 ```

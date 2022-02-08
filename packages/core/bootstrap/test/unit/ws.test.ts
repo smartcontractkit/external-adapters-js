@@ -1,4 +1,4 @@
-import { separateBatches } from '../../src/lib/ws/utils'
+import { separateBatches } from '../../src/lib/middleware/ws/utils'
 
 describe('WebSockets', () => {
   describe('Separate batches', () => {

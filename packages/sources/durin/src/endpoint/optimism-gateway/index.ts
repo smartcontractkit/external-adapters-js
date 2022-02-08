@@ -18,6 +18,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description = `The optimism global endpoint reads the latest proof from an Optimism as the L2 chain and returns the proof to the caller.
+Currently this endpoint has the same functionality as the server in this example https://github.com/smartcontractkit/ccip-read/tree/6d4deb917781f3becda39b9ebad6f21e037af1a6/examples/optimism-gateway.`
+
 export const inputParameters: InputParameters = {
   to: {
     required: true,

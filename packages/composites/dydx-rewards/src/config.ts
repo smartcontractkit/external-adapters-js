@@ -13,6 +13,9 @@ export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 export const ENV_TREASURY_CLAIM_ADDRESS = 'TREASURY_CLAIM_ADDRESS'
 export const ENV_TRADER_REWARDS_AMOUNT = 'TRADER_REWARDS_AMOUNT'
 export const ENV_MARKET_MAKER_REWARDS_AMOUNT = 'MARKET_MAKER_REWARDS_AMOUNT'
+export const ENV_TRADER_SCORE_A = 'TRADER_SCORE_A'
+export const ENV_TRADER_SCORE_B = 'TRADER_SCORE_B'
+export const ENV_TRADER_SCORE_C = 'TRADER_SCORE_C'
 
 export type Config = {
   wallet: ethers.Wallet
@@ -21,6 +24,10 @@ export type Config = {
   treasuryClaimAddress: string
   traderRewardsAmount: string
   marketMakerRewardsAmount: string
+
+  traderScoreA?: string
+  traderScoreB?: string
+  traderScoreC?: string
 }
 
 export const makeConfig = (prefix?: string): Config => {
@@ -39,5 +46,8 @@ export const makeConfig = (prefix?: string): Config => {
       util.getEnv(ENV_TRADER_REWARDS_AMOUNT, prefix) || DEFAULT_TRADER_REWARDS_AMOUNT,
     marketMakerRewardsAmount:
       util.getEnv(ENV_MARKET_MAKER_REWARDS_AMOUNT, prefix) || DEFAULT_MARKET_MAKER_REWARDS_AMOUNT,
+    traderScoreA: util.getEnv(ENV_TRADER_SCORE_A),
+    traderScoreB: util.getEnv(ENV_TRADER_SCORE_B),
+    traderScoreC: util.getEnv(ENV_TRADER_SCORE_C),
   }
 }

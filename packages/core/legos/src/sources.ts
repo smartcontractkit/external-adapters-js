@@ -3,6 +3,7 @@ import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
+import * as alpine from '@chainlink/alpine-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
@@ -65,6 +66,7 @@ import * as graphql from '@chainlink/graphql-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
+import * as jpegd from '@chainlink/jpegd-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
@@ -80,7 +82,6 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
-import * as onchain from '@chainlink/onchain-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
@@ -122,6 +123,7 @@ export default {
   ada_balance,
   alphachain,
   alphavantage,
+  alpine,
   amberdata,
   anyblock,
   ap_election,
@@ -184,6 +186,7 @@ export default {
   iex_adapter,
   intrinio,
   ipfs,
+  jpegd,
   json_adapter,
   kaiko,
   layer2_sequencer_health,
@@ -199,7 +202,6 @@ export default {
   nikkei,
   nomics,
   oilpriceapi,
-  onchain,
   onchain_gas,
   openexchangerates,
   orchid_adapter,

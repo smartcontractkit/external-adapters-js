@@ -1,5 +1,20 @@
 # @chainlink/dydx-rewards-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [b2e1df0c3]
+- Updated dependencies [4865d3b46]
+  - @chainlink/ipfs-adapter@1.2.7
+  - @chainlink/ea-bootstrap@1.10.5
+
+## 1.1.0
+
+### Minor Changes
+
+- 02c3a64bb: Update DYDX rewards formulas for DIP-7
+
 ## 1.0.25
 
 ### Patch Changes

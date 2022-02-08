@@ -1,12 +1,12 @@
 import { createStore } from 'redux'
 import { stub } from 'sinon'
-import { withDebug } from '../../../src'
-import { defaultOptions, withCache } from '../../../src/lib/cache'
-import { logger } from '../../../src/lib/external-adapter'
-import * as rateLimit from '../../../src/lib/rate-limit'
-import { get } from '../../../src/lib/rate-limit/config'
+import { withDebug } from '../../../src/lib/middleware/debugger'
+import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
+import { logger } from '../../../src/lib/modules'
+import * as rateLimit from '../../../src/lib/middleware/rate-limit'
+import { get } from '../../../src/lib/middleware/rate-limit/config'
 import { dataProviderMock, getRLTokenSpentPerMinute, setupClock } from './helpers'
-import { withMiddleware } from '../../../src/index'
+import { withMiddleware } from '../../../src'
 import { AdapterContext } from '@chainlink/types'
 
 describe('Rate Limit/Cache - Integration', () => {
@@ -43,7 +43,6 @@ describe('Rate Limit/Cache - Integration', () => {
 
   it('Composite feeds requests go over capacity on initialization, then stabilize', async () => {
     const [clock, restoreClock] = setupClock()
-
     const store = createStore(rateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock()
     const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [

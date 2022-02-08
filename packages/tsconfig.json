@@ -15,9 +15,6 @@
       "path": "./composites/bitcoin-json-rpc"
     },
     {
-      "path": "./composites/por-indexer"
-    },
-    {
       "path": "./composites/bob"
     },
     {
@@ -58,6 +55,9 @@
     },
     {
       "path": "./composites/outlier-detection"
+    },
+    {
+      "path": "./composites/por-indexer"
     },
     {
       "path": "./composites/proof-of-reserves"
@@ -121,6 +121,9 @@
     },
     {
       "path": "./sources/alphavantage"
+    },
+    {
+      "path": "./sources/alpine"
     },
     {
       "path": "./sources/amberdata"
@@ -309,6 +312,9 @@
       "path": "./sources/ipfs"
     },
     {
+      "path": "./sources/jpegd"
+    },
+    {
       "path": "./sources/json-rpc"
     },
     {
@@ -352,9 +358,6 @@
     },
     {
       "path": "./sources/oilpriceapi"
-    },
-    {
-      "path": "./sources/onchain"
     },
     {
       "path": "./sources/onchain-gas"

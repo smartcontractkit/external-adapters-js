@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.44",
+  "version": "1.0.45",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -34,6 +34,7 @@
     "@chainlink/ada-balance-adapter": "workspace:*",
     "@chainlink/alphachain-adapter": "workspace:*",
     "@chainlink/alphavantage-adapter": "workspace:*",
+    "@chainlink/alpine-adapter": "workspace:*",
     "@chainlink/amberdata-adapter": "workspace:*",
     "@chainlink/anyblock-adapter": "workspace:*",
     "@chainlink/ap-election-adapter": "workspace:*",
@@ -96,6 +97,7 @@
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",
+    "@chainlink/jpegd-adapter": "workspace:*",
     "@chainlink/json-rpc-adapter": "workspace:*",
     "@chainlink/kaiko-adapter": "workspace:*",
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*",
@@ -111,7 +113,6 @@
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
-    "@chainlink/onchain-adapter": "workspace:*",
     "@chainlink/onchain-gas-adapter": "workspace:*",
     "@chainlink/openexchangerates-adapter": "workspace:*",
     "@chainlink/orchid-bandwidth-adapter": "workspace:*",

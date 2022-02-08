@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['energy']
 
+export const description = 'Returns the price in Euros per MWh'
+
 export const inputParameters: InputParameters = {
   source: {
     required: true,

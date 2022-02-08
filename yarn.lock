@@ -1826,7 +1826,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alpine-adapter@workspace:packages/sources/alpine":
+"@chainlink/alpine-adapter@workspace:*, @chainlink/alpine-adapter@workspace:packages/sources/alpine":
   version: 0.0.0-use.local
   resolution: "@chainlink/alpine-adapter@workspace:packages/sources/alpine"
   dependencies:
@@ -2913,6 +2913,7 @@ __metadata:
     "@chainlink/ada-balance-adapter": "workspace:*"
     "@chainlink/alphachain-adapter": "workspace:*"
     "@chainlink/alphavantage-adapter": "workspace:*"
+    "@chainlink/alpine-adapter": "workspace:*"
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
@@ -2975,6 +2976,7 @@ __metadata:
     "@chainlink/iex-cloud-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
+    "@chainlink/jpegd-adapter": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*"
@@ -2990,7 +2992,6 @@ __metadata:
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
-    "@chainlink/onchain-adapter": "workspace:*"
     "@chainlink/onchain-gas-adapter": "workspace:*"
     "@chainlink/openexchangerates-adapter": "workspace:*"
     "@chainlink/orchid-bandwidth-adapter": "workspace:*"
@@ -3525,6 +3526,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/jpegd-adapter@workspace:*, @chainlink/jpegd-adapter@workspace:packages/sources/jpegd":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/jpegd-adapter@workspace:packages/sources/jpegd"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    "@types/supertest": 2.0.11
+    nock: ^13.2.3
+    supertest: ^6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/json-rpc-adapter@workspace:*, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc"
@@ -3819,20 +3837,6 @@ __metadata:
     "@types/supertest": 2.0.11
     nock: 13.2.1
     supertest: 6.1.6
-    tslib: ^2.3.1
-    typescript: 4.3.5
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/onchain-adapter@workspace:*, @chainlink/onchain-adapter@workspace:packages/sources/onchain":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/onchain-adapter@workspace:packages/sources/onchain"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/types": "workspace:*"
-    "@types/jest": 27.0.3
-    "@types/node": 16.11.19
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -11776,6 +11780,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookiejar@npm:^2.1.3":
+  version: 2.1.3
+  resolution: "cookiejar@npm:2.1.3"
+  checksum: 88259983ebc52ceb23cdacfa48762b6a518a57872eff1c7ed01d214fff5cf492e2660d7d5c04700a28f1787a76811df39e8639f8e17670b3cf94ecd86e161f07
+  languageName: node
+  linkType: hard
+
 "copy-descriptor@npm:^0.1.0":
   version: 0.1.1
   resolution: "copy-descriptor@npm:0.1.1"
@@ -12227,6 +12238,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"debug@npm:^4.3.3":
+  version: 4.3.3
+  resolution: "debug@npm:4.3.3"
+  dependencies:
+    ms: 2.1.2
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 14472d56fe4a94dbcfaa6dbed2dd3849f1d72ba78104a1a328047bb564643ca49df0224c3a17fa63533fd11dd3d4c8636cd861191232a2c6735af00cc2d4de16
+  languageName: node
+  linkType: hard
+
 "decamelize-keys@npm:^1.1.0":
   version: 1.1.0
   resolution: "decamelize-keys@npm:1.1.0"
@@ -12487,6 +12510,16 @@ __metadata:
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: ae6cd429c41ad01b164c59ea36f264a2c479598e61cba7c99da24175a7ab80ddf066420f2bec9a1c57a6bead411b4655ff15ad7d281c000a89791f48cbe939e7
+  languageName: node
+  linkType: hard
+
+"dezalgo@npm:1.0.3":
+  version: 1.0.3
+  resolution: "dezalgo@npm:1.0.3"
+  dependencies:
+    asap: ^2.0.0
+    wrappy: 1
+  checksum: 8b26238db91423b2702a7a6d9629d0019c37c415e7b6e75d4b3e8d27e9464e21cac3618dd145f4d4ee96c70cc6ff034227b5b8a0e9c09015a8bdbe6dace3cfb9
   languageName: node
   linkType: hard
 
@@ -14257,6 +14290,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-safe-stringify@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "fast-safe-stringify@npm:2.1.1"
+  checksum: a851cbddc451745662f8f00ddb622d6766f9bd97642dabfd9a405fb0d646d69fc0b9a1243cbf67f5f18a39f40f6fa821737651ff1bceeba06c9992ca2dc5bd3d
+  languageName: node
+  linkType: hard
+
 "fast-text-encoding@npm:^1.0.0":
   version: 1.0.3
   resolution: "fast-text-encoding@npm:1.0.3"
@@ -14605,6 +14645,18 @@ __metadata:
   version: 1.2.2
   resolution: "formidable@npm:1.2.2"
   checksum: 43b3ec9a8f8055112e1a9a40eb748cdcd86cb9076dc9a17b0caa2bc26908eeae865dbee62d7c4bc26681fb75c2f42d60323af9c9d06c843e94f51f9b46954a0a
+  languageName: node
+  linkType: hard
+
+"formidable@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "formidable@npm:2.0.1"
+  dependencies:
+    dezalgo: 1.0.3
+    hexoid: 1.0.0
+    once: 1.4.0
+    qs: 6.9.3
+  checksum: b35445444e7b6f6f3cacbadd5e6fadd6b5b2e83162e7c41fa22586df584cc515bbd1ee0dc2b701ce031fcb000d71769bc77bd0958db8a89a0ceb8b2227bdc695
   languageName: node
   linkType: hard
 
@@ -15588,6 +15640,13 @@ fsevents@~2.1.1:
   version: 0.2.6
   resolution: "heap@npm:0.2.6"
   checksum: 1291b9b9efb5090d01c6d04a89c91ca6e0e0eb7f3694d8254f7a5effcc5ab9249bc3d16767b276645ffe86d9b2bbd82ed977f8988f55375e9f2a2c80647ebbdc
+  languageName: node
+  linkType: hard
+
+"hexoid@npm:1.0.0":
+  version: 1.0.0
+  resolution: "hexoid@npm:1.0.0"
+  checksum: 27a148ca76a2358287f40445870116baaff4a0ed0acc99900bf167f0f708ffd82e044ff55e9949c71963852b580fc024146d3ac6d5d76b508b78d927fa48ae2d
   languageName: node
   linkType: hard
 
@@ -20566,6 +20625,15 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"mime@npm:^2.5.0":
+  version: 2.6.0
+  resolution: "mime@npm:2.6.0"
+  bin:
+    mime: cli.js
+  checksum: 1497ba7b9f6960694268a557eae24b743fd2923da46ec392b042469f4b901721ba0adcf8b0d3c2677839d0e243b209d76e5edcbd09cfdeffa2dfb6bb4df4b862
+  languageName: node
+  linkType: hard
+
 "mimic-fn@npm:^1.0.0":
   version: 1.2.0
   resolution: "mimic-fn@npm:1.2.0"
@@ -21304,6 +21372,18 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"nock@npm:^13.2.3":
+  version: 13.2.3
+  resolution: "nock@npm:13.2.3"
+  dependencies:
+    debug: ^4.1.0
+    json-stringify-safe: ^5.0.1
+    lodash.set: ^4.3.2
+    propagate: ^2.0.0
+  checksum: 037ff302269f7395eeb1ef50d86a1a67847a47856c3dbd27ee8dd82311f80e6dba8778fc78283104fc45374cfce579547f8a7aff9249146cd426e99035715a8f
+  languageName: node
+  linkType: hard
+
 "node-addon-api@npm:^2.0.0":
   version: 2.0.2
   resolution: "node-addon-api@npm:2.0.2"
@@ -21782,7 +21862,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"once@npm:^1.3.0, once@npm:^1.3.1, once@npm:^1.4.0":
+"once@npm:1.4.0, once@npm:^1.3.0, once@npm:^1.3.1, once@npm:^1.4.0":
   version: 1.4.0
   resolution: "once@npm:1.4.0"
   dependencies:
@@ -23053,6 +23133,22 @@ fsevents@~2.1.1:
   version: 6.7.0
   resolution: "qs@npm:6.7.0"
   checksum: dfd5f6adef50e36e908cfa70a6233871b5afe66fbaca37ecc1da352ba29eb2151a3797991948f158bb37fccde51bd57845cb619a8035287bfc24e4591172c347
+  languageName: node
+  linkType: hard
+
+"qs@npm:6.9.3":
+  version: 6.9.3
+  resolution: "qs@npm:6.9.3"
+  checksum: 89cd1b5e521c19a7e0a7a056ddc261c5c30889664608cf9ce6085f9f25606fc48568cf6a6249e641b4b5c04dac7889e3b82133142523abf397228eb4f488fc38
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.10.1":
+  version: 6.10.3
+  resolution: "qs@npm:6.10.3"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 0fac5e6c7191d0295a96d0e83c851aeb015df7e990e4d3b093897d3ac6c94e555dbd0a599739c84d7fa46d7fee282d94ba76943983935cf33bba6769539b8019
   languageName: node
   linkType: hard
 
@@ -25352,6 +25448,25 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
+"superagent@npm:^7.1.0":
+  version: 7.1.1
+  resolution: "superagent@npm:7.1.1"
+  dependencies:
+    component-emitter: ^1.3.0
+    cookiejar: ^2.1.3
+    debug: ^4.3.3
+    fast-safe-stringify: ^2.1.1
+    form-data: ^4.0.0
+    formidable: ^2.0.1
+    methods: ^1.1.2
+    mime: ^2.5.0
+    qs: ^6.10.1
+    readable-stream: ^3.6.0
+    semver: ^7.3.5
+  checksum: 8710b84cf538f0b3e467b2e9be5ac41a169fe49656769301e01128fc5532900f5e447b9fb740cad2171a36b13b6939cd0f495e7ab4e805043b5cb13fe3051766
+  languageName: node
+  linkType: hard
+
 "supertest@npm:6.1.6":
   version: 6.1.6
   resolution: "supertest@npm:6.1.6"
@@ -25359,6 +25474,16 @@ resolve@1.17.0:
     methods: ^1.1.2
     superagent: ^6.1.0
   checksum: 51d11b794a022b49f0f9664e6d8ffef5e8d18467f65d2b4326e52ec96f0801d7066bf9a97eb06e8b6cd3eb6f662ee5bed937cd5764ab0617a822d7ee4c72ff36
+  languageName: node
+  linkType: hard
+
+"supertest@npm:^6.2.2":
+  version: 6.2.2
+  resolution: "supertest@npm:6.2.2"
+  dependencies:
+    methods: ^1.1.2
+    superagent: ^7.1.0
+  checksum: 3c1956d57e32db1dfc17b4e4eb3eb3c80a29f9ed1b5209e0425b796df0eda7fce8a5c6485a6e666c6d3019c44e238c0494d6851c18e11a2c8bec01ff32dc06e3
   languageName: node
   linkType: hard
 

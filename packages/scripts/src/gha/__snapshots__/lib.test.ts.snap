@@ -372,10 +372,6 @@ Object {
       "type": "sources",
     },
     Object {
-      "name": "onchain-adapter",
-      "type": "sources",
-    },
-    Object {
       "name": "openexchangerates-adapter",
       "type": "sources",
     },
@@ -868,10 +864,6 @@ Object {
     },
     Object {
       "name": "oilpriceapi-adapter",
-      "type": "sources",
-    },
-    Object {
-      "name": "onchain-adapter",
       "type": "sources",
     },
     Object {

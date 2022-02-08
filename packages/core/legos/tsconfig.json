@@ -26,6 +26,9 @@
       "path": "../../sources/alphavantage"
     },
     {
+      "path": "../../sources/alpine"
+    },
+    {
       "path": "../../sources/amberdata"
     },
     {
@@ -212,6 +215,9 @@
       "path": "../../sources/ipfs"
     },
     {
+      "path": "../../sources/jpegd"
+    },
+    {
       "path": "../../sources/json-rpc"
     },
     {
@@ -255,9 +261,6 @@
     },
     {
       "path": "../../sources/oilpriceapi"
-    },
-    {
-      "path": "../../sources/onchain"
     },
     {
       "path": "../../sources/onchain-gas"

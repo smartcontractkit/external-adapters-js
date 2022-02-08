@@ -29,7 +29,8 @@
     "cm": "cz",
     "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
     "qa:flux:configure": "ts-node-transpile-only ./packages/scripts/src/flux-emulator",
-    "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters"
+    "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters",
+    "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate"
   },
   "dependencies": {
     "@babel/core": "7.16.0",

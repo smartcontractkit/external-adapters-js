@@ -12,6 +12,9 @@ const customError = (data: ResponseSchema) => {
   return Object.keys(data).length === 0
 }
 
+export const description =
+  'Query the global market cap from [Coingecko](https://api.coingecko.com/api/v3/global)'
+
 export const inputParameters: InputParameters = {
   market: {
     aliases: ['quote', 'to', 'coin'],

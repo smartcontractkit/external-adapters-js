@@ -8,13 +8,16 @@ cumulative rewards earned by each user since the start of the distribution progr
 
 The adapter takes the following environment variables:
 
-| Required? |             Name              |                       Description                        | Options |                 Defaults to                  |
-| :-------: | :---------------------------: | :------------------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |         `PRIVATE_KEY`         |  Private key of account used to make special callbacks   |         |                                              |
-|    ✅     |      `ETHEREUM_RPC_URL`       |              Ethereum Mainnet RPC URL node               |         |                                              |
-|           |   `TREASURY_CLAIM_ADDRESS`    | The address of the treasury's merkle root claim contract |         | `0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54` |
-|           |    `TRADER_REWARDS_AMOUNT`    |                                                          |         |                 `3835616e18`                 |
-|           | `MARKET_MAKER_REWARDS_AMOUNT` |                                                          |         |                 `1150685e18`                 |
+| Required? |             Name              |                                                              Description                                                              | Options |                 Defaults to                  |
+| :-------: | :---------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :-----: | :------------------------------------------: |
+|    ✅     |         `PRIVATE_KEY`         |                                         Private key of account used to make special callbacks                                         |         |                                              |
+|    ✅     |      `ETHEREUM_RPC_URL`       |                                                     Ethereum Mainnet RPC URL node                                                     |         |                                              |
+|           |   `TREASURY_CLAIM_ADDRESS`    |                                       The address of the treasury's merkle root claim contract                                        |         | `0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54` |
+|           |    `TRADER_REWARDS_AMOUNT`    |                                                                                                                                       |         |                 `3835616e18`                 |
+|           | `MARKET_MAKER_REWARDS_AMOUNT` |                                                                                                                                       |         |                 `1150685e18`                 |
+|           |       `TRADER_SCORE_A`        | The `a` variable in the formula for [individual trading scores](https://docs.dydx.community/dydx-governance/rewards/trading-rewards). |         |                                              |
+|           |       `TRADER_SCORE_B`        | The `b` variable in the formula for [individual trading scores](https://docs.dydx.community/dydx-governance/rewards/trading-rewards). |         |                                              |
+|           |       `TRADER_SCORE_C`        | The `c` variable in the formula for [individual trading scores](https://docs.dydx.community/dydx-governance/rewards/trading-rewards). |         |                                              |
 
 **Additional environment variables must be set according to the IPFS adapter.**
 This composite adapter executes the code from the IPFS source adapter. As such the same configuration apply to this
@@ -37,15 +40,17 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |           Name           |                                Description                                | Options | Defaults to |
-| :-------: | :----------------------: | :-----------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   traderRewardsAmount    |       Maximum rewards distributed each epoch as trading incentives        |         |             |
-|    ✅     | marketMakerRewardsAmount |     Maximum rewards distributed each epoch as market maker incentives     |         |             |
-|    ✅     |         ipnsName         | The fixed IPNS name to which all oracle rewards data is published by dYdX |         |             |
-|    ✅     |     traderScoreAlpha     |         Is a parameter used in the calculation of trader rewards          |         |             |
-|    ✅     |     callbackAddress      |                                                                           |         |             |
-|    ✅     |         newEpoch         |                                                                           |         |             |
-|    ✅     |    activeRootIpfsCid     |                                                                           |         |             |
+| Required? |               Name               |                                Description                                | Options | Defaults to |
+| :-------: | :------------------------------: | :-----------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |       traderRewardsAmount        |       Maximum rewards distributed each epoch as trading incentives        |         |             |
+|    ✅     |     marketMakerRewardsAmount     |     Maximum rewards distributed each epoch as market maker incentives     |         |             |
+|    ✅     |             ipnsName             | The fixed IPNS name to which all oracle rewards data is published by dYdX |         |             |
+|           | traderScoreAlpha or traderScoreA |         Is a parameter used in the calculation of trader rewards          |         |             |
+|           |           traderScoreB           |         Is a parameter used in the calculation of trader rewards          |         |             |
+|           |           traderScoreC           |         Is a parameter used in the calculation of trader rewards          |         |             |
+|    ✅     |         callbackAddress          |                                                                           |         |             |
+|    ✅     |             newEpoch             |                                                                           |         |             |
+|    ✅     |        activeRootIpfsCid         |                                                                           |         |             |
 
 ### Sample Input
 
