@@ -15,6 +15,7 @@ import { separateBatches } from './utils'
 export * as actions from './actions'
 export * as config from './config'
 export * as epics from './epics'
+export * as recorder from './recorder'
 export * as reducer from './reducer'
 export * as types from './types'
 
