@@ -1,5 +1,5 @@
-import * as JSONRPC from '@chainlink/json-rpc-adapter/src/adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import * as JSONRPC from '@chainlink/json-rpc-adapter'
+import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
@@ -49,8 +49,8 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const blockNumber = validator.validated.data.blockNumber
 
   const block = await provider.getBlock(blockNumber)
-
-  const response = await JSONRPC.execute(
+  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
+  const response = await _execute(
     {
       ...request,
       data: { ...request.data, method: 'eth_getBlockByHash', params: [block.hash, false] },

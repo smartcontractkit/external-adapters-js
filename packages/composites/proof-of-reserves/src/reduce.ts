@@ -1,4 +1,4 @@
-import * as reduce from '@chainlink/reduce-adapter/src/endpoint/reduce'
+import * as reduce from '@chainlink/reduce-adapter'
 import { AdapterContext, AdapterResponse } from '@chainlink/types'
 import { callAdapter } from './adapter'
 import { Indexer } from './balance'
@@ -47,5 +47,5 @@ export const runReduceAdapter = async (
       valuePath: 'balance',
     },
   }
-  return callAdapter(reduce.execute, context, next, '_onReduce')
+  return callAdapter(reduce.makeExecute(), context, next, '_onReduce')
 }

@@ -1,4 +1,4 @@
-import * as JSONRPC from '@chainlink/json-rpc-adapter/src/adapter'
+import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 
@@ -48,9 +48,11 @@ const scanWithRetries = async (
   }
 
   const deadline = Date.now() + config.api.timeout
+  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
+
   while (Date.now() + 1000 <= deadline) {
     try {
-      return await JSONRPC.execute(requestData, context, config)
+      return await _execute(requestData, context, config)
     } catch (e) {
       if (e.cause?.response?.data?.error?.code === -8) {
         Logger.debug('scan is already in progress, waiting 1s...')
@@ -70,7 +72,7 @@ const scanWithRetries = async (
         config.api.timeout = 1000 // We expect this action to be quick, and we do not want to hold up the request on this
         Logger.debug('timeout reached, aborting scan in progress')
         try {
-          await JSONRPC.execute(requestData, context, config)
+          await _execute(requestData, context, config)
         } catch (e) {
           Logger.error(`failed to abort scan in progress: ${e.message}`)
         }

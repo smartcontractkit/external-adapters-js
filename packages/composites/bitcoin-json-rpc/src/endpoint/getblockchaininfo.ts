@@ -1,4 +1,4 @@
-import * as JSONRPC from '@chainlink/json-rpc-adapter/src/adapter'
+import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 
@@ -20,7 +20,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       ? DEFAULT_FIELD
       : validator.validated.data.resultPath || DEFAULT_FIELD
 
-  const response = await JSONRPC.execute(
+  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
+  const response = await _execute(
     {
       ...request,
       data: { ...request.data, method: NAME },
