@@ -483,6 +483,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/metalsapi"
       },
       {
+        "name": "@chainlink/mock-ea-adapter",
+        "reference": "workspace:packages/sources/mock-ea"
+      },
+      {
         "name": "@chainlink/mycryptoapi-adapter",
         "reference": "workspace:packages/sources/mycryptoapi"
       },
@@ -497,10 +501,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/nomics-adapter",
         "reference": "workspace:packages/sources/nomics"
-      },
-      {
-        "name": "@chainlink/nop-olympics-adapter",
-        "reference": "workspace:packages/sources/nop-olympics"
       },
       {
         "name": "@chainlink/oilpriceapi-adapter",
@@ -779,11 +779,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],
       ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],
+      ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],
       ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
-      ["@chainlink/nop-olympics-adapter", ["workspace:packages/sources/nop-olympics"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
       ["@chainlink/onchain-adapter", ["workspace:packages/sources/onchain"]],
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],
@@ -5156,11 +5156,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],
             ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],
             ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],
+            ["@chainlink/mock-ea-adapter", "workspace:packages/sources/mock-ea"],
             ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
-            ["@chainlink/nop-olympics-adapter", "workspace:packages/sources/nop-olympics"],
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],
             ["@chainlink/onchain-adapter", "workspace:packages/sources/onchain"],
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],
@@ -6138,6 +6138,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/mock-ea-adapter", [
+        ["workspace:packages/sources/mock-ea", {
+          "packageLocation": "./packages/sources/mock-ea/",
+          "packageDependencies": [
+            ["@chainlink/mock-ea-adapter", "workspace:packages/sources/mock-ea"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/mycryptoapi-adapter", [
         ["workspace:packages/sources/mycryptoapi", {
           "packageLocation": "./packages/sources/mycryptoapi/",
@@ -6204,22 +6220,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
-            ["tslib", "npm:2.3.1"],
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/nop-olympics-adapter", [
-        ["workspace:packages/sources/nop-olympics", {
-          "packageLocation": "./packages/sources/nop-olympics/",
-          "packageDependencies": [
-            ["@chainlink/nop-olympics-adapter", "workspace:packages/sources/nop-olympics"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.3"],
-            ["@types/node", "npm:16.11.19"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],

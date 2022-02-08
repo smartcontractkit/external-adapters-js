@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/nop-olympics-adapter",
+  "name": "@chainlink/mock-ea-adapter",
   "version": "1.0.19",
-  "description": "Chainlink nop-olympics adapter.",
+  "description": "Chainlink mock-ea adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "nop-olympics"
+    "mock-ea"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

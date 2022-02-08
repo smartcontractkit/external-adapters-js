@@ -354,7 +354,7 @@
       "path": "./sources/nomics"
     },
     {
-      "path": "./sources/nop-olympics"
+      "path": "./sources/mock-ea"
     },
     {
       "path": "./sources/oilpriceapi"
