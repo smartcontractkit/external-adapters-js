@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.10.5
+
+### Patch Changes
+
+- 4865d3b46: Add JPEG'd adapter
+
 ## 1.10.4
 
 ### Patch Changes
