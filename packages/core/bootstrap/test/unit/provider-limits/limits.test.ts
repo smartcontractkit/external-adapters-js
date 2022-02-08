@@ -1,7 +1,5 @@
 import * as limits from '../../../src/lib/config/provider-limits'
 
-const limitsJSONPath = '../../../src/lib/config/provider-limits/limits.json'
-
 const mockLimits = {
   amberdata: {
     http: {
@@ -68,19 +66,10 @@ describe('Provider Limits', () => {
         limits.getWSLimits('non-existent', mockLimits, 'non-existent')
       }).toThrow(Error)
     })
-
-    afterAll(() => {
-      jest.unmock(limitsJSONPath)
-    })
   })
 
   describe('Limits JSON is properly formatted', () => {
-    let limits
-
-    beforeAll(async () => {
-      limits = await import(limitsJSONPath)
-      delete limits.default
-    })
+    const limits = mockLimits
 
     it('Limits JSON has HTTP and WS defined', async () => {
       Object.values(limits).forEach((limit: any) => {
