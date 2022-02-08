@@ -35,7 +35,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
         : responseInfo.result - config.deviationAmount
     responseInfo.lastUpdated = now
   }
-  response.result = Math.max(0, response.result)
+  responseInfo.result = Math.max(config.minResult, responseInfo.result)
   return {
     jobRunID,
     data: { result: responseInfo.result },
