@@ -5,7 +5,7 @@ export const NAME = 'MOCK_EA'
 
 export const DEFAULT_ENDPOINT = 'price'
 export const DEFAULT_UPDATE_INTERVAL_IN_MS = 300000
-export const DEFAULT_DEVIATION_AMOUNT = 500
+export const DEFAULT_DEVIATION_AMOUNT = 5
 export const DEFAULT_MIN = 1000
 
 export interface ExtendedConfig extends Config {

@@ -7,7 +7,7 @@ The Mock EA is to only be used by the integration team for soak testing. It will
 | Required? |         Name          |                              Description                              | Options | Defaults to |
 | :-------: | :-------------------: | :-------------------------------------------------------------------: | :-----: | :---------: |
 |           | UPDATE_INTERVAL_IN_MS | The number of milliseconds to update the result sent back from the EA |         |   300000    |
-|           |   DEVIATION_AMOUNT    |                The amount to deviate after an interval                |         |     500     |
+|           |   DEVIATION_AMOUNT    |          The percentage amount to deviate after an interval           |         |      5      |
 |           |      MIN_RESULT       |                     The minimum result to return                      |         |    1000     |
 
 ---
