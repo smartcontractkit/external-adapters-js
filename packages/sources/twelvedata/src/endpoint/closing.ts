@@ -4,7 +4,10 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['closing', 'eod']
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: { status: string }) => data.status === 'error'
+
+export const description =
+  'This `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -25,7 +28,6 @@ interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()

@@ -11,6 +11,9 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['forex', 'price']
 export const batchablePropertyPath = [{ name: 'quote' }]
 
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -62,7 +65,6 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const url = 'latest.json'

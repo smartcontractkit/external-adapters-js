@@ -21,6 +21,17 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  topic: string
+  ts: number
+  data: {
+    symbol: string
+    ask: number
+    askSize: number
+    bid: number
+    bidSize: number
+  }
+}
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (symbol?: string, subscribe = true) => {
     if (!symbol) return
@@ -31,7 +42,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.crypto.inputParameters, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.crypto.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     const symbol = validator.validated.data.base.toUpperCase()
     const convert = validator.validated.data.quote.toUpperCase()
@@ -49,10 +65,11 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         if (!message.data) return undefined
         return getSubscription(message.data.symbol)
       },
-      isError: (message: any) => message.type === 'error',
+      isError: (message: { type?: string; success: boolean }) =>
+        message.type === 'error' || message.success === false,
       // Ignore everything is not a ticker message. Throw an error on incoming errors.
-      filter: (message: any) => message.data !== undefined,
-      toResponse: (message: any) => {
+      filter: (message: Message) => message.data !== undefined,
+      toResponse: (message: Message) => {
         const ask = message.data.ask
         const bid = message.data.bid
         const price = (ask + bid) / 2 // average

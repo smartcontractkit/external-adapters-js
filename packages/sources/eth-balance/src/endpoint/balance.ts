@@ -4,6 +4,9 @@ import { Config } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const description =
+  'The balance endpoint will fetch the balance of each address in the query.'
+
 export const inputParameters: InputParameters = {
   addresses: {
     aliases: ['result'],
@@ -25,7 +28,6 @@ interface Address {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses as Address[]

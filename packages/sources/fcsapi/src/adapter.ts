@@ -3,8 +3,27 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 
-const customError = (data: any) => {
+const customError = (data: ResponseSchema) => {
   return data.msg !== 'Successfully'
+}
+
+export interface ResponseSchema {
+  status: boolean
+  code: string
+  msg: string
+  response: {
+    c: string
+    h: string
+    l: string
+    ch: string
+    cp: string
+    t: string
+    name: string
+    cty: string
+    id: string
+    tm: string
+  }[]
+  info: { server_time: string; credit_count: number }
 }
 
 const commonKeys: Record<string, Record<string, string>> = {
@@ -27,7 +46,6 @@ const customParams = {
 // TODO: Run tests with valid API Key, current API Key is expired.
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
@@ -49,9 +67,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url: endpoint,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['response', 0, 'c'])
-  return Requester.success(jobRunID, response)
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['response', 0, 'c'])
+  return Requester.success(jobRunID, Requester.withResult(response, result))
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

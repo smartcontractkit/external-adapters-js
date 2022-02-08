@@ -8,6 +8,8 @@ export const endpointResultPaths: EndpointResultPaths = {
   stock: 'tngoLast',
 }
 
+export const description = 'https://api.tiingo.com/documentation/iex'
+
 export const inputParameters: InputParameters = {
   ticker: ['ticker', 'base', 'from', 'coin'],
   resultPath: false,
@@ -35,7 +37,6 @@ interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker

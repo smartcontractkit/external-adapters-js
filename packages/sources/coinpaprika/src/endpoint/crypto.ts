@@ -53,6 +53,10 @@ export const endpointResultPaths = {
   volume: 'volume_24h',
 }
 
+export const description = `The \`marketcap\` endpoint fetches market cap of assets, the \`volume\` endpoint fetches 24-hour volume of assets, and the \`crypto\`/\`price\` endpoint fetches current price of asset pairs (https://api.coinpaprika.com/v1/tickers/\`{COIN}\`).
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -114,7 +118,6 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName)

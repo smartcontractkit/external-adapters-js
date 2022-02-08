@@ -23,6 +23,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description =
+  'This endpoint reads the set of custodial addresses from a smart contract and returns in as a response.'
+
 export const inputParameters: InputParameters = {
   chainId: {
     description: 'The ID of the target PoR chain.',
@@ -67,7 +70,6 @@ const abi = [
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { chainId, contractAddress, network } = validator.validated.data

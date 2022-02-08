@@ -312,6 +312,9 @@
       "path": "./sources/ipfs"
     },
     {
+      "path": "./sources/jpegd"
+    },
+    {
       "path": "./sources/json-rpc"
     },
     {
@@ -358,9 +361,6 @@
     },
     {
       "path": "./sources/oilpriceapi"
-    },
-    {
-      "path": "./sources/onchain"
     },
     {
       "path": "./sources/onchain-gas"

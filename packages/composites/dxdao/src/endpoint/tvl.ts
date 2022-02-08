@@ -6,6 +6,9 @@ import { Config } from '../config'
 
 export const NAME = 'TVL'
 
+export const description =
+  'This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed on the XDai chain. The TVL is returned in USD.'
+
 const customParams = {
   pairContractAddress: true,
 }
@@ -37,7 +40,7 @@ export const getTokenAllocations = async (
   config: Config,
 ): Promise<TokenAllocation.types.TokenAllocation[]> => {
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
+
   const wethContractAddress = config.wethContractAddress
   const { pairContractAddress } = validator.validated.data
   const tvlInWei = await getTvlAtAddressInWei(

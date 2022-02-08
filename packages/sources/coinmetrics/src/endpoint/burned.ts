@@ -4,6 +4,9 @@ import { totalBurned } from '.'
 
 export const supportedEndpoints = ['burned']
 
+export const description = `Endpoint to calculate the number of burned coins/tokens for an asset either on the previous day or on the previous block.
+This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
+
 export const inputParameters: InputParameters = {
   asset: {
     description:
@@ -19,8 +22,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  new Validator(request, inputParameters)
 
   request.data.pageSize = 1
   request.data.isBurnedEndpointMode = true

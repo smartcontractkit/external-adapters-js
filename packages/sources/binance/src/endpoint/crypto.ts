@@ -4,6 +4,9 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'ticker']
 
+export const description =
+  '**Note: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -26,7 +29,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let base = validator.overrideSymbol(AdapterName)

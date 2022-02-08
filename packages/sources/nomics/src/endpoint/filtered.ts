@@ -12,6 +12,8 @@ const customError = (data: Record<string, unknown>) => {
   return Object.keys(data).length === 0
 }
 
+export const description = 'Fetches the price of an asset using specified exchanges.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin', 'id'],
@@ -31,7 +33,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const symbol = validator.overrideSymbol(AdapterName)
   const jobRunID = validator.validated.id

@@ -56,7 +56,9 @@ export interface ResponseSchema {
   }[]
 }
 
-const customError = (data: any) => data.Response === 'Error'
+export const description = `This endpoint fetches the results from an election and reports back a winner. This adapter adds several restrictions on top of AP Election's API.
+- Adapter only accepts a single state postal code
+- Adapter will only return races where a winner has already been declared.`
 
 export const inputParameters: InputParameters = {
   date: {
@@ -94,11 +96,12 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   validateRequest(request)
 
   const jobRunID = validator.validated.id
-  const { raceType, date, resultsType, ...rest } = validator.validated.data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { raceType, date, resultsType, endpoint, ...rest } = validator.validated.data
   const url = `/elections/${date}`
 
   const params = {
@@ -113,7 +116,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   validateResponse(response.data)
 
   const race = response.data.races[0]

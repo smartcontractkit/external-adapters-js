@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['events']
 
+export const description = 'Returns all events within the specified params'
+
 export const inputParameters: InputParameters = {
   sportId: {
     required: true,
@@ -26,6 +28,11 @@ export interface ResponseSchema {
       event_status: string
     }
   }[]
+  result: {
+    score: {
+      event_status: string
+    }
+  }[]
 }
 
 const formatDate = (date: Date): string => {
@@ -35,7 +42,6 @@ const formatDate = (date: Date): string => {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const sportId = validator.validated.data.sportId
@@ -63,9 +69,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(reqConfig)
+  const response = await Requester.request<ResponseSchema>(reqConfig)
   if (status !== undefined) {
-    response.data.events = (response.data as ResponseSchema).events.filter(
+    response.data.events = response.data.events.filter(
       ({ score: { event_status } }) => event_status === status,
     )
   }

@@ -1,5 +1,90 @@
 # @chainlink/market-closure-adapter
 
+## 1.0.26
+
+### Patch Changes
+
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/ea-reference-data-reader@1.1.1
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/fcsapi-adapter@1.0.26
+  - @chainlink/finnhub-adapter@1.0.26
+
+## 1.0.25
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+- Updated dependencies [c66aeef1a]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/ea-reference-data-reader@1.1.0
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/fcsapi-adapter@1.0.25
+  - @chainlink/finnhub-adapter@1.0.25
+
+## 1.0.24
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-reference-data-reader@1.0.24
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/fcsapi-adapter@1.0.24
+  - @chainlink/finnhub-adapter@1.0.24
+
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-reference-data-reader@1.0.23
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/fcsapi-adapter@1.0.23
+  - @chainlink/finnhub-adapter@1.0.23
+
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ea-reference-data-reader@1.0.22
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/fcsapi-adapter@1.0.22
+  - @chainlink/finnhub-adapter@1.0.22
+
+## 1.0.21
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/fcsapi-adapter@1.0.21
+  - @chainlink/finnhub-adapter@1.0.21
+  - @chainlink/ea-reference-data-reader@1.0.21
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.20
+
+### Patch Changes
+
+- 6b3fa8c3c: changed explicit typescript 'any' types to correct ones
+- Updated dependencies [b24ae3b0a]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/fcsapi-adapter@1.0.20
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-reference-data-reader@1.0.20
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/finnhub-adapter@1.0.20
+
 ## 1.0.19
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/agoric-adapter",
-  "version": "2.0.4",
+  "version": "2.0.11",
   "description": "Chainlink adapter to post to the Agoric blockchain",
   "keywords": [
     "Chainlink",

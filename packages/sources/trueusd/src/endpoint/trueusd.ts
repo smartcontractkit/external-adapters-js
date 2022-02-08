@@ -9,7 +9,9 @@ export const endpointResultPaths = {
   trueusd: 'totalTrust',
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) => !data.success
+
+export const description = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
 
 export const inputParameters: InputParameters = {}
 
@@ -28,7 +30,6 @@ interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath

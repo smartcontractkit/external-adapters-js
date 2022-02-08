@@ -6,6 +6,8 @@ import { IPFSPath } from './read'
 
 export const supportedEndpoints = ['write']
 
+export const description = 'Write data to IPFS'
+
 const inputParameters = {
   data: {
     required: true,
@@ -46,7 +48,6 @@ const inputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const data = validator.validated.data.data
@@ -81,14 +82,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 const putFile = async (
   data: string | Uint8Array,
   client: IPFSHTTPClient,
-  options: Record<string, any>,
+  options: Record<string, unknown>,
 ) => {
   const { cid } = await client.add(data, options)
   return cid.toString()
 }
 
 const putDag = async (
-  node: Record<string, any>,
+  node: Record<string, unknown>,
   client: IPFSHTTPClient,
-  options: Record<string, any>,
+  options: Record<string, unknown>,
 ): Promise<IPFSPath> => client.dag.put(node, options)

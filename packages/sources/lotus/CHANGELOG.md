@@ -1,5 +1,68 @@
 # @chainlink/lotus-adapter
 
+## 2.1.11
+
+### Patch Changes
+
+- b2e1df0c3: Add description for endpoints from READMEs
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/json-rpc-adapter@1.1.22
+
+## 2.1.10
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/json-rpc-adapter@1.1.21
+
+## 2.1.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/json-rpc-adapter@1.1.20
+
+## 2.1.8
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/json-rpc-adapter@1.1.19
+
+## 2.1.7
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/json-rpc-adapter@1.1.18
+
+## 2.1.6
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/json-rpc-adapter@1.1.17
+
+## 2.1.5
+
+### Patch Changes
+
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/json-rpc-adapter@1.1.16
+  - @chainlink/ea-bootstrap@1.9.1
+
 ## 2.1.4
 
 ### Patch Changes

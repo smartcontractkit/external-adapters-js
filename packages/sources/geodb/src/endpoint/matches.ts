@@ -3,6 +3,9 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['matches']
 
+export const description =
+  'Counts the number of matches within the circle specified by a radius and coordinates during the selected time period.'
+
 export const inputParameters: InputParameters = {
   lat: {
     required: true,
@@ -37,7 +40,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const lat = validator.validated.data.lat

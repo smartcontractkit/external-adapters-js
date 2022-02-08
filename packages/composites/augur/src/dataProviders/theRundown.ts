@@ -66,7 +66,6 @@ const addDays = (date: Date, days: number): Date => {
 
 export const create: Execute = async (input, context) => {
   const validator = new Validator(input, createParams)
-  if (validator.error) throw validator.error
 
   const sport = validator.validated.data.sport.toUpperCase()
   const sportId = sportIdMapping[sport]
@@ -217,7 +216,6 @@ export const numToEventId = (num: BigNumber): string => num.toHexString().slice(
 
 export const resolve: Execute = async (input, context) => {
   const validator = new Validator(input, resolveParams)
-  if (validator.error) throw validator.error
 
   const theRundownExec = TheRundown.makeExecute({
     ...TheRundown.makeConfig(TheRundown.NAME),

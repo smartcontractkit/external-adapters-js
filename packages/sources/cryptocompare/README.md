@@ -4,15 +4,15 @@
 
 | Required? |  Name   |                                      Description                                       | Options | Defaults to |
 | :-------: | :-----: | :------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://min-api.cryptocompare.com/pricing) |         |             |
+|           | API_KEY | An API key that can be obtained from [here](https://min-api.cryptocompare.com/pricing) |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                           Options                            | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [marketcap](#Marketcap-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |                                               Options                                               | Defaults to |
+| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [marketcap](#Marketcap-Endpoint), [vwap or crypto-vwap](#Vwap-Endpoint) |  `crypto`   |
 
 ---
 
@@ -123,5 +123,44 @@ Fetch one or multiple assets for volume
   },
   "result": 142754466.69826838,
   "statusCode": 200
+}
+```
+
+## Vwap Endpoint
+
+Aliases: vwap, crypto-vwap
+
+### Input Params
+
+| Required? |          Name           |                Description                | Options | Defaults to |
+| :-------: | :---------------------: | :---------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |    The symbol of the currency to query    |         |             |
+|    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to  |         |             |
+|           |         `hours`         | Number of hours to calculate the VWAP for |         |    `24`     |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "from": "AMPL",
+    "to": "USD",
+    "endpoint": "vwap"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 0.9438,
+  "providerStatusCode": 200,
+  "statusCode": 200,
+  "data": {
+    "result": 0.9438
+  }
 }
 ```

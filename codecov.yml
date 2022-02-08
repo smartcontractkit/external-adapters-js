@@ -1,16 +1,17 @@
+# TODO: Reenable once coverage reports are consistent
 comment:
-  layout: 'reach, diff, flags, files'
-  behavior: default
-
-  coverage:
-    status:
-      project:
-        default:
-          target: auto
-          threshold: 1%
-      patch:
-        default:
-          target: 90%
+  false
+  # layout: 'reach, diff, flags, files'
+  # behavior: default
+  # coverage:
+  #   status:
+  #     project:
+  #       default:
+  #         target: auto
+  #         threshold: 1%
+  #     patch:
+  #       default:
+  #         target: 90%
 
 ignore:
   - '.yarn'
@@ -35,7 +36,11 @@ flag_management:
         type: project
         target: auto
         threshold: 1%
+        informational: true # TODO: Delete once coverage reports are consistent
+        if_ci_failed: success # TODO: Delete once coverage reports are consistent
       # Every PR must have a minimum of 90% coverage on adjusted lines
       - name_prefix: patch-
         type: patch
         target: 90%
+        informational: true # TODO: Delete once coverage reports are consistent
+        if_ci_failed: success # TODO: Delete once coverage reports are consistent

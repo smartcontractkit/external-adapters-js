@@ -1,9 +1,11 @@
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config, Account, ExecuteFactory } from '@chainlink/types'
+import { Config, Account, ExecuteFactory, RequestConfig } from '@chainlink/types'
 import { COINS, isCoinType, isChainType } from '../config'
 
 export const supportedEndpoints = ['balance']
+
+export const description = '[Address Balance Mass Check](https://blockchair.com/api/docs#link_390)'
 
 export const inputParameters = balance.inputParameters
 
@@ -17,7 +19,7 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
   const { coin, chain } = accounts[0]
   const addresses = accounts.map((a) => a.address)
 
-  const reqConfig: any = {
+  const reqConfig: RequestConfig = {
     ...config.api,
     url: getBalanceURI(addresses, coin as string, chain as string),
   }

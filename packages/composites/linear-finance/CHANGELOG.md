@@ -1,5 +1,67 @@
 # @chainlink/linear-finance-adapter
 
+## 1.1.33
+
+### Patch Changes
+
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/token-allocation-adapter@1.0.36
+
+## 1.1.32
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/token-allocation-adapter@1.0.35
+
+## 1.1.31
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/token-allocation-adapter@1.0.34
+
+## 1.1.30
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/token-allocation-adapter@1.0.33
+
+## 1.1.29
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/token-allocation-adapter@1.0.32
+
+## 1.1.28
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/token-allocation-adapter@1.0.31
+
+## 1.1.27
+
+### Patch Changes
+
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/token-allocation-adapter@1.0.30
+  - @chainlink/ea-bootstrap@1.9.1
+
 ## 1.1.26
 
 ### Patch Changes

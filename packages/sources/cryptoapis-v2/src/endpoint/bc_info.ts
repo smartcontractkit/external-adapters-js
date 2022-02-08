@@ -1,8 +1,13 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { DEFAULT_ENDPOINT, BLOCKCHAIN_NAME_BY_TICKER, BlockchainTickers } from '../config'
+import { BLOCKCHAIN_NAME_BY_TICKER, BlockchainTickers } from '../config'
 
 export const supportedEndpoints = ['height', 'difficulty']
+
+export const endpointResultPaths = {
+  height: ['data', 'item', 'height'],
+  difficulty: ['data', 'item', 'blockchainSpecific', 'difficulty'],
+}
 
 export interface ResponseSchema {
   apiVersion: string
@@ -30,6 +35,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description =
+  'https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-latest-mined-block'
+
 export const inputParameters: InputParameters = {
   blockchain: {
     aliases: ['coin', 'market'],
@@ -46,14 +54,9 @@ export const inputParameters: InputParameters = {
   },
 }
 
-const payloadDataPaths: { [key: string]: string[] } = {
-  height: ['data', 'item', 'height'],
-  difficulty: ['data', 'item', 'blockchainSpecific', 'difficulty'],
-}
-
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   const jobRunID = validator.validated.id
   const blockchain = validator.validated.data.blockchain
   if (blockchain.toLowerCase() !== 'btc')
@@ -63,17 +66,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 400,
     })
   const network = validator.validated.data.network || 'mainnet'
-  const endpoint = validator.validated.data.endpoint || DEFAULT_ENDPOINT
-  const payloadDataPath = payloadDataPaths[endpoint]
-  if (!payloadDataPath) {
-    throw new Error(`${endpoint} has no payload data path and is invalid`)
-  }
+  const resultPath = validator.validated.data.resultPath
+
   const url = `/v2/blockchain-data/${
     BLOCKCHAIN_NAME_BY_TICKER[blockchain.toLowerCase() as BlockchainTickers]
   }-specific/${network.toLowerCase()}/blocks/last`
   const options = { ...config.api, url }
   const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, payloadDataPath)
+  const result = Requester.validateResultNumber(response.data, resultPath)
   const responseWithCost = { ...response, data: { ...response.data } }
   return Requester.success(jobRunID, Requester.withResult(responseWithCost, result), config.verbose)
 }

@@ -4,6 +4,9 @@ import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 
 export const supportedEndpoints = ['vwap']
 
+export const description =
+  "[BraveNewCoin's 24 Hour USD VWAP](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_8b8774ba-b368-4399-9c4a-dc78f13fc786)"
+
 export const inputParameters: InputParameters = {
   symbol: {
     aliases: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
@@ -45,7 +48,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const yesterday = new Date()

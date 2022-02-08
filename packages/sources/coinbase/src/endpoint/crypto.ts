@@ -3,6 +3,9 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['crypto', 'price']
 
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   symbol: {
     aliases: ['base', 'from', 'coin', 'sym'],
@@ -24,7 +27,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol

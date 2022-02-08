@@ -66,6 +66,7 @@ import * as graphql from '@chainlink/graphql-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
+import * as jpegd from '@chainlink/jpegd-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
@@ -82,7 +83,6 @@ import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as nop_olympics from '@chainlink/mock-ea-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
-import * as onchain from '@chainlink/onchain-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
@@ -187,6 +187,7 @@ export default {
   iex_adapter,
   intrinio,
   ipfs,
+  jpegd,
   json_adapter,
   kaiko,
   layer2_sequencer_health,
@@ -203,7 +204,6 @@ export default {
   nomics,
   nop_olympics,
   oilpriceapi,
-  onchain,
   onchain_gas,
   openexchangerates,
   orchid_adapter,

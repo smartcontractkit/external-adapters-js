@@ -10,6 +10,8 @@ export const endpointResultPaths = {
   commodities: 'midPrice',
 }
 
+export const description = 'https://api.tiingo.com/documentation/forex'
+
 export const inputParameters: InputParameters = {
   base: ['base', 'asset', 'from', 'market'],
   quote: ['quote', 'to'],
@@ -28,7 +30,6 @@ interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(NAME, validator.validated.data.base)

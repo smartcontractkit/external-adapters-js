@@ -12,7 +12,6 @@ const inputParams = {
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const url = config.RPC_URL || validator.validated.data.url || DEFAULT_BASE_URL
@@ -30,7 +29,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const options = {
     ...config.api,
     url,
-    method: 'POST' as any,
+    method: 'POST',
     headers: {
       ...config.api.headers,
       'Content-Type': 'application/json',

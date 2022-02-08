@@ -20,6 +20,8 @@ export interface ResponseSchema {
 
 const customError = (data: ResponseSchema) => !!data.error
 
+export const description = 'Endpoint to get the reference price of the asset.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -37,7 +39,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)

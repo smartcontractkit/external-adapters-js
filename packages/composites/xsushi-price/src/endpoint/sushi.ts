@@ -6,9 +6,10 @@ import xsushiABI from '../abi/xsushi.json'
 
 export const supportedEndpoints = ['sushi']
 
+export const description = 'Gets the SUSHI token address from the xSUSHI contract.'
+
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, {})
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const xsushiAddress = config.xsushiAddress

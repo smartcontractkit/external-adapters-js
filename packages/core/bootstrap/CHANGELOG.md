@@ -1,5 +1,54 @@
 # @chainlink/ea-bootstrap
 
+## 1.10.5
+
+### Patch Changes
+
+- 4865d3b46: Add JPEG'd adapter
+
+## 1.10.4
+
+### Patch Changes
+
+- 4d6b8a050: Satoshitango rate limit change
+
+## 1.10.3
+
+### Patch Changes
+
+- Revert: Allow indefinite subscriptions by leaving out unsubscribe handler
+
+## 1.10.2
+
+### Patch Changes
+
+- 452ba71f0: Allow indefinite subscriptions by leaving out unsubscribe handler
+
+## 1.10.1
+
+### Patch Changes
+
+- 4476ff385: Modify Coingecko RENFIL override
+
+## 1.10.0
+
+### Minor Changes
+
+- 99ed864d0: Added RENFIL -> FIL overrides for coingecko, coinmarketcap, nomics, tiingo, and set override ID for RENFIL on coinpaprika
+
+### Patch Changes
+
+- de5d083e8: added shouldThrowError option in Validator class which handles error throwing for bad input
+- de5d083e8: removed error log from validator.ts
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+
+## 1.9.1
+
+### Patch Changes
+
+- da1207541: Add fallback to local cache for WS
+- 1b6d4f1dd: Include 'endpoint' as a base input parameter
+
 ## 1.9.0
 
 ### Minor Changes

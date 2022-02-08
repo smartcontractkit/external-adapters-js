@@ -56,6 +56,7 @@
 - [Harmony](./packages/targets/harmony/README.md)
 - [Iex Cloud](./packages/sources/iex-cloud/README.md)
 - [Intrinio](./packages/sources/intrinio/README.md)
+- [JPEG'd](./packages/sources/jpegd/README.md)
 - [Json RPC](./packages/sources/json-rpc/README.md)
 - [Kaiko](./packages/sources/kaiko/README.md)
 - [LCX](./packages/sources/lcx/README.md)

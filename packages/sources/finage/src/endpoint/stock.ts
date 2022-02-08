@@ -11,6 +11,9 @@ import { NAME } from '../config'
 export const supportedEndpoints = ['stock']
 export const batchablePropertyPath = [{ name: 'base' }]
 
+export const description = `https://finage.co.uk/docs/api/stock-last-quote
+The result will be calculated as the midpoint between the ask and the bid.`
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,
@@ -30,7 +33,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base

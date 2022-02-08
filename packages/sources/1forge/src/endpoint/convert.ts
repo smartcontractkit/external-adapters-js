@@ -4,6 +4,9 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['convert']
 
+export const description =
+  '[`/convert`](https://1forge.com/api#convert) - Convert from one currency to another.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from'],
@@ -32,7 +35,6 @@ interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const url = `/convert`

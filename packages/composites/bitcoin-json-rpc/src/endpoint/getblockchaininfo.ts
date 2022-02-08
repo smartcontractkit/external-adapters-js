@@ -5,13 +5,14 @@ import { Validator, Requester } from '@chainlink/ea-bootstrap'
 export const NAME = 'getblockchaininfo'
 const DEFAULT_FIELD = 'difficulty'
 
+export const description = 'Calls `"method": "getblockchaininfo"` on the Bitcoin node.'
+
 const inputParams = {
   resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const resultPath =

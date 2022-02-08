@@ -17,6 +17,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description =
+  'https://developers.cryptoapis.io/technical-documentation/market-data/exchange-rates/get-exchange-rate-by-asset-symbols'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -34,7 +37,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
