@@ -43,6 +43,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/bob"
       },
       {
+        "name": "@chainlink/bsol-price-adapter",
+        "reference": "workspace:packages/composites/bsol-price"
+      },
+      {
         "name": "@chainlink/circuit-breaker-adapter",
         "reference": "workspace:packages/composites/circuit-breaker"
       },
@@ -699,6 +703,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],
       ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],
+      ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
@@ -4385,6 +4390,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/bsol-price-adapter", [
+        ["workspace:packages/composites/bsol-price", {
+          "packageLocation": "./packages/composites/bsol-price/",
+          "packageDependencies": [
+            ["@chainlink/bsol-price-adapter", "workspace:packages/composites/bsol-price"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],
+            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@solana/web3.js", "npm:1.33.0"],
+            ["@types/bn.js", "npm:5.1.0"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["bn.js", "npm:5.2.0"],
+            ["ethers", "npm:5.5.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],

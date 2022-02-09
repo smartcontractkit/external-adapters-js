@@ -18,6 +18,9 @@
       "path": "./composites/bob"
     },
     {
+      "path": "./composites/bsol-price"
+    },
+    {
       "path": "./composites/circuit-breaker"
     },
     {
