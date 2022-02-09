@@ -1,7 +1,5 @@
 import {
-  AdapterMetricsMeta,
   AdapterRequest,
-  AdapterErrorLog,
   AdapterContext,
   Execute,
   ExecuteSync,
@@ -12,24 +10,20 @@ import {
   Config,
 } from '@chainlink/types'
 import { combineReducers, Store } from 'redux'
-import { Cache, withCache } from './lib/cache'
-import * as cacheWarmer from './lib/cache-warmer'
-import { WARMUP_REQUEST_ID } from './lib/cache-warmer/config'
-import {
-  AdapterError,
-  logger as Logger,
-  Requester,
-  Validator,
-  Builder,
-  normalizeInput,
-} from './lib/external-adapter'
+import { Cache, withCache } from './lib/middleware/cache'
+import * as cacheWarmer from './lib/middleware/cache-warmer'
+import { AdapterError, logger as Logger, Requester, Validator, Builder } from './lib/modules'
 import * as metrics from './lib/metrics'
-import * as RateLimit from './lib/rate-limit'
-import * as burstLimit from './lib/burst-limit'
+import * as RateLimit from './lib/middleware/rate-limit'
+import * as burstLimit from './lib/middleware/burst-limit'
+import * as ioLogger from './lib/middleware/io-logger'
+import * as statusCode from './lib/middleware/status-code'
+import * as debug from './lib/middleware/debugger'
+import * as normalize from './lib/middleware/normalize'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
 import * as util from './lib/util'
-import * as ws from './lib/ws'
+import * as ws from './lib/middleware/ws'
 import http from 'http'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'rateLimit', 'ws'] as const
@@ -61,119 +55,6 @@ export const storeSlice = (slice: ReduxMiddleware): Store =>
     dispatch: (a) => store.dispatch(a),
   } as Store)
 
-// Make sure data has the same statusCode as the one we got as a result
-const withStatusCode: Middleware = async (execute, context) => async (input) => {
-  const { statusCode, data, ...rest } = await execute(input, context)
-  if (data && typeof data === 'object' && data.statusCode) {
-    return {
-      ...rest,
-      statusCode,
-      data: {
-        ...data,
-        statusCode,
-      },
-    }
-  }
-
-  return { ...rest, statusCode, data }
-}
-
-// Log adapter input & output data
-const withLogger: Middleware = async (execute, context) => async (input: AdapterRequest) => {
-  Logger.debug('Input: ', { input })
-  try {
-    const result = await execute(input, context)
-    Logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
-    return result
-  } catch (error) {
-    const feedID = metrics.util.getFeedId(input)
-    const errorLog: AdapterErrorLog = {
-      message: error.toString(),
-      jobRunID: input.id,
-      params: input.data,
-      feedID,
-      url: error.url,
-      errorResponse: error.errorResponse,
-    }
-
-    if (Logger.level === 'debug') {
-      errorLog.stack = error.stack
-    }
-
-    if (Logger.level === 'trace') {
-      errorLog.rawError = error.cause
-      errorLog.stack = undefined
-    }
-
-    Logger.error(errorLog)
-    throw error
-  }
-}
-
-const withMetrics: Middleware = async (execute, context) => async (input: AdapterRequest) => {
-  const feedId = metrics.util.getFeedId(input)
-  const metricsMeta: AdapterMetricsMeta = {
-    feedId,
-  }
-
-  const recordMetrics = () => {
-    const labels: Parameters<typeof metrics.httpRequestsTotal.labels>[0] = {
-      is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
-      method: 'POST',
-      feed_id: feedId,
-    }
-    const end = metrics.httpRequestDurationSeconds.startTimer()
-
-    return (props: {
-      providerStatusCode?: number
-      statusCode?: number
-      type?: metrics.HttpRequestType
-    }) => {
-      labels.type = props.type
-      labels.status_code = metrics.util.normalizeStatusCode(props.statusCode)
-      labels.provider_status_code = metrics.util.normalizeStatusCode(props.providerStatusCode)
-      end()
-      metrics.httpRequestsTotal.labels(labels).inc()
-    }
-  }
-
-  const record = recordMetrics()
-  try {
-    const result = await execute({ ...input, metricsMeta }, context)
-    record({
-      statusCode: result.statusCode,
-      type:
-        result.data.maxAge || (result as any).maxAge
-          ? metrics.HttpRequestType.CACHE_HIT
-          : metrics.HttpRequestType.DATA_PROVIDER_HIT,
-    })
-    return { ...result, metricsMeta: { ...result.metricsMeta, ...metricsMeta } }
-  } catch (error) {
-    const providerStatusCode: number | undefined = error.cause?.response?.status
-    record({
-      statusCode: providerStatusCode ? 200 : 500,
-      providerStatusCode,
-    })
-    throw error
-  }
-}
-
-export const withDebug: Middleware = async (execute, context) => async (input: AdapterRequest) => {
-  const result = await execute(input, context)
-  if (!util.isDebug()) {
-    const { debug, ...rest } = result
-    return rest
-  }
-  return result
-}
-
-export const withNormalizedInput: <C extends Config>(
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
-) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
-  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
-  return execute(normalizedInput, context)
-}
-
 export const makeMiddleware = <C extends Config>(
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
@@ -182,12 +63,12 @@ export const makeMiddleware = <C extends Config>(
   const warmerMiddleware = [
     withCache(storeSlice('burstLimit')),
     RateLimit.withRateLimit(storeSlice('rateLimit')),
-    withStatusCode,
-    withNormalizedInput(endpointSelector),
-  ].concat(metrics.METRICS_ENABLED ? [withMetrics] : [])
+    statusCode.withStatusCode,
+    normalize.withNormalizedInput(endpointSelector),
+  ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics] : [])
 
   return [
-    withLogger,
+    ioLogger.withIOLogger,
     withCache(storeSlice('burstLimit')),
     cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
       store: storeSlice('ws'),
@@ -195,9 +76,9 @@ export const makeMiddleware = <C extends Config>(
     })(execute),
     ws.withWebSockets(storeSlice('ws'), makeWsHandler),
     RateLimit.withRateLimit(storeSlice('rateLimit')),
-    withStatusCode,
-    withNormalizedInput(endpointSelector),
-  ].concat(metrics.METRICS_ENABLED ? [withMetrics, withDebug] : [withDebug])
+    statusCode.withStatusCode,
+    normalize.withNormalizedInput(endpointSelector),
+  ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics, debug.withDebug] : [debug.withDebug])
 }
 
 // Wrap raw Execute function with middleware
@@ -228,7 +109,12 @@ export const executeSync: ExecuteSync = async (
     const feedID = metrics.util.getFeedId(data)
     return callback(
       error.statusCode || 500,
-      Requester.errored(data.id, error, error.statusCode, feedID),
+      Requester.errored(
+        data.id,
+        error,
+        error.providerResponseStatusCode || error.statusCode,
+        feedID,
+      ),
     )
   }
 }

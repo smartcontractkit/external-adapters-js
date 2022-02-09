@@ -5,9 +5,20 @@ import { buildSnowflakeJWT } from '../util'
 
 export const supportedEndpoints = ['covid-cases']
 
+export const description =
+  'Queries US confirmed Covid cases per County, using the John Hopkins University table from the [StarSchema COVID-19 Epidemiological dataset](https://www.snowflake.com/datasets/starschema-covid-19-epidemiological-data/).'
+
 export const inputParameters: InputParameters = {
-  state: ['state'],
-  county: ['county'],
+  state: {
+    required: true,
+    description: 'The state of the desired county',
+    type: 'string',
+  },
+  county: {
+    required: true,
+    description: 'Name of the desired county',
+    type: 'string',
+  },
 }
 
 type UUIDv4 = string
@@ -45,7 +56,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<SnowflakeConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const state = validator.validated.data.state

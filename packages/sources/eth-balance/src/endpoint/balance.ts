@@ -4,8 +4,17 @@ import { Config } from '../config'
 
 export const supportedEndpoints = ['balance']
 
+export const description =
+  'The balance endpoint will fetch the balance of each address in the query.'
+
 export const inputParameters: InputParameters = {
-  addresses: ['addresses', 'result'],
+  addresses: {
+    aliases: ['result'],
+    required: true,
+    type: 'array',
+    description:
+      'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
+  },
 }
 
 interface AddressWithBalance {
@@ -19,7 +28,6 @@ interface Address {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses as Address[]

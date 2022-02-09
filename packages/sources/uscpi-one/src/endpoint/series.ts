@@ -30,18 +30,29 @@ export interface DataSchema {
   footnotes: []
 }
 
-const customError = (data: any) => data.Response === 'Error'
-
 export const inputParameters: InputParameters = {
-  serie: false,
-  year: false,
-  month: false,
-  resultPath: false,
+  serie: {
+    required: false,
+    description: 'The US CPI Data serieID (`CUSR0000SA0`, `LNS14000000`, etc)',
+    default: 'CUSR0000SA0',
+    type: 'string',
+  },
+  year: {
+    required: false,
+    description:
+      'The year serie filter (`2021`, `2020`, etc). It is mandatory to specify the `month` and `year` values together.',
+    type: 'string',
+  },
+  month: {
+    required: false,
+    description:
+      'The month serie filter  `may`, `july`, etc. It is mandatory to specify the `month` and `year` values together.',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const serie = validator.validated.data.serie || 'CUSR0000SA0'
@@ -53,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const url = `/timeseries/data/${serie}`
   const options = { ...config.api, url }
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   const data = response.data.Results.series[0].data
 
   let filter

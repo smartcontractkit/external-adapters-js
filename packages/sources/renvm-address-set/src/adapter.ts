@@ -1,25 +1,28 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { Account, Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import RenJS from '@renproject/ren'
 import { btc } from './coins'
 import { DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT, makeConfig } from './config'
 import {
   getTokenName,
+  getTokenNetwork,
   isAsset,
   isRenContract,
   isRenNetwork,
   RenContract,
   resolveInToken,
 } from './ren'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
+
 const inputParams = {
   network: false,
+  chainId: false,
   tokenOrContract: false,
 }
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   Requester.logConfig(config)
 
@@ -30,8 +33,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     throw Error(`Unsupported Ren network: ${config.network}.`)
   }
 
-  const network = data.network || DEFAULT_NETWORK
-  if (!isRenNetwork(network)) {
+  const chainId = data.chainId || DEFAULT_NETWORK
+  if (!isRenNetwork(chainId)) {
     throw Error(`Unknown Ren network: ${data.network}`)
   }
 
@@ -49,14 +52,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     throw Error(`Unsupported token: ${tokenOrContract}`)
   }
 
-  const bitcoinNetwork = btc.getNetwork(network)
+  const bitcoinNetwork = btc.getNetwork(chainId)
   if (!bitcoinNetwork) {
-    throw Error(`Unknown Bitcoin network: ${network}`)
+    throw Error(`Unknown Bitcoin network: ${chainId}`)
   }
 
   const _getAddress = async (): Promise<string | undefined> => {
     if (!config.api) return undefined
-    const { renVM } = new RenJS(network, {
+    const { renVM } = new RenJS(chainId, {
       // use v1 legacy version
       useV2TransactionFormat: false,
     })
@@ -66,11 +69,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const address = await _getAddress()
-  const result = [
+  if (!address) {
+    throw Error(`Address must be non-empty`)
+  }
+  const coin = getTokenName(renContract)
+  const result: Array<Account & PorInputAddress> = [
     {
       address,
-      coin: getTokenName(renContract).toLowerCase(),
-      chain: network,
+      coin: coin.toLowerCase(),
+      network: getTokenNetwork(coin),
+      chainId,
     },
   ]
 

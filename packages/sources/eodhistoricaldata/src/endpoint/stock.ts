@@ -3,10 +3,17 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['price', 'stock']
 
-const customError = (data: any) => data.Response === 'Error'
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'asset', 'from', 'symbol'],
+  base: {
+    required: true,
+    aliases: ['asset', 'from', 'symbol'],
+    type: 'string',
+    description:
+      'The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/)',
+  },
 }
 
 const commonKeys: { [key: string]: string } = {
@@ -15,9 +22,22 @@ const commonKeys: { [key: string]: string } = {
   BZ: 'BZ.COMM',
 }
 
+export interface ResponseSchema {
+  code: string
+  timestamp: number
+  gmtoffset: number
+  open: number
+  high: number
+  low: number
+  close: number
+  volume: number
+  previousClose: number
+  change: number
+  change_p: number
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   let symbol = validator.validated.data.base.toUpperCase()
@@ -37,8 +57,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['close'])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['close'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

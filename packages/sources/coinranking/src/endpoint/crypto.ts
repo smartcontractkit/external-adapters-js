@@ -56,12 +56,30 @@ interface ReferenceCurrenciesResponseSchema {
   status: string
 }
 
+export const description = 'https://api.coinranking.com/v2/coins'
+
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  coinid: false,
-  resultPath: false,
-  referenceCurrencyUuid: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  coinid: {
+    description: 'The coin ID to select the specific coin (in case of duplicate `from` symbols)',
+    required: false,
+  },
+  referenceCurrencyUuid: {
+    description: 'Optional UUID of the `to` currency',
+    required: false,
+    type: 'string',
+  },
 }
 
 const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<string> => {
@@ -80,7 +98,6 @@ const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<st
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base

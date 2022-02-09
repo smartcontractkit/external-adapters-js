@@ -1,5 +1,127 @@
 # @chainlink/historical-average-adapter
 
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [b2e1df0c3]
+- Updated dependencies [4865d3b46]
+  - @chainlink/coinmarketcap-adapter@1.3.12
+  - @chainlink/ea-bootstrap@1.10.5
+
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/coinmarketcap-adapter@1.3.11
+
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/coinmarketcap-adapter@1.3.10
+
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/coinmarketcap-adapter@1.3.9
+
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/coinmarketcap-adapter@1.3.8
+
+## 1.0.18
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/coinmarketcap-adapter@1.3.7
+
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [da1207541]
+- Updated dependencies [ccc5a3af3]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/coinmarketcap-adapter@1.3.6
+
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/coinmarketcap-adapter@1.3.5
+
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+- Updated dependencies [1b54ee913]
+  - @chainlink/coinmarketcap-adapter@1.3.4
+  - @chainlink/ea-bootstrap@1.8.0
+
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/coinmarketcap-adapter@1.3.3
+
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/coinmarketcap-adapter@1.3.2
+
+## 1.0.12
+
+### Patch Changes
+
+- Updated dependencies [5c57c317]
+  - @chainlink/coinmarketcap-adapter@1.3.1
+
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [6b7f9d56]
+- Updated dependencies [1d55bbde]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/coinmarketcap-adapter@1.3.0
+
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/coinmarketcap-adapter@1.2.10
+
 ## 1.0.9
 
 ### Patch Changes

@@ -19,15 +19,10 @@ const inputParams = {
   payment: ['payment'],
 }
 
-// FIXME: Ideally, these would be the same.
-const LINK_UNIT = BigNumber.from(10).pow(BigNumber.from(18))
-const LINK_AGORIC_UNIT = BigNumber.from(10).pow(BigNumber.from(6))
-
 // Convert the payment in $LINK into Agoric's pegged $LINK token.
-export const getRequiredFee = (value: string | number): number => {
+export const getRequiredFee = (value: string | number): string => {
   const paymentCL = BigNumber.from(value)
-  const paymentAgoricLink = paymentCL.mul(LINK_AGORIC_UNIT).div(LINK_UNIT)
-  return paymentAgoricLink.toNumber()
+  return paymentCL.toString()
 }
 
 export interface PostReply {
@@ -38,9 +33,6 @@ export interface PostReply {
 
 const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) {
-    throw validator.error
-  }
 
   Requester.logConfig(config)
 
@@ -80,8 +72,8 @@ const tryExecuteLogError =
     try {
       return await execute(request, context, config)
     } catch (e) {
-      const queryId: any = request.data?.request_id
-      const rest: any = { queryId }
+      const queryId = request.data?.request_id
+      const rest = { queryId }
 
       await Requester.request(
         {

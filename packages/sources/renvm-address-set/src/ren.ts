@@ -36,11 +36,11 @@ export const resolveInToken = (sendToken: string): RenContract => {
   }
 }
 
-export const isRenContract = (maybeRenContract: any): maybeRenContract is RenContract =>
-  RenContracts.indexOf(maybeRenContract) !== -1
+export const isRenContract = (maybeRenContract: string): boolean =>
+  RenContracts.indexOf(maybeRenContract as RenContract) !== -1
 
-export const isRenNetwork = (maybeRenNetwork: any): maybeRenNetwork is RenNetwork =>
-  RenNetworks.indexOf(maybeRenNetwork) !== -1
+export const isRenNetwork = (maybeRenNetwork: string): boolean =>
+  RenNetworks.indexOf(maybeRenNetwork as RenNetwork) !== -1
 
 export enum Asset {
   BTC = 'BTC',
@@ -49,7 +49,8 @@ export enum Asset {
   BCH = 'BCH',
 }
 export const Assets = [Asset.BTC, Asset.ZEC, Asset.ETH, Asset.BCH]
-export const isAsset = (maybeAsset: any): maybeAsset is Asset => Assets.indexOf(maybeAsset) !== -1 // tslint:disable-line: no-any
+export const isAsset = (maybeAsset: string): maybeAsset is Asset =>
+  Assets.indexOf(maybeAsset as Asset) !== -1 // tslint:disable-line: no-any
 
 interface RenContractDetails {
   asset: Asset
@@ -105,5 +106,21 @@ export const getTokenName = (
       throw new Error(`Unexpected token ${tokenOrContract}`)
     default:
       return getTokenName(parseRenContract(tokenOrContract).asset)
+  }
+}
+
+export const getTokenNetwork = (token: Asset | ('BTC' | 'ZEC' | 'BCH')): string => {
+  switch (token) {
+    case Asset.BTC:
+    case 'BTC':
+      return 'bitcoin'
+    case Asset.ZEC:
+    case 'ZEC':
+      return 'zcash'
+    case Asset.BCH:
+    case 'BCH':
+      return 'bitcoincash'
+    default:
+      throw new Error(`Unexpected token ${token}`)
   }
 }

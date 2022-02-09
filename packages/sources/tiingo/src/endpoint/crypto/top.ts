@@ -28,6 +28,9 @@ export interface ResponseSchema {
   }[]
 }
 
+export const description =
+  'The top of order book endpoint from https://api.tiingo.com/documentation/crypto'
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
@@ -39,7 +42,6 @@ const customError = (data: ResponseSchema[]) => !data.length
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName) as string
@@ -57,13 +59,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data as ResponseSchema[], [
-    0,
-    'topOfBookData',
-    0,
-    resultPath,
-  ])
+  const response = await Requester.request<ResponseSchema[]>(options, customError)
+  const result = Requester.validateResultNumber(response.data, [0, 'topOfBookData', 0, resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

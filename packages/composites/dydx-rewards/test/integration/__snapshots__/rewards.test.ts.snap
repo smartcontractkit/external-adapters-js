@@ -3,7 +3,94 @@
 exports[`calculating rewards should calculate the correct rewards for epoch 0 1`] = `
 Object {
   "cid": "bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum",
+  "jsonTree": Array [
+    Array [
+      "0x333333330123456789abCdEf0123456789aBcdEf",
+      "9529860000000000000000",
+    ],
+    Array [
+      "0x222222220123456789abcDEf0123456789abcdeF",
+      "3686430000000000000000",
+    ],
+    Array [
+      "0xE4dDb4233513498b5aa79B98bEA473b01b101a67",
+      "229667565920000000000",
+    ],
+    Array [
+      "0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54",
+      "74985661537434080000000000",
+    ],
+    Array [
+      "0x444444440123456789abcdEf0123456789aBcDef",
+      "250082315035669847065200",
+    ],
+    Array [
+      "0x777777770123456789Abcdef0123456789AbCdEf",
+      "414246600000000000000000",
+    ],
+    Array [
+      "0x555555550123456789aBCdEf0123456789ABcDEf",
+      "62520578758917461766300",
+    ],
+    Array [
+      "0x888888880123456789abCdEF0123456789ABcdEF",
+      "276164400000000000000000",
+    ],
+    Array [
+      "0x111111110123456789abcdef0123456789AbCDEf",
+      "3836197755000000000000000",
+    ],
+    Array [
+      "0x666666660123456789aBCdeF0123456789AbCDef",
+      "147671106205412691168500",
+    ],
+    Array [
+      "0x999999990123456789aBCdEf0123456789AbcdeF",
+      "310750000000000000000",
+    ],
+  ],
   "root": "41f9ff21e8f74f7f0e8f0ef5dec38b18075b8849a08a6a281f66a181bc409e34",
+}
+`;
+
+exports[`calculating rewards should calculate the correct rewards for epoch 5 1`] = `
+Object {
+  "cid": "bafkreibh6gurutmhxgopygg5oi446rguehhgwgv4xx2jusw3hlzku7qzzm",
+  "jsonTree": Array [
+    Array [
+      "0x6717AcFA83BFc9855e3F68208f82E16Ad5948816",
+      "43870708845682237868613",
+    ],
+    Array [
+      "0x91A1725A6430B2286833C6Da3628291E61f94a2D",
+      "975109785495948906202833",
+    ],
+    Array [
+      "0x00000092efe40470C25228372310142836f1eDa6",
+      "65816286413787259017128",
+    ],
+    Array [
+      "0x59B2cd4B349DECfcD86Ab4C66302498ce28aE968",
+      "1208196296782617292369",
+    ],
+    Array [
+      "0xE209B1E7e1f655efa2D95C4eC5c50ECD6198a3Cd",
+      "2814133796373276137077881",
+    ],
+    Array [
+      "0xa23842C61ca1e15bB148Ab13840768b87f04E642",
+      "1293512988310101558301",
+    ],
+    Array [
+      "0x16BEC2D9A010e7D8b2D576d17893C52Ddbfe4C06",
+      "1063251050155437164729648",
+    ],
+    Array [
+      "0x38d981c3c42B2ec8E9572F560552407D0F1279Fb",
+      "21617663430775576253223",
+    ],
+  ],
+  "root": "8a237189c63dfcc8d65740eb8928539ea635ec913aef47588a472c89cb4f33fb",
 }
 `;
 
@@ -14,6 +101,7 @@ Object {
   },
   "debug": undefined,
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 1,
   "statusCode": 200,
 }

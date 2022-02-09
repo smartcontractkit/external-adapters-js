@@ -18,10 +18,26 @@ export interface ResponseSchema {
   }
 }
 
+export const description = `The optimism global endpoint reads the latest proof from an Optimism as the L2 chain and returns the proof to the caller.
+Currently this endpoint has the same functionality as the server in this example https://github.com/smartcontractkit/ccip-read/tree/6d4deb917781f3becda39b9ebad6f21e037af1a6/examples/optimism-gateway.`
+
 export const inputParameters: InputParameters = {
-  to: true,
-  data: true,
-  abi: true,
+  to: {
+    required: true,
+    description: 'The **L1** address of the original called L1 contract.',
+    type: 'string',
+  },
+  data: {
+    required: true,
+    description: 'The hex encoded function call of the original function called in the L1 contract',
+    type: 'string',
+  },
+  abi: {
+    required: true,
+    description:
+      'The ABI of the originally called L1 contract. In this example it is the OptimismResolverStub contract.',
+    type: 'array',
+  },
 }
 
 const CALL_TYPE_FN = 'addr'
@@ -31,7 +47,6 @@ const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   if (!config.addressManagerContract) throw Error('AddressManagerContract address not set')
   if (!config.l2RpcUrl) throw Error('L2 RPC URL not set')
@@ -54,14 +69,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const lastElemIdx = elements.length - 1
   const treeProof = getMerkleTreeProof(elements, lastElemIdx)
   const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl)
-  const l2Proof: any = await getProofFromL2Resolver(
-    node,
-    address,
-    optimismGatewayStubABI,
-    stateBatchHeader,
-    l1Provider,
-    l2Provider,
-  )
+  const l2Proof: { accountProof: string; storageProof: Record<string, unknown>[] } =
+    await getProofFromL2Resolver(
+      node,
+      address,
+      optimismGatewayStubABI,
+      stateBatchHeader,
+      l1Provider,
+      l2Provider,
+    )
 
   const ret = [
     node,
@@ -75,7 +91,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       stateTrieWitness: RLP.encode(l2Proof.accountProof),
       storageTrieWitness: RLP.encode(l2Proof.storageProof[0].proof),
     },
-  ]
+  ] as const
   const result: HandlerResponse = {
     returnType: toInterface(optimismGatewayStubABI).getFunction(RETURN_TYPE_FN),
     response: ret,
@@ -159,7 +175,7 @@ const getElementsToConstructProof = (stateBatchHeader: StateBatchHeader): string
   return elements
 }
 
-const getMerkleTreeProof = (elements: string[], index: number): any[] => {
+const getMerkleTreeProof = (elements: string[], index: number): Buffer[] => {
   const hash = (el: Buffer | string): Buffer => {
     return Buffer.from(ethers.utils.keccak256(el).slice(2), 'hex')
   }

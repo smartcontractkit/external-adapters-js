@@ -56,24 +56,52 @@ export interface ResponseSchema {
   }[]
 }
 
-const customError = (data: any) => data.Response === 'Error'
+export const description = `This endpoint fetches the results from an election and reports back a winner. This adapter adds several restrictions on top of AP Election's API.
+- Adapter only accepts a single state postal code
+- Adapter will only return races where a winner has already been declared.`
 
 export const inputParameters: InputParameters = {
-  date: true,
-  statePostal: true,
-  officeID: false,
-  raceType: false,
-  raceID: false,
-  resultsType: false,
+  date: {
+    description: 'The date of the election formatted as YYYY-MM-DD',
+    required: true,
+    type: 'string',
+  },
+  statePostal: {
+    description:
+      "The state's two letter code e.g CA. `US` to get the results of a nationwide election",
+    required: true,
+    type: 'string',
+  },
+  officeID: {
+    description:
+      'The office ID the election is for. List can be found here https://aphelp.ap.org/Content/SupportDocs/Elections/API/#t=Office_ID_Examples.htm',
+    type: 'string',
+  },
+  raceID: {
+    description: 'The race ID the election is for',
+    type: 'string',
+  },
+  raceType: {
+    description:
+      'The race type the election is for. The race type can be `D(Dem Primary)`, `R(GOP Primary)`, `G(General)`, `E(Dem Caucus)`, `S(GOP Caucus)`, `X(Open Primary or special use cases)`',
+    options: ['D', 'R', 'G', 'E', 'S', 'X'],
+    default: 'D',
+    type: 'string',
+  },
+  resultsType: {
+    type: 'string',
+    default: 'l',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   validateRequest(request)
 
   const jobRunID = validator.validated.id
-  const { raceType, date, resultsType, ...rest } = validator.validated.data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { raceType, date, resultsType, endpoint, ...rest } = validator.validated.data
   const url = `/elections/${date}`
 
   const params = {
@@ -82,13 +110,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     raceTypeID: raceType,
     format: 'json',
     winner: 'X',
-    resultsType: resultsType || 'l',
+    resultsType: resultsType,
     apikey: config.apiKey,
   }
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  const response = await Requester.request<ResponseSchema>(options)
   validateResponse(response.data)
 
   const race = response.data.races[0]

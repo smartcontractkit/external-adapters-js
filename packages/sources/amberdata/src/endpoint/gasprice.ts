@@ -3,18 +3,45 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['gasprice']
 
-const customError = (data: any) => {
+const customError = (data: ResponseSchema) => {
   return Object.keys(data.payload).length < 1
 }
 
 export const inputParameters: InputParameters = {
-  speed: false,
-  blockchain: false,
+  speed: {
+    required: false,
+    description: 'The desired speed',
+    type: 'string',
+    options: ['safeLow', 'average', 'fast', 'fastest'],
+    default: 'average',
+  },
+  blockchain: {
+    required: false,
+    description: 'The blockchain id to get gas prices from',
+    type: 'string',
+    default: 'ethereum-mainnet',
+  },
+}
+
+export interface ResponseSchema {
+  status: number
+  title: string
+  description: string
+  payload: {
+    average: GasInfo
+    fast: GasInfo
+    fastest: GasInfo
+    safeLow: GasInfo
+  }
+}
+export interface GasInfo {
+  gasPrice: number
+  numBlocks: number
+  wait: number
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'average'
@@ -30,12 +57,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'payload',
-    speed,
-    'gasPrice',
-  ])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['payload', speed, 'gasPrice'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

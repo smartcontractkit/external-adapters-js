@@ -1,20 +1,33 @@
 import { InputParameters } from '@chainlink/types'
-import { Validator } from '../../src/lib/external-adapter/validator'
+import { Validator } from '../../src/lib/modules/validator'
 
 describe('Validator', () => {
-  describe('without required params', () => {
-    const params = {
+  describe('with no input parameter configuration', () => {
+    it('does not error if no input and no input parameters', () => {
+      const validator = new Validator()
+      expect(validator.validated.id).toEqual('1')
+      expect(validator.error).not.toBeDefined()
+    })
+
+    it('does not error when input is empty', () => {
+      const validator = new Validator({})
+      expect(validator.validated.id).toEqual('1')
+      expect(validator.error).not.toBeDefined()
+    })
+
+    it('does not error if input data is excluded', () => {
+      const input = { id: 'abc123' }
+
+      const validator = new Validator(input)
+      expect(validator.validated.id).toEqual(input.id)
+      expect(validator.error).not.toBeDefined()
+    })
+  })
+
+  describe('with optional params', () => {
+    const inputParameters: InputParameters = {
       endpoint: false,
     }
-
-    it('errors if no input data is supplied', () => {
-      const validator = new Validator({}, params, {}, false)
-      expect(validator.validated.id).toEqual('1')
-      expect(validator.validated.data).toEqual({})
-      expect(validator.error).toBeTruthy()
-      expect(validator?.error?.statusCode).toEqual(400)
-      expect(validator?.error?.status).toEqual('errored')
-    })
 
     it('does not error if optional params are included', () => {
       const input = {
@@ -24,25 +37,9 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, params)
+      const validator = new Validator(input, inputParameters)
       expect(validator.validated.id).toEqual(input.id)
       expect(validator.validated.data.endpoint).toEqual(input.data.endpoint)
-      expect(validator.error).not.toBeDefined()
-    })
-
-    it('does not error if input data is excluded', () => {
-      const input = {
-        id: 'abc123',
-      }
-
-      const validator = new Validator(input)
-      expect(validator.validated.id).toEqual(input.id)
-      expect(validator.error).not.toBeDefined()
-    })
-
-    it('does not error if input data and params are excluded', () => {
-      const validator = new Validator()
-      expect(validator.validated.id).toEqual('1')
       expect(validator.error).not.toBeDefined()
     })
   })
@@ -54,7 +51,7 @@ describe('Validator', () => {
     }
 
     it('errors if no input is provided', () => {
-      const validator = new Validator({}, params, {}, false)
+      const validator = new Validator({}, params, {}, { shouldThrowError: false })
       expect(validator.validated.id).toEqual('1')
       expect(validator.validated.data).toEqual({})
       expect(validator.error).toBeTruthy()
@@ -69,7 +66,7 @@ describe('Validator', () => {
           endpoint: '',
         },
       }
-      const validator = new Validator(input, params)
+      const validator = new Validator(input, params, {}, { shouldThrowError: false })
       expect(validator.validated.id).toEqual('1')
       expect(validator.validated.data).toEqual({})
       expect(validator.error).toBeTruthy()
@@ -85,9 +82,15 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, params, {}, false)
+      const validator = new Validator(input, params, {}, { shouldThrowError: false })
       expect(validator.validated.id).toEqual(input.id)
-      expect(validator.validated.data).toEqual({})
+      expect(validator.validated.data).toEqual({
+        endpoint: 'test',
+        includes: undefined,
+        overrides: undefined,
+        resultPath: undefined,
+        tokenOverrides: undefined,
+      })
       expect(validator?.error).toBeTruthy()
       expect(validator?.error?.statusCode).toEqual(400)
       expect(validator?.error?.status).toEqual('errored')
@@ -101,7 +104,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, params, {}, false)
+      const validator = new Validator(input, params, {}, { shouldThrowError: false })
       expect(validator.validated.id).toEqual(input.id)
       expect(validator.error).toBeTruthy()
       expect(validator?.error?.statusCode).toEqual(400)
@@ -256,7 +259,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual(
         'Required parameter key2 must be non-null and non-empty',
       )
@@ -272,7 +275,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual('page dependency limit not supplied')
     })
 
@@ -287,7 +290,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual('page dependency limit not supplied')
     })
 
@@ -300,7 +303,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual('key2 parameter must be of type string')
     })
 
@@ -314,7 +317,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual('verbose parameter must be of type boolean')
     })
 
@@ -328,7 +331,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual(
         'indexes parameter must be a non-empty array',
       )
@@ -344,7 +347,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual(
         'valueObject parameter must be an object with at least one property',
       )
@@ -360,7 +363,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual('limit parameter must be of type number')
     })
 
@@ -374,7 +377,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual('bigInt parameter must be of type bigint')
     })
 
@@ -388,7 +391,7 @@ describe('Validator', () => {
         },
       }
 
-      const validator = new Validator(input, inputConfig, {}, false)
+      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
       expect(validator.errored?.error?.message).toEqual(
         'bigInt parameter is not in the set of available options',
       )
@@ -442,7 +445,7 @@ describe('Validator', () => {
         },
       },
     }
-    const validator = new Validator(input, {}, {}, false)
+    const validator = new Validator(input, {}, {}, { shouldThrowError: false })
     expect(validator.error).toBeTruthy()
     expect(validator?.error?.statusCode).toEqual(400)
     expect(validator?.error?.status).toEqual('errored')

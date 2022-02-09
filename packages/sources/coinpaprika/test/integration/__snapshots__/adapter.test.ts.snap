@@ -6,6 +6,7 @@ Object {
     "result": 3949.2425813062,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 3949.2425813062,
   "statusCode": 200,
 }
@@ -17,6 +18,7 @@ Object {
     "result": 44.68,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 44.68,
   "statusCode": 200,
 }
@@ -28,6 +30,7 @@ Object {
     "result": 2559344984924,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 2559344984924,
   "statusCode": 200,
 }
@@ -39,6 +42,7 @@ Object {
     "result": 466143026900,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 466143026900,
   "statusCode": 200,
 }
@@ -50,7 +54,20 @@ Object {
     "result": 24136641726.138,
   },
   "jobRunID": "1",
+  "providerStatusCode": 200,
   "result": 24136641726.138,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute vwap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.949723,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.949723,
   "statusCode": 200,
 }
 `;

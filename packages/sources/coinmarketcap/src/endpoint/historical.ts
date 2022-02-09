@@ -3,16 +3,58 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['historical']
 
+export const description = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical'
+
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'sym', 'symbol'],
-  convert: ['quote', 'to', 'market', 'convert'],
-  start: false,
-  end: false,
-  count: false,
-  interval: false,
-  cid: false,
-  aux: false,
-  skipInvalid: false,
+  base: {
+    aliases: ['from', 'coin', 'sym', 'symbol'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  convert: {
+    aliases: ['quote', 'to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  start: {
+    description: 'Timestamp (Unix or ISO 8601) to start returning quotes for',
+    required: false,
+    type: 'string',
+  },
+  end: {
+    description: 'Timestamp (Unix or ISO 8601) to stop returning quotes for',
+    required: false,
+    type: 'string',
+  },
+  count: {
+    description: 'The number of interval periods to return results for',
+    required: false,
+    type: 'number',
+    default: 10,
+  },
+  interval: {
+    description: 'Interval of time to return data points for',
+    required: false,
+    type: 'string',
+    default: '5m',
+  },
+  cid: {
+    description: 'The CMC coin ID (optional to use in place of base)',
+    required: false,
+    type: 'string',
+  },
+  aux: {
+    description: 'Optionally specify a comma-separated list of supplemental data fields to return',
+    required: false,
+    type: 'string',
+  },
+  skipInvalid: {
+    description: '',
+    required: false,
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -46,7 +88,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base?.toUpperCase()

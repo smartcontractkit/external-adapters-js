@@ -6,14 +6,21 @@ import FundValueCalculatorABI from '../abis/FundValueCalculator.json'
 
 export const supportedEndpoints = ['calcNav']
 
+export const description = 'Endpoint to call the `calcNav` function on the contract.'
+
 export const inputParameters: InputParameters = {
-  calculatorContract: true,
-  vaultProxy: true,
+  calculatorContract: {
+    required: true,
+    type: 'string',
+  },
+  vaultProxy: {
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const calculatorContractAddress = validator.validated.data.calculatorContract

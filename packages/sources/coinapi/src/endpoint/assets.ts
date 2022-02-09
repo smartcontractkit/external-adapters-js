@@ -36,8 +36,11 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to convert to ',
+    required: true,
+  },
 }
 
 const handleBatchedRequest = (
@@ -73,7 +76,7 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
   const from = validator.validated.data.base

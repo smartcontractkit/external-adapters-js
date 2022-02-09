@@ -8,7 +8,14 @@ export const mockSuccessfulResponsesWithoutCommaSeparatedSources = () => {
     })
     .reply(
       200,
-      { jobRunID: '1', result: 4417.18, maxAge: 30000, statusCode: 200, data: { result: 4417.18 } },
+      {
+        jobRunID: '1',
+        providerStatusCode: 200,
+        result: 4417.18,
+        maxAge: 30000,
+        statusCode: 200,
+        data: { result: 4417.18 },
+      },
       [
         'X-Powered-By',
         'Express',
@@ -40,6 +47,7 @@ export const mockSuccessfulResponsesWithoutCommaSeparatedSources = () => {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         result: 4413.9509009216,
         maxAge: 30000,
         statusCode: 200,
@@ -76,7 +84,14 @@ export const mockSuccessfulResponsesWithCommaSeparatedSources = () => {
     })
     .reply(
       200,
-      { jobRunID: '1', result: 4417.18, maxAge: 30000, statusCode: 200, data: { result: 4417.18 } },
+      {
+        jobRunID: '1',
+        providerStatusCode: 200,
+        result: 4417.18,
+        maxAge: 30000,
+        statusCode: 200,
+        data: { result: 4417.18 },
+      },
       [
         'X-Powered-By',
         'Express',
@@ -108,6 +123,7 @@ export const mockSuccessfulResponsesWithCommaSeparatedSources = () => {
       200,
       {
         jobRunID: '1',
+        providerStatusCode: 200,
         result: 4413.9509009216,
         maxAge: 30000,
         statusCode: 200,
@@ -144,7 +160,14 @@ export const mockSuccessfulResponsesWithSingleSource = () => {
     })
     .reply(
       200,
-      { jobRunID: '1', result: 4417.18, maxAge: 30000, statusCode: 200, data: { result: 4417.18 } },
+      {
+        jobRunID: '1',
+        providerStatusCode: 200,
+        result: 4417.18,
+        maxAge: 30000,
+        statusCode: 200,
+        data: { result: 4417.18 },
+      },
       [
         'X-Powered-By',
         'Express',

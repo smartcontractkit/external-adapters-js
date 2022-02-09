@@ -4,7 +4,7 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price']
 
-const customError = (data: any) => {
+const customError = (data: ResponseSchema) => {
   return Object.keys(data.payload).length === 0
 }
 
@@ -18,25 +18,49 @@ const tokenOptions = (from: string, to: string) => ({
   params: {},
 })
 
+export const description = `Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  includes: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
+}
+
+export interface ResponseSchema {
+  status: number
+  title: string
+  description: string
+  payload: {
+    timestamp: number
+    pair: string
+    price: string
+    volume: string
+  }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
-  const jobRunID = validator.validated.id
 
+  const jobRunID = validator.validated.id
   const { url, params, inverse } = getOptions(validator)
   const reqConfig = { ...config.api, params, url }
 
-  const response = await Requester.request(reqConfig, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['payload', 'price'], {
+  const response = await Requester.request<ResponseSchema>(reqConfig, customError)
+  const result = Requester.validateResultNumber(response.data, ['payload', 'price'], {
     inverse,
   })
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
 const getOptions = (

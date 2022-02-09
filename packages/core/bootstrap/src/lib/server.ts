@@ -6,17 +6,17 @@ import rateLimit from 'express-rate-limit'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, storeSlice, withMiddleware } from '../index'
-import { defaultOptions } from './cache'
+import { defaultOptions } from './middleware/cache'
 import { loadTestPayload } from './config/test-payload-loader'
 import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
-import { logger } from './external-adapter'
+import { logger } from './modules'
 import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
-import { get as getRateLimitConfig } from './rate-limit/config'
+import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { toObjectWithNumbers } from './util'
-import { warmupShutdown } from './cache-warmer/actions'
+import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { AddressInfo } from 'net'
 
 const app = express()
@@ -150,9 +150,13 @@ function initExpressMiddleware(app: express.Express) {
     windowMs,
     max, // limit each IP's requests per windowMs
     keyGenerator: () => '*', // use one key for all incoming requests
-    handler: ((_, res) => {
-      httpRateLimit.inc()
-      res.status(429).send('Too many requests, please try again later.')
+    handler: ((req, res, next) => {
+      if (req.url === '/health') {
+        next()
+      } else {
+        httpRateLimit.inc()
+        res.status(429).send('Too many requests, please try again later.')
+      }
     }) as express.RequestHandler,
   })
   app.use(rateLimiter)
@@ -165,5 +169,5 @@ function initExpressMiddleware(app: express.Express) {
   })
   app.use(speedLimiter)
 
-  app.use(express.json())
+  app.use(express.json({ limit: '1mb' }))
 }

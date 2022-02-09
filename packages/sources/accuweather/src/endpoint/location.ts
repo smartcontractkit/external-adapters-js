@@ -21,9 +21,24 @@ export type LocationResultEncoded = [boolean, string]
 export const supportedEndpoints = ['location']
 
 export const inputParameters: InputParameters = {
-  lat: ['lat', 'latitude'],
-  lon: ['lon', 'long', 'longitude'],
-  encodeResult: false,
+  lat: {
+    aliases: ['latitude'],
+    description: 'The latitude (WGS84 standard). Must be `-90` to `90`.',
+    required: true,
+  },
+  lon: {
+    aliases: ['long', 'longitude'],
+    description: 'The longitude (WGS84 standard). Must be `-180` to `180`.',
+    required: true,
+  },
+  encodeResult: {
+    required: false,
+    description:
+      'When `true` the result is ABI encoded (as tuple). When `false` the result is a JSON.',
+    type: 'boolean',
+    options: [true, false],
+    default: true,
+  },
 }
 const url = `locations/v1/geoposition/search.json`
 
@@ -78,12 +93,11 @@ export const encodeLocationResult = (result: LocationResult): string => {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const latitude = validator.validated.data.lat
   const longitude = validator.validated.data.lon
-  const encodeResult = validator.validated.data.encodeResult ?? true
+  const encodeResult = validator.validated.data.encodeResult
 
   const coord = `${latitude},${longitude}`
   const params = {
@@ -129,6 +143,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       data: response.data,
       result,
     },
+    status: response.status,
   }
 
   return Requester.success(jobRunID, endpointResponse, config.verbose)

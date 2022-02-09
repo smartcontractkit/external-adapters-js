@@ -1,5 +1,92 @@
 # @chainlink/ea-bootstrap
 
+## 1.10.5
+
+### Patch Changes
+
+- 4865d3b46: Add JPEG'd adapter
+
+## 1.10.4
+
+### Patch Changes
+
+- 4d6b8a050: Satoshitango rate limit change
+
+## 1.10.3
+
+### Patch Changes
+
+- Revert: Allow indefinite subscriptions by leaving out unsubscribe handler
+
+## 1.10.2
+
+### Patch Changes
+
+- 452ba71f0: Allow indefinite subscriptions by leaving out unsubscribe handler
+
+## 1.10.1
+
+### Patch Changes
+
+- 4476ff385: Modify Coingecko RENFIL override
+
+## 1.10.0
+
+### Minor Changes
+
+- 99ed864d0: Added RENFIL -> FIL overrides for coingecko, coinmarketcap, nomics, tiingo, and set override ID for RENFIL on coinpaprika
+
+### Patch Changes
+
+- de5d083e8: added shouldThrowError option in Validator class which handles error throwing for bad input
+- de5d083e8: removed error log from validator.ts
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+
+## 1.9.1
+
+### Patch Changes
+
+- da1207541: Add fallback to local cache for WS
+- 1b6d4f1dd: Include 'endpoint' as a base input parameter
+
+## 1.9.0
+
+### Minor Changes
+
+- a74101705: Ignore health checks in rate limiter
+- 703b60579: added 'type' label for metrics for failed requests
+
+## 1.8.0
+
+### Minor Changes
+
+- 1b54ee913: Add internal properties to validator so it doesn't remove them
+
+## 1.7.1
+
+### Patch Changes
+
+- dfc4545b3: Btc_com rate limit
+
+## 1.7.0
+
+### Minor Changes
+
+- 85360aa9: remove source maps
+
+## 1.6.0
+
+### Minor Changes
+
+- f272a595: Implement cache fallback method
+- 1d55bbde: Change data provider error surfacing, return 200 and use new providerStatusCode field
+
+## 1.5.0
+
+### Minor Changes
+
+- 9b3cd511: limit number of times ws message handled
+
 ## 1.4.0
 
 ### Minor Changes

@@ -12,14 +12,13 @@ import { getCoinIds, getSymbolsToIds } from '../util'
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
-const customError = (data: any) => {
-  if (Object.keys(data).length === 0) return true
-  return false
+const customError = (data: ResponseSchema) => {
+  return Object.keys(data).length === 0
 }
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+
   const quote = validator.validated.data.quote
   if (Array.isArray(quote)) return ''
   return `${quote.toLowerCase()}${path}`
@@ -34,18 +33,35 @@ export const endpointResultPaths: {
   volume: buildResultPath('_24h_vol'),
 }
 
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  coinid: false,
-  resultPath: false,
-  endpoint: false,
+  coinid: {
+    description:
+      'The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy base will need to be supplied)',
+    required: false,
+  },
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol or array of symbols of the currency to query',
+    required: true,
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+  },
+}
+
+export interface ResponseSchema {
+  [key: string]: Record<string, number>
 }
 
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse,
+  response: AxiosResponse<ResponseSchema>,
   validator: Validator,
   endpoint: string,
   idToSymbol: Record<string, string>,
@@ -74,13 +90,16 @@ const handleBatchedRequest = (
       } else Logger.debug('WARNING: Symbol not found ', base)
     }
   }
-  response.data.results = payload
-  return Requester.success(jobRunID, response, true, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const endpoint = validator.validated.data.endpoint
   const jobRunID = validator.validated.id
@@ -113,14 +132,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     params,
   }
 
-  const response = await Requester.request(options, customError)
+  const response = await Requester.request<ResponseSchema>(options, customError)
 
   if (Array.isArray(base) || Array.isArray(quote))
     return handleBatchedRequest(jobRunID, request, response, validator, endpoint, idToSymbol)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    ids.toLowerCase(),
-    resultPath,
-  ])
+  const result = Requester.validateResultNumber(response.data, [ids.toLowerCase(), resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose, batchablePropertyPath)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result),
+    config.verbose,
+    batchablePropertyPath,
+  )
 }

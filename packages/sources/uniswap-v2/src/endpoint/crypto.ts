@@ -23,19 +23,53 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  from: ['base', 'from', 'coin'],
-  fromAddress: false,
-  fromDecimals: false,
-  to: ['quote', 'to', 'market'],
-  toAddress: false,
-  toDecimals: false,
-  amount: false,
-  resultPath: false,
+  from: {
+    aliases: ['base', 'coin'],
+    required: true,
+    description: 'The symbol or address of the currency to query',
+    type: 'string',
+  },
+  fromAddress: {
+    required: false,
+    description:
+      'Optional param to pre-define the address to convert from. If set, it takes precedence over `from` ',
+    type: 'string',
+  },
+  fromDecimals: {
+    required: false,
+    description:
+      'Optional param to pre-define the number of decimals in the `from` token. Setting this will make the query run faster',
+    type: 'number',
+  },
+  to: {
+    aliases: ['quote', 'market'],
+    required: true,
+    description: 'The symbol or address of the currency to convert to',
+    type: 'string',
+  },
+  toAddress: {
+    required: false,
+    description:
+      'Optional param to pre-define the address to convert to. If set, it takes precedence over `to`',
+    type: 'string',
+  },
+  toDecimals: {
+    required: false,
+    description:
+      'Optional param to pre-define the number of decimals in the `to` token. Setting this will make the query run faster',
+    type: 'number',
+  },
+  amount: {
+    required: false,
+    description:
+      'The exchange amount to get the rate of. The amount is in full units, e.g. 1 USDC, 1 ETH',
+    default: 1,
+    type: 'number',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { address: from, decimals: fromDecimals } = await getTokenDetails(validator, 'from', config)

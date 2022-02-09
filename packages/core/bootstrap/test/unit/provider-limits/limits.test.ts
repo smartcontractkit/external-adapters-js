@@ -1,6 +1,6 @@
-import * as limits from '../../../src/lib/provider-limits'
+import * as limits from '../../../src/lib/config/provider-limits'
 
-const limitsJSONPath = '../../../src/lib/provider-limits/limits.json'
+const limitsJSONPath = '../../../src/lib/config/provider-limits/limits.json'
 
 jest.mock(
   '../../../src/lib/provider-limits/limits.json',
@@ -31,15 +31,15 @@ jest.mock(
 describe('Provider Limits', () => {
   describe('Limits API', () => {
     it('gets the correct rate limits', () => {
-      const limit = limits.getRateLimit('amberdata', 'starter')
-      expect(limit.minute).toBe(10 / 60)
-      expect(limit.second).toBe((10 / 60 / 60) * 2)
+      const limit = limits.getRateLimit('amberdata', 'free')
+      expect(limit.minute).toBe(83.33 / 60)
+      expect(limit.second).toBe(1)
     })
 
     it('rate limit defaults to lowest tier if no tier match', () => {
       const limit = limits.getRateLimit('amberdata', 'non-existant')
-      expect(limit.minute).toBe(10 / 60)
-      expect(limit.second).toBe((10 / 60 / 60) * 2)
+      expect(limit.minute).toBe(83.33 / 60)
+      expect(limit.second).toBe(1)
     })
 
     it('rate limit throws if no provider match', () => {
@@ -49,15 +49,15 @@ describe('Provider Limits', () => {
     })
 
     it('gets the correct ws limits', () => {
-      const limit = limits.getWSLimits('amberdata', 'starter')
-      expect(limit.connections).toBe(10)
-      expect(limit.subscriptions).toBe(20)
+      const limit = limits.getWSLimits('amberdata', 'free')
+      expect(limit.connections).toBe(1)
+      expect(limit.subscriptions).toBe(10)
     })
 
-    it('WS limit throws if no tier match', () => {
+    it('WS defaults to lowest tier if no tier match', () => {
       const limit = limits.getWSLimits('amberdata', 'non-existant')
-      expect(limit.connections).toBe(10)
-      expect(limit.subscriptions).toBe(20)
+      expect(limit.connections).toBe(1)
+      expect(limit.subscriptions).toBe(10)
     })
 
     it('WS limit throws if no provider match', () => {

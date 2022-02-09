@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.21",
+  "version": "1.0.45",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/node": "14.17.34",
+    "@types/node": "16.11.19",
     "typescript": "4.3.5"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "@chainlink/ada-balance-adapter": "workspace:*",
     "@chainlink/alphachain-adapter": "workspace:*",
     "@chainlink/alphavantage-adapter": "workspace:*",
+    "@chainlink/alpine-adapter": "workspace:*",
     "@chainlink/amberdata-adapter": "workspace:*",
     "@chainlink/anyblock-adapter": "workspace:*",
     "@chainlink/ap-election-adapter": "workspace:*",
@@ -96,6 +97,7 @@
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",
+    "@chainlink/jpegd-adapter": "workspace:*",
     "@chainlink/json-rpc-adapter": "workspace:*",
     "@chainlink/kaiko-adapter": "workspace:*",
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*",
@@ -106,12 +108,12 @@
     "@chainlink/marketstack-adapter": "workspace:*",
     "@chainlink/messari-adapter": "workspace:*",
     "@chainlink/metalsapi-adapter": "workspace:*",
+    "@chainlink/mock-ea-adapter": "workspace:*",
     "@chainlink/mycryptoapi-adapter": "workspace:*",
     "@chainlink/ncfx-adapter": "workspace:*",
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
-    "@chainlink/onchain-adapter": "workspace:*",
     "@chainlink/onchain-gas-adapter": "workspace:*",
     "@chainlink/openexchangerates-adapter": "workspace:*",
     "@chainlink/orchid-bandwidth-adapter": "workspace:*",

@@ -1,5 +1,132 @@
 # @chainlink/augur-adapter
 
+## 1.0.27
+
+### Patch Changes
+
+- Updated dependencies [b2e1df0c3]
+- Updated dependencies [4865d3b46]
+  - @chainlink/therundown-adapter@1.2.11
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/sportsdataio-adapter@1.1.25
+
+## 1.0.26
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/sportsdataio-adapter@1.1.24
+  - @chainlink/therundown-adapter@1.2.10
+
+## 1.0.25
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/sportsdataio-adapter@1.1.23
+  - @chainlink/therundown-adapter@1.2.9
+
+## 1.0.24
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/sportsdataio-adapter@1.1.22
+  - @chainlink/therundown-adapter@1.2.8
+
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/sportsdataio-adapter@1.1.21
+  - @chainlink/therundown-adapter@1.2.7
+
+## 1.0.22
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/sportsdataio-adapter@1.1.20
+  - @chainlink/therundown-adapter@1.2.6
+
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies [e953e0cd4]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/therundown-adapter@1.2.5
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/sportsdataio-adapter@1.1.19
+
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [a74101705]
+- Updated dependencies [703b60579]
+  - @chainlink/ea-bootstrap@1.9.0
+  - @chainlink/sportsdataio-adapter@1.1.18
+  - @chainlink/therundown-adapter@1.2.4
+
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [1b54ee913]
+  - @chainlink/ea-bootstrap@1.8.0
+  - @chainlink/sportsdataio-adapter@1.1.17
+  - @chainlink/therundown-adapter@1.2.3
+
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies [dfc4545b3]
+  - @chainlink/ea-bootstrap@1.7.1
+  - @chainlink/sportsdataio-adapter@1.1.16
+  - @chainlink/therundown-adapter@1.2.2
+
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [85360aa9]
+  - @chainlink/ea-bootstrap@1.7.0
+  - @chainlink/sportsdataio-adapter@1.1.15
+  - @chainlink/therundown-adapter@1.2.1
+
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [f272a595]
+- Updated dependencies [1d55bbde]
+- Updated dependencies [ccf9d4fa]
+  - @chainlink/ea-bootstrap@1.6.0
+  - @chainlink/therundown-adapter@1.2.0
+  - @chainlink/sportsdataio-adapter@1.1.14
+
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies [9b3cd511]
+  - @chainlink/ea-bootstrap@1.5.0
+  - @chainlink/sportsdataio-adapter@1.1.13
+  - @chainlink/therundown-adapter@1.1.8
+
 ## 1.0.14
 
 ### Patch Changes

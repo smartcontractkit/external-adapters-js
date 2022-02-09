@@ -23,6 +23,7 @@ export async function getJobMatrix(): Promise<JobMatrix> {
   const fileName = 'testFile.js'
   process.argv = ['', '', fileName]
   loadChangedFileList(fileName)
+
   const dockerfile = await generateFileJSON({ prefix, branch, useLatest }, { context: '.' })
   const adapter = Object.entries(dockerfile.services).map(([k, v]) => {
     return {

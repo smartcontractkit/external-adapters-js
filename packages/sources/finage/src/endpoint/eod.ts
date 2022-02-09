@@ -5,8 +5,14 @@ import { NAME } from '../config'
 export const supportedEndpoints = ['eod']
 export const batchablePropertyPath = [{ name: 'base' }]
 
-export const inputParams: InputParameters = {
-  base: ['base', 'from', 'symbol'],
+export const description = 'https://finage.co.uk/docs/api/stock-market-previous-close'
+
+export const inputParameters: InputParameters = {
+  base: {
+    required: true,
+    aliases: ['from', 'symbol'],
+    description: 'The symbol of the currency to query',
+  },
 }
 
 export interface ResponseSchema {
@@ -19,8 +25,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base

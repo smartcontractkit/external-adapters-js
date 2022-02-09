@@ -15,7 +15,7 @@ export interface ResponseSchema {
   }
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: Record<string, unknown>) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   // See InputParameters type for more config options
@@ -27,12 +27,10 @@ export const inputParameters: InputParameters = {
     aliases: ['to', 'market'],
     required: true,
   },
-  resultPath: {},
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)

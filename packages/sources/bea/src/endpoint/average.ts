@@ -63,21 +63,29 @@ export interface ResponseSchema {
   result: Decimal
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: { BEAAPI: { Results: { Error: Record<string, unknown> } } }) =>
+  Object.keys(data?.BEAAPI?.Results?.Error || {}).length > 0
 
 export const inputParameters: InputParameters = {
-  series: false,
-  last: false,
+  series: {
+    description: 'The series code to query (`DGDSRG`, `DPCERG`, etc.)',
+    type: 'string',
+    default: 'DPCERG',
+  },
+  last: {
+    description: 'The last N months to query',
+    type: 'number',
+    default: 3,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const year = new Date().getFullYear()
-  const series = validator.validated.data.series || 'DPCERG'
-  const last = validator.validated.data.last || 3
+  const series = validator.validated.data.series
+  const last = validator.validated.data.last
   const url = `/data`
 
   const defaultParams = {

@@ -8,7 +8,6 @@ export const inputParameters: InputParameters = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
 
@@ -18,8 +17,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url: 'q/getblockcount',
   }
 
-  const response = await Requester.request(reqConfig)
-  response.data = { result: response.data }
+  const response = await Requester.request<number>(reqConfig)
+  const result = Requester.validateResultNumber({ result: response.data }, ['result'])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

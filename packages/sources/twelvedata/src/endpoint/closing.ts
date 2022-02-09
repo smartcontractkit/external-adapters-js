@@ -4,15 +4,30 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['closing', 'eod']
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: { status: string }) => data.status === 'error'
+
+export const description =
+  'This `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'market', 'symbol'],
+  base: {
+    aliases: ['from', 'coin', 'market', 'symbol'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+}
+
+interface ResponseSchema {
+  symbol: string
+  exchange: string
+  currency: string
+  datetime: string
+  close: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
@@ -29,8 +44,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data, ['close'])
+  const response = await Requester.request<ResponseSchema>(options, customError)
 
-  return Requester.success(jobRunID, response, config.verbose)
+  const result = Requester.validateResultNumber(response.data, ['close'])
+
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

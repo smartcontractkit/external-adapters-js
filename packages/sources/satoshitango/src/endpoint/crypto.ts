@@ -8,15 +8,43 @@ export const endpointResultPaths = {
   ticker: 'bid',
 }
 
+export const description =
+  '**NOTE: the `ticker` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
+}
+
+export interface ResponseSchema {
+  data: {
+    ticker: {
+      [key: string]: {
+        date: string
+        timestamp: number
+        bid: number
+        ask: number
+        high: number
+        low: number
+        volume: number
+      }
+    }
+    code: 'success'
+  }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
@@ -29,13 +57,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
-  response.data.result = Requester.validateResultNumber(response.data, [
-    'data',
-    'ticker',
-    base,
-    resultPath,
-  ])
+  const response = await Requester.request<ResponseSchema>(options)
+  const result = Requester.validateResultNumber(response.data, ['data', 'ticker', base, resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

@@ -1,17 +1,18 @@
 import * as IPFS_Adapter from '@chainlink/ipfs-adapter'
 import {
   calcMarketMakerRewards,
-  calcRetroactiveRewards,
   calcTraderRewards,
   constructJsonTree,
   constructMerkleTree,
 } from '../../src/method/poke'
 import * as bn from 'bignumber.js'
 import rewardsTestData1 from '../mock-data/rewards-test-data-1.json'
+import rewardsTestData2 from '../mock-data/rewards-test-data-2.json'
 import { AddressRewards, storeJsonTree } from '../../src/ipfs-data'
 import nock from 'nock'
-import { mockIpfsRetroactiveRewardsData, mockEthNode } from './fixtures'
+import { mockIpfsRetroactiveRewardsData, mockEthNode, mockIpfsResponseSuccess } from './fixtures'
 import { makeExecute } from '../../src'
+import { calcRetroactiveRewards } from '../../src/method/formulas/initial'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -66,6 +67,36 @@ describe('calculating rewards', () => {
     const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree, {})
 
     expect({
+      jsonTree,
+      cid: newIpfsCid,
+      root: merkleTree.getRoot().toString('hex'),
+    }).toMatchSnapshot()
+  })
+
+  it('should calculate the correct rewards for epoch 5', async () => {
+    mockIpfsResponseSuccess()
+
+    const addressRewards: AddressRewards = {}
+    calcTraderRewards(
+      rewardsTestData2,
+      addressRewards,
+      new bn.BigNumber(3_835_616).shiftedBy(18),
+      0.67,
+      0.28,
+      0.05,
+    )
+    calcMarketMakerRewards(
+      rewardsTestData2,
+      addressRewards,
+      new bn.BigNumber(1_150_685).shiftedBy(18),
+    )
+
+    const merkleTree = constructMerkleTree(addressRewards)
+    const jsonTree = constructJsonTree(addressRewards)
+    const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree, {})
+
+    expect({
+      jsonTree,
       cid: newIpfsCid,
       root: merkleTree.getRoot().toString('hex'),
     }).toMatchSnapshot()

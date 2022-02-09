@@ -20,6 +20,12 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+interface Message {
+  p: string
+  a: string
+  b: string
+  s: string
+}
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (symbols?: string, subscribe = true) => {
     if (!symbols) return
@@ -29,7 +35,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getStockSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.stock.inputParams, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.stock.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     return validator.validated.data.base.toUpperCase()
   }
@@ -40,7 +51,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     endpoints.crypto.supportedEndpoints.includes(input.data.endpoint)
 
   const getCryptoSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.crypto.inputParams, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.crypto.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
     const to = validator.validated.data.quote.toUpperCase()
@@ -48,7 +64,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   }
 
   const getForexSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.forex.inputParams, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.forex.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
     const to = validator.validated.data.quote.toUpperCase()
@@ -94,13 +115,18 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       shouldNotServeInputUsingWS: (input) => !isForex(input) && !isStock(input) && !isCrypto(input),
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
-      subsFromMessage: (message) => {
+      subsFromMessage: (message: Message) => {
         if (message.s) return getSubscription(message.s.toUpperCase())
         return undefined
       },
-      isError: (message: any) => message['status_code'] && message['status_code'] !== 200,
-      filter: (message: any) => !!message.p || (!!message.a && !!message.b),
-      toResponse: (message: any) => {
+      isError: (message: { status_code: number }) => {
+        if (message['status_code']) {
+          return message['status_code'] !== 200
+        }
+        return false
+      },
+      filter: (message: Message) => !!message.p || (!!message.a && !!message.b),
+      toResponse: (message: Message) => {
         if (message.p) {
           const result = Requester.validateResultNumber(message, ['p'])
           return Requester.success('1', { data: { result } })

@@ -1,9 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
 // Should also be supported for "EOD"
 export const NAME = 'historical'
+export const supportedEndpoints = ['historical', 'eod']
 
 export interface ResponseSchema {
   meta_data: {
@@ -26,17 +27,27 @@ export interface ResponseSchema {
       },
     ]
   }
+  cost: number
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) =>
+  !data.result_data || Object.keys(data.result_data).length === 0
 
-const customParams = {
-  base: ['base', 'from', 'coin', 'market', 'symbol'],
+export const description = `This historical endpoint provides the closing price of the previous day as detailed in [Unibit documentation](https://unibit.ai/api/docs/V2.0/historical_stock_price).
+
+**NOTE: each request sent to this endpoint has a cost of 10 credits**`
+
+export const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'coin', 'market', 'symbol'],
+    required: true,
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
@@ -53,13 +64,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options, customError)
-  response.data.result = Requester.validateResultNumber(response.data.result_data, [
-    symbol,
-    0,
-    'close',
-  ])
+  const response = await Requester.request<ResponseSchema>(options, customError)
+  const result = Requester.validateResultNumber(response.data, ['result_data', symbol, 0, 'close'])
   response.data.cost = 10
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

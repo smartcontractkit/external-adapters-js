@@ -25,24 +25,52 @@ export interface ResponseSchema {
 }
 
 export const inputParameters: InputParameters = {
-  from: ['base', 'from', 'coin'],
-  fromAddress: false,
-  fromDecimals: false,
-  to: ['quote', 'to', 'market'],
-  toAddress: false,
-  toDecimals: false,
-  amount: false,
-  resultPath: false,
+  from: {
+    aliases: ['base', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  fromAddress: {
+    description:
+      'Optional param to pre-define the address to convert from. If set, it takes precedence over `from`',
+    type: 'string',
+  },
+  fromDecimals: {
+    description:
+      ' Optional param to pre-define the number of decimals in the `from` token. Setting this will make the query run faster',
+    type: 'number',
+  },
+  to: {
+    aliases: ['quote', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  toAddress: {
+    description:
+      'Optional param to pre-define the address to convert to. If set, it takes precedence over `to`',
+    type: 'string',
+  },
+  toDecimals: {
+    description:
+      'Optional param to pre-define the number of decimals in the `to` token. Setting this will make the query run faster',
+    type: 'number',
+  },
+  amount: {
+    description:
+      ' The exchange amount to get the rate of. The amount is in full units, e.g. 1 USDC, 1 ETH',
+    type: 'number',
+    default: 1,
+  },
 }
-
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { address: from, decimals: fromDecimals } = await getTokenDetails(validator, 'from', config)
   const { address: to, decimals: toDecimals } = await getTokenDetails(validator, 'to', config)
-  const inputAmount = validator.validated.data.amount || 1
+  const inputAmount = validator.validated.data.amount
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
   const resultPath = validator.validated.data.resultPath
 

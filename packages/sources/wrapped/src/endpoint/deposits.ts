@@ -17,14 +17,28 @@ export type Address = {
   chainId: string
 }
 
-const customError = (data: any) => {
+const customError = (data: unknown) => {
   return typeof data !== 'object'
 }
 
 export const inputParameters: InputParameters = {
-  symbol: true,
-  network: false,
-  chainId: false,
+  symbol: {
+    description: 'The symbol of the currency to query (`BTC`, `ETH`, `LTC`, etc.).',
+    type: 'string',
+    required: true,
+  },
+  network: {
+    description:
+      'The network of the currency to query (`ethereum`, `bitcoin`, `litecoin`, `stellar`, etc.).',
+    required: false,
+    type: 'string',
+  },
+  chainId: {
+    description: 'The chainId of the currency to query',
+    required: false,
+    type: 'string',
+    default: 'mainnet',
+  },
 }
 
 const networks: Networks = {
@@ -48,11 +62,10 @@ const networks: Networks = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol
-  const chainId = validator.validated.data.chainId || 'mainnet'
+  const chainId = validator.validated.data.chainId
   const network = validator.validated.data.network || networks[symbol]
   const url = `/deposits`
 

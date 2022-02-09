@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/graphql-adapter",
-  "version": "1.0.13",
+  "version": "1.1.11",
   "description": "Chainlink graphql adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "14.17.34",
+    "@types/node": "16.11.19",
     "typescript": "4.3.5"
   }
 }

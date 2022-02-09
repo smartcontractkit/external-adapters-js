@@ -1,5 +1,5 @@
 import { server as startServer } from '../../src/index'
-import { ethers, BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import request, { SuperTest, Test } from 'supertest'
 import http from 'http'
 import process from 'process'
@@ -9,29 +9,46 @@ const mockChainConfig = {
   ethereum: {
     rpcUrl: 'fake-ethereum-rpc-url',
     addressProviderContractAddress: 'fake-ethereum-address-provider',
-    debtPoolAddress: 'fake-ethereum-debt-pool-address',
+    debtCacheAddress: 'fake-ethereum-debt-cache-address',
+    synthetixDebtShareAddress: 'fake-ethereum-synthetix-debt-share-address',
   },
   optimism: {
-    rpcUrl: 'fake-optimiem-rpc-url',
-    addressProviderContractAddress: 'fake-optimiem-address-provider',
-    debtPoolAddress: 'fake-optimism-debt-pool-address',
+    rpcUrl: 'fake-optimism-rpc-url',
+    addressProviderContractAddress: 'fake-optimism-address-provider',
+    debtCacheAddress: 'fake-optimism-debt-cache-address',
+    synthetixDebtShareAddress: 'fake-optimism-synthetix-debt-share-address',
   },
+}
+
+const getContractAddress = (contractNameBytes: string, chain: string): string => {
+  switch (contractNameBytes) {
+    case utils.formatBytes32String('DebtCache'):
+      return mockChainConfig[chain].debtCacheAddress
+    case utils.formatBytes32String('SynthetixDebtShare'):
+      return mockChainConfig[chain].synthetixDebtShareAddress
+  }
 }
 
 const mockEthereumAddressProviderContract = {
-  getAddress: (_: string) => mockChainConfig.ethereum.debtPoolAddress,
+  getAddress: (contractName: string) => getContractAddress(contractName, 'ethereum'),
 }
 
 const mockOptimismAddressProviderContract = {
-  getAddress: (_: string) => mockChainConfig.optimism.debtPoolAddress,
+  getAddress: (contractName: string) => getContractAddress(contractName, 'optimism'),
 }
 
-const mockEthereumDebtPoolContract = {
+const mockEthereumDebtCacheContract = {
   currentDebt: () => [BigNumber.from('274504021465419663278269593'), false],
+  totalNonSnxBackedDebt: () => [BigNumber.from('388546283057244275166159'), false],
 }
 
-const mockOptimismDebtPoolContract = {
+const mockOptimismDebtCacheContract = {
   currentDebt: () => [BigNumber.from('50977793699622560436740360'), false],
+  totalNonSnxBackedDebt: () => [BigNumber.from('18881943681246986146020'), false],
+}
+
+const mockSynthetixDebtShareContract = {
+  totalSupply: () => BigNumber.from('214522823281993900095205964'),
 }
 
 jest.mock('ethers', () => ({
@@ -48,10 +65,13 @@ jest.mock('ethers', () => ({
           return mockEthereumAddressProviderContract
         case mockChainConfig.optimism.addressProviderContractAddress:
           return mockOptimismAddressProviderContract
-        case mockChainConfig.ethereum.debtPoolAddress:
-          return mockEthereumDebtPoolContract
-        case mockChainConfig.optimism.debtPoolAddress:
-          return mockOptimismDebtPoolContract
+        case mockChainConfig.ethereum.debtCacheAddress:
+          return mockEthereumDebtCacheContract
+        case mockChainConfig.optimism.debtCacheAddress:
+          return mockOptimismDebtCacheContract
+        case mockChainConfig.ethereum.synthetixDebtShareAddress:
+        case mockChainConfig.optimism.synthetixDebtShareAddress:
+          return mockSynthetixDebtShareContract
         default:
           break
       }
@@ -90,7 +110,7 @@ describe('synthetix-debt-pool', () => {
   })
 
   describe('when making a request to fetch the current debt', () => {
-    it('successfully fetches the current debt size of the synthetix debt pool across all chains if chainSources is missing', async () => {
+    it('successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is missing', async () => {
       const request = {
         id: 1,
         data: {},
@@ -106,11 +126,11 @@ describe('synthetix-debt-pool', () => {
       expect(response.body).toMatchSnapshot()
     })
 
-    it('successfully fetches the current debt size of the synthetix debt pool across all chains if chainSources is empty', async () => {
+    it('successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is empty', async () => {
       const request = {
         id: 1,
         data: {
-          chainSources: [],
+          chainSources: null,
         },
       }
       const response = await req
@@ -124,7 +144,7 @@ describe('synthetix-debt-pool', () => {
       expect(response.body).toMatchSnapshot()
     })
 
-    it('successfully fetches the current debt size of the synthetix debt pool for only one chain', async () => {
+    it('successfully fetches the current debt size of the synthetix debt cache for only one chain', async () => {
       const request = {
         id: 1,
         data: {

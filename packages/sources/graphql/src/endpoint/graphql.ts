@@ -1,9 +1,32 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+
+export const supportedEndpoints = ['graphql']
+
+export const inputParameters: InputParameters = {
+  graphqlEndpoint: {
+    required: true,
+    type: 'string',
+    description: 'The GraphQL endpoint to make a request to',
+  },
+  headers: {
+    required: false,
+  },
+  query: {
+    required: true,
+    description: 'The GraphQL query as a string',
+    type: 'string',
+  },
+  variables: {
+    required: false,
+    description: 'An object of variables to be passed into the query',
+    type: 'object',
+  },
+}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters)
+
   const jobRunID = validator.validated.jobRunID
   const { graphqlEndpoint, query, variables, headers } = request.data
   const reqConfig = {

@@ -1,5 +1,5 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { RequestConfig } from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { InputParameters, RequestConfig } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
 import { SpectralAdapterConfig } from '../config'
@@ -9,6 +9,8 @@ export const MacroScoreAPIName = 'spectral-proxy'
 export interface ICustomError {
   Response: string
 }
+
+export const supportedEndpoints = ['spectral-proxy']
 
 const customError = (data: ICustomError) => {
   if (data.Response === 'Error') return true
@@ -35,6 +37,21 @@ export interface ScoreResponse {
   result: number
 }
 
+export const description = 'Default endpoint used to retrieve a MACRO Score for a given token ID.'
+
+export const inputParameters: InputParameters = {
+  tokenIdInt: {
+    required: true,
+    description: 'The tokenID for the user as an integer value',
+    type: 'string',
+  },
+  tickSetId: {
+    required: true,
+    description: 'The set of ticks used to compute the MACRO Score as in integer value',
+    type: 'string',
+  },
+}
+
 export const computeTickWithScore = (score: number, tickSet: BigNumber[]): number => {
   for (const [index, tick] of tickSet.entries()) {
     if (tick.toNumber() > score) return index + 1
@@ -43,15 +60,20 @@ export const computeTickWithScore = (score: number, tickSet: BigNumber[]): numbe
 }
 
 export const execute = async (request: IRequestInput, config: SpectralAdapterConfig) => {
+  const validator = new Validator(request, inputParameters)
+
+  const tokenIdInt = validator.validated.data.tokenIdInt
+  const tickSetId = validator.validated.data.tickSetId
+
   const options: RequestConfig = {
     ...config.api,
     url: '/spectral-proxy',
     method: 'POST',
     data: {
-      tokenInt: `${request.data.tokenIdInt}`,
+      tokenInt: `${tokenIdInt}`,
     },
   }
-  const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, request.data.tickSetId)
+  const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, tickSetId)
   const response = await Requester.request<ScoreResponse[]>(options, customError)
   const score = Requester.validateResultNumber(response.data[0], ['score'])
   const tick = computeTickWithScore(score, tickSet)

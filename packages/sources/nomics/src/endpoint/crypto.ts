@@ -90,10 +90,21 @@ interface ResponseSchema {
 
 const customError = (data: ResponseSchema[]) => data.length === 0
 
+export const description = `The \`crypto\` endpoint fetches the price of a requested asset, the \`marketcap\` endpoint fetches the market cap of the requested asset, and the \`volume\` endpoint fetches the volume of the requested pair of assets for past 24-hr.
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin', 'ids'],
-  quote: ['quote', 'to', 'market', 'convert'],
-  resultPath: false,
+  base: {
+    aliases: ['from', 'coin', 'ids'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to', 'market', 'convert'],
+    required: true,
+    description: 'The symbol of the currency to convert to',
+  },
 }
 
 const convertId: Record<string, string> = {
@@ -138,7 +149,6 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const symbol = validator.overrideSymbol(AdapterName)
   const symbols = Array.isArray(symbol) ? symbol : [symbol]

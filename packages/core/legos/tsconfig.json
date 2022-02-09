@@ -26,6 +26,9 @@
       "path": "../../sources/alphavantage"
     },
     {
+      "path": "../../sources/alpine"
+    },
+    {
       "path": "../../sources/amberdata"
     },
     {
@@ -212,6 +215,9 @@
       "path": "../../sources/ipfs"
     },
     {
+      "path": "../../sources/jpegd"
+    },
+    {
       "path": "../../sources/json-rpc"
     },
     {
@@ -254,10 +260,10 @@
       "path": "../../sources/nomics"
     },
     {
-      "path": "../../sources/oilpriceapi"
+      "path": "../../sources/mock-ea"
     },
     {
-      "path": "../../sources/onchain"
+      "path": "../../sources/oilpriceapi"
     },
     {
       "path": "../../sources/onchain-gas"

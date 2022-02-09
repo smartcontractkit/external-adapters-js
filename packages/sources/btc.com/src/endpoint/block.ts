@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from 
 
 export const supportedEndpoints = ['height', 'difficulty']
 
+export const description = '[Block](https://btc.com/api-doc#Block)'
+
 export const endpointResultPaths: EndpointResultPaths = {
   height: 'height',
   difficulty: 'difficulty',
@@ -42,13 +44,10 @@ export interface ResponseSchema {
   status: string
 }
 
-export const inputParameters: InputParameters = {
-  resultPath: false,
-}
+export const inputParameters: InputParameters = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
@@ -59,12 +58,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
   }
 
-  const response = await Requester.request(options)
+  const response = await Requester.request<ResponseSchema>(options)
 
-  response.data.result = Requester.validateResultNumber(response.data as ResponseSchema, [
-    'data',
-    resultPath,
-  ])
+  const result = Requester.validateResultNumber(response.data, ['data', resultPath])
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

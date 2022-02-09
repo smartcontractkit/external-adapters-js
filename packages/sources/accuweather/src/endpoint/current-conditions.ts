@@ -55,9 +55,26 @@ export enum Unit {
 export const supportedEndpoints = ['current-conditions']
 
 export const inputParameters: InputParameters = {
-  locationKey: true,
-  units: true,
-  encodeResult: false,
+  locationKey: {
+    required: true,
+    description:
+      'The location unique ID (to be optained via [location](#get-location-endpoint) endpoint)',
+    type: 'number',
+  },
+  units: {
+    required: true,
+    description: 'The measurement system for the output',
+    type: 'string',
+    options: ['imperial', 'metric'],
+  },
+  encodeResult: {
+    required: false,
+    description:
+      'When `true` the result is ABI encoded (as tuple). When `false` the result is a JSON',
+    type: 'boolean',
+    options: [true, false],
+    default: true,
+  },
 }
 
 export const unitsConditionKey: ReadonlyMap<Unit, string> = new Map([
@@ -196,7 +213,6 @@ export const encodeCurrentConditionsResult = (result: CurrentConditionsResult): 
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const locationKey = validator.validated.data.locationKey
@@ -248,6 +264,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       data: currentConditionsList,
       result,
     },
+    status: response.status,
   }
 
   return Requester.success(jobRunID, endpointResponse, config.verbose)

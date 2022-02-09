@@ -4,9 +4,22 @@ import * as paypal from '@paypal/payouts-sdk'
 
 export const supportedEndpoints = ['getpayout', 'read']
 
+export const description =
+  'Endpoint used to get information about a transaction or batch of transactions.'
+
 export const inputParameters: InputParameters = {
-  payout_id: true,
-  type: false,
+  payout_id: {
+    required: true,
+    description: 'ID of the payout batch or item to lookup',
+    type: 'string',
+  },
+  type: {
+    required: false,
+    description: 'Type of payout to lookup',
+    options: ['ITEM', 'BATCH'],
+    default: 'BATCH',
+    type: 'string',
+  },
 }
 
 const paramOptions = {
@@ -15,7 +28,6 @@ const paramOptions = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters, paramOptions)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const payout_id: string = validator.validated.data.payout_id

@@ -8,7 +8,7 @@ import {
   NAME as AdapterName,
 } from './config'
 
-const customError = (data: any) => data.result === 'error'
+const customError = (data: ResponseSchema) => data.result === 'error'
 
 const customParams = {
   base: ['base', 'from', 'coin'],
@@ -27,9 +27,37 @@ const symbolUrl = (from: string, to: string) =>
 const directUrl = (from: string, to: string) =>
   `/spot_direct_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
 
+export interface ResponseSchema {
+  query: {
+    page_size: number
+    start_time: string
+    interval: string
+    sort: string
+    base_asset: string
+    sources: boolean
+    ch: boolean
+    include_exchanges: string[]
+    exclude_exchanges: string[]
+    quote_asset: string
+    data_version: string
+    commodity: string
+    request_time: string
+    instruments: string[]
+    start_timestamp: number
+  }
+  time: string
+  timestamp: number
+  data: { timestamp: number; price: string }[]
+  result: string
+  access: {
+    access_range: { start_timestamp: number; end_timestamp: number }
+    data_range: { start_timestamp: number; end_timestamp: number }
+  }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, customParams)
-  if (validator.error) throw validator.error
+
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
@@ -57,16 +85,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
     timeout: 10000,
   }
-  const response = await Requester.request(requestConfig, customError)
+  const response = await Requester.request<ResponseSchema>(requestConfig, customError)
 
-  response.data.result = Requester.validateResultNumber(
+  const data = response.data.data.filter((x) => x.price !== null)
+  if (data.length == 0) {
+    throw 'Unsupported Price Pair'
+  }
+
+  const result = Requester.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
-    response.data.data.filter((x: any) => x.price !== null),
+    data,
     [0, 'price'],
     { inverse },
   )
 
-  return Requester.success(jobRunID, response, config.verbose)
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {
