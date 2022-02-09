@@ -16,7 +16,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
-import WebSocket from 'ws'
 import { withCache } from '../cache'
 import { censor, logger } from '../../modules'
 import { getFeedId } from '../../metrics/util'
@@ -56,12 +55,22 @@ import { getSubsId, RootState } from './reducer'
 import { separateBatches } from './utils'
 import { getWSConfig } from './config'
 import { util } from '../../..'
+import { WebSocketClassProvider, WsMessageRecorder } from './recorder'
+
+const recordWsMessages = util.parseBool(process.env.RECORD)
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
 const deserializer = (message: any) => {
   try {
-    return JSON.parse(message.data)
+    const parsed = JSON.parse(message.data)
+    if (recordWsMessages) {
+      WsMessageRecorder.add({
+        type: 'received',
+        data: parsed,
+      })
+    }
+    return parsed
   } catch (e) {
     // If message looked like a JSON payload, write a message to the logs
     if (message.length > 1 && ['{', '['].includes(message.substr(0, 1))) {
@@ -72,8 +81,15 @@ const deserializer = (message: any) => {
 }
 
 const serializer = (message: any) => {
+  if (recordWsMessages) {
+    WsMessageRecorder.add({
+      type: 'sent',
+      data: message,
+    })
+  }
   if (typeof message === 'string') return message
-  return JSON.stringify(message)
+  const serialized = JSON.stringify(message)
+  return serialized
 }
 
 type ConnectRequestedActionWithState = [
@@ -172,7 +188,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
       const closeObserver = new Subject<CloseEvent>()
       const errorObserver = new Subject()
       const error$ = errorObserver.asObservable() as Observable<AnyAction>
-      const WebSocketCtor = WebSocket
+      const WebSocketCtor = WebSocketClassProvider.get()
       const wsSubject = webSocket({
         url,
         protocol, // TODO: Double check this
@@ -218,6 +234,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               code: closeContext.code,
             },
           })
+
+          if (recordWsMessages) WsMessageRecorder.print()
+
           return from([
             ...activeSubs.map(toUnsubscribed),
             disconnectFulfilled({

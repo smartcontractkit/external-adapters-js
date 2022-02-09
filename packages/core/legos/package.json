@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.44",
+  "version": "1.0.45",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -108,6 +108,7 @@
     "@chainlink/marketstack-adapter": "workspace:*",
     "@chainlink/messari-adapter": "workspace:*",
     "@chainlink/metalsapi-adapter": "workspace:*",
+    "@chainlink/mock-ea-adapter": "workspace:*",
     "@chainlink/mycryptoapi-adapter": "workspace:*",
     "@chainlink/ncfx-adapter": "workspace:*",
     "@chainlink/nikkei-adapter": "workspace:*",

@@ -4,7 +4,7 @@ import { Config } from '@chainlink/types'
 export const NAME = 'ETHGASSTATION'
 
 export const DEFAULT_ENDPOINT = 'gasprice'
-export const DEFAULT_BASE_URL = 'https://data-api.defipulse.com'
+export const DEFAULT_BASE_URL = 'https://ethgasstation.info/'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
