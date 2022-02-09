@@ -300,6 +300,9 @@
       "path": "./sources/google-bigquery"
     },
     {
+      "path": "./sources/gramchain"
+    },
+    {
       "path": "./sources/graphql"
     },
     {
