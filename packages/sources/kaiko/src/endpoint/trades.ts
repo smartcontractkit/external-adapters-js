@@ -1,24 +1,51 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, ExecuteFactory, Includes, IncludePair } from '@chainlink/types'
+import { Config, ExecuteWithConfig, Includes, IncludePair, InputParameters } from '@chainlink/types'
 import {
   DEFAULT_INTERVAL,
   DEFAULT_SORT,
   DEFAULT_MILLISECONDS,
-  makeConfig,
   NAME as AdapterName,
-} from './config'
-import includes from './config/includes.json'
-import overrides from './config/symbols.json'
+} from '../config'
+import includes from '../config/includes.json'
+import overrides from '../config/symbols.json'
+
+export const supportedEndpoints = ['trades']
 
 const customError = (data: ResponseSchema) => data.result === 'error'
 
-const customParams = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  includes: false,
-  interval: false,
-  sort: false,
-  millisecondsAgo: false,
+export const inputParameters: InputParameters = {
+  base: {
+    aliases: ['from', 'coin'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    required: true,
+    description: 'The symbol of the currency to convert',
+  },
+  includes: {
+    aliases: ['overrides'],
+    required: false,
+    description: 'If base provided is found in overrides, that will be used',
+  },
+  interval: {
+    required: false,
+    description:
+      'The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly',
+    default: '1m',
+  },
+  millisecondsAgo: {
+    required: false,
+    description:
+      'Number of milliseconds from the current time that will determine start_time to use in the query',
+    default: 1800000,
+  },
+  sort: {
+    required: false,
+    description: 'Which way to sort the data returned in the query',
+    default: 'desc',
+  },
 }
 
 const symbolUrl = (from: string, to: string) =>
@@ -58,7 +85,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams, {}, { includes, overrides })
+  const validator = new Validator(request, inputParameters, {}, { includes, overrides })
 
   Requester.logConfig(config)
 
