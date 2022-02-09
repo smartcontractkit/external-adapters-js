@@ -3,6 +3,8 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
 
+export const DEFAULT_ENDPOINT = 'health'
+
 // 2 minutes
 export const DEFAULT_DELTA_TIME = 2 * 60 * 1000
 // Blocks that replica nodes can fall behind
@@ -47,5 +49,6 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
+  config.defaultEndpoint = DEFAULT_ENDPOINT
   return { ...config, delta, deltaBlocks, timeoutLimit }
 }
