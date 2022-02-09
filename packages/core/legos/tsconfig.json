@@ -260,6 +260,9 @@
       "path": "../../sources/nomics"
     },
     {
+      "path": "../../sources/mock-ea"
+    },
+    {
       "path": "../../sources/oilpriceapi"
     },
     {
