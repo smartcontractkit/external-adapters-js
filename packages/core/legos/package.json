@@ -126,6 +126,7 @@
     "@chainlink/satoshitango-adapter": "workspace:*",
     "@chainlink/snowflake-adapter": "workspace:*",
     "@chainlink/sochain-adapter": "workspace:*",
+    "@chainlink/solana-view-function-adapter": "workspace:*",
     "@chainlink/spectral-macro-score-adapter": "workspace:*",
     "@chainlink/sportsdataio-adapter": "workspace:*",
     "@chainlink/stasis-adapter": "workspace:*",

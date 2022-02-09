@@ -248,6 +248,9 @@
       "path": "../../sources/metalsapi"
     },
     {
+      "path": "../../sources/mock-ea"
+    },
+    {
       "path": "../../sources/mycryptoapi"
     },
     {
@@ -258,9 +261,6 @@
     },
     {
       "path": "../../sources/nomics"
-    },
-    {
-      "path": "../../sources/mock-ea"
     },
     {
       "path": "../../sources/oilpriceapi"
@@ -300,6 +300,9 @@
     },
     {
       "path": "../../sources/sochain"
+    },
+    {
+      "path": "../../sources/solana-view-function"
     },
     {
       "path": "../../sources/spectral-macro-score"
