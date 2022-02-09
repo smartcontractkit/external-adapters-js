@@ -2899,6 +2899,7 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     hardhat: 2.7.0
+    mock-socket: 9.1.0
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2988,6 +2989,7 @@ __metadata:
     "@chainlink/marketstack-adapter": "workspace:*"
     "@chainlink/messari-adapter": "workspace:*"
     "@chainlink/metalsapi-adapter": "workspace:*"
+    "@chainlink/mock-ea-adapter": "workspace:*"
     "@chainlink/mycryptoapi-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
@@ -3779,6 +3781,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/mock-ea-adapter@workspace:*, @chainlink/mock-ea-adapter@workspace:packages/sources/mock-ea":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/mock-ea-adapter@workspace:packages/sources/mock-ea"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/mycryptoapi-adapter@workspace:*, @chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/mycryptoapi-adapter@workspace:packages/sources/mycryptoapi"
@@ -3805,6 +3821,8 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+    "@types/supertest": 2.0.11
+    supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -20920,6 +20938,13 @@ fsevents@~2.1.1:
   version: 4.14.0
   resolution: "mock-fs@npm:4.14.0"
   checksum: dccd976a8d753e19d3c7602ea422d1f7137def3c1128c177e1f5500fe8c50ec15fe0937cfc3a15c4577fe7adb9a37628b92da9294d13d90f08be4b669b0fca76
+  languageName: node
+  linkType: hard
+
+"mock-socket@npm:9.1.0":
+  version: 9.1.0
+  resolution: "mock-socket@npm:9.1.0"
+  checksum: 19b16017da9810bbdcc2bc8e7e2b3ff0c7aa57d0f1edf5ab354e468457c1bace8d3d15c885123a614aa9cf916f6b40de5075b94f56b314a53a0ed2fbdff02e14
   languageName: node
   linkType: hard
 

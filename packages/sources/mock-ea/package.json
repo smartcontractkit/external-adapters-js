@@ -1,12 +1,13 @@
 {
-  "name": "@chainlink/ea-test-helpers",
-  "version": "1.0.1",
-  "description": "Helpers for testing Chainlink External Adapters.",
+  "name": "@chainlink/mock-ea-adapter",
+  "version": "1.0.19",
+  "description": "Chainlink mock-ea adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "mock-ea"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,18 +21,21 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
-    "build": "tsc -b"
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
-    "hardhat": "2.7.0",
-    "mock-socket": "9.1.0",
     "typescript": "4.3.5"
-  },
-  "dependencies": {
-    "tslib": "^2.3.1"
   }
 }
