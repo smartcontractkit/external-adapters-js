@@ -1,10 +1,12 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { execute } from '../../src/adapter'
+import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
+  const execute = makeExecute()
+  process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   describe('validation error', () => {
     const requests = [
