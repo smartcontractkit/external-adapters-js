@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'UNIBIT'
+export const NAME = 'KAIKO'
 
 export const DEFAULT_INTERVAL = '1m'
 export const DEFAULT_SORT = 'desc'
