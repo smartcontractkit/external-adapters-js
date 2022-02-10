@@ -20,16 +20,19 @@ describe('price-beth', () => {
   let req: SuperTest<Test>
 
   beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.WS_ENABLED = 'true'
+
     if (!process.env.RECORD) {
       mockedWsServer = mockWebSocketServer('wss://feed.newchangefx.com/cryptodata')
       mockWebSocketProvider(WebSocketClassProvider)
+      process.env.API_USERNAME = 'user'
+      process.env.API_PASSWORD = 'pass'
+      process.env.WS_SUBSCRIPTION_TTL = '100'
+    } else {
+      // Give enough time for request to complete, but shut down connection afterwards
+      process.env.WS_SUBSCRIPTION_TTL = '3000'
     }
-
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_USERNAME = 'user'
-    process.env.API_PASSWORD = 'pass'
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '100'
 
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
@@ -52,11 +55,13 @@ describe('price-beth', () => {
         },
       }
 
-      const flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-        mockLoginResponse,
-        mockSubscribeResponse,
-        mockUnsubscribeResponse,
-      ])
+      let flowFulfilled
+      if (!process.env.RECORD)
+        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
+          mockLoginResponse,
+          mockSubscribeResponse,
+          mockUnsubscribeResponse,
+        ])
 
       const response = await req
         .post('/')
@@ -66,13 +71,7 @@ describe('price-beth', () => {
         .expect('Content-Type', /json/)
         .expect(200)
 
-      expect(response.body).toEqual({
-        jobRunID: '1',
-        result: 3106.9885,
-        maxAge: 30000,
-        statusCode: 200,
-        data: { result: 3106.9885 },
-      })
+      expect(response.body).toMatchSnapshot()
 
       await flowFulfilled
     })
