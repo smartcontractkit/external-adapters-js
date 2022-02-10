@@ -300,6 +300,9 @@
       "path": "./sources/google-bigquery"
     },
     {
+      "path": "./sources/gramchain"
+    },
+    {
       "path": "./sources/graphql"
     },
     {
@@ -355,6 +358,9 @@
     },
     {
       "path": "./sources/nomics"
+    },
+    {
+      "path": "./sources/mock-ea"
     },
     {
       "path": "./sources/oilpriceapi"
