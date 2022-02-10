@@ -1,23 +1,18 @@
-import { Config as BaseConfig } from '@chainlink/types'
-import { Requester } from '@chainlink/ea-bootstrap'
-import xbci from './indices/xbci'
-import xlci from './indices/xlci'
+import { Config } from '@chainlink/types'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 
-export const INDICES = ['xbci', 'xlci']
-export type IndexType = typeof INDICES[number]
-
-export type Config = BaseConfig & {
-  indices: {
-    [key in IndexType]: string
-  }
-}
+export const DEFAULT_ENDPOINT = 'https://pro-api.xangle.io'
+export const XBCI = 'xbci'
+export const XLCI = 'xlci'
 
 export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
-    indices: {
-      xbci,
-      xlci,
+    api: {
+      baseURL: util.getEnv('API_ENDPOINT') || DEFAULT_ENDPOINT,
+      headers: {
+        'X-XANGLE_API_KEY': util.getRequiredEnv('API_KEY'),
+      },
     },
   }
 }
