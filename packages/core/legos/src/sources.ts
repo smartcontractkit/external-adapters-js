@@ -62,6 +62,7 @@ import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
 import * as google_bigquery from '@chainlink/google-bigquery-adapter'
+import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
@@ -184,6 +185,7 @@ export default {
   genesis_adapter,
   geodb,
   google_bigquery,
+  gramchain,
   graphql,
   iex_adapter,
   intrinio,
