@@ -1,4 +1,4 @@
-export const mockAccountsInfo = () => [
+export const mockAccountsInfo = [
   {
     data: {
       type: 'Buffer',

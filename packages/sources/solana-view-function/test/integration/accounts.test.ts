@@ -8,12 +8,10 @@ import { AddressInfo } from 'net'
 
 jest.mock('@solana/web3.js', () => ({
   ...jest.requireActual('@solana/web3.js'),
-  ethers: {
-    Connection: () => {
-      return {
-        getMultipleAccountsInfo: () => mockAccountsInfo,
-      }
-    },
+  Connection: class {
+    getMultipleAccountsInfo() {
+      return mockAccountsInfo
+    }
   },
 }))
 
