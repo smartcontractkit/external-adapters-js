@@ -47,5 +47,5 @@ export const runReduceAdapter = async (
       valuePath: 'balance',
     },
   }
-  return callAdapter(reduce.execute, context, next, '_onReduce')
+  return callAdapter(reduce.makeExecute(), context, next, '_onReduce')
 }
