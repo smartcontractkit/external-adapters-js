@@ -1,11 +1,11 @@
 import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { Config } from '../config'
-import * as view from '@chainlink/solana-view-function-adapter'
+import * as solanaViewFunction from '@chainlink/solana-view-function-adapter'
 import BN from 'bn.js'
-import { BigNumber } from 'ethers'
 import * as solanaWeb3 from '@solana/web3.js'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
+import BigNumber from 'bignumber.js'
 
 export const supportedEndpoints = ['price']
 
@@ -16,39 +16,10 @@ export const execute = async (
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> => {
-  const _config = view.makeConfig()
-  const _execute = view.makeExecute(_config)
   const addresses = [config.solidoAddress, config.bSolAddress, config.stSolAddress]
-  const viewFunctionAdapterRequest: AdapterRequest = {
-    id: input.id,
-    data: {
-      addresses: addresses,
-    },
-  }
-  const viewFunctionAdapterResponse = await _execute(viewFunctionAdapterRequest, context)
-  const accountsInfo: solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>[] =
-    viewFunctionAdapterResponse.data.accountInformation
-  const [solidoRes, bSolRes, stSolReserveRes] = accountsInfo
   const jobRunID = input.data.jobRunID
-  const [stSolSupply, solBalance] = readDataFromSolidoAddress(
-    jobRunID,
-    solidoRes as solanaWeb3.AccountInfo<Buffer>,
-    config,
-  )
-  const bSolSupplyString = (bSolRes as solanaWeb3.AccountInfo<solanaWeb3.ParsedAccountData>).data
-    .parsed.info.supply
-  const bSolSupply = BigNumber.from(bSolSupplyString)
-    .div(BigNumber.from(10).pow(LAMBERT_DECIMALS))
-    .toNumber()
-  const stSolReservesString = (
-    stSolReserveRes as solanaWeb3.AccountInfo<solanaWeb3.ParsedAccountData>
-  ).data.parsed.info.tokenAmount.amount
-  const stSolReserves = BigNumber.from(stSolReservesString)
-    .div(BigNumber.from(10).pow(LAMBERT_DECIMALS))
-    .toNumber()
-  const bSolStSolPrice = Math.min(solBalance / stSolSupply, bSolSupply / stSolReserves)
-  const stSolUSDPriceResp = await getStSOLUSDPrice(input, context)
-  const bSOLUSDPrice = stSolUSDPriceResp.data.result * bSolStSolPrice
+  const accountsInfo = await getAccountsInformation(jobRunID, context, addresses)
+  const bSOLUSDPrice = await getBSolUSDPrice(jobRunID, config, input, context, accountsInfo)
   return {
     jobRunID: input.id,
     statusCode: 200,
@@ -59,6 +30,66 @@ export const execute = async (
   }
 }
 
+const getAccountsInformation = async (
+  jobRunID: string,
+  context: AdapterContext,
+  addresses: string[],
+): Promise<solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>[]> => {
+  const _config = solanaViewFunction.makeConfig()
+  const _execute = solanaViewFunction.makeExecute(_config)
+  const solanaViewFunctionAdapterRequest: AdapterRequest = {
+    id: jobRunID,
+    data: {
+      addresses,
+    },
+  }
+  const solanaViewFunctionAdapterResponse = await _execute(
+    solanaViewFunctionAdapterRequest,
+    context,
+  )
+  const accountsInfo: solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>[] =
+    solanaViewFunctionAdapterResponse.data.accountInformation
+  return accountsInfo
+}
+
+// Methodology to get the BSol/StSol price https://docs.solana.lido.fi/development/price-oracle/
+const getBSolUSDPrice = async (
+  jobRunID: string,
+  config: Config,
+  input: AdapterRequest,
+  context: AdapterContext,
+  accountsInfo: solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>[],
+) => {
+  const [solidoRes, bSolRes, stSolReserveRes] = accountsInfo
+  const [stSolSupply, solBalance] = readDataFromSolidoAddress(
+    jobRunID,
+    solidoRes as solanaWeb3.AccountInfo<Buffer>,
+    config,
+  )
+  const [bSolSupply, stSolReserves] = getBSolSupplyAndStSolReserves(bSolRes, stSolReserveRes)
+  const bSolStSolPrice = BigNumber.min(
+    stSolSupply.dividedBy(solBalance),
+    stSolReserves.dividedBy(bSolSupply),
+  ).toNumber()
+  const stSolUSDPriceResp = await getStSOLUSDPrice(input, context)
+  return stSolUSDPriceResp.data.result * bSolStSolPrice
+}
+
+const getBSolSupplyAndStSolReserves = (
+  bSolRes: solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>,
+  stSolReserveRes: solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>,
+): BigNumber[] => {
+  const bSolSupply = new BigNumber(
+    (bSolRes as solanaWeb3.AccountInfo<solanaWeb3.ParsedAccountData>).data.parsed.info.supply,
+  )
+  const stSolReserves = new BigNumber(
+    (
+      stSolReserveRes as solanaWeb3.AccountInfo<solanaWeb3.ParsedAccountData>
+    ).data.parsed.info.tokenAmount.amount,
+  )
+  return [bSolSupply, stSolReserves]
+}
+
 /**
  * Instructions to fetch values are here https://docs.solana.lido.fi/development/price-oracle/
  * There is a TypeScript library that we should upgrade to in the future but it is currently not available yet
@@ -67,7 +98,7 @@ const readDataFromSolidoAddress = (
   jobRunID: string,
   solidoRes: solanaWeb3.AccountInfo<Buffer>,
   config: Config,
-): number[] => {
+): BigNumber[] => {
   const dataBytes = solidoRes.data
   const currentVersionNumber = dataBytes[0]
   if (config.solidoContractVersion !== currentVersionNumber)
@@ -79,10 +110,7 @@ const readDataFromSolidoAddress = (
   const solBalance = dataBytes.slice(81, 89)
   const stSolBN = new BN(stSolSupply, 'le')
   const solBalBN = new BN(solBalance, 'le')
-  return [
-    BigNumber.from(stSolBN.toString()).div(BigNumber.from(10).pow(LAMBERT_DECIMALS)).toNumber(),
-    BigNumber.from(solBalBN.toString()).div(BigNumber.from(10).pow(LAMBERT_DECIMALS)).toNumber(),
-  ]
+  return [new BigNumber(stSolBN.toString()), new BigNumber(solBalBN.toString())]
 }
 
 export const getStSOLUSDPrice = async (
@@ -94,9 +122,12 @@ export const getStSOLUSDPrice = async (
   const allocations = [
     {
       symbol: 'stSOL',
-      balance: BigNumber.from(10).pow(LAMBERT_DECIMALS),
+      balance: new BigNumber(10).pow(LAMBERT_DECIMALS),
       decimals: LAMBERT_DECIMALS,
     },
   ]
-  return await _execute({ id: input.id, data: { ...input.data, allocations } }, context)
+  return await _execute(
+    { id: input.id, data: { ...input.data, allocations, quote: 'USD', method: 'price' } },
+    context,
+  )
 }

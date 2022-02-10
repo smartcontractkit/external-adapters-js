@@ -4409,6 +4409,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/bn.js", "npm:5.1.0"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["bignumber.js", "npm:9.0.1"],
             ["bn.js", "npm:5.2.0"],
             ["ethers", "npm:5.5.1"],
             ["tslib", "npm:2.3.1"],

@@ -2168,6 +2168,7 @@ __metadata:
     "@types/bn.js": ^5.1.0
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+    bignumber.js: ^9.0.0
     bn.js: ^5.2.0
     ethers: ^5.5.1
     tslib: ^2.3.1

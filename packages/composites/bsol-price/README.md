@@ -1,30 +1,31 @@
-# Chainlink Bsol-price Composite Adapter
+# Chainlink BSol-price Composite Adapter
 
-A template to be used as an example for new [Composite External Adapters](../../composites)
-
-(please fill out with corresponding information)
-
-An example composite adapter description
+This EA pulls the price of BSol/USD. It works by querying multiple Solana contracts to derive the price of BSol/StSOL, fetching the price of StSOL/USD from a source data provider and finally multiplying the two to arrive at a price for BSol/USD. Internally it uses two other EAs namely the `solana-view-function` and `token-allocation` external adapters.
 
 ## Configuration
 
 The adapter takes the following environment variables:
 
-| Required? |        Name        |           Description           | Options | Defaults to |
-| :-------: | :----------------: | :-----------------------------: | :-----: | :---------: |
-|    ✅     | `ETHEREUM_RPC_URL` | Bsol-price _required_ parameter |         |             |
-|           |      `OPTION`      | Bsol-price _optional_ parameter |         |   `true`    |
+| Required? |           Name            |                           Description                            | Options | Defaults to |
+| :-------: | :-----------------------: | :--------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |     `SOLIDO_ADDRESS`      |                The address of the Solido contract                |         |             |
+|    ✅     |      `BSOL_ADDRESS`       |                 The address of the BSol contract                 |         |             |
+|    ✅     |      `STSOL_ADDRESS`      |                The address of the StSOL contract                 |         |             |
+|           | `SOLIDO_CONTRACT_VERSION` | The Solido contract version that is deployed to `SOLIDO_ADDRESS` |         |             |
 
-## Running
+In addition to the environment variables mentioned in the table above, users must set the required environment variables for both the `solana-view-function` and `token-allocation` external adapters.
 
-See the [Composite Adapter README](../README.md) for more information on how to get started.
+As of Feb 10th 2022, the addresses for the environment variables above should be the following:
+
+SOLIDO_ADDRESS: `EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ`
+STSOL_ADDRESS: `BSGfVnE6q6KemspkugEERU8x7WbQwSKwvHT1cZZ4ACVN`
+BSOL_ADDRESS: `3FMBoeddUhtqxepzkrxPrMUV3CL4bZM5QmMoLJfEpirz`
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |   Name   |                                   Description                                    |                 Options                 | Defaults to |
+| :-------: | :------: | :------------------------------------------------------------------------------: | :-------------------------------------: | :---------: |
+|    ✅     | `source` | The data provider the Token Allocation EA should use to pull the StSol/USD price | Refer to ReadME for Token Allocation EA |             |
 
 ### Sample Input
 
@@ -32,8 +33,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD"
+    "source": "tiingo"
   }
 }
 ```
@@ -42,11 +42,11 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
+  "result": 129.10531993874667,
+  "statusCode": 200,
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "result": 129.10531993874667
+  }
 }
 ```
