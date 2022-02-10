@@ -5,16 +5,6 @@ export const NAME = 'SOLANA_VIEW_FUNCTION' // This should be filled in with a na
 
 export const DEFAULT_ENDPOINT = 'accounts'
 
-/**
- * | 'processed'
-    | 'confirmed'
-    | 'finalized'
-    | 'recent'
-    | 'single'
-    | 'singleGossip'
-    | 'root'
-    | 'max'
- */
 export const DEFAULT_CONNECTION_COMMITMENT = 'confirmed'
 
 export interface ExtendedConfig extends BaseConfig {

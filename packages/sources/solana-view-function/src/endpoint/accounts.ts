@@ -30,7 +30,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   if (accountPublicKeys.length === 0)
     throw new AdapterError({
       jobRunID,
-      message: "Request must contain at least one account's public key",
+      message: 'Request must contain at least one account to pull data from',
     })
   const accountInformation = await solanaConnection.getMultipleAccountsInfo(accountPublicKeys, {
     encoding: 'jsonParsed',
