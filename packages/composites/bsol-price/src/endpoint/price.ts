@@ -52,7 +52,7 @@ const getAccountsInformation = async (
   return accountsInfo
 }
 
-// Methodology to get the BSol/StSol price https://docs.solana.lido.fi/development/price-oracle/
+// Methodology to get the bSOL/StSol price https://docs.solana.lido.fi/development/price-oracle/
 const getBSolUSDPrice = async (
   jobRunID: string,
   config: Config,
@@ -67,8 +67,6 @@ const getBSolUSDPrice = async (
     config,
   )
   const [bSolSupply, stSolReserves] = getBSolSupplyAndStSolReserves(bSolRes, stSolReserveRes)
-
-  // Should be ok to convert to number as these are very small
   const stSolPerSol = stSolSupply.dividedBy(solBalance)
   const stSolPerBSolInAnker = stSolReserves.dividedBy(bSolSupply)
   const stSolPerBSol = BigNumber.min(stSolPerSol, stSolPerBSolInAnker)

@@ -6,7 +6,11 @@ import * as solanaWeb3 from '@solana/web3.js'
 export const supportedEndpoints = ['accounts']
 
 export const inputParameters: InputParameters = {
-  addresses: true,
+  addresses: {
+    required: true,
+    description: 'An array of the addresses to query information from',
+    type: 'array',
+  },
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {

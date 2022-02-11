@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
-export const NAME = 'SOLANA_VIEW_FUNCTION' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
+export const NAME = 'SOLANA_VIEW_FUNCTION'
 
 export const DEFAULT_ENDPOINT = 'accounts'
 

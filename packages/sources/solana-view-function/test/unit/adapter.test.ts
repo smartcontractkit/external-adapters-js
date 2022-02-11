@@ -7,7 +7,6 @@ import { makeConfig } from '../../src/config'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-
   const rpcURL = 'https://api.devnet.solana.com'
 
   beforeEach(() => {
