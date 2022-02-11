@@ -9,7 +9,7 @@ The adapter takes the following environment variables:
 | Required? |              Name               |               Description                |                                             Options                                             |                  Defaults to                   |
 | :-------: | :-----------------------------: | :--------------------------------------: | :---------------------------------------------------------------------------------------------: | :--------------------------------------------: |
 |    ✅     |            `RPC_URL`            |   The RPC URL to connect to the chain    |                                                                                                 |                                                |
-|           | `ANCHOR_VAULT_CONTRACT_ADDRESS` | The address of the anchor vault contract | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |  `0xA2F987A546D4CD1c607Ee8141276876C26b72Bdf`  |
+|           | `ANCHOR_VAULT_CONTRACT_ADDRESS` | The address of the Anchor vault contract | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |  `0xA2F987A546D4CD1c607Ee8141276876C26b72Bdf`  |
 |           | `TERRA_BLUNA_CONTRACT_ADDRESS`  |  The address of bLuna contract in Terra  | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) | `terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts` |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
