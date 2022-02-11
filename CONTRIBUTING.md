@@ -102,10 +102,10 @@ For example, take a look at the [synth-index](./packages/composites/synth-index/
 
 ### Testing WebSocket Messages
 
-1. Run your tests, using live API endpoints with recording on (`export RECORD=true`)
+1. Run your tests, using live API endpoints with recording on (`export RECORD=true`) and with a TTL for the connections long enough for the normal requests to go through, but lower than the jest timeout (this will depend on the test, but one example would be `export WS_SUBSCRIPTION_TTL=3000`)
 2. You will see a log statement with the message "Recorded WebSocketMessages: {JSON Object}". This JSON object contains all the WebSocket messages sent and received, but they are not printed as code as in the case of the Nock features, due to their asynchronous nature.
 3. Using the recorded messages, write a `fixtures.ts` file with "Exchanges", i.e. request and response(s) pairs that will be asserted as part of your test (see this [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts)).
-4. Write your tests (example in [ncfx adapter test](./packages/sources/ncfx/test/integration/adapter.test.ts)) using the helper functions from the [test-helpers](./packages/core/test-helpers/src/websocket.ts) package. Note the necessary setup performed in the `beforeAll` function.
+4. Write your tests (example in [ncfx adapter test](./packages/sources/ncfx/test/integration/adapter.test.ts)) using the helper functions from the [test-helpers](./packages/core/test-helpers/src/websocket.ts) package. Note the necessary setup performed in the `beforeAll` function. Also note the path for the `WebSocketClassProvider` import, it has to be that one due to the way Singleton patterns work (or rather don't work) across dependencies.
 5. Finally, run your tests with recording disabled (`unset RECORD`). The WebSocket connection should be replaced and mocked.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).

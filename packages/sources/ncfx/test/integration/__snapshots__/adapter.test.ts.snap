@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`price-beth successful calls return value when fetching the USD/ETH price 1`] = `
+Object {
+  "data": Object {
+    "result": 3106.9885,
+  },
+  "jobRunID": "1",
+  "maxAge": 30000,
+  "result": 3106.9885,
+  "statusCode": 200,
+}
+`;
