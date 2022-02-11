@@ -14,6 +14,7 @@ import {
 } from './errors'
 import { logger } from './modules'
 import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
+import { Limits } from './config/provider-limits'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
@@ -29,11 +30,12 @@ export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
-  (name: string, execute: Execute, middleware: Middleware[]) => async (): Promise<http.Server> => {
+  (name: string, execute: Execute, middleware: Middleware[], rateLimits?: Limits) =>
+  async (): Promise<http.Server> => {
     const context: AdapterContext = {
       name,
       cache: null,
-      rateLimit: getRateLimitConfig({ name }),
+      rateLimit: getRateLimitConfig({ limits: rateLimits || { http: {}, ws: {} }, name }),
     }
     const cacheOptions = defaultOptions()
     if (cacheOptions.enabled) {

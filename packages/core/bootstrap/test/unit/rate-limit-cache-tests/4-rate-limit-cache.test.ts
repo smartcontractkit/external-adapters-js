@@ -33,7 +33,7 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
-    context.rateLimit = get({})
+    context.rateLimit = get()
   })
 
   afterAll(() => {
