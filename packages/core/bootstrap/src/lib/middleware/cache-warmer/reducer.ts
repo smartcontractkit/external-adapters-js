@@ -110,7 +110,8 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
         // Join request data
         for (const { name } of payload.batchablePropertyPath) {
           const uniqueBatchableValue = new Set(batchWarmer.origin[name])
-          uniqueBatchableValue.add(childRequestData[name] || childRequestData.data[name])
+          const singleBatchablevalue = childRequestData[name] ?? childRequestData.data?.[name]
+          if (singleBatchablevalue) uniqueBatchableValue.add(singleBatchablevalue)
           batchWarmer.origin[name] = [...uniqueBatchableValue]
         }
 
