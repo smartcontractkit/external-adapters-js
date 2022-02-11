@@ -34,7 +34,7 @@ SOLIDO_CONTRACT_VERSION: 0
 {
   "id": "1",
   "data": {
-    "source": "tiingo"
+    "source": "coingecko"
   }
 }
 ```
