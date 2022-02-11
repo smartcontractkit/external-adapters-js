@@ -112,6 +112,12 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
           const uniqueBatchableValue = new Set(batchWarmer.origin[name])
           const singleBatchablevalue = childRequestData[name] ?? childRequestData.data?.[name]
           if (singleBatchablevalue) uniqueBatchableValue.add(singleBatchablevalue)
+          else
+            logger.error(`[subscriptionsReducer] name=${name} not found in childRequestData`, {
+              childKey,
+              childRequestData,
+              name,
+            })
           batchWarmer.origin[name] = [...uniqueBatchableValue]
         }
 
