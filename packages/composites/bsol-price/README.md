@@ -8,9 +8,9 @@ The adapter takes the following environment variables:
 
 | Required? |           Name            |                           Description                            | Options | Defaults to |
 | :-------: | :-----------------------: | :--------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |     `SOLIDO_ADDRESS`      |                The address of the Solido contract                |         |             |
-|    ✅     |      `BSOL_ADDRESS`       |                 The address of the BSol contract                 |         |             |
-|    ✅     |      `STSOL_ADDRESS`      |                The address of the StSOL contract                 |         |             |
+|           |     `SOLIDO_ADDRESS`      |                The address of the Solido contract                |         |             |
+|           |      `BSOL_ADDRESS`       |                 The address of the BSol contract                 |         |             |
+|           |      `STSOL_ADDRESS`      |                The address of the StSOL contract                 |         |             |
 |           | `SOLIDO_CONTRACT_VERSION` | The Solido contract version that is deployed to `SOLIDO_ADDRESS` |         |             |
 
 In addition to the environment variables mentioned in the table above, users must set the required environment variables for both the `solana-view-function` and `token-allocation` external adapters.

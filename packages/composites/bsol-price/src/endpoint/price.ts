@@ -67,12 +67,13 @@ const getBSolUSDPrice = async (
     config,
   )
   const [bSolSupply, stSolReserves] = getBSolSupplyAndStSolReserves(bSolRes, stSolReserveRes)
-  const bSolStSolPrice = BigNumber.min(
-    stSolSupply.dividedBy(solBalance),
-    stSolReserves.dividedBy(bSolSupply),
-  ).toNumber()
-  const stSolUSDPriceResp = await getStSOLUSDPrice(input, context)
-  return stSolUSDPriceResp.data.result * bSolStSolPrice
+
+  // Should be ok to convert to number as these are very small
+  const stSolPerSol = stSolSupply.dividedBy(solBalance).toNumber()
+  const stSolPerBSolInAnker = stSolReserves.dividedBy(bSolSupply).toNumber()
+  const stSolPerBSol = Math.min(stSolPerSol, stSolPerBSolInAnker)
+  const stSolPerUSD = await getStSolPerUSD(input, context, stSolPerSol)
+  return stSolPerBSol / stSolPerUSD
 }
 
 const getBSolSupplyAndStSolReserves = (
@@ -113,21 +114,26 @@ const readDataFromSolidoAddress = (
   return [new BigNumber(stSolBN.toString()), new BigNumber(solBalBN.toString())]
 }
 
-export const getStSOLUSDPrice = async (
+// We fetch the USD / SOL price instead of USD / stSOL from data providers as USD / SOL is much more liquid.  We then use it to derive
+// USD / stSOL
+export const getStSolPerUSD = async (
   input: AdapterRequest,
   context: AdapterContext,
-): Promise<AdapterResponse> => {
+  stSolPerSol: number,
+): Promise<number> => {
   const _config = TA.makeConfig()
   const _execute = TA.makeExecute(_config)
   const allocations = [
     {
-      symbol: 'stSOL',
+      symbol: 'SOL',
       balance: new BigNumber(10).pow(LAMBERT_DECIMALS),
       decimals: LAMBERT_DECIMALS,
     },
   ]
-  return await _execute(
+  const usdSolResp = await _execute(
     { id: input.id, data: { ...input.data, allocations, quote: 'USD', method: 'price' } },
     context,
   )
+  const usdPerSol = usdSolResp.data.result
+  return stSolPerSol / usdPerSol
 }
