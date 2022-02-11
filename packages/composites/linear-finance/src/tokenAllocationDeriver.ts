@@ -2,6 +2,7 @@ import { types } from '@chainlink/token-allocation-adapter'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 import { Config } from '@chainlink/types'
+import moment from 'moment-timezone'
 
 interface Portfolio {
   name: string
@@ -27,12 +28,13 @@ export const deriveAllocations = async (
   config: Config,
   path: string,
 ): Promise<types.TokenAllocations> => {
+  const now = moment().tz('GMT').format('YYYY-MM-DD[T]hh:mm:ss')
   const options = {
     ...config.api,
     url: path,
     params: {
-      reference_timestamp: '2021-01-02T00:00:00',
-    }, // TODO:  Don't hardcode when done testing
+      reference_timestamp: now,
+    },
   }
   const resp = await Requester.request<ResponseSchema>(options)
   const indices = resp.data.data.portfolio

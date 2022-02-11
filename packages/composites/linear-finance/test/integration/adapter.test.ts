@@ -4,7 +4,11 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockAdapterResponseSuccess } from './fixtures'
+import {
+  mockAdapterResponseSuccess,
+  mockXBCIResponseSuccess,
+  mockXLCIResponseSuccess,
+} from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -13,6 +17,7 @@ describe('execute', () => {
   let req: SuperTest<Test>
 
   beforeAll(async () => {
+    process.env.API_KEY = 'test-key'
     process.env.CACHE_ENABLED = 'false'
     process.env.COINMARKETCAP_ADAPTER_URL =
       process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8082'
@@ -46,6 +51,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockAdapterResponseSuccess()
+      mockXBCIResponseSuccess()
 
       const response = await req
         .post('/')
@@ -70,6 +76,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockAdapterResponseSuccess()
+      mockXLCIResponseSuccess()
 
       const response = await req
         .post('/')

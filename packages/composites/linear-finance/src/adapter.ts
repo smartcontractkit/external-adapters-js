@@ -5,7 +5,11 @@ import { deriveAllocations } from './tokenAllocationDeriver'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 
 export const inputParameters: InputParameters = {
-  index: true,
+  index: {
+    required: true,
+    options: ['xbci', 'xlci'],
+    description: 'The index to query',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
@@ -25,9 +29,9 @@ export const makeExecute = (config?: Config): Execute => {
 export const getURLPath = (jobRunID: string, index: string): string => {
   switch (index.toLowerCase()) {
     case XBCI:
-      return '/v1/index/xangle-bluechip '
+      return '/v1/index/xangle-bluechip'
     case XLCI:
-      return '/v1/index/xangle-largecap '
+      return '/v1/index/xangle-largecap'
     default:
       throw new AdapterError({
         jobRunID,
