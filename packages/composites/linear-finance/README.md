@@ -33,7 +33,7 @@ This composite adapter executes the code from the Token Allocation composite ada
   "data": {
     "index": "xbci",
     "quote": "USD",
-    "source": "coingecko"
+    "source": "tiingo"
   }
 }
 ```
