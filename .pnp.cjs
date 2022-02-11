@@ -4074,6 +4074,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
+            ["bignumber.js", "npm:9.0.1"],
             ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],

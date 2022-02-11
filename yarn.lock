@@ -1871,6 +1871,7 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+    bignumber.js: ^9.0.0
     ethers: ^5.5.1
     nock: 13.2.1
     supertest: 6.1.6
