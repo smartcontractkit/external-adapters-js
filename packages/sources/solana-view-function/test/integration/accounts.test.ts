@@ -36,7 +36,7 @@ describe('accounts', () => {
   describe('successful calls', () => {
     const jobID = '1'
 
-    it('return success when fetching the account information', async () => {
+    it('returns success when fetching the account information', async () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
@@ -61,7 +61,7 @@ describe('accounts', () => {
   describe('errored calls', () => {
     const jobID = '1'
 
-    it('return an error when there are no addresses', async () => {
+    it('returns an error when there are no addresses passed to the EA', async () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
@@ -74,11 +74,11 @@ describe('accounts', () => {
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(500)
+        .expect(400)
       expect(response.body).toMatchSnapshot()
     })
 
-    it('return an error when there are no addresses', async () => {
+    it('returns an error when there is no rpc url is set', async () => {
       delete process.env.RPC_URL
       const data: AdapterRequest = {
         id: jobID,

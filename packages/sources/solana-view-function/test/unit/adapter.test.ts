@@ -41,6 +41,7 @@ describe('execute', () => {
     const requests = [
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
+      { name: 'empty addresses', testData: { data: { addresses: [] } } },
     ]
 
     requests.forEach((req) => {

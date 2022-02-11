@@ -31,11 +31,6 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const accountPublicKeys = validator.validated.data.addresses.map(
     (address: string) => new solanaWeb3.PublicKey(address),
   )
-  if (accountPublicKeys.length === 0)
-    throw new AdapterError({
-      jobRunID,
-      message: 'Request must contain at least one account to pull data from',
-    })
   const accountInformation = await solanaConnection.getMultipleAccountsInfo(accountPublicKeys, {
     encoding: 'jsonParsed',
   })
