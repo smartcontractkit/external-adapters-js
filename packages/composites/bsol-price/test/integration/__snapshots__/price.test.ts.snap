@@ -3,10 +3,10 @@
 exports[`accounts successful calls return success when fetching the account information 1`] = `
 Object {
   "data": Object {
-    "result": 101.77779630744526,
+    "result": 104.91215737050713,
   },
   "jobRunID": "1",
-  "result": 101.77779630744526,
+  "result": 104.91215737050713,
   "statusCode": 200,
 }
 `;

@@ -7,14 +7,14 @@ export const mockTokenAllocationResponse = {
       STSOL: {
         quote: {
           USD: {
-            price: '114.50002084587592',
+            price: '104.91215737050713',
           },
         },
       },
     },
-    result: 114.50002084587592,
+    result: 104.91215737050713,
   },
-  result: 114.50002084587592,
+  result: 104.91215737050713,
   statusCode: 200,
 }
 
