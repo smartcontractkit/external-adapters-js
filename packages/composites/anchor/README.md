@@ -60,9 +60,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 #### BLuna Additional params
 
-| Required? |            Name             |             Description             |                                  Options                                   |                  Defaults to                   |
-| :-------: | :-------------------------: | :---------------------------------: | :------------------------------------------------------------------------: | :--------------------------------------------: |
-|           | `terraBLunaContractAddress` | The BLuna contract address in Terra | [Link](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) | `terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts` |
+N/A
 
 ### Sample Input
 
