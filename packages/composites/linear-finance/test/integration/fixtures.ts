@@ -7,16 +7,16 @@ export const adapterConfig = {
   },
 }
 
-export const mockXBCIResponseSuccess = (): nock =>
+export const mockXBCIResponseSuccess = (time: string): nock =>
   nock('https://pro-api.xangle.io')
-    .get('/v1/index/xangle-bluechip?reference_timestamp=2021-01-02T00:00:00')
+    .get(`/v1/index/xangle-bluechip?reference_timestamp=${time}`)
     .reply(
       200,
       {
         data: {
           index_value: {
             value: 372.5752830602402,
-            reference_timestamp_utc: '2021-01-02T00:00:00',
+            reference_timestamp_utc: time,
           },
           portfolio: [
             {
@@ -362,16 +362,16 @@ export const mockXBCIResponseSuccess = (): nock =>
       ],
     )
 
-export const mockXLCIResponseSuccess = (): nock =>
+export const mockXLCIResponseSuccess = (time: string): nock =>
   nock('https://pro-api.xangle.io')
-    .get('/v1/index/xangle-largecap?reference_timestamp=2021-01-02T00:00:00')
+    .get(`/v1/index/xangle-largecap?reference_timestamp=${time}`)
     .reply(
       200,
       {
         data: {
           index_value: {
             value: 385.1060982579625,
-            reference_timestamp_utc: '2021-01-02T00:00:00',
+            reference_timestamp_utc: time,
           },
           portfolio: [
             {

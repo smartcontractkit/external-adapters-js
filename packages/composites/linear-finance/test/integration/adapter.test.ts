@@ -10,6 +10,19 @@ import {
   mockXLCIResponseSuccess,
 } from './fixtures'
 import { AddressInfo } from 'net'
+import 'moment-timezone'
+
+const time = '2021-01-02T00:00:00'
+
+jest.mock('moment-timezone', () => {
+  const mockFormatFn = jest.fn().mockReturnValue(time)
+  const mockTzFn = jest.fn().mockReturnValue({
+    format: mockFormatFn,
+  })
+  return jest.fn().mockReturnValue({
+    tz: mockTzFn,
+  })
+})
 
 describe('execute', () => {
   const id = '1'
@@ -51,7 +64,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockAdapterResponseSuccess()
-      mockXBCIResponseSuccess()
+      mockXBCIResponseSuccess(time)
 
       const response = await req
         .post('/')
@@ -76,7 +89,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockAdapterResponseSuccess()
-      mockXLCIResponseSuccess()
+      mockXLCIResponseSuccess(time)
 
       const response = await req
         .post('/')
