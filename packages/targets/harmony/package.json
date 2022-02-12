@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/harmony-adapter",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "Chainlink harmony adapter.",
   "keywords": [
     "Chainlink",

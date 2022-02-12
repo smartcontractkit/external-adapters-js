@@ -1,5 +1,16 @@
 # @chainlink/dns-record-check-adapter
 
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies [57be274ff]
+- Updated dependencies [540e563a9]
+- Updated dependencies [72f96124d]
+  - @chainlink/ea-bootstrap@1.10.6
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/dns-query-adapter@1.2.7
+
 ## 1.1.6
 
 ### Patch Changes
