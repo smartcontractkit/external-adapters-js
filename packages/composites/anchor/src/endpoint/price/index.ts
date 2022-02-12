@@ -57,7 +57,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const taResponse = await getTokenPrice(input, context, intermediaryTokenSymbol, taDecimals)
   const resultInUSD = await priceExecute(input, context, config, taResponse)
 
-  if (to === 'USD') return resultInUSD
+  if (to.toUpperCase() === 'USD') return resultInUSD
   const convertedResult = await convertUSDQuote(
     input,
     context,
