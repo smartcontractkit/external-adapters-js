@@ -1,6 +1,10 @@
-# @chainlink/jpegd-adapter
+# @chainlink/solana-view-function-adapter
 
-## 1.0.2
+## 2.0.0
+
+### Major Changes
+
+- eb8fe9ae8: Initial implementation
 
 ### Patch Changes
 
@@ -9,11 +13,3 @@
 - Updated dependencies [72f96124d]
   - @chainlink/ea-bootstrap@1.10.6
   - @chainlink/ea-test-helpers@1.1.0
-
-## 1.0.1
-
-### Patch Changes
-
-- Updated dependencies [4865d3b46]
-  - @chainlink/ea-bootstrap@1.10.5
-  - @chainlink/ea-test-helpers@1.0.1
