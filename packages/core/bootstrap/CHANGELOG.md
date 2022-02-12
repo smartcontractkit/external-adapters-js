@@ -1,5 +1,13 @@
 # @chainlink/ea-bootstrap
 
+## 1.10.6
+
+### Patch Changes
+
+- 57be274ff: update provider limits
+- 540e563a9: Prevent process crash when cache warmer data is missing
+- 72f96124d: Add WS testing fw
+
 ## 1.10.5
 
 ### Patch Changes

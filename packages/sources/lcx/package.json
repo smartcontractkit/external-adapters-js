@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/lcx-adapter",
-  "version": "1.1.22",
+  "version": "1.2.0",
   "description": "Chainlink lcx adapter.",
   "keywords": [
     "Chainlink",
