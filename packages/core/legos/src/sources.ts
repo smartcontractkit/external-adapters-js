@@ -78,11 +78,11 @@ import * as lotus from '@chainlink/lotus-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
+import * as mock_ea from '@chainlink/mock-ea-adapter'
 import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
-import * as mock_ea from '@chainlink/mock-ea-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
@@ -96,6 +96,7 @@ import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as snowflake from '@chainlink/snowflake-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
+import * as solana_view_function from '@chainlink/solana-view-function-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
@@ -218,6 +219,7 @@ export default {
   satoshitango,
   snowflake,
   sochain,
+  solana_view_function,
   spectral_macro_score,
   sportsdataio,
   stasis,
