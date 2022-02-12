@@ -1,5 +1,6 @@
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { PriceExecute } from '.'
+import BigNumber from 'bignumber.js'
 
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN_DECIMALS = 8
@@ -24,7 +25,11 @@ export const execute: PriceExecute = async (input, _, config, taAdapterResponse)
     provider,
   )
   const bEthExchangeRateBigNum = await anchorVaultContract.get_rate()
-  const stEthPerBEth = bEthExchangeRateBigNum.div(BigNumber.from(10).pow(18)).toNumber()
+
+  // Need to convert to BigNumber JS from ethers BigNumber as the latter will remove all decimals
+  const stEthPerBEth = new BigNumber(bEthExchangeRateBigNum.toString())
+    .dividedBy(new BigNumber(10).pow(18))
+    .toNumber()
   const usdPerStEth = taAdapterResponse.data.result
   const result = usdPerStEth * stEthPerBEth
   return {
