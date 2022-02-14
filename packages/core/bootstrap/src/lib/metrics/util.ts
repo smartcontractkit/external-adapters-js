@@ -84,9 +84,17 @@ export const getFeedId = (input: AdapterRequest): string => {
 
     // run through validator if input.data object has keys that match potential base and quote parameters
     if (commonFeedParams.base.some(includesCheck) && commonFeedParams.quote.some(includesCheck)) {
-      const validationResult = new Validator(input, commonFeedParams)
+      const validationResult = new Validator(
+        input,
+        commonFeedParams,
+        {},
+        { shouldThrowError: false },
+      )
       if (validationResult.error) {
-        logger.debug('Unable to validate feed name')
+        logger.debug('Unable to validate feed name', {
+          input,
+          error: validationResult.error.toString(),
+        })
         return JSON.stringify(input)
       }
 
@@ -112,9 +120,9 @@ export const getFeedId = (input: AdapterRequest): string => {
       ? crypto.createHash('md5').update(rawFeedId).digest('hex')
       : rawFeedId
   } catch (error) {
-    logger.error(error.toString(), {
+    logger.error('Unable to get feed name', {
       input,
-      message: error.toString(),
+      error: error.toString(),
       stack: error.stack,
     })
     return 'undefined'
