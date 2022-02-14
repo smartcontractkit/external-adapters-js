@@ -93,7 +93,7 @@ export class Validator {
   validateIncludeOverrides(): void {
     try {
       this.validated.includes = this.formatIncludeOverrides([
-        ...(this.input.data?.includes || []),
+        ...(Array.isArray(this.input.data?.includes) ? this.input.data.includes : []),
         ...presetIncludes,
       ])
     } catch (e) {
