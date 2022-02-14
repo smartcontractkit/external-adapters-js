@@ -1,11 +1,9 @@
 {
-  "dns-query": {
-    "http": {
-      "free": {
-        "rateLimit1s": 100,
-        "note": "cloudflare @ 100, google @ 1500"
-      }
-    },
-    "ws": {}
-  }
+  "http": {
+    "free": {
+      "rateLimit1s": 100,
+      "note": "cloudflare @ 100, google @ 1500"
+    }
+  },
+  "ws": {}
 }

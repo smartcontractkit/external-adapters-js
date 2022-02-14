@@ -1,15 +1,13 @@
 {
-  "binance": {
-    "http": {
-      "public": {
-        "rateLimit1m": 1200
-      }
-    },
-    "ws": {
-      "public": {
-        "connections": 1024,
-        "subscriptions": 1024
-      }
+  "http": {
+    "public": {
+      "rateLimit1m": 1200
+    }
+  },
+  "ws": {
+    "public": {
+      "connections": 1024,
+      "subscriptions": 1024
     }
   }
 }

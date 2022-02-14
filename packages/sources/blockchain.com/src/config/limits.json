@@ -1,10 +1,8 @@
 {
-  "blockchain.com": {
-    "http": {
-      "global": {
-        "rateLimit1m": 1200
-      }
-    },
-    "ws": {}
-  }
+  "http": {
+    "global": {
+      "rateLimit1m": 1200
+    }
+  },
+  "ws": {}
 }

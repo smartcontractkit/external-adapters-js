@@ -21,13 +21,11 @@ type WSTier = {
 }
 
 export interface Limits {
-  [providerName: string]: {
-    http: {
-      [tierName: string]: HTTPTier
-    }
-    ws: {
-      [tierName: string]: WSTier
-    }
+  http: {
+    [tierName: string]: HTTPTier
+  }
+  ws: {
+    [tierName: string]: WSTier
   }
 }
 
@@ -62,8 +60,7 @@ const getProviderLimits = (
   tier: string,
   protocol: 'ws' | 'http',
 ): HTTPTier | WSTier | undefined => {
-  const parsedLimits = parseLimits(limits)
-  const providerConfig = parsedLimits[provider.toLowerCase()]
+  const providerConfig = parseLimits(limits)
   if (!providerConfig)
     throw new Error(
       `Rate Limit: Provider: "${provider}" doesn't match any provider spec in limits.json`,
@@ -98,12 +95,11 @@ const parseLimits = (limits: Limits): Limits => {
     const [tierName, rest] = entry
     return [tierName.toLowerCase(), { ...(rest as any) }]
   })
-  const _formatProvider = _mapObject((entry: any[]) => {
-    const [providerName, protocol] = entry
-    const http = _formatProtocol(protocol.http)
-    const ws = _formatProtocol(protocol?.ws)
-    return [providerName.toLowerCase(), { http, ws }]
-  })
+  const _formatProvider = (limits: Limits) => {
+    const http = _formatProtocol(limits.http)
+    const ws = _formatProtocol(limits?.ws)
+    return { http, ws }
+  }
 
   return _formatProvider(limits)
 }

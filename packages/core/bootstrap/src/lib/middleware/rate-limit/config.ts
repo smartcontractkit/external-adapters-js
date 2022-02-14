@@ -21,7 +21,7 @@ export interface Config {
 }
 
 export function get(
-  rateLimitConfig: { limits: Limits; name: string } = { limits: {}, name: '' },
+  rateLimitConfig: { limits: Limits; name: string } = { limits: { http: {}, ws: {} }, name: '' },
 ): Config {
   const enabled =
     parseBool(getEnv('CACHE_ENABLED') ?? DEFAULT_CACHE_ENABLED) &&

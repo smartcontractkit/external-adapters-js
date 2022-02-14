@@ -35,7 +35,7 @@ export const initHandler =
     const context: AdapterContext = {
       name,
       cache: null,
-      rateLimit: getRateLimitConfig({ limits: rateLimits || {}, name }),
+      rateLimit: getRateLimitConfig({ limits: rateLimits || { http: {}, ws: {} }, name }),
     }
     const cacheOptions = defaultOptions()
     if (cacheOptions.enabled) {

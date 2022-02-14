@@ -1,11 +1,9 @@
 {
-  "dydx-stark": {
-    "http": {
-      "free": {
-        "rateLimit1s": 10,
-        "note": "100req/10s"
-      }
-    },
-    "ws": {}
-  }
+  "http": {
+    "free": {
+      "rateLimit1s": 10,
+      "note": "100req/10s"
+    }
+  },
+  "ws": {}
 }

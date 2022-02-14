@@ -1,11 +1,9 @@
 {
-  "cryptomkt": {
-    "http": {
-      "free": {
-        "rateLimit1m": 10,
-        "note": "only mentions minute limit"
-      }
-    },
-    "ws": {}
-  }
+  "http": {
+    "free": {
+      "rateLimit1m": 10,
+      "note": "only mentions minute limit"
+    }
+  },
+  "ws": {}
 }

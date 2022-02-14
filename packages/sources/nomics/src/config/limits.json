@@ -1,15 +1,13 @@
 {
-  "nomics": {
-    "http": {
-      "free": {
-        "rateLimit1s": 2,
-        "rateLimit1m": 60,
-        "note": "1 req/s, presumably allows for bursts"
-      },
-      "paid": {
-        "rateLimit1h": -1
-      }
+  "http": {
+    "free": {
+      "rateLimit1s": 2,
+      "rateLimit1m": 60,
+      "note": "1 req/s, presumably allows for bursts"
     },
-    "ws": {}
-  }
+    "paid": {
+      "rateLimit1h": -1
+    }
+  },
+  "ws": {}
 }
