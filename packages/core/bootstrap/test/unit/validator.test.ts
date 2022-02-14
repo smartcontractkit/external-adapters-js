@@ -450,4 +450,97 @@ describe('Validator', () => {
     expect(validator?.error?.statusCode).toEqual(400)
     expect(validator?.error?.status).toEqual('errored')
   })
+
+  describe('overrideSymbol', () => {
+    it('errors if base was not provided', () => {
+      const validator = new Validator()
+      expect(() => validator.overrideSymbol('coingecko')).toThrowError()
+    })
+
+    it('returns symbol as is if there are no overrides, using input', () => {
+      const params: InputParameters = {
+        base: {
+          required: true,
+          type: 'string',
+        },
+      }
+      const input = {
+        id: '1',
+        data: {
+          base: 'btc',
+        },
+      }
+      const validator = new Validator(input, params)
+      const base = validator.overrideSymbol('coingecko')
+      expect(base).toBe('btc')
+    })
+
+    it('returns symbol as is if there are no overrides, using provided symbol argument', () => {
+      const validator = new Validator()
+      const base = validator.overrideSymbol('coingecko', 'btc')
+      expect(base).toBe('btc')
+    })
+
+    it('returns non-array symbol value from overrides', () => {
+      const input = {
+        id: '1',
+        data: {
+          overrides: {
+            coingecko: {
+              uni: 'uniswap',
+            },
+          },
+        },
+      }
+      const validator = new Validator(input)
+      const base = validator.overrideSymbol('coingecko', 'uni')
+      expect(base).toBe('uniswap')
+    })
+
+    it('returns multiple overriden symbols from array input', () => {
+      const input = {
+        id: '1',
+        data: {
+          overrides: {
+            coingecko: {
+              uni: 'uniswap',
+            },
+          },
+        },
+      }
+      const validator = new Validator(input)
+      const base = validator.overrideSymbol('coingecko', ['btc', 'uni'])
+      expect(base).toEqual(['btc', 'uniswap'])
+    })
+  })
+
+  describe('overrideToken', () => {
+    it('return ethereum address', () => {
+      const validator = new Validator()
+      const result = validator.overrideToken('ETH')
+      expect(result).toBe('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE')
+    })
+  })
+
+  describe('overrideIncludes', () => {
+    it('returns undefined when provided with invalid include', () => {
+      const validator = new Validator()
+      const include = validator.overrideIncludes('coingecko', 'ETH', 'BTC')
+      expect(include).toBeUndefined()
+    })
+
+    it('returns valid include', () => {
+      const validator = new Validator()
+      const include = validator.overrideIncludes('amberdata', 'BTC', 'ETH')
+      expect(include).toMatchSnapshot()
+    })
+  })
+
+  describe('overrideReverseLookup', () => {
+    it('returns ????', () => {
+      const validator = new Validator()
+      const symbol = validator.overrideReverseLookup('coingecko', 'overrides', 'btc')
+      expect(symbol).toBe('btc')
+    })
+  })
 })
