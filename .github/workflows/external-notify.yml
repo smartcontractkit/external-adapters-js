@@ -1,0 +1,30 @@
+name: Notify External Contribution
+
+on:
+  pull_request:
+    types: [review_requested, ready_for_review, opened, reopened]
+    branches:
+      - develop
+
+jobs:
+  notify_external:
+    name: Notify External Contribution
+    runs-on: ubuntu-latest
+    steps:
+      # We expect this to fail if user doesn't have write permissions (= external contributor)
+      - uses: scherermichael-oss/action-has-permission@master
+        name: Check if external contributor
+        id: check
+        with:
+          required-permission: write
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+        # if: ${{ !steps.check.outputs.has-permission }}
+        if: '! steps.check.outputs.has-permission'
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        # if: ${{ !steps.check.outputs.has-permission }}
+        if: '! steps.check.outputs.has-permission'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_NOTIFICATIONS_WEBHOOK }}
