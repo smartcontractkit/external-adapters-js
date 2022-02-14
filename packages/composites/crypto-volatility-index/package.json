@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/crypto-volatility-index-adapter",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "The Crypto volatility index (CVI)",
   "keywords": [
     "Chainlink",
