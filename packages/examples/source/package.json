@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/example-source-adapter",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "Chainlink example source adapter.",
   "keywords": [
     "Chainlink",

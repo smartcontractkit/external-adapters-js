@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.11.0
+
+### Minor Changes
+
+- eecdac90b: Prevent getFeedId errors from killing the process on node v17
+
 ## 1.10.6
 
 ### Patch Changes
