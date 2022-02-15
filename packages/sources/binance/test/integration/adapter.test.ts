@@ -18,6 +18,7 @@ import {
   mockWebSocketFlow,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
+import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
 
 const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -101,7 +102,7 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
   beforeAll(async () => {
     if (!process.env.RECORD) {
-      mockedWsServer = mockWebSocketServer('wss://stream.binance.com:9443/ws')
+      mockedWsServer = mockWebSocketServer(DEFAULT_WS_API_ENDPOINT)
       mockWebSocketProvider(WebSocketClassProvider)
     }
 
@@ -154,7 +155,6 @@ describe('websocket', () => {
 
       // We don't care about the first response, coming from http request
       // This first request will start both batch warmer & websocket
-      // TODO: Validate just in case?
       await makeRequest()
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
