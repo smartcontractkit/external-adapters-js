@@ -1,5 +1,13 @@
 # @chainlink/vesper-adapter
 
+## 1.0.38
+
+### Patch Changes
+
+- Updated dependencies [eecdac90b]
+  - @chainlink/ea-bootstrap@1.11.0
+  - @chainlink/token-allocation-adapter@1.0.38
+
 ## 1.0.37
 
 ### Patch Changes

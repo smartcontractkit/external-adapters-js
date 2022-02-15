@@ -1,5 +1,13 @@
 ## v1.1.0
 
+## 1.7.2
+
+### Patch Changes
+
+- Updated dependencies [eecdac90b]
+  - @chainlink/ea-bootstrap@1.11.0
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.7.1
 
 ### Patch Changes
