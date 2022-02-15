@@ -18,7 +18,6 @@ import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { AddressInfo } from 'net'
-import { Limits } from './config/provider-limits'
 
 const app = express()
 const version = process.env.npm_package_version
@@ -30,12 +29,16 @@ export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
-  (name: string, execute: Execute, middleware: Middleware[], rateLimits?: Limits) =>
+  (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
   async (): Promise<http.Server> => {
+    const name = adapterContext.name || ''
     const context: AdapterContext = {
       name,
       cache: null,
-      rateLimit: getRateLimitConfig({ limits: rateLimits || { http: {}, ws: {} }, name }),
+      rateLimit: getRateLimitConfig({
+        limits: adapterContext.rateLimit || { http: {}, ws: {} },
+        name,
+      }),
     }
     const cacheOptions = defaultOptions()
     if (cacheOptions.enabled) {

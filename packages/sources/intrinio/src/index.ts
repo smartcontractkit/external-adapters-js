@@ -5,9 +5,5 @@ import rateLimit from './config/limits.json'
 
 const adapterContext = { name: NAME, rateLimit }
 
-export = {
-  NAME,
-  makeExecute,
-  makeConfig,
-  ...expose(adapterContext, makeExecute(), makeWSHandler()),
-}
+const { server } = expose(adapterContext, makeExecute(), makeWSHandler())
+export { NAME, makeExecute, makeConfig, server }

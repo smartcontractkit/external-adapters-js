@@ -4,6 +4,6 @@ import { makeConfig, NAME } from './config'
 
 const adapterContext = { name: NAME }
 
-const handlers = expose(adapterContext, makeExecute())
+const { server } = expose(adapterContext, makeExecute())
 
-export = { NAME, makeConfig, makeExecute, handlers }
+export { NAME, makeConfig, makeExecute, server }

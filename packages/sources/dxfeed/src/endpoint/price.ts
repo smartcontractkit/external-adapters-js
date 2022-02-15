@@ -82,7 +82,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(config.name || AdapterName)
-  console.log('overrided base', base)
   const symbol = getSymbol(base)
 
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'

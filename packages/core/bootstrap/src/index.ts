@@ -137,7 +137,7 @@ export const expose = <C extends Config>(
 ): ExecuteHandler => {
   const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
   return {
-    server: server.initHandler(context.name || '', execute, middleware, context.rateLimit),
+    server: server.initHandler(context, execute, middleware),
   }
 }
 
