@@ -34,6 +34,17 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
 
+  load-test:
+    image: loadimpact/k6
+    volumes:
+      - ../packages/k6/dist:/load
+      - ./generated/repro-test-payloads.json:/repro-test-payloads.json
+    environment:
+      - LOAD_TEST_ADAPTER_NAME=${LOAD_TEST_ADAPTER_NAME}
+      - LOAD_TEST_ITERATIONS=${LOAD_TEST_ITERATIONS}
+      - PAYLOAD_PATH=/repro-test-payloads.json
+    command: run /load/reproTest.js
+
 volumes:
   prometheus_data:
   grafana_data:

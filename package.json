@@ -7,8 +7,6 @@
     "packages/**/*"
   ],
   "scripts": {
-    "versions": "ts-node-transpile-only ./packages/scripts/src/versions",
-    "new": "ts-node-transpile-only ./packages/scripts/src/new",
     "bundle": "ncc build",
     "clean": "rm -rf **/dist; tsc -b --clean ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
@@ -27,12 +25,18 @@
     "generate:image-name": "ts-node-transpile-only ./packages/scripts/src/generate-image-name",
     "generate:master-list": "ts-node-transpile-only ./packages/scripts/src/generate-master-list",
     "generate:readme": "ts-node-transpile-only ./packages/scripts/src/generate-readme",
+    "repro": "./packages/scripts/src/repro/run.sh",
     "postinstall": "husky install",
-    "cm": "cz",
     "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
     "qa:flux:configure": "ts-node-transpile-only ./packages/scripts/src/flux-emulator",
-    "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters",
-    "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate"
+    "setup": "tsc -b ./packages/tsconfig.json ",
+    "test:ci:integration": "EA_PORT=0 jest --coverage integration",
+    "test:ci:unit": "jest --coverage unit",
+    "test:integration": "EA_PORT=0 jest integration",
+    "test:unit": "jest unit",
+    "test": "jest",
+    "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate",
+    "versions": "ts-node-transpile-only ./packages/scripts/src/versions"
   },
   "dependencies": {
     "@babel/core": "7.16.12",
