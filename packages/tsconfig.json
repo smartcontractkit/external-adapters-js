@@ -18,6 +18,9 @@
       "path": "./composites/bob"
     },
     {
+      "path": "./composites/bsol-price"
+    },
+    {
       "path": "./composites/circuit-breaker"
     },
     {
@@ -300,6 +303,9 @@
       "path": "./sources/google-bigquery"
     },
     {
+      "path": "./sources/gramchain"
+    },
+    {
       "path": "./sources/graphql"
     },
     {
@@ -343,6 +349,9 @@
     },
     {
       "path": "./sources/metalsapi"
+    },
+    {
+      "path": "./sources/mock-ea"
     },
     {
       "path": "./sources/mycryptoapi"
@@ -394,6 +403,9 @@
     },
     {
       "path": "./sources/sochain"
+    },
+    {
+      "path": "./sources/solana-view-function"
     },
     {
       "path": "./sources/spectral-macro-score"

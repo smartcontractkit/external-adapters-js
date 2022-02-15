@@ -59,7 +59,7 @@ N/A
 {
   "id": 1,
   "data": {
-    "chainSources": ["optimism"]
+    "chainSources": ["ethereum"]
   }
 }
 ```
@@ -69,11 +69,10 @@ N/A
 ```json
 {
   "jobRunID": 1,
-  "result": "50977793699622560436740360",
+  "result": "0x000000000063e236fd9b18e9473beb3700000000006437f697997ef9b6da0555",
   "statusCode": 200,
   "data": {
-    "result": "50977793699622560436740360",
-    "isInvalid": false
+    "result": "0x000000000063e236fd9b18e9473beb3700000000006437f697997ef9b6da0555"
   }
 }
 ```

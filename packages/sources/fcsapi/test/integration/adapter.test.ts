@@ -38,6 +38,7 @@ describe('execute', () => {
       id,
       data: {
         base: 'FTSE',
+        endpoint: 'common',
       },
     }
 
