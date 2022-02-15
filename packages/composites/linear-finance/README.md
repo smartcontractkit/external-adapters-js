@@ -12,6 +12,10 @@ This adapter calculates an index value from the symbols and units as defined in 
 
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
 
+| Required? |    Name    |     Description     |          Options           | Defaults to |
+| :-------: | :--------: | :-----------------: | :------------------------: | :---------: |
+|           | `endpoint` | The endpoint to use | [prices](#Prices-Endpoint) |  `prices`   |
+
 ## Running
 
 See the [Composite Adapter README](../README.md) for more information on how to get started.
