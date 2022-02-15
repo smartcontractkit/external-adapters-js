@@ -26,6 +26,6 @@ export const deriveAllocations = async (
           .then((value) => resolve(value.data.allocations))
           .catch(reject)
       })
-      .catch((error) => reject(error))
+      .catch(reject)
   })
 }
