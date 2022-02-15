@@ -4,10 +4,10 @@ The Solana view function adapter can be used to query account information from t
 
 ### Environment Variables
 
-| Required? |    Name    |         Description          |                                                                                                          Options                                                                                                           | Defaults to |
-| :-------: | :--------: | :--------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |  RPC_URL   | The RPC URL to a Solana node | `https://api.devnet.solana.com`, `https://api.testnet.solana.com`, `https://api.mainnet-beta.solana.com`, `https://solana-api.projectserum.com`. Full list can be found here https://docs.solana.com/cluster/rpc-endpoints |             |
-|           | COMMITMENT | The RPC URL to a Solana node |                                                                     `processed`,`confirmed`,`finalized`,`recent`,`single`,`singleGossip`,`root`,`max`                                                                      | `confirmed` |
+| Required? |    Name    |              Description               |                                                                                                          Options                                                                                                           | Defaults to |
+| :-------: | :--------: | :------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     |  LCD_URL   |      The LCD URL to a Solana node      | `https://api.devnet.solana.com`, `https://api.testnet.solana.com`, `https://api.mainnet-beta.solana.com`, `https://solana-api.projectserum.com`. Full list can be found here https://docs.solana.com/cluster/rpc-endpoints |             |
+|           | COMMITMENT | The commitment level used in the query |                                                                     `processed`,`confirmed`,`finalized`,`recent`,`single`,`singleGossip`,`root`,`max`                                                                      | `confirmed` |
 
 ---
 

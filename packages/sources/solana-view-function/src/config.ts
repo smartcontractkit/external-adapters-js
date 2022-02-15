@@ -14,7 +14,7 @@ export interface ExtendedConfig extends BaseConfig {
 export const makeConfig = (prefix?: string): ExtendedConfig => {
   return {
     ...Requester.getDefaultConfig(prefix),
-    rpcUrl: util.getRequiredEnv('RPC_URL', prefix),
+    rpcUrl: util.getRequiredEnv('LCD_URL', prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
     commitment: util.getEnv('COMMITMENT', prefix) || DEFAULT_CONNECTION_COMMITMENT,
   }
