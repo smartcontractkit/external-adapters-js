@@ -172,7 +172,8 @@ const validateEndpointSupportedBySource = (jobRunID: string, source: Source, met
   source = source.toUpperCase()
 
   // Todo:  In the future we should aim to export the supported endpoints from EAs
-  if (method === 'marketcap' && (source === NCFX.NAME || source === Finage.NAME)) {
+  const adaptersNotSupportingMktCap = [NCFX.NAME, Finage.NAME]
+  if (method === 'marketcap' && adaptersNotSupportingMktCap.includes(source)) {
     throw new AdapterError({
       jobRunID,
       message: `source ${source} does not support the marketcap endpoint`,
