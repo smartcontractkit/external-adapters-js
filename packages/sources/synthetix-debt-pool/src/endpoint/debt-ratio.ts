@@ -1,8 +1,9 @@
 import { AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import { synthetix } from '@synthetixio/contracts-interface'
-import { getDataFromAcrossChains, SupportedSynthetixNetwork } from '../commons'
+import { getDataFromAcrossChains } from '../commons'
+import { Config } from '../config'
 
 export const supportedEndpoints = ['debt-ratio']
 
@@ -16,11 +17,20 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) =>
 
 const getDebtRatio = async (
   jobRunID: string,
-  chainsToQuery: SupportedSynthetixNetwork[],
+  config: Config,
+  chainsToQuery: string[],
 ): Promise<BigNumber> => {
   const chainResponses = await Promise.all(
-    chainsToQuery.map(async (network: SupportedSynthetixNetwork): Promise<CurrentDebtResults> => {
-      const snxjs = synthetix({ network })
+    chainsToQuery.map(async (network): Promise<CurrentDebtResults> => {
+      const rpcUrl = config.chains[network]
+      if (!rpcUrl) {
+        throw new AdapterError({
+          jobRunID,
+          message: `RPC URL not set for chain: ${network}`,
+        })
+      }
+      const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+      const snxjs = synthetix({ provider: provider })
       try {
         const [chainTotalDebt] = await snxjs.contracts.DebtCache.currentDebt()
         const chainTotalDebtShare = await snxjs.contracts.SynthetixDebtShare.totalSupply()
@@ -31,7 +41,7 @@ const getDebtRatio = async (
       } catch (e) {
         throw new AdapterError({
           jobRunID,
-          message: `Failed to fetch debt data from chain ${network}`,
+          message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${e.message}`,
         })
       }
     }),

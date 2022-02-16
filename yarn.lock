@@ -4331,7 +4331,7 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
-    ethers: 5.4.7
+    ethers: 5.5.3
     supertest: 6.1.6
     tslib: ^2.3.1
     typescript: 4.3.5

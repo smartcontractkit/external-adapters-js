@@ -6803,7 +6803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
-            ["ethers", "npm:5.4.7"],
+            ["ethers", "npm:5.5.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]

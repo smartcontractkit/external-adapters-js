@@ -4,12 +4,10 @@ The Synthetix debt pool adapter fetches the total debt from the DebtCache contra
 
 ### Environment Variables
 
-| Required? |                    Name                    |                       Description                        | Options | Defaults to |
-| :-------: | :----------------------------------------: | :------------------------------------------------------: | :-----: | :---------: |
-|           | ETHEREUM_ADDRESS_PROVIDER_CONTRACT_ADDRESS | The address of the address provider contract in ethereum |         |             |
-|           |              ETHEREUM_RPC_URL              |             A valid Ethereum Mainnet RPC URL             |         |             |
-|           | OPTIMISM_ADDRESS_PROVIDER_CONTRACT_ADDRESS | The address of the address provider contract in ethereum |         |             |
-|           |              OPTIMISM_RPC_URL              |             A valid Ethereum Mainnet RPC URL             |         |             |
+| Required? |       Name       |       Description        | Options | Defaults to |
+| :-------: | :--------------: | :----------------------: | :-----: | :---------: |
+|           |     RPC_URL      | A valid Ethereum RPC URL |         |             |
+|           | OPTIMISM_RPC_URL | A valid Optimism RPC URL |         |             |
 
 The environment variables above are not required to start the adapter but are required when you want to pull the debt from that chain. Not setting any will not prevent the adapter from starting but it won't be able to pull debt from any chains.
 
