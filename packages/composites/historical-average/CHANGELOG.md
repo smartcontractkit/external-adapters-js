@@ -1,5 +1,15 @@
 # @chainlink/historical-average-adapter
 
+## 1.0.26
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/coinmarketcap-adapter@1.3.15
+
 ## 1.0.25
 
 ### Patch Changes
