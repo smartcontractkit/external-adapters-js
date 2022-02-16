@@ -1,6 +1,7 @@
 import { Config } from '@chainlink/types'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 
+export const NAME = 'LINEAR_FINANCE'
 export const DEFAULT_ENDPOINT = 'prices'
 export const DEFAULT_API_ENDPOINT = 'https://pro-api.xangle.io'
 export const XBCI = 'xbci'
