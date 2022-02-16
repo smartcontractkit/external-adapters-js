@@ -6067,6 +6067,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/linear-finance-adapter", "workspace:packages/composites/linear-finance"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
@@ -6075,6 +6076,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.24.0"],
             ["csv-parse", "npm:4.16.0"],
             ["decimal.js", "npm:10.3.1"],
+            ["moment", "npm:2.29.1"],
+            ["moment-timezone", "npm:0.5.34"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
@@ -25751,6 +25754,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:2.29.1", {
           "packageLocation": "./.yarn/cache/moment-npm-2.29.1-787d9fdafd-1e14d5f422.zip/node_modules/moment/",
           "packageDependencies": [
+            ["moment", "npm:2.29.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["moment-timezone", [
+        ["npm:0.5.34", {
+          "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.34-e4fe2d01f6-12a1d3d52e.zip/node_modules/moment-timezone/",
+          "packageDependencies": [
+            ["moment-timezone", "npm:0.5.34"],
             ["moment", "npm:2.29.1"]
           ],
           "linkType": "HARD",
