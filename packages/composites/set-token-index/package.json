@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/set-token-index-adapter",
-  "version": "1.0.38",
+  "version": "1.0.40",
   "description": "Chainlink set-token-index adapter.",
   "keywords": [
     "Chainlink",

@@ -1,5 +1,18 @@
 # @chainlink/token-allocation-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/coingecko-adapter@1.1.15
+
+## 1.1.0
+
+### Minor Changes
+
+- b858d0b9f: expand token allocation EA to include additional source EAs
+
 ## 1.0.38
 
 ### Patch Changes
