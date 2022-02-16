@@ -2,4 +2,4 @@
 '@chainlink/linear-finance-adapter': major
 ---
 
-update ea to use api instead of reading from csv file
+Update ea to use api instead of reading from csv file. NOTE: This version of the adapter requires an API key to be set.
