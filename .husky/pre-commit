@@ -1,14 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn generate:readme -s
-README_GENERATOR_EXIT_CODE=$?
-
-if [ $README_GENERATOR_EXIT_CODE -ne 0 ]; then
-    echo "README(s) could not be generated. Aborting commit."
-    exit 1
-else
-    echo "README(s) generated successfully."
-fi
-
 yarn lint-staged

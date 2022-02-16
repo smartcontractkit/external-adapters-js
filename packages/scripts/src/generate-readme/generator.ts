@@ -144,7 +144,7 @@ export class ReadmeGenerator {
   addInputParamsSection(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Adding input parameters`)
 
-    const endpointList = Object.keys(this.endpointDetails).reduce((list, e) => {
+    const endpointList = Object.keys(this.endpointDetails).reduce((list: string[], e) => {
       const { supportedEndpoints = [] } = this.endpointDetails[e]
       for (const supportedEndpoint of supportedEndpoints) {
         list.push(`[${supportedEndpoint}](#${e.toLowerCase()}-endpoint)`)
@@ -342,13 +342,11 @@ export class ReadmeGenerator {
     this.readmeText += endpointSections + '\n\n---\n'
   }
 
-  createReadmeFile(stage?: boolean): void {
+  createReadmeFile(): void {
     const readmePath = this.adapterPath + 'README.md'
 
     const shellString = new shell.ShellString(this.readmeText)
     shellString.to(readmePath)
-
-    if (stage) shell.exec(`git add ${readmePath}`)
 
     console.log(`${this.adapterPath}: README has been saved`)
   }
