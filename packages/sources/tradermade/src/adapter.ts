@@ -9,6 +9,7 @@ import {
 import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
+import overrides from './config/symbols.json'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   return Builder.buildSelector(request, context, config, endpoints)
@@ -44,7 +45,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       input,
       endpoints.forex.inputParameters,
       {},
-      { shouldThrowError: false },
+      { shouldThrowError: false, overrides },
     )
     if (validator.error) return
     const base = validator.validated.data.base.toUpperCase()

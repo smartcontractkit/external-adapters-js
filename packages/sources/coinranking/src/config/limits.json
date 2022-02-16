@@ -1,0 +1,16 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1s": 5,
+      "rateLimit1h": 13.8888888889,
+      "note": "10k/mo on the free tier (with API key) unauthenticated request limits aren't specified"
+    },
+    "hobbyist": {
+      "rateLimit1h": 277.777777778
+    },
+    "pro": {
+      "rateLimit1h": -1
+    }
+  },
+  "ws": {}
+}

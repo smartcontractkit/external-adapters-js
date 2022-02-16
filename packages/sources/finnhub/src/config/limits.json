@@ -1,0 +1,12 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1m": 60
+    },
+    "all-in-one": {
+      "rateLimit1m": 300,
+      "note": "limit is for market data, not fundamental data"
+    }
+  },
+  "ws": {}
+}

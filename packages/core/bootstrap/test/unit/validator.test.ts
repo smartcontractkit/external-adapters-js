@@ -411,14 +411,13 @@ describe('Validator', () => {
     expect(validator.error).not.toBeDefined()
   })
 
-  it('default overrides input is loaded', () => {
+  it('default overrides input is empty', () => {
     const input = {
       id: '1',
       data: {},
     }
     const validator = new Validator(input)
-    expect(validator.validated.overrides?.size).toBeGreaterThan(1)
-    expect(validator.validated.overrides.get('coingecko').get('uni')).toEqual('uniswap')
+    expect(validator.validated.overrides?.size).toEqual(0)
   })
 
   it('overrides input is formatted', () => {

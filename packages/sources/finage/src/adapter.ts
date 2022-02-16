@@ -8,6 +8,7 @@ import {
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
+import overrides from './config/symbols.json'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   return Builder.buildSelector(request, context, config, endpoints)
@@ -39,7 +40,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       input,
       endpoints.stock.inputParameters,
       {},
-      { shouldThrowError: false },
+      { shouldThrowError: false, overrides },
     )
     if (validator.error) return
     return validator.validated.data.base.toUpperCase()
@@ -55,7 +56,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       input,
       endpoints.crypto.inputParameters,
       {},
-      { shouldThrowError: false },
+      { shouldThrowError: false, overrides },
     )
     if (validator.error) return
     const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
@@ -68,7 +69,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       input,
       endpoints.forex.inputParameters,
       {},
-      { shouldThrowError: false },
+      { shouldThrowError: false, overrides },
     )
     if (validator.error) return
     const from = (validator.overrideSymbol(NAME) as string).toUpperCase()

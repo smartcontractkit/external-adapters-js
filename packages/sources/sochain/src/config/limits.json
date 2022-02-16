@@ -1,0 +1,8 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1m": 300
+    }
+  },
+  "ws": {}
+}

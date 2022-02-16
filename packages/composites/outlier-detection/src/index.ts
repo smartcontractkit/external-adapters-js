@@ -1,9 +1,9 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeConfig } from './config'
+import { makeConfig, NAME } from './config'
 import { makeExecute } from './adapter'
 
-const NAME = 'OUTLIER-DETECTION'
+const adapterContext = { name: NAME }
 
-const handlers = expose(NAME, makeExecute())
+const { server } = expose(adapterContext, makeExecute())
 
-export = { NAME, makeExecute, makeConfig, handlers }
+export { NAME, makeExecute, makeConfig, server }
