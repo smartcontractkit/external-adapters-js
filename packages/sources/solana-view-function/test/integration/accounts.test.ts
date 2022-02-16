@@ -25,7 +25,7 @@ describe('accounts', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
-    process.env.LCD_URL = 'https://api.devnet.solana.com'
+    process.env.RPC_URL = 'https://api.devnet.solana.com'
   })
 
   afterAll((done) => {
@@ -61,7 +61,7 @@ describe('accounts', () => {
   describe('errored calls', () => {
     const jobID = '1'
 
-    it('returns an error when no addresses are passed to the EA', async () => {
+    it('returns an error when there are no addresses passed to the EA', async () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
@@ -78,8 +78,8 @@ describe('accounts', () => {
       expect(response.body).toMatchSnapshot()
     })
 
-    it('returns an error when there is no lcd url is set', async () => {
-      delete process.env.LCD_URL
+    it('returns an error when there is no rpc url is set', async () => {
+      delete process.env.RPC_URL
       const data: AdapterRequest = {
         id: jobID,
         data: {
