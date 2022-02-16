@@ -46,21 +46,7 @@ Object {
           },
         },
       },
-      "BFC": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "BNB": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "BORA": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -75,13 +61,6 @@ Object {
         },
       },
       "BTT": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "CELO": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -109,13 +88,6 @@ Object {
           },
         },
       },
-      "DOGE": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "DOT": Object {
         "quote": Object {
           "USD": Object {
@@ -131,20 +103,6 @@ Object {
         },
       },
       "ETH": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "FIL": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "FTT": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -179,13 +137,6 @@ Object {
           },
         },
       },
-      "LINA": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "LINK": Object {
         "quote": Object {
           "USD": Object {
@@ -208,20 +159,6 @@ Object {
         },
       },
       "MKR": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "MTL": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "MVL": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -256,20 +193,6 @@ Object {
           },
         },
       },
-      "ORBS": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "ORC": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "QTUM": Object {
         "quote": Object {
           "USD": Object {
@@ -285,27 +208,6 @@ Object {
         },
       },
       "SNX": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "SRM": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "SUSHI": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "SXP": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -333,21 +235,7 @@ Object {
           },
         },
       },
-      "UNI": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "VET": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "VRA": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -389,13 +277,6 @@ Object {
           },
         },
       },
-      "ZIL": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "ZRX": Object {
         "quote": Object {
           "USD": Object {
@@ -404,12 +285,12 @@ Object {
         },
       },
     },
-    "result": 465385.5102740464,
+    "result": 2834939.3645164976,
     "sources": Array [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 465385.5102740464,
+  "result": 2834939.3645164976,
   "statusCode": 200,
 }
 `;
@@ -481,13 +362,6 @@ Object {
           },
         },
       },
-      "CELO": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "COMP": Object {
         "quote": Object {
           "USD": Object {
@@ -531,20 +405,6 @@ Object {
         },
       },
       "ETH": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "FIL": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "FTT": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -614,6 +474,13 @@ Object {
           },
         },
       },
+      "NXM": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
       "OKB": Object {
         "quote": Object {
           "USD": Object {
@@ -629,13 +496,6 @@ Object {
         },
       },
       "ONT": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "ORC": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -663,27 +523,6 @@ Object {
           },
         },
       },
-      "SRM": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "SUSHI": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "SXP": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "THETA": Object {
         "quote": Object {
           "USD": Object {
@@ -699,13 +538,6 @@ Object {
         },
       },
       "UMA": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
-      "UNI": Object {
         "quote": Object {
           "USD": Object {
             "price": 100,
@@ -754,13 +586,6 @@ Object {
           },
         },
       },
-      "ZIL": Object {
-        "quote": Object {
-          "USD": Object {
-            "price": 100,
-          },
-        },
-      },
       "ZRX": Object {
         "quote": Object {
           "USD": Object {
@@ -769,12 +594,12 @@ Object {
         },
       },
     },
-    "result": 46725.07166979187,
+    "result": 59533.932415336036,
     "sources": Array [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 46725.07166979187,
+  "result": 59533.932415336036,
   "statusCode": 200,
 }
 `;
