@@ -47,7 +47,8 @@ jobs:
           else
               git add *
               yarn lint-staged
-              git commit -m "Generate READMEs"
+              git commit --amend --no-edit
+              git push --force
               echo "README(s) generated successfully."
           fi
         env:
