@@ -4,8 +4,25 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockAdapterResponseSuccess } from './fixtures'
+import {
+  mockAdapterResponseSuccess,
+  mockXBCIResponseSuccess,
+  mockXLCIResponseSuccess,
+} from './fixtures'
 import { AddressInfo } from 'net'
+import 'moment-timezone'
+
+const time = '2021-01-02T00:00:00'
+
+jest.mock('moment-timezone', () => {
+  const mockFormatFn = jest.fn().mockReturnValue(time)
+  const mockTzFn = jest.fn().mockReturnValue({
+    format: mockFormatFn,
+  })
+  return jest.fn().mockReturnValue({
+    tz: mockTzFn,
+  })
+})
 
 describe('execute', () => {
   const id = '1'
@@ -13,6 +30,7 @@ describe('execute', () => {
   let req: SuperTest<Test>
 
   beforeAll(async () => {
+    process.env.API_KEY = 'test-key'
     process.env.CACHE_ENABLED = 'false'
     process.env.COINMARKETCAP_ADAPTER_URL =
       process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8082'
@@ -46,6 +64,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockAdapterResponseSuccess()
+      mockXBCIResponseSuccess(time)
 
       const response = await req
         .post('/')
@@ -70,6 +89,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockAdapterResponseSuccess()
+      mockXLCIResponseSuccess(time)
 
       const response = await req
         .post('/')
