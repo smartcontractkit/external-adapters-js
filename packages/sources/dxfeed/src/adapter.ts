@@ -8,6 +8,7 @@ import {
   MakeWSHandler,
 } from '@chainlink/types'
 import { makeConfig } from './config'
+import overrides from './config/symbols.json'
 import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
@@ -103,7 +104,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           input,
           endpoints.price.inputParameters,
           {},
-          { shouldThrowError: false },
+          { shouldThrowError: false, overrides },
         )
         if (validator.errored) throw validator.errored
         const ticker = validator.validated.data.base
@@ -114,7 +115,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           input,
           endpoints.price.inputParameters,
           {},
-          { shouldThrowError: false },
+          { shouldThrowError: false, overrides },
         )
         if (validator.errored) throw validator.errored
         const ticker = validator.validated.data.base

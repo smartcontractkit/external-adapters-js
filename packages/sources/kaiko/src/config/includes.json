@@ -1,0 +1,46 @@
+[
+  {
+    "from": "DIGG",
+    "to": "BTC",
+    "includes": [
+      {
+        "from": "WBTC",
+        "to": "DIGG",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "RGT",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "WETH",
+        "to": "RGT",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "RARI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "WETH",
+        "to": "RARI",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TRIBE",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "WETH",
+        "to": "TRIBE",
+        "inverse": true
+      }
+    ]
+  }
+]

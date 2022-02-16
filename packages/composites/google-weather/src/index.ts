@@ -1,7 +1,8 @@
 import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
-import { makeConfig } from './config'
+import { makeConfig, NAME } from './config'
 
-const NAME = 'GOOGLE_WEATHER'
+const adapterContext = { name: NAME }
 
-export = { NAME, makeExecute, makeConfig, ...expose(NAME, makeExecute()) }
+const { server } = expose(adapterContext, makeExecute())
+export { NAME, makeExecute, makeConfig, server }

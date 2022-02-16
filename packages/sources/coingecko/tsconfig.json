@@ -4,6 +4,6 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/*.json"],
   "references": [{ "path": "../../core/test-helpers" }, { "path": "../../core/bootstrap" }]
 }

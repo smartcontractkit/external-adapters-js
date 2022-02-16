@@ -1,7 +1,6 @@
-import { getRateLimit, getHTTPLimit } from '../../config/provider-limits'
+import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
 import { getEnv, parseBool } from '../../util'
 import { logger } from '../../modules'
-import { AdapterContext } from '@chainlink/types'
 import { DEFAULT_CACHE_ENABLED } from '../cache'
 
 export const DEFAULT_RATE_LIMIT_ENABLED = true
@@ -21,7 +20,9 @@ export interface Config {
   enabled: boolean
 }
 
-export function get(context: AdapterContext): Config {
+export function get(
+  rateLimitConfig: { limits: Limits; name: string } = { limits: { http: {}, ws: {} }, name: '' },
+): Config {
   const enabled =
     parseBool(getEnv('CACHE_ENABLED') ?? DEFAULT_CACHE_ENABLED) &&
     parseBool(getEnv('RATE_LIMIT_ENABLED') ?? DEFAULT_RATE_LIMIT_ENABLED)
@@ -33,10 +34,9 @@ export function get(context: AdapterContext): Config {
   if (perSecRateLimit) capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
   if (perMinuteRateLimit) capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
   if (!capacity && enabled) {
-    const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
-      const providerConfig = getRateLimit(provider, tier)
+      const providerConfig = getRateLimit(rateLimitConfig.name, rateLimitConfig.limits, tier)
       capacity = Number(providerConfig.minute)
     } catch (e) {
       logger.error(e.message)
@@ -45,16 +45,15 @@ export function get(context: AdapterContext): Config {
   let burstCapacity1s = 0
   let burstCapacity1m = 0
   if (enabled) {
-    const provider = getEnv('RATE_LIMIT_API_PROVIDER') || context.name?.toLowerCase() || ''
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
-      const limit = getHTTPLimit(provider, tier, 'rateLimit1s')
+      const limit = getHTTPLimit(rateLimitConfig.name, rateLimitConfig.limits, tier, 'rateLimit1s')
       burstCapacity1s = shouldIgnorePerSecLimit ? 0 : Number(limit)
     } catch {
       // Ignore
     }
     try {
-      const limit = getHTTPLimit(provider, tier, 'rateLimit1m')
+      const limit = getHTTPLimit(rateLimitConfig.name, rateLimitConfig.limits, tier, 'rateLimit1m')
       burstCapacity1m = shouldIgnorePerMinLimit ? 0 : Number(limit)
     } catch {
       // Ignore

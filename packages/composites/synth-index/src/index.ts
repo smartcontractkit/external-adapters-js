@@ -1,5 +1,8 @@
 import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
+import { NAME, makeConfig } from './config'
 
-export const NAME = 'SYNTH-INDEX'
-export const server = expose(NAME, makeExecute()).server
+const adapterContext = { name: NAME }
+
+const { server } = expose(adapterContext, makeExecute())
+export { NAME, makeConfig, makeExecute, server }

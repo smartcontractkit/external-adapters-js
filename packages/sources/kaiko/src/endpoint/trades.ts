@@ -6,6 +6,8 @@ import {
   DEFAULT_MILLISECONDS,
   NAME as AdapterName,
 } from '../config'
+import includes from '../config/includes.json'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['trades']
 
@@ -83,7 +85,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { includes, overrides })
 
   Requester.logConfig(config)
 
@@ -169,7 +171,7 @@ const getIncludes = (
 ): IncludePair | undefined => {
   if (includes.length === 0) return undefined
 
-  const presetIncludes = validator.overrideIncludes(AdapterName, from, to)
+  const presetIncludes = validator.overrideIncludes(from, to)
   if (presetIncludes && typeof includes[0] === 'string') return presetIncludes
   else if (typeof includes[0] === 'string') {
     return {
