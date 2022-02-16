@@ -39,8 +39,8 @@ export const getDataFromAcrossChains = async (
 }
 
 const validateChainSources = (jobRunID: string, chainSources: string[]) => {
+  const supportedChains = Object.values(SupportedChains) as string[]
   for (const source of chainSources) {
-    const supportedChains = Object.values(SupportedChains) as string[]
     if (!supportedChains.includes(source)) {
       throw new AdapterError({
         jobRunID,
@@ -63,5 +63,5 @@ export const getChainSynthetixInstance = (
     })
   }
   const provider = new ethers.providers.JsonRpcProvider(rpcURL)
-  return synthetix({ provider, networkId: networkId })
+  return synthetix({ provider, networkId })
 }
