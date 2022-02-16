@@ -1,0 +1,26 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1s": 1,
+      "rateLimit1h": 83.33
+    },
+    "on-demand": {
+      "rateLimit1s": 15,
+      "rateLimit1h": 12500
+    }
+  },
+  "ws": {
+    "free": {
+      "connections": 1,
+      "subscriptions": 10
+    },
+    "on-demand": {
+      "connections": 2,
+      "subscriptions": -1
+    },
+    "enterprise": {
+      "connections": 2,
+      "subscriptions": -1
+    }
+  }
+}

@@ -130,14 +130,14 @@ export type ExecuteHandler = {
 }
 
 export const expose = <C extends Config>(
-  name: string,
+  context: AdapterContext,
   execute: Execute,
   makeWsHandler?: MakeWSHandler,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ): ExecuteHandler => {
   const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
   return {
-    server: server.initHandler(name, execute, middleware),
+    server: server.initHandler(context, execute, middleware),
   }
 }
 

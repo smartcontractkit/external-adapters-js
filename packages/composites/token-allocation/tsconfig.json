@@ -10,12 +10,16 @@
     { "path": "../../core/test-helpers" },
     { "path": "../../core/bootstrap" },
     { "path": "../../sources/amberdata" },
+    { "path": "../../sources/cfbenchmarks" },
     { "path": "../../sources/coinapi" },
     { "path": "../../sources/coingecko" },
+    { "path": "../../sources/coinmetrics" },
     { "path": "../../sources/coinmarketcap" },
     { "path": "../../sources/coinpaprika" },
     { "path": "../../sources/cryptocompare" },
+    { "path": "../../sources/finage" },
     { "path": "../../sources/kaiko" },
+    { "path": "../../sources/ncfx" },
     { "path": "../../sources/nomics" },
     { "path": "../../sources/tiingo" }
   ]

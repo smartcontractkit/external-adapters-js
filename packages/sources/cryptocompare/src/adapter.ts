@@ -10,6 +10,7 @@ import {
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 import { crypto } from './endpoint'
 import * as endpoints from './endpoint'
+import overrides from './config/symbols.json'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   return Builder.buildSelector(request, context, config, endpoints)
@@ -52,7 +53,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     aggregate: 5,
   }
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, crypto.inputParameters, {}, { shouldThrowError: false })
+    const validator = new Validator(
+      input,
+      crypto.inputParameters,
+      {},
+      { shouldThrowError: false, overrides },
+    )
     if (validator.error) return false
     const endpoint = validator.validated.data.endpoint?.toLowerCase()
     if (endpoint == 'marketcap') return false

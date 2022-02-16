@@ -1,0 +1,18 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1m": 5,
+      "note": "only mentions monthly limits"
+    },
+    "starter": {
+      "rateLimit1h": -1
+    },
+    "developer": {
+      "rateLimit1h": -1
+    },
+    "advanced": {
+      "rateLimit1h": -1
+    }
+  },
+  "ws": {}
+}

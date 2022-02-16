@@ -1,116 +1,88 @@
 import * as limits from '../../../src/lib/config/provider-limits'
 
-const limitsJSONPath = '../../../src/lib/config/provider-limits/limits.json'
-
-jest.mock(
-  '../../../src/lib/provider-limits/limits.json',
-  () => ({
-    amberdata: {
-      http: {
-        starter: {
-          rateLimit1h: 10,
-        },
-        premium: {
-          rateLimit1h: 20,
-        },
-        business: {
-          rateLimit1h: 30,
-        },
-      },
-      ws: {
-        starter: {
-          connections: 10,
-          subscriptions: 20,
-        },
-      },
+const mockLimits = {
+  http: {
+    free: {
+      rateLimit1s: 1,
+      rateLimit1h: 83.33,
     },
-  }),
-  { virtual: true },
-)
+    'on-demand': {
+      rateLimit1s: 15,
+      rateLimit1h: 12500,
+    },
+  },
+  ws: {
+    free: {
+      connections: 1,
+      subscriptions: 10,
+    },
+    'on-demand': {
+      connections: 2,
+      subscriptions: -1,
+    },
+    enterprise: {
+      connections: 2,
+      subscriptions: -1,
+    },
+  },
+}
 
 describe('Provider Limits', () => {
   describe('Limits API', () => {
     it('gets the correct rate limits', () => {
-      const limit = limits.getRateLimit('amberdata', 'free')
+      const limit = limits.getRateLimit('amberdata', mockLimits, 'free')
       expect(limit.minute).toBe(83.33 / 60)
       expect(limit.second).toBe(1)
     })
 
     it('rate limit defaults to lowest tier if no tier match', () => {
-      const limit = limits.getRateLimit('amberdata', 'non-existant')
+      const limit = limits.getRateLimit('amberdata', mockLimits, 'non-existant')
       expect(limit.minute).toBe(83.33 / 60)
       expect(limit.second).toBe(1)
     })
 
-    it('rate limit throws if no provider match', () => {
-      expect(() => {
-        limits.getRateLimit('non-existent', 'non-existent')
-      }).toThrow(Error)
-    })
-
     it('gets the correct ws limits', () => {
-      const limit = limits.getWSLimits('amberdata', 'free')
+      const limit = limits.getWSLimits('amberdata', mockLimits, 'free')
       expect(limit.connections).toBe(1)
       expect(limit.subscriptions).toBe(10)
     })
 
     it('WS defaults to lowest tier if no tier match', () => {
-      const limit = limits.getWSLimits('amberdata', 'non-existant')
+      const limit = limits.getWSLimits('amberdata', mockLimits, 'non-existant')
       expect(limit.connections).toBe(1)
       expect(limit.subscriptions).toBe(10)
-    })
-
-    it('WS limit throws if no provider match', () => {
-      expect(() => {
-        limits.getWSLimits('non-existent', 'non-existent')
-      }).toThrow(Error)
-    })
-
-    afterAll(() => {
-      jest.unmock(limitsJSONPath)
     })
   })
 
   describe('Limits JSON is properly formatted', () => {
-    let limits
-
-    beforeAll(async () => {
-      limits = await import(limitsJSONPath)
-      delete limits.default
-    })
+    const limits = mockLimits
 
     it('Limits JSON has HTTP and WS defined', async () => {
-      Object.values(limits).forEach((limit: any) => {
-        expect(limit).toHaveProperty('http')
-        expect(limit).toHaveProperty('ws')
-      })
+      expect(limits).toHaveProperty('http')
+      expect(limits).toHaveProperty('ws')
     })
 
     it('Providers in limits JSON has HTTP plan defined', async () => {
-      Object.values(limits).forEach((limit: any) => {
-        if (Object.keys(limit.http).length > 0) {
-          Object.values(limit.http).forEach((plan: any) => {
-            const hasSomeRateLimit = ['rateLimit1s', 'rateLimit1m', 'rateLimit1h'].some((rate) =>
-              Object.keys(plan).includes(rate),
-            )
-            expect(hasSomeRateLimit).toBe(true)
-          })
-        }
-      })
+      if (Object.keys(limits.http).length > 0) {
+        Object.values(limits.http).forEach((plan: any) => {
+          const hasSomeRateLimit = ['rateLimit1s', 'rateLimit1m', 'rateLimit1h'].some((rate) =>
+            Object.keys(plan).includes(rate),
+          )
+          expect(hasSomeRateLimit).toBe(true)
+        })
+      }
     })
 
     it('Providers in limits JSON has WS plan defined', async () => {
-      Object.values(limits).forEach((limit: any) => {
-        if (Object.keys(limit.ws).length > 0) {
-          Object.values(limit.ws).forEach((plan: any) => {
-            expect(plan).toHaveProperty('connections')
-            expect(plan).toHaveProperty('subscriptions')
+      if (Object.keys(limits.ws).length > 0) {
+        Object.values(limits.ws).forEach((plan: any) => {
+          expect(plan).toHaveProperty('connections')
+          expect(plan).toHaveProperty('subscriptions')
 
-            expect(typeof plan.connections).toBe('number')
-            expect(typeof plan.subscriptions).toBe('number')
-          })
-        }
-      })
+          expect(typeof plan.connections).toBe('number')
+          expect(typeof plan.subscriptions).toBe('number')
+        })
+      }
     })
   })
 })

@@ -10,6 +10,7 @@ import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME, Config } from './config'
 import * as endpoints from './endpoint'
 import { inputParameters } from './endpoint/price'
+import overrides from './config/symbols.json'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   return Builder.buildSelector(request, context, config, endpoints)
@@ -58,7 +59,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         ),
       },
       subscribe: (input) => {
-        const validator = new Validator(input, inputParameters, {}, { shouldThrowError: false })
+        const validator = new Validator(
+          input,
+          inputParameters,
+          {},
+          { shouldThrowError: false, overrides },
+        )
         if (validator.error) {
           return
         }

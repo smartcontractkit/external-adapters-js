@@ -1,0 +1,10 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1s": 100,
+      "rateLimit1m": 1200,
+      "note": "for non-matching requests: https://www.deribit.com/pages/information/rate-limits"
+    }
+  },
+  "ws": {}
+}

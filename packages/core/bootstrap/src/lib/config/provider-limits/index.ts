@@ -1,5 +1,4 @@
 import { logger } from '../../modules'
-import limits from './limits.json'
 
 export const DEFAULT_MINUTE_RATE_LIMIT = 60
 export const BURST_UNDEFINED_QUOTA_MULTIPLE = 2
@@ -10,7 +9,10 @@ export const DEFAULT_WS_SUBSCRIPTIONS = 10
 type RateLimitTimeFrame = 'rateLimit1s' | 'rateLimit1m' | 'rateLimit1h'
 
 type HTTPTier = {
-  [key in RateLimitTimeFrame]: number
+  rateLimit1s?: number
+  rateLimit1m?: number
+  rateLimit1h?: number
+  note?: string
 }
 
 type WSTier = {
@@ -18,14 +20,12 @@ type WSTier = {
   subscriptions: number
 }
 
-interface Limits {
-  [providerName: string]: {
-    http: {
-      [tierName: string]: HTTPTier
-    }
-    ws: {
-      [tierName: string]: WSTier
-    }
+export interface Limits {
+  http: {
+    [tierName: string]: HTTPTier
+  }
+  ws: {
+    [tierName: string]: WSTier
   }
 }
 
@@ -36,30 +36,31 @@ interface ProviderRateLimit {
 
 export const getHTTPLimit = (
   provider: string,
+  limits: Limits,
   tier: string,
   timeframe: RateLimitTimeFrame,
 ): number => {
-  const providerLimit = getProviderLimits(provider, tier, 'http')
+  const providerLimit = getProviderLimits(provider, limits, tier, 'http')
   return (providerLimit as HTTPTier)?.[timeframe] || 0
 }
 
-export const getRateLimit = (provider: string, tier: string): ProviderRateLimit => {
-  const providerLimit = getProviderLimits(provider, tier, 'http')
+export const getRateLimit = (provider: string, limits: Limits, tier: string): ProviderRateLimit => {
+  const providerLimit = getProviderLimits(provider, limits, tier, 'http')
   return calculateRateLimit(providerLimit as HTTPTier)
 }
 
-export const getWSLimits = (provider: string, tier: string): WSTier => {
-  const providerLimit = getProviderLimits(provider, tier, 'ws')
+export const getWSLimits = (provider: string, limits: Limits, tier: string): WSTier => {
+  const providerLimit = getProviderLimits(provider, limits, tier, 'ws')
   return calculateWSLimits(providerLimit as WSTier)
 }
 
 const getProviderLimits = (
   provider: string,
+  limits: Limits,
   tier: string,
   protocol: 'ws' | 'http',
 ): HTTPTier | WSTier | undefined => {
-  const parsedLimits = parseLimits(limits)
-  const providerConfig = parsedLimits[provider.toLowerCase()]
+  const providerConfig = parseLimits(limits)
   if (!providerConfig)
     throw new Error(
       `Rate Limit: Provider: "${provider}" doesn't match any provider spec in limits.json`,
@@ -88,18 +89,17 @@ const getProviderLimits = (
   return limitsConfig
 }
 
-const parseLimits = (limits: any): Limits => {
+const parseLimits = (limits: Limits): Limits => {
   const _mapObject = (fn: any) => (o: any) => Object.fromEntries(Object.entries(o).map(fn))
   const _formatProtocol = _mapObject((entry: any[]) => {
     const [tierName, rest] = entry
     return [tierName.toLowerCase(), { ...(rest as any) }]
   })
-  const _formatProvider = _mapObject((entry: any[]) => {
-    const [providerName, protocol] = entry
-    const http = _formatProtocol(protocol.http)
-    const ws = _formatProtocol(protocol?.ws)
-    return [providerName.toLowerCase(), { http, ws }]
-  })
+  const _formatProvider = (limits: Limits) => {
+    const http = _formatProtocol(limits.http)
+    const ws = _formatProtocol(limits?.ws)
+    return { http, ws }
+  }
 
   return _formatProvider(limits)
 }
