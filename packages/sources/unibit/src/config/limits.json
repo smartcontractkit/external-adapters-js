@@ -1,0 +1,17 @@
+{
+  "http": {
+    "freetrial": {
+      "rateLimit1h": 69.44,
+      "note": "only mentions monthly limit"
+    },
+    "starter": {
+      "rateLimit1h": 13888.8888889,
+      "note": "only mentions monthly limit"
+    },
+    "pro": {
+      "rateLimit1h": 41666.6666667,
+      "note": "only mentions monthly limit"
+    }
+  },
+  "ws": {}
+}

@@ -198,4 +198,28 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
   })
+
+  describe('crypto-vwap api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'crypto-vwap',
+        base: 'AMPL',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 })

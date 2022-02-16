@@ -1,0 +1,8 @@
+{
+  "coinpaprika": {
+    "GRT": "grt-the-graph",
+    "PAX": "usdp-paxos-standard-token",
+    "KNC": "knc-kyber-network",
+    "RENFIL": "fil-filecoin"
+  }
+}

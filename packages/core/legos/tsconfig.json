@@ -26,6 +26,9 @@
       "path": "../../sources/alphavantage"
     },
     {
+      "path": "../../sources/alpine"
+    },
+    {
       "path": "../../sources/amberdata"
     },
     {
@@ -200,6 +203,9 @@
       "path": "../../sources/google-bigquery"
     },
     {
+      "path": "../../sources/gramchain"
+    },
+    {
       "path": "../../sources/graphql"
     },
     {
@@ -210,6 +216,9 @@
     },
     {
       "path": "../../sources/ipfs"
+    },
+    {
+      "path": "../../sources/jpegd"
     },
     {
       "path": "../../sources/json-rpc"
@@ -240,6 +249,9 @@
     },
     {
       "path": "../../sources/metalsapi"
+    },
+    {
+      "path": "../../sources/mock-ea"
     },
     {
       "path": "../../sources/mycryptoapi"
@@ -291,6 +303,9 @@
     },
     {
       "path": "../../sources/sochain"
+    },
+    {
+      "path": "../../sources/solana-view-function"
     },
     {
       "path": "../../sources/spectral-macro-score"

@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['live', 'commodities', 'stock']
 
@@ -33,7 +34,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator(input, inputParameters, {}, { overrides })
 
   Requester.logConfig(config)
 

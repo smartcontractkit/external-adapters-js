@@ -10,6 +10,7 @@ import {
 import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
 import { crypto } from './endpoint'
+import includes from './config/includes.json'
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
@@ -35,7 +36,12 @@ interface Message {
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
   const subscriptions: Record<string, unknown> = {}
   const getPair = (input: AdapterRequest) => {
-    const validator = new Validator(input, crypto.inputParameters, {}, { shouldThrowError: false })
+    const validator = new Validator(
+      input,
+      crypto.inputParameters,
+      {},
+      { shouldThrowError: false, includes },
+    )
     if (validator.error) return
     const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
     const quote = validator.validated.data.quote.toLowerCase()

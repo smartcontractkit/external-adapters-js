@@ -1,7 +1,7 @@
 import { AdapterContext, Execute } from '@chainlink/types'
 import { useFakeTimers } from 'sinon'
-import { defaultOptions, withCache } from '../../src/lib/cache'
-import { LocalLRUCache } from '../../src/lib/cache/local'
+import { defaultOptions, withCache } from '../../src/lib/middleware/cache'
+import { LocalLRUCache } from '../../src/lib/middleware/cache/local'
 
 const callAndExpect = async (fn: any, n: number, result: any) => {
   while (n--) {

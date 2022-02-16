@@ -93,12 +93,20 @@ The [recording](https://github.com/nock/nock#recording) functionality of nock is
 
 For example, take a look at the [synth-index](./packages/composites/synth-index/test/integration/adapter.test.ts) test to see it in usage. When the `RECORD` environment variable is truthy, nock will proxy HTTP requests and generate fixture data that can be used to contruct the integration test.
 
-The follow steps is the general pattern for writing an integration test.
+### Testing HTTP Requests
 
 1. Setup nock to record HTTP requests, see the [synth-index](./packages/composites/synth-index/test/integration/adapter.test.ts) test for a code sample.
 2. Run the test, using live API endpoints for the external adapter under test to hit, with nock recording on (`export RECORD=true`).
 3. Using the generated fixture data from step 2, write a `fixtures.ts` file to return the mock data instead.
 4. Run the tests again with nock recording disabled (`unset RECORD`). API requests should now be intercepted and mocked using the fixture data. Be sure to run tests with the `--updateSnapshot` flags to update the integration snapshot if necessary.
+
+### Testing WebSocket Messages
+
+1. Run your tests, using live API endpoints with recording on (`export RECORD=true`) and with a TTL for the connections long enough for the normal requests to go through, but lower than the jest timeout (this will depend on the test, but one example would be `export WS_SUBSCRIPTION_TTL=3000`)
+2. You will see a log statement with the message "Recorded WebSocketMessages: {JSON Object}". This JSON object contains all the WebSocket messages sent and received, but they are not printed as code as in the case of the Nock features, due to their asynchronous nature.
+3. Using the recorded messages, write a `fixtures.ts` file with "Exchanges", i.e. request and response(s) pairs that will be asserted as part of your test (see this [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts)).
+4. Write your tests (example in [ncfx adapter test](./packages/sources/ncfx/test/integration/adapter.test.ts)) using the helper functions from the [test-helpers](./packages/core/test-helpers/src/websocket.ts) package. Note the necessary setup performed in the `beforeAll` function. Also note the path for the `WebSocketClassProvider` import, it has to be that one due to the way Singleton patterns work (or rather don't work) across dependencies.
+5. Finally, run your tests with recording disabled (`unset RECORD`). The WebSocket connection should be replaced and mocked.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
 

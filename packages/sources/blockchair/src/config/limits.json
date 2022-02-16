@@ -1,0 +1,32 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1h": 41.666666667
+    },
+    "specialist1250": {
+      "rateLimit1h": 52.08
+    },
+    "specialist2500": {
+      "rateLimit1h": 104.16
+    },
+    "specialist3750": {
+      "rateLimit1h": 156.25
+    },
+    "specialist5000": {
+      "rateLimit1h": 208.33
+    },
+    "enterprise25000": {
+      "rateLimit1h": 1041.66
+    },
+    "enterprise50000": {
+      "rateLimit1h": 2083.33
+    },
+    "enterprise75000": {
+      "rateLimit1h": 3125
+    },
+    "enterprise100000": {
+      "rateLimit1h": 4166.66
+    }
+  },
+  "ws": {}
+}

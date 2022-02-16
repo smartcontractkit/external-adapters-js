@@ -1,8 +1,8 @@
 import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
-import { makeConfig } from './config'
+import { makeConfig, NAME } from './config'
 
-const NAME = 'DYDX_REWARDS'
+const adapterContext = { name: NAME }
 
-const { server } = expose(NAME, makeExecute())
+const { server } = expose(adapterContext, makeExecute())
 export { NAME, makeExecute, makeConfig, server }

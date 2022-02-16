@@ -1,0 +1,37 @@
+{
+  "http": {
+    "basic": {
+      "rateLimit1m": 8,
+      "rateLimit1h": 33.3333333333,
+      "note": "800 API requests/day"
+    },
+    "grow1": {
+      "rateLimit1m": 55
+    },
+    "grow2": {
+      "rateLimit1m": 144
+    },
+    "grow3": {
+      "rateLimit1m": 377
+    },
+    "pro1": {
+      "rateLimit1m": 610
+    },
+    "pro2": {
+      "rateLimit1m": 987
+    },
+    "pro3": {
+      "rateLimit1m": 1597
+    },
+    "enterprise1": {
+      "rateLimit1h": 2584
+    },
+    "enterprise2": {
+      "rateLimit1h": 4181
+    },
+    "enterprise3": {
+      "rateLimit1h": 10946
+    }
+  },
+  "ws": {}
+}

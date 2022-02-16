@@ -1,0 +1,18 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1h": 10.4,
+      "note": "only mentions daily limit and calls the plan 'limited' no other limiting mentioned for other plans"
+    },
+    "starter": {
+      "rateLimit1s": 10
+    },
+    "teams": {
+      "rateLimit1s": 10
+    },
+    "business": {
+      "rateLimit1s": 10
+    }
+  },
+  "ws": {}
+}

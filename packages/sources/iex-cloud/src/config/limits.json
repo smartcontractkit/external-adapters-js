@@ -1,0 +1,13 @@
+{
+  "http": {
+    "individual": {
+      "rateLimit1h": 6944.44444444,
+      "note": "only mentions monthly limit"
+    },
+    "business": {
+      "rateLimit1h": 208333.333333,
+      "note": "only mentions monthly limit"
+    }
+  },
+  "ws": {}
+}

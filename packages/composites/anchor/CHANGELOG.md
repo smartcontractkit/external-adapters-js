@@ -1,5 +1,41 @@
 # @chainlink/anchor-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [eecdac90b]
+  - @chainlink/ea-bootstrap@1.11.0
+  - @chainlink/token-allocation-adapter@1.0.38
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/terra-view-function-adapter@1.1.13
+
+## 1.2.0
+
+### Minor Changes
+
+- 8c00ee1fd: add and set default values for env vars
+
+### Patch Changes
+
+- Updated dependencies [57be274ff]
+- Updated dependencies [540e563a9]
+- Updated dependencies [72f96124d]
+  - @chainlink/ea-bootstrap@1.10.6
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/token-allocation-adapter@1.0.37
+  - @chainlink/terra-view-function-adapter@1.1.12
+
+## 1.1.25
+
+### Patch Changes
+
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/token-allocation-adapter@1.0.36
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.11
+
 ## 1.1.24
 
 ### Patch Changes

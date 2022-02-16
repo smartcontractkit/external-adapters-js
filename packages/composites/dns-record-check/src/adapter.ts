@@ -1,7 +1,7 @@
 import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
 import { Validator } from '@chainlink/ea-bootstrap'
 import { Requester } from '@chainlink/ea-bootstrap'
-import DNS from '@chainlink/dns-query-adapter'
+import * as DNS from '@chainlink/dns-query-adapter'
 import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'
 import { makeConfig } from './config'
 
