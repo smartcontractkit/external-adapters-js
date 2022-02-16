@@ -16,10 +16,10 @@ Object {
 exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is empty 1`] = `
 Object {
   "data": Object {
-    "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
+    "result": "758618151172639662332421256",
   },
   "jobRunID": 1,
-  "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
+  "result": "758618151172639662332421256",
   "statusCode": 200,
 }
 `;
@@ -27,10 +27,10 @@ Object {
 exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is missing 1`] = `
 Object {
   "data": Object {
-    "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
+    "result": "758618151172639662332421256",
   },
   "jobRunID": 1,
-  "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
+  "result": "758618151172639662332421256",
   "statusCode": 200,
 }
 `;
@@ -38,10 +38,10 @@ Object {
 exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt cache for only one chain 1`] = `
 Object {
   "data": Object {
-    "result": "0x0000000000b172f98d70d7a0eebc724c0000000000e2be35af6b47384f7b98ca",
+    "result": "1279602875189552479134253351",
   },
   "jobRunID": 1,
-  "result": "0x0000000000b172f98d70d7a0eebc724c0000000000e2be35af6b47384f7b98ca",
+  "result": "1279602875189552479134253351",
   "statusCode": 200,
 }
 `;
