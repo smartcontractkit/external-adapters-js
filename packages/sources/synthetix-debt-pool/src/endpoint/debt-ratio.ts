@@ -1,8 +1,7 @@
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
-import { synthetix } from '@synthetixio/contracts-interface'
-import { getDataFromAcrossChains } from '../commons'
+import { getChainSynthetixInstance, getDataFromAcrossChains } from '../commons'
 import { Config } from '../config'
 
 export const supportedEndpoints = ['debt-ratio']
@@ -22,15 +21,7 @@ const getDebtRatio = async (
 ): Promise<BigNumber> => {
   const chainResponses = await Promise.all(
     chainsToQuery.map(async (network): Promise<CurrentDebtResults> => {
-      const rpcUrl = config.chains[network]
-      if (!rpcUrl) {
-        throw new AdapterError({
-          jobRunID,
-          message: `RPC URL not set for chain: ${network}`,
-        })
-      }
-      const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-      const snxjs = synthetix({ provider: provider })
+      const snxjs = getChainSynthetixInstance(network, jobRunID, config)
       try {
         const [chainTotalDebt] = await snxjs.contracts.DebtCache.currentDebt()
         const chainTotalDebtShare = await snxjs.contracts.SynthetixDebtShare.totalSupply()

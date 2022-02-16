@@ -21,7 +21,7 @@ const mockEthereumDebtCacheContract = {
 }
 
 const mockOptimismDebtCacheContract = {
-  currentDebt: jest.fn().mockReturnValue([BigNumber.from('50977793699622560436740360'), false]),
+  currentDebt: jest.fn().mockReturnValue([BigNumber.from('38769636591206730441317824'), false]),
 }
 
 const mockEthereumSynthetixDebtShareContract = {
@@ -29,7 +29,7 @@ const mockEthereumSynthetixDebtShareContract = {
 }
 
 const mockOptimismSynthetixDebtShareContract = {
-  totalSupply: jest.fn().mockReturnValue('114522823219843900095205324'),
+  totalSupply: jest.fn().mockReturnValue('38408585495575839320471531'),
 }
 
 const mockEthereumProvider = jest.fn()
@@ -106,7 +106,7 @@ describe('synthetix-debt-pool', () => {
   })
 
   describe('debt', () => {
-    it('successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is missing', async () => {
+    it('successfully fetches the current debt size of the synthetix debt cache across "mainnet" and "mainnet-ovm" if chainSources is missing', async () => {
       const request = {
         id: 1,
         data: {},
@@ -126,7 +126,7 @@ describe('synthetix-debt-pool', () => {
       const request = {
         id: 1,
         data: {
-          chainSources: ['ethereum'],
+          chainSources: ['mainnet'],
         },
       }
       const response = await req
@@ -184,7 +184,7 @@ describe('synthetix-debt-pool', () => {
       const request = {
         id: 1,
         data: {
-          chainSources: ['ethereum'],
+          chainSources: ['mainnet'],
           endpoint: 'debt-ratio',
         },
       }

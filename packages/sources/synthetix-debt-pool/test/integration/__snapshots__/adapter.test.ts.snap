@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`synthetix-debt-pool debt successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is missing 1`] = `
+exports[`synthetix-debt-pool debt successfully fetches the current debt size of the synthetix debt cache across "mainnet" and "mainnet-ovm" if chainSources is missing 1`] = `
 Object {
   "data": Object {
-    "result": "325481815165042223715009953",
+    "result": "313273658056626393719587417",
   },
   "jobRunID": 1,
-  "result": "325481815165042223715009953",
+  "result": "313273658056626393719587417",
   "statusCode": 200,
 }
 `;
@@ -25,10 +25,10 @@ Object {
 exports[`synthetix-debt-pool debt-ratio successfully fetches the debt ratio across all chains if chainSources is missing 1`] = `
 Object {
   "data": Object {
-    "result": "989169188607466740611741147",
+    "result": "1238571593661276745783695103",
   },
   "jobRunID": 1,
-  "result": "989169188607466740611741147",
+  "result": "1238571593661276745783695103",
   "statusCode": 200,
 }
 `;
@@ -48,7 +48,7 @@ exports[`synthetix-debt-pool errors throws an error if the request contains a so
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"]}}",
-    "message": "RPC URL not set for chain: kovan",
+    "message": "Cannot destructure property 'rpcURL' of 'config.chains[network]' as it is undefined.",
     "name": "AdapterError",
   },
   "jobRunID": 1,
@@ -61,7 +61,7 @@ exports[`synthetix-debt-pool errors throws an error if the request contains a so
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"],\\"endpoint\\":\\"debt-ratio\\"}}",
-    "message": "RPC URL not set for chain: kovan",
+    "message": "Cannot destructure property 'rpcURL' of 'config.chains[network]' as it is undefined.",
     "name": "AdapterError",
   },
   "jobRunID": 1,
