@@ -4092,6 +4092,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
+            ["bignumber.js", "npm:9.0.0"],
             ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.1"],
             ["supertest", "npm:6.1.6"],
@@ -6239,6 +6240,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.3"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -6908,14 +6912,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
+            ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],
+            ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
+            ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
@@ -13580,6 +13588,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/bignumber.js-npm-7.2.1-d6022fe95a-c4eab705fb.zip/node_modules/bignumber.js/",
           "packageDependencies": [
             ["bignumber.js", "npm:7.2.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:9.0.0", {
+          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.0.0-ce190bcd7c-51f37890bc.zip/node_modules/bignumber.js/",
+          "packageDependencies": [
+            ["bignumber.js", "npm:9.0.0"]
           ],
           "linkType": "HARD",
         }],

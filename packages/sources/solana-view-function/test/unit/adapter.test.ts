@@ -7,32 +7,32 @@ import { makeConfig } from '../../src/config'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  const rpcURL = 'https://api.devnet.solana.com'
+  const lcdURL = 'https://api.devnet.solana.com'
 
   beforeEach(() => {
-    process.env.RPC_URL = rpcURL
+    process.env.LCD_URL = lcdURL
   })
 
   afterEach(() => {
-    delete process.env.RPC_URL
+    delete process.env.LCD_URL
     delete process.env.COMMITMENT
   })
 
   describe('config', () => {
     it('correctly sets the config', () => {
       const commitment = 'finalized'
-      process.env.RPC_URL = rpcURL
+      process.env.LCD_URL = lcdURL
       process.env.COMMITMENT = commitment
       const config = makeConfig()
-      expect(config.rpcUrl).toEqual(rpcURL)
+      expect(config.rpcUrl).toEqual(lcdURL)
       expect(config.commitment).toEqual(commitment)
     })
 
     it('correctly sets the default commitment if none is set', () => {
-      const rpcURL = 'http.solana-devnet.com'
-      process.env.RPC_URL = rpcURL
+      const lcdURL = 'http.solana-devnet.com'
+      process.env.LCD_URL = lcdURL
       const config = makeConfig()
-      expect(config.rpcUrl).toEqual(rpcURL)
+      expect(config.rpcUrl).toEqual(lcdURL)
       expect(config.commitment).toEqual('confirmed')
     })
   })

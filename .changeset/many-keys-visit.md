@@ -2,4 +2,4 @@
 '@chainlink/ea-bootstrap': patch
 ---
 
-update provider limits
+Small reorg

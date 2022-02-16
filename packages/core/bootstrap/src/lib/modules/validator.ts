@@ -1,13 +1,10 @@
 import {
   AdapterErrorResponse,
   Override,
-  AdapterRequest,
-  APIEndpoint,
   Includes,
   IncludePair,
   InputParameter,
   InputParameters,
-  Config,
 } from '@chainlink/types'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
@@ -93,7 +90,7 @@ export class Validator {
   validateIncludeOverrides(): void {
     try {
       this.validated.includes = this.formatIncludeOverrides([
-        ...(this.input.data?.includes || []),
+        ...(Array.isArray(this.input.data?.includes) ? this.input.data.includes : []),
         ...presetIncludes,
       ])
     } catch (e) {
@@ -120,7 +117,10 @@ export class Validator {
   overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
     const defaultSymbol = symbol || this.validated.data.base
     if (!defaultSymbol) this.throwInvalid(`Required parameter not supplied: base`)
+
+    // TODO: Will never be reached, because the presetSymbols are used as default overrides
     if (!this.validated.overrides) return defaultSymbol
+
     if (!Array.isArray(defaultSymbol))
       return (
         this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
@@ -302,41 +302,4 @@ export class Validator {
     const inputParamKeys = Object.keys(this.input.data)
     return inputParamKeys.find((k) => comparisonArray.includes(k))
   }
-}
-
-export function normalizeInput<C extends Config>(
-  request: AdapterRequest,
-  apiEndpoint: APIEndpoint<C>,
-): AdapterRequest {
-  const input = { ...request }
-
-  // if endpoint does not match, an override occurred and we must adjust it
-  if (!apiEndpoint.supportedEndpoints.includes(input.data.endpoint))
-    input.data.endpoint = apiEndpoint.supportedEndpoints[0]
-
-  const fullParameters = { ...baseInputParameters, ...apiEndpoint.inputParameters }
-  const validator = new Validator(request, fullParameters, {}, { shouldThrowError: false })
-
-  // remove undefined values
-  const data = JSON.parse(JSON.stringify(validator.validated.data))
-
-  // re-add maxAge
-  if (request.data.maxAge) data.maxAge = request.data.maxAge
-
-  // re-add overrides
-  if (request.data.overrides) data.overrides = request.data.overrides
-  if (request.data.tokenOverrides) data.tokenOverrides = request.data.tokenOverrides
-  if (request.data.includes) data.includes = request.data.includes
-
-  if (apiEndpoint.batchablePropertyPath) {
-    for (const { name } of apiEndpoint.batchablePropertyPath) {
-      const value = data[name]
-      if (typeof value === 'string') data[name] = data[name].toUpperCase()
-      if (Array.isArray(value)) {
-        for (const index in data[name]) data[name][index] = data[name][index].toUpperCase()
-      }
-    }
-  }
-
-  return { ...request, data }
 }
