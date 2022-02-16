@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 1.11.1
+
+### Patch Changes
+
+- 341f2bd4d: Small reorg
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+
 ## 1.11.0
 
 ### Minor Changes
