@@ -1,5 +1,33 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.4.11
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.30
+  - @chainlink/por-indexer-adapter@1.0.12
+  - @chainlink/ada-balance-adapter@2.3.7
+  - @chainlink/amberdata-adapter@1.3.10
+  - @chainlink/blockchain.com-adapter@1.1.14
+  - @chainlink/blockchair-adapter@1.1.14
+  - @chainlink/blockcypher-adapter@1.2.14
+  - @chainlink/btc.com-adapter@1.2.14
+  - @chainlink/chain-reserve-wallet-adapter@2.2.10
+  - @chainlink/cryptoapis-adapter@1.1.14
+  - @chainlink/eth-balance-adapter@1.1.14
+  - @chainlink/gemini-adapter@2.1.14
+  - @chainlink/lotus-adapter@2.1.14
+  - @chainlink/reduce-adapter@1.2.2
+  - @chainlink/renvm-address-set-adapter@1.3.2
+  - @chainlink/sochain-adapter@1.2.14
+  - @chainlink/wbtc-address-set-adapter@1.3.11
+  - @chainlink/wrapped-adapter@2.1.14
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.4.10
 
 ### Patch Changes

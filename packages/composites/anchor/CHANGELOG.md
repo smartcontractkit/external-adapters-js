@@ -1,5 +1,18 @@
 # @chainlink/anchor-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [07c013666]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/token-allocation-adapter@1.1.0
+  - @chainlink/terra-view-function-adapter@1.1.14
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.2.1
 
 ### Patch Changes
