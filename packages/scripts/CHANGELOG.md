@@ -1,5 +1,18 @@
 # @chainlink/ea-scripts
 
+## 2.0.0
+
+### Major Changes
+
+- cd9c79fa3: Add README generator script and husky pre-commit step
+
+### Patch Changes
+
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/ea-factories@1.0.29
+
 ## 1.1.2
 
 ### Patch Changes
