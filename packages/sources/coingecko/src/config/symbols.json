@@ -13,6 +13,7 @@
     "LEO": "leo-token",
     "FIL": "filecoin",
     "RENFIL": "filecoin",
-    "STETH": "staked-ether"
+    "STETH": "staked-ether",
+    "LUNA": "terra-luna"
   }
 }
