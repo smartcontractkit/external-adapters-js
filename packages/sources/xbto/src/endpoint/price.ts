@@ -5,7 +5,7 @@ export const inputParameters: InputParameters = {
   market: {
     required: false,
     type: 'string',
-    options: ['brent', 'wti'],
+    options: ['brent', 'BRENT', 'wti', 'WTI'],
     default: 'brent',
   },
 }
