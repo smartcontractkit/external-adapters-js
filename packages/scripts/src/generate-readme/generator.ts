@@ -89,9 +89,9 @@ export class ReadmeGenerator {
   async fetchImports(): Promise<void> {
     // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
 
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config.ts`)
+    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
 
-    const configPath = checkFilePath(this.adapterPath + 'src/config.ts')
+    const configPath = checkFilePath(this.adapterPath + 'src/config/index.ts')
     this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
