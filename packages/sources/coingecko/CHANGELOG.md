@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 1.1.15
+
+### Patch Changes
+
+- Add Coingecko STETH and LUNA symbol to id overrides
+
 ## 1.1.14
 
 ### Patch Changes

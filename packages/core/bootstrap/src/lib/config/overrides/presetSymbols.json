@@ -12,7 +12,9 @@
     "BCH": "bitcoin-cash",
     "LEO": "leo-token",
     "FIL": "filecoin",
-    "RENFIL": "filecoin"
+    "RENFIL": "filecoin",
+    "STETH": "staked-ether",
+    "LUNA": "terra-luna"
   },
   "coinmarketcap": {
     "PAX": "USDP",
