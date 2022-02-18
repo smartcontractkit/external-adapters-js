@@ -72,7 +72,7 @@ export class Validator {
             ? this.validateRequiredParam(this.input.data[key], key, options)
             : this.validateOptionalParam(this.input.data[key], key, options)
         } else {
-          this.validateObjectParam(key)
+          this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
         }
       }
     } catch (e) {
@@ -207,7 +207,7 @@ export class Validator {
     throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
   }
 
-  validateObjectParam(key: string): void {
+  validateObjectParam(key: string, shouldThrowError = true): void {
     const inputConfig = this.inputConfigs[key] as InputParameter
 
     const usedKey = this.getUsedKey(key, inputConfig.aliases ?? [])
@@ -216,52 +216,65 @@ export class Validator {
       ? this.input.data[usedKey as string] ?? inputConfig.default
       : inputConfig.default
 
-    const paramIsDefined = !(param === undefined || param === null || param === '')
+    if (shouldThrowError) {
+      const paramIsDefined = !(param === undefined || param === null || param === '')
 
-    if (inputConfig.required && !paramIsDefined)
-      this.throwInvalid(`Required parameter ${key} must be non-null and non-empty`)
+      if (inputConfig.required && !paramIsDefined)
+        this.throwInvalid(`Required parameter ${key} must be non-null and non-empty`)
 
-    if (paramIsDefined) {
-      if (inputConfig.type) {
-        const primitiveTypes = ['boolean', 'number', 'bigint', 'string']
+      if (paramIsDefined) {
+        if (inputConfig.type) {
+          const primitiveTypes = ['boolean', 'number', 'bigint', 'string']
 
-        if (![...primitiveTypes, 'array', 'object'].includes(inputConfig.type))
-          this.throwInvalid(`${key} parameter has unrecognized type ${inputConfig.type}`)
+          if (![...primitiveTypes, 'array', 'object'].includes(inputConfig.type))
+            this.throwInvalid(`${key} parameter has unrecognized type ${inputConfig.type}`)
 
-        if (primitiveTypes.includes(inputConfig.type) && typeof param !== inputConfig.type)
-          this.throwInvalid(`${key} parameter must be of type ${inputConfig.type}`)
+          if (primitiveTypes.includes(inputConfig.type) && typeof param !== inputConfig.type)
+            this.throwInvalid(`${key} parameter must be of type ${inputConfig.type}`)
 
-        if (inputConfig.type === 'array' && (!Array.isArray(param) || param.length === 0))
-          this.throwInvalid(`${key} parameter must be a non-empty array`)
+          if (inputConfig.type === 'array' && (!Array.isArray(param) || param.length === 0))
+            this.throwInvalid(`${key} parameter must be a non-empty array`)
 
-        if (
-          inputConfig.type === 'object' &&
-          (!param ||
-            Array.isArray(param) ||
-            typeof param !== inputConfig.type ||
-            Object.keys(param).length === 0)
-        )
-          this.throwInvalid(`${key} parameter must be an object with at least one property`)
-      }
+          if (
+            inputConfig.type === 'object' &&
+            (!param ||
+              Array.isArray(param) ||
+              typeof param !== inputConfig.type ||
+              Object.keys(param).length === 0)
+          )
+            this.throwInvalid(`${key} parameter must be an object with at least one property`)
+        }
 
-      if (inputConfig.options && !inputConfig.options.includes(param))
-        this.throwInvalid(`${key} parameter is not in the set of available options`)
+        if (inputConfig.options) {
+          const tolcase = (o: any) => (typeof o === 'string' ? o.toLowerCase() : o)
 
-      for (const dependency of inputConfig.dependsOn ?? []) {
-        const usedDependencyKey = this.getUsedKey(
-          dependency,
-          (this.inputConfigs[dependency] as InputParameter).aliases ?? [],
-        )
-        if (!usedDependencyKey) this.throwInvalid(`${key} dependency ${dependency} not supplied`)
-      }
+          const formattedOptions = inputConfig.options.map(tolcase)
+          const formattedParam = tolcase(param)
 
-      for (const exclusive of inputConfig.exclusive ?? []) {
-        const usedExclusiveKey = this.getUsedKey(
-          exclusive,
-          (this.inputConfigs[exclusive] as InputParameter).aliases ?? [],
-        )
-        if (usedExclusiveKey)
-          this.throwInvalid(`${key} cannot be supplied concurrently with ${exclusive}`)
+          if (!formattedOptions.includes(formattedParam))
+            this.throwInvalid(
+              `${key} parameter '${formattedParam}' is not in the set of available options: ${formattedOptions.join(
+                ',',
+              )}`,
+            )
+        }
+
+        for (const dependency of inputConfig.dependsOn ?? []) {
+          const usedDependencyKey = this.getUsedKey(
+            dependency,
+            (this.inputConfigs[dependency] as InputParameter).aliases ?? [],
+          )
+          if (!usedDependencyKey) this.throwInvalid(`${key} dependency ${dependency} not supplied`)
+        }
+
+        for (const exclusive of inputConfig.exclusive ?? []) {
+          const usedExclusiveKey = this.getUsedKey(
+            exclusive,
+            (this.inputConfigs[exclusive] as InputParameter).aliases ?? [],
+          )
+          if (usedExclusiveKey)
+            this.throwInvalid(`${key} cannot be supplied concurrently with ${exclusive}`)
+        }
       }
     }
 

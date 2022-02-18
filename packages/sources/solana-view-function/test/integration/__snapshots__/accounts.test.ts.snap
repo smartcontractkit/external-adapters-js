@@ -4,7 +4,7 @@ exports[`accounts errored calls returns an error when there are no addresses pas
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"addresses\\":[],\\"endpoint\\":\\"accounts\\"}}",
-    "message": "Required parameter addresses must be non-null and non-empty",
+    "message": "addresses parameter must be a non-empty array",
     "name": "AdapterError",
   },
   "jobRunID": "1",

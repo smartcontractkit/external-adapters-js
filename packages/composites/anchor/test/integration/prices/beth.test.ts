@@ -9,6 +9,8 @@ import { ethers, BigNumber } from 'ethers'
 import { AddressInfo } from 'net'
 
 const mockBigNum = BigNumber.from(10).pow(18)
+const mockEthBalance = BigNumber.from('600035129129882344513625')
+const mockStEthBalance = BigNumber.from('610505943959151982581203')
 
 jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
@@ -22,6 +24,13 @@ jest.mock('ethers', () => ({
       return {
         get_rate: (____: string) => {
           return mockBigNum
+        },
+        balances: (id: number): BigNumber => {
+          if (id === 0) {
+            return mockEthBalance
+          } else {
+            return mockStEthBalance
+          }
         },
       }
     },
