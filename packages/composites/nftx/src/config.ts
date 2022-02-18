@@ -10,6 +10,7 @@ export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 export const DEFAULT_VAULT_ADDRESS = '0x269616D549D7e8Eaa82DFb17028d0B212D11232A'
 export const DEFAULT_TOKEN_ADDRESS = '0x9cea2eD9e47059260C97d697f82b8A14EfA61EA5'
 export const DEFAULT_ENDPOINT = 'punk'
+export const NAME = 'NFTX_VAULT_PRICE'
 
 export type Config = BaseConfig & {
   vaultAddress: string
