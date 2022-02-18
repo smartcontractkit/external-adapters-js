@@ -1,14 +1,28 @@
 # @chainlink/vesper-adapter
 
-## 1.0.39
-
-### Patch Changes
+## 1.0.41
 
 - 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
 - Updated dependencies [341f2bd4d]
 - Updated dependencies [07c013666]
 - Updated dependencies [9041e0252]
   - @chainlink/ea-bootstrap@1.11.1
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.1
+
+## 1.0.40
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.1
+
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies [b858d0b9f]
   - @chainlink/token-allocation-adapter@1.1.0
 
 ## 1.0.38

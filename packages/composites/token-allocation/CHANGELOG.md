@@ -1,6 +1,6 @@
 # @chainlink/token-allocation-adapter
 
-## 1.1.0
+## 1.1.2
 
 ### Minor Changes
 
@@ -27,6 +27,19 @@
   - @chainlink/nomics-adapter@1.0.30
   - @chainlink/tiingo-adapter@1.7.3
   - @chainlink/ea-test-helpers@1.1.0
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/coingecko-adapter@1.1.15
+
+## 1.1.0
+
+### Minor Changes
+
+- b858d0b9f: expand token allocation EA to include additional source EAs
 
 ## 1.0.38
 

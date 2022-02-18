@@ -1,6 +1,6 @@
 # @chainlink/ea
 
-## 1.0.48
+## 1.0.49
 
 ### Patch Changes
 
@@ -129,6 +129,13 @@
   - @chainlink/wootrade-adapter@1.1.14
   - @chainlink/wrapped-adapter@2.1.14
   - @chainlink/xbto-adapter@1.2.14
+
+## 1.0.48
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/coingecko-adapter@1.1.15
 
 ## 1.0.47
 

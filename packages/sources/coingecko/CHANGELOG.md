@@ -1,6 +1,6 @@
 # @chainlink/coingecko-adapter
 
-## 1.1.15
+## 1.1.16
 
 ### Patch Changes
 
@@ -9,6 +9,12 @@
 - Updated dependencies [9041e0252]
   - @chainlink/ea-bootstrap@1.11.1
   - @chainlink/ea-test-helpers@1.1.0
+
+## 1.1.15
+
+### Patch Changes
+
+- Add Coingecko STETH and LUNA symbol to id overrides
 
 ## 1.1.14
 

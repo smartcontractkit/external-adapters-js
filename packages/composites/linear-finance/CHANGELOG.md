@@ -13,6 +13,18 @@
 - Updated dependencies [07c013666]
 - Updated dependencies [9041e0252]
   - @chainlink/ea-bootstrap@1.11.1
+
+## 1.1.37
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.1
+
+## 1.1.36
+
+### Patch Changes
+
+- Updated dependencies [b858d0b9f]
   - @chainlink/token-allocation-adapter@1.1.0
 
 ## 1.1.35
