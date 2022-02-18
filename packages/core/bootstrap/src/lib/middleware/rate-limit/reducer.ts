@@ -51,7 +51,7 @@ const DEFAULT_COST = 1
 const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (builder) => {
   builder.addCase(successfulResponseObserved, (state, action) => {
     const heartbeat: Heartbeat = {
-      id: makeId(action.payload.input),
+      id: action.payload.input?.debug?.cacheKey ?? makeId(action.payload.input),
       c: action.payload.response.data.cost || DEFAULT_COST,
       t: Date.parse(action.payload.createdAt),
       h: !!action.payload.response.maxAge,

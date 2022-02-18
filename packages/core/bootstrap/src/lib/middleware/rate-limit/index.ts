@@ -1,6 +1,6 @@
 import { AdapterRequest, Middleware } from '@chainlink/types'
 import { Store } from 'redux'
-import { getHashOpts, hash } from '../../util'
+import { getHashOpts, hash } from '../../middleware/cache-key/util'
 import { successfulResponseObserved } from './actions'
 import { Config } from './config'
 import * as metrics from './metrics'
@@ -74,7 +74,7 @@ export const withRateLimit =
     if (!config.enabled) return await execute(input, context)
     let state = store.getState()
     const { heartbeats } = state
-    const requestTypeId = makeId(input)
+    const requestTypeId = input?.debug?.cacheKey ?? makeId(input)
     const maxThroughput = computeThroughput(config, heartbeats, IntervalNames.HOUR, requestTypeId)
     const maxAge = maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
     const result = await execute({ ...input, rateLimitMaxAge: maxAge }, context)

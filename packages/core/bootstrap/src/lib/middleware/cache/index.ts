@@ -9,15 +9,7 @@ import { logger } from '../../modules'
 import { Store } from 'redux'
 import { reducer } from '../burst-limit'
 import { withBurstLimit } from '../burst-limit'
-import {
-  delay,
-  exponentialBackOffMs,
-  getHashOpts,
-  getWithCoalescing,
-  parseBool,
-  uuid,
-  hash,
-} from '../../util'
+import { delay, exponentialBackOffMs, getWithCoalescing, parseBool, uuid } from '../../util'
 import { getMaxAgeOverride, getTTL } from './ttl'
 import * as local from './local'
 import { LocalOptions } from './local'
@@ -116,7 +108,6 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
 export class AdapterCache {
   private readonly options: CacheOptions
   private cache: Cache
-  private hashOptions = getHashOpts()
 
   constructor(context: AdapterContext) {
     if (!context?.cache?.instance) throw Error(`cache not initiated`)
@@ -130,7 +121,7 @@ export class AdapterCache {
   }
 
   public getKey(data: AdapterRequest): string {
-    return `${this.options.key.group}:${hash(data, this.hashOptions)}`
+    return `${this.options.key.group}:${data.debug?.cacheKey}`
   }
 
   public get instance(): Cache {

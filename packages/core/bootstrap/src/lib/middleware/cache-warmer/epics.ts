@@ -162,7 +162,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     filter(warmupSubscribed.match),
     map(({ payload }) => ({
       payload,
-      key: payload.key || getSubscriptionKey(payload),
+      key: payload.key || payload.debug?.cacheKey || getSubscriptionKey(payload),
     })),
     withLatestFrom(state$),
     // check if the subscription already exists, then noop
@@ -312,7 +312,10 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
   // used as a helper stream for the timeout limit stream
   const keyedSubscription$ = action$.pipe(
     filter(warmupSubscribed.match),
-    map(({ payload }) => ({ payload, key: getSubscriptionKey(payload) })),
+    map(({ payload }) => ({
+      payload,
+      key: payload.debug?.cacheKey || getSubscriptionKey(payload),
+    })),
   )
 
   const unsubscribeOnTimeout$ = keyedSubscription$.pipe(

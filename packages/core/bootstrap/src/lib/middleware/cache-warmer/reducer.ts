@@ -55,7 +55,7 @@ export interface SubscriptionState {
 
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
   builder.addCase(actions.warmupSubscribed, (state, { payload }) => {
-    const key = payload.key || getSubscriptionKey(payload)
+    const key = payload.key || payload.debug?.cacheKey || getSubscriptionKey(payload)
     state[key] = {
       origin: payload.data,
       executeFn: payload.executeFn,
@@ -70,6 +70,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   builder.addCase(actions.warmupSubscribedMultiple, (state, { payload }) => {
     for (const member of payload.members) {
       const key = member.key || getSubscriptionKey(member)
+      // TODO
       state[key] = {
         origin: member.data,
         executeFn: member.executeFn,

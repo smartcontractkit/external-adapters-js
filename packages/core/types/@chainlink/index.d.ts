@@ -22,6 +22,7 @@ declare module '@chainlink/types' {
   }
 
   export type AdapterDebug = {
+    cacheKey?: string
     ws?: boolean
     warmer?: boolean
     cacheHit?: boolean

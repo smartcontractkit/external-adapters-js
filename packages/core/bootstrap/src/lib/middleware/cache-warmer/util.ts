@@ -3,12 +3,13 @@ import { WarmupExecutePayload, WarmupSubscribedPayload } from './actions'
 import { get } from './config'
 import { BatchableProperty, SubscriptionData } from './reducer'
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { hash } from '../../util'
+import { hash } from '../../middleware/cache-key/util'
 
 const conf = get()
 export function getSubscriptionKey(
   request: WarmupSubscribedPayload | WarmupExecutePayload,
 ): string {
+  console.log(1)
   return hash(
     omit(request, ['id', 'parent', 'children', 'result', 'batchablePropertyPath']),
     conf.hashOpts,
