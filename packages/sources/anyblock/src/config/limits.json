@@ -1,0 +1,17 @@
+{
+  "http": {
+    "lite": {
+      "rateLimit1h": 120
+    },
+    "basic": {
+      "rateLimit1m": 120
+    },
+    "pro": {
+      "rateLimit1m": 500
+    },
+    "enterprise": {
+      "rateLimit1m": 6000
+    }
+  },
+  "ws": {}
+}

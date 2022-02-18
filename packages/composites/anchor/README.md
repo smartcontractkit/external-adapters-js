@@ -11,6 +11,7 @@ The adapter takes the following environment variables:
 |    ✅     |            `RPC_URL`            |   The RPC URL to connect to the chain    |                                                                                                 |                                                |
 |           | `ANCHOR_VAULT_CONTRACT_ADDRESS` | The address of the Anchor Vault contract | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |  `0xA2F987A546D4CD1c607Ee8141276876C26b72Bdf`  |
 |           | `TERRA_BLUNA_CONTRACT_ADDRESS`  |  The address of bLuna contract in Terra  | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) | `terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts` |
+|           |  `STETH_POOL_CONTRACT_ADDRESS`  |      The address of stEth contract       |                   Address can be found by finding the stETH/ETH pool in Curve                   |  `0xdc24316b9ae028f1497c275eb9192a3ea0f67022`  |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.

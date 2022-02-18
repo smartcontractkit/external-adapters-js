@@ -1,0 +1,13 @@
+{
+  "http": {
+    "trial": {
+      "rateLimit1h": 1.34,
+      "note": "Taken from the API key limit as 1,000 / 31 / 24 (EGS uses Defi Pulse's API keys): https://data.defipulse.com/#pricing"
+    },
+    "starter": {
+      "rateLimit1h": 1344.08,
+      "note": "Taken from the API key limit as 1,000,000 / 31 / 24 (EGS uses Defi Pulse's API keys): https://data.defipulse.com/#pricing"
+    }
+  },
+  "ws": {}
+}

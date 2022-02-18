@@ -1,6 +1,25 @@
 # @chainlink/apy-finance-adapter
 
-## 1.0.40
+## 1.0.42
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/token-allocation-adapter@1.1.3
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.0.41
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [07c013666]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/token-allocation-adapter@1.1.0
+  - @chainlink/ea-test-helpers@1.1.0## 1.0.40
 
 ### Patch Changes
 

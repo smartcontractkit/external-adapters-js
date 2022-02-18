@@ -1,0 +1,30 @@
+{
+  "http": {
+    "starter": {
+      "rateLimit1h": 500,
+      "rateLimit1d": 20000
+    },
+    "power": {
+      "rateLimit1h": 20000,
+      "rateLimit1d": 50000
+    },
+    "commercial": {
+      "rateLimit1h": 20000,
+      "rateLimit1d": 400000
+    }
+  },
+  "ws": {
+    "starter": {
+      "connections": -1,
+      "subscriptions": -1
+    },
+    "power": {
+      "connections": -1,
+      "subscriptions": -1
+    },
+    "commercial": {
+      "connections": -1,
+      "subscriptions": -1
+    }
+  }
+}

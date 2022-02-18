@@ -8,6 +8,7 @@ import {
   EndpointResultPaths,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'commodities']
 export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
@@ -27,7 +28,7 @@ const quoteEventSymbols: { [key: string]: boolean } = {
 }
 
 const getBase = (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
   if (validator.error) throw validator.error
   return validator.validated.data.base
 }
@@ -77,7 +78,7 @@ export interface ResponseSchema {
   }
 }
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(config.name || AdapterName)

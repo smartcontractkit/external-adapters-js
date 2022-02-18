@@ -1,8 +1,8 @@
 import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
-import { makeConfig } from './config'
+import { makeConfig, NAME } from './config'
 
-const NAME = 'CIRCUIT_BREAKER'
-const handlers = expose(NAME, makeExecute())
+const adapterContext = { name: NAME }
 
-export { NAME, makeConfig, makeExecute, handlers }
+const { server } = expose(adapterContext, makeExecute())
+export { NAME, makeConfig, makeExecute, server }

@@ -47,6 +47,29 @@ const getMaxAge = (config: Config, store: Store, input: AdapterRequest) => {
   return rateLimit.maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
 }
 
+const mockLimits = {
+  http: {
+    free: {
+      rateLimit1s: 10,
+      rateLimit1m: 50,
+      note: '1s found in ToS, 1m found at https://www.coingecko.com/en/api',
+    },
+    analyst: {
+      rateLimit1m: 500,
+      rateLimit1h: 690,
+    },
+    chainlink: {
+      rateLimit1m: 500,
+      rateLimit1h: 4166,
+    },
+    pro: {
+      rateLimit1m: 500,
+      rateLimit1h: 6900,
+    },
+  },
+  ws: {},
+}
+
 describe('Rate Limit Middleware', () => {
   const capacity = 50
   const context: AdapterContext = {}
@@ -57,7 +80,7 @@ describe('Rate Limit Middleware', () => {
     process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.RATE_LIMIT_API_PROVIDER = 'coingecko'
-    context.rateLimit = get({})
+    context.rateLimit = get()
   })
 
   beforeEach(() => {
@@ -72,7 +95,7 @@ describe('Rate Limit Middleware', () => {
     it('it uses the lowest tier if RATE_LIMIT_CAPACITY_SEC and RATE_LIMIT_CAPACITY_M are not set', () => {
       const coingeckoLowestRatePerSec = 10
       const coingeckoLowestRatePerMin = 50
-      const config = get({ name: 'coingecko' })
+      const config = get({ name: 'coingecko', limits: mockLimits })
       expect(config.burstCapacity1s).toEqual(coingeckoLowestRatePerSec)
       expect(config.burstCapacity1m).toEqual(coingeckoLowestRatePerMin)
       expect(config.totalCapacity).toEqual(capacity)
@@ -80,28 +103,28 @@ describe('Rate Limit Middleware', () => {
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to 0', () => {
       process.env.RATE_LIMIT_CAPACITY_SECOND = '0'
-      const config = get({ name: 'coingecko' })
+      const config = get({ name: 'coingecko', limits: mockLimits })
       expect(config.burstCapacity1s).toBe(0)
       expect(config.totalCapacity).toBe(capacity)
     })
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_MINUTE is set to 0', () => {
       process.env.RATE_LIMIT_CAPACITY_MINUTE = '0'
-      const config = get({ name: 'coingecko' })
+      const config = get({ name: 'coingecko', limits: mockLimits })
       expect(config.burstCapacity1m).toBe(0)
       expect(config.totalCapacity).toBe(capacity)
     })
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to less than 0', () => {
       process.env.RATE_LIMIT_CAPACITY_SECOND = '-1'
-      const config = get({ name: 'coingecko' })
+      const config = get({ name: 'coingecko', limits: mockLimits })
       expect(config.burstCapacity1s).toBe(0)
       expect(config.totalCapacity).toBe(capacity)
     })
 
     it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_MINUTE is set to less than 0', () => {
       process.env.RATE_LIMIT_CAPACITY_MINUTE = '-1'
-      const config = get({ name: 'coingecko' })
+      const config = get({ name: 'coingecko', limits: mockLimits })
       expect(config.burstCapacity1m).toBe(0)
       expect(config.totalCapacity).toBe(capacity)
     })

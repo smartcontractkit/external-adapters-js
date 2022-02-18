@@ -1,0 +1,2 @@
+export const DEFAULT_NETWORK = 'ETHEREUM'
+export const NAME = 'CRYPTO_VOLATILITY_INDEX'

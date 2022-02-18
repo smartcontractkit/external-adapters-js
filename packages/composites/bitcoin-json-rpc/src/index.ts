@@ -1,5 +1,8 @@
 import { makeExecute } from './adapter'
 import { expose } from '@chainlink/ea-bootstrap'
+import { NAME } from './config'
 
-const NAME = 'BITCOIN_JSON_RPC'
-export = { NAME, makeExecute, ...expose(NAME, makeExecute()) }
+const adapterContext = { name: NAME }
+
+const { server } = expose(adapterContext, makeExecute())
+export { NAME, makeExecute, server }

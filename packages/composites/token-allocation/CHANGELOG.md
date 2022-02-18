@@ -1,5 +1,55 @@
 # @chainlink/token-allocation-adapter
 
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+- Updated dependencies [4b85d4789]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/coingecko-adapter@1.2.0
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/amberdata-adapter@1.3.11
+  - @chainlink/cfbenchmarks-adapter@1.4.7
+  - @chainlink/coinapi-adapter@1.1.16
+  - @chainlink/coinmarketcap-adapter@1.3.16
+  - @chainlink/coinmetrics-adapter@1.2.15
+  - @chainlink/coinpaprika-adapter@1.3.4
+  - @chainlink/cryptocompare-adapter@1.3.4
+  - @chainlink/finage-adapter@1.3.16
+  - @chainlink/kaiko-adapter@1.1.3
+  - @chainlink/ncfx-adapter@1.1.17
+  - @chainlink/nomics-adapter@1.0.31
+  - @chainlink/tiingo-adapter@1.7.4
+
+## 1.1.2
+
+### Minor Changes
+
+- 07c013666: expand token allocation EA to include additional source EAs
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9f34c29d1]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/coinpaprika-adapter@1.3.3
+  - @chainlink/amberdata-adapter@1.3.10
+  - @chainlink/cfbenchmarks-adapter@1.4.6
+  - @chainlink/coinapi-adapter@1.1.15
+  - @chainlink/coingecko-adapter@1.1.15
+  - @chainlink/coinmarketcap-adapter@1.3.15
+  - @chainlink/coinmetrics-adapter@1.2.14
+  - @chainlink/cryptocompare-adapter@1.3.3
+  - @chainlink/finage-adapter@1.3.15
+  - @chainlink/kaiko-adapter@1.1.2
+  - @chainlink/ncfx-adapter@1.1.16
+  - @chainlink/nomics-adapter@1.0.30
+  - @chainlink/tiingo-adapter@1.7.3
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.1.1
 
 ### Patch Changes

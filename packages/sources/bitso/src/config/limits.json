@@ -1,0 +1,12 @@
+{
+  "http": {
+    "public": {
+      "rateLimit1m": 60,
+      "rateLimit1h": 120
+    },
+    "private": {
+      "rateLimit1m": 300
+    }
+  },
+  "ws": {}
+}
