@@ -872,7 +872,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:27.3.1"],
             ["lint-staged", "npm:11.2.6"],
-            ["prettier", "npm:2.5.0"],
+            ["prettier", "npm:2.5.1"],
             ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:10.4.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -4475,6 +4475,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -5622,7 +5625,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:7.0.4"],
             ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:27.3.1"],
             ["lint-staged", "npm:11.2.6"],
-            ["prettier", "npm:2.5.0"],
+            ["prettier", "npm:2.5.1"],
             ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:10.4.0"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
@@ -27867,10 +27870,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.5.0", {
-          "packageLocation": "./.yarn/cache/prettier-npm-2.5.0-f1121aaab1-aad1b35b73.zip/node_modules/prettier/",
+        ["npm:2.5.1", {
+          "packageLocation": "./.yarn/cache/prettier-npm-2.5.1-58b195b509-21b9408476.zip/node_modules/prettier/",
           "packageDependencies": [
-            ["prettier", "npm:2.5.0"]
+            ["prettier", "npm:2.5.1"]
           ],
           "linkType": "HARD",
         }]
