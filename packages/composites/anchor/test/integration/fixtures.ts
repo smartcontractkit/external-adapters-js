@@ -40,7 +40,7 @@ export function mockLunaUSDPrice() {
 export function mockSTEthUSDPrice() {
   nock('http://localhost:5000', { encodedQueryParams: true })
     .persist(true)
-    .post('/', { id: '1', data: { base: 'STETH', quote: 'USD', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: 'ETH', quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
       {
