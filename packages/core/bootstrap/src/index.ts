@@ -33,7 +33,7 @@ import * as server from './lib/server'
 import { configureStore } from './lib/store'
 import * as util from './lib/util'
 import * as ws from './lib/middleware/ws'
-import http from 'http'
+import { FastifyInstance } from 'fastify'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
@@ -139,7 +139,7 @@ export type ExternalAdapter = {
 }
 
 export type ExecuteHandler = {
-  server: () => Promise<http.Server>
+  server: () => Promise<FastifyInstance>
 }
 
 export const expose = <C extends Config>(
