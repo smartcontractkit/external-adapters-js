@@ -20,6 +20,10 @@ RUN \
 WORKDIR /home/node/app
 
 COPY . .
+
+# Add openssl legacy support for bitcoinjs-lib compatibility with node v17.x
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN yarn
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
