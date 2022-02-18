@@ -1,5 +1,15 @@
 # @chainlink/conflux-adapter
 
+## 1.0.29
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.0.28
 
 ### Patch Changes
