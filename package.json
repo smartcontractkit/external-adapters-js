@@ -10,7 +10,7 @@
     "versions": "ts-node-transpile-only ./packages/scripts/src/versions",
     "new": "ts-node-transpile-only ./packages/scripts/src/new",
     "bundle": "ncc build",
-    "clean": "tsc -b --clean  ./packages/tsconfig.json",
+    "clean": "rm -rf **/dist || tsc -b --clean ./packages/tsconfig.json",
     "lint": "eslint --ext ts .",
     "lint:fix": "yarn lint --fix",
     "format:check": "prettier --check .",
