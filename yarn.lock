@@ -3977,6 +3977,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/nftx-adapter@workspace:packages/composites/nftx":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/nftx-adapter@workspace:packages/composites/nftx"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@chainlink/uniswap-v2-adapter": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    ethers: ^5.5.4
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/nikkei-adapter@workspace:*, @chainlink/nikkei-adapter@workspace:packages/sources/nikkei":
   version: 0.0.0-use.local
   resolution: "@chainlink/nikkei-adapter@workspace:packages/sources/nikkei"

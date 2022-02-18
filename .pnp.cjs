@@ -6426,6 +6426,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/nftx-adapter", [
+        ["workspace:packages/composites/nftx", {
+          "packageLocation": "./packages/composites/nftx/",
+          "packageDependencies": [
+            ["@chainlink/nftx-adapter", "workspace:packages/composites/nftx"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["ethers", "npm:5.5.4"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/nikkei-adapter", [
         ["workspace:packages/sources/nikkei", {
           "packageLocation": "./packages/sources/nikkei/",
