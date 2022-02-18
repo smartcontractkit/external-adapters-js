@@ -11,11 +11,13 @@ export const INTERMEDIARY_TOKEN = 'ETH'
 export const execute: PriceExecute = async (input, _, config, taAdapterResponse) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-
   const stEthPerBEth = await getStEthBEthExchangeRate(config, provider)
   const ethPerStEth = await getStETHExchangeRate(config, provider)
   const usdPerEth = taAdapterResponse.data.result
-  const result = usdPerEth * ethPerStEth * stEthPerBEth
+  const result = new BigNumber(usdPerEth)
+    .multipliedBy(ethPerStEth)
+    .multipliedBy(stEthPerBEth)
+    .toNumber()
   return {
     jobRunID: input.id,
     statusCode: 200,
@@ -29,7 +31,7 @@ export const execute: PriceExecute = async (input, _, config, taAdapterResponse)
 const getStETHExchangeRate = async (
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
-): Promise<number> => {
+): Promise<BigNumber> => {
   const stEthPoolContract = new ethers.Contract(
     config.stEthPoolContractAddress,
     curvePoolAbi,
@@ -37,13 +39,13 @@ const getStETHExchangeRate = async (
   )
   const ethBal = await stEthPoolContract.balances(0)
   const stEthBal = await stEthPoolContract.balances(1)
-  return new BigNumber(ethBal.toString()).dividedBy(new BigNumber(stEthBal.toString())).toNumber()
+  return new BigNumber(ethBal.toString()).dividedBy(new BigNumber(stEthBal.toString()))
 }
 
 const getStEthBEthExchangeRate = async (
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
-): Promise<number> => {
+): Promise<BigNumber> => {
   const anchorVaultContract = new ethers.Contract(
     config.anchorVaultContractAddress,
     anchorVaultAbi,
@@ -51,7 +53,5 @@ const getStEthBEthExchangeRate = async (
   )
   const bEthExchangeRateBigNum = await anchorVaultContract.get_rate()
   // Need to convert to BigNumber JS from ethers BigNumber as the latter will remove all decimals
-  return new BigNumber(bEthExchangeRateBigNum.toString())
-    .dividedBy(new BigNumber(10).pow(18))
-    .toNumber()
+  return new BigNumber(bEthExchangeRateBigNum.toString()).dividedBy(new BigNumber(10).pow(18))
 }
