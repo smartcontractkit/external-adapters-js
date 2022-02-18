@@ -8,7 +8,6 @@ export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN_DECIMALS = 8
 export const INTERMEDIARY_TOKEN = 'ETH'
 
-// USD / ETH * stETH / bETH * ETH / stETH
 export const execute: PriceExecute = async (input, _, config, taAdapterResponse) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
@@ -16,7 +15,7 @@ export const execute: PriceExecute = async (input, _, config, taAdapterResponse)
   const stEthPerBEth = await getStEthBEthExchangeRate(config, provider)
   const ethPerStEth = await getStETHExchangeRate(config, provider)
   const usdPerEth = taAdapterResponse.data.result
-  const result = usdPerEth * stEthPerBEth * ethPerStEth
+  const result = usdPerEth * ethPerStEth * stEthPerBEth
   return {
     jobRunID: input.id,
     statusCode: 200,

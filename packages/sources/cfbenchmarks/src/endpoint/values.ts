@@ -32,7 +32,6 @@ const getIdFromBaseQuoteSymbols = (config: Config, base: string, quote: string) 
   const baseQuote = `${base}/${quote}`
 
   let id = idFromBaseQuoteSymbol[baseQuote] // Check hardcoded conversions first
-  console.log(config.useSecondary)
   if (!id) {
     // If not hardcoded, use template
     if (config.useSecondary) {
