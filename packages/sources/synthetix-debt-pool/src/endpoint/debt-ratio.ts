@@ -1,9 +1,15 @@
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
-import { getChainSynthetixInstance, getDataFromAcrossChains } from '../commons'
+import {
+  getChainSynthetixInstance,
+  getDataFromAcrossChains,
+  inputParameters as commonInputParameters,
+} from '../commons'
 import { Config } from '../config'
 
+// Needs to be exported so that doc generator script works
+export const inputParameters = commonInputParameters
 export const supportedEndpoints = ['debt-ratio']
 
 interface CurrentDebtResults {

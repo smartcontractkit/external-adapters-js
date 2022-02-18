@@ -5,7 +5,7 @@ import { SupportedChains, Config } from './config'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { SynthetixJS, synthetix } from '@synthetixio/contracts-interface'
 
-const inputParameters: InputParameters = {
+export const inputParameters: InputParameters = {
   chainSources: {
     required: false,
     description: `Array of chains to pull debt from. Options for array elements are "mainnet", "mainnet-ovm", "kovan", "kovan-ovm"`,
