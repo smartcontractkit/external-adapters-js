@@ -1,5 +1,17 @@
 # @chainlink/coingecko-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 4b85d4789: add missing steth override
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.1.16
 
 ### Patch Changes

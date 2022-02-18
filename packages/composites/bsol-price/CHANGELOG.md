@@ -1,5 +1,15 @@
 # @chainlink/bsol-price-adapter
 
+## 2.0.5
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/token-allocation-adapter@1.1.3
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/solana-view-function-adapter@2.1.1
+
 ## 2.0.4
 
 ### Patch Changes

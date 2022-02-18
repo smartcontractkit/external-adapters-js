@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.11.2
+
+### Patch Changes
+
+- ab17812c7: Update Validator behavior with input options sets
+
 ## 1.11.1
 
 ### Patch Changes
