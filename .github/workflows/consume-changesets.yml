@@ -3,8 +3,7 @@ name: Consume changesets
 on:
   push:
     branches:
-      # TODO revert back to develop before merging this
-      - feature/readme-generator-script
+      - develop
 
 jobs:
   consume-changesets:
@@ -28,28 +27,22 @@ jobs:
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
-          # TODO remove [TEST]
           version: yarn changeset version
-          title: '[TEST] Consume changesets'
-          commit: '[TEST] Consume changesets'
+          title: 'Consume changesets'
+          commit: 'Consume changesets'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build Repo
+        run: yarn setup
+
       - name: Generate READMEs
         run: |
-          yarn setup
           yarn generate:readme -a -v
-          README_GENERATOR_EXIT_CODE=$?
-
-          if [ $README_GENERATOR_EXIT_CODE -ne 0 ]; then
-              echo "README(s) could not be generated. Aborting commit."
-              exit 1
-          else
-              git add *
-              yarn lint-staged
-              git commit --amend --no-edit
-              git push --force
-              echo "README(s) generated successfully."
-          fi
+          git add *
+          yarn lint-staged
+          git commit --amend --no-edit
+          git push --force
+          echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
