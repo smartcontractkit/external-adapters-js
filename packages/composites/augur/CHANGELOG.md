@@ -1,5 +1,25 @@
 # @chainlink/augur-adapter
 
+## 1.0.31
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/sportsdataio-adapter@1.1.29
+  - @chainlink/therundown-adapter@1.2.15
+
+## 1.0.30
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/sportsdataio-adapter@1.1.28
+  - @chainlink/therundown-adapter@1.2.14
+
 ## 1.0.29
 
 ### Patch Changes

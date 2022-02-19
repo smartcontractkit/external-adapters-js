@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`accounts errored calls returns an error when no addresses are passed to the EA 1`] = `
+exports[`accounts errored calls returns an error when there are no addresses passed to the EA 1`] = `
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"addresses\\":[],\\"endpoint\\":\\"accounts\\"}}",
-    "message": "Required parameter addresses must be non-null and non-empty",
+    "message": "addresses parameter must be a non-empty array",
     "name": "AdapterError",
   },
   "jobRunID": "1",
@@ -13,11 +13,11 @@ Object {
 }
 `;
 
-exports[`accounts errored calls returns an error when there is no lcd url is set 1`] = `
+exports[`accounts errored calls returns an error when there is no rpc url is set 1`] = `
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"addresses\\":[\\"EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ\\"]}}",
-    "message": "Please set the required env LCD_URL.",
+    "message": "Please set the required env RPC_URL.",
     "name": "AdapterError",
   },
   "jobRunID": "1",

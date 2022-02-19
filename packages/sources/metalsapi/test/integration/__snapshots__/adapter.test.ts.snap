@@ -73,7 +73,7 @@ exports[`execute latest api should error with batched base symbols 1`] = `
 Object {
   "error": Object {
     "feedID": "[BTC|XAU]/USD",
-    "message": "Required parameter base must be non-null and non-empty",
+    "message": "base parameter must be of type string",
     "name": "AdapterError",
   },
   "jobRunID": "1",
