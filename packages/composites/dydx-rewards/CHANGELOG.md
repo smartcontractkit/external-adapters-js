@@ -1,5 +1,110 @@
 # @chainlink/dydx-rewards-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/ipfs-adapter@1.2.11
+
+## 1.1.4
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/ipfs-adapter@1.2.10
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [eecdac90b]
+  - @chainlink/ea-bootstrap@1.11.0
+  - @chainlink/ipfs-adapter@1.2.9
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [57be274ff]
+- Updated dependencies [540e563a9]
+- Updated dependencies [72f96124d]
+  - @chainlink/ea-bootstrap@1.10.6
+  - @chainlink/ipfs-adapter@1.2.8
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [b2e1df0c3]
+- Updated dependencies [4865d3b46]
+  - @chainlink/ipfs-adapter@1.2.7
+  - @chainlink/ea-bootstrap@1.10.5
+
+## 1.1.0
+
+### Minor Changes
+
+- 02c3a64bb: Update DYDX rewards formulas for DIP-7
+
+## 1.0.25
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/ipfs-adapter@1.2.6
+
+## 1.0.24
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ipfs-adapter@1.2.5
+
+## 1.0.23
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ipfs-adapter@1.2.4
+
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/ipfs-adapter@1.2.3
+
+## 1.0.21
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/ipfs-adapter@1.2.2
+
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/ipfs-adapter@1.2.1
+  - @chainlink/ea-bootstrap@1.9.1
+
 ## 1.0.19
 
 ### Patch Changes

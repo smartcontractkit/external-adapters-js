@@ -12,6 +12,18 @@ Object {
 }
 `;
 
+exports[`execute crypto-vwap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.7091192957589304,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 0.7091192957589304,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute eod api should return success 1`] = `
 Object {
   "data": Object {

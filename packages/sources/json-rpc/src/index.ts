@@ -1,8 +1,9 @@
 import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute, execute } from './adapter'
-import { makeConfig } from './config'
+import { makeExecute, endpointSelector } from './adapter'
+import { makeConfig, NAME } from './config'
+import * as types from './endpoint'
 
-const NAME = 'JSON_RPC'
+const adapterContext = { name: NAME }
 
-const { server } = expose(NAME, makeExecute())
-export { NAME, execute, makeConfig, server }
+const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
+export { NAME, makeExecute, makeConfig, server, types }

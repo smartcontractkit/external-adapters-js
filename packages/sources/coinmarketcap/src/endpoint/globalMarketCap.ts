@@ -1,7 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['globalmarketcap']
+
+export const description = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
 
 export const inputParameters: InputParameters = {
   market: {
@@ -66,8 +69,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
 

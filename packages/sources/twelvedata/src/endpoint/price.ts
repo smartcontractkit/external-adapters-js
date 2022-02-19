@@ -6,6 +6,9 @@ export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
 
 const customError = (data: { status: string }) => data.status === 'error'
 
+export const description =
+  'This `price` endpoint provides the real-time price as detailed in [Twelvedata documentation](https://twelvedata.com/docs#real-time-price).'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin', 'market', 'symbol'],
@@ -21,7 +24,6 @@ interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()

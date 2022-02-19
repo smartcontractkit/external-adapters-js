@@ -83,7 +83,6 @@ export async function execute(
   config: Config,
 ): Promise<AdapterResponse> {
   const validator = new Validator(input, pokeParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = input.id
 

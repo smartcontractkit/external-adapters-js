@@ -8,6 +8,8 @@ export const customParams = {
   recipient_type: ['EMAIL', 'PHONE', 'PAYPAL_ID'],
 }
 
+export const description = 'Endpoint used to send currency to a specified receiver.'
+
 export const inputParameters: InputParameters = {
   amount: {
     required: true,
@@ -57,7 +59,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters, customParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const value: string = validator.validated.data.amount

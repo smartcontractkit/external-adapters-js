@@ -30,11 +30,10 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed
-  const url = `/api/v1/egs/api/ethgasAPI.json?`
+  const url = `/api/ethgasAPI.json`
 
   const options = {
     ...config.api,

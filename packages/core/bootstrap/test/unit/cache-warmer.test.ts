@@ -5,17 +5,17 @@ import { Subject } from 'rxjs'
 import { RunHelpers } from 'rxjs/internal/testing/TestScheduler'
 import { TestScheduler } from 'rxjs/testing'
 import { stub } from 'sinon'
-import * as actions from '../../src/lib/cache-warmer/actions'
-import { get } from '../../src/lib/cache-warmer/config'
+import * as actions from '../../src/lib/middleware/cache-warmer/actions'
+import { get } from '../../src/lib/middleware/cache-warmer/config'
 import {
   EpicDependencies,
   executeHandler,
   warmupRequestHandler,
   warmupSubscriber,
   warmupUnsubscriber,
-} from '../../src/lib/cache-warmer/epics'
-import { subscriptionsReducer } from '../../src/lib/cache-warmer/reducer'
-import { RootState, SubscriptionState } from '../../src/lib/cache-warmer/reducer'
+} from '../../src/lib/middleware/cache-warmer/epics'
+import { subscriptionsReducer } from '../../src/lib/middleware/cache-warmer/reducer'
+import { RootState, SubscriptionState } from '../../src/lib/middleware/cache-warmer/reducer'
 
 let scheduler: TestScheduler
 

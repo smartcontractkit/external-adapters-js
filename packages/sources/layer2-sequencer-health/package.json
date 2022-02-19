@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/layer2-sequencer-health-adapter",
-  "version": "1.0.19",
+  "version": "1.1.3",
   "description": "Layer 2 sequencer health check adapter.",
   "keywords": [
     "Chainlink",

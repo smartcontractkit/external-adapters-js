@@ -13,6 +13,9 @@ export const batchablePropertyPath = [{ name: 'quote' }]
 
 const customError = (data: ResponseSchema) => !data.success
 
+export const description =
+  'Returns a batched price comparison from one currency to a list of other currencies.'
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
@@ -58,7 +61,6 @@ const handleBatchedRequest = (
 // a valid API Key is obtained.
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const from = validator.overrideSymbol(AdapterName)

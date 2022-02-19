@@ -44,7 +44,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     }
   }
   const getSymbol = (input: AdapterRequest) => {
-    const validator = new Validator(input, endpoints.crypto.inputParameters, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.crypto.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
     if (validator.error) return
     const symbol = validator.validated.data.base.toUpperCase()
     const convert = validator.validated.data.quote.toUpperCase()

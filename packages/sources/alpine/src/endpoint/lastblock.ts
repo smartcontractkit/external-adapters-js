@@ -6,6 +6,8 @@ import { ethers } from 'ethers'
 
 export const supportedEndpoints = ['lastblock']
 
+export const description = 'This gets the lastblock of a cross chain transfer from the given chain.'
+
 export const inputParameters: InputParameters = {
   stagingAddress: {
     required: true,
@@ -23,7 +25,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { network, stagingAddress } = validator.validated.data

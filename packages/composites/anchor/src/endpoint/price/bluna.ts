@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { Config } from '../../config'
 import * as view from '@chainlink/terra-view-function-adapter'
 import { Validator } from '@chainlink/ea-bootstrap'
@@ -6,27 +6,21 @@ import { Validator } from '@chainlink/ea-bootstrap'
 export const FROM = 'BLUNA'
 export const INTERMEDIARY_TOKEN_DECIMALS = 8
 export const INTERMEDIARY_TOKEN = 'LUNA'
-export const DEFAULT_TERRA_BLUNA_CONTRACT_ADDRESS = 'terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts'
-
-export const inputParameters: InputParameters = {
-  terraBLunaContractAddress: false,
-}
 
 export const execute = async (
   input: AdapterRequest,
   context: AdapterContext,
-  _: Config,
+  config: Config,
   taAdapterResponse: AdapterResponse,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator(input)
   if (validator.error) throw validator.error
   const _config = view.makeConfig()
   const _execute = view.makeExecute(_config)
   const viewFunctionAdapterRequest: AdapterRequest = {
     id: input.id,
     data: {
-      address:
-        validator.validated.data.terraBLunaContractAddress || DEFAULT_TERRA_BLUNA_CONTRACT_ADDRESS,
+      address: config.terraBLunaContractAddress,
       query: {
         state: {},
       },

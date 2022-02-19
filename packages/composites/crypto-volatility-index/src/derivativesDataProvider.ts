@@ -110,7 +110,7 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
       const { instrumentName, expiration, type } = optionData
       if (
         olderThanHour(instrumentName, hourAgo, instruments) &&
-        moment.unix(expiration).weekday() == 5
+        moment.unix(expiration).utc().weekday() == 5
       ) {
         if (type === 'C') {
           if (!calls[expiration]) calls[expiration] = []

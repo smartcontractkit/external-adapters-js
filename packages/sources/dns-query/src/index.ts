@@ -1,7 +1,9 @@
 import { expose } from '@chainlink/ea-bootstrap'
 import { makeExecute } from './adapter'
-import { makeConfig } from './config'
+import { makeConfig, NAME } from './config'
+import rateLimit from './config/limits.json'
 
-const NAME = 'DNS_QUERY'
+const adapterContext = { name: NAME, rateLimit }
 
-export = { NAME, makeConfig, makeExecute, ...expose(NAME, makeExecute()) }
+const { server } = expose(adapterContext, makeExecute())
+export { NAME, makeConfig, makeExecute, server }

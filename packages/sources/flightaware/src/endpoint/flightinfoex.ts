@@ -38,6 +38,10 @@ export interface ResponseSchema {
   }
 }
 
+export const description = `Supports the following endpoint params to return a field in the response data:
+- \`estimatedarrivaltime\`: Returns the estimatedarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint
+- \`actualarrivaltime\`: Returns the actualarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint`
+
 export const inputParameters: InputParameters = {
   departure: {
     required: true,
@@ -53,7 +57,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath

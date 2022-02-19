@@ -3,6 +3,9 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['total-score']
 
+export const description =
+  "Returns the sum of both teams' scores for a match (match status must be final)"
+
 export const inputParameters: InputParameters = {
   matchId: {
     required: true,
@@ -20,7 +23,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const matchId = validator.validated.data.matchId

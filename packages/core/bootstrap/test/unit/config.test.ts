@@ -1,5 +1,5 @@
-import { constants } from '../../src/lib/external-adapter/config'
-import { Requester } from '../../src/lib/external-adapter/requester'
+import { constants } from '../../src/lib/config'
+import { Requester } from '../../src/lib/modules/requester'
 const { ENV_API_ENDPOINT, ENV_API_KEY, ENV_API_TIMEOUT, DEFAULT_API_TIMEOUT } = constants
 
 describe('incorrect app config', () => {

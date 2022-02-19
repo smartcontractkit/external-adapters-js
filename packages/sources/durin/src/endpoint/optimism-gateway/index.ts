@@ -18,6 +18,9 @@ export interface ResponseSchema {
   }
 }
 
+export const description = `The optimism global endpoint reads the latest proof from an Optimism as the L2 chain and returns the proof to the caller.
+Currently this endpoint has the same functionality as the server in this example https://github.com/smartcontractkit/ccip-read/tree/6d4deb917781f3becda39b9ebad6f21e037af1a6/examples/optimism-gateway.`
+
 export const inputParameters: InputParameters = {
   to: {
     required: true,
@@ -44,7 +47,6 @@ const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   if (!config.addressManagerContract) throw Error('AddressManagerContract address not set')
   if (!config.l2RpcUrl) throw Error('L2 RPC URL not set')

@@ -20,12 +20,25 @@ export type BalancesResponse = DataResponse<Account[], any>
 export type GetBalance = (account: Account, config: BalanceConfig) => Promise<BalancesResponse>
 export type GetBalances = (accounts: Account[], config: BalanceConfig) => Promise<BalancesResponse>
 
-export type BalanceConfig = Config & {
+type BaseBalanceConfig = Config & {
   confirmations?: number
   isSupported: IsSupported
   getBalance?: GetBalance
   getBalances?: GetBalances
 }
+
+type SingleBalanceConfig = BaseBalanceConfig & {
+  getBalance: GetBalance
+  getBalances?: never
+}
+
+type BatchBalanceConfig = BaseBalanceConfig & {
+  getBalance?: never
+  getBalances: GetBalances
+}
+
+// Splits types & re-unions to achieve "only one of either getBalance or getBalances" type
+export type BalanceConfig = SingleBalanceConfig | BatchBalanceConfig
 
 const requireArray = (jobRunID: string, dataPath: string, data: any) => {
   const inputData = <Account[]>objectPath.get(data, dataPath)
@@ -64,8 +77,7 @@ const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfi
   return accNoWarning
 }
 
-const toGetBalances = (getBalance?: GetBalance) => (accounts: Account[], config: BalanceConfig) => {
-  if (!getBalance) throw new Error('Get Balance function not supplied')
+const toGetBalances = (getBalance: GetBalance) => (accounts: Account[], config: BalanceConfig) => {
   return accounts.map((acc) => getBalance(acc, config))
 }
 
@@ -77,10 +89,9 @@ export const inputParameters: InputParameters = {
 
 export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
+
   if (!config) throw new Error('No configuration supplied')
-  if (!config.getBalance && !config.getBalances)
-    throw new Error('Request handling logic not supplied')
+
   config.confirmations = validator.validated.confirmations || DEFAULT_CONFIRMATIONS
   const jobRunID = validator.validated.id
   const dataPath = validator.validated.data.dataPath || DEFAULT_DATA_PATH

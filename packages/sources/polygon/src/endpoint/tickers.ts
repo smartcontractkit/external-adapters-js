@@ -11,6 +11,10 @@ import { NAME as AdapterName } from '../config'
 export const supportedEndpoints = ['tickers', 'forex', 'price']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
+export const description = `Convert a currency or currencies into another currency or currencies
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`tickers\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from'],
   quote: ['quote', 'to'],
@@ -112,7 +116,6 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
   const jobRunID = validator.validated.id
   const url = `/v2/snapshot/locale/global/markets/forex/tickers`
   const from = validator.overrideSymbol(AdapterName)

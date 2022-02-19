@@ -56,6 +56,8 @@ interface ReferenceCurrenciesResponseSchema {
   status: string
 }
 
+export const description = 'https://api.coinranking.com/v2/coins'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -96,7 +98,6 @@ const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<st
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base

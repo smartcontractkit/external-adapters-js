@@ -29,6 +29,9 @@ const METRICS = 'FeeTotNtv,RevNtv,IssTotNtv'
 const DEFAULT_PAGE_SIZE = 10_000
 const URL = 'timeseries/asset-metrics'
 
+export const description = `Endpoint to calculate the total number of burned coins/tokens for an asset.
+This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
+
 export const inputParameters: InputParameters = {
   asset: {
     description:
@@ -85,7 +88,6 @@ export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber 
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const asset = validator.overrideSymbol(AdapterName, validator.validated.data.asset)

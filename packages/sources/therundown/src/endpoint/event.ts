@@ -3,6 +3,8 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['event']
 
+export const description = 'Returns data for a specific event'
+
 export const inputParameters: InputParameters = {
   eventId: {
     required: true,
@@ -20,7 +22,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const eventId = validator.validated.data.eventId

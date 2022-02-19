@@ -9,6 +9,7 @@ import {
 } from '@chainlink/types'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import * as endpoints from './endpoint'
+import overrides from './config/symbols.json'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   return Builder.buildSelector(request, context, config, endpoints)
@@ -71,14 +72,19 @@ const customParams = {
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
   const getFxTicker = (input: AdapterRequest): string | undefined => {
-    const validator = new Validator(input, customParams, {}, false)
+    const validator = new Validator(input, customParams, {}, { shouldThrowError: false, overrides })
     if (validator.error) return
     return validator.validated.data.base.toLowerCase()
   }
   const isFx = (input: AdapterRequest): boolean =>
     endpoints.iex.supportedEndpoints.includes(input.data.endpoint)
   const getCryptoTicker = (input: AdapterRequest): string | undefined => {
-    const validator = new Validator(input, endpoints.prices.inputParameters, {}, false)
+    const validator = new Validator(
+      input,
+      endpoints.prices.inputParameters,
+      {},
+      { shouldThrowError: false, overrides },
+    )
     if (validator.error) return
     const { base, quote } = validator.validated.data
     return `${base}/${quote}`.toLowerCase()

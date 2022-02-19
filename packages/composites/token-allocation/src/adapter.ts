@@ -1,10 +1,18 @@
 import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
-import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from './config'
+import {
+  DEFAULT_TOKEN_BALANCE,
+  DEFAULT_TOKEN_DECIMALS,
+  makeConfig,
+  makeOptions,
+  Source,
+} from './config'
 import { TokenAllocations, Config, ResponsePayload, GetPrices, TokenAllocation } from './types'
 import { Decimal } from 'decimal.js'
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { getPriceProvider } from './dataProvider'
+import * as NCFX from '@chainlink/ncfx-adapter'
+import * as Finage from '@chainlink/finage-adapter'
 
 Decimal.set({ precision: 100 })
 
@@ -115,7 +123,6 @@ const inputParams = {
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const paramOptions = makeOptions(config)
   const validator = new Validator(input, inputParams, paramOptions)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { quote = config.defaultQuote, method = config.defaultMethod } = validator.validated.data
@@ -128,6 +135,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   if (source === '') {
     throw Error('No source specified in the request or config!')
   }
+  validateEndpointSupportedBySource(jobRunID, source, method)
 
   const sourceConfig = config.sources[source]
 
@@ -157,6 +165,20 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         message: `Method ${method} not supported.`,
         statusCode: 400,
       })
+  }
+}
+
+const validateEndpointSupportedBySource = (jobRunID: string, source: Source, method: string) => {
+  source = source.toUpperCase()
+
+  // Todo:  In the future we should aim to export the supported endpoints from EAs
+  const adaptersNotSupportingMktCap = [NCFX.NAME, Finage.NAME]
+  if (method === 'marketcap' && adaptersNotSupportingMktCap.includes(source)) {
+    throw new AdapterError({
+      jobRunID,
+      message: `source ${source} does not support the marketcap endpoint`,
+      statusCode: 400,
+    })
   }
 }
 

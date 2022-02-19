@@ -1,8 +1,8 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock =>
-  nock('https://data-api.defipulse.com')
-    .get('/api/v1/egs/api/ethgasAPI.json')
+  nock('https://ethgasstation.info')
+    .get('/api/ethgasAPI.json')
     .query({ 'api-key': 'fake-api-key' })
     .reply(
       200,

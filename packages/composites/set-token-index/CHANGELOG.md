@@ -1,5 +1,129 @@
 # @chainlink/set-token-index-adapter
 
+## 1.0.42
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/token-allocation-adapter@1.1.3
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.0.41
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [07c013666]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/token-allocation-adapter@1.1.0
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.0.40
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.1
+
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies [b858d0b9f]
+  - @chainlink/token-allocation-adapter@1.1.0
+
+## 1.0.38
+
+### Patch Changes
+
+- Updated dependencies [eecdac90b]
+  - @chainlink/ea-bootstrap@1.11.0
+  - @chainlink/token-allocation-adapter@1.0.38
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.0.37
+
+### Patch Changes
+
+- Updated dependencies [57be274ff]
+- Updated dependencies [540e563a9]
+- Updated dependencies [72f96124d]
+  - @chainlink/ea-bootstrap@1.10.6
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/token-allocation-adapter@1.0.37
+
+## 1.0.36
+
+### Patch Changes
+
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/token-allocation-adapter@1.0.36
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.35
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/token-allocation-adapter@1.0.35
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.34
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/token-allocation-adapter@1.0.34
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.33
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/token-allocation-adapter@1.0.33
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.32
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/token-allocation-adapter@1.0.32
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.31
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/token-allocation-adapter@1.0.31
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.0.30
+
+### Patch Changes
+
+- 9f3bd5b75: input parameters changed
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/token-allocation-adapter@1.0.30
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.0.29
 
 ### Patch Changes

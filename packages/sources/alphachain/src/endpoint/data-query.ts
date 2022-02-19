@@ -5,6 +5,8 @@ export const supportedEndpoints = ['dataquery']
 
 const customError = (data: ResponseSchema) => data.status !== '200'
 
+export const description = 'Retrieves price data for a given currency pair.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -41,7 +43,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()

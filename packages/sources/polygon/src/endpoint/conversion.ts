@@ -17,6 +17,8 @@ const customError = (data: ErrorResponseSchema) => {
   return data.status === 'ERROR'
 }
 
+export const description = 'Get FOREX price conversions'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from'],
@@ -57,7 +59,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()

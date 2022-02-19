@@ -5,13 +5,14 @@ import { Validator, Requester } from '@chainlink/ea-bootstrap'
 export const NAME = 'getblockchaininfo'
 const DEFAULT_FIELD = 'difficulty'
 
+export const description = 'Calls `"method": "getblockchaininfo"` on the Bitcoin node.'
+
 const inputParams = {
   resultPath: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const resultPath =
@@ -19,7 +20,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       ? DEFAULT_FIELD
       : validator.validated.data.resultPath || DEFAULT_FIELD
 
-  const response = await JSONRPC.execute(
+  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
+  const response = await _execute(
     {
       ...request,
       data: { ...request.data, method: NAME },

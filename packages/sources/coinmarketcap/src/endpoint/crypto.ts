@@ -7,6 +7,7 @@ import {
   AdapterRequest,
   InputParameters,
 } from '@chainlink/types'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'convert', limit: 120 }]
@@ -92,6 +93,10 @@ const presetIds: { [symbol: string]: number } = {
   '1INCH': 8104,
 }
 
+export const description = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],
@@ -156,8 +161,7 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const url = 'cryptocurrency/quotes/latest'
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(AdapterName)

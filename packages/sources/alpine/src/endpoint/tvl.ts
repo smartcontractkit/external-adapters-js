@@ -8,6 +8,8 @@ import { ethers } from 'ethers'
  */
 export const supportedEndpoints = ['tvl']
 
+export const description = 'This gets the tvl of a vault on Ethereum.'
+
 export const inputParameters: InputParameters = {
   vaultAddress: {
     required: true,
@@ -25,7 +27,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const { network, vaultAddress } = validator.validated.data

@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['filtered']
 
@@ -11,6 +12,8 @@ export const endpointResultPaths = {
 const customError = (data: Record<string, unknown>) => {
   return Object.keys(data).length === 0
 }
+
+export const description = 'Fetches the price of an asset using specified exchanges.'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -30,8 +33,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const symbol = validator.overrideSymbol(AdapterName)
   const jobRunID = validator.validated.id

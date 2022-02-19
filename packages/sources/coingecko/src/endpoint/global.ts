@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['globalmarketcap', 'dominance']
 
@@ -11,6 +12,9 @@ export const endpointResultPaths = {
 const customError = (data: ResponseSchema) => {
   return Object.keys(data).length === 0
 }
+
+export const description =
+  'Query the global market cap from [Coingecko](https://api.coingecko.com/api/v3/global)'
 
 export const inputParameters: InputParameters = {
   market: {
@@ -38,8 +42,8 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters, {}, { overrides })
+
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market.toLowerCase()
   const resultPath = validator.validated.data.resultPath

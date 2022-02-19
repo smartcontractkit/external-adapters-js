@@ -1,5 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['globalmarketcap']
 
@@ -52,8 +53,8 @@ export interface PriceChange {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, {})
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, {}, {}, { overrides })
+
   const jobRunID = validator.validated.id
   const url = `/global-ticker`
 

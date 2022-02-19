@@ -8,6 +8,9 @@ export const endpointResultPaths = {
   difficulty: 'difficulty',
 }
 
+export const description =
+  'https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common'
+
 export const inputParameters: InputParameters = {
   blockchain: {
     aliases: ['coin', 'market'],
@@ -41,7 +44,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const blockchain = validator.validated.data.blockchain

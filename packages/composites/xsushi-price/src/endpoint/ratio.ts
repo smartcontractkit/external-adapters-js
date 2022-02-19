@@ -7,6 +7,8 @@ import { makeExecute } from '../adapter'
 
 export const supportedEndpoints = ['ratio']
 
+export const description = 'Gets the ratio between SUSHI and xSUSHI tokens (with 18 decimals).'
+
 export function getSushiAddress(context: AdapterContext, id: string): Promise<string> {
   const execute = makeExecute()
   const options = {
@@ -31,7 +33,6 @@ export function getSushiAddress(context: AdapterContext, id: string): Promise<st
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, {})
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.jobRunID
   const xsushiAddress = config.xsushiAddress

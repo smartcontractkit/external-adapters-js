@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../../config'
+import overrides from '../../config/symbols.json'
 
 export const supportedEndpoints = ['prices', 'crypto', 'volume', 'crypto-synth']
 
@@ -32,6 +33,12 @@ export interface ResponseSchema {
   }[]
 }
 
+export const description = `The \`crypto\`, \`volume\`, and \`prices\` endpoints come from https://api.tiingo.com/documentation/crypto.
+
+\`crypto\` and \`prices\` endpoints return a VWAP of all the exchanges on the current day and across base tokens.
+
+\`volume\` returns the 24h volume for a pair.`
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
@@ -42,8 +49,7 @@ export const inputParameters: InputParameters = {
 const customError = (data: ResponseSchema[]) => !data.length
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)

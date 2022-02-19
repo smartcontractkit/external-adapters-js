@@ -1,6 +1,7 @@
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { execute as liveExecute } from './live'
 import { Validator } from '@chainlink/ea-bootstrap'
+import overrides from '../config/symbols.json'
 
 /**
  * This endpoint is similar to live but is supposed to only be used to fetch forex data.  This is why quote is a required parameter.
@@ -23,9 +24,8 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator(input, inputParameters, {}, { overrides })
 
-  if (validator.error) throw validator.error
   const transformedInputData = {
     ...input,
     data: {

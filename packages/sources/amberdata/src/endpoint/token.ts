@@ -1,11 +1,14 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['marketcap', 'token']
 
 const customError = (data: ResponseSchema) => {
   return Object.keys(data.payload).length === 0
 }
+
+export const description = 'Gets the asset USD Market Cap from Amberdata.'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -40,10 +43,9 @@ export interface Payload {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
-  if (validator.error) throw validator.error
-  const jobRunID = validator.validated.id
+  const validator = new Validator(input, inputParameters, {}, { includes })
 
+  const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const resultPath = validator.validated.data.resultPath || 'marketCapUSD'
   const url = `/api/v2/market/tokens/prices/${coin.toLowerCase()}/latest`

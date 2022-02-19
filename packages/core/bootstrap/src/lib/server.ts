@@ -6,17 +6,17 @@ import rateLimit from 'express-rate-limit'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, storeSlice, withMiddleware } from '../index'
-import { defaultOptions } from './cache'
+import { defaultOptions } from './middleware/cache'
 import { loadTestPayload } from './config/test-payload-loader'
 import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
-import { logger } from './external-adapter'
+import { logger } from './modules'
 import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
-import { get as getRateLimitConfig } from './rate-limit/config'
+import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { toObjectWithNumbers } from './util'
-import { warmupShutdown } from './cache-warmer/actions'
+import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { AddressInfo } from 'net'
 
 const app = express()
@@ -29,11 +29,16 @@ export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
-  (name: string, execute: Execute, middleware: Middleware[]) => async (): Promise<http.Server> => {
+  (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
+  async (): Promise<http.Server> => {
+    const name = adapterContext.name || ''
     const context: AdapterContext = {
       name,
       cache: null,
-      rateLimit: getRateLimitConfig({ name }),
+      rateLimit: getRateLimitConfig({
+        limits: adapterContext.rateLimit || { http: {}, ws: {} },
+        name,
+      }),
     }
     const cacheOptions = defaultOptions()
     if (cacheOptions.enabled) {

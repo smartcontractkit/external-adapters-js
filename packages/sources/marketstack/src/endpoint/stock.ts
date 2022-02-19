@@ -4,6 +4,9 @@ import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
 
 export const supportedEndpoints = ['stock', 'eod']
 
+export const description =
+  '**NOTE: the `eod` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     required: true,
@@ -47,7 +50,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const symbols = validator.validated.data.base.toUpperCase()

@@ -1,7 +1,7 @@
-import { Requester } from '../../src/lib/external-adapter/requester'
+import { Requester } from '../../src/lib/modules/requester'
 import { Server, SUCCESS_ARRAY_RESPONSE } from '../helpers/server'
 
-describe('Requester', () => {
+describe('HTTP', () => {
   const errorMessage = 'Request failed with status code 500'
   const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
   const successUrl = 'http://localhost:18080'

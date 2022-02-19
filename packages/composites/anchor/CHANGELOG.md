@@ -1,5 +1,147 @@
 # @chainlink/anchor-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- af5e5d832: update anchor EA to derive the USD/bETH price using the new method. This new method relies on pulling the stETH/ETH price from the pool's Curve contract. Because of this, a new optional environment variable named 'STETH_POOL_CONTRACT_ADDRESS' has been added with a default of '0xdc24316b9ae028f1497c275eb9192a3ea0f67022'
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/token-allocation-adapter@1.1.3
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/terra-view-function-adapter@1.1.15
+
+## 1.2.4
+
+### Patch Changes
+
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [07c013666]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/token-allocation-adapter@1.1.0
+  - @chainlink/terra-view-function-adapter@1.1.14
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.2.3
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.1
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [b858d0b9f]
+  - @chainlink/token-allocation-adapter@1.1.0
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [eecdac90b]
+  - @chainlink/ea-bootstrap@1.11.0
+  - @chainlink/token-allocation-adapter@1.0.38
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/terra-view-function-adapter@1.1.13
+
+## 1.2.0
+
+### Minor Changes
+
+- 8c00ee1fd: add and set default values for env vars
+
+### Patch Changes
+
+- Updated dependencies [57be274ff]
+- Updated dependencies [540e563a9]
+- Updated dependencies [72f96124d]
+  - @chainlink/ea-bootstrap@1.10.6
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/token-allocation-adapter@1.0.37
+  - @chainlink/terra-view-function-adapter@1.1.12
+
+## 1.1.25
+
+### Patch Changes
+
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/token-allocation-adapter@1.0.36
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.11
+
+## 1.1.24
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/token-allocation-adapter@1.0.35
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.10
+
+## 1.1.23
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/token-allocation-adapter@1.0.34
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.9
+
+## 1.1.22
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/token-allocation-adapter@1.0.33
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.8
+
+## 1.1.21
+
+### Patch Changes
+
+- Updated dependencies [4476ff385]
+  - @chainlink/ea-bootstrap@1.10.1
+  - @chainlink/token-allocation-adapter@1.0.32
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.7
+
+## 1.1.20
+
+### Patch Changes
+
+- de5d083e8: removed throw when input is invalid. Validator handles internally
+- Updated dependencies [de5d083e8]
+- Updated dependencies [de5d083e8]
+- Updated dependencies [99ed864d0]
+- Updated dependencies [de5d083e8]
+  - @chainlink/ea-bootstrap@1.10.0
+  - @chainlink/token-allocation-adapter@1.0.31
+  - @chainlink/terra-view-function-adapter@1.1.6
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.19
+
+### Patch Changes
+
+- Updated dependencies [6b3fa8c3c]
+- Updated dependencies [da1207541]
+- Updated dependencies [1b6d4f1dd]
+  - @chainlink/token-allocation-adapter@1.0.30
+  - @chainlink/ea-bootstrap@1.9.1
+  - @chainlink/ea-test-helpers@1.0.1
+  - @chainlink/terra-view-function-adapter@1.1.5
+
 ## 1.1.18
 
 ### Patch Changes

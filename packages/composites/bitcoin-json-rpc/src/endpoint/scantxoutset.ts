@@ -4,6 +4,10 @@ import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'scantxoutset'
 
+export const description = `Calls \`"method": "scantxoutset"\` on the Bitcoin node and returns the total balance of all supplied addresses.
+
+**NOTE:** Requests to this endpoint may exceed the configured \`API_TIMEOUT\`. If a scan in progress, the adapter will wait an additional \`API_TIMEOUT\` period for the in-progress scan to complete. If the timeout is hit while a scan is in progress, a request to abort the scan is sent with an additional 1s timeout. This makes the theoretically maximum timeout for requests to this endpoint \`2 x API_TIMEOUT + 1000\` ms.`
+
 const inputParams = {
   scanobjects: ['addresses', 'scanobjects'],
   confirmations: false,
@@ -11,7 +15,6 @@ const inputParams = {
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const scanobjects = validator.validated.data.scanobjects.map((address: string) => {
@@ -45,9 +48,11 @@ const scanWithRetries = async (
   }
 
   const deadline = Date.now() + config.api.timeout
+  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
+
   while (Date.now() + 1000 <= deadline) {
     try {
-      return await JSONRPC.execute(requestData, context, config)
+      return await _execute(requestData, context, config)
     } catch (e) {
       if (e.cause?.response?.data?.error?.code === -8) {
         Logger.debug('scan is already in progress, waiting 1s...')
@@ -67,7 +72,7 @@ const scanWithRetries = async (
         config.api.timeout = 1000 // We expect this action to be quick, and we do not want to hold up the request on this
         Logger.debug('timeout reached, aborting scan in progress')
         try {
-          await JSONRPC.execute(requestData, context, config)
+          await _execute(requestData, context, config)
         } catch (e) {
           Logger.error(`failed to abort scan in progress: ${e.message}`)
         }

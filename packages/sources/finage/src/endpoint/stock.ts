@@ -7,9 +7,13 @@ import {
 } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['stock']
 export const batchablePropertyPath = [{ name: 'base' }]
+
+export const description = `https://finage.co.uk/docs/api/stock-last-quote
+The result will be calculated as the midpoint between the ask and the bid.`
 
 export const inputParameters: InputParameters = {
   base: {
@@ -29,8 +33,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base

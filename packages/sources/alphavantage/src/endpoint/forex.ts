@@ -8,6 +8,10 @@ const customError = (data: Record<string, unknown>) => {
   return !!data['Error Message']
 }
 
+export const description = `Returns the exchange rate from a currency's current price to a given currency.
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`forex\` endpoint instead.**"`
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
@@ -41,7 +45,6 @@ export interface ResponseSchema {
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const from = validator.overrideSymbol(AdapterName)

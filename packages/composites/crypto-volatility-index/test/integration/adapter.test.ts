@@ -19,11 +19,14 @@ Date.now = () => new Date('2021-07-21T10:20:30Z').getTime()
 
 jest.mock('moment', () => {
   const moment = jest.requireActual('moment')
-  moment.weekday = () => 5
   moment.unix = (expiration?: number) =>
     expiration
       ? {
-          weekday: () => 5,
+          utc: () => {
+            return {
+              weekday: () => 5,
+            }
+          },
         }
       : moment.unix()
   return moment

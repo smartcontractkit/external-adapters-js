@@ -13,6 +13,8 @@ export interface ResponseSchema {
   }
 }
 
+export const description = "This endpoint fetches an address's balance and outputs it in Lovelace."
+
 export const inputParameters: InputParameters = {
   addresses: {
     aliases: ['result'],
@@ -24,7 +26,6 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
-  if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses
