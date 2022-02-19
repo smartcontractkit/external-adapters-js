@@ -83,7 +83,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // If result was from a batch request
       if (payload.result?.data?.results) {
         const members = []
-        for (const [request] of Object.values<[AdapterRequest, number]>(
+        for (const [childKey, request] of Object.values<[string, AdapterRequest, number]>(
           payload.result.data.results,
         )) {
           const warmupSubscribedPayloadChild = {
@@ -91,8 +91,8 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
             ...request,
             parent: batchWarmerSubscriptionKey,
             batchablePropertyPath,
+            key: childKey,
           }
-          const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
           childLastSeenById[childKey] = Date.now()
           members.push(warmupSubscribedPayloadChild)
         }
@@ -103,7 +103,8 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
           parent: batchWarmerSubscriptionKey,
           batchablePropertyPath,
         }
-        const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
+        // TODO: check this
+        const childKey = payload.debug?.cacheKey ?? getSubscriptionKey(warmupSubscribedPayloadChild)
         childLastSeenById[childKey] = Date.now()
         actionsToDispatch.push(warmupSubscribed(warmupSubscribedPayloadChild))
       }

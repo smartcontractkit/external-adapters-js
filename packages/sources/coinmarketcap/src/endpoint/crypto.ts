@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import {
   ExecuteWithConfig,
@@ -6,6 +6,7 @@ import {
   AxiosResponse,
   AdapterRequest,
   InputParameters,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import overrides from '../config/symbols.json'
 
@@ -127,7 +128,7 @@ const handleBatchedRequest = (
   validator: Validator,
   resultPath: string,
 ) => {
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
   for (const base in response.data.data) {
     const originalBase = validator.overrideReverseLookup(
       AdapterName,
@@ -135,16 +136,27 @@ const handleBatchedRequest = (
       response.data.data[base].symbol,
     )
     for (const quote in response.data.data[base].quote) {
-      payload.push([
-        {
-          ...request,
-          data: {
-            ...request.data,
-            base: originalBase.toUpperCase(),
-            convert: quote.toUpperCase(),
-          },
+      const individualRequest = {
+        ...request,
+        data: {
+          ...request.data,
+          base: originalBase.toUpperCase(),
+          convert: quote.toUpperCase(),
         },
-        Requester.validateResultNumber(response.data, ['data', base, 'quote', quote, resultPath]),
+      }
+
+      const result = Requester.validateResultNumber(response.data, [
+        'data',
+        base,
+        'quote',
+        quote,
+        resultPath,
+      ])
+
+      payload.push([
+        CacheKey.getCacheKey(individualRequest, inputParameters),
+        individualRequest,
+        result,
       ])
     }
   }

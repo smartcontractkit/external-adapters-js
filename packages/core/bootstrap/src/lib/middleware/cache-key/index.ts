@@ -1,4 +1,10 @@
-import type { Middleware, AdapterRequest, Config, APIEndpoint } from '@chainlink/types'
+import type {
+  Middleware,
+  AdapterRequest,
+  Config,
+  APIEndpoint,
+  InputParameters,
+} from '@chainlink/types'
 import { Validator } from '../../modules'
 import { getHashOpts, hash, excludableInternalAdapterRequestProperties } from './util'
 import crypto from 'crypto'
@@ -11,26 +17,18 @@ const baseInputParametersCachable = Object.keys(baseInputParameters).filter(
 export const withCacheKey: <C extends Config>(
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
-  const cacheKey = endpointSelector
-    ? getCacheKey(input, endpointSelector(input))
-    : hash(input, getHashOpts())
+  const endpoint = endpointSelector?.(input)
+  const cacheKey =
+    endpoint && endpoint.inputParameters
+      ? getCacheKey(input, endpoint.inputParameters)
+      : hash(input, getHashOpts()) // Fallback to legacy object hash cache key
   const inputWithCacheKey = { ...input, debug: { ...input.debug, cacheKey } }
   return execute(inputWithCacheKey, context)
 }
 
-export function getCacheKey<C extends Config>(
-  request: AdapterRequest,
-  apiEndpoint: APIEndpoint<C>,
-): string {
-  const inputParameterKeys = Object.keys(apiEndpoint.inputParameters ?? {}).concat(
-    baseInputParametersCachable,
-  )
-  const validator = new Validator(
-    request,
-    apiEndpoint.inputParameters,
-    {},
-    { shouldThrowError: false },
-  )
+export function getCacheKey(request: AdapterRequest, inputParameters: InputParameters): string {
+  const inputParameterKeys = Object.keys(inputParameters ?? {}).concat(baseInputParametersCachable)
+  const validator = new Validator(request, inputParameters, {}, { shouldThrowError: false })
 
   let cacheKey = ''
 

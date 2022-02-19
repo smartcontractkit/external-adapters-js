@@ -53,7 +53,6 @@ export const hash = (
   hashOptions: Required<Parameters<typeof objectHash>>['1'],
   mode: HashMode = 'include',
 ): string => {
-  console.log('AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh')
   return mode === 'include' || !data
     ? objectHash(getKeyData(data), hashOptions)
     : objectHash(data, getHashOpts())

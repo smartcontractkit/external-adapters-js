@@ -1,5 +1,12 @@
-import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AxiosResponse,
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+  AdapterBatchResponse,
+  AdapterRequest,
+} from '@chainlink/types'
+import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -47,22 +54,44 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema>(options)
   if (Array.isArray(base)) {
-    return handleBatchedRequest(jobRunID, response)
+    return handleBatchedRequest(jobRunID, request, response)
   }
 
   const result = Requester.validateResultNumber(response.data, ['results', 0, 'c'])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
-const handleBatchedRequest = (jobRunID: string, response: AxiosResponse<ResponseSchema>) => {
-  const payload: { symbol: string; bid: number }[] = []
+// TODO: check this
+const handleBatchedRequest = (
+  jobRunID: string,
+  request: AdapterRequest,
+  response: AxiosResponse<ResponseSchema>,
+) => {
+  const payload: AdapterBatchResponse = []
+
   for (const base in response.data) {
-    payload.push({
-      symbol: response.data[base].symbol,
-      bid: response.data[base].bid,
-    })
-    Requester.validateResultNumber(response.data, [base, 'bid'])
+    const individualRequest = {
+      ...request,
+      data: {
+        ...request.data,
+        symbol: response.data[base].symbol,
+        bid: response.data[base].bid,
+      },
+    }
+
+    const result = Requester.validateResultNumber(response.data, [base, 'bid'])
+
+    payload.push([
+      CacheKey.getCacheKey(individualRequest, inputParameters),
+      individualRequest,
+      result,
+    ])
   }
-  response.data.result = payload
-  return Requester.success(jobRunID, response)
+
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }

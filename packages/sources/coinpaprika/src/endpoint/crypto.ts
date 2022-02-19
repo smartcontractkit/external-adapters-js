@@ -1,10 +1,11 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
   AdapterRequest,
   InputParameters,
   AxiosResponse,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoin } from '../util'
@@ -89,7 +90,7 @@ const handleBatchedRequest = (
   resultPath: string,
 ) => {
   const responseData = response.data as ResponseSchema[]
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
 
   requestedData.forEach(({ coinid, symbol }) => {
     const coin = getCoin(responseData, symbol, coinid)
@@ -98,16 +99,21 @@ const handleBatchedRequest = (
     }
 
     for (const quote in coin.quotes) {
-      payload.push([
-        {
-          ...request,
-          data: {
-            ...request.data,
-            base: coin.symbol.toUpperCase(),
-            quote: quote.toUpperCase(),
-          },
+      const individualRequest = {
+        ...request,
+        data: {
+          ...request.data,
+          base: coin.symbol.toUpperCase(),
+          quote: quote.toUpperCase(),
         },
-        Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
+      }
+
+      const result = Requester.validateResultNumber(coin, ['quotes', quote, resultPath])
+
+      payload.push([
+        CacheKey.getCacheKey(individualRequest, inputParameters),
+        individualRequest,
+        result,
       ])
     }
   })

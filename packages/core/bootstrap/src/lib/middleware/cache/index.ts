@@ -120,8 +120,8 @@ export class AdapterCache {
     this.cache = cache
   }
 
-  public getKey(data: AdapterRequest): string {
-    return `${this.options.key.group}:${data.debug?.cacheKey}`
+  public getKey(key: string): string {
+    return `${this.options.key.group}:${key}`
   }
 
   public get instance(): Cache {
@@ -176,7 +176,9 @@ export class AdapterCache {
   public async getResultForRequest(
     adapterRequest: AdapterRequest,
   ): Promise<AdapterResponse | undefined> {
-    const key = this.getKey(adapterRequest)
+    if (!adapterRequest?.debug?.cacheKey) throw new Error('Cache key not found')
+    const key = this.getKey(adapterRequest.debug.cacheKey)
+
     const observe = metrics.beginObserveCacheMetrics({
       isFromWs: !!adapterRequest.debug?.ws,
       participantId: key,
@@ -276,7 +278,8 @@ export const withCache =
     return async (adapterRequest) => {
       let cacheToUse = cache
       let adapterCacheToUse = adapterCache
-      const key = adapterCacheToUse.getKey(adapterRequest)
+      if (!adapterRequest?.debug?.cacheKey) throw new Error('Cache key not found')
+      const key = adapterCacheToUse.getKey(adapterRequest.debug.cacheKey)
       const coalescingKey = adapterCacheToUse.getCoalescingKey(key)
       const observe = metrics.beginObserveCacheMetrics({
         isFromWs: !!adapterRequest.debug?.ws,
@@ -344,13 +347,14 @@ export const withCache =
             await cacheToUse.setResponse(key, entry, maxAge)
             observe.cacheSet({ statusCode, maxAge })
             logger.trace(`Cache: SET ${key}`, entry)
+
             // Individually cache batch requests
             if (data?.results) {
-              for (const batchParticipant of Object.values<[AdapterRequest, number]>(
+              for (const batchParticipant of Object.values<[string, AdapterRequest, number]>(
                 data.results,
               )) {
-                const [request, result] = batchParticipant
-                const keyBatchParticipant = adapterCacheToUse.getKey(request)
+                const [key, , result] = batchParticipant
+                const childKey = adapterCacheToUse.getKey(key)
                 const debugBatchablePropertyPath = debug
                   ? { batchablePropertyPath: debug.batchablePropertyPath }
                   : {}
@@ -361,8 +365,8 @@ export const withCache =
                   maxAge,
                   debug: debugBatchablePropertyPath,
                 }
-                await cacheToUse.setResponse(keyBatchParticipant, entryBatchParticipant, maxAge)
-                logger.trace(`Cache Split Batch: SET ${keyBatchParticipant}`, entryBatchParticipant)
+                await cacheToUse.setResponse(childKey, entryBatchParticipant, maxAge)
+                logger.trace(`Cache Split Batch: SET ${childKey}`, entryBatchParticipant)
               }
             }
           }

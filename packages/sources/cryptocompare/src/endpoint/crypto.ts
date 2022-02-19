@@ -1,10 +1,11 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
   AxiosResponse,
   AdapterRequest,
   InputParameters,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import overrides from '../config/symbols.json'
@@ -149,7 +150,7 @@ const handleBatchedRequest = (
   validator: Validator,
   resultPath: string,
 ) => {
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
   for (const base of request.data.base) {
     const baseWithOverride = (validator.overrideSymbol(AdapterName, base) as string)?.toUpperCase()
     // Skip if the response does not contain the base
@@ -163,12 +164,23 @@ const handleBatchedRequest = (
         Logger.warn(`${resultPath} not found in batch response data's ${baseWithOverride}.${quote}`)
         continue
       }
+
+      const individualRequest = {
+        ...request,
+        data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
+      }
+
+      const result = Requester.validateResultNumber(response.data, [
+        'RAW',
+        baseWithOverride,
+        quote,
+        resultPath,
+      ])
+
       payload.push([
-        {
-          ...request,
-          data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
-        },
-        Requester.validateResultNumber(response.data, ['RAW', baseWithOverride, quote, resultPath]),
+        CacheKey.getCacheKey(individualRequest, inputParameters),
+        individualRequest,
+        result,
       ])
     }
   }

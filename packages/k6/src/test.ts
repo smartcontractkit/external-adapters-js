@@ -51,7 +51,7 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
      */
     return {
       local: {
-        [__ENV.LOCAL_ADAPTER_NAME]: 'http://host.docker.internal:8080',
+        [__ENV.LOCAL_ADAPTER_NAME]: 'http://localhost:8080',
       },
     }
   } else {
@@ -144,6 +144,7 @@ function buildRequests() {
 }
 
 const batchRequests = buildRequests()
+console.log(JSON.stringify(batchRequests))
 
 export default (): void => {
   currIteration++

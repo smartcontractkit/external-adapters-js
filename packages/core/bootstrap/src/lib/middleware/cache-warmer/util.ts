@@ -9,7 +9,6 @@ const conf = get()
 export function getSubscriptionKey(
   request: WarmupSubscribedPayload | WarmupExecutePayload,
 ): string {
-  console.log(1)
   return hash(
     omit(request, ['id', 'parent', 'children', 'result', 'batchablePropertyPath']),
     conf.hashOpts,

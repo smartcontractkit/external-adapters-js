@@ -104,6 +104,8 @@ declare module '@chainlink/types' {
     error: ErrorBasic | ErrorFull
   }
 
+  export type AdapterBatchResponse = [string, AdapterRequest, number][]
+
   /* BOOTSTRAP */
   export type Middleware = (
     execute: Execute,

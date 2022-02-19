@@ -7874,7 +7874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/tx", "npm:3.5.0"],
             ["async-eventemitter", "npm:0.2.4"],
             ["core-js-pure", "npm:3.16.0"],
-            ["debug", "virtual:f92816622f12a682efedc01f1da20281c4ed3ab0d1858943fa583f464413255415b0d58f4e477fba1231a5b80c3207c40b52c5cfccd9a508e7310ddae63ea7df#npm:4.3.3"],
+            ["debug", "virtual:59206ab6494fcf87afedf322312213fa8ec8d4b68ffaa4891fb721746a43f127c90c15a0f13a3370ed56e7ee6f4829d99c14a8c620abb41edeb7abf7d1f432a6#npm:4.3.3"],
             ["ethereumjs-util", "npm:7.1.4"],
             ["functional-red-black-tree", "npm:1.0.1"],
             ["mcl-wasm", "npm:0.7.8"],
@@ -16215,6 +16215,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
+        ["virtual:59206ab6494fcf87afedf322312213fa8ec8d4b68ffaa4891fb721746a43f127c90c15a0f13a3370ed56e7ee6f4829d99c14a8c620abb41edeb7abf7d1f432a6#npm:4.3.3", {
+          "packageLocation": "./.yarn/__virtual__/debug-virtual-1b42834cde/0/cache/debug-npm-4.3.3-710fd4cc7f-14472d56fe.zip/node_modules/debug/",
+          "packageDependencies": [
+            ["debug", "virtual:59206ab6494fcf87afedf322312213fa8ec8d4b68ffaa4891fb721746a43f127c90c15a0f13a3370ed56e7ee6f4829d99c14a8c620abb41edeb7abf7d1f432a6#npm:4.3.3"],
+            ["@types/supports-color", null],
+            ["ms", "npm:2.1.2"],
+            ["supports-color", null]
+          ],
+          "packagePeers": [
+            "@types/supports-color",
+            "supports-color"
+          ],
+          "linkType": "HARD",
+        }],
         ["virtual:612e500d6d9d9c332d8475cbf619d8fa9fe7de63ec445b4de39cc68ccfbc77429a4327f46d9b5572a19ca0de9f285af134301bc8843c271b7712b6d1256451cc#npm:3.2.6", {
           "packageLocation": "./.yarn/__virtual__/debug-virtual-d84ce13359/0/cache/debug-npm-3.2.6-6214e40f12-07bc8b3a13.zip/node_modules/debug/",
           "packageDependencies": [
@@ -16278,20 +16292,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supports-color", null],
             ["ms", "npm:2.1.2"],
             ["supports-color", "npm:8.1.1"]
-          ],
-          "packagePeers": [
-            "@types/supports-color",
-            "supports-color"
-          ],
-          "linkType": "HARD",
-        }],
-        ["virtual:f92816622f12a682efedc01f1da20281c4ed3ab0d1858943fa583f464413255415b0d58f4e477fba1231a5b80c3207c40b52c5cfccd9a508e7310ddae63ea7df#npm:4.3.3", {
-          "packageLocation": "./.yarn/__virtual__/debug-virtual-b35c953d93/0/cache/debug-npm-4.3.3-710fd4cc7f-14472d56fe.zip/node_modules/debug/",
-          "packageDependencies": [
-            ["debug", "virtual:f92816622f12a682efedc01f1da20281c4ed3ab0d1858943fa583f464413255415b0d58f4e477fba1231a5b80c3207c40b52c5cfccd9a508e7310ddae63ea7df#npm:4.3.3"],
-            ["@types/supports-color", null],
-            ["ms", "npm:2.1.2"],
-            ["supports-color", null]
           ],
           "packagePeers": [
             "@types/supports-color",
@@ -31106,7 +31106,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["superagent", "npm:7.1.1"],
             ["component-emitter", "npm:1.3.0"],
             ["cookiejar", "npm:2.1.3"],
-            ["debug", "virtual:f92816622f12a682efedc01f1da20281c4ed3ab0d1858943fa583f464413255415b0d58f4e477fba1231a5b80c3207c40b52c5cfccd9a508e7310ddae63ea7df#npm:4.3.3"],
+            ["debug", "virtual:59206ab6494fcf87afedf322312213fa8ec8d4b68ffaa4891fb721746a43f127c90c15a0f13a3370ed56e7ee6f4829d99c14a8c620abb41edeb7abf7d1f432a6#npm:4.3.3"],
             ["fast-safe-stringify", "npm:2.1.1"],
             ["form-data", "npm:4.0.0"],
             ["formidable", "npm:2.0.1"],

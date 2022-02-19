@@ -5,6 +5,7 @@ import {
   AdapterRequest,
   AdapterRequestData,
   ResultPath,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import { reducer } from '../middleware/cache-warmer'
 import axios, { AxiosResponse } from 'axios'
@@ -134,7 +135,7 @@ export class Requester {
   static withResult<T>(
     response: AxiosResponse<T>,
     result?: number | string,
-    results?: [AdapterRequest, number][],
+    results?: [string, AdapterRequest, number][],
   ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
     const isObj = deepType(response.data) === 'object'
     const output = isObj
@@ -248,7 +249,7 @@ interface BatchedResult {
    *    its result
    * ]
    */
-  results?: [AdapterRequest, number][]
+  results?: AdapterBatchResponse
 }
 
 /**

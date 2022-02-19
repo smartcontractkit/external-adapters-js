@@ -70,7 +70,6 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
   builder.addCase(actions.warmupSubscribedMultiple, (state, { payload }) => {
     for (const member of payload.members) {
       const key = member.key || getSubscriptionKey(member)
-      // TODO
       state[key] = {
         origin: member.data,
         executeFn: member.executeFn,

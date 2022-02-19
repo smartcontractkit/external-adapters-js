@@ -1,10 +1,11 @@
-import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util, CacheKey } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
   InputParameters,
   AdapterRequest,
   AxiosResponse,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
@@ -74,7 +75,7 @@ const handleBatchedRequest = (
   response: AxiosResponse<ResponseSchema>,
   resultPath: string[],
 ) => {
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
   const pairDict: keyPair = {}
   const supportedTickers: string[] = []
   for (const b of request.data.base) {
@@ -91,13 +92,17 @@ const handleBatchedRequest = (
 
     const base = pairDict[pair.ticker].base
     const quote = pairDict[pair.ticker].quote
+    const individualRequest = {
+      ...request,
+      data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
+    }
+
+    const result = Requester.validateResultNumber(pair, resultPath)
 
     payload.push([
-      {
-        ...request,
-        data: { ...request.data, base: base.toUpperCase(), quote: quote.toUpperCase() },
-      },
-      Requester.validateResultNumber(pair, resultPath),
+      CacheKey.getCacheKey(individualRequest, inputParameters),
+      individualRequest,
+      result,
     ])
   }
 
