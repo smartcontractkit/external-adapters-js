@@ -1,5 +1,5 @@
 ---
-'@chainlink/ea-bootstrap': patch
+'@chainlink/ea-bootstrap': minor
 ---
 
-Delete normalizeStatusCode function
+Status codes are no longer normalized (e.g. 429s have the metric label '429' instead of '4xx')
