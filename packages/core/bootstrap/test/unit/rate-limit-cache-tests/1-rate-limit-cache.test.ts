@@ -184,8 +184,8 @@ describe('Rate Limit/Cache - Integration', () => {
     const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
     Object.values(rlPerMinute).forEach((req) => {
-      // TODO: check that + 30 is the right capacity
-      expect(req).toBeLessThan(capacity + 30)
+      // TODO: check that + 35 is the right capacity
+      expect(req).toBeLessThan(capacity + 35)
     })
     restoreClock()
   })
