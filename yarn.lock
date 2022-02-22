@@ -2830,12 +2830,12 @@ __metadata:
     "@types/object-hash": 2.1.1
     "@types/object-path": 0.11.1
     "@types/pino": 6.3.12
-    "@types/pino-pretty": 4.7.3
+    "@types/pino-pretty": 4.7.5
     "@types/promise-timeout": 1.3.0
     "@types/redux-logger": 3.0.9
     "@types/remote-redux-devtools": 0.5.5
-    "@types/sinon": 10.0.6
-    "@types/uuid": 8.3.3
+    "@types/sinon": 10.0.11
+    "@types/uuid": 8.3.4
     "@types/ws": 7.4.7
     ajv: ^8.6.2
     axios: ^0.24.0
@@ -3987,7 +3987,7 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
-    "@types/sinon": 10.0.6
+    "@types/sinon": 10.0.11
     axios: ^0.24.0
     sinon: 12.0.1
     tslib: ^2.3.1
@@ -4280,7 +4280,7 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
-    "@types/sinon": 10.0.6
+    "@types/sinon": 10.0.11
     ethers: ^5.4.2
     nock: 13.2.4
     sinon: 12.0.1
@@ -7750,7 +7750,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sinonjs/fake-timers@npm:^7.0.4, @sinonjs/fake-timers@npm:^7.1.0":
+"@sinonjs/fake-timers@npm:^7.0.4":
   version: 7.1.2
   resolution: "@sinonjs/fake-timers@npm:7.1.2"
   dependencies:
@@ -8752,13 +8752,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pino-pretty@npm:4.7.3":
-  version: 4.7.3
-  resolution: "@types/pino-pretty@npm:4.7.3"
+"@types/pino-pretty@npm:4.7.5":
+  version: 4.7.5
+  resolution: "@types/pino-pretty@npm:4.7.5"
   dependencies:
     "@types/node": "*"
     "@types/pino": 6.3
-  checksum: 40fe67e73d26242d1f741ba62bd57aa4ce34842376878137f16befde3df0dd5ee39c30bc89da3d5e99848f69b00b73010863a740fd469585e0852ea656cb5b7b
+  checksum: 80b3e80d1d9b52f015382bbd544206228d0c35eed1a0e1443245568eee01191b5fe916e7821de2922846f267e5d0693f4796562d3bcf24266156d1abc9e2e673
   languageName: node
   linkType: hard
 
@@ -8893,12 +8893,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sinon@npm:10.0.6":
-  version: 10.0.6
-  resolution: "@types/sinon@npm:10.0.6"
+"@types/sinon@npm:10.0.11":
+  version: 10.0.11
+  resolution: "@types/sinon@npm:10.0.11"
   dependencies:
-    "@sinonjs/fake-timers": ^7.1.0
-  checksum: 1c2ae7daa822014a558d513c1ae341aed676bfe678b9e48cf13a0ccc0eabc429f211371e8f10495d5eb156c0aedfeb3ad5253ebfe026fc14a5b77c461a6cea2a
+    "@types/sinonjs__fake-timers": "*"
+  checksum: 196f3e26985dca5dfb593592e4b64463e536c047a9f43aa2b328b16024a3b0e3fb27b7a3f3972c6ef75749f55012737eb6c63a1c2e9782b7fe5cbbd25f75fd62
+  languageName: node
+  linkType: hard
+
+"@types/sinonjs__fake-timers@npm:*":
+  version: 8.1.1
+  resolution: "@types/sinonjs__fake-timers@npm:8.1.1"
+  checksum: ca09d54d47091d87020824a73f026300fa06b17cd9f2f9b9387f28b549364b141ef194ee28db762f6588de71d8febcd17f753163cb7ea116b8387c18e80ebd5c
   languageName: node
   linkType: hard
 
@@ -8935,10 +8942,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:8.3.3":
-  version: 8.3.3
-  resolution: "@types/uuid@npm:8.3.3"
-  checksum: 3f340155bb1161f9ffa7163926d6222fea8f3505c23619b72bcc230883354926672c08a06510c7a543f73553c792a84444cc1744cff631b4ba988763e4bd7a8f
+"@types/uuid@npm:8.3.4":
+  version: 8.3.4
+  resolution: "@types/uuid@npm:8.3.4"
+  checksum: 6f11f3ff70f30210edaa8071422d405e9c1d4e53abbe50fdce365150d3c698fe7bbff65c1e71ae080cbfb8fded860dbb5e174da96fdbbdfcaa3fb3daa474d20f
   languageName: node
   linkType: hard
 

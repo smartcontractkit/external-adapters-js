@@ -5285,12 +5285,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/object-hash", "npm:2.1.1"],
             ["@types/object-path", "npm:0.11.1"],
             ["@types/pino", "npm:6.3.12"],
-            ["@types/pino-pretty", "npm:4.7.3"],
+            ["@types/pino-pretty", "npm:4.7.5"],
             ["@types/promise-timeout", "npm:1.3.0"],
             ["@types/redux-logger", "npm:3.0.9"],
             ["@types/remote-redux-devtools", "npm:0.5.5"],
-            ["@types/sinon", "npm:10.0.6"],
-            ["@types/uuid", "npm:8.3.3"],
+            ["@types/sinon", "npm:10.0.11"],
+            ["@types/uuid", "npm:8.3.4"],
             ["@types/ws", "npm:7.4.7"],
             ["ajv", "npm:8.6.2"],
             ["axios", "npm:0.24.0"],
@@ -6426,7 +6426,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
-            ["@types/sinon", "npm:10.0.6"],
+            ["@types/sinon", "npm:10.0.11"],
             ["axios", "npm:0.24.0"],
             ["sinon", "npm:12.0.1"],
             ["tslib", "npm:2.3.1"],
@@ -6751,7 +6751,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
-            ["@types/sinon", "npm:10.0.6"],
+            ["@types/sinon", "npm:10.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
             ["sinon", "npm:12.0.1"],
@@ -11616,10 +11616,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:4.7.3", {
-          "packageLocation": "./.yarn/cache/@types-pino-pretty-npm-4.7.3-5ebf57cfd2-40fe67e73d.zip/node_modules/@types/pino-pretty/",
+        ["npm:4.7.5", {
+          "packageLocation": "./.yarn/cache/@types-pino-pretty-npm-4.7.5-c9c6c1bddf-80b3e80d1d.zip/node_modules/@types/pino-pretty/",
           "packageDependencies": [
-            ["@types/pino-pretty", "npm:4.7.3"],
+            ["@types/pino-pretty", "npm:4.7.5"],
             ["@types/node", "npm:16.6.1"],
             ["@types/pino", "npm:6.3.12"]
           ],
@@ -11753,11 +11753,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/sinon", [
-        ["npm:10.0.6", {
-          "packageLocation": "./.yarn/cache/@types-sinon-npm-10.0.6-3a1b027ac2-1c2ae7daa8.zip/node_modules/@types/sinon/",
+        ["npm:10.0.11", {
+          "packageLocation": "./.yarn/cache/@types-sinon-npm-10.0.11-fa47601eb4-196f3e2698.zip/node_modules/@types/sinon/",
           "packageDependencies": [
-            ["@types/sinon", "npm:10.0.6"],
-            ["@sinonjs/fake-timers", "npm:7.1.2"]
+            ["@types/sinon", "npm:10.0.11"],
+            ["@types/sinonjs__fake-timers", "npm:8.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/sinonjs__fake-timers", [
+        ["npm:8.1.1", {
+          "packageLocation": "./.yarn/cache/@types-sinonjs__fake-timers-npm-8.1.1-95ac9b59b5-ca09d54d47.zip/node_modules/@types/sinonjs__fake-timers/",
+          "packageDependencies": [
+            ["@types/sinonjs__fake-timers", "npm:8.1.1"]
           ],
           "linkType": "HARD",
         }]
@@ -11802,10 +11811,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/uuid", [
-        ["npm:8.3.3", {
-          "packageLocation": "./.yarn/cache/@types-uuid-npm-8.3.3-805fed50df-3f340155bb.zip/node_modules/@types/uuid/",
+        ["npm:8.3.4", {
+          "packageLocation": "./.yarn/cache/@types-uuid-npm-8.3.4-7547f4402c-6f11f3ff70.zip/node_modules/@types/uuid/",
           "packageDependencies": [
-            ["@types/uuid", "npm:8.3.3"]
+            ["@types/uuid", "npm:8.3.4"]
           ],
           "linkType": "HARD",
         }]
