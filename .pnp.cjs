@@ -4092,7 +4092,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
-            ["bignumber.js", "npm:9.0.0"],
+            ["bignumber.js", "npm:9.0.2"],
             ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.1.6"],
@@ -13615,17 +13615,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:9.0.0", {
-          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.0.0-ce190bcd7c-51f37890bc.zip/node_modules/bignumber.js/",
-          "packageDependencies": [
-            ["bignumber.js", "npm:9.0.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:9.0.1", {
           "packageLocation": "./.yarn/cache/bignumber.js-npm-9.0.1-270d0c8a55-6e72f6069d.zip/node_modules/bignumber.js/",
           "packageDependencies": [
             ["bignumber.js", "npm:9.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:9.0.2", {
+          "packageLocation": "./.yarn/cache/bignumber.js-npm-9.0.2-583f690302-8637b71d0a.zip/node_modules/bignumber.js/",
+          "packageDependencies": [
+            ["bignumber.js", "npm:9.0.2"]
           ],
           "linkType": "HARD",
         }]
