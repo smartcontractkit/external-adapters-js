@@ -4,7 +4,7 @@ import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
-import { mockEthereumResponseSuccess } from './fixtures'
+import { mockAdapterResponseSuccess, mockEthereumResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
@@ -12,6 +12,8 @@ let oldEnv: NodeJS.ProcessEnv
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:8545'
+  process.env.ROUTER_CONTRACT =
+    process.env.ROUTER_CONTRACT || '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
@@ -45,11 +47,12 @@ describe('execute', () => {
   describe('with vault address', () => {
     const data: AdapterRequest = {
       id,
-      data: { address: '0x269616d549d7e8eaa82dfb17028d0b212d11232a' },
+      data: { address: '0x269616D549D7e8Eaa82DFb17028d0B212D11232A' },
     }
 
     it('should return success', async () => {
       mockEthereumResponseSuccess()
+      mockAdapterResponseSuccess()
 
       const response = await req
         .post('/')
