@@ -34,3 +34,44 @@ export const mockWootradeResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+
+export const mockSubscribeResponse = {
+  request: {
+    event: 'subscribe',
+    topic: 'SPOT_ETH_USDT@bbo',
+    id: 1,
+  },
+  response: [
+    {
+      id: '1',
+      event: 'subscribe',
+      success: true,
+      ts: 1645125717465,
+    },
+    {
+      topic: 'SPOT_ETH_USDT@bbo',
+      ts: 1645125717486,
+      data: {
+        symbol: 'SPOT_ETH_USDT',
+        ask: 2907.59,
+        askSize: 1.503387,
+        bid: 2907.2,
+        bidSize: 2.253,
+      },
+    },
+  ],
+}
+
+export const mockUnsubscribeResponse = {
+  request: {
+    event: 'unsubscribe',
+    topic: 'SPOT_ETH_USDT@bbo',
+    id: 1,
+  },
+  response: {
+    id: '1',
+    event: 'unsubscribe',
+    success: true,
+    ts: 1645125721430,
+  },
+}
