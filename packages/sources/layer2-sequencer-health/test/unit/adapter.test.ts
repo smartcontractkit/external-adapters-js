@@ -179,9 +179,7 @@ describe('adapter', () => {
     it('Empty transaction check has the final word on unhealthy method responses', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(false))
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(true))
-      jest
-        .spyOn(network, 'requestBlockHeight')
-        .mockReturnValue(Promise.reject(new Error('Some RPC call error')))
+      jest.spyOn(network, 'requestBlockHeight').mockRejectedValue(new Error('Some RPC call error'))
 
       const response = await execute(
         {
