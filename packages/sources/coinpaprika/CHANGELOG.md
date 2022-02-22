@@ -1,5 +1,14 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.3.5
+
+### Patch Changes
+
+- ca4a58477: Coinpaprika - stop batching crypto quotes
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.3.4
 
 ### Patch Changes
