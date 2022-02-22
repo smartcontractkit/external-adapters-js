@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/etherscan-adapter",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "description": "Chainlink etherscan adapter.",
   "keywords": [
     "Chainlink",

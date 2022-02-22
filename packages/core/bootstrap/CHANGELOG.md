@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.12.0
+
+### Minor Changes
+
+- d0b872f6c: Status codes are no longer normalized (e.g. 429s have the metric label '429' instead of '4xx')
+
 ## 1.11.2
 
 ### Patch Changes
