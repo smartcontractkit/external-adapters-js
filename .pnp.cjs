@@ -4050,7 +4050,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@types/jest", "npm:27.0.2"],
+            ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["ethers", "npm:5.5.1"],
             ["tslib", "npm:2.3.1"],
@@ -5358,7 +5358,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-scripts", "workspace:packages/scripts"],
             ["@actions/core", "npm:1.6.0"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/shelljs", "npm:0.8.9"],
+            ["@types/shelljs", "npm:0.8.11"],
             ["@types/swagger-jsdoc", "npm:6.0.1"],
             ["@types/yaml", "npm:1.9.7"],
             ["axios", "npm:0.22.0"],
@@ -11260,15 +11260,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/jest", [
-        ["npm:27.0.2", {
-          "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.2-f9ba43c7f9-814ad5f5d2.zip/node_modules/@types/jest/",
-          "packageDependencies": [
-            ["@types/jest", "npm:27.0.2"],
-            ["jest-diff", "npm:27.0.6"],
-            ["pretty-format", "npm:27.0.6"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:27.0.3", {
           "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.3-c4c49cbce2-3683a99458.zip/node_modules/@types/jest/",
           "packageDependencies": [
@@ -11713,10 +11704,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/shelljs", [
-        ["npm:0.8.9", {
-          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.9-1761ccc6f2-3d36b010d8.zip/node_modules/@types/shelljs/",
+        ["npm:0.8.11", {
+          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.11-3c9e240a07-559b81efba.zip/node_modules/@types/shelljs/",
           "packageDependencies": [
-            ["@types/shelljs", "npm:0.8.9"],
+            ["@types/shelljs", "npm:0.8.11"],
             ["@types/glob", "npm:7.1.4"],
             ["@types/node", "npm:16.6.1"]
           ],
