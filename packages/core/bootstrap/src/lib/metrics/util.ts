@@ -4,30 +4,6 @@ import { excludableAdapterRequestProperties } from '../util'
 import * as crypto from 'crypto'
 
 /**
- * Normalizes http status codes.
- *
- * Returns strings in the format (2|3|4|5)XX.
- *
- * @author https://github.com/joao-fontenele/express-prometheus-middleware
- * @param {!number} status - status code of the requests
- * @returns {string} the normalized status code.
- */
-export function normalizeStatusCode(status?: number): string {
-  if (!status || (status >= 200 && status < 300)) {
-    return '2XX'
-  }
-
-  if (status >= 300 && status < 400) {
-    return '3XX'
-  }
-
-  if (status >= 400 && status < 500) {
-    return '4XX'
-  }
-  return '5XX'
-}
-
-/**
  * Maxiumum number of characters that a feedId can contain.
  */
 export const MAX_FEED_ID_LENGTH = 300
