@@ -1,5 +1,4 @@
 import * as client from 'prom-client'
-import { normalizeStatusCode } from '../../metrics/util'
 
 interface CacheExecutionDurationParams {
   participantId: string
@@ -38,7 +37,7 @@ export const beginObserveCacheMetrics = ({
     },
 
     cacheSet({ statusCode, maxAge }: { statusCode: number; maxAge: number }) {
-      cache_data_set_count.labels({ ...base, status_code: normalizeStatusCode(statusCode) }).inc()
+      cache_data_set_count.labels({ ...base, status_code: statusCode }).inc()
       cache_data_max_age.labels(base).set(maxAge)
     },
   }

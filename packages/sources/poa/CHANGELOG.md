@@ -1,5 +1,21 @@
 # @chainlink/poa-adapter
 
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.2.15
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.2.14
 
 ### Patch Changes
