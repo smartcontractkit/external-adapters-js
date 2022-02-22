@@ -5358,7 +5358,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-scripts", "workspace:packages/scripts"],
             ["@actions/core", "npm:1.6.0"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/shelljs", "npm:0.8.9"],
+            ["@types/shelljs", "npm:0.8.11"],
             ["@types/swagger-jsdoc", "npm:6.0.1"],
             ["@types/yaml", "npm:1.9.7"],
             ["axios", "npm:0.22.0"],
@@ -11687,10 +11687,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/shelljs", [
-        ["npm:0.8.9", {
-          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.9-1761ccc6f2-3d36b010d8.zip/node_modules/@types/shelljs/",
+        ["npm:0.8.11", {
+          "packageLocation": "./.yarn/cache/@types-shelljs-npm-0.8.11-3c9e240a07-559b81efba.zip/node_modules/@types/shelljs/",
           "packageDependencies": [
-            ["@types/shelljs", "npm:0.8.9"],
+            ["@types/shelljs", "npm:0.8.11"],
             ["@types/glob", "npm:7.1.4"],
             ["@types/node", "npm:16.6.1"]
           ],
