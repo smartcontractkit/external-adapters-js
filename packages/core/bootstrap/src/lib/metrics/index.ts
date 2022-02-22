@@ -35,8 +35,8 @@ export const withMetrics: Middleware =
         type?: HttpRequestType
       }) => {
         labels.type = props.type
-        labels.status_code = util.normalizeStatusCode(props.statusCode)
-        labels.provider_status_code = util.normalizeStatusCode(props.providerStatusCode)
+        labels.status_code = props.statusCode
+        labels.provider_status_code = props.providerStatusCode
         end()
         httpRequestsTotal.labels(labels).inc()
       }
