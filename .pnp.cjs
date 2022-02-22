@@ -5368,7 +5368,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chalk", "npm:4.1.2"],
             ["class-transformer", "npm:0.4.0"],
             ["class-transformer-validator", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:0.9.1"],
-            ["class-validator", "npm:0.13.1"],
+            ["class-validator", "npm:0.13.2"],
             ["json-schema-ref-parser", "npm:9.0.9"],
             ["mockserver-client", "npm:5.11.2"],
             ["rxjs", "npm:7.4.0"],
@@ -11781,15 +11781,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@types/validator", [
-        ["npm:13.7.0", {
-          "packageLocation": "./.yarn/cache/@types-validator-npm-13.7.0-8ebc68ebee-93b1ea1c24.zip/node_modules/@types/validator/",
-          "packageDependencies": [
-            ["@types/validator", "npm:13.7.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@types/varint", [
         ["npm:6.0.0", {
           "packageLocation": "./.yarn/cache/@types-varint-npm-6.0.0-2706360356-02aa4cb197.zip/node_modules/@types/varint/",
@@ -14873,7 +14864,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/class-transformer", null],
             ["@types/class-validator", null],
             ["class-transformer", "npm:0.4.0"],
-            ["class-validator", "npm:0.13.1"]
+            ["class-validator", "npm:0.13.2"]
           ],
           "packagePeers": [
             "@types/class-transformer",
@@ -14898,12 +14889,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["class-validator", [
-        ["npm:0.13.1", {
-          "packageLocation": "./.yarn/cache/class-validator-npm-0.13.1-6dc5e76ff9-1d77f86979.zip/node_modules/class-validator/",
+        ["npm:0.13.2", {
+          "packageLocation": "./.yarn/cache/class-validator-npm-0.13.2-915206252c-0deb4c29fa.zip/node_modules/class-validator/",
           "packageDependencies": [
-            ["class-validator", "npm:0.13.1"],
-            ["@types/validator", "npm:13.7.0"],
-            ["libphonenumber-js", "npm:1.9.43"],
+            ["class-validator", "npm:0.13.2"],
+            ["libphonenumber-js", "npm:1.9.49"],
             ["validator", "npm:13.7.0"]
           ],
           "linkType": "HARD",
@@ -24088,10 +24078,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["libphonenumber-js", [
-        ["npm:1.9.43", {
-          "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.9.43-925d52ea37-0e5112fbe9.zip/node_modules/libphonenumber-js/",
+        ["npm:1.9.49", {
+          "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.9.49-49d7471c6b-5c9ba82e69.zip/node_modules/libphonenumber-js/",
           "packageDependencies": [
-            ["libphonenumber-js", "npm:1.9.43"]
+            ["libphonenumber-js", "npm:1.9.49"]
           ],
           "linkType": "HARD",
         }]
