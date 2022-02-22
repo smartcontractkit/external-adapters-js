@@ -40,9 +40,11 @@ const codeList = (a: (string | number)[] = []): string =>
 
 export const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
 
-const checkFilePath = (filePath: string): string => {
-  if (!shell.test('-f', filePath)) throw Error(`${filePath} is not a file`)
-  else return filePath
+const checkFilePaths = (filePaths: string[]): string => {
+  for (const filePath of filePaths) {
+    if (shell.test('-f', filePath)) return filePath
+  }
+  throw Error(`No file found in the following paths: ${filePaths.join(',')}`)
 }
 
 export class ReadmeGenerator {
@@ -68,13 +70,13 @@ export class ReadmeGenerator {
 
     if (verbose) console.log(`${adapterPath}: Checking package.json`)
 
-    const packagePath = checkFilePath(adapterPath + 'package.json')
+    const packagePath = checkFilePaths([adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
 
     if (verbose) console.log(`${adapterPath}: Checking schema/env.json`)
 
-    const schemaPath = checkFilePath(adapterPath + 'schemas/env.json')
+    const schemaPath = checkFilePaths([adapterPath + 'schemas/env.json'])
     const schema = getJsonFile(schemaPath) as Schema
     this.schemaDescription = schema.description ?? ''
     this.name = schema.title ?? packageJson.name ?? ''
@@ -91,12 +93,15 @@ export class ReadmeGenerator {
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
 
-    const configPath = checkFilePath(this.adapterPath + 'src/config/index.ts')
+    const configPath = checkFilePaths([
+      this.adapterPath + 'src/config.ts',
+      this.adapterPath + 'src/config/index.ts',
+    ])
     this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
 
-    const endpointPath = checkFilePath(this.adapterPath + 'src/endpoint/index.ts')
+    const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
     this.endpointDetails = await require(localPathToRoot + endpointPath)
   }
 

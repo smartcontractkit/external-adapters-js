@@ -37,6 +37,7 @@
     "geodb",
     "google-bigquery",
     "google-weather",
+    "gramchain",
     "graphql",
     "harmony",
     "historical-average",
