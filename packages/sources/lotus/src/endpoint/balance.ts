@@ -11,6 +11,9 @@ export const methodName = 'Filecoin.WalletBalance'
 
 export const supportedEndpoints = ['balance', methodName]
 
+export const description =
+  'The balance endpoint will fetch the balance of each address in the query and the total sum.'
+
 export const inputParameters: InputParameters = {
   addresses: {
     required: true,
@@ -28,6 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const jsonRpcConfig = JSONRPC.makeConfig()
   jsonRpcConfig.api.headers['Authorization'] = `Bearer ${config.apiKey}`
+  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute(jsonRpcConfig)
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
@@ -46,7 +50,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
         requestId: requestId + 1,
       },
     }
-    const result = await JSONRPC.execute(requestData, context, jsonRpcConfig)
+    const result = await _execute(requestData, context, jsonRpcConfig)
     return {
       address,
       result: result.data.result,

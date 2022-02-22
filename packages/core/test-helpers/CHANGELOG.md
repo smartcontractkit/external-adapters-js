@@ -1,5 +1,11 @@
 # @chainlink/ea-test-helpers
 
+## 1.1.0
+
+### Minor Changes
+
+- 72f96124d: Add WS testing fw
+
 ## 1.0.1
 
 ### Patch Changes

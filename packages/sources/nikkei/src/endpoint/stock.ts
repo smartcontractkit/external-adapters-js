@@ -7,6 +7,9 @@ const commonKeys: Record<string, string> = {
   N225: 'nk225',
 }
 
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

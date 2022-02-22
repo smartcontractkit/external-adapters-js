@@ -7,6 +7,7 @@ import {
   InputParameters,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }]
@@ -90,6 +91,10 @@ interface ResponseSchema {
 
 const customError = (data: ResponseSchema[]) => data.length === 0
 
+export const description = `The \`crypto\` endpoint fetches the price of a requested asset, the \`marketcap\` endpoint fetches the market cap of the requested asset, and the \`volume\` endpoint fetches the volume of the requested pair of assets for past 24-hr.
+
+**NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin', 'ids'],
@@ -144,7 +149,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const symbol = validator.overrideSymbol(AdapterName)
   const symbols = Array.isArray(symbol) ? symbol : [symbol]

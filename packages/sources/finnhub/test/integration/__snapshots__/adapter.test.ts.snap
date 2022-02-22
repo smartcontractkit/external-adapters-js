@@ -15,7 +15,7 @@ Object {
 exports[`execute rate api with invalid base should return failure 1`] = `
 Object {
   "error": Object {
-    "feedID": "{\\"data\\":{\\"base\\":\\"NON-EXISTING\\"}}",
+    "feedID": "{\\"data\\":{\\"base\\":\\"NON-EXISTING\\",\\"endpoint\\":\\"quote\\"}}",
     "message": "Invalid result received",
     "name": "AdapterError",
   },

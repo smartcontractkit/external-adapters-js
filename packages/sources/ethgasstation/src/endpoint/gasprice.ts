@@ -33,7 +33,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed
-  const url = `/api/v1/egs/api/ethgasAPI.json?`
+  const url = `/api/ethgasAPI.json`
 
   const options = {
     ...config.api,

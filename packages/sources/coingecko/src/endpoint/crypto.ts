@@ -7,6 +7,8 @@ import {
   InputParameters,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import overrides from '../config/symbols.json'
+
 import { getCoinIds, getSymbolsToIds } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
@@ -17,7 +19,7 @@ const customError = (data: ResponseSchema) => {
 }
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const quote = validator.validated.data.quote
   if (Array.isArray(quote)) return ''
@@ -32,6 +34,9 @@ export const endpointResultPaths: {
   marketcap: buildResultPath('_market_cap'),
   volume: buildResultPath('_24h_vol'),
 }
+
+export const description =
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
 export const inputParameters: InputParameters = {
   coinid: {
@@ -96,7 +101,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const endpoint = validator.validated.data.endpoint
   const jobRunID = validator.validated.id

@@ -1,5 +1,62 @@
 # @chainlink/ea-bootstrap
 
+## 1.12.0
+
+### Minor Changes
+
+- d0b872f6c: Status codes are no longer normalized (e.g. 429s have the metric label '429' instead of '4xx')
+
+## 1.11.2
+
+### Patch Changes
+
+- ab17812c7: Update Validator behavior with input options sets
+
+## 1.11.1
+
+### Patch Changes
+
+- 341f2bd4d: Small reorg
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+
+## 1.11.0
+
+### Minor Changes
+
+- eecdac90b: Prevent getFeedId errors from killing the process on node v17
+
+## 1.10.6
+
+### Patch Changes
+
+- 57be274ff: update provider limits
+- 540e563a9: Prevent process crash when cache warmer data is missing
+- 72f96124d: Add WS testing fw
+
+## 1.10.5
+
+### Patch Changes
+
+- 4865d3b46: Add JPEG'd adapter
+
+## 1.10.4
+
+### Patch Changes
+
+- 4d6b8a050: Satoshitango rate limit change
+
+## 1.10.3
+
+### Patch Changes
+
+- Revert: Allow indefinite subscriptions by leaving out unsubscribe handler
+
+## 1.10.2
+
+### Patch Changes
+
+- 452ba71f0: Allow indefinite subscriptions by leaving out unsubscribe handler
+
 ## 1.10.1
 
 ### Patch Changes

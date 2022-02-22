@@ -13,6 +13,8 @@ export interface ResponseSchema {
   }
 }
 
+export const description = "This endpoint fetches an address's balance and outputs it in Lovelace."
+
 export const inputParameters: InputParameters = {
   addresses: {
     aliases: ['result'],

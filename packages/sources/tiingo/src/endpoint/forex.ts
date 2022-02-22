@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME } from '../config'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['forex', 'fx', 'commodities']
 
@@ -9,6 +10,8 @@ export const endpointResultPaths = {
   forex: 'midPrice',
   commodities: 'midPrice',
 }
+
+export const description = 'https://api.tiingo.com/documentation/forex'
 
 export const inputParameters: InputParameters = {
   base: ['base', 'asset', 'from', 'market'],
@@ -27,7 +30,7 @@ interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(NAME, validator.validated.data.base)

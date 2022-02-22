@@ -17,6 +17,8 @@ const customError = (data: ErrorResponseSchema) => {
   return data.status === 'ERROR'
 }
 
+export const description = 'Get FOREX price conversions'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from'],

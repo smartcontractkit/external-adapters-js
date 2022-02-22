@@ -10,7 +10,7 @@
     "chalk": "4.1.2",
     "class-transformer": "0.4.0",
     "class-transformer-validator": "0.9.1",
-    "class-validator": "0.13.1",
+    "class-validator": "0.13.2",
     "json-schema-ref-parser": "9.0.9",
     "mockserver-client": "5.11.2",
     "rxjs": "7.4.0",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/shelljs": "0.8.9",
+    "@types/shelljs": "0.8.11",
     "@types/swagger-jsdoc": "6.0.1",
     "@types/yaml": "1.9.7",
     "ts-jest": "27.0.7",

@@ -1,11 +1,14 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['eod']
 
 export const endpointResultPaths: EndpointResultPaths = {
   eod: 'close',
 }
+
+export const description = 'https://api.tiingo.com/documentation/end-of-day'
 
 export const inputParameters: InputParameters = {
   ticker: ['ticker', 'base', 'from', 'coin'],
@@ -29,7 +32,7 @@ interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker

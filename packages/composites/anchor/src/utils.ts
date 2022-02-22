@@ -14,7 +14,7 @@ export const getTokenPrice = async (
   const allocations = [
     {
       symbol,
-      balance: BigNumber.from(10).pow(decimals),
+      balance: BigNumber.from(10).pow(decimals).toString(),
       decimals,
     },
   ]

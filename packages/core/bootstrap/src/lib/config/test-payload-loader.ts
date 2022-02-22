@@ -1,5 +1,5 @@
 import Ajv, { JSONSchemaType } from 'ajv'
-import { logger } from '../external-adapter'
+import { logger } from '../modules'
 import path from 'path'
 import { AdapterRequestData } from '@chainlink/types'
 

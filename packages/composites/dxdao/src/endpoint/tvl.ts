@@ -6,6 +6,9 @@ import { Config } from '../config'
 
 export const NAME = 'TVL'
 
+export const description =
+  'This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed on the XDai chain. The TVL is returned in USD.'
+
 const customParams = {
   pairContractAddress: true,
 }

@@ -1,7 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['historical']
+
+export const description = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -85,7 +88,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base?.toUpperCase()

@@ -14,6 +14,8 @@ import {
 import * as IPFS from '@chainlink/ipfs-adapter'
 import { MerkleTree } from 'merkletreejs'
 import * as bn from 'bignumber.js'
+import * as initial from './formulas/initial'
+import * as DIP7 from './formulas/dip-7'
 
 export const NAME = 'poke'
 
@@ -29,7 +31,10 @@ const customParams = {
   traderRewardsAmount: false,
   marketMakerRewardsAmount: false,
   ipnsName: true,
-  traderScoreAlpha: true,
+  traderScoreAlpha: false,
+  traderScoreA: false,
+  traderScoreB: false,
+  traderScoreC: false,
   callbackAddress: true,
   newEpoch: true,
   activeRootIpfsCid: true,
@@ -39,7 +44,9 @@ export interface Input {
   traderRewardsAmount: bn.BigNumber
   marketMakerRewardsAmount: bn.BigNumber
   ipnsName: string
-  traderScoreAlpha: number
+  traderScoreA: number
+  traderScoreB?: number
+  traderScoreC?: number
   newEpoch: BigNumber
   activeRootIpfsCid: string
   treasuryClaimAddress: string
@@ -70,7 +77,21 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   }
 
   const ipnsName = validator.validated.data.ipnsName
-  const traderScoreAlpha = new bn.BigNumber(validator.validated.data.traderScoreAlpha)
+  const traderScoreA = new bn.BigNumber(
+    config.traderScoreA ??
+      validator.validated.data.traderScoreA ??
+      validator.validated.data.traderScoreAlpha,
+  )
+    .div('1e18')
+    .toNumber()
+  const traderScoreB = new bn.BigNumber(
+    config.traderScoreB ?? validator.validated.data.traderScoreB,
+  )
+    .div('1e18')
+    .toNumber()
+  const traderScoreC = new bn.BigNumber(
+    config.traderScoreC ?? validator.validated.data.traderScoreC,
+  )
     .div('1e18')
     .toNumber()
   const callbackAddress = parseAddress(validator.validated.data.callbackAddress)
@@ -85,7 +106,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     traderRewardsAmount,
     marketMakerRewardsAmount,
     ipnsName,
-    traderScoreAlpha,
+    traderScoreA,
+    traderScoreB,
+    traderScoreC,
     newEpoch,
     activeRootIpfsCid,
     treasuryClaimAddress: config.treasuryClaimAddress,
@@ -124,14 +147,21 @@ export const calculateRewards = async (
 
   const addressRewards: AddressRewards = {}
   if (input.newEpoch.isZero()) {
-    calcRetroactiveRewards(epochData, addressRewards, input.treasuryClaimAddress)
+    initial.calcRetroactiveRewards(epochData, addressRewards, input.treasuryClaimAddress)
   }
 
-  calcTraderRewards(epochData, addressRewards, input.traderRewardsAmount, input.traderScoreAlpha)
+  calcTraderRewards(
+    epochData,
+    addressRewards,
+    input.traderRewardsAmount,
+    input.traderScoreA,
+    input.traderScoreB,
+    input.traderScoreC,
+  )
   calcMarketMakerRewards(epochData, addressRewards, input.marketMakerRewardsAmount)
 
   if (!input.newEpoch.isZero()) {
-    const previousCumulativeJsonTree = await getDataForCID(
+    const previousCumulativeJsonTree = await getDataForCID<MerkleTreeData>(
       jobRunID,
       ipfs,
       input.activeRootIpfsCid,
@@ -144,11 +174,11 @@ export const calculateRewards = async (
   return addressRewards
 }
 
-const addReward = (
+export const addReward = (
   addressRewards: AddressRewards,
   address: string,
   amount: number | string | BigNumber,
-) => {
+): void => {
   address = ethers.utils.getAddress(address)
   if (address in addressRewards) {
     addressRewards[address] = addressRewards[address].add(amount)
@@ -157,164 +187,33 @@ const addReward = (
   }
 }
 
-// We expect the amount with 2 decimal points, and the token has 18 decimals.
-const rewardAmountToBigNumber = (amount: number) =>
-  BigNumber.from(amount * 100).mul(BigNumber.from(10).pow(16))
-
-// Retroactive tiers are sorted descending to make it easier to find the highest applicable tier
-const retroactiveTiers = [
-  {
-    min: 1_000_000,
-    reward: rewardAmountToBigNumber(9529.86),
-    volumeRequirement: 100_000,
-  },
-  {
-    min: 100_000,
-    reward: rewardAmountToBigNumber(6413.91),
-    volumeRequirement: 50_000,
-  },
-  {
-    min: 10_000,
-    reward: rewardAmountToBigNumber(4349.63),
-    volumeRequirement: 5_000,
-  },
-  {
-    min: 1,
-    reward: rewardAmountToBigNumber(1163.51),
-    volumeRequirement: 500,
-  },
-  {
-    min: 0,
-    reward: rewardAmountToBigNumber(310.75),
-    volumeRequirement: 1,
-  },
-]
-
-// Retroactive rewards is 75M (hard-coded, as the above tiers would have to change if this was changed)
-const totalRetroactiveRewards = BigNumber.from(75_000_000).mul(BigNumber.from(10).pow(18))
-
-const findRetroactiveRewardsTier = (tradeVolume: number | boolean) => {
-  // Do a strict check to avoid catching "0" - which is treated differently
-  if (tradeVolume === false) {
-    return {
-      min: 0,
-      reward: BigNumber.from(0),
-      volumeRequirement: 1,
-    }
-  }
-
-  const tier = retroactiveTiers.find(({ min }) => tradeVolume >= min)
-  if (!tier) {
-    throw new Error(`Unable to find tier for volume: ${tradeVolume}`)
-  }
-
-  return tier
-}
-
-const EXPO_BONUS_TOKENS = rewardAmountToBigNumber(565.61)
-
-export const calcRetroactiveRewards = (
-  epochData: OracleRewardsData,
-  addressRewards: AddressRewards,
-  treasuryClaimAddress: string,
-) => {
-  const combinedAddresses = [
-    ...Object.keys(epochData.retroactiveTradeVolume || {}),
-    ...Object.keys(epochData.isExpoUser || {}),
-  ]
-  const uniqueAddresses = [...new Set(combinedAddresses)]
-
-  let sumRetroactivelyDistributedRewards = BigNumber.from(0)
-
-  for (const addr of uniqueAddresses) {
-    const volume = epochData.tradeVolume?.[addr] || 0
-    const retroactiveVolume = epochData.retroactiveTradeVolume?.[addr] ?? false
-    const tier = findRetroactiveRewardsTier(retroactiveVolume)
-    const isExpoUser = epochData.isExpoUser?.[addr] || false
-    const userPotentialRewardTokens = tier.reward.add(isExpoUser ? EXPO_BONUS_TOKENS : 0)
-    const earnedFraction = bn.BigNumber.min(1, new bn.BigNumber(volume).div(tier.volumeRequirement))
-    const userRetroactiveRewardTokens = new bn.BigNumber(userPotentialRewardTokens.toString())
-      .times(earnedFraction)
-      .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
-      .toFixed()
-    if (userRetroactiveRewardTokens != '0') {
-      addReward(addressRewards, addr, userRetroactiveRewardTokens)
-      sumRetroactivelyDistributedRewards = sumRetroactivelyDistributedRewards.add(
-        userRetroactiveRewardTokens,
-      )
-    }
-  }
-
-  // If there are tokens not claimed (by users not reaching volume requirements), send them to the
-  // treasury's merkle root claim contract.
-  const totalForfeitedTokens = totalRetroactiveRewards.sub(sumRetroactivelyDistributedRewards)
-  if (!totalForfeitedTokens.isZero()) {
-    addReward(addressRewards, treasuryClaimAddress, totalForfeitedTokens)
-  }
-}
-
 export const calcTraderRewards = (
   epochData: OracleRewardsData,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
-  traderScoreAlpha: number,
-) => {
-  const F = Object.keys(epochData.tradeFeesPaid).reduce(
-    (sum, addr) => sum.plus(epochData.tradeFeesPaid[addr]),
-    new bn.BigNumber(0),
-  )
-  const G = Object.keys(epochData.openInterest).reduce(
-    (sum, addr) => sum.plus(epochData.openInterest[addr]),
-    new bn.BigNumber(0),
-  )
-
-  const traderScore: { [address: string]: bn.BigNumber } = {}
-  let traderScoreSum = new bn.BigNumber(0)
-
-  Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
-    const f = epochData.tradeFeesPaid[addr]
-    const g = epochData.openInterest[addr] || 0
-    const score = new bn.BigNumber((f / F.toNumber()) ** traderScoreAlpha).times(
-      (g / G.toNumber()) ** (1 - traderScoreAlpha),
+  traderScoreA: number,
+  traderScoreB?: number,
+  traderScoreC?: number,
+): void => {
+  if (epochData.epoch < 5) {
+    initial.calcTraderRewards(epochData, addressRewards, traderRewardsAmount, traderScoreA)
+  } else {
+    DIP7.calcTraderRewards(
+      epochData,
+      addressRewards,
+      traderRewardsAmount,
+      traderScoreA,
+      traderScoreB,
+      traderScoreC,
     )
-
-    traderScore[addr] = score
-    traderScoreSum = traderScoreSum.plus(score)
-  })
-
-  Object.keys(traderScore).forEach((addr) => {
-    const reward = traderRewardsAmount
-      .times(traderScore[addr])
-      .div(traderScoreSum)
-      .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
-      .toFixed()
-    if (reward !== '0') {
-      addReward(addressRewards, addr, reward)
-    }
-  })
+  }
 }
 
 export const calcMarketMakerRewards = (
   epochData: OracleRewardsData,
   addressRewards: AddressRewards,
   marketMakerRewardsAmount: bn.BigNumber,
-) => {
-  const quoteScoreSum = Object.keys(epochData.quoteScore).reduce(
-    (sum, addr) => sum.plus(epochData.quoteScore[addr]),
-    new bn.BigNumber(0),
-  )
-
-  Object.keys(epochData.quoteScore).forEach((addr) => {
-    const reward = marketMakerRewardsAmount
-      .times(epochData.quoteScore[addr])
-      .div(quoteScoreSum)
-      .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
-      .toFixed()
-    if (reward !== '0') {
-      addReward(addressRewards, addr, reward)
-    }
-  })
-}
+): void => initial.calcMarketMakerRewards(epochData, addressRewards, marketMakerRewardsAmount)
 
 const calcCumulativeRewards = (addressRewards: AddressRewards, previousRewards: AddressRewards) => {
   Object.keys(previousRewards).forEach((addr) => {

@@ -1,5 +1,93 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.3.5
+
+### Patch Changes
+
+- ca4a58477: Coinpaprika - stop batching crypto quotes
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.3.4
+
+### Patch Changes
+
+- Updated dependencies [ab17812c7]
+  - @chainlink/ea-bootstrap@1.11.2
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.3.3
+
+### Patch Changes
+
+- 9f34c29d1: Add ALUSD symbol to id override
+- 9041e0252: refactorted config into folder, moved ea presets into adapter folders, changed validator to accept ea presets
+- Updated dependencies [341f2bd4d]
+- Updated dependencies [9041e0252]
+  - @chainlink/ea-bootstrap@1.11.1
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [eecdac90b]
+  - @chainlink/ea-bootstrap@1.11.0
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [57be274ff]
+- Updated dependencies [540e563a9]
+- Updated dependencies [72f96124d]
+  - @chainlink/ea-bootstrap@1.10.6
+  - @chainlink/ea-test-helpers@1.1.0
+
+## 1.3.0
+
+### Minor Changes
+
+- 0f17abc79: update rate limits for coinpaprika
+- 0652238d0: Add crypto VWAP endpoint support
+
+### Patch Changes
+
+- b2e1df0c3: Add description for endpoints from READMEs
+- Updated dependencies [4865d3b46]
+  - @chainlink/ea-bootstrap@1.10.5
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 229f80eba: Add APIKEY support
+
+### Patch Changes
+
+- Updated dependencies [4d6b8a050]
+  - @chainlink/ea-bootstrap@1.10.4
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@1.10.3
+  - @chainlink/ea-test-helpers@1.0.1
+
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [452ba71f0]
+  - @chainlink/ea-bootstrap@1.10.2
+  - @chainlink/ea-test-helpers@1.0.1
+
 ## 1.1.8
 
 ### Patch Changes

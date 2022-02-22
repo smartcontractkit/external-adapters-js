@@ -10762,10 +10762,6 @@ Array [
         "originalKey": "NODE_ENV",
         "type": "string",
       },
-      "ONCHAIN_ADAPTER_API_KEY": Object {
-        "originalKey": "API_KEY",
-        "type": "string",
-      },
       "RATE_LIMIT_API_PROVIDER": Object {
         "originalKey": "RATE_LIMIT_API_PROVIDER",
         "type": "string",

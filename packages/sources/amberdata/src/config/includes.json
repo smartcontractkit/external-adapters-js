@@ -1,0 +1,145 @@
+[
+  {
+    "from": "DIGG",
+    "to": "BTC",
+    "includes": [
+      {
+        "from": "DIGG",
+        "to": "WBTC",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "RAI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "RAI",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "RGT",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "RGT",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "RARI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "RARI",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "LDO",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "LDO",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "VSP",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "VSP",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "SFI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "SFI",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "FRAX",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "FRAX",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "BOND",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "BOND",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "FEI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "FEI",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "TRIBE",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "TRIBE",
+        "to": "WETH",
+        "tokens": true
+      }
+    ]
+  },
+  {
+    "from": "BTC",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "ETH",
+        "to": "BTC",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "USDC",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "ETH",
+        "to": "USDC",
+        "inverse": true
+      }
+    ]
+  }
+]

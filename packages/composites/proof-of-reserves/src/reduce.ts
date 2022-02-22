@@ -2,8 +2,8 @@ import * as reduce from '@chainlink/reduce-adapter'
 import { AdapterContext, AdapterResponse } from '@chainlink/types'
 import { callAdapter } from './adapter'
 import { Indexer } from './balance'
-import bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
-import bitcoinPorIndexer from '@chainlink/por-indexer-adapter'
+import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
+import * as bitcoinPorIndexer from '@chainlink/por-indexer-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
 import { ethers } from 'ethers'
@@ -47,5 +47,5 @@ export const runReduceAdapter = async (
       valuePath: 'balance',
     },
   }
-  return callAdapter(reduce.execute, context, next, '_onReduce')
+  return callAdapter(reduce.makeExecute(), context, next, '_onReduce')
 }

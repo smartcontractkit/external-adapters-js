@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, Includes, IncludePair, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
+import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['volume']
 
@@ -29,6 +30,9 @@ const tokenOptions = (from: string, to: string) => ({
     endDate: today.valueOf(),
   },
 })
+
+export const description =
+  'Gets the [24h-volume for historical of a pair](https://docs.amberdata.io/reference#spot-price-pair-historical) from Amberdata.'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -61,7 +65,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator(input, inputParameters, {}, { includes })
 
   const jobRunID = validator.validated.id
   const { url, params, inverse } = getOptions(validator)
@@ -122,7 +126,7 @@ const getIncludes = (
 ): IncludePair | undefined => {
   if (includes.length === 0) return undefined
 
-  const presetIncludes = validator.overrideIncludes(AdapterName, from, to)
+  const presetIncludes = validator.overrideIncludes(from, to)
   if (presetIncludes && typeof includes[0] === 'string') return presetIncludes
   else if (typeof includes[0] === 'string') {
     return {

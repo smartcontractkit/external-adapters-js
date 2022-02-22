@@ -56,6 +56,8 @@ interface ReferenceCurrenciesResponseSchema {
   status: string
 }
 
+export const description = 'https://api.coinranking.com/v2/coins'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],

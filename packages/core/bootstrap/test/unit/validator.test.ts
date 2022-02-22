@@ -1,5 +1,5 @@
 import { InputParameters } from '@chainlink/types'
-import { Validator } from '../../src/lib/external-adapter/validator'
+import { Validator } from '../../src/lib/modules/validator'
 
 describe('Validator', () => {
   describe('with no input parameter configuration', () => {
@@ -16,7 +16,7 @@ describe('Validator', () => {
     })
 
     it('does not error if input data is excluded', () => {
-      const input = { id: 'abc123' }
+      const input = { id: '1' }
 
       const validator = new Validator(input)
       expect(validator.validated.id).toEqual(input.id)
@@ -31,7 +31,7 @@ describe('Validator', () => {
 
     it('does not error if optional params are included', () => {
       const input = {
-        id: 'abc123',
+        id: '1',
         data: {
           endpoint: 'test',
         },
@@ -51,69 +51,75 @@ describe('Validator', () => {
     }
 
     it('errors if no input is provided', () => {
-      const validator = new Validator({}, params, {}, { shouldThrowError: false })
-      expect(validator.validated.id).toEqual('1')
-      expect(validator.validated.data).toEqual({})
-      expect(validator.error).toBeTruthy()
-      expect(validator?.error?.statusCode).toEqual(400)
-      expect(validator?.error?.status).toEqual('errored')
+      try {
+        expect.hasAssertions()
+        const input = {}
+        new Validator(input, params, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('Required parameter not supplied: endpoint')
+        expect(error?.cause).toEqual(undefined)
+      }
     })
 
     it('errors if empty string is provided', () => {
-      const input = {
-        id: '1',
-        data: {
-          endpoint: '',
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            endpoint: '',
+          },
+        }
+        new Validator(input, params, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('Required parameter not supplied: endpoint')
+        expect(error?.cause).toEqual(undefined)
       }
-      const validator = new Validator(input, params, {}, { shouldThrowError: false })
-      expect(validator.validated.id).toEqual('1')
-      expect(validator.validated.data).toEqual({})
-      expect(validator.error).toBeTruthy()
-      expect(validator?.error?.statusCode).toEqual(400)
-      expect(validator?.error?.status).toEqual('errored')
     })
 
     it('errors if an array param is not provided', () => {
-      const input = {
-        id: 'abc123',
-        data: {
-          endpoint: 'test',
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            endpoint: 'test',
+          },
+        }
+        new Validator(input, params, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('None of aliases used for required key keys')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, params, {}, { shouldThrowError: false })
-      expect(validator.validated.id).toEqual(input.id)
-      expect(validator.validated.data).toEqual({
-        endpoint: 'test',
-        includes: undefined,
-        overrides: undefined,
-        resultPath: undefined,
-        tokenOverrides: undefined,
-      })
-      expect(validator?.error).toBeTruthy()
-      expect(validator?.error?.statusCode).toEqual(400)
-      expect(validator?.error?.status).toEqual('errored')
     })
 
     it('errors if a boolean param is not provided', () => {
-      const input = {
-        id: 'abc123',
-        data: {
-          one: 'test',
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            one: 'test',
+          },
+        }
+        new Validator(input, params, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('Required parameter not supplied: endpoint')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, params, {}, { shouldThrowError: false })
-      expect(validator.validated.id).toEqual(input.id)
-      expect(validator.error).toBeTruthy()
-      expect(validator?.error?.statusCode).toEqual(400)
-      expect(validator?.error?.status).toEqual('errored')
     })
 
     it('does not error if required params are included', () => {
       const input = {
-        id: 'abc123',
+        id: '1',
         data: {
           endpoint: 'test',
           one: 'test',
@@ -252,155 +258,212 @@ describe('Validator', () => {
     })
 
     it('errors if required params are missing', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('Required parameter key2 must be non-null and non-empty')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual(
-        'Required parameter key2 must be non-null and non-empty',
-      )
     })
 
     it('errors if dependent params are missing', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          page: 3,
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            page: 3,
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('page dependency limit not supplied')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual('page dependency limit not supplied')
     })
 
     it('errors if exclusive params are present', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          page: 3,
-          indexes: [0, 1],
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            page: 3,
+            limit: 5,
+            indexes: [0, 1],
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('indexes cannot be supplied concurrently with limit')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual('page dependency limit not supplied')
     })
 
     it('errors if param does not have required string type', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 1,
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 1,
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('key2 parameter must be of type string')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual('key2 parameter must be of type string')
     })
 
     it('errors if param does not have required boolean type', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          verbose: 'yes',
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            verbose: 'yes',
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('verbose parameter must be of type boolean')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual('verbose parameter must be of type boolean')
     })
 
     it('errors if param does not have required array type', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          indexes: '1, 2, 3',
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            indexes: '1, 2, 3',
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('indexes parameter must be a non-empty array')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual(
-        'indexes parameter must be a non-empty array',
-      )
     })
 
     it('errors if param does not have required object type', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          valueObject: [1, 2, 3],
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            valueObject: [1, 2, 3],
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual(
+          'valueObject parameter must be an object with at least one property',
+        )
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual(
-        'valueObject parameter must be an object with at least one property',
-      )
     })
 
     it('errors if param does not have required number type', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          limit: 'limit',
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            limit: 'limit',
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('limit parameter must be of type number')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual('limit parameter must be of type number')
     })
 
     it('errors if param does not have required bigint type', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          bigInt: 3,
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            bigInt: 3,
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('bigInt parameter must be of type bigint')
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual('bigInt parameter must be of type bigint')
     })
 
     it('errors if param does not use element of options', () => {
-      const input = {
-        id: '1',
-        data: {
-          key1: 'A',
-          key2: 'B',
-          bigInt: BigInt(123),
-        },
+      try {
+        expect.hasAssertions()
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            bigInt: BigInt(123),
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual(
+          "bigInt parameter '123' is not in the set of available options: 0,1,2",
+        )
+        expect(error?.cause).toEqual(undefined)
       }
-
-      const validator = new Validator(input, inputConfig, {}, { shouldThrowError: false })
-      expect(validator.errored?.error?.message).toEqual(
-        'bigInt parameter is not in the set of available options',
-      )
     })
   })
 
   it('accepts input without customParams', () => {
     const input = {
-      id: 'abc123',
+      id: '1',
       data: {
         endpoint: 'test',
         one: 'test',
@@ -411,14 +474,13 @@ describe('Validator', () => {
     expect(validator.error).not.toBeDefined()
   })
 
-  it('default overrides input is loaded', () => {
+  it('default overrides input is empty', () => {
     const input = {
       id: '1',
       data: {},
     }
     const validator = new Validator(input)
-    expect(validator.validated.overrides?.size).toBeGreaterThan(1)
-    expect(validator.validated.overrides.get('coingecko').get('uni')).toEqual('uniswap')
+    expect(validator.validated.overrides?.size).toEqual(0)
   })
 
   it('overrides input is formatted', () => {
@@ -437,17 +499,116 @@ describe('Validator', () => {
   })
 
   it('errors if overrides is not properly formatted', () => {
-    const input = {
-      id: '1',
-      data: {
-        overrides: {
-          uni: 'uniswap',
+    try {
+      expect.hasAssertions()
+      const input = {
+        id: '1',
+        data: {
+          overrides: {
+            uni: 'uniswap',
+          },
         },
-      },
+      }
+      new Validator(input, {}, {})
+    } catch (error) {
+      expect(error?.jobRunID).toEqual('1')
+      expect(error?.statusCode).toEqual(400)
+      expect(error?.message).toEqual('Parameter supplied with wrong format: "override"')
+      expect(error?.cause).toEqual(undefined)
     }
-    const validator = new Validator(input, {}, {}, { shouldThrowError: false })
-    expect(validator.error).toBeTruthy()
-    expect(validator?.error?.statusCode).toEqual(400)
-    expect(validator?.error?.status).toEqual('errored')
   })
+
+  describe('overrideSymbol', () => {
+    it('errors if base was not provided', () => {
+      const validator = new Validator()
+      expect(() => validator.overrideSymbol('coingecko')).toThrowError()
+    })
+
+    it('returns symbol as is if there are no overrides, using input', () => {
+      const params: InputParameters = {
+        base: {
+          required: true,
+          type: 'string',
+        },
+      }
+      const input = {
+        id: '1',
+        data: {
+          base: 'btc',
+        },
+      }
+      const validator = new Validator(input, params)
+      const base = validator.overrideSymbol('coingecko')
+      expect(base).toBe('btc')
+    })
+
+    it('returns symbol as is if there are no overrides, using provided symbol argument', () => {
+      const validator = new Validator()
+      const base = validator.overrideSymbol('coingecko', 'btc')
+      expect(base).toBe('btc')
+    })
+
+    it('returns non-array symbol value from overrides', () => {
+      const input = {
+        id: '1',
+        data: {
+          overrides: {
+            coingecko: {
+              uni: 'uniswap',
+            },
+          },
+        },
+      }
+      const validator = new Validator(input)
+      const base = validator.overrideSymbol('coingecko', 'uni')
+      expect(base).toBe('uniswap')
+    })
+
+    it('returns multiple overriden symbols from array input', () => {
+      const input = {
+        id: '1',
+        data: {
+          overrides: {
+            coingecko: {
+              uni: 'uniswap',
+            },
+          },
+        },
+      }
+      const validator = new Validator(input)
+      const base = validator.overrideSymbol('coingecko', ['btc', 'uni'])
+      expect(base).toEqual(['btc', 'uniswap'])
+    })
+  })
+
+  describe('overrideToken', () => {
+    it('return ethereum address', () => {
+      const validator = new Validator()
+      const result = validator.overrideToken('ETH')
+      expect(result).toBe('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE')
+    })
+  })
+
+  describe('overrideIncludes', () => {
+    it('returns undefined when provided with invalid include', () => {
+      const validator = new Validator()
+      const include = validator.overrideIncludes('ETH', 'BTC')
+      expect(include).toBeUndefined()
+    })
+
+    it('returns valid include', () => {
+      const validator = new Validator()
+      const include = validator.overrideIncludes('BTC', 'ETH')
+      expect(include).toMatchSnapshot()
+    })
+  })
+
+  //TODO update test
+  // describe('overrideReverseLookup', () => {
+  //   it('returns ????', () => {
+  //     const validator = new Validator()
+  //     const symbol = validator.overrideReverseLookup('coingecko', 'overrides', 'btc')
+  //     expect(symbol).toBe('btc')
+  //   })
+  // })
 })

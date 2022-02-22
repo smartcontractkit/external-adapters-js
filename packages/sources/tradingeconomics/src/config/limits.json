@@ -1,0 +1,29 @@
+{
+  "http": {
+    "standard": {
+      "rateLimit1h": 500,
+      "note": "http://api.tradingeconomics.com/documentation/Limits"
+    },
+    "professional": {
+      "rateLimit1h": 800
+    },
+    "enterprise": {
+      "rateLimit1h": 100
+    }
+  },
+  "ws": {
+    "standard": {
+      "connections": 1,
+      "subscriptions": -1,
+      "note": "No limit mention. http://api.tradingeconomics.com/documentation/Streaming"
+    },
+    "professional": {
+      "connections": 1,
+      "subscriptions": -1
+    },
+    "enterprise": {
+      "connections": 1,
+      "subscriptions": -1
+    }
+  }
+}

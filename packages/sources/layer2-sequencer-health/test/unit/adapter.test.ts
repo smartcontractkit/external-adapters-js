@@ -1,9 +1,9 @@
-import { DEFAULT_DELTA_TIME, makeConfig, Networks, RPC_ENDPOINTS } from '../../src/config'
+import { DEFAULT_DELTA_TIME, Networks } from '../../src/config'
 import { useFakeTimers } from 'sinon'
 import * as network from '../../src/network'
-import * as adapter from '../../src/adapter'
+import * as health from '../../src/endpoint/health'
+import { makeExecute } from '../../src/adapter'
 import { AdapterRequest } from '@chainlink/types'
-import { ethers } from 'ethers'
 
 describe('adapter', () => {
   describe('L2 Network health check', () => {
@@ -18,7 +18,7 @@ describe('adapter', () => {
 
     it('Stale blocks are unhealthy after Delta seconds', async () => {
       jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(1))
-      const getNetworkStatus = adapter.makeNetworkStatusCheck(Networks.Arbitrum)
+      const getNetworkStatus = health.makeNetworkStatusCheck(Networks.Arbitrum)
       const deltaBlocks = 0
       // 2 minutes delta
       const delta = 120 * 1000
@@ -33,7 +33,7 @@ describe('adapter', () => {
     })
 
     it('Blocks are healthy after Delta seconds if blocks change', async () => {
-      const getNetworkStatus = adapter.makeNetworkStatusCheck(Networks.Arbitrum)
+      const getNetworkStatus = health.makeNetworkStatusCheck(Networks.Arbitrum)
       const deltaBlocks = 0
       // 2 minutes delta
       const delta = 120 * 1000
@@ -51,7 +51,7 @@ describe('adapter', () => {
     })
 
     it('Blocks are healthy if current is previous to the last seen within a delta difference', async () => {
-      const getNetworkStatus = adapter.makeNetworkStatusCheck(Networks.Arbitrum)
+      const getNetworkStatus = health.makeNetworkStatusCheck(Networks.Arbitrum)
 
       const deltaBlocks = 5
       jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(10))
@@ -72,7 +72,7 @@ describe('adapter', () => {
   })
 
   describe('Adapter health check', () => {
-    const execute = adapter.makeExecute()
+    const execute = makeExecute()
     let clock
     beforeEach(() => {
       clock = useFakeTimers()
@@ -179,9 +179,7 @@ describe('adapter', () => {
     it('Empty transaction check has the final word on unhealthy method responses', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(false))
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(true))
-      jest
-        .spyOn(network, 'requestBlockHeight')
-        .mockReturnValue(Promise.reject(new Error('Some RPC call error')))
+      jest.spyOn(network, 'requestBlockHeight').mockRejectedValue(new Error('Some RPC call error'))
 
       const response = await execute(
         {
@@ -215,7 +213,7 @@ describe('adapter', () => {
   describe('Adapter build', () => {
     it('Cache enabled throws when building the adapter', async () => {
       process.env.CACHE_ENABLED = 'true'
-      const execute = adapter.makeExecute()
+      const execute = makeExecute()
       await expect(
         execute(
           {

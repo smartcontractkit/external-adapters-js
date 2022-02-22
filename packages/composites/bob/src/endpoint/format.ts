@@ -1,10 +1,13 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
 
 export const NAME = 'format'
+
+export const description =
+  'The format endpoint encodes the chainId, block hash, and block receiptsRoot as bytes and returns that without a 0x prefix.'
 
 export const inputParams = {
   url: false,
@@ -46,8 +49,8 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const blockNumber = validator.validated.data.blockNumber
 
   const block = await provider.getBlock(blockNumber)
-
-  const response = await JSONRPC.execute(
+  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
+  const response = await _execute(
     {
       ...request,
       data: { ...request.data, method: 'eth_getBlockByHash', params: [block.hash, false] },

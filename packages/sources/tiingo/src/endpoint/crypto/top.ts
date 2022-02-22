@@ -1,6 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
 import { NAME as AdapterName } from '../../config'
+import overrides from '../../config/symbols.json'
 
 export const supportedEndpoints = ['top']
 
@@ -28,6 +29,9 @@ export interface ResponseSchema {
   }[]
 }
 
+export const description =
+  'The top of order book endpoint from https://api.tiingo.com/documentation/crypto'
+
 export const inputParameters: InputParameters = {
   base: ['base', 'from', 'coin'],
   quote: ['quote', 'to', 'market'],
@@ -38,7 +42,7 @@ export const inputParameters: InputParameters = {
 const customError = (data: ResponseSchema[]) => !data.length
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName) as string
