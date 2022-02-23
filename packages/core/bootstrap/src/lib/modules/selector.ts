@@ -102,6 +102,9 @@ const selectEndpoint = <C extends Config>(
       })
   }
 
+  // Fill in default endpoint
+  if (!request?.data?.endpoint) request.data.endpoint = config.defaultEndpoint
+
   // Allow adapter endpoints to dynamically query different endpoint resultPaths
   if (apiEndpoint.endpointResultPaths && request.data && !request.data.resultPath) {
     const resultPath = apiEndpoint.endpointResultPaths[endpoint]
