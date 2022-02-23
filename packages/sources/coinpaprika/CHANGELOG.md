@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.3.6
+
+### Patch Changes
+
+- a711674e8: Add label for 'crypto-single' and add ALUSD kludge
+
 ## 1.3.5
 
 ### Patch Changes
