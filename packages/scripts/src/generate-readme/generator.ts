@@ -196,7 +196,7 @@ export class ReadmeGenerator {
       // If not skipping tests, run through yarn test with testEnvOverrides variables
       if (this.verbose)
         console.log(`${this.adapterPath}: Running integration tests to get updated I/O examples`)
-      console.log({ p: this.integrationTestPath })
+
       const testOutput = shell
         .exec(`yarn test ${this.integrationTestPath}`, {
           fatal: true,
