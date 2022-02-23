@@ -1,30 +1,61 @@
 # Chainlink External Adapter for Upvest
 
-### Input Parameters
+Version: 1.2.16
 
-| Required? |   Name   |     Description     |            Options             | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+There are no environment variables for this adapter.
 
 ---
 
-## Gas Price Endpoint
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
+
+---
+
+## Gasprice Endpoint
+
+`gasprice` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name   |    Description    |             Options              | Defaults to |
-| :-------: | :-----: | :---------------: | :------------------------------: | :---------: |
-|    🟡     | `speed` | The desired speed | `slow`,`medium`,`fast`,`fastest` |   `fast`    |
+| Required? | Name  | Aliases |    Description    |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :---------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|           | speed |         | The desired speed | string | `fast`, `fastest`, `medium`, `slow` | `fast`  |            |                |
 
-### Output Format
+### Example
+
+Request:
 
 ```json
 {
-  "jobRunID": "1",
-  "result": 33,
-  "statusCode": 200,
+  "id": "1",
   "data": {
-    "result": 33
+    "endpoint": "gasprice",
+    "speed": "fast"
   }
 }
 ```
+
+Response:
+
+```json
+{
+  "success": true,
+  "updated": "2021-11-30T15:46:00.048Z",
+  "estimates": {
+    "fastest": 132.055,
+    "fast": 131.363,
+    "medium": 113.447,
+    "slow": 110.747
+  },
+  "result": 131.363
+}
+```
+
+---

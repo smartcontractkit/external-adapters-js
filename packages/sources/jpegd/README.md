@@ -1,54 +1,58 @@
 # Chainlink External Adapter for JPEG'd
 
-Query NFT collection values from the JPEG'd API.
+Version: 1.0.6
 
-### Environment Variables
+This adapter allows for querying NFT collection values
 
-| Required? |  Name   |              Description               | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key provided by the JPEG'd team |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |  Name   |              Description               |  Type  | Options | Default |
+| :-------: | :-----: | :------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | An API key provided by the JPEG'd team | string |         |         |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [punks](#Punks-Endpoint) |    punks    |
+| Required? |   Name   |     Description     |  Type  |         Options          | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [punks](#punks-endpoint) | `punks` |
 
 ---
 
 ## Punks Endpoint
 
-Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
+`punks` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name   |             Description              | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------: | :-----: | :---------: |
-|    ✅     | `block` | The block data is being queried from |         |             |
+| Required? | Name  |          Aliases          |                       Description                       |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----------------------: | :-----------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | block | `blockNum`, `blockNumber` | The block number for which information is being queried | number |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "block": 9999999
-  }
+    "endpoint": "punks",
+    "block": 14000000
+  },
+  "rateLimitMaxAge": 5555
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "success": true,
-    "block": 9999999,
-    "value": 100
-  },
-  "statusCode": 200
+  "result": 14000000
 }
 ```
+
+---

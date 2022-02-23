@@ -1,179 +1,116 @@
 # Chainlink External Adapters for BTC.com
 
-### Input Parameters
+Version: 1.2.16
 
-| Required? |   Name   |              Description              |                              Options                              | Defaults to |
-| :-------: | :------: | :-----------------------------------: | :---------------------------------------------------------------: | :---------: |
-|           | endpoint | The Chainlink unified endpoint to use | [balance](#Balance), [height](#Height), [difficulty](#Difficulty) |  `balance`  |
+### BTC.com Block Endpoint https://btc.com/api-doc#Block
+
+### BTC.com Address Endpoint https://btc.com/api-doc#Address
+
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+There are no environment variables for this adapter.
 
 ---
 
-## BTC.com Address Endpoint
+## Input Parameters
 
-https://btc.com/api-doc#Address
+| Required? |   Name   |     Description     |  Type  |                                        Options                                         |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [difficulty](#block-endpoint), [height](#block-endpoint) | `balance` |
 
-### Balance
+---
+
+## Balance Endpoint
+
+[Address](https://btc.com/api-doc#Address)
+
+`balance` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |      Name       |               Description                | Options | Defaults to |
-| :-------: | :-------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     |    `result`     |       Array of addresses to query        |         |             |
-|           |   `dataPath`    |  Path where to find the addresses array  |         |  `result`   |
-|           | `confirmations` | The symbol of the currency to convert to |         |     `6`     |
+| Required? |     Name      | Aliases |                        Description                         |  Type  | Options | Default  | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :--------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
+|    ✅     |   addresses   |         | Array of objects with address information as defined below | array  |         |          |            |                |
+|           | confirmations |         |                  Confirmations parameter                   | number |         |   `6`    |            |                |
+|           |   dataPath    |         |           Path where to find the addresses array           | string |         | `result` |            |                |
 
-`result` is an an array of objects that contain the following information:
+Address objects within `addresses` have the following properties:
 
-| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
-| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
-|    ✅     | `address` |               Address to query               |                                           |             |
-|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
-|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
+| Required? |  Name   |                 Description                  |  Type  |                    Options                    |  Default  |
+| :-------: | :-----: | :------------------------------------------: | :----: | :-------------------------------------------: | :-------: |
+|    ✅     | address |               Address to query               | string |                                               |           |
+|           |  chain  | Chain to query (Ethereum testnet is Rinkeby) | string |             `mainnet`, `testnet`              | `mainnet` |
+|           |  coin   |              Currency to query               | string | Ex. `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec` |   `btc`   |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "balance",
+    "dataPath": "addresses",
     "addresses": [
       {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "coin": "btc"
-      },
-      {
-        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "coin": "btc"
       }
-    ],
-    "dataPath": "addresses"
+    ]
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "responses": [
-      {
-        "data": {
-          "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-          "received": 331532014822,
-          "sent": 331532014275,
-          "balance": 547,
-          "tx_count": 56,
-          "unconfirmed_tx_count": 0,
-          "unconfirmed_received": 0,
-          "unconfirmed_sent": 0,
-          "unspent_tx_count": 1
-        },
-        "err_code": 0,
-        "err_no": 0,
-        "message": "success",
-        "status": "success"
-      },
-      {
-        "data": {
-          "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-          "received": 3129544141234,
-          "sent": 3129544137952,
-          "balance": 3282,
-          "tx_count": 14,
-          "unconfirmed_tx_count": 0,
-          "unconfirmed_received": 0,
-          "unconfirmed_sent": 0,
-          "unspent_tx_count": 6
-        },
-        "err_code": 0,
-        "err_no": 0,
-        "message": "success",
-        "status": "success"
-      }
-    ],
-    "result": [
-      {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 547
-      },
-      {
-        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 3282
-      }
-    ]
-  },
   "result": [
     {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
       "coin": "btc",
       "chain": "mainnet",
-      "balance": "547"
-    },
-    {
-      "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": "3282"
+      "balance": "0"
     }
-  ],
-  "statusCode": 200
+  ]
 }
 ```
 
-## BTC.com Block Endpoint
+---
 
-https://btc.com/api-doc#Block
+## Block Endpoint
 
-### Height
+[Block](https://btc.com/api-doc#Block)
 
-### Sample Input
+Supported names for this endpoint are: `difficulty`, `height`.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
-  "data": {}
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": 20608845737768,
-  "statusCode": 200,
   "data": {
-    "result": 20608845737768
+    "endpoint": "difficulty",
+    "resultPath": "difficulty"
   }
 }
 ```
 
-### Difficulty
-
-### Sample Input
+Response:
 
 ```json
 {
-  "id": "1",
-  "data": {}
+  "result": 22674148233453
 }
 ```
 
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": 682452,
-  "statusCode": 200,
-  "data": {
-    "result": 682452
-  }
-}
-```
+---

@@ -1,94 +1,89 @@
 # Chainlink External Adapter for Coinranking
 
-### Configuration
+Version: 1.1.16
 
-The adapter takes the following environment variables:
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
-| Required? |   Name    | Description | Options | Defaults to |
-| :-------: | :-------: | :---------: | :-----: | :---------: |
-|           | `API_KEY` |             |         |             |
+## Environment Variables
 
-### Input Parameters
-
-| Required? |   Name   |     Description     |                           Options                            | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [marketcap](#Marketcap-Endpoint) |  `crypto`   |
+| Required? |  Name   |                            Description                             |  Type  | Options | Default |
+| :-------: | :-----: | :----------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | An API key that can be obtained from the data provider's dashboard | string |         |         |
 
 ---
 
-## Price Endpoint
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                                       Options                                        | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint) | `crypto` |
+
+---
+
+## Crypto Endpoint
 
 https://api.coinranking.com/v2/coins
 
+Supported names for this endpoint are: `crypto`, `marketcap`, `price`.
+
 ### Input Params
 
-| Required? |          Name           |                                  Description                                  | Options | Defaults to |
-| :-------: | :---------------------: | :---------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |                      The symbol of the currency to query                      |         |             |
-|    ✅     | `quote`, `to`, `market` |                   The symbol of the currency to convert to                    |         |             |
-|    🟡     |        `coinid`         | The coin ID to select the specific coin (in case of duplicate `from` symbols) |         |             |
-|    🟡     | `referenceCurrencyUuid` |                      Optional UUID of the `to` currency                       |         |             |
+| Required? |         Name          |    Aliases     |                                  Description                                  |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------------: | :------------: | :---------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |         base          | `coin`, `from` |                      The symbol of the currency to query                      | string |         |         |            |                |
+|    ✅     |         quote         | `market`, `to` |                   The symbol of the currency to convert to                    | string |         |         |            |                |
+|           |        coinid         |                | The coin ID to select the specific coin (in case of duplicate `from` symbols) |        |         |         |            |                |
+|           | referenceCurrencyUuid |                |                      Optional UUID of the `to` currency                       | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "from": "ETH",
-    "to": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "result": 2110.2357344391503
-  },
-  "result": 2110.2357344391503,
-  "statusCode": 200
-}
-```
-
----
-
-## Marketcap Endpoint
-
-### Input Params
-
-| Required? |          Name           |                                  Description                                  | Options | Defaults to |
-| :-------: | :---------------------: | :---------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |                      The symbol of the currency to query                      |         |             |
-|    ✅     | `quote`, `to`, `market` |                   The symbol of the currency to convert to                    |         |             |
-|    🟡     |        `coinid`         | The coin ID to select the specific coin (in case of duplicate `from` symbols) |         |             |
-|    🟡     | `referenceCurrencyUuid` |                      Optional UUID of the `to` currency                       |         |             |
-
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "marketcap",
+    "endpoint": "crypto",
+    "resultPath": "price",
     "base": "ETH",
     "quote": "USD"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "result": 245013696787.35812
-  },
-  "result": 245013696787.35812,
-  "statusCode": 200
+  "result": 4478.930333561968
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "marketcap",
+    "resultPath": "marketCap",
+    "base": "ETH",
+    "quote": "USD"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "result": 527538906196
+}
+```
+
+</details>
+
+---

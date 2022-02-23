@@ -1,57 +1,55 @@
 # Chainlink External Adapter for Coin Lore
 
-### Input Parameters
+Version: 1.2.16
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [global](#Global-Endpoint) |   global    |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
-There are two Chainlink "endpoint" behaviors (`dominance` and `globalmarketcap`) that use the `global` API endpoint.
-The default is to use the Chainlink `dominance` behavior.
+## Environment Variables
+
+There are no environment variables for this adapter.
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                                            Options                                             |   Default   |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | string | [dominance](#global-endpoint), [global](#global-endpoint), [globalmarketcap](#global-endpoint) | `dominance` |
 
 ---
 
 ## Global Endpoint
 
+Supported names for this endpoint are: `dominance`, `global`, `globalmarketcap`.
+
 ### Input Params
 
-| Required? |  Name   |                                   Description                                   |   Options    | Defaults to |
-| :-------: | :-----: | :-----------------------------------------------------------------------------: | :----------: | :---------: |
-|           | `field` |     The object path to access the value that will be returned as the result     |              |     `d`     |
-|           | `base`  | When using a field of `d`, the currency to prefix the field with (e.g. `usd_d`) | `btc`, `eth` |    `btc`    |
+| Required? |   Name   | Aliases |                                  Description                                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           |   base   |         | When using a field of `d`, the currency to prefix the field with (e.g. `usd_d` | string |         |  `btc`  |            |                |
+|           | endpoint |         |                          The adapter endpoint to use                           | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "base": "eth",
-    "field": "d"
+    "endpoint": "global",
+    "resultPath": "d",
+    "base": "eth"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "coins_count": 5101,
-    "active_markets": 18365,
-    "total_mcap": 347644452463.34247,
-    "total_volume": 88195669202.08769,
-    "btc_d": "60.17",
-    "eth_d": "11.87",
-    "mcap_change": "-2.19",
-    "volume_change": "15.15",
-    "avg_change_percent": "-0.23",
-    "volume_ath": 281440138896.8489,
-    "mcap_ath": 825596367558,
-    "result": 11.87
-  },
-  "result": 11.87,
-  "statusCode": 200
+  "result": 19.25
 }
 ```
+
+---

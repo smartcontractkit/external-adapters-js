@@ -1,58 +1,94 @@
 # Chainlink CoinApi External Adapter
 
-### Environment Variables
+Version: 1.1.17
 
-| Required? |  Name   |                                 Description                                 | Options | Defaults to |
-| :-------: | :-----: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://www.coinapi.io/pricing) |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |  Name   |                                 Description                                 |  Type  | Options | Default |
+| :-------: | :-----: | :-------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://www.coinapi.io/pricing) | string |         |         |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
+| Required? |   Name   |     Description     |  Type  |                                      Options                                      | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [assets](#assets-endpoint), [crypto](#crypto-endpoint), [price](#crypto-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                   [List](https://docs.coinapi.io/#list-all-assets)                   |             |
-|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                   [List](https://docs.coinapi.io/#list-all-assets)                   |             |
-|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? | Name  |    Aliases     |                          Description                           |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of the currency to query [crypto](#Crypto-Endpoint) | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |            The symbol of the currency to convert to            | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "BTC"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "time": "2020-04-15T14:24:15.3834439Z",
-    "asset_id_base": "ETH",
-    "asset_id_quote": "USD",
-    "rate": 159.1132487376848,
-    "result": 159.1132487376848
-  },
-  "result": 159.1132487376848,
-  "statusCode": 200
+  "result": 0.06262119731705901
 }
 ```
+
+---
+
+## Assets Endpoint
+
+`assets` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name |    Aliases     |               Description                | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :------------: | :--------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from` | The symbol of the currency to convert to |      |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "assets",
+    "resultPath": "price_usd",
+    "base": "ETH"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "result": 3043.673871176232
+}
+```
+
+---

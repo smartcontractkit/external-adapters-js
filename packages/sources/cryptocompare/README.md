@@ -1,166 +1,147 @@
 # Chainlink External Adapter for CryptoCompare
 
-### Environment Variables
+Version: 1.3.5
 
-| Required? |  Name   |                                      Description                                       | Options | Defaults to |
-| :-------: | :-----: | :------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from [here](https://min-api.cryptocompare.com/pricing) |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |  Name   |                                      Description                                       |  Type  | Options | Default |
+| :-------: | :-----: | :------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://min-api.cryptocompare.com/pricing) | string |         |         |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |                                               Options                                               | Defaults to |
-| :-------: | :------: | :-----------------: | :-------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [marketcap](#Marketcap-Endpoint), [vwap or crypto-vwap](#Vwap-Endpoint) |  `crypto`   |
+| Required? |   Name   |     Description     |  Type  |                                                                                 Options                                                                                 | Default  |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |          Name           |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :---------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, `market` |         The symbol of the currency to convert to          |                                                                                      |             |
-|    🟡     |       `overrides`       | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? | Name  |        Aliases         |               Description                | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` |   The symbol of the currency to query    |      |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` | The symbol of the currency to convert to |      |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "crypto",
+    "resultPath": "PRICE",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "BTC"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "USD": 164.02,
-    "result": 164.02
-  },
-  "statusCode": 200
+  "result": 0.06543
 }
 ```
 
-## Marketcap Endpoint
+<details>
+<summary>Additional Examples</summary>
 
-### Input Params
-
-| Required? |          Name           |               Description                | Options | Defaults to |
-| :-------: | :---------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |   The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to |         |             |
-
-### Sample Input
+Request:
 
 ```json
 {
-  "jobId": "1",
+  "id": "1",
   "data": {
-    "base": "BTC",
-    "quote": "USD",
-    "endpoint": "marketcap"
+    "endpoint": "marketcap",
+    "resultPath": "MKTCAP",
+    "base": "ETH",
+    "quote": "BTC"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "statusCode": 200,
-  "result": 891651422525.12,
-  "data": {
-    "result": 891651422525.12
-  }
+  "result": 7694679.153236445
 }
 ```
 
-## Volume Endpoint
-
-Fetch one or multiple assets for volume
-
-### Input Params
-
-| Required? |          Name           |                   Description                    | Options | Defaults to |
-| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
-|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
-|           |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
-
-### Sample Input
+Request:
 
 ```json
 {
-  "jobId": "1",
+  "id": "1",
   "data": {
     "endpoint": "volume",
+    "resultPath": "VOLUME24HOURTO",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "BTC"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "result": 142754466.69826838
-  },
-  "result": 142754466.69826838,
-  "statusCode": 200
+  "result": 12999.111610148046
 }
 ```
+
+</details>
+
+---
 
 ## Vwap Endpoint
 
-Aliases: vwap, crypto-vwap
+Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 
 ### Input Params
 
-| Required? |          Name           |                Description                | Options | Defaults to |
-| :-------: | :---------------------: | :---------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |    The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to  |         |             |
-|           |         `hours`         | Number of hours to calculate the VWAP for |         |    `24`     |
+| Required? | Name  |        Aliases         |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` |   The symbol of the currency to query    |        |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` | The symbol of the currency to convert to |        |         |         |            |                |
+|           | hours |                        |     Number of hours to get VWAP for      | number |         |  `24`   |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "from": "AMPL",
-    "to": "USD",
-    "endpoint": "vwap"
+    "endpoint": "vwap",
+    "base": "AMPL",
+    "quote": "USD",
+    "hours": 24
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "result": 0.9438,
-  "providerStatusCode": 200,
-  "statusCode": 200,
-  "data": {
-    "result": 0.9438
-  }
+  "result": 0.9224
 }
 ```
+
+---

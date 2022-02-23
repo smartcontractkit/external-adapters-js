@@ -1,69 +1,60 @@
 # Chainlink External Adapter for Bitex
 
-### Environment Variables
+Version: 1.3.16
 
-The adapter takes the following environment variables:
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
-| Required? |   Name    |     Description      | Options | Defaults to |
-| :-------: | :-------: | :------------------: | :-----: | :---------: |
-|           | `API_KEY` | Bitex API key to use |         |             |
+## Environment Variables
 
-### Input Parameters
+| Required? |  Name   |     Description      |  Type  | Options | Default |
+| :-------: | :-----: | :------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | Bitex API key to use | string |         |         |
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                         Options                         | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [tickers](#crypto-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `tickers`.
 
 ### Input Params
 
-| Required? |            Name            |                               Description                               | Options | Defaults to |
-| :-------: | :------------------------: | :---------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |                   The symbol of the currency to query                   |         |             |
-|    ✅     | `quote`, `to`, or `market` |                The symbol of the currency to convert to                 |         |             |
-|           |          `field`           | The object path to access the value that will be returned as the result |         |   `vwap`    |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "crypto",
     "base": "ETH",
     "quote": "ARS"
-  }
+  },
+  "rateLimitMaxAge": 222
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "data": {
-      "id": "btc_ars",
-      "type": "tickers",
-      "attributes": {
-        "last": 1625000,
-        "open": 1592499,
-        "high": 1637900,
-        "low": 1572000,
-        "vwap": 1613873.6183712287,
-        "volume": 2.51892688,
-        "bid": 1585000,
-        "ask": 1631800,
-        "price_before_last": 1605000
-      }
-    },
-    "result": 1625000
-  },
-  "result": 1625000,
-  "statusCode": 200
+  "result": 934877.7183770883
 }
 ```
+
+---

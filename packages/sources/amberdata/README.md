@@ -1,95 +1,55 @@
 # Chainlink External Adapter for Amberdata
 
-### Environment Variables
+Version: 1.3.12
 
-The adapter takes the following environment variables:
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
-| Required? |     Name      |    Description    | Options | Defaults to |
-| :-------: | :-----------: | :---------------: | :-----: | :---------: |
-|    ✅     |   `API_KEY`   |  API key to use   |         |             |
-|           | `API_TIMEOUT` | Timeout parameter |         |   `30000`   |
+## Environment Variables
 
-### Input Parameters
-
-| Required? |    Name    |     Description     |                                                        Options                                                         | Defaults to |
-| :-------: | :--------: | :-----------------: | :--------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | `endpoint` | The endpoint to use | [crypto](#Crypto-Endpoint), [balance](#Balance-Endpoint), [marketcap](#MarketCap-Endpoint), [volume](#Volume-Endpoint) |  `crypto`   |
+| Required? |  Name   | Description |  Type  | Options | Default |
+| :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY |             | string |         |         |
 
 ---
 
-## Crypto Endpoint
+## Input Parameters
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+| Required? |   Name   |     Description     |  Type  |                                                                                                 Options                                                                                                 | Default |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [crypto](#crypto-endpoint), [gasprice](#gasprice-endpoint), [marketcap](#token-endpoint), [price](#crypto-endpoint), [token](#token-endpoint), [volume](#volume-endpoint) |         |
 
-Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
-
-### Input Params
-
-| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                                                                      |             |
-|           |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
-
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "LINK",
-    "quote": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "status": 200,
-    "title": "OK",
-    "description": "Successful request",
-    "payload": {
-      "timestamp": 1603800660000,
-      "pair": "link_usd",
-      "price": "12.02087667",
-      "volume": "508.31"
-    },
-    "result": 12.02087667
-  },
-  "result": 12.02087667,
-  "statusCode": 200
-}
-```
+---
 
 ## Balance Endpoint
 
+`balance` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |      Name       |                                 Description                                 | Options | Defaults to |
-| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
-|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
-|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
+| Required? |     Name      | Aliases |                        Description                         |  Type  | Options | Default  | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :--------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
+|    ✅     |   addresses   |         | Array of objects with address information as defined below | array  |         |          |            |                |
+|           | confirmations |         |                  Confirmations parameter                   | number |         |   `6`    |            |                |
+|           |   dataPath    |         |           Path where to find the addresses array           | string |         | `result` |            |                |
 
-Addresses is an an array of objects that contain the following information:
+Address objects within `addresses` have the following properties:
 
-| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
-| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
-|    ✅     | `address` |               Address to query               |                                           |             |
-|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
-|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
+| Required? |  Name   |                 Description                  |  Type  |                    Options                    |  Default  |
+| :-------: | :-----: | :------------------------------------------: | :----: | :-------------------------------------------: | :-------: |
+|    ✅     | address |               Address to query               | string |                                               |           |
+|           |  chain  | Chain to query (Ethereum testnet is Rinkeby) | string |             `mainnet`, `testnet`              | `mainnet` |
+|           |  coin   |              Currency to query               | string | Ex. `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec` |   `btc`   |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
     "endpoint": "balance",
+    "dataPath": "addresses",
     "addresses": [
       {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
@@ -97,90 +57,89 @@ Addresses is an an array of objects that contain the following information:
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF"
       }
-    ],
-    "dataPath": "addresses"
+    ]
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "responses": [
-      {
-        "status": 200,
-        "title": "OK",
-        "description": "Successful request",
-        "payload": {
-          "address": { "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1" },
-          "blockchainId": "408fa195a34b533de9ad9889f076045e",
-          "blockNumber": "656338",
-          "timestampNanoseconds": 0,
-          "value": "547",
-          "timestamp": "2020-11-10T19:54:09.000Z"
-        }
-      },
-      {
-        "status": 200,
-        "title": "OK",
-        "description": "Successful request",
-        "payload": {
-          "address": { "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF" },
-          "blockchainId": "408fa195a34b533de9ad9889f076045e",
-          "blockNumber": "653986",
-          "timestampNanoseconds": 0,
-          "value": "3282",
-          "timestamp": "2020-10-23T17:28:35.000Z"
-        }
-      }
-    ],
-    "result": [
-      {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": "547"
-      },
-      {
-        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": "3282"
-      }
-    ]
-  },
   "result": [
     {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-      "coin": "btc",
       "chain": "mainnet",
-      "balance": "547"
+      "coin": "btc",
+      "balance": "0"
     },
     {
       "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-      "coin": "btc",
       "chain": "mainnet",
-      "balance": "3282"
+      "coin": "btc",
+      "balance": "2188"
     }
-  ],
-  "statusCode": 200
+  ]
 }
 ```
 
-## MarketCap Endpoint
+---
 
-Gets the asset USD Market Cap from Amberdata.
+## Crypto Endpoint
+
+Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
+
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? |           Name            |           Description            | Options | Defaults to |
-| :-------: | :-----------------------: | :------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin` | The symbol of the asset to query |         |             |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "base": "ETH",
+    "quote": "BTC"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "result": 0.06567038
+}
+```
+
+---
+
+## Token Endpoint
+
+Gets the asset USD Market Cap from Amberdata.
+
+Supported names for this endpoint are: `marketcap`, `token`.
+
+### Input Params
+
+| Required? | Name |    Aliases     |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from` | The symbol of the currency to query | string |         |         |            |                |
+
+### Example
+
+Request:
 
 ```json
 {
@@ -192,101 +151,49 @@ Gets the asset USD Market Cap from Amberdata.
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "result": 882396855649.2188,
-  "statusCode": 200,
-  "data": {
-    "status": 200,
-    "title": "OK",
-    "description": "Successful request",
-    "payload": [
-      {
-        "address": null,
-        "circulatingSupply": "18641681",
-        "dailyPercentChangeUSD": "4.07699683",
-        "dailyVolumeUSD": "169547.8348362793",
-        "hourlyPercentChangeUSD": "0.44095348",
-        "marketCapUSD": "882396855649.21876233",
-        "name": "Bitcoin",
-        "priceUSD": "47334.61835600",
-        "symbol": "btc",
-        "totalSupply": "21000000",
-        "weeklyPercentChangeUSD": "-27.13252210",
-        "decimals": "0",
-        "timestamp": 1614591360000
-      },
-      {...}
-    ],
-    "result": 882396855649.2188
-  }
+  "result": 490182085144.57404
 }
-
 ```
 
-## Gas Price Endpoint
+---
+
+## Gasprice Endpoint
+
+`gasprice` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |     Name     |               Description                |               Options                |    Defaults to     |
-| :-------: | :----------: | :--------------------------------------: | :----------------------------------: | :----------------: |
-|    🟡     |   `speed`    |            The desired speed             | `safeLow`,`average`,`fast`,`fastest` |     `average`      |
-|    🟡     | `blockchain` | The blockchain id to get gas prices from |                                      | `ethereum-mainnet` |
+| Required? |    Name    | Aliases |               Description                |  Type  |                 Options                 |      Default       | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :--------------------------------------: | :----: | :-------------------------------------: | :----------------: | :--------: | :------------: |
+|           |   speed    |         |            The desired speed             | string | `average`, `fast`, `fastest`, `safeLow` |     `average`      |            |                |
+|           | blockchain |         | The blockchain id to get gas prices from | string |                                         | `ethereum-mainnet` |            |                |
 
-## Output
+### Example
 
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "status": 200,
-    "title": "OK",
-    "description": "Successful request",
-    "payload": {
-      "average": {
-        "gasPrice": 8600000000,
-        "numBlocks": 15,
-        "wait": 3.5
-      },
-      "fast": {
-        "gasPrice": 14000000000,
-        "numBlocks": 3,
-        "wait": 0.5
-      },
-      "fastest": {
-        "gasPrice": 15000000000,
-        "numBlocks": 3,
-        "wait": 0.5
-      },
-      "safeLow": {
-        "gasPrice": 7800000000,
-        "numBlocks": 59,
-        "wait": 14.1
-      }
-    },
-    "result": 14000000000
-  },
-  "result": 14000000000,
-  "statusCode": 200
-}
-```
+There are no examples for this endpoint.
+
+---
 
 ## Volume Endpoint
 
 Gets the [24h-volume for historical of a pair](https://docs.amberdata.io/reference#spot-price-pair-historical) from Amberdata.
 
+`volume` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                                                                      |             |
-|           |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
@@ -299,28 +206,12 @@ Gets the [24h-volume for historical of a pair](https://docs.amberdata.io/referen
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "status": 200,
-    "title": "OK",
-    "description": "Successful request",
-    "payload": {
-      "metadata": { "startDate": 1634158105724, "endDate": 1634244505724 },
-      "data": {
-        [{
-          "timestamp": 1634169600000,
-          "pair": "link_usd",
-          "price": 26.5973064
-        }]
-      }
-    },
-    "result": 22201324.19515343
-  },
-  "result": 22201324.19515343,
-  "statusCode": 200
+  "result": 13804511.82541564
 }
 ```
+
+---

@@ -1,52 +1,57 @@
 # Chainlink External Adapter for Bea
 
-### Environment Variables
+Version: 1.1.16
 
-| Required? |  Name   |                            Description                             | Options | Defaults to |
-| :-------: | :-----: | :----------------------------------------------------------------: | :-----: | :---------: |
-|           | API_KEY | An API key that can be obtained from the data provider's dashboard |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |  Name   |                            Description                             |  Type  | Options | Default |
+| :-------: | :-----: | :----------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | An API key that can be obtained from the data provider's dashboard | string |         |         |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [average](#Average-Endpoint) |   average   |
+| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [average](#average-endpoint) | `average` |
 
 ---
 
 ## Average Endpoint
 
+`average` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |   Name   |        Description         |         Options         | Defaults to |
-| :-------: | :------: | :------------------------: | :---------------------: | :---------: |
-|           |  `last`  | The last N months to query |      `1`, `2`, etc      |      3      |
-|           | `series` |  The series code to query  | `DGDSRG`, `DPCERG`, etc |  `DPCERG`   |
+| Required? |  Name  | Aliases |                     Description                     |  Type  | Options | Default  | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :-------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
+|           | series |         | The series code to query (`DGDSRG`, `DPCERG`, etc.) | string |         | `DPCERG` |            |                |
+|           |  last  |         |             The last N months to query              | number |         |   `3`    |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "last": 3,
-    "series": "DGDSRG"
+    "endpoint": "average",
+    "series": "DPCERG",
+    "last": 3
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "result": 115.85033333333335,
-  "maxAge": 30000,
-  "statusCode": 200,
-  "data": {
-    "result": 115.85033333333335
-  }
+  "result": 115.85033333333334
 }
 ```
+
+---

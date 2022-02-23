@@ -1,56 +1,59 @@
 # Chainlink External Adapter for CryptoMKT
 
-### Input Parameters
+Version: 1.2.16
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+There are no environment variables for this adapter.
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                        Options                         | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [ticker](#crypto-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `ticker` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+**NOTE: the `ticker` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Input Params
 
-| Required? |          Name           |                               Description                               | Options | Defaults to  |
-| :-------: | :---------------------: | :---------------------------------------------------------------------: | :-----: | :----------: |
-|    ✅     | `base`, `from`, `coin`  |                   The symbol of the currency to query                   |         |              |
-|    ✅     | `quote`, `to`, `market` |                The symbol of the currency to convert to                 |         |              |
-|           |         `field`         | The object path to access the value that will be returned as the result |         | `last_price` |
+| Required? | Name  |        Aliases         |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `fsym` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to`, `tsym` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
-  "data": { "coin": "BTC", "market": "ARS" }
+  "data": {
+    "endpoint": "crypto",
+    "resultPath": "last",
+    "base": "BTC",
+    "quote": "ARS"
+  },
+  "rateLimitMaxAge": 6666
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "status": "success",
-    "data": [
-      {
-        "timestamp": "2020-10-06T10:51:51.332281",
-        "market": "BTCARS",
-        "bid": "1559980",
-        "ask": "1578940",
-        "last_price": "1559980",
-        "low": "1530000",
-        "high": "1595500",
-        "volume": "3.754635486362988398"
-      }
-    ],
-    "result": 1559980
-  },
-  "result": 1559980,
-  "statusCode": 200
+  "result": 12396935
 }
 ```
+
+---

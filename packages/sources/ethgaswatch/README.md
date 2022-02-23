@@ -1,30 +1,55 @@
-# Chainlink External Adapter for EtgGasWatch
+# Chainlink External Adapter for EthGasWatch
 
-### Input Parameters
+Version: 1.2.16
 
-| Required? |   Name   |     Description     |            Options             | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |        Default         |
+| :-------: | :----------: | :---------: | :----: | :-----: | :--------------------: |
+|           | API_ENDPOINT |             | string |         | `https://ethgas.watch` |
 
 ---
 
-## Gas Price Endpoint
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
+
+---
+
+## Gasprice Endpoint
+
+`gasprice` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name   |    Description    |             Options              | Defaults to |
-| :-------: | :-----: | :---------------: | :------------------------------: | :---------: |
-|    🟡     | `speed` | The desired speed | `slow`,`normal`,`fast`,`instant` |   `fast`    |
+| Required? | Name  | Aliases |    Description    |  Type  |               Options               | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :---------------: | :----: | :---------------------------------: | :-----: | :--------: | :------------: |
+|           | speed |         | The desired speed | string | `fast`, `instant`, `normal`, `slow` | `fast`  |            |                |
 
-### Output Format
+### Example
+
+Request:
 
 ```json
 {
-  "jobRunID": "1",
-  "result": 33,
-  "statusCode": 200,
+  "id": "1",
   "data": {
-    "result": 33
+    "endpoint": "gasprice",
+    "speed": "fast"
   }
 }
 ```
+
+Response:
+
+```json
+{
+  "result": 170
+}
+```
+
+---
