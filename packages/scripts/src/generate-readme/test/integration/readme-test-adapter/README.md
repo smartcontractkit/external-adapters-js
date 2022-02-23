@@ -50,37 +50,7 @@ Address objects within `addresses` have the following properties:
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "balance",
-    "dataPath": "addresses",
-    "addresses": [
-      {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
-      }
-    ]
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": [
-    {
-      "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-      "chain": "mainnet",
-      "coin": "btc",
-      "balance": "2188"
-    }
-  ]
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -102,56 +72,7 @@ Supported names for this endpoint are: `marketcap`, `mc`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "marketcap",
-    "resultPath": "marketcap",
-    "base": "BTC",
-    "quote": "USD",
-    "coinid": 1
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": 1000000000
-}
-```
-
-<details>
-<summary>Additional Examples</summary>
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "mc",
-    "resultPath": "marketcap",
-    "base": "BTC",
-    "quote": "USD",
-    "coinid": 2
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": 1000000000
-}
-```
-
-</details>
+There are no examples for this endpoint.
 
 ---
 
@@ -170,55 +91,6 @@ Supported names for this endpoint are: `convert`, `price`.
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "price",
-    "resultPath": "price",
-    "base": "BTC",
-    "quote": "USD",
-    "amount": 1
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": 123456
-}
-```
-
-<details>
-<summary>Additional Examples</summary>
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "convert",
-    "resultPath": "price",
-    "base": "BTC",
-    "quote": "USD",
-    "amount": 10
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "result": 123456
-}
-```
-
-</details>
+There are no examples for this endpoint.
 
 ---

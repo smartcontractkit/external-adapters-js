@@ -19,9 +19,6 @@ const testEnvOverrides = {
 const genSig =
   'This README was generated automatically. Please see [scripts](../../scripts) for more info.'
 
-export const genSigGrep =
-  'This README was generated automatically\\. Please see \\[scripts\\]\\(\\.\\.\\/\\.\\.\\/scripts\\) for more info\\.'
-
 const exampleTextHeader = '### Example\n'
 
 const noExampleText = 'There are no examples for this endpoint.'
@@ -199,7 +196,7 @@ export class ReadmeGenerator {
       // If not skipping tests, run through yarn test with testEnvOverrides variables
       if (this.verbose)
         console.log(`${this.adapterPath}: Running integration tests to get updated I/O examples`)
-
+      console.log({ p: this.integrationTestPath })
       const testOutput = shell
         .exec(`yarn test ${this.integrationTestPath}`, {
           fatal: true,

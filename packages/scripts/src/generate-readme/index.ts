@@ -1,9 +1,9 @@
 import * as shell from 'shelljs'
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
-import { Adapter, Blacklist, BooleanMap, MappedAdapters } from './types'
+import { Adapter, Blacklist, BooleanMap } from './types'
 
-import { ReadmeGenerator, genSigGrep, getJsonFile } from './generator'
+import { ReadmeGenerator, getJsonFile } from './generator'
 
 const pathToBlacklist = 'packages/scripts/src/generate-readme/readmeBlacklist.json'
 
