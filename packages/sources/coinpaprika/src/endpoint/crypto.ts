@@ -76,6 +76,22 @@ export const inputParameters: InputParameters = {
   },
 }
 
+export const endpointOverride = (request: AdapterRequest): string | null => {
+  /*
+     WARNING:
+     ALUSD has been removed from /tickers. Coinpaprika is adding a custom /tickers endpoint.
+     Remove this kludge once the new endpoint is available.
+  */
+
+  const validator = new Validator(request, inputParameters)
+  if (
+    !Array.isArray(validator.validated.data.base) &&
+    validator.validated.data.base?.toUpperCase() === 'ALUSD'
+  )
+    return 'crypto-single'
+  return null
+}
+
 interface RequestedData {
   symbol?: string
   coinid?: string
