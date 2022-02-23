@@ -2,6 +2,7 @@ import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/type
 import { Config } from '../../config'
 import * as view from '@chainlink/terra-view-function-adapter'
 import { Validator } from '@chainlink/ea-bootstrap'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 
 export const FROM = 'BLUNA'
 export const INTERMEDIARY_TOKEN_DECIMALS = 8

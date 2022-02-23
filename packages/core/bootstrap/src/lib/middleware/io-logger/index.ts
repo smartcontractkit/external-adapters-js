@@ -1,7 +1,11 @@
-import type { Middleware, AdapterRequest, AdapterErrorLog } from '@chainlink/types'
+import type { Middleware, AdapterRequest, AdapterErrorLog } from '../../../types'
 import { logger as Logger } from '../../modules'
 import { getFeedId } from '../../metrics/util'
 
+/**
+  Adds additional logs for Input and Output when log level is "debug" or "trace".
+  When log level is "trace" the raw errors are logged.
+*/
 export const withIOLogger: Middleware =
   async (execute, context) => async (input: AdapterRequest) => {
     Logger.debug('Input: ', { input })

@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Validator } from '.'
-import {
+import type {
   AdapterRequest,
   Config,
   APIEndpoint,
@@ -7,7 +7,7 @@ import {
   InputParameters,
   AdapterContext,
   MakeResultPath,
-} from '@chainlink/types'
+} from '../../types'
 import { logger } from '../modules'
 
 export const baseInputParameters: InputParameters = {
@@ -92,7 +92,7 @@ const selectEndpoint = <C extends Config>(
   if (apiEndpoint.endpointOverride) {
     const overridenEndpoint = apiEndpoint.endpointOverride(request)
     if (overridenEndpoint) apiEndpoint = findSupportedEndpoint(apiEndpoints, overridenEndpoint)
-    if (request?.data?.endpoint) request.data.endpoint = overridenEndpoint
+    if (request?.data?.endpoint && overridenEndpoint) request.data.endpoint = overridenEndpoint
 
     if (!apiEndpoint)
       throw new AdapterError({

@@ -1,14 +1,14 @@
-import {
+import type {
   AdapterContext,
   AdapterRequest,
   AdapterResponse,
   MakeWSHandler,
   Middleware,
-} from '@chainlink/types'
-import { Store } from 'redux'
+} from '../../../types'
+import type { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
-import { RootState } from './reducer'
+import type { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
 

@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, UnknownWSMessage } from '../../../types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
 import { logger } from '../../modules'
 import { getHashOpts, hash } from '../../util'
@@ -17,7 +17,7 @@ import * as actions from './actions'
  * The structure of which may change with every adapter, so we need to
  * use exclude mode to handle dynamically changing properties.
  */
-export const getSubsId = (subscriptionMsg: AdapterRequest): string =>
+export const getSubsId = (subscriptionMsg: UnknownWSMessage | AdapterRequest): string =>
   hash(subscriptionMsg, getHashOpts(), 'exclude')
 
 export interface ConnectionsState {
@@ -28,9 +28,11 @@ export interface ConnectionsState {
       active: boolean
       connecting: number
       wasEverConnected?: boolean
-      connectionParams?: {
-        [T: string]: string
-      }
+      connectionParams?:
+        | UnknownWSMessage
+        | {
+            [T: string]: string
+          }
       requestId: number
       isOnConnectChainComplete: boolean
     }
@@ -137,7 +139,7 @@ export interface SubscriptionsState {
       subscribing: number
       input: AdapterRequest
       context: AdapterContext
-      subscriptionParams?: any
+      subscriptionParams?: Record<string, unknown> | UnknownWSMessage
       connectionKey: string
       shouldNotRetry?: boolean
       lastUpdatedAt?: number
@@ -208,7 +210,9 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
 
     builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const subscriptionMsg = action.payload.subscriptionMsg
+      if (!subscriptionMsg) return
+      const key = getSubsId(subscriptionMsg)
       if (state.all[key]) {
         state.all[key].shouldNotRetry = action.payload.shouldNotRetrySubscription
       }

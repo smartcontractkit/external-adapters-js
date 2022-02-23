@@ -1,7 +1,7 @@
 import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
 import { getEnv, parseBool } from '../../util'
 import { logger } from '../../modules'
-import { DEFAULT_CACHE_ENABLED } from '../cache'
+import { DEFAULT_CACHE_ENABLED } from '../../middleware/cache'
 
 export const DEFAULT_RATE_LIMIT_ENABLED = true
 

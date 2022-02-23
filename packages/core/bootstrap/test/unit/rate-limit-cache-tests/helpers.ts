@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, Execute } from '../../../src/types'
 import { createStore, combineReducers, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
 import { withMiddleware } from '../../../src/index'
@@ -6,7 +6,7 @@ import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
 import * as cacheWarmer from '../../../src/lib/middleware/cache-warmer'
 import * as rateLimit from '../../../src/lib/middleware/rate-limit'
-import { get } from '../../../src/lib/middleware/rate-limit/config'
+import { get } from '../../../src/lib/config/provider-limits/config'
 
 export const newStore = () => {
   const initState = { cacheWarmer: {}, rateLimit: {} }

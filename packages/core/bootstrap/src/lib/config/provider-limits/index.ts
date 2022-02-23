@@ -72,7 +72,7 @@ const getProviderLimits = (
       `Rate Limit: "${provider}" doesn't have any configuration for ${protocol} in limits.json`,
     )
 
-  let limitsConfig = protocolConfig[tier.toLowerCase()]
+  let limitsConfig = protocolConfig[tier]
 
   if (!limitsConfig) {
     logger.debug(

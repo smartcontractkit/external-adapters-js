@@ -1,5 +1,5 @@
 import { getEnv, parseBool } from '../../util'
-import { WSConfig } from './types'
+import type { WSConfig } from './types'
 
 const ENV_WS_ENABLED = 'WS_ENABLED'
 

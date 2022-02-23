@@ -1,8 +1,10 @@
 import * as client from 'prom-client'
 import { parseBool } from '../util'
-import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer/config'
 import * as util from './util'
-import { Middleware, AdapterRequest, AdapterMetricsMeta } from '@chainlink/types'
+import type { Middleware, AdapterRequest, AdapterMetricsMeta } from '../../types'
+import * as cacheWarmer from '../middleware/cache-warmer'
+
+export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
 
 export const setupMetrics = (name: string): void => {
   client.collectDefaultMetrics()
@@ -11,8 +13,6 @@ export const setupMetrics = (name: string): void => {
     app_version: process.env.npm_package_version,
   })
 }
-
-export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
 
 export const withMetrics: Middleware =
   async (execute, context) => async (input: AdapterRequest) => {
@@ -23,7 +23,7 @@ export const withMetrics: Middleware =
 
     const recordMetrics = () => {
       const labels: Parameters<typeof httpRequestsTotal.labels>[0] = {
-        is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
+        is_cache_warming: String(input.id === cacheWarmer.WARMUP_REQUEST_ID),
         method: 'POST',
         feed_id: feedId,
       }
@@ -47,10 +47,7 @@ export const withMetrics: Middleware =
       const result = await execute({ ...input, metricsMeta }, context)
       record({
         statusCode: result.statusCode,
-        type:
-          result.data.maxAge || (result as any).maxAge
-            ? HttpRequestType.CACHE_HIT
-            : HttpRequestType.DATA_PROVIDER_HIT,
+        type: result.data.maxAge ? HttpRequestType.CACHE_HIT : HttpRequestType.DATA_PROVIDER_HIT,
       })
       return { ...result, metricsMeta: { ...result.metricsMeta, ...metricsMeta } }
     } catch (error) {

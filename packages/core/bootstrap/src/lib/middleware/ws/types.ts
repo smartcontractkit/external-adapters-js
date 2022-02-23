@@ -2,12 +2,7 @@ export interface WSConfig {
   /** Websockets enabled or disabled*/
   enabled: boolean
   /** Info about the connection */
-  connectionInfo: {
-    /**
-     * A stable (does not change) key that is from an environment variable
-     */
-    key: string
-  }
+  connectionInfo: WSConnectionInfo
   /** Maximum amount of parallel connections */
   connectionLimit: number
   /** Number of ms if no data received this connection is considered dead */
@@ -31,12 +26,6 @@ export interface WSConfig {
 }
 
 export interface WSConnectionInfo {
-  /**
-   * @see WSConfig['connectionInfo']['key']
-   */
-  key: WSConfig['connectionInfo']['key']
-  /**
-   * @see WSHandler['connection']['url']
-   */
+  key: string
   url?: string
 }

@@ -1,4 +1,4 @@
-import { AdapterContext, Execute } from '@chainlink/types'
+import type { AdapterContext, Execute } from '../../../src/types'
 import { useFakeTimers } from 'sinon'
 import { defaultOptions, withCache } from '../../src/lib/middleware/cache'
 import { LocalLRUCache } from '../../src/lib/middleware/cache/local'

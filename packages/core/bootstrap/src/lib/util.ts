@@ -1,9 +1,14 @@
-import { AdapterImplementation, AdapterRequest } from '@chainlink/types'
+import type { AdapterImplementation, AdapterRequest, UnknownWSMessage } from '../types'
+import type { CacheEntry } from './middleware/cache/types'
 import { Decimal } from 'decimal.js'
-import { flatMap, values, pick, omit } from 'lodash'
+import { flatMap, values, pick, omit, List } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
-import { CacheEntry } from './middleware/cache/types'
+
+export const isString = (value: unknown): boolean =>
+  typeof value === 'string' || value instanceof String
+
+export const isNumber = (value: unknown): boolean => typeof value === 'number'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -11,15 +16,18 @@ export const isObject = (o: unknown): boolean =>
 export const isArray = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o)
 
-export const parseBool = (value: any): boolean => {
+export const parseBool = (value: unknown): boolean => {
+  if (value === true) return true
   if (!value) return false
-  const _val = value.toString().toLowerCase()
-  return (_val === 'true' || _val === 'false') && _val === 'true'
+  if (!isString(value) && !isNumber(value)) return false
+
+  const str = `${value}`.toUpperCase().trim()
+  return !['FALSE', 'NO', '0'].includes(str)
 }
 
 // convert string values into Numbers where possible (for incoming query strings)
-export const toObjectWithNumbers = (obj: any) => {
-  const toNumber = (v: any) => (isNaN(v) ? v : Number(v))
+export const toObjectWithNumbers = (obj: Record<string, unknown>): Record<string, unknown> => {
+  const toNumber = (v: unknown) => (isNaN(Number(v)) ? v : Number(v))
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, toNumber(v)]))
 }
 
@@ -63,8 +71,12 @@ export const delay = (ms: number): Promise<number> =>
  * @param max The maximum back-off in ms
  * @param coefficient The base multiplier
  */
-export const exponentialBackOffMs = (retryCount = 1, interval = 100, max = 1000, coefficient = 2) =>
-  Math.min(max, interval * coefficient ** (retryCount - 1))
+export const exponentialBackOffMs = (
+  retryCount = 1,
+  interval = 100,
+  max = 1000,
+  coefficient = 2,
+): number => Math.min(max, interval * coefficient ** (retryCount - 1))
 
 export const getWithCoalescing = async ({
   get,
@@ -76,7 +88,7 @@ export const getWithCoalescing = async ({
   isInFlight: (retryCount: number) => Promise<boolean>
   retries: number
   interval: (retryCount: number) => number
-}) => {
+}): Promise<CacheEntry | undefined> => {
   const _self = async (_retries: number): Promise<undefined | CacheEntry> => {
     if (_retries === 0) return
     const retryCount = retries - _retries + 1
@@ -207,11 +219,15 @@ export const excludableInternalAdapterRequestProperties = [
   'includes',
 ]
 
-export const getKeyData = (data: AdapterRequest) =>
-  omit(
+export const getKeyData = (
+  data: AdapterRequest | UnknownWSMessage,
+): Partial<Partial<AdapterRequest | UnknownWSMessage>> => {
+  if (typeof data === 'string') return data
+  return omit(
     pick(data, includableAdapterRequestProperties),
     excludableInternalAdapterRequestProperties.map((property) => `data.${property}`),
   )
+}
 
 export type HashMode = 'include' | 'exclude'
 /**
@@ -226,7 +242,7 @@ export type HashMode = 'include' | 'exclude'
  * @returns string
  */
 export const hash = (
-  data: AdapterRequest,
+  data: AdapterRequest | UnknownWSMessage,
   hashOptions: Required<Parameters<typeof objectHash>>['1'],
   mode: HashMode = 'include',
 ): string => {
@@ -258,20 +274,20 @@ export const isDebugLogLevel = (): boolean => {
 /**
  * @description Calculates all possible permutations without repetition of a certain size.
  *
- * @param collection A collection of distinct values to calculate the permutations from.
+ * @param object A collection of distinct values to calculate the permutations from.
  * @param n The number of values to combine.
  *
  * @returns Array of permutations
  */
-const permutations = (collection: any, n: any) => {
-  const array = values(collection)
+const permutations = (object: List<string>, n: number) => {
+  const array = values(object)
   if (array.length < n) return []
 
-  const recur = (array: any, n: any) => {
+  const recur = (array: string[], n: number) => {
     if (--n < 0) return [[]]
 
-    const permutations: any[] = []
-    array.forEach((value: any, index: any, array: any) => {
+    const permutations: string[][] = []
+    array.forEach((value, index, array) => {
       array = array.slice()
       array.splice(index, 1)
       recur(array, n).forEach((permutation) => {
@@ -294,7 +310,7 @@ const permutations = (collection: any, n: any) => {
  * @returns Array of permutations
  */
 export const permutator = (options: string[], delimiter?: string): string[] | string[][] => {
-  const output: string[][] = flatMap(options, (_: any, i: any, a: any) => permutations(a, i + 1))
+  const output = flatMap(options, (_, i, a) => permutations(a, i + 1))
   const join = (combos: string[][]) => combos.map((p) => p.join(delimiter))
   return typeof delimiter === 'string' ? join(output) : output
 }

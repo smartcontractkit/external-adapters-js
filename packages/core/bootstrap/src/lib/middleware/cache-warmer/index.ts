@@ -1,5 +1,5 @@
-import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
-import { Store } from 'redux'
+import type { AdapterRequest, Execute, MakeWSHandler, Middleware } from '../../../types'
+import type { Store } from 'redux'
 import { withMiddleware } from '../../../index'
 import { logger } from '../../modules'
 import { getFeedId } from '../../metrics/util'
@@ -8,10 +8,11 @@ import { getWSConfig } from '../ws/config'
 import { getSubsId, RootState as WSState } from '../ws/reducer'
 import { separateBatches } from '../ws/utils'
 import * as actions from './actions'
-import { CacheWarmerState } from './reducer'
+import type { CacheWarmerState } from './reducer'
 import { getSubscriptionKey } from './util'
 import { DEFAULT_CACHE_ENABLED } from '../cache'
 
+export { WARMUP_REQUEST_ID } from './config'
 export * as actions from './actions'
 export * as epics from './epics'
 export * as reducer from './reducer'
@@ -23,6 +24,9 @@ interface WSInput {
   makeWSHandler?: MakeWSHandler
 }
 
+/**
+  Premptively polls a data provider to keep data in the cache fresh
+*/
 export const withCacheWarmer =
   (warmerStore: Store<CacheWarmerState>, middleware: Middleware[], ws: WSInput) =>
   (rawExecute: Execute): Middleware =>
@@ -46,7 +50,9 @@ export const withCacheWarmer =
       result: {
         jobRunID: '1',
         statusCode: 200,
-        data: {},
+        data: {
+          statusCode: 200,
+        },
         result: 1,
       },
     }
@@ -57,12 +63,14 @@ export const withCacheWarmer =
 
       let batchMemberHasActiveWSSubscription = false
       await separateBatches(input, async (singleInput: AdapterRequest) => {
-        const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
+        const subscriptionMessage = wsHandler.subscribe(singleInput)
+        const wsSubscriptionKey = subscriptionMessage ? getSubsId(subscriptionMessage) : null
         const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
 
         // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
-        const isActiveWSSubscription =
-          ws.store.getState().subscriptions.all[wsSubscriptionKey]?.active
+        const isActiveWSSubscription = wsSubscriptionKey
+          ? ws.store.getState().subscriptions.all[wsSubscriptionKey]?.active
+          : false
         // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
         const isActiveCWSubsciption = warmerStore.getState().subscriptions[cacheWarmerKey]
         if (isActiveWSSubscription) {

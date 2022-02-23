@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest, BigNumberish } from '../../../types'
 import { omit } from 'lodash'
 import { AnyAction } from 'redux'
 import { combineEpics, createEpicMiddleware, Epic } from 'redux-observable'
@@ -27,6 +27,7 @@ import {
   warmupStopped,
   WarmupStoppedPayload,
   warmupSubscribed,
+  WarmupSubscribedPayload,
   warmupSubscribedMultiple,
   warmupSubscriptionTimeoutReset,
   warmupUnsubscribed,
@@ -41,7 +42,7 @@ import {
   WARMUP_POLL_OFFSET,
 } from './config'
 import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
-import { getTTL, getMaxAgeOverride } from '../cache/ttl'
+import { getTTL, getMaxAgeOverride } from '../cache/utils'
 import * as metrics from './metrics'
 import { getFeedId } from '../../metrics/util'
 import { PayloadAction } from '@reduxjs/toolkit'
@@ -50,10 +51,7 @@ export interface EpicDependencies {
   config: Config
 }
 
-export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
-  action$,
-  state$,
-) => {
+export const executeHandler: Epic<AnyAction, AnyAction, RootState> = (action$, state$) => {
   const warmupExecute$ = action$.pipe(filter(warmupExecute.match))
   const [batchExecute$, execute$] = partition(
     warmupExecute$,
@@ -66,14 +64,15 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       const actionsToDispatch: AnyAction[] = []
 
       const batchablePropertyPath = payload.result?.debug?.batchablePropertyPath
+      if (!batchablePropertyPath) return from(actionsToDispatch)
 
       // We want the key to be consistent. So we omit batchable paths.
-      // Otherwise it would change on every new child
+      // Otherwise it would change on every new childx
       const batchWarmerSubscriptionKey = getSubscriptionKey(
         omit(
           payload,
           batchablePropertyPath?.map(({ name }) => `data.${name}`),
-        ),
+        ) as WarmupSubscribedPayload,
       )
 
       const existingBatchWarmer = state.cacheWarmer.subscriptions[batchWarmerSubscriptionKey]
@@ -121,16 +120,12 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // If batch warmer does not exist, start it
       else {
         // If incoming batchable request parameters aren't an array, transform into one
-        let batchWarmerData = {
-          ...payload.data,
-          resultPath: undefined,
-        }
+        // Allow resultPath to fill from endpoint.endpointResultPaths
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { resultPath, ...batchWarmerData } = payload.data
         for (const { name } of batchablePropertyPath || []) {
           if (!Array.isArray(batchWarmerData[name]))
-            batchWarmerData = {
-              ...batchWarmerData,
-              [name]: [batchWarmerData[name]],
-            }
+            batchWarmerData[name] = Array(batchWarmerData[name] as BigNumberish)
         }
 
         actionsToDispatch.push(
@@ -153,7 +148,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
   return merge(subscribeBatch$, subscribeIndividual$)
 }
 
-export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies> = (
+export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
   action$,
   state$,
   { config },
@@ -220,7 +215,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
 /**
  * Handle warmup response request events
  */
-export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, state$) =>
+export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (action$, state$) =>
   action$.pipe(
     // this pipeline will execute when we have a request to warm up an adapter
     filter(warmupRequested.match),
@@ -285,7 +280,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, any> = (action$, s
   )
 
 // we can combine this into one of the above epics if we have performance issues later on
-export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies> = (
+export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
   action$,
   state$,
   { config },
@@ -293,11 +288,11 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
   const unsubscribeOnFailure$ = action$.pipe(
     filter(warmupFailed.match),
     withLatestFrom(state$),
-    filter(
-      ([{ payload }, state]) =>
-        (state.cacheWarmer.warmups[payload.key]?.errorCount ?? 0 >= config.unhealthyThreshold) &&
-        config.unhealthyThreshold !== -1,
-    ),
+    filter(([{ payload }, state]) => {
+      if (config.unhealthyThreshold < 0) return false
+      const errorCount = state.cacheWarmer.warmups[payload.key]?.errorCount ?? 0
+      return errorCount >= config.unhealthyThreshold
+    }),
     map(([{ payload }, state]) => {
       const isBatched = !!state.cacheWarmer.subscriptions[payload.key]?.childLastSeenById
       return warmupUnsubscribed({
@@ -356,7 +351,8 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
     withLatestFrom(state$),
     filter(([{ payload }, state]) => {
       for (const { name } of payload.batchablePropertyPath) {
-        if (state.cacheWarmer.subscriptions[payload.parent].origin[name].length === 0) return true
+        const property = state.cacheWarmer.subscriptions[payload.parent].origin[name]
+        if (typeof property === 'string' && property.length === 0) return true
       }
       return false
     }),
@@ -379,6 +375,11 @@ export const rootEpic = combineEpics(
   warmupRequestHandler,
 )
 
-export const epicMiddleware = createEpicMiddleware<any, any, any, EpicDependencies>({
+export const epicMiddleware = createEpicMiddleware<
+  AnyAction,
+  AnyAction,
+  RootState,
+  EpicDependencies
+>({
   dependencies: { config: get() },
 })

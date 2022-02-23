@@ -1,8 +1,8 @@
-import { AdapterRequest, AdapterContext, Execute } from '@chainlink/types'
+import type { AdapterRequest, AdapterContext, Execute } from '../../src/types'
 import { createStore, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
 import * as rateLimit from '../../src/lib/middleware/rate-limit'
-import { Config, get } from '../../src/lib/middleware/rate-limit/config'
+import { Config, get } from '../../src/lib/config/provider-limits/config'
 import {
   IntervalNames,
   Intervals,
@@ -80,7 +80,7 @@ describe('Rate Limit Middleware', () => {
     process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.RATE_LIMIT_API_PROVIDER = 'coingecko'
-    context.rateLimit = get()
+    context.limits = get()
   })
 
   beforeEach(() => {
@@ -145,7 +145,7 @@ describe('Rate Limit Middleware', () => {
       const input = { id: '6', data: { base: 1 } }
 
       const execute = await rateLimit.withRateLimit(store)(
-        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.rateLimit, store, input)),
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits, store, input)),
         context,
       )
       await execute(input, context)
@@ -158,7 +158,7 @@ describe('Rate Limit Middleware', () => {
       for (let i = 0; i <= 5; i++) {
         const input = { id: String(i), data: { base: 1 } }
         const execute = await withRateLimit(
-          expectRequestToBe('rateLimitMaxAge', getMaxAge(context.rateLimit, store, input)),
+          expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits, store, input)),
           context,
         )
         await execute(input, context)
@@ -172,7 +172,7 @@ describe('Rate Limit Middleware', () => {
       for (let i = 1; i <= 5; i++) {
         const input = { id: String(i), data: { base: i } }
         const execute = await withRateLimit(
-          expectRequestToBe('rateLimitMaxAge', getMaxAge(context.rateLimit, store, input)),
+          expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits, store, input)),
           context,
         )
         await execute(input, context)
@@ -185,7 +185,7 @@ describe('Rate Limit Middleware', () => {
       await execute({ id: '1', data: { base: 1 } }, context)
 
       execute = await withRateLimit(
-        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.rateLimit, store, input)),
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits, store, input)),
         context,
       )
       await execute({ id: '1', data: { base: 1 } }, context)
@@ -203,14 +203,14 @@ describe('Rate Limit Middleware', () => {
 
       const input = { id: '1', data: { base: 11 } }
       let execute = await withRateLimit(
-        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.rateLimit, store, input)),
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits, store, input)),
         context,
       )
       await execute(input, context)
 
       const input2 = { id: '1', data: { base: uniquePair } }
       execute = await withRateLimit(
-        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.rateLimit, store, input2)),
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits, store, input2)),
         context,
       )
       await execute(input2, context)

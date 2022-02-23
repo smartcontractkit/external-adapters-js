@@ -1,4 +1,4 @@
-import { AdapterErrorResponse } from '@chainlink/types'
+import type { AdapterErrorResponse } from '../../types'
 
 export class AdapterError extends Error {
   jobRunID: string
@@ -6,9 +6,9 @@ export class AdapterError extends Error {
   statusCode: number
   name: string
   message: string
-  cause: any
+  cause: unknown
   url?: string
-  errorResponse: any
+  errorResponse: unknown
   feedID?: string
   providerStatusCode?: number
 

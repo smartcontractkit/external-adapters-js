@@ -1,6 +1,5 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '../../../src/types'
 import * as util from '../../../src/lib/metrics/util'
-import * as crypto from 'crypto'
 
 describe('Bootstrap/Metrics Utils', () => {
   describe('Get Feed ID', () => {

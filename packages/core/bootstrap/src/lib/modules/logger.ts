@@ -15,7 +15,7 @@ const sensitiveKeys = [
   /api[-._]?key/i,
 ]
 
-export const censor = (v: string) => {
+export const censor = (v: string): string => {
   try {
     const url = new URL(v)
     url.searchParams.forEach((_, name) => {

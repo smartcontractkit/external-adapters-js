@@ -1,12 +1,14 @@
-import {
+import type {
   AdapterErrorResponse,
   Override,
   Includes,
   IncludePair,
   InputParameter,
   InputParameters,
-} from '@chainlink/types'
-import { merge } from 'lodash'
+  AdapterRequest,
+  NestableValue,
+} from '../../types'
+import { merge, cloneDeep } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError } from './error'
 import presetTokens from '../config/overrides/presetTokens.json'
@@ -15,43 +17,47 @@ import { baseInputParameters } from './selector'
 
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
 
-type InputType = {
-  id?: string
-  data?: any
+export interface ValidatedData extends AdapterRequest {
+  overrides?: Override
+  tokenOverrides?: Override
+  includes?: Includes[]
 }
 export interface ValidatorOptions {
   shouldThrowError?: boolean
-  includes?: any[]
-  overrides?: any
+  includes?: Includes[]
+  overrides?: Record<string, Record<string, string>>
 }
 export class Validator {
-  input: InputType
+  input: AdapterRequest
   inputConfigs: InputParameters
-  inputOptions: Record<string, any[]>
+  inputOptions: Record<string, unknown[]>
   validatorOptions: ValidatorOptions
-  validated: any
+  validated: ValidatedData
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
+
   constructor(
-    input: InputType = { id: '1', data: {} },
-    inputConfigs = {},
-    inputOptions = {},
+    input: AdapterRequest = { id: '1', data: {} },
+    inputConfigs: InputParameters = {},
+    inputOptions: Record<string, unknown[]> = {},
     validatorOptions: ValidatorOptions = {},
   ) {
-    this.input = { ...input }
+    this.input = cloneDeep(input)
+
     if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
-    if (!this.input.data) this.input.data = {}
+    if (!this.input.data) this.input.data = {} //
+
     this.inputConfigs = { ...baseInputParameters, ...inputConfigs }
     this.inputOptions = { ...inputOptions }
     this.validatorOptions = {
       shouldThrowError: true,
-      includes: [],
-      overrides: {},
       ...validatorOptions,
     }
     this.validated = { id: this.input.id, data: {} }
+
     this.validateInput()
-    this.validateOverrides('overrides', this.validatorOptions.overrides)
+    if (this.validatorOptions.overrides)
+      this.validateOverrides('overrides', this.validatorOptions.overrides)
     this.validateOverrides('tokenOverrides', presetTokens)
     this.validateIncludeOverrides()
   }
@@ -80,13 +86,17 @@ export class Validator {
     }
   }
 
-  validateOverrides(path: 'overrides' | 'tokenOverrides', preset: Record<string, any>): void {
+  validateOverrides(
+    path: 'overrides' | 'tokenOverrides',
+    preset: Record<string, Record<string, string>>,
+  ): void {
     try {
+      const presetMap = overrideObjectToMap(preset)
       if (!this.input.data?.[path]) {
-        this.validated[path] = this.formatOverride(preset)
+        this.validated[path] = this.formatOverride(presetMap)
         return
       }
-      this.validated[path] = this.formatOverride(merge({ ...preset }, this.input.data[path]))
+      this.validated[path] = this.formatOverride(merge({ ...presetMap }, this.input.data[path]))
     } catch (e) {
       this.parseError(e)
     }
@@ -119,25 +129,29 @@ export class Validator {
     }
   }
 
-  overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
-    const defaultSymbol = symbol || this.validated.data.base
-    if (!defaultSymbol) this.throwInvalid(`Required parameter not supplied: base`)
+  overrideSymbol = (adapter: string, symbol = this.validated.data.base): NestableValue => {
+    if (symbol === undefined) throw this.throwInvalid(`Required parameter not supplied: base`)
+    if (!this.validated.overrides) return symbol
 
-    // TODO: Will never be reached, because the presetSymbols are used as default overrides
-    if (!this.validated.overrides) return defaultSymbol
-
-    if (!Array.isArray(defaultSymbol))
-      return (
-        this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
-        defaultSymbol
-      )
-    const multiple: string[] = []
-    for (const sym of defaultSymbol) {
-      const overrided = this.validated.overrides.get(adapter.toLowerCase())?.get(sym.toLowerCase())
-      if (!overrided) multiple.push(sym)
-      else multiple.push(overrided)
+    if (typeof symbol === 'string') {
+      const lowercaseSymbol = symbol.toLowerCase()
+      return this.validated.overrides.get(adapter.toLowerCase())?.get(lowercaseSymbol) || symbol
     }
-    return multiple
+
+    if (Array.isArray(symbol)) {
+      const multiple: string[] = []
+      for (const sym of symbol) {
+        if (typeof sym === 'string') {
+          const overrides = this.validated.overrides.get(adapter.toLowerCase())
+          if (!overrides) continue
+          const overrided = overrides.get(sym.toLowerCase())
+          multiple.push(overrided ?? sym)
+        }
+      }
+      if (multiple.length) return multiple
+    }
+
+    throw this.throwInvalid(`Symbol overrides can only be done on strings`)
   }
 
   overrideToken = (symbol: string, network = 'ethereum'): string | undefined => {
@@ -161,7 +175,11 @@ export class Validator {
     return pairs[0].includes[0]
   }
 
-  overrideReverseLookup = (adapter: string, type: OverrideType, symbol: string): string => {
+  overrideReverseLookup = (
+    adapter: string,
+    type: Exclude<OverrideType, 'includes'>,
+    symbol: string,
+  ): string => {
     const overrides: Map<string, string> | undefined = this.validated?.[type]?.get(
       adapter.toLowerCase(),
     )
@@ -173,7 +191,7 @@ export class Validator {
     return originalSymbol || symbol
   }
 
-  formatOverride = (param: any): Override => {
+  formatOverride = (param: Override): Override => {
     const _throwInvalid = () =>
       this.throwInvalid(`Parameter supplied with wrong format: "override"`)
 
@@ -182,7 +200,7 @@ export class Validator {
     const _isValid = Object.values(param).every(isObject)
     if (!_isValid) _throwInvalid()
 
-    const _keyToLowerCase = (entry: [string, any]): [string, any] => {
+    const _keyToLowerCase = (entry: [string, string]): [string, string] => {
       return [entry[0].toLowerCase(), entry[1]]
     }
     return new Map(
@@ -192,7 +210,7 @@ export class Validator {
     )
   }
 
-  formatIncludeOverrides = (param: any): Override => {
+  formatIncludeOverrides = (param: Includes[]): Includes[] => {
     const _throwInvalid = () =>
       this.throwInvalid(`Parameter supplied with wrong format: "includes"`)
     if (!isArray(param)) _throwInvalid()
@@ -240,13 +258,13 @@ export class Validator {
             (!param ||
               Array.isArray(param) ||
               typeof param !== inputConfig.type ||
-              Object.keys(param).length === 0)
+              Object.keys(param as Record<string, unknown>).length === 0)
           )
             this.throwInvalid(`${key} parameter must be an object with at least one property`)
         }
 
         if (inputConfig.options) {
-          const tolcase = (o: any) => (typeof o === 'string' ? o.toLowerCase() : o)
+          const tolcase = (o: unknown) => (typeof o === 'string' ? o.toLowerCase() : o)
 
           const formattedOptions = inputConfig.options.map(tolcase)
           const formattedParam = tolcase(param)
@@ -278,10 +296,10 @@ export class Validator {
       }
     }
 
-    this.validated.data[key] = param
+    this.validated.data[key] = param as NestableValue
   }
 
-  validateOptionalParam(param: any, key: string, options: any[]): void {
+  validateOptionalParam(param: NestableValue | undefined, key: string, options: unknown[]): void {
     if (param && options) {
       if (!Array.isArray(options))
         this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
@@ -291,7 +309,7 @@ export class Validator {
     this.validated.data[key] = param
   }
 
-  validateRequiredParam(param: any, key: string, options: any[]): void {
+  validateRequiredParam(param: NestableValue | undefined, key: string, options: unknown[]): void {
     if (typeof param === 'undefined' || param === '')
       this.throwInvalid(`Required parameter not supplied: ${key}`)
     if (options) {
@@ -313,3 +331,14 @@ export class Validator {
     return inputParamKeys.find((k) => comparisonArray.includes(k))
   }
 }
+
+const overrideObjectToMap = (override: Record<string, Record<string, string>>) =>
+  new Map(
+    Object.entries(
+      Object.fromEntries(
+        Object.entries(override).map(([key, value]) => {
+          return [key, new Map(Object.entries(value))]
+        }),
+      ),
+    ),
+  )

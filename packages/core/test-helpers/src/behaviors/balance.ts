@@ -1,7 +1,7 @@
-import { Execute } from '@chainlink/types'
+import type { types } from '@chainlink/ea-bootstrap'
 import { serverErrors, successes, validationErrors } from '../helpers'
 
-function base(execute: Execute) {
+function base(execute: types.Execute) {
   describe('it should behave like a balance adapter', () => {
     const jobID = '1'
     validationErrors(

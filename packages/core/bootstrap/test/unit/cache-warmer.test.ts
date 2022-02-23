@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import type { AdapterRequest, AdapterResponse } from '../../src/types'
 import { DeepPartial } from 'redux'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { Subject } from 'rxjs'
@@ -15,7 +15,7 @@ import {
   warmupUnsubscriber,
 } from '../../src/lib/middleware/cache-warmer/epics'
 import { subscriptionsReducer } from '../../src/lib/middleware/cache-warmer/reducer'
-import { RootState, SubscriptionState } from '../../src/lib/middleware/cache-warmer/reducer'
+import type { RootState, SubscriptionState } from '../../src/lib/middleware/cache-warmer/reducer'
 
 let scheduler: TestScheduler
 

@@ -1,53 +1,57 @@
-import {
+import type {
   AdapterRequest,
   AdapterContext,
   Execute,
   ExecuteSync,
+  ExecuteHandler,
   MakeWSHandler,
   Middleware,
   APIEndpoint,
   Callback,
   Config,
-} from '@chainlink/types'
+} from './types'
 import { combineReducers, Store } from 'redux'
-import { Cache, withCache } from './lib/middleware/cache'
-import * as cacheWarmer from './lib/middleware/cache-warmer'
+import {
+  BurstLimit,
+  Cache,
+  CacheWarmer,
+  Debug,
+  IoLogger,
+  Normalize,
+  RateLimit,
+  StatusCode,
+  WebSocket,
+} from './lib/middleware'
 import { AdapterError, logger as Logger, Requester, Validator, Builder } from './lib/modules'
 import * as metrics from './lib/metrics'
-import * as RateLimit from './lib/middleware/rate-limit'
-import * as burstLimit from './lib/middleware/burst-limit'
-import * as ioLogger from './lib/middleware/io-logger'
-import * as statusCode from './lib/middleware/status-code'
-import * as debug from './lib/middleware/debugger'
-import * as normalize from './lib/middleware/normalize'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
 import * as util from './lib/util'
-import * as ws from './lib/middleware/ws'
-import http from 'http'
+
+export * from './types'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 
 const rootReducer = combineReducers({
-  burstLimit: burstLimit.reducer.rootReducer,
-  cacheWarmer: cacheWarmer.reducer.rootReducer,
+  burstLimit: BurstLimit.reducer.rootReducer,
+  cacheWarmer: CacheWarmer.reducer.rootReducer,
   rateLimit: RateLimit.reducer.rootReducer,
-  ws: ws.reducer.rootReducer,
+  ws: WebSocket.reducer.rootReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
 
-// Init store
+// Initialize Redux store
 const initState = { burstLimit: {}, cacheWarmer: {}, rateLimit: {}, ws: {} }
 export const store = configureStore(rootReducer, initState, [
-  cacheWarmer.epics.epicMiddleware,
-  ws.epics.epicMiddleware,
+  CacheWarmer.epics.epicMiddleware,
+  WebSocket.epics.epicMiddleware,
 ])
 
 // Run epics
-cacheWarmer.epics.epicMiddleware.run(cacheWarmer.epics.rootEpic)
-ws.epics.epicMiddleware.run(ws.epics.rootEpic)
+CacheWarmer.epics.epicMiddleware.run(CacheWarmer.epics.rootEpic)
+WebSocket.epics.epicMiddleware.run(WebSocket.epics.rootEpic)
 
 export const storeSlice = (slice: ReduxMiddleware): Store =>
   ({
@@ -61,24 +65,24 @@ export const makeMiddleware = <C extends Config>(
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ): Middleware[] => {
   const warmerMiddleware = [
-    withCache(storeSlice('burstLimit')),
+    Cache.withCache(storeSlice('burstLimit')),
     RateLimit.withRateLimit(storeSlice('rateLimit')),
-    statusCode.withStatusCode,
-    normalize.withNormalizedInput(endpointSelector),
+    StatusCode.withStatusCode,
+    Normalize.withNormalizedInput(endpointSelector),
   ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics] : [])
 
   return [
-    ioLogger.withIOLogger,
-    withCache(storeSlice('burstLimit')),
-    cacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
+    IoLogger.withIOLogger,
+    Cache.withCache(storeSlice('burstLimit')),
+    CacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
       store: storeSlice('ws'),
       makeWSHandler: makeWsHandler,
     })(execute),
-    ws.withWebSockets(storeSlice('ws'), makeWsHandler),
+    WebSocket.withWebSockets(storeSlice('ws'), makeWsHandler),
     RateLimit.withRateLimit(storeSlice('rateLimit')),
-    statusCode.withStatusCode,
-    normalize.withNormalizedInput(endpointSelector),
-  ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics, debug.withDebug] : [debug.withDebug])
+    StatusCode.withStatusCode,
+    Normalize.withNormalizedInput(endpointSelector),
+  ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics, Debug.withDebug] : [Debug.withDebug])
 }
 
 // Wrap raw Execute function with middleware
@@ -103,7 +107,6 @@ export const executeSync: ExecuteSync = async (
 ) => {
   try {
     const result = await execute(data, context)
-
     return callback(result.statusCode, result)
   } catch (error) {
     const feedID = metrics.util.getFeedId(data)
@@ -117,16 +120,6 @@ export const executeSync: ExecuteSync = async (
       ),
     )
   }
-}
-
-export type ExternalAdapter = {
-  execute: Execute
-  makeWsHandler?: MakeWSHandler
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint
-}
-
-export type ExecuteHandler = {
-  server: () => Promise<http.Server>
 }
 
 export const expose = <C extends Config>(

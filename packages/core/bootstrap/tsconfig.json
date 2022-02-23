@@ -2,9 +2,10 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "typeRoots": ["src/types.d.ts"]
   },
-  "include": ["src/**/*", "src/**/*.json"],
+  "include": ["src/**/*", "src/**/*.json", "src/index.d.ts"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
   "references": []
 }

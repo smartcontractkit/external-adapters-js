@@ -1,8 +1,8 @@
 import { omit } from 'lodash'
 import { WarmupExecutePayload, WarmupSubscribedPayload } from './actions'
 import { get } from './config'
-import { BatchableProperty, SubscriptionData } from './reducer'
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import type { SubscriptionData } from './reducer'
+import type { AdapterRequestData, AdapterResponse, BatchableProperty } from '../../../types'
 import { hash } from '../../util'
 
 const conf = get()
@@ -36,24 +36,20 @@ type GroupedBatches = {
 
 function groupBatchesByPath(
   batchablePropertyPath: BatchableProperty[],
-  origin: AdapterRequest['data'],
+  origin: AdapterRequestData,
 ): GroupedBatches {
   const batchesByPath: GroupedBatches = {}
   for (const { name, limit } of batchablePropertyPath) {
-    if (origin[name]) {
-      const batchedValues = origin[name]
-      if (limit) {
-        batchesByPath[name] = splitValuesIntoBatches(limit, batchedValues)
-      } else {
-        batchesByPath[name] = [batchedValues]
-      }
+    const batchedValues = origin[name] as any // TODO, log this
+    if (batchedValues) {
+      batchesByPath[name] = limit ? splitValuesIntoBatches(limit, batchedValues) : [batchedValues]
     }
   }
   return batchesByPath
 }
 
 function splitValuesIntoBatches(limit: number, values: string[]): BatchPath[] {
-  const batches = []
+  const batches: BatchPath[] = []
   let idx = 0
   while (idx < values.length) {
     const batch = values.slice(idx, Math.min(idx + limit, values.length))
@@ -93,21 +89,27 @@ export function concatenateBatchResults(
   result: AdapterResponse | null,
   latestResult: AdapterResponse,
 ): AdapterResponse {
-  if (!result) {
-    return latestResult
-  }
-  const mergedResult = JSON.parse(JSON.stringify(result))
+  if (!result) return latestResult
+
+  const mergedResult = JSON.parse(JSON.stringify(result)) as AdapterResponse
   const bases = Object.keys(latestResult.data).filter((base) => base !== 'results')
+
   for (const base of bases) {
-    if (mergedResult.data[base]) {
-      mergedResult.data[base] = {
-        ...mergedResult.data[base],
-        ...latestResult.data[base],
-      }
+    const previous = mergedResult.data[base]
+    const latest = latestResult.data[base]
+    if (previous && typeof previous === 'object' && typeof latest === 'object') {
+      const merged = {
+        ...previous,
+        ...latest,
+      } as Omit<AdapterResponse['data'], 'results'>['name']
+      mergedResult.data[base] = merged
     } else {
       mergedResult.data[base] = latestResult.data[base]
     }
   }
-  mergedResult.data.results = mergedResult.data.results.concat(latestResult.data.results)
+
+  if (latestResult.data.results)
+    mergedResult.data.results = mergedResult.data.results?.concat(latestResult.data.results)
+
   return mergedResult
 }

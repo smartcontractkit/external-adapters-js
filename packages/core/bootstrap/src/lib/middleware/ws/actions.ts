@@ -1,8 +1,8 @@
-import { AdapterContext, AdapterRequest, WSHandler } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, WSHandler, UnknownWSMessage } from '../../../types'
 import { createAction } from '@reduxjs/toolkit'
-import { WebSocketSubject } from 'rxjs/webSocket'
+import type { WebSocketSubject } from 'rxjs/webSocket'
 import { asAction } from '../../store'
-import { WSConfig, WSConnectionInfo } from './types'
+import type { WSConfig, WSConnectionInfo } from './types'
 
 /** CONNECTIONS */
 export interface WSConfigPayload {
@@ -32,7 +32,7 @@ export interface WSErrorPayload {
 
 export interface WSSaveFirstMessagePayload {
   subscriptionKey: string
-  message: any
+  message: UnknownWSMessage
 }
 
 export interface WSUpdateSubscriptionInputPayload {
@@ -42,13 +42,13 @@ export interface WSUpdateSubscriptionInputPayload {
 
 export interface WSRunOnConnectFunctions {
   wsHandler: WSHandler
-  wsSubject: WebSocketSubject<any>
+  wsSubject: WebSocketSubject<unknown>
   input: AdapterRequest
 }
 
 export interface WSSaveMessageToConnection {
   connectionKey: string
-  message: any
+  message: UnknownWSMessage
 }
 
 export const runOnConnectFunctions = createAction(
@@ -100,16 +100,16 @@ export const onConnectComplete = createAction(
 /** SUBSCRIPTIONS */
 export interface WSSubscriptionPayload {
   connectionInfo: WSConnectionInfo
-  subscriptionMsg: any
+  subscriptionMsg: UnknownWSMessage
   input: AdapterRequest
   context: AdapterContext
-  messageToSave?: any
-  filterMultiplex?: (message: any) => boolean
+  messageToSave?: UnknownWSMessage
+  filterMultiplex?: (message: UnknownWSMessage) => boolean
   shouldNeverUnsubscribe?: boolean
 }
 
 export interface WSSubscriptionErrorPayload extends WSErrorPayload {
-  subscriptionMsg?: any
+  subscriptionMsg?: UnknownWSMessage
   input?: AdapterRequest
   error?: unknown
   wsHandler: WSHandlerOverride
@@ -117,7 +117,7 @@ export interface WSSubscriptionErrorPayload extends WSErrorPayload {
 
 export interface WSSubscriptionErrorHandlerPayload {
   connectionInfo: WSConnectionInfo
-  subscriptionMsg?: any
+  subscriptionMsg?: UnknownWSMessage
   shouldNotRetrySubscription: boolean
   shouldNotRetryConnection: boolean
 }
@@ -149,7 +149,7 @@ export const unsubscribeFulfilled = createAction(
 
 /** MESSAGEs */
 export interface WSMessagePayload {
-  message: unknown
+  message: UnknownWSMessage
   subscriptionKey: string
   input: AdapterRequest
   context: AdapterContext
@@ -164,7 +164,7 @@ export const messageReceived = createAction('WS/MESSAGE_RECEIVED', asAction<WSMe
 export interface WSHandlerOverride extends WSHandler {
   connection: {
     url: string
-    protocol?: any
+    protocol?: string | string[]
   }
 }
 export interface WSConfigOverride extends WSConfigDetailedPayload {

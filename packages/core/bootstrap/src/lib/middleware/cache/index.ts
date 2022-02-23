@@ -1,10 +1,10 @@
-import {
+import type {
   AdapterContext,
   AdapterRequest,
   AdapterResponse,
   Execute,
   Middleware,
-} from '@chainlink/types'
+} from '../../../types'
 import { logger } from '../../modules'
 import { Store } from 'redux'
 import { reducer } from '../burst-limit'
@@ -18,12 +18,11 @@ import {
   uuid,
   hash,
 } from '../../util'
-import { getMaxAgeOverride, getTTL } from './ttl'
+import { getMaxAgeOverride, getTTL } from './utils'
 import * as local from './local'
-import { LocalOptions } from './local'
-import * as metrics from './metrics'
 import * as redis from './redis'
-import { CacheEntry } from './types'
+import * as metrics from './metrics'
+import type * as types from './types'
 
 const env = process.env
 
@@ -39,28 +38,7 @@ const DEFAULT_RC_MAX_RETRIES = 5
 
 export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
-export type Cache = redis.RedisCache | local.LocalLRUCache
-
-export interface CacheOptions {
-  instance?: Cache
-  enabled: boolean
-  cacheImplOptions: local.LocalOptions | redis.RedisOptions
-  cacheBuilder: (options: CacheImplOptions) => Promise<redis.RedisCache | local.LocalLRUCache>
-  key: {
-    group: string
-  }
-  requestCoalescing: {
-    enabled: boolean
-    interval: number
-    intervalMax: number
-    intervalCoefficient: number
-    entropyMax: number
-    maxRetries: number
-  }
-  minimumAge: number
-}
-
-export const defaultOptions = (shouldUseLocal?: boolean): CacheOptions => {
+export const defaultOptions = (shouldUseLocal?: boolean): types.CacheOptions => {
   return {
     enabled: parseBool(env.CACHE_ENABLED ?? DEFAULT_CACHE_ENABLED),
     cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
@@ -84,15 +62,14 @@ export const defaultOptions = (shouldUseLocal?: boolean): CacheOptions => {
   }
 }
 
-export type CacheImplOptions = LocalOptions | redis.RedisOptions
-const defaultCacheImplOptions = (): CacheImplOptions => {
+const defaultCacheImplOptions = (): types.CacheImplOptions => {
   const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
   return options
 }
 
 const defaultCacheBuilder = () => {
-  return async (options: CacheImplOptions) => {
+  return async (options: types.CacheImplOptions) => {
     switch (options.type) {
       case 'redis': {
         return await redis.RedisCache.build(options as redis.RedisOptions)
@@ -105,7 +82,7 @@ const defaultCacheBuilder = () => {
 }
 
 // Options without sensitive data
-export const redactOptions = (options: CacheOptions): CacheOptions => ({
+export const redactOptions = (options: types.CacheOptions): types.CacheOptions => ({
   ...options,
   cacheImplOptions:
     options.cacheImplOptions.type === 'redis'
@@ -114,8 +91,8 @@ export const redactOptions = (options: CacheOptions): CacheOptions => ({
 })
 
 export class AdapterCache {
-  private readonly options: CacheOptions
-  private cache: Cache
+  private readonly options: types.CacheOptions
+  private cache: types.Cache
   private hashOptions = getHashOpts()
 
   constructor(context: AdapterContext) {
@@ -133,7 +110,7 @@ export class AdapterCache {
     return `${this.options.key.group}:${hash(data, this.hashOptions)}`
   }
 
-  public get instance(): Cache {
+  public get instance(): types.Cache {
     return this.cache
   }
 
@@ -153,7 +130,7 @@ export class AdapterCache {
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  public getWithCoalescing(key: string): Promise<undefined | CacheEntry> {
+  public getWithCoalescing(key: string): Promise<undefined | types.CacheEntry> {
     return getWithCoalescing({
       get: async (retryCount: number) => {
         const entry = await this.cache.getResponse(key)
@@ -262,6 +239,7 @@ export const buildDefaultLocalAdapterCache = async (
   return new AdapterCache({
     ...context,
     cache: {
+      ...options,
       ...context.cache,
       instance: options.instance,
     },
@@ -342,7 +320,7 @@ export const withCache =
             const debugBatchablePropertyPath = debug
               ? { batchablePropertyPath: debug.batchablePropertyPath }
               : {}
-            const entry: CacheEntry = {
+            const entry: types.CacheEntry = {
               statusCode,
               data,
               result,
@@ -365,7 +343,7 @@ export const withCache =
                   : {}
                 const entryBatchParticipant = {
                   statusCode,
-                  data: { result },
+                  data: { result, statusCode: 200 },
                   result,
                   maxAge,
                   debug: debugBatchablePropertyPath,
@@ -391,3 +369,5 @@ export const withCache =
       }
     }
   }
+
+export default { Cache: AdapterCache, withCache, types }

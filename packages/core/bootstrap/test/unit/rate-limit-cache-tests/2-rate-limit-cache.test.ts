@@ -4,10 +4,10 @@ import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
 import { logger } from '../../../src/lib/modules'
 import * as rateLimit from '../../../src/lib/middleware/rate-limit'
-import { get } from '../../../src/lib/middleware/rate-limit/config'
+import { get } from '../../../src/lib/config/provider-limits/config'
 import { dataProviderMock, getRLTokenSpentPerMinute, setupClock } from './helpers'
 import { withMiddleware } from '../../../src'
-import { AdapterContext } from '@chainlink/types'
+import type { AdapterContext } from '../../../src/types'
 
 describe('Rate Limit/Cache - Integration', () => {
   const context: AdapterContext = {}
@@ -33,7 +33,7 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
-    context.rateLimit = get()
+    context.limits = get()
   })
 
   afterAll(() => {

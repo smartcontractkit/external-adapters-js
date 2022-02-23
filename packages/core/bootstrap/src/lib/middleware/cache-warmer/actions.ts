@@ -1,12 +1,11 @@
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
-import { BatchableProperty } from './reducer'
+import type { AdapterRequest, AdapterResponse, BatchableProperty } from '../../../types'
 import { createAction } from '@reduxjs/toolkit'
 
 export interface WarmupExecutePayload extends AdapterRequest {
   /**
    * The Execute function of the adapter. Used when polling for new data.
    */
-  executeFn: Execute
+  executeFn: (input: AdapterRequest) => Promise<AdapterResponse>
   /**
    * The response returned from requesting data from a provider
    */

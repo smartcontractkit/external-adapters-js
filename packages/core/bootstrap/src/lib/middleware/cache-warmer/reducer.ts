@@ -1,14 +1,15 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import type {
+  AdapterRequest,
+  AdapterRequestData,
+  AdapterResponse,
+  BatchableProperty,
+  BigNumberish,
+} from '../../../types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../../modules'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
 import { merge, uniq } from 'lodash'
-
-export interface BatchableProperty {
-  name: string
-  limit?: number
-}
 
 /**
  * Metadata about a request
@@ -21,7 +22,7 @@ export interface SubscriptionData {
   /**
    * The wrapped execute function that was used to service the request
    */
-  executeFn: Execute
+  executeFn: (input: AdapterRequest) => Promise<AdapterResponse>
   /**
    * The time this subscription started in unix time
    */
@@ -107,18 +108,20 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     for (const childKey in payload.childLastSeenById) {
       const childRequestData = state[childKey]?.origin
       if (childRequestData) {
-        // Join request data
+        // Join and deduplicate request data
         for (const { name } of payload.batchablePropertyPath) {
-          const uniqueBatchableValue = new Set(batchWarmer.origin[name])
-          const singleBatchablevalue = childRequestData[name] ?? childRequestData.data?.[name]
-          if (singleBatchablevalue) uniqueBatchableValue.add(singleBatchablevalue)
-          else
-            logger.error(`[subscriptionsReducer] name=${name} not found in childRequestData`, {
-              childKey,
-              childRequestData,
-              name,
-            })
-          batchWarmer.origin[name] = [...uniqueBatchableValue]
+          const uniqueBatchableValue = new Set<typeof batchWarmer['origin']['name']>()
+          const originalValue = batchWarmer.origin[name]
+          uniqueBatchableValue.add(originalValue)
+          const incomingValue =
+            childRequestData[name] ||
+            (typeof childRequestData.data === 'object' &&
+              (childRequestData.data as Record<string, BigNumberish>)[name])
+          // TODO: remove nested .data
+          uniqueBatchableValue.add(incomingValue)
+          batchWarmer.origin[name] = [
+            ...uniqueBatchableValue,
+          ] as typeof batchWarmer['origin']['name']
         }
 
         // Join overrides
@@ -151,14 +154,15 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     )
 
     // The request data for a batch request should only contain unique values
-    const requestDataWithUniqueValues = Object.fromEntries<Set<string>>(
-      payload.batchablePropertyPath.map(({ name }) => [name, new Set()]),
-    )
+    const requestDataWithUniqueValues = Object.fromEntries<
+      Set<typeof state['id']['origin']['name']>
+    >(payload.batchablePropertyPath.map(({ name }) => [name, new Set()]))
 
     // Rebuild the request data without the removed children's data
     const batchRequestData = remainingChildIds.reduce((acc, childId) => {
       for (const { name } of payload.batchablePropertyPath) {
-        acc[name].add(state[childId].origin[name])
+        const value = state[childId].origin[name]
+        acc[name].add(value)
       }
       return acc
     }, requestDataWithUniqueValues)
@@ -170,9 +174,9 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
 
     // Rebuild the overrides
     const overrides = remainingChildIds.reduce<{
-      overrides?: Record<string, string>
-      tokenOverrides?: Record<string, string>
-      includes?: string[]
+      overrides?: AdapterRequestData['overrides']
+      tokenOverrides?: AdapterRequestData['tokenOverrides']
+      includes?: AdapterRequestData['includes']
     }>((acc, childId) => {
       const childOriginData = state[childId].origin
       if (childOriginData.overrides)

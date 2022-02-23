@@ -1,12 +1,6 @@
-# External Adapter Helper
+# Modules
 
-This package helps with creating Chainlink external adapters in NodeJS.
-
-## Adding to your project
-
-```
-yarn add @chainlink/external-adapter
-```
+Self-contained functionality meant to be plugged into EA implementations
 
 ## Usage
 
@@ -26,8 +20,8 @@ Here is the type for configuration options (all attributes optional):
     description?: string
     type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string'
     required?: boolean
-    options?: any[] // enumerated options, ex. ['ADA', 'BTC', 'ETH']
-    default?: any
+    options?: unknown[] // enumerated options, ex. ['ADA', 'BTC', 'ETH']
+    default?: unknown
     dependsOn?: string[] // other inputs this one depends on
     exclusive?: string[] // other inputs that cannot be present with this one
   }
@@ -65,6 +59,7 @@ const inputParameters: InputParameters = {
 }
 ```
 
+<<<<<<< HEAD
 ### Validator
 
 <<<<<<< HEAD
@@ -77,11 +72,20 @@ The Validator relies on the data supplied in the inputParameters object to ensur
 The Validator relies on the data supplied in the inputParameters object to ensure that a Requester supplied the expected parameters.
 >>>>>>> 8026ae269 (Revert Requester name change)
 
+=======
+>>>>>>> 59d2a48cc (Core types refactors)
 #### Arguments
 
-- `callback` (Function): The callback function to execute if validation fails
 - `input` (Object): The request payload from the Chainlink node
-- `inputParameters` (Object): A configuration object as shown above
+- `inputParametersConfiguration` (Object): A configuration object as shown above
+- `inputOptions` (Object): A mapping of input keys to an array of allowed values
+- `options` (Object): A configuration object for the Validator:
+
+```ts
+{
+  shouldThrowError?: boolean
+}
+```
 
 <<<<<<< HEAD
 <<<<<<< HEAD:packages/core/bootstrap/src/lib/modules/README.md

@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest } from '../../types'
 import { logger, Validator } from '../modules'
 import { excludableAdapterRequestProperties } from '../util'
 import * as crypto from 'crypto'
@@ -80,8 +80,20 @@ export const getFeedId = (input: AdapterRequest): string => {
        * With batched requests, the base can either be an array of bases, or a single base.
        * The same type constraints apply to the quote param.
        */
-      if (base) {
-        return `${buildSymbolString(base)}` + (quote ? `/${buildSymbolString(quote)}` : '')
+      if (
+        base &&
+        (typeof base === 'string' ||
+          (Array.isArray(base) &&
+            (base as Array<unknown>).every((entry) => typeof entry === 'string'))) &&
+        (typeof quote === 'undefined' ||
+          typeof quote === 'string' ||
+          (Array.isArray(quote) &&
+            (quote as Array<unknown>).every((entry) => typeof entry === 'string')))
+      ) {
+        return (
+          `${buildSymbolString(base as string | string[])}` +
+          (quote ? `/${buildSymbolString(quote as string | string[])}` : '')
+        )
       }
     }
 

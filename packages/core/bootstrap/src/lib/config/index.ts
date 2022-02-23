@@ -1,5 +1,5 @@
 import { getRandomRequiredEnv, getRandomEnv, getEnv } from '../util'
-import { Config } from '@chainlink/types'
+import type { Config } from '../../types'
 import { logger } from '../modules/logger'
 
 const ENV_API_KEY = 'API_KEY'
@@ -21,7 +21,10 @@ export const constants = {
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const cloneNoSecrets = (config: Config): Config =>
-  (({ apiKey, api: { auth, headers, params, ...api }, ...o }) => ({ api, ...o }))(config)
+  (({ apiKey, api, ...o }) => {
+    const { auth, headers, params, ...apiNoSecrets } = api || {}
+    return { api: apiNoSecrets, ...o }
+  })(config)
 
 export function getDefaultConfig(prefix = '', requireKey = false, requireWsKey = false): Config {
   const apiKey = requireKey
@@ -38,16 +41,16 @@ export function getDefaultConfig(prefix = '', requireKey = false, requireWsKey =
     api: {
       withCredentials: !!apiKey,
       baseURL: getEnv(ENV_API_ENDPOINT, prefix),
-      baseWsURL: getEnv(ENV_WS_API_ENDPOINT, prefix),
       timeout: parseInt(timeout || '') || DEFAULT_API_TIMEOUT,
       headers: {
-        common: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          Pragma: 'no-cache',
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        Pragma: 'no-cache',
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
+    },
+    ws: {
+      baseWsURL: getEnv(ENV_WS_API_ENDPOINT, prefix),
     },
   }
 }

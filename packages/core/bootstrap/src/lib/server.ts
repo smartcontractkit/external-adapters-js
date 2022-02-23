@@ -1,4 +1,4 @@
-import { AdapterContext, Execute, Middleware } from '@chainlink/types'
+import type { AdapterContext, Execute, Middleware } from '../types'
 import express from 'express'
 import http from 'http'
 import slowDown from 'express-slow-down'
@@ -14,10 +14,11 @@ import {
 } from './errors'
 import { logger } from './modules'
 import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
-import { get as getRateLimitConfig } from './middleware/rate-limit/config'
+import { get as getRateLimitConfig } from './config/provider-limits/config'
 import { toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { AddressInfo } from 'net'
+import { Limits } from './config/provider-limits'
 
 const app = express()
 const version = process.env.npm_package_version
@@ -32,11 +33,13 @@ export const initHandler =
   (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
   async (): Promise<http.Server> => {
     const name = adapterContext.name || ''
+    const rateLimit: Limits = adapterContext.rateLimit || { http: {}, ws: {} }
     const context: AdapterContext = {
       name,
-      cache: null,
-      rateLimit: getRateLimitConfig({
-        limits: adapterContext.rateLimit || { http: {}, ws: {} },
+      cache: undefined,
+      rateLimit,
+      limits: getRateLimitConfig({
+        limits: rateLimit,
         name,
       }),
     }

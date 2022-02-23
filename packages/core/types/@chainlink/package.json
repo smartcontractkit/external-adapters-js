@@ -12,5 +12,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "echo \"No clean needed\""
+  },
+  "dependencies": {
+    "@chainlink/ea-bootstrap": "workspace:*"
   }
 }

@@ -1,4 +1,4 @@
-import { InputParameters } from '@chainlink/types'
+import type { InputParameters } from '../../src/types'
 import { Validator } from '../../src/lib/modules/validator'
 
 describe('Validator', () => {

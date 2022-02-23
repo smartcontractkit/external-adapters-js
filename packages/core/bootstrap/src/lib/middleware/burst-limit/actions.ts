@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest } from '../../../types'
 import { createAction } from '@reduxjs/toolkit'
 
 export interface RequestObservedPayload {

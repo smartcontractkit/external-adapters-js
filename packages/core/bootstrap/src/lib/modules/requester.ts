@@ -1,12 +1,12 @@
-import {
+import type {
   AdapterErrorResponse,
+  BatchedResult,
   AdapterResponse,
-  RequestConfig,
+  AxiosRequestConfig,
   AdapterRequest,
-  AdapterRequestData,
   ResultPath,
-} from '@chainlink/types'
-import { reducer } from '../middleware/cache-warmer'
+  BatchableProperty,
+} from '../../types'
 import axios, { AxiosResponse } from 'axios'
 import { deepType } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
@@ -15,14 +15,15 @@ import { logger } from './logger'
 import objectPath from 'object-path'
 import { join } from 'path'
 
-const getFalse = () => false
+type CustomError<T = unknown> = (data: T) => boolean
+const defaultCustomError = () => false
 
 const DEFAULT_RETRY = 1
 
-export class HTTP {
-  static async request<T extends AdapterRequestData>(
-    config: RequestConfig,
-    customError?: any,
+export class Requester {
+  static async request<T>(
+    config: AxiosRequestConfig,
+    customError = defaultCustomError as CustomError<T>,
     retries = Number(process.env.RETRY) || DEFAULT_RETRY,
     delay = 1000,
   ): Promise<AxiosResponse<T>> {
@@ -30,13 +31,6 @@ export class HTTP {
     if (typeof config.timeout === 'undefined') {
       const timeout = Number(process.env.TIMEOUT)
       config.timeout = !isNaN(timeout) ? timeout : 3000
-    }
-
-    if (!customError) customError = getFalse
-    if (typeof customError !== 'function') {
-      delay = retries
-      retries = customError
-      customError = getFalse
     }
 
     const _retry = async (n: number): Promise<AxiosResponse<T>> => {
@@ -66,16 +60,15 @@ export class HTTP {
         return await _delayRetry(`Caught error. Retrying: ${JSON.stringify(error.message)}`)
       }
 
-      if (response.data.error || customError(response.data)) {
+      if (response.data && customError && customError(response.data)) {
         // Response error
         if (n === 1) {
           const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
-          const cause = response.data.error || 'customError'
           throw new AdapterError({
             statusCode: 200,
-            providerStatusCode: response.data.error?.code ?? response.status,
+            providerStatusCode: response.status,
             message,
-            cause,
+            cause: 'Data Provider error',
             url,
           })
         }
@@ -97,8 +90,8 @@ export class HTTP {
     return await _retry(retries)
   }
 
-  static validateResultNumber(
-    data: { [key: string]: any },
+  static validateResultNumber<T extends Record<string, T[keyof T]>>(
+    data: T,
     path: ResultPath,
     options?: { inverse?: boolean },
   ): number {
@@ -120,7 +113,7 @@ export class HTTP {
     return num
   }
 
-  static getResult(data: { [key: string]: unknown }, path: ResultPath): unknown {
+  static getResult<T extends Record<string, T[keyof T]>>(data: T, path: ResultPath): unknown {
     return objectPath.get(data, path)
   }
 
@@ -183,7 +176,7 @@ export class HTTP {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
-    batchablePropertyPath?: reducer.BatchableProperty[],
+    batchablePropertyPath?: BatchableProperty[],
   ): AdapterResponse {
     const debug = batchablePropertyPath ? { batchablePropertyPath } : undefined
 
@@ -224,31 +217,6 @@ export class HTTP {
  */
 interface SingleResult {
   result?: number | string
-}
-
-/**
- * Contained within the body of an api response
- * from a request that asked for multiple data points
- *
- * @example Request Parameters
- * ```
- * {
- *  "data": {
- *      "base": "ETH,BTC",
- *      "quote": "USD"
- *   }
- *}
- * ```
- */
-interface BatchedResult {
-  /**
-   * Tuples for
-   * [
-   *    its input parameters as a single request (used in caching),
-   *    its result
-   * ]
-   */
-  results?: [AdapterRequest, number][]
 }
 
 /**

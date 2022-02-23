@@ -1,7 +1,7 @@
 import Ajv, { JSONSchemaType } from 'ajv'
 import { logger } from '../modules'
 import path from 'path'
-import { AdapterRequestData } from '@chainlink/types'
+import type { AdapterRequestData } from '../../types'
 
 /**
  * The test payload read in from filesystem
