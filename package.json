@@ -33,9 +33,9 @@
     "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate"
   },
   "dependencies": {
-    "@babel/core": "7.16.0",
-    "@babel/preset-env": "7.16.4",
-    "@babel/preset-typescript": "7.16.0",
+    "@babel/core": "7.16.12",
+    "@babel/preset-env": "7.16.11",
+    "@babel/preset-typescript": "7.16.7",
     "@changesets/cli": "2.18.1",
     "@types/jest": "27.0.3",
     "@typescript-eslint/eslint-plugin": "4.33.0",
