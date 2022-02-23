@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.53
+
+### Patch Changes
+
+- Updated dependencies [7f605f9b1]
+  - @chainlink/coinpaprika-adapter@1.3.7
+
 ## 1.0.52
 
 ### Patch Changes

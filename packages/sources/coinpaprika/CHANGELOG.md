@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.3.7
+
+### Patch Changes
+
+- 7f605f9b1: Remove ALUSD kludge
+
 ## 1.3.6
 
 ### Patch Changes
