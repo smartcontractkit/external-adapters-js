@@ -15,7 +15,7 @@
     "lint:fix": "yarn lint --fix",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
-    "setup": "tsc -b ./packages/tsconfig.json ",
+    "setup": "tsc -b ./packages/tsconfig.json",
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest",
     "test:unit": "NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest unit",
     "test:integration": "EA_PORT=0 NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest integration",
@@ -43,7 +43,8 @@
     "@vercel/ncc": "0.29.2",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "jest": "27.3.1"
+    "jest": "27.3.1",
+    "source-map-support": "0.5.21"
   },
   "devDependencies": {
     "@types/babel__core": "7.1.18",
