@@ -1,5 +1,11 @@
 # @chainlink/anchor-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.5
+
 ## 1.3.1
 
 ### Patch Changes
