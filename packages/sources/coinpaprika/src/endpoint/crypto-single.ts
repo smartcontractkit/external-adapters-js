@@ -90,7 +90,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   if (symbolToIdOverride) {
-    console.log(coin)
     // get the symbol from the request from either the 'from', 'base' or 'coin' parameter
     const requestedSymbol = request.data.from || request.data.base || request.data.coin
     if (!requestedSymbol) throw new Error("'base', 'from' or 'coin' was not provided.")

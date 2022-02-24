@@ -150,7 +150,7 @@ const handleBatchedRequest = (
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base of request.data.base) {
+  for (const base of validator.validated.data.base) {
     const baseWithOverride = (validator.overrideSymbol(AdapterName, base) as string)?.toUpperCase()
     // Skip if the response does not contain the base
     if (!response.data.RAW[baseWithOverride]) {
@@ -185,6 +185,23 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`
+
+  const symbolToIdOverride = validator.symbolToIdOverride?.[AdapterName.toLowerCase()]
+
+  if (symbolToIdOverride) {
+    if (Array.isArray(validator.validated.data.base)) {
+      for (let i = 0; i < validator.validated.data.base.length; i++) {
+        if (symbolToIdOverride[validator.validated.data.base[i]]) {
+          validator.validated.data.base[i] = symbolToIdOverride[validator.validated.data.base[i]]
+        }
+      }
+    } else if (symbolToIdOverride[validator.validated.data.base]) {
+      validator.validated.data.base = symbolToIdOverride[validator.validated.data.base]
+    }
+  }
+
+  // Will there every be 'duplicate overrides' where a specified id from symbolToIdOverride
+  // is then overridden in overrideSymbol?
   const symbol = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
   const resultPath = validator.validated.data.resultPath
