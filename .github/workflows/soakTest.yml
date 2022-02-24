@@ -2,6 +2,10 @@ name: Soak test
 
 on:
   pull_request: ~
+  #TODO remove the following 3 lines
+  push:
+    branches:
+      - 'feature/soak-testing'
 
 jobs:
   run-basic-checks:
