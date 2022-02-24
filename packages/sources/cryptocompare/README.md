@@ -137,7 +137,7 @@ Aliases: vwap, crypto-vwap
 | :-------: | :---------------------: | :------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------: | :---------: |
 |    ✅     | `base`, `from`, `coin`  |                                The symbol of the currency to query                                 |                                                                     |             |
 |    ✅     | `quote`, `to`, `market` |                              The symbol of the currency to convert to                              |                                                                     |             |
-|           |         `hours`         |                             Number of hours to calculate the VWAP for                              |                                                                     |    `24`     |
+|    🟡     |         `hours`         |                             Number of hours to calculate the VWAP for                              |                                                                     |    `24`     |
 |    🟡     |  `symbolToIdOverride`   | If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored | { "cryptocompare": { "COINA": "OVERRIDEA", "COINB": "OVERRIDEB" } } |             |
 
 ### Sample Input

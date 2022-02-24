@@ -156,6 +156,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const convert = validator.validated.data.quote.toUpperCase()
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
+  const symbolToIdOverride = validator.symbolToIdOverride?.[AdapterName.toLowerCase()]
+
+  // replace or add symbols from the symbolToIdOverride object into the convertId object
+  if (symbolToIdOverride) {
+    for (const overridingSymbol of Object.keys(symbolToIdOverride)) {
+      convertId[overridingSymbol] = symbolToIdOverride[overridingSymbol]
+    }
+  }
+
+  // Will there every be 'duplicate overrides' where a specified id from symbolToIdOverride
+  // is then overridden in overrideSymbol? Currently, this code assumes there are not.
 
   const url = `/currencies/ticker`
   // Correct common tickers that are misidentified

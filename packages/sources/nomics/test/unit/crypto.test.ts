@@ -29,7 +29,7 @@ describe('price endpoint', () => {
             to: 'USD',
             from: 'PAX',
             override: {
-              cryptocompare: {
+              nomics: {
                 GRT: 'this-id-should-not-be-used',
               },
             },
@@ -123,7 +123,7 @@ describe('price endpoint', () => {
             to: 'USD',
             from: ['CCCC'],
             symbolToIdOverride: {
-              cryptocompare: {
+              nomics: {
                 AAAA: 'OVERRIDEA',
                 BBBB: 'OVERRIDEB',
                 CCCC: 'OVERRIDEC',

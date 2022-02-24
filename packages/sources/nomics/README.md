@@ -22,11 +22,12 @@
 
 ### Input Params
 
-| Required? |               Name                |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :-------------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `ids`   |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`,`market`, `convert` |         The symbol of the currency to convert to          |                                                                                      |             |
-|    🟡     |            `overrides`            | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? |               Name                |                                            Description                                             |                                       Options                                        | Defaults to |
+| :-------: | :-------------------------------: | :------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
+|    ✅     |   `base`, `from`, `coin`, `ids`   |                                The symbol of the currency to query                                 |                                                                                      |             |
+|    ✅     | `quote`, `to`,`market`, `convert` |                              The symbol of the currency to convert to                              |                                                                                      |             |
+|    🟡     |            `overrides`            |                     If base provided is found in overrides, that will be used                      | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+|    🟡     |       `symbolToIdOverride`        | If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored |             { "nomics": { "COINA": "OVERRIDEA", "COINB": "OVERRIDEB" } }             |             |
 
 ### Sample Input
 
@@ -442,10 +443,11 @@ Fetch the price of an asset using specified exchanges
 
 ### Input Params
 
-| Required? |             Name              |              Description               | Options | Defaults to |
-| :-------: | :---------------------------: | :------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`, `ids` |  The symbol of the currency to query   |         |             |
-|    ✅     |          `exchanges`          | Comma delimited list of exchange names |         |             |
+| Required? |             Name              |                                            Description                                             |                           Options                            | Defaults to |
+| :-------: | :---------------------------: | :------------------------------------------------------------------------------------------------: | :----------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, `coin`, `ids` |                                The symbol of the currency to query                                 |                                                              |             |
+|    ✅     |          `exchanges`          |                               Comma delimited list of exchange names                               |                                                              |             |
+|    🟡     |     `symbolToIdOverride`      | If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored | { "nomics": { "COINA": "OVERRIDEA", "COINB": "OVERRIDEB" } } |             |
 
 ### Sample Input
 

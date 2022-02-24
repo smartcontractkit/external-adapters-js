@@ -35,6 +35,23 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters, {}, { overrides })
 
+  const symbolToIdOverride = validator.symbolToIdOverride?.[AdapterName.toLowerCase()]
+
+  if (symbolToIdOverride) {
+    if (Array.isArray(validator.validated.data.base)) {
+      for (let i = 0; i < validator.validated.data.base.length; i++) {
+        if (symbolToIdOverride[validator.validated.data.base[i]]) {
+          validator.validated.data.base[i] = symbolToIdOverride[validator.validated.data.base[i]]
+        }
+      }
+    } else if (symbolToIdOverride[validator.validated.data.base]) {
+      validator.validated.data.base = symbolToIdOverride[validator.validated.data.base]
+    }
+  }
+
+  // Will there every be 'duplicate overrides' where a specified id from symbolToIdOverride
+  // is then overridden in overrideSymbol? Currently, this code assumes there are not.
+
   const symbol = validator.overrideSymbol(AdapterName)
   const jobRunID = validator.validated.id
   const exchanges = validator.validated.data.exchanges
