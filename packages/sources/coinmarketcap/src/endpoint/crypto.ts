@@ -170,14 +170,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   // CMC allows a coin ID to be specified instead of a symbol
   const cid = validator.validated.data.cid || ''
   const convert = validator.validated.data.convert
+  const symbolToIdOverride = validator.symbolToIdOverride?.[AdapterName.toLowerCase()]
+
   if (!config.apiKey && Array.isArray(convert))
     throw new Error(' Free CMCPro API only supports a single symbol to convert')
   const resultPath = validator.validated.data.resultPath
+
   const params: Record<string, string> = {
     convert: Array.isArray(convert)
       ? convert.map((symbol) => symbol.toUpperCase()).join(',')
       : convert.toUpperCase(),
   }
+
   if (cid) {
     params.id = cid
   } else if (slug) {
@@ -185,7 +189,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   } else if (Array.isArray(symbol)) {
     let hasIds = true
     const idsForSymbols = symbol.map((symbol) => {
-      const idForSymbol = presetIds[symbol]
+      let idForSymbol = presetIds[symbol]
+      // if an id is provided in the symbolToIdOverride.coinmarketcap for a requested symbol,
+      // then use the specified id instead of the symbol when making the request
+      if (symbolToIdOverride?.[symbol]) idForSymbol = parseInt(symbolToIdOverride[symbol])
       if (!idForSymbol) hasIds = false
       return idForSymbol
     })
@@ -200,6 +207,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       params.id = String(idForSymbol)
     } else {
       params.symbol = symbol.toUpperCase()
+    }
+    // if the requested symbol exists in the symbolToIdOverride.coinmarketcap parameter,
+    // then use the specified id instead of the symbol when making the request
+    if (symbolToIdOverride?.[symbol]) {
+      delete params.symbol
+      params.id = symbolToIdOverride?.[symbol]
     }
   }
 

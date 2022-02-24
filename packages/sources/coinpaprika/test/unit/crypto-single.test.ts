@@ -1,11 +1,5 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
-
-function fail(reason = 'fail was called in a test.') {
-  throw new Error(reason)
-}
 
 describe('single price endpoint', () => {
   const jobID = '1'
