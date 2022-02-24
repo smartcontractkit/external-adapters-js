@@ -27,7 +27,7 @@
 |    ✅     | `base`, `from`, `coin`  |                                The symbol of the currency to query                                 |                                                                                      |             |
 |    ✅     | `quote`, `to`, `market` |                              The symbol of the currency to convert to                              |                                                                                      |             |
 |    🟡     |       `overrides`       |                     If base provided is found in overrides, that will be used                      | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
-|           |  `symbolToIdOverride`   | If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored |          { "coinpaprika": { "COINA": "OVERRIDEA", "COINB": "OVERRIDEB" } }           |             |
+|    🟡     |  `symbolToIdOverride`   | If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored |         { "cryptocompare": { "COINA": "OVERRIDEA", "COINB": "OVERRIDEB" } }          |             |
 
 ### Sample Input
 
@@ -133,11 +133,12 @@ Aliases: vwap, crypto-vwap
 
 ### Input Params
 
-| Required? |          Name           |                Description                | Options | Defaults to |
-| :-------: | :---------------------: | :---------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |    The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to convert to  |         |             |
-|           |         `hours`         | Number of hours to calculate the VWAP for |         |    `24`     |
+| Required? |          Name           |                                            Description                                             |                               Options                               | Defaults to |
+| :-------: | :---------------------: | :------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------: | :---------: |
+|    ✅     | `base`, `from`, `coin`  |                                The symbol of the currency to query                                 |                                                                     |             |
+|    ✅     | `quote`, `to`, `market` |                              The symbol of the currency to convert to                              |                                                                     |             |
+|           |         `hours`         |                             Number of hours to calculate the VWAP for                              |                                                                     |    `24`     |
+|    🟡     |  `symbolToIdOverride`   | If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored | { "cryptocompare": { "COINA": "OVERRIDEA", "COINB": "OVERRIDEB" } } |             |
 
 ### Sample Input
 

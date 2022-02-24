@@ -201,7 +201,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   // Will there every be 'duplicate overrides' where a specified id from symbolToIdOverride
-  // is then overridden in overrideSymbol?
+  // is then overridden in overrideSymbol? Currently, this code assumes there are not.
   const symbol = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
   const resultPath = validator.validated.data.resultPath
