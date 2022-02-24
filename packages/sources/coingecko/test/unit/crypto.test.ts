@@ -66,7 +66,7 @@ describe('price endpoint', () => {
     })
   })
 
-  describe('price endpoint symbol to id override', () => {
+  describe('symbol to id override', () => {
     const requests = [
       {
         name: 'symbol to id override of a token with an existing override',
