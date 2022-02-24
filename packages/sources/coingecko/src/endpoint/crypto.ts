@@ -1,4 +1,4 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Logger, AdapterError } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -7,8 +7,6 @@ import {
   InputParameters,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
-import overrides from '../config/symbols.json'
-
 import { getCoinIds, getSymbolsToIds } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
@@ -19,7 +17,7 @@ const customError = (data: ResponseSchema) => {
 }
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator(request, inputParameters)
 
   const quote = validator.validated.data.quote
   if (Array.isArray(quote)) return ''
@@ -101,19 +99,71 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator(request, inputParameters)
 
   const endpoint = validator.validated.data.endpoint
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName)
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
-  let idToSymbol = {}
+  let idToSymbol = {} as Record<string, string>
   let ids = coinid
   if (!ids) {
     const coinIds = await getCoinIds(context, jobRunID)
     const symbols = Array.isArray(base) ? base : [base]
     idToSymbol = getSymbolsToIds(symbols, coinIds)
+    console.log('idToSymbol')
+    console.log(idToSymbol)
+    const symbolToIdOverride = validator.symbolToIdOverride?.[AdapterName.toLowerCase()]
+
+    if (symbolToIdOverride) {
+      // use the 'symbolToIdOverrides' object to override any previous overrides
+      // that were supplied by the 'getSymbolsToIds' function
+      for (const symbolAndId of Object.entries(symbolToIdOverride)) {
+        const overriddenSymbol = symbolAndId[0].toUpperCase()
+        const overridingId = symbolAndId[1]
+        for (const idAndSymbol of Object.entries(idToSymbol)) {
+          if (idAndSymbol[1].toUpperCase() === overriddenSymbol) {
+            delete idToSymbol[idAndSymbol[0]]
+            idToSymbol[overridingId] = overriddenSymbol
+          }
+        }
+      }
+      // get the requested symbols from either the 'from', 'base' or 'coin' parameter
+      let requestedSymbols = ['']
+      if (request.data.from) {
+        requestedSymbols = Array.isArray(request.data.from)
+          ? request.data.from
+          : [request.data.from]
+      } else if (request.data.base) {
+        requestedSymbols = Array.isArray(request.data.base)
+          ? request.data.base
+          : [request.data.base]
+      } else if (request.data.coin) {
+        requestedSymbols = Array.isArray(request.data.coin)
+          ? request.data.coin
+          : [request.data.coin]
+      } else {
+        throw new AdapterError({ message: "'base', 'from' or 'coin' parameter was not provided." })
+      }
+      requestedSymbols = requestedSymbols.map((s: string) => {
+        return s.toUpperCase()
+      })
+
+      for (const requestedSymbol of requestedSymbols) {
+        if (
+          symbolToIdOverride[requestedSymbol] &&
+          !idToSymbol[symbolToIdOverride[requestedSymbol]]
+        ) {
+          idToSymbol[symbolToIdOverride[requestedSymbol]] = requestedSymbol
+        }
+        // else if (!Object.values(idToSymbol).includes(requestedSymbol)) {
+        //   // if there is no override, just use the ticker symbol???
+        //   idToSymbol[requestedSymbol] = ''
+        // }
+      }
+    }
+
     ids = Object.keys(idToSymbol).join(',')
   }
 
