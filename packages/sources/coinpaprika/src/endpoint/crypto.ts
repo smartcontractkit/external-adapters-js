@@ -124,6 +124,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const symbol = validator.overrideSymbol(AdapterName)
   const requestedQuotes = validator.validated.data.quote
   const coinid = validator.validated.data.coinid as string | undefined
+  const symbolToIdOverride = validator.symbolToIdOverride?.[AdapterName.toLowerCase()]
 
   const url = 'v1/tickers'
   const resultPath = validator.validated.data.resultPath || endpointResultPaths.crypto
@@ -146,7 +147,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const requestedData: RequestedData[] = []
 
     for (let i = 0; i < symbol.length; i++) {
-      if (symbol[i] !== validator.validated.data.base[i]) {
+      // if the requested symbol is overridden in the symbolToIdOverride.coinpaprika parameter,
+      // use the overriding id instead of the requested symbol or coinid
+      if (symbolToIdOverride?.[symbol[i]]) {
+        requestedData.push({ coinid: symbolToIdOverride?.[symbol[i]] })
+      } else if (symbol[i] !== validator.validated.data.base[i]) {
         requestedData.push({ coinid: symbol[i] })
       } else {
         requestedData.push({ symbol: symbol[i] })
@@ -158,7 +163,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   // If coinid was provided or base was overridden, that symbol will be fetched
-  const coin = coinid || (symbol !== validator.validated.data.base && symbol ? symbol : undefined)
+  let coin = coinid || (symbol !== validator.validated.data.base && symbol ? symbol : undefined)
+
+  if (symbolToIdOverride) {
+    // get the symbol from the request from either the 'from', 'base' or 'coin' parameter
+    const requestedSymbol = request.data.from || request.data.base || request.data.coin
+    if (!requestedSymbol) throw new Error("'base', 'from' or 'coin' was not provided.")
+    // if the requested symbol has an overriding id provided in the symbolToIdOverride.coinpaprika
+    // parameter, use that id instead of the previously specified id or symbol for the 'coin'
+    if (symbolToIdOverride[requestedSymbol]) {
+      coin = symbolToIdOverride[requestedSymbol]
+    }
+  }
 
   const response = await Requester.request<ResponseSchema[]>(options)
 
