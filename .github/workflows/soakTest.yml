@@ -50,9 +50,11 @@ jobs:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
           set -x
-          CHANGED_FILES_NAME=./changedFiles.txt
-          gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
-          ADAPTERS_LIST="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
+          # TODO uncomment these lines
+          # CHANGED_FILES_NAME=./changedFiles.txt
+          # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
+          # ADAPTERS_LIST="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
+          ADAPTERS_LIST="coingecko coinpaprika"
 
           # export adapters from this step
           echo "::set-output name=ADAPTERS_LIST::${ADAPTERS_LIST}"
