@@ -111,7 +111,7 @@ const mockBatchedRequest = (providerUrl: string) => {
       ],
     )
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: ['DAI', 'WBTC'], quote: 'EUR', endpoint: 'price' } })
+    .post('/', { id: 1, data: { base: ['DAI', 'WBTC'], quote: 'EUR', endpoint: 'crypto' } })
     .reply(
       200,
       {
