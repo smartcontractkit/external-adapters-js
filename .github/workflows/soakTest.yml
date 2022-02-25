@@ -20,12 +20,6 @@ jobs:
       checks: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v2
-      - uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-        with:
-          # Can be "open", "closed", or "all".  Defaults to "open".
-          state: all
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -40,7 +34,18 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.QA_KUBECONFIG }}
+      - name: Checkout external-adapters-js repo
+        uses: actions/checkout@v2
+        with:
+          path: external-adapters-js
+      - run: cd external-adapters-js
       - uses: ./.github/actions/setup # Yarn install > setup
+      - name: Find current PR
+        uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          # Can be "open", "closed", or "all".  Defaults to "open".
+          state: all
       - name: Use GH CLI to get pr info
         id: get-pr-info
         env:
@@ -93,6 +98,17 @@ jobs:
               docker push ${IMAGE_PREFIX}${adapter}-adapter:${IMAGE_TAG}
             done
           fi
+      - run: cd ../
+      - name: Checkout infra-k8s repo
+        env:
+          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+        uses: actions/checkout@v2
+        with:
+          repository: 'https://github.com/smartcontractkit/infra-k8s/'
+          ref: ${PR_NUMBER}
+          token: ${GITHUB_TOKEN}
+          path: infra-k8s
       - name: Deploy adapters
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
@@ -104,6 +120,7 @@ jobs:
           # pull down the chainlink adapter helm chart
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
           # deploy all the adapters
+          # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
               yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
