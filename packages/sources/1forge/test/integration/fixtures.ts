@@ -53,3 +53,22 @@ export const mockResponseSuccessQuotesEnpoint = (): nock =>
         'Origin',
       ],
     )
+
+export const mockLoginResponse = {
+  request: 'login|fake-api-key',
+  response: [
+    'message|Connected to 1Forge Socket Server. If you need help, please email contact@1forge.com',
+    'message|You are currently using 1 out of 10 sessions',
+    'post_login_success|undefined',
+  ],
+}
+
+export const mockSubscribeResponse = {
+  request: 'subscribe_to|USD/EUR',
+  response: 'update|{"p":0.88935,"a":0.88938,"b":0.88932,"s":"USD/EUR","t":1645811011686}',
+}
+
+export const mockUnsubscribeResponse = {
+  request: 'unsubscribe_from|USD/EUR',
+  response: '',
+}
