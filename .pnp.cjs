@@ -6910,13 +6910,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@synthetixio/contracts-interface", "npm:2.61.0"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
-            ["ethers", "npm:5.4.7"],
+            ["ethers", "npm:5.5.3"],
             ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
@@ -8520,6 +8520,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/logger", "npm:5.5.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:5.5.2", {
+          "packageLocation": "./.yarn/cache/@ethersproject-networks-npm-5.5.2-a47d32c156-d6768591ac.zip/node_modules/@ethersproject/networks/",
+          "packageDependencies": [
+            ["@ethersproject/networks", "npm:5.5.2"],
+            ["@ethersproject/logger", "npm:5.5.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@ethersproject/pbkdf2", [
@@ -8689,6 +8697,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ws", "virtual:f8e286d84f8023745d6a6699ba366e72cffd5624b0e37c7297befebfd7a1558c8429f21e067fd790e82b4f9021db63752b951a934771514b1be0ba4ff5cd1051#npm:7.4.6"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:5.5.2", {
+          "packageLocation": "./.yarn/cache/@ethersproject-providers-npm-5.5.2-761af202e7-f03b78017f.zip/node_modules/@ethersproject/providers/",
+          "packageDependencies": [
+            ["@ethersproject/providers", "npm:5.5.2"],
+            ["@ethersproject/abstract-provider", "npm:5.5.1"],
+            ["@ethersproject/abstract-signer", "npm:5.5.0"],
+            ["@ethersproject/address", "npm:5.5.0"],
+            ["@ethersproject/basex", "npm:5.5.0"],
+            ["@ethersproject/bignumber", "npm:5.5.0"],
+            ["@ethersproject/bytes", "npm:5.5.0"],
+            ["@ethersproject/constants", "npm:5.5.0"],
+            ["@ethersproject/hash", "npm:5.5.0"],
+            ["@ethersproject/logger", "npm:5.5.0"],
+            ["@ethersproject/networks", "npm:5.5.0"],
+            ["@ethersproject/properties", "npm:5.5.0"],
+            ["@ethersproject/random", "npm:5.5.0"],
+            ["@ethersproject/rlp", "npm:5.5.0"],
+            ["@ethersproject/sha2", "npm:5.5.0"],
+            ["@ethersproject/strings", "npm:5.5.0"],
+            ["@ethersproject/transactions", "npm:5.5.0"],
+            ["@ethersproject/web", "npm:5.5.0"],
+            ["bech32", "npm:1.1.4"],
+            ["ws", "virtual:f8e286d84f8023745d6a6699ba366e72cffd5624b0e37c7297befebfd7a1558c8429f21e067fd790e82b4f9021db63752b951a934771514b1be0ba4ff5cd1051#npm:7.4.6"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@ethersproject/random", [
@@ -8714,6 +8748,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@ethersproject-random-npm-5.5.0-9f3f578e63-7acbe2a5d3.zip/node_modules/@ethersproject/random/",
           "packageDependencies": [
             ["@ethersproject/random", "npm:5.5.0"],
+            ["@ethersproject/bytes", "npm:5.5.0"],
+            ["@ethersproject/logger", "npm:5.5.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:5.5.1", {
+          "packageLocation": "./.yarn/cache/@ethersproject-random-npm-5.5.1-3c471e4f5c-6370776554.zip/node_modules/@ethersproject/random/",
+          "packageDependencies": [
+            ["@ethersproject/random", "npm:5.5.1"],
             ["@ethersproject/bytes", "npm:5.5.0"],
             ["@ethersproject/logger", "npm:5.5.0"]
           ],
@@ -9070,6 +9113,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@ethersproject-web-npm-5.5.0-2b9d9746bd-1e02916bc0.zip/node_modules/@ethersproject/web/",
           "packageDependencies": [
             ["@ethersproject/web", "npm:5.5.0"],
+            ["@ethersproject/base64", "npm:5.5.0"],
+            ["@ethersproject/bytes", "npm:5.5.0"],
+            ["@ethersproject/logger", "npm:5.5.0"],
+            ["@ethersproject/properties", "npm:5.5.0"],
+            ["@ethersproject/strings", "npm:5.5.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:5.5.1", {
+          "packageLocation": "./.yarn/cache/@ethersproject-web-npm-5.5.1-1466b1418d-4718efd7e7.zip/node_modules/@ethersproject/web/",
+          "packageDependencies": [
+            ["@ethersproject/web", "npm:5.5.1"],
             ["@ethersproject/base64", "npm:5.5.0"],
             ["@ethersproject/bytes", "npm:5.5.0"],
             ["@ethersproject/logger", "npm:5.5.0"],
@@ -10811,6 +10866,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@stablelib/keyagreement", "npm:1.0.1"],
             ["@stablelib/random", "npm:1.0.1"],
             ["@stablelib/wipe", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@synthetixio/contracts-interface", [
+        ["npm:2.61.0", {
+          "packageLocation": "./.yarn/cache/@synthetixio-contracts-interface-npm-2.61.0-1c06ad9b46-575f52f727.zip/node_modules/@synthetixio/contracts-interface/",
+          "packageDependencies": [
+            ["@synthetixio/contracts-interface", "npm:2.61.0"],
+            ["ethers", "npm:5.5.3"],
+            ["lodash", "npm:4.17.19"],
+            ["synthetix", "npm:2.61.0"],
+            ["web3-utils", "npm:1.2.11"]
           ],
           "linkType": "HARD",
         }]
@@ -12776,6 +12844,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ansi-escapes", [
+        ["npm:3.2.0", {
+          "packageLocation": "./.yarn/cache/ansi-escapes-npm-3.2.0-a9d573100e-0f94695b67.zip/node_modules/ansi-escapes/",
+          "packageDependencies": [
+            ["ansi-escapes", "npm:3.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:4.3.2", {
           "packageLocation": "./.yarn/cache/ansi-escapes-npm-4.3.2-3ad173702f-93111c4218.zip/node_modules/ansi-escapes/",
           "packageDependencies": [
@@ -15084,6 +15159,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["cli-cursor", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/cli-cursor-npm-2.1.0-3920629c9c-d88e97bfda.zip/node_modules/cli-cursor/",
+          "packageDependencies": [
+            ["cli-cursor", "npm:2.1.0"],
+            ["restore-cursor", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.1.0", {
           "packageLocation": "./.yarn/cache/cli-cursor-npm-3.1.0-fee1e46b5e-2692784c6c.zip/node_modules/cli-cursor/",
           "packageDependencies": [
@@ -15100,6 +15183,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cli-truncate", "npm:2.1.0"],
             ["slice-ansi", "npm:3.0.0"],
             ["string-width", "npm:4.2.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["cli-width", [
+        ["npm:2.2.1", {
+          "packageLocation": "./.yarn/cache/cli-width-npm-2.2.1-4bdb77393c-3c21b897a2.zip/node_modules/cli-width/",
+          "packageDependencies": [
+            ["cli-width", "npm:2.2.1"]
           ],
           "linkType": "HARD",
         }]
@@ -17989,6 +18081,43 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/wordlists", "npm:5.5.0"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:5.5.3", {
+          "packageLocation": "./.yarn/cache/ethers-npm-5.5.3-e97d1833ea-0ac0a9e3d3.zip/node_modules/ethers/",
+          "packageDependencies": [
+            ["ethers", "npm:5.5.3"],
+            ["@ethersproject/abi", "npm:5.5.0"],
+            ["@ethersproject/abstract-provider", "npm:5.5.1"],
+            ["@ethersproject/abstract-signer", "npm:5.5.0"],
+            ["@ethersproject/address", "npm:5.5.0"],
+            ["@ethersproject/base64", "npm:5.5.0"],
+            ["@ethersproject/basex", "npm:5.5.0"],
+            ["@ethersproject/bignumber", "npm:5.5.0"],
+            ["@ethersproject/bytes", "npm:5.5.0"],
+            ["@ethersproject/constants", "npm:5.5.0"],
+            ["@ethersproject/contracts", "npm:5.5.0"],
+            ["@ethersproject/hash", "npm:5.5.0"],
+            ["@ethersproject/hdnode", "npm:5.5.0"],
+            ["@ethersproject/json-wallets", "npm:5.5.0"],
+            ["@ethersproject/keccak256", "npm:5.5.0"],
+            ["@ethersproject/logger", "npm:5.5.0"],
+            ["@ethersproject/networks", "npm:5.5.2"],
+            ["@ethersproject/pbkdf2", "npm:5.5.0"],
+            ["@ethersproject/properties", "npm:5.5.0"],
+            ["@ethersproject/providers", "npm:5.5.2"],
+            ["@ethersproject/random", "npm:5.5.1"],
+            ["@ethersproject/rlp", "npm:5.5.0"],
+            ["@ethersproject/sha2", "npm:5.5.0"],
+            ["@ethersproject/signing-key", "npm:5.5.0"],
+            ["@ethersproject/solidity", "npm:5.5.0"],
+            ["@ethersproject/strings", "npm:5.5.0"],
+            ["@ethersproject/transactions", "npm:5.5.0"],
+            ["@ethersproject/units", "npm:5.5.0"],
+            ["@ethersproject/wallet", "npm:5.5.0"],
+            ["@ethersproject/web", "npm:5.5.1"],
+            ["@ethersproject/wordlists", "npm:5.5.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["ethjs-unit", [
@@ -18491,6 +18620,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["fd-slicer", "npm:1.1.0"],
             ["pend", "npm:1.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["figures", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/figures-npm-2.0.0-f2db814eec-081beb16ea.zip/node_modules/figures/",
+          "packageDependencies": [
+            ["figures", "npm:2.0.0"],
+            ["escape-string-regexp", "npm:1.0.5"]
           ],
           "linkType": "HARD",
         }]
@@ -20323,6 +20462,54 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/ini-npm-2.0.0-28f7426761-e7aadc5fb2.zip/node_modules/ini/",
           "packageDependencies": [
             ["ini", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["inquirer", [
+        ["npm:6.5.2", {
+          "packageLocation": "./.yarn/cache/inquirer-npm-6.5.2-4f6408c247-175ad4cd1e.zip/node_modules/inquirer/",
+          "packageDependencies": [
+            ["inquirer", "npm:6.5.2"],
+            ["ansi-escapes", "npm:3.2.0"],
+            ["chalk", "npm:2.4.2"],
+            ["cli-cursor", "npm:2.1.0"],
+            ["cli-width", "npm:2.2.1"],
+            ["external-editor", "npm:3.1.0"],
+            ["figures", "npm:2.0.0"],
+            ["lodash", "npm:4.17.21"],
+            ["mute-stream", "npm:0.0.7"],
+            ["run-async", "npm:2.4.1"],
+            ["rxjs", "npm:6.6.7"],
+            ["string-width", "npm:2.1.1"],
+            ["strip-ansi", "npm:5.2.0"],
+            ["through", "npm:2.3.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["inquirer-list-search-prompt", [
+        ["npm:1.0.2", {
+          "packageLocation": "./.yarn/cache/inquirer-list-search-prompt-npm-1.0.2-1b893c38a0-0bf538a27e.zip/node_modules/inquirer-list-search-prompt/",
+          "packageDependencies": [
+            ["inquirer-list-search-prompt", "npm:1.0.2"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:ddef24006e74e32e71d4488e17885e419436c5978dd4d5cb0424918d4007c689e32bddd7f2692a329aa538eaea195cee3c847349b12663bdab910caaabd4c417#npm:1.0.2", {
+          "packageLocation": "./.yarn/__virtual__/inquirer-list-search-prompt-virtual-e2fb598d2f/0/cache/inquirer-list-search-prompt-npm-1.0.2-1b893c38a0-0bf538a27e.zip/node_modules/inquirer-list-search-prompt/",
+          "packageDependencies": [
+            ["inquirer-list-search-prompt", "virtual:ddef24006e74e32e71d4488e17885e419436c5978dd4d5cb0424918d4007c689e32bddd7f2692a329aa538eaea195cee3c847349b12663bdab910caaabd4c417#npm:1.0.2"],
+            ["@types/inquirer", null],
+            ["ansi-escapes", "npm:3.2.0"],
+            ["chalk", "npm:2.4.2"],
+            ["figures", "npm:2.0.0"],
+            ["inquirer", "npm:6.5.2"],
+            ["run-async", "npm:2.4.1"]
+          ],
+          "packagePeers": [
+            "@types/inquirer",
+            "inquirer"
           ],
           "linkType": "HARD",
         }]
@@ -23037,6 +23224,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["js-levenshtein", [
+        ["npm:1.1.6", {
+          "packageLocation": "./.yarn/cache/js-levenshtein-npm-1.1.6-ab883e61a3-409f052a7f.zip/node_modules/js-levenshtein/",
+          "packageDependencies": [
+            ["js-levenshtein", "npm:1.1.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["js-sha3", [
         ["npm:0.5.7", {
           "packageLocation": "./.yarn/cache/js-sha3-npm-0.5.7-e4e4cb1ee3-973a28ea4b.zip/node_modules/js-sha3/",
@@ -24423,6 +24619,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["lodash", [
+        ["npm:4.17.19", {
+          "packageLocation": "./.yarn/cache/lodash-npm-4.17.19-fa87a8e838-a5cc77099f.zip/node_modules/lodash/",
+          "packageDependencies": [
+            ["lodash", "npm:4.17.19"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:4.17.21", {
           "packageLocation": "./.yarn/cache/lodash-npm-4.17.21-6382451519-eb835a2e51.zip/node_modules/lodash/",
           "packageDependencies": [
@@ -25988,6 +26191,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["mute-stream", [
+        ["npm:0.0.7", {
+          "packageLocation": "./.yarn/cache/mute-stream-npm-0.0.7-22b59a65dd-a9d4772c1c.zip/node_modules/mute-stream/",
+          "packageDependencies": [
+            ["mute-stream", "npm:0.0.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["nan", [
         ["npm:2.14.2", {
           "packageLocation": "./.yarn/unplugged/nan-npm-2.14.2-e3ede8ce5d/node_modules/nan/",
@@ -26818,6 +27030,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["onetime", [
+        ["npm:2.0.1", {
+          "packageLocation": "./.yarn/cache/onetime-npm-2.0.1-6c39ecc911-bb44015ac7.zip/node_modules/onetime/",
+          "packageDependencies": [
+            ["onetime", "npm:2.0.1"],
+            ["mimic-fn", "npm:1.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:5.1.2", {
           "packageLocation": "./.yarn/cache/onetime-npm-5.1.2-3ed148fa42-2478859ef8.zip/node_modules/onetime/",
           "packageDependencies": [
@@ -29130,6 +29350,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["restore-cursor", [
+        ["npm:2.0.0", {
+          "packageLocation": "./.yarn/cache/restore-cursor-npm-2.0.0-80278eb6b7-482e13d02d.zip/node_modules/restore-cursor/",
+          "packageDependencies": [
+            ["restore-cursor", "npm:2.0.0"],
+            ["onetime", "npm:2.0.1"],
+            ["signal-exit", "npm:3.0.3"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:3.1.0", {
           "packageLocation": "./.yarn/cache/restore-cursor-npm-3.1.0-52c5a4c98f-f877dd8741.zip/node_modules/restore-cursor/",
           "packageDependencies": [
@@ -29307,6 +29536,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rsv-signature", "npm:1.1.0"],
             ["bn.js", "npm:4.12.0"],
             ["enc-utils", "npm:2.2.3"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["run-async", [
+        ["npm:2.4.1", {
+          "packageLocation": "./.yarn/cache/run-async-npm-2.4.1-a94bb90861-a2c88aa15d.zip/node_modules/run-async/",
+          "packageDependencies": [
+            ["run-async", "npm:2.4.1"]
           ],
           "linkType": "HARD",
         }]
@@ -30966,6 +31204,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["synthetix", "npm:2.45.3"],
             ["abi-decoder", "npm:2.3.0"],
             ["commander", "npm:5.1.0"],
+            ["pretty-error", "npm:2.1.2"],
+            ["solidity-parser-antlr", "npm:0.4.11"],
+            ["web3-utils", "npm:1.2.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.61.0", {
+          "packageLocation": "./.yarn/cache/synthetix-npm-2.61.0-ddef24006e-d61130c947.zip/node_modules/synthetix/",
+          "packageDependencies": [
+            ["synthetix", "npm:2.61.0"],
+            ["abi-decoder", "npm:2.3.0"],
+            ["commander", "npm:8.1.0"],
+            ["inquirer", "npm:6.5.2"],
+            ["inquirer-list-search-prompt", "virtual:ddef24006e74e32e71d4488e17885e419436c5978dd4d5cb0424918d4007c689e32bddd7f2692a329aa538eaea195cee3c847349b12663bdab910caaabd4c417#npm:1.0.2"],
+            ["js-levenshtein", "npm:1.1.6"],
             ["pretty-error", "npm:2.1.2"],
             ["solidity-parser-antlr", "npm:0.4.11"],
             ["web3-utils", "npm:1.2.2"]
@@ -33133,6 +33386,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["web3-utils", [
+        ["npm:1.2.11", {
+          "packageLocation": "./.yarn/cache/web3-utils-npm-1.2.11-618f0ef456-1e43235963.zip/node_modules/web3-utils/",
+          "packageDependencies": [
+            ["web3-utils", "npm:1.2.11"],
+            ["bn.js", "npm:4.12.0"],
+            ["eth-lib", "npm:0.2.8"],
+            ["ethereum-bloom-filters", "npm:1.0.10"],
+            ["ethjs-unit", "npm:0.1.6"],
+            ["number-to-bn", "npm:1.7.0"],
+            ["randombytes", "npm:2.1.0"],
+            ["underscore", "npm:1.9.1"],
+            ["utf8", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:1.2.2", {
           "packageLocation": "./.yarn/cache/web3-utils-npm-1.2.2-30d9c9754b-bbd1189b7b.zip/node_modules/web3-utils/",
           "packageDependencies": [
