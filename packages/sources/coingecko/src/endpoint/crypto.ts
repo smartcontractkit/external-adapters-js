@@ -107,6 +107,8 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  const validator = new Validator(request, inputParameters, {}, { overrides })
+
   // Combine the overrides from the 'overrides' object and the 'symbolToIdOverride' parameter.
   // If there is any overlapping overrides, prefer the override specified in 'symbolToIdOverride'.
   if (util.isSymbolToIdOverride(request.data.symbolToIdOverride)) {
@@ -118,7 +120,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     ;(overrides as SymbolToIdOverride)[AdapterName.toLowerCase()] = combinedOverrides
   }
 
-  const validator = new Validator(request, inputParameters, {}, { overrides })
   const endpoint = validator.validated.data.endpoint ?? DEFAULT_ENDPOINT
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
