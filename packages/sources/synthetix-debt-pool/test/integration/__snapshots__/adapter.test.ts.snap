@@ -1,10 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`synthetix-debt-pool debt successfully fetches the current debt size of the synthetix debt cache across "mainnet" and "mainnet-ovm" if chainSources is missing 1`] = `
+Object {
+  "data": Object {
+    "result": "313273658056626393719587417",
+  },
+  "jobRunID": 1,
+  "result": "313273658056626393719587417",
+  "statusCode": 200,
+}
+`;
+
+exports[`synthetix-debt-pool debt successfully fetches the current debt size of the synthetix debt cache for only one chain 1`] = `
+Object {
+  "data": Object {
+    "result": "274504021465419663278269593",
+  },
+  "jobRunID": 1,
+  "result": "274504021465419663278269593",
+  "statusCode": 200,
+}
+`;
+
+exports[`synthetix-debt-pool debt-ratio successfully fetches the debt ratio across all chains if chainSources is missing 1`] = `
+Object {
+  "data": Object {
+    "result": "1238571593661276745783695103",
+  },
+  "jobRunID": 1,
+  "result": "1238571593661276745783695103",
+  "statusCode": 200,
+}
+`;
+
+exports[`synthetix-debt-pool debt-ratio successfully fetches the debt ratio for only one chain 1`] = `
+Object {
+  "data": Object {
+    "result": "1279602875189552479134253351",
+  },
+  "jobRunID": 1,
+  "result": "1279602875189552479134253351",
+  "statusCode": 200,
+}
+`;
+
 exports[`synthetix-debt-pool errors throws an error if the request contains a source without a chain configuration 1`] = `
 Object {
   "error": Object {
-    "feedID": "{\\"data\\":{\\"chainSources\\":[\\"ethereum-fake\\"],\\"resultPath\\":\\"debt\\"}}",
-    "message": "Missing configuration for chain: ETHEREUM-FAKE",
+    "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"]}}",
+    "message": "Cannot destructure property 'rpcURL' of 'config.chains[network]' as it is undefined.",
     "name": "AdapterError",
   },
   "jobRunID": 1,
@@ -13,35 +57,15 @@ Object {
 }
 `;
 
-exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is empty 1`] = `
+exports[`synthetix-debt-pool errors throws an error if the request contains a source without a chain configuration 2`] = `
 Object {
-  "data": Object {
-    "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"],\\"endpoint\\":\\"debt-ratio\\"}}",
+    "message": "Cannot destructure property 'rpcURL' of 'config.chains[network]' as it is undefined.",
+    "name": "AdapterError",
   },
   "jobRunID": 1,
-  "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
-  "statusCode": 200,
-}
-`;
-
-exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is missing 1`] = `
-Object {
-  "data": Object {
-    "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
-  },
-  "jobRunID": 1,
-  "result": "0x000000000162e5f31ae1af41dd78e49800000000010ce52dd3af66081c5b68ee",
-  "statusCode": 200,
-}
-`;
-
-exports[`synthetix-debt-pool when making a request to fetch the current debt successfully fetches the current debt size of the synthetix debt cache for only one chain 1`] = `
-Object {
-  "data": Object {
-    "result": "0x0000000000b172f98d70d7a0eebc724c0000000000e2be35af6b47384f7b98ca",
-  },
-  "jobRunID": 1,
-  "result": "0x0000000000b172f98d70d7a0eebc724c0000000000e2be35af6b47384f7b98ca",
-  "statusCode": 200,
+  "status": "errored",
+  "statusCode": 500,
 }
 `;
