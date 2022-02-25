@@ -1,5 +1,19 @@
 # @chainlink/token-allocation-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 9190472b5: update token allocation EA to batch requests sent to Coinpaprika
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+- Updated dependencies [9190472b5]
+- Updated dependencies [9190472b5]
+  - @chainlink/nomics-adapter@1.1.0
+  - @chainlink/coingecko-adapter@1.3.0
+
 ## 1.1.6
 
 ### Patch Changes
