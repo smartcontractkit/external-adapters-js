@@ -7,17 +7,17 @@ Object {
       "SUSHI": Object {
         "quote": Object {
           "USD": Object {
-            "price": 12.049759759496,
+            "price": 3.2489646804045,
           },
         },
       },
     },
-    "result": 14.422000451599907,
+    "result": 3.8885895671986153,
     "sources": Array [],
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 14.422000451599907,
+  "result": 3.8885895671986153,
   "statusCode": 200,
 }
 `;
