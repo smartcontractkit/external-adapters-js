@@ -17,11 +17,13 @@ The environment variables above are not required to start the adapter but are re
 
 ### Input Parameters
 
-N/A
+| Required? |   Name   |     Description     |                            Options                             | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [`debt`](#Debt-Endpoint), [`debt-ratio`](#Debt-Ratio-Endpoint) |   `debt`    |
 
 ---
 
-## Synthetix-debt-pool Endpoint
+## Debt-Endpoint
 
 ### Input Params
 
@@ -29,50 +31,59 @@ N/A
 | :-------: | :----------: | :----------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
 |           | chainSources | Chains to pull debt from | Array of chains to pull debt from. Options for array elements are `mainnet`, `mainnet-ovm`, `kovan`, `kovan-ovm`. Leaving this blank will pull data from `mainnet` and `mainnet-ovm` |             |
 
-### Sample Input 1
-
-```json
-{
-  "id": 1,
-  "data": {}
-}
-```
-
-### Sample Output 2
-
-```json
-{
-  "jobRunID": 1,
-  "result": "325477250609593129853813523",
-  "maxAge": 30000,
-  "statusCode": 200,
-  "data": {
-    "result": "325477250609593129853813523",
-    "isInvalid": false
-  }
-}
-```
-
-### Sample Input 2
+### Sample Input
 
 ```json
 {
   "id": 1,
   "data": {
-    "chainSources": ["ethereum"]
+    "chainSources": ["mainnet"]
   }
 }
 ```
 
-### Sample Output 2
+### Sample Output
 
 ```json
 {
   "jobRunID": 1,
-  "result": "0x000000000063e236fd9b18e9473beb3700000000006437f697997ef9b6da0555",
+  "result": "173124247725705425179753282",
   "statusCode": 200,
   "data": {
-    "result": "0x000000000063e236fd9b18e9473beb3700000000006437f697997ef9b6da0555"
+    "result": "173124247725705425179753282"
+  }
+}
+```
+
+## Debt-Ratio-Endpoint
+
+### Input Params
+
+| Required? |     Name     |       Description        |                                                                                       Options                                                                                        | Defaults to |
+| :-------: | :----------: | :----------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | chainSources | Chains to pull debt from | Array of chains to pull debt from. Options for array elements are `mainnet`, `mainnet-ovm`, `kovan`, `kovan-ovm`. Leaving this blank will pull data from `mainnet` and `mainnet-ovm` |             |
+
+### Sample Input
+
+```json
+{
+  "id": 1,
+  "data": {
+    "chainSources": ["mainnet"],
+    "endpoint": "debt-ratio"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": 1,
+  "result": "1075142753974996121253281029",
+  "statusCode": 200,
+  "data": {
+    "result": "1075142753974996121253281029"
   }
 }
 ```
