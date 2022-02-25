@@ -3361,6 +3361,7 @@ __metadata:
     jest: 27.3.1
     lint-staged: 11.2.6
     prettier: 2.5.1
+    source-map-support: 0.5.21
     ts-node: 10.4.0
     typescript: 4.3.5
   languageName: unknown
@@ -25541,6 +25542,16 @@ resolve@1.17.0:
     buffer-from: ^1.0.0
     source-map: ^0.6.0
   checksum: abf93e6201f54bd5713d6f6d5aa32b3752d750ce3c68044733295622ea0c346177505a615e87c073a1e0ad9b1d17b87a58f81152a31d6459658e4e9c17132db6
+  languageName: node
+  linkType: hard
+
+"source-map-support@npm:0.5.21":
+  version: 0.5.21
+  resolution: "source-map-support@npm:0.5.21"
+  dependencies:
+    buffer-from: ^1.0.0
+    source-map: ^0.6.0
+  checksum: 43e98d700d79af1d36f859bdb7318e601dfc918c7ba2e98456118ebc4c4872b327773e5a1df09b0524e9e5063bb18f0934538eace60cca2710d1fa687645d137
   languageName: node
   linkType: hard
 
