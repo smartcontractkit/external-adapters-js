@@ -5499,7 +5499,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["hardhat", "npm:2.7.1"],
-            ["mock-socket", "npm:9.1.0"],
+            ["mock-socket", "npm:9.1.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -25917,10 +25917,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mock-socket", [
-        ["npm:9.1.0", {
-          "packageLocation": "./.yarn/cache/mock-socket-npm-9.1.0-ccd2b5bee9-19b16017da.zip/node_modules/mock-socket/",
+        ["npm:9.1.2", {
+          "packageLocation": "./.yarn/cache/mock-socket-npm-9.1.2-a69db42457-ef25dbd57b.zip/node_modules/mock-socket/",
           "packageDependencies": [
-            ["mock-socket", "npm:9.1.0"]
+            ["mock-socket", "npm:9.1.2"]
           ],
           "linkType": "HARD",
         }]
