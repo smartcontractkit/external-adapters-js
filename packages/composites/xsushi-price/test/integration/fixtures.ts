@@ -2,15 +2,30 @@ import nock from 'nock'
 
 export function mockCoinpaprikaAdapterResponseSuccess() {
   nock('http://localhost:8081')
-    .post('/', { id: '1', data: { base: 'SUSHI', quote: 'USD', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: ['SUSHI'], quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
       {
         jobRunID: '1',
         providerStatusCode: 200,
-        result: 12.049759759496,
         statusCode: 200,
-        data: { result: 12.049759759496 },
+        data: {
+          results: [
+            [
+              {
+                id: '1',
+                data: {
+                  endpoint: 'crypto',
+                  resultPath: 'price',
+                  base: 'SUSHI',
+                  quote: 'USD',
+                },
+                rateLimitMaxAge: 57603,
+              },
+              3.2489646804045,
+            ],
+          ],
+        },
       },
       [
         'X-Powered-By',
