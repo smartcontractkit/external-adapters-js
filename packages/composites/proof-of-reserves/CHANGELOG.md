@@ -1,5 +1,14 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.4.14
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+  - @chainlink/por-indexer-adapter@1.0.15
+  - @chainlink/renvm-address-set-adapter@1.3.5
+  - @chainlink/wbtc-address-set-adapter@1.3.14
+
 ## 1.4.13
 
 ### Patch Changes
