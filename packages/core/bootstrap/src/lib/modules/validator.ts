@@ -46,9 +46,9 @@ export class Validator {
     this.validatorOptions = {
       shouldThrowError: true,
       includes: [],
-      overrides: {},
       ...validatorOptions,
     }
+    if (!this.validatorOptions.overrides) this.validatorOptions.overrides = {}
     this.validated = { id: this.input.id, data: {} }
     this.validateInput()
     this.validateOverrides('overrides', this.validatorOptions.overrides)

@@ -1,15 +1,16 @@
-import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, /*Logger,*/ util, AdapterError } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
   AxiosResponse,
   AdapterRequest,
   InputParameters,
+  SymbolToIdOverride,
 } from '@chainlink/types'
-import { NAME as AdapterName } from '../config'
+import { NAME as AdapterName, DEFAULT_ENDPOINT } from '../config'
 import overrides from '../config/symbols.json'
 
-import { getCoinIds, getSymbolsToIds } from '../util'
+import { getCoinIds } from '../util'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
@@ -62,36 +63,41 @@ export interface ResponseSchema {
 
 const handleBatchedRequest = (
   jobRunID: string,
+  ids: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema>,
   validator: Validator,
-  endpoint: string,
   idToSymbol: Record<string, string>,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base in response.data) {
-    const quoteArray = Array.isArray(request.data.quote) ? request.data.quote : [request.data.quote]
+  const quoteArray = Array.isArray(validator.validated.data.quote)
+    ? validator.validated.data.quote
+    : [validator.validated.data.quote]
+  const coinIds = ids.split(',')
+
+  for (const coinId of coinIds) {
     for (const quote of quoteArray) {
-      const symbol = idToSymbol?.[base]
-      if (symbol) {
-        const individualRequest = {
-          ...request,
-          data: {
-            ...request.data,
-            base: validator.overrideReverseLookup(AdapterName, 'overrides', symbol).toUpperCase(),
-            quote: quote.toUpperCase(),
-          },
-        }
-        payload.push([
-          individualRequest,
-          Requester.validateResultNumber(response.data, [
-            base,
-            endpointResultPaths[endpoint](individualRequest),
-          ]),
-        ])
-      } else Logger.debug('WARNING: Symbol not found ', base)
+      const individualRequest = {
+        ...request,
+        data: {
+          ...request.data,
+          quote: quote.toUpperCase(),
+        },
+      }
+      // If the inital request used a coinid, add this is the individualRequest.
+      // Otherwise, convert from coinid to symbol
+      if (validator.validated.data.coinid) {
+        individualRequest.data.coinid = coinId
+      } else {
+        individualRequest.data.symbol = idToSymbol[coinId]
+      }
+      payload.push([
+        individualRequest,
+        Requester.validateResultNumber(response.data, [coinId, quote.toLowerCase()]),
+      ])
     }
   }
+
   return Requester.success(
     jobRunID,
     Requester.withResult(response, undefined, payload),
@@ -101,20 +107,66 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  // Combine the overrides from the 'overrides' object and the 'symbolToIdOverride' parameter.
+  // If there is any overlapping overrides, prefer the override specified in 'symbolToIdOverride'.
+  if (util.isSymbolToIdOverride(request.data.symbolToIdOverride)) {
+    const combinedOverrides = (overrides as SymbolToIdOverride)[AdapterName.toLowerCase()] ?? {}
+    const adapterOverrides = request.data.symbolToIdOverride[AdapterName.toLowerCase()]
+    for (const overriddenSymbol of Object.keys(adapterOverrides)) {
+      combinedOverrides[overriddenSymbol] = adapterOverrides[overriddenSymbol]
+    }
+    ;(overrides as SymbolToIdOverride)[AdapterName.toLowerCase()] = combinedOverrides
+  }
 
-  const endpoint = validator.validated.data.endpoint
+  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const endpoint = validator.validated.data.endpoint ?? DEFAULT_ENDPOINT
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
+  const base = validator.validated.data.base
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
+
   let idToSymbol = {}
+  // If a coinid was provided in the request object, use the provided coinid.
+  // Otherwise, convert all the requested symbols to coinIds.
   let ids = coinid
   if (!ids) {
-    const coinIds = await getCoinIds(context, jobRunID)
+    const coinResponses = await getCoinIds(context, jobRunID)
+    const requestedCoins: { [symbol: string]: string } = {}
+    const adapterOverrides = (overrides as SymbolToIdOverride)[AdapterName.toLowerCase()]
     const symbols = Array.isArray(base) ? base : [base]
-    idToSymbol = getSymbolsToIds(symbols, coinIds)
-    ids = Object.keys(idToSymbol).join(',')
+
+    for (let i = 0; i < symbols.length; i++) {
+      const symbol = symbols[i]
+      let isDuplicateSymbol = false
+      for (const coinData of coinResponses) {
+        if (symbol === coinData.symbol) {
+          // If there is a duplicate symbol found and it is not overridden, throw an error
+          if (isDuplicateSymbol && !adapterOverrides?.[symbol]) {
+            throw new AdapterError({
+              message: `A duplicate coin id was found for the requested symbol '${symbol}' and no override was provided.`,
+            })
+          }
+          requestedCoins[symbol] = coinData.id
+          isDuplicateSymbol = true
+        }
+      }
+      // if an override is specified in adapterOverrides, use the overriding id.
+      if (adapterOverrides?.[symbol]) {
+        requestedCoins[symbol] = adapterOverrides[symbol]
+      }
+    }
+
+    // check to ensure all the requested symbols have been converted to ids
+    for (const symbol of symbols) {
+      if (!requestedCoins[symbol]) {
+        throw new AdapterError({
+          message: `Could not find a coin id for the requested symbol '${symbol}'`,
+        })
+      }
+    }
+
+    ids = Object.values(requestedCoins).join(',')
+    idToSymbol = swap(requestedCoins)
   }
 
   const url = '/simple/price'
@@ -136,8 +188,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const response = await Requester.request<ResponseSchema>(options, customError)
 
-  if (Array.isArray(base) || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, request, response, validator, endpoint, idToSymbol)
+  // if multiple coinids or multiple currency conversions are requested, handleBatchedRequest
+  if (ids.includes(',') || Array.isArray(quote))
+    return handleBatchedRequest(jobRunID, ids, request, response, validator, idToSymbol)
   const result = Requester.validateResultNumber(response.data, [ids.toLowerCase(), resultPath])
 
   return Requester.success(
@@ -146,4 +199,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     config.verbose,
     batchablePropertyPath,
   )
+}
+
+// swaps keys for values in an object of type { [key: string]: string }
+const swap = (obj: { [key: string]: string }) => {
+  const swapped: { [value: string]: string } = {}
+  for (const key of Object.keys(obj)) {
+    swapped[obj[key]] = key
+  }
+  return swapped
 }
