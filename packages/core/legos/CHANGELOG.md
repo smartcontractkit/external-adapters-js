@@ -1,5 +1,32 @@
 # @chainlink/ea
 
+## 1.0.54
+
+### Patch Changes
+
+- Updated dependencies [d4c77ee63]
+- Updated dependencies [9190472b5]
+- Updated dependencies [9190472b5]
+  - @chainlink/synthetix-debt-pool-adapter@2.0.0
+  - @chainlink/nomics-adapter@1.1.0
+  - @chainlink/coingecko-adapter@1.3.0
+  - @chainlink/renvm-address-set-adapter@1.3.5
+  - @chainlink/wbtc-address-set-adapter@1.3.14
+
+## 1.0.53
+
+### Patch Changes
+
+- Updated dependencies [7f605f9b1]
+  - @chainlink/coinpaprika-adapter@1.3.7
+
+## 1.0.52
+
+### Patch Changes
+
+- Updated dependencies [a711674e8]
+  - @chainlink/coinpaprika-adapter@1.3.6
+
 ## 1.0.51
 
 ### Patch Changes
