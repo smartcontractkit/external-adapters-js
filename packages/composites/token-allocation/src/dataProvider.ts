@@ -48,7 +48,7 @@ const sendBatchedRequests = async (
   quote: string,
   withMarketCap = false,
 ): Promise<ResponsePayload> => {
-  const sortedSymbols = symbols.sort((a, b) => a.localeCompare(b))
+  const sortedSymbols = symbols.sort()
   const data: AdapterRequest = {
     id: jobRunID,
     data: {
@@ -63,8 +63,7 @@ const sendBatchedRequests = async (
   })
   const tokenPrices = responseData.data.results
 
-  const response: ResponsePayload = {}
-  sortedSymbols.forEach((symbol) => {
+  return sortedSymbols.reduce((response, symbol) => {
     const tokenPrice = tokenPrices.find(
       (priceResponse) => (priceResponse[0] as AdapterResponse).data.base === symbol,
     )
@@ -80,9 +79,8 @@ const sendBatchedRequests = async (
         [quote]: { [withMarketCap ? 'marketCap' : 'price']: tokenPrice[1] },
       },
     }
-  })
-
-  return response
+    return response
+  }, {} as ResponsePayload)
 }
 
 const sendIndividualRequests = async (
