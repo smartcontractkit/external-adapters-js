@@ -1,5 +1,12 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.54
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+  - @chainlink/ea@1.0.54
+
 ## 1.0.53
 
 ### Patch Changes
