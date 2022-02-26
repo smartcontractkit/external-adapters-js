@@ -1,5 +1,11 @@
 # @chainlink/lotus-adapter
 
+## 2.1.17
+
+### Patch Changes
+
+- @chainlink/json-rpc-adapter@1.2.5
+
 ## 2.1.16
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 2.0.0
 
 ### Major Changes

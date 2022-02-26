@@ -1,5 +1,12 @@
 # @chainlink/dxfeed-adapter
 
+## 1.2.19
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.18
 
 ### Patch Changes
