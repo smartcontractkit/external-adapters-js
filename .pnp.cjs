@@ -4047,7 +4047,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4067,7 +4067,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.5.0"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4141,7 +4141,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4178,7 +4178,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4201,7 +4201,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bignumber.js", "npm:9.0.2"],
             ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4237,7 +4237,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4296,7 +4296,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4314,7 +4314,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4333,7 +4333,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4370,7 +4370,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4390,7 +4390,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4445,7 +4445,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["blockcypher", "npm:0.3.0"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4464,7 +4464,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4501,7 +4501,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4526,7 +4526,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bignumber.js", "npm:9.0.1"],
             ["bn.js", "npm:5.2.0"],
             ["ethers", "npm:5.5.1"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4545,7 +4545,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4564,7 +4564,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4583,7 +4583,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4637,7 +4637,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4656,7 +4656,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4675,7 +4675,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4694,7 +4694,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4714,7 +4714,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4733,7 +4733,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4753,7 +4753,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4772,7 +4772,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4791,7 +4791,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4839,7 +4839,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4881,7 +4881,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4918,7 +4918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4937,7 +4937,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4956,7 +4956,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4975,7 +4975,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4996,7 +4996,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5016,7 +5016,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5053,7 +5053,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5088,7 +5088,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5162,7 +5162,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5182,7 +5182,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5205,7 +5205,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ipfs", "npm:0.60.2"],
             ["merkletreejs", "npm:0.2.24"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"],
             ["web3", "npm:1.5.2"]
@@ -5519,7 +5519,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5538,7 +5538,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5559,7 +5559,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5578,7 +5578,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5597,7 +5597,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5616,7 +5616,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5635,7 +5635,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5702,7 +5702,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5751,7 +5751,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5770,7 +5770,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5789,7 +5789,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5808,7 +5808,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5843,7 +5843,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5862,7 +5862,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -5880,7 +5880,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6009,7 +6009,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6028,7 +6028,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6108,7 +6108,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6127,7 +6127,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6164,7 +6164,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6189,7 +6189,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["moment", "npm:2.29.1"],
             ["moment-timezone", "npm:0.5.34"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6242,7 +6242,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.7"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6281,7 +6281,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6301,7 +6301,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["axios", "npm:0.24.0"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6336,7 +6336,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6374,7 +6374,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6392,7 +6392,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6410,7 +6410,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6429,7 +6429,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6448,7 +6448,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6483,7 +6483,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6502,7 +6502,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6542,7 +6542,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6579,7 +6579,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6598,7 +6598,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6672,7 +6672,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["object-path", "npm:0.11.5"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6712,7 +6712,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["bitcoinjs-lib", "npm:5.2.0"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6731,7 +6731,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6752,7 +6752,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6773,7 +6773,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["jsonwebtoken", "npm:8.5.1"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6794,7 +6794,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6813,7 +6813,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6855,7 +6855,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.4.6"],
             ["luxon", "npm:2.0.2"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6874,7 +6874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6895,7 +6895,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["decimal.js", "npm:10.3.1"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["synthetix", "npm:2.45.3"],
             ["tslib", "npm:2.3.1"],
             ["type-fest", "npm:2.0.0"],
@@ -6917,7 +6917,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.5.3"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6936,7 +6936,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6956,7 +6956,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6993,7 +6993,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7012,7 +7012,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7063,7 +7063,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7083,7 +7083,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["express", "npm:4.17.1"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7102,7 +7102,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7121,7 +7121,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7149,7 +7149,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7170,7 +7170,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7191,7 +7191,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7210,7 +7210,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7229,7 +7229,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7266,7 +7266,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7286,7 +7286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7305,7 +7305,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7324,7 +7324,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7343,7 +7343,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7364,7 +7364,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.4"],
-            ["supertest", "npm:6.1.6"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -31004,24 +31004,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:6.1.0", {
-          "packageLocation": "./.yarn/cache/superagent-npm-6.1.0-053b76aea5-32ca1bc980.zip/node_modules/superagent/",
-          "packageDependencies": [
-            ["superagent", "npm:6.1.0"],
-            ["component-emitter", "npm:1.3.0"],
-            ["cookiejar", "npm:2.1.2"],
-            ["debug", "virtual:c2bff3e67180802999655a22d390062982690e911b9d9225c258f3b25e7409f3867b2682c16232b77415f560a09d05a95042dc512a5b8c566c42bbbed88b0bbc#npm:4.3.2"],
-            ["fast-safe-stringify", "npm:2.0.8"],
-            ["form-data", "npm:3.0.1"],
-            ["formidable", "npm:1.2.2"],
-            ["methods", "npm:1.1.2"],
-            ["mime", "npm:2.5.2"],
-            ["qs", "npm:6.10.1"],
-            ["readable-stream", "npm:3.6.0"],
-            ["semver", "npm:7.3.5"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:7.1.1", {
           "packageLocation": "./.yarn/cache/superagent-npm-7.1.1-44803748c3-8710b84cf5.zip/node_modules/superagent/",
           "packageDependencies": [
@@ -31051,15 +31033,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["supertest", [
-        ["npm:6.1.6", {
-          "packageLocation": "./.yarn/cache/supertest-npm-6.1.6-6f73075270-51d11b794a.zip/node_modules/supertest/",
-          "packageDependencies": [
-            ["supertest", "npm:6.1.6"],
-            ["methods", "npm:1.1.2"],
-            ["superagent", "npm:6.1.0"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:6.2.2", {
           "packageLocation": "./.yarn/cache/supertest-npm-6.2.2-d999ec4e20-3c1956d57e.zip/node_modules/supertest/",
           "packageDependencies": [
