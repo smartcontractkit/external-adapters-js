@@ -1,5 +1,12 @@
 ## v1.1.0
 
+## 1.6.14
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.6.13
 
 ### Patch Changes
