@@ -5,6 +5,16 @@ import { makeExecute } from '../../src/adapter'
 import coinsList from './coinsList.json'
 import nock from 'nock'
 
+beforeEach((done) => {
+  if (!nock.isActive()) nock.activate()
+  done()
+})
+
+afterEach((done) => {
+  nock.restore()
+  done()
+})
+
 describe('price endpoint', () => {
   const jobID = '1'
   const execute = makeExecute()
@@ -81,14 +91,19 @@ describe('price endpoint', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
+      it(`${req.name}`, (done) => {
         nock('https://api.coingecko.com/api/v3').get('/coins/list').reply(200, coinsList)
-        try {
-          await execute(req.testData as AdapterRequest, {})
-          throw new Error('Adapter did not produce error as expected.')
-        } catch (error) {
-          expect(error.message).toBe(req.expectedErrorMessage)
-        }
+        execute(req.testData as AdapterRequest, {})
+          .then(() => {
+            throw new Error('Adapter did not produce error as expected.')
+          })
+          .catch((error) => {
+            expect(error.message).toBe(req.expectedErrorMessage)
+          })
+          .finally(() => {
+            nock.cleanAll()
+            done()
+          })
       })
     })
   })
@@ -220,7 +235,7 @@ describe('price endpoint', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
+      it(`${req.name}`, (done) => {
         nock('https://api.coingecko.com/api/v3')
           .get('/coins/list')
           .reply(200, coinsList)
@@ -230,9 +245,15 @@ describe('price endpoint', () => {
             return true
           })
           .reply(req.mockResponse.statusCode, req.mockResponse.body)
-        const response = await execute(req.testData as AdapterRequest, {})
-        expect(response.statusCode).toBe(req.expectedResponse.statusCode)
-        expect(response.result).toBe(req.expectedResponse.result)
+        execute(req.testData as AdapterRequest, {})
+          .then((response) => {
+            expect(response.statusCode).toBe(req.expectedResponse.statusCode)
+            expect(response.result).toBe(req.expectedResponse.result)
+          })
+          .then(() => {
+            nock.cleanAll()
+            done()
+          })
       })
     })
   })
@@ -406,7 +427,7 @@ describe('price endpoint', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
+      it(`${req.name}`, (done) => {
         nock('https://api.coingecko.com/api/v3')
           .get('/coins/list')
           .reply(200, coinsList)
@@ -416,12 +437,18 @@ describe('price endpoint', () => {
             return true
           })
           .reply(req.mockResponse.statusCode, req.mockResponse.body)
-        const response = await execute(req.testData as AdapterRequest, {})
-        expect(response.statusCode).toBe(req.expectedResponse.statusCode)
-        const keys = Object.keys(response.data)
-        for (let i = 0; i < keys.length - 1; i++) {
-          expect(response.data[keys[i]]).toEqual(req.expectedResponse.data[keys[i]])
-        }
+        execute(req.testData as AdapterRequest, {})
+          .then((response) => {
+            expect(response.statusCode).toBe(req.expectedResponse.statusCode)
+            const keys = Object.keys(response.data)
+            for (let i = 0; i < keys.length - 1; i++) {
+              expect(response.data[keys[i]]).toEqual(req.expectedResponse.data[keys[i]])
+            }
+          })
+          .then(() => {
+            nock.cleanAll()
+            done()
+          })
       })
     })
   })
@@ -441,13 +468,19 @@ describe('price endpoint', () => {
     ]
 
     requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest, {})
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
+      it(`${req.name}`, (done) => {
+        execute(req.testData as AdapterRequest, {})
+          .then(() => {
+            throw new Error('Adapter did not produce error as expected.')
+          })
+          .catch((error) => {
+            const errorResp = Requester.errored(jobID, error)
+            assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+          })
+          .finally(() => {
+            nock.cleanAll()
+            done()
+          })
       })
     })
   })
