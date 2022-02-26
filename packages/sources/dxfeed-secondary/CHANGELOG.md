@@ -1,5 +1,13 @@
 # @chainlink/dxfeed-secondary-adapter
 
+## 1.1.31
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dxfeed-adapter@1.2.19
+
 ## 1.1.30
 
 ### Patch Changes

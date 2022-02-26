@@ -1,5 +1,11 @@
 # @chainlink/vesper-adapter
 
+## 1.0.47
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.2.1
+
 ## 1.0.46
 
 ### Patch Changes
