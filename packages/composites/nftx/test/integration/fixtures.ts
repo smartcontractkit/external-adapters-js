@@ -1,4 +1,4 @@
-import * as nock from 'nock'
+import nock from 'nock'
 
 export function mockAdapterResponseSuccess(): void {
   nock('http://localhost:8080', { encodedQueryParams: true })
