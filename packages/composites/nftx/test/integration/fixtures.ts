@@ -1,6 +1,6 @@
-import nock from 'nock'
+import * as nock from 'nock'
 
-export function mockAdapterResponseSuccess(): any {
+export function mockAdapterResponseSuccess(): void {
   nock('http://localhost:8080', { encodedQueryParams: true })
     .post('/', { id: '1', data: { address: '0x269616D549D7e8Eaa82DFb17028d0B212D11232A' } })
     .reply(
@@ -37,7 +37,7 @@ export function mockAdapterResponseSuccess(): any {
     )
 }
 
-export function mockEthereumResponseSuccess(): any {
+export function mockEthereumResponseSuccess(): void {
   nock('http://localhost:8545')
     .persist()
     .post('/', {
