@@ -38,6 +38,12 @@ jobs:
           npm install -g yarn
           yarn install
           yarn setup
+      - name: Install SOPS
+        run: |
+          TEMP_DEB="temp-sops-v3.7.1.linux" &&
+          wget -O "$TEMP_DEB" https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux &&
+          sudo dpkg -i "$TEMP_DEB" &&
+          rm -f "$TEMP_DEB"
       - name: Checkout external-adapters-js repo
         uses: actions/checkout@v2
         with:
@@ -126,6 +132,9 @@ jobs:
           # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
+              cd infra-k8s/
+              echo ${sops -d apps/files/adapters/${adapter}/secrets-develop.yaml}
+              cd ..
               yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
