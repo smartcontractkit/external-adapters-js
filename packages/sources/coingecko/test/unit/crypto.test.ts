@@ -6,19 +6,8 @@ import coinsList from './coinsList.json'
 import nock from 'nock'
 
 describe('price endpoint', () => {
-  // beforeEach((done) => {
-  //   if (!nock.isActive()) nock.activate()
-  //   done()
-  // })
-
-  // afterEach((done) => {
-  //   nock.restore()
-  //   done()
-  // })
-
   const jobID = '1'
   const execute = makeExecute()
-  //process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
 
   describe('symbol to coin id conversion errors', () => {
     const requests = [
