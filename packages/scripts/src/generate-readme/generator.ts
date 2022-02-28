@@ -7,13 +7,16 @@ import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema, TableText
 const localPathToRoot = '../../../../'
 
 const testEnvOverrides = {
-  API_VERBOSE: undefined,
+  // API_VERBOSE: undefined,
+  API_VERBOSE: 'true',
   EA_PORT: '0',
   LOG_LEVEL: 'debug',
   NODE_ENV: undefined,
   RECORD: undefined,
   WS_ENABLED: undefined,
 }
+
+const TRUNCATE_LINES = 500
 
 // Note: genSig and genSigGrep parsed text must match
 const genSig =
@@ -241,7 +244,10 @@ export class ReadmeGenerator {
           for (const ioPair of endpointIO[endpoint] ?? []) {
             const { input, output } = ioPair
             const inputJson = JSON.stringify(input, null, 2)
-            const outputJson = JSON.stringify(output, null, 2)
+            let outputJson = JSON.stringify(output, null, 2)
+            const outputLines = outputJson.split('\n')
+            if (outputLines.length > TRUNCATE_LINES)
+              outputJson = outputLines.slice(0, TRUNCATE_LINES).join('\n') + '\n...'
             ioExamples.push(`Request:\n${wrapJson(inputJson)}\nResponse:\n${wrapJson(outputJson)}`)
           }
         }
