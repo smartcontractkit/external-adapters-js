@@ -52,7 +52,14 @@ jobs:
         with:
           # Can be "open", "closed", or "all".  Defaults to "open".
           state: all
+      - name: Install SOPS
+        run: |
+          TEMP_DEB="temp-sops_3.7.1_amd64.deb" &&
+          wget -O "$TEMP_DEB" https://github.com/mozilla/sops/releases/download/v3.7.1/sops_3.7.1_amd64.deb &&
+          sudo dpkg -i "$TEMP_DEB" &&
+          rm -f "$TEMP_DEB"
       - name: Use GH CLI to get pr info
+        working-directory: ./external-adapters-js
         id: get-pr-info
         env:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
@@ -64,10 +71,10 @@ jobs:
           # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
           # ADAPTERS_LIST="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
           ADAPTERS_LIST="coingecko coinpaprika"
-
           # export adapters from this step
           echo "::set-output name=ADAPTERS_LIST::${ADAPTERS_LIST}"
       - name: Remove adapters that have no fluxconfig
+        working-directory: ./external-adapters-js
         id: adapters-list
         env:
           ADAPTER_NAMES: ${{ steps.get-pr-info.outputs.ADAPTERS_LIST }}
@@ -83,10 +90,13 @@ jobs:
             fi
             ADAPTERS_LIST="${ADAPTERS_LIST} ${adapter}"
           done
-          ADAPTERS_LIST="$(echo ${ADAPTERS_LIST} | xargs)"
+          # TODO uncomment this line
+          # ADAPTERS_LIST="$(echo ${ADAPTERS_LIST} | xargs)"
+          ADAPTERS_LIST="coingecko"
           # export adapters from this step
           echo "::set-output name=ADAPTERS_LIST::${ADAPTERS_LIST}"
       - name: Build adapters
+        working-directory: ./external-adapters-js
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.adapters-list.outputs.ADAPTERS_LIST }}
@@ -94,28 +104,25 @@ jobs:
         run: |
           IMAGE_TAG=pr${PR_NUMBER}
           IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
+          ls -al
           BUILD_NAMES=
+          echo $BUILD_NAMES
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
               BUILD_NAMES="${BUILD_NAMES} ${adapter}-adapter"
             done
+            echo $BUILD_NAMES
             docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
             for adapter in ${ADAPTER_NAMES}; do
               docker push ${IMAGE_PREFIX}${adapter}-adapter:${IMAGE_TAG}
             done
           fi
-      - run: cd ../
-      - name: Checkout infra-k8s repo
+      - name: Clone infra-k8s repo
         env:
-          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
-        uses: actions/checkout@v2
-        with:
-          repository: 'https://github.com/smartcontractkit/infra-k8s/'
-          ref: ${PR_NUMBER}
-          token: ${GITHUB_TOKEN}
-          path: infra-k8s
+        run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/infra-k8s.git
       - name: Deploy adapters
+        working-directory: ./external-adapters-js
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.adapters-list.outputs.ADAPTERS_LIST }}
@@ -129,9 +136,9 @@ jobs:
           # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              cd infra-k8s/
+              cd ../infra-k8s
               echo ${sops -d apps/files/adapters/${adapter}/secrets-develop.yaml}
-              cd ..
+              cd ../external-adapters-js
               yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
