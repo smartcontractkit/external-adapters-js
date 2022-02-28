@@ -46,6 +46,11 @@ Response:
 
 ```json
 {
+  "safeLow": 122,
+  "standard": 134,
+  "fast": 148,
+  "fastest": 160,
+  "blockNum": 13722866,
   "result": 148
 }
 ```

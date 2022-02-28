@@ -48,6 +48,8 @@ Response:
 
 ```json
 {
+  "status": "1",
+  "message": "OK",
   "result": 128
 }
 ```

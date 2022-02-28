@@ -53,6 +53,17 @@ Response:
 
 ```json
 {
+  "endpoint": "live",
+  "quotes": [
+    {
+      "ask": 150.51,
+      "bid": 150.5,
+      "instrument": "AAPL",
+      "mid": 150.50501
+    }
+  ],
+  "requested_time": "Fri, 05 Nov 2021 17:12:07 GMT",
+  "timestamp": 1636132328,
   "result": 150.50501
 }
 ```
@@ -89,6 +100,18 @@ Response:
 
 ```json
 {
+  "endpoint": "live",
+  "quotes": [
+    {
+      "ask": 4494.03,
+      "base_currency": "ETH",
+      "bid": 4494.02,
+      "mid": 4494.0249,
+      "quote_currency": "USD"
+    }
+  ],
+  "requested_time": "Fri, 05 Nov 2021 17:11:25 GMT",
+  "timestamp": 1636132286,
   "result": 4494.0249
 }
 ```

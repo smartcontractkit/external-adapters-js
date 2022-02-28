@@ -70,6 +70,26 @@ Response:
 
 ```json
 {
+  "responses": [
+    {
+      "status": "success",
+      "data": {
+        "network": "BTC",
+        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+        "confirmed_balance": "0.00000000",
+        "unconfirmed_balance": null
+      }
+    },
+    {
+      "status": "success",
+      "data": {
+        "network": "BTC",
+        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+        "confirmed_balance": "0.00002188",
+        "unconfirmed_balance": null
+      }
+    }
+  ],
   "result": [
     {
       "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",

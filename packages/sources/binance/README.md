@@ -53,6 +53,8 @@ Response:
 
 ```json
 {
+  "symbol": "ETHBTC",
+  "price": "0.07077300",
   "result": 0.070773
 }
 ```

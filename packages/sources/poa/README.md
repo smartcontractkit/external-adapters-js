@@ -48,6 +48,9 @@ Response:
 
 ```json
 {
+  "average": 152.5,
+  "fast": 174.5,
+  "slow": 139.4,
   "result": 152500000000
 }
 ```

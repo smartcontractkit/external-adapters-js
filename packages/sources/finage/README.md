@@ -55,6 +55,12 @@ Response:
 
 ```json
 {
+  "symbol": "ETH",
+  "ask": 26.32,
+  "bid": 25.8,
+  "asize": 13,
+  "bsize": 1,
+  "timestamp": 1628899200621,
   "result": 25.8
 }
 ```
@@ -91,6 +97,18 @@ Response:
 
 ```json
 {
+  "symbol": "ETH",
+  "totalResults": 1,
+  "results": [
+    {
+      "o": 26.79,
+      "h": 26.85,
+      "l": 26.02,
+      "c": 26.3,
+      "v": 367009,
+      "t": 1628884800000
+    }
+  ],
   "result": 26.3
 }
 ```
@@ -130,6 +148,10 @@ Response:
 
 ```json
 {
+  "symbol": "GBPUSD",
+  "ask": 1.34435,
+  "bid": 1.34426,
+  "timestamp": 1637060382000,
   "result": 1.3443049999999999
 }
 ```
@@ -166,6 +188,9 @@ Response:
 
 ```json
 {
+  "symbol": "BTCUSD",
+  "price": 50940.12,
+  "timestamp": 1638898619885,
   "result": 50940.12
 }
 ```

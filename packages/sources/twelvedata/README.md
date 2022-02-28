@@ -55,6 +55,11 @@ Response:
 
 ```json
 {
+  "symbol": "VXX",
+  "exchange": "CBOE",
+  "currency": "USD",
+  "datetime": "2021-11-05",
+  "close": "20.86750",
   "result": 20.8675
 }
 ```
@@ -91,6 +96,7 @@ Response:
 
 ```json
 {
+  "price": "20.86750",
   "result": 20.8675
 }
 ```

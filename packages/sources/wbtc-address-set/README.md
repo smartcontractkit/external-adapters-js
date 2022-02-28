@@ -57,7 +57,8 @@ Response:
       "chainId": "mainnet",
       "network": "bitcoin"
     }
-  ]
+  ],
+  "count": 1
 }
 ```
 
@@ -99,7 +100,8 @@ Response:
       "chainId": "mainnet",
       "network": "bitcoin"
     }
-  ]
+  ],
+  "count": 1
 }
 ```
 

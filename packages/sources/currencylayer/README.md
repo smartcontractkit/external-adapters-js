@@ -52,6 +52,18 @@ Response:
 
 ```json
 {
+  "success": true,
+  "terms": "https://currencylayer.com/terms",
+  "privacy": "https://currencylayer.com/privacy",
+  "query": {
+    "from": "BTC",
+    "to": "USD",
+    "amount": 1
+  },
+  "info": {
+    "timestamp": 1635800883,
+    "quote": 60535.74
+  },
   "result": 60535.74
 }
 ```

@@ -57,6 +57,15 @@ Response:
 
 ```json
 {
+  "payload": [
+    {
+      "p": 0.8828,
+      "a": 0.8828,
+      "b": 0.8827,
+      "s": "USD/EUR",
+      "t": 1641851954307
+    }
+  ],
   "result": 0.8828
 }
 ```
@@ -97,6 +106,9 @@ Response:
 
 ```json
 {
+  "value": "0.862701",
+  "text": "1 USD is worth 0.862701 EUR",
+  "timestamp": 1636478097478,
   "result": 0.862701
 }
 ```

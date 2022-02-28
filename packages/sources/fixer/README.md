@@ -53,6 +53,17 @@ Response:
 
 ```json
 {
+  "success": true,
+  "query": {
+    "from": "USD",
+    "to": "EUR",
+    "amount": 1
+  },
+  "info": {
+    "timestamp": 1636390923,
+    "rate": 0.862805
+  },
+  "date": "2021-11-08",
   "result": 0.862805
 }
 ```

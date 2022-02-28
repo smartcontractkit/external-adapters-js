@@ -47,6 +47,7 @@ Response:
 
 ```json
 {
+  "grams_locked": "91571.93000000",
   "result": 91571.93
 }
 ```

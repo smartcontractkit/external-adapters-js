@@ -51,6 +51,9 @@ Response:
 
 ```json
 {
+  "success": true,
+  "block": 14000000,
+  "value": 14000000,
   "result": 14000000
 }
 ```

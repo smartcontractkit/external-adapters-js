@@ -50,6 +50,20 @@ Response:
 
 ```json
 {
+  "price": "28,860.62",
+  "diff": "<!--daily_changing-->+405.02 (+1.42%)&nbsp;&nbsp;<span class=\"icon-arrow-dark-circle-right-up zoom-icon\" aria-hidden=\"true\"></span>",
+  "diff_xs": "<!--daily_changing-->+405.02 (+1.42%)&nbsp;<span class=\"icon-arrow-dark-circle-right-up zoom-icon\" aria-hidden=\"true\"></span>",
+  "price_diff": "<!--daily_changing--><div class=\"current_sub_pos\"><span class=\"current_sub_price\">28,860.62&nbsp;</span>+405.02 (+1.42%)&nbsp;&nbsp;<span class=\"icon-arrow-dark-circle-right-up zoom-icon\" aria-hidden=\"true\"></span>",
+  "datedtime": "Dec/08/2021(*Close)",
+  "datedtime_nkave": "Dec/08/2021 *Close",
+  "open_price": "28,792.89",
+  "opentime": "(09:00)",
+  "high_price": "28,897.44",
+  "hightime": "(13:39)",
+  "low_price": "28,621.47",
+  "lowtime": "(09:22)",
+  "divisor": "28.373",
+  "divisor_date": "(Dec/09/2021)",
   "result": 28860.62
 }
 ```

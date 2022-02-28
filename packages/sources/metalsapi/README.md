@@ -54,7 +54,20 @@ Response:
 
 ```json
 {
-  "result": 1785.0181286441143
+  "success": true,
+  "query": {
+    "from": "XAU",
+    "to": "USD",
+    "amount": 1
+  },
+  "info": {
+    "timestamp": 1637949420,
+    "rate": 1785.0181286441143
+  },
+  "historical": false,
+  "date": "2021-11-26",
+  "result": 1785.0181286441143,
+  "unit": "per ounce"
 }
 ```
 
@@ -93,6 +106,14 @@ Response:
 
 ```json
 {
+  "success": true,
+  "timestamp": 1641990900,
+  "date": "2022-01-12",
+  "base": "XAU",
+  "rates": {
+    "USD": 1817.0552439305814
+  },
+  "unit": "per ounce",
   "result": 1817.0552439305814
 }
 ```

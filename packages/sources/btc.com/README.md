@@ -68,6 +68,27 @@ Response:
 
 ```json
 {
+  "responses": [
+    {
+      "data": {
+        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
+        "received": 357176196514,
+        "sent": 357176196514,
+        "balance": 0,
+        "tx_count": 63,
+        "unconfirmed_tx_count": 0,
+        "unconfirmed_received": 0,
+        "unconfirmed_sent": 0,
+        "unspent_tx_count": 0,
+        "first_tx": "d542926e85a98302a1b3af88a88ae55364696f230ea909e45fe20ce0fefe33d1",
+        "last_tx": "4df75d3ef0f0e13cfd00625ded80b278e76475d4a73884d245edcb42c2814556"
+      },
+      "err_code": 0,
+      "err_no": 0,
+      "message": "success",
+      "status": "success"
+    }
+  ],
   "result": [
     {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
@@ -109,6 +130,39 @@ Response:
 
 ```json
 {
+  "data": {
+    "height": 709857,
+    "version": 671080448,
+    "mrkl_root": "a5b2db5e74c9f1866e3a62eae4bc645471b8ecc6fea8c452dace91d63e3836b9",
+    "timestamp": 1636991861,
+    "bits": 386689514,
+    "nonce": 1647131200,
+    "hash": "0000000000000000000964f8c9ae099170b0b1dfe6b3bf1a82edf15db1d2a847",
+    "prev_block_hash": "00000000000000000000a750aef6a001b1b4f2202d46990700412f5fb59bf32f",
+    "next_block_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "size": 1218365,
+    "pool_difficulty": 29961509697911,
+    "difficulty": 22674148233453,
+    "difficulty_double": 22674148233453.105,
+    "tx_count": 1771,
+    "reward_block": 625000000,
+    "reward_fees": 4006745,
+    "confirmations": 1,
+    "is_orphan": false,
+    "curr_max_timestamp": 1636991861,
+    "is_sw_block": true,
+    "stripped_size": 716583,
+    "sigops": 10655,
+    "weight": 3368114,
+    "extras": {
+      "pool_name": "Binance Pool",
+      "pool_link": "https://pool.binance.com/"
+    }
+  },
+  "err_code": 0,
+  "err_no": 0,
+  "message": "success",
+  "status": "success",
   "result": 22674148233453
 }
 ```

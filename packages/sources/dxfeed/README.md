@@ -51,6 +51,24 @@ Response:
 
 ```json
 {
+  "status": "OK",
+  "Trade": {
+    "TSLA:BFX": {
+      "eventSymbol": "TSLA:BFX",
+      "eventTime": 0,
+      "time": 1636744209248,
+      "timeNanoPart": 0,
+      "sequence": 775394,
+      "exchangeCode": "V",
+      "price": 239.255,
+      "change": 0.03,
+      "size": 3,
+      "dayVolume": 700004,
+      "dayTurnover": 167577930,
+      "tickDirection": "ZERO_UP",
+      "extendedTradingHours": false
+    }
+  },
   "result": 239.255
 }
 ```

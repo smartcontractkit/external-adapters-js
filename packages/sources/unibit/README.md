@@ -53,6 +53,27 @@ Response:
 
 ```json
 {
+  "meta_data": {
+    "api_name": "historical_stock_price_v2",
+    "num_total_data_points": 1,
+    "credit_cost": 10,
+    "start_date": "yesterday",
+    "end_date": "yesterday"
+  },
+  "result_data": {
+    "VXX": [
+      {
+        "date": "2021-11-26",
+        "volume": 82949400,
+        "high": 26.44,
+        "low": 22.625,
+        "adj_close": 26.16,
+        "close": 26.16,
+        "open": 22.97
+      }
+    ]
+  },
+  "cost": 10,
   "result": 26.16
 }
 ```

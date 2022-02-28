@@ -53,6 +53,11 @@ Response:
 
 ```json
 {
+  "data": {
+    "base": "BTC",
+    "currency": "USD",
+    "amount": "57854.29"
+  },
   "result": 57854.29
 }
 ```

@@ -53,6 +53,21 @@ Response:
 
 ```json
 {
+  "data": {
+    "id": "eth_ars",
+    "type": "tickers",
+    "attributes": {
+      "last": 935234,
+      "open": 934713,
+      "high": 935234,
+      "low": 907110,
+      "vwap": 934877.7183770883,
+      "volume": 1.257,
+      "bid": 879407,
+      "ask": 930127,
+      "price_before_last": 920016
+    }
+  },
   "result": 934877.7183770883
 }
 ```

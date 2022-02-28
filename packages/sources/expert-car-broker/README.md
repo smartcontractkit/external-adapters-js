@@ -52,6 +52,7 @@ Response:
 
 ```json
 {
+  "value": 482421,
   "result": 482421
 }
 ```

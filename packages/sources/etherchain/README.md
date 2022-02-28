@@ -48,6 +48,12 @@ Response:
 
 ```json
 {
+  "safeLow": 1,
+  "standard": 1,
+  "fast": 1.5,
+  "fastest": 2,
+  "currentBaseFee": 126.6,
+  "recommendedBaseFee": 257,
   "result": 1500000000
 }
 ```
