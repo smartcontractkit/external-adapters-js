@@ -38,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const chainID = (validator.validated.data.chainId || config.defaultChainId) as ChainId
   const resultPath = validator.validated.data.resultPath as string
 
-  const URL = config.rpcUrls[chainID]
+  const URL = config.lcdUrls[chainID]
   if (!URL)
     throw new AdapterError({
       jobRunID,
