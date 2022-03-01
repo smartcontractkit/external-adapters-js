@@ -3,7 +3,6 @@ import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
-import * as view from '@chainlink/terra-view-function-adapter'
 import { mockBTCUSDPrice, mockETHUSDPrice, mockLunaUSDPrice } from '../fixtures'
 import { AddressInfo } from 'net'
 

@@ -3,10 +3,10 @@
 exports[`price-beth successful calls return success when fetching the USD/BEth price 1`] = `
 Object {
   "data": Object {
-    "result": 4430.014752502817,
+    "result": "4430014752502816924005",
   },
   "jobRunID": "1",
-  "result": 4430.014752502817,
+  "result": "4430014752502816924005",
   "statusCode": 200,
 }
 `;
@@ -14,10 +14,10 @@ Object {
 exports[`price-beth successful calls returns success when fetching the BTC/BEth price 1`] = `
 Object {
   "data": Object {
-    "result": 0.07826051571393168,
+    "result": "78260515713931684",
   },
   "jobRunID": "1",
-  "result": 0.07826051571393168,
+  "result": "78260515713931684",
   "statusCode": 200,
 }
 `;
@@ -25,10 +25,10 @@ Object {
 exports[`price-beth successful calls returns success when fetching the ETH/BEth price 1`] = `
 Object {
   "data": Object {
-    "result": 0.9828489551447018,
+    "result": "982848955144701712",
   },
   "jobRunID": "1",
-  "result": 0.9828489551447018,
+  "result": "982848955144701712",
   "statusCode": 200,
 }
 `;

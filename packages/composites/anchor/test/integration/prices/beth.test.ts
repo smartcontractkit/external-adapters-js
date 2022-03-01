@@ -12,30 +12,34 @@ const mockBigNum = BigNumber.from(10).pow(18)
 const mockEthBalance = BigNumber.from('600035129129882344513625')
 const mockStEthBalance = BigNumber.from('610505943959151982581203')
 
-jest.mock('ethers', () => ({
-  ...jest.requireActual('ethers'),
-  ethers: {
-    providers: {
-      JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-        return {}
+jest.mock('ethers', () => {
+  const actualModule = jest.requireActual('ethers')
+  return {
+    ...actualModule,
+    ethers: {
+      ...actualModule.ethers,
+      providers: {
+        JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
+          return {}
+        },
+      },
+      Contract: function () {
+        return {
+          get_rate: (____: string) => {
+            return mockBigNum
+          },
+          balances: (id: number): BigNumber => {
+            if (id === 0) {
+              return mockEthBalance
+            } else {
+              return mockStEthBalance
+            }
+          },
+        }
       },
     },
-    Contract: function () {
-      return {
-        get_rate: (____: string) => {
-          return mockBigNum
-        },
-        balances: (id: number): BigNumber => {
-          if (id === 0) {
-            return mockEthBalance
-          } else {
-            return mockStEthBalance
-          }
-        },
-      }
-    },
-  },
-}))
+  }
+})
 
 let oldEnv: NodeJS.ProcessEnv
 
