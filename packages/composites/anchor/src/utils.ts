@@ -1,13 +1,13 @@
 import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
 import * as TA from '@chainlink/token-allocation-adapter'
-import { BigNumber } from 'ethers'
-import { DEFAULT_TOKEN_DECIMALS } from './config'
+import { BigNumber, ethers } from 'ethers'
+import { FIXED_POINT_DECIMALS } from './config'
 
 export const getTokenPrice = async (
   input: AdapterRequest,
   context: AdapterContext,
   symbol: string,
-  decimals = DEFAULT_TOKEN_DECIMALS,
+  decimals = 18,
 ): Promise<AdapterResponse> => {
   const _config = TA.makeConfig()
   const _execute = TA.makeExecute(_config)
@@ -24,16 +24,19 @@ export const getTokenPrice = async (
 export const convertUSDQuote = async (
   input: AdapterRequest,
   context: AdapterContext,
-  usdPrice: number,
+  usdPrice: ethers.BigNumber,
   targetQuote: string,
-  targetQuoteDecimals = DEFAULT_TOKEN_DECIMALS,
-): Promise<number> => {
+  targetQuoteDecimals = 18,
+): Promise<ethers.BigNumber> => {
   const targetQuoteUSDRateResp = await getTokenPrice(
     input,
     context,
     targetQuote,
     targetQuoteDecimals,
   )
-  const targetQuoteUSDRate = targetQuoteUSDRateResp.data.result
-  return usdPrice / targetQuoteUSDRate
+  const targetQuoteUSDRate = ethers.utils.parseUnits(
+    targetQuoteUSDRateResp.data.result.toString(),
+    FIXED_POINT_DECIMALS,
+  )
+  return usdPrice.mul(BigNumber.from(10).pow(FIXED_POINT_DECIMALS)).div(targetQuoteUSDRate)
 }

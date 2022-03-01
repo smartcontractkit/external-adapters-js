@@ -2,7 +2,7 @@ import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/types'
 
 export const DEFAULT_ENDPOINT = 'price'
-export const DEFAULT_TOKEN_DECIMALS = 18
+export const FIXED_POINT_DECIMALS = 18
 export const NAME = 'ANCHOR'
 
 export const DEFAULT_ANCHOR_VAULT_CONTRACT_ADDRESS = '0xA2F987A546D4CD1c607Ee8141276876C26b72Bdf'

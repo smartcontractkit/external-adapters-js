@@ -2,11 +2,11 @@ import { Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterContext,
   AdapterRequest,
-  AdapterResponse,
   ExecuteWithConfig,
   InputParameters,
 } from '@chainlink/types'
-import { Config } from '../../config'
+import { ethers } from 'ethers'
+import { Config, FIXED_POINT_DECIMALS } from '../../config'
 import { convertUSDQuote, getTokenPrice } from '../../utils'
 import * as beth from './beth'
 import * as bluna from './bluna'
@@ -25,8 +25,8 @@ export type PriceExecute = (
   input: AdapterRequest,
   context: AdapterContext,
   config: Config,
-  taAdapterResponse: AdapterResponse,
-) => Promise<AdapterResponse>
+  taAdapterResponse: ethers.BigNumber,
+) => Promise<ethers.BigNumber>
 
 const supportedSymbols = [beth.FROM, bluna.FROM]
 
@@ -55,22 +55,23 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       )
   }
   const taResponse = await getTokenPrice(input, context, intermediaryTokenSymbol, taDecimals)
-  const resultInUSD = await priceExecute(input, context, config, taResponse)
-
-  if (to.toUpperCase() === 'USD') return resultInUSD
-  const convertedResult = await convertUSDQuote(
-    input,
-    context,
-    resultInUSD.data.result,
-    to,
-    quoteDecimals,
+  const taResponseBigNum = ethers.utils.parseUnits(
+    taResponse.data.result.toString(),
+    FIXED_POINT_DECIMALS,
   )
+  let result = await priceExecute(input, context, config, taResponseBigNum)
+
+  if (to.toUpperCase() !== 'USD') {
+    result = await convertUSDQuote(input, context, result, to, quoteDecimals)
+  }
+
+  const resString = result.toString()
   return {
     jobRunID: input.id,
     statusCode: 200,
-    result: convertedResult,
+    result: resString,
     data: {
-      result: convertedResult,
+      result: resString,
     },
   }
 }

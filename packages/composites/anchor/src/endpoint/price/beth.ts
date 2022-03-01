@@ -1,37 +1,34 @@
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { PriceExecute } from '.'
-import BigNumber from 'bignumber.js'
-import { Config } from '../../config'
+import { Config, FIXED_POINT_DECIMALS } from '../../config'
 import { anchorVaultAbi, curvePoolAbi } from './abi'
 
 export const FROM = 'BETH'
-export const INTERMEDIARY_TOKEN_DECIMALS = 8
+export const INTERMEDIARY_TOKEN_DECIMALS = 18
 export const INTERMEDIARY_TOKEN = 'ETH'
 
-export const execute: PriceExecute = async (input, _, config, taAdapterResponse) => {
+export const execute: PriceExecute = async (_, __, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const stEthPerBEth = await getStEthBEthExchangeRate(config, provider)
-  const ethPerStEth = await getStETHExchangeRate(config, provider)
-  const usdPerEth = taAdapterResponse.data.result
-  const result = new BigNumber(usdPerEth)
-    .multipliedBy(ethPerStEth)
-    .multipliedBy(stEthPerBEth)
-    .toNumber()
-  return {
-    jobRunID: input.id,
-    statusCode: 200,
-    result,
-    data: {
-      result,
-    },
-  }
+  const { ethBalance, stEthBalance } = await getStETHExchangeRate(config, provider)
+  // result = USD / ETH * ETH / stETH * stETH / bETH = USD / bETH
+  return usdPerEth
+    .mul(stEthPerBEth)
+    .mul(ethBalance)
+    .div(stEthBalance)
+    .div(BigNumber.from(10).pow(FIXED_POINT_DECIMALS))
+}
+
+interface CurveEthStEthBalances {
+  ethBalance: ethers.BigNumber
+  stEthBalance: ethers.BigNumber
 }
 
 const getStETHExchangeRate = async (
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
-): Promise<BigNumber> => {
+): Promise<CurveEthStEthBalances> => {
   const stEthPoolContract = new ethers.Contract(
     config.stEthPoolContractAddress,
     curvePoolAbi,
@@ -39,19 +36,20 @@ const getStETHExchangeRate = async (
   )
   const ethBal = await stEthPoolContract.balances(0)
   const stEthBal = await stEthPoolContract.balances(1)
-  return new BigNumber(ethBal.toString()).dividedBy(new BigNumber(stEthBal.toString()))
+  return {
+    ethBalance: ethBal,
+    stEthBalance: stEthBal,
+  }
 }
 
 const getStEthBEthExchangeRate = async (
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
-): Promise<BigNumber> => {
+): Promise<ethers.BigNumber> => {
   const anchorVaultContract = new ethers.Contract(
     config.anchorVaultContractAddress,
     anchorVaultAbi,
     provider,
   )
-  const bEthExchangeRateBigNum = await anchorVaultContract.get_rate()
-  // Need to convert to BigNumber JS from ethers BigNumber as the latter will remove all decimals
-  return new BigNumber(bEthExchangeRateBigNum.toString()).dividedBy(new BigNumber(10).pow(18))
+  return await anchorVaultContract.get_rate()
 }
