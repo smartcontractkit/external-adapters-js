@@ -389,3 +389,13 @@ export const getRequiredEnvWithFallback = (
 
   throw new RequiredEnvError(getEnvName(primary, prefix))
 }
+
+export function isArraylikeAccessor(x: unknown[]): x is [number] {
+  return x.every((i) => typeof i === 'number') && x.length === 1
+}
+
+export function isRecord<T extends Record<string | number | symbol, T[keyof T]>>(
+  value: unknown,
+): value is Record<string | number | symbol, T[keyof T]> {
+  return Object.prototype.toString.call(value) === '[object Object]'
+}

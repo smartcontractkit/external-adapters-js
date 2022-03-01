@@ -8,7 +8,7 @@ import type {
   BatchableProperty,
 } from '../../types'
 import axios, { AxiosResponse } from 'axios'
-import { deepType } from '../util'
+import { deepType, isArraylikeAccessor, isRecord } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import { AdapterError } from './error'
 import { logger } from './logger'
@@ -90,12 +90,13 @@ export class Requester {
     return await _retry(retries)
   }
 
-  static validateResultNumber<T extends Record<string, T[keyof T]>>(
+  static validateResultNumber<T extends Record<string, T[keyof T]> | string | ArrayLike<unknown>>(
     data: T,
     path: ResultPath,
     options?: { inverse?: boolean },
   ): number {
     const result = this.getResult(data, path)
+
     if (typeof result === 'undefined') {
       const message = 'Result could not be found in path'
       logger.error(message, { data, path })
@@ -108,13 +109,42 @@ export class Requester {
     }
     const num = Number(result)
     if (options?.inverse && num != 0) {
+      ;``
       return 1 / num
     }
     return num
   }
 
-  static getResult<T extends Record<string, T[keyof T]>>(data: T, path: ResultPath): unknown {
+  static getResult<T extends Record<string, T[keyof T]> | string | ArrayLike<unknown>>(
+    data: T,
+    path: ResultPath,
+  ): unknown {
+    if (
+      (typeof data === 'string' || Array.isArray(data)) &&
+      Array.isArray(path) &&
+      isArraylikeAccessor(path)
+    )
+      return this.getResultFromArraylike(data, path)
+
+    if (isRecord(data)) return this.getResultFromObject(data, path)
+
+    const message = 'Invalid validateResultNumber usage'
+    logger.error(message, { data, path })
+    throw new AdapterError({ message })
+  }
+
+  static getResultFromObject<T extends Record<string, T[keyof T]>>(
+    data: T,
+    path: ResultPath,
+  ): unknown {
     return objectPath.get(data, path)
+  }
+
+  static getResultFromArraylike<T extends string | ArrayLike<unknown>>(
+    data: T,
+    path: [number],
+  ): unknown {
+    return data[path[0]]
   }
 
   /**
