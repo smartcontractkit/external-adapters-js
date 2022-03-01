@@ -373,3 +373,29 @@ export const getRequiredEnvWithFallback = (
 
   throw new RequiredEnvError(getEnvName(primary, prefix))
 }
+
+/**
+ * Build a URL path using the given pathTemplate and params. If a param is found in pathTemplate, it will be inserted there; otherwise, it will be added as a searchParam.
+ * eg.) pathTemplate = "/from/:from/to/:to" and params = { from: "ETH", to: "BTC", note: "hello" } will become "/from/ETH/to/BTC?note=hello"
+ * @param pathTemplate The path template for the URL path. Leave empty if only searchParams are required.
+ * @param params The object containing keys & values to be added to the URL path.
+ * @returns {string}
+ */
+export const buildUrlPath = (pathTemplate = '', params = {}): string => {
+  const searchParams = new URLSearchParams()
+  let hasSearchParams = false
+
+  for (const param in params) {
+    const value = params[param as keyof typeof params]
+    if (!value) continue
+
+    if (pathTemplate.includes(`:${param}`)) {
+      pathTemplate = pathTemplate.replace(`:${param}`, encodeURIComponent(value))
+    } else {
+      searchParams.append(param, value)
+      hasSearchParams = true
+    }
+  }
+
+  return `${pathTemplate}${hasSearchParams ? `?${searchParams.toString()}` : ''}`
+}
