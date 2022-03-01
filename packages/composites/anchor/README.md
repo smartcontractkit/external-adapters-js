@@ -51,10 +51,11 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 ```json
 {
   "jobRunID": "1",
-  "result": 4507.32,
+  "result": "2898433986830163904275",
+  "maxAge": 30000,
   "statusCode": 200,
   "data": {
-    "result": 4507.32
+    "result": "2898433986830163904275"
   }
 }
 ```
@@ -80,10 +81,10 @@ N/A
 ```json
 {
   "jobRunID": "1",
-  "result": 68.68049351018732,
+  "result": "89070558247315713497",
   "statusCode": 200,
   "data": {
-    "result": 68.68049351018732
+    "result": "89070558247315713497"
   }
 }
 ```
