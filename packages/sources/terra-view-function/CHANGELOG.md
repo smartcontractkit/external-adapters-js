@@ -1,5 +1,11 @@
 # @chainlink/terra-view-function-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- b3f3423e4: Changed the environment variables that were formerly RPC_URLs to now be LCD_URLs
+
 ## 1.1.17
 
 ### Patch Changes
