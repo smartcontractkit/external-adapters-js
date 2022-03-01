@@ -67,6 +67,7 @@ const handleBatchedRequest = (
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema>,
   validator: Validator,
+  endpoint: string,
   idToSymbol: Record<string, string>,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -81,6 +82,7 @@ const handleBatchedRequest = (
         ...request,
         data: {
           ...request.data,
+          base: coinId,
           quote: quote.toUpperCase(),
         },
       }
@@ -91,9 +93,15 @@ const handleBatchedRequest = (
       } else {
         individualRequest.data.symbol = idToSymbol[coinId]
       }
+      let path = endpointResultPaths[endpoint](individualRequest)
+      if (path === '') path = quote.toLowerCase()
       payload.push([
         individualRequest,
-        Requester.validateResultNumber(response.data, [coinId, quote.toLowerCase()]),
+        Requester.validateResultNumber(
+          response.data,
+          //[coinId, quote.toLowerCase()]
+          [coinId, path],
+        ),
       ])
     }
   }
@@ -191,7 +199,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   // if multiple coinids or multiple currency conversions are requested, handleBatchedRequest
   if (ids.includes(',') || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, ids, request, response, validator, idToSymbol)
+    return handleBatchedRequest(jobRunID, ids, request, response, validator, endpoint, idToSymbol)
   const result = Requester.validateResultNumber(response.data, [ids.toLowerCase(), resultPath])
 
   return Requester.success(
