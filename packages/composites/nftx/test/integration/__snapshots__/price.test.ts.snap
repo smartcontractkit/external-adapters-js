@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with vault address should return success 1`] = `
+Object {
+  "data": Object {
+    "fee": "0.02",
+    "price": "65.319915591679174162",
+    "priceWithFee": "66.626313903512757645",
+  },
+  "jobRunID": "1",
+  "statusCode": 200,
+}
+`;

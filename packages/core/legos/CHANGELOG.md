@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.0.56
+
+### Patch Changes
+
+- Updated dependencies [e91884b91]
+- Updated dependencies [b3f3423e4]
+  - @chainlink/layer2-sequencer-health-adapter@1.1.6
+  - @chainlink/terra-view-function-adapter@1.2.0
+
 ## 1.0.55
 
 ### Patch Changes
