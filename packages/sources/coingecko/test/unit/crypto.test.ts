@@ -7,9 +7,9 @@ import nock from 'nock'
 
 describe('price endpoint', () => {
   const jobID = '1'
-  const execute = makeExecute()
 
   describe('symbol to coin id conversion errors', () => {
+    const execute = makeExecute()
     const requests = [
       {
         name: 'single coin request with missing coin id',
@@ -93,6 +93,7 @@ describe('price endpoint', () => {
   })
 
   describe('successful single coin requests', () => {
+    const execute = makeExecute()
     const requests = [
       {
         name: 'basic request',
@@ -224,8 +225,7 @@ describe('price endpoint', () => {
         .reply(200, coinsList)
         .get(/\/simple\/price*/)
         .query((query) => {
-          expect(query).toEqual(req.expectedQuery)
-          return true
+          return query.ids === req.expectedQuery.ids
         })
         .reply(req.mockResponse.statusCode, req.mockResponse.body)
       it(`${req.name}`, async () => {
@@ -236,7 +236,36 @@ describe('price endpoint', () => {
     })
   })
 
+  describe('validation error', () => {
+    const execute = makeExecute()
+    const requests = [
+      { name: 'empty body', testData: {} },
+      { name: 'empty data', testData: { data: {} } },
+      {
+        name: 'base not supplied',
+        testData: { id: jobID, data: { quote: 'USD' } },
+      },
+      {
+        name: 'quote not supplied',
+        testData: { id: jobID, data: { base: 'ETH' } },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest, {})
+          throw new Error('Adapter did not produce error as expected.')
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+        }
+      })
+    })
+  })
+
   describe('successful multiple coin requests', () => {
+    const execute = makeExecute()
     const requests = [
       {
         name: 'basic request',
@@ -280,7 +309,7 @@ describe('price endpoint', () => {
           id: '1',
           data: {
             to: 'USD',
-            from: ['COMP', 'PAX', 'RUNE'],
+            from: ['RUNE', 'PAX'],
           },
         },
         expectedQuery: {
@@ -405,48 +434,31 @@ describe('price endpoint', () => {
     ]
 
     requests.forEach((req) => {
+      // console.log(req.name)
+      // console.log(req.expectedQuery.ids)
       nock('https://api.coingecko.com/api/v3')
         .get('/coins/list')
         .reply(200, coinsList)
         .get(/\/simple\/price*/)
         .query((query) => {
-          expect(query).toEqual(req.expectedQuery)
+          // console.log('Actual queried ids for ' + req.name)
+          // console.log(query.ids)
+          const expectedIds = req.expectedQuery.ids.split(',')
+          expectedIds.forEach((id) => {
+            if (!query.ids.includes(id)) return false
+          })
           return true
         })
         .reply(req.mockResponse.statusCode, req.mockResponse.body)
+    })
+
+    requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const response = await execute(req.testData as AdapterRequest, {})
         expect(response.statusCode).toBe(req.expectedResponse.statusCode)
         const keys = Object.keys(response.data)
         for (let i = 0; i < keys.length - 1; i++) {
           expect(response.data[keys[i]]).toEqual(req.expectedResponse.data[keys[i]])
-        }
-      })
-    })
-  })
-
-  describe('validation error', () => {
-    const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest, {})
-          throw new Error('Adapter did not produce error as expected.')
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
