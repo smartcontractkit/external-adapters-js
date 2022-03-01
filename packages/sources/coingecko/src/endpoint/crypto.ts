@@ -94,14 +94,13 @@ const handleBatchedRequest = (
         individualRequest.data.symbol = idToSymbol[coinId]
       }
       let path = endpointResultPaths[endpoint](individualRequest)
-      if (path === '') path = quote.toLowerCase()
+      // 'endpointResultPaths' does not work as-is when an array of quotes is requested
+      // from the 'price' & 'crypto' endpoints.
+      // The fix is to add the quote to the path manully if it has not been added correctly.
+      if ((endpoint === 'price' || endpoint === 'crypto') && path === '') path = quote.toLowerCase()
       payload.push([
         individualRequest,
-        Requester.validateResultNumber(
-          response.data,
-          //[coinId, quote.toLowerCase()]
-          [coinId, path],
-        ),
+        Requester.validateResultNumber(response.data, [coinId, path]),
       ])
     }
   }
@@ -148,7 +147,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       const symbol = symbols[i]
       let isDuplicateSymbol = false
       for (const coinData of coinResponses) {
-        if (symbol === coinData.symbol) {
+        if (symbol === coinData.symbol || symbol === coinData.symbol.toUpperCase()) {
           // If there is a duplicate symbol found and it is not overridden, throw an error
           if (isDuplicateSymbol && !adapterOverrides?.[symbol]) {
             throw new AdapterError({
