@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dns-record-check-adapter",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "Chainlink DNS record check adapter",
   "keywords": [
     "Chainlink",
@@ -37,7 +37,7 @@
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
     "nock": "13.2.4",
-    "supertest": "6.1.6",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptoapis-adapter",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
@@ -30,8 +30,8 @@
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
-    "nock": "13.1.3",
-    "supertest": "6.1.6",
+    "nock": "13.2.4",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

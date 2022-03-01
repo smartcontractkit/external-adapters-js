@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cache.gold-adapter",
-  "version": "1.2.16",
+  "version": "1.2.17",
   "description": "Chainlink cache.gold adapter.",
   "keywords": [
     "Chainlink",
@@ -37,8 +37,8 @@
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
     "@types/supertest": "2.0.11",
-    "nock": "13.1.3",
-    "supertest": "6.1.6",
+    "nock": "13.2.4",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

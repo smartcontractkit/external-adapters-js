@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/genesis-volatility-adapter",
-  "version": "1.2.16",
+  "version": "1.2.17",
   "description": "Chainlink Genesis Volatility adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
     "nock": "13.2.4",
-    "supertest": "6.1.6",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

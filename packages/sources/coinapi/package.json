@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinapi-adapter",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,7 @@
     "@types/node": "16.11.19",
     "@types/supertest": "2.0.11",
     "nock": "13.2.4",
-    "supertest": "6.1.6",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }
