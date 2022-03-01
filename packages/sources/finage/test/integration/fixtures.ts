@@ -84,3 +84,35 @@ export const mockResponseFailure = (): nock =>
       'Vary',
       'Origin',
     ])
+
+export const mockCryptoSubscribeResponse = {
+  request: {
+    action: 'subscribe',
+    symbols: 'BTCUSD',
+  },
+  response: [
+    {
+      message: 'Authorizing...',
+    },
+    {
+      status_code: 200,
+      message: 'Connected to the Cryptocurrency Market source.',
+    },
+    {
+      s: 'BTCUSD',
+      p: '43682.66306523',
+      q: '0.04582000',
+      dex: false,
+      src: 'A',
+      t: 1646151298290,
+    },
+  ],
+}
+
+export const mockCryptoUnsubscribeResponse = {
+  request: {
+    action: 'unsubscribe',
+    symbols: 'BTCUSD',
+  },
+  response: null,
+}
