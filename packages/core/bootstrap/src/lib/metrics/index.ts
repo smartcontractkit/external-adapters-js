@@ -2,7 +2,7 @@ import * as client from 'prom-client'
 import { parseBool } from '../util'
 import * as util from './util'
 import type { Middleware, AdapterRequest, AdapterMetricsMeta } from '../../types'
-import * as cacheWarmer from '../middleware/cache-warmer'
+import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer'
 
 export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
 
@@ -23,7 +23,7 @@ export const withMetrics: Middleware =
 
     const recordMetrics = () => {
       const labels: Parameters<typeof httpRequestsTotal.labels>[0] = {
-        is_cache_warming: String(input.id === cacheWarmer.WARMUP_REQUEST_ID),
+        is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
         method: 'POST',
         feed_id: feedId,
       }

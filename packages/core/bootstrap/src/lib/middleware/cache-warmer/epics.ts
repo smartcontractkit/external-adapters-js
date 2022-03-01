@@ -67,7 +67,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState> = (action$, s
       if (!batchablePropertyPath) return from(actionsToDispatch)
 
       // We want the key to be consistent. So we omit batchable paths.
-      // Otherwise it would change on every new childx
+      // Otherwise it would change on every new child
       const batchWarmerSubscriptionKey = getSubscriptionKey(
         omit(
           payload,

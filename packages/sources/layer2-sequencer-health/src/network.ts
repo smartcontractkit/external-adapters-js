@@ -2,6 +2,8 @@ import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
 import { BigNumber, ethers } from 'ethers'
 
+const DEFAULT_PRIVATE_KEY = '0x0000000000000000000000000000000000000000000000000000000000000001'
+
 export interface NetworkHealthCheck {
   (network: Networks, delta: number, deltaBlocks: number): Promise<undefined | boolean>
 }
@@ -58,7 +60,7 @@ export const getStatusByTransaction = async (
 ): Promise<boolean> => {
   const rpcEndpoint = RPC_ENDPOINTS[network]
   const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
-  const wallet = new ethers.Wallet(ethers.Wallet.createRandom()?.privateKey, provider)
+  const wallet = new ethers.Wallet(DEFAULT_PRIVATE_KEY, provider)
 
   // These errors come from the Sequencer when submitting an empty transaction
   const sequencerOnlineErrors: Record<Networks, string[]> = {

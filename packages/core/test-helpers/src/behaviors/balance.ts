@@ -1,7 +1,7 @@
 import { Execute } from '@chainlink/types'
 import { serverErrors, successes, validationErrors } from '../helpers'
 
-function base(execute: types.Execute) {
+function base(execute: Execute) {
   describe('it should behave like a balance adapter', () => {
     const jobID = '1'
     validationErrors(

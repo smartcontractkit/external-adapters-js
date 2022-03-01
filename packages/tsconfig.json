@@ -57,6 +57,9 @@
       "path": "./composites/medianizer"
     },
     {
+      "path": "./composites/nftx"
+    },
+    {
       "path": "./composites/outlier-detection"
     },
     {
