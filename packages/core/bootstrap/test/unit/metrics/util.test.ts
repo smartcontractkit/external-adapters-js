@@ -1,4 +1,4 @@
-import { AdapterRequest } from '../../../src/types'
+import type { AdapterRequest } from '../../../src/types'
 import * as util from '../../../src/lib/metrics/util'
 
 describe('Bootstrap/Metrics Utils', () => {

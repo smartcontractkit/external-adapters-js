@@ -92,14 +92,13 @@ const selectEndpoint = <C extends Config>(
   if (apiEndpoint.endpointOverride) {
     const overridenEndpoint = apiEndpoint.endpointOverride(request)
     if (overridenEndpoint) apiEndpoint = findSupportedEndpoint(apiEndpoints, overridenEndpoint)
-    if (request?.data?.endpoint && overridenEndpoint) request.data.endpoint = overridenEndpoint
-
     if (!apiEndpoint)
       throw new AdapterError({
         jobRunID,
         message: `Overriden Endpoint ${overridenEndpoint} not supported.`,
         statusCode: 500,
       })
+    if (request?.data?.endpoint && overridenEndpoint) request.data.endpoint = overridenEndpoint
   }
 
   // Allow adapter endpoints to dynamically query different endpoint resultPaths

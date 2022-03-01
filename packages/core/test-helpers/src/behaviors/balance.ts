@@ -1,4 +1,4 @@
-import type { types } from '@chainlink/ea-bootstrap'
+import { Execute } from '@chainlink/types'
 import { serverErrors, successes, validationErrors } from '../helpers'
 
 function base(execute: types.Execute) {

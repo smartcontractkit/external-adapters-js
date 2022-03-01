@@ -59,21 +59,10 @@ const inputParameters: InputParameters = {
 }
 ```
 
-<<<<<<< HEAD
 ### Validator
 
-<<<<<<< HEAD
-<<<<<<< HEAD:packages/core/bootstrap/src/lib/modules/README.md
 The Validator relies on the data supplied in the inputParameters object to ensure that a Requester supplied the expected parameters.
-=======
-The Validator relies on the data supplied in the inputParameters object to ensure that a HTTP supplied the expected parameters.
->>>>>>> 85497cf1f (Organize bootstrap folder structure):packages/core/bootstrap/src/lib/external-adapter/README.md
-=======
-The Validator relies on the data supplied in the inputParameters object to ensure that a Requester supplied the expected parameters.
->>>>>>> 8026ae269 (Revert Requester name change)
 
-=======
->>>>>>> 59d2a48cc (Core types refactors)
 #### Arguments
 
 - `input` (Object): The request payload from the Chainlink node
@@ -87,15 +76,7 @@ The Validator relies on the data supplied in the inputParameters object to ensur
 }
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD:packages/core/bootstrap/src/lib/modules/README.md
 Validation of the Requester's input parameters can be done by creating an instance of the Validator.
-=======
-Validation of the HTTP's input parameters can be done by creating an instance of the Validator.
->>>>>>> 85497cf1f (Organize bootstrap folder structure):packages/core/bootstrap/src/lib/external-adapter/README.md
-=======
-Validation of the Requester's input parameters can be done by creating an instance of the Validator.
->>>>>>> 8026ae269 (Revert Requester name change)
 
 ```javascript
 // The input data is validated upon instantiating the Validator
@@ -111,15 +92,7 @@ Validated params can be obtained from the `validator.validated` object.
 // it's not supplied upon invoking the external adapter, it will default
 // to '1'
 const jobRunID = validator.validated.id
-<<<<<<< HEAD
-<<<<<<< HEAD:packages/core/bootstrap/src/lib/modules/README.md
 // Since endpoint doesn't need to be supplied by the Requester, we can
-=======
-// Since endpoint doesn't need to be supplied by the HTTP, we can
->>>>>>> 85497cf1f (Organize bootstrap folder structure):packages/core/bootstrap/src/lib/external-adapter/README.md
-=======
-// Since endpoint doesn't need to be supplied by the Requester, we can
->>>>>>> 8026ae269 (Revert Requester name change)
 // assign a default value
 const endpoint = validator.validated.data.endpoint || 'price'
 // We specified that one of the values in the base array should be a
@@ -179,15 +152,7 @@ const tokenOverride = validator.overrideIncludesToken(
 
 ## Requester
 
-<<<<<<< HEAD
-<<<<<<< HEAD:packages/core/bootstrap/src/lib/modules/README.md
 The Requester is a wrapper around a retryable pattern for reaching out to an endpoint over the HTTP protocol. It can be supplied with a customError object to describe the custom error cases which the adapter should retry fetching data even if the response was successful.
-=======
-The HTTP is a wrapper around a retryable pattern for reaching out to an endpoint. It can be supplied with a customError object to describe the custom error cases which the adapter should retry fetching data even if the response was successful.
->>>>>>> 85497cf1f (Organize bootstrap folder structure):packages/core/bootstrap/src/lib/external-adapter/README.md
-=======
-The Requester is a wrapper around a retryable pattern for reaching out to an endpoint over the HTTP protocol. It can be supplied with a customError object to describe the custom error cases which the adapter should retry fetching data even if the response was successful.
->>>>>>> 8026ae269 (Revert Requester name change)
 
 ```javascript
 const customError = (data) => {
