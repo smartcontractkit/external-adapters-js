@@ -1,5 +1,26 @@
 # @chainlink/nomics-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.0
+
+### Minor Changes
+
+- 9190472b5: add token override for SAND and IMX tokens
+
+## 1.0.32
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.0.31
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @chainlink/sportsdataio-adapter
 
+## 1.1.31
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.30
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.1.29
 
 ### Patch Changes

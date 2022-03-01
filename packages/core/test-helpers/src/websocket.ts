@@ -46,10 +46,23 @@ export const mockWebSocketFlow = async (
     server.on('connection', async (connection) => {
       connection.on('message', (received) => {
         const { request, response } = flow[currentExchange]
-        const expected = JSON.stringify(request)
+        let expected
+        if (typeof request === 'string') {
+          expected = request
+        } else {
+          expected = JSON.stringify(request)
+        }
+
         if (received === expected) {
           if (Array.isArray(response) && response.length > 0) {
-            response.forEach((r) => connection.send(JSON.stringify(r)))
+            response.forEach((r) => {
+              if (typeof r === 'string') {
+                return connection.send(r)
+              }
+              return connection.send(JSON.stringify(r))
+            })
+          } else if (typeof response === 'string') {
+            connection.send(response)
           } else {
             connection.send(JSON.stringify(response))
           }

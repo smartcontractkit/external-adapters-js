@@ -1,5 +1,21 @@
 # @chainlink/1forge-adapter
 
+## 1.4.16
+
+### Patch Changes
+
+- 4dd7722b0: move WS endpoint into DEFAULT_WS_API_ENDPOINT variable
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.4.15
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.4.14
 
 ### Patch Changes

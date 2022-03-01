@@ -1,5 +1,20 @@
 # @chainlink/json-rpc-adapter
 
+## 1.2.5
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.2.3
 
 ### Patch Changes

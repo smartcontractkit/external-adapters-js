@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/outlier-detection-adapter",
-  "version": "1.0.50",
+  "version": "1.0.56",
   "description": "Chainlink Outlier Detection adapter.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,8 +11,8 @@
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",
     "build": "tsc -b",
-    "server": "node -e 'require(\"./index.js\").handlers.server()'",
-    "server:dist": "node -e 'require(\"./dist/index.js\").handlers.server()'",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
   "dependencies": {
@@ -27,7 +27,7 @@
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
-    "@types/sinon": "10.0.6",
+    "@types/sinon": "10.0.11",
     "sinon": "12.0.1",
     "typescript": "4.3.5"
   }

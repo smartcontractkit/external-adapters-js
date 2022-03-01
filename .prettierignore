@@ -8,5 +8,6 @@ test-payload.json
 .yarn
 .vscode
 .pnp.cjs
+.pnp.loader.mjs
 
 packages/k6/k8s/templates

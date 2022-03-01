@@ -1,5 +1,18 @@
 # @chainlink/circuit-breaker-adapter
 
+## 1.0.32
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+
+## 1.0.31
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+
 ## 1.0.30
 
 ### Patch Changes

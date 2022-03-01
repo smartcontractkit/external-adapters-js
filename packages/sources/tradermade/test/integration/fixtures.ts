@@ -157,3 +157,39 @@ export const mockResponseFailure = () =>
         'Origin',
       ],
     )
+
+export const mockSubscribeResponse = {
+  request: {
+    userKey: 'fake-api-key',
+    symbol: 'ETHUSD',
+  },
+
+  response: [
+    {
+      symbol: 'ETHUSD',
+      ts: '1646073761745',
+      bid: 2797.53,
+      ask: 2798.14,
+      mid: 2797.835,
+    },
+    {
+      symbol: 'ETHUSD',
+      ts: '1646073761745',
+      bid: 2797.53,
+      ask: 2798.14,
+      mid: 2797.835,
+    },
+    {
+      symbol: 'ETHUSD',
+      ts: '1646073761745',
+      bid: 2797.53,
+      ask: 2798.14,
+      mid: 2797.835,
+    },
+  ],
+}
+
+export const mockUnsubscribeResponse = {
+  request: null,
+  response: '',
+}

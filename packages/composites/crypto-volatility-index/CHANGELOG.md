@@ -1,5 +1,47 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/token-allocation-adapter@1.2.1
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [1e05790a6]
+- Updated dependencies [9190472b5]
+  - @chainlink/token-allocation-adapter@1.2.0
+
+## 1.1.2
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.6
+
+## 1.1.1
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.5
+
+## 1.1.0
+
+### Minor Changes
+
+- 22017a067: fix: Update expiration date check to use UTC
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/token-allocation-adapter@1.1.4
+  - @chainlink/ea-reference-data-reader@1.1.6
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.0.42
 
 ### Patch Changes

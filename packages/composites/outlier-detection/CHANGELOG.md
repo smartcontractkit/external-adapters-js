@@ -1,5 +1,48 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.56
+
+### Patch Changes
+
+- @chainlink/ea@1.0.56
+
+## 1.0.55
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.55
+
+## 1.0.54
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+  - @chainlink/ea@1.0.54
+
+## 1.0.53
+
+### Patch Changes
+
+- @chainlink/ea@1.0.53
+
+## 1.0.52
+
+### Patch Changes
+
+- @chainlink/ea@1.0.52
+
+## 1.0.51
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-reference-data-reader@1.1.6
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/ea@1.0.51
+
 ## 1.0.50
 
 ### Patch Changes
