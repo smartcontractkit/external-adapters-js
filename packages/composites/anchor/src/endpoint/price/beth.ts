@@ -1,6 +1,6 @@
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { PriceExecute } from '.'
-import { Config, FIXED_POINT_DECIMALS } from '../../config'
+import { Config } from '../../config'
 import { anchorVaultAbi, curvePoolAbi } from './abi'
 
 export const FROM = 'BETH'
@@ -11,35 +11,21 @@ export const execute: PriceExecute = async (_, __, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const stEthPerBEth = await getStEthBEthExchangeRate(config, provider)
-  const { ethBalance, stEthBalance } = await getStETHExchangeRate(config, provider)
-  // result = USD / ETH * ETH / stETH * stETH / bETH = USD / bETH
-  return usdPerEth
-    .mul(stEthPerBEth)
-    .mul(ethBalance)
-    .div(stEthBalance)
-    .div(BigNumber.from(10).pow(FIXED_POINT_DECIMALS))
-}
-
-interface CurveEthStEthBalances {
-  ethBalance: ethers.BigNumber
-  stEthBalance: ethers.BigNumber
+  const stEthPerETH = await getStETHExchangeRate(config, provider)
+  // result = USD / ETH * stETH / bETH * ETH / stETH = USD / bETH
+  return usdPerEth.mul(stEthPerBEth).div(stEthPerETH)
 }
 
 const getStETHExchangeRate = async (
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
-): Promise<CurveEthStEthBalances> => {
+): Promise<ethers.BigNumber> => {
   const stEthPoolContract = new ethers.Contract(
     config.stEthPoolContractAddress,
     curvePoolAbi,
     provider,
   )
-  const ethBal = await stEthPoolContract.balances(0)
-  const stEthBal = await stEthPoolContract.balances(1)
-  return {
-    ethBalance: ethBal,
-    stEthBalance: stEthBal,
-  }
+  return stEthPoolContract.get_virtual_price()
 }
 
 const getStEthBEthExchangeRate = async (

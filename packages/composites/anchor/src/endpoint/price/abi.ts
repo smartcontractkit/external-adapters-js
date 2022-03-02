@@ -10,9 +10,9 @@ export const anchorVaultAbi = [
 
 export const curvePoolAbi = [
   {
-    name: 'balances',
+    name: 'get_virtual_price',
     outputs: [{ type: 'uint256', name: '' }],
-    inputs: [{ type: 'uint256', name: 'i' }],
+    inputs: [],
     stateMutability: 'view',
     type: 'function',
   },
