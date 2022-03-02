@@ -26,38 +26,46 @@ jobs:
           aws-region: ${{ secrets.QA_AWS_REGION }}
           role-to-assume: ${{ secrets.QA_AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+
       - name: Set Kubernetes Context
         uses: azure/k8s-set-context@v1
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.QA_KUBECONFIG }}
+
       - name: Install SOPS
         run: |
           TEMP_DEB="temp-sops-v3.7.1.linux" &&
           wget -O "$TEMP_DEB" https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux &&
           sudo dpkg -i "$TEMP_DEB" &&
           rm -f "$TEMP_DEB"
+
       - name: Checkout external-adapters-js repo
         uses: actions/checkout@v2
         with:
           path: external-adapters-js
+
       - run: cd external-adapters-js
       - uses: ./.github/actions/setup # Yarn install > setup
+
       - name: Find current PR
         uses: jwalton/gh-find-current-pr@v1
         id: findPr
         with:
           # Can be "open", "closed", or "all".  Defaults to "open".
           state: all
+
       - name: Install SOPS
         run: |
           TEMP_DEB="temp-sops_3.7.1_amd64.deb" &&
           wget -O "$TEMP_DEB" https://github.com/mozilla/sops/releases/download/v3.7.1/sops_3.7.1_amd64.deb &&
           sudo dpkg -i "$TEMP_DEB" &&
           rm -f "$TEMP_DEB"
+
       - name: Use GH CLI to get pr info
         working-directory: ./external-adapters-js
         id: get-pr-info
@@ -73,6 +81,7 @@ jobs:
           ADAPTERS_LIST="coingecko coinpaprika"
           # export adapters from this step
           echo "::set-output name=ADAPTERS_LIST::${ADAPTERS_LIST}"
+
       - name: Remove adapters that have no fluxconfig
         working-directory: ./external-adapters-js
         id: adapters-list
@@ -90,11 +99,10 @@ jobs:
             fi
             ADAPTERS_LIST="${ADAPTERS_LIST} ${adapter}"
           done
-          # TODO uncomment this line
-          # ADAPTERS_LIST="$(echo ${ADAPTERS_LIST} | xargs)"
-          ADAPTERS_LIST="coingecko"
+          ADAPTERS_LIST="$(echo ${ADAPTERS_LIST} | xargs)"
           # export adapters from this step
           echo "::set-output name=ADAPTERS_LIST::${ADAPTERS_LIST}"
+
       - name: Build adapters
         working-directory: ./external-adapters-js
         env:
@@ -117,10 +125,12 @@ jobs:
               docker push ${IMAGE_PREFIX}${adapter}-adapter:${IMAGE_TAG}
             done
           fi
+
       - name: Clone infra-k8s repo
         env:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
         run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/infra-k8s.git
+
       - name: Deploy adapters
         working-directory: ./external-adapters-js
         env:
@@ -142,6 +152,7 @@ jobs:
               yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
+
       - name: Build the k6 payloads and images
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
@@ -169,6 +180,7 @@ jobs:
               docker push ${IMAGE_PREFIX}:${IMAGE_TAG}-${adapter}
             done
           fi
+
       - name: Deploy k6
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
