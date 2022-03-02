@@ -192,6 +192,7 @@ describe('websocket', () => {
 
   describe('crypto endpoint', () => {
     beforeAll(async () => {
+      jest.setTimeout(15000)
       if (!process.env.RECORD) {
         process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
         process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY || 'fake-api-key'
