@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterContext,
   AdapterRequest,
@@ -14,8 +14,22 @@ import * as bluna from './bluna'
 export const supportedEndpoints = ['price']
 
 export const inputParameters: InputParameters = {
-  from: ['base', 'from', 'coin'],
-  to: ['quote', 'to', 'market'],
+  from: {
+    required: true,
+    aliases: ['base', 'from', 'coin'],
+    description: 'The symbol of the currency to query',
+    options: ['bETH', 'bLUNA'],
+  },
+  to: {
+    required: true,
+    aliases: ['quote', 'to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    options: ['BTC', 'ETH', 'USD'],
+  },
+  conversionFeedDecimals: {
+    description: "The number of decimals the to symbol uses in it's Terra feed",
+    default: 8,
+  },
 }
 
 export type PriceExecute = (
@@ -30,18 +44,18 @@ const supportedSymbols = [beth.FROM, bluna.FROM]
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
 
-  const { from, to, quoteDecimals } = validator.validated.data
+  const { from, to, conversionFeedDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()
   let priceExecute: PriceExecute
   let intermediaryTokenFeedAddress: string
   switch (fromUpperCase) {
     case beth.FROM:
       priceExecute = beth.execute
-      intermediaryTokenFeedAddress = 'terra19ws7jhe5npxkhz0x7fyv5jld87lt07l7g8zzdk'
+      intermediaryTokenFeedAddress = config.feedAddresses[beth.INTERMEDIARY_TOKEN.toLowerCase()]
       break
     case bluna.FROM:
       priceExecute = bluna.execute
-      intermediaryTokenFeedAddress = 'terra1u475ps69rmhpf4f4gx2pc74l7tlyu4hkj4wp9d'
+      intermediaryTokenFeedAddress = config.feedAddresses[bluna.INTERMEDIARY_TOKEN.toLowerCase()]
       break
     default:
       throw Error(
@@ -52,7 +66,14 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   let result = await priceExecute(input, context, config, intermediaryTokenPrice)
 
   if (to.toUpperCase() !== 'USD') {
-    result = await convertUSDQuote(input, context, result, to, quoteDecimals)
+    const toConversionFeedAddress = mapToSymbolToAddress(input.id, to, config)
+    result = await convertUSDQuote(
+      input,
+      context,
+      result,
+      toConversionFeedAddress,
+      conversionFeedDecimals,
+    )
   }
 
   const resString = result.toString()
@@ -64,4 +85,14 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       result: resString,
     },
   }
+}
+
+const mapToSymbolToAddress = (jobRunID: string, symbol: string, config: Config): string => {
+  if (!config.feedAddresses[symbol.toLowerCase()])
+    throw new AdapterError({
+      jobRunID,
+      statusCode: 400,
+      message: `${symbol} is not a supported conversion currency`,
+    })
+  return config.feedAddresses[symbol]
 }

@@ -7,13 +7,13 @@ export const getTokenPrice = async (
   input: AdapterRequest,
   context: AdapterContext,
   feedAddress: string,
-  decimals = 8, // Most Terra feed have 8dp
+  feedDecimals = 8, // Most Terra feed have 8dp
 ): Promise<ethers.BigNumber> => {
   const feedResponse = await callViewFunctionEA(input, context, feedAddress, {
     aggregator_query: { get_latest_round_data: {} },
   })
   const latestAnswer = feedResponse.data.result.answer
-  return ethers.utils.parseUnits(latestAnswer, decimals)
+  return ethers.utils.parseUnits(latestAnswer, feedDecimals)
 }
 
 export const convertUSDQuote = async (
@@ -21,13 +21,13 @@ export const convertUSDQuote = async (
   context: AdapterContext,
   usdPrice: ethers.BigNumber,
   targetQuoteFeedAddress: string,
-  targetQuoteDecimals = 8,
+  feedDecimals = 8,
 ): Promise<ethers.BigNumber> => {
   const targetQuoteUSDRate = await getTokenPrice(
     input,
     context,
     targetQuoteFeedAddress,
-    targetQuoteDecimals,
+    feedDecimals,
   )
   return usdPrice.mul(BigNumber.from(10).pow(FIXED_POINT_DECIMALS)).div(targetQuoteUSDRate)
 }
@@ -45,7 +45,6 @@ export const callViewFunctionEA = async (
     data: {
       address,
       query,
-      ...input.data,
     },
   }
   return await _execute(viewFunctionAdapterRequest, context)
