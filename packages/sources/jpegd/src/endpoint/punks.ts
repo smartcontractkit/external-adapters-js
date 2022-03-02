@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/punks`
 
   const params = {
-    block: validator.validated.data.block || 'latest',
+    block: validator.validated.data.block,
     api_key: config.apiKey,
   }
 
