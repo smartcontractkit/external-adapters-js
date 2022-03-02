@@ -13,13 +13,14 @@ export class ReferenceContractConfig {
   name: string
   contractVersion: number
   address: string
-  data: Record<string, unknown>
+  data: Record<string, any>
   nodes: FeedNode[]
   precision: number
   deviationThreshold: number
   symbol: string
   path: string
   status: string
+  category: string
 
   constructor(input: Record<string, unknown>) {
     const ValidationError = (param: string) => {
@@ -56,6 +57,9 @@ export class ReferenceContractConfig {
 
     if (typeof input?.status !== 'string') throw ValidationError('status')
     this.status = input.status
+
+    if (typeof input?.category !== 'string') throw ValidationError('category')
+    this.category = input.category
   }
 }
 
