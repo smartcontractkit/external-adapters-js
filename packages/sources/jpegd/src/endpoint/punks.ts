@@ -14,7 +14,6 @@ export const inputParameters: InputParameters = {
     required: false,
     description: 'The block number for which information is being queried',
     aliases: ['blockNumber', 'blockNum'],
-    type: 'string',
     default: 'latest',
   },
 }
