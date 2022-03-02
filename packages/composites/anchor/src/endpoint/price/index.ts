@@ -6,7 +6,7 @@ import {
   InputParameters,
 } from '@chainlink/types'
 import { ethers } from 'ethers'
-import { Config, FIXED_POINT_DECIMALS } from '../../config'
+import { Config } from '../../config'
 import { convertUSDQuote, getTokenPrice } from '../../utils'
 import * as beth from './beth'
 import * as bluna from './bluna'
@@ -16,9 +16,6 @@ export const supportedEndpoints = ['price']
 export const inputParameters: InputParameters = {
   from: ['base', 'from', 'coin'],
   to: ['quote', 'to', 'market'],
-  quoteDecimals: false,
-  source: false,
-  terraBLunaContractAddress: false,
 }
 
 export type PriceExecute = (
@@ -35,31 +32,24 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const { from, to, quoteDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()
-  let taDecimals: number
   let priceExecute: PriceExecute
-  let intermediaryTokenSymbol: string
+  let intermediaryTokenFeedAddress: string
   switch (fromUpperCase) {
     case beth.FROM:
-      taDecimals = beth.INTERMEDIARY_TOKEN_DECIMALS
       priceExecute = beth.execute
-      intermediaryTokenSymbol = beth.INTERMEDIARY_TOKEN
+      intermediaryTokenFeedAddress = 'terra19ws7jhe5npxkhz0x7fyv5jld87lt07l7g8zzdk'
       break
     case bluna.FROM:
-      taDecimals = bluna.INTERMEDIARY_TOKEN_DECIMALS
       priceExecute = bluna.execute
-      intermediaryTokenSymbol = bluna.INTERMEDIARY_TOKEN
+      intermediaryTokenFeedAddress = 'terra1u475ps69rmhpf4f4gx2pc74l7tlyu4hkj4wp9d'
       break
     default:
       throw Error(
         `Invalid from symbol ${fromUpperCase}.  Supported Symbols ${supportedSymbols.join(',')}`,
       )
   }
-  const taResponse = await getTokenPrice(input, context, intermediaryTokenSymbol, taDecimals)
-  const taResponseBigNum = ethers.utils.parseUnits(
-    taResponse.data.result.toString(),
-    FIXED_POINT_DECIMALS,
-  )
-  let result = await priceExecute(input, context, config, taResponseBigNum)
+  const intermediaryTokenPrice = await getTokenPrice(input, context, intermediaryTokenFeedAddress)
+  let result = await priceExecute(input, context, config, intermediaryTokenPrice)
 
   if (to.toUpperCase() !== 'USD') {
     result = await convertUSDQuote(input, context, result, to, quoteDecimals)
