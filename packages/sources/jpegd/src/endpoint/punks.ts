@@ -11,10 +11,11 @@ export interface ResponseSchema {
 
 export const inputParameters: InputParameters = {
   block: {
-    required: true,
+    required: false,
     description: 'The block number for which information is being queried',
     aliases: ['blockNumber', 'blockNum'],
-    type: 'number',
+    type: 'string',
+    default: 'latest',
   },
 }
 
@@ -26,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `/punks`
 
   const params = {
-    block: validator.validated.data.block,
+    block: validator.validated.data.block || 'latest',
     api_key: config.apiKey,
   }
 
