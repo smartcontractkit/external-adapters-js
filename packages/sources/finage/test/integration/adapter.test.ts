@@ -22,8 +22,11 @@ import {
   mockWebSocketFlow,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
-import { DEFAULT_STOCK_WS_API_ENDPOINT } from '../../dist/config'
-import { DEFAULT_FOREX_WS_API_ENDPOINT } from '../../src/config'
+import {
+  DEFAULT_CRYPTO_WS_API_ENDPOINT,
+  DEFAULT_FOREX_WS_API_ENDPOINT,
+  DEFAULT_STOCK_WS_API_ENDPOINT,
+} from '../../src/config'
 
 const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -193,7 +196,7 @@ describe('websocket', () => {
         process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
         process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY || 'fake-api-key'
         process.env.CRYPTO_WS_API_ENDPOINT =
-          process.env.CRYPTO_WS_API_ENDPOINT || 'wss://localhost:8000'
+          process.env.CRYPTO_WS_API_ENDPOINT || DEFAULT_CRYPTO_WS_API_ENDPOINT
 
         mockedWsServer = mockWebSocketServer(process.env.CRYPTO_WS_API_ENDPOINT)
         mockWebSocketProvider(WebSocketClassProvider)
