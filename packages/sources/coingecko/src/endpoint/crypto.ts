@@ -124,7 +124,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     for (const overriddenSymbol of Object.keys(adapterOverrides)) {
       combinedOverrides[overriddenSymbol] = adapterOverrides[overriddenSymbol]
     }
-    ;(overrides as SymbolToIdOverride)[AdapterName.toLowerCase()] = combinedOverrides
+    (overrides as SymbolToIdOverride)[AdapterName.toLowerCase()] = combinedOverrides
   }
 
   const endpoint = validator.validated.data.endpoint ?? DEFAULT_ENDPOINT
