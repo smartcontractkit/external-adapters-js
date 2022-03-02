@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -221,7 +221,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   validateUnitsParameter(jobRunID, units)
 
-  const url = `currentconditions/v1/${locationKey}.json`
+  const url = util.buildUrlPath('currentconditions/v1/:locationKey.json', { locationKey })
   const params = {
     details: true,
     apikey: config.apiKey,

@@ -6,7 +6,7 @@ import {
   MakeWSHandler,
   ExecuteFactory,
 } from '@chainlink/types'
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME, Config } from './config'
 import * as endpoints from './endpoint'
 import { inputParameters } from './endpoint/price'
@@ -44,7 +44,8 @@ interface Message {
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // http://api.tradingeconomics.com/documentation/Streaming
   // https://github.com/boxhock/tradingeconomics-nodejs-stream/blob/master/src/index.ts
-  const withApiKey = (url: string, key: string, secret: string) => `${url}?client=${key}:${secret}`
+  const withApiKey = (url: string, key: string, secret: string) =>
+    util.buildUrl(url, '?client=:key::secret', { key, secret })
   const getSubscription = (to: string) => ({ topic: 'subscribe', to })
 
   return () => {

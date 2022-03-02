@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config, Account, ExecuteFactory, RequestConfig } from '@chainlink/types'
 import { COINS, isCoinType, isChainType } from '../config'
 
@@ -12,7 +12,7 @@ export const inputParameters = balance.inputParameters
 const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
   coin = Requester.toVendorName(coin, COINS)
   if (chain === 'testnet') coin = `${coin}-${chain}`
-  return `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
+  return util.buildUrlPath(`/:coin/addresses/balances`, { coin, addresses: addresses.join(',') })
 }
 
 const getBalances: balance.GetBalances = async (accounts, config) => {
@@ -24,7 +24,9 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
     url: getBalanceURI(addresses, coin as string, chain as string),
   }
 
+  console.log({ reqConfig })
   const response = await Requester.request(reqConfig)
+  console.log({ response })
 
   const toResultWithBalance = (acc: Account) => {
     // NOTE: Blockchair does not return 0 balances
