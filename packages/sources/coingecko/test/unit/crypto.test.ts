@@ -434,15 +434,11 @@ describe('price endpoint', () => {
     ]
 
     requests.forEach((req) => {
-      // console.log(req.name)
-      // console.log(req.expectedQuery.ids)
       nock('https://api.coingecko.com/api/v3')
         .get('/coins/list')
         .reply(200, coinsList)
         .get(/\/simple\/price*/)
         .query((query) => {
-          // console.log('Actual queried ids for ' + req.name)
-          // console.log(query.ids)
           const expectedIds = req.expectedQuery.ids.split(',')
           expectedIds.forEach((id) => {
             if (!query.ids.includes(id)) return false
