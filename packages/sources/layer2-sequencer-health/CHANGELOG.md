@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- e91884b91: Use static private key instead of randomly generating one
+
 ## 1.1.5
 
 ### Patch Changes
