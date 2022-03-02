@@ -1,4 +1,4 @@
-import type { InputParameters } from '../../src/types'
+import type { InputParameters, AdapterRequest } from '../../src/types'
 import { Validator } from '../../src/lib/modules/validator'
 
 describe('Validator', () => {
@@ -10,7 +10,7 @@ describe('Validator', () => {
     })
 
     it('does not error when input is empty', () => {
-      const validator = new Validator({})
+      const validator = new Validator({} as AdapterRequest)
       expect(validator.validated.id).toEqual('1')
       expect(validator.error).not.toBeDefined()
     })
@@ -18,7 +18,7 @@ describe('Validator', () => {
     it('does not error if input data is excluded', () => {
       const input = { id: '1' }
 
-      const validator = new Validator(input)
+      const validator = new Validator(input as AdapterRequest)
       expect(validator.validated.id).toEqual(input.id)
       expect(validator.error).not.toBeDefined()
     })
@@ -54,7 +54,7 @@ describe('Validator', () => {
       try {
         expect.hasAssertions()
         const input = {}
-        new Validator(input, params, {})
+        new Validator(input as AdapterRequest, params, {})
       } catch (error) {
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
@@ -509,7 +509,7 @@ describe('Validator', () => {
           },
         },
       }
-      new Validator(input, {}, {})
+      new Validator(input as unknown as AdapterRequest, {}, {})
     } catch (error) {
       expect(error?.jobRunID).toEqual('1')
       expect(error?.statusCode).toEqual(400)

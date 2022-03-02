@@ -133,7 +133,7 @@ export type SequenceResponseData<R> = {
   result: R[]
 }
 
-type BatchedResultT = [AdapterRequest, number][]
+export type BatchedResultT = [AdapterRequest, number][]
 /**
  * Contained within the body of an api response
  * from a request that asked for multiple data points

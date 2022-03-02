@@ -90,12 +90,12 @@ export class Requester {
     return await _retry(retries)
   }
 
-  static validateResultNumber<T extends Record<string, T[keyof T]> | string | ArrayLike<unknown>>(
+  static validateResultNumber<T extends unknown>(
     data: T,
-    path: ResultPath,
+    path?: ResultPath,
     options?: { inverse?: boolean },
   ): number {
-    const result = this.getResult(data, path)
+    const result = path ? this.getResult(data, path) : data
 
     if (typeof result === 'undefined') {
       const message = 'Result could not be found in path'
@@ -108,17 +108,11 @@ export class Requester {
       throw new AdapterError({ message })
     }
     const num = Number(result)
-    if (options?.inverse && num != 0) {
-      ;``
-      return 1 / num
-    }
+    if (options?.inverse && num != 0) return 1 / num
     return num
   }
 
-  static getResult<T extends Record<string, T[keyof T]> | string | ArrayLike<unknown>>(
-    data: T,
-    path: ResultPath,
-  ): unknown {
+  static getResult<T extends unknown>(data: T, path: ResultPath): unknown {
     if (
       (typeof data === 'string' || Array.isArray(data)) &&
       Array.isArray(path) &&
