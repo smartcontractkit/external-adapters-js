@@ -1,5 +1,18 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.0.0
+
+### Major Changes
+
+- d4c77ee63: Update Synthetix Debt Pool EA to reflect changes to SIP-165. This separates the EA to 2 endpoints. One is to calculate the Debt Ratio and the other is to calculate the total debt issued. The chain names that are passed in the request body have also been updated to match those in the SynthetixIO JavaScript library.
+
 ## 1.3.6
 
 ### Patch Changes

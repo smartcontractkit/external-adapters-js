@@ -1,5 +1,39 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.4.15
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.33
+  - @chainlink/por-indexer-adapter@1.0.16
+  - @chainlink/ada-balance-adapter@2.3.10
+  - @chainlink/amberdata-adapter@1.3.13
+  - @chainlink/blockchain.com-adapter@1.1.17
+  - @chainlink/blockchair-adapter@1.1.17
+  - @chainlink/blockcypher-adapter@1.2.17
+  - @chainlink/btc.com-adapter@1.2.17
+  - @chainlink/chain-reserve-wallet-adapter@2.2.13
+  - @chainlink/cryptoapis-adapter@1.1.17
+  - @chainlink/eth-balance-adapter@1.1.17
+  - @chainlink/gemini-adapter@2.1.17
+  - @chainlink/lotus-adapter@2.1.17
+  - @chainlink/reduce-adapter@1.2.5
+  - @chainlink/renvm-address-set-adapter@1.3.6
+  - @chainlink/sochain-adapter@1.2.17
+  - @chainlink/wbtc-address-set-adapter@1.3.15
+  - @chainlink/wrapped-adapter@2.1.17
+
+## 1.4.14
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+  - @chainlink/por-indexer-adapter@1.0.15
+  - @chainlink/renvm-address-set-adapter@1.3.5
+  - @chainlink/wbtc-address-set-adapter@1.3.14
+
 ## 1.4.13
 
 ### Patch Changes

@@ -1,5 +1,53 @@
 # @chainlink/token-allocation-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/amberdata-adapter@1.3.13
+  - @chainlink/cfbenchmarks-adapter@1.4.9
+  - @chainlink/coinapi-adapter@1.1.18
+  - @chainlink/coingecko-adapter@1.3.1
+  - @chainlink/coinmarketcap-adapter@1.3.18
+  - @chainlink/coinmetrics-adapter@1.2.17
+  - @chainlink/coinpaprika-adapter@1.3.8
+  - @chainlink/cryptocompare-adapter@1.3.6
+  - @chainlink/finage-adapter@1.3.18
+  - @chainlink/kaiko-adapter@1.1.5
+  - @chainlink/ncfx-adapter@1.1.19
+  - @chainlink/nomics-adapter@1.1.1
+  - @chainlink/tiingo-adapter@1.7.6
+
+## 1.2.0
+
+### Minor Changes
+
+- 9190472b5: update token allocation EA to batch requests sent to Coinpaprika
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+- Updated dependencies [9190472b5]
+- Updated dependencies [9190472b5]
+  - @chainlink/nomics-adapter@1.1.0
+  - @chainlink/coingecko-adapter@1.3.0
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [7f605f9b1]
+  - @chainlink/coinpaprika-adapter@1.3.7
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [a711674e8]
+  - @chainlink/coinpaprika-adapter@1.3.6
+
 ## 1.1.4
 
 ### Patch Changes

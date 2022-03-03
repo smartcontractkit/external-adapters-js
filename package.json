@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -34,9 +34,9 @@
     "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate"
   },
   "dependencies": {
-    "@babel/core": "7.16.0",
-    "@babel/preset-env": "7.16.4",
-    "@babel/preset-typescript": "7.16.0",
+    "@babel/core": "7.16.12",
+    "@babel/preset-env": "7.16.11",
+    "@babel/preset-typescript": "7.16.7",
     "@changesets/cli": "2.18.1",
     "@types/jest": "27.0.3",
     "@typescript-eslint/eslint-plugin": "4.33.0",
@@ -55,6 +55,7 @@
     "husky": "7.0.4",
     "lint-staged": "11.2.6",
     "prettier": "2.5.1",
+    "source-map-support": "0.5.21",
     "ts-node": "10.4.0",
     "typescript": "4.3.5"
   },

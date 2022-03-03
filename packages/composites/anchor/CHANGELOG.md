@@ -1,5 +1,41 @@
 # @chainlink/anchor-adapter
 
+## 1.3.6
+
+### Patch Changes
+
+- Updated dependencies [b3f3423e4]
+  - @chainlink/terra-view-function-adapter@1.2.0
+
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/token-allocation-adapter@1.2.1
+  - @chainlink/terra-view-function-adapter@1.1.17
+
+## 1.3.4
+
+### Patch Changes
+
+- Updated dependencies [1e05790a6]
+- Updated dependencies [9190472b5]
+  - @chainlink/token-allocation-adapter@1.2.0
+
+## 1.3.3
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.6
+
+## 1.3.2
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.1.5
+
 ## 1.3.1
 
 ### Patch Changes

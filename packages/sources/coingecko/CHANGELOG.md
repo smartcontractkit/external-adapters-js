@@ -1,5 +1,18 @@
 # @chainlink/coingecko-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.0
+
+### Minor Changes
+
+- 9190472b5: add token override for CRO token
+
 ## 1.2.1
 
 ### Patch Changes
