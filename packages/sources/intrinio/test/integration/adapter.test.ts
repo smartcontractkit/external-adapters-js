@@ -1,10 +1,10 @@
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
-import process from 'process'
-import nock from 'nock'
-import http from 'http'
+import * as process from 'process'
 import { server as startServer } from '../../src'
-import { mockPunksValueResponseSuccess } from './fixtures'
+import * as nock from 'nock'
+import * as http from 'http'
+import { mockRateResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -13,7 +13,7 @@ describe('execute', () => {
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    process.env.API_KEY = 'test-key'
+    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -32,17 +32,16 @@ describe('execute', () => {
     server.close(done)
   })
 
-  describe('punk valuation api', () => {
+  describe('price api', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        block: 10000000,
-        api_key: 'test-key',
+        base: 'ETH',
       },
     }
 
     it('should return success', async () => {
-      mockPunksValueResponseSuccess()
+      mockRateResponseSuccess()
 
       const response = await req
         .post('/')

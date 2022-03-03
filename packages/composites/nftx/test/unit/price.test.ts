@@ -6,13 +6,15 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  process.env.API_KEY = process.env.API_KEY ?? 'test-key'
+  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:8545'
 
   describe('validation error', () => {
     const requests = [
+      { name: 'empty body', testData: {} },
+      { name: 'empty data', testData: { data: {} } },
       {
-        name: 'invalid block string',
-        testData: { data: { block: 'abc' } },
+        name: 'address not set to string',
+        testData: { id: jobID, data: { address: null } },
       },
     ]
 
