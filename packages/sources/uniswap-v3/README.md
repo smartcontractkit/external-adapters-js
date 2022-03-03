@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V3
 
-Version: 1.1.16
+Version: 1.1.17
 
 This adapter allows querying Uniswap V3 contracts
 
@@ -11,9 +11,10 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 | Required? |        Name        |                                                 Description                                                 |  Type  | Options |                   Default                    |
 | :-------: | :----------------: | :---------------------------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
 |    ✅     |  ETHEREUM_RPC_URL  |               An http(s) RPC URL to a blockchain node that can read the Uniswap V3 contracts                | string |         |                                              |
+|           |      RPC_URL       |        A fallback http(s) RPC URL to a backup blockchain node that can read the UniswapV2 contracts         | string |         |                                              |
+|           | BLOCKCHAIN_NETWORK |  The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET  | string |         |                  `ethereum`                  |
 |           |  QUOTER_CONTRACT   | The address of the Uniswap V3 address quoter contract. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET | string |         | `0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6` |
 |           | DEFAULT_FEE_TIERS  |                                       The Uniswap V3 fee tiers amount                                       | number |         |              `[500,3000,10000]`              |
-|           | BLOCKCHAIN_NETWORK |  The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET  | string |         |                  `ethereum`                  |
 
 ---
 
@@ -26,6 +27,8 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 ---
 
 ## Crypto Endpoint
+
+Gets the exchange rate between two tokens
 
 `crypto` is the only supported name for this endpoint.
 
@@ -64,14 +67,20 @@ Response:
 
 ```json
 {
-  "input": "1000000",
-  "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-  "inputDecimals": 6,
-  "output": "999148",
-  "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  "outputDecimals": 6,
-  "rate": 0.999148,
-  "result": 0.999148
+  "jobRunID": "1",
+  "data": {
+    "input": "1000000",
+    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "inputDecimals": 6,
+    "output": "999148",
+    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "outputDecimals": 6,
+    "rate": 0.999148,
+    "result": 0.999148
+  },
+  "result": 0.999148,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -100,14 +109,20 @@ Response:
 
 ```json
 {
-  "input": "10000000000000000000",
-  "inputToken": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-  "inputDecimals": 18,
-  "output": "1454105298115974341987",
-  "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-  "outputDecimals": 18,
-  "rate": 145.41052981159743,
-  "result": 145.41052981159743
+  "jobRunID": "1",
+  "data": {
+    "input": "10000000000000000000",
+    "inputToken": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "inputDecimals": 18,
+    "output": "1454105298115974341987",
+    "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "outputDecimals": 18,
+    "rate": 145.41052981159743,
+    "result": 145.41052981159743
+  },
+  "result": 145.41052981159743,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

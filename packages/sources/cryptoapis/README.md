@@ -1,6 +1,6 @@
-# Chainlink CryptoAPIs External Adapter
+# Chainlink External Adapter for CryptoAPIs
 
-Version: 1.1.16
+Version: 1.1.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -67,20 +67,32 @@ Response:
 
 ```json
 {
-  "responses": [
-    {
-      "payload": {
-        "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
-        "totalSpent": "0.0498",
-        "totalReceived": "135.74870753",
-        "balance": "135.69890753",
-        "txi": 1,
-        "txo": 1958,
-        "txsCount": 1944,
-        "addresses": ["n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF"]
+  "jobRunID": "1",
+  "statusCode": 200,
+  "data": {
+    "responses": [
+      {
+        "payload": {
+          "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
+          "totalSpent": "0.0498",
+          "totalReceived": "135.74870753",
+          "balance": "135.69890753",
+          "txi": 1,
+          "txo": 1958,
+          "txsCount": 1944,
+          "addresses": ["n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF"]
+        }
       }
-    }
-  ],
+    ],
+    "result": [
+      {
+        "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
+        "chain": "testnet",
+        "coin": "btc",
+        "balance": "13569890753"
+      }
+    ]
+  },
   "result": [
     {
       "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
@@ -126,15 +138,21 @@ Response:
 
 ```json
 {
-  "payload": {
-    "weightedAveragePrice": 64671.845340501786,
-    "amount": 2.2908423,
-    "timestamp": 1636989278,
-    "datetime": "2021-11-15T15:14:38+0000",
-    "baseAsset": "BTC",
-    "quoteAsset": "USD"
+  "jobRunID": "1",
+  "data": {
+    "payload": {
+      "weightedAveragePrice": 64671.845340501786,
+      "amount": 2.2908423,
+      "timestamp": 1636989278,
+      "datetime": "2021-11-15T15:14:38+0000",
+      "baseAsset": "BTC",
+      "quoteAsset": "USD"
+    },
+    "result": 64671.845340501786
   },
-  "result": 64671.845340501786
+  "result": 64671.845340501786,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -173,19 +191,25 @@ Response:
 
 ```json
 {
-  "payload": {
-    "difficulty": 22674148233453.11,
-    "headers": 709848,
-    "chain": "main",
-    "chainWork": "000000000000000000000000000000000000000024275e7297eb45d00a73320f",
-    "mediantime": 1636987430,
-    "blocks": 709848,
-    "bestBlockHash": "000000000000000000097d3bd56240cba422ae3ffd42c5a8fe349157f3de6c20",
-    "currency": "BTC",
-    "transactions": 686990377,
-    "verificationProgress": 0.9999988307165758
+  "jobRunID": "1",
+  "data": {
+    "payload": {
+      "difficulty": 22674148233453.11,
+      "headers": 709848,
+      "chain": "main",
+      "chainWork": "000000000000000000000000000000000000000024275e7297eb45d00a73320f",
+      "mediantime": 1636987430,
+      "blocks": 709848,
+      "bestBlockHash": "000000000000000000097d3bd56240cba422ae3ffd42c5a8fe349157f3de6c20",
+      "currency": "BTC",
+      "transactions": 686990377,
+      "verificationProgress": 0.9999988307165758
+    },
+    "result": 22674148233453.11
   },
-  "result": 22674148233453.11
+  "result": 22674148233453.11,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

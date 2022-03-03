@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoMKT
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -52,16 +52,22 @@ Response:
 
 ```json
 {
-  "ask": "12395990",
-  "bid": "12339900",
-  "last": "12396935",
-  "low": "11716731",
-  "high": "12403061",
-  "open": "11845809",
-  "volume": "1.62057",
-  "volume_quote": "19483671.75328",
-  "timestamp": "2021-11-25T16:27:54.000Z",
-  "result": 12396935
+  "jobRunID": "1",
+  "data": {
+    "ask": "12395990",
+    "bid": "12339900",
+    "last": "12396935",
+    "low": "11716731",
+    "high": "12403061",
+    "open": "11845809",
+    "volume": "1.62057",
+    "volume_quote": "19483671.75328",
+    "timestamp": "2021-11-25T16:27:54.000Z",
+    "result": 12396935
+  },
+  "result": 12396935,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

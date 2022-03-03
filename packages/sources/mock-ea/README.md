@@ -1,6 +1,6 @@
 # @chainlink/mock-ea-source-adapter env var schema
 
-Version: 2.0.4
+Version: 2.0.5
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 

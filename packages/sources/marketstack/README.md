@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Marketstack
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -56,7 +56,13 @@ Response:
 
 ```json
 {
-  "result": 164.77
+  "jobRunID": "1",
+  "data": {
+    "result": 164.77
+  },
+  "result": 164.77,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

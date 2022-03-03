@@ -1,12 +1,14 @@
 # Chainlink External Adapter for Wrapped
 
-Version: 2.1.16
+Version: 2.1.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     | Description | Type | Options | Default |
+| :-------: | :----------: | :---------: | :--: | :-----: | :-----: |
+|           | API_ENDPOINT |             |      |         |         |
 
 ---
 
@@ -49,6 +51,26 @@ Response:
 
 ```json
 {
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0x6E4C739B4d66E7104739Fc0F235E9c9FFD1F8da4",
+        "network": "ethereum",
+        "chainId": "mainnet"
+      },
+      {
+        "address": "0x67a53ADbA557E6129D3Eb1aab090E23D22711DB2",
+        "network": "ethereum",
+        "chainId": "mainnet"
+      },
+      {
+        "address": "0x57Fc3f242aD907E9518645Ba4D0802F7a65B3677",
+        "network": "ethereum",
+        "chainId": "mainnet"
+      }
+    ]
+  },
   "result": [
     {
       "address": "0x6E4C739B4d66E7104739Fc0F235E9c9FFD1F8da4",
@@ -65,7 +87,9 @@ Response:
       "network": "ethereum",
       "chainId": "mainnet"
     }
-  ]
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

@@ -1,14 +1,15 @@
 # Chainlink External Adapter for Bitex
 
-Version: 1.3.16
+Version: 1.3.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   |     Description      |  Type  | Options | Default |
-| :-------: | :-----: | :------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | Bitex API key to use | string |         |         |
+| Required? |     Name     |     Description      |  Type  | Options |        Default         |
+| :-------: | :----------: | :------------------: | :----: | :-----: | :--------------------: |
+|           | API_ENDPOINT |                      | string |         | `https://bitex.la/api` |
+|           |   API_KEY    | Bitex API key to use | string |         |                        |
 
 ---
 
@@ -53,22 +54,28 @@ Response:
 
 ```json
 {
+  "jobRunID": "1",
   "data": {
-    "id": "eth_ars",
-    "type": "tickers",
-    "attributes": {
-      "last": 935234,
-      "open": 934713,
-      "high": 935234,
-      "low": 907110,
-      "vwap": 934877.7183770883,
-      "volume": 1.257,
-      "bid": 879407,
-      "ask": 930127,
-      "price_before_last": 920016
-    }
+    "data": {
+      "id": "eth_ars",
+      "type": "tickers",
+      "attributes": {
+        "last": 935234,
+        "open": 934713,
+        "high": 935234,
+        "low": 907110,
+        "vwap": 934877.7183770883,
+        "volume": 1.257,
+        "bid": 879407,
+        "ask": 930127,
+        "price_before_last": 920016
+      }
+    },
+    "result": 934877.7183770883
   },
-  "result": 934877.7183770883
+  "result": 934877.7183770883,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

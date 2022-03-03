@@ -1,6 +1,6 @@
 # Chainlink OilpriceAPI External Adapter
 
-Version: 2.0.16
+Version: 2.0.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -51,7 +51,13 @@ Response:
 
 ```json
 {
-  "result": 70.71
+  "jobRunID": "1",
+  "data": {
+    "result": 70.71
+  },
+  "result": 70.71,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -76,7 +82,13 @@ Response:
 
 ```json
 {
-  "result": 71.47
+  "jobRunID": "1",
+  "data": {
+    "result": 71.47
+  },
+  "result": 71.47,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

@@ -1,6 +1,6 @@
 # Chainlink Lotus Composite Adapter
 
-Version: 2.1.16
+Version: 2.1.17
 
 An external adapter to interact with the Lotus node API
 
@@ -56,13 +56,19 @@ Response:
 
 ```json
 {
-  "balances": [
-    {
-      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "result": "33426744125000000000000"
-    }
-  ],
-  "result": "33426744125000000000000"
+  "jobRunID": "1",
+  "data": {
+    "balances": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "result": "33426744125000000000000"
+      }
+    ],
+    "result": "33426744125000000000000"
+  },
+  "result": "33426744125000000000000",
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -92,17 +98,23 @@ Response:
 
 ```json
 {
-  "balances": [
-    {
-      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "result": "33426744125000000000000"
-    },
-    {
-      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-      "result": "850000000000000000"
-    }
-  ],
-  "result": "33427594125000000000000"
+  "jobRunID": "1",
+  "data": {
+    "balances": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "result": "33426744125000000000000"
+      },
+      {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+        "result": "850000000000000000"
+      }
+    ],
+    "result": "33427594125000000000000"
+  },
+  "result": "33427594125000000000000",
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -129,17 +141,23 @@ Response:
 
 ```json
 {
-  "balances": [
-    {
-      "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-      "result": "33426744125000000000000"
-    },
-    {
-      "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
-      "result": "850000000000000000"
-    }
-  ],
-  "result": "33427594125000000000000"
+  "jobRunID": "1",
+  "data": {
+    "balances": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "result": "33426744125000000000000"
+      },
+      {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+        "result": "850000000000000000"
+      }
+    ],
+    "result": "33427594125000000000000"
+  },
+  "result": "33427594125000000000000",
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

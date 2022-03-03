@@ -1,6 +1,6 @@
 # Chainlink External Adapter for dxFeed
 
-Version: 1.2.18
+Version: 1.2.19
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -51,25 +51,39 @@ Response:
 
 ```json
 {
-  "status": "OK",
-  "Trade": {
-    "TSLA:BFX": {
-      "eventSymbol": "TSLA:BFX",
-      "eventTime": 0,
-      "time": 1636744209248,
-      "timeNanoPart": 0,
-      "sequence": 775394,
-      "exchangeCode": "V",
-      "price": 239.255,
-      "change": 0.03,
-      "size": 3,
-      "dayVolume": 700004,
-      "dayTurnover": 167577930,
-      "tickDirection": "ZERO_UP",
-      "extendedTradingHours": false
-    }
+  "jobRunID": "1",
+  "data": {
+    "status": "OK",
+    "Trade": {
+      "TSLA:BFX": {
+        "eventSymbol": "TSLA:BFX",
+        "eventTime": 0,
+        "time": 1636744209248,
+        "timeNanoPart": 0,
+        "sequence": 775394,
+        "exchangeCode": "V",
+        "price": 239.255,
+        "change": 0.03,
+        "size": 3,
+        "dayVolume": 700004,
+        "dayTurnover": 167577930,
+        "tickDirection": "ZERO_UP",
+        "extendedTradingHours": false
+      }
+    },
+    "result": 239.255
   },
-  "result": 239.255
+  "result": 239.255,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base",
+        "limit": 120
+      }
+    ]
+  },
+  "providerStatusCode": 200
 }
 ```
 

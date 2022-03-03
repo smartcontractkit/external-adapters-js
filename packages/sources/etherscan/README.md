@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EtherScan
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -48,9 +48,15 @@ Response:
 
 ```json
 {
-  "status": "1",
-  "message": "OK",
-  "result": 128
+  "jobRunID": "1",
+  "data": {
+    "status": "1",
+    "message": "OK",
+    "result": 128
+  },
+  "result": 128,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

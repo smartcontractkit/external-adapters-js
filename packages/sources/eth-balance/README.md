@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Eth-balance
 
-Version: 1.1.16
+Version: 1.1.17
 
 External adapter for fetching balances for ETH addresses
 
@@ -56,12 +56,23 @@ Response:
 
 ```json
 {
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      }
+    ]
+  },
   "result": [
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
       "balance": "842796652117371"
     }
-  ]
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -91,6 +102,19 @@ Response:
 
 ```json
 {
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674"
+      }
+    ]
+  },
   "result": [
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
@@ -100,7 +124,9 @@ Response:
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
       "balance": "1604497408893139674"
     }
-  ]
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

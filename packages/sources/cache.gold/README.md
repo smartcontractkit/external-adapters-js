@@ -1,14 +1,14 @@
 # Chainlink External Adapter for Cache.gold
 
-Version: 1.2.16
-
-Query the total gold grams locked in [cache.gold](https://contract.cache.gold/api/lockedGold)
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     | Description |  Type  | Options |              Default              |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://contract.cache.gold/api` |
 
 ---
 
@@ -47,8 +47,14 @@ Response:
 
 ```json
 {
-  "grams_locked": "91571.93000000",
-  "result": 91571.93
+  "jobRunID": "1",
+  "data": {
+    "grams_locked": "91571.93000000",
+    "result": 91571.93
+  },
+  "result": 91571.93,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

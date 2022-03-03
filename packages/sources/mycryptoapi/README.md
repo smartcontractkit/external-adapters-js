@@ -1,6 +1,6 @@
 # Chainlink External Adapter for MyCryptoApi
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -46,12 +46,18 @@ Response:
 
 ```json
 {
-  "safeLow": 122,
-  "standard": 134,
-  "fast": 148,
-  "fastest": 160,
-  "blockNum": 13722866,
-  "result": 148
+  "jobRunID": "1",
+  "data": {
+    "safeLow": 122,
+    "standard": 134,
+    "fast": 148,
+    "fastest": 160,
+    "blockNum": 13722866,
+    "result": 148
+  },
+  "result": 148,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

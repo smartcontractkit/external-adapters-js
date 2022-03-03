@@ -1,6 +1,6 @@
 # Chainlink EOD Historical Data External Adapter
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -51,18 +51,24 @@ Response:
 
 ```json
 {
-  "code": "FTSE.INDX",
-  "timestamp": 1637858100,
-  "gmtoffset": 0,
-  "open": 7286.3198,
-  "high": 7311.9399,
-  "low": 7286.3198,
-  "close": 7310.3701,
-  "volume": 0,
-  "previousClose": 7286.2998,
-  "change": 24.0703,
-  "change_p": 0.3304,
-  "result": 7310.3701
+  "jobRunID": "1",
+  "data": {
+    "code": "FTSE.INDX",
+    "timestamp": 1637858100,
+    "gmtoffset": 0,
+    "open": 7286.3198,
+    "high": 7311.9399,
+    "low": 7286.3198,
+    "close": 7310.3701,
+    "volume": 0,
+    "previousClose": 7286.2998,
+    "change": 24.0703,
+    "change_p": 0.3304,
+    "result": 7310.3701
+  },
+  "result": 7310.3701,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Deribit
 
-Version: 1.1.16
+Version: 1.1.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -46,7 +46,13 @@ Response:
 
 ```json
 {
-  "result": 68.16959232733399
+  "jobRunID": "1",
+  "data": {
+    "result": 68.16959232733399
+  },
+  "result": 68.16959232733399,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

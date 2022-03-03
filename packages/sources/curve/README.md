@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-Version: 1.1.16
+Version: 1.1.17
 
 This adapter allows querying Curve.fi contracts
 
@@ -62,15 +62,21 @@ Response:
 
 ```json
 {
-  "pool": "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7",
-  "input": "1000000",
-  "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-  "inputDecimals": 6,
-  "output": "999424",
-  "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  "outputDecimals": 6,
-  "rate": 0.999424,
-  "result": 0.999424
+  "jobRunID": "1",
+  "data": {
+    "pool": "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7",
+    "input": "1000000",
+    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "inputDecimals": 6,
+    "output": "999424",
+    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "outputDecimals": 6,
+    "rate": 0.999424,
+    "result": 0.999424
+  },
+  "result": 0.999424,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -98,15 +104,21 @@ Response:
 
 ```json
 {
-  "pool": "0x43b4FdFD4Ff969587185cDB6f0BD875c5Fc83f8c",
-  "input": "10000000000000000000",
-  "inputToken": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
-  "inputDecimals": 18,
-  "output": "9777973472353241389",
-  "outputToken": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
-  "outputDecimals": 18,
-  "rate": 0.9777973472353242,
-  "result": 0.9777973472353242
+  "jobRunID": "1",
+  "data": {
+    "pool": "0x43b4FdFD4Ff969587185cDB6f0BD875c5Fc83f8c",
+    "input": "10000000000000000000",
+    "inputToken": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
+    "inputDecimals": 18,
+    "output": "9777973472353241389",
+    "outputToken": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
+    "outputDecimals": 18,
+    "rate": 0.9777973472353242,
+    "result": 0.9777973472353242
+  },
+  "result": 0.9777973472353242,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

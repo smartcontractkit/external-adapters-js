@@ -1,6 +1,6 @@
 # Chainlink CurrencyLayer External Adapter
 
-Version: 1.3.14
+Version: 1.3.15
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -52,19 +52,25 @@ Response:
 
 ```json
 {
-  "success": true,
-  "terms": "https://currencylayer.com/terms",
-  "privacy": "https://currencylayer.com/privacy",
-  "query": {
-    "from": "BTC",
-    "to": "USD",
-    "amount": 1
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "terms": "https://currencylayer.com/terms",
+    "privacy": "https://currencylayer.com/privacy",
+    "query": {
+      "from": "BTC",
+      "to": "USD",
+      "amount": 1
+    },
+    "info": {
+      "timestamp": 1635800883,
+      "quote": 60535.74
+    },
+    "result": 60535.74
   },
-  "info": {
-    "timestamp": 1635800883,
-    "quote": 60535.74
-  },
-  "result": 60535.74
+  "result": 60535.74,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

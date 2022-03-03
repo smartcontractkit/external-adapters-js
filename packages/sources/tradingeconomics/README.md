@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tradingeconomics
 
-Version: 1.1.16
+Version: 1.1.17
 
 This adapter uses the Tradingeconomics WS stream
 
@@ -44,7 +44,8 @@ Request:
   "data": {
     "endpoint": "price",
     "base": "EURUSD:CUR"
-  }
+  },
+  "rateLimitMaxAge": 7999
 }
 ```
 
@@ -52,7 +53,13 @@ Response:
 
 ```json
 {
-  "result": 1.15591
+  "jobRunID": "1",
+  "data": {
+    "result": 1.15591
+  },
+  "result": 1.15591,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

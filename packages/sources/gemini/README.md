@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Gemini
 
-Version: 2.1.16
+Version: 2.1.17
 
 An external adapter to get data from Gemini
 
@@ -54,12 +54,27 @@ Response:
 
 ```json
 {
-  "addresses": [
-    "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
-    "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
-  ],
-  "ethereum_supply": 33427.594125,
-  "currency": "EFIL",
+  "jobRunID": "1",
+  "data": {
+    "addresses": [
+      "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+      "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay"
+    ],
+    "ethereum_supply": 33427.594125,
+    "currency": "EFIL",
+    "result": [
+      {
+        "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
+        "network": "filecoin",
+        "chainId": "mainnet"
+      },
+      {
+        "address": "f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay",
+        "network": "filecoin",
+        "chainId": "mainnet"
+      }
+    ]
+  },
   "result": [
     {
       "address": "f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi",
@@ -71,7 +86,9 @@ Response:
       "network": "filecoin",
       "chainId": "mainnet"
     }
-  ]
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

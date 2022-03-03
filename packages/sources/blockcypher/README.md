@@ -1,6 +1,8 @@
-# Chainlink External Adapters to query BTC address balance from blockcypher.com
+# Chainlink External Adapter for Blockcypher
 
-Version: 1.2.16
+Version: 1.2.17
+
+Queries BTC address balance from blockcypher.com
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -8,7 +10,7 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 | Required? |  Name   |          Description           |  Type  | Options | Default |
 | :-------: | :-----: | :----------------------------: | :----: | :-----: | :-----: |
-|           | API_KEY | blockcypher.com API key to use | string |         |         |
+|    ✅     | API_KEY | blockcypher.com API key to use | string |         |         |
 
 ---
 
@@ -65,32 +67,44 @@ Response:
 
 ```json
 {
-  "responses": [
-    {
-      "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-      "total_received": 2111956338035,
-      "total_sent": 2111956337488,
-      "balance": 547,
-      "unconfirmed_balance": 0,
-      "final_balance": 547,
-      "n_tx": 19,
-      "unconfirmed_n_tx": 0,
-      "final_n_tx": 19,
-      "txrefs": [
-        {
-          "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
-          "tx_hash": "37fcec0a27e2a8fc52a34fb2768b2b5b7218452d1e7a099bb0f67c7e87056564",
-          "tx_input_n": 0,
-          "tx_output_n": 0,
-          "value": 649142878298,
-          "ref_balance": 547,
-          "confirmations": 0,
-          "double_spend": false
-        }
-      ],
-      "tx_url": "https://api.blockcypher.com/v1/btc/main/txs/"
-    }
-  ],
+  "jobRunID": "1",
+  "statusCode": 200,
+  "data": {
+    "responses": [
+      {
+        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
+        "total_received": 2111956338035,
+        "total_sent": 2111956337488,
+        "balance": 547,
+        "unconfirmed_balance": 0,
+        "final_balance": 547,
+        "n_tx": 19,
+        "unconfirmed_n_tx": 0,
+        "final_n_tx": 19,
+        "txrefs": [
+          {
+            "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
+            "tx_hash": "37fcec0a27e2a8fc52a34fb2768b2b5b7218452d1e7a099bb0f67c7e87056564",
+            "tx_input_n": 0,
+            "tx_output_n": 0,
+            "value": 649142878298,
+            "ref_balance": 547,
+            "confirmations": 0,
+            "double_spend": false
+          }
+        ],
+        "tx_url": "https://api.blockcypher.com/v1/btc/main/txs/"
+      }
+    ],
+    "result": [
+      {
+        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
+        "coin": "btc",
+        "chain": "mainnet",
+        "balance": "547"
+      }
+    ]
+  },
   "result": [
     {
       "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",

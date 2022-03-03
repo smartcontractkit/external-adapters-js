@@ -1,6 +1,6 @@
 # Chainlink External Adapter for BraveNewCoin
 
-Version: 1.1.16
+Version: 1.1.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -55,7 +55,13 @@ Response:
 
 ```json
 {
-  "result": 0.06453350218072039
+  "jobRunID": "1",
+  "data": {
+    "result": 0.06453350218072039
+  },
+  "result": 0.06453350218072039,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -94,25 +100,31 @@ Response:
 
 ```json
 {
-  "content": [
-    {
-      "indexId": "e991ba77-d384-48ff-b0a4-40e95ef6b7d6",
-      "indexType": "GWA",
-      "open": 3872.444353468022,
-      "high": 4148.839979992307,
-      "low": 3830.078382818216,
-      "close": 4137.589066216359,
-      "volume": 3373487.6142539503,
-      "vwap": 3969.76725876602,
-      "twap": 3957.582228402148,
-      "startTimestamp": "2021-10-20T00:00:00Z",
-      "endTimestamp": "2021-10-20T23:59:59.999Z",
-      "timestamp": "2021-10-20T00:00:00Z",
-      "id": "735b94df-008c-4fc3-a50c-af0f2e0b25c4"
-    }
-  ],
-  "nextId": "735b94df-008c-4fc3-a50c-af0f2e0b25c4",
-  "result": 3969.76725876602
+  "jobRunID": "2",
+  "data": {
+    "content": [
+      {
+        "indexId": "e991ba77-d384-48ff-b0a4-40e95ef6b7d6",
+        "indexType": "GWA",
+        "open": 3872.444353468022,
+        "high": 4148.839979992307,
+        "low": 3830.078382818216,
+        "close": 4137.589066216359,
+        "volume": 3373487.6142539503,
+        "vwap": 3969.76725876602,
+        "twap": 3957.582228402148,
+        "startTimestamp": "2021-10-20T00:00:00Z",
+        "endTimestamp": "2021-10-20T23:59:59.999Z",
+        "timestamp": "2021-10-20T00:00:00Z",
+        "id": "735b94df-008c-4fc3-a50c-af0f2e0b25c4"
+      }
+    ],
+    "nextId": "735b94df-008c-4fc3-a50c-af0f2e0b25c4",
+    "result": 3969.76725876602
+  },
+  "result": 3969.76725876602,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

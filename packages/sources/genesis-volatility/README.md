@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Genesis Volatility
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -50,7 +50,13 @@ Response:
 
 ```json
 {
-  "result": 89.31
+  "jobRunID": "1",
+  "data": {
+    "result": 89.31
+  },
+  "result": 89.31,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

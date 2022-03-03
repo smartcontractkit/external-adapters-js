@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Twelvedata
 
-Version: 1.1.16
+Version: 1.1.17
 
 `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
 
@@ -55,12 +55,18 @@ Response:
 
 ```json
 {
-  "symbol": "VXX",
-  "exchange": "CBOE",
-  "currency": "USD",
-  "datetime": "2021-11-05",
-  "close": "20.86750",
-  "result": 20.8675
+  "jobRunID": "1",
+  "data": {
+    "symbol": "VXX",
+    "exchange": "CBOE",
+    "currency": "USD",
+    "datetime": "2021-11-05",
+    "close": "20.86750",
+    "result": 20.8675
+  },
+  "result": 20.8675,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -96,8 +102,14 @@ Response:
 
 ```json
 {
-  "price": "20.86750",
-  "result": 20.8675
+  "jobRunID": "1",
+  "data": {
+    "price": "20.86750",
+    "result": 20.8675
+  },
+  "result": 20.8675,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

@@ -1,14 +1,15 @@
-# Chainlink External Adapter for 1forge
+# Chainlink External Adapter for 1Forge
 
-Version: 1.4.15
+Version: 1.4.16
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   |                        Description                        |  Type  | Options | Default |
-| :-------: | :-----: | :-------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | An API key that can be obtained from the 1forge dashboard | string |         |         |
+| Required? |     Name     |                        Description                        |  Type  | Options |          Default          |
+| :-------: | :----------: | :-------------------------------------------------------: | :----: | :-----: | :-----------------------: |
+|    ✅     |   API_KEY    | An API key that can be obtained from the 1Forge dashboard | string |         |                           |
+|           | API_ENDPOINT |                                                           | string |         | `https://api.1forge.com/` |
 
 ---
 
@@ -49,7 +50,8 @@ Request:
     "endpoint": "quotes",
     "base": "USD",
     "quote": "EUR"
-  }
+  },
+  "rateLimitMaxAge": 38400
 }
 ```
 
@@ -57,16 +59,32 @@ Response:
 
 ```json
 {
-  "payload": [
-    {
-      "p": 0.8828,
-      "a": 0.8828,
-      "b": 0.8827,
-      "s": "USD/EUR",
-      "t": 1641851954307
-    }
-  ],
-  "result": 0.8828
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "p": 0.8828,
+        "a": 0.8828,
+        "b": 0.8827,
+        "s": "USD/EUR",
+        "t": 1641851954307
+      }
+    ],
+    "result": 0.8828
+  },
+  "result": 0.8828,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
 }
 ```
 
@@ -98,7 +116,8 @@ Request:
     "base": "USD",
     "quote": "EUR",
     "quantity": 1
-  }
+  },
+  "rateLimitMaxAge": 19200
 }
 ```
 
@@ -106,10 +125,16 @@ Response:
 
 ```json
 {
-  "value": "0.862701",
-  "text": "1 USD is worth 0.862701 EUR",
-  "timestamp": 1636478097478,
-  "result": 0.862701
+  "jobRunID": "1",
+  "data": {
+    "value": "0.862701",
+    "text": "1 USD is worth 0.862701 EUR",
+    "timestamp": 1636478097478,
+    "result": 0.862701
+  },
+  "result": 0.862701,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

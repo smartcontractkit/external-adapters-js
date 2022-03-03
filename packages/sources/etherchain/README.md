@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Etherchain
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -48,13 +48,19 @@ Response:
 
 ```json
 {
-  "safeLow": 1,
-  "standard": 1,
-  "fast": 1.5,
-  "fastest": 2,
-  "currentBaseFee": 126.6,
-  "recommendedBaseFee": 257,
-  "result": 1500000000
+  "jobRunID": "1",
+  "data": {
+    "safeLow": 1,
+    "standard": 1,
+    "fast": 1.5,
+    "fastest": 2,
+    "currentBaseFee": 126.6,
+    "recommendedBaseFee": 257,
+    "result": 1500000000
+  },
+  "result": 1500000000,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

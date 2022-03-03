@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Finage
 
-Version: 1.3.17
+Version: 1.3.18
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -55,13 +55,19 @@ Response:
 
 ```json
 {
-  "symbol": "ETH",
-  "ask": 26.32,
-  "bid": 25.8,
-  "asize": 13,
-  "bsize": 1,
-  "timestamp": 1628899200621,
-  "result": 25.8
+  "jobRunID": "1",
+  "data": {
+    "symbol": "ETH",
+    "ask": 26.32,
+    "bid": 25.8,
+    "asize": 13,
+    "bsize": 1,
+    "timestamp": 1628899200621,
+    "result": 25.8
+  },
+  "result": 25.8,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -97,19 +103,25 @@ Response:
 
 ```json
 {
-  "symbol": "ETH",
-  "totalResults": 1,
-  "results": [
-    {
-      "o": 26.79,
-      "h": 26.85,
-      "l": 26.02,
-      "c": 26.3,
-      "v": 367009,
-      "t": 1628884800000
-    }
-  ],
-  "result": 26.3
+  "jobRunID": "1",
+  "data": {
+    "symbol": "ETH",
+    "totalResults": 1,
+    "results": [
+      {
+        "o": 26.79,
+        "h": 26.85,
+        "l": 26.02,
+        "c": 26.3,
+        "v": 367009,
+        "t": 1628884800000
+      }
+    ],
+    "result": 26.3
+  },
+  "result": 26.3,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -148,11 +160,17 @@ Response:
 
 ```json
 {
-  "symbol": "GBPUSD",
-  "ask": 1.34435,
-  "bid": 1.34426,
-  "timestamp": 1637060382000,
-  "result": 1.3443049999999999
+  "jobRunID": "1",
+  "data": {
+    "symbol": "GBPUSD",
+    "ask": 1.34435,
+    "bid": 1.34426,
+    "timestamp": 1637060382000,
+    "result": 1.3443049999999999
+  },
+  "result": 1.3443049999999999,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -188,10 +206,16 @@ Response:
 
 ```json
 {
-  "symbol": "BTCUSD",
-  "price": 50940.12,
-  "timestamp": 1638898619885,
-  "result": 50940.12
+  "jobRunID": "1",
+  "data": {
+    "symbol": "BTCUSD",
+    "price": 50940.12,
+    "timestamp": 1638898619885,
+    "result": 50940.12
+  },
+  "result": 50940.12,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

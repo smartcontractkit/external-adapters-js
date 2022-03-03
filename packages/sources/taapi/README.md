@@ -1,6 +1,6 @@
 # Chainlink External Adapter for taapi.io
 
-Version: 1.1.16
+Version: 1.1.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -55,7 +55,13 @@ Response:
 
 ```json
 {
-  "result": 66470.04250000001
+  "jobRunID": "1",
+  "data": {
+    "result": 66470.04250000001
+  },
+  "result": 66470.04250000001,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -81,7 +87,13 @@ Response:
 
 ```json
 {
-  "result": -109.20727257685407
+  "jobRunID": "1",
+  "data": {
+    "result": -109.20727257685407
+  },
+  "result": -109.20727257685407,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

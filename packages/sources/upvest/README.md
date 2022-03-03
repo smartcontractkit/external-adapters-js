@@ -1,12 +1,14 @@
 # Chainlink External Adapter for Upvest
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     | Description | Type | Options | Default |
+| :-------: | :----------: | :---------: | :--: | :-----: | :-----: |
+|           | API_ENDPOINT |             |      |         |         |
 
 ---
 
@@ -19,6 +21,8 @@ There are no environment variables for this adapter.
 ---
 
 ## Gasprice Endpoint
+
+Get the current gas price on Ethereum
 
 `gasprice` is the only supported name for this endpoint.
 
@@ -46,15 +50,21 @@ Response:
 
 ```json
 {
-  "success": true,
-  "updated": "2021-11-30T15:46:00.048Z",
-  "estimates": {
-    "fastest": 132.055,
-    "fast": 131.363,
-    "medium": 113.447,
-    "slow": 110.747
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "updated": "2021-11-30T15:46:00.048Z",
+    "estimates": {
+      "fastest": 132.055,
+      "fast": 131.363,
+      "medium": 113.447,
+      "slow": 110.747
+    },
+    "result": 131.363
   },
-  "result": 131.363
+  "result": 131.363,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

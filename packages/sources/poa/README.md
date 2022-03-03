@@ -1,6 +1,6 @@
 # Chainlink External Adapter for POA Network gas price
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -48,10 +48,16 @@ Response:
 
 ```json
 {
-  "average": 152.5,
-  "fast": 174.5,
-  "slow": 139.4,
-  "result": 152500000000
+  "jobRunID": "1",
+  "data": {
+    "average": 152.5,
+    "fast": 174.5,
+    "slow": 139.4,
+    "result": 152500000000
+  },
+  "result": 152500000000,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

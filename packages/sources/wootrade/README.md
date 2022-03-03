@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wootrade
 
-Version: 1.1.16
+Version: 1.1.17
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
@@ -8,9 +8,11 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-| Required? |  Name   |            Description            | Type | Options | Default |
-| :-------: | :-----: | :-------------------------------: | :--: | :-----: | :-----: |
-|           | API_KEY | An key to use the wootrade WS API |      |         |         |
+| Required? |      Name       |            Description            |  Type  | Options | Default |
+| :-------: | :-------------: | :-------------------------------: | :----: | :-----: | :-----: |
+|           |   API_ENPOINT   |                                   |        |         |         |
+|           | WS_API_ENDPOINT |                                   |        |         |         |
+|           |     API_KEY     | An key to use the wootrade WS API | string |         |         |
 
 ---
 
@@ -52,17 +54,23 @@ Response:
 
 ```json
 {
-  "success": true,
-  "rows": [
-    {
-      "symbol": "SPOT_ETH_USDT",
-      "side": "SELL",
-      "executed_price": 4499.01,
-      "executed_quantity": 0.043747,
-      "executed_timestamp": "1636138728.930"
-    }
-  ],
-  "result": 4499.01
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "rows": [
+      {
+        "symbol": "SPOT_ETH_USDT",
+        "side": "SELL",
+        "executed_price": 4499.01,
+        "executed_quantity": 0.043747,
+        "executed_timestamp": "1636138728.930"
+      }
+    ],
+    "result": 4499.01
+  },
+  "result": 4499.01,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

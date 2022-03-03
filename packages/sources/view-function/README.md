@@ -1,6 +1,6 @@
 # Chainlink External Adapter for View-Function
 
-Version: 1.1.16
+Version: 1.1.17
 
 External adapter for executing contract function and returning the result
 
@@ -8,9 +8,10 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-| Required? |       Name       |          Description          |  Type  | Options | Default |
-| :-------: | :--------------: | :---------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ETHEREUM_RPC_URL | RPC URL of a Mainnet ETH node | string |         |         |
+| Required? |       Name       |               Description                |  Type  | Options | Default |
+| :-------: | :--------------: | :--------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ETHEREUM_RPC_URL |      RPC URL of a Mainnet ETH node       | string |         |         |
+|           |     RPC_URL      | A fallback RPC URL of a Mainnet ETH node | string |         |         |
 
 ---
 
@@ -53,7 +54,13 @@ Response:
 
 ```json
 {
-  "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000"
+  "jobRunID": "1",
+  "data": {
+    "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000"
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EthGasWatch
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -48,71 +48,77 @@ Response:
 
 ```json
 {
-  "slow": {
-    "gwei": 141,
-    "usd": 13.42
-  },
-  "normal": {
-    "gwei": 148,
-    "usd": 14.09
-  },
-  "fast": {
-    "gwei": 170,
-    "usd": 16.18
-  },
-  "instant": {
-    "gwei": 192,
-    "usd": 18.28
-  },
-  "ethPrice": 4533.01,
-  "lastUpdated": 1637862962320,
-  "sources": [
-    {
-      "name": "Etherscan",
-      "source": "https://etherscan.io/gastracker",
-      "fast": 145,
-      "standard": 144,
-      "slow": 144,
-      "lastBlock": 13684916
+  "jobRunID": "1",
+  "data": {
+    "slow": {
+      "gwei": 141,
+      "usd": 13.42
     },
-    {
-      "name": "Gas station",
-      "source": "https://ethgasstation.info/",
-      "instant": 183,
-      "fast": 172,
-      "standard": 148,
-      "slow": 132,
-      "lastBlock": 13684915
+    "normal": {
+      "gwei": 148,
+      "usd": 14.09
     },
-    {
-      "name": "MyCrypto",
-      "source": "https://gas.mycryptoapi.com/",
-      "instant": 208,
-      "fast": 168,
-      "standard": 148,
-      "slow": 138,
-      "lastBlock": 13684915
+    "fast": {
+      "gwei": 170,
+      "usd": 16.18
     },
-    {
-      "name": "POA Network",
-      "source": "https://gasprice.poa.network/",
-      "instant": null,
-      "fast": 152,
-      "standard": null,
-      "slow": 127,
-      "lastBlock": null
+    "instant": {
+      "gwei": 192,
+      "usd": 18.28
     },
-    {
-      "name": "Upvest",
-      "source": "https://doc.upvest.co/reference#ethereum-fees",
-      "instant": 192,
-      "fast": 192,
-      "standard": 166,
-      "slow": 162,
-      "lastUpdate": 1637862962296
-    }
-  ],
-  "result": 170
+    "ethPrice": 4533.01,
+    "lastUpdated": 1637862962320,
+    "sources": [
+      {
+        "name": "Etherscan",
+        "source": "https://etherscan.io/gastracker",
+        "fast": 145,
+        "standard": 144,
+        "slow": 144,
+        "lastBlock": 13684916
+      },
+      {
+        "name": "Gas station",
+        "source": "https://ethgasstation.info/",
+        "instant": 183,
+        "fast": 172,
+        "standard": 148,
+        "slow": 132,
+        "lastBlock": 13684915
+      },
+      {
+        "name": "MyCrypto",
+        "source": "https://gas.mycryptoapi.com/",
+        "instant": 208,
+        "fast": 168,
+        "standard": 148,
+        "slow": 138,
+        "lastBlock": 13684915
+      },
+      {
+        "name": "POA Network",
+        "source": "https://gasprice.poa.network/",
+        "instant": null,
+        "fast": 152,
+        "standard": null,
+        "slow": 127,
+        "lastBlock": null
+      },
+      {
+        "name": "Upvest",
+        "source": "https://doc.upvest.co/reference#ethereum-fees",
+        "instant": 192,
+        "fast": 192,
+        "standard": 166,
+        "slow": 162,
+        "lastUpdate": 1637862962296
+      }
+    ],
+    "result": 170
+  },
+  "result": 170,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

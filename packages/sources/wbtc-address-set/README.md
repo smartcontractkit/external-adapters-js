@@ -1,6 +1,6 @@
-# Chainlink External Adapters to query wBTC custodial address set
+# Chainlink External Adapters for querying wBTC custodial address set
 
-Version: 1.3.13
+Version: 1.3.15
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -46,6 +46,22 @@ Response:
 
 ```json
 {
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "id": "601c5e4b11b1d4001e37091aa2618ee9",
+        "address": "31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY",
+        "balance": "0",
+        "type": "custodial",
+        "verified": false,
+        "coin": "btc",
+        "chainId": "mainnet",
+        "network": "bitcoin"
+      }
+    ],
+    "count": 1
+  },
   "result": [
     {
       "id": "601c5e4b11b1d4001e37091aa2618ee9",
@@ -58,7 +74,8 @@ Response:
       "network": "bitcoin"
     }
   ],
-  "count": 1
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -89,6 +106,22 @@ Response:
 
 ```json
 {
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "id": "601323767069d60008cb538b32c33cb1",
+        "address": "3Lto4jAz1aGJQwNSAZ6TEEFuoHoBb8kRc7",
+        "type": "custodial",
+        "balance": "0",
+        "verified": false,
+        "coin": "btc",
+        "chainId": "mainnet",
+        "network": "bitcoin"
+      }
+    ],
+    "count": 1
+  },
   "result": [
     {
       "id": "601323767069d60008cb538b32c33cb1",
@@ -101,7 +134,8 @@ Response:
       "network": "bitcoin"
     }
   ],
-  "count": 1
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

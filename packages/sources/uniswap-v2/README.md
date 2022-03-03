@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V2
 
-Version: 1.1.16
+Version: 1.1.17
 
 This adapter allows querying Uniswap V2 contracts
 
@@ -11,8 +11,9 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 | Required? |        Name        |                                                Description                                                |  Type  | Options |                   Default                    |
 | :-------: | :----------------: | :-------------------------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
 |    ✅     |  ETHEREUM_RPC_URL  |               An http(s) RPC URL to a blockchain node that can read the UniswapV2 contracts               | string |         |                                              |
-|           |  ROUTER_CONTRACT   |    The uniswap router address to get price from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET     | string |         | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
+|           |      RPC_URL       |       A fallback http(s) RPC URL to a backup blockchain node that can read the UniswapV2 contracts        | string |         |                                              |
 |           | BLOCKCHAIN_NETWORK | The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET | string |         |                  `ethereum`                  |
+|           |  ROUTER_CONTRACT   |    The Uniswap router address to get price from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET     | string |         | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
 
 ---
 
@@ -25,6 +26,8 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 ---
 
 ## Crypto Endpoint
+
+Gets the exchange rate between two tokens
 
 `crypto` is the only supported name for this endpoint.
 
@@ -61,14 +64,20 @@ Response:
 
 ```json
 {
-  "input": "1000000",
-  "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-  "inputDecimals": 6,
-  "output": "999856",
-  "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  "outputDecimals": 6,
-  "rate": 0.999856,
-  "result": 0.999856
+  "jobRunID": "1",
+  "data": {
+    "input": "1000000",
+    "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "inputDecimals": 6,
+    "output": "999856",
+    "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "outputDecimals": 6,
+    "rate": 0.999856,
+    "result": 0.999856
+  },
+  "result": 0.999856,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -96,14 +105,20 @@ Response:
 
 ```json
 {
-  "input": "10000000000000000000",
-  "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-  "inputDecimals": 18,
-  "output": "2108971134647913998340",
-  "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-  "outputDecimals": 18,
-  "rate": 210.8971134647914,
-  "result": 210.8971134647914
+  "jobRunID": "1",
+  "data": {
+    "input": "10000000000000000000",
+    "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    "inputDecimals": 18,
+    "output": "2108971134647913998340",
+    "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "outputDecimals": 18,
+    "rate": 210.8971134647914,
+    "result": 210.8971134647914
+  },
+  "result": 210.8971134647914,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

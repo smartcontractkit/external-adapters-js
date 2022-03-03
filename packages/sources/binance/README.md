@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance
 
-Version: 1.2.16
+Version: 1.2.17
 
 Adapter using the public Binance market API for both HTTP(s) and WS.
 
@@ -8,7 +8,10 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |      Name       | Description |  Type  | Options |              Default               |
+| :-------: | :-------------: | :---------: | :----: | :-----: | :--------------------------------: |
+|           |  API_ENDPOINT   |             | string |         |     `https://api.binance.com`      |
+|           | WS_API_ENDPOINT |             | string |         | `wss://stream.binance.com:9443/ws` |
 
 ---
 
@@ -53,9 +56,15 @@ Response:
 
 ```json
 {
-  "symbol": "ETHBTC",
-  "price": "0.07077300",
-  "result": 0.070773
+  "jobRunID": "1",
+  "data": {
+    "symbol": "ETHBTC",
+    "price": "0.07077300",
+    "result": 0.070773
+  },
+  "result": 0.070773,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

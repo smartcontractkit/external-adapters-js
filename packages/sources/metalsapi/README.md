@@ -1,6 +1,6 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-Version: 1.6.13
+Version: 1.6.14
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -54,20 +54,26 @@ Response:
 
 ```json
 {
-  "success": true,
-  "query": {
-    "from": "XAU",
-    "to": "USD",
-    "amount": 1
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "query": {
+      "from": "XAU",
+      "to": "USD",
+      "amount": 1
+    },
+    "info": {
+      "timestamp": 1637949420,
+      "rate": 1785.0181286441143
+    },
+    "historical": false,
+    "date": "2021-11-26",
+    "result": 1785.0181286441143,
+    "unit": "per ounce"
   },
-  "info": {
-    "timestamp": 1637949420,
-    "rate": 1785.0181286441143
-  },
-  "historical": false,
-  "date": "2021-11-26",
   "result": 1785.0181286441143,
-  "unit": "per ounce"
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -106,15 +112,28 @@ Response:
 
 ```json
 {
-  "success": true,
-  "timestamp": 1641990900,
-  "date": "2022-01-12",
-  "base": "XAU",
-  "rates": {
-    "USD": 1817.0552439305814
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "timestamp": 1641990900,
+    "date": "2022-01-12",
+    "base": "XAU",
+    "rates": {
+      "USD": 1817.0552439305814
+    },
+    "unit": "per ounce",
+    "result": 1817.0552439305814
   },
-  "unit": "per ounce",
-  "result": 1817.0552439305814
+  "result": 1817.0552439305814,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
 }
 ```
 
@@ -139,41 +158,53 @@ Response:
 
 ```json
 {
-  "success": true,
-  "timestamp": 1641990180,
-  "date": "2022-01-12",
-  "base": "BTC",
-  "rates": {
-    "XAU": 0.04228229144046888,
-    "USD": 42968.36778447169
-  },
-  "unit": "per ounce",
-  "results": [
-    [
-      {
-        "id": "1",
-        "data": {
-          "endpoint": "latest",
-          "base": "BTC",
-          "quote": "USD"
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "timestamp": 1641990180,
+    "date": "2022-01-12",
+    "base": "BTC",
+    "rates": {
+      "XAU": 0.04228229144046888,
+      "USD": 42968.36778447169
+    },
+    "unit": "per ounce",
+    "results": [
+      [
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "latest",
+            "base": "BTC",
+            "quote": "USD"
+          },
+          "rateLimitMaxAge": 176470588
         },
-        "rateLimitMaxAge": 176470588
-      },
-      42968.36778447169
-    ],
-    [
-      {
-        "id": "1",
-        "data": {
-          "endpoint": "latest",
-          "base": "BTC",
-          "quote": "XAU"
+        42968.36778447169
+      ],
+      [
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "latest",
+            "base": "BTC",
+            "quote": "XAU"
+          },
+          "rateLimitMaxAge": 176470588
         },
-        "rateLimitMaxAge": 176470588
-      },
-      0.04228229144046888
+        0.04228229144046888
+      ]
     ]
-  ]
+  },
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
 }
 ```
 

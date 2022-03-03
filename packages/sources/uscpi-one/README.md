@@ -1,12 +1,14 @@
 # Chainlink External Adapter for US Consumer Price Index (USCPI)
 
-Version: 1.1.16
+Version: 1.1.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     | Description | Type | Options | Default |
+| :-------: | :----------: | :---------: | :--: | :-----: | :-----: |
+|           | API_ENDPOINT |             |      |         |         |
 
 ---
 
@@ -51,41 +53,47 @@ Response:
 
 ```json
 {
-  "status": "REQUEST_SUCCEEDED",
-  "responseTime": 212,
-  "message": [],
-  "Results": {
-    "series": [
-      {
-        "seriesID": "CUSR0000SA0",
-        "data": [
-          {
-            "year": "2021",
-            "period": "M09",
-            "periodName": "September",
-            "latest": "true",
-            "value": "274.138",
-            "footnotes": [{}]
-          },
-          {
-            "year": "2021",
-            "period": "M08",
-            "periodName": "August",
-            "value": "273.012",
-            "footnotes": [{}]
-          },
-          {
-            "year": "2021",
-            "period": "M07",
-            "periodName": "July",
-            "value": "272.265",
-            "footnotes": [{}]
-          }
-        ]
-      }
-    ]
+  "jobRunID": "1",
+  "data": {
+    "status": "REQUEST_SUCCEEDED",
+    "responseTime": 212,
+    "message": [],
+    "Results": {
+      "series": [
+        {
+          "seriesID": "CUSR0000SA0",
+          "data": [
+            {
+              "year": "2021",
+              "period": "M09",
+              "periodName": "September",
+              "latest": "true",
+              "value": "274.138",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M08",
+              "periodName": "August",
+              "value": "273.012",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M07",
+              "periodName": "July",
+              "value": "272.265",
+              "footnotes": [{}]
+            }
+          ]
+        }
+      ]
+    },
+    "result": 272.265
   },
-  "result": 272.265
+  "result": 272.265,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

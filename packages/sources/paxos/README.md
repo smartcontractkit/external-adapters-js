@@ -1,6 +1,6 @@
 # Chainlink External Adapter for paxos
 
-Version: 1.2.16
+Version: 1.2.17
 
 Query Paxos asset attestations like: https://api.paxos.com/v1/asset-attestations/PAX
 
@@ -48,7 +48,13 @@ Response:
 
 ```json
 {
-  "result": 922265979.98
+  "jobRunID": "1",
+  "data": {
+    "result": 922265979.98
+  },
+  "result": 922265979.98,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

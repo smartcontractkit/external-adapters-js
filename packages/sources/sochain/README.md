@@ -1,6 +1,6 @@
 # Chainlink External Adapters to query address balance from SoChain
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -70,26 +70,44 @@ Response:
 
 ```json
 {
-  "responses": [
-    {
-      "status": "success",
-      "data": {
-        "network": "BTC",
+  "jobRunID": "1",
+  "statusCode": 200,
+  "data": {
+    "responses": [
+      {
+        "status": "success",
+        "data": {
+          "network": "BTC",
+          "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+          "confirmed_balance": "0.00000000",
+          "unconfirmed_balance": null
+        }
+      },
+      {
+        "status": "success",
+        "data": {
+          "network": "BTC",
+          "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+          "confirmed_balance": "0.00002188",
+          "unconfirmed_balance": null
+        }
+      }
+    ],
+    "result": [
+      {
         "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
-        "confirmed_balance": "0.00000000",
-        "unconfirmed_balance": null
-      }
-    },
-    {
-      "status": "success",
-      "data": {
-        "network": "BTC",
+        "coin": "BTC",
+        "chain": "mainnet",
+        "balance": "0"
+      },
+      {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "confirmed_balance": "0.00002188",
-        "unconfirmed_balance": null
+        "coin": "BTC",
+        "chain": "mainnet",
+        "balance": "2188"
       }
-    }
-  ],
+    ]
+  },
   "result": [
     {
       "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",

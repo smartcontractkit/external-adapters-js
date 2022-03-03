@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Stasis
 
-Version: 1.1.16
+Version: 1.1.17
 
 Stasis adapter to get Circulating Supply of EURS
 
@@ -43,7 +43,13 @@ Response:
 
 ```json
 {
-  "result": 89225940
+  "jobRunID": "1",
+  "data": {
+    "result": 89225940
+  },
+  "result": 89225940,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

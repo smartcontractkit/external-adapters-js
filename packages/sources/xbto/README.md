@@ -1,14 +1,15 @@
 # Chainlink External Adapter for XBTO
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   | Description |  Type  | Options | Default |
-| :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY |             | string |         |         |
+| Required? |     Name     | Description |  Type  | Options | Default |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-----: |
+|           | API_ENDPOINT |             |        |         |         |
+|    ✅     |   API_KEY    |             | string |         |         |
 
 ---
 
@@ -48,7 +49,13 @@ Response:
 
 ```json
 {
-  "result": 83.86309
+  "jobRunID": "1",
+  "data": {
+    "result": 83.86309
+  },
+  "result": 83.86309,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
@@ -71,7 +78,13 @@ Response:
 
 ```json
 {
-  "result": 82.5261
+  "jobRunID": "1",
+  "data": {
+    "result": 82.5261
+  },
+  "result": 82.5261,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

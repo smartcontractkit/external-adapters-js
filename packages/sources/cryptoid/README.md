@@ -1,6 +1,6 @@
 # Chainlink External Adapter for cryptoID
 
-Version: 1.2.16
+Version: 1.2.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -48,7 +48,13 @@ Response:
 
 ```json
 {
-  "result": 22674148233453.1
+  "jobRunID": "1",
+  "data": {
+    "result": 22674148233453.1
+  },
+  "result": 22674148233453.1,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

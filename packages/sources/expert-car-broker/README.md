@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Expert Car Broker
 
-Version: 1.2.16
+Version: 1.2.17
 
 Adapter to get data from Expert Car Broker.
 
@@ -52,8 +52,14 @@ Response:
 
 ```json
 {
-  "value": 482421,
-  "result": 482421
+  "jobRunID": "1",
+  "data": {
+    "value": 482421,
+    "result": 482421
+  },
+  "result": 482421,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

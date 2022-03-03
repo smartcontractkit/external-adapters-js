@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinCodex
 
-Version: 1.2.16
+Version: 1.2.17
 
 Price adapter to query the price of an asset in USD. Only USD is supported by CoinCodex as a quote currency.
 
@@ -8,7 +8,9 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     | Description |  Type  | Options |                Default                 |
+| :-------: | :----------: | :---------: | :----: | :-----: | :------------------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://coincodex.com/api/coincodex/` |
 
 ---
 
@@ -47,7 +49,13 @@ Response:
 
 ```json
 {
-  "result": 4533.8640179546355
+  "jobRunID": "1",
+  "data": {
+    "result": 4533.8640179546355
+  },
+  "result": 4533.8640179546355,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

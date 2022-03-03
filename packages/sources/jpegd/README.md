@@ -1,6 +1,6 @@
 # Chainlink External Adapter for JPEG'd
 
-Version: 1.0.6
+Version: 1.0.7
 
 This adapter allows for querying NFT collection values
 
@@ -28,9 +28,9 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ### Input Params
 
-| Required? | Name  |          Aliases          |                       Description                       |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----------------------: | :-----------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | block | `blockNum`, `blockNumber` | The block number for which information is being queried | number |         |         |            |                |
+| Required? | Name  |          Aliases          |                       Description                       | Type | Options | Default  | Depends On | Not Valid With |
+| :-------: | :---: | :-----------------------: | :-----------------------------------------------------: | :--: | :-----: | :------: | :--------: | :------------: |
+|           | block | `blockNum`, `blockNumber` | The block number for which information is being queried |      |         | `latest` |            |                |
 
 ### Example
 
@@ -41,7 +41,7 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "punks",
-    "block": 14000000
+    "block": 10000000
   },
   "rateLimitMaxAge": 5555
 }
@@ -51,10 +51,16 @@ Response:
 
 ```json
 {
-  "success": true,
-  "block": 14000000,
-  "value": 14000000,
-  "result": 14000000
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "block": 11000000,
+    "value": 5.568735828488373,
+    "result": 5.568735828488373
+  },
+  "result": 5.568735828488373,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 

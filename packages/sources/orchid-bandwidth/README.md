@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Orchid bandwidth
 
-Version: 1.1.16
+Version: 1.1.17
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -45,8 +45,14 @@ Response:
 
 ```json
 {
-  "payload": 0.06491712005868808,
-  "result": 0.06491712005868808
+  "jobRunID": "1",
+  "data": {
+    "payload": 0.06491712005868808,
+    "result": 0.06491712005868808
+  },
+  "result": 0.06491712005868808,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
