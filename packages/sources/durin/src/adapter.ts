@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config, makeConfig } from './config'
 import * as endpoints from './endpoint'
 import { ethers } from 'ethers'

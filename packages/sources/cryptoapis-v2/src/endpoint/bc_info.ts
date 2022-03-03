@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { BLOCKCHAIN_NAME_BY_TICKER, BlockchainTickers } from '../config'
 
 export const supportedEndpoints = ['height', 'difficulty']

@@ -1,5 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  EndpointResultPaths,
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../../config'
 import overrides from '../../config/symbols.json'
 

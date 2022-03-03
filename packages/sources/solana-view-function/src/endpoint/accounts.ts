@@ -1,5 +1,5 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import * as solanaWeb3 from '@solana/web3.js'
 

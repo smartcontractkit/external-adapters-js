@@ -1,5 +1,5 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import { Execute, ExecuteWithConfig, Config } from '@chainlink/types'
+import { Execute, ExecuteWithConfig, Config } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 

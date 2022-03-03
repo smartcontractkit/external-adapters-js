@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 
 import { makeConfig } from './config'

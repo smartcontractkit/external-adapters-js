@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import * as BigQuery from '@chainlink/google-bigquery-adapter'
 import { Config, makeConfig } from './config'
 import * as gjv from 'geojson-validation'

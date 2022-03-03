@@ -1,5 +1,5 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Execute } from '@chainlink/types'
+import { Execute } from '@chainlink/ea-bootstrap'
 import * as TheRundown from '@chainlink/therundown-adapter'
 import { ethers } from 'ethers'
 import { CreateTeamEvent } from '../methods/createMarkets'

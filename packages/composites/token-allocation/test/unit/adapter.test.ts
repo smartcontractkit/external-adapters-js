@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { makeExecute, priceTotalValue } from '../../src/adapter'
 import { makeConfig } from '../../src/config'

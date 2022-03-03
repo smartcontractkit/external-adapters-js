@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_BASE_URL = 'https://api.anyblock.tools'
 export const NAME = 'ANYBLOCK'

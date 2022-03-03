@@ -1,5 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
-import { RequestConfig } from '@chainlink/types'
+import { RequestConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'GOOGLE_BIGQUERY'
 

@@ -5,7 +5,7 @@ import {
   AdapterRequest,
   ExecuteFactory,
   APIEndpoint,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'

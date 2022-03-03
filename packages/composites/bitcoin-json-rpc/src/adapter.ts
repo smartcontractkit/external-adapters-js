@@ -1,4 +1,4 @@
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { DEFAULT_ENDPOINT, makeConfig } from './config'
 import { getblockchaininfo, scantxoutset } from './endpoint'

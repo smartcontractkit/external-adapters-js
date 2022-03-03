@@ -1,5 +1,5 @@
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
-import { Execute } from '@chainlink/types'
+import { Execute } from '@chainlink/ea-bootstrap'
 
 export const getDominanceAdapter = (): Execute => {
   const config = TokenAllocation.makeConfig()

@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { BigNumber } from 'ethers'
 import { DEFAULT_TOKEN_DECIMALS } from './config'
@@ -34,6 +34,6 @@ export const convertUSDQuote = async (
     targetQuote,
     targetQuoteDecimals,
   )
-  const targetQuoteUSDRate = targetQuoteUSDRateResp.data.result
+  const targetQuoteUSDRate = targetQuoteUSDRateResp.data.result as number
   return usdPrice / targetQuoteUSDRate
 }

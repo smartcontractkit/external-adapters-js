@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import { calculate } from './cryptoVolatilityIndex'
 
 const customParams = {

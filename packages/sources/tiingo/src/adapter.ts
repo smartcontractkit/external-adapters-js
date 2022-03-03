@@ -6,7 +6,7 @@ import {
   ExecuteFactory,
   ExecuteWithConfig,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import * as endpoints from './endpoint'
 import overrides from './config/symbols.json'

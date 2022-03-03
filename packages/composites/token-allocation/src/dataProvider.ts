@@ -1,8 +1,8 @@
 import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, RequestConfig } from '@chainlink/types'
+import { AdapterResponse, RequestConfig } from '@chainlink/ea-bootstrap'
 import { ResponsePayload } from './types'
 import { Logger } from '@chainlink/ea-bootstrap'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 /**
  * @description

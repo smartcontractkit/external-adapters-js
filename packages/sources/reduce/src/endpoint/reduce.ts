@@ -1,7 +1,7 @@
 import objectPath from 'object-path'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
-import { Execute, InputParameters } from '@chainlink/types'
+import { Execute, InputParameters } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 
 export const supportedEndpoints = ['reduce']

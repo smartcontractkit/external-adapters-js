@@ -1,5 +1,5 @@
 import * as dwolla from 'dwolla-v2'
-import { InputParameters } from '@chainlink/types'
+import { InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['dwolla']
 

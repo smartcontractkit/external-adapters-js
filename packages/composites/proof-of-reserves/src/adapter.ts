@@ -7,7 +7,7 @@ import {
   Execute,
   AdapterResponse,
   AdapterContext,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { makeConfig, makeOptions, DEFAULT_CONFIRMATIONS } from './config'
 import { runProtocolAdapter } from './protocol'

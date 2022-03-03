@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import nock from 'nock'
 import http from 'http'

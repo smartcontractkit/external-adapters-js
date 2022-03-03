@@ -1,5 +1,5 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_NETWORK, ETH } from '../config'
 import stagingAbi from '../abi/stagingContract.json'
 import { ethers } from 'ethers'

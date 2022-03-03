@@ -23,7 +23,6 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@chainlink/types": "workspace:*",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",

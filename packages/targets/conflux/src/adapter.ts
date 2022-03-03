@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Execute, AdapterResponse, ExecuteWithConfig } from '@chainlink/types'
+import { Execute, AdapterResponse, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
 import { conflux } from './endpoint'
 

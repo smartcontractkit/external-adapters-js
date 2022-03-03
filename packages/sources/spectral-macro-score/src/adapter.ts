@@ -1,5 +1,10 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteFactory, AdapterRequest, AdapterContext, AdapterResponse } from '@chainlink/types'
+import {
+  ExecuteFactory,
+  AdapterRequest,
+  AdapterContext,
+  AdapterResponse,
+} from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
 import { MacroScoreAPI } from './endpoint'
 

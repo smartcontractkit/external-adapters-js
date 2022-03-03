@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'TRADERMADE'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://marketdata.tradermade.com/feedadv'

@@ -1,4 +1,9 @@
-import { AdapterImplementation, Config, AdapterResponse, AdapterContext } from '@chainlink/types'
+import {
+  AdapterImplementation,
+  Config,
+  AdapterResponse,
+  AdapterContext,
+} from '@chainlink/ea-bootstrap'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from './adapter'
 // protocol adapters

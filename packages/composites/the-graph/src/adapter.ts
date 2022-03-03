@@ -1,5 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, Execute, ExecuteWithConfig } from '@chainlink/types'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  Execute,
+  ExecuteWithConfig,
+} from '@chainlink/ea-bootstrap'
 import { prices } from './methods'
 import { makeConfig, Config } from './config'
 

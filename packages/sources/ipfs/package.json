@@ -39,7 +39,6 @@
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
     "nock": "13.2.4",

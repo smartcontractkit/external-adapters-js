@@ -1,5 +1,5 @@
 import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Schema, StateQuery } from '@cardano-ogmios/client'
 import { ExtendedConfig } from '../config'
 import { BigNumber } from 'ethers'

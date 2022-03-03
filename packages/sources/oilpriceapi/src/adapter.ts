@@ -5,7 +5,7 @@ import {
   Config,
   ExecuteFactory,
   ExecuteWithConfig,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 

@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import * as SA from '@chainlink/uniswap-v2-adapter'
 import { Config } from '../config'

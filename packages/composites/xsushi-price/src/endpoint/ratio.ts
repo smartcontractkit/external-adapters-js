@@ -1,4 +1,4 @@
-import { AdapterContext, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterContext, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import { Config } from '../config'

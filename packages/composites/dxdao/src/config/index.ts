@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import * as types from '@chainlink/types'
+import * as types from '@chainlink/ea-bootstrap'
 
 export type Config = types.Config & {
   rpcUrl: string

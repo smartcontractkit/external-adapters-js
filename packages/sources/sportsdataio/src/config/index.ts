@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as ChainlinkConfig } from '@chainlink/types'
+import { Config as ChainlinkConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'SPORTSDATAIO'
 

@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import { Config, makeConfig, DEFAULT_NETWORK } from './config'

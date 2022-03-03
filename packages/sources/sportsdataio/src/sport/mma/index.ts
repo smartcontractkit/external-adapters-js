@@ -1,5 +1,5 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { makeConfig } from '../../config'
 import { schedule, event, fight, leagues } from './endpoint'
 

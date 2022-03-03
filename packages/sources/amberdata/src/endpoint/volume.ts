@@ -1,5 +1,11 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, Includes, IncludePair, InputParameters } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  Includes,
+  IncludePair,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import includes from './../config/includes.json'
 

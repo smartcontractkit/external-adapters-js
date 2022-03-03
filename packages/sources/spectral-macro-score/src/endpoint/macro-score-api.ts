@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { InputParameters, RequestConfig } from '@chainlink/types'
+import { InputParameters, RequestConfig } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
 import { SpectralAdapterConfig } from '../config'

@@ -6,7 +6,7 @@ import {
   AdapterRequest,
   APIEndpoint,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import overrides from './config/symbols.json'
 import * as endpoints from './endpoint'

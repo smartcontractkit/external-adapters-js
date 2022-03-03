@@ -1,5 +1,5 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { DEFAULT_METHOD, makeConfig, Config } from './config'
 import { poke } from './method'
 

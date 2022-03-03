@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { Config, ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
+import { Config, ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/ea-bootstrap'
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'scantxoutset'

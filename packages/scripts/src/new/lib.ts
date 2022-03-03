@@ -75,7 +75,7 @@ async function generate(type: string) {
 
   // pull latest workspace data after files have been generated
   let currentWorkspace: WorkspacePackage[] = getWorkspacePackages(['scripts', 'core']) //using this alphabetizes everything
-  currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/types') //filter out package
+  currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/ea-bootstrap') //filter out package
   const adapterList = currentWorkspace.filter((w) => w.type === `${type}s`)
 
   // add to packages/tsconfig.json

@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import * as ta from '@chainlink/token-allocation-adapter'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute, toFixedMax } from '../../src/adapter'
 
 const makeMockConfig = () => {

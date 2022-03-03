@@ -6,7 +6,7 @@ import {
   ExecuteWithConfig,
   MakeWSHandler,
   APIEndpoint,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import { crypto } from './endpoint'
 import * as endpoints from './endpoint'

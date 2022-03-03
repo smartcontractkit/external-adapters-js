@@ -6,7 +6,7 @@ import {
   AdapterRequest,
   APIEndpoint,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { DEFAULT_BLOCK_IDX, makeConfig } from './config'
 import * as endpoints from './endpoint'
 

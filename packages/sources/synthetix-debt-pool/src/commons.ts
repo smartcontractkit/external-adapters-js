@@ -1,5 +1,5 @@
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import { SupportedChains, Config } from './config'
 import { AdapterError } from '@chainlink/ea-bootstrap'

@@ -1,5 +1,5 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { execute } from '../../src/endpoint/write'
 import { makeConfig } from '../../src'
 import mockOracleRewardsData from '../mock-data/mock-oracle-rewards-data.json'

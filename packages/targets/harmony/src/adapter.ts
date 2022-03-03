@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { Harmony } from '@harmony-js/core'
 import { getAddress, hexToByteArray, hexlify, concat } from '@harmony-js/crypto'
 import { ChainType } from '@harmony-js/utils'

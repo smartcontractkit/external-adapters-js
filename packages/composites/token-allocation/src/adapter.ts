@@ -1,4 +1,4 @@
-import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
+import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/ea-bootstrap'
 import {
   DEFAULT_TOKEN_BALANCE,
   DEFAULT_TOKEN_DECIMALS,

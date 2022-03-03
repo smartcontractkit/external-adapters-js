@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['deposits']
 

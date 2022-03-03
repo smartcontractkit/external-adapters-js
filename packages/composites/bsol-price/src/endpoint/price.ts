@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as solanaViewFunction from '@chainlink/solana-view-function-adapter'
 import BN from 'bn.js'

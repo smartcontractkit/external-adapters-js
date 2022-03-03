@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as DefaultConfig } from '@chainlink/types'
+import { Config as DefaultConfig } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_ENDPOINT = 'price'
 

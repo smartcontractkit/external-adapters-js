@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, makeConfig } from './config'
 import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'

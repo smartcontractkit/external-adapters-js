@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
+import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeConfig, Config, DEFAULT_NETWORK } from './config'
 import { getRpcLatestAnswer } from '@chainlink/ea-reference-data-reader'
 

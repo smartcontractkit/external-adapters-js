@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'

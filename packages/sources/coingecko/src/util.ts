@@ -1,7 +1,7 @@
 import { endpointSelector, makeExecute } from './adapter'
 import { makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
 import { CoinsResponse } from './endpoint/coins'
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 
 export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsResponse[]> {
   const execute = makeExecute()

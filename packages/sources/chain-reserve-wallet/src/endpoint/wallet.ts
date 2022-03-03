@@ -1,5 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import {
+  AdapterResponse,
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 
 const networks = ['cardano', 'dogecoin']

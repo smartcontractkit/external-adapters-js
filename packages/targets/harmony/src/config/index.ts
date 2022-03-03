@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import types from '@chainlink/types'
+import types from '@chainlink/ea-bootstrap'
 
 export const NAME = 'HARMONY'
 export const DEFAULT_API_ENDPOINT = 'https://api.s0.t.hmny.io'

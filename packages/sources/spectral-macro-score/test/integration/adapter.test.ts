@@ -1,5 +1,5 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import nock from 'nock'
 import sinon from 'sinon'

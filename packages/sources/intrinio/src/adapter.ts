@@ -5,7 +5,7 @@ import {
   Config,
   InputParameters,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { IexMessage, IntrinioRealtime } from './util'
 import { makeConfig, NAME } from './config'
 

@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { LCDClient } from '@terra-money/terra.js'
 import { Config, ChainId, SUPPORTED_CHAIN_IDS } from '../config'
 

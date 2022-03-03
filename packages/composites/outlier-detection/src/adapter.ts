@@ -4,7 +4,7 @@ import {
   ExecuteFactory,
   ExecuteWithConfig,
   RequestConfig,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import {

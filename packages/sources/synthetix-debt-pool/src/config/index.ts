@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as DefaultConfig } from '@chainlink/types'
+import { Config as DefaultConfig } from '@chainlink/ea-bootstrap'
 import { NetworkId, NetworkIdByName } from '@synthetixio/contracts-interface'
 
 export const NAME = 'SYNTHETIX_DEBT_POOL'

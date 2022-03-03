@@ -1,5 +1,5 @@
 import objectPath from 'object-path'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_DATA_PATH } from '../config'
 import { PriceDataPoint, requireNormalizedPrice, getPricePayload } from './starkex'

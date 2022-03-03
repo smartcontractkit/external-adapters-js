@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BaseConfig } from '@chainlink/types'
+import { Config as BaseConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'SOLANA_VIEW_FUNCTION'
 

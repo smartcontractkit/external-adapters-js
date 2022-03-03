@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../../config'
 import * as view from '@chainlink/terra-view-function-adapter'
 import { Validator } from '@chainlink/ea-bootstrap'
