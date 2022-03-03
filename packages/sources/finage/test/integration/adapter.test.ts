@@ -181,6 +181,23 @@ describe('websocket', () => {
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv
+  beforeAll(async () => {
+    if (!process.env.RECORD) {
+      process.env.API_KEY = 'fake-api-key'
+      process.env.WS_SOCKET_KEY = 'fake-api-key'
+      process.env.CRYPTO_WS_API_ENDPOINT = DEFAULT_CRYPTO_WS_API_ENDPOINT
+
+      mockedWsServer = mockWebSocketServer(process.env.CRYPTO_WS_API_ENDPOINT)
+      mockWebSocketProvider(WebSocketClassProvider)
+    }
+
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.WS_ENABLED = 'true'
+    process.env.WS_SUBSCRIPTION_TTL = '100'
+
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+  })
 
   afterAll((done) => {
     process.env = oldEnv
@@ -191,34 +208,6 @@ describe('websocket', () => {
   })
 
   describe('crypto endpoint', () => {
-    beforeAll(async () => {
-      jest.setTimeout(15000)
-      if (!process.env.RECORD) {
-        process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-        process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY || 'fake-api-key'
-        process.env.CRYPTO_WS_API_ENDPOINT =
-          process.env.CRYPTO_WS_API_ENDPOINT || DEFAULT_CRYPTO_WS_API_ENDPOINT
-
-        mockedWsServer = mockWebSocketServer(process.env.CRYPTO_WS_API_ENDPOINT)
-        mockWebSocketProvider(WebSocketClassProvider)
-      }
-
-      oldEnv = JSON.parse(JSON.stringify(process.env))
-      process.env.WS_ENABLED = 'true'
-      process.env.WS_SUBSCRIPTION_TTL = '100'
-
-      server = await startServer()
-      req = request(`localhost:${(server.address() as AddressInfo).port}`)
-    })
-
-    afterAll((done) => {
-      process.env = oldEnv
-      nock.restore()
-      nock.cleanAll()
-      nock.enableNetConnect()
-      server.close(done)
-    })
-
     const jobID = '1'
 
     it('should return success', async () => {
@@ -259,7 +248,7 @@ describe('websocket', () => {
 
       // This final request should disable the cache warmer
       const response = await makeRequest()
-
+      await sleep(1000)
       expect(response.body).toEqual({
         jobRunID: '1',
         result: 43682.66306523,
@@ -271,35 +260,42 @@ describe('websocket', () => {
       await flowFulfilled
     }, 30000)
   })
+})
+
+describe('websocket', () => {
+  let mockedWsServer: InstanceType<typeof MockWsServer>
+  let server: http.Server
+  let req: SuperTest<Test>
+
+  let oldEnv: NodeJS.ProcessEnv
+  beforeAll(async () => {
+    if (!process.env.RECORD) {
+      process.env.API_KEY = 'fake-api-key'
+      process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY || 'fake-api-key'
+      process.env.STOCK_WS_API_ENDPOINT =
+        process.env.STOCK_WS_API_ENDPOINT || DEFAULT_STOCK_WS_API_ENDPOINT
+
+      mockedWsServer = mockWebSocketServer(process.env.STOCK_WS_API_ENDPOINT)
+      mockWebSocketProvider(WebSocketClassProvider)
+    }
+
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.WS_ENABLED = 'true'
+    process.env.WS_SUBSCRIPTION_TTL = '100'
+
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+  })
+
+  afterAll((done) => {
+    process.env = oldEnv
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
+    server.close(done)
+  })
 
   describe('stock endpoint', () => {
-    beforeAll(async () => {
-      if (!process.env.RECORD) {
-        process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-        process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY || 'fake-api-key'
-        process.env.STOCK_WS_API_ENDPOINT =
-          process.env.STOCK_WS_API_ENDPOINT || DEFAULT_STOCK_WS_API_ENDPOINT
-
-        mockedWsServer = mockWebSocketServer(process.env.STOCK_WS_API_ENDPOINT)
-        mockWebSocketProvider(WebSocketClassProvider)
-      }
-
-      oldEnv = JSON.parse(JSON.stringify(process.env))
-      process.env.WS_ENABLED = 'true'
-      process.env.WS_SUBSCRIPTION_TTL = '30'
-
-      server = await startServer()
-      req = request(`localhost:${(server.address() as AddressInfo).port}`)
-    })
-
-    afterAll((done) => {
-      process.env = oldEnv
-      nock.restore()
-      nock.cleanAll()
-      nock.enableNetConnect()
-      server.close(done)
-    })
-
     const jobID = '1'
 
     it('should return success', async () => {
@@ -349,27 +345,42 @@ describe('websocket', () => {
       await flowFulfilled
     }, 30000)
   })
+})
+
+describe('websocket', () => {
+  let mockedWsServer: InstanceType<typeof MockWsServer>
+  let server: http.Server
+  let req: SuperTest<Test>
+
+  let oldEnv: NodeJS.ProcessEnv
+  beforeAll(async () => {
+    if (!process.env.RECORD) {
+      process.env.API_KEY = 'fake-api-key'
+      process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY || 'fake-api-key'
+      process.env.ENV_FOREX_WS_API_ENDPOINT =
+        process.env.ENV_FOREX_WS_API_ENDPOINT || DEFAULT_FOREX_WS_API_ENDPOINT
+
+      mockedWsServer = mockWebSocketServer(process.env.ENV_FOREX_WS_API_ENDPOINT)
+      mockWebSocketProvider(WebSocketClassProvider)
+    }
+
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.WS_ENABLED = 'true'
+    process.env.WS_SUBSCRIPTION_TTL = '100'
+
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+  })
+
+  afterAll((done) => {
+    process.env = oldEnv
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
+    server.close(done)
+  })
 
   describe('forex endpoint', () => {
-    beforeAll(async () => {
-      if (!process.env.RECORD) {
-        process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-        process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY || 'fake-api-key'
-        process.env.ENV_FOREX_WS_API_ENDPOINT =
-          process.env.ENV_FOREX_WS_API_ENDPOINT || DEFAULT_FOREX_WS_API_ENDPOINT
-
-        mockedWsServer = mockWebSocketServer(process.env.ENV_FOREX_WS_API_ENDPOINT)
-        mockWebSocketProvider(WebSocketClassProvider)
-      }
-
-      oldEnv = JSON.parse(JSON.stringify(process.env))
-      process.env.WS_ENABLED = 'true'
-      process.env.WS_SUBSCRIPTION_TTL = '30'
-
-      server = await startServer()
-      req = request(`localhost:${(server.address() as AddressInfo).port}`)
-    })
-
     const jobID = '1'
 
     it('should return success', async () => {
