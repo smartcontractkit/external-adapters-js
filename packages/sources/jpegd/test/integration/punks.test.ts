@@ -4,7 +4,7 @@ import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
-import { mockPunksValueAPIResponseSuccess, mockPunksValueResponseSuccess } from './fixtures'
+import { mockPunksValueResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -13,7 +13,7 @@ describe('execute', () => {
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    process.env.API_KEY = process.env.API_KEY || 'test-key'
+    process.env.API_KEY = 'test-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -35,11 +35,13 @@ describe('execute', () => {
   describe('punk valuation api', () => {
     const data: AdapterRequest = {
       id,
-      data: { block: 'latest' },
+      data: {
+        block: 10000000,
+        api_key: 'test-key',
+      },
     }
 
     it('should return success', async () => {
-      mockPunksValueAPIResponseSuccess()
       mockPunksValueResponseSuccess()
 
       const response = await req
