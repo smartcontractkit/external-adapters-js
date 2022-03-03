@@ -14,10 +14,6 @@ describe('execute', () => {
         name: 'invalid block string',
         testData: { data: { block: 'abc' } },
       },
-      {
-        name: 'invalid block type',
-        testData: { data: { block: null } },
-      },
     ]
 
     requests.forEach((req) => {
