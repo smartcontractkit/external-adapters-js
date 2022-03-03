@@ -1,5 +1,22 @@
 import nock from 'nock'
 
+export const mockPunksValueAPIResponseSuccess = (): nock =>
+  nock('https://jpegapi.com:443', { encodedQueryParams: true })
+    .get('/punks')
+    .query({ block: 'latest', api_key: 'test-key' })
+    .reply(200, { success: true, block: 14304636, value: 71.71525868055556 }, [
+      'Date',
+      'Wed, 02 Mar 2022 08:10:51 GMT',
+      'Content-Type',
+      'application/json',
+      'Transfer-Encoding',
+      'chunked',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+    ])
+
 export const mockPunksValueResponseSuccess = (): nock =>
   nock('http://localhost:8080', { encodedQueryParams: true })
     .post('/', { id: '1', data: { block: 'latest' } })
