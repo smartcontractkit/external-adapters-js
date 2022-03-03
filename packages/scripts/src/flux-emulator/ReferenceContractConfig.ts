@@ -23,12 +23,11 @@ export class ReferenceContractConfig {
   category: string
 
   constructor(input: Record<string, unknown>) {
-    const ValidationError = (param: string) => {
+    const ValidationError = (param: string) =>
       Error(`Contract config "${param}" param is missing or incorrect type`)
-    }
 
     if (typeof input?.name !== 'string') throw ValidationError('name')
-    else this.name = input.name
+    this.name = input.name
 
     if (typeof input?.contractVersion !== 'number') throw ValidationError('contractVersion')
     this.contractVersion = input.contractVersion
@@ -76,7 +75,7 @@ export class FeedNode {
     }
 
     if (typeof input?.name !== 'string') throw ValidationError('name')
-    else this.name = input.name
+    this.name = input.name
 
     if (typeof input?.address !== 'string') throw ValidationError('address')
     this.address = input.address
@@ -107,7 +106,7 @@ export type ReferenceContractConfigResponse = {
 }
 
 type ApiResponse = Record<string, unknown>[]
-const MAX_REQUESTS = 5
+const MAX_REQUESTS = 3
 const REQUEST_TIMEOUT_MS = 5000
 const RETRY_BACKOFF = {
   resetOnSuccess: true,
@@ -126,13 +125,10 @@ export const fetchConfigFromUrl = (
 ): Observable<ReferenceContractConfigResponse> => {
   let requestAttempt = 0
 
-  return axios.get<ApiResponse>(configUrl, { timeout: REQUEST_TIMEOUT_MS }).pipe(
-    map((res: { data: Record<string, unknown>[] }) => {
+  return axios.get(configUrl, { timeout: REQUEST_TIMEOUT_MS }).pipe(
+    map((res: { data: ApiResponse }) => {
       const configs = parseConfig(res.data)
-      const ret: ReferenceContractConfigResponse = {
-        configs,
-      }
-      return ret
+      return { configs }
     }),
     catchError((err: Error) => {
       requestAttempt++
@@ -224,7 +220,7 @@ export const addAdapterToConfig = (
   return qaConfig
 }
 
-const newConfigWithoutNodes = (feedConfig: ReferenceContractConfig): ReferenceContractConfig => {
+const newFeedWithoutNodes = (feedConfig: ReferenceContractConfig): ReferenceContractConfig => {
   const config: ReferenceContractConfig = { ...feedConfig }
   config.nodes = []
   return config
@@ -243,15 +239,15 @@ const addAdapterToNode = (
   ephemeralAdapterName: string,
 ): ReferenceContractConfig[] => {
   // find the feed in the qa config
-  let feedIndex: number = qaConfig.map((e) => e.name).indexOf(masterFeed.name)
+  let feedIndex: number = qaConfig.findIndex((e) => e.name === masterFeed.name)
   if (feedIndex < 0) {
     // add a feed with no nodes if a feed does not exist
-    qaConfig.push(newConfigWithoutNodes(masterFeed))
+    qaConfig.push(newFeedWithoutNodes(masterFeed))
     feedIndex = qaConfig.length - 1
   }
 
   // find the node in the qa config
-  let nodeIndex: number = qaConfig[feedIndex].nodes.map((e) => e.name).indexOf(masterNode.name)
+  let nodeIndex: number = qaConfig[feedIndex].nodes.findIndex((e) => e.name === masterNode.name)
   if (nodeIndex < 0) {
     // add a node with no data providers if a node does not exist
     qaConfig[feedIndex].nodes.push(newNodeWithoutAdapters(masterNode))
@@ -309,32 +305,13 @@ export const removeAdapterFromFeed = (
 }
 
 /**
- * Return whether the adapter exists in the config or now
- * @param {string} adapterName The name of the adapter to look for
- * @param {ReferenceContractConfig[]} masterConfig The configuration to look for the adapter in
- * @returns {boolean} True if the adapter exists in the config
- */
-export const adapterExistsInConfig = (
-  adapterName: string,
-  masterConfig: ReferenceContractConfig[],
-): boolean => {
-  for (const config of masterConfig) {
-    for (const node of config.nodes) {
-      if (node.dataProviders.includes(adapterName)) {
-        // we found the adapter
-        return true
-      }
-    }
-  }
-  return false
-}
-
-/**
  * Converts the flux emulator config into a k6 payload
  * @param {ConfigPayload[]} referenceConfig The configuration to convert to a k6 compatible payload
  * @returns {K6Payload[]} The k6 compatible payload
  */
-export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Payload[] => {
+export const convertConfigToK6Payload = (
+  referenceConfig: ReferenceContractConfig[],
+): K6Payload[] => {
   const id = randomUUID()
 
   const payloads: K6Payload[] = []
