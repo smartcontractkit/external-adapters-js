@@ -375,14 +375,25 @@ export const getRequiredEnvWithFallback = (
 }
 
 /**
+ * Check whether the given string contains characters in the given whitelist.
+ * @param str The string to check.
+ * @param whitelist The string array of whitelist entries. Returns true if any of these are found in 'str', otherwise returns false.
+ * @returns {boolean}
+ */
+const stringHasWhitelist = (str: string, whitelist: string[]): boolean =>
+  whitelist.some((el) => str.includes(el))
+
+/**
  * Build a URL path using the given pathTemplate and params. If a param is found in pathTemplate, it will be inserted there; otherwise, it will be added as a searchParam.
  * eg.) pathTemplate = "/from/:from/to/:to" and params = { from: "ETH", to: "BTC", note: "hello" } will become "/from/ETH/to/BTC?note=hello"
  * @param pathTemplate The path template for the URL path. Each param to include in the path should have a prefix of ':'. Leave empty if only searchParams are required.
- * @param params The object containing keys & values to be added to the URL path.
+ * @param params The object containing keys & values to be added to the URL path. Each value can be either a string or an object of { value: string, skipEncoding: boolean }.
+ * @param whitelist The list of characters to whitelist for the URL path (if a param contains one of your whitelisted characters, it will not be encoded).
  * @returns {string}
  */
-export const buildUrlPath = (pathTemplate = '', params = {}): string => {
+export const buildUrlPath = (pathTemplate = '', params = {}, whitelist = ''): string => {
   const searchParams = new URLSearchParams()
+  const allowedChars = whitelist.split('')
   let hasSearchParams = false
 
   for (const param in params) {
@@ -390,7 +401,10 @@ export const buildUrlPath = (pathTemplate = '', params = {}): string => {
     if (!value) continue
 
     if (pathTemplate.includes(`:${param}`)) {
-      pathTemplate = pathTemplate.replace(`:${param}`, encodeURIComponent(value))
+      pathTemplate = pathTemplate.replace(
+        `:${param}`,
+        stringHasWhitelist(value, allowedChars) ? value : encodeURIComponent(value),
+      )
     } else {
       searchParams.append(param, value)
       hasSearchParams = true
@@ -405,7 +419,8 @@ export const buildUrlPath = (pathTemplate = '', params = {}): string => {
  * @param baseUrl The base URL to add the pathTemplate & params to.
  * @param pathTemplate The path template for the URL path. Leave empty if only searchParams are required.
  * @param params The object containing keys & values to be added to the URL path.
+ * @param whitelist The list of characters to whitelist for the URL path (if a param contains one of your whitelisted characters, it will not be encoded).
  * @returns {string}
  */
-export const buildUrl = (baseUrl: string, pathTemplate = '', params = {}): string =>
-  new URL(buildUrlPath(pathTemplate, params), baseUrl).toString()
+export const buildUrl = (baseUrl: string, pathTemplate = '', params = {}, whitelist = ''): string =>
+  new URL(buildUrlPath(pathTemplate, params, whitelist), baseUrl).toString()

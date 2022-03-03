@@ -26,6 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     'https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com',
     '/:endpoint',
     { endpoint: endpoints[market.toLowerCase()] },
+    '/',
   )
 
   const auth = {

@@ -25,7 +25,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
 
   // Fall back to getting the data from HTTP endpoint
-  const url = util.buildUrlPath('/symbol/:symbol', { symbol })
+  const url = util.buildUrlPath('/symbol/:symbol', { symbol }, ':')
 
   const params = {
     c: `${config.client.key}:${config.client.secret}`,
