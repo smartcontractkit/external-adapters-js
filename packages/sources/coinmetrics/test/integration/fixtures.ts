@@ -245,3 +245,41 @@ export const mockCoinmetricsResponseSuccess3 = (): nock =>
       ],
       next_page_token: '0.MjAyMS0wOC0wNlQwMDowMDowMFo',
     })
+
+export const mockCoinmetricsResponseSuccess4 = (): nock =>
+  nock('https://api.coinmetrics.io/v4')
+    .get('/timeseries/asset-metrics')
+    .query({
+      assets: 'ETH',
+      metrics: 'ReferenceRateUSD',
+      frequency: '1s',
+      page_size: 1,
+      api_key: 'test_api_key',
+    })
+    .reply(200, {
+      data: [
+        {
+          asset: 'eth',
+          time: '2022-03-02T16:52:24.000000000Z',
+          ReferenceRateUSD: '2969.5',
+        },
+      ],
+      next_page_token: '0.MjAyMi0wMy0wMlQxNjo1MjoyNFo',
+    })
+
+export const mockSubscribeResponse = {
+  request: 'ethReferenceRateUSD',
+  response: [
+    {
+      time: '2022-03-02T16:44:47.000000000Z',
+      asset: 'eth',
+      ReferenceRateUSD: '2971.13',
+      cm_sequence_id: '2',
+    },
+  ],
+}
+
+export const mockUnsubscribeResponse = {
+  request: '',
+  response: null,
+}
