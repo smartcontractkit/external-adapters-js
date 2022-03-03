@@ -1,5 +1,12 @@
 # @chainlink/anchor-adapter
 
+## 1.3.6
+
+### Patch Changes
+
+- Updated dependencies [b3f3423e4]
+  - @chainlink/terra-view-function-adapter@1.2.0
+
 ## 1.3.5
 
 ### Patch Changes
