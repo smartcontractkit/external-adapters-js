@@ -4,7 +4,7 @@ import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
-import { mockPunksValueAPIResponseSuccess, mockPunksValueResponseSuccess } from './fixtures'
+import { mockPunksValueResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -39,7 +39,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockPunksValueAPIResponseSuccess()
       mockPunksValueResponseSuccess()
 
       const response = await req
