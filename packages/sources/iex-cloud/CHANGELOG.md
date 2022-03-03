@@ -1,5 +1,12 @@
 # @chainlink/iex-cloud-adapter
 
+## 1.1.17
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.16
 
 ### Patch Changes

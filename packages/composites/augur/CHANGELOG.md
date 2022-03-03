@@ -1,5 +1,12 @@
 # @chainlink/augur-adapter
 
+## 1.0.33
+
+### Patch Changes
+
+- @chainlink/sportsdataio-adapter@1.1.31
+- @chainlink/therundown-adapter@1.2.17
+
 ## 1.0.32
 
 ### Patch Changes

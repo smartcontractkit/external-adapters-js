@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['punks']
@@ -11,10 +11,10 @@ export interface ResponseSchema {
 
 export const inputParameters: InputParameters = {
   block: {
-    required: true,
+    required: false,
     description: 'The block number for which information is being queried',
     aliases: ['blockNumber', 'blockNum'],
-    type: 'number',
+    default: 'latest',
   },
 }
 
@@ -23,10 +23,23 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
+  const block = validator.validated.data.block
+
+  const badType = typeof block !== 'string' && typeof block !== 'number'
+  const badString = typeof block === 'string' && block !== 'latest'
+
+  if (badString || badType) {
+    throw new AdapterError({
+      jobRunID,
+      message: `Invalid block parameter ${block} provided.`,
+      statusCode: 400,
+    })
+  }
+
   const url = `/punks`
 
   const params = {
-    block: validator.validated.data.block,
+    block: block,
     api_key: config.apiKey,
   }
 

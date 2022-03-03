@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/reduce-adapter",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Chainlink adapter to reduce input, resulting in single output value.",
   "keywords": [
     "Chainlink",
@@ -39,7 +39,7 @@
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
     "@types/supertest": "2.0.11",
-    "supertest": "6.1.6",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

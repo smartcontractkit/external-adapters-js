@@ -4,11 +4,13 @@ This external adapter allows querying contracts on the Terra blockchain.
 
 ### Environment Variables
 
+- Note: The old `RPC_URL` environment variables are still supported, however, please the `LCD_URL` ones below instead.
+
 | Required? |        Name        |                               Description                                | Options | Defaults to  |
 | :-------: | :----------------: | :----------------------------------------------------------------------: | :-----: | :----------: |
-|    ✅     | COLUMBUS_5_RPC_URL | The URL to a Terra `columbus-5` full node to query on-chain mainnet data |         |              |
-|    ✅     | BOMBAY_12_RPC_URL  | The URL to a Terra `bombay-12` full node to query on-chain testnet data  |         |              |
-|    ✅     | LOCALTERRA_RPC_URL |   The URL to a locally running Terra full node to query on-chain data    |         |              |
+|    ✅     | COLUMBUS_5_LCD_URL | The URL to a Terra `columbus-5` full node to query on-chain mainnet data |         |              |
+|    ✅     | BOMBAY_12_LCD_URL  | The URL to a Terra `bombay-12` full node to query on-chain testnet data  |         |              |
+|    ✅     | LOCALTERRA_LCD_URL |   The URL to a locally running Terra full node to query on-chain data    |         |              |
 |           |  DEFAULT_CHAIN_ID  |         The default `chainId` value to use as an input parameter         |         | `columbus-5` |
 
 A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
