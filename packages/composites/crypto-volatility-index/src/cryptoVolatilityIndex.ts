@@ -5,7 +5,7 @@ import { SigmaCalculator } from './sigmaCalculator'
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
-import { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/ea-bootstrap'
 import { DEFAULT_NETWORK } from './config'
 
 interface InputData {

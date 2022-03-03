@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 const customParams = {
   symbol: ['symbol', 'base', 'asset', 'from'],

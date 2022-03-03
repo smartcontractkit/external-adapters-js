@@ -1,4 +1,4 @@
-import { Config as DefaultConfig } from '@chainlink/types'
+import { Config as DefaultConfig } from '@chainlink/ea-bootstrap'
 import { BigNumberish } from 'ethers'
 
 export type TokenAllocation = {

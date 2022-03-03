@@ -1,4 +1,4 @@
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config } from '../config'

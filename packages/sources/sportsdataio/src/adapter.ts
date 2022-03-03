@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_SPORT } from './config'
 import { MMA, NFL, NCAA_FB, NBA, MLB } from './sport'
 

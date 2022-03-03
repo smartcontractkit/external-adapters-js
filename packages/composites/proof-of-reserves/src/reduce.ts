@@ -1,5 +1,5 @@
 import * as reduce from '@chainlink/reduce-adapter'
-import { AdapterContext, AdapterResponse } from '@chainlink/types'
+import { AdapterContext, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { callAdapter } from './adapter'
 import { Indexer } from './balance'
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'

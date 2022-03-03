@@ -1,5 +1,5 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
 

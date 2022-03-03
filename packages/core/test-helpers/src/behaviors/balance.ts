@@ -1,4 +1,4 @@
-import { Execute } from '@chainlink/types'
+import { Execute } from '@chainlink/ea-bootstrap'
 import { serverErrors, successes, validationErrors } from '../helpers'
 
 function base(execute: Execute) {

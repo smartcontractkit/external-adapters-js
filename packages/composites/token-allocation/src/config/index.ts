@@ -12,7 +12,7 @@ import * as Kaiko from '@chainlink/kaiko-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
 import * as NCFX from '@chainlink/ncfx-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
-import { AdapterImplementation } from '@chainlink/types'
+import { AdapterImplementation } from '@chainlink/ea-bootstrap'
 import { Config, SourceRequestOptions } from '../types'
 
 export const adapters: AdapterImplementation[] = [

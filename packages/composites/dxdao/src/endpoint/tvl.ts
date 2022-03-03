@@ -1,5 +1,5 @@
 import { Validator, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { Config } from '../config'

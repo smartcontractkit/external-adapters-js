@@ -4,7 +4,7 @@ import {
   ExecuteFactory,
   ExecuteWithConfig,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'

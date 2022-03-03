@@ -1,4 +1,9 @@
-import { AdapterRequest, ExecuteWithConfig, APIEndpoint, ExecuteFactory } from '@chainlink/types'
+import {
+  AdapterRequest,
+  ExecuteWithConfig,
+  APIEndpoint,
+  ExecuteFactory,
+} from '@chainlink/ea-bootstrap'
 import { makeConfig, Config } from './config'
 import * as endpoints from './endpoint'
 import { Builder } from '@chainlink/ea-bootstrap'

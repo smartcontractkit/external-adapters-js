@@ -5,7 +5,7 @@ import {
   AdapterRequest,
   APIEndpoint,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { AUTHORIZATION_HEADER, Config, makeConfig } from './config'
 import * as endpoints from './endpoint'
 

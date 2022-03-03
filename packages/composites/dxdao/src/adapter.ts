@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, Config } from './config'
 import { tvl } from './endpoint'

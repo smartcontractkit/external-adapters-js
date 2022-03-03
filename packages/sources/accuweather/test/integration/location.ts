@@ -1,5 +1,5 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
 import { SuiteContext } from './adapter.test'

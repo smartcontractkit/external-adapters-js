@@ -1,5 +1,5 @@
 import { AdapterError } from '@chainlink/ea-bootstrap'
-import { Account } from '@chainlink/types'
+import { Account } from '@chainlink/ea-bootstrap'
 import { balance } from '../../../src/index'
 
 const account: Account = {

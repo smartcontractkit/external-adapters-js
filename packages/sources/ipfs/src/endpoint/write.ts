@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/types'
+import { ExecuteWithConfig, Config } from '@chainlink/ea-bootstrap'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { serialize } from '../codec'
 import { IPFSPath } from './read'

@@ -4,7 +4,7 @@ import {
   Config,
   ExecuteWithConfig,
   ExecuteFactory,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import { Builder } from '@chainlink/ea-bootstrap'
 import * as endpoints from './endpoint'

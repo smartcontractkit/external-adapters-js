@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
+import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import { OracleRequester } from '../contracts'

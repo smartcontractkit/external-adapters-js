@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { AdapterResponse, ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { getPriceProvider } from './dataProvider'
 import { Config, makeConfig } from './config'
 import { Decimal } from 'decimal.js'

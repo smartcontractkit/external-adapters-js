@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { execute as liveExecute } from './live'
 import { Validator } from '@chainlink/ea-bootstrap'
 import overrides from '../config/symbols.json'

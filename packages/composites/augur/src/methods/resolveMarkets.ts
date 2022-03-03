@@ -1,5 +1,5 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
+import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS, NFL_ABI } from './index'
 import { ethers } from 'ethers'

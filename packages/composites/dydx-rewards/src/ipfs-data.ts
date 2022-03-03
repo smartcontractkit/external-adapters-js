@@ -1,4 +1,4 @@
-import { Execute, AdapterContext } from '@chainlink/types'
+import { Execute, AdapterContext } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { types } from '@chainlink/ipfs-adapter'
 

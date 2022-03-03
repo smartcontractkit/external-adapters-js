@@ -1,4 +1,4 @@
-import { RequestConfig } from '@chainlink/types'
+import { RequestConfig } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { util } from '@chainlink/ea-bootstrap'
 

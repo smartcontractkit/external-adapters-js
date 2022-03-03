@@ -5,7 +5,7 @@ import {
   AdapterRequest,
   AxiosResponse,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 

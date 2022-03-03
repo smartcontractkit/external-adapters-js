@@ -1,5 +1,5 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { totalBurned } from '.'
 
 export const supportedEndpoints = ['burned']

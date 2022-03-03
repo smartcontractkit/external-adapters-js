@@ -1,11 +1,11 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import {
+import type {
   AdapterContext,
   AdapterRequest,
   AdapterResponse,
   ExecuteWithConfig,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Config } from '../../config'
 import { convertUSDQuote, getTokenPrice } from '../../utils'
 import * as beth from './beth'

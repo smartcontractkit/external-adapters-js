@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import types from '@chainlink/types'
+import types from '@chainlink/ea-bootstrap'
 import { send } from '../endpoint'
 
 export const DEFAULT_DATA_PATH = 'result'

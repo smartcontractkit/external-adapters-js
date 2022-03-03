@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName, Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import uniswapRouterV2ABI from '../abis/uniswap_v2_router_02.json'

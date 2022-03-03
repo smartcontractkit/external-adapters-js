@@ -5,7 +5,7 @@ import {
   Config,
   ExecuteWithConfig,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import {
   encodeLocationResult,
   LocationResult,

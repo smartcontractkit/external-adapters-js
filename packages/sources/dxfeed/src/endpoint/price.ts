@@ -6,7 +6,7 @@ import {
   AxiosResponse,
   AdapterRequest,
   EndpointResultPaths,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import overrides from '../config/symbols.json'
 

@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { Config, makeConfig, DEFAULT_ENDPOINT } from './config'
 import { send } from './endpoint'
 

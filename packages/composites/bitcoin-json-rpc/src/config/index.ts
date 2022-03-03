@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_ENDPOINT = 'difficulty'
 export const DEFAULT_BITCOIN_RPC_URL = 'http://localhost:8332'

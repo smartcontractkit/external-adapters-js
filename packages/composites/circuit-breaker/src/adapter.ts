@@ -5,7 +5,7 @@ import {
   ExecuteWithConfig,
   Config,
   ExecuteFactory,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 
 const customParams = {

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, ExecuteWithConfig } from '@chainlink/types'
+import { AdapterResponse, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Conflux } from 'js-conflux-sdk'
 import { ethers } from 'ethers'
 import { Config } from '../config'

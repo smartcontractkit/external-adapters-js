@@ -5,7 +5,7 @@ import {
   AdapterRequest,
   InputParameters,
   AxiosResponse,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import { getCoin } from '../util'
 import overrides from '../config/symbols.json'

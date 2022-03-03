@@ -4,7 +4,7 @@ import {
   Config,
   ExecuteWithConfig,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'

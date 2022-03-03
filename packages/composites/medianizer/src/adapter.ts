@@ -5,7 +5,7 @@ import {
   Config,
   ExecuteFactory,
   RequestConfig,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { AxiosResponse } from 'axios'
 import { makeConfig } from './config'
 

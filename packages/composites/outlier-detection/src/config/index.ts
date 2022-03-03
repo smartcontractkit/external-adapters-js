@@ -1,6 +1,6 @@
 import legos from '@chainlink/ea'
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BaseConfig, RequestConfig } from '@chainlink/types'
+import { Config as BaseConfig, RequestConfig } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_CHECK_THRESHOLD = 0
 export const DEFAULT_ONCHAIN_THRESHOLD = 0

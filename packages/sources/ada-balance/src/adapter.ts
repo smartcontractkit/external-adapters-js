@@ -1,5 +1,10 @@
 import { Builder } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, ExecuteFactory, AdapterRequest, APIEndpoint } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  ExecuteFactory,
+  AdapterRequest,
+  APIEndpoint,
+} from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, makeConfig } from './config'
 import * as endpoints from './endpoint'
 

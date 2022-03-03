@@ -1,5 +1,5 @@
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterContext, Execute } from '@chainlink/types'
+import { AdapterContext, Execute } from '@chainlink/ea-bootstrap'
 import * as Sportsdataio from '@chainlink/sportsdataio-adapter'
 import { BigNumber, ethers } from 'ethers'
 import { CreateFighterEvent, CreateTeamEvent } from '../methods/createMarkets'

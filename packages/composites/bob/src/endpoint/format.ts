@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'

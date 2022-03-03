@@ -1,6 +1,6 @@
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
 import { Config, WETH, DEFAULT_NETWORK } from '../../config'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../../types'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 

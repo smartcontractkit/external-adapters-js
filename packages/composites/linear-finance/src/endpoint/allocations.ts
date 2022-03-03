@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 import moment from 'moment-timezone'
 import { XBCI, XLCI } from '../config'

@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as config } from '@chainlink/types'
+import { Config as config } from '@chainlink/ea-bootstrap'
 
 export type Config = config & {
   client: {

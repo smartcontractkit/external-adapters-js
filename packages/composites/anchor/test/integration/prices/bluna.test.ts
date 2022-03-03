@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'

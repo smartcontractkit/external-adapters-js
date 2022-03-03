@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { utils } from 'ethers'
 
 export const supportedEndpoints = ['election']

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config, NAME } from '../config'
 import overrides from '../config/symbols.json'
 

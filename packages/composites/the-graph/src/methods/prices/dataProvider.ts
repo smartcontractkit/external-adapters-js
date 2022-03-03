@@ -1,6 +1,6 @@
 import * as graphqlAdapter from '@chainlink/graphql-adapter'
 import { GraphqlAdapterRequest } from '../../types'
-import { AdapterResponse, AdapterRequest } from '@chainlink/types'
+import { AdapterResponse, AdapterRequest } from '@chainlink/ea-bootstrap'
 
 export const fetchFromGraphqlAdapter = async (
   jobRunID: string,

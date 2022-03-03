@@ -1,6 +1,6 @@
 import { balance } from '@chainlink/ea-factories'
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']

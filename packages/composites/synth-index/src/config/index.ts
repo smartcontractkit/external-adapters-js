@@ -1,6 +1,6 @@
 import { util } from '@chainlink/ea-bootstrap'
 import * as ta from '@chainlink/token-allocation-adapter'
-import { Config as BaseConfig } from '@chainlink/types'
+import { Config as BaseConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'SYNTH_INDEX'
 

@@ -1,4 +1,4 @@
-import { RequestConfig, AdapterResponse } from '@chainlink/types'
+import { RequestConfig, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import * as cmc from '@chainlink/coinmarketcap-adapter'
 

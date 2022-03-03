@@ -1,5 +1,5 @@
 import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, Execute } from '@chainlink/types'
+import { AdapterRequest, ExecuteWithConfig, Execute } from '@chainlink/ea-bootstrap'
 import { resolveMarkets, createMarkets, pokeMarkets } from './methods'
 import { Config, makeConfig } from './config'
 

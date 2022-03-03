@@ -1,5 +1,11 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, Includes, IncludePair, InputParameters } from '@chainlink/types'
+import {
+  Config,
+  ExecuteWithConfig,
+  Includes,
+  IncludePair,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import {
   DEFAULT_INTERVAL,
   DEFAULT_SORT,

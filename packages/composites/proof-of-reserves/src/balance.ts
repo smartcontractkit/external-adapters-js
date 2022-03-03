@@ -4,7 +4,7 @@ import {
   Config,
   Account,
   AdapterContext,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from './adapter'
 // balance adapters
 import * as amberdata from '@chainlink/amberdata-adapter'

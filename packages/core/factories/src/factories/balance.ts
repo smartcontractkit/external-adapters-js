@@ -6,7 +6,7 @@ import {
   ExecuteFactory,
   SequenceResponseData,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import objectPath from 'object-path'
 
 const DEFAULT_DATA_PATH = 'result'

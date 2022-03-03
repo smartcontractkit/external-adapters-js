@@ -1,6 +1,6 @@
 import { types } from '@chainlink/token-allocation-adapter'
 import { makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 import { endpointSelector, makeExecute } from './adapter'
 
 export const deriveAllocations = async (

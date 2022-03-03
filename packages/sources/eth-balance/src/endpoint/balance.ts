@@ -1,5 +1,5 @@
 import { Validator, Requester, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 
 export const supportedEndpoints = ['balance']

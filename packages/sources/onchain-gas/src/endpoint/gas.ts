@@ -1,5 +1,5 @@
 import { Validator, Logger, Requester } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { DEFAULT_NUM_BLOCKS, MAX_BLOCKS_TO_QUERY } from '../config'
 
 export const supportedEndpoints = ['gas']

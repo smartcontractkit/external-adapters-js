@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AxiosResponse, RequestConfig } from '@chainlink/types'
+import { AdapterRequest, AxiosResponse, RequestConfig } from '@chainlink/ea-bootstrap'
 
 export type PriceAdapter = (input: AdapterRequest) => Promise<AxiosResponse>
 

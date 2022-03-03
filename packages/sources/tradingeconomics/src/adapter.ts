@@ -5,7 +5,7 @@ import {
   ExecuteWithConfig,
   MakeWSHandler,
   ExecuteFactory,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME, Config } from './config'
 import * as endpoints from './endpoint'

@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 

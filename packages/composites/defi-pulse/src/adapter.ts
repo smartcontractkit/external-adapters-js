@@ -1,5 +1,5 @@
 import { Logger, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, AdapterRequest, Execute, AdapterContext } from '@chainlink/types'
+import { AdapterResponse, AdapterRequest, Execute, AdapterContext } from '@chainlink/ea-bootstrap'
 import { getAllocations } from './index-allocations'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { makeConfig, Config } from './config'

@@ -5,7 +5,7 @@ import {
   InputParameters,
   AdapterRequest,
   AxiosResponse,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['forex', 'price']

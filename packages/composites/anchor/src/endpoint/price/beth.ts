@@ -14,6 +14,7 @@ export const execute: PriceExecute = async (input, _, config, taAdapterResponse)
   const stEthPerBEth = await getStEthBEthExchangeRate(config, provider)
   const ethPerStEth = await getStETHExchangeRate(config, provider)
   const usdPerEth = taAdapterResponse.data.result
+  if (!usdPerEth) return
   const result = new BigNumber(usdPerEth)
     .multipliedBy(ethPerStEth)
     .multipliedBy(stEthPerBEth)

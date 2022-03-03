@@ -1,5 +1,5 @@
 import { AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import {
   getChainSynthetixInstance,

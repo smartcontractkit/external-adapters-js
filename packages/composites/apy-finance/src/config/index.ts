@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import * as types from '@chainlink/types'
+import type { Config as BaseConfig } from '@chainlink/ea-bootstrap'
 
-export type Config = types.Config & {
+export type Config = BaseConfig & {
   rpcUrl: string
   registryAddr: string
 }

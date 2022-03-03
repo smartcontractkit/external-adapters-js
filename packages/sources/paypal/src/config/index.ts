@@ -1,5 +1,5 @@
 import { AdapterError, Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 import * as paypal from '@paypal/payouts-sdk'
 
 export const NAME = 'PAYPAL'

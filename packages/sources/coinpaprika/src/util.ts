@@ -2,7 +2,7 @@ import { makeExecute } from './adapter'
 import { makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
 import { ResponseSchema } from './endpoint/crypto'
 import { CoinsResponse } from './endpoint/coins'
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 
 export const getCoin = (
   data: ResponseSchema[],
