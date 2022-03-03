@@ -26,7 +26,7 @@ Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
 
 | Required? |  Name   |             Description              | Options | Defaults to |
 | :-------: | :-----: | :----------------------------------: | :-----: | :---------: |
-|    ✅     | `block` | The block data is being queried from |         |             |
+|           | `block` | The block data is being queried from |         |   latest    |
 
 ### Sample Input
 
@@ -34,7 +34,7 @@ Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
 {
   "id": "1",
   "data": {
-    "block": 9999999
+    "block": "latest"
   }
 }
 ```
@@ -43,12 +43,12 @@ Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
   "data": {
-    "success": true,
-    "block": 9999999,
-    "value": 100
+    "result": 71.71525868055556
   },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 71.71525868055556,
   "statusCode": 200
 }
 ```
