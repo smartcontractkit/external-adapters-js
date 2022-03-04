@@ -11,7 +11,7 @@ export class Overrider {
   performOverrides = (requestedSymbols: string | string[]): [RequestedCoins, string[]] => {
     requestedSymbols = Array.isArray(requestedSymbols) ? requestedSymbols : [requestedSymbols]
     const overriddenCoinsArr: RequestedCoins[] = []
-    // Perform overrides using symbolToIdOverridesFromInput
+    // Perform overrides using symbolToIdOverrides FromInput
     let overrideResult = this.performSymbolToIdOverrides(
       requestedSymbols,
       'Input',
@@ -20,9 +20,8 @@ export class Overrider {
     let overriddenCoins = overrideResult[0]
     let remainingSymbols = overrideResult[1]
     overriddenCoinsArr.push(overriddenCoins)
-
     // Override symbols using symbolToSymbolOverridesFromInput, then retry converting from
-    // symbols to ids using symbolToIdOverridesFromInput and symbolToIdOverridesFromAdapter.
+    // symbols to ids using symbolToIdOverrides FromInput and symbolToIdOverrides FromAdapter.
     let overriddenSymbols = this.performSymbolToSymbolOverrides(
       remainingSymbols,
       'Input',
@@ -37,8 +36,8 @@ export class Overrider {
     remainingSymbols = overrideResult[1]
     overriddenCoinsArr.push(overriddenCoins)
 
-    // Finally, perform symbol to symbol overrides from input, then retry overriding from
-    // symbols to ids using symbolToIdOverridesFromInput and symbolToIdOverridesFromAdapter.
+    // Finally, override symbols using symbolToSymbolOverridesFromAdapter, then retry overriding from
+    // symbols to ids using symbolToIdOverrides FromInput and symbolToIdOverridesFromAdapter.
     overriddenSymbols = this.performSymbolToSymbolOverrides(
       remainingSymbols,
       'Adapter',
@@ -129,6 +128,7 @@ export class Overrider {
       adapterName.toLowerCase(),
     )
     const remainingSymbols: string[] = []
+
     if (symbolToIdOverrides) {
       for (const requestedSymbol of requestedSymbols) {
         const overridingId = symbolToIdOverrides.get(requestedSymbol)
@@ -139,8 +139,9 @@ export class Overrider {
           remainingSymbols.push(requestedSymbol)
         }
       }
+      return [requestedCoins, remainingSymbols]
     }
-    return [requestedCoins, remainingSymbols]
+    return [requestedCoins, requestedSymbols]
   }
 
   private performSymbolToSymbolOverrides = (

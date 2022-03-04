@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters, CoinsResponse } from '@chainlink/types'
-import overrides from './../config/symbols.json'
+import overrides from './../config/symbolToIdOverrides.json'
 
 export const supportedEndpoints = ['coins']
 

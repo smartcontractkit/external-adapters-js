@@ -7,8 +7,8 @@ import type {
   InputParameters,
 } from '@chainlink/types'
 import { NAME as AdapterName, DEFAULT_ENDPOINT } from '../config'
-import overrides from '../config/symbols.json'
-import symbolToIdOverrides from '../config/symbolsToIds.json'
+import overrides from '../config/symbolToSymbolOverrides.json'
+import symbolToIdOverrides from '../config/symbolToIdOverrides.json'
 
 import { getCoinIds } from '../util'
 
@@ -131,7 +131,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       symbolToIdOverrides,
     },
   )
-
   const endpoint = validator.validated.data.endpoint ?? DEFAULT_ENDPOINT
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
