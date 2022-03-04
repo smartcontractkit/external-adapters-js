@@ -160,6 +160,7 @@ export class Validator {
     }
   }
 
+  // !!!! Function no longer used
   overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
     const defaultSymbol = symbol || this.validated.data.base
     if (!defaultSymbol) this.throwInvalid(`Required parameter not supplied: base`)
@@ -202,6 +203,7 @@ export class Validator {
     return pairs[0].includes[0]
   }
 
+  // !!! function no longer used
   overrideReverseLookup = (adapter: string, type: OverrideType, symbol: string): string => {
     const overrides: Map<string, string> | undefined = this.validated?.[type]?.get(
       adapter.toLowerCase(),

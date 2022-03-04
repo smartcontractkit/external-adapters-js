@@ -20,7 +20,6 @@ export class Overrider {
         overriddenCoinsArr.push(overriddenCoins)
         return remainingSymbols
       }
-
     const symbolToSymbolOverrideFrom =
       (source: 'Input' | 'Adapter') =>
       (remainingSymbols: string[]): string[] => {
