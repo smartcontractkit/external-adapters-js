@@ -11,46 +11,33 @@ export class Overrider {
   performOverrides = (requestedSymbols: string | string[]): [RequestedCoins, string[]] => {
     requestedSymbols = Array.isArray(requestedSymbols) ? requestedSymbols : [requestedSymbols]
     const overriddenCoinsArr: RequestedCoins[] = []
-    // Perform overrides using symbolToIdOverrides FromInput
-    let overrideResult = this.performSymbolToIdOverrides(
-      requestedSymbols,
-      'Input',
-      this.adapterName,
-    )
-    let overriddenCoins = overrideResult[0]
-    let remainingSymbols = overrideResult[1]
-    overriddenCoinsArr.push(overriddenCoins)
-    // Override symbols using symbolToSymbolOverridesFromInput, then retry converting from
-    // symbols to ids using symbolToIdOverrides FromInput and symbolToIdOverrides FromAdapter.
-    let overriddenSymbols = this.performSymbolToSymbolOverrides(
-      remainingSymbols,
-      'Input',
-      this.adapterName,
-    )
-    overrideResult = this.performSymbolToIdOverrides(overriddenSymbols, 'Input', this.adapterName)
-    overriddenCoins = overrideResult[0]
-    remainingSymbols = overrideResult[1]
-    overriddenCoinsArr.push(overriddenCoins)
-    overrideResult = this.performSymbolToIdOverrides(remainingSymbols, 'Adapter', this.adapterName)
-    overriddenCoins = overrideResult[0]
-    remainingSymbols = overrideResult[1]
-    overriddenCoinsArr.push(overriddenCoins)
 
-    // Finally, override symbols using symbolToSymbolOverridesFromAdapter, then retry overriding from
-    // symbols to ids using symbolToIdOverrides FromInput and symbolToIdOverridesFromAdapter.
-    overriddenSymbols = this.performSymbolToSymbolOverrides(
-      remainingSymbols,
-      'Adapter',
-      this.adapterName,
-    )
-    overrideResult = this.performSymbolToIdOverrides(overriddenSymbols, 'Input', this.adapterName)
-    overriddenCoins = overrideResult[0]
-    remainingSymbols = overrideResult[1]
-    overriddenCoinsArr.push(overriddenCoins)
-    overrideResult = this.performSymbolToIdOverrides(remainingSymbols, 'Adapter', this.adapterName)
-    overriddenCoins = overrideResult[0]
-    remainingSymbols = overrideResult[1]
-    overriddenCoinsArr.push(overriddenCoins)
+    const symbolToIdOverrideFrom =
+      (source: 'Input' | 'Adapter') => (remainingSymbols: string[]) => {
+        const overrideResult = this.performSymbolToIdOverrides(remainingSymbols, source)
+        const overriddenCoins = overrideResult[0]
+        remainingSymbols = overrideResult[1]
+        overriddenCoinsArr.push(overriddenCoins)
+        return remainingSymbols
+      }
+
+    const symbolToSymbolOverrideFrom =
+      (source: 'Input' | 'Adapter') =>
+      (remainingSymbols: string[]): string[] => {
+        return this.performSymbolToSymbolOverrides(remainingSymbols, source)
+      }
+
+    const overrideActions = [
+      symbolToIdOverrideFrom('Input'),
+      symbolToSymbolOverrideFrom('Input'),
+      symbolToIdOverrideFrom('Input'),
+      symbolToIdOverrideFrom('Adapter'),
+      symbolToSymbolOverrideFrom('Adapter'),
+      symbolToIdOverrideFrom('Input'),
+      symbolToIdOverrideFrom('Adapter'),
+    ]
+    let remainingSymbols = requestedSymbols
+    overrideActions.forEach((action) => (remainingSymbols = action(remainingSymbols)))
 
     const requestedCoins = this.joinOverriddenCoins(overriddenCoinsArr)
     return [requestedCoins, remainingSymbols]
@@ -121,11 +108,10 @@ export class Overrider {
   private performSymbolToIdOverrides = (
     requestedSymbols: string[],
     overrideSource: 'Input' | 'Adapter',
-    adapterName: string,
   ): [RequestedCoins, string[]] => {
     const requestedCoins: RequestedCoins = {}
     const symbolToIdOverrides = this.validated[`symbolToIdOverridesFrom${overrideSource}`]?.get(
-      adapterName.toLowerCase(),
+      this.adapterName,
     )
     const remainingSymbols: string[] = []
 
@@ -147,11 +133,10 @@ export class Overrider {
   private performSymbolToSymbolOverrides = (
     requestedSymbols: string[],
     overrideSource: 'Input' | 'Adapter',
-    adapterName: string,
   ): string[] => {
     const symbolToSymbolOverrides = this.validated[
       `symbolToSymbolOverridesFrom${overrideSource}`
-    ]?.get(adapterName.toLowerCase())
+    ]?.get(this.adapterName)
     if (symbolToSymbolOverrides) {
       for (let i = 0; i < requestedSymbols.length; i++) {
         const requestedSymbol = requestedSymbols[i]
