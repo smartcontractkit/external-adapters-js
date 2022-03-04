@@ -298,7 +298,26 @@ declare module '@chainlink/types' {
   }
 
   /* INPUT TYPE VALIDATIONS */
+  export type Validated = {
+    [key: string]: any
+    // symbol-to-symbol overrides
+    overridesFromInput?: Override
+    overridesFromAdapter?: Override
+    // symbol-to-id overrides
+    symbolToIdOverridesFromInput?: Override
+    symbolToIdOverridesFromAdapter?: Override
+  }
+
+  // Maps from an adapter name to a map of symbol-to-symbol mappings for the adapter
   export type Override = Map<string, Map<string, string>>
+
+  // An object to represent the symbol-to-symbol or symbol-to-id overrides
+  // when they are passed as an input param to the adapter
+  export type OverrideObj = {
+    [adapterName: string]: {
+      [symbol: string]: string
+    }
+  }
 
   // Includes is an alternative symbol mapping that can be used to represent
   // the original request, such as wrapped tokens on DEXes.
@@ -316,8 +335,15 @@ declare module '@chainlink/types' {
     includes: IncludePair[]
   }
 
-  export type SymbolToIdOverride = {
-    [adapterName: string]: { [symbol: string]: string }
+  // OVERRIDER TYPES
+  export type RequestedCoins = {
+    [symbol: string]: string[]
+  }
+
+  export interface CoinsResponse {
+    id: string
+    symbol: string
+    name: string
   }
 }
 

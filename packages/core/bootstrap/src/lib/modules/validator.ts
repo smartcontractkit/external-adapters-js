@@ -1,11 +1,14 @@
-import {
+import type {
   AdapterErrorResponse,
-  Override,
   Includes,
   IncludePair,
   InputParameter,
   InputParameters,
+  Override,
+  OverrideObj,
+  Validated,
 } from '@chainlink/types'
+import { isOverrideObj } from '../util'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError } from './error'
@@ -13,23 +16,29 @@ import presetTokens from '../config/overrides/presetTokens.json'
 import { Requester } from './requester'
 import { baseInputParameters } from './selector'
 
-export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
+export type OverrideType = 'overrides' | 'symbolToIdOverrides' | 'tokenOverrides' | 'includes'
 
 type InputType = {
   id?: string
   data?: any
 }
+
 export interface ValidatorOptions {
   shouldThrowError?: boolean
   includes?: any[]
-  overrides?: any
+  // symbol-to-symbol overrides from adapter
+  overrides?: OverrideObj
+  // symbol-to-id overrides from adapter
+  symbolToIdOverrides?: OverrideObj
 }
+
 export class Validator {
   input: InputType
   inputConfigs: InputParameters
   inputOptions: Record<string, any[]>
   validatorOptions: ValidatorOptions
-  validated: any
+  // other adapters need to be updated to use 'Validated' as the type instead of 'any'
+  validated: Validated | any
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
   constructor(
@@ -48,11 +57,11 @@ export class Validator {
       includes: [],
       ...validatorOptions,
     }
-    if (!this.validatorOptions.overrides) this.validatorOptions.overrides = {}
     this.validated = { id: this.input.id, data: {} }
     this.validateInput()
-    this.validateOverrides('overrides', this.validatorOptions.overrides)
-    this.validateOverrides('tokenOverrides', presetTokens)
+    this.validateSymbolOverrides('overrides', this.validatorOptions.overrides)
+    this.validateSymbolOverrides('symbolToIdOverrides', this.validatorOptions.symbolToIdOverrides)
+    this.validateTokenOverrides(presetTokens)
     this.validateIncludeOverrides()
   }
 
@@ -80,13 +89,45 @@ export class Validator {
     }
   }
 
-  validateOverrides(path: 'overrides' | 'tokenOverrides', preset: Record<string, any>): void {
+  private validateSymbolOverrides = (
+    overrideType: 'overrides' | 'symbolToIdOverrides',
+    overridesFromAdapter: unknown,
+  ): void => {
+    const overridesFromInput = this.input.data?.[overrideType] ? this.input.data[overrideType] : {}
+    overridesFromAdapter = overridesFromAdapter ? overridesFromAdapter : {}
+
+    if (!isOverrideObj(overridesFromInput))
+      throw this.validatorError(
+        `The structure of the '${overrideType}' input parameter is incorrect.`,
+      )
+    if (!isOverrideObj(overridesFromAdapter))
+      throw this.validatorError(`The structure of the '${overrideType}' JSON file is incorrect.`)
+
+    this.validated[`${overrideType}FromInput`] = this.convertOverridesToMap(overridesFromInput)
+    this.validated[`${overrideType}FromAdapter`] = this.convertOverridesToMap(overridesFromAdapter)
+  }
+
+  private convertOverridesToMap = (overrides: OverrideObj): Override => {
+    const overrideMap = new Map<string, Map<string, string>>()
+    for (const adapterName of Object.keys(overrides)) {
+      const adapterMap = new Map<string, string>()
+      for (const overriddenSymbol of Object.keys(overrides[adapterName])) {
+        adapterMap.set(overriddenSymbol, overrides[adapterName][overriddenSymbol])
+      }
+      overrideMap.set(adapterName, adapterMap)
+    }
+    return overrideMap
+  }
+
+  validateTokenOverrides(preset: Record<string, any>): void {
     try {
-      if (!this.input.data?.[path]) {
-        this.validated[path] = this.formatOverride(preset)
+      if (!this.input.data?.tokenOverrides) {
+        this.validated.tokenOverrides = this.formatOverride(preset)
         return
       }
-      this.validated[path] = this.formatOverride(merge({ ...preset }, this.input.data[path]))
+      this.validated.tokenOverrides = this.formatOverride(
+        merge({ ...preset }, this.input.data.tokenOverrides),
+      )
     } catch (e) {
       this.parseError(e)
     }
@@ -190,6 +231,14 @@ export class Validator {
         .map(_keyToLowerCase)
         .map(([key, value]) => [key, new Map(Object.entries(value).map(_keyToLowerCase))]),
     )
+  }
+
+  validatorError = (message: string): AdapterError => {
+    return new AdapterError({
+      jobRunID: this.validated.id,
+      statusCode: 400,
+      message,
+    })
   }
 
   formatIncludeOverrides = (param: any): Override => {
