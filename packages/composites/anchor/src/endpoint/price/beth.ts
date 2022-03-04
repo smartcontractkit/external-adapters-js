@@ -4,7 +4,6 @@ import { Config } from '../../config'
 import { anchorVaultAbi, curvePoolAbi } from './abi'
 
 export const FROM = 'BETH'
-export const INTERMEDIARY_TOKEN_DECIMALS = 18
 export const INTERMEDIARY_TOKEN = 'ETH'
 
 export const execute: PriceExecute = async (_, __, config, usdPerEth) => {

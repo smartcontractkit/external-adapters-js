@@ -5,7 +5,6 @@ import { BigNumber, ethers } from 'ethers'
 import { callViewFunctionEA } from '../../utils'
 
 export const FROM = 'BLUNA'
-export const INTERMEDIARY_TOKEN_DECIMALS = 8
 export const INTERMEDIARY_TOKEN = 'LUNA'
 
 export const execute = async (
