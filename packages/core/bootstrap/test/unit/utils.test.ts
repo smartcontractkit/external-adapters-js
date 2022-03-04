@@ -135,9 +135,9 @@ describe('utils', () => {
 
     it(`builds URL with basic auth (key:secret)`, () => {
       const withApiKey = (url: string, key: string, secret: string) =>
-        buildUrl(url, '?client=:key::secret', { key, secret })
-      const expected = `wss://stream.tradingeconomics.com/?client=keystring:secret%3Astring`
-      const actual = withApiKey('wss://stream.tradingeconomics.com', 'keystring', 'secret:string')
+        buildUrl(url, '', { client: `${key}:${secret}` }, ':')
+      const expected = `wss://stream.tradingeconomics.com/?client=keystring:secretstring`
+      const actual = withApiKey('wss://stream.tradingeconomics.com', 'keystring', 'secretstring')
 
       expect(actual).toEqual(expected)
     })
