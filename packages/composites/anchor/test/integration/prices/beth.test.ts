@@ -6,11 +6,39 @@ import request, { SuperTest, Test } from 'supertest'
 import { mockBTCUSDPrice, mockETHUSDPrice, mockSTEthUSDPrice } from '../fixtures'
 
 import { ethers, BigNumber } from 'ethers'
+import '@chainlink/terra-view-function-adapter'
 import { AddressInfo } from 'net'
 
 const mockBigNum = BigNumber.from(10).pow(18)
-const mockEthBalance = BigNumber.from('600035129129882344513625')
-const mockStEthBalance = BigNumber.from('610505943959151982581203')
+const mockStETHETHPrice = BigNumber.from('1035144096528344468')
+
+jest.mock('@chainlink/terra-view-function-adapter', () => {
+  return {
+    ...jest.requireActual('@chainlink/terra-view-function-adapter'),
+    makeExecute: jest.fn().mockReturnValue(
+      jest.fn().mockReturnValue({
+        jobRunID: '1',
+        result: {
+          round_id: 314711,
+          answer: '262009859746',
+          started_at: 1645564682,
+          updated_at: 1645564682,
+          answered_in_round: 314711,
+        },
+        statusCode: 200,
+        data: {
+          result: {
+            round_id: 314711,
+            answer: '262009859746',
+            started_at: 1645564682,
+            updated_at: 1645564682,
+            answered_in_round: 314711,
+          },
+        },
+      }),
+    ),
+  }
+})
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -28,12 +56,8 @@ jest.mock('ethers', () => {
           get_rate: (____: string) => {
             return mockBigNum
           },
-          balances: (id: number): BigNumber => {
-            if (id === 0) {
-              return mockEthBalance
-            } else {
-              return mockStEthBalance
-            }
+          get_virtual_price: () => {
+            return mockStETHETHPrice
           },
         }
       },

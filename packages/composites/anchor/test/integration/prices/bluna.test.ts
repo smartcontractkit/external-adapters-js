@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
@@ -6,39 +6,69 @@ import request, { SuperTest, Test } from 'supertest'
 import { mockBTCUSDPrice, mockETHUSDPrice, mockLunaUSDPrice } from '../fixtures'
 import { AddressInfo } from 'net'
 
-jest.mock('@chainlink/terra-view-function-adapter', () => ({
-  ...jest.requireActual('@chainlink/terra-view-function-adapter'),
-  makeExecute: () => async (): Promise<AdapterResponse> => {
-    return {
-      jobRunID: '1',
-      result: {
-        exchange_rate: '1.000007185645452839',
-        total_bond_amount: '68005109008479',
-        last_index_modification: 1638489529,
-        prev_hub_balance: '371215777066',
-        actual_unbonded_amount: '0',
-        last_unbonded_time: 1638437701,
-        last_processed_batch: 79,
-      },
-      statusCode: 200,
-      data: {
-        result: {
-          exchange_rate: '1.000007185645452839',
-          total_bond_amount: '68005109008479',
-          last_index_modification: 1638489529,
-          prev_hub_balance: '371215777066',
-          actual_unbonded_amount: '0',
-          last_unbonded_time: 1638437701,
-          last_processed_batch: 79,
-        },
-      },
-      metricsMeta: {
-        feedId:
-          '{"jobID":"1","data":{"address":"terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts","query":{"state":{}}}}',
-      },
-    }
-  },
-}))
+jest.mock('@chainlink/terra-view-function-adapter', () => {
+  return {
+    ...jest.requireActual('@chainlink/terra-view-function-adapter'),
+    makeExecute: jest.fn().mockReturnValue(
+      jest.fn().mockImplementation((input: AdapterRequest) => {
+        const query = input.data.query
+        if (query.aggregator_query && query.aggregator_query.get_latest_round_data) {
+          return {
+            jobRunID: '1',
+            result: {
+              round_id: 314711,
+              answer: '262009859746',
+              started_at: 1645564682,
+              updated_at: 1645564682,
+              answered_in_round: 314711,
+            },
+            statusCode: 200,
+            data: {
+              result: {
+                round_id: 314711,
+                answer: '262009859746',
+                started_at: 1645564682,
+                updated_at: 1645564682,
+                answered_in_round: 314711,
+              },
+            },
+          }
+        } else if (query.state) {
+          return {
+            jobRunID: '1',
+            result: {
+              bluna_exchange_rate: '1.000007186099738229',
+              stluna_exchange_rate: '1.016582973702789229',
+              total_bond_bluna_amount: '83309307395117',
+              total_bond_stluna_amount: '1789057091036',
+              last_index_modification: 1646371624,
+              prev_hub_balance: '239985782176',
+              last_unbonded_time: 1646230817,
+              last_processed_batch: 109,
+              total_bond_amount: '83309307395117',
+              exchange_rate: '1.000007186099738229',
+            },
+            statusCode: 200,
+            data: {
+              result: {
+                bluna_exchange_rate: '1.000007186099738229',
+                stluna_exchange_rate: '1.016582973702789229',
+                total_bond_bluna_amount: '83309307395117',
+                total_bond_stluna_amount: '1789057091036',
+                last_index_modification: 1646371624,
+                prev_hub_balance: '239985782176',
+                last_unbonded_time: 1646230817,
+                last_processed_batch: 109,
+                total_bond_amount: '83309307395117',
+                exchange_rate: '1.000007186099738229',
+              },
+            },
+          }
+        }
+      }),
+    ),
+  }
+})
 
 let oldEnv: NodeJS.ProcessEnv
 
