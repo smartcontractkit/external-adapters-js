@@ -9,7 +9,7 @@ let oldEnv: NodeJS.ProcessEnv
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
-  process.env.BOMBAY_12_RPC_URL = process.env.BOMBAY_12_RPC_URL || 'https://bombay-lcd.terra.dev'
+  process.env.BOMBAY_12_LCD_URL = process.env.BOMBAY_12_LCD_URL || 'https://bombay-lcd.terra.dev'
 })
 
 afterAll(() => {
