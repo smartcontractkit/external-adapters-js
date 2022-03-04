@@ -25,7 +25,7 @@ describe('price endpoint', () => {
             },
           },
         },
-        expectedErrorMessage: "Could not find a coin id for the requested symbol 'AAAA'",
+        expectedErrorMessage: "Could not find a coin id for the requested symbol 'aaaa'",
       },
       {
         name: 'multiple coin request with missing coin id',
@@ -41,7 +41,7 @@ describe('price endpoint', () => {
             },
           },
         },
-        expectedErrorMessage: "Could not find a coin id for the requested symbol 'AAAA'",
+        expectedErrorMessage: "Could not find a coin id for the requested symbol 'aaaa'",
       },
       {
         name: 'single coin request with a duplicate coin id',

@@ -148,7 +148,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     const remainingSymbols = overrideResult[1]
     const coinsResponses = await getCoinIds(context, jobRunID)
     requestedCoins = overrider.convertRemainingSymbolsToIds(
-      remainingSymbols,
+      remainingSymbols.map((s) => s.toLowerCase()),
       coinsResponses,
       requestedCoins,
     )
