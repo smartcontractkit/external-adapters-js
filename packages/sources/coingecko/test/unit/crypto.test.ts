@@ -18,7 +18,7 @@ describe('price endpoint', () => {
           data: {
             to: 'USD',
             from: 'AAAA',
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 BBBB: 'overridden-coin-id',
               },
@@ -34,7 +34,7 @@ describe('price endpoint', () => {
           data: {
             to: 'USD',
             from: ['BBBB', 'AAAA'],
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 BBBB: 'overridden-coin-id',
               },
@@ -50,7 +50,7 @@ describe('price endpoint', () => {
           data: {
             to: 'USD',
             from: 'eth',
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 BBBB: 'overridden-coin-id',
               },
@@ -58,7 +58,7 @@ describe('price endpoint', () => {
           },
         },
         expectedErrorMessage:
-          "A duplicate coin id was found for the requested symbol 'eth' and no override was provided.",
+          "An overlapping coin id was found for the requested symbol 'eth' and no override was provided.",
       },
       {
         name: 'multiple coin request with a duplicate coin id',
@@ -67,7 +67,7 @@ describe('price endpoint', () => {
           data: {
             to: 'USD',
             from: ['ada', 'BBBB', 'eth'],
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 BBBB: 'overridden-coin-id',
               },
@@ -75,7 +75,7 @@ describe('price endpoint', () => {
           },
         },
         expectedErrorMessage:
-          "A duplicate coin id was found for the requested symbol 'ada' and no override was provided.",
+          "An overlapping coin id was found for the requested symbol 'ada' and no override was provided.",
       },
     ]
 
@@ -95,34 +95,34 @@ describe('price endpoint', () => {
   describe('successful single coin requests', () => {
     const execute = makeExecute()
     const requests = [
-      {
-        name: 'basic request',
-        testData: {
-          id: '1',
-          data: {
-            to: 'USD',
-            from: 'clap',
-          },
-        },
-        expectedQuery: {
-          ids: 'cardashift',
-          vs_currencies: 'USD',
-          include_market_cap: 'false',
-          include_24hr_vol: 'false',
-        },
-        mockResponse: {
-          statusCode: 200,
-          body: {
-            cardashift: {
-              usd: 9999.99,
-            },
-          },
-        },
-        expectedResponse: {
-          statusCode: 200,
-          result: 9999.99,
-        },
-      },
+      // {
+      //   name: 'basic request',
+      //   testData: {
+      //     id: '1',
+      //     data: {
+      //       to: 'USD',
+      //       from: 'clap',
+      //     },
+      //   },
+      //   expectedQuery: {
+      //     ids: 'cardashift',
+      //     vs_currencies: 'USD',
+      //     include_market_cap: 'false',
+      //     include_24hr_vol: 'false',
+      //   },
+      //   mockResponse: {
+      //     statusCode: 200,
+      //     body: {
+      //       cardashift: {
+      //         usd: 9999.99,
+      //       },
+      //     },
+      //   },
+      //   expectedResponse: {
+      //     statusCode: 200,
+      //     result: 9999.99,
+      //   },
+      // },
       {
         name: 'adapter provided override',
         testData: {
@@ -158,7 +158,7 @@ describe('price endpoint', () => {
           data: {
             to: 'USD',
             from: 'COMP',
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 COMP: 'overridden-coin-id',
               },
@@ -191,7 +191,7 @@ describe('price endpoint', () => {
           data: {
             to: 'USD',
             from: 'eth',
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 eth: 'overridden-coin-id',
               },
@@ -348,7 +348,7 @@ describe('price endpoint', () => {
           data: {
             to: 'USD',
             from: ['COMP', 'PAX', 'RUNE'],
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 PAX: 'overridden-coin-id',
               },
@@ -391,7 +391,7 @@ describe('price endpoint', () => {
           data: {
             to: ['USD', 'JPY'],
             from: ['half', 'bch', 'ada'],
-            symbolToIdOverride: {
+            symbolToIdOverrides: {
               coingecko: {
                 bch: 'overridden-id-a',
                 ada: 'overridden-id-b',

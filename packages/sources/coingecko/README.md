@@ -30,7 +30,7 @@ Query the crypto price from [Coingecko](https://api.coingecko.com/api/v3/simple/
 | (✅ if not using `coinid`) | `base`, `from`, or `coin`  |                                            The symbol or array of symbols of the currency to query                                             |                                           ↑                                            |             |
 |             ✅             | `quote`, `to`, or `market` |                                                    The symbol of the currency to convert to                                                    |                                           ↑                                            |             |
 |                            |        `overrides`         |                                           If base provided is found in overrides, that will be used                                            |  [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)  |             |
-|                            |    `symbolToIdOverride`    |                       If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored                       |   { "coingecko": { "COINA": "coin-id-override-a", "COINB": "coin-id-override-b" } }    |             |
+|                            |   `symbolToIdOverrides`    |                       If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored                       |   { "coingecko": { "COINA": "coin-id-override-a", "COINB": "coin-id-override-b" } }    |             |
 
 ### Sample Input
 
