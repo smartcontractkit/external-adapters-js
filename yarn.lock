@@ -1960,7 +1960,6 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/terra-view-function-adapter": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
