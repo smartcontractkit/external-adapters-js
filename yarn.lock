@@ -3109,7 +3109,6 @@ __metadata:
     "@chainlink/lcx-adapter": "workspace:*"
     "@chainlink/linkpool-adapter": "workspace:*"
     "@chainlink/lition-adapter": "workspace:*"
-    "@chainlink/lotus-adapter": "workspace:*"
     "@chainlink/marketstack-adapter": "workspace:*"
     "@chainlink/messari-adapter": "workspace:*"
     "@chainlink/metalsapi-adapter": "workspace:*"
@@ -3810,9 +3809,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lotus-adapter@workspace:*, @chainlink/lotus-adapter@workspace:packages/sources/lotus":
+"@chainlink/lotus-adapter@workspace:*, @chainlink/lotus-adapter@workspace:packages/composites/lotus":
   version: 0.0.0-use.local
-  resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
+  resolution: "@chainlink/lotus-adapter@workspace:packages/composites/lotus"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"

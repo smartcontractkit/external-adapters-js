@@ -105,7 +105,6 @@
     "@chainlink/lcx-adapter": "workspace:*",
     "@chainlink/linkpool-adapter": "workspace:*",
     "@chainlink/lition-adapter": "workspace:*",
-    "@chainlink/lotus-adapter": "workspace:*",
     "@chainlink/marketstack-adapter": "workspace:*",
     "@chainlink/messari-adapter": "workspace:*",
     "@chainlink/metalsapi-adapter": "workspace:*",

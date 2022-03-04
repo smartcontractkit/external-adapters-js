@@ -51,6 +51,9 @@
       "path": "./composites/linear-finance"
     },
     {
+      "path": "./composites/lotus"
+    },
+    {
       "path": "./composites/market-closure"
     },
     {
@@ -340,9 +343,6 @@
     },
     {
       "path": "./sources/lition"
-    },
-    {
-      "path": "./sources/lotus"
     },
     {
       "path": "./sources/marketstack"

@@ -74,7 +74,6 @@ import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-ada
 import * as lcx from '@chainlink/lcx-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
-import * as lotus from '@chainlink/lotus-adapter'
 import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
@@ -197,7 +196,6 @@ export default {
   lcx,
   linkpool,
   lition,
-  lotus,
   marketstack,
   messari,
   metalsapi,
