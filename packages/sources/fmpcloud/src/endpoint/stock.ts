@@ -60,7 +60,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  const url = util.buildUrlPath('/api/v3/quote/:symbol', { symbol })
+  const url = util.buildUrlPath('/api/v3/quote/:symbol', { symbol }, '^')
 
   const options = {
     ...config.api,

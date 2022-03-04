@@ -45,7 +45,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // http://api.tradingeconomics.com/documentation/Streaming
   // https://github.com/boxhock/tradingeconomics-nodejs-stream/blob/master/src/index.ts
   const withApiKey = (url: string, key: string, secret: string) =>
-    util.buildUrl(url, '?client=:key::secret', { key, secret })
+    util.buildUrl(url, '', { client: `${key}:${secret}` }, ':')
   const getSubscription = (to: string) => ({ topic: 'subscribe', to })
 
   return () => {

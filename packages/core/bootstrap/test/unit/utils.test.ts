@@ -35,6 +35,19 @@ describe('utils', () => {
       expect(actual).toEqual('/from/ETH/to/USD?message=hello_world')
     })
 
+    it(`builds path with whitelisted & non-whitelisted characters`, () => {
+      const actual = buildUrlPath(
+        '/from/:from/to/:to',
+        {
+          from: 'E:T?H',
+          to: 'U%S\\D',
+          message: 'hello world!',
+        },
+        ':%^ !',
+      )
+      expect(actual).toEqual('/from/E:T%3FH/to/U%S%5CD?message=hello world!')
+    })
+
     it(`builds path from empty string`, () => {
       const actual = buildUrlPath('', { from: 'ETH', to: 'USD', message: 'hello_world' })
       expect(actual).toEqual('?from=ETH&to=USD&message=hello_world')
@@ -60,8 +73,8 @@ describe('utils', () => {
         to: '{U|S|D>',
         message: 'hello world',
       })
-      expect(actual).toEqual('/from/ETH%22USD%22/to/%7BU%7CS%7CD%3E?message=hello+world')
-      expect(decodeURI(actual)).toEqual('/from/ETH"USD"/to/{U|S|D>?message=hello+world')
+      expect(actual).toEqual('/from/ETH%22USD%22/to/%7BU%7CS%7CD%3E?message=hello%20world')
+      expect(decodeURI(actual)).toEqual('/from/ETH"USD"/to/{U|S|D>?message=hello world')
     })
 
     it(`builds path with non-latin characters`, () => {

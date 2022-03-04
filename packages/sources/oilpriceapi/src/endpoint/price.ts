@@ -45,7 +45,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const reqConfig = {
     ...config.api,
     params,
-    url: util.buildUrlPath(url),
+    url: util.buildUrlPath(':url', { url }, '/'),
     headers,
   }
 
