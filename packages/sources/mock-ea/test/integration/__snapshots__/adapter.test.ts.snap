@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1050,
+  },
+  "jobRunID": "1",
+  "result": 1050,
+  "statusCode": 200,
+}
+`;
