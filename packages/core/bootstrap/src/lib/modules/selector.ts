@@ -7,14 +7,15 @@ import type {
   InputParameters,
   AdapterContext,
   MakeResultPath,
+  TBaseInputParameters,
+  AdapterData,
 } from '../../types'
 import { logger } from '../modules'
 
-export const baseInputParameters: InputParameters = {
+export const baseInputParameters: InputParameters<TBaseInputParameters> = {
   endpoint: {
     description: 'The External Adapter "endpoint" name to use.',
     required: false,
-    type: 'string',
   },
 
   resultPath: {
@@ -31,7 +32,7 @@ export const baseInputParameters: InputParameters = {
   tokenOverrides: {
     description: 'Override the mapping of token symbols to smart contract address',
     required: false,
-    // type: 'string', TODO: Once complex types are supported this could be { [network: string]: { [token: string]: string } }
+    type: 'string', // TODO: Once complex types are supported this could be { [network: string]: { [token: string]: string } }
   },
   includes: {
     description:
@@ -62,7 +63,7 @@ const selectEndpoint = <C extends Config>(
   apiEndpoints: Record<string, APIEndpoint<C>>,
   customParams?: InputParameters,
 ): APIEndpoint<C> => {
-  const params = customParams || baseInputParameters
+  const params = customParams
   const validator = new Validator(request, params, {}, { shouldThrowError: false })
 
   const jobRunID = validator.validated.id
