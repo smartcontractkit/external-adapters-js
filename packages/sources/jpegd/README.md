@@ -2,7 +2,7 @@
 
 Version: 1.0.7
 
-This adapter allows for querying NFT collection values
+Query NFT collection values from the JPEG'd API.
 
 This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
@@ -23,6 +23,8 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 ---
 
 ## Punks Endpoint
+
+Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
 
 `punks` is the only supported name for this endpoint.
 

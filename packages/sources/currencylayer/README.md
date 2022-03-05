@@ -1,4 +1,4 @@
-# Chainlink CurrencyLayer External Adapter
+# Chainlink External Adapter for CurrencyLayer
 
 Version: 1.3.15
 
@@ -6,9 +6,10 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-| Required? |  Name   |                                  Description                                   |  Type  | Options | Default |
-| :-------: | :-----: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://currencylayer.com/product) | string |         |         |
+| Required? |     Name     |                                  Description                                   |  Type  | Options |             Default             |
+| :-------: | :----------: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------: |
+|    ✅     |   API_KEY    | An API key that can be obtained from [here](https://currencylayer.com/product) | string |         |                                 |
+|           | API_ENDPOINT |                                                                                | string |         | `https://api.currencylayer.com` |
 
 ---
 

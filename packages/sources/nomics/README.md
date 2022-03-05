@@ -8,10 +8,10 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |           Default           |
-| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------: |
-|    ✅     |   API_KEY    |             | string |         |                             |
-|           | API_ENDPOINT |             | string |         | `https://api.nomics.com/v1` |
+| Required? |     Name     |                                     Description                                     |  Type  | Options |           Default           |
+| :-------: | :----------: | :---------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------: |
+|    ✅     |   API_KEY    | An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan) | string |         |                             |
+|           | API_ENDPOINT |                                                                                     | string |         | `https://api.nomics.com/v1` |
 
 ---
 

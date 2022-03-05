@@ -84,14 +84,52 @@ Supported names for this endpoint are: `forex`, `latest`, `price`.
 
 ### Input Params
 
-| Required? |  Name  |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `base`, `coin`, `from`  |             |      |         |         |            |                |
-|    ✅     | quote  | `market`, `quote`, `to` |             |      |         |         |            |                |
-|           | amount |                         |             |      |         |         |            |                |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "latest",
+    "base": "EUR",
+    "quote": "USD"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "timestamp": 1646446742,
+    "base": "EUR",
+    "date": "2022-03-05",
+    "rates": {
+      "USD": 1.094769
+    },
+    "result": 1.094769
+  },
+  "result": 1.094769,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
 
 ---

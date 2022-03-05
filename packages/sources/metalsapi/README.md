@@ -31,7 +31,7 @@ Supported names for this endpoint are: `convert`, `forex`.
 | :-------: | :----: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     |  base  | `coin`, `from` |   The symbol of the currency to query    |        |         |         |            |                |
 |    ✅     | quote  | `market`, `to` | The symbol of the currency to convert to |        |         |         |            |                |
-|           | amount |                |    The amount fo the `base` currency     | number |         |   `1`   |            |                |
+|           | amount |                |    The amount of the `base` currency     | number |         |   `1`   |            |                |
 
 ### Example
 

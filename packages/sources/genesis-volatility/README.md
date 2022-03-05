@@ -6,10 +6,10 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |              Default              |
-| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------------: |
-|    ✅     |   API_KEY    |             | string |         |                                   |
-|           | API_ENDPOINT |             | string |         | `https://app.pinkswantrading.com` |
+| Required? |     Name     |             Description             |  Type  | Options |              Default              |
+| :-------: | :----------: | :---------------------------------: | :----: | :-----: | :-------------------------------: |
+|    ✅     |   API_KEY    | Your API key for Genesis Volatility | string |         |                                   |
+|           | API_ENDPOINT |                                     | string |         | `https://app.pinkswantrading.com` |
 
 ---
 

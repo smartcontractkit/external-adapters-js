@@ -1,4 +1,4 @@
-# Chainlink EOD Historical Data External Adapter
+# Chainlink External Adapter for EOD Historical Data
 
 Version: 1.2.17
 

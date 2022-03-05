@@ -27,6 +27,8 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Crypto Endpoint
 
+Gets the exchange rate between two tokens
+
 `crypto` is the only supported name for this endpoint.
 
 ### Input Params

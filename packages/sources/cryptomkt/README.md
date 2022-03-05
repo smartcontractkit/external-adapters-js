@@ -6,7 +6,9 @@ This README was generated automatically. Please see [scripts](../../scripts) for
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |     Name     | Description |  Type  | Options |                   Default                   |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-----------------------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://api.exchange.cryptomkt.com/api/3/` |
 
 ---
 
