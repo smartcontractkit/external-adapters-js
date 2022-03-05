@@ -102,19 +102,24 @@ export interface AdapterData {
   [key: string]: NestableValue
 }
 
-export interface AdapterRequestData extends AdapterData {
+export type TBaseInputParameters = {
   endpoint?: string
   resultPath?: ResultPath
-  overrides?: { [adapter: string]: { [token: string]: string } }
+  overrides?: OverrideRecord
   tokenOverrides?: { [network: string]: { [token: string]: string } }
   includes?: Includes[]
-  maxAge?: string
-  cost?: number
-  error?: { code: number }
 }
-export interface AdapterRequest {
+
+export type AdapterRequestData<TData extends AdapterData = AdapterData> = TData &
+  TBaseInputParameters & {
+    maxAge?: string
+    cost?: number
+    error?: { code: number }
+  }
+
+export interface AdapterRequest<TData extends AdapterData = AdapterData> {
   id: string
-  data: AdapterRequestData
+  data: AdapterRequestData<TData>
   meta?: AdapterRequestMeta
   metricsMeta?: AdapterMetricsMeta
   debug?: AdapterDebug
@@ -160,9 +165,10 @@ export interface BatchedResult {
   results?: BatchedResultT
 }
 
-export interface AdapterResponseData extends AdapterRequestData, BatchedResult {
-  statusCode: number
-}
+export type AdapterResponseData = AdapterRequestData &
+  BatchedResult & {
+    statusCode: number
+  }
 
 export type AdapterResponse = {
   jobRunID: string
@@ -239,6 +245,7 @@ export type Execute<TInput = AdapterRequest, TContext = AdapterContext> = (
   input: TInput,
   context: TContext,
 ) => Promise<AdapterResponse>
+
 export type ExecuteSync = (
   input: AdapterRequest,
   execute: Execute,
@@ -246,35 +253,37 @@ export type ExecuteSync = (
   callback: Callback,
 ) => void
 
-export type ExecuteWithConfig<C extends Config> = (
-  input: AdapterRequest,
+export type ExecuteWithConfig<C extends Config, D extends AdapterData = AdapterData> = (
+  input: AdapterRequest<D>,
   context: AdapterContext,
   config: C,
 ) => Promise<AdapterResponse>
 
 export type ExecuteFactory<C extends Config> = (config?: C) => Execute
 
-export type InputParameter = {
+export type InputParameter<T extends AdapterData = AdapterData> = {
   aliases?: string[]
   description?: string
-  type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string'
+  type?: 'bigint' | 'boolean' | 'array' | 'number' | 'object' | 'string' // These are js type checked in the Validator
   required?: boolean
-  options?: unknown[] // enumerated options, ex. ['ADA', 'BTC', 'ETH']
-  default?: unknown
-  dependsOn?: string[] // other inputs this one depends on
-  exclusive?: string[] // other inputs that cannot be present with this one
-}
-export type InputParameters = {
-  [name: string]: InputParameter | boolean | string[]
+  options?: T[keyof T][] // enumerated options, ex. ['ADA', 'BTC', 'ETH']
+  default?: T[keyof T]
+  dependsOn?: (keyof T)[] // other inputs this one depends on
+  exclusive?: (keyof T)[] // other inputs that cannot be present with this one
 }
 
-export interface APIEndpoint<C extends Config = Config> {
+export type LegacyInputParameter<T extends AdapterData = AdapterData> = Array<keyof T> | boolean
+export type InputParameters<T extends AdapterData = AdapterData> = {
+  [Property in keyof T]: InputParameter<T> | LegacyInputParameter<T>
+}
+
+export interface APIEndpoint<C extends Config = Config, D extends AdapterData = AdapterData> {
   supportedEndpoints: string[]
   batchablePropertyPath?: BatchableProperty[]
   endpointResultPaths?: EndpointResultPaths
   inputParameters?: InputParameters
   endpointOverride?: (request: AdapterRequest) => string | null
-  execute?: Execute | ExecuteWithConfig<C>
+  execute?: Execute | ExecuteWithConfig<C, D>
   makeExecute?: ExecuteFactory<C>
 }
 
@@ -408,7 +417,8 @@ export interface WSHandler {
 }
 
 /* INPUT TYPE VALIDATIONS */
-export type Override = Map<string, Map<string, string>>
+export type OverrideMap = Map<string, Map<string, string>>
+export type OverrideRecord = Record<string, Record<string, string>>
 
 // Includes is an alternative symbol mapping that can be used to represent
 // the original request, such as wrapped tokens on DEXes.
