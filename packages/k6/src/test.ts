@@ -2,13 +2,9 @@ import { check, sleep } from 'k6'
 import { SharedArray } from 'k6/data'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
-import {
-  ADAPTERS,
-  AdapterNames,
-  GROUP_COUNT,
-  httpPayloadsByAdapter,
-  wsPayloads,
-} from './config/index'
+
+// TODO set from env var
+const GROUP_COUNT = 1
 
 // load the test duration from the environment or default to 12 hours
 let testDuration = '12h'
@@ -30,9 +26,10 @@ let currIteration = 0
 export const errorRate = new Rate('errors')
 
 // load the test data, if data was generated then load it from the generated file
-let payloadData = wsPayloads
+// TODO get adapters to test
+let payloadData = []
 if (__ENV.PAYLOAD_GENERATED) {
-  const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
+  const payloadPath = __ENV.PAYLOAD_PATH || '../src/http.json'
   payloadData = new SharedArray('payloadData', function () {
     const f = JSON.parse(open(payloadPath))
     return f
@@ -69,7 +66,9 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
         }
       })
     // load the adapters from the list and if we are running in CI override it
-    let adapters = ADAPTERS
+    // TODO set adapters to test
+    // TODO set secondsPerCall for set of adapters to test
+    let adapters: { name: string; secondsPerCall: number }[] = []
     if (__ENV.CI_ADAPTER_NAME && __ENV.CI_SECONDS_PER_CALL) {
       adapters = [
         {
@@ -112,6 +111,7 @@ function buildRequests() {
     for (const [adapterName, url] of Object.entries(adaptersByAdapterName)) {
       if (__ENV.WS_ENABLED) {
         for (const payload of payloadData) {
+          //TODO why is coinapi special?
           if (adapterName === 'coinapi') {
             const body = JSON.parse(payload.data)
             body.data.endpoint = 'assets'
@@ -131,6 +131,7 @@ function buildRequests() {
           }
         }
       } else {
+        //TODO replace httpPayloadsByAdapters with ones generated from flux:configure
         for (const payload of httpPayloadsByAdapter[adapterName as AdapterNames]) {
           batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
             method: payload.method,
