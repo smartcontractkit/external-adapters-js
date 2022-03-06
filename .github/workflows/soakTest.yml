@@ -106,7 +106,6 @@ jobs:
             for adapter in ${ADAPTER_NAMES}; do
 
               NO_PAYLOAD=0
-              # TODO support integration tests and test-payload.json in yarn qa:flux:configure k6payload
               yarn qa:flux:configure k6payload ${adapter} ${PR_NUMBER} || NO_PAYLOAD=1
               if [ $NO_PAYLOAD = 1 ]; then
                 continue
