@@ -91,7 +91,11 @@ export class FeedNode {
 
 export interface ConfigPayload {
   name: string
+<<<<<<< HEAD
   data: Record<string, unknown>
+=======
+  data: Record<string, any>
+>>>>>>> Enable integration test and test-payloads for k6
 }
 
 export interface K6Payload {
@@ -126,10 +130,9 @@ export const fetchConfigFromUrl = (
   let requestAttempt = 0
 
   return axios.get(configUrl, { timeout: REQUEST_TIMEOUT_MS }).pipe(
-    map((res: { data: ApiResponse }) => {
-      const configs = parseConfig(res.data)
-      return { configs }
-    }),
+    map((res: { data: ApiResponse }) => ({
+      configs: parseConfig(res.data),
+    })),
     catchError((err: Error) => {
       requestAttempt++
       console.error(`Error fetching config (${requestAttempt}/${MAX_REQUESTS}): ${err.message}`)
@@ -309,9 +312,8 @@ export const removeAdapterFromFeed = (
  * @param {ConfigPayload[]} referenceConfig The configuration to convert to a k6 compatible payload
  * @returns {K6Payload[]} The k6 compatible payload
  */
-export const convertConfigToK6Payload = (
-  referenceConfig: ReferenceContractConfig[],
-): K6Payload[] => {
+
+export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Payload[] => {
   const id = randomUUID()
 
   const payloads: K6Payload[] = []
