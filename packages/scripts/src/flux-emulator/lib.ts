@@ -170,12 +170,13 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
   const nameAndData: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
 
   let pathToAdapter = ''
-  if (shell.test('-d', 'packages/sources/' + inputs.adapter)) {
-    pathToAdapter = 'packages/sources/' + inputs.adapter
-  } else if (shell.test('-d', 'packages/composites/' + inputs.adapter)) {
-    pathToAdapter = 'packages/composites/' + inputs.adapter
-  } else if (shell.test('-d', 'packages/targets/' + inputs.adapter)) {
-    pathToAdapter = 'packages/targets/' + inputs.adapter
+  const adapterTypes = ['sources', 'composites', 'targets']
+  for (const type of adapterTypes) {
+    const path = `packages/${type}/${inputs.adapter}`
+    if (shell.test('-d', path)) {
+      pathToAdapter = path
+      break
+    }
   }
 
   const integrationTestOutput = shell
@@ -185,8 +186,6 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
       env: { ...process.env, ...testEnvOverrides },
     })
     .toString()
-
-  console.log({ integrationTestOutput, pathToAdapter })
 
   const { integrationTestPayloads } = integrationTestOutput.split('\n').reduce(
     (reduced: Record<string, any>, consoleOut) => {
