@@ -81,6 +81,11 @@ describe('utils', () => {
       expect(actual).toEqual('/from/abc%C3%82%C3%83/to/%E4%BD%A0%E5%A5%BD%E4%B8%96%E7%95%8C')
       expect(decodeURI(actual)).toEqual('/from/abcÂÃ/to/你好世界')
     })
+
+    it(`builds path with ':' in string & values`, () => {
+      const actual = buildUrlPath('/price/:from::to', { from: 'ETH', to: 'USD' })
+      expect(actual).toEqual('/price/ETH:USD')
+    })
   })
 
   describe(`buildUrl`, () => {
