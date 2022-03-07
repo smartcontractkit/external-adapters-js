@@ -1,4 +1,4 @@
-import { AdapterError, Builder, Requester, Validator, Logger, util } from '@chainlink/ea-bootstrap'
+import { AdapterError, Builder, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -81,12 +81,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       programmaticConnectionInfo: (input) => {
         const { asset, metrics } = getSubKeyInfo(input)
         const key = `${asset}${metrics}`
-        const url = util.buildUrl(defaultConfig.api.baseWsURL, '/timeseries-stream/asset-metrics', {
-          assets: asset,
-          metrics: metrics,
-          frequency: '1s',
-          api_key: defaultConfig.apiKey,
-        })
+        const url = `${defaultConfig.api.baseWsURL}/timeseries-stream/asset-metrics?assets=${asset}&metrics=${metrics}&frequency=1s&api_key=${defaultConfig.apiKey}`
         return {
           key,
           url,

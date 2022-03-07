@@ -1,4 +1,4 @@
-import { Builder, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
@@ -70,7 +70,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     if (!pair) return false
     return { action, subs: [`${subscriptions.aggregate}~CCCAGG~${pair}`] }
   }
-  const withApiKey = (url: string, apiKey: string) => util.buildUrl(url, '', { api_key: apiKey })
+  const withApiKey = (url: string, apiKey: string) => `${url}?api_key=${apiKey}`
   const shouldNotRetryAfterError = (error: WSErrorType): boolean => {
     return error.MESSAGE === INVALID_SUB
   }

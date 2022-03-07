@@ -7,14 +7,17 @@ export const supportedEndpoints = ['balance']
 
 export const inputParameters = balance.inputParameters
 
-const getBalanceURI = (address: string, confirmations: number) =>
-  util.buildUrlPath(`/q/addressbalance/:address`, { address, confirmations })
+const getBalanceURI = (address: string) =>
+  util.buildUrlPath(`/q/addressbalance/:address`, { address })
 
 const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig = {
     ...config.api,
     baseURL: config.api.baseURL || getBaseURL(account.chain as ChainType),
-    url: getBalanceURI(account.address, config.confirmations as number),
+    url: getBalanceURI(account.address),
+    params: {
+      confimations: config.confirmations as number,
+    },
   }
 
   const response = await Requester.request<number>(reqConfig)

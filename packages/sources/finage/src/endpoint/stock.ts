@@ -44,6 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = getStockURL(base, symbol)
   const params = {
     apikey: config.apiKey,
+    ...(Array.isArray(base) ? { symbols: symbol } : null),
   }
 
   const options = {
@@ -63,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
 const getStockURL = (base: string | string[], symbol: string) => {
   if (Array.isArray(base)) {
-    return util.buildUrlPath('/last/stocks', { symbols: symbol })
+    return util.buildUrlPath('/last/stocks')
   }
   return util.buildUrlPath('/last/stock/:symbol', { symbol })
 }

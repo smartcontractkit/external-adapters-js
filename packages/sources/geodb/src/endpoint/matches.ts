@@ -47,11 +47,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const radius = validator.validated.data.radius
   const start = validator.validated.data.start
   const end = validator.validated.data.end
-  const url = util.buildUrlPath(`/matches`, { start, end, lat, lng, radius })
+  const url = util.buildUrlPath('/matches')
 
   const reqConfig = {
     ...config.api,
     url,
+    params: { start, end, lat, lng, radius },
   }
 
   const response = await Requester.request<ResponseSchema>(reqConfig)
