@@ -1,33 +1,56 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-### Environment Variables
+Version: 1.6.14
 
-| Required? |  Name   | Description | Options | Defaults to |
-| :-------: | :-----: | :---------: | :-----: | :---------: |
-|    ✅     | API_KEY |             |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |           Default           |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------: |
+|    ✅     |   API_KEY    |             | string |         |                             |
+|           | API_ENDPOINT |             | string |         | `https://some_endpoint.com` |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |                         Options                         | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [convert](#Convert-Endpoint) [latest](#Latest-Endpoint) |   latest    |
+| Required? |   Name   |     Description     |  Type  |                                       Options                                        | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#convert-endpoint), [latest](#latest-endpoint) | `forex` |
 
 ---
 
 ## Convert Endpoint
 
+Supported names for this endpoint are: `convert`, `forex`.
+
 ### Input Params
 
-| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, or `market` |         The symbol of the currency to convert to          |                                                                                      |             |
-|    🟡     |          `amount`          |             The amount fo the `base` currency             |                                                                                      |      1      |
-|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? |  Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `coin`, `from` |   The symbol of the currency to query    |        |         |         |            |                |
+|    ✅     | quote  | `market`, `to` | The symbol of the currency to convert to |        |         |         |            |                |
+|           | amount |                |    The amount of the `base` currency     | number |         |   `1`   |            |                |
 
-## Output
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "convert",
+    "base": "XAU",
+    "quote": "USD",
+    "amount": 1
+  },
+  "rateLimitMaxAge": 58823529
+}
+```
+
+Response:
 
 ```json
 {
@@ -37,71 +60,113 @@
     "query": {
       "from": "XAU",
       "to": "USD",
-      "amount": "1"
+      "amount": 1
     },
     "info": {
-      "timestamp": 1595252400,
-      "rate": 1813.1957606105088
+      "timestamp": 1637949420,
+      "rate": 1785.0181286441143
     },
     "historical": false,
-    "date": "2020-07-20",
-    "result": 1813.1957606105088,
+    "date": "2021-11-26",
+    "result": 1785.0181286441143,
     "unit": "per ounce"
   },
-  "result": 1813.1957606105088,
-  "statusCode": 200
+  "result": 1785.0181286441143,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
+---
+
 ## Latest Endpoint
 
-#### Returns a batched price comparison from one currency to a list of other currencies.
+Returns a batched price comparison from one currency to a list of other currencies.
+
+`latest` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name            |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, or `market` |        The symbol of the currencies to convert to         |                                                                                      |      1      |
-|    🟡     |        `overrides`         | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to |        |         |         |            |                |
 
-## Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
     "endpoint": "latest",
-    "base": "USD",
-    "quote": ["EUR", "AUD"]
-  }
+    "base": "XAU",
+    "quote": "USD"
+  },
+  "rateLimitMaxAge": 117647058
 }
 ```
 
-## Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "debug": {
-    "staleness": 0,
-    "performance": 0.965477773,
-    "providerCost": 1
-  },
-  "statusCode": 200,
   "data": {
     "success": true,
-    "timestamp": 1627564680,
-    "date": "2021-07-29",
-    "base": "USD",
-    // Shortened for the purposes of this example
+    "timestamp": 1641990900,
+    "date": "2022-01-12",
+    "base": "XAU",
     "rates": {
-      "ADA": 0.7823791647114,
-      "AED": 3.67475189455,
-      "AFN": 79.78921717425,
-      "ALL": 102.60027023532,
-      "ALU": 12.412282878412,
-      "...": "..."
+      "USD": 1817.0552439305814
+    },
+    "unit": "per ounce",
+    "result": 1817.0552439305814
+  },
+  "result": 1817.0552439305814,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "latest",
+    "base": "BTC",
+    "quote": ["USD", "XAU"]
+  },
+  "rateLimitMaxAge": 176470588
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "timestamp": 1641990180,
+    "date": "2022-01-12",
+    "base": "BTC",
+    "rates": {
+      "XAU": 0.04228229144046888,
+      "USD": 42968.36778447169
     },
     "unit": "per ounce",
     "results": [
@@ -109,25 +174,40 @@
         {
           "id": "1",
           "data": {
-            "base": "USD",
-            "quote": "EUR"
+            "endpoint": "latest",
+            "base": "BTC",
+            "quote": "USD"
           },
-          "rateLimitMaxAge": 960
+          "rateLimitMaxAge": 176470588
         },
-        0.841928
+        42968.36778447169
       ],
       [
         {
           "id": "1",
           "data": {
-            "base": "USD",
-            "quote": "AUD"
+            "endpoint": "latest",
+            "base": "BTC",
+            "quote": "XAU"
           },
-          "rateLimitMaxAge": 960
+          "rateLimitMaxAge": 176470588
         },
-        1.3547253478
+        0.04228229144046888
       ]
     ]
-  }
+  },
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
 }
 ```
+
+</details>
+
+---
