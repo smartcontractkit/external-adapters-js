@@ -179,10 +179,10 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
     qaConfig.configs,
   )
 
-  const nameAndData: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
+  const configPayloads: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
 
   // If no payloads from config, check integration tests
-  if (!nameAndData.length) {
+  if (!configPayloads.length) {
     let pathToAdapter = ''
     const adapterTypes = ['sources', 'composites', 'targets']
     for (const type of adapterTypes) {
@@ -227,10 +227,10 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
         data,
       }),
     )
-    nameAndData.push(...integrationTestPayloads)
+    configPayloads.push(...integrationTestPayloads)
 
     // If no payloads from integration tests, check test-payload.json
-    if (!nameAndData.length) {
+    if (!configPayloads.length) {
       const payloadPath = pathToAdapter + '/test-payload.json'
       if (shell.test('-f', payloadPath)) {
         const testFile = JSON.parse(shell.cat(payloadPath).toString())
@@ -238,16 +238,16 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
           name: `test-payload-${i}`,
           data,
         }))
-        nameAndData.push(...testPayloads)
+        configPayloads.push(...testPayloads)
       }
     }
   }
 
   // Cannot build k6 payloads if no sources have payload data
-  if (!nameAndData.length) throwError(`No test payloads found for ${inputs.adapter} adapter`)
+  if (!configPayloads.length) throwError(`No test payloads found for ${inputs.adapter} adapter`)
 
   logInfo('Convert config into k6 payload')
-  const payloads: K6Payload[] = convertConfigToK6Payload(nameAndData)
+  const payloads: K6Payload[] = convertConfigToK6Payload(configPayloads)
 
   logInfo('Writing k6 payload to a file')
   // write the payloads to a file in the k6 folder for the docker container to pick up
