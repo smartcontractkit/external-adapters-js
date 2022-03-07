@@ -4,7 +4,7 @@ import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
-import { mockAdapterResponseSuccess, mockEthereumResponseSuccess } from './fixtures'
+import { mockEthereumResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 let oldEnv: NodeJS.ProcessEnv
@@ -52,7 +52,6 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockEthereumResponseSuccess()
-      mockAdapterResponseSuccess()
 
       const response = await req
         .post('/')

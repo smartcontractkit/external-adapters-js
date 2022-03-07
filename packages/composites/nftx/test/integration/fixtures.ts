@@ -1,42 +1,5 @@
 import nock from 'nock'
 
-export function mockAdapterResponseSuccess(): void {
-  nock('http://localhost:8080', { encodedQueryParams: true })
-    .post('/', { id: '1', data: { address: '0x269616D549D7e8Eaa82DFb17028d0B212D11232A' } })
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        statusCode: 200,
-        data: {
-          fee: '0.02',
-          price: '65.319915591679174162',
-          priceWithFee: '66.626313903512757645',
-        },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'X-RateLimit-Limit',
-        '250',
-        'X-RateLimit-Remaining',
-        '249',
-        'Date',
-        'Tue, 22 Feb 2022 06:40:29 GMT',
-        'X-RateLimit-Reset',
-        '1645512035',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '126',
-        'ETag',
-        'W/"7e-lYTaizPLbvEPoDsBsih9JgqTY9c"',
-        'Connection',
-        'close',
-      ],
-    )
-}
-
 export function mockEthereumResponseSuccess(): void {
   nock('http://localhost:8545')
     .persist()
