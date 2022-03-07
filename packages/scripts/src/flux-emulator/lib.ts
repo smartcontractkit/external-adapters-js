@@ -1,19 +1,27 @@
 import chalk from 'chalk'
 import * as ephemeralAdapters from '../ephemeral-adapters/lib'
+import * as shell from 'shelljs'
+import * as fs from 'fs'
 import {
   adapterExistsInConfig,
   addAdapterToConfig,
+  ConfigPayload,
   convertConfigToK6Payload,
   fetchConfigFromUrl,
   K6Payload,
   ReferenceContractConfig,
-  ReferenceContractConfigResponse,
   removeAdapterFromFeed,
   setFluxConfig,
 } from './ReferenceContractConfig'
+import { lastValueFrom } from 'rxjs'
 const { red, blue } = chalk
-const { log } = console
-import * as fs from 'fs'
+
+const logInfo = (msg: string) => console.log(blue.bold(msg))
+
+const throwError = (msg: string): never => {
+  process.exitCode = 1
+  throw red.bold(msg)
+}
 
 export const ACTIONS: string[] = ['start', 'stop', 'exists', 'k6payload']
 export const WEIWATCHER_SERVER = 'https://weiwatchers.com/flux-emulator-mainnet.json'
@@ -26,6 +34,15 @@ export const FLUX_CONFIG_INPUTS: ephemeralAdapters.Inputs = {
   imageRepository: 'kalverra/',
   helmValuesOverride: './packages/scripts/src/flux-emulator/values.yaml',
   name: 'fluxconfig',
+}
+
+const testEnvOverrides = {
+  API_VERBOSE: undefined,
+  EA_PORT: '0',
+  LOG_LEVEL: 'debug',
+  NODE_ENV: undefined,
+  RECORD: undefined,
+  WS_ENABLED: undefined,
 }
 
 export interface Inputs {
@@ -102,21 +119,21 @@ export const checkArgs = (): Inputs => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to test
  */
 export const start = async (inputs: Inputs): Promise<void> => {
-  log(blue.bold('Fetching master config'))
+  logInfo('Fetching master config')
   const masterConfig = await fetchConfigFromUrl(inputs.weiWatcherServer).toPromise()
   if (!masterConfig || !masterConfig.configs) {
     process.exitCode = 1
     throw red.bold('Could not get the master configuration')
   }
 
-  log(blue.bold('Fetching existing qa config'))
+  logInfo('Fetching existing qa config')
   const qaConfig = await fetchConfigFromUrl(inputs.configServerGet).toPromise()
   if (!qaConfig || !qaConfig.configs) {
     process.exitCode = 1
     throw red.bold('Could not get the qa configuration')
   }
 
-  log(blue.bold('Adding new adapter to qa config'))
+  logInfo('Adding new adapter to qa config')
   const newConfig = addAdapterToConfig(
     inputs.adapter,
     inputs.ephemeralName,
@@ -124,7 +141,7 @@ export const start = async (inputs: Inputs): Promise<void> => {
     qaConfig.configs,
   )
 
-  log(blue.bold('Sending new config to config server'))
+  logInfo('Sending new config to config server')
   await setFluxConfig(newConfig, inputs.configServerSet).toPromise()
 }
 
@@ -149,31 +166,92 @@ export const stop = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs to use to determine which adapter to create the config for
  */
 export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
-  log(blue.bold('Fetching master config'))
-  const masterConfig = await fetchConfigFromUrl(inputs.weiWatcherServer).toPromise()
-  if (!masterConfig || !masterConfig.configs) {
-    process.exitCode = 1
-    throw red.bold('Could not get the master configuration')
-  }
+  logInfo('Fetching master config')
+  const masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.weiWatcherServer))
+  if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
 
-  log(blue.bold('Adding new adapter to qa config'))
-  const qaConfig: ReferenceContractConfigResponse = { configs: [] }
-  let newConfig: ReferenceContractConfig[] = []
-  if (qaConfig.configs !== undefined) {
-    newConfig = addAdapterToConfig(
-      inputs.adapter,
-      inputs.ephemeralName,
-      masterConfig.configs,
-      qaConfig.configs,
+  logInfo('Adding new adapter to qa config')
+  const qaConfig = { configs: [] }
+  const newConfig: ReferenceContractConfig[] = addAdapterToConfig(
+    inputs.adapter,
+    inputs.ephemeralName,
+    masterConfig.configs as ReferenceContractConfig[],
+    qaConfig.configs,
+  )
+
+  const nameAndData: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
+
+  // If no payloads from config, check integration tests
+  if (!nameAndData.length) {
+    let pathToAdapter = ''
+    const adapterTypes = ['sources', 'composites', 'targets']
+    for (const type of adapterTypes) {
+      const path = `packages/${type}/${inputs.adapter}`
+      if (shell.test('-d', path)) {
+        pathToAdapter = path
+        break
+      }
+    }
+
+    const integrationTestOutput = shell
+      .exec(`yarn test ${pathToAdapter}/test/integration/*.test.ts`, {
+        fatal: true,
+        silent: true,
+        env: { ...process.env, ...testEnvOverrides },
+      })
+      .toString()
+
+    const { integrationTests } = integrationTestOutput.split('\n').reduce(
+      (reduced: Record<string, any>, consoleOut) => {
+        let { latestInput } = reduced
+        const { integrationTests } = reduced
+
+        try {
+          const parsed = JSON.parse(consoleOut)
+          if ('input' in parsed) latestInput = parsed.input
+          else if ('output' in parsed && latestInput) {
+            integrationTests.push(latestInput.data)
+            latestInput = null // Ensures we don't use the same input twice
+          }
+          return { latestInput, integrationTests }
+        } catch (e) {
+          return { latestInput, integrationTests }
+        }
+      },
+      { integrationTests: [] },
     )
+
+    const integrationTestPayloads = integrationTests.map(
+      (data: Record<string, any>, i: number) => ({
+        name: `integration-${i}`,
+        data,
+      }),
+    )
+    nameAndData.push(...integrationTestPayloads)
+
+    // If no payloads from integration tests, check test-payload.json
+    if (!nameAndData.length) {
+      const payloadPath = pathToAdapter + '/test-payload.json'
+      if (shell.test('-f', payloadPath)) {
+        const testFile = JSON.parse(shell.cat(payloadPath).toString())
+        const testPayloads = testFile.requests.map((data: Record<string, any>, i: number) => ({
+          name: `test-payload-${i}`,
+          data,
+        }))
+        nameAndData.push(...testPayloads)
+      }
+    }
   }
 
-  log(blue.bold('Convert config into k6 payload'))
-  const payloads: K6Payload[] = convertConfigToK6Payload(newConfig)
+  // Cannot build k6 payloads if no sources have payload data
+  if (!nameAndData.length) throwError(`No test payloads found for ${inputs.adapter} adapter`)
 
-  log(blue.bold('Writing k6 payload to a file'))
+  logInfo('Convert config into k6 payload')
+  const payloads: K6Payload[] = convertConfigToK6Payload(nameAndData)
+
+  logInfo('Writing k6 payload to a file')
   // write the payloads to a file in the k6 folder for the docker container to pick up
-  fs.writeFileSync('./packages/k6/src/config/ws.json', JSON.stringify(payloads))
+  fs.writeFileSync('./packages/k6/src/config/http.json', JSON.stringify(payloads))
 }
 
 /**
@@ -181,7 +259,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
  * @param {Inputs} inputs The inputs from the cli
  */
 export const exists = async (inputs: Inputs): Promise<void> => {
-  log(blue.bold('Fetching master config'))
+  logInfo('Fetching master config')
   const masterConfig = await fetchConfigFromUrl(inputs.weiWatcherServer).toPromise()
   if (!masterConfig || !masterConfig.configs) {
     process.exitCode = 1
@@ -194,22 +272,22 @@ export const exists = async (inputs: Inputs): Promise<void> => {
 }
 
 export const main = async (): Promise<void> => {
-  log(blue.bold('Checking the arguments'))
+  logInfo('Checking the arguments')
   const inputs: Inputs = checkArgs()
 
-  log(blue.bold(`The configuration for this run is:\n ${JSON.stringify(inputs, null, 2)}`))
+  logInfo(`The configuration for this run is:\n ${JSON.stringify(inputs, null, 2)}`)
 
   if (inputs.action === 'start') {
-    log(blue.bold('Adding configuation'))
+    logInfo('Adding configuation')
     await start(inputs)
   } else if (inputs.action === 'stop') {
-    log(blue.bold('Removing configuation'))
+    logInfo('Removing configuation')
     await stop(inputs)
   } else if (inputs.action === 'exists') {
-    log(blue.bold('Checking if adapter exists'))
+    logInfo('Checking if adapter exists')
     await exists(inputs)
   } else {
-    log(blue.bold('Creating k6 payload'))
+    logInfo('Creating k6 payload')
     await writeK6Payload(inputs)
   }
 }

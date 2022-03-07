@@ -2998,8 +2998,6 @@ __metadata:
     axios-observable: 1.3.0
     backoff-rxjs: 6.5.7
     chalk: 4.1.2
-    class-transformer: 0.4.0
-    class-transformer-validator: 0.9.1
     class-validator: 0.13.2
     json-schema-ref-parser: 9.0.9
     mockserver-client: 5.11.2
@@ -11722,23 +11720,6 @@ __metadata:
   version: 1.1.0
   resolution: "class-is@npm:1.1.0"
   checksum: 49024de3b264fc501a38dd59d8668f1a2b4973fa6fcef6b83d80fe6fe99a2000a8fbea5b50d4607169c65014843c9f6b41a4f8473df806c1b4787b4d47521880
-  languageName: node
-  linkType: hard
-
-"class-transformer-validator@npm:0.9.1":
-  version: 0.9.1
-  resolution: "class-transformer-validator@npm:0.9.1"
-  peerDependencies:
-    class-transformer: ">=0.2.3"
-    class-validator: ">=0.12.0"
-  checksum: e1f90a6513c90c72ad444c24d63aa4141a16e7bd4e4b3290cb9e7a7bbb8c577367defd5dda8781f17fbf8e0b467b2882d5d5824930c5863f1803968d9a21e942
-  languageName: node
-  linkType: hard
-
-"class-transformer@npm:0.4.0":
-  version: 0.4.0
-  resolution: "class-transformer@npm:0.4.0"
-  checksum: 4057346b512705b1a5a68025b025a5be1ff847d7e0e76e82bbb937f832cf6235c5f66e874487d4bd35d67401411e8a3279c9d36bdd8c800336d5507ee6e94af0
   languageName: node
   linkType: hard
 
