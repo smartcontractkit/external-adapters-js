@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { DEFAULT_BASE_URL } from '../config'
 
@@ -19,7 +19,8 @@ type Attestation = {
   verified: boolean
 }
 
-const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUpperCase()}`
+const getAttestationURI = (asset: string) =>
+  util.buildUrlPath('/asset-attestations/:asset', { asset: asset.toUpperCase() })
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
