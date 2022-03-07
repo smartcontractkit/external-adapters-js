@@ -442,7 +442,6 @@ const percentEncodeString = (str: string, whitelist: string[]): string =>
  */
 export const buildUrlPath = (pathTemplate = '', params = {}, whitelist = ''): string => {
   const allowedChars = whitelist.split('')
-  let searchParams = ''
 
   for (const param in params) {
     const value = params[param as keyof typeof params]
@@ -455,10 +454,9 @@ export const buildUrlPath = (pathTemplate = '', params = {}, whitelist = ''): st
 
     if (pathTemplate.includes(`:${param}`))
       pathTemplate = pathTemplate.replace(`:${param}`, encodedValue)
-    else searchParams += `${searchParams ? '&' : '?'}${param}=${encodedValue}`
   }
 
-  return pathTemplate + searchParams
+  return pathTemplate
 }
 
 /**
