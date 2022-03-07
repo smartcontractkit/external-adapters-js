@@ -1,41 +1,66 @@
 # Chainlink External Adapter for Tradingeconomics
 
+Version: 1.1.17
+
 This adapter uses the Tradingeconomics WS stream
 
-### Environment variables
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
-| Required? |        Name         |        Description         | Options |                                    Defaults to                                     |
-| :-------: | :-----------------: | :------------------------: | :-----: | :--------------------------------------------------------------------------------: |
-|           |      `API_URL`      | The URL of the WS endpoint |         | `wss://stream.tradingeconomics.com/` or `https://api.tradingeconomics.com/markets` |
-|    ✅     |  `API_CLIENT_KEY`   |    Your API client key     |         |                                                                                    |
-|    ✅     | `API_CLIENT_SECRET` |   Your API client secret   |         |                                                                                    |
+## Environment Variables
+
+| Required? |       Name        |        Description         |  Type  | Options |                                     Default                                      |
+| :-------: | :---------------: | :------------------------: | :----: | :-----: | :------------------------------------------------------------------------------: |
+|           |      API_URL      | The URL of the WS endpoint | string |         | `wss://stream.tradingeconomics.com/ or https://api.tradingeconomics.com/markets` |
+|    ✅     |  API_CLIENT_KEY   |    Your API client key     | string |         |                                                                                  |
+|    ✅     | API_CLIENT_SECRET |   Your API client secret   | string |         |                                                                                  |
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |         Options          | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
+
+---
+
+## Price Endpoint
+
+`price` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name            |           Description            |     Options      | Defaults to |
-| :-------: | :------------------------: | :------------------------------: | :--------------: | :---------: |
-|    ✅     | `base`, `from`, or `asset` | The symbol of the asset to query | one of `SYMBOLS` |             |
+| Required? | Name |     Aliases     |           Description            |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-------------: | :------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `from` | The symbol of the asset to query | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "price",
     "base": "EURUSD:CUR"
-  }
+  },
+  "rateLimitMaxAge": 7999
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": 1.21066,
-  "statusCode": 200,
   "data": {
-    "result": 1.21066
-  }
+    "result": 1.15591
+  },
+  "result": 1.15591,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---
