@@ -25,6 +25,7 @@
     "generate:gha:matrix": "ts-node-transpile-only ./packages/scripts/src/gha",
     "generate:healthcheck:payloads": "ts-node-transpile-only ./packages/scripts/src/healthchecks",
     "generate:image-name": "ts-node-transpile-only ./packages/scripts/src/generate-image-name",
+    "generate:readme": "ts-node-transpile-only ./packages/scripts/src/generate-readme",
     "postinstall": "husky install",
     "cm": "cz",
     "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
@@ -43,7 +44,8 @@
     "@vercel/ncc": "0.29.2",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "jest": "27.3.1"
+    "jest": "27.3.1",
+    "source-map-support": "0.5.21"
   },
   "devDependencies": {
     "@types/babel__core": "7.1.18",

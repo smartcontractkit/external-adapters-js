@@ -74,6 +74,25 @@ jobs:
       - run: yarn lint
       - run: yarn format:check
 
+  run-docmentation-check:
+    name: Documentation generation test
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17.x'
+      - name: Install Yarn
+        run: |
+          npm install -g yarn
+          yarn install
+      - name: Build Repo
+        run: yarn setup
+      - name: Test README Generation
+        run: yarn generate:readme -a -v
+
   # Changeset check
   adapter-change-has-changeset:
     name: Adapter changes accompanied by a changeset

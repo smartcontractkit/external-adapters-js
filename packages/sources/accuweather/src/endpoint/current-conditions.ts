@@ -52,6 +52,54 @@ export enum Unit {
   METRIC = 'metric',
 }
 
+export const description = `Returns the current weather conditions in a location by its identifier
+
+### Data Conversions - Current Conditions Endpoint
+
+**precipitationType**
+
+Encoded as \`uint8\`
+
+| Value |       Type       |
+| :---: | :--------------: |
+|  \`0\`  | No precipitation |
+|  \`1\`  |       Rain       |
+|  \`2\`  |       Snow       |
+|  \`3\`  |       Ice        |
+|  \`4\`  |      Mixed       |
+
+**weatherIcon**
+
+Encoded as \`uint8\`. Each icon number is related with an image and a text. See [Weather Icons](https://developer.accuweather.com/weather-icons)
+
+**Decimals to integers**
+
+Applies to both \`metric\` and \`imperial\` units.
+
+|         Condition          |     Conversion      |
+| :------------------------: | :-----------------: |
+| \`precipitationPast12Hours\` | multiplied by \`100\` |
+| \`precipitationPast24Hours\` | multiplied by \`100\` |
+|  \`precipitationPastHour\`   | multiplied by \`100\` |
+|         \`pressure\`         | multiplied by \`100\` |
+|       \`temperature\`        | multiplied by \`10\`  |
+|        \`windSpeed\`         | multiplied by \`10\`  |
+
+### Measurement Units By System - Current Conditions Endpoint
+
+|         Condition          | Imperial | Metric |
+| :------------------------: | :------: | :----: |
+| \`precipitationPast12Hours\` |    mm    |   in   |
+| \`precipitationPast24Hours\` |    mm    |   in   |
+|  \`precipitationPastHour\`   |    mm    |   in   |
+|         \`pressure\`         |    mb    |  inHg  |
+|       \`temperature\`        |    C     |   F    |
+|        \`windSpeed\`         |   km/h   |  mi/h  |
+
+### Solidity types - Location Current Conditions Endpoint
+
+See [Solidity Types](#solidity-types)`
+
 export const supportedEndpoints = ['current-conditions']
 
 export const inputParameters: InputParameters = {
