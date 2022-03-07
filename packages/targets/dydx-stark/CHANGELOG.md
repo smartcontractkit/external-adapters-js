@@ -1,5 +1,13 @@
 # @chainlink/dydx-stark-adapter
 
+## 1.0.33
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.32
 
 ### Patch Changes

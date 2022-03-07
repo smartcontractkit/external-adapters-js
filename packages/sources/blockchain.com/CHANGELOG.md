@@ -1,5 +1,14 @@
 # @chainlink/blockchain.com-adapter
 
+## 1.1.18
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/ea-factories@1.0.32
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.17
 
 ### Patch Changes
