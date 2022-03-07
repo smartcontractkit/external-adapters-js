@@ -1,5 +1,5 @@
 import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -34,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
     : (validator.overrideSymbol(NAME) as string).toUpperCase()
 
-  const url = `/agg/stock/prev-close/${symbol}`
+  const url = util.buildUrlPath('/agg/stock/prev-close/:symbol', { symbol })
   const params = {
     apikey: config.apiKey,
   }
