@@ -1,5 +1,13 @@
 # @chainlink/bitex-adapter
 
+## 1.3.18
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.17
 
 ### Patch Changes
