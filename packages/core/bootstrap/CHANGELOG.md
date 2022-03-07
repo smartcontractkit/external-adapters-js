@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.12.1
+
+### Patch Changes
+
+- e75038240: Log full output result in withIOLogger
+
 ## 1.12.0
 
 ### Minor Changes
