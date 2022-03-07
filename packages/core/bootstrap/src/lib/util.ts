@@ -421,7 +421,7 @@ const stringHasWhitelist = (str: string, whitelist: string[]): boolean =>
  * Manually iterate through a given string and replace unsafe/reserved characters with encoded values (unless a character is whitelisted)
  * @param str The string to encode.
  * @param whitelist The string array of whitelist entries.
- * @returns {boolean}
+ * @returns {string}
  */
 const percentEncodeString = (str: string, whitelist: string[]): string =>
   str
@@ -433,10 +433,10 @@ const percentEncodeString = (str: string, whitelist: string[]): string =>
     .join('')
 
 /**
- * Build a URL path using the given pathTemplate and params. If a param is found in pathTemplate, it will be inserted there; otherwise, it will be added as a searchParam.
- * eg.) pathTemplate = "/from/:from/to/:to" and params = { from: "ETH", to: "BTC", note: "hello" } will become "/from/ETH/to/BTC?note=hello"
- * @param pathTemplate The path template for the URL path. Each param to include in the path should have a prefix of ':'. Leave empty if only searchParams are required.
- * @param params The object containing keys & values to be added to the URL path. Each value can be either a string or an object of { value: string, skipEncoding: boolean }.
+ * Build a URL path using the given pathTemplate and params. If a param is found in pathTemplate, it will be inserted there; otherwise, it will be ignored.
+ * eg.) pathTemplate = "/from/:from/to/:to" and params = { from: "ETH", to: "BTC", note: "hello" } will become "/from/ETH/to/BTC"
+ * @param pathTemplate The path template for the URL path. Each param to include in the path should have a prefix of ':'.
+ * @param params The object containing keys & values to be added to the URL path.
  * @param whitelist The list of characters to whitelist for the URL path (if a param contains one of your whitelisted characters, it will not be encoded).
  * @returns {string}
  */
@@ -464,7 +464,7 @@ export const buildUrlPath = (pathTemplate = '', params = {}, whitelist = ''): st
  * @param baseUrl The base URL to add the pathTemplate & params to.
  * @param pathTemplate The path template for the URL path. Leave empty if only searchParams are required.
  * @param params The object containing keys & values to be added to the URL path.
- * @param whitelist The list of characters to whitelist for the URL path (if a param contains one of your whitelisted characters, it will not be encoded).
+ * @param whitelist The list of characters to whitelist for the URL path.
  * @returns {string}
  */
 export const buildUrl = (baseUrl: string, pathTemplate = '', params = {}, whitelist = ''): string =>
