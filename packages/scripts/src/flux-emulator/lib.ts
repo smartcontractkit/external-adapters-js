@@ -159,6 +159,11 @@ export const stop = async (inputs: Inputs): Promise<void> => {
   await setFluxConfig(newConfig, inputs.configServerSet).toPromise()
 }
 
+type IntegrationTestReducer = {
+  latestInput?: null | { data: Record<string, unknown> }
+  integrationTests: Record<string, unknown>[]
+}
+
 /**
  * Writes a json file for k6 to use as a payload based. Pulls the config from
  * weiwatchers to determine which adapter can hit which services and with which
@@ -171,12 +176,11 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
   if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
 
   logInfo('Adding new adapter to qa config')
-  const qaConfig = { configs: [] }
   const newConfig: ReferenceContractConfig[] = addAdapterToConfig(
     inputs.adapter,
     inputs.ephemeralName,
     masterConfig.configs as ReferenceContractConfig[],
-    qaConfig.configs,
+    [],
   )
 
   const configPayloads: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
@@ -202,7 +206,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
       .toString()
 
     const { integrationTests } = integrationTestOutput.split('\n').reduce(
-      (reduced: Record<string, any>, consoleOut) => {
+      (reduced: IntegrationTestReducer, consoleOut) => {
         let { latestInput } = reduced
         const { integrationTests } = reduced
 
@@ -211,7 +215,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
           if ('input' in parsed) latestInput = parsed.input
           else if ('output' in parsed && latestInput) {
             integrationTests.push(latestInput.data)
-            latestInput = null // Ensures we don't use the same input twice
+            latestInput = null // Ensure we don't use the same input twice
           }
           return { latestInput, integrationTests }
         } catch (e) {
@@ -222,7 +226,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
     )
 
     const integrationTestPayloads = integrationTests.map(
-      (data: Record<string, any>, i: number) => ({
+      (data: Record<string, unknown>, i: number) => ({
         name: `integration-${i}`,
         data,
       }),
@@ -234,7 +238,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
       const payloadPath = pathToAdapter + '/test-payload.json'
       if (shell.test('-f', payloadPath)) {
         const testFile = JSON.parse(shell.cat(payloadPath).toString())
-        const testPayloads = testFile.requests.map((data: Record<string, any>, i: number) => ({
+        const testPayloads = testFile.requests.map((data: Record<string, unknown>, i: number) => ({
           name: `test-payload-${i}`,
           data,
         }))

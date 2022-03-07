@@ -11,7 +11,7 @@ export class ReferenceContractConfig {
   category: string
   contractVersion: number
   address: string
-  data: Record<string, any>
+  data: Record<string, unknown>
   nodes: FeedNode[]
   precision: number
   deviationThreshold: number
@@ -36,12 +36,12 @@ export class ReferenceContractConfig {
     if (typeof input?.deviationThreshold !== 'number') throw ValidationError('deviationThreshold')
     this.deviationThreshold = input.deviationThreshold
 
-    if (typeof input?.data !== 'object' || Array.isArray(input?.data) || input?.data === null)
+    if (!(typeof input?.data === 'object' && !Array.isArray(input?.data) && input?.data !== null))
       throw ValidationError('data')
-    this.data = input.data
+    this.data = input.data as Record<string, unknown>
 
     if (!Array.isArray(input?.nodes)) throw ValidationError('nodes')
-    this.nodes = input.nodes.map((node: any) => new FeedNode(node))
+    this.nodes = input.nodes.map((node: unknown) => new FeedNode(node))
 
     if (typeof input?.precision !== 'number') throw ValidationError('precision')
     this.precision = input.precision
@@ -86,7 +86,7 @@ export class FeedNode {
 
 export interface ConfigPayload {
   name: string
-  data: Record<string, any>
+  data: Record<string, unknown>
 }
 
 export interface K6Payload {
