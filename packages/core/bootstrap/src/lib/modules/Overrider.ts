@@ -36,58 +36,65 @@ export class Overrider {
       symbolToIdOverrideFrom('Adapter'),
     ]
     let remainingSymbols = requestedSymbols
-    overrideActions.forEach((action) => (remainingSymbols = action(remainingSymbols)))
+    overrideActions.forEach(
+      (performOverride) => (remainingSymbols = performOverride(remainingSymbols)),
+    )
 
     const requestedCoins = this.joinOverriddenCoins(overriddenCoinsArr)
     return [requestedCoins, remainingSymbols]
   }
 
+  // The first instance of a requestedCoin in the requestedCoinsArr takes precendence
+  // if there is a duplicate when combining.
   private joinOverriddenCoins = (requestedCoinsArr: RequestedCoins[]): RequestedCoins => {
-    const combinedCoins: RequestedCoins = {}
-    const coinIdsUsed: string[] = []
+    const combinedRequestedCoins: RequestedCoins = {}
     for (const requestedCoins of requestedCoinsArr) {
-      for (const requestedCoinSymbol of Object.keys(requestedCoins)) {
-        const requestedCoinIds = requestedCoins[requestedCoinSymbol]
-        // Check to ensure no duplicate coin ids are included in a request
-        if (coinIdsUsed.some((id) => requestedCoinIds.includes(id)))
-          throw Error('A duplicate coin id was requested.')
-        coinIdsUsed.concat(requestedCoinIds)
-        if (!combinedCoins[requestedCoinSymbol])
-          combinedCoins[requestedCoinSymbol] = requestedCoinIds
-        else combinedCoins[requestedCoinSymbol].concat(requestedCoinIds)
+      for (const [symbol, id] of Object.entries(requestedCoins)) {
+        if (!combinedRequestedCoins[symbol]) {
+          if (Object.values(combinedRequestedCoins).includes(id))
+            throw Error(
+              `A duplicate was detected in the requested coin ids (existing id '${combinedRequestedCoins[symbol]}' new id '${id}').`,
+            )
+          else combinedRequestedCoins[symbol] = id
+        }
       }
     }
-    return combinedCoins
+    return combinedRequestedCoins
   }
 
   convertRemainingSymbolsToIds = (
-    symbols: string[],
-    coinsResponses: CoinsResponse[],
+    remainingSymbols: string[],
+    symbolsAndIdsFromDataProvider: CoinsResponse[],
     requestedCoins: RequestedCoins,
   ): RequestedCoins => {
-    for (let i = 0; i < symbols.length; i++) {
+    for (let i = 0; i < remainingSymbols.length; i++) {
       let isDuplicatedSymbol = false
       let foundMatch = false
-      for (const coinsResponse of coinsResponses) {
-        if (coinsResponse.symbol === symbols[i]) {
+      for (const coinsResponse of symbolsAndIdsFromDataProvider) {
+        if (coinsResponse.symbol === remainingSymbols[i]) {
           if (isDuplicatedSymbol)
             throw new AdapterError({
               message: `An overlapping coin id was found for the requested symbol '${coinsResponse.symbol}' and no override was provided.`,
             })
-          if (Object.values(requestedCoins).flat().includes(coinsResponse.id))
+          if (Object.values(requestedCoins).includes(coinsResponse.id))
             throw new AdapterError({
               message: `The coin id '${coinsResponse.id}' was duplicated in the request.`,
             })
-          if (requestedCoins[coinsResponse.symbol])
-            requestedCoins[coinsResponse.symbol].push(coinsResponse.id)
-          else requestedCoins[coinsResponse.symbol] = [coinsResponse.id]
+          if (!requestedCoins[coinsResponse.symbol])
+            requestedCoins[coinsResponse.symbol] = coinsResponse.id
+          else
+            throw new AdapterError({
+              message: `The coin id '${
+                requestedCoins[coinsResponse.symbol]
+              }' already exists for the symbol '${coinsResponse.symbol}'.'`,
+            })
           foundMatch = true
           isDuplicatedSymbol = true
         }
       }
       if (!foundMatch)
         throw new AdapterError({
-          message: `Could not find a coin id for the requested symbol '${symbols[i]}'`,
+          message: `Could not find a coin id for the requested symbol '${remainingSymbols[i]}'`,
         })
     }
     return requestedCoins
@@ -96,10 +103,8 @@ export class Overrider {
   // Creates a record where the coin id are the key and the symbol is the value
   static invertRequestedCoinsObject = (requestedCoins: RequestedCoins): Record<string, string> => {
     const invertedCoinsObject: Record<string, string> = {}
-    for (const [symbol, ids] of Object.entries(requestedCoins)) {
-      for (const id of ids) {
-        invertedCoinsObject[id] = symbol
-      }
+    for (const [symbol, id] of Object.entries(requestedCoins)) {
+      invertedCoinsObject[id] = symbol
     }
     return invertedCoinsObject
   }
@@ -116,13 +121,9 @@ export class Overrider {
 
     if (symbolToIdOverrides) {
       for (const requestedSymbol of requestedSymbols) {
-        const overridingId = symbolToIdOverrides.get(requestedSymbol)
-        if (overridingId) {
-          if (!requestedCoins[requestedSymbol]) requestedCoins[requestedSymbol] = [overridingId]
-          else requestedCoins[requestedSymbol].push(overridingId)
-        } else {
-          remainingSymbols.push(requestedSymbol)
-        }
+        if (symbolToIdOverrides.has(requestedSymbol))
+          requestedCoins[requestedSymbol] = symbolToIdOverrides.get(requestedSymbol)
+        else remainingSymbols.push(requestedSymbol)
       }
       return [requestedCoins, remainingSymbols]
     }
@@ -133,10 +134,8 @@ export class Overrider {
     requestedSymbols: string[],
     overrideSource: 'Input' | 'Adapter',
   ): string[] => {
-    const symbolToSymbolOverrides = this.validated[
-      `symbolToSymbolOverridesFrom${overrideSource}`
-    ]?.get(this.adapterName)
-    if (symbolToSymbolOverrides) {
+    const symbolToSymbolOverrides = this.validated[`symbolToSymbolOverridesFrom${overrideSource}`]
+    if (symbolToSymbolOverrides?.has(this.adapterName)) {
       for (let i = 0; i < requestedSymbols.length; i++) {
         const requestedSymbol = requestedSymbols[i]
         const overridingSymbol = symbolToSymbolOverrides.get(requestedSymbol)
