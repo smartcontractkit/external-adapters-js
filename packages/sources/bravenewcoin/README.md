@@ -75,11 +75,11 @@ Response:
 
 ### Input Params
 
-| Required? |   Name    |                             Aliases                             |                                                                       Description                                                                       |  Type  |   Options    | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :-------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :----------: | :-----: | :--------: | :------------: |
-|    ✅     |  symbol   | `asset`, `assetId`, `base`, `coin`, `from`, `indexId`, `symbol` |                                             Retrieve all the OHLCV values for a particular asset or market                                              | string |              |         |            |                |
-|           | indexType |                         `market`, `to`                          |                                                      Restrict the OHLCV results to the index type.                                                      | string | `GWA`, `MWA` |  `GWA`  |            |                |
-|           | timestamp |                                                                 | Retrieve all daily OHLCV records from the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ |        |              |         |            |                |
+| Required? |   Name    |                             Aliases                             |                                                                          Description                                                                          |  Type  |   Options    | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :-------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :----------: | :-----: | :--------: | :------------: |
+|    ✅     |  symbol   | `asset`, `assetId`, `base`, `coin`, `from`, `indexId`, `symbol` |                                                      Retrieve the VWAP for a particular asset or market                                                       | string |              |         |            |                |
+|           | indexType |                                                                 |                                                         Restrict the OHLCV results to the index type.                                                         | string | `GWA`, `MWA` |         |            |                |
+|           | timestamp |                                                                 | Retrieve the daily OHLCV record from before the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ |        |              |         |            |                |
 
 ### Example
 
