@@ -95,34 +95,34 @@ describe('price endpoint', () => {
   describe('successful single coin requests', () => {
     const execute = makeExecute()
     const requests = [
-      // {
-      //   name: 'basic request',
-      //   testData: {
-      //     id: '1',
-      //     data: {
-      //       to: 'USD',
-      //       from: 'clap',
-      //     },
-      //   },
-      //   expectedQuery: {
-      //     ids: 'cardashift',
-      //     vs_currencies: 'USD',
-      //     include_market_cap: 'false',
-      //     include_24hr_vol: 'false',
-      //   },
-      //   mockResponse: {
-      //     statusCode: 200,
-      //     body: {
-      //       cardashift: {
-      //         usd: 9999.99,
-      //       },
-      //     },
-      //   },
-      //   expectedResponse: {
-      //     statusCode: 200,
-      //     result: 9999.99,
-      //   },
-      // },
+      {
+        name: 'basic request',
+        testData: {
+          id: '1',
+          data: {
+            to: 'USD',
+            from: 'clap',
+          },
+        },
+        expectedQuery: {
+          ids: 'cardashift',
+          vs_currencies: 'USD',
+          include_market_cap: 'false',
+          include_24hr_vol: 'false',
+        },
+        mockResponse: {
+          statusCode: 200,
+          body: {
+            cardashift: {
+              usd: 9999.99,
+            },
+          },
+        },
+        expectedResponse: {
+          statusCode: 200,
+          result: 9999.99,
+        },
+      },
       {
         name: 'adapter provided override',
         testData: {

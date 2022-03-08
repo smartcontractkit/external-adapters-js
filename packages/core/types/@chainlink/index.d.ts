@@ -337,7 +337,7 @@ declare module '@chainlink/types' {
 
   // OVERRIDER TYPES
   export type RequestedCoins = {
-    [symbol: string]: string[]
+    [symbol: string]: string
   }
 
   export interface CoinsResponse {

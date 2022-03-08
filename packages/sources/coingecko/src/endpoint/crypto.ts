@@ -146,14 +146,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     const overrideResult = overrider.performOverrides(base)
     let requestedCoins = overrideResult[0]
     const remainingSymbols = overrideResult[1]
-    const coinsResponses = await getCoinIds(context, jobRunID)
+    const coinSymbolsAndIdsFromDataProvider = await getCoinIds(context, jobRunID)
     requestedCoins = overrider.convertRemainingSymbolsToIds(
       remainingSymbols.map((s) => s.toLowerCase()),
-      coinsResponses,
+      coinSymbolsAndIdsFromDataProvider,
       requestedCoins,
     )
     idToSymbol = Overrider.invertRequestedCoinsObject(requestedCoins)
-    ids = Object.values(requestedCoins).flat().join(',')
+    ids = Object.values(requestedCoins).join(',')
   }
 
   const url = '/simple/price'
