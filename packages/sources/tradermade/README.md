@@ -1,229 +1,133 @@
 # Chainlink External Adapter for Tradermade
 
-### Environment Variables
+This adapter only has Websocket support for the forex endpoint.
 
-| Required? |    Name    |                                           Description                                           | Options | Defaults to |
-| :-------: | :--------: | :---------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |  API_KEY   | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) |         |             |
-|           | WS_API_KEY | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) |         |             |
+Version: 1.6.14
 
-### Websocket support
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
-This adapter has Websocket support for only the forex endpoint
+## Environment Variables
+
+| Required? |     Name     |                                           Description                                           |  Type  | Options |                     Default                     |
+| :-------: | :----------: | :---------------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------------------: |
+|    ✅     |   API_KEY    | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) | string |         |                                                 |
+|           | API_ENDPOINT |                                                                                                 | string |         | `https://marketdata.tradermade.com/api/v1/live` |
+|           |  WS_API_KEY  | An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api) | string |         |                                                 |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |           Name            |                                                                   Description                                                                   |                       Options                        | Defaults to |
-| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------: | :---------: |
-|           |        `endpoint`         |                                                               The endpoint to use                                                               | [`live`](#Live-Endpoint), [`forex`](#Forex-Endpoint) |   `forex`   |
-|    ✅     | `base`, `from`, or `coin` |                                                The symbol of the currency or currencies to query                                                |                                                      |             |
-|           |        `overrides`        | If base provided is found in overrides, that will be used. [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |                                                      |             |
+| Required? |   Name   |     Description     |  Type  |                                                 Options                                                  | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#live-endpoint), [forex](#forex-endpoint), [live](#live-endpoint), [stock](#live-endpoint) | `live`  |
+
+---
 
 ## Live Endpoint
 
-Aliases: `commodities`
+Supported names for this endpoint are: `commodities`, `live`, `stock`.
 
-| Required? | Name |    Description     | Options | Defaults to |
-| :-------: | :--: | :----------------: | :-----: | :---------: |
-|           | `to` | The quote currency |         |             |
+### Input Params
 
-## Sample Input to fetch equity data
+| Required? | Name  |          Aliases           |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `from`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+|           | quote |      `convert`, `to`       |         The quote currency          | string |         |         |            |                |
+
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "live",
     "base": "AAPL"
-  }
+  },
+  "rateLimitMaxAge": 5843681
 }
 ```
 
-## Single Currency Pair Example
-
-## Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "USD",
-    "to": "EUR"
-  }
-}
-```
-
-## Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": 0.841432,
-  "debug": {
-    "staleness": 0,
-    "performance": 0.312505529,
-    "providerCost": 1,
-    "batchablePropertyPath": ["from", "to"]
-  },
-  "statusCode": 200,
-  "data": {
-    "result": 0.841432
-  }
-}
-```
-
-## Forex Endpoint
-
-This endpoint supports WS
-
-| Required? |                Name                |    Description     | Options | Defaults to |
-| :-------: | :--------------------------------: | :----------------: | :-----: | :---------: |
-|    ✅     | `quote`, `to`, `market`, `convert` | The quote currency |         |             |
-
-## Single Currency Pair Example
-
-## Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "USD",
-    "to": "EUR"
-  }
-}
-```
-
-## Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": 0.841432,
-  "debug": {
-    "staleness": 0,
-    "performance": 0.312505529,
-    "providerCost": 1,
-    "batchablePropertyPath": ["from", "to"]
-  },
-  "statusCode": 200,
-  "data": {
-    "result": 0.841432
-  }
-}
-```
-
-## Batch Example
-
-## Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": ["USD", "CAD"],
-    "to": ["EUR", "AUD"]
-  }
-}
-```
-
-## Output
-
-```json
-{
-  "jobRunID": "1",
-  "debug": {
-    "staleness": 0,
-    "performance": 0.340576126,
-    "providerCost": 1,
-    "batchablePropertyPath": ["from", "to"]
-  },
-  "statusCode": 200,
   "data": {
     "endpoint": "live",
     "quotes": [
       {
-        "ask": 0.841446,
-        "base_currency": "USD",
-        "bid": 0.841446,
-        "mid": 0.841446,
-        "quote_currency": "EUR"
-      },
-      {
-        "ask": 1.35439,
-        "base_currency": "USD",
-        "bid": 1.354353,
-        "mid": 1.354371,
-        "quote_currency": "AUD"
-      },
-      {
-        "ask": 0.674955,
-        "base_currency": "CAD",
-        "bid": 0.67491,
-        "mid": 0.674932,
-        "quote_currency": "EUR"
-      },
-      {
-        "ask": 1.086425,
-        "base_currency": "CAD",
-        "bid": 1.086366,
-        "mid": 1.08639,
-        "quote_currency": "AUD"
+        "ask": 150.51,
+        "bid": 150.5,
+        "instrument": "AAPL",
+        "mid": 150.50501
       }
     ],
-    "requested_time": "Thu, 29 Jul 2021 13:51:08 GMT",
-    "timestamp": 1627566669,
-    "results": [
-      [
-        {
-          "id": "1",
-          "data": {
-            "base": ["USD", "CAD"],
-            "to": "EUR",
-            "from": "USD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        0.841446
-      ],
-      [
-        {
-          "id": "1",
-          "data": {
-            "base": ["USD", "CAD"],
-            "to": "AUD",
-            "from": "USD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        1.354371
-      ],
-      [
-        {
-          "id": "1",
-          "data": {
-            "base": ["USD", "CAD"],
-            "to": "EUR",
-            "from": "CAD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        0.674932
-      ],
-      [
-        {
-          "id": "1",
-          "data": {
-            "base": ["USD", "CAD"],
-            "to": "AUD",
-            "from": "CAD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        1.08639
-      ]
-    ]
-  }
+    "requested_time": "Fri, 05 Nov 2021 17:12:07 GMT",
+    "timestamp": 1636132328,
+    "result": 150.50501
+  },
+  "result": 150.50501,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---
+
+## Forex Endpoint
+
+`forex` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name  |          Aliases          |             Description             | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----------------------: | :---------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  |     `from`, `symbol`      | The symbol of the currency to query |      |         |         |            |                |
+|    ✅     | quote | `convert`, `market`, `to` |         The quote currency          |      |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "forex",
+    "base": "ETH",
+    "quote": "USD"
+  },
+  "rateLimitMaxAge": 2921840
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "endpoint": "live",
+    "quotes": [
+      {
+        "ask": 4494.03,
+        "base_currency": "ETH",
+        "bid": 4494.02,
+        "mid": 4494.0249,
+        "quote_currency": "USD"
+      }
+    ],
+    "requested_time": "Fri, 05 Nov 2021 17:11:25 GMT",
+    "timestamp": 1636132286,
+    "result": 4494.0249
+  },
+  "result": 4494.0249,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
