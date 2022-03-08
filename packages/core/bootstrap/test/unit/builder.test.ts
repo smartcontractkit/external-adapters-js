@@ -1,4 +1,4 @@
-import { Builder } from '../../src/lib/external-adapter/builder'
+import { Builder } from '../../src/lib/modules/selector'
 import {
   UpstreamEndpointsGroup,
   APIEndpoint,
@@ -7,7 +7,7 @@ import {
   Config,
 } from '@chainlink/types'
 
-describe('Builder', () => {
+describe('Selector', () => {
   const execute: ExecuteWithConfig<Config> = async () => {
     return {
       jobRunID: '1',
