@@ -452,8 +452,7 @@ export const buildUrlPath = (pathTemplate = '', params = {}, whitelist = ''): st
       ? percentEncodeString(value, allowedChars)
       : encodeURIComponent(value)
 
-    if (pathTemplate.includes(`:${param}`))
-      pathTemplate = pathTemplate.replace(`:${param}`, encodedValue)
+    pathTemplate = pathTemplate.replace(`:${param}`, encodedValue)
   }
 
   return pathTemplate
