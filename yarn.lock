@@ -4312,6 +4312,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/savax-price-adapter@workspace:packages/composites/savax-price":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/savax-price-adapter@workspace:packages/composites/savax-price"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    ethers: ^5.5.1
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/set-token-index-adapter@workspace:packages/composites/set-token-index":
   version: 0.0.0-use.local
   resolution: "@chainlink/set-token-index-adapter@workspace:packages/composites/set-token-index"

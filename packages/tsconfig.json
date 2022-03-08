@@ -72,6 +72,9 @@
       "path": "./composites/reference-transform"
     },
     {
+      "path": "./composites/savax-price"
+    },
+    {
       "path": "./composites/set-token-index"
     },
     {
@@ -112,6 +115,9 @@
     },
     {
       "path": "./scripts"
+    },
+    {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
     },
     {
       "path": "./sources/1forge"
