@@ -21,9 +21,8 @@ export const makeEndpointSelector = <C>(
 ): ((request: AdapterRequest) => APIEndpoint<C>) => {
   const upstreamConfig = makeUpstreamConfig()
   return (request: AdapterRequest): APIEndpoint<C> => {
-    const endpointName = !upstreamEndpointName
-      ? request.data['method'] || upstreamConfig.defaultMethod
-      : upstreamEndpointName
+    const endpointName =
+      upstreamEndpointName ?? request.data['method'] ?? upstreamConfig.defaultMethod
 
     return Builder.selectCompositeEndpoint<C, Config>(
       request,
