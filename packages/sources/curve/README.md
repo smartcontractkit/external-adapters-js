@@ -1,23 +1,27 @@
 # Chainlink External Adapter for Curve.fi
 
+Version: 1.1.17
+
 This adapter allows querying Curve.fi contracts
 
-### Environment Variables
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
-| Required? |         Name         |                                                            Description                                                             | Options |                 Defaults to                  |
-| :-------: | :------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |       RPC_URL        |                             An http(s) RPC URL to a blockchain node that can read the Curve contracts                              |         |                                              |
-|           |   ADDRESS_PROVIDER   |              The address of the Curve address provider contract. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET              |         | `0x0000000022D53366457F9d5E68Ec105046FC4383` |
-|           | EXCHANGE_PROVIDER_ID | The index of the exchange provider contract in the address provider contract. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET |         |                     `2`                      |
-|           |  BLOCKCHAIN_NETWORK  |             The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET              |         |                  `ethereum`                  |
+## Environment Variables
+
+| Required? |         Name         | Description |  Type  | Options |                   Default                    |
+| :-------: | :------------------: | :---------: | :----: | :-----: | :------------------------------------------: |
+|    ✅     |       RPC_URL        |             | string |         |                                              |
+|           |   ADDRESS_PROVIDER   |             | string |         | `0x0000000022D53366457F9d5E68Ec105046FC4383` |
+|           | EXCHANGE_PROVIDER_ID |             | number |         |                     `2`                      |
+|           |  BLOCKCHAIN_NETWORK  |             | string |         |                  `ethereum`                  |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
+| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
 
 ---
 
@@ -25,48 +29,101 @@ This adapter allows querying Curve.fi contracts
 
 Gets the exchange rate between two tokens
 
+`crypto` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |            Name            |                                                     Description                                                      | Options | Defaults to |
-| :-------: | :------------------------: | :------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |                                    The symbol or address of the currency to query                                    |         |             |
-|           |       `fromAddress`        |          Optional param to pre-define the address to convert from. If set, it takes precedence over `from`           |         |             |
-|           |       `fromDecimals`       | Optional param to pre-define the number of decimals in the `from` token. Setting this will make the query run faster |         |             |
-|    ✅     | `quote`, `to`, or `market` |                                 The symbol or address of the currency to convert to                                  |         |             |
-|           |        `toAddress`         |            Optional param to pre-define the address to convert to. If set, it takes precedence over `to`             |         |             |
-|           |        `toDecimals`        |  Optional param to pre-define the number of decimals in the `to` token. Setting this will make the query run faster  |         |             |
-|           |          `amount`          |               The exchange amount to get the rate of. The amount is in full units, e.g. 1 USDC, 1 ETH                |         |     `1`     |
-|           |        `resultPath`        |                                                 The result to fetch                                                  |         |   `rate`    |
+| Required? |     Name     |      Aliases      |                                                     Description                                                      |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :---------------: | :------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     from     |  `base`, `coin`   |                                         The symbol of the currency to query                                          | string |         |         |            |                |
+|           | fromAddress  |                   |          Optional param to pre-define the address to convert from. If set, it takes precedence over `from`           | string |         |         |            |                |
+|           | fromDecimals |                   | Optional param to pre-define the number of decimals in the `from` token. Setting this will make the query run faster | number |         |         |            |                |
+|    ✅     |      to      | `market`, `quote` |                                       The symbol of the currency to convert to                                       | string |         |         |            |                |
+|           |  toAddress   |                   |            Optional param to pre-define the address to convert to. If set, it takes precedence over `to`             | string |         |         |            |                |
+|           |  toDecimals  |                   |  Optional param to pre-define the number of decimals in the `to` token. Setting this will make the query run faster  | number |         |         |            |                |
+|           |    amount    |                   |               The exchange amount to get the rate of. The amount is in full units, e.g. 1 USDC, 1 ETH                | number |         |   `1`   |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "crypto",
+    "resultPath": "rate",
     "from": "USDC",
-    "to": "USDT"
+    "to": "USDT",
+    "amount": 1
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": 0.999465,
-  "statusCode": 200,
   "data": {
-    "pool": "0xA5407eAE9Ba41422680e2e00537571bcC53efBfD",
+    "pool": "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7",
     "input": "1000000",
     "inputToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
     "inputDecimals": 6,
-    "output": "999465",
+    "output": "999424",
     "outputToken": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
     "outputDecimals": 6,
-    "rate": 0.999465,
-    "result": 0.999465
+    "rate": 0.999424,
+    "result": 0.999424
+  },
+  "result": 0.999424,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "resultPath": "rate",
+    "from": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
+    "fromDecimals": 18,
+    "to": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
+    "toDecimals": 18,
+    "amount": 10
   }
 }
 ```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "pool": "0x43b4FdFD4Ff969587185cDB6f0BD875c5Fc83f8c",
+    "input": "10000000000000000000",
+    "inputToken": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
+    "inputDecimals": 18,
+    "output": "9777973472353241389",
+    "outputToken": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
+    "outputDecimals": 18,
+    "rate": 0.9777973472353242,
+    "result": 0.9777973472353242
+  },
+  "result": 0.9777973472353242,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
+
+---

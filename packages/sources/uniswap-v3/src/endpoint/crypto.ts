@@ -6,6 +6,8 @@ import quoterABI from '../abis/quoter.json'
 import erc20ABI from '../abis/ERC20.json'
 import { Decimal } from 'decimal.js'
 
+export const description = 'Gets the exchange rate between two tokens'
+
 export const supportedEndpoints = ['crypto']
 
 export const endpointResultPaths = {
