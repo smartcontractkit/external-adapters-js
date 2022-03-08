@@ -1,173 +1,119 @@
-# Chainlink External Adapters to query BTC address balance from blockcypher.com
+# Chainlink External Adapter for Blockcypher
 
-## Configuration
+Version: 1.2.17
 
-The adapter takes the following environment variables:
+Queries BTC address balance from blockcypher.com
 
-| Required? |   Name    |          Description           | Options | Defaults to |
-| :-------: | :-------: | :----------------------------: | :-----: | :---------: |
-|           | `API_KEY` | blockcypher.com API key to use |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |  Name   |          Description           |  Type  | Options | Default |
+| :-------: | :-----: | :----------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | blockcypher.com API key to use | string |         |         |
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
+
+---
+
+## Balance Endpoint
+
+`balance` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |   Name   |     Description     | Options | Defaults to |
-| :-------: | :------: | :-----------------: | :-----: | :---------: |
-|           | endpoint | The endpoint to use |         |  `balance`  |
+| Required? |     Name      | Aliases |                        Description                         |  Type  | Options | Default  | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :--------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
+|    ✅     |   addresses   |         | Array of objects with address information as defined below | array  |         |          |            |                |
+|           | confirmations |         |                  Confirmations parameter                   | number |         |   `6`    |            |                |
+|           |   dataPath    |         |           Path where to find the addresses array           | string |         | `result` |            |                |
 
-## Balance endpoint
+Address objects within `addresses` have the following properties:
 
-### Input Params
+| Required? |  Name   |                 Description                  |  Type  |                    Options                    |  Default  |
+| :-------: | :-----: | :------------------------------------------: | :----: | :-------------------------------------------: | :-------: |
+|    ✅     | address |               Address to query               | string |                                               |           |
+|           |  chain  | Chain to query (Ethereum testnet is Rinkeby) | string |             `mainnet`, `testnet`              | `mainnet` |
+|           |  coin   |              Currency to query               | string | Ex. `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec` |   `btc`   |
 
-| Required? |      Name       |                                 Description                                 | Options | Defaults to |
-| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
-|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
-|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
+### Example
 
-Addresses is an an array of objects that contain the following information:
-
-| Required? |   Name    |    Description    | Options | Defaults to |
-| :-------: | :-------: | :---------------: | :-----: | :---------: |
-|    ✅     | `address` | Address to query  |         |             |
-|           |  `coin`   | Currency to query |         |    `btc`    |
-|           |  `chain`  |  Chain to query   |         |  `mainnet`  |
-
-### Sample Input
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "balance",
+    "dataPath": "addresses",
     "addresses": [
-      {
-        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
-        "coin": "btc"
-      },
-      {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-        "coin": "btc"
-      },
-      {
-        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "coin": "btc"
-      },
       {
         "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
         "coin": "btc"
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-        "coin": "btc"
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-        "coin": "btc"
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-        "coin": "btc"
       }
-    ],
-    "dataPath": "addresses"
-  }
+    ]
+  },
+  "rateLimitMaxAge": 20000
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
+  "statusCode": 200,
   "data": {
+    "responses": [
+      {
+        "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
+        "total_received": 2111956338035,
+        "total_sent": 2111956337488,
+        "balance": 547,
+        "unconfirmed_balance": 0,
+        "final_balance": 547,
+        "n_tx": 19,
+        "unconfirmed_n_tx": 0,
+        "final_n_tx": 19,
+        "txrefs": [
+          {
+            "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
+            "tx_hash": "37fcec0a27e2a8fc52a34fb2768b2b5b7218452d1e7a099bb0f67c7e87056564",
+            "tx_input_n": 0,
+            "tx_output_n": 0,
+            "value": 649142878298,
+            "ref_balance": 547,
+            "confirmations": 0,
+            "double_spend": false
+          }
+        ],
+        "tx_url": "https://api.blockcypher.com/v1/btc/main/txs/"
+      }
+    ],
     "result": [
-      {
-        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 44900000000
-      },
-      {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 9899463044
-      },
-      {
-        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 307499838499
-      },
       {
         "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
         "coin": "btc",
         "chain": "mainnet",
-        "balance": 904070305884
-      },
-      {
-        "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 80000
-      },
-      {
-        "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 264148085712
-      },
-      {
-        "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-        "coin": "btc",
-        "chain": "mainnet",
-        "balance": 2601100000
+        "balance": "547"
       }
     ]
   },
   "result": [
     {
-      "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": "44900000000"
-    },
-    {
-      "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": "9899463044"
-    },
-    {
-      "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": "307499838499"
-    },
-    {
       "address": "3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws",
       "coin": "btc",
       "chain": "mainnet",
-      "balance": "904070305884"
-    },
-    {
-      "address": "3FFgKaYkEf1M73QtzuY9DGqC7VeM2sAQhT",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": "80000"
-    },
-    {
-      "address": "3KTeq879YjzhqkAXzZmdapJAVC6qz5qEth",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": "264148085712"
-    },
-    {
-      "address": "35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR",
-      "coin": "btc",
-      "chain": "mainnet",
-      "balance": "2601100000"
+      "balance": "547"
     }
-  ],
-  "statusCode": 200
+  ]
 }
 ```
+
+---

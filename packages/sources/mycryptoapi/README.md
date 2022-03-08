@@ -1,48 +1,64 @@
 # Chainlink External Adapter for MyCryptoApi
 
-### Input Parameters
+Version: 1.2.17
 
-| Required? |   Name   |     Description     |            Options             | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [gasprice](#gasprice-Endpoint) | `gasprice`  |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+There are no environment variables for this adapter.
 
 ---
 
-## Gas Price Endpoint
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
+
+---
+
+## Gasprice Endpoint
+
+`gasprice` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name   |    Description    |                Options                | Defaults to |
-| :-------: | :-----: | :---------------: | :-----------------------------------: | :---------: |
-|    🟡     | `speed` | The desired speed | `safeLow`,`standard`,`fast`,`fastest` |   `fast`    |
+| Required? | Name  | Aliases |    Description    |  Type  |                 Options                  | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :---------------: | :----: | :--------------------------------------: | :-----: | :--------: | :------------: |
+|           | speed |         | The desired speed | string | `fast`, `fastest`, `safeLow`, `standard` | `fast`  |            |                |
 
-### Output Format
+### Example
+
+Request:
 
 ```json
 {
-  "jobRunID": "1",
-  "result": 33,
-  "statusCode": 200,
+  "id": "1",
   "data": {
-    "result": 33
+    "endpoint": "gasprice",
+    "speed": "fast"
   }
 }
 ```
 
-### Verbose Output Format
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": 59,
-  "statusCode": 200,
   "data": {
-    "safeLow": 47,
-    "standard": 52,
-    "fast": 59,
-    "fastest": 69,
-    "blockNum": 13063324,
-    "result": 59
-  }
+    "safeLow": 122,
+    "standard": 134,
+    "fast": 148,
+    "fastest": 160,
+    "blockNum": 13722866,
+    "result": 148
+  },
+  "result": 148,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---
