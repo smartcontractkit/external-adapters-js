@@ -9,7 +9,7 @@ import {
 import includes from '../config/includes.json'
 import overrides from '../config/symbols.json'
 
-export const supportedEndpoints = ['trades']
+export const supportedEndpoints = ['trades', 'price']
 
 const customError = (data: ResponseSchema) => data.result === 'error'
 

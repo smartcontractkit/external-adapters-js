@@ -1,6 +1,6 @@
 import { expose } from '@chainlink/ea-bootstrap'
 import { makeEndpointSelector } from './adapter'
-import { makeExecute } from './adapter'
+import { makeExecute } from './endpoint'
 import { makeConfig, NAME } from './config'
 import * as types from './types'
 

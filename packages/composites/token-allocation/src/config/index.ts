@@ -1,6 +1,6 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { AdapterImplementation } from '@chainlink/types'
-import { Config, SourceRequestOptions } from './types'
+import { Config, SourceRequestOptions } from '../types'
 import * as Amberdata from '@chainlink/amberdata-adapter'
 import * as CFBenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as CoinApi from '@chainlink/coinapi-adapter'

@@ -10,6 +10,7 @@ import {
   UpstreamEndpointsGroup,
 } from '@chainlink/types'
 import { logger } from '../modules'
+import { cloneDeep } from 'lodash'
 
 export const baseInputParameters: InputParameters = {
   endpoint: {

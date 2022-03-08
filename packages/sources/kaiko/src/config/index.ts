@@ -3,8 +3,6 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'KAIKO'
 
-export const DEFAULT_ENDPOINT = 'price'
-
 export const DEFAULT_INTERVAL = '1m'
 export const DEFAULT_SORT = 'desc'
 export const DEFAULT_MILLISECONDS = 1800000
