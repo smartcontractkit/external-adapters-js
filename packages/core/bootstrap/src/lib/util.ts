@@ -4,6 +4,7 @@ import { flatMap, values, pick, omit } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
+import { logger } from './modules'
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -470,3 +471,22 @@ export const buildUrl = (baseUrl: string, pathTemplate = '', params = {}, whitel
   new URL(buildUrlPath(pathTemplate, params, whitelist), baseUrl).toString()
 
 //  URL Encoding
+
+let unhandledRejectionHandlerRegistered = false
+/**
+ * Adapters use to run with Node 14, which by default didn't crash when a rejected promised bubbled up to the top.
+ * This function registers a global handler to catch those rejections and just log them to console.
+ */
+export function registerUnhandledRejectionHandler(): void {
+  if (unhandledRejectionHandlerRegistered) {
+    if (process.env.NODE_ENV !== 'test')
+      logger.warn('UnhandledRejectionHandler attempted to be registered more than once')
+    return
+  }
+
+  unhandledRejectionHandlerRegistered = true
+  process.on('unhandledRejection', (reason) => {
+    logger.warn('Unhandled promise rejection reached custom handler')
+    logger.warn(JSON.stringify(reason))
+  })
+}
