@@ -26,16 +26,6 @@ export const execute = async (
   }
 }
 
-const sAvaxABI = [
-  {
-    inputs: [{ internalType: 'uint256', name: 'shareAmount', type: 'uint256' }],
-    name: 'getPooledAvaxByShares',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-]
-
 export const getAvaxPrice = async (
   input: AdapterRequest,
   context: AdapterContext,
@@ -52,6 +42,16 @@ export const getAvaxPrice = async (
   const resp = await _execute({ id: input.id, data: { ...input.data, allocations } }, context)
   return ethers.utils.parseUnits(resp.data.result.toString(), FLOATING_POINT_DECIMALS)
 }
+
+export const sAvaxABI = [
+  {
+    inputs: [{ internalType: 'uint256', name: 'shareAmount', type: 'uint256' }],
+    name: 'getPooledAvaxByShares',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
 
 export const getPooledAvaxShares = async (config: Config): Promise<ethers.BigNumber> => {
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
