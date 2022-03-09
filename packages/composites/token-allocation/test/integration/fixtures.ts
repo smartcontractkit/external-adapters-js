@@ -4,50 +4,42 @@ export const dataProviderConfig = {
   amberdata: {
     providerUrlEnvVar: 'AMBERDATA_ADAPTER_URL',
     providerUrl: 'http://localhost:3000',
-    isBatched: false,
     shouldSendBatchedRequest: false,
     additional: {},
   },
   coinapi: {
     providerUrlEnvVar: 'COINAPI_ADAPTER_URL',
     providerUrl: 'http://localhost:3001',
-    isBatched: false,
     shouldSendBatchedRequest: false,
     additional: {},
   },
   coingecko: {
     providerUrlEnvVar: 'COINGECKO_ADAPTER_URL',
     providerUrl: 'http://localhost:3002',
-    isBatched: true,
     shouldSendBatchedRequest: false,
     additional: {},
   },
   coinmarketcap: {
     providerUrlEnvVar: 'COINMARKETCAP_ADAPTER_URL',
     providerUrl: 'http://localhost:3003',
-    isBatched: true,
     shouldSendBatchedRequest: false,
     additional: {},
   },
   coinpaprika: {
     providerUrlEnvVar: 'COINPAPRIKA_ADAPTER_URL',
     providerUrl: 'http://localhost:3004',
-    isBatched: true,
     shouldSendBatchedRequest: true,
-
     additional: {},
   },
   cryptocompare: {
     providerUrlEnvVar: 'CRYPTOCOMPARE_ADAPTER_URL',
     providerUrl: 'http://localhost:3005',
-    isBatched: true,
     shouldSendBatchedRequest: false,
     additional: {},
   },
   kaiko: {
     providerUrlEnvVar: 'KAIKO_ADAPTER_URL',
     providerUrl: 'http://localhost:3006',
-    isBatched: false,
     shouldSendBatchedRequest: false,
     additional: {
       sort: 'asc',
@@ -56,14 +48,12 @@ export const dataProviderConfig = {
   nomics: {
     providerUrlEnvVar: 'NOMICS_ADAPTER_URL',
     providerUrl: 'http://localhost:3007',
-    isBatched: true,
     shouldSendBatchedRequest: false,
     additional: {},
   },
   tiingo: {
     providerUrl: 'http://localhost:3008',
     providerUrlEnvVar: 'TIINGO_ADAPTER_URL',
-    isBatched: false,
     shouldSendBatchedRequest: false,
     additional: {},
   },

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute additional input parameter pass through should return the correct price for source amberdata 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source amberdata with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -30,7 +30,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source coinapi 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source coinapi with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -60,7 +60,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source coingecko 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source coingecko with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -90,7 +90,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source coinmarketcap 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source coinmarketcap with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -120,7 +120,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source coinpaprika 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source coinpaprika with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -150,7 +150,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source cryptocompare 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source cryptocompare with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -180,7 +180,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source kaiko 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source kaiko with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -210,7 +210,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source nomics 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source nomics with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
@@ -240,7 +240,7 @@ Object {
 }
 `;
 
-exports[`execute additional input parameter pass through should return the correct price for source tiingo 1`] = `
+exports[`execute additional input parameter pass through should return the correct price for source tiingo with additional input   1`] = `
 Object {
   "data": Object {
     "payload": Object {
