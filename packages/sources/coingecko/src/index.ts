@@ -7,4 +7,4 @@ import rateLimit from './config/limits.json'
 const adapterContext = { name: NAME, rateLimit }
 
 const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, makeExecute, makeConfig, server , endpoints}
+export { NAME, makeExecute, makeConfig, server, endpoints }

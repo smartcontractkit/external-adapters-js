@@ -8,4 +8,4 @@ import rateLimit from './config/limits.json'
 const adapterContext = { name: NAME, rateLimit }
 
 const { server } = expose(adapterContext, makeExecute(), makeWSHandler(), endpointSelector)
-export { NAME, makeExecute, makeConfig, server, types , endpoints}
+export { NAME, makeExecute, makeConfig, server, types, endpoints }

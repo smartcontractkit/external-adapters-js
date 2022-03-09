@@ -7,4 +7,4 @@ import * as types from './endpoint'
 const adapterContext = { name: NAME }
 
 const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, makeExecute, makeConfig, server, types , endpoints}
+export { NAME, makeExecute, makeConfig, server, types, endpoints }
