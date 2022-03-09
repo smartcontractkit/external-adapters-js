@@ -53,7 +53,6 @@ describe('execute', () => {
 
     nock.restore()
     nock.cleanAll()
-    nock.enableNetConnect()
     server.close(done)
   })
 
@@ -193,7 +192,7 @@ describe('websocket', () => {
 
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '100'
+    process.env.WS_SUBSCRIPTION_TTL = '300'
 
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
@@ -248,7 +247,7 @@ describe('websocket', () => {
 
       // This final request should disable the cache warmer
       const response = await makeRequest()
-      await sleep(1000)
+      await sleep(100)
       expect(response.body).toEqual({
         jobRunID: '1',
         result: 43682.66306523,
@@ -281,7 +280,7 @@ describe('websocket', () => {
 
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '100'
+    process.env.WS_SUBSCRIPTION_TTL = '300'
 
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
@@ -331,7 +330,7 @@ describe('websocket', () => {
       await makeRequest()
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket populated cache entries.
-      await sleep(10)
+      await sleep(100)
       const response = await makeRequest()
 
       expect(response.body).toEqual({
