@@ -25,9 +25,7 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
     params: { addresses: addresses.join(',') },
   }
 
-  console.log({ reqConfig })
   const response = await Requester.request(reqConfig)
-  console.log({ response })
 
   const toResultWithBalance = (acc: Account) => {
     // NOTE: Blockchair does not return 0 balances
