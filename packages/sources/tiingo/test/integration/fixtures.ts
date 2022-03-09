@@ -4,8 +4,8 @@ export const mockResponseSuccess = (): nock =>
   nock('https://api.tiingo.com', {
     encodedQueryParams: true,
   })
-    .get('/iex/usd')
-    .query({ token: 'fake-api-key', tickers: 'usd' })
+    .get('/iex/aapl')
+    .query({ token: 'fake-api-key', tickers: 'aapl' })
     .reply(
       200,
       (_, request) => [
@@ -21,7 +21,7 @@ export const mockResponseSuccess = (): nock =>
           volume: 680,
           lastSize: 80,
           tngoLast: 51.27,
-          ticker: 'USD',
+          ticker: 'AAPL',
           askSize: 0,
           quoteTimestamp: '2021-11-05T11:54:23.055122029-04:00',
           bidPrice: 0.0,
@@ -279,3 +279,130 @@ export const mockResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+
+export const mockIexSubscribeResponse = {
+  request: {
+    eventName: 'subscribe',
+    authorization: 'fake-api-key',
+    eventData: { thresholdLevel: 5, tickers: ['aapl'] },
+  },
+  response: [
+    {
+      response: {
+        code: 200,
+        message: 'Success',
+      },
+      data: {
+        subscriptionId: 6038597,
+      },
+      messageType: 'I',
+    },
+    {
+      response: {
+        code: 200,
+        message: 'HeartBeat',
+      },
+      messageType: 'H',
+    },
+    {
+      data: [
+        'Q',
+        '2022-02-16T12:35:16.595244526-05:00',
+        1645032916595244500,
+        'aapl',
+        399,
+        170.28,
+        170.285,
+        170.29,
+        100,
+        null,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+      ],
+      messageType: 'A',
+      service: 'iex',
+    },
+  ],
+}
+
+export const mockIexUnsubscribeResponse = {
+  request: {
+    eventName: 'unsubscribe',
+    authorization: 'fake-api-key',
+    eventData: {
+      thresholdLevel: 5,
+      tickers: ['aapl'],
+    },
+  },
+  response: {
+    response: {
+      code: 200,
+      message: 'Success',
+    },
+    data: {
+      thresholdLevel: '5',
+      tickers: [],
+    },
+    messageType: 'I',
+  },
+}
+
+export const mockCryptoSubscribeResponse = {
+  request: {
+    eventName: 'subscribe',
+    authorization: 'fake-api-key',
+    eventData: { thresholdLevel: 6, tickers: ['eth/usd'] },
+  },
+
+  response: [
+    {
+      response: {
+        message: 'Success',
+        code: 200,
+      },
+      data: {
+        subscriptionId: 6034927,
+      },
+      messageType: 'I',
+    },
+    {
+      response: {
+        message: 'HeartBeat',
+        code: 200,
+      },
+      messageType: 'H',
+    },
+    {
+      service: 'crypto_data',
+      messageType: 'A',
+      data: ['SA', 'eth/usd', '2022-03-02T19:37:08.102119+00:00', 'tiingo', 2930.4483973989],
+    },
+  ],
+}
+
+export const mockCryptoUnsubscribeResponse = {
+  request: {
+    eventName: 'unsubscribe',
+    authorization: 'fake-api-key',
+    eventData: {
+      thresholdLevel: 6,
+      tickers: ['eth/usd'],
+    },
+  },
+
+  response: {
+    response: {
+      message: 'Success',
+      code: 200,
+    },
+    data: {
+      tickers: [],
+      thresholdLevel: '6',
+    },
+    messageType: 'I',
+  },
+}
