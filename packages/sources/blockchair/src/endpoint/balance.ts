@@ -21,7 +21,7 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
 
   const reqConfig: RequestConfig = {
     ...config.api,
-    url: getBalanceURI(coin as string, chain as string),
+    url: getBalanceURI(coin || '', chain || ''),
     params: { addresses: addresses.join(',') },
   }
 
