@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -102,7 +102,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { raceType, date, resultsType, endpoint, ...rest } = validator.validated.data
-  const url = `/elections/${date}`
+  const url = util.buildUrlPath(`/elections/:date`, { date })
 
   const params = {
     ...rest,
