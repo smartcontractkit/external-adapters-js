@@ -3,7 +3,7 @@ export const genSig =
 
 export const compositeListDescription = `# Chainlink Composite External Adapters
 
-This section contains packages that represent composite adapters that use data from multiple other Chainlink external adapters.
+This section contains packages that represent composite adapters, which request data from one or more other running adapters.
 
 They are published to NPM under the \`@chainlink\` organization.
 
