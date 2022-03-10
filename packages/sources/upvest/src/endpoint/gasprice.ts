@@ -1,6 +1,8 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
+export const description = 'Get the current gas price on Ethereum'
+
 export const supportedEndpoints = ['gasprice']
 
 export interface ResponseSchema {

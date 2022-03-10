@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockConvertResponse = (): nock.Scope =>
   nock('https://data.fixer.io', {
     encodedQueryParams: true,
   })
@@ -27,7 +27,7 @@ export const mockResponseSuccess = (): nock =>
       ],
     )
 
-export const mockResponseFailure = (): nock =>
+export const mockResponseFailure = (): nock.Scope =>
   nock('https://data.fixer.io', {
     encodedQueryParams: true,
   })
@@ -52,5 +52,42 @@ export const mockResponseFailure = (): nock =>
         'Accept-Encoding',
         'Vary',
         'Origin',
+      ],
+    )
+
+export const mockLatestResponse = (): nock.Scope =>
+  nock('https://data.fixer.io:443', { encodedQueryParams: true })
+    .get('/latest')
+    .query({ access_key: 'fake-api-key', base: 'EUR', symbols: 'USD' })
+    .reply(
+      200,
+      {
+        success: true,
+        timestamp: 1646446742,
+        base: 'EUR',
+        date: '2022-03-05',
+        rates: { USD: 1.094769 },
+      },
+      [
+        'date',
+        'Sat, 05 Mar 2022 02:19:16 GMT',
+        'content-type',
+        'application/json; Charset=UTF-8',
+        'transfer-encoding',
+        'chunked',
+        'x-apilayer-transaction-id',
+        '342409bb-9ca8-4804-838d-bbc4363a7ee7',
+        'access-control-allow-methods',
+        'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS',
+        'last-modified',
+        'Sat, 05 Mar 2022 02:19:02 GMT',
+        'etag',
+        'c5a9e58dc315a5eb3bf39751b6fee7c5',
+        'access-control-allow-origin',
+        '*',
+        'x-request-time',
+        '0.010',
+        'connection',
+        'close',
       ],
     )
