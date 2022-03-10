@@ -474,6 +474,7 @@ describe('Validator', () => {
     expect(validator.error).not.toBeDefined()
   })
 
+  // START TESTS TO UPDATE
   it('default overrides input is empty', () => {
     const input = {
       id: '1',
@@ -580,6 +581,7 @@ describe('Validator', () => {
       expect(base).toEqual(['btc', 'uniswap'])
     })
   })
+  // END TESTS TO UPDATE
 
   describe('overrideToken', () => {
     it('return ethereum address', () => {
@@ -602,13 +604,4 @@ describe('Validator', () => {
       expect(include).toMatchSnapshot()
     })
   })
-
-  //TODO update test
-  // describe('overrideReverseLookup', () => {
-  //   it('returns ????', () => {
-  //     const validator = new Validator()
-  //     const symbol = validator.overrideReverseLookup('coingecko', 'overrides', 'btc')
-  //     expect(symbol).toBe('btc')
-  //   })
-  // })
 })
