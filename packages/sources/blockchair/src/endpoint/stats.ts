@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { COINS } from '../config'
 
@@ -35,7 +35,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     validator.validated.data.blockchain.toLowerCase(),
     COINS,
   )
-  const url = `/${blockchain}/stats`
+  const url = util.buildUrlPath(`/:blockchain/stats`, { blockchain })
 
   const reqConfig = { ...config.api, url }
 

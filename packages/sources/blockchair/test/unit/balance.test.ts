@@ -9,7 +9,13 @@ describe('stats endpoint', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'No blockchain provided', testData: { data: { endpoint: 'difficulty' } } },
+      { name: 'empty body', testData: {} },
+      { name: 'empty data', testData: { data: {} } },
+      {
+        name: 'empty addresses array',
+        testData: { dataPath: 'addresses', data: { addresses: [] } },
+      },
+      { name: 'no dataPath', testData: { data: { addresses: [{ address: 'abc' }] } } },
     ]
 
     requests.forEach((req) => {
@@ -18,6 +24,7 @@ describe('stats endpoint', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
+          console.log({ errorResp })
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

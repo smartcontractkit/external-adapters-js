@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
@@ -53,7 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     coin = getSymbolToId(symbol, coinIds)
   }
 
-  const url = `v1/tickers/${coin.toLowerCase()}/historical`
+  const url = util.buildUrlPath('v1/tickers/:coin/historical', { coin: coin.toLowerCase() })
   const resultPath = validator.validated.data.resultPath
   const hours = validator.validated.data.hours
 
