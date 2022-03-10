@@ -9,8 +9,7 @@ describe('stats endpoint', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
+      { name: 'No blockchain provided', testData: { data: { endpoint: 'difficulty' } } },
     ]
 
     requests.forEach((req) => {
