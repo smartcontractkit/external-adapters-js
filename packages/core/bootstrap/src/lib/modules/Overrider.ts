@@ -32,6 +32,7 @@ export class Overrider {
       symbolToIdOverrideFrom('Input'),
       symbolToIdOverrideFrom('Adapter'),
       symbolToSymbolOverrideFrom('Adapter'),
+      symbolToSymbolOverrideFrom('Input'),
       symbolToIdOverrideFrom('Input'),
       symbolToIdOverrideFrom('Adapter'),
     ]
@@ -52,9 +53,7 @@ export class Overrider {
       for (const [symbol, id] of Object.entries(requestedCoins)) {
         if (!combinedRequestedCoins[symbol]) {
           if (Object.values(combinedRequestedCoins).includes(id))
-            throw Error(
-              `A duplicate was detected in the requested coin ids (existing id '${combinedRequestedCoins[symbol]}' new id '${id}').`,
-            )
+            throw Error(`A duplicate was detected for the coin id '${id}'.`)
           else combinedRequestedCoins[symbol] = id
         }
       }
@@ -74,7 +73,7 @@ export class Overrider {
         if (coinsResponse.symbol === remainingSymbols[i]) {
           if (isDuplicatedSymbol)
             throw new AdapterError({
-              message: `An overlapping coin id was found for the requested symbol '${coinsResponse.symbol}' and no override was provided.`,
+              message: `A duplicate symbol was found for the requested symbol '${coinsResponse.symbol}'.`,
             })
           if (Object.values(requestedCoins).includes(coinsResponse.id))
             throw new AdapterError({
@@ -114,15 +113,14 @@ export class Overrider {
     overrideSource: 'Input' | 'Adapter',
   ): [RequestedCoins, string[]] => {
     const requestedCoins: RequestedCoins = {}
-    const symbolToIdOverrides = this.validated[`symbolToIdOverridesFrom${overrideSource}`]?.get(
-      this.adapterName,
-    )
+    const symbolToIdOverrides = this.validated[`symbolToIdOverridesFrom${overrideSource}`]
     const remainingSymbols: string[] = []
 
-    if (symbolToIdOverrides) {
+    if (symbolToIdOverrides?.has(this.adapterName)) {
+      const adapterOverrides = symbolToIdOverrides.get(this.adapterName)
       for (const requestedSymbol of requestedSymbols) {
-        if (symbolToIdOverrides.has(requestedSymbol))
-          requestedCoins[requestedSymbol] = symbolToIdOverrides.get(requestedSymbol)
+        if (adapterOverrides.has(requestedSymbol))
+          requestedCoins[requestedSymbol] = adapterOverrides.get(requestedSymbol)
         else remainingSymbols.push(requestedSymbol)
       }
       return [requestedCoins, remainingSymbols]
@@ -134,12 +132,19 @@ export class Overrider {
     requestedSymbols: string[],
     overrideSource: 'Input' | 'Adapter',
   ): string[] => {
-    const symbolToSymbolOverrides = this.validated[`symbolToSymbolOverridesFrom${overrideSource}`]
+    const symbolToSymbolOverrides = this.validated[`overridesFrom${overrideSource}`]
     if (symbolToSymbolOverrides?.has(this.adapterName)) {
+      const adapterOverrides = symbolToSymbolOverrides.get(this.adapterName)
       for (let i = 0; i < requestedSymbols.length; i++) {
         const requestedSymbol = requestedSymbols[i]
-        const overridingSymbol = symbolToSymbolOverrides.get(requestedSymbol)
-        if (overridingSymbol) requestedSymbols[i] = overridingSymbol
+        if (adapterOverrides.has(requestedSymbol)) {
+          const overridingSymbol = adapterOverrides.get(requestedSymbol)
+          if (requestedSymbols.includes(overridingSymbol))
+            throw new AdapterError({
+              message: `A duplicate was detected when attemping performing an override from '${requestedSymbols[i]}' to '${overridingSymbol}'`,
+            })
+          requestedSymbols[i] = overridingSymbol
+        }
       }
     }
     return requestedSymbols

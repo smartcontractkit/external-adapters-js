@@ -57,8 +57,7 @@ describe('price endpoint', () => {
             },
           },
         },
-        expectedErrorMessage:
-          "An overlapping coin id was found for the requested symbol 'eth' and no override was provided.",
+        expectedErrorMessage: "A duplicate symbol was found for the requested symbol 'eth'.",
       },
       {
         name: 'multiple coin request with a duplicate coin id',
@@ -74,8 +73,30 @@ describe('price endpoint', () => {
             },
           },
         },
+        expectedErrorMessage: "A duplicate symbol was found for the requested symbol 'ada'.",
+      },
+      {
+        name: 'overrides cause duplicate coin id to be requested',
+        testData: {
+          id: '1',
+          data: {
+            to: 'USD',
+            from: ['ada', 'BBBB'],
+            overrides: {
+              coingecko: {
+                ada: 'CCCC',
+              },
+            },
+            symbolToIdOverrides: {
+              coingecko: {
+                BBBB: 'duplicate-overridden-coin-id',
+                CCCC: 'duplicate-overridden-coin-id',
+              },
+            },
+          },
+        },
         expectedErrorMessage:
-          "An overlapping coin id was found for the requested symbol 'ada' and no override was provided.",
+          "A duplicate was detected for the coin id 'duplicate-overridden-coin-id'.",
       },
     ]
 
@@ -313,7 +334,7 @@ describe('price endpoint', () => {
           },
         },
         expectedQuery: {
-          ids: 'compound-governance-token,paxos-standard,thorchain',
+          ids: 'paxos-standard,thorchain',
           vs_currencies: 'USD',
           include_market_cap: 'false',
           include_24hr_vol: 'false',
@@ -440,10 +461,9 @@ describe('price endpoint', () => {
         .get(/\/simple\/price*/)
         .query((query) => {
           const expectedIds = req.expectedQuery.ids.split(',')
-          expectedIds.forEach((id) => {
-            if (!query.ids.includes(id)) return false
+          return expectedIds.every((id) => {
+            return query.ids.includes(id)
           })
-          return true
         })
         .reply(req.mockResponse.statusCode, req.mockResponse.body)
     })
@@ -457,6 +477,165 @@ describe('price endpoint', () => {
           expect(response.data[keys[i]]).toEqual(req.expectedResponse.data[keys[i]])
         }
       })
+    })
+  })
+
+  describe('override precedence', () => {
+    const requests = [
+      {
+        name: 'duplicate symbolToIdOverride in input params and JSON file',
+        testData: {
+          id: '1',
+          data: {
+            to: 'USD',
+            from: ['COMP', 'AAAA'],
+            overrides: {
+              coingecko: {
+                AAAA: 'clap',
+              },
+            },
+            symbolToIdOverrides: {
+              coingecko: {
+                COMP: 'input-override-compound-governance-token',
+              },
+            },
+          },
+        },
+        expectedQuery: {
+          ids: 'cardashift,input-override-compound-governance-token',
+          vs_currencies: 'USD',
+          include_market_cap: 'false',
+          include_24hr_vol: 'false',
+        },
+        mockResponse: {
+          statusCode: 200,
+          body: {
+            'input-override-compound-governance-token': {
+              usd: 9999.99,
+            },
+            cardashift: {
+              usd: 9999.99,
+            },
+          },
+        },
+        expectedResponse: {
+          statusCode: 200,
+          data: {
+            'input-override-compound-governance-token': { usd: 9999.99 },
+            cardashift: { usd: 9999.99, jpy: 1111.11 },
+          },
+        },
+      },
+      // {
+      //   name: 'duplicate symbolToSymbolOverride in input params and JSON file',
+      //   testData: {
+      //     id: '1',
+      //     data: {
+      //       to: [],
+      //       from: [],
+      //       symbolToIdOverrides: {
+      //         coingecko: {
+      //         },
+      //       },
+      //     },
+      //   },
+      //   expectedQuery: {
+      //     ids: '',
+      //     vs_currencies: 'USD',
+      //     include_market_cap: 'false',
+      //     include_24hr_vol: 'false',
+      //   },
+      //   mockResponse: {
+      //     statusCode: 200,
+      //     body: {
+      //       '0-5x-long-bitcoin-token': {
+      //         usd: 9999.99,
+      //         jpy: 1111.11,
+      //       },
+      //       'overridden-id-a': {
+      //         usd: 9999.99,
+      //         jpy: 1111.11,
+      //       },
+      //       'overridden-id-b': {
+      //         usd: 9999.99,
+      //         jpy: 1111.11,
+      //       },
+      //     },
+      //   },
+      //   expectedResponse: {
+      //     statusCode: 200,
+      //     data: {
+      //       '0-5x-long-bitcoin-token': { usd: 9999.99, jpy: 1111.11 },
+      //       'overridden-id-a': { usd: 9999.99, jpy: 1111.11 },
+      //       'overridden-id-b': { usd: 9999.99, jpy: 1111.11 },
+      //     },
+      //   },
+      // },
+      // {
+      //   name: 'symbolToSymbol override from input pararms then symbolToId override from input',
+      //   testData: {
+      //     id: '1',
+      //     data: {
+      //       to: ['USD'],
+      //       from: ['AAAA', 'clap'],
+      //       overrides: {
+      //         coingecko: {
+      //           AAAA: "BBBB"
+      //         }
+      //       },
+      //       symbolToIdOverrides: {
+      //         coingecko: {
+      //           BBBB: 'overridden-id-c'
+      //         },
+      //       },
+      //     },
+      //   },
+      //   expectedQuery: {
+      //     ids: 'cardashift,overridden-id-c',
+      //     vs_currencies: 'USD,JPY',
+      //     include_market_cap: 'false',
+      //     include_24hr_vol: 'false',
+      //   },
+      //   mockResponse: {
+      //     statusCode: 200,
+      //     body: {
+      //       '0-5x-long-bitcoin-token': {
+      //         usd: 9999.99,
+      //         jpy: 1111.11,
+      //       },
+      //       'overridden-id-a': {
+      //         usd: 9999.99,
+      //         jpy: 1111.11,
+      //       },
+      //       'overridden-id-b': {
+      //         usd: 9999.99,
+      //         jpy: 1111.11,
+      //       },
+      //     },
+      //   },
+      //   expectedResponse: {
+      //     statusCode: 200,
+      //     data: {
+      //       '0-5x-long-bitcoin-token': { usd: 9999.99, jpy: 1111.11 },
+      //       'overridden-id-a': { usd: 9999.99, jpy: 1111.11 },
+      //       'overridden-id-b': { usd: 9999.99, jpy: 1111.11 },
+      //     },
+      //   },
+      // }
+    ]
+
+    requests.forEach((req) => {
+      nock('https://api.coingecko.com/api/v3')
+        .get('/coins/list')
+        .reply(200, coinsList)
+        .get(/\/simple\/price*/)
+        .query((query) => {
+          const expectedIds = req.expectedQuery.ids.split(',')
+          return expectedIds.every((id) => {
+            return query.ids.includes(id)
+          })
+        })
+        .reply(req.mockResponse.statusCode, req.mockResponse.body)
     })
   })
 })
