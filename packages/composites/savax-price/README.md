@@ -1,6 +1,6 @@
 # Chainlink Savax-price Composite Adapter
 
-This External Adapter pulls the price of `USD/sAVAX`. It exists as a composite EA as
+This External Adapter pulls the price of `USD/sAVAX` from the Avalanche network. It exists as a composite EA as it derives the price using the Token Allocation EA.
 
 ## Configuration
 

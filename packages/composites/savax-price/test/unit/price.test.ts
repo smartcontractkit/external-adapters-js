@@ -1,27 +1,27 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src'
-import { ENV_ETHEREUM_RPC_URL } from '../../src/config'
-import * as process from 'process'
+import { DEFAULT_SAVAX_ADDRESS, makeConfig } from '../../src/config'
 
 describe('execute', () => {
-  const jobID = '1'
-  const execute = makeExecute()
-  process.env[ENV_ETHEREUM_RPC_URL] = process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8546/'
+  describe('config', () => {
+    beforeEach(() => {
+      process.env.AVALANCHE_RPC_URL = process.env.AVALANCHE_RPC_URL || 'http://localhost:8546/'
+    })
 
-  describe('validation error', () => {
-    const requests = [{ name: 'empty body', testData: {} }]
+    afterEach(() => {
+      delete process.env.AVALANCHE_RPC_URL
+      delete process.env.SAVAX_ADDRESS
+    })
 
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest, {})
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
+    it('correctly sets the env vars for the EA', () => {
+      const config = makeConfig()
+      expect(config.rpcUrl).toEqual(process.env.AVALANCHE_RPC_URL)
+      expect(config.sAvaxAddress).toEqual(DEFAULT_SAVAX_ADDRESS)
+    })
+
+    it('correctly sets the sAVAX contract address if one is provided', () => {
+      process.env.SAVAX_ADDRESS = 'test-address'
+      const config = makeConfig()
+      expect(config.rpcUrl).toEqual(process.env.AVALANCHE_RPC_URL)
+      expect(config.sAvaxAddress).toEqual(process.env.SAVAX_ADDRESS)
     })
   })
 })
