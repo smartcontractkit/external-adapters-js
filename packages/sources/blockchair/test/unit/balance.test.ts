@@ -7,10 +7,6 @@ describe('stats endpoint', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  // - `address`: Address to query
-  // - `coin`: Optional currency to query, defaults to `btc`, one of `(btc|dash|doge|ltc|bch)`
-  // - `chain`: Optional chain to query, defaults to `mainnet`.
-
   describe('validation error', () => {
     const requests = [
       { name: 'empty body', testData: {} },
