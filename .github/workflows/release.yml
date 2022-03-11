@@ -1,3 +1,5 @@
+name: Release
+
 on:
   push:
     branches:
@@ -22,8 +24,6 @@ on:
 
   # A workflow dispatch would trigger the same behaviour as a push to the master branch
   workflow_dispatch:
-
-name: Release
 
 env:
   publicecr-name: chainlink

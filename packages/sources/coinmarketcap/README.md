@@ -1,184 +1,469 @@
-# Chainlink CoinMarketCap Pro External Adapter
+# Chainlink External Adapter for Coinmarketcap
 
-### Environment Variables
+Version: 1.3.18
 
-| Required? |  Name   |                                 Description                                 | Options | Defaults to |
-| :-------: | :-----: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be obtained from [here](https://coinmarketcap.com/api/) |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
 
----
+## Environment Variables
 
-### Input Parameters
-
-| Required? |   Name   |     Description     |                                                                                        Options                                                                                        | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint) |  `crypto`   |
+| Required? |  Name   |                                 Description                                 |  Type  | Options | Default |
+| :-------: | :-----: | :-------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | API_KEY | An API key that can be obtained from [here](https://coinmarketcap.com/api/) | string |         |         |
 
 ---
 
-## Price Endpoint
+## Input Parameters
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+| Required? |   Name   |     Description     |  Type  |                                                                                                               Options                                                                                                                | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [historical](#historical-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint) | `crypto` |
 
-https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
-
-### Input Params
-
-| Required? |                Name                |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :--------------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `sym`    |  The symbol or array of symbols of the currency to query  |                                                                                      |             |
-|    ✅     | `quote`, `to`, `market`, `convert` |         The symbol of the currency to convert to          |                                                                                      |             |
-|           |               `cid`                |   The CMC coin ID (optional to use in place of `base`)    |                                                                                      |             |
-|           |               `slug`               |  The CMC coin name (optional to use in place of `base`)   |                                                                                      |             |
-|           |            `overrides`             | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
-
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "status": {
-      "timestamp": "2020-04-13T20:52:42.250Z",
-      "error_code": 0,
-      "error_message": null,
-      "elapsed": 9,
-      "credit_count": 1,
-      "notice": null
-    },
-    "data": {
-      "ETH": {
-        "id": 1027,
-        "name": "Ethereum",
-        "symbol": "ETH",
-        "slug": "ethereum",
-        "num_market_pairs": 5135,
-        "date_added": "2015-08-07T00:00:00.000Z",
-        "tags": ["mineable"],
-        "max_supply": null,
-        "circulating_supply": 110505332.374,
-        "total_supply": 110505332.374,
-        "platform": null,
-        "cmc_rank": 2,
-        "last_updated": "2020-04-13T20:51:27.000Z",
-        "quote": {
-          "USD": {
-            "price": 155.22087406,
-            "volume_24h": 16301412264.6787,
-            "percent_change_1h": 0.250983,
-            "percent_change_24h": -5.25413,
-            "percent_change_7d": -5.93502,
-            "market_cap": 17152734279.383095,
-            "last_updated": "2020-04-13T20:51:27.000Z"
-          }
-        }
-      }
-    },
-    "result": 155.22087406
-  },
-  "result": 155.22087406,
-  "statusCode": 200
-}
-```
+---
 
 ## Dominance Endpoint
 
 https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
 
+`dominance` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |          Name           |             Description             |   Options    | Defaults to |
-| :-------: | :---------------------: | :---------------------------------: | :----------: | :---------: |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to query | `BTC`, `ETH` |             |
+| Required? |  Name  |    Aliases    |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | market | `quote`, `to` | The symbol of the currency to query | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
     "endpoint": "dominance",
-    "market": "ETH"
+    "market": "BTC"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "status": {
-      "timestamp": "2020-10-20T23:43:10.921Z",
-      "error_code": 0,
-      "error_message": null,
-      "elapsed": 24,
-      "credit_count": 1,
-      "notice": null
-    },
     "data": {
-      "active_cryptocurrencies": 3686,
-      "total_cryptocurrencies": 7458,
-      "active_market_pairs": 31687,
-      "active_exchanges": 357,
-      "total_exchanges": 1188,
-      "eth_dominance": 11.442731417817,
-      "btc_dominance": 60.526174889375,
-      "defi_volume_24h": 3580425804.8360143,
-      "defi_volume_24h_reported": 4687819883.24599,
-      "defi_market_cap": 11756342062.876287,
-      "defi_24h_percentage_change": -31.901796001889,
-      "stablecoin_volume_24h": 46272327712.47732,
-      "stablecoin_volume_24h_reported": 54378545566.47114,
-      "stablecoin_market_cap": 22530880660.946377,
-      "stablecoin_24h_percentage_change": 24.589731019677,
-      "derivatives_volume_24h": 23991994606.209496,
-      "derivatives_volume_24h_reported": 23991994606.209496,
-      "derivatives_24h_percentage_change": 30.62858016525,
+      "active_cryptocurrencies": 6017,
+      "total_cryptocurrencies": 11248,
+      "active_market_pairs": 45167,
+      "active_exchanges": 393,
+      "total_exchanges": 1442,
+      "eth_dominance": 19.378133207236,
+      "btc_dominance": 44.897494474523,
+      "eth_dominance_yesterday": 19.45085113,
+      "btc_dominance_yesterday": 45.1173045,
+      "eth_dominance_24h_percentage_change": -0.072717922764,
+      "btc_dominance_24h_percentage_change": -0.219810025477,
+      "defi_volume_24h": 11171849499.90983,
+      "defi_volume_24h_reported": 11171849499.90983,
+      "defi_market_cap": 100662876315.55212,
+      "defi_24h_percentage_change": -14.552599373715,
+      "stablecoin_volume_24h": 80887368824.77817,
+      "stablecoin_volume_24h_reported": 80887368824.77817,
+      "stablecoin_market_cap": 115035497531.29771,
+      "stablecoin_24h_percentage_change": -18.721871177865,
+      "derivatives_volume_24h": 176366780668.25778,
+      "derivatives_volume_24h_reported": 176366780668.25778,
+      "derivatives_24h_percentage_change": -8.941373750913,
       "quote": {
         "USD": {
-          "total_market_cap": 364954113310.4291,
-          "total_volume_24h": 86730243860.65276,
-          "total_volume_24h_reported": 116107838119.04984,
-          "altcoin_volume_24h": 55978895794.776985,
-          "altcoin_volume_24h_reported": 71472205490.42107,
-          "altcoin_market_cap": 144061348422.18985,
-          "last_updated": "2020-10-20T23:40:18.000Z"
+          "total_market_cap": 1939416192105.152,
+          "total_volume_24h": 103678071089.66,
+          "total_volume_24h_reported": 103678071089.66,
+          "altcoin_volume_24h": 73879228768.87762,
+          "altcoin_volume_24h_reported": 73879228768.87762,
+          "altcoin_market_cap": 1068666914416.7322,
+          "defi_volume_24h": 11171849499.90983,
+          "defi_volume_24h_reported": 11171849499.90983,
+          "defi_24h_percentage_change": -14.552599373715,
+          "defi_market_cap": 100662876315.55212,
+          "stablecoin_volume_24h": 80887368824.77817,
+          "stablecoin_volume_24h_reported": 80887368824.77817,
+          "stablecoin_24h_percentage_change": -18.721871177865,
+          "stablecoin_market_cap": 115035497531.29771,
+          "derivatives_volume_24h": 176366780668.25778,
+          "derivatives_volume_24h_reported": 176366780668.25778,
+          "derivatives_24h_percentage_change": -8.941373750913,
+          "last_updated": "2021-08-13T14:44:11.999Z",
+          "total_market_cap_yesterday": 1844975970092.2852,
+          "total_volume_24h_yesterday": 126740803516.14,
+          "total_market_cap_yesterday_percentage_change": 5.118777888914352,
+          "total_volume_24h_yesterday_percentage_change": -18.196769932536398
         }
       },
-      "last_updated": "2020-10-20T23:40:18.000Z"
+      "last_updated": "2021-08-13T14:44:11.999Z"
     },
-    "result": 60.526174889375
+    "result": 44.897494474523
   },
-  "result": 60.526174889375,
-  "statusCode": 200
+  "result": 44.897494474523,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
-## Global Market Capitalization Endpoint
+---
 
-https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
+## Crypto Endpoint
+
+https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
+
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |          Name           |             Description             | Options | Defaults to |
-| :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `USD`  |             |
+| Required? |  Name   |             Aliases             |                    Description                     |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :-----------------------------: | :------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base   | `coin`, `from`, `sym`, `symbol` |        The symbol of the currency to query         |        |         |         |            |                |
+|    ✅     | convert |     `market`, `quote`, `to`     |      The symbol of the currency to convert to      |        |         |         |            |                |
+|           |   cid   |                                 | The CMC coin ID (optional to use in place of base) | string |         |         |            |                |
+|           |  slug   |                                 | The CMC coin ID (optional to use in place of base) | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "resultPath": "price",
+    "base": "BTC",
+    "convert": "USD"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "data": {
+      "1": {
+        "id": 1,
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "slug": "bitcoin",
+        "is_active": 1,
+        "is_fiat": 0,
+        "circulating_supply": 17199862,
+        "total_supply": 17199862,
+        "max_supply": 21000000,
+        "date_added": "2013-04-28T00:00:00.000Z",
+        "num_market_pairs": 331,
+        "cmc_rank": 1,
+        "last_updated": "2018-08-09T21:56:28.000Z",
+        "tags": ["mineable"],
+        "platform": null,
+        "quote": {
+          "USD": {
+            "price": 6602.60701122,
+            "volume_24h": 4314444687.5194,
+            "percent_change_1h": 0.988615,
+            "percent_change_24h": 4.37185,
+            "percent_change_7d": -12.1352,
+            "percent_change_30d": -12.1352,
+            "market_cap": 113563929433.21645,
+            "last_updated": "2018-08-09T21:56:28.000Z"
+          }
+        }
+      }
+    },
+    "status": {
+      "timestamp": "2021-07-23T14:39:23.626Z",
+      "error_code": 0,
+      "error_message": "",
+      "elapsed": 10,
+      "credit_count": 1
+    },
+    "result": 6602.60701122
+  },
+  "result": 6602.60701122,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "convert",
+        "limit": 120
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "resultPath": "price",
+    "base": "BTC",
+    "convert": "USD",
+    "cid": "1100"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "data": {
+      "1100": {
+        "id": 1,
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "slug": "bitcoin",
+        "is_active": 1,
+        "is_fiat": 0,
+        "circulating_supply": 17199862,
+        "total_supply": 17199862,
+        "max_supply": 21000000,
+        "date_added": "2013-04-28T00:00:00.000Z",
+        "num_market_pairs": 331,
+        "cmc_rank": 1,
+        "last_updated": "2018-08-09T21:56:28.000Z",
+        "tags": ["mineable"],
+        "platform": null,
+        "quote": {
+          "USD": {
+            "price": 6602.60701122,
+            "volume_24h": 4314444687.5194,
+            "percent_change_1h": 0.988615,
+            "percent_change_24h": 4.37185,
+            "percent_change_7d": -12.1352,
+            "percent_change_30d": -12.1352,
+            "market_cap": 113563929433.21645,
+            "last_updated": "2018-08-09T21:56:28.000Z"
+          }
+        }
+      }
+    },
+    "status": {
+      "timestamp": "2021-07-23T14:39:23.626Z",
+      "error_code": 0,
+      "error_message": "",
+      "elapsed": 10,
+      "credit_count": 1
+    },
+    "result": 6602.60701122
+  },
+  "result": 6602.60701122,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "convert",
+        "limit": 120
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "resultPath": "price",
+    "base": "BTC",
+    "convert": "USD",
+    "slug": "BTC"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "data": {
+      "BTC": {
+        "id": 1,
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "slug": "bitcoin",
+        "is_active": 1,
+        "is_fiat": 0,
+        "circulating_supply": 17199862,
+        "total_supply": 17199862,
+        "max_supply": 21000000,
+        "date_added": "2013-04-28T00:00:00.000Z",
+        "num_market_pairs": 331,
+        "cmc_rank": 1,
+        "last_updated": "2018-08-09T21:56:28.000Z",
+        "tags": ["mineable"],
+        "platform": null,
+        "quote": {
+          "USD": {
+            "price": 6602.60701122,
+            "volume_24h": 4314444687.5194,
+            "percent_change_1h": 0.988615,
+            "percent_change_24h": 4.37185,
+            "percent_change_7d": -12.1352,
+            "percent_change_30d": -12.1352,
+            "market_cap": 113563929433.21645,
+            "last_updated": "2018-08-09T21:56:28.000Z"
+          }
+        }
+      }
+    },
+    "status": {
+      "timestamp": "2021-07-23T14:39:23.626Z",
+      "error_code": 0,
+      "error_message": "",
+      "elapsed": 10,
+      "credit_count": 1
+    },
+    "result": 6602.60701122
+  },
+  "result": 6602.60701122,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "convert",
+        "limit": 120
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "resultPath": "price",
+    "base": "BTC",
+    "convert": "USD"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "data": {
+      "1": {
+        "id": 1,
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "slug": "bitcoin",
+        "is_active": 1,
+        "is_fiat": 0,
+        "circulating_supply": 17199862,
+        "total_supply": 17199862,
+        "max_supply": 21000000,
+        "date_added": "2013-04-28T00:00:00.000Z",
+        "num_market_pairs": 331,
+        "cmc_rank": 1,
+        "last_updated": "2018-08-09T21:56:28.000Z",
+        "tags": ["mineable"],
+        "platform": null,
+        "quote": {
+          "USD": {
+            "price": 6602.60701122,
+            "volume_24h": 4314444687.5194,
+            "percent_change_1h": 0.988615,
+            "percent_change_24h": 4.37185,
+            "percent_change_7d": -12.1352,
+            "percent_change_30d": -12.1352,
+            "market_cap": 113563929433.21645,
+            "last_updated": "2018-08-09T21:56:28.000Z"
+          }
+        }
+      }
+    },
+    "status": {
+      "timestamp": "2021-07-23T14:39:23.626Z",
+      "error_code": 0,
+      "error_message": "",
+      "elapsed": 10,
+      "credit_count": 1
+    },
+    "result": 6602.60701122
+  },
+  "result": 6602.60701122,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "convert",
+        "limit": 120
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
+
+</details>
+
+---
+
+## GlobalMarketCap Endpoint
+
+https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
+
+`globalmarketcap` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name  |    Aliases    |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | market | `quote`, `to` | The symbol of the currency to query | string |         |         |            |                |
+
+### Example
+
+Request:
 
 ```json
 {
@@ -190,272 +475,126 @@ https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "status": {
-      "timestamp": "2021-02-09T22:07:14.787Z",
-      "error_code": 0,
-      "error_message": null,
-      "elapsed": 24,
-      "credit_count": 1,
-      "notice": null
-    },
     "data": {
-      "active_cryptocurrencies": 4039,
-      "total_cryptocurrencies": 8417,
-      "active_market_pairs": 33557,
-      "active_exchanges": 365,
-      "total_exchanges": 1271,
-      "eth_dominance": 14.492658185967,
-      "btc_dominance": 62.891411561113,
-      "defi_volume_24h": 16138915987.218157,
-      "defi_volume_24h_reported": 27444522785.122807,
-      "defi_market_cap": 58964101882.03461,
-      "defi_24h_percentage_change": 1.045042749245,
-      "stablecoin_volume_24h": 169445823565.66757,
-      "stablecoin_volume_24h_reported": 312699703386.8201,
-      "stablecoin_market_cap": 47755045514.65084,
-      "stablecoin_24h_percentage_change": 5.670684885241,
-      "derivatives_volume_24h": 131232253607.2902,
-      "derivatives_volume_24h_reported": 131237691538.61276,
-      "derivatives_24h_percentage_change": 2.369666048721,
+      "active_cryptocurrencies": 6017,
+      "total_cryptocurrencies": 11248,
+      "active_market_pairs": 45167,
+      "active_exchanges": 393,
+      "total_exchanges": 1442,
+      "eth_dominance": 19.378133207236,
+      "btc_dominance": 44.897494474523,
+      "eth_dominance_yesterday": 19.45085113,
+      "btc_dominance_yesterday": 45.1173045,
+      "eth_dominance_24h_percentage_change": -0.072717922764,
+      "btc_dominance_24h_percentage_change": -0.219810025477,
+      "defi_volume_24h": 11171849499.90983,
+      "defi_volume_24h_reported": 11171849499.90983,
+      "defi_market_cap": 100662876315.55212,
+      "defi_24h_percentage_change": -14.552599373715,
+      "stablecoin_volume_24h": 80887368824.77817,
+      "stablecoin_volume_24h_reported": 80887368824.77817,
+      "stablecoin_market_cap": 115035497531.29771,
+      "stablecoin_24h_percentage_change": -18.721871177865,
+      "derivatives_volume_24h": 176366780668.25778,
+      "derivatives_volume_24h_reported": 176366780668.25778,
+      "derivatives_24h_percentage_change": -8.941373750913,
       "quote": {
         "USD": {
-          "total_market_cap": 1393964637158.628,
-          "total_volume_24h": 215007147237,
-          "total_volume_24h_reported": 404197132217.27,
-          "altcoin_volume_24h": 116627624277.44908,
-          "altcoin_volume_24h_reported": 199039183261.18234,
-          "altcoin_market_cap": 517280600186.8229,
-          "last_updated": "2021-02-09T22:05:18.000Z"
+          "total_market_cap": 1939416192105.152,
+          "total_volume_24h": 103678071089.66,
+          "total_volume_24h_reported": 103678071089.66,
+          "altcoin_volume_24h": 73879228768.87762,
+          "altcoin_volume_24h_reported": 73879228768.87762,
+          "altcoin_market_cap": 1068666914416.7322,
+          "defi_volume_24h": 11171849499.90983,
+          "defi_volume_24h_reported": 11171849499.90983,
+          "defi_24h_percentage_change": -14.552599373715,
+          "defi_market_cap": 100662876315.55212,
+          "stablecoin_volume_24h": 80887368824.77817,
+          "stablecoin_volume_24h_reported": 80887368824.77817,
+          "stablecoin_24h_percentage_change": -18.721871177865,
+          "stablecoin_market_cap": 115035497531.29771,
+          "derivatives_volume_24h": 176366780668.25778,
+          "derivatives_volume_24h_reported": 176366780668.25778,
+          "derivatives_24h_percentage_change": -8.941373750913,
+          "last_updated": "2021-08-13T14:44:11.999Z",
+          "total_market_cap_yesterday": 1844975970092.2852,
+          "total_volume_24h_yesterday": 126740803516.14,
+          "total_market_cap_yesterday_percentage_change": 5.118777888914352,
+          "total_volume_24h_yesterday_percentage_change": -18.196769932536398
         }
       },
-      "last_updated": "2021-02-09T22:05:18.000Z"
+      "last_updated": "2021-08-13T14:44:11.999Z"
     },
-    "result": 1393964637158.628
+    "result": 1939416192105.152
   },
-  "result": 1393964637158.628,
-  "statusCode": 200
+  "result": 1939416192105.152,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
-## Marketcap Endpoint
-
-https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
-
-### Input Params
-
-| Required? |                Name                |                      Description                       | Options | Defaults to |
-| :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
-|    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
-|           |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
-|           |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
-
-### Sample Input
-
-```json
-{
-  "jobId": "1",
-  "data": {
-    "endpoint": "marketcap",
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "status": {
-      "timestamp": "2020-04-13T20:52:42.250Z",
-      "error_code": 0,
-      "error_message": null,
-      "elapsed": 9,
-      "credit_count": 1,
-      "notice": null
-    },
-    "data": {
-      "ETH": {
-        "id": 1027,
-        "name": "Ethereum",
-        "symbol": "ETH",
-        "slug": "ethereum",
-        "num_market_pairs": 5135,
-        "date_added": "2015-08-07T00:00:00.000Z",
-        "tags": ["mineable"],
-        "max_supply": null,
-        "circulating_supply": 110505332.374,
-        "total_supply": 110505332.374,
-        "platform": null,
-        "cmc_rank": 2,
-        "last_updated": "2020-04-13T20:51:27.000Z",
-        "quote": {
-          "USD": {
-            "price": 155.22087406,
-            "volume_24h": 16301412264.6787,
-            "percent_change_1h": 0.250983,
-            "percent_change_24h": -5.25413,
-            "percent_change_7d": -5.93502,
-            "market_cap": 17152734279.383095,
-            "last_updated": "2020-04-13T20:51:27.000Z"
-          }
-        }
-      }
-    },
-    "result": 155.22087406
-  },
-  "result": 155.22087406,
-  "statusCode": 200
-}
-```
-
-## Volume Endpoint
-
-https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
-
-### Input Params
-
-| Required? |                Name                |                      Description                       | Options | Defaults to |
-| :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
-|    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
-|           |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
-|           |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
-
-### Sample Input
-
-```json
-{
-  "jobId": "1",
-  "data": {
-    "endpoint": "volume",
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "status": {
-      "timestamp": "2020-04-13T20:52:42.250Z",
-      "error_code": 0,
-      "error_message": null,
-      "elapsed": 9,
-      "credit_count": 1,
-      "notice": null
-    },
-    "data": {
-      "ETH": {
-        "id": 1027,
-        "name": "Ethereum",
-        "symbol": "ETH",
-        "slug": "ethereum",
-        "num_market_pairs": 5135,
-        "date_added": "2015-08-07T00:00:00.000Z",
-        "tags": ["mineable"],
-        "max_supply": null,
-        "circulating_supply": 110505332.374,
-        "total_supply": 110505332.374,
-        "platform": null,
-        "cmc_rank": 2,
-        "last_updated": "2020-04-13T20:51:27.000Z",
-        "quote": {
-          "USD": {
-            "price": 155.22087406,
-            "volume_24h": 16301412264.6787,
-            "percent_change_1h": 0.250983,
-            "percent_change_24h": -5.25413,
-            "percent_change_7d": -5.93502,
-            "market_cap": 17152734279.383095,
-            "last_updated": "2020-04-13T20:51:27.000Z"
-          }
-        }
-      }
-    },
-    "result": 16301412264.6787
-  },
-  "result": 16301412264.6787,
-  "statusCode": 200
-}
-```
+---
 
 ## Historical Endpoint
 
 https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/historical
 
+`historical` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |                       Name                        |                                   Description                                   |                                          Options                                          | Defaults to |
-| :-------: | :-----------------------------------------------: | :-----------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, `coin`, `symbol`, `sym`, `symbol` |                       The symbol of the currency to query                       |                                                                                           |             |
-|    ✅     |        `quote`, `to`, `market`, `convert`         |                    The symbol of the currency to convert to                     |                                                                                           |             |
-|           |                      `start`                      |           Timestamp (Unix or ISO 8601) to start returning quotes for            |                                                                                           |             |
-|           |                       `end`                       |            Timestamp (Unix or ISO 8601) to stop returning quotes for            |                                                                                           |             |
-|           |                      `count`                      |              The number of interval periods to return results for               |                                                                                           |    `10`     |
-|           |                    `interval`                     |                   Interval of time to return data points for                    |                                                                                           |    `5m`     |
-|           |                       `cid`                       |              The CMC coin ID (optional to use in place of `base`)               |                                                                                           |             |
-|           |                       `aux`                       | Optionally specify a comma-separated list of supplemental data fields to return | `price`,`volume`, `market_cap`,`quote_timestamp`,`is_active`, `is_fiat`,`search_interval` |             |
+| Required? |    Name     |             Aliases             |                                   Description                                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------: | :-----------------------------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    base     | `coin`, `from`, `sym`, `symbol` |                       The symbol of the currency to query                       | string |         |         |            |                |
+|    ✅     |   convert   |     `market`, `quote`, `to`     |                    The symbol of the currency to convert to                     | string |         |         |            |                |
+|           |    start    |                                 |           Timestamp (Unix or ISO 8601) to start returning quotes for            | string |         |         |            |                |
+|           |     end     |                                 |            Timestamp (Unix or ISO 8601) to stop returning quotes for            | string |         |         |            |                |
+|           |    count    |                                 |              The number of interval periods to return results for               | number |         |  `10`   |            |                |
+|           |  interval   |                                 |                   Interval of time to return data points for                    | string |         |  `5m`   |            |                |
+|           |     cid     |                                 |               The CMC coin ID (optional to use in place of base)                | string |         |         |            |                |
+|           |     aux     |                                 | Optionally specify a comma-separated list of supplemental data fields to return | string |         |         |            |                |
+|           | skipInvalid |                                 |                                                                                 | string |         |         |            |                |
 
-### Notes
+### Example
 
-Check the [historical endpoint](https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyQuotesHistorical) documentation for more details
-
-### Sample Input
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
     "endpoint": "historical",
-    "symbol": "ETH",
+    "base": "ETH",
     "convert": "BTC",
-    "start": "2021-07-23T14"
+    "start": "2021-07-23T14",
+    "count": 10,
+    "interval": "5m"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": {
-    "quotes": [
-      {
-        "timestamp": "2021-07-23T14:04:03.000Z",
-        "quote": {
-          "BTC": {
-            "price": 0.06372463643632112,
-            "volume_24h": 504265.23763687897,
-            "market_cap": 7443591.90020768,
-            "timestamp": "2021-07-23T14:04:12.000Z"
-          }
-        }
-      }
-    ],
-    "id": 1027,
-    "name": "Ethereum",
-    "symbol": "ETH",
-    "is_active": 1,
-    "is_fiat": 0
-  },
-  "statusCode": 200,
   "data": {
-    "result": {
+    "status": {
+      "timestamp": "2021-12-01T14:44:08.026Z",
+      "error_code": 0,
+      "error_message": null,
+      "elapsed": 30,
+      "credit_count": 1,
+      "notice": null
+    },
+    "data": {
       "quotes": [
         {
           "timestamp": "2021-07-23T14:04:03.000Z",
@@ -467,6 +606,105 @@ Check the [historical endpoint](https://coinmarketcap.com/api/documentation/v1/#
               "timestamp": "2021-07-23T14:04:12.000Z"
             }
           }
+        },
+        {
+          "timestamp": "2021-07-23T14:09:03.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06371941629686442,
+              "volume_24h": 503702.65783204953,
+              "market_cap": 7442982.142507192,
+              "timestamp": "2021-07-23T14:09:13.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:14:08.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06372453768196841,
+              "volume_24h": 503184.31892236834,
+              "market_cap": 7443649.549774187,
+              "timestamp": "2021-07-23T14:14:23.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:19:06.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06367490340039632,
+              "volume_24h": 503087.4919427468,
+              "market_cap": 7437851.780012068,
+              "timestamp": "2021-07-23T14:19:12.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:24:05.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06362402824508358,
+              "volume_24h": 501663.79642084066,
+              "market_cap": 7431909.064055017,
+              "timestamp": "2021-07-23T14:24:09.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:29:06.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06362223765893496,
+              "volume_24h": 499637.90000928735,
+              "market_cap": 7431699.906071862,
+              "timestamp": "2021-07-23T14:29:13.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:34:04.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06355415525274345,
+              "volume_24h": 497509.87502596335,
+              "market_cap": 7423747.214838163,
+              "timestamp": "2021-07-23T14:34:15.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:39:07.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06355962091247133,
+              "volume_24h": 497304.8331171168,
+              "market_cap": 7424385.657376196,
+              "timestamp": "2021-07-23T14:39:19.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:44:04.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06363986524132226,
+              "volume_24h": 496738.91156870575,
+              "market_cap": 7433758.980181678,
+              "timestamp": "2021-07-23T14:44:07.000Z"
+            }
+          }
+        },
+        {
+          "timestamp": "2021-07-23T14:49:03.000Z",
+          "quote": {
+            "BTC": {
+              "price": 0.06359201049147004,
+              "volume_24h": 495928.26554275176,
+              "market_cap": 7428169.077137268,
+              "timestamp": "2021-07-23T14:49:09.000Z"
+            }
+          }
         }
       ],
       "id": 1027,
@@ -475,6 +713,10 @@ Check the [historical endpoint](https://coinmarketcap.com/api/documentation/v1/#
       "is_active": 1,
       "is_fiat": 0
     }
-  }
+  },
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

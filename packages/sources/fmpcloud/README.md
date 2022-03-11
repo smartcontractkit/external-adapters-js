@@ -1,62 +1,91 @@
 # Chainlink External Adapter for Fmp Cloud
 
-### Environment Variables
+Version: 1.2.17
 
-| Required? |  Name   | Description | Options | Defaults to |
-| :-------: | :-----: | :---------: | :-----: | :---------: |
-|    ✅     | API_KEY |             |         |             |
+This README was generated automatically. Please see [scripts](../../scripts) for more info.
+
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |        Default        |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------: |
+|    ✅     |   API_KEY    |             | string |         |                       |
+|           | API_ENDPOINT |             | string |         | `https://fmpcloud.io` |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [stock](#Stock-Endpoint) |    stock    |
+| Required? |   Name   |     Description     |  Type  |                                   Options                                    | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [price](#stock-endpoint), [quote](#stock-endpoint), [stock](#stock-endpoint) | `stock` |
 
 ---
 
 ## Stock Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**
+
+Supported names for this endpoint are: `price`, `quote`, `stock`.
 
 ### Input Params
 
-| Required? |            Name            |             Description             | Options | Defaults to |
-| :-------: | :------------------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | `asset`, `from`, or `base` | The symbol of the currency to query |         |             |
+| Required? | Name |     Aliases     |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `from` | The symbol of the currency to query | string |         |         |            |                |
 
-### Output Format
+### Example
+
+Request:
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": [
-    {
-      "symbol": "AAPL",
-      "name": "Apple Inc.",
-      "price": 245.52,
-      "changesPercentage": -0.55,
-      "change": -1.36,
-      "dayLow": 244.3,
-      "dayHigh": 258,
-      "yearHigh": 327.85,
-      "yearLow": 170.27,
-      "marketCap": 1074267815936,
-      "priceAvg50": 287.00342,
-      "priceAvg200": 269.64044,
-      "volume": 68684527,
-      "avgVolume": 47970853,
-      "exchange": "NASDAQ",
-      "open": 250.75,
-      "previousClose": 246.88,
-      "eps": 12.595,
-      "pe": 19.49345,
-      "earningsAnnouncement": "2020-01-28T21:30:00.000+0000",
-      "sharesOutstanding": 4375479808,
-      "timestamp": 1585227237
-    }
-  ],
-  "statusCode": 200
+  "id": "1",
+  "data": {
+    "endpoint": "quote",
+    "base": "AUD"
+  },
+  "rateLimitMaxAge": 384615
 }
 ```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "symbol": "AUDUSD",
+        "name": "AUD/USD",
+        "price": 0.71222,
+        "changesPercentage": -1.329799,
+        "change": -0.009471,
+        "dayLow": 0.71128,
+        "dayHigh": 0.71988,
+        "yearHigh": 0.82076,
+        "yearLow": 0.71073,
+        "marketCap": null,
+        "priceAvg50": 0.73820853,
+        "priceAvg200": 0.74431854,
+        "volume": 0,
+        "avgVolume": 0,
+        "exchange": "FOREX",
+        "open": 0.71903,
+        "previousClose": 0.71903,
+        "eps": null,
+        "pe": null,
+        "earningsAnnouncement": null,
+        "sharesOutstanding": null,
+        "timestamp": 1637945956
+      }
+    ],
+    "result": 0.71222
+  },
+  "result": 0.71222,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
