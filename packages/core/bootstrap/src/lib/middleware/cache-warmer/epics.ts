@@ -242,11 +242,16 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (acti
                   ...batch,
                 }
                 requests.push(
-                  requestData.executeFn({
-                    id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
-                    data,
-                    debug: { warmer: true },
-                  }),
+                  requestData.executeFn(
+                    {
+                      id: requestData.childLastSeenById
+                        ? WARMUP_BATCH_REQUEST_ID
+                        : WARMUP_REQUEST_ID,
+                      data,
+                      debug: { warmer: true },
+                    },
+                    {},
+                  ),
                 )
               }
               const responses = await Promise.all(requests)
@@ -256,11 +261,14 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (acti
               }
               return result
             })()
-          : requestData.executeFn({
-              id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
-              data: { ...requestData.origin },
-              debug: { warmer: true },
-            }),
+          : requestData.executeFn(
+              {
+                id: requestData.childLastSeenById ? WARMUP_BATCH_REQUEST_ID : WARMUP_REQUEST_ID,
+                data: { ...requestData.origin },
+                debug: { warmer: true },
+              },
+              {},
+            ),
       ).pipe(
         mapTo(warmupFulfilled({ key })),
         catchError((error: unknown) =>

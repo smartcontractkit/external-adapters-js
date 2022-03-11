@@ -108,3 +108,15 @@ export const rootReducer = combineReducers({
   requests: requestReducer,
 })
 export type BurstLimitState = ReturnType<typeof rootReducer>
+export const initialState: BurstLimitState = {
+  requests: {
+    total: {
+      SECOND: 0,
+      MINUTE: 0,
+    },
+    participants: {
+      SECOND: [],
+      MINUTE: [],
+    },
+  },
+}

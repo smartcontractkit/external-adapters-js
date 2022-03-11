@@ -767,7 +767,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
          */
         const wsResponse: AdapterRequest = {
           ...input,
-          data: { maxAge: String(wsConfig.subscriptionTTL), ...input.data },
+          data: { maxAge: wsConfig.subscriptionTTL, ...input.data },
           debug: { ws: true },
           metricsMeta: { feedId: getFeedId(input) },
         }

@@ -10,6 +10,7 @@ import type {
   AdapterData,
   AdapterRequestData,
   TBaseInputParameters,
+  NestableValue,
 } from '../../types'
 import { merge, cloneDeep } from 'lodash'
 import { isArray, isObject } from '../util'
@@ -39,7 +40,7 @@ export type InputOptions<T> = {
 }
 
 export class Validator<TInputParameters extends AdapterData> {
-  input: AdapterRequest<TInputParameters>
+  input: AdapterRequest
   inputConfigs: InputParameters<TInputParameters> & InputParameters<TBaseInputParameters>
   inputOptions: InputOptions<TInputParameters & TBaseInputParameters>
   validatorOptions: ValidatorOptions
@@ -48,7 +49,7 @@ export class Validator<TInputParameters extends AdapterData> {
   errored: AdapterErrorResponse | undefined
 
   constructor(
-    input: AdapterRequest<TInputParameters>,
+    input: AdapterRequest,
     inputConfigs: InputParameters<TInputParameters>,
     inputOptions: InputOptions<TInputParameters & TBaseInputParameters> = {},
     validatorOptions: ValidatorOptions = {},
@@ -83,7 +84,7 @@ export class Validator<TInputParameters extends AdapterData> {
   private validateInput(): void {
     try {
       for (const property in this.inputConfigs) {
-        const key = property as keyof TInputParameters | keyof TBaseInputParameters
+        const key = property
         const options = this.inputOptions[key]
         const inputConfig = this.inputConfigs[key]
 
@@ -323,13 +324,13 @@ export class Validator<TInputParameters extends AdapterData> {
       }
     }
 
-    this.validated.data[key] = param as any
+    this.validated.data[key] = param as AdapterRequestData<TInputParameters>[
+      | keyof TInputParameters
+      | keyof TBaseInputParameters]
   }
 
   validateOptionalParam(
-    value: AdapterRequestData<TInputParameters>[
-      | keyof TBaseInputParameters
-      | keyof TInputParameters],
+    value: NestableValue,
     key: keyof TInputParameters | keyof TBaseInputParameters,
     options: unknown[] | undefined,
   ): void {
@@ -339,13 +340,13 @@ export class Validator<TInputParameters extends AdapterData> {
       if (!options.includes(value))
         this.throwInvalid(`${value} is not a supported ${key} option. Must be one of ${options}`)
     }
-    this.validated.data[key] = value
+    this.validated.data[key] = value as AdapterRequestData<TInputParameters>[
+      | keyof TInputParameters
+      | keyof TBaseInputParameters]
   }
 
   validateRequiredParam(
-    value: AdapterRequestData<TInputParameters>[
-      | keyof TInputParameters
-      | keyof TBaseInputParameters],
+    value: NestableValue,
     key: keyof TInputParameters | keyof TBaseInputParameters,
     options: unknown[] | undefined,
   ): void {
@@ -359,13 +360,15 @@ export class Validator<TInputParameters extends AdapterData> {
           `${value} is not a supported ${key} option. Must be one of ${options.join(' || ')}`,
         )
     }
-    this.validated.data[key] = value
+    this.validated.data[key] = value as AdapterRequestData<TInputParameters>[
+      | keyof TInputParameters
+      | keyof TBaseInputParameters]
   }
 
   getUsedKey(
     key: keyof TInputParameters | keyof TBaseInputParameters | string,
     keyArray: (keyof TInputParameters | keyof TBaseInputParameters | string)[],
-  ): keyof TInputParameters | keyof TBaseInputParameters | undefined {
+  ): string | undefined {
     const comparisonArray = [...keyArray]
     if (!comparisonArray.includes(key)) comparisonArray.push(key)
 

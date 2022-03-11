@@ -1,9 +1,13 @@
-import type { AdapterContext, Execute } from '../../../src/types'
+import type { AdapterContext, AdapterRequest, AdapterResponse, Execute } from '../../src/types'
 import { useFakeTimers } from 'sinon'
 import { defaultOptions, withCache } from '../../src/lib/middleware/cache'
 import { LocalLRUCache } from '../../src/lib/middleware/cache/local'
 
-const callAndExpect = async (fn: any, n: number, result: any) => {
+const callAndExpect = async (
+  fn: (i: number) => Execute<AdapterRequest, AdapterContext>,
+  n: number,
+  result: unknown,
+) => {
   while (n--) {
     const { data } = await fn(0)
     if (n === 0) expect(data.result).toBe(result)
@@ -12,7 +16,7 @@ const callAndExpect = async (fn: any, n: number, result: any) => {
 
 // Helper test function: a stateful counter
 const counterFrom =
-  (i = 0, data = {}): Execute =>
+  (i = 0, data: Partial<AdapterRequest> = {}): Execute<AdapterRequest, AdapterContext> =>
   async (request) => {
     const result = i++
     return {
