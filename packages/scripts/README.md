@@ -4,7 +4,38 @@ Folder containing various scripts and functions to make development simpler.
 
 **Table of Contents**
 
-- [README Generator](#Readme-Generator)
+- [Master List Generator](#master-list-generator)
+- [README Generator](#readme-generator)
+
+---
+
+## [Master List Generator](./src/generate-master-list)
+
+The Master List Generator is a tool used to automatically generate the root [MASTERLIST.md](../../MASTERLIST.md), [composites/README.md](../composites/README.md), [sources/README.md](../sources/README.md), and [targets/README.md](../targets/README.md). There are a number of ways to use the tool:
+
+### Auto-Generation
+
+When code is merged to `develop`, a github workflow runs the `generate:master-list` script, which collects data on each adapter such as endpoints, package versions, and test support.
+
+### Manual Usage
+
+If you would like to see the output of the script ahead of time, you can run it from the command line. This operation will generate the new documentation locally, and skips any adapters that have issues when trying to pull config data from them.
+
+**Note: All examples assume the user is in the [root](../../) of the `external-adapters-js` repo.**
+
+Generate all adapter list documentation:
+
+```bash
+yarn generate:master-list
+```
+
+Generate all adapter list documentation with verbose logging. This is useful when determining the reason for `unknown` entries in the master list:
+
+```bash
+yarn generate:readme -v
+```
+
+---
 
 ## [README Generator](./src/generate-readme)
 
@@ -12,7 +43,7 @@ The README Generator is a tool used to automatically regenerate README files for
 
 ### Auto-Generation
 
-When code is merged to `develop`, a github workflow runs the `generate-readme` script, which pulls all adapters from the `/source` directory, then filters out adapters from the [blacklist](./src/generate-readme/readmeBlacklist.json) so it only operates on adapters that meet the requirements for README auto-generation. The removed set includes composite adapters, target adapters, adapters without integration tests, and adapters with incorrect file structures. Finally, the script runs through each adapter and collects data from relevant files, then constructs each README and saves them if no errors occurred during the collection process. The generation process as a whole takes several minutes if you wish to generate READMEs for every adapter, but this will usually only need to happen in the github workflows.
+When code is merged to `develop`, a github workflow runs the `generate:readme` script, which pulls all adapters from the `/source` directory, then filters out adapters from the [blacklist](./src/generate-readme/readmeBlacklist.json) so it only operates on adapters that meet the requirements for README auto-generation. The removed set includes composite adapters, target adapters, adapters without integration tests, and adapters with incorrect file structures. Finally, the script runs through each adapter and collects data from relevant files, then constructs each README and saves them if no errors occurred during the collection process. The generation process as a whole takes several minutes if you wish to generate READMEs for every adapter, but this will usually only need to happen in the github workflows.
 
 ### Manual Usage
 
