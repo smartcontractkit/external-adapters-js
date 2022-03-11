@@ -71,35 +71,23 @@ Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "statusCode": 200,
-  "data": {
-    "responses": [
-      {
-        "status": 200,
-        "title": "OK",
-        "description": "Successful request",
-        "payload": {
-          "address": {
-            "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
-          },
-          "blockchainId": "408fa195a34b533de9ad9889f076045e",
-          "blockNumber": "693286",
-          "timestampNanoseconds": 0,
-          "value": "2188",
-          "timestamp": "2021-07-29T20:54:39.000Z"
-        }
+  "responses": [
+    {
+      "status": 200,
+      "title": "OK",
+      "description": "Successful request",
+      "payload": {
+        "address": {
+          "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
+        },
+        "blockchainId": "408fa195a34b533de9ad9889f076045e",
+        "blockNumber": "693286",
+        "timestampNanoseconds": 0,
+        "value": "2188",
+        "timestamp": "2021-07-29T20:54:39.000Z"
       }
-    ],
-    "result": [
-      {
-        "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
-        "chain": "mainnet",
-        "coin": "btc",
-        "balance": "2188"
-      }
-    ]
-  },
+    }
+  ],
   "result": [
     {
       "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
@@ -150,14 +138,8 @@ Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "marketcap": 1000000000,
-    "result": 1000000000
-  },
-  "result": 1000000000,
-  "statusCode": 200,
-  "providerStatusCode": 200
+  "marketcap": 1000000000,
+  "result": 1000000000
 }
 ```
 
@@ -183,14 +165,8 @@ Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "marketcap": 1000000000,
-    "result": 1000000000
-  },
-  "result": 1000000000,
-  "statusCode": 200,
-  "providerStatusCode": 200
+  "marketcap": 1000000000,
+  "result": 1000000000
 }
 ```
 
@@ -232,14 +208,8 @@ Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "price": 123456,
-    "result": 123456
-  },
-  "result": 123456,
-  "statusCode": 200,
-  "providerStatusCode": 200
+  "price": 123456,
+  "result": 123456
 }
 ```
 
@@ -265,14 +235,8 @@ Response:
 
 ```json
 {
-  "jobRunID": "1",
-  "data": {
-    "price": 123456,
-    "result": 123456
-  },
-  "result": 123456,
-  "statusCode": 200,
-  "providerStatusCode": 200
+  "price": 123456,
+  "result": 123456
 }
 ```
 
