@@ -1,7 +1,7 @@
 import { InputParameters } from '@chainlink/types'
 import { Validator } from '../../src/lib/modules/validator'
 
-describe('Validator unit', () => {
+describe('Validator', () => {
   describe('with no input parameter configuration', () => {
     it('does not error if no input and no input parameters', () => {
       const validator = new Validator()

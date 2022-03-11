@@ -75,12 +75,12 @@ export const inputParameters: InputParameters = {
   overrides: {
     description:
       'If base provided is found in overrides, that base symbol will be swapped for the symbol provided by the overrides.',
-    options: ['{ "coingecko": { "SYMA": "SYMC", "SYMB": "SYMD" } }'],
+    // options: ['{ "coingecko": { "SYMA": "SYMC", "SYMB": "SYMD" } }'],
   },
   symbolToIdOverrides: {
     description:
       'If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored.',
-    options: ['{ "coingecko": { "COINA": "coin-id-override-a", "COINB": "coin-id-override-b" } }'],
+    // options: ['{ "coingecko": { "COINA": "coin-id-override-a", "COINB": "coin-id-override-b" } }'],
   },
 }
 
