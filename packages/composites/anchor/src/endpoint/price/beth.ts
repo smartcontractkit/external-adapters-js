@@ -1,21 +1,23 @@
 import { ethers } from 'ethers'
 import { PriceExecute } from '.'
 import { Config } from '../../config'
+import { throwErrorForInvalidResult } from '../../utils'
 import { anchorVaultAbi, curvePoolAbi } from './abi'
 
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN = 'ETH'
 
-export const execute: PriceExecute = async (_, __, config, usdPerEth) => {
+export const execute: PriceExecute = async (input, __, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  const stEthPerBEth = await getStEthBEthExchangeRate(config, provider)
-  const stEthPerETH = await getStETHExchangeRate(config, provider)
+  const stEthPerBEth = await getStEthBEthExchangeRate(input.id, config, provider)
+  const stEthPerETH = await getStETHExchangeRate(input.id, config, provider)
   // result = USD / ETH * stETH / bETH * ETH / stETH = USD / bETH
   return usdPerEth.mul(stEthPerBEth).div(stEthPerETH)
 }
 
 const getStETHExchangeRate = async (
+  jobRunID: string,
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
 ): Promise<ethers.BigNumber> => {
@@ -24,10 +26,17 @@ const getStETHExchangeRate = async (
     curvePoolAbi,
     provider,
   )
-  return stEthPoolContract.get_virtual_price()
+  const result = await stEthPoolContract.get_virtual_price()
+  throwErrorForInvalidResult(
+    jobRunID,
+    result,
+    `stETH/ETH Exchange Rate from Curve Pool address ${config.stEthPoolContractAddress}`,
+  )
+  return result
 }
 
 const getStEthBEthExchangeRate = async (
+  jobRunID: string,
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
 ): Promise<ethers.BigNumber> => {
@@ -36,5 +45,11 @@ const getStEthBEthExchangeRate = async (
     anchorVaultAbi,
     provider,
   )
-  return await anchorVaultContract.get_rate()
+  const result = await anchorVaultContract.get_rate()
+  throwErrorForInvalidResult(
+    jobRunID,
+    result,
+    `stETH/bETH Exchange Rate from Anchor Vault address ${config.anchorVaultContractAddress}`,
+  )
+  return result
 }
