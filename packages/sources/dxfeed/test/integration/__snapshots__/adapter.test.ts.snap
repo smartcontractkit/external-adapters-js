@@ -2,26 +2,12 @@
 
 exports[`dxfeed price endpoint should reply with success 1`] = `
 Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"base\\":\\"TSLA\\",\\"resultPath\\":[\\"Trade\\",\\"TSLA\\",\\"price\\"],\\"endpoint\\":\\"price\\"}}",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://tools.dxfeed.com/webservice/rest/events.json?events=Trade&symbols=TSLA\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json\\",
-    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
-    \\"pragma\\": \\"no-cache\\",
-    \\"content-type\\": \\"application/json\\",
-    \\"user-agent\\": \\"axios/0.24.0\\",
-    \\"authorization\\": \\"Basic ZmFrZS1hcGktdXNlcm5hbWU6ZmFrZS1hcGktcGFzc3dvcmQ=\\"
-  }
-}",
-    "name": "AdapterError",
-    "url": "https:/tools.dxfeed.com/webservice/rest/events.json",
+  "data": Object {
+    "result": 239.255,
   },
   "jobRunID": "1",
-  "providerStatusCode": 0,
-  "status": "errored",
+  "providerStatusCode": 200,
+  "result": 239.255,
   "statusCode": 200,
 }
 `;
