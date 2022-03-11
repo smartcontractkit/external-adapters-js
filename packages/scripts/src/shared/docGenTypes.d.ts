@@ -11,6 +11,7 @@ export type BooleanMap = { [key: string]: boolean }
 
 export type EndpointDetails = {
   [endpointName: string]: {
+    batchablePropertyPath?: { name: string }[]
     supportedEndpoints: string[]
     inputParameters: InputParameters
     description?: string
@@ -24,6 +25,11 @@ export type EnvVars = {
     options?: (string | number)[]
     type?: string
   }
+}
+
+export type FileData = {
+  path: string
+  text: string
 }
 
 export type IOMap = { [endpoint: string]: IOPair[] }
@@ -43,11 +49,10 @@ export type MappedAdapters = {
   }
 }
 
-export type MaxColChars = number[]
-
 export type Package = {
   name?: string
   version?: string
+  dependencies?: { [name: string]: string }
 }
 
 export type Schema = {
@@ -56,7 +61,3 @@ export type Schema = {
   properties?: EnvVars
   required?: string[]
 }
-
-export type TableText = string[][]
-
-export type TextRow = string[]
