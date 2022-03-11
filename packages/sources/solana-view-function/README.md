@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Solana-view-function
 
-Version: 2.1.3
+Version: 2.1.6
 
 The Solana view function adapter can be used to query account information from the Solana blockchain
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

@@ -1,10 +1,10 @@
 # Chainlink External Adapter for paxos
 
-Version: 1.2.17
+Version: 1.2.20
 
 Query Paxos asset attestations like: https://api.paxos.com/v1/asset-attestations/PAX
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

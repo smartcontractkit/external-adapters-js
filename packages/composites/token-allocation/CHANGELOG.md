@@ -1,5 +1,32 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 196336176: Token Allocation passes through input parameters
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+- Updated dependencies [65085c58d]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/amberdata-adapter@1.3.16
+  - @chainlink/coinapi-adapter@1.1.21
+  - @chainlink/coinmetrics-adapter@1.2.20
+  - @chainlink/coinpaprika-adapter@1.3.11
+  - @chainlink/finage-adapter@1.3.21
+  - @chainlink/kaiko-adapter@1.1.8
+  - @chainlink/tiingo-adapter@1.8.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/cfbenchmarks-adapter@1.4.12
+  - @chainlink/coingecko-adapter@1.3.4
+  - @chainlink/coinmarketcap-adapter@1.3.21
+  - @chainlink/cryptocompare-adapter@1.3.9
+  - @chainlink/ncfx-adapter@1.1.22
+  - @chainlink/nomics-adapter@1.1.4
+
 ## 1.2.3
 
 ### Patch Changes
