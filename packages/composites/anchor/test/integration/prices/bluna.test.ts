@@ -147,29 +147,5 @@ describe('price-bluna', () => {
         .expect(200)
       expect(response.body).toMatchSnapshot()
     })
-
-    it('returns success when fetching the BTC/BLuna price', async () => {
-      mockLunaUSDPrice()
-      mockBTCUSDPrice()
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          from: 'BLuna',
-          to: 'BTC',
-          source: 'coingecko',
-          terraBLunaContractAddress: 'terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts',
-          quoteDecimals: 8,
-        },
-      }
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
   })
 })

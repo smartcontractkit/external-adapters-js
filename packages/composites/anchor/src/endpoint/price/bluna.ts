@@ -1,7 +1,7 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { Config, FIXED_POINT_DECIMALS } from '../../config'
 import { Validator } from '@chainlink/ea-bootstrap'
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { callViewFunctionEA, throwErrorForInvalidResult } from '../../utils'
 
 export const FROM = 'BLUNA'
@@ -30,5 +30,5 @@ export const execute = async (
     lunaPerBLunaBigNum,
     `LUNA/bLUNA rate from bLUNA address ${config.terraBLunaContractAddress}`,
   )
-  return lunaPerBLunaBigNum.mul(usdPerLuna).div(BigNumber.from(10).pow(FIXED_POINT_DECIMALS))
+  return lunaPerBLunaBigNum.mul(usdPerLuna).div(ethers.BigNumber.from(10).pow(FIXED_POINT_DECIMALS))
 }
