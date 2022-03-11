@@ -145,3 +145,45 @@ export function mockBTCUSDPrice() {
       ],
     )
 }
+
+export const mockSuccessfulTerraEthFeedResp = {
+  jobRunID: '1',
+  result: {
+    round_id: 314711,
+    answer: '262009859746',
+    started_at: 1645564682,
+    updated_at: 1645564682,
+    answered_in_round: 314711,
+  },
+  statusCode: 200,
+  data: {
+    result: {
+      round_id: 314711,
+      answer: '262009859746',
+      started_at: 1645564682,
+      updated_at: 1645564682,
+      answered_in_round: 314711,
+    },
+  },
+}
+
+export const mockErrorTerraEthFeedResp = {
+  jobRunID: '1',
+  result: {
+    round_id: 314711,
+    answer: '0',
+    started_at: 1645564682,
+    updated_at: 1645564682,
+    answered_in_round: 314711,
+  },
+  statusCode: 200,
+  data: {
+    result: {
+      round_id: 314711,
+      answer: '0',
+      started_at: 1645564682,
+      updated_at: 1645564682,
+      answered_in_round: 314711,
+    },
+  },
+}

@@ -1,9 +1,14 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
-import { mockBTCUSDPrice, mockETHUSDPrice, mockSTEthUSDPrice } from '../fixtures'
+import {
+  mockBTCUSDPrice,
+  mockETHUSDPrice,
+  mockSTEthUSDPrice,
+  mockSuccessfulTerraEthFeedResp,
+} from '../fixtures'
 
 import { ethers, BigNumber } from 'ethers'
 import '@chainlink/terra-view-function-adapter'
@@ -12,31 +17,24 @@ import { AddressInfo } from 'net'
 const mockBigNum = BigNumber.from(10).pow(18)
 const mockStETHETHPrice = BigNumber.from('1035144096528344468')
 
+const WORKING_LCD_URL = 'working-lcd-url'
+const ERROR_LCD_URL = 'error-lcd-url'
+
 jest.mock('@chainlink/terra-view-function-adapter', () => {
   return {
     ...jest.requireActual('@chainlink/terra-view-function-adapter'),
-    makeExecute: jest.fn().mockReturnValue(
-      jest.fn().mockReturnValue({
-        jobRunID: '1',
-        result: {
-          round_id: 314711,
-          answer: '262009859746',
-          started_at: 1645564682,
-          updated_at: 1645564682,
-          answered_in_round: 314711,
-        },
-        statusCode: 200,
-        data: {
-          result: {
-            round_id: 314711,
-            answer: '262009859746',
-            started_at: 1645564682,
-            updated_at: 1645564682,
-            answered_in_round: 314711,
-          },
-        },
-      }),
-    ),
+    makeExecute: (config) => {
+      const lcdUrls = config.lcdUrls
+      let result: AdapterResponse
+      switch (lcdUrls['columbus-5']) {
+        case ERROR_LCD_URL:
+          result = mockSuccessfulTerraEthFeedResp
+          break
+        default:
+          result = mockSuccessfulTerraEthFeedResp
+      }
+      return jest.fn().mockReturnValue(result)
+    },
   }
 })
 
@@ -56,7 +54,7 @@ jest.mock('ethers', () => {
           get_rate: (____: string) => {
             return mockBigNum
           },
-          get_virtual_price: () => {
+          get_dy: () => {
             return mockStETHETHPrice
           },
         }
@@ -75,11 +73,11 @@ describe('price-beth', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
-    process.env.COLUMBUS_5_RPC_URL = 'fake-columbus-rpc'
+    process.env.COLUMBUS_5_LCD_URL = 'fake-columbus-lcd'
     process.env.API_KEY = 'test'
     process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = 'test-address'
     process.env.COINGECKO_ADAPTER_URL = 'http://localhost:5000'
-    process.env.RPC_URL = 'test-rpc-url'
+    process.env.ETHEREUM_RPC_URL = 'test-rpc-url'
 
     if (process.env.RECORD) {
       nock.recorder.rec()
@@ -130,30 +128,6 @@ describe('price-beth', () => {
           from: 'BETH',
           to: 'ETH',
           source: 'coingecko',
-        },
-      }
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-
-    it('returns success when fetching the BTC/BEth price', async () => {
-      mockSTEthUSDPrice()
-      mockBTCUSDPrice()
-
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          from: 'BETH',
-          to: 'BTC',
-          source: 'coingecko',
-          quoteDecimals: 8,
         },
       }
 

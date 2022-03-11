@@ -11,17 +11,6 @@ Object {
 }
 `;
 
-exports[`price-beth successful calls returns success when fetching the BTC/BEth price 1`] = `
-Object {
-  "data": Object {
-    "result": "966049077953291358",
-  },
-  "jobRunID": "1",
-  "result": "966049077953291358",
-  "statusCode": 200,
-}
-`;
-
 exports[`price-beth successful calls returns success when fetching the ETH/BEth price 1`] = `
 Object {
   "data": Object {

@@ -3,7 +3,7 @@ import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
-import { mockBTCUSDPrice, mockETHUSDPrice, mockLunaUSDPrice } from '../fixtures'
+import { mockETHUSDPrice, mockLunaUSDPrice } from '../fixtures'
 import { AddressInfo } from 'net'
 
 jest.mock('@chainlink/terra-view-function-adapter', () => {

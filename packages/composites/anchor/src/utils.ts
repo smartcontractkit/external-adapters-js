@@ -8,13 +8,19 @@ export const getTokenPrice = async (
   input: AdapterRequest,
   context: AdapterContext,
   feedAddress: string,
-  feedDecimals = 8, // Most Terra feed have 8dp
+  feedDecimals = 8,
 ): Promise<ethers.BigNumber> => {
   const feedResponse = await callViewFunctionEA(input, context, feedAddress, {
     aggregator_query: { get_latest_round_data: {} },
   })
   const latestAnswer = feedResponse.data.result.answer
-  return ethers.utils.parseUnits(latestAnswer, feedDecimals)
+  const result = ethers.utils.parseUnits(latestAnswer, feedDecimals)
+  throwErrorForInvalidResult(
+    input.id,
+    result,
+    `Invalid result returned from Chainlink Terra feed ${feedAddress}`,
+  )
+  return result
 }
 
 export const convertUSDQuote = async (
