@@ -26,7 +26,7 @@ const getStETHExchangeRate = async (
     curvePoolAbi,
     provider,
   )
-  const result = await stEthPoolContract.get_dy(1, 0, 1e18)
+  const result = await stEthPoolContract.get_dy(1, 0, ethers.BigNumber.from(10).pow(18))
   throwErrorForInvalidResult(
     jobRunID,
     result,
