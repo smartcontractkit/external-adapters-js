@@ -4,10 +4,10 @@ ARG location
 ARG package
 
 # Install node prereqs, nodejs and yarn
-# Ref: https://deb.nodesource.com/setup_17.x
+# Ref: https://deb.nodesource.com/setup_16.x
 # Ref: https://yarnpkg.com/en/docs/install
 RUN \
-  echo "deb https://deb.nodesource.com/node_17.x buster main" > /etc/apt/sources.list.d/nodesource.list && \
+  echo "deb https://deb.nodesource.com/node_16.x buster main" > /etc/apt/sources.list.d/nodesource.list && \
   wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
   wget -qO- https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
@@ -21,14 +21,11 @@ WORKDIR /home/node/app
 
 COPY . .
 
-# Add openssl legacy support for bitcoinjs-lib compatibility with node v17.x
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
 RUN yarn
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
 
-FROM node:17-alpine
+FROM node:16-alpine
 ARG location
 
 EXPOSE 8080

@@ -1,13 +1,19 @@
-import * as shell from 'shelljs'
-import { buildTable } from './table'
+import { cat, exec, test } from 'shelljs'
+import { buildTable, TableText } from '../shared/tableUtils'
+import {
+  capitalize,
+  codeList,
+  getJsonFile,
+  localPathToRoot,
+  saveText,
+  wrapCode,
+  wrapJson,
+} from '../shared/docGenUtils'
 import { balance } from '@chainlink/ea-factories'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
-import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema, TableText } from './types'
-
-const localPathToRoot = '../../../../'
+import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
 
 const testEnvOverrides = {
-  // API_VERBOSE: undefined,
   API_VERBOSE: 'true',
   EA_PORT: '0',
   LOG_LEVEL: 'debug',
@@ -16,33 +22,18 @@ const testEnvOverrides = {
   WS_ENABLED: undefined,
 }
 
-const TRUNCATE_LINES = 500
+const TRUNCATE_EXAMPLE_LINES = 500
 
-// Note: genSig and genSigGrep parsed text must match
 const genSig =
-  'This README was generated automatically. Please see [scripts](../../scripts) for more info.'
+  'This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.'
 
 const exampleTextHeader = '### Example\n'
 
 const noExampleText = 'There are no examples for this endpoint.'
 
-const capitalize = (s: string): string => s[0].toUpperCase() + s.slice(1)
-
-const wrapJson = (o: string): string => `\`\`\`json\n${o}\n\`\`\``
-
-const wrapCode = (s: string | number = ''): string => `\`${s.toString()}\``
-
-const codeList = (a: (string | number)[] = []): string =>
-  a
-    .sort()
-    .map((d) => wrapCode(d))
-    .join(', ')
-
-export const getJsonFile = (path: string): JsonObject => JSON.parse(shell.cat(path).toString())
-
 const checkFilePaths = (filePaths: string[]): string => {
   for (const filePath of filePaths) {
-    if (shell.test('-f', filePath)) return filePath
+    if (test('-f', filePath)) return filePath
   }
   throw Error(`No file found in the following paths: ${filePaths.join(',')}`)
 }
@@ -66,7 +57,7 @@ export class ReadmeGenerator {
 
     if (!adapterPath.endsWith('/')) adapterPath += '/'
 
-    if (!shell.test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
+    if (!test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
     if (verbose) console.log(`${adapterPath}: Checking package.json`)
 
@@ -183,7 +174,7 @@ export class ReadmeGenerator {
       if (this.verbose)
         console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
 
-      const currentReadmeText = shell.cat(this.adapterPath + 'README.md').toString()
+      const currentReadmeText = cat(this.adapterPath + 'README.md').toString()
 
       let regex: RegExp
       const defaultText = exampleTextHeader + noExampleText
@@ -200,13 +191,11 @@ export class ReadmeGenerator {
       if (this.verbose)
         console.log(`${this.adapterPath}: Running integration tests to get updated I/O examples`)
 
-      const testOutput = shell
-        .exec(`yarn test ${this.integrationTestPath}`, {
-          fatal: true,
-          silent: true,
-          env: { ...process.env, ...testEnvOverrides },
-        })
-        .toString()
+      const testOutput = exec(`yarn test ${this.integrationTestPath}`, {
+        fatal: true,
+        silent: true,
+        env: { ...process.env, ...testEnvOverrides },
+      }).toString()
 
       if (this.verbose) console.log(`${this.adapterPath}: Processing example data`)
 
@@ -246,8 +235,8 @@ export class ReadmeGenerator {
             const inputJson = JSON.stringify(input, null, 2)
             let outputJson = JSON.stringify(output, null, 2)
             const outputLines = outputJson.split('\n')
-            if (outputLines.length > TRUNCATE_LINES)
-              outputJson = outputLines.slice(0, TRUNCATE_LINES).join('\n') + '\n...'
+            if (outputLines.length > TRUNCATE_EXAMPLE_LINES)
+              outputJson = outputLines.slice(0, TRUNCATE_EXAMPLE_LINES).join('\n') + '\n...'
             ioExamples.push(`Request:\n${wrapJson(inputJson)}\nResponse:\n${wrapJson(outputJson)}`)
           }
         }
@@ -351,11 +340,7 @@ export class ReadmeGenerator {
   }
 
   createReadmeFile(): void {
-    const readmePath = this.adapterPath + 'README.md'
-
-    const shellString = new shell.ShellString(this.readmeText)
-    shellString.to(readmePath)
-
-    console.log(`${this.adapterPath}: README has been saved`)
+    const path = this.adapterPath + 'README.md'
+    saveText({ path, text: this.readmeText })
   }
 }
