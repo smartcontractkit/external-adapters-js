@@ -4,7 +4,7 @@ import { ExtendedConfig, Networks } from '../config'
 import {
   requestBlockHeight,
   getSequencerHealth,
-  getL1RollupStatus,
+  // getL1RollupStatus,
   NetworkHealthCheck,
   getStatusByTransaction,
 } from '../network'
@@ -121,7 +121,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   // #3 Option: Check L1 Rollup Contract
   // If every method succeeds, the Network is considered healthy
   // If any method fails, an empty tx is sent. This determines the final state
-  const wrappedMethods = [getSequencerHealth, getL2NetworkStatus, getL1RollupStatus].map(_tryMethod)
+  const wrappedMethods = [
+    getSequencerHealth,
+    getL2NetworkStatus,
+    // , getL1RollupStatus // TODO
+  ].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config.delta, config.deltaBlocks)
