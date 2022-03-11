@@ -36,7 +36,7 @@ export const FLUX_CONFIG_INPUTS: ephemeralAdapters.Inputs = {
   name: 'fluxconfig',
 }
 
-const testEnvOverrides = {
+const integrationTestOverrides = {
   API_VERBOSE: undefined,
   EA_PORT: '0',
   LOG_LEVEL: 'debug',
@@ -171,22 +171,25 @@ type IntegrationTestReducer = {
  * @param {Inputs} inputs The inputs to use to determine which adapter to create the config for
  */
 export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
-  logInfo('Fetching master config')
+  logInfo('Fetching master config from flux config')
   const masterConfig = await lastValueFrom(fetchConfigFromUrl(inputs.weiWatcherServer))
   if (!masterConfig || !masterConfig.configs) throwError('Could not get the master configuration')
 
-  logInfo('Adding new adapter to qa config')
+  logInfo('Build adapter config from ReferenceContractConfig')
   const newConfig: ReferenceContractConfig[] = addAdapterToConfig(
     inputs.adapter,
     inputs.ephemeralName,
     masterConfig.configs as ReferenceContractConfig[],
-    [],
+    [], // Start with empty array so this effectively builds a single-adapter config
   )
 
   const configPayloads: ConfigPayload[] = newConfig.map(({ name, data }) => ({ name, data }))
 
   // If no payloads from config, check integration tests
   if (!configPayloads.length) {
+    logInfo('No payload found in config, falling back to integration tests')
+
+    // Determine if adapter is source, composite or target
     let pathToAdapter = ''
     const adapterTypes = ['sources', 'composites', 'targets']
     for (const type of adapterTypes) {
@@ -197,14 +200,16 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
       }
     }
 
+    // Run all integration tests for adapter
     const integrationTestOutput = shell
       .exec(`yarn test ${pathToAdapter}/test/integration/*.test.ts`, {
         fatal: true,
         silent: true,
-        env: { ...process.env, ...testEnvOverrides },
+        env: { ...process.env, ...integrationTestOverrides },
       })
       .toString()
 
+    // Pull out inputs where there is a matching output (error tests should not be used for payloads)
     const { integrationTests } = integrationTestOutput.split('\n').reduce(
       (reduced: IntegrationTestReducer, consoleOut) => {
         let { latestInput } = reduced
@@ -233,8 +238,10 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
     )
     configPayloads.push(...integrationTestPayloads)
 
-    // If no payloads from integration tests, check test-payload.json
+    // If no payloads from integration tests either, check test-payload.json
     if (!configPayloads.length) {
+      logInfo('No payload found in integration tests, falling back to test-payload.json')
+
       const payloadPath = pathToAdapter + '/test-payload.json'
       if (shell.test('-f', payloadPath)) {
         const testFile = JSON.parse(shell.cat(payloadPath).toString())

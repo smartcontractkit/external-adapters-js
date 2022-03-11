@@ -7,7 +7,6 @@ const exampleReferenceContractConfigResponse: ReferenceContractConfigResponse = 
   configs: [
     {
       name: 'name',
-      category: '',
       contractVersion: 1,
       address: '',
       data: { from: '', to: '' },

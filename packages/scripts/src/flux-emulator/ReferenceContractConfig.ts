@@ -6,9 +6,11 @@ import console from 'console'
 import { AxiosRequestConfig } from 'axios'
 import { randomUUID } from 'crypto'
 
+// ReferenceContractConfig is the shape of reference data for a given data feed,
+// which includes the address of the feed, contract version, and the node operators (nodes)
+// that are being contracted for this feed.
 export class ReferenceContractConfig {
   name: string
-  category: string
   contractVersion: number
   address: string
   data: Record<string, unknown>
@@ -54,12 +56,12 @@ export class ReferenceContractConfig {
 
     if (typeof input?.status !== 'string') throw ValidationError('status')
     this.status = input.status
-
-    if (typeof input?.category !== 'string') throw ValidationError('category')
-    this.category = input.category
   }
 }
 
+// FeedNode is the shape of reference data for a single node operator on a single data feed.
+// The dataProviders are the data providers (usually 1-to-1 with adapters) being used by the
+// node operator for a given feed.
 export class FeedNode {
   name: string
   address: string
