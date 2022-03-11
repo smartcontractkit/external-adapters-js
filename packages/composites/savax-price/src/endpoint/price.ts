@@ -2,6 +2,7 @@ import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/type
 import { Config, FLOATING_POINT_DECIMALS } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { ethers } from 'ethers'
+import { AdapterError } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
 
@@ -11,7 +12,9 @@ export const execute = async (
   config: Config,
 ): Promise<AdapterResponse> => {
   const usdPerAvax = await getAvaxPrice(input, context)
+  validateNonZeroValue(input.id, usdPerAvax, 'Avax Price')
   const avaxPooledShares = await getPooledAvaxShares(config)
+  validateNonZeroValue(input.id, avaxPooledShares, 'Avax Pool Shares')
   const result = usdPerAvax
     .mul(avaxPooledShares)
     .div(ethers.BigNumber.from(10).pow(FLOATING_POINT_DECIMALS))
@@ -24,6 +27,20 @@ export const execute = async (
       result,
     },
   }
+}
+
+export const validateNonZeroValue = (
+  jobRunID: string,
+  value: ethers.BigNumber,
+  label: string,
+): void => {
+  console.log(value.toString())
+  if (value.eq(ethers.BigNumber.from(0)))
+    throw new AdapterError({
+      jobRunID,
+      statusCode: 500,
+      message: `${label} shold not be 0`,
+    })
 }
 
 export const getAvaxPrice = async (
