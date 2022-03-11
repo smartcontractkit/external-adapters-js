@@ -1,5 +1,34 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.3.9
+
+### Patch Changes
+
+- f9125ee94: Node 16.x support
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/proof-of-reserves-adapter@1.4.18
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.8
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/proof-of-reserves-adapter@1.4.17
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.7
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/proof-of-reserves-adapter@1.4.16
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.6
 
 ### Patch Changes

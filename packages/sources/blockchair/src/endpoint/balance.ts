@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config, Account, ExecuteFactory, RequestConfig } from '@chainlink/types'
 import { COINS, isCoinType, isChainType } from '../config'
 
@@ -9,10 +9,10 @@ export const description = '[Address Balance Mass Check](https://blockchair.com/
 
 export const inputParameters = balance.inputParameters
 
-const getBalanceURI = (addresses: string[], coin: string, chain: string) => {
+const getBalanceURI = (coin: string, chain: string) => {
   coin = Requester.toVendorName(coin, COINS)
   if (chain === 'testnet') coin = `${coin}-${chain}`
-  return `/${coin}/addresses/balances?addresses=${addresses.join(',')}`
+  return util.buildUrlPath(`/:coin/addresses/balances`, { coin })
 }
 
 const getBalances: balance.GetBalances = async (accounts, config) => {
@@ -21,7 +21,8 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
 
   const reqConfig: RequestConfig = {
     ...config.api,
-    url: getBalanceURI(addresses, coin as string, chain as string),
+    url: getBalanceURI(coin || '', chain || ''),
+    params: { addresses: addresses.join(',') },
   }
 
   const response = await Requester.request(reqConfig)

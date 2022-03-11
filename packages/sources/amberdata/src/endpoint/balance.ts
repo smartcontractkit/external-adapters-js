@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { balance } from '@chainlink/ea-factories'
 import { Config, ExecuteFactory, RequestConfig } from '@chainlink/types'
 import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
@@ -21,7 +21,8 @@ export interface ResponseSchema {
   }
 }
 
-const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
+const getBalanceURI = (address: string) =>
+  util.buildUrlPath('/api/v2/addresses/:address/account-balances/latest', { address })
 
 const getBlockchainHeader = (coin?: string) => {
   const network = Requester.toVendorName(coin, BLOCKCHAINS)
