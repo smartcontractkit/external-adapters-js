@@ -140,6 +140,22 @@ jobs:
           ls -al
           BUILD_NAMES=
           echo $BUILD_NAMES
+
+          # 1. Use schema for each adapter to find env var dependencies ($ref)
+          # 2. After parsing schema for all env vars, check for any that have ADAPTER_URL as the suffix
+          # 3. For ADAPTER_URL env vars, add the dependency adapter to ADAPTER_LIST to deploy and add the url to it for the env var in the composite
+          # 4. If it is SOURCE_ADAPTER_URL in reference-transform, pick one (?)
+
+          # Use this to set the adapter dependencies for composites:
+          # https://stackoverflow.com/questions/918886/how-do-i-split-a-string-on-a-delimiter-in-bash
+          # ADAPTER_LIST = "augur bob coingecko coinpaprika dxdao"
+          # ADAPTER_DEPENDENCIES = "::"
+          IFS=',' read -ra ADDR <<< "$IN"
+          for i in "${ADDR[@]}"; do
+            # process "$i"
+          done
+
+
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
               BUILD_NAMES="${BUILD_NAMES} ${adapter}-adapter"
