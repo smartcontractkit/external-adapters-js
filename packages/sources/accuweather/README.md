@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AccuWeather
 
-Version: 1.1.17
+Version: 1.1.20
 
 [AccuWeather](https://www.accuweather.com/)
 
@@ -29,7 +29,7 @@ Solidity types used in the encoded results:
 | `windDirectionDegrees` | `uint16` |
 | `windSpeed` | `uint16` |
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

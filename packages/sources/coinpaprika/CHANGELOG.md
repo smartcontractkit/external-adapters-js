@@ -1,5 +1,15 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.3.11
+
+### Patch Changes
+
+- 8d6ff4693: Added buildUrl & buildUrlPath methods to util. Updated source adapters to use these methods for building URLs with user input.
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.10
 
 ### Patch Changes

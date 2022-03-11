@@ -1,10 +1,10 @@
 # Chainlink Fixer External Adapter
 
-Version: 1.3.15
+Version: 1.3.18
 
 This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpoint.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

@@ -1,10 +1,10 @@
 # Chainlink External Adapter for AlphaVantage
 
-Version: 1.1.17
+Version: 1.1.20
 
 Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage.co/documentation/) from a Chainlink node.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
@@ -46,6 +46,7 @@ Request:
 {
   "id": "1",
   "data": {
+    "endpoint": "forex",
     "base": "GBP",
     "quote": "USD"
   }

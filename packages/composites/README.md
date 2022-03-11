@@ -1,6 +1,6 @@
 # Chainlink Composite External Adapters
 
-This section contains packages that represent composite adapters that use data from multiple other Chainlink external adapters.
+This section contains packages that represent composite adapters, which request data from one or more other running adapters.
 
 They are published to NPM under the `@chainlink` organization.
 
@@ -77,6 +77,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [por-indexer](./por-indexer/README.md)
 - [proof-of-reserves](./proof-of-reserves/README.md)
 - [reference-transform](./reference-transform/README.md)
+- [savax-price](./savax-price/README.md)
 - [set-token-index](./set-token-index/README.md)
 - [synth-index](./synth-index/README.md)
 - [the-graph](./the-graph/README.md)

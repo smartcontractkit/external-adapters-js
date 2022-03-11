@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Curve.fi
 
-Version: 1.1.17
+Version: 1.2.0
 
 This adapter allows querying Curve.fi contracts
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

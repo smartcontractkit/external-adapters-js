@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Mock data (Test only)
 
-Version: 2.0.5
+Version: 2.0.8
 
 The Mock EA is to only be used by the integration team for soak testing. It will return a value that deviates after a given interval.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

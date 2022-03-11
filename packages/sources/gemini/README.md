@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Gemini
 
-Version: 2.1.17
+Version: 2.1.20
 
 An external adapter to get data from Gemini
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

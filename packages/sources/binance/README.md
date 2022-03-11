@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Binance
 
-Version: 1.2.17
+Version: 1.2.20
 
 Adapter using the public Binance market API for both HTTP(s) and WS.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

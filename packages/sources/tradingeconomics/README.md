@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Tradingeconomics
 
-Version: 1.1.17
+Version: 1.1.20
 
 This adapter uses the Tradingeconomics WS stream
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

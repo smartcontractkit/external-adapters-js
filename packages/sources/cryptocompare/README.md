@@ -1,8 +1,8 @@
 # Chainlink External Adapter for CryptoCompare
 
-Version: 1.3.6
+Version: 1.3.9
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 1.13.0
+
+### Minor Changes
+
+- 8d6ff4693: Added buildUrl & buildUrlPath methods to util. Updated source adapters to use these methods for building URLs with user input.
+- 196336176: Token Allocation passes through input parameters
+
 ## 1.12.2
 
 ### Patch Changes
