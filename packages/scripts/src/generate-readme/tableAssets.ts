@@ -1,5 +1,4 @@
-import { buildTable } from './table'
-import { TextRow } from './types'
+import { buildTable, TableText, TextRow } from '../shared/tableUtils'
 
 export const paramHeaders: TextRow = [
   'Required?',
@@ -22,7 +21,7 @@ export const inputParamHeaders: TextRow = [
   'Not Valid With',
 ]
 
-const balanceInputParams = [
+const balanceInputParams: TableText = [
   [
     '✅',
     'addresses',
@@ -38,7 +37,7 @@ const balanceInputParams = [
   ['', 'dataPath', '', 'Path where to find the addresses array', 'string', '', '`result`', '', ''],
 ]
 
-const addressesInputParams = [
+const addressesInputParams: TableText = [
   ['✅', 'address', 'Address to query', 'string', '', ''],
   [
     '',

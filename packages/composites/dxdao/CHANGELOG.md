@@ -1,5 +1,14 @@
 # @chainlink/dxdao-adapter
 
+## 1.0.49
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/token-allocation-adapter@1.2.3
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.48
 
 ### Patch Changes
