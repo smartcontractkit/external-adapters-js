@@ -16,13 +16,13 @@ export const supportedEndpoints = ['price']
 export const inputParameters: InputParameters = {
   from: {
     required: true,
-    aliases: ['base', 'from', 'coin'],
+    aliases: ['base', 'from'],
     description: 'The symbol of the currency to query',
     options: ['bETH', 'bLUNA'],
   },
   to: {
     required: true,
-    aliases: ['quote', 'to', 'market'],
+    aliases: ['quote', 'to'],
     description: 'The symbol of the currency to convert to',
     options: ['ETH', 'USD'],
   },
@@ -36,7 +36,7 @@ export type PriceExecute = (
   input: AdapterRequest,
   context: AdapterContext,
   config: Config,
-  taAdapterResponse: ethers.BigNumber,
+  intermediaryTokenRate: ethers.BigNumber,
 ) => Promise<ethers.BigNumber>
 
 const supportedSymbols = [beth.FROM, bluna.FROM]

@@ -7,12 +7,12 @@ import { anchorVaultAbi, curvePoolAbi } from './abi'
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN = 'ETH'
 
-export const execute: PriceExecute = async (input, __, config, usdPerEth) => {
+export const execute: PriceExecute = async (input, _, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const stEthPerBEth = await getStEthBEthExchangeRate(input.id, config, provider)
   const stEthPerETH = await getStETHExchangeRate(input.id, config, provider)
-  // result = USD / ETH * stETH / bETH * ETH / stETH = USD / bETH
+  // result = (USD / ETH) * (stETH / bETH) * (ETH / stETH) = USD / bETH
   return usdPerEth.mul(stEthPerBEth).div(stEthPerETH)
 }
 
