@@ -1,5 +1,15 @@
 # @chainlink/the-graph-adapter
 
+## 1.0.34
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/ea-reference-data-reader@1.1.8
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/graphql-adapter@1.1.19
+
 ## 1.0.33
 
 ### Patch Changes

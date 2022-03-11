@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.12.2
+
+### Patch Changes
+
+- effb61e40: Fix optional chain for ws last updated
+
 ## 1.12.1
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['us']
@@ -77,7 +77,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 400,
     })
   const suffix = date ? 'daily' : 'current'
-  const url = `us/${suffix}.json`
+  const url = util.buildUrlPath('us/:suffix.json', { suffix })
 
   const options = {
     ...config.api,
