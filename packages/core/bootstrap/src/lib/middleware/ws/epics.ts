@@ -383,7 +383,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   wsHandler,
                   timestamp: Date.now(),
                 }
-                const lastUpdatedAt = state.ws.subscriptions.all[subscriptionKey].lastUpdatedAt
+                const lastUpdatedAt = state.ws.subscriptions.all[subscriptionKey]?.lastUpdatedAt
                 const defaultMinTimeToNextUpdateInS = util.getEnv(
                   'WS_TIME_UNTIL_HANDLE_NEXT_MESSAGE_OVERRIDE',
                 )
