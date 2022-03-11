@@ -8,7 +8,7 @@ describe('execute', () => {
   const execute = makeExecute()
 
   beforeAll(() => {
-    process.env.RPC_URL = 'fake-url'
+    process.env.ETHEREUM_RPC_URL = 'fake-url'
     process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = 'fake-address'
     process.env.API_KEY = 'fake-key'
   })
