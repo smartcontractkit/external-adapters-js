@@ -5495,8 +5495,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],
             ["backoff-rxjs", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:6.5.7"],
             ["chalk", "npm:4.1.2"],
-            ["class-transformer", "npm:0.4.0"],
-            ["class-transformer-validator", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:0.9.1"],
             ["class-validator", "npm:0.13.2"],
             ["command-line-args", "npm:5.2.0"],
             ["command-line-usage", "npm:6.1.1"],
@@ -15197,41 +15195,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/class-is-npm-1.1.0-061e25fa9f-49024de3b2.zip/node_modules/class-is/",
           "packageDependencies": [
             ["class-is", "npm:1.1.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["class-transformer", [
-        ["npm:0.4.0", {
-          "packageLocation": "./.yarn/cache/class-transformer-npm-0.4.0-7e25d375bc-4057346b51.zip/node_modules/class-transformer/",
-          "packageDependencies": [
-            ["class-transformer", "npm:0.4.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["class-transformer-validator", [
-        ["npm:0.9.1", {
-          "packageLocation": "./.yarn/cache/class-transformer-validator-npm-0.9.1-7975459b24-e1f90a6513.zip/node_modules/class-transformer-validator/",
-          "packageDependencies": [
-            ["class-transformer-validator", "npm:0.9.1"]
-          ],
-          "linkType": "SOFT",
-        }],
-        ["virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:0.9.1", {
-          "packageLocation": "./.yarn/__virtual__/class-transformer-validator-virtual-d8394e1c91/0/cache/class-transformer-validator-npm-0.9.1-7975459b24-e1f90a6513.zip/node_modules/class-transformer-validator/",
-          "packageDependencies": [
-            ["class-transformer-validator", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:0.9.1"],
-            ["@types/class-transformer", null],
-            ["@types/class-validator", null],
-            ["class-transformer", "npm:0.4.0"],
-            ["class-validator", "npm:0.13.2"]
-          ],
-          "packagePeers": [
-            "@types/class-transformer",
-            "@types/class-validator",
-            "class-transformer",
-            "class-validator"
           ],
           "linkType": "HARD",
         }]
