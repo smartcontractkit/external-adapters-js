@@ -163,7 +163,7 @@ const selectCompositeEndpoint = <ConfigDownstream extends Config, ConfigUpstream
 
     if (!upstreamAPIEndpoints) {
       logger.warn(
-        `The request provided a ${inputPropertyName} of ${keyFromRequest} that was not found while merging upstream input parameters. It may not be supported or may be miconfgiured. SKIPPING`,
+        `The request provided a ${inputPropertyName} of ${keyFromRequest} that was not found while merging upstream input parameters. It may not be supported or may be misconfigured. SKIPPING`,
       )
       continue
     }
