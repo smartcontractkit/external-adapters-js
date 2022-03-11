@@ -12,4 +12,6 @@ const { server } = expose(
   dxfeed.endpointSelector,
 )
 
-export { NAME, makeExecute, makeConfig, server }
+const endpoints = dxfeed.endpoints
+
+export { NAME, endpoints, makeExecute, makeConfig, server }

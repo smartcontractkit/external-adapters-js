@@ -170,6 +170,14 @@ declare module '@chainlink/types' {
     makeExecute?: ExecuteFactory<C>
   }
 
+  type upstreamEndpointName = string
+  type inputPropertyName = string
+  export type UpstreamEndpointsGroup<C extends Config = Config> = [
+    inputPropertyName,
+    { [adapterName: string]: Record<string, APIEndpoint<C>> },
+    upstreamEndpointName,
+  ]
+
   export type ResultPath = string | (number | string)[]
   export type MakeResultPath = (input: AdapterRequest) => ResultPath
   export type MakeResultPathFactory = (path: string) => MakeResultPath

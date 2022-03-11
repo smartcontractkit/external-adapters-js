@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export function mockCoingeckoResponseSuccess() {
+export function mockCoingeckoResponseSuccess(): void {
   nock('http://localhost:8081', { encodedQueryParams: true })
     .post('/', {
       id: '1',
@@ -17,6 +17,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 336.69,
+        },
         result: 336.69,
         metricsMeta: {
           feedId: 'COMP/USD',
@@ -63,6 +66,9 @@ export function mockCoingeckoResponseSuccess() {
         maxAge: 30000,
         statusCode: 200,
         result: 5.92,
+        data: {
+          result: 5.92,
+        },
         metricsMeta: {
           feedId: 'LUNA/USD',
         },
@@ -108,6 +114,9 @@ export function mockCoingeckoResponseSuccess() {
         maxAge: 30000,
         statusCode: 200,
         result: 7.4,
+        data: {
+          result: 7.4,
+        },
         metricsMeta: {
           feedId: 'SUSHI/USD',
         },
@@ -152,6 +161,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 0.697611,
+        },
         result: 0.697611,
         metricsMeta: {
           feedId: 'ZRX/USD',
@@ -197,6 +209,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 6.87,
+        },
         result: 6.87,
         metricsMeta: {
           feedId: 'SNX/USD',
@@ -242,6 +257,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 18.05,
+        },
         result: 18.05,
         metricsMeta: {
           feedId: 'UNI/USD',
@@ -287,6 +305,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 0.44541,
+        },
         result: 0.44541,
         metricsMeta: {
           feedId: 'ALPHA/USD',
@@ -332,6 +353,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 235.78,
+        },
         result: 235.78,
         metricsMeta: {
           feedId: 'AAVE/USD',
@@ -377,6 +401,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 6.33,
+        },
         result: 6.33,
         metricsMeta: {
           feedId: 'RUNE/USD',
@@ -422,6 +449,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 38.66,
+        },
         result: 38.66,
         metricsMeta: {
           feedId: 'BOND/USD',
@@ -467,6 +497,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 9.26,
+        },
         result: 9.26,
         metricsMeta: {
           feedId: 'UMA/USD',
@@ -512,6 +545,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 20.31,
+        },
         result: 20.31,
         metricsMeta: {
           feedId: 'BAL/USD',
@@ -557,6 +593,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 142.07,
+        },
         result: 142.07,
         metricsMeta: {
           feedId: 'CREAM/USD',
@@ -602,6 +641,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 2565.7,
+        },
         result: 2565.7,
         metricsMeta: {
           feedId: 'MKR/USD',
@@ -647,6 +689,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 3.19,
+        },
         result: 3.19,
         metricsMeta: {
           feedId: 'BNT/USD',
@@ -692,6 +737,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 1.71,
+        },
         result: 1.71,
         metricsMeta: {
           feedId: 'CRV/USD',
@@ -737,6 +785,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 2.39,
+        },
         result: 2.39,
         metricsMeta: {
           feedId: '1INCH/USD',
@@ -782,6 +833,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 0.353853,
+        },
         result: 0.353853,
         metricsMeta: {
           feedId: 'REN/USD',
@@ -827,6 +881,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 1.59,
+        },
         result: 1.59,
         metricsMeta: {
           feedId: 'KNC/USD',
@@ -872,6 +929,9 @@ export function mockCoingeckoResponseSuccess() {
         providerStatusCode: 200,
         maxAge: 30000,
         statusCode: 200,
+        data: {
+          result: 32468,
+        },
         result: 32468,
         metricsMeta: {
           feedId: 'YFI/USD',
@@ -910,7 +970,7 @@ export function mockCoingeckoResponseSuccess() {
  * @param postInitialFailures The number of 500 failures to return after the
  * initial redis failure
  */
-export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
+export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2): void {
   nock('http://localhost:8081', { encodedQueryParams: true })
     .post('/', {
       id: '1',
@@ -1032,7 +1092,7 @@ export function mockCoingeckoResponseFailureRedis(postInitialFailures = 2) {
  *
  * @param postInitialFailures The number of failures to return
  */
-export function mockCoingeckoConnectionFailure(port: number, times = 1) {
+export function mockCoingeckoConnectionFailure(port: number, times = 1): void {
   nock(`http://localhost:${port}`, { encodedQueryParams: true })
     .post('/', { id: '1', data: { base: 'sDEFI', to: 'usd', source: 'coingecko' } })
     .times(times)
