@@ -115,6 +115,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/reference-transform"
       },
       {
+        "name": "@chainlink/savax-price-adapter",
+        "reference": "workspace:packages/composites/savax-price"
+      },
+      {
         "name": "@chainlink/set-token-index-adapter",
         "reference": "workspace:packages/composites/set-token-index"
       },
@@ -824,6 +828,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],
+      ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],
       ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],
       ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],
@@ -6794,6 +6799,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/savax-price-adapter", [
+        ["workspace:packages/composites/savax-price", {
+          "packageLocation": "./packages/composites/savax-price/",
+          "packageDependencies": [
+            ["@chainlink/savax-price-adapter", "workspace:packages/composites/savax-price"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
