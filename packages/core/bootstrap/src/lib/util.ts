@@ -1,4 +1,4 @@
-import { AdapterImplementation, AdapterRequest } from '@chainlink/types'
+import { AdapterImplementation, AdapterRequest, SymbolToIdOverride } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
 import { flatMap, values, pick, omit } from 'lodash'
 import objectHash from 'object-hash'
@@ -490,4 +490,17 @@ export const registerUnhandledRejectionHandler = (): void => {
     logger.warn('Unhandled promise rejection reached custom handler')
     logger.warn(JSON.stringify(reason))
   })
+export const isSymbolToIdOverride = (
+  symbolToIdOverride: unknown,
+): symbolToIdOverride is SymbolToIdOverride => {
+  if (!symbolToIdOverride) {
+    return false
+  }
+  for (const adapterName of Object.keys(symbolToIdOverride as SymbolToIdOverride)) {
+    const adapterOverrides = (symbolToIdOverride as SymbolToIdOverride)[adapterName]
+    for (const overriddenSymbol of Object.keys(adapterOverrides)) {
+      if (typeof adapterOverrides[overriddenSymbol] !== 'string') return false
+    }
+  }
+  return true
 }
