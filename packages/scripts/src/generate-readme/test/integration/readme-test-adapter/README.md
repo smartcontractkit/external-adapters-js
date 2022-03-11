@@ -1,6 +1,6 @@
 # README Test Adapter
 
-Version: 1.2.3
+Version: 1.2.4
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
