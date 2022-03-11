@@ -136,7 +136,7 @@ const selectEndpoint = <C extends Config>(
  *
  * @param upstreamConfig configuration for the upstream adapter (source)
  * @param ignoreRequired whether to maintain the required status of input parameters
- * @param customParams additional input parameters that to add to the ones defined within the API endpoint
+ * @param customParams additional input parameters to add to the ones defined within the API endpoint
  * @returns
  */
 const selectCompositeEndpoint = <ConfigDownstream extends Config, ConfigUpstream extends Config>(
