@@ -6,7 +6,8 @@ export const supportedEndpoints = ['crypto', 'tickers']
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
-export const inputParameters: InputParameters = {
+type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -40,12 +41,12 @@ interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
-  const resultPath = validator.validated.data.resultPath || 'vwap'
+  const resultPath = validator.validated.data.resultPath || 'data.attributes.vwap'
   const url = `tickers/${base}_${quote}`
 
   const options = {
@@ -54,7 +55,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, ['data', 'attributes', resultPath])
+  const result = Requester.validateResultNumber(response.data, resultPath)
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

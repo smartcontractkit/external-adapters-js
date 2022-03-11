@@ -1,4 +1,4 @@
-import { stub } from 'sinon'
+import { stub, SinonStub } from 'sinon'
 import { logger } from '../../../src/lib/modules'
 import {
   dataProviderMock,
@@ -10,8 +10,8 @@ import {
 
 describe('Rate Limit/Cache - Integration', () => {
   const capacity = 50
-  let logWarnStub: any
-  let logErrorStub: any
+  let logWarnStub: SinonStub
+  let logErrorStub: SinonStub
 
   beforeAll(() => {
     process.env.RATE_LIMIT_ENABLED = String(true)

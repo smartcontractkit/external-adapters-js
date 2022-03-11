@@ -42,9 +42,15 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>
 
+export const initialState: RootState = {
+  burstLimit: BurstLimit.reducer.initialState,
+  cacheWarmer: CacheWarmer.reducer.initialState,
+  rateLimit: RateLimit.reducer.initialState,
+  ws: WebSocket.reducer.initialState,
+}
+
 // Initialize Redux store
-const initState = { burstLimit: {}, cacheWarmer: {}, rateLimit: {}, ws: {} }
-export const store = configureStore(rootReducer, initState, [
+export const store = configureStore(rootReducer, initialState, [
   CacheWarmer.epics.epicMiddleware,
   WebSocket.epics.epicMiddleware,
 ])

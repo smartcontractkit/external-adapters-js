@@ -1,9 +1,9 @@
 import type {
   AdapterRequest,
   AdapterRequestData,
-  AdapterResponse,
   BatchableProperty,
   BigNumberish,
+  Execute,
 } from '../../../types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../../modules'
@@ -22,7 +22,7 @@ export interface SubscriptionData {
   /**
    * The wrapped execute function that was used to service the request
    */
-  executeFn: (input: AdapterRequest) => Promise<AdapterResponse>
+  executeFn: Execute
   /**
    * The time this subscription started in unix time
    */
@@ -288,3 +288,4 @@ export const rootReducer = combineReducers({
 })
 
 export type CacheWarmerState = ReturnType<typeof rootReducer>
+export const initialState: CacheWarmerState = { warmups: {}, subscriptions: {} }
