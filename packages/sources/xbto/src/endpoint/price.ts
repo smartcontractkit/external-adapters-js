@@ -22,12 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market
-  const url = util.buildUrl(
-    'https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com',
-    '/:endpoint',
-    { endpoint: endpoints[market.toLowerCase()] },
-    '/',
-  )
+  const url = util.buildUrlPath('/:endpoint', { endpoint: endpoints[market.toLowerCase()] }, '/')
 
   const auth = {
     username: '',
