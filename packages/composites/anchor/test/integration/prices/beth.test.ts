@@ -1,14 +1,9 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
-import {
-  mockBTCUSDPrice,
-  mockETHUSDPrice,
-  mockSTEthUSDPrice,
-  mockSuccessfulTerraEthFeedResp,
-} from '../fixtures'
+import { mockErrorFeedResponse, mockSuccessfulTerraEthFeedResp } from '../fixtures'
 
 import { ethers, BigNumber } from 'ethers'
 import '@chainlink/terra-view-function-adapter'
@@ -16,25 +11,24 @@ import { AddressInfo } from 'net'
 
 const mockBigNum = BigNumber.from(10).pow(18)
 const mockStETHETHPrice = BigNumber.from('1035144096528344468')
+const mockZero = BigNumber.from('0')
 
-const WORKING_LCD_URL = 'working-lcd-url'
-const ERROR_LCD_URL = 'error-lcd-url'
+const ERROR_ETH_FEED = 'error-eth-feed-address'
+const ERROR_STETH_ETH_CURVE_ADDRESS = 'error-curve-address'
+const ERROR_ANCHOR_VAULT_ADDRESS = 'error-anchor-vault-address'
 
 jest.mock('@chainlink/terra-view-function-adapter', () => {
   return {
     ...jest.requireActual('@chainlink/terra-view-function-adapter'),
-    makeExecute: (config) => {
-      const lcdUrls = config.lcdUrls
-      let result: AdapterResponse
-      switch (lcdUrls['columbus-5']) {
-        case ERROR_LCD_URL:
-          result = mockSuccessfulTerraEthFeedResp
-          break
-        default:
-          result = mockSuccessfulTerraEthFeedResp
-      }
-      return jest.fn().mockReturnValue(result)
-    },
+    makeExecute: jest.fn().mockReturnValue(
+      jest.fn().mockImplementation((input: AdapterRequest) => {
+        const address = input.data.address
+        if (address === ERROR_ETH_FEED) {
+          return mockErrorFeedResponse
+        }
+        return mockSuccessfulTerraEthFeedResp
+      }),
+    ),
   }
 })
 
@@ -49,13 +43,13 @@ jest.mock('ethers', () => {
           return {}
         },
       },
-      Contract: function () {
+      Contract: function (address: string) {
         return {
           get_rate: (____: string) => {
-            return mockBigNum
+            return address === ERROR_ANCHOR_VAULT_ADDRESS ? mockZero : mockBigNum
           },
           get_dy: () => {
-            return mockStETHETHPrice
+            return address === ERROR_STETH_ETH_CURVE_ADDRESS ? mockZero : mockStETHETHPrice
           },
         }
       },
@@ -65,11 +59,12 @@ jest.mock('ethers', () => {
 
 let oldEnv: NodeJS.ProcessEnv
 
-describe('price-beth', () => {
-  let server: http.Server
-  let req: SuperTest<Test>
+let server: http.Server
+let req: SuperTest<Test>
+const jobID = '1'
 
-  beforeAll(async () => {
+describe('price-beth', () => {
+  beforeEach(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
@@ -78,34 +73,87 @@ describe('price-beth', () => {
     process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = 'test-address'
     process.env.COINGECKO_ADAPTER_URL = 'http://localhost:5000'
     process.env.ETHEREUM_RPC_URL = 'test-rpc-url'
+    process.env.CACHE_ENABLED = 'false'
 
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
   })
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
+  afterEach((done) => {
     process.env = oldEnv
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
     server.close(done)
   })
 
-  describe('successful calls', () => {
-    const jobID = '1'
+  describe('error calls', () => {
+    it('should throw an error if the ETH/USD feed is down', async () => {
+      process.env.ETH_TERRA_FEED_ADDRESS = ERROR_ETH_FEED
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          from: 'BETH',
+          to: 'ETH',
+        },
+      }
 
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should throw an error if the stETH/ETH Curve pool is having issues', async () => {
+      process.env.STETH_POOL_CONTRACT_ADDRESS = ERROR_STETH_ETH_CURVE_ADDRESS
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          from: 'BETH',
+          to: 'ETH',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should throw an error if the Anchor Vault contract returns 0', async () => {
+      process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = ERROR_ANCHOR_VAULT_ADDRESS
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          from: 'BETH',
+          to: 'ETH',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('successful calls', () => {
     it('return success when fetching the USD/BEth price', async () => {
-      mockSTEthUSDPrice()
       const data: AdapterRequest = {
         id: jobID,
         data: {
           from: 'BETH',
           to: 'USD',
-          source: 'coingecko',
         },
       }
 
@@ -120,14 +168,11 @@ describe('price-beth', () => {
     })
 
     it('returns success when fetching the ETH/BEth price', async () => {
-      mockSTEthUSDPrice()
-      mockETHUSDPrice()
       const data: AdapterRequest = {
         id: jobID,
         data: {
           from: 'BETH',
           to: 'ETH',
-          source: 'coingecko',
         },
       }
 

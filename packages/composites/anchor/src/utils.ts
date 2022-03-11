@@ -15,11 +15,7 @@ export const getTokenPrice = async (
   })
   const latestAnswer = feedResponse.data.result.answer
   const result = ethers.utils.parseUnits(latestAnswer, feedDecimals)
-  throwErrorForInvalidResult(
-    input.id,
-    result,
-    `Invalid result returned from Chainlink Terra feed ${feedAddress}`,
-  )
+  throwErrorForInvalidResult(input.id, result, `Chainlink Terra feed ${feedAddress}`)
   return result
 }
 

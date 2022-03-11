@@ -1,5 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`price-beth error calls should throw an error if the Anchor Vault contract returns 0 1`] = `
+Object {
+  "error": Object {
+    "feedID": "BETH/ETH",
+    "message": "Invalid result for stETH/bETH Exchange Rate from Anchor Vault address error-anchor-vault-address",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`price-beth error calls should throw an error if the ETH/USD feed is down 1`] = `
+Object {
+  "error": Object {
+    "feedID": "BETH/ETH",
+    "message": "Invalid result for Chainlink Terra feed error-eth-feed-address",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`price-beth error calls should throw an error if the stETH/ETH Curve pool is having issues 1`] = `
+Object {
+  "error": Object {
+    "feedID": "BETH/ETH",
+    "message": "Invalid result for stETH/ETH Exchange Rate from Curve Pool address error-curve-address",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`price-beth successful calls return success when fetching the USD/BEth price 1`] = `
 Object {
   "data": Object {
