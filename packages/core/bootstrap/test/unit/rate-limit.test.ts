@@ -1,4 +1,9 @@
-import type { AdapterRequest, AdapterContext, Execute } from '../../src/types'
+import type {
+  AdapterRequest,
+  AdapterContext,
+  Execute,
+  AdapterRequestWithRateLimit,
+} from '../../src/types'
 import { createStore, Store } from 'redux'
 import { useFakeTimers } from 'sinon'
 import * as rateLimit from '../../src/lib/middleware/rate-limit'
@@ -11,7 +16,7 @@ import {
 } from '../../src/lib/middleware/rate-limit/reducer'
 
 const counterFrom =
-  (i = 0): Execute =>
+  (i = 0) =>
   async (request) => {
     const result = i++
     return {
@@ -23,15 +28,20 @@ const counterFrom =
   }
 
 const expectRequestToBe =
-  (field: string, expected: any): Execute =>
-  async (request) => {
-    expect(request[field]).toBe(expected)
-    return {
-      jobRunID: request.id,
-      data: { jobRunID: request.id, statusCode: 200, data: request, result: '' },
-      result: '',
-      statusCode: 200,
-    }
+  (field: string, expected: number): Execute<AdapterRequestWithRateLimit, AdapterContext> =>
+  (input) => {
+    return new Promise((resolve) => {
+      expect(input[field]).toBe(expected)
+      resolve({
+        jobRunID: input.id,
+        data: {
+          statusCode: 200,
+          result: 1,
+        },
+        result: 1,
+        statusCode: 200,
+      })
+    })
   }
 
 const getMaxAge = (config: Config, store: Store, input: AdapterRequest) => {

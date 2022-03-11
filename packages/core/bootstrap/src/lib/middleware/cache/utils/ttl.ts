@@ -38,8 +38,8 @@ export const getMaxAgeOverride = (
   adapterRequest: AdapterRequestWithRateLimit,
 ): number | undefined => {
   if (!adapterRequest || !adapterRequest.data || !adapterRequest.data.maxAge) return
-  if (isNaN(parseInt(adapterRequest.data.maxAge))) return
-  return parseInt(adapterRequest.data.maxAge)
+  if (isNaN(adapterRequest.data.maxAge)) return
+  return adapterRequest.data.maxAge
 }
 
 export const getTTL = (

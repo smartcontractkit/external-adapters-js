@@ -150,3 +150,6 @@ export const rootReducer = combineReducers({
   heartbeats: heartbeatReducer,
 })
 export type RootState = ReturnType<typeof rootReducer>
+export const initialState: RootState = {
+  heartbeats: initialHeartbeatsState,
+}

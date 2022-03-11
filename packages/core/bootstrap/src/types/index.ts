@@ -90,7 +90,11 @@ export interface BigNumber extends Hexable {
   isBigNumber(value: unknown): value is BigNumber
 }
 export type Value = BigNumberish | BigNumberish[] | boolean | undefined
-// Allow 3 levels of nesting
+/**
+ * Pseudo-unknown type
+ *
+ * Allows 3 levels of nesting
+ */
 export type NestableValue =
   | Value
   | Record<string, Value>
@@ -108,14 +112,13 @@ export type TBaseInputParameters = {
   overrides?: OverrideRecord
   tokenOverrides?: { [network: string]: { [token: string]: string } }
   includes?: Includes[]
+  maxAge?: number
+  cost?: number
+  error?: { code: number }
 }
 
 export type AdapterRequestData<TData extends AdapterData = AdapterData> = TData &
-  TBaseInputParameters & {
-    maxAge?: string
-    cost?: number
-    error?: { code: number }
-  }
+  TBaseInputParameters
 
 export interface AdapterRequest<TData extends AdapterData = AdapterData> {
   id: string
@@ -165,10 +168,12 @@ export interface BatchedResult {
   results?: BatchedResultT
 }
 
-export type AdapterResponseData = AdapterRequestData &
-  BatchedResult & {
-    statusCode: number
-  }
+export type AdapterResponseData<TData extends AdapterData = AdapterData> =
+  AdapterRequestData<TData> &
+    BatchedResult & {
+      result?: Value
+      statusCode: number
+    }
 
 export type AdapterResponse = {
   jobRunID: string

@@ -1,5 +1,5 @@
 import { createStore } from 'redux'
-import { stub } from 'sinon'
+import { stub, SinonStub } from 'sinon'
 import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
 import { logger } from '../../../src/lib/modules'
@@ -12,8 +12,8 @@ import type { AdapterContext } from '../../../src/types'
 describe('Rate Limit/Cache - Integration', () => {
   const context: AdapterContext = {}
   const capacity = 50
-  let logWarnStub: any
-  let logErrorStub: any
+  let logWarnStub: SinonStub
+  let logErrorStub: SinonStub
 
   beforeAll(async () => {
     process.env.RATE_LIMIT_ENABLED = String(true)

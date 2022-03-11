@@ -5,6 +5,7 @@ import {
   SUCCESS_JSON_RESPONSE,
   SUCCESS_ARRAY_RESPONSE,
   SUCCESS_BATCHLIKE_RESPONSE,
+  ERROR_CUSTOM_RESPONSE,
 } from '../helpers/server'
 
 describe('HTTP', () => {
@@ -14,7 +15,7 @@ describe('HTTP', () => {
     timeout: 100,
     url: '',
   }
-  const customError = (data: { [key: string]: any }) => {
+  const customError = (data: typeof ERROR_CUSTOM_RESPONSE) => {
     return data.result !== 'success'
   }
 
@@ -105,7 +106,12 @@ describe('HTTP', () => {
 
     it('accepts optional delay param with customError', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const { data } = await Requester.request(options, customError, 1, 0)
+      const { data } = await Requester.request<typeof ERROR_CUSTOM_RESPONSE>(
+        options,
+        customError,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)

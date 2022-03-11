@@ -8,7 +8,6 @@ import type {
   AdapterContext,
   MakeResultPath,
   TBaseInputParameters,
-  AdapterData,
 } from '../../types'
 import { logger } from '../modules'
 
@@ -63,7 +62,7 @@ const selectEndpoint = <C extends Config>(
   apiEndpoints: Record<string, APIEndpoint<C>>,
   customParams?: InputParameters,
 ): APIEndpoint<C> => {
-  const params = customParams
+  const params = customParams ?? {}
   const validator = new Validator(request, params, {}, { shouldThrowError: false })
 
   const jobRunID = validator.validated.id
