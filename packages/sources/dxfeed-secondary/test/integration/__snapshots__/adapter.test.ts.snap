@@ -2,26 +2,12 @@
 
 exports[`dxfeed secondary price endpoint should return success 1`] = `
 Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"base\\":\\"FTSE\\",\\"resultPath\\":[\\"Trade\\",\\"FTSE\\",\\"price\\"],\\"endpoint\\":\\"price\\"}}",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://tools.dxfeed.com/webservice/rest/events.json?events=Trade&symbols=FTSE\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json\\",
-    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
-    \\"pragma\\": \\"no-cache\\",
-    \\"content-type\\": \\"application/json\\",
-    \\"user-agent\\": \\"axios/0.24.0\\",
-    \\"authorization\\": \\"Basic ZmFrZS1hcGktdXNlcm5hbWU6ZmFrZS1hcGktcGFzc3dvcmQ=\\"
-  }
-}",
-    "name": "AdapterError",
-    "url": "https:/tools.dxfeed.com/webservice/rest/events.json",
+  "data": Object {
+    "result": 7343.84,
   },
   "jobRunID": "1",
-  "providerStatusCode": 0,
-  "status": "errored",
+  "providerStatusCode": 200,
+  "result": 7343.84,
   "statusCode": 200,
 }
 `;
