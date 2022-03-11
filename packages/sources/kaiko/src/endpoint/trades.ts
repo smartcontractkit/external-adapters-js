@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, Includes, IncludePair, InputParameters } from '@chainlink/types'
 import {
   DEFAULT_INTERVAL,
@@ -51,10 +51,16 @@ export const inputParameters: InputParameters = {
 const symbolUrl = (from: string, to: string) =>
   to.toLowerCase() === 'eth'
     ? directUrl(from, to)
-    : `/spot_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
+    : util.buildUrlPath('/spot_exchange_rate/:from/:to', {
+        from: from.toLowerCase(),
+        to: to.toLowerCase(),
+      })
 
 const directUrl = (from: string, to: string) =>
-  `/spot_direct_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
+  util.buildUrlPath('/spot_direct_exchange_rate/:from/:to', {
+    from: from.toLowerCase(),
+    to: to.toLowerCase(),
+  })
 
 export interface ResponseSchema {
   query: {
