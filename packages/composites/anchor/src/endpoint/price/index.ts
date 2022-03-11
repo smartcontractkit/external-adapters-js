@@ -24,7 +24,7 @@ export const inputParameters: InputParameters = {
     required: true,
     aliases: ['quote', 'to', 'market'],
     description: 'The symbol of the currency to convert to',
-    options: ['BTC', 'ETH', 'USD'],
+    options: ['ETH', 'USD'],
   },
   conversionFeedDecimals: {
     description: "The number of decimals the to symbol uses in it's Terra feed",

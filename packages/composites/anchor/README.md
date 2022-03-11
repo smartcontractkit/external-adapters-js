@@ -30,12 +30,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |            Name            |                                 Description                                 |       Options       | Defaults to |
-| :-------: | :------------------------: | :-------------------------------------------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |                     The symbol of the currency to query                     |   `BEth`, `BLuna`   |             |
-|    ✅     | `quote`, `to`, or `market` |                  The symbol of the currency to convert to                   | `BTC`, `ETH`, `USD` |             |
-|           |      `quoteDecimals`       | The number of decimals of the `to` coin. Can be left blank if `to` is `USD` |                     |     18      |
-|           |          `source`          |  The data provider to query. This is required if not specified in config.   |                     |             |
+| Required? |            Name            |                                 Description                                 |     Options     | Defaults to |
+| :-------: | :------------------------: | :-------------------------------------------------------------------------: | :-------------: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  |                     The symbol of the currency to query                     | `BEth`, `BLuna` |             |
+|    ✅     | `quote`, `to`, or `market` |                  The symbol of the currency to convert to                   |  `ETH`, `USD`   |             |
+|           |      `quoteDecimals`       | The number of decimals of the `to` coin. Can be left blank if `to` is `USD` |                 |     18      |
+|           |          `source`          |  The data provider to query. This is required if not specified in config.   |                 |             |
 
 ### Sample Input
 

@@ -8,12 +8,8 @@ export const NAME = 'ANCHOR'
 export const DEFAULT_ANCHOR_VAULT_CONTRACT_ADDRESS = '0xA2F987A546D4CD1c607Ee8141276876C26b72Bdf'
 export const DEFAULT_TERRA_BLUNA_CONTRACT_ADDRESS = 'terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts'
 export const DEFAULT_STETH_POOL_CONTRACT_ADDRESS = '0xdc24316b9ae028f1497c275eb9192a3ea0f67022'
-
-// Bombay
-// TODO:  This is only for testing right now.  Make sure to update these to the Columbus addresses once they have been deployed
-export const DEFAULT_LUNA_TERRA_FEED_ADDRESS = 'terra1u475ps69rmhpf4f4gx2pc74l7tlyu4hkj4wp9d'
-export const DEFAULT_ETH_TERRA_FEED_ADDRESS = 'terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy'
-export const DEFAULT_BTC_TERRA_FEED_ADDRESS = 'terra134m32c6p87df4cjx36vhgxnlhf06pfgvj7jsx7'
+export const DEFAULT_LUNA_TERRA_FEED_ADDRESS = 'terra1gfy9nxj2xwd4vcupzfelk34u3qjkvp3vcjveg6'
+export const DEFAULT_ETH_TERRA_FEED_ADDRESS = 'terra1a39jndcuh64ef2qzt5w8mh46m5ysc34a9qd2e5'
 
 export interface Config extends DefaultConfig {
   anchorVaultContractAddress: string
@@ -38,7 +34,6 @@ export const makeConfig = (prefix?: string): Config => {
     feedAddresses: {
       luna: util.getEnv('LUNA_TERRA_FEED_ADDRESS', prefix) || DEFAULT_LUNA_TERRA_FEED_ADDRESS,
       eth: util.getEnv('ETH_TERRA_FEED_ADDRESS', prefix) || DEFAULT_ETH_TERRA_FEED_ADDRESS,
-      btc: util.getEnv('BTC_TERRA_FEED_ADDRESS', prefix) || DEFAULT_BTC_TERRA_FEED_ADDRESS,
     },
   }
 }
