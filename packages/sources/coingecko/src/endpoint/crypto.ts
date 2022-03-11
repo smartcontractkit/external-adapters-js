@@ -45,7 +45,16 @@ export const endpointResultPaths: {
 }
 
 export const description =
-  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
+  '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**\n' +
+  'Overrides can be provided as input parameters, as specified below, or be hardcoded into the `symbolToSymbolOverrides.json` or `symbolToIdOverrides.json` files in the `./src/config folder`.  Overrides specified as input parameters take precedence.  The order of operations for performing overrides is as follows: \n' +
+  '1. Evaluate symbol-to-id overrides from input params.\n' +
+  '2. Evaluate symbol-to-symbol overrides from input params, ignoring any symbols that were already overridden to ids during step 1.\n' +
+  '3. Evaluate symbol-to-id overrides from the input params again in case any symbol-to-symbol overrides introduced a new overridden symbol.\n' +
+  '4. Evaluate symbol-to-id overrides specified in `symbolToIdOverrides.json`, ignoring any symbols that were already overridden to ids during step 1 or 3.\n' +
+  '5. Evaluate symbol-to-symbol overrides specified in `symbolToSymbolOverrides.json`, ignoring any symbols that were already overridden to ids during step 1, 3 or 4.\n' +
+  '6. Evaluate symbol-to-symbol overrides from input params again in case any overriding symbols from `symbolToSymbolOverrides.json` are overridden in the symbol-to-symbol overrides from input params.\n' +
+  '7. Evaluate symbol-to-id overrides from the input params again in case any symbol-to-symbol overrides introduced a new overridden symbol.\n' +
+  '8. Evaluate symbol-to-id overrides specified in `symbolToIdOverrides.json`, ignoring any symbols that were already overridden to ids during step 1, 3, 4 or 7.\n'
 
 export const inputParameters: InputParameters = {
   coinid: {
@@ -62,6 +71,16 @@ export const inputParameters: InputParameters = {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
+  },
+  overrides: {
+    description:
+      'If base provided is found in overrides, that base symbol will be swapped for the symbol provided by the overrides.',
+    options: ['{ "coingecko": { "SYMA": "SYMC", "SYMB": "SYMD" } }'],
+  },
+  symbolToIdOverrides: {
+    description:
+      'If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored.',
+    options: ['{ "coingecko": { "COINA": "coin-id-override-a", "COINB": "coin-id-override-b" } }'],
   },
 }
 

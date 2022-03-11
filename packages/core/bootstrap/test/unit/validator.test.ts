@@ -1,7 +1,7 @@
 import { InputParameters } from '@chainlink/types'
 import { Validator } from '../../src/lib/modules/validator'
 
-describe('Validator', () => {
+describe('Validator unit', () => {
   describe('with no input parameter configuration', () => {
     it('does not error if no input and no input parameters', () => {
       const validator = new Validator()
@@ -474,17 +474,19 @@ describe('Validator', () => {
     expect(validator.error).not.toBeDefined()
   })
 
-  // START TESTS TO UPDATE
   it('default overrides input is empty', () => {
     const input = {
       id: '1',
       data: {},
     }
     const validator = new Validator(input)
-    expect(validator.validated.overrides?.size).toEqual(0)
+    expect(validator.validated.overridesFromInput?.size).toEqual(0)
+    expect(validator.validated.symbolToIdOverridesFromInput?.size).toEqual(0)
+    expect(validator.validated.overridesFromAdapter?.size).toEqual(0)
+    expect(validator.validated.symbolToIdOverridesFromAdapter?.size).toEqual(0)
   })
 
-  it('overrides input is formatted', () => {
+  it('overridesFromInput is formatted', () => {
     const input = {
       id: '1',
       data: {
@@ -496,7 +498,49 @@ describe('Validator', () => {
       },
     }
     const validator = new Validator(input)
-    expect(validator.validated.overrides.get('coingecko').get('uni')).toEqual('uniswap')
+    expect(validator.validated.overridesFromInput.get('coingecko').get('uni')).toEqual('uniswap')
+  })
+
+  it('overridesFromInput is formatted', () => {
+    const overrides = {
+      coingecko: { ohm: 'olympus' },
+    }
+    const input = {
+      id: '1',
+      data: {
+        overrides: {
+          coingecko: {
+            uni: 'uniswap',
+          },
+        },
+      },
+    }
+    const validator = new Validator(input, {}, {}, { overrides })
+    expect(validator.validated.overridesFromInput.get('coingecko').get('uni')).toEqual('uniswap')
+    expect(validator.validated.overridesFromAdapter.get('coingecko').get('ohm')).toEqual('olympus')
+  })
+
+  it('symbolToIdOverrides input is formatted', () => {
+    const symbolToIdOverrides = {
+      coingecko: { ohm: 'olympus' },
+    }
+    const input = {
+      id: '1',
+      data: {
+        symbolToIdOverrides: {
+          coingecko: {
+            uni: 'uniswap',
+          },
+        },
+      },
+    }
+    const validator = new Validator(input, {}, {}, { symbolToIdOverrides })
+    expect(validator.validated.symbolToIdOverridesFromInput.get('coingecko').get('uni')).toEqual(
+      'uniswap',
+    )
+    expect(validator.validated.symbolToIdOverridesFromAdapter.get('coingecko').get('ohm')).toEqual(
+      'olympus',
+    )
   })
 
   it('errors if overrides is not properly formatted', () => {
@@ -514,11 +558,38 @@ describe('Validator', () => {
     } catch (error) {
       expect(error?.jobRunID).toEqual('1')
       expect(error?.statusCode).toEqual(400)
-      expect(error?.message).toEqual('Parameter supplied with wrong format: "override"')
+      expect(error?.message).toEqual(
+        "The structure of the 'overrides' input parameter is incorrect.",
+      )
       expect(error?.cause).toEqual(undefined)
     }
   })
 
+  it('errors if symbolToIdOverrides is not properly formatted', () => {
+    try {
+      expect.hasAssertions()
+      const input = {
+        id: '1',
+        data: {
+          symbolToIdOverrides: {
+            uni: 'uniswap',
+          },
+        },
+      }
+      new Validator(input, {}, {})
+    } catch (error) {
+      expect(error?.jobRunID).toEqual('1')
+      expect(error?.statusCode).toEqual(400)
+      expect(error?.message).toEqual(
+        "The structure of the 'symbolToIdOverrides' input parameter is incorrect.",
+      )
+      expect(error?.cause).toEqual(undefined)
+    }
+  })
+
+  // Eventually, all the tests in the block below will be removed when the Overrider class is used to
+  // process all overrides instead of the Validator. They kept at this time until the Overrider is
+  // implemented for the remaining EAs.
   describe('overrideSymbol', () => {
     it('errors if base was not provided', () => {
       const validator = new Validator()
@@ -549,6 +620,8 @@ describe('Validator', () => {
       expect(base).toBe('btc')
     })
 
+    /* The following tests have been removed since symbol to symbol and symbol to id overriders
+       are no longer handled by the validator class, but are instead handled by the Overrider class
     it('returns non-array symbol value from overrides', () => {
       const input = {
         id: '1',
@@ -580,8 +653,8 @@ describe('Validator', () => {
       const base = validator.overrideSymbol('coingecko', ['btc', 'uni'])
       expect(base).toEqual(['btc', 'uniswap'])
     })
+    */
   })
-  // END TESTS TO UPDATE
 
   describe('overrideToken', () => {
     it('return ethereum address', () => {

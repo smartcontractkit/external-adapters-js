@@ -18,6 +18,17 @@
 
 ##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
 
+Overrides can be provided as input parameters, as specified below, or be hardcoded into the `symbolToSymbolOverrides.json` or `symbolToIdOverrides.json` files in the `./src/config folder`. Overrides specified as input parameters take precedence. The order of operations for performing overrides is as follows:
+
+1. Evaluate symbol-to-id overrides from input params.\n'+
+2. Evaluate symbol-to-symbol overrides from input params, ignoring any symbols that were already overridden to ids during step 1.
+3. Evaluate symbol-to-id overrides from the input params again in case any symbol-to-symbol overrides introduced a new overridden symbol.
+4. Evaluate symbol-to-id overrides specified in `symbolToIdOverrides.json`, ignoring any symbols that were already overridden to ids during step 1 or 3.
+5. Evaluate symbol-to-symbol overrides specified in `symbolToSymbolOverrides.json`, ignoring any symbols that were already overridden to ids during step 1, 3 or 4.
+6. Evaluate symbol-to-symbol overrides from input params again in case any overriding symbols from `symbolToSymbolOverrides.json` are overridden in the symbol-to-symbol overrides from input params.
+7. Evaluate symbol-to-id overrides from the input params again in case any symbol-to-symbol overrides introduced a new overridden symbol.
+8. Evaluate symbol-to-id overrides specified in `symbolToIdOverrides.json`, ignoring any symbols that were already overridden to ids during step 1, 3, 4 or 7.
+
 ### Input Params
 
 Query the crypto price from [Coingecko](https://api.coingecko.com/api/v3/simple/price)
@@ -29,7 +40,7 @@ Query the crypto price from [Coingecko](https://api.coingecko.com/api/v3/simple/
 |  (✅ if not using `base`)  |          `coinid`          | The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy `base` will need to be supplied) | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
 | (✅ if not using `coinid`) | `base`, `from`, or `coin`  |                                            The symbol or array of symbols of the currency to query                                             |                                           ↑                                            |             |
 |             ✅             | `quote`, `to`, or `market` |                                                    The symbol of the currency to convert to                                                    |                                           ↑                                            |             |
-|                            |        `overrides`         |                                           If base provided is found in overrides, that will be used                                            |  [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)  |             |
+|                            |        `overrides`         |                                           If base provided is found in overrides, that will be used                                            |                  { "coingecko": { "SYMA": "SYMC", "SYMB": "SYMD" } }                   |             |
 |                            |   `symbolToIdOverrides`    |                       If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored                       |   { "coingecko": { "COINA": "coin-id-override-a", "COINB": "coin-id-override-b" } }    |             |
 
 ### Sample Input
