@@ -504,6 +504,7 @@ export const isOverrideObj = (symbolToIdOverride: unknown): symbolToIdOverride i
 export const isOverrideObj = (symbolToIdOverrides: unknown): symbolToIdOverrides is OverrideObj => {
   for (const adapterName of Object.keys(symbolToIdOverrides as OverrideObj)) {
     const adapterOverrides = (symbolToIdOverrides as OverrideObj)[adapterName]
+    if (typeof adapterOverrides !== 'object' || Array.isArray(adapterOverrides)) return false
     for (const overriddenSymbol of Object.keys(adapterOverrides)) {
       if (typeof adapterOverrides[overriddenSymbol] !== 'string') return false
     }

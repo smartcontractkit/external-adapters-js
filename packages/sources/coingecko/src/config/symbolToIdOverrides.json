@@ -1,5 +1,6 @@
 {
   "coingecko": {
+    "OHM": "olympus",
     "COMP": "compound-governance-token",
     "FNX": "finnexus",
     "FTT": "ftx-token",
