@@ -18,7 +18,7 @@ export const execute = async (
   const viewFunctionAdapterResponse = await callViewFunctionEA(
     input,
     context,
-    config.terraBLunaContractAddress,
+    config.terraBLunaHubContractAddress,
     {
       state: {},
     },
@@ -28,7 +28,7 @@ export const execute = async (
   throwErrorForInvalidResult(
     input.id,
     lunaPerBLunaBigNum,
-    `LUNA/bLUNA rate from bLUNA address ${config.terraBLunaContractAddress}`,
+    `LUNA/bLUNA rate from bLUNA address ${config.terraBLunaHubContractAddress}`,
   )
   return lunaPerBLunaBigNum.mul(usdPerLuna).div(ethers.BigNumber.from(10).pow(FIXED_POINT_DECIMALS))
 }
