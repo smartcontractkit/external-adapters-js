@@ -156,12 +156,18 @@ jobs:
 
           # Use this to set the adapter dependencies for composites:
           # https://stackoverflow.com/questions/918886/how-do-i-split-a-string-on-a-delimiter-in-bash
-          # ADAPTER_LIST = "augur bob coingecko coinpaprika dxdao"
-          # ADAPTER_DEPENDENCIES = "::"
-          IFS=',' read -ra ADDR <<< "$IN"
-          for i in "${ADDR[@]}"; do
-            # process "$i"
-          done
+          ADAPTER_DEPENDENCIES=
+          if [ -n "$ADAPTER_NAMES" ]; then
+            for adapter in ${ADAPTER_NAMES}; do
+
+              yarn qa:test saveAdapterDependencies(ADAPTER_NAMES) # saves list like "a,b,c d,e,f a,b,d,e" to soakTestDependencies.txt
+              ADAPTER_DEPENDENCIES="${ADAPTER_DEPENDENCIES} ${adapter}"
+            done
+
+          # What I need:
+          # ADAPTERS_LIST = '<all adapters that must be deployed>' - easy
+          # write method that 
+          # ADAPTER_DEPENDENCIES = '<all dependency adapters split by parent composite>' - hard?
 
 
           if [ -n "$ADAPTER_NAMES" ]; then
@@ -195,6 +201,13 @@ jobs:
           # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
+
+            # Process adapters in order and utilize ADAPTER_DEPENDENCIES too
+            # IFS=',' read -ra ADAPTERS <<< "$ADAPTER_LIST"
+            # for adapter in "${ADAPTERS[@]}"; do
+            #   # process ${adapter}
+            # done
+
               cd ../infra-k8s
               echo ${sops -d apps/files/adapters/${adapter}/secrets-develop.yaml}
               cd ../external-adapters-js
