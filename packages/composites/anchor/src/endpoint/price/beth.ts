@@ -7,15 +7,32 @@ import { anchorVaultAbi, curvePoolAbi } from './abi'
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN = 'ETH'
 
+/**
+ * execute returns the USD/bETH price by performing a conversion between
+ * several intermediate prices. The calculation is as follows:
+ * result = (USD / ETH) * (stETH / bETH) * (ETH / stETH) = USD / bETH
+ * @param input AdapterRequest
+ * @param _ AdapterContext
+ * @param config Config
+ * @param usdPerEth ethers.BigNumber
+ * @returns
+ */
 export const execute: PriceExecute = async (input, _, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const stEthPerBEth = await getStEthBEthExchangeRate(input.id, config, provider)
   const stEthPerETH = await getStETHExchangeRate(input.id, config, provider)
-  // result = (USD / ETH) * (stETH / bETH) * (ETH / stETH) = USD / bETH
   return usdPerEth.mul(stEthPerBEth).div(stEthPerETH)
 }
 
+/**
+ * getStETHExchangeRate returns a promise for the value of stETH/ETH
+ * from the Curve stETH/ETH pool contract.
+ * @param jobRunID string
+ * @param config Config
+ * @param provider ethers.providers.JsonRpcProvider
+ * @returns Promise<ethers.BigNumber>
+ */
 const getStETHExchangeRate = async (
   jobRunID: string,
   config: Config,
@@ -35,6 +52,14 @@ const getStETHExchangeRate = async (
   return result
 }
 
+/**
+ * getStEthBEthExchangeRate returns a promise for the value of stETH/bETH
+ * from the stETH/bETH Anchor Vault contract
+ * @param jobRunID string
+ * @param config Config
+ * @param provider ethers.providers.JsonRpcProvider
+ * @returns Promise<ethers.BigNumber>
+ */
 const getStEthBEthExchangeRate = async (
   jobRunID: string,
   config: Config,

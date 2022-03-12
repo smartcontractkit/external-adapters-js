@@ -24,7 +24,7 @@ export interface Config extends DefaultConfig {
 export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
-    rpcUrl: util.getRequiredEnv('ETHEREUM_RPC_URL', prefix),
+    rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
     defaultEndpoint: util.getEnv('API_ENDPOINT', prefix) || DEFAULT_ENDPOINT,
     anchorVaultContractAddress:
       util.getEnv('ANCHOR_VAULT_CONTRACT_ADDRESS', prefix) || DEFAULT_ANCHOR_VAULT_CONTRACT_ADDRESS,

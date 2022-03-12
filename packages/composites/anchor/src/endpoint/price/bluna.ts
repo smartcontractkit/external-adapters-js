@@ -7,6 +7,16 @@ import { callViewFunctionEA, throwErrorForInvalidResult } from '../../utils'
 export const FROM = 'BLUNA'
 export const INTERMEDIARY_TOKEN = 'LUNA'
 
+/**
+ * execute returns the USD/bLUNA price by performing a conversion between two
+ * intermediate prices. The calculation is as follows:
+ * result = (USD / LUNA) * (LUNA / bLUNA) = USD / bLUNA
+ * @param input AdapterRequest
+ * @param context AdapterContext
+ * @param config Config
+ * @param usdPerLuna ethers.BigNumber
+ * @returns Promise<ethers.BigNumber>
+ */
 export const execute = async (
   input: AdapterRequest,
   context: AdapterContext,
