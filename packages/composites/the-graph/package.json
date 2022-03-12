@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/the-graph-adapter",
-  "version": "1.0.33",
+  "version": "1.0.35",
   "description": "Chainlink the-graph adapter.",
   "keywords": [
     "Chainlink",

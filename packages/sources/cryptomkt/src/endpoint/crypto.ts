@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['crypto', 'ticker']
@@ -46,7 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const quote = validator.validated.data.quote.toUpperCase()
   const resultPath = validator.validated.data.resultPath
   const market = base + quote
-  const url = `public/ticker/${market}`
+  const url = util.buildUrlPath('public/ticker/:market', { market })
 
   const options = {
     ...config.api,

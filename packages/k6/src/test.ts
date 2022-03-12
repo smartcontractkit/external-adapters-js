@@ -33,7 +33,7 @@ export const errorRate = new Rate('errors')
 let payloadData = wsPayloads
 if (__ENV.PAYLOAD_GENERATED) {
   payloadData = new SharedArray('payloadData', function () {
-    const f = JSON.parse(open('../src/config/ws.json'))
+    const f = JSON.parse(open('../src/config/http.json'))
     return f
   })
 }

@@ -2900,7 +2900,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
+"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@1.13.0, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
@@ -2954,7 +2954,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-factories@*, @chainlink/ea-factories@workspace:*, @chainlink/ea-factories@workspace:packages/core/factories":
+"@chainlink/ea-factories@1.0.34, @chainlink/ea-factories@workspace:*, @chainlink/ea-factories@workspace:packages/core/factories":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-factories@workspace:packages/core/factories"
   dependencies:
@@ -3003,8 +3003,6 @@ __metadata:
     axios-observable: 1.3.0
     backoff-rxjs: 6.5.7
     chalk: 4.1.2
-    class-transformer: 0.4.0
-    class-transformer-validator: 0.9.1
     class-validator: 0.13.2
     command-line-args: 5.2.0
     command-line-usage: 6.1.1
@@ -4234,13 +4232,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-factories": "*"
-    "@chainlink/types": "workspace:*"
+    "@chainlink/ea-bootstrap": 1.13.0
+    "@chainlink/ea-factories": 1.0.34
+    "@chainlink/types": 1.0.2
     "@types/supertest": 2.0.11
     nock: 13.1.3
     supertest: 6.1.6
-    tslib: ^2.3.1
+    tslib: 2.3.1
   languageName: unknown
   linkType: soft
 
@@ -4308,6 +4306,25 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/savax-price-adapter@workspace:packages/composites/savax-price":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/savax-price-adapter@workspace:packages/composites/savax-price"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/token-allocation-adapter": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    "@types/supertest": 2.0.11
+    ethers: ^5.5.1
     nock: 13.2.4
     supertest: 6.2.2
     tslib: ^2.3.1
@@ -4667,7 +4684,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
+"@chainlink/types@1.0.2, @chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
   version: 0.0.0-use.local
   resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
@@ -11774,23 +11791,6 @@ __metadata:
   version: 1.1.0
   resolution: "class-is@npm:1.1.0"
   checksum: 49024de3b264fc501a38dd59d8668f1a2b4973fa6fcef6b83d80fe6fe99a2000a8fbea5b50d4607169c65014843c9f6b41a4f8473df806c1b4787b4d47521880
-  languageName: node
-  linkType: hard
-
-"class-transformer-validator@npm:0.9.1":
-  version: 0.9.1
-  resolution: "class-transformer-validator@npm:0.9.1"
-  peerDependencies:
-    class-transformer: ">=0.2.3"
-    class-validator: ">=0.12.0"
-  checksum: e1f90a6513c90c72ad444c24d63aa4141a16e7bd4e4b3290cb9e7a7bbb8c577367defd5dda8781f17fbf8e0b467b2882d5d5824930c5863f1803968d9a21e942
-  languageName: node
-  linkType: hard
-
-"class-transformer@npm:0.4.0":
-  version: 0.4.0
-  resolution: "class-transformer@npm:0.4.0"
-  checksum: 4057346b512705b1a5a68025b025a5be1ff847d7e0e76e82bbb937f832cf6235c5f66e874487d4bd35d67401411e8a3279c9d36bdd8c800336d5507ee6e94af0
   languageName: node
   linkType: hard
 

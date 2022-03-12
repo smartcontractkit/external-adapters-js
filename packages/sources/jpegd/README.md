@@ -1,10 +1,10 @@
 # Chainlink External Adapter for JPEG'd
 
-Version: 1.0.7
+Version: 1.1.2
 
 Query NFT collection values from the JPEG'd API.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
