@@ -3,8 +3,9 @@ import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 import { execute as bethExecute } from '../../src/endpoint/price/beth'
-// import { execute as blunaExecute } from '../../src/endpoint/price/bluna'
+import { execute as blunaExecute } from '../../src/endpoint/price/bluna'
 import { ethers } from 'ethers'
+import { callViewFunctionEA } from '../../src/utils'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -19,11 +20,19 @@ jest.mock('ethers', () => {
       },
       Contract: function () {
         return {
-          get_rate: () => jest.fn(),
-          get_dy: () => jest.fn(),
+          get_rate: jest.fn(),
+          get_dy: jest.fn(),
         }
       },
     },
+  }
+})
+
+jest.mock('../../src/utils', () => {
+  const actualModule = jest.requireActual('../../src/utils')
+  return {
+    ...actualModule,
+    callViewFunctionEA: jest.fn(),
   }
 })
 
@@ -32,13 +41,14 @@ describe('execute', () => {
     process.env.ETHEREUM_RPC_URL = 'fake-url'
     process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = 'fake-address'
     process.env.API_KEY = 'fake-key'
+    process.env.LOCALTERRA_LCD_URL = 'fake-lcd-url'
   })
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('beth execute with decimal precision', async () => {
+  describe('decimal precision', () => {
     const input: AdapterRequest = { id: '1', data: { from: 'BETH', to: 'USD' } }
     const config = {
       rpcUrl: '',
@@ -48,32 +58,46 @@ describe('execute', () => {
       feedAddresses: {},
     }
 
-    const stEthBEthString = '1' + '0'.repeat(10)
-    const stEthEthString = '1' + '0'.repeat(20)
-    const usdEthString = '1' + '0'.repeat(30)
+    it('beth execute responds with correct precision', async () => {
+      const stEthBEthString = '1' + '0'.repeat(150)
+      const stEthEthString = '1' + '0'.repeat(50)
+      const usdEthString = '1' + '0'.repeat(100)
 
-    const stEthBEth = ethers.BigNumber.from(stEthBEthString)
-    const stEthEth = ethers.BigNumber.from(stEthEthString)
-    const usdEth = ethers.BigNumber.from(usdEthString)
+      const stEthBEth = ethers.BigNumber.from(stEthBEthString)
+      const stEthEth = ethers.BigNumber.from(stEthEthString)
+      const usdEth = ethers.BigNumber.from(usdEthString)
 
-    // (USD / ETH) * (stETH / bETH) * (ETH / stETH) = USD / bETH
-    const expected = '1' + '0'.repeat(20)
+      // (USD / ETH) * (stETH / bETH) * (ETH / stETH) = USD / bETH
+      const expected = '1' + '0'.repeat(200)
 
-    //@ts-expect-error ethers.Contract must be mocked this way
-    ethers.Contract = jest.fn(function () {
-      return {
-        get_rate: () => stEthBEth,
-        get_dy: () => stEthEth,
-      }
+      //@ts-expect-error ethers.Contract must be mocked this way
+      ethers.Contract = jest.fn(function () {
+        return {
+          get_rate: () => stEthBEth,
+          get_dy: () => stEthEth,
+        }
+      })
+
+      const result = await bethExecute(input, {}, config, usdEth)
+      expect(result.toString()).toEqual(expected)
     })
 
-    const result = await bethExecute(input, {}, config, usdEth)
-    expect(result.toString()).toEqual(expected)
+    it('bluna execute responds with correct precision', async () => {
+      const lunaBLunaString = '1' + '0'.repeat(100)
+      const usdLunaString = '1' + '0'.repeat(100)
+
+      const usdLuna = ethers.BigNumber.from(usdLunaString)
+
+      // (LUNA / bLUNA) * (USD / LUNA) = USD / bLUNA
+      const expected = '1' + '0'.repeat(200)
+
+      //@ts-expect-error callViewFunctionEA must be mocked this way
+      callViewFunctionEA.mockReturnValue({ data: { result: { exchange_rate: lunaBLunaString } } })
+
+      const result = await blunaExecute(input, {}, config, usdLuna)
+      expect(result.toString()).toEqual(expected)
+    })
   })
-
-  // describe('bluna execute', () => {
-
-  // })
 
   describe('validation error', () => {
     const jobID = '1'
