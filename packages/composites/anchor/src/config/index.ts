@@ -29,11 +29,8 @@ export const makeConfig = (prefix?: string): Config => {
     anchorVaultContractAddress:
       util.getEnv('ANCHOR_VAULT_CONTRACT_ADDRESS', prefix) || DEFAULT_ANCHOR_VAULT_CONTRACT_ADDRESS,
     terraBLunaHubContractAddress:
-      util.getRequiredEnvWithFallback(
-        'TERRA_BLUNA_HUB_CONTRACT_ADDRESS',
-        ['TERRA_BLUNA_CONTRACT_ADDRESS'],
-        prefix,
-      ) || DEFAULT_TERRA_BLUNA_HUB_CONTRACT_ADDRESS,
+      util.getEnv('TERRA_BLUNA_HUB_CONTRACT_ADDRESS', prefix) ||
+      DEFAULT_TERRA_BLUNA_HUB_CONTRACT_ADDRESS,
     stEthPoolContractAddress:
       util.getEnv('STETH_POOL_CONTRACT_ADDRESS', prefix) || DEFAULT_STETH_POOL_CONTRACT_ADDRESS,
     feedAddresses: {

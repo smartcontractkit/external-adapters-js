@@ -11,7 +11,7 @@ export const getTokenPrice = async (
   feedDecimals = 8,
 ): Promise<ethers.BigNumber> => {
   const feedResponse = await callViewFunctionEA(input, context, feedAddress, {
-    get_latest_round_data: {},
+    aggregator_query: { get_latest_round_data: {} },
   })
   const latestAnswer = feedResponse.data.result.answer
   const result = ethers.utils.parseUnits(latestAnswer, feedDecimals)
