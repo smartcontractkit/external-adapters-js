@@ -12,11 +12,8 @@ The adapter takes the following environment variables:
 |           |  `ANCHOR_VAULT_CONTRACT_ADDRESS`   | The address of the Anchor Vault contract | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |  `0xA2F987A546D4CD1c607Ee8141276876C26b72Bdf`  |
 |           | `TERRA_BLUNA_HUB_CONTRACT_ADDRESS` |  The address of bLuna contract in Terra  | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) | `terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts` |
 |           |   `STETH_POOL_CONTRACT_ADDRESS`    |      The address of stEth contract       |                   Address can be found by finding the stETH/ETH pool in Curve                   |  `0xdc24316b9ae028f1497c275eb9192a3ea0f67022`  |
-|           |     `LUNA_TERRA_FEED_ADDRESS`      |     The Terra address of `LUNA` feed     |        Address can be found by here https://docs.chain.link/docs/terra/data-feeds-terra/        | `terra1u475ps69rmhpf4f4gx2pc74l7tlyu4hkj4wp9d` |
-|           |      `ETH_TERRA_FEED_ADDRESS`      |     The Terra address of `ETH` feed      |        Address can be found by here https://docs.chain.link/docs/terra/data-feeds-terra/        | `terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy` |
-
-**Additional environment variables must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+|           |     `LUNA_TERRA_FEED_ADDRESS`      |     The Terra address of `LUNA` feed     |        Address can be found by here https://docs.chain.link/docs/terra/data-feeds-terra/        | `terra1gfy9nxj2xwd4vcupzfelk34u3qjkvp3vcjveg6` |
+|           |      `ETH_TERRA_FEED_ADDRESS`      |     The Terra address of `ETH` feed      |        Address can be found by here https://docs.chain.link/docs/terra/data-feeds-terra/        | `terra1a39jndcuh64ef2qzt5w8mh46m5ysc34a9qd2e5` |
 
 **Additional environment variables must be set according to the Terra View Function adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../sources/terra-view-function/README.md](../sources/terra-view-function/README.md) for more details.
