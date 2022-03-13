@@ -20,7 +20,7 @@ jest.mock('@chainlink/terra-view-function-adapter', () => {
     makeExecute: jest.fn().mockReturnValue(
       jest.fn().mockImplementation((input: AdapterRequest) => {
         const { address, query } = input.data
-        if (query.aggregator_query && query.aggregator_query.get_latest_round_data) {
+        if (query === 'latest_round_data') {
           return address === ERROR_LUNA_FEED ? mockErrorFeedResponse : mockSuccessfulLunaFeedResp
         } else if (query.state) {
           return address === ERROR_TERRA_BLUNA_HUB_CONTRACT_ADDRESS

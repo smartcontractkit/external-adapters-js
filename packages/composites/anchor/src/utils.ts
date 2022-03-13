@@ -10,9 +10,7 @@ export const getTokenPrice = async (
   feedAddress: string,
   feedDecimals = 8,
 ): Promise<ethers.BigNumber> => {
-  const feedResponse = await callViewFunctionEA(input, context, feedAddress, {
-    aggregator_query: { get_latest_round_data: {} },
-  })
+  const feedResponse = await callViewFunctionEA(input, context, feedAddress, 'latest_round_data')
   const latestAnswer = feedResponse.data.result.answer
   const result = ethers.utils.parseUnits(latestAnswer, feedDecimals)
   throwErrorForInvalidResult(input.id, result, `Chainlink Terra feed ${feedAddress}`)
@@ -58,7 +56,7 @@ export const throwErrorForInvalidResult = (
   value: ethers.BigNumber,
   label: string,
 ): void => {
-  if (value.eq(BigNumber.from('0')))
+  if (value.lte(BigNumber.from('0')))
     throw new AdapterError({
       jobRunID,
       statusCode: 500,
