@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/circuit-breaker-adapter",
-  "version": "1.0.33",
+  "version": "1.0.35",
   "description": "Chainlink circuit-breaker adapter.",
   "keywords": [
     "Chainlink",

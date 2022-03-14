@@ -1,8 +1,8 @@
 # Chainlink CoinApi External Adapter
 
-Version: 1.1.18
+Version: 1.1.21
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

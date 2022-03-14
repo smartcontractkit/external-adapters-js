@@ -1,147 +1,124 @@
-import nock from 'nock'
-
-export function mockLunaUSDPrice() {
-  nock('http://localhost:5000', { encodedQueryParams: true })
-    .persist()
-    .post('/', { id: '1', data: { base: 'LUNA', quote: 'USD', endpoint: 'crypto' } })
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        providerStatusCode: 200,
-        result: 69.24,
-        maxAge: 30000,
-        statusCode: 200,
-        data: { result: 69.24 },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'X-RateLimit-Limit',
-        '250',
-        'X-RateLimit-Remaining',
-        '246',
-        'Date',
-        'Fri, 03 Dec 2021 05:46:54 GMT',
-        'X-RateLimit-Reset',
-        '1638510417',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '87',
-        'ETag',
-        'W/"57-8u9i5RNCsrlLL47Tvv9xGrhiR8M"',
-        'Connection',
-        'close',
-      ],
-    )
+export const mockSuccessfulLunaFeedResp = {
+  jobRunID: '1',
+  result: {
+    round_id: 314711,
+    answer: '262009859746',
+    started_at: 1645564682,
+    updated_at: 1645564682,
+    answered_in_round: 314711,
+  },
+  statusCode: 200,
+  data: {
+    result: {
+      round_id: 314711,
+      answer: '262009859746',
+      started_at: 1645564682,
+      updated_at: 1645564682,
+      answered_in_round: 314711,
+    },
+  },
 }
 
-export function mockSTEthUSDPrice() {
-  nock('http://localhost:5000', { encodedQueryParams: true })
-    .persist(true)
-    .post('/', { id: '1', data: { base: 'ETH', quote: 'USD', endpoint: 'crypto' } })
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        providerStatusCode: 200,
-        result: 4507.32,
-        maxAge: 30000,
-        statusCode: 200,
-        data: { result: 4507.32 },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'X-RateLimit-Limit',
-        '250',
-        'X-RateLimit-Remaining',
-        '246',
-        'Date',
-        'Fri, 03 Dec 2021 05:00:18 GMT',
-        'X-RateLimit-Reset',
-        '1638507620',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '91',
-        'ETag',
-        'W/"5b-KHfirWOAWaJJ23p/s5+6Xh9EidI"',
-        'Connection',
-        'close',
-      ],
-    )
+export const mockSuccessfulTerraEthFeedResp = {
+  jobRunID: '1',
+  result: {
+    round_id: 314711,
+    answer: '262009859746',
+    started_at: 1645564682,
+    updated_at: 1645564682,
+    answered_in_round: 314711,
+  },
+  statusCode: 200,
+  data: {
+    result: {
+      round_id: 314711,
+      answer: '262009859746',
+      started_at: 1645564682,
+      updated_at: 1645564682,
+      answered_in_round: 314711,
+    },
+  },
 }
 
-export function mockETHUSDPrice() {
-  nock('http://localhost:5000', { encodedQueryParams: true })
-    .post('/', { id: '1', data: { base: 'ETH', quote: 'USD', endpoint: 'crypto' } })
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        providerStatusCode: 200,
-        result: 4538.52,
-        maxAge: 30000,
-        statusCode: 200,
-        data: { result: 4538.52 },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'X-RateLimit-Limit',
-        '250',
-        'X-RateLimit-Remaining',
-        '247',
-        'Date',
-        'Fri, 03 Dec 2021 05:00:18 GMT',
-        'X-RateLimit-Reset',
-        '1638507620',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '91',
-        'ETag',
-        'W/"5b-IBWdr0sekrbhz3P+QWo60aW+NIs"',
-        'Connection',
-        'close',
-      ],
-    )
+export const mockErrorFeedResponse = {
+  jobRunID: '1',
+  result: {
+    round_id: 314711,
+    answer: '0',
+    started_at: 1645564682,
+    updated_at: 1645564682,
+    answered_in_round: 314711,
+  },
+  statusCode: 200,
+  data: {
+    result: {
+      round_id: 314711,
+      answer: '0',
+      started_at: 1645564682,
+      updated_at: 1645564682,
+      answered_in_round: 314711,
+    },
+  },
 }
 
-export function mockBTCUSDPrice() {
-  nock('http://localhost:5000', { encodedQueryParams: true })
-    .post('/', { id: '1', data: { base: 'BTC', quote: 'USD', endpoint: 'crypto' } })
-    .reply(
-      200,
-      {
-        jobRunID: '1',
-        providerStatusCode: 200,
-        result: 56606,
-        maxAge: 30000,
-        statusCode: 200,
-        data: { result: 56606 },
-      },
-      [
-        'X-Powered-By',
-        'Express',
-        'X-RateLimit-Limit',
-        '250',
-        'X-RateLimit-Remaining',
-        '245',
-        'Date',
-        'Fri, 03 Dec 2021 05:00:19 GMT',
-        'X-RateLimit-Reset',
-        '1638507620',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Content-Length',
-        '87',
-        'ETag',
-        'W/"57-FJpBD9pl1FGirmllOirm7tRUlEw"',
-        'Connection',
-        'close',
-      ],
-    )
+export const mockSuccessfulAnchorHubContractAddress = {
+  jobRunID: '1',
+  result: {
+    bluna_exchange_rate: '1.000007186099738229',
+    stluna_exchange_rate: '1.016582973702789229',
+    total_bond_bluna_amount: '83309307395117',
+    total_bond_stluna_amount: '1789057091036',
+    last_index_modification: 1646371624,
+    prev_hub_balance: '239985782176',
+    last_unbonded_time: 1646230817,
+    last_processed_batch: 109,
+    total_bond_amount: '83309307395117',
+    exchange_rate: '1.000007186099738229',
+  },
+  statusCode: 200,
+  data: {
+    result: {
+      bluna_exchange_rate: '1.000007186099738229',
+      stluna_exchange_rate: '1.016582973702789229',
+      total_bond_bluna_amount: '83309307395117',
+      total_bond_stluna_amount: '1789057091036',
+      last_index_modification: 1646371624,
+      prev_hub_balance: '239985782176',
+      last_unbonded_time: 1646230817,
+      last_processed_batch: 109,
+      total_bond_amount: '83309307395117',
+      exchange_rate: '1.000007186099738229',
+    },
+  },
+}
+
+export const mockErrorAnchorHubContractResp = {
+  jobRunID: '1',
+  result: {
+    bluna_exchange_rate: '0',
+    stluna_exchange_rate: '0',
+    total_bond_bluna_amount: '0',
+    total_bond_stluna_amount: '0',
+    last_index_modification: 0,
+    prev_hub_balance: '0',
+    last_unbonded_time: 0,
+    last_processed_batch: 0,
+    total_bond_amount: '0',
+    exchange_rate: '0',
+  },
+  statusCode: 200,
+  data: {
+    result: {
+      bluna_exchange_rate: '0',
+      stluna_exchange_rate: '0',
+      total_bond_bluna_amount: '0',
+      total_bond_stluna_amount: '0',
+      last_index_modification: 0,
+      prev_hub_balance: '0',
+      last_unbonded_time: 0,
+      last_processed_batch: 0,
+      total_bond_amount: '0',
+      exchange_rate: '0',
+    },
+  },
 }

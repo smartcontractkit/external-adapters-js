@@ -1,8 +1,8 @@
 # Chainlink OilpriceAPI External Adapter
 
-Version: 2.0.17
+Version: 2.0.20
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

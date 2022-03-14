@@ -1,5 +1,33 @@
 # @chainlink/anchor-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- aef22ac05: - Update EA to use fixed point decimal operations to handle decimals in EA much like how decimals are handled in Solidity. This allows us to remove the extra dependency to the original BigNumbers JS library. A side effect of this is that the result is now returned in a string format with no decimals.
+  - Update EA to pull intermediary token prices from on chain Terra feeds instead of directly from data providers
+
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/token-allocation-adapter@1.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.3
+
+## 1.3.8
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/token-allocation-adapter@1.2.3
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.2
+
 ## 1.3.7
 
 ### Patch Changes

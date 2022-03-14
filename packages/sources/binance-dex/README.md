@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Binance DEX
 
-Version: 1.2.17
+Version: 1.2.20
 
 The following `base` and `quote` pair must be taken from [this list](https://dex.binance.org/api/v1/markets)
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Nomics
 
-Version: 1.1.1
+Version: 1.1.4
 
 An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

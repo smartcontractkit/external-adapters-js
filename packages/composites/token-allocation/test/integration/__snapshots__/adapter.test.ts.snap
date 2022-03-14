@@ -1,5 +1,275 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute additional input parameter pass through should return the correct price for source amberdata with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source coinapi with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source coingecko with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source coinmarketcap with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source coinpaprika with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 0.895751834891022,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 35308.08752844105,
+          },
+        },
+      },
+    },
+    "result": 35308.98328027594,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 35308.98328027594,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source cryptocompare with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source kaiko with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source nomics with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute additional input parameter pass through should return the correct price for source tiingo with additional input   1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "WBTC": Object {
+        "quote": Object {
+          "EUR": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 260.54,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 260.54,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute marketcap method should return the correct price for source amberdata 1`] = `
 Object {
   "data": Object {
@@ -23,7 +293,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -53,7 +323,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -83,7 +353,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -113,7 +383,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -143,7 +413,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 15095665248.892408,
   "statusCode": 200,
@@ -173,7 +443,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -203,7 +473,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -233,7 +503,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -263,7 +533,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -293,7 +563,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -323,7 +593,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -353,7 +623,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -383,7 +653,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -413,7 +683,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -443,7 +713,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 35308.98328027594,
   "statusCode": 200,
@@ -473,7 +743,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -503,7 +773,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -533,7 +803,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -563,7 +833,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,
@@ -593,7 +863,7 @@ Object {
     "sources": Array [],
   },
   "debug": undefined,
-  "jobRunID": 1,
+  "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 260.54,
   "statusCode": 200,

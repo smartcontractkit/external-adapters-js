@@ -1,8 +1,8 @@
 # Chainlink External Adapter for Nikkei
 
-Version: 1.1.27
+Version: 1.1.30
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

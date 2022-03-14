@@ -1,4 +1,6 @@
-import { MaxColChars, TableText, TextRow } from './types'
+type MaxColChars = number[]
+export type TableText = string[][]
+export type TextRow = string[]
 
 function getMaxColChars(tableText: TableText, numCols: number): MaxColChars {
   return tableText.reduce(

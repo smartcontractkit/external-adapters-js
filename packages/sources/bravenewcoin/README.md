@@ -1,8 +1,8 @@
 # Chainlink External Adapter for BraveNewCoin
 
-Version: 1.1.17
+Version: 1.2.0
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
@@ -90,8 +90,7 @@ Request:
   "id": "2",
   "data": {
     "endpoint": "vwap",
-    "symbol": "ETH",
-    "indexType": "GWA"
+    "symbol": "ETH"
   }
 }
 ```
