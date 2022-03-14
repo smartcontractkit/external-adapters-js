@@ -6,7 +6,7 @@ import {
   InputParameters,
 } from '@chainlink/types'
 import { ethers } from 'ethers'
-import { Config } from '../../config'
+import { Config, FIXED_POINT_DECIMALS } from '../../config'
 import { convertUSDQuote, getTokenPrice } from '../../utils'
 import * as beth from './beth'
 import * as bluna from './bluna'
@@ -76,13 +76,15 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     )
   }
 
-  const resString = result.toString()
+  const resToRequiredDP = result
+    .div(ethers.BigNumber.from(10).pow(FIXED_POINT_DECIMALS - config.feedDecimals))
+    .toString()
   return {
     jobRunID: input.id,
     statusCode: 200,
-    result: resString,
+    result: resToRequiredDP,
     data: {
-      result: resString,
+      result: resToRequiredDP,
     },
   }
 }

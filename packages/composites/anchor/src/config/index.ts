@@ -11,17 +11,20 @@ export const DEFAULT_TERRA_BLUNA_HUB_CONTRACT_ADDRESS =
 export const DEFAULT_STETH_POOL_CONTRACT_ADDRESS = '0xdc24316b9ae028f1497c275eb9192a3ea0f67022'
 export const DEFAULT_LUNA_TERRA_FEED_ADDRESS = 'terra1gfy9nxj2xwd4vcupzfelk34u3qjkvp3vcjveg6'
 export const DEFAULT_ETH_TERRA_FEED_ADDRESS = 'terra1a39jndcuh64ef2qzt5w8mh46m5ysc34a9qd2e5'
+export const DEFAULT_FEED_DECIMALS = 8
 
 export interface Config extends DefaultConfig {
   anchorVaultContractAddress: string
   terraBLunaHubContractAddress: string
   stEthPoolContractAddress: string
+  feedDecimals: number
   feedAddresses: {
     [T: string]: string
   }
 }
 
 export const makeConfig = (prefix?: string): Config => {
+  const feedDecimals = util.getEnv('FEED_DECIMALS', prefix)
   return {
     ...Requester.getDefaultConfig(prefix),
     rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
@@ -37,5 +40,6 @@ export const makeConfig = (prefix?: string): Config => {
       luna: util.getEnv('LUNA_TERRA_FEED_ADDRESS', prefix) || DEFAULT_LUNA_TERRA_FEED_ADDRESS,
       eth: util.getEnv('ETH_TERRA_FEED_ADDRESS', prefix) || DEFAULT_ETH_TERRA_FEED_ADDRESS,
     },
+    feedDecimals: feedDecimals ? parseInt(feedDecimals) : DEFAULT_FEED_DECIMALS,
   }
 }

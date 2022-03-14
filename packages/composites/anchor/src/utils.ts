@@ -12,7 +12,7 @@ export const getTokenPrice = async (
 ): Promise<ethers.BigNumber> => {
   const feedResponse = await callViewFunctionEA(input, context, feedAddress, 'latest_round_data')
   const latestAnswer = feedResponse.data.result.answer
-  const result = ethers.utils.parseUnits(latestAnswer, feedDecimals)
+  const result = ethers.utils.parseUnits(latestAnswer, FIXED_POINT_DECIMALS - feedDecimals)
   throwErrorForInvalidResult(input.id, result, `Chainlink Terra feed ${feedAddress}`)
   return result
 }
