@@ -8,6 +8,7 @@ The adapter takes the following environment variables:
 
 | Required? |                Name                |                         Description                         |                                             Options                                             |                  Defaults to                   |
 | :-------: | :--------------------------------: | :---------------------------------------------------------: | :---------------------------------------------------------------------------------------------: | :--------------------------------------------: |
+|    ✅     |         `ETHEREUM_RPC_URL`         |                The URL to Ethereum RPC node                 |                                                                                                 |                                                |
 |           |  `ANCHOR_VAULT_CONTRACT_ADDRESS`   |          The address of the Anchor Vault contract           | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) |  `0xA2F987A546D4CD1c607Ee8141276876C26b72Bdf`  |
 |           | `TERRA_BLUNA_HUB_CONTRACT_ADDRESS` |           The address of bLuna contract in Terra            | Address can be found [here](https://docs.anchorprotocol.com/smart-contracts/deployed-contracts) | `terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts` |
 |           |   `STETH_POOL_CONTRACT_ADDRESS`    |                The address of stEth contract                |                   Address can be found by finding the stETH/ETH pool in Curve                   |  `0xdc24316b9ae028f1497c275eb9192a3ea0f67022`  |
@@ -18,12 +19,12 @@ The adapter takes the following environment variables:
 **Additional environment variables must be set according to the Terra View Function adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../sources/terra-view-function/README.md](../../sources/terra-view-function/README.md) for more details.
 
-| Required? |         Name         |                                                     Description                                                      |   Options    | Defaults to |
-| :-------: | :------------------: | :------------------------------------------------------------------------------------------------------------------: | :----------: | :---------: |
-|    ✅     | `COLUMBUS_5_LCD_URL` | The URL to a Terra `columbus-5` full node to query on-chain mainnet data. At least 1 of 3 LCD_URLs must be provided. |    string    |             |
-|    ✅     | `BOMBAY_12_LCD_URL`  | The URL to a Terra `bombay-12` full node to query on-chain testnet data. At least 1 of 3 LCD_URLs must be provided.  |    string    |             |
-|    ✅     | `LOCALTERRA_LCD_URL` |   The URL to a locally running Terra full node to query on-chain data. At least 1 of 3 LCD_URLs must be provided.    |    string    |             |
-|    ✅     |  `DEFAULT_CHAIN_ID`  |                               The default `chainId` value to use as an input parameter                               | `columbus-5` |             |
+| Required? |         Name         |                                                     Description                                                      | Options | Defaults to  |
+| :-------: | :------------------: | :------------------------------------------------------------------------------------------------------------------: | :-----: | :----------: |
+|    ✅     | `COLUMBUS_5_LCD_URL` | The URL to a Terra `columbus-5` full node to query on-chain mainnet data. At least 1 of 3 LCD_URLs must be provided. | string  |              |
+|    ✅     | `BOMBAY_12_LCD_URL`  | The URL to a Terra `bombay-12` full node to query on-chain testnet data. At least 1 of 3 LCD_URLs must be provided.  | string  |              |
+|    ✅     | `LOCALTERRA_LCD_URL` |   The URL to a locally running Terra full node to query on-chain data. At least 1 of 3 LCD_URLs must be provided.    | string  |              |
+|           |  `DEFAULT_CHAIN_ID`  |                               The default `chainId` value to use as an input parameter                               | string  | `columbus-5` |
 
 ## Running
 
