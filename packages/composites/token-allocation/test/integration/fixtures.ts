@@ -2,62 +2,82 @@ import nock from 'nock'
 
 export const dataProviderConfig = {
   amberdata: {
-    providerUrlEnvVar: 'AMBERDATA_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'AMBERDATA_ADAPTER_URL',
     providerUrl: 'http://localhost:3000',
+    shouldSendBatchedRequest: false,
+    additional: {},
   },
   coinapi: {
-    providerUrlEnvVar: 'COINAPI_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'COINAPI_ADAPTER_URL',
     providerUrl: 'http://localhost:3001',
+    shouldSendBatchedRequest: false,
+    additional: {},
   },
   coingecko: {
-    providerUrlEnvVar: 'COINGECKO_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'COINGECKO_ADAPTER_URL',
     providerUrl: 'http://localhost:3002',
-    isBatched: true,
+    shouldSendBatchedRequest: false,
+    additional: {},
   },
   coinmarketcap: {
-    providerUrlEnvVar: 'COINMARKETCAP_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'COINMARKETCAP_ADAPTER_URL',
     providerUrl: 'http://localhost:3003',
-    isBatched: true,
+    shouldSendBatchedRequest: false,
+    additional: {},
   },
   coinpaprika: {
-    providerUrlEnvVar: 'COINPAPRIKA_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'COINPAPRIKA_ADAPTER_URL',
     providerUrl: 'http://localhost:3004',
-    isBatched: true,
     shouldSendBatchedRequest: true,
+    additional: {},
   },
   cryptocompare: {
-    providerUrlEnvVar: 'CRYPTOCOMPARE_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'CRYPTOCOMPARE_ADAPTER_URL',
     providerUrl: 'http://localhost:3005',
-    isBatched: true,
+    shouldSendBatchedRequest: false,
+    additional: {},
   },
   kaiko: {
-    providerUrlEnvVar: 'KAIKO_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'KAIKO_ADAPTER_URL',
     providerUrl: 'http://localhost:3006',
+    shouldSendBatchedRequest: false,
+    additional: {
+      sort: 'asc',
+    },
   },
   nomics: {
-    providerUrlEnvVar: 'NOMICS_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'NOMICS_ADAPTER_URL',
     providerUrl: 'http://localhost:3007',
-    isBatched: true,
+    shouldSendBatchedRequest: false,
+    additional: {},
   },
   tiingo: {
     providerUrl: 'http://localhost:3008',
-    providerUrlEnvVar: 'TIINGO_DATA_PROVIDER_URL',
+    providerUrlEnvVar: 'TIINGO_ADAPTER_URL',
+    shouldSendBatchedRequest: false,
+    additional: {},
   },
 }
 
-export function mockDataProviderResponses() {
-  for (const { providerUrl, shouldSendBatchedRequest } of Object.values(dataProviderConfig)) {
+export function mockDataProviderResponses(withAdditional = false): void {
+  for (const { providerUrl, shouldSendBatchedRequest, additional } of Object.values(
+    dataProviderConfig,
+  )) {
+    const additionalInput = withAdditional ? additional : undefined
     if (shouldSendBatchedRequest) {
-      mockBatchedRequest(providerUrl)
+      mockBatchedRequest(providerUrl, additionalInput)
     } else {
-      mockSingleRequests(providerUrl)
+      mockSingleRequests(providerUrl, additionalInput)
     }
   }
 }
 
-const mockBatchedRequest = (providerUrl: string) => {
+const mockBatchedRequest = (providerUrl: string, additional = {}) => {
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: ['DAI', 'WBTC'], quote: 'USD', endpoint: 'crypto' } })
+    .post('/', {
+      id: '1',
+      data: { base: ['DAI', 'WBTC'], quote: 'USD', endpoint: 'crypto', ...additional },
+    })
     .reply(
       200,
       {
@@ -111,7 +131,10 @@ const mockBatchedRequest = (providerUrl: string) => {
       ],
     )
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: ['DAI', 'WBTC'], quote: 'EUR', endpoint: 'crypto' } })
+    .post('/', {
+      id: '1',
+      data: { base: ['DAI', 'WBTC'], quote: 'EUR', endpoint: 'crypto', ...additional },
+    })
     .reply(
       200,
       {
@@ -165,7 +188,10 @@ const mockBatchedRequest = (providerUrl: string) => {
       ],
     )
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: ['DAI', 'WBTC'], quote: 'USD', endpoint: 'marketcap' } })
+    .post('/', {
+      id: '1',
+      data: { base: ['DAI', 'WBTC'], quote: 'USD', endpoint: 'marketcap', ...additional },
+    })
     .reply(
       200,
       {
@@ -219,7 +245,10 @@ const mockBatchedRequest = (providerUrl: string) => {
       ],
     )
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: ['DAI', 'WBTC'], quote: 'EUR', endpoint: 'marketcap' } })
+    .post('/', {
+      id: '1',
+      data: { base: ['DAI', 'WBTC'], quote: 'EUR', endpoint: 'marketcap', ...additional },
+    })
     .reply(
       200,
       {
@@ -274,9 +303,12 @@ const mockBatchedRequest = (providerUrl: string) => {
     )
 }
 
-const mockSingleRequests = (providerUrl: string) => {
+const mockSingleRequests = (providerUrl: string, additional = {}) => {
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'WBTC', quote: 'EUR', endpoint: 'marketcap' } })
+    .post('/', {
+      id: '1',
+      data: { base: 'WBTC', quote: 'EUR', endpoint: 'marketcap', ...additional },
+    })
     .reply(
       200,
       {
@@ -305,7 +337,10 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'WBTC', quote: 'USD', endpoint: 'marketcap' } })
+    .post('/', {
+      id: '1',
+      data: { base: 'WBTC', quote: 'USD', endpoint: 'marketcap', ...additional },
+    })
     .reply(
       200,
       {
@@ -334,7 +369,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'WBTC', quote: 'EUR', endpoint: 'price' } })
+    .post('/', { id: '1', data: { base: 'WBTC', quote: 'EUR', endpoint: 'price', ...additional } })
     .reply(
       200,
       {
@@ -363,7 +398,10 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'DAI', quote: 'EUR', endpoint: 'marketcap' } })
+    .post('/', {
+      id: '1',
+      data: { base: 'DAI', quote: 'EUR', endpoint: 'marketcap', ...additional },
+    })
     .reply(
       200,
       {
@@ -392,7 +430,10 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'DAI', quote: 'USD', endpoint: 'marketcap' } })
+    .post('/', {
+      id: '1',
+      data: { base: 'DAI', quote: 'USD', endpoint: 'marketcap', ...additional },
+    })
     .reply(
       200,
       {
@@ -421,7 +462,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'WBTC', quote: 'USD', endpoint: 'price' } })
+    .post('/', { id: '1', data: { base: 'WBTC', quote: 'USD', endpoint: 'price', ...additional } })
     .reply(
       200,
       {
@@ -450,7 +491,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'DAI', quote: 'EUR', endpoint: 'price' } })
+    .post('/', { id: '1', data: { base: 'DAI', quote: 'EUR', endpoint: 'price', ...additional } })
     .reply(
       200,
       {
@@ -479,7 +520,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'DAI', quote: 'USD', endpoint: 'price' } })
+    .post('/', { id: '1', data: { base: 'DAI', quote: 'USD', endpoint: 'price', ...additional } })
     .reply(
       200,
       {
@@ -508,7 +549,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'WBTC', quote: 'EUR', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: 'WBTC', quote: 'EUR', endpoint: 'crypto', ...additional } })
     .reply(
       200,
       {
@@ -537,7 +578,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'WBTC', quote: 'USD', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: 'WBTC', quote: 'USD', endpoint: 'crypto', ...additional } })
     .reply(
       200,
       {
@@ -566,7 +607,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'DAI', quote: 'USD', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: 'DAI', quote: 'USD', endpoint: 'crypto', ...additional } })
     .reply(
       200,
       {
@@ -595,7 +636,7 @@ const mockSingleRequests = (providerUrl: string) => {
     )
 
   nock(providerUrl)
-    .post('/', { id: 1, data: { base: 'DAI', quote: 'EUR', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: 'DAI', quote: 'EUR', endpoint: 'crypto', ...additional } })
     .reply(
       200,
       {

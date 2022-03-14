@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.14.0",
+  "version": "1.16.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -16,15 +16,17 @@
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "setup": "tsc -b ./packages/tsconfig.json",
-    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest",
-    "test:unit": "NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest unit",
-    "test:integration": "EA_PORT=0 NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest integration",
-    "test:ci:unit": "NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest --coverage unit",
-    "test:ci:integration": "EA_PORT=0 NODE_OPTIONS=\"$NODE_OPTIONS --openssl-legacy-provider\" jest --coverage integration",
+    "test": "jest",
+    "test:unit": "jest unit",
+    "test:integration": "EA_PORT=0 jest integration",
+    "test:ci:unit": "jest --coverage unit",
+    "test:ci:integration": "EA_PORT=0 jest --coverage integration",
     "generate:docker-compose": "ts-node-transpile-only ./packages/scripts/src/docker-build",
     "generate:gha:matrix": "ts-node-transpile-only ./packages/scripts/src/gha",
     "generate:healthcheck:payloads": "ts-node-transpile-only ./packages/scripts/src/healthchecks",
     "generate:image-name": "ts-node-transpile-only ./packages/scripts/src/generate-image-name",
+    "generate:master-list": "ts-node-transpile-only ./packages/scripts/src/generate-master-list",
+    "generate:readme": "ts-node-transpile-only ./packages/scripts/src/generate-readme",
     "postinstall": "husky install",
     "cm": "cz",
     "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
@@ -43,7 +45,8 @@
     "@vercel/ncc": "0.29.2",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "jest": "27.3.1"
+    "jest": "27.3.1",
+    "source-map-support": "0.5.21"
   },
   "devDependencies": {
     "@types/babel__core": "7.1.18",

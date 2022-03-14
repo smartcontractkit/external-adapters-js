@@ -23,6 +23,20 @@ import {
 export interface LocationCurrentConditionsResult extends LocationResult, CurrentConditionsResult {}
 export type LocationCurrentConditionsResultEncoded = [boolean, string, string]
 
+export const description = `Returns the current weather conditions in a location by its geoposition
+
+### Data Conversions - Location Current Conditions Endpoint
+
+See [Location Endpoint Data Conversions](#data-conversions---location-endpoint) and [Current Conditions Endpoint Data Conversions](#data-conversions---current-conditions-endpoint)
+
+### Endpoint Measurement Units By System - Location Current Conditions Endpoint
+
+See [Current Conditions Endpoint Measurement Units By System](#measurement-units-by-system---current-conditions-endpoint)
+
+### Solidity types - Location Current Conditions Endpoint
+
+See [Solidity Types](#solidity-types)`
+
 export const supportedEndpoints = ['location-current-conditions']
 
 export const inputParameters: InputParameters = {

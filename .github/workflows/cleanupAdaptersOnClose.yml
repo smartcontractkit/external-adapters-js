@@ -1,4 +1,4 @@
-name: Actions
+name: Clean up on PR close
 
 on:
   pull_request:
@@ -28,7 +28,7 @@ jobs:
           kubeconfig: ${{ secrets.QA_SDLC_KUBECONFIG }}
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: '16.x'
       - name: Install Yarn and setup project
         run: |
           npm install -g yarn
