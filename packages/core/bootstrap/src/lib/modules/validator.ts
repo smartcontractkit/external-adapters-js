@@ -201,6 +201,7 @@ export class Validator {
     if (!Array.isArray(defaultSymbol))
       return (
         this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
+        this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toUpperCase()) ||
         defaultSymbol
       )
     const multiple: string[] = []
