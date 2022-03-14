@@ -473,11 +473,12 @@ export const buildUrl = (baseUrl: string, pathTemplate = '', params = {}, whitel
 //  URL Encoding
 
 let unhandledRejectionHandlerRegistered = false
+
 /**
  * Adapters use to run with Node 14, which by default didn't crash when a rejected promised bubbled up to the top.
  * This function registers a global handler to catch those rejections and just log them to console.
  */
-export function registerUnhandledRejectionHandler(): void {
+export const registerUnhandledRejectionHandler = (): void => {
   if (unhandledRejectionHandlerRegistered) {
     if (process.env.NODE_ENV !== 'test')
       logger.warn('UnhandledRejectionHandler attempted to be registered more than once')
