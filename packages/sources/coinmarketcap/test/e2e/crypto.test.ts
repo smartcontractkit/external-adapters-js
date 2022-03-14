@@ -103,7 +103,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 'errored', actual: errorResp.status }, errorResp, jobID)
         }
       })
     })

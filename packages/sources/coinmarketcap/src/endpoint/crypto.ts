@@ -1,13 +1,15 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Overrider, AdapterError } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import {
   ExecuteWithConfig,
   Config,
   AxiosResponse,
+  AdapterResponse,
   AdapterRequest,
   InputParameters,
 } from '@chainlink/types'
-import overrides from '../config/symbols.json'
+import overrides from '../config/symbolToSymbolOverrides.json'
+import symbolToIdOverrides from '../config/symbolToIdOverrides.json'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'convert', limit: 120 }]
@@ -60,39 +62,6 @@ export interface ResponseSchema {
   }
 }
 
-// Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
-const presetIds: { [symbol: string]: number } = {
-  COMP: 5692,
-  BNT: 1727,
-  RCN: 2096,
-  UNI: 7083,
-  CRV: 6538,
-  FNX: 5712,
-  ETC: 1321,
-  BAT: 1697,
-  CRO: 3635,
-  LEO: 3957,
-  FTT: 4195,
-  HT: 2502,
-  OKB: 3897,
-  KCS: 2087,
-  BTC: 1,
-  ETH: 1027,
-  BNB: 1839,
-  LINK: 1975,
-  BCH: 1831,
-  MKR: 1518,
-  AAVE: 7278,
-  UMA: 5617,
-  SNX: 2586,
-  REN: 2539,
-  KNC: 1982,
-  SUSHI: 6758,
-  YFI: 5864,
-  BAL: 5728,
-  '1INCH': 8104,
-}
-
 export const description = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
@@ -124,16 +93,12 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema>,
-  validator: Validator,
   resultPath: string,
-) => {
+  idsToSymbols: { [id: string]: string },
+): AdapterResponse => {
   const payload: [AdapterRequest, number][] = []
   for (const base in response.data.data) {
-    const originalBase = validator.overrideReverseLookup(
-      AdapterName,
-      'overrides',
-      response.data.data[base].symbol,
-    )
+    const originalBase = idsToSymbols[base]
     for (const quote in response.data.data[base].quote) {
       payload.push([
         {
@@ -161,46 +126,40 @@ const handleBatchedRequest = (
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const url = 'cryptocurrency/quotes/latest'
-  const validator = new Validator(request, inputParameters, {}, { overrides })
-
+  const validator = new Validator(request, inputParameters, {}, { overrides, symbolToIdOverrides })
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName)
+
   // CMC allows a coin name to be specified instead of a symbol
   const slug = validator.validated.data.slug
   // CMC allows a coin ID to be specified instead of a symbol
   const cid = validator.validated.data.cid || ''
   const convert = validator.validated.data.convert
   if (!config.apiKey && Array.isArray(convert))
-    throw new Error(' Free CMCPro API only supports a single symbol to convert')
+    throw Error(' Free CMCPro API only supports a single symbol to convert')
+
   const resultPath = validator.validated.data.resultPath
   const params: Record<string, string> = {
     convert: Array.isArray(convert)
       ? convert.map((symbol) => symbol.toUpperCase()).join(',')
       : convert.toUpperCase(),
   }
+
+  let idsToSymbols = invertObj(symbolToIdOverrides.coinmarketcap)
   if (cid) {
     params.id = cid
   } else if (slug) {
     params.slug = slug
-  } else if (Array.isArray(symbol)) {
-    let hasIds = true
-    const idsForSymbols = symbol.map((symbol) => {
-      const idForSymbol = presetIds[symbol]
-      if (!idForSymbol) hasIds = false
-      return idForSymbol
-    })
-    if (hasIds) {
-      params.id = idsForSymbols.join(',')
-    } else {
-      params.symbol = symbol.map((s) => s.toUpperCase()).join(',')
-    }
   } else {
-    const idForSymbol = presetIds[symbol]
-    if (idForSymbol) {
-      params.id = String(idForSymbol)
-    } else {
-      params.symbol = symbol.toUpperCase()
-    }
+    const overrider = new Overrider(validator.validated, AdapterName)
+    const [requestedCoins, remainingSymbols] = overrider.performOverrides(
+      validator.validated.data.base,
+    )
+    if (remainingSymbols.length > 0)
+      throw new AdapterError({
+        message: 'A symbol was requested that does not a matching id specified in the overrides.',
+      })
+    idsToSymbols = Overrider.invertRequestedCoinsObject(requestedCoins)
+    params.id = Object.values(requestedCoins).join(',')
   }
 
   const options = {
@@ -209,8 +168,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
   const response = await Requester.request<ResponseSchema>(options)
-  if (Array.isArray(symbol) || Array.isArray(convert))
-    return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
+
+  if (
+    Array.isArray(validator.validated.data.base) ||
+    Array.isArray(validator.validated.data.convert)
+  )
+    return handleBatchedRequest(jobRunID, request, response, resultPath, idsToSymbols)
 
   // CMC API currently uses ID as key in response, when querying with "slug" param
   const _keyForSlug = (data: ResponseSchema, slug: string) => {
@@ -238,4 +201,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     config.verbose,
     batchablePropertyPath,
   )
+}
+
+const invertObj = (obj: { [key: string]: string }): { [key: string]: string } => {
+  const inverted = {} as { [key: string]: string }
+  for (const key of Object.keys(obj)) {
+    inverted[obj[key]] = key
+  }
+  return inverted
 }
