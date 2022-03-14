@@ -29,10 +29,10 @@ Object {
 exports[`price-bluna successful calls return success when fetching the USD/BLuna price 1`] = `
 Object {
   "data": Object {
-    "result": "26201174257498453414",
+    "result": "262011742574",
   },
   "jobRunID": "1",
-  "result": "26201174257498453414",
+  "result": "262011742574",
   "statusCode": 200,
 }
 `;
@@ -40,10 +40,10 @@ Object {
 exports[`price-bluna successful calls returns success when fetching the ETH/BLuna price 1`] = `
 Object {
   "data": Object {
-    "result": "1000007186099738228",
+    "result": "100000718",
   },
   "jobRunID": "1",
-  "result": "1000007186099738228",
+  "result": "100000718",
   "statusCode": 200,
 }
 `;
