@@ -91,10 +91,9 @@ export class Validator {
 
   private validateSymbolOverrides = (
     overrideType: 'overrides' | 'symbolToIdOverrides',
-    overridesFromAdapter: unknown,
+    overridesFromAdapter: unknown = {},
   ): void => {
     const overridesFromInput = this.input.data?.[overrideType] ? this.input.data[overrideType] : {}
-    overridesFromAdapter = overridesFromAdapter ? overridesFromAdapter : {}
 
     if (!isOverrideObj(overridesFromInput))
       throw this.validatorError(
@@ -102,9 +101,12 @@ export class Validator {
       )
     if (!isOverrideObj(overridesFromAdapter))
       throw this.validatorError(`The structure of the '${overrideType}' JSON file is incorrect.`)
-
     this.validated[`${overrideType}FromInput`] = this.convertOverridesToMap(overridesFromInput)
     this.validated[`${overrideType}FromAdapter`] = this.convertOverridesToMap(overridesFromAdapter)
+    if (overrideType === 'overrides')
+      this.validated.overrides = this.convertOverridesToMap(
+        this.combineOverrides(overridesFromInput, overridesFromAdapter),
+      )
   }
 
   private convertOverridesToMap = (overrides: OverrideObj): Override => {
@@ -117,6 +119,32 @@ export class Validator {
       overrideMap.set(adapterName, adapterMap)
     }
     return overrideMap
+  }
+
+  private combineOverrides = (
+    overridesFromInput: OverrideObj,
+    overridesFromAdapter: OverrideObj,
+  ): OverrideObj => {
+    if (!overridesFromInput || overridesFromInput === {}) return overridesFromAdapter
+    if (!overridesFromAdapter || overridesFromAdapter === {}) return overridesFromInput
+    const combinedOverrides = {} as OverrideObj
+    for (const adapterName of Object.keys(overridesFromAdapter)) {
+      const adapterOverridesFromAdapter = overridesFromAdapter[adapterName]
+      const adapterOverridesFromInput = overridesFromInput?.[adapterName] || {}
+      const combinedAdapterOverrides = {} as { [symbol: string]: string }
+      for (const symbol of Object.keys(adapterOverridesFromAdapter)) {
+        combinedAdapterOverrides[symbol] = adapterOverridesFromAdapter[symbol]
+      }
+      for (const symbol of Object.keys(adapterOverridesFromInput)) {
+        combinedAdapterOverrides[symbol] = adapterOverridesFromInput[symbol]
+      }
+      combinedOverrides[adapterName] = combinedAdapterOverrides
+    }
+    for (const adapterName of Object.keys(overridesFromInput)) {
+      if (!combinedOverrides[adapterName])
+        combinedOverrides[adapterName] = overridesFromInput[adapterName]
+    }
+    return combinedOverrides
   }
 
   validateTokenOverrides(preset: Record<string, any>): void {
@@ -160,7 +188,9 @@ export class Validator {
     }
   }
 
-  // !!!! Function no longer used
+  /**
+   * @deprecated in favor of using the Overrider class to handle symbol overrides
+   */
   overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
     const defaultSymbol = symbol || this.validated.data.base
     if (!defaultSymbol) this.throwInvalid(`Required parameter not supplied: base`)
@@ -203,7 +233,9 @@ export class Validator {
     return pairs[0].includes[0]
   }
 
-  // !!! function no longer used
+  /**
+   * @deprecated in favor of using the Overrider class to handle symbol overrides
+   */
   overrideReverseLookup = (adapter: string, type: OverrideType, symbol: string): string => {
     const overrides: Map<string, string> | undefined = this.validated?.[type]?.get(
       adapter.toLowerCase(),

@@ -250,3 +250,37 @@ Returns the response object formatted in a way which is expected by the Chainlin
   callback(response.statusCode, Requester.success(jobRunID, response))
 })
 ```
+
+## Overrider
+
+The Overrider class handles the conversion of crypto ticker symbols to other ticker symbols or conversion of crypto symbols to unique coin ids which can then be fetched from a data provider.
+Symbol to coin id and symbol to symbol overrides can be provided as input parameters, or be hardcoded into the `symbolToSymbolOverrides.json` or `symbolToIdOverrides.json` files in the adapter's `./src/config` folder. Overrides specified as input parameters take precedence. The order of operations for performing overrides is as follows:
+
+1. Evaluate symbol-to-id overrides from input params.
+2. Evaluate symbol-to-symbol overrides from input params, ignoring any symbols that were already overridden to ids during step 1.
+3. Evaluate symbol-to-id overrides from the input params again in case any symbol-to-symbol overrides introduced a new overridden symbol.
+4. Evaluate symbol-to-id overrides specified in `symbolToIdOverrides.json`, ignoring any symbols that were already overridden to ids during step 1 or 3.
+5. Evaluate symbol-to-symbol overrides specified in `symbolToSymbolOverrides.json`, ignoring any symbols that were already overridden to ids during step 1, 3 or 4.
+6. Evaluate symbol-to-symbol overrides from input params again in case any overriding symbols from `symbolToSymbolOverrides.json` are overridden in the symbol-to-symbol overrides from input params.
+7. Evaluate symbol-to-id overrides from the input params again in case any symbol-to-symbol overrides introduced a new overridden symbol.
+8. Evaluate symbol-to-id overrides specified in `symbolToIdOverrides.json`, ignoring any symbols that were already overridden to ids during step 1, 3, 4 or 7.
+
+The example requests below show the expected format of overrides when they are provided in the request to an adapter:
+
+```
+  {
+    "id": "1",
+    "from": "ETH",
+    "to": "USD",
+    "symbolToIdOverrides": {
+      "coingecko": {
+        "ETH": "ethereum"
+      }
+    },
+    "overrides": {
+      "coinpaprika": {
+        "WETH": "ETH"
+      }
+    }
+  }
+```

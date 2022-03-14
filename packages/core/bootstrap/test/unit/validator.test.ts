@@ -587,9 +587,6 @@ describe('Validator', () => {
     }
   })
 
-  // Eventually, all the tests in the block below will be removed when the Overrider class is used to
-  // process all overrides instead of the Validator. They kept at this time until the Overrider is
-  // implemented for the remaining EAs.
   describe('overrideSymbol', () => {
     it('errors if base was not provided', () => {
       const validator = new Validator()
@@ -620,8 +617,36 @@ describe('Validator', () => {
       expect(base).toBe('btc')
     })
 
-    /* The following tests have been removed since symbol to symbol and symbol to id overriders
-       are no longer handled by the validator class, but are instead handled by the Overrider class
+    it('combines overrides', () => {
+      const input1 = {
+        id: '1',
+        data: {
+          overrides: {
+            coingecko: {
+              aaaa: 'eeee',
+            },
+          },
+        },
+      }
+      const input2 = {
+        id: '1',
+        data: {
+          overrides: {
+            coingecko: {
+              cccc: 'dddd',
+            },
+          },
+        },
+      }
+      const overrides = { coingecko: { aaaa: 'bbbb', cccc: 'dddd' } }
+      const validator1 = new Validator(input1, {}, {}, { overrides })
+      const base1 = validator1.overrideSymbol('coingecko', 'aaaa')
+      expect(base1).toBe('eeee')
+      const validator2 = new Validator(input2, {}, {}, { overrides })
+      const base2 = validator2.overrideSymbol('coingecko', 'aaaa')
+      expect(base2).toBe('bbbb')
+    })
+
     it('returns non-array symbol value from overrides', () => {
       const input = {
         id: '1',
@@ -653,7 +678,6 @@ describe('Validator', () => {
       const base = validator.overrideSymbol('coingecko', ['btc', 'uni'])
       expect(base).toEqual(['btc', 'uniswap'])
     })
-    */
   })
 
   describe('overrideToken', () => {
