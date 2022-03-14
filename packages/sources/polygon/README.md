@@ -1,10 +1,10 @@
 # Chainlink Polygon External Adapter
 
-Version: 1.4.15
+Version: 1.4.18
 
 This adapter is for [Polygon.io](https://polygon.io/) and supports the conversion endpoint.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

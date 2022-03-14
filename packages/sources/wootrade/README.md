@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Wootrade
 
-Version: 1.1.17
+Version: 1.1.20
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

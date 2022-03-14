@@ -1,12 +1,12 @@
 # Chainlink External Adapter for Twelvedata
 
-Version: 1.1.17
+Version: 1.1.20
 
 `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
 
 `price` endpoint provides the real-time price as detailed in [Twelvedata documentation](https://twelvedata.com/docs#real-time-price).
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

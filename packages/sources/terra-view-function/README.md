@@ -1,12 +1,12 @@
 # Chainlink External Adapter for querying Terra view functions
 
-Version: 1.2.0
+Version: 1.2.3
 
 This external adapter allows querying contracts on the Terra blockchain. A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 
 Note: The old `RPC_URL` environment variables are still supported, however, please the `LCD_URL` ones below instead.
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
