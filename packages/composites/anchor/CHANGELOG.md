@@ -1,5 +1,11 @@
 # @chainlink/anchor-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- 2f1b665ce: allow the number of decimals for answer to be configurable with a default of 8dp
+
 ## 2.0.0
 
 ### Major Changes
