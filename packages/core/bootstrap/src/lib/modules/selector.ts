@@ -30,6 +30,11 @@ export const baseInputParameters: InputParameters = {
     required: false,
     // type: 'string', TODO: Once complex types are supported this could be { [adapter: string]: { [token: string]: string } }
   },
+  symbolToIdOverrides: {
+    description:
+      'If base is found in symbolToIdOverrides, the overriding coin id will be used and any other overrides will be ignored.',
+    required: false,
+  },
   tokenOverrides: {
     description: 'Override the mapping of token symbols to smart contract address',
     required: false,
