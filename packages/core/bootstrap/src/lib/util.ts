@@ -490,17 +490,8 @@ export const registerUnhandledRejectionHandler = (): void => {
     logger.warn('Unhandled promise rejection reached custom handler')
     logger.warn(JSON.stringify(reason))
   })
-export const isSymbolToIdOverride = (
-  symbolToIdOverride: unknown,
-): symbolToIdOverride is SymbolToIdOverride => {
-  if (!symbolToIdOverride) {
-    return false
-  }
-  for (const adapterName of Object.keys(symbolToIdOverride as SymbolToIdOverride)) {
-    const adapterOverrides = (symbolToIdOverride as SymbolToIdOverride)[adapterName]
-export const isOverrideObj = (symbolToIdOverride: unknown): symbolToIdOverride is OverrideObj => {
-  for (const adapterName of Object.keys(symbolToIdOverride as OverrideObj)) {
-    const adapterOverrides = (symbolToIdOverride as OverrideObj)[adapterName]
+}
+
 export const isOverrideObj = (symbolToIdOverrides: unknown): symbolToIdOverrides is OverrideObj => {
   for (const adapterName of Object.keys(symbolToIdOverrides as OverrideObj)) {
     const adapterOverrides = (symbolToIdOverrides as OverrideObj)[adapterName]

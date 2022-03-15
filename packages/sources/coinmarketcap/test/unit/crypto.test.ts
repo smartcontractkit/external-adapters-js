@@ -20,12 +20,38 @@ describe('execute', () => {
         name: 'quote not supplied',
         testData: { id: jobID, data: { base: 'ETH' } },
       },
+      {
+        name: 'incorrect symbol to symbol override format',
+        testData: {
+          id: jobID,
+          data: {
+            base: 'ETH',
+            quote: 'USD',
+            overrides: {
+              ETH: 'incorrectly-formatted-override',
+            },
+          },
+        },
+      },
+      {
+        name: 'incorrect symbol to id override format',
+        testData: {
+          id: jobID,
+          data: {
+            base: 'ETH',
+            quote: 'USD',
+            symbolToIdOverrides: {
+              ETH: 'incorrectly-formatted-override',
+            },
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
