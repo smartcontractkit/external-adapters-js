@@ -19,7 +19,12 @@ export const endpointOverride = (request: AdapterRequest): string | null => {
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  base: string
+  quote: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
@@ -54,10 +59,10 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
 
   const url = `exchangerate/${symbol}/${quote}`
