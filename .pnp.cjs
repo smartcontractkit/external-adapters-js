@@ -6998,7 +6998,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@synthetixio/contracts-interface", "npm:2.61.0"],
+            ["@synthetixio/contracts-interface", "npm:2.63.1"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
@@ -10983,13 +10983,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@synthetixio/contracts-interface", [
-        ["npm:2.61.0", {
-          "packageLocation": "./.yarn/cache/@synthetixio-contracts-interface-npm-2.61.0-1c06ad9b46-575f52f727.zip/node_modules/@synthetixio/contracts-interface/",
+        ["npm:2.63.1", {
+          "packageLocation": "./.yarn/cache/@synthetixio-contracts-interface-npm-2.63.1-11d9a105aa-d73a9d5039.zip/node_modules/@synthetixio/contracts-interface/",
           "packageDependencies": [
-            ["@synthetixio/contracts-interface", "npm:2.61.0"],
+            ["@synthetixio/contracts-interface", "npm:2.63.1"],
             ["ethers", "npm:5.5.3"],
             ["lodash", "npm:4.17.19"],
-            ["synthetix", "npm:2.61.0"],
+            ["synthetix", "npm:2.63.1-alpha"],
             ["web3-utils", "npm:1.2.11"]
           ],
           "linkType": "HARD",
@@ -20673,10 +20673,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:ddef24006e74e32e71d4488e17885e419436c5978dd4d5cb0424918d4007c689e32bddd7f2692a329aa538eaea195cee3c847349b12663bdab910caaabd4c417#npm:1.0.2", {
-          "packageLocation": "./.yarn/__virtual__/inquirer-list-search-prompt-virtual-e2fb598d2f/0/cache/inquirer-list-search-prompt-npm-1.0.2-1b893c38a0-0bf538a27e.zip/node_modules/inquirer-list-search-prompt/",
+        ["virtual:20f23448fe25f5c9dfc380d1e8058be4394c851ee9689780c2de076905e3d20704714c71496024e57bac846e1da8e6adaf15ac84391d0f9e3ef2247e8233f8e7#npm:1.0.2", {
+          "packageLocation": "./.yarn/__virtual__/inquirer-list-search-prompt-virtual-ddd7163cee/0/cache/inquirer-list-search-prompt-npm-1.0.2-1b893c38a0-0bf538a27e.zip/node_modules/inquirer-list-search-prompt/",
           "packageDependencies": [
-            ["inquirer-list-search-prompt", "virtual:ddef24006e74e32e71d4488e17885e419436c5978dd4d5cb0424918d4007c689e32bddd7f2692a329aa538eaea195cee3c847349b12663bdab910caaabd4c417#npm:1.0.2"],
+            ["inquirer-list-search-prompt", "virtual:20f23448fe25f5c9dfc380d1e8058be4394c851ee9689780c2de076905e3d20704714c71496024e57bac846e1da8e6adaf15ac84391d0f9e3ef2247e8233f8e7#npm:1.0.2"],
             ["@types/inquirer", null],
             ["ansi-escapes", "npm:3.2.0"],
             ["chalk", "npm:2.4.2"],
@@ -31396,14 +31396,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:2.61.0", {
-          "packageLocation": "./.yarn/cache/synthetix-npm-2.61.0-ddef24006e-d61130c947.zip/node_modules/synthetix/",
+        ["npm:2.63.1-alpha", {
+          "packageLocation": "./.yarn/cache/synthetix-npm-2.63.1-alpha-20f23448fe-7b78672a90.zip/node_modules/synthetix/",
           "packageDependencies": [
-            ["synthetix", "npm:2.61.0"],
+            ["synthetix", "npm:2.63.1-alpha"],
             ["abi-decoder", "npm:2.3.0"],
             ["commander", "npm:8.1.0"],
             ["inquirer", "npm:6.5.2"],
-            ["inquirer-list-search-prompt", "virtual:ddef24006e74e32e71d4488e17885e419436c5978dd4d5cb0424918d4007c689e32bddd7f2692a329aa538eaea195cee3c847349b12663bdab910caaabd4c417#npm:1.0.2"],
+            ["inquirer-list-search-prompt", "virtual:20f23448fe25f5c9dfc380d1e8058be4394c851ee9689780c2de076905e3d20704714c71496024e57bac846e1da8e6adaf15ac84391d0f9e3ef2247e8233f8e7#npm:1.0.2"],
             ["js-levenshtein", "npm:1.1.6"],
             ["pretty-error", "npm:2.1.2"],
             ["solidity-parser-antlr", "npm:0.4.11"],
