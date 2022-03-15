@@ -4484,7 +4484,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/types": "workspace:*"
-    "@synthetixio/contracts-interface": ^2.61.0
+    "@synthetixio/contracts-interface": ^2.63.0
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
     "@types/supertest": 2.0.11
@@ -8216,15 +8216,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@synthetixio/contracts-interface@npm:^2.61.0":
-  version: 2.61.0
-  resolution: "@synthetixio/contracts-interface@npm:2.61.0"
+"@synthetixio/contracts-interface@npm:^2.63.0":
+  version: 2.63.1
+  resolution: "@synthetixio/contracts-interface@npm:2.63.1"
   dependencies:
     ethers: 5.5.3
     lodash: 4.17.19
-    synthetix: 2.61.0
+    synthetix: 2.63.1-alpha
     web3-utils: 1.2.11
-  checksum: 575f52f727b61fb5abbe268be112ad859b1fecd1fb0c864e483907cf4243899f3e366a3efd82d10f3695b6e6e229f1248c1e90b685b10ffea6069f03b75a0efa
+  checksum: d73a9d50399c73f8a9c625802112f3567f595b84727d7de1f4991653c7f51fc3cc32fa09a6513221f7160aa9a9ee380afc37eba45e6e49bbec39d4f6ed462b5e
   languageName: node
   linkType: hard
 
@@ -26497,9 +26497,9 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"synthetix@npm:2.61.0":
-  version: 2.61.0
-  resolution: "synthetix@npm:2.61.0"
+"synthetix@npm:2.63.1-alpha":
+  version: 2.63.1-alpha
+  resolution: "synthetix@npm:2.63.1-alpha"
   dependencies:
     abi-decoder: 2.3.0
     commander: 8.1.0
@@ -26511,7 +26511,7 @@ resolve@1.17.0:
     web3-utils: 1.2.2
   bin:
     snx: bin.js
-  checksum: d61130c947dde7d9ba6ca7fa463ada5802b119e15fb392d58caa2c5ffd0664c6d9b756b5557a979bb3bb39a550f69ad53c83941a7afeac4182d6d00ab04c04f7
+  checksum: 7b78672a9000728b24d516c727076c8561297af024f74fde26615f998f65e39aff8c5a01e72f6ee0fcf04838e9cde51331c79d4d7275aa43578a754d248940ac
   languageName: node
   linkType: hard
 
