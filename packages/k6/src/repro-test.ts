@@ -68,6 +68,4 @@ export default (): void => {
 
     errorRate.add(!result)
   }
-
-  sleep(1)
 }
