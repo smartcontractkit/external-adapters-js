@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['series']
@@ -62,7 +62,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     : ''
   const resultPath = validator.validated.data.resultPath || 'value'
 
-  const url = `/timeseries/data/${serie}`
+  const url = util.buildUrlPath('/timeseries/data/:serie', { serie })
   const options = { ...config.api, url }
   const response = await Requester.request<ResponseSchema>(options)
   const data = response.data.Results.series[0].data
