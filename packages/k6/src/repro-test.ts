@@ -4,7 +4,7 @@ import http, { BatchRequests } from 'k6/http'
 import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
 
-// load the test duration from the environment or default to 12 hours
+// load the test iterations from the environment or default to 100
 let iterations = 100
 if (__ENV.LOAD_TEST_ITERATIONS) {
   iterations = parseInt(__ENV.LOAD_TEST_ITERATIONS)
