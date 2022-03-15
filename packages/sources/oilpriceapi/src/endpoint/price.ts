@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
 
@@ -45,7 +45,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const reqConfig = {
     ...config.api,
     params,
-    url,
+    url: util.buildUrlPath(':url', { url }, '/'),
     headers,
   }
 

@@ -1,9 +1,9 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '../../config'
 import { GameResponse } from './types'
 
 export const getGamesByDate = async (date: string, config: Config): Promise<GameResponse[]> => {
-  const url = `/mlb/scores/json/GamesByDate/${date}`
+  const url = util.buildUrlPath('/mlb/scores/json/GamesByDate/:date', { date })
   const params = {
     key: config.mlbKey,
   }
