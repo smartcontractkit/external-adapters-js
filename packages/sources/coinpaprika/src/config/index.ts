@@ -5,6 +5,7 @@ export const NAME = 'COINPAPRIKA'
 
 export const DEFAULT_ENDPOINT = 'crypto'
 export const DEFAULT_API_ENDPOINT = 'https://api.coinpaprika.com'
+export const PRO_API_ENDPOINT = 'https://api-pro.coinpaprika.com'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
@@ -16,7 +17,7 @@ export const makeConfig = (prefix?: string): Config => {
 
   config.api = {
     ...config.api,
-    baseURL: config.api.baseURL || DEFAULT_API_ENDPOINT,
+    baseURL: config.api.baseURL || config.apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
     headers,
   }
   config.defaultEndpoint = DEFAULT_ENDPOINT
