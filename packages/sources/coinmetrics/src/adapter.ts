@@ -58,7 +58,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL,
+        url: defaultConfig.ws.baseWsURL,
       },
       subscribe: (input) => {
         const { asset, metrics } = getSubKeyInfo(input)
@@ -81,7 +81,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       programmaticConnectionInfo: (input) => {
         const { asset, metrics } = getSubKeyInfo(input)
         const key = `${asset}${metrics}`
-        const url = `${defaultConfig.api.baseWsURL}/timeseries-stream/asset-metrics?assets=${asset}&metrics=${metrics}&frequency=1s&api_key=${defaultConfig.apiKey}`
+        const url = `${defaultConfig.ws.baseWsURL}/timeseries-stream/asset-metrics?assets=${asset}&metrics=${metrics}&frequency=1s&api_key=${defaultConfig.apiKey}`
         return {
           key,
           url,

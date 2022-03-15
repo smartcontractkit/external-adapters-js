@@ -46,7 +46,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL,
+        url: defaultConfig.ws.baseWsURL,
         protocol: {
           headers: { [AUTHORIZATION_HEADER]: defaultConfig.api.headers[AUTHORIZATION_HEADER] },
         },
