@@ -89,6 +89,7 @@
     "@chainlink/fixer-adapter": "workspace:*",
     "@chainlink/flightaware-adapter": "workspace:*",
     "@chainlink/fmpcloud-adapter": "workspace:*",
+    "@chainlink/galaxis-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/genesis-volatility-adapter": "workspace:*",
     "@chainlink/geodb-adapter": "workspace:*",

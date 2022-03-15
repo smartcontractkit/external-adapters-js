@@ -423,6 +423,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/fmpcloud"
       },
       {
+        "name": "@chainlink/galaxis-adapter",
+        "reference": "workspace:packages/sources/galaxis"
+      },
+      {
         "name": "@chainlink/gemini-adapter",
         "reference": "workspace:packages/sources/gemini"
       },
@@ -776,6 +780,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],
+      ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],
       ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],
@@ -5311,6 +5316,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],
             ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],
+            ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],
@@ -5864,6 +5870,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/galaxis-adapter", [
+        ["workspace:packages/sources/galaxis", {
+          "packageLocation": "./packages/sources/galaxis/",
+          "packageDependencies": [
+            ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@ethercards/ec-util", "npm:1.0.4"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["ethers", "npm:5.5.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -7806,6 +7830,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-yaml", "npm:3.14.1"],
             ["minimatch", "npm:3.0.4"],
             ["strip-json-comments", "npm:3.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@ethercards/ec-util", [
+        ["npm:1.0.4", {
+          "packageLocation": "./.yarn/cache/@ethercards-ec-util-npm-1.0.4-e6fbb944c3-c6f58be70e.zip/node_modules/@ethercards/ec-util/",
+          "packageDependencies": [
+            ["@ethercards/ec-util", "npm:1.0.4"],
+            ["@ethersproject/bignumber", "npm:5.4.1"],
+            ["@ethersproject/bytes", "npm:5.4.0"],
+            ["bitwise", "npm:2.1.0"],
+            ["braces", "npm:3.0.2"],
+            ["diff", "npm:5.0.0"],
+            ["glob-parent", "npm:6.0.2"],
+            ["is-svg", "npm:4.3.2"],
+            ["js-yaml", "npm:4.1.0"],
+            ["lodash.template", "npm:4.5.0"]
           ],
           "linkType": "HARD",
         }]
@@ -14064,6 +14106,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["bitwise", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/bitwise-npm-2.1.0-79ebdd7dd4-9d97c4d96d.zip/node_modules/bitwise/",
+          "packageDependencies": [
+            ["bitwise", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["bl", [
         ["npm:5.0.0", {
           "packageLocation": "./.yarn/cache/bl-npm-5.0.0-cd18f87fd8-5dbbcf9cbc.zip/node_modules/bl/",
@@ -18755,6 +18806,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["fast-xml-parser", [
+        ["npm:3.21.1", {
+          "packageLocation": "./.yarn/cache/fast-xml-parser-npm-3.21.1-d651ad1d26-73b9c907a4.zip/node_modules/fast-xml-parser/",
+          "packageDependencies": [
+            ["fast-xml-parser", "npm:3.21.1"],
+            ["strnum", "npm:1.0.5"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["fastest-levenshtein", [
         ["npm:1.0.12", {
           "packageLocation": "./.yarn/cache/fastest-levenshtein-npm-1.0.12-a32b4ef51e-e1a013698d.zip/node_modules/fastest-levenshtein/",
@@ -19623,6 +19684,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["glob-parent", "npm:5.1.2"],
             ["is-glob", "npm:4.0.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:6.0.2", {
+          "packageLocation": "./.yarn/cache/glob-parent-npm-6.0.2-2cbef12738-c13ee97978.zip/node_modules/glob-parent/",
+          "packageDependencies": [
+            ["glob-parent", "npm:6.0.2"],
+            ["is-glob", "npm:4.0.3"]
           ],
           "linkType": "HARD",
         }]
@@ -21886,6 +21955,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["is-extglob", "npm:2.1.1"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:4.0.3", {
+          "packageLocation": "./.yarn/cache/is-glob-npm-4.0.3-cb87bf1bdb-d381c1319f.zip/node_modules/is-glob/",
+          "packageDependencies": [
+            ["is-glob", "npm:4.0.3"],
+            ["is-extglob", "npm:2.1.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["is-hex-prefixed", [
@@ -22150,6 +22227,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["is-subdir", "npm:1.2.0"],
             ["better-path-resolve", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["is-svg", [
+        ["npm:4.3.2", {
+          "packageLocation": "./.yarn/cache/is-svg-npm-4.3.2-0866375a1b-b3bce2395e.zip/node_modules/is-svg/",
+          "packageDependencies": [
+            ["is-svg", "npm:4.3.2"],
+            ["fast-xml-parser", "npm:3.21.1"]
           ],
           "linkType": "HARD",
         }]
@@ -24902,6 +24989,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["lodash._reinterpolate", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/lodash._reinterpolate-npm-3.0.0-3c62ca439e-06d2d5f331.zip/node_modules/lodash._reinterpolate/",
+          "packageDependencies": [
+            ["lodash._reinterpolate", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["lodash._renative", [
         ["npm:2.3.0", {
           "packageLocation": "./.yarn/cache/lodash._renative-npm-2.3.0-4214a06d68-6ec62af6af.zip/node_modules/lodash._renative/",
@@ -25220,6 +25316,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["lodash.support", "npm:2.3.0"],
             ["lodash._renative", "npm:2.3.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.template", [
+        ["npm:4.5.0", {
+          "packageLocation": "./.yarn/cache/lodash.template-npm-4.5.0-5272df3039-ca64e5f07b.zip/node_modules/lodash.template/",
+          "packageDependencies": [
+            ["lodash.template", "npm:4.5.0"],
+            ["lodash._reinterpolate", "npm:3.0.0"],
+            ["lodash.templatesettings", "npm:4.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.templatesettings", [
+        ["npm:4.2.0", {
+          "packageLocation": "./.yarn/cache/lodash.templatesettings-npm-4.2.0-15fbdebcf4-863e025478.zip/node_modules/lodash.templatesettings/",
+          "packageDependencies": [
+            ["lodash.templatesettings", "npm:4.2.0"],
+            ["lodash._reinterpolate", "npm:3.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -31158,6 +31275,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/strip-json-comments-npm-3.1.1-dcb2324823-492f73e272.zip/node_modules/strip-json-comments/",
           "packageDependencies": [
             ["strip-json-comments", "npm:3.1.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["strnum", [
+        ["npm:1.0.5", {
+          "packageLocation": "./.yarn/cache/strnum-npm-1.0.5-9ba11d2a0a-651b2031db.zip/node_modules/strnum/",
+          "packageDependencies": [
+            ["strnum", "npm:1.0.5"]
           ],
           "linkType": "HARD",
         }]
