@@ -1,5 +1,11 @@
 # @chainlink/anchor-adapter
 
+## 3.1.0
+
+### Minor Changes
+
+- e3cb3e1bc: Update Anchor EA README and schema/env.json to reflect change to pull intermediary token prices from on chain feeds instead of directly from data providers
+
 ## 3.0.0
 
 ### Major Changes

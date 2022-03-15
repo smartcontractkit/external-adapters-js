@@ -1,5 +1,11 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- 0a58c1347: update synthetixjs library version
+
 ## 2.0.4
 
 ### Patch Changes
