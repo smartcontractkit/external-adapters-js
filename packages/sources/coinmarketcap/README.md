@@ -123,12 +123,14 @@ Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |  Name   |             Aliases             |                    Description                     |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----: | :-----------------------------: | :------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base   | `coin`, `from`, `sym`, `symbol` |        The symbol of the currency to query         |        |         |         |            |                |
-|    ✅     | convert |     `market`, `quote`, `to`     |      The symbol of the currency to convert to      |        |         |         |            |                |
-|           |   cid   |                                 | The CMC coin ID (optional to use in place of base) | string |         |         |            |                |
-|           |  slug   |                                 | The CMC coin ID (optional to use in place of base) | string |         |         |            |                |
+| Required? |         Name          |             Aliases             |                                            Description                                             |                                       Type                                        | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------------: | :-----------------------------: | :------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |         base          | `coin`, `from`, `sym`, `symbol` |                                The symbol of the currency to query                                 |                                                                                   |         |         |            |                |
+|    ✅     |        convert        |     `market`, `quote`, `to`     |                              The symbol of the currency to convert to                              |                                                                                   |         |         |            |                |
+|           |          cid          |                                 |                         The CMC coin ID (optional to use in place of base)                         |                                      string                                       |         |         |            |                |
+|           |         slug          |                                 |                         The CMC coin ID (optional to use in place of base)                         |                                      string                                       |         |         |            |                |
+|           |      `overrides`      |                                 |                     If base provided is found in overrides, that will be used                      |                { "coingecko": { "SYMA": "SYMC", "SYMB": "SYMD" } }                |         |
+|           | `symbolToIdOverrides` |                                 | If base is found in symbolToIdOverrides, that will be used and any other overrides will be ignored | { "coingecko": { "COINA": "coin-id-override-a", "COINB": "coin-id-override-b" } } |         |
 
 ### Example
 
