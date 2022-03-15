@@ -53,7 +53,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: defaultConfig.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
       subscribe: (input) => getSubscription(getProductId(input)),
       unsubscribe: (input) => getSubscription(getProductId(input), false),

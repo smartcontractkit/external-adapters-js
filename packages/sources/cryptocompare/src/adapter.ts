@@ -79,7 +79,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return {
       connection: {
         url: withApiKey(
-          defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+          defaultConfig.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT,
           defaultConfig.apiKey || '',
         ),
         protocol: { query: { api_key: defaultConfig.apiKey } },

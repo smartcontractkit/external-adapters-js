@@ -97,7 +97,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
 
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL,
+        url: defaultConfig.ws.baseWsURL,
       },
       subscribe: (input) => {
         const validator = new Validator(

@@ -56,7 +56,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: defaultConfig.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
       shouldNotServeInputUsingWS: (input: AdapterRequest) =>
         endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) === -1,

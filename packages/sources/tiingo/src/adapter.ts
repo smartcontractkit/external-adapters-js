@@ -126,7 +126,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return {
       connection: {
         getUrl: async (input) =>
-          getWSUrl(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
+          getWSUrl(defaultConfig.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
       },
       shouldNotServeInputUsingWS: (input) => !isFx(input) && !isCrypto(input),
       subscribe: (input) => getSubscription(getTicker(input)),

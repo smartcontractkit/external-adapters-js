@@ -35,7 +35,7 @@ export const makeWSHandler =
     })
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: defaultConfig.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
       subscribe: (input) => {
         const validator = new Validator(

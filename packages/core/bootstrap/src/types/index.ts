@@ -248,6 +248,9 @@ export type Config = {
 export interface DefaultConfig extends Config {
   verbose: boolean
   api: AxiosRequestConfig
+  ws: {
+    baseWsURL?: string
+  }
 }
 
 export type Execute<TInput = AdapterRequest, TContext = AdapterContext> = (
