@@ -1,10 +1,10 @@
 # Chainlink External Adapter for Uniswap V3
 
-Version: 1.1.17
+Version: 1.1.20
 
 This adapter allows querying Uniswap V3 contracts
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

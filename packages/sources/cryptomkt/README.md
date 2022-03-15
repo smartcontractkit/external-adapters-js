@@ -1,8 +1,8 @@
 # Chainlink External Adapter for CryptoMKT
 
-Version: 1.2.17
+Version: 1.2.20
 
-This README was generated automatically. Please see [scripts](../../scripts) for more info.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 

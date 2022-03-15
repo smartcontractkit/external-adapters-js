@@ -1,5 +1,23 @@
 # @chainlink/linkpool-adapter
 
+## 1.1.8
+
+### Patch Changes
+
+- 8d6ff4693: Added buildUrl & buildUrlPath methods to util. Updated source adapters to use these methods for building URLs with user input.
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.6
 
 ### Patch Changes

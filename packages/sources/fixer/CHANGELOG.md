@@ -1,5 +1,23 @@
 # @chainlink/fixer-adapter
 
+## 1.3.18
+
+### Patch Changes
+
+- d48deb356: Updated Fixer "latest" endpoint params with description and types
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.17
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.16
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { BLOCKCHAIN_NAME_BY_TICKER, BlockchainTickers } from '../config'
 
@@ -68,9 +68,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const network = validator.validated.data.network || 'mainnet'
   const resultPath = validator.validated.data.resultPath
 
-  const url = `/v2/blockchain-data/${
-    BLOCKCHAIN_NAME_BY_TICKER[blockchain.toLowerCase() as BlockchainTickers]
-  }-specific/${network.toLowerCase()}/blocks/last`
+  const url = util.buildUrlPath(
+    `/v2/blockchain-data/:blockchain_name-specific/:network_name/blocks/last`,
+    {
+      blockchain_name: BLOCKCHAIN_NAME_BY_TICKER[blockchain.toLowerCase() as BlockchainTickers],
+      network_name: network.toLowerCase(),
+    },
+  )
+
   const options = { ...config.api, url }
   const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, resultPath)

@@ -25,6 +25,7 @@ const getTotalDebtIssued = async (
       const snxjs = getChainSynthetixInstance(network, jobRunID, config)
       try {
         const [debtIssued] = await snxjs.contracts.DebtCache.currentDebt()
+        console.log(snxjs.contracts.DebtCache.address)
         return debtIssued
       } catch (e) {
         throw new AdapterError({
