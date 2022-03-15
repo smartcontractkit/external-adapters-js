@@ -50,10 +50,11 @@ export const initialState: RootState = {
 }
 
 // Initialize Redux store
-export const store = configureStore(rootReducer, initialState, [
-  CacheWarmer.epics.epicMiddleware,
-  WebSocket.epics.epicMiddleware,
-])
+export const store = configureStore(
+  rootReducer,
+  { burstLimit: {}, cacheWarmer: {}, rateLimit: {}, ws: {} },
+  [CacheWarmer.epics.epicMiddleware, WebSocket.epics.epicMiddleware],
+)
 
 // Run epics
 CacheWarmer.epics.epicMiddleware.run(CacheWarmer.epics.rootEpic)

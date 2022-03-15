@@ -1,5 +1,5 @@
 import { getRandomRequiredEnv, getRandomEnv, getEnv } from '../util'
-import type { Config } from '../../types'
+import type { Config, DefaultConfig } from '../../types'
 import { logger } from '../modules/logger'
 
 const ENV_API_KEY = 'API_KEY'
@@ -20,13 +20,17 @@ export const constants = {
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const cloneNoSecrets = (config: Config): Config =>
+const cloneNoSecrets = (config: Partial<Config>): Partial<Config> =>
   (({ apiKey, api, ...o }) => {
     const { auth, headers, params, ...apiNoSecrets } = api || {}
     return { api: apiNoSecrets, ...o }
   })(config)
 
-export function getDefaultConfig(prefix = '', requireKey = false, requireWsKey = false): Config {
+export function getDefaultConfig(
+  prefix = '',
+  requireKey = false,
+  requireWsKey = false,
+): DefaultConfig {
   const apiKey = requireKey
     ? getRandomRequiredEnv(ENV_API_KEY, ',', prefix)
     : getRandomEnv(ENV_API_KEY, ',', prefix)
