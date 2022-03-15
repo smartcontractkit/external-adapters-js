@@ -44,8 +44,6 @@ function buildRequests() {
   const adapterUrl = `http://${adapterName}-adapter:8080`
 
   for (const payload of payloadData) {
-    console.log('data:', payload.data)
-    console.log('parsed data', JSON.parse(payload.data))
     batchRequests[`${adapterName}-${payload.name}`] = {
       method: payload.method,
       url: adapterUrl,
