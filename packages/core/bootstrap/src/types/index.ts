@@ -245,6 +245,10 @@ export type Config = {
   rpcUrl?: string
   rpcPort?: number
 }
+export interface DefaultConfig extends Config {
+  verbose: boolean
+  api: AxiosRequestConfig
+}
 
 export type Execute<TInput = AdapterRequest, TContext = AdapterContext> = (
   input: TInput,
@@ -286,7 +290,7 @@ export interface APIEndpoint<C extends Config = Config, D extends AdapterData = 
   supportedEndpoints: string[]
   batchablePropertyPath?: BatchableProperty[]
   endpointResultPaths?: EndpointResultPaths
-  inputParameters?: InputParameters
+  inputParameters?: InputParameters<D>
   endpointOverride?: (request: AdapterRequest) => string | null
   execute?: Execute | ExecuteWithConfig<C, D>
   makeExecute?: ExecuteFactory<C>

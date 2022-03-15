@@ -153,17 +153,19 @@ export class Validator<TInputParameters extends AdapterData> {
     }
   }
 
-  overrideSymbol = (adapter: string, symbol: string | string[]): string | string[] => {
+  overrideSymbol = <T extends string | string[]>(adapter: string, symbol: T): T => {
     if (symbol === undefined) throw this.throwInvalid(`Required parameter not supplied: base`)
     if (!this.validated.overrides) return symbol
 
     if (typeof symbol === 'string') {
       const lowercaseSymbol = symbol.toLowerCase()
-      return this.validated.overrides.get(adapter.toLowerCase())?.get(lowercaseSymbol) || symbol
+      return (
+        (this.validated.overrides.get(adapter.toLowerCase())?.get(lowercaseSymbol) as T) || symbol
+      )
     }
 
     if (Array.isArray(symbol)) {
-      const multiple: string[] = []
+      const multiple = []
       for (const sym of symbol) {
         if (typeof sym === 'string') {
           const overrides = this.validated.overrides.get(adapter.toLowerCase())
@@ -172,7 +174,7 @@ export class Validator<TInputParameters extends AdapterData> {
           multiple.push(overrided ?? sym)
         }
       }
-      if (multiple.length) return multiple
+      if (multiple.length) return multiple as T
     }
 
     throw this.throwInvalid(`Symbol overrides can only be done on strings`)

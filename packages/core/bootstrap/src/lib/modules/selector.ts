@@ -8,6 +8,7 @@ import type {
   AdapterContext,
   MakeResultPath,
   TBaseInputParameters,
+  AdapterData,
 } from '../../types'
 import { logger } from '../modules'
 
@@ -41,10 +42,10 @@ export const baseInputParameters: InputParameters<TBaseInputParameters> = {
   },
 }
 
-const findSupportedEndpoint = <C extends Config>(
-  apiEndpoints: Record<string, APIEndpoint<C>>,
+const findSupportedEndpoint = <C extends Config, D extends AdapterData>(
+  apiEndpoints: Record<string, APIEndpoint<C, D>>,
   endpoint: string,
-): APIEndpoint<C> | null => {
+): APIEndpoint<C, D> | null => {
   for (const apiEndpoint of Object.values(apiEndpoints)) {
     // Iterate through supported endpoints of a given Chainlink endpoint
     for (const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
@@ -56,12 +57,12 @@ const findSupportedEndpoint = <C extends Config>(
   return null
 }
 
-const selectEndpoint = <C extends Config>(
+const selectEndpoint = <C extends Config, D extends AdapterData>(
   request: AdapterRequest,
   config: C,
-  apiEndpoints: Record<string, APIEndpoint<C>>,
+  apiEndpoints: Record<string, APIEndpoint<C, D>>,
   customParams?: InputParameters,
-): APIEndpoint<C> => {
+): APIEndpoint<C, D> => {
   const params = customParams ?? {}
   const validator = new Validator(request, params, {}, { shouldThrowError: false })
 
@@ -112,16 +113,16 @@ const selectEndpoint = <C extends Config>(
   return apiEndpoint
 }
 
-const buildSelector = <C extends Config>(
-  request: AdapterRequest,
+const buildSelector = <C extends Config, D extends AdapterData>(
+  request: AdapterRequest<D>,
   context: AdapterContext,
   config: C,
-  apiEndpoints: Record<string, APIEndpoint<C>>,
+  apiEndpoints: Record<string, APIEndpoint<C, D>>,
   customParams?: InputParameters,
 ): Promise<AdapterResponse> => {
   Requester.logConfig(config)
 
-  const apiEndpoint = selectEndpoint<C>(request, config, apiEndpoints, customParams)
+  const apiEndpoint = selectEndpoint<C, D>(request, config, apiEndpoints, customParams)
 
   if (typeof apiEndpoint.execute === 'function') {
     return apiEndpoint.execute(request, context, config)
