@@ -36,7 +36,7 @@ const getDebtRatio = async (
           'DebtCache',
         )
         const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
-        const chainTotalDebt = await debtCache.currentDebt()
+        const [chainTotalDebt] = await debtCache.currentDebt()
         const synthetixDebtShareAddress = await getContractAddress(
           networkProvider,
           config.chains[network].chainAddressResolverAddress,
