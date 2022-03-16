@@ -27,7 +27,6 @@
     "generate:image-name": "ts-node-transpile-only ./packages/scripts/src/generate-image-name",
     "generate:master-list": "ts-node-transpile-only ./packages/scripts/src/generate-master-list",
     "generate:readme": "ts-node-transpile-only ./packages/scripts/src/generate-readme",
-    "repro": "./packages/scripts/src/repro/run.sh",
     "postinstall": "husky install",
     "cm": "cz",
     "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
