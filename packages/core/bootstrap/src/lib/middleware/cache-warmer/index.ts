@@ -1,4 +1,10 @@
-import type { AdapterRequest, Execute, MakeWSHandler, Middleware } from '../../../types'
+import type {
+  AdapterData,
+  AdapterRequest,
+  Execute,
+  MakeWSHandler,
+  Middleware,
+} from '../../../types'
 import type { Store } from 'redux'
 import { withMiddleware } from '../../../index'
 import { logger } from '../../modules'
@@ -28,23 +34,27 @@ interface WSInput {
   Premptively polls a data provider to keep data in the cache fresh
 */
 export const withCacheWarmer =
-  (warmerStore: Store<CacheWarmerState>, middleware: Middleware[], ws: WSInput) =>
-  (rawExecute: Execute): Middleware =>
+  <D extends AdapterData>(
+    warmerStore: Store<CacheWarmerState>,
+    middleware: Middleware<AdapterRequest<D>>[],
+    ws: WSInput,
+  ) =>
+  (rawExecute: Execute<AdapterRequest<D>>): Middleware<AdapterRequest<D>> =>
   async (execute, context) =>
-  async (input: AdapterRequest) => {
+  async (input) => {
     const isWarmerActive =
       util.parseBool(util.getEnv('CACHE_ENABLED') ?? DEFAULT_CACHE_ENABLED) &&
       util.parseBool(util.getEnv('WARMUP_ENABLED') ?? DEFAULT_WARMUP_ENABLED)
     if (!isWarmerActive) return await execute(input, context)
 
     const wsConfig = getWSConfig(input.data.endpoint)
-    const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
+    const warmupSubscribedPayload: actions.WarmupSubscribedPayload<D> = {
       ...input,
       // We need to initilialize the middleware on every beat to open a connection with the cache
       // Wrapping `rawExecute` as `execute` is already wrapped with the default middleware. Warmer doesn't need every default middleware
-      executeFn: async (input: AdapterRequest) =>
+      executeFn: async (input) =>
         await (
-          await withMiddleware(rawExecute, context, middleware)
+          await withMiddleware<D>(rawExecute, context, middleware)
         )(input, context),
       // Dummy result
       result: {
@@ -109,15 +119,16 @@ export const withCacheWarmer =
     // Dispatch subscription only if execute was succesful
     const result = await execute(input, context)
 
-    const warmupExecutePayload: actions.WarmupExecutePayload = {
+    const warmupExecutePayload: actions.WarmupExecutePayload<D> = {
       ...input,
-      executeFn: async (input: AdapterRequest) =>
+      executeFn: async (input) =>
         await (
           await withMiddleware(rawExecute, context, middleware)
         )(input, context),
       result,
     }
-    warmerStore.dispatch(actions.warmupExecute(warmupExecutePayload))
+    const warmupExecuteAction = actions.makeWarmupExecute<D>()
+    warmerStore.dispatch(warmupExecuteAction(warmupExecutePayload))
 
     return result
   }

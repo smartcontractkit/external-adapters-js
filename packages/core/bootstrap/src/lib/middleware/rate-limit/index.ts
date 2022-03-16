@@ -1,4 +1,9 @@
-import type { AdapterRequest, AdapterRequestWithRateLimit, Middleware } from '../../../types'
+import type {
+  AdapterContext,
+  AdapterRequest,
+  AdapterRequestWithRateLimit,
+  Middleware,
+} from '../../../types'
 import { Store } from 'redux'
 import { getHashOpts, hash } from '../../util'
 import { successfulResponseObserved } from './actions'
@@ -71,7 +76,12 @@ export const maxAgeFor = (throughput: number, interval: number): number =>
   Manages **hourly** and **monthly** API limits.
 */
 export const withRateLimit =
-  (store: Store<RootState>): Middleware<AdapterRequestWithRateLimit> =>
+  <
+    R extends AdapterRequestWithRateLimit = AdapterRequestWithRateLimit,
+    C extends AdapterContext = AdapterContext,
+  >(
+    store: Store<RootState>,
+  ): Middleware<R, C> =>
   async (execute, context) =>
   async (input) => {
     const config = context.limits

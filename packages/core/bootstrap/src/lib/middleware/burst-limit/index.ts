@@ -1,4 +1,4 @@
-import type { Middleware } from '../../../types'
+import type { AdapterContext, AdapterRequest, Middleware } from '../../../types'
 import { Store } from 'redux'
 import {
   BurstLimitState,
@@ -42,7 +42,9 @@ const availableSecondLimitCapacity = async (
   Prevents Adapters from requesting a data provider more times than their **second** and **minute** API limits allow.
 */
 export const withBurstLimit =
-  (store?: Store<BurstLimitState>): Middleware =>
+  <R extends AdapterRequest, C extends AdapterContext>(
+    store?: Store<BurstLimitState>,
+  ): Middleware<R, C> =>
   async (execute, context) =>
   async (input) => {
     const config = context.limits

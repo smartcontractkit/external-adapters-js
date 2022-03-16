@@ -54,10 +54,10 @@ import {
 import { getSubsId, RootState } from './reducer'
 import { separateBatches } from './utils'
 import { getWSConfig } from './config'
-import { util } from '../../..'
+import { parseBool, getEnv } from '../../util'
 import { WsMessageRecorder } from './recorder'
 
-const recordWsMessages = util.parseBool(process.env.RECORD)
+const recordWsMessages = parseBool(process.env.RECORD)
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
@@ -389,7 +389,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
                   timestamp: Date.now(),
                 }
                 const lastUpdatedAt = state.ws.subscriptions.all[subscriptionKey].lastUpdatedAt
-                const defaultMinTimeToNextUpdateInS = util.getEnv(
+                const defaultMinTimeToNextUpdateInS = getEnv(
                   'WS_TIME_UNTIL_HANDLE_NEXT_MESSAGE_OVERRIDE',
                 )
                 const timeToNextHandle = defaultMinTimeToNextUpdateInS

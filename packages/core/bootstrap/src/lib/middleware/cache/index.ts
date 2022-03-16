@@ -1,5 +1,6 @@
 import type {
   AdapterContext,
+  AdapterData,
   AdapterRequest,
   AdapterResponse,
   Execute,
@@ -22,7 +23,7 @@ import { getMaxAgeOverride, getTTL } from './utils'
 import * as local from './local'
 import * as redis from './redis'
 import * as metrics from './metrics'
-import type * as types from './types'
+import * as types from './types'
 
 const env = process.env
 
@@ -209,11 +210,11 @@ export class AdapterCache {
   }
 }
 
-const handleFailedCacheRead = async (
-  adapterRequest: AdapterRequest,
-  context: AdapterContext,
+const handleFailedCacheRead = async <R extends AdapterRequest, C extends AdapterContext>(
+  adapterRequest: R,
+  context: C,
   error: Error,
-  execute: Execute,
+  execute: Execute<R, C>,
   adapterCache: AdapterCache,
 ): Promise<AdapterResponse | undefined> => {
   const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
@@ -247,10 +248,12 @@ export const buildDefaultLocalAdapterCache = async (
 }
 
 export const withCache =
-  (rateLimit?: Store<reducer.BurstLimitState>): Middleware =>
-  async (execute, context: AdapterContext) => {
+  <D extends AdapterData = AdapterData, C extends AdapterContext = AdapterContext>(
+    rateLimit?: Store<reducer.BurstLimitState>,
+  ): Middleware<AdapterRequest<D>, C> =>
+  async (execute, context) => {
     // If disabled noop
-    if (!context?.cache?.instance) return (data: AdapterRequest) => execute(data, context)
+    if (!context?.cache?.instance) return (data) => execute(data, context)
 
     const adapterCache = new AdapterCache(context)
     const localAdapterCache = await buildDefaultLocalAdapterCache(context)
@@ -304,7 +307,7 @@ export const withCache =
       )
       if (inFlightMarkerResponse) return inFlightMarkerResponse
 
-      const burstRateLimit = withBurstLimit(rateLimit)
+      const burstRateLimit = withBurstLimit<AdapterRequest<D>, C>(rateLimit)
       const executeWithBackoff = await burstRateLimit(execute, context)
       const result = await executeWithBackoff(adapterRequest, context)
 

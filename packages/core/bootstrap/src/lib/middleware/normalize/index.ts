@@ -1,4 +1,11 @@
-import type { Middleware, AdapterRequest, Config, APIEndpoint } from '../../../types'
+import type {
+  Middleware,
+  AdapterRequest,
+  Config,
+  APIEndpoint,
+  AdapterContext,
+  AdapterData,
+} from '../../../types'
 import { baseInputParameters, Validator } from '../../modules'
 
 /**
@@ -23,17 +30,25 @@ import { baseInputParameters, Validator } from '../../modules'
 
     Incoming `from` or `coin` keys would be renamed to `base`.
 */
-export const withNormalizedInput: <C extends Config>(
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
-) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
-  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
-  return execute(normalizedInput, context)
-}
 
-export function normalizeInput<C extends Config>(
-  request: AdapterRequest,
-  apiEndpoint: APIEndpoint<C>,
-): AdapterRequest {
+export const withNormalizedInput: <
+  C extends Config = Config,
+  D extends AdapterData = AdapterData,
+  Ctx extends AdapterContext = AdapterContext,
+>(
+  endpointSelector?: (request: AdapterRequest<D>) => APIEndpoint<C, D>,
+) => Middleware<AdapterRequest<D>, Ctx> =
+  (endpointSelector) => async (execute, context) => async (input) => {
+    const normalizedInput = endpointSelector
+      ? normalizeInput(input, endpointSelector(input))
+      : input
+    return execute(normalizedInput, context)
+  }
+
+export function normalizeInput<C extends Config, D extends AdapterData>(
+  request: AdapterRequest<D>,
+  apiEndpoint: APIEndpoint<C, D>,
+): AdapterRequest<D> {
   const input = { ...request }
 
   // if endpoint does not match, an override occurred and we must adjust it
