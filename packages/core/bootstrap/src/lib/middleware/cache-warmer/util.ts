@@ -2,12 +2,17 @@ import { omit } from 'lodash'
 import { WarmupExecutePayload, WarmupSubscribedPayload } from './actions'
 import { get } from './config'
 import type { SubscriptionData } from './reducer'
-import type { AdapterRequestData, AdapterResponse, BatchableProperty } from '../../../types'
+import type {
+  AdapterData,
+  AdapterRequestData,
+  AdapterResponse,
+  BatchableProperty,
+} from '../../../types'
 import { hash } from '../../util'
 
 const conf = get()
-export function getSubscriptionKey(
-  request: WarmupSubscribedPayload | WarmupExecutePayload,
+export function getSubscriptionKey<D extends AdapterData>(
+  request: WarmupSubscribedPayload<D> | WarmupExecutePayload<D>,
 ): string {
   return hash(
     omit(request, ['id', 'parent', 'children', 'result', 'batchablePropertyPath']),

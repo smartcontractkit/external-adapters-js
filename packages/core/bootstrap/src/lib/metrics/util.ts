@@ -40,7 +40,7 @@ function buildSymbolString(data: string | string[]): string {
  * @param input The adapter input request
  * @returns {string}
  */
-export const getFeedId = (input: AdapterRequest): string => {
+export const getFeedId = <R extends AdapterRequest>(input: R): string => {
   try {
     const commonFeedParams = {
       base: ['base', 'from', 'coin', 'symbol', 'asset'],
