@@ -2898,7 +2898,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@1.13.0, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
+"@chainlink/ea-bootstrap@*, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
@@ -2952,7 +2952,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-factories@1.0.34, @chainlink/ea-factories@workspace:*, @chainlink/ea-factories@workspace:packages/core/factories":
+"@chainlink/ea-factories@workspace:*, @chainlink/ea-factories@workspace:packages/core/factories":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-factories@workspace:packages/core/factories"
   dependencies:
@@ -4227,8 +4227,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/readme-test-adapter@workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"
   dependencies:
-    "@chainlink/ea-bootstrap": 1.13.0
-    "@chainlink/ea-factories": 1.0.34
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-factories": "workspace:*"
     "@chainlink/types": 1.0.2
     "@types/supertest": 2.0.11
     nock: 13.1.3

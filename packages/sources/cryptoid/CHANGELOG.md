@@ -1,5 +1,13 @@
 # @chainlink/cryptoid-adapter
 
+## 1.2.21
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.20
 
 ### Patch Changes

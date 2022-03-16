@@ -1,5 +1,17 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- 0f79b1a8a: PRO_API_ENDPOINT added in config
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.11
 
 ### Patch Changes
