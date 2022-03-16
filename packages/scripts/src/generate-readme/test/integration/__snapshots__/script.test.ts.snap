@@ -3,7 +3,7 @@
 exports[`readme generation script when generating readme for readme-test-adapter should successfully generate readme 1`] = `
 "# README Test Adapter
 
-Version: 1.2.4
+Version: X.X.X
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
