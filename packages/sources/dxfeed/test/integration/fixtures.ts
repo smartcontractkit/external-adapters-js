@@ -136,27 +136,6 @@ export const mockHeartbeatMsg = {
   ],
 }
 
-export const mockHeartbeatMsg2 = {
-  request: [
-    {
-      id: 4,
-      channel: '/meta/connect',
-      connectionType: 'websocket',
-      clientId: 'dczhok6vqr2dw8pmio9857029',
-    },
-  ],
-
-  response: [
-    [
-      {
-        channel: '/meta/connect',
-        id: '4',
-        successful: true,
-      },
-    ],
-  ],
-}
-
 export const mockSubscribe = {
   request: [
     {
@@ -193,8 +172,6 @@ export const mockUnsubscribe = {
           Quote: ['TSLA'],
         },
       },
-      // clientId: 'dczhok6vqr2dw8pmio9857029',
-      // id: '4',
     },
   ],
 

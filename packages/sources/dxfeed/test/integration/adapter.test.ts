@@ -26,56 +26,51 @@ const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-// describe('dxfeed', () => {
-//   let server: http.Server
-//   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-//   let req: SuperTest<Test>
-//
-//   beforeAll(async () => {
-//     server = await startServer()
-//     req = request(`localhost:${(server.address() as AddressInfo).port}`)
-//     process.env.CACHE_ENABLED = 'false'
-//     process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
-//     process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
-//     if (util.parseBool(process.env.RECORD)) {
-//       nock.recorder.rec()
-//     }
-//   })
-//
-//   afterAll((done) => {
-//     process.env = oldEnv
-//
-//     if (util.parseBool(process.env.RECORD)) {
-//       nock.recorder.play()
-//     }
-//
-//     nock.restore()
-//     nock.cleanAll()
-//     nock.enableNetConnect()
-//     server.close(done)
-//   })
-//
-//   describe('price endpoint', () => {
-//     const priceRequest: AdapterRequest = {
-//       id: '1',
-//       data: {
-//         base: 'TSLA',
-//       },
-//     }
-//
-//     it('should reply with success', async () => {
-//       mockPriceEndpoint()
-//       const response = await req
-//         .post('/')
-//         .send(priceRequest)
-//         .set('Accept', '*/*')
-//         .set('Content-Type', 'application/json')
-//         .expect('Content-Type', /json/)
-//         .expect(200)
-//       expect(response.body).toMatchSnapshot()
-//     })
-//   })
-// })
+describe('dxfeed', () => {
+  let server: http.Server
+  const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
+  let req: SuperTest<Test>
+
+  beforeAll(async () => {
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
+    process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
+    if (util.parseBool(process.env.RECORD)) {
+      nock.recorder.rec()
+    }
+  })
+
+  afterAll((done) => {
+    if (util.parseBool(process.env.RECORD)) {
+      nock.recorder.play()
+    }
+    nock.restore()
+    nock.cleanAll()
+    server.close(done)
+  })
+
+  describe('price endpoint', () => {
+    const priceRequest: AdapterRequest = {
+      id: '1',
+      data: {
+        base: 'TSLA',
+      },
+    }
+
+    it('should reply with success', async () => {
+      mockPriceEndpoint()
+      const response = await req
+        .post('/')
+        .send(priceRequest)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+})
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
@@ -108,7 +103,7 @@ describe('websocket', () => {
     server.close(done)
   })
 
-  describe('iex endpoint', () => {
+  describe('price endpoint', () => {
     const jobID = '1'
 
     it('should return success', async () => {
@@ -160,6 +155,6 @@ describe('websocket', () => {
       })
 
       await flowFulfilled
-    }, 30000)
+    }, 10000)
   })
 })
