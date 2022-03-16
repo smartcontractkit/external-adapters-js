@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.13.1
+
+### Patch Changes
+
+- 382c16ac3: Add global handler for unhandled promise rejections
+
 ## 1.13.0
 
 ### Minor Changes

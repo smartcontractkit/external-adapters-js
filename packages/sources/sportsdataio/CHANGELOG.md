@@ -1,5 +1,14 @@
 # @chainlink/sportsdataio-adapter
 
+## 1.1.35
+
+### Patch Changes
+
+- 4952ec20e: Added buildUrl & buildUrlPath methods to util. Updated source adapters to use these methods for building URLs with user input.
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.34
 
 ### Patch Changes
