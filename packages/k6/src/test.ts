@@ -32,8 +32,9 @@ export const errorRate = new Rate('errors')
 // load the test data, if data was generated then load it from the generated file
 let payloadData = wsPayloads
 if (__ENV.PAYLOAD_GENERATED) {
+  const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
   payloadData = new SharedArray('payloadData', function () {
-    const f = JSON.parse(open('../src/config/http.json'))
+    const f = JSON.parse(open(payloadPath))
     return f
   })
 }
@@ -51,7 +52,9 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
      */
     return {
       local: {
-        [__ENV.LOCAL_ADAPTER_NAME]: 'http://host.docker.internal:8080',
+        [__ENV.LOCAL_ADAPTER_NAME]: `http://host.docker.internal:${
+          __ENV.LOCAL_ADAPTER_PORT || '8080'
+        }`,
       },
     }
   } else {
