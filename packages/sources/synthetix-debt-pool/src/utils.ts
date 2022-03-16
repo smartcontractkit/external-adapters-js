@@ -65,6 +65,5 @@ export const getContractAddress = async (
     provider,
   )
   const contractNameBytes32 = ethers.utils.formatBytes32String(contractName)
-  const addr = await addressResolver.getAddress(contractNameBytes32)
-  return addr
+  return await addressResolver.getAddress(contractNameBytes32)
 }
