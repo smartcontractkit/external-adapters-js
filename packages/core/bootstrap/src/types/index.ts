@@ -175,10 +175,10 @@ export type AdapterResponseData<TData extends AdapterData = AdapterData> =
       statusCode: number
     }
 
-export type AdapterResponse = {
+export type AdapterResponse<TData extends AdapterData = AdapterData> = {
   jobRunID: string
   statusCode: number
-  data: AdapterResponseData // Response data, holds "result" for Flux Monitor. Correct way.
+  data: AdapterResponseData<TData> // Response data, holds "result" for Flux Monitor. Correct way.
   result: Value // Result for OCR
   maxAge?: number
   metricsMeta?: AdapterMetricsMeta
@@ -220,7 +220,7 @@ export type Middleware<TInput = AdapterRequest, TContext = AdapterContext> = (
   execute: Execute<TInput, TContext>,
   context: TContext,
   ...args: unknown[]
-) => Promise<Execute>
+) => Promise<Execute<TInput, TContext>>
 
 export type Callback = (statusCode: number, data?: AdapterResponse | AdapterErrorResponse) => void
 
@@ -258,9 +258,9 @@ export type Execute<TInput = AdapterRequest, TContext = AdapterContext> = (
   context: TContext,
 ) => Promise<AdapterResponse>
 
-export type ExecuteSync = (
-  input: AdapterRequest,
-  execute: Execute,
+export type ExecuteSync = <D extends AdapterData>(
+  input: AdapterRequest<D>,
+  execute: Execute<AdapterRequest<D>>,
   context: AdapterContext,
   callback: Callback,
 ) => void
@@ -271,7 +271,9 @@ export type ExecuteWithConfig<C extends Config, D extends AdapterData = AdapterD
   config: C,
 ) => Promise<AdapterResponse>
 
-export type ExecuteFactory<C extends Config> = (config?: C) => Execute
+export type ExecuteFactory<C extends Config, D extends AdapterData = AdapterData> = (
+  config?: C,
+) => Execute<AdapterRequest<D>>
 
 export type InputParameter<T extends AdapterData = AdapterData> = {
   aliases?: string[]

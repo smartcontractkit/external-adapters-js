@@ -11,14 +11,29 @@ import { DEFAULT_WS_API_ENDPOINT, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
 import { crypto } from './endpoint'
 
-export const execute: ExecuteWithConfig<DefaultConfig> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<DefaultConfig, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<DefaultConfig, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<DefaultConfig, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<DefaultConfig, endpoints.TInputParameters>(
+    request,
+    makeConfig(),
+    endpoints,
+  )
 
-export const makeExecute: ExecuteFactory<DefaultConfig> = (config) => {
+export const makeExecute: ExecuteFactory<DefaultConfig, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
@@ -50,10 +65,11 @@ export const makeWSHandler =
         return getSubscription([base, quote])
       },
       unsubscribe: () => undefined,
-      subsFromMessage: (message) =>
-        getSubscription([message.asset_id_base, message.asset_id_quote]),
+      subsFromMessage: (
+        message: any, // TODO: type WS message shape
+      ) => getSubscription([message.asset_id_base, message.asset_id_quote]),
       isError: () => false,
-      filter: (message) => message?.type === 'exrate',
+      filter: (message: any) => message?.type === 'exrate', // TODO: type WS message shape
       toResponse: (message) => {
         const result = Requester.validateResultNumber(message, ['rate'])
         return Requester.success('1', { data: { result } })

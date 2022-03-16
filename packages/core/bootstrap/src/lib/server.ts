@@ -1,4 +1,4 @@
-import type { AdapterContext, Execute, Middleware } from '../types'
+import type { AdapterContext, AdapterData, AdapterRequest, Execute, Middleware } from '../types'
 import express from 'express'
 import http from 'http'
 import slowDown from 'express-slow-down'
@@ -30,7 +30,11 @@ export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
-  (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
+  <D extends AdapterData>(
+    adapterContext: AdapterContext,
+    execute: Execute<AdapterRequest<D>>,
+    middleware: Middleware<AdapterRequest<D>>[],
+  ) =>
   async (): Promise<http.Server> => {
     const name = adapterContext.name || ''
     const rateLimit: Limits = adapterContext.rateLimit || { http: {}, ws: {} }
@@ -55,7 +59,7 @@ export const initHandler =
 
     initExpressMiddleware(app)
 
-    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
+    const executeWithMiddleware = await withMiddleware<D>(execute, context, middleware)
 
     app.post(baseUrl, (req, res) => {
       if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
@@ -86,7 +90,7 @@ export const initHandler =
       res.status(200).send({ message: 'OK', version })
     })
 
-    const testPayload = loadTestPayload()
+    const testPayload = loadTestPayload<D>()
     app.get(join(baseUrl, 'smoke'), async (_, res) => {
       if (testPayload.isDefault) {
         return res.status(200).send('OK')
@@ -96,7 +100,7 @@ export const initHandler =
 
       for (const index in testPayload.requests) {
         try {
-          await executeSync(
+          await executeSync<D>(
             { data: testPayload.requests[index], id: index },
             executeWithMiddleware,
             context,

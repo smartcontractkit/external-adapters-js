@@ -9,6 +9,7 @@ import type {
   APIEndpoint,
   Callback,
   Config,
+  AdapterData,
 } from './types'
 import { combineReducers, Store } from 'redux'
 import {
@@ -66,38 +67,43 @@ export const storeSlice = (slice: ReduxMiddleware): Store =>
     dispatch: (a) => store.dispatch(a),
   } as Store)
 
-export const makeMiddleware = <C extends Config>(
-  execute: Execute,
+export const makeMiddleware = <C extends Config, D extends AdapterData>(
+  execute: Execute<AdapterRequest<D>>,
   makeWsHandler?: MakeWSHandler,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
-): Middleware[] => {
+  endpointSelector?: (request: AdapterRequest<D>) => APIEndpoint<C, D>,
+): Middleware<AdapterRequest<D>>[] => {
   const warmerMiddleware = [
-    Cache.withCache(storeSlice('burstLimit')),
-    RateLimit.withRateLimit(storeSlice('rateLimit')),
-    StatusCode.withStatusCode,
+    Cache.withCache<D>(storeSlice('burstLimit')),
+    RateLimit.withRateLimit<AdapterRequest<D>>(storeSlice('rateLimit')),
+    StatusCode.withStatusCode<AdapterRequest<D>>(),
     Normalize.withNormalizedInput(endpointSelector),
-  ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics] : [])
+  ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics()] : [])
+
+  const metricsMiddleware: Middleware<AdapterRequest<D>>[] = metrics.METRICS_ENABLED
+    ? [metrics.withMetrics(), Debug.withDebug()]
+    : [Debug.withDebug()]
 
   return [
-    IoLogger.withIOLogger,
+    IoLogger.withIOLogger(),
     Cache.withCache(storeSlice('burstLimit')),
-    CacheWarmer.withCacheWarmer(storeSlice('cacheWarmer'), warmerMiddleware, {
+    CacheWarmer.withCacheWarmer<D>(storeSlice('cacheWarmer'), warmerMiddleware, {
       store: storeSlice('ws'),
       makeWSHandler: makeWsHandler,
     })(execute),
     WebSocket.withWebSockets(storeSlice('ws'), makeWsHandler),
     RateLimit.withRateLimit(storeSlice('rateLimit')),
-    StatusCode.withStatusCode,
+    StatusCode.withStatusCode(),
     Normalize.withNormalizedInput(endpointSelector),
-  ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics, Debug.withDebug] : [Debug.withDebug])
+    ...metricsMiddleware,
+  ]
 }
 
 // Wrap raw Execute function with middleware
-export const withMiddleware = async (
-  execute: Execute,
+export const withMiddleware = async <D extends AdapterData>(
+  execute: Execute<AdapterRequest<D>>,
   context: AdapterContext,
-  middleware: Middleware[],
-): Promise<Execute> => {
+  middleware: Middleware<AdapterRequest<D>>[],
+): Promise<Execute<AdapterRequest<D>>> => {
   // Init and wrap middleware one by one
   for (let i = 0; i < middleware.length; i++) {
     execute = await middleware[i](execute, context)
@@ -106,9 +112,9 @@ export const withMiddleware = async (
 }
 
 // Execution helper async => sync
-export const executeSync: ExecuteSync = async (
-  data: AdapterRequest,
-  execute: Execute,
+export const executeSync: ExecuteSync = async <D extends AdapterData>(
+  data: AdapterRequest<D>,
+  execute: Execute<AdapterRequest<D>>,
   context: AdapterContext,
   callback: Callback,
 ) => {
@@ -129,13 +135,13 @@ export const executeSync: ExecuteSync = async (
   }
 }
 
-export const expose = <C extends Config>(
+export const expose = <C extends Config, D extends AdapterData>(
   context: AdapterContext,
-  execute: Execute,
+  execute: Execute<AdapterRequest<D>>,
   makeWsHandler?: MakeWSHandler,
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
+  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C, D>,
 ): ExecuteHandler => {
-  const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
+  const middleware = makeMiddleware<C, D>(execute, makeWsHandler, endpointSelector)
   return {
     server: server.initHandler(context, execute, middleware),
   }

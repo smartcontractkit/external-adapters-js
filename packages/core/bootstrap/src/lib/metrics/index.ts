@@ -1,7 +1,7 @@
 import * as client from 'prom-client'
 import { parseBool } from '../util'
 import * as util from './util'
-import type { Middleware, AdapterRequest, AdapterMetricsMeta } from '../../types'
+import type { Middleware, AdapterRequest, AdapterMetricsMeta, AdapterContext } from '../../types'
 import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer'
 
 export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
@@ -14,8 +14,10 @@ export const setupMetrics = (name: string): void => {
   })
 }
 
-export const withMetrics: Middleware =
-  async (execute, context) => async (input: AdapterRequest) => {
+export const withMetrics =
+  <R extends AdapterRequest, C extends AdapterContext>(): Middleware<R, C> =>
+  async (execute, context) =>
+  async (input) => {
     const feedId = util.getFeedId(input)
     const metricsMeta: AdapterMetricsMeta = {
       feedId,

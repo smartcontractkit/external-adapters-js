@@ -22,9 +22,12 @@ export * as types from './types'
 import { WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
 
 export const withWebSockets =
-  (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
+  <R extends AdapterRequest, C extends AdapterContext>(
+    store: Store<RootState>,
+    makeWsHandler?: MakeWSHandler,
+  ): Middleware<R, C> =>
   async (execute, context) =>
-  async (input: AdapterRequest) => {
+  async (input) => {
     const wsConfig = getWSConfig(input.data.endpoint)
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
     if (input.id === WARMUP_REQUEST_ID || input.id === WARMUP_BATCH_REQUEST_ID)
