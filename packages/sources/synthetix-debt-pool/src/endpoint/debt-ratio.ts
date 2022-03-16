@@ -28,6 +28,12 @@ const getDebtRatio = async (
 ): Promise<BigNumber> => {
   const chainResponses = await Promise.all(
     chainsToQuery.map(async (network): Promise<CurrentDebtResults> => {
+      if (!config.chains[network])
+        throw new AdapterError({
+          jobRunID,
+          statusCode: 500,
+          message: `Chain ${network} not configured`,
+        })
       const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
       try {
         const debtCacheAddress = await getContractAddress(
