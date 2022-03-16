@@ -2,11 +2,12 @@ import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import {
-  getChainSynthetixInstance,
+  getContractAddress,
   getDataFromAcrossChains,
   inputParameters as commonInputParameters,
-} from '../commons'
+} from '../utils'
 import { Config } from '../config'
+import { DEBT_CACHE_ABI, SYNTHETIX_DEBT_SHARE_ABI } from './abi'
 
 // Needs to be exported so that doc generator script works
 export const inputParameters = commonInputParameters
@@ -27,10 +28,32 @@ const getDebtRatio = async (
 ): Promise<BigNumber> => {
   const chainResponses = await Promise.all(
     chainsToQuery.map(async (network): Promise<CurrentDebtResults> => {
-      const snxjs = getChainSynthetixInstance(network, jobRunID, config)
+      if (!config.chains[network])
+        throw new AdapterError({
+          jobRunID,
+          statusCode: 500,
+          message: `Chain ${network} not configured`,
+        })
+      const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
       try {
-        const [chainTotalDebt] = await snxjs.contracts.DebtCache.currentDebt()
-        const chainTotalDebtShare = await snxjs.contracts.SynthetixDebtShare.totalSupply()
+        const debtCacheAddress = await getContractAddress(
+          networkProvider,
+          config.chains[network].chainAddressResolverAddress,
+          'DebtCache',
+        )
+        const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
+        const [chainTotalDebt] = await debtCache.currentDebt()
+        const synthetixDebtShareAddress = await getContractAddress(
+          networkProvider,
+          config.chains[network].chainAddressResolverAddress,
+          'SynthetixDebtShare',
+        )
+        const synthetixDebtShare = new ethers.Contract(
+          synthetixDebtShareAddress,
+          SYNTHETIX_DEBT_SHARE_ABI,
+          networkProvider,
+        )
+        const chainTotalDebtShare = await synthetixDebtShare.totalSupply()
         return {
           totalDebtIssued: chainTotalDebt,
           totalDebtShares: chainTotalDebtShare,
