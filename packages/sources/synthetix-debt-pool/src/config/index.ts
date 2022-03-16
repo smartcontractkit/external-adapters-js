@@ -1,6 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/types'
-import { NetworkId, NetworkIdByName } from '@synthetixio/contracts-interface'
 
 export const NAME = 'SYNTHETIX_DEBT_POOL'
 
@@ -17,7 +16,7 @@ export interface Config extends DefaultConfig {
   chains: {
     [key: string]: {
       rpcURL: string
-      networkId: NetworkId
+      chainAddressResolverAddress: string
     }
   }
 }
@@ -32,10 +31,13 @@ export const makeConfig = (prefix?: string): Config => {
   for (const chainName of Object.values(SupportedChains)) {
     const envVarPrefix = getRPCUrlPrefix(chainName)
     const chainRpcURL = util.getEnv('RPC_URL', envVarPrefix)
+    const chainAddressResolverAddress =
+      util.getEnv('ADDRESS_RESOLVER_CONTRACT_ADDRESS', envVarPrefix) ||
+      getDefaultAddressResolverAddress(chainName)
     if (chainRpcURL) {
       config.chains[chainName] = {
         rpcURL: chainRpcURL,
-        networkId: NetworkIdByName[chainName],
+        chainAddressResolverAddress,
       }
     }
   }
@@ -55,5 +57,18 @@ const getRPCUrlPrefix = (networkName: SupportedChains): string => {
       return 'OPTIMISM'
     case SupportedChains.KOVAN_OPTIMISM:
       return 'KOVAN_OPTIMISM'
+  }
+}
+
+const getDefaultAddressResolverAddress = (networkName: SupportedChains): string => {
+  switch (networkName) {
+    case SupportedChains.ETHEREUM:
+      return '0x823bE81bbF96BEc0e25CA13170F5AaCb5B79ba83'
+    case SupportedChains.KOVAN:
+      return '0x84f87E3636Aa9cC1080c07E6C61aDfDCc23c0db6'
+    case SupportedChains.OPTIMISM:
+      return '0x95A6a3f44a70172E7d50a9e28c85Dfd712756B8C'
+    case SupportedChains.KOVAN_OPTIMISM:
+      return '0xb08b62e1cdfd37eCCd69A9ACe67322CCF801b3A6'
   }
 }

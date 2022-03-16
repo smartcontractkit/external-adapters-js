@@ -48,7 +48,7 @@ exports[`synthetix-debt-pool errors throws an error if the request contains a so
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"]}}",
-    "message": "Cannot destructure property 'rpcURL' of 'config.chains[network]' as it is undefined.",
+    "message": "Chain kovan not configured",
     "name": "AdapterError",
   },
   "jobRunID": 1,
@@ -61,7 +61,7 @@ exports[`synthetix-debt-pool errors throws an error if the request contains a so
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"chainSources\\":[\\"kovan\\"],\\"endpoint\\":\\"debt-ratio\\"}}",
-    "message": "Cannot destructure property 'rpcURL' of 'config.chains[network]' as it is undefined.",
+    "message": "Chain kovan not configured",
     "name": "AdapterError",
   },
   "jobRunID": 1,
