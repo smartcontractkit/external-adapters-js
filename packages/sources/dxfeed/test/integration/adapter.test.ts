@@ -94,7 +94,7 @@ describe('websocket', () => {
 
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '100'
+    process.env.WS_SUBSCRIPTION_TTL = '1000'
 
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
@@ -123,13 +123,14 @@ describe('websocket', () => {
       if (!process.env.RECORD) {
         mockPriceEndpoint() // For the first response
 
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockHandshake,
-          mockFirstHeartbeatMsg,
-          mockHeartbeatMsg,
-          mockSubscribe,
-          mockUnsubscribe,
-        ])
+        flowFulfilled = mockWebSocketFlow(
+          mockedWsServer,
+          [mockHandshake, mockFirstHeartbeatMsg, mockHeartbeatMsg, mockSubscribe, mockUnsubscribe],
+          {
+            enforceSequence: false,
+            errorOnUnexpectedMessage: false,
+          },
+        )
       }
 
       const makeRequest = () =>
@@ -158,7 +159,7 @@ describe('websocket', () => {
         data: { result: 788 },
       })
 
-      await sleep(1000)
+      await flowFulfilled
     }, 30000)
   })
 })
