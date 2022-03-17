@@ -55,7 +55,7 @@ const getEthStETHExchangeRate = async (
   throwErrorForInvalidResult(
     jobRunID,
     result,
-    `ETH/stETH Exchange Rate from Curve Pool address ${config.stEthPoolContractAddress}`,
+    `stETH/ETH Exchange Rate from Curve Pool address ${config.stEthPoolContractAddress}`,
   )
   return result
 }
@@ -82,7 +82,7 @@ const getBEthStETHExchangeRate = async (
   throwErrorForInvalidResult(
     jobRunID,
     result,
-    `bETH/stETH Exchange Rate from Anchor Vault address ${config.anchorVaultContractAddress}`,
+    `stETH/bETH Exchange Rate from Anchor Vault address ${config.anchorVaultContractAddress}`,
   )
   return result
 }
