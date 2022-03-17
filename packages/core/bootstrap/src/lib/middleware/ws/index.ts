@@ -11,6 +11,7 @@ import { getWSConfig } from './config'
 import { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
+import { getEnv } from '../../util'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -65,7 +66,7 @@ export const withWebSockets =
     // Check if adapter only supports WS
     if (wsHandler.noHttp) {
       // If so, we try to get a result from cache within API_TIMEOUT
-      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
+      const requestTimeout = Number(getEnv('API_TIMEOUT'))
       const deadline = Date.now() + requestTimeout
       return await awaitResult(context, input, deadline)
     }

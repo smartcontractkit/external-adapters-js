@@ -12,6 +12,7 @@ import { withBurstLimit } from '../burst-limit'
 import {
   delay,
   exponentialBackOffMs,
+  getEnv,
   getHashOpts,
   getWithCoalescing,
   parseBool,
@@ -25,19 +26,7 @@ import * as metrics from './metrics'
 import * as redis from './redis'
 import { CacheEntry } from './types'
 
-const env = process.env
-
-export const DEFAULT_CACHE_ENABLED = true
-const DEFAULT_CACHE_TYPE = 'local'
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-// Request coalescing
-const DEFAULT_RC_INTERVAL = 100
-const DEFAULT_RC_INTERVAL_MAX = 1000
-const DEFAULT_RC_INTERVAL_COEFFICIENT = 2
-const DEFAULT_RC_ENTROPY_MAX = 0
-const DEFAULT_RC_MAX_RETRIES = 5
-
-export const MINIMUM_AGE = 1000 * 60 * 0.5 // 30 seconds
 
 export type Cache = redis.RedisCache | local.LocalLRUCache
 
@@ -62,31 +51,30 @@ export interface CacheOptions {
 
 export const defaultOptions = (shouldUseLocal?: boolean): CacheOptions => {
   return {
-    enabled: parseBool(env.CACHE_ENABLED ?? DEFAULT_CACHE_ENABLED),
+    enabled: parseBool(getEnv('CACHE_ENABLED')),
     cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
     cacheBuilder: defaultCacheBuilder(),
     key: {
-      group: env.CACHE_KEY_GROUP || DEFAULT_CACHE_KEY_GROUP,
+      group: getEnv('CACHE_KEY_GROUP') || DEFAULT_CACHE_KEY_GROUP,
     },
     // Request coalescing
     requestCoalescing: {
-      enabled: parseBool(env.REQUEST_COALESCING_ENABLED),
+      enabled: parseBool(getEnv('REQUEST_COALESCING_ENABLED')),
       // Capped linear back-off: 100, 200, 400, 800, 1000..
-      interval: Number(env.REQUEST_COALESCING_INTERVAL) || DEFAULT_RC_INTERVAL,
-      intervalMax: Number(env.REQUEST_COALESCING_INTERVAL_MAX) || DEFAULT_RC_INTERVAL_MAX,
-      intervalCoefficient:
-        Number(env.REQUEST_COALESCING_INTERVAL_COEFFICIENT) || DEFAULT_RC_INTERVAL_COEFFICIENT,
+      interval: Number(getEnv('REQUEST_COALESCING_INTERVAL')),
+      intervalMax: Number(getEnv('REQUEST_COALESCING_INTERVAL_MAX')),
+      intervalCoefficient: Number(getEnv('REQUEST_COALESCING_INTERVAL_COEFFICIENT')),
       // Add entropy to absorb bursts
-      entropyMax: Number(env.REQUEST_COALESCING_ENTROPY_MAX) || DEFAULT_RC_ENTROPY_MAX,
-      maxRetries: Number(env.REQUEST_COALESCING_MAX_RETRIES) || DEFAULT_RC_MAX_RETRIES,
+      entropyMax: Number(getEnv('REQUEST_COALESCING_ENTROPY_MAX')),
+      maxRetries: Number(getEnv('REQUEST_COALESCING_MAX_RETRIES')),
     },
-    minimumAge: Number(env.CACHE_MIN_AGE) || MINIMUM_AGE,
+    minimumAge: Number(getEnv('CACHE_MIN_AGE')),
   }
 }
 
 export type CacheImplOptions = LocalOptions | redis.RedisOptions
 const defaultCacheImplOptions = (): CacheImplOptions => {
-  const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
+  const type = getEnv('CACHE_TYPE')
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
   return options
 }
@@ -239,7 +227,7 @@ const handleFailedCacheRead = async (
   execute: Execute,
   adapterCache: AdapterCache,
 ): Promise<AdapterResponse | undefined> => {
-  const type = env.CACHE_TYPE || DEFAULT_CACHE_TYPE
+  const type = getEnv('CACHE_TYPE')
   if (type === 'local') {
     logger.warn('Cache type already set to local.  Passing through...')
     return await execute(adapterRequest, context)

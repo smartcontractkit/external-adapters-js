@@ -57,7 +57,7 @@ import { getWSConfig } from './config'
 import { util } from '../../..'
 import { WebSocketClassProvider, WsMessageRecorder } from './recorder'
 
-const recordWsMessages = util.parseBool(process.env.RECORD)
+const recordWsMessages = util.parseBool(util.getEnv('RECORD'))
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages

@@ -1,8 +1,14 @@
-import { AdapterImplementation, AdapterRequest } from '@chainlink/types'
+import {
+  AdapterContext,
+  AdapterImplementation,
+  AdapterRequest,
+  EnvDefaults,
+} from '@chainlink/types'
 import { Decimal } from 'decimal.js'
 import { flatMap, values, pick, omit } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
+import { baseEnvDefaults } from './config'
 import { CacheEntry } from './middleware/cache/types'
 import { logger } from './modules'
 
@@ -101,9 +107,24 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = ''): string | undefined => {
-  const envVar = process.env[getEnvName(name, prefix)]
-  return envVar === '' ? undefined : envVar
+/**
+ * Get the environment variable with the given `name`. If the variable is
+ * not present in `process.env`, it will default to the adapter's `envDefaultOverrides`
+ * first, then `baseEnvDefaults` if there is no override.
+ * @param name Env var to fetch
+ * @param prefix Prefix for env var (useful when working with composites)
+ * @param context Adapter context to pull `envDefaultOverrides` from
+ * @returns the env var string if found, else undefined
+ */
+export const getEnv = (name: string, prefix = '', context?: AdapterContext): string | undefined => {
+  let envVar = process.env[getEnvName(name, prefix)]
+  if (!envVar || envVar === '') {
+    //@ts-expect-error EnvDefaultOverrides only allows specific string keys, but optional chaining
+    // protects against cases where 'name' is not in EnvDefaultOverrides
+    envVar = context?.envDefaultOverrides?.[name] ?? baseEnvDefaults[name]
+  }
+  if (envVar === '') envVar = undefined
+  return envVar
 }
 
 // Custom error for required env variable.
@@ -189,7 +210,7 @@ export const excludableAdapterRequestProperties: Record<string, true> = [
   'rateLimitMaxAge',
   'metricsMeta',
 ]
-  .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+  .concat((getEnv('CACHE_KEY_IGNORED_PROPS') || '').split(',').filter((k) => k))
   .reduce((prev, next) => {
     prev[next] = true
     return prev
@@ -197,7 +218,7 @@ export const excludableAdapterRequestProperties: Record<string, true> = [
 
 /** Common keys within adapter requests that should be used to generate a stable key*/
 export const includableAdapterRequestProperties: string[] = ['data'].concat(
-  (process.env.CACHE_KEY_INCLUDED_PROPS || '').split(',').filter((k) => k),
+  (getEnv('CACHE_KEY_INCLUDED_PROPS') || '').split(',').filter((k) => k),
 )
 
 /** Common keys within adapter requests that should be ignored within "data" to create a stable key*/
@@ -248,12 +269,12 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
 
 // Helper to identify if debug mode is running
 export const isDebug = (): boolean => {
-  return parseBool(process.env.DEBUG) || process.env.NODE_ENV === 'development'
+  return parseBool(getEnv('DEBUG')) || getEnv('NODE_ENV') === 'development'
 }
 
 // Helper to identify if debug log level is set
 export const isDebugLogLevel = (): boolean => {
-  return process.env.LOG_LEVEL === 'debug'
+  return getEnv('LOG_LEVEL') === 'debug'
 }
 
 /**
@@ -480,7 +501,7 @@ let unhandledRejectionHandlerRegistered = false
  */
 export const registerUnhandledRejectionHandler = (): void => {
   if (unhandledRejectionHandlerRegistered) {
-    if (process.env.NODE_ENV !== 'test')
+    if (getEnv('NODE_ENV') !== 'test')
       logger.warn('UnhandledRejectionHandler attempted to be registered more than once')
     return
   }
