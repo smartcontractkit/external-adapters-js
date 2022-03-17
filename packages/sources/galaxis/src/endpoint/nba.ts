@@ -32,31 +32,41 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = await getFilteredAchievements(response.data, config)
+  const { encodedCalls, hasMore } = await getFilteredAchievements(response.data, config)
 
   return {
     jobRunID,
-    result,
+    result: encodedCalls,
     statusCode: 200,
     data: {
-      result,
+      result: encodedCalls,
+      hasMore,
     },
   }
+}
+
+export interface FilteredAchievements {
+  encodedCalls: string
+  hasMore: boolean
 }
 
 export const getFilteredAchievements = async (
   response: ResponseSchema,
   config: ExtendedConfig,
-): Promise<string> => {
+): Promise<FilteredAchievements> => {
   const groupedAchievements = getGroupedAchievementsByID(response)
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
   const calls: string[][] = []
-  for (const achievementID in groupedAchievements) {
-    if (
-      (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) &&
-      (!config.limit || calls.length < config.limit)
-    ) {
+
+  let hasHitLimit = false
+  let encodedCalls = ''
+
+  const achievementIDs = Object.keys(groupedAchievements)
+  let currAchievementIdIdx = 0
+  while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
+    const achievementID = achievementIDs[currAchievementIdIdx]
+    if (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) {
       const values = groupedAchievements[achievementID].map(({ value }) => value)
       const ids = groupedAchievements[achievementID].map(
         ({ team_id, player_id }) => team_id || player_id,
@@ -65,13 +75,23 @@ export const getFilteredAchievements = async (
         config.ecRegistryAddress,
         ecRegistry.interface.encodeFunctionData('setData', [achievementID, ids, values]),
       ])
+      const updatedEncodedCalls = encodeAchievements(calls)
+      if (updatedEncodedCalls.length <= config.maxEncodedCallsBytes) {
+        encodedCalls = updatedEncodedCalls
+      } else {
+        hasHitLimit = true
+      }
     }
+    currAchievementIdIdx++
   }
-  return encodeAchievements(calls)
+  return {
+    encodedCalls: encodedCalls,
+    hasMore: hasHitLimit,
+  }
 }
 
 export interface AchievementsByIDs {
-  [T: number]: Achievement[]
+  [T: string]: Achievement[]
 }
 
 export const getGroupedAchievementsByID = (response: ResponseSchema): AchievementsByIDs => {
@@ -90,7 +110,7 @@ export const groupAchievements = (
     if (!acc[achievement_id]) {
       acc[achievement_id] = []
     }
-    acc[achievement_id].push(curr)
+    acc[achievement_id.toString()].push(curr)
     return acc
   }, achievementsByID)
 }
