@@ -5,6 +5,7 @@ Object {
   "data": Object {
     "result": "5000000",
   },
+  "debug": undefined,
   "jobRunID": "1",
   "result": "5000000",
   "statusCode": 200,
