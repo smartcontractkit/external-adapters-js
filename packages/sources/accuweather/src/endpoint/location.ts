@@ -1,5 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  AxiosResponse,
+  DefaultConfig,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { utils } from 'ethers'
 
 export interface Location {
@@ -20,7 +25,9 @@ export type LocationResultEncoded = [boolean, string]
 
 export const supportedEndpoints = ['location']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { lat: number | string; lon: number | string; encodeResult: boolean }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   lat: {
     aliases: ['latitude'],
     description: 'The latitude (WGS84 standard). Must be `-90` to `90`.',
@@ -91,8 +98,8 @@ export const encodeLocationResult = (result: LocationResult): string => {
   return utils.defaultAbiCoder.encode(dataTypes, dataValues)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+export const execute: ExecuteWithConfig<DefaultConfig> = async (request, _, config) => {
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const latitude = validator.validated.data.lat
