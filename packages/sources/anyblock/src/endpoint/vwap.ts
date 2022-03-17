@@ -10,7 +10,15 @@ const customError = (data: ResponseSchema) => {
 export const description =
   'Service to calculate the volume weighted average price (VWAP) for any Uniswap asset.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  address: string
+  debug: boolean
+  roundDay: boolean
+  start: string
+  end: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   address: {
     description: 'Uniswap pool **checksum address**',
     type: 'string',
@@ -92,7 +100,7 @@ const buildVWAP = (data: ResponseSchema, status: number, debug: boolean) => {
   return resp
 }
 
-const cleanupDate = (inputDate: string, roundDay: boolean) => {
+const cleanupDate = (inputDate: string, roundDay: boolean): number => {
   let outputDate: number
   try {
     outputDate = parseInt(inputDate)
@@ -102,26 +110,30 @@ const cleanupDate = (inputDate: string, roundDay: boolean) => {
       outputDate = date.getTime()
     }
   } catch (err) {
-    return inputDate
+    return -1
   }
   return outputDate
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
+  const url = '/ethereum/ethereum/mainnet/es/event/search/'
   const jobRunID = validator.validated.id
   // TODO: validate this is a checksum address
   const address = validator.validated.data.address
   const debug = validator.validated.data.debug
   const roundDay = validator.validated.data.roundDay
-  let start = validator.validated.data.start
-  let end = validator.validated.data.end
+  let start = cleanupDate(validator.validated.data.start, roundDay)
+  let end = cleanupDate(validator.validated.data.end, roundDay)
 
-  const url = '/ethereum/ethereum/mainnet/es/event/search/'
-
-  end = cleanupDate(end, roundDay)
-  start = cleanupDate(start, roundDay)
+  if (start === -1 || end === -1) {
+    throw new Error(
+      `Could not parse date(s): ${start === -1 ? `start (${start})` : ''} ${
+        end === -1 ? `end (${end})` : ''
+      }`,
+    )
+  }
 
   if (!start && !end) {
     const date = new Date()
