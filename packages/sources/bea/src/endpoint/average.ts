@@ -51,6 +51,7 @@ export interface ResponseSchema {
           NoteText: string
         },
       ]
+      Error: Record<string, unknown>
     }
     Error: {
       APIErrorDescription: string
@@ -63,10 +64,12 @@ export interface ResponseSchema {
   result: Decimal
 }
 
-const customError = (data: { BEAAPI: { Results: { Error: Record<string, unknown> } } }) =>
+const customError = (data: ResponseSchema) =>
   Object.keys(data?.BEAAPI?.Results?.Error || {}).length > 0
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { series: string; last: number }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   series: {
     description: 'The series code to query (`DGDSRG`, `DPCERG`, etc.)',
     type: 'string',
@@ -80,7 +83,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const year = new Date().getFullYear()
