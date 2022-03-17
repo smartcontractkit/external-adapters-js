@@ -1,4 +1,4 @@
-import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Schema, StateQuery } from '@cardano-ogmios/client'
 import { ExtendedConfig } from '../config'
@@ -15,7 +15,9 @@ export interface ResponseSchema {
 
 export const description = "This endpoint fetches an address's balance and outputs it in Lovelace."
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { addresses: Array<{ address: string }> }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     aliases: ['result'],
     description: 'An array of addresses to query balances for',
@@ -25,7 +27,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses
@@ -46,7 +48,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     httpOgmiosURL,
   )
 
-  return {
+  const endpointResponse = {
     jobRunID,
     result,
     data: {
@@ -54,6 +56,8 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     },
     statusCode: 200,
   }
+
+  return Requester.success(jobRunID, endpointResponse, config.verbose)
 }
 
 const getOgmiosHosts = (jobRunID: string, config: ExtendedConfig): string[] => {
