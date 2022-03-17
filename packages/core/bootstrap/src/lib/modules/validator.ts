@@ -58,6 +58,7 @@ export class Validator {
 
   validateInput(): void {
     try {
+      let inputAliases: string[] = []
       for (const key in this.inputConfigs) {
         const options = this.inputOptions[key]
         const inputConfig = this.inputConfigs[key]
@@ -65,6 +66,9 @@ export class Validator {
           // TODO move away from alias arrays in favor of InputParameter config type
           const usedKey = this.getUsedKey(key, inputConfig)
           if (!usedKey) this.throwInvalid(`None of aliases used for required key ${key}`)
+
+          inputAliases.push(key)
+          inputAliases = inputAliases.concat(inputConfig)
           this.validateRequiredParam(this.input.data[usedKey as string], key, options)
         } else if (typeof inputConfig === 'boolean') {
           // TODO move away from required T/F in favor of InputParameter config type
@@ -72,8 +76,15 @@ export class Validator {
             ? this.validateRequiredParam(this.input.data[key], key, options)
             : this.validateOptionalParam(this.input.data[key], key, options)
         } else {
+          inputAliases.push(key)
+          if (inputConfig.aliases) {
+            inputAliases = inputAliases.concat(inputConfig.aliases)
+          }
           this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
         }
+      }
+      if (inputAliases.length != new Set(inputAliases).size) {
+        this.throwInvalid('Duplicate Input Aliases')
       }
     } catch (e) {
       this.parseError(e)
@@ -209,7 +220,6 @@ export class Validator {
 
   validateObjectParam(key: string, shouldThrowError = true): void {
     const inputConfig = this.inputConfigs[key] as InputParameter
-
     const usedKey = this.getUsedKey(key, inputConfig.aliases ?? [])
 
     const param = usedKey
