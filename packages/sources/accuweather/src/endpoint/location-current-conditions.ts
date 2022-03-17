@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterResponse,
   AxiosResponse,
-  Config,
+  DefaultConfig,
   ExecuteWithConfig,
   InputParameters,
 } from '@chainlink/ea-bootstrap'
@@ -25,7 +25,14 @@ export type LocationCurrentConditionsResultEncoded = [boolean, string, string]
 
 export const supportedEndpoints = ['location-current-conditions']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  lat: number | string
+  lon: number | string
+  units: string
+  encodeResult: boolean
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   lat: {
     aliases: ['latitude'],
     description: 'The latitude (WGS84 standard). Must be `-90` to `90`.',
@@ -59,8 +66,8 @@ export const noEndpointResult: LocationCurrentConditionsResult = {
 }
 export const noEndpointResultEncoded: LocationCurrentConditionsResultEncoded = [false, '0x', '0x']
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
+export const execute: ExecuteWithConfig<DefaultConfig> = async (request, context, config) => {
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   // Request Locations API
   const jobRunID = validator.validated.id
@@ -73,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const locationResponse: AdapterResponse = await executeLocation(request, context, config)
 
-  const locationResult: LocationResult = locationResponse.data.result
+  const locationResult: LocationResult = locationResponse.data.result as unknown as LocationResult
   // No location found for the given coordiantes
   if (locationResult.locationFound === false) {
     const result: LocationCurrentConditionsResult | LocationCurrentConditionsResultEncoded =
@@ -96,7 +103,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     context,
     config,
   )
-  const currentConditionsResult: CurrentConditionsResult = currentConditionsResponse.data.result
+  const currentConditionsResult: CurrentConditionsResult = currentConditionsResponse.data
+    .result as unknown as CurrentConditionsResult
   const endpointResult: LocationCurrentConditionsResult = {
     ...locationResult,
     ...currentConditionsResult,
