@@ -21,7 +21,8 @@ export interface ResponseSchema {
 
 const customError = (data: Record<string, unknown>) => data.Response === 'Error'
 
-export const description = ''
+export const description =
+  'This endpoint fetches a list of achievements for NBA teams and players and returns them as an encoded value'
 
 export const inputParameters: InputParameters = {}
 
