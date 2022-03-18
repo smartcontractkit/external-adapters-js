@@ -1,5 +1,19 @@
 # @chainlink/ea
 
+## 1.0.61
+
+### Patch Changes
+
+- Updated dependencies [e6f6763d1]
+  - @chainlink/synthetix-debt-pool-adapter@3.0.0
+
+## 1.0.60
+
+### Patch Changes
+
+- Updated dependencies [0a58c1347]
+  - @chainlink/synthetix-debt-pool-adapter@2.1.0
+
 ## 1.0.59
 
 ### Patch Changes

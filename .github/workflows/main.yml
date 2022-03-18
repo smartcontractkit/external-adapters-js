@@ -34,11 +34,12 @@ jobs:
       - run: yarn install
       - run: yarn setup
       - run: timeout 300 yarn test:ci:integration
-      - uses: codecov/codecov-action@v2
-        with:
-          flags: integration
-          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+  # Disable Codecov until we can make it reliable: sc-22561
+  #      - uses: codecov/codecov-action@v2
+  #        with:
+  #          flags: integration
+  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
+  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-unit-tests:
     name: Run unit tests
@@ -53,11 +54,12 @@ jobs:
       - run: yarn install
       - run: yarn setup
       - run: yarn test:ci:unit
-      - uses: codecov/codecov-action@v2
-        with:
-          flags: unit
-          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+  # Disable Codecov until we can make it reliable: sc-22561
+  #      - uses: codecov/codecov-action@v2
+  #        with:
+  #          flags: unit
+  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
+  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-basic-checks:
     name: Run linters

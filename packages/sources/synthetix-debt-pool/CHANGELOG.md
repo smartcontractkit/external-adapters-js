@@ -1,5 +1,17 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- e6f6763d1: Remove synthetixjs/contracts-interface library and fetch contract addresses from AddressResolver contract
+
+## 2.1.0
+
+### Minor Changes
+
+- 0a58c1347: update synthetixjs library version
+
 ## 2.0.4
 
 ### Patch Changes
