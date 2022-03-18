@@ -14,9 +14,7 @@ import { getCoinIds, getSymbolsToIds } from '../util'
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
-const customError = (data: ResponseSchema) => {
-  return Object.keys(data).length === 0
-}
+const customError = (data: ResponseSchema) => Object.keys(data).length === 0
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
   const validator = new Validator(request, inputParameters, {}, { overrides })
@@ -38,7 +36,8 @@ export const endpointResultPaths: {
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { coinid: string; base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   coinid: {
     description:
       'The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy base will need to be supplied)',
@@ -64,7 +63,7 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema>,
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   endpoint: string,
   idToSymbol: Record<string, string>,
 ) => {
@@ -79,7 +78,7 @@ const handleBatchedRequest = (
           data: {
             ...request.data,
             base: validator.overrideReverseLookup(AdapterName, 'overrides', symbol).toUpperCase(),
-            quote: quote.toUpperCase(),
+            quote: quote?.toString().toUpperCase(),
           },
         }
         payload.push([
@@ -103,9 +102,9 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters, {}, { overrides })
 
-  const endpoint = validator.validated.data.endpoint
+  const endpoint = validator.validated.data.endpoint || ''
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
   let idToSymbol = {}
@@ -118,7 +117,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   const url = '/simple/price'
-  const resultPath: string = validator.validated.data.resultPath
+  const resultPath: string = (validator.validated.data.resultPath || '').toString()
 
   const params = {
     ids,
