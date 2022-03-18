@@ -32,7 +32,14 @@ const URL = 'timeseries/asset-metrics'
 export const description = `Endpoint to calculate the total number of burned coins/tokens for an asset.
 This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  asset: string
+  frequency: string
+  pageSize: number
+  startTime: string
+  endTime: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   asset: {
     description:
       'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
@@ -87,7 +94,7 @@ export const calculateBurnedTKN = (assetMetricsList: AssetMetrics[]): BigNumber 
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const asset = validator.overrideSymbol(AdapterName, validator.validated.data.asset)
@@ -104,6 +111,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     api_key: config.apiKey as string,
     start_time: startTime,
     end_time: endTime,
+    next_page_token: '',
   }
   const options = { ...config.api, params, url: URL }
 
