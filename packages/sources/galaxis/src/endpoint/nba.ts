@@ -15,10 +15,8 @@ export interface Achievement {
 }
 
 export interface ResponseSchema {
-  data: {
-    player_achievements: Achievement[]
-    team_achievements: Achievement[]
-  }
+  player_achievements: Achievement[]
+  team_achievements: Achievement[]
 }
 
 const customError = (data: Record<string, unknown>) => data.Response === 'Error'
@@ -32,7 +30,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const { encodedCalls, hasMore } = await getFilteredAchievements(response.data, config)
+  const encodedCalls = await getFilteredAchievements(response.data, config)
 
   return {
     jobRunID,
@@ -40,7 +38,6 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     statusCode: 200,
     data: {
       result: encodedCalls,
-      hasMore,
     },
   }
 }
@@ -53,7 +50,7 @@ export interface FilteredAchievements {
 export const getFilteredAchievements = async (
   response: ResponseSchema,
   config: ExtendedConfig,
-): Promise<FilteredAchievements> => {
+): Promise<string> => {
   const groupedAchievements = getGroupedAchievementsByID(response)
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
@@ -73,21 +70,17 @@ export const getFilteredAchievements = async (
       )
       calls.push([
         config.ecRegistryAddress,
-        ecRegistry.interface.encodeFunctionData('setData', [achievementID, ids, values]),
+        ecRegistry.interface.encodeFunctionData('setData', [parseInt(achievementID), ids, values]),
       ])
       const updatedEncodedCalls = encodeAchievements(calls)
       if (updatedEncodedCalls.length <= config.maxEncodedCallsBytes) {
         encodedCalls = updatedEncodedCalls
-      } else {
-        hasHitLimit = true
       }
+      hasHitLimit = updatedEncodedCalls.length > config.maxEncodedCallsBytes
     }
     currAchievementIdIdx++
   }
-  return {
-    encodedCalls: encodedCalls,
-    hasMore: hasHitLimit,
-  }
+  return encodedCalls + ethers.utils.defaultAbiCoder.encode(['bool'], [hasHitLimit])
 }
 
 export interface AchievementsByIDs {
@@ -96,7 +89,7 @@ export interface AchievementsByIDs {
 
 export const getGroupedAchievementsByID = (response: ResponseSchema): AchievementsByIDs => {
   let result: AchievementsByIDs = {}
-  const { player_achievements, team_achievements } = response.data
+  const { player_achievements, team_achievements } = response
   result = groupAchievements(player_achievements, result)
   return groupAchievements(team_achievements, result)
 }
