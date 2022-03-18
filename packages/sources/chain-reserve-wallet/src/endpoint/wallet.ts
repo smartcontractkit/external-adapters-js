@@ -1,10 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import {
-  AdapterResponse,
-  Config,
-  ExecuteWithConfig,
-  InputParameters,
-} from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 
 const networks = ['cardano', 'dogecoin']
@@ -31,7 +26,8 @@ export interface ResponseSchema {
 export const description =
   'This endpoint reads the set of custodial addresses from a smart contract and returns in as a response.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { chainId: string; contractAddress: string; network: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   chainId: {
     description: 'The ID of the target PoR chain.',
     options: chainIds,
@@ -74,7 +70,7 @@ const abi = [
 ]
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const { chainId, contractAddress, network } = validator.validated.data
@@ -95,7 +91,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const addresses: string[] = await walletProviderContract.walletAddresses(chain)
 
   const response = addresses.map((address) => ({ address, chainId, network }))
-  const result: AdapterResponse = {
+  const result = {
     jobRunID,
     result: response,
     data: {
