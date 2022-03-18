@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tradingeconomics
 
-Version: 1.1.20
+Version: 1.1.21
 
 This adapter uses the Tradingeconomics WS stream
 
