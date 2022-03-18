@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { authenticate, apiHeaders, getAssetId, host } from '../helpers'
 
@@ -7,7 +7,8 @@ export const supportedEndpoints = ['vwap']
 export const description =
   "[BraveNewCoin's 24 Hour USD VWAP](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_8b8774ba-b368-4399-9c4a-dc78f13fc786)"
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { symbol: string; indexType: string; timestamp: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   symbol: {
     aliases: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
     description: ' Retrieve all the OHLCV values for a particular asset or market',
@@ -47,7 +48,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const yesterday = new Date()
@@ -59,12 +60,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const token = await authenticate()
   const assetId = await getAssetId(symbol)
 
-  const options = {
+  const options: AxiosRequestConfig = {
     url,
     headers: {
       ...apiHeaders,
       authorization: `Bearer ${token}`,
-      useQueryString: true,
     },
     params: {
       indexId: assetId,
