@@ -58,6 +58,7 @@ export interface ResponseSchema {
     elapsed: number
     credit_count: number
   }
+  cost: number
 }
 
 // Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
@@ -97,7 +98,8 @@ export const description = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; convert: string; cid: string; slug: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],
     description: 'The symbol of the currency to query',
@@ -124,7 +126,7 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema>,
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -150,7 +152,10 @@ const handleBatchedRequest = (
   }
 
   const results = payload
-  response.data.cost = Requester.validateResultNumber(response.data, ['status', 'credit_count'])
+  response.data.cost = Requester.validateResultNumber<ResponseSchema>(response.data, [
+    'status',
+    'credit_count',
+  ])
   return Requester.success(
     jobRunID,
     Requester.withResult(response, undefined, results),
@@ -164,7 +169,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName)
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   // CMC allows a coin name to be specified instead of a symbol
   const slug = validator.validated.data.slug
   // CMC allows a coin ID to be specified instead of a symbol
@@ -172,7 +177,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const convert = validator.validated.data.convert
   if (!config.apiKey && Array.isArray(convert))
     throw new Error(' Free CMCPro API only supports a single symbol to convert')
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const params: Record<string, string> = {
     convert: Array.isArray(convert)
       ? convert.map((symbol) => symbol.toUpperCase()).join(',')
