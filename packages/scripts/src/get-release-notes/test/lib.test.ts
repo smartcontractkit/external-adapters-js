@@ -26,15 +26,22 @@ jest.mock('fs', () => {
 describe('getReleaseNotes', () => {
   it('should return markdown with changeset descriptions and adapter versions', async () => {
     const result = getReleaseNotes()
+    const indent = '\u00A0\u00A0'
     const expectedResult = `
 # Changeset
 ## Breaking changes (major)
 - Changeset description for: 'brave-jokes-melt.md'
+${indent}- anchor-adapter
+
 ## Features (minor)
 - Changeset description for: 'fast-zoos-itch.md'
+${indent}- anchor-adapter, defi-pulse-adapter
 - Changeset description for: 'nervous-jars-pretend.md'
+${indent}- savax-price-adapter
+
 ## Bug fixes (patch)
 - Changeset description for: 'bright-peaches-matter.md'
+${indent}- anchor-adapter
 
 |    Adapter    | Version |
 | :-----------: | :-----: |

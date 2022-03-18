@@ -4,16 +4,22 @@ import { readFileSync, readdirSync } from 'fs'
 const CHANGESET_DIRECTORY = '.changeset'
 
 interface changelog {
-  major: Set<string>
-  minor: Set<string>
-  patch: Set<string>
+  major: {
+    [key: string]: [string]
+  }
+  minor: {
+    [key: string]: [string]
+  }
+  patch: {
+    [key: string]: [string]
+  }
 }
 
 export function getReleaseNotes(): string {
   const changelog: changelog = {
-    major: new Set(),
-    minor: new Set(),
-    patch: new Set(),
+    major: {},
+    minor: {},
+    patch: {},
   }
   const changedAdapterSet: Set<string> = new Set()
 
@@ -28,7 +34,14 @@ export function getReleaseNotes(): string {
       const adapterName = adapterNameDirty ? adapterNameDirty[0].replace(/'/g, '') : ''
       changedAdapterSet.add(adapterName)
       const changeType = line.substring(line.length - 5) || ''
-      changelog[changeType as keyof typeof changelog].add(changeSummary)
+      const adapterNameWithoutPrefix = adapterName.replace('@chainlink/', '')
+      if (changelog[changeType as keyof typeof changelog][changeSummary]) {
+        changelog[changeType as keyof typeof changelog][changeSummary].push(
+          adapterNameWithoutPrefix,
+        )
+      } else {
+        changelog[changeType as keyof typeof changelog][changeSummary] = [adapterNameWithoutPrefix]
+      }
     })
   })
 
@@ -43,7 +56,7 @@ export function getReleaseNotes(): string {
   ## Features (minor)
   ${minor}
   ## Bug fixes (patch)
-  ${patch}\n\n`.replace(/  +/g, '')
+  ${patch}\n`.replace(/  +/g, '')
 
   const workspacePackages = getWorkspacePackages(['core'])
   if (changedAdapterSet.size > 0) {
@@ -72,8 +85,11 @@ function getChangesetFileDirs() {
     })
 }
 
-function getChangelogMarkdown(changelogSet: Set<string>) {
-  return Array.from(changelogSet)
-    .map((change) => `- ${change}`)
-    .join('\n')
+function getChangelogMarkdown(changelogMap: any) {
+  const indent = '\u00A0\u00A0'
+  let markdown = ''
+  for (const property in changelogMap) {
+    markdown += `- ${property}\n${indent}- ${changelogMap[property].join(', ')}\n`
+  }
+  return markdown
 }
