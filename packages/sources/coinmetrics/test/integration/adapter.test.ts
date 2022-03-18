@@ -20,12 +20,9 @@ import {
   mockSubscribeResponse,
   mockUnsubscribeResponse,
 } from './fixtures'
+import { util } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
-
-const sleep = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
 
 export interface SuiteContext {
   server: http.Server
@@ -135,7 +132,7 @@ describe('websocket', () => {
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
       // populated cache entries.
-      await sleep(10)
+      await util.sleep(10)
       const response = await makeRequest()
 
       expect(response.body).toEqual({
