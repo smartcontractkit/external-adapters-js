@@ -12,7 +12,14 @@ import {
 import { combineReducers, Store } from 'redux'
 import { Cache, withCache } from './lib/middleware/cache'
 import * as cacheWarmer from './lib/middleware/cache-warmer'
-import { AdapterError, logger as Logger, Requester, Validator, Builder } from './lib/modules'
+import {
+  AdapterError,
+  logger as Logger,
+  Requester,
+  Validator,
+  Overrider,
+  Builder,
+} from './lib/modules'
 import * as metrics from './lib/metrics'
 import * as RateLimit from './lib/middleware/rate-limit'
 import * as burstLimit from './lib/middleware/burst-limit'
@@ -142,4 +149,15 @@ export const expose = <C extends Config>(
   }
 }
 
-export { Requester, Validator, AdapterError, Builder, Logger, util, server, Cache, RateLimit }
+export {
+  Requester,
+  Validator,
+  Overrider,
+  AdapterError,
+  Builder,
+  Logger,
+  util,
+  server,
+  Cache,
+  RateLimit,
+}

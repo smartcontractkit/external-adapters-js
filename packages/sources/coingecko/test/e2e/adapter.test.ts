@@ -4,7 +4,6 @@ import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockCryptoSuccess, mockDominanceSuccess } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
@@ -24,10 +23,6 @@ describe('execute', () => {
     if (process.env.RECORD) {
       nock.recorder.play()
     }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
     server.close(done)
   })
 
@@ -41,8 +36,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockCryptoSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -50,7 +43,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
 
     const dataWithOverride: AdapterRequest = {
@@ -67,8 +60,6 @@ describe('execute', () => {
     }
 
     it('should return success for override', async () => {
-      mockCryptoSuccess()
-
       const response = await req
         .post('/')
         .send(dataWithOverride)
@@ -76,7 +67,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -91,8 +82,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockCryptoSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -100,7 +89,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -115,8 +104,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockCryptoSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -124,7 +111,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -138,8 +125,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockDominanceSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -147,7 +132,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -161,8 +146,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockDominanceSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -170,7 +153,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 })

@@ -12,6 +12,18 @@ Object {
 }
 `;
 
+exports[`execute crypto api should return success for override 1`] = `
+Object {
+  "data": Object {
+    "result": 100,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 100,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute dominance api should return success 1`] = `
 Object {
   "data": Object {
