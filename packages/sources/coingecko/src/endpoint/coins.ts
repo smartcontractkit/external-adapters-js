@@ -4,7 +4,8 @@ import overrides from './../config/symbols.json'
 
 export const supportedEndpoints = ['coins']
 
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 export interface CoinsResponse {
   id: string
@@ -13,7 +14,7 @@ export interface CoinsResponse {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const url = '/coins/list'
