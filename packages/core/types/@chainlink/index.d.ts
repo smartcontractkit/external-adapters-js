@@ -134,9 +134,10 @@ declare module '@chainlink/types' {
   export type EnvDefaults = { [name: string]: string }
 
   /**
-   * In order to add a default override for an environment variable
-   * not present here, ensure that the adapter context from `expose`
-   * is passed to the getEnv call for the variable in question.
+   * To add a default override for an env var not present here,
+   * ensure that the adapter context from `expose` is passed
+   * to the `getEnv call` for the variable in question. See
+   * `WS_ENABLED` for example usage.
    */
   export type EnvDefaultOverrides = {
     WS_ENABLED?: 'true' | 'false'

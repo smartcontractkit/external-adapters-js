@@ -29,7 +29,7 @@ export const withCacheWarmer =
       util.parseBool(util.getEnv('CACHE_ENABLED')) && util.parseBool(util.getEnv('WARMUP_ENABLED'))
     if (!isWarmerActive) return await execute(input, context)
 
-    const wsConfig = getWSConfig(input.data.endpoint)
+    const wsConfig = getWSConfig(input.data.endpoint, context)
     const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
       ...input,
       // We need to initilialize the middleware on every beat to open a connection with the cache

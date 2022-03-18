@@ -753,7 +753,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
         }
 
         const cache = await withCache()(execute, context)
-        const wsConfig = getWSConfig(input.data?.endpoint)
+        const wsConfig = getWSConfig(input.data?.endpoint, context)
 
         /**
          * Create an adapter request we send to the cache middleware

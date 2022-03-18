@@ -19,6 +19,10 @@ export const constants = {
   ENV_API_VERBOSE,
 }
 
+/**
+ * Used in the `getEnv` util function as a backup when an env var
+ * is `empty` or `undefined`, and no `envDefaultOverride` is given.
+ */
 export const baseEnvDefaults: EnvDefaults = {
   BASE_URL: '/',
   EA_PORT: '8080',
@@ -49,7 +53,7 @@ export const baseEnvDefaults: EnvDefaults = {
   REQUEST_COALESCING_INTERVAL_COEFFICIENT: '2',
   REQUEST_COALESCING_ENTROPY_MAX: '0',
   REQUEST_COALESCING_MAX_RETRIES: '5',
-  WS_ENABLED: 'false', // TODO set to true for WS-only adapters
+  WS_ENABLED: 'false',
   WS_CONNECTION_KEY: '1',
   WS_CONNECTION_LIMIT: '1',
   WS_CONNECTION_TTL: '70000',

@@ -1,9 +1,4 @@
-import {
-  AdapterContext,
-  AdapterImplementation,
-  AdapterRequest,
-  EnvDefaults,
-} from '@chainlink/types'
+import { AdapterContext, AdapterImplementation, AdapterRequest } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
 import { flatMap, values, pick, omit } from 'lodash'
 import objectHash from 'object-hash'
@@ -108,7 +103,7 @@ const getEnvName = (name: string, prefix = '') => {
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
 /**
- * Get the environment variable with the given `name`. If the variable is
+ * Get the env var with the given `name`. If the variable is
  * not present in `process.env`, it will default to the adapter's `envDefaultOverrides`
  * first, then `baseEnvDefaults` if there is no override.
  * @param name Env var to fetch

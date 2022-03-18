@@ -1,9 +1,10 @@
+import { AdapterContext } from '@chainlink/types'
 import { getEnv, parseBool } from '../../util'
 import { WSConfig } from './types'
 
 /** Load WSConfig from environment variables */
-export const getWSConfig = (endpoint?: string): WSConfig => ({
-  enabled: parseBool(getEnv('WS_ENABLED')),
+export const getWSConfig = (endpoint?: string, context?: AdapterContext): WSConfig => ({
+  enabled: parseBool(getEnv('WS_ENABLED', undefined, context)),
 
   connectionInfo: {
     key: `${getEnv('WS_CONNECTION_KEY')}-${endpoint}`,
