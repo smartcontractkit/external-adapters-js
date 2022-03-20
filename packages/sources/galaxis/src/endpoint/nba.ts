@@ -47,10 +47,6 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
   const encodedCalls = await getFilteredAchievements(response.data, config)
-
-  const decoded = ethers.utils.defaultAbiCoder.decode(['string[][]', 'bool'], encodedCalls)
-  console.log(decoded)
-
   return {
     jobRunID,
     result: encodedCalls,
