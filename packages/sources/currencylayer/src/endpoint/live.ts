@@ -16,10 +16,26 @@ const customError = (data: ResponseSchema) => !data.success
 export const description =
   'Returns a batched price comparison from one currency to a list of other currencies.'
 
-export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  amount: false,
+export type TInputParameters = { base: string; quote: string; amount: number }
+export const inputParameters: InputParameters<TInputParameters> = {
+  base: {
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
+  amount: {
+    description: 'An amount of the currency',
+    required: false,
+    type: 'number',
+    default: 1,
+  },
 }
 
 export interface ResponseSchema {
@@ -60,10 +76,10 @@ const handleBatchedRequest = (
 // NOTE: This endpoint has not been acceptance tested and will need to be once
 // a valid API Key is obtained.
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const from = validator.overrideSymbol(AdapterName)
+  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const to = validator.validated.data.quote
   const url = `live`
   const currencies = Array.isArray(to) ? to.join() : to
