@@ -4,7 +4,8 @@ import { DEFAULT_ENDPOINT } from '../config'
 
 export const supportedEndpoints = ['height', 'difficulty']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { blockchain: string; endpoint: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   blockchain: {
     aliases: ['coin'],
     required: true,
@@ -39,7 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: config.api.baseURL || `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
+    baseURL: config.api?.baseURL || `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
   }
   const response = await Requester.request(reqConfig)
   response.data = { result: response.data }
