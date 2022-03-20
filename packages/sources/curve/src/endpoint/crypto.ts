@@ -24,7 +24,17 @@ export interface ResponseSchema {
   rate: number
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  from: string
+  fromAddress: string
+  fromDecimals: number
+  to: string
+  toAddress: string
+  toDecimals: number
+  amount: number
+  [name: string]: number | string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   from: {
     aliases: ['base', 'coin'],
     description: 'The symbol of the currency to query',
@@ -65,17 +75,15 @@ export const inputParameters: InputParameters = {
   },
 }
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const { address: from, decimals: fromDecimals } = await getTokenDetails(validator, 'from', config)
   const { address: to, decimals: toDecimals } = await getTokenDetails(validator, 'to', config)
   const inputAmount = validator.validated.data.amount
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
-  const resultPath = validator.validated.data.resultPath
-
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const [pool, output] = await getBestRate(from, to, amount, config)
-
   const outputAmount = new Decimal(output.toString()).div(new Decimal(10).pow(toDecimals))
   const rate = outputAmount.div(inputAmount)
 
@@ -97,8 +105,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     config: {},
     data: data,
   }
-  const result = Requester.validateResultNumber(response.data, [resultPath])
 
+  const result = Requester.validateResultNumber(response.data, [resultPath])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
@@ -121,22 +129,23 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
  * @param config Configuration to extract token decimals from
  */
 const getTokenDetails = async (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   direction: string,
   config: Config,
 ): Promise<{ address: string; decimals: number }> => {
-  const symbol = validator.overrideSymbol(
+  const symbol = validator.overrideSymbol<string>(
     AdapterName,
-    validator.validated.data[direction],
-  ) as string
+    validator.validated.data[direction].toString(),
+  )
   const address =
     validator.validated.data[`${direction}Address`] ||
     validator.overrideToken(symbol, config.network) ||
     symbol
   const decimals =
-    validator.validated.data[`${direction}Decimals`] || (await getDecimals(address, config))
+    validator.validated.data[`${direction}Decimals`] ||
+    (await getDecimals(address.toString(), config))
 
-  return { address, decimals }
+  return { address: address.toString(), decimals: Number(decimals) }
 }
 
 const getDecimals = async (address: string, config: Config): Promise<number> =>
