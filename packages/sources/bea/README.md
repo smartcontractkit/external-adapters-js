@@ -1,6 +1,6 @@
 # Chainlink External Adapter for the Bureau of Economic Analysis (BEA)
 
-Version: 1.1.20
+Version: 1.1.21
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

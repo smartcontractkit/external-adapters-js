@@ -1,5 +1,13 @@
 # @chainlink/xsushi-price-adapter
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/token-allocation-adapter@1.3.1
+
 ## 1.0.10
 
 ### Patch Changes
