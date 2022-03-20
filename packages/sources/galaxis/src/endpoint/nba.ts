@@ -80,7 +80,9 @@ export const getFilteredAchievements = async (
   while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
     const achievementID = achievementIDs[currAchievementIdIdx]
     if (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) {
-      const values = groupedAchievements[achievementID].map(({ value }) => (value ? 1 : 0))
+      const values = groupedAchievements[achievementID].map(({ value }) =>
+        typeof value === 'boolean' ? (value ? 1 : 0) : value,
+      )
       const ids = groupedAchievements[achievementID].map(({ team_id, player_id }) => {
         if (team_id) {
           const team = teams.find((t) => t.real_id.toString() === team_id.toString())
