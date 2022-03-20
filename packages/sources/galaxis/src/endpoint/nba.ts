@@ -3,7 +3,6 @@ import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
 import { EC_REGISTRY_ABI, EC_REGISTRY_MAP_ABI } from './abis'
-import { ByteArray } from '@ethercards/ec-util'
 
 export const supportedEndpoints = ['nba']
 
@@ -48,6 +47,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
   const encodedCalls = await getFilteredAchievements(response.data, config)
+
+  const decoded = ethers.utils.defaultAbiCoder.decode(['string[][]', 'bool'], encodedCalls)
+  console.log(decoded)
 
   return {
     jobRunID,
@@ -104,7 +106,7 @@ export const getFilteredAchievements = async (
         config.ecRegistryAddress,
         ecRegistry.interface.encodeFunctionData('setData', [parseInt(achievementID), ids, values]),
       ])
-      const updatedEncodedCalls = encodeAchievements(calls)
+      const updatedEncodedCalls = ethers.utils.defaultAbiCoder.encode(['string[][]'], [calls])
       if (updatedEncodedCalls.length <= config.maxEncodedCallsBytes) {
         encodedCalls = updatedEncodedCalls
       }
@@ -138,38 +140,6 @@ export const groupAchievements = (
     acc[achievement_id.toString()].push(curr)
     return acc
   }, achievementsByID)
-}
-
-export const encodeAchievements = (calls: string[][]): string => {
-  let bytes = ''
-  const header = new ByteArray(Buffer.alloc(2))
-  // add call num
-  header.writeUnsignedShort(calls.length)
-  bytes = header.toString('hex')
-
-  for (let i = 0; i < calls.length; i++) {
-    const callLen = callLentoHex(removeZeroX(calls[i][1]).length)
-    const address = addresstoCallData(calls[i][0])
-    const callData = removeZeroX(calls[i][1])
-    const packet = callLen + address + callData
-
-    bytes += packet
-  }
-  return bytes
-}
-
-const removeZeroX = (str: string): string => {
-  return str.replace('0x', '')
-}
-
-const addresstoCallData = (str: string): string => {
-  return '000000000000000000000000' + removeZeroX(str)
-}
-
-const callLentoHex = (num: number): string => {
-  const data = new ByteArray(Buffer.alloc(2))
-  data.writeUnsignedShort(num / 2)
-  return removeZeroX(data.toString('hex'))
 }
 
 export const getPlayerAndTeamMaps = async (
