@@ -29,7 +29,9 @@ export const description = `Gets the [latest spot VWAP price](https://docs.amber
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'coin'],
@@ -71,13 +73,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 }
 
 const getOptions = (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
 ): {
   url: string
   params: Record<string, unknown>
   inverse?: boolean
 } => {
-  const base = validator.overrideSymbol(AdapterName) as string
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const quote = validator.validated.data.quote
   const includes = validator.validated.includes || []
 
@@ -86,7 +88,7 @@ const getOptions = (
 }
 
 const getIncludesOptions = (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   from: string,
   to: string,
   includes: string[] | Includes[],
@@ -111,7 +113,7 @@ const getIncludesOptions = (
 }
 
 const getIncludes = (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   from: string,
   to: string,
   includes: string[] | Includes[],
