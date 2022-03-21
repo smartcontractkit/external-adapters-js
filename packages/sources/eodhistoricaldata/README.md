@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EOD Historical Data
 
-Version: 1.2.20
+Version: 1.2.21
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

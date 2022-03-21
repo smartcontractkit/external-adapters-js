@@ -1,6 +1,6 @@
 # Chainlink External Adapter for paxos
 
-Version: 1.2.20
+Version: 1.2.21
 
 Query Paxos asset attestations like: https://api.paxos.com/v1/asset-attestations/PAX
 

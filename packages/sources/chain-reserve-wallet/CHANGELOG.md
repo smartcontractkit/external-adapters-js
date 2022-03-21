@@ -1,5 +1,13 @@
 # @chainlink/chain-reserve-wallet-adapter
 
+## 2.2.17
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 2.2.16
 
 ### Patch Changes
