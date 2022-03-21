@@ -7,7 +7,8 @@ export const supportedEndpoints = ['dominance']
 export const description =
   "Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.com/v1/global)"
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { market: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   market: {
     aliases: ['to', 'quote'],
     description: 'The symbol of the currency to convert to',
@@ -25,7 +26,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const url = '/v1/global'

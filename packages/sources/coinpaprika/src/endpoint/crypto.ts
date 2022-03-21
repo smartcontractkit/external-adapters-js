@@ -58,7 +58,8 @@ export const description = `The \`marketcap\` endpoint fetches market cap of ass
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string; coinid: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -118,15 +119,15 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName)
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const requestedQuotes = validator.validated.data.quote
   const coinid = validator.validated.data.coinid as string | undefined
 
   const url = 'v1/tickers'
-  const resultPath = validator.validated.data.resultPath || endpointResultPaths.crypto
+  const resultPath = (validator.validated.data.resultPath || endpointResultPaths.crypto).toString()
 
   let quotes: string
   if (Array.isArray(requestedQuotes)) {
