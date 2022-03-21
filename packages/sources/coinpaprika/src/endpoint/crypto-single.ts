@@ -12,14 +12,15 @@ const buildPath =
     const validator = new Validator(request, inputParameters, {}, { overrides })
 
     const quote = validator.validated.data.quote
-    return `quotes.${quote.toUpperCase()}.${path}`
+    return `quotes.${quote?.toString().toUpperCase()}.${path}`
   }
 
 export const endpointResultPaths = {
   'crypto-single': buildPath('price'),
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string; coinid: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -74,10 +75,10 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName) as string
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid as string | undefined
 
