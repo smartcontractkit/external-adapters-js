@@ -9,23 +9,34 @@ import {
 import { AUTHORIZATION_HEADER, Config, makeConfig } from './config'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint<Config> =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
-  type: 'subscribe' | 'unsubscribe' | 'value'
-  id: string
-  value: string
-  time: number
-}
+// interface Message {
+//   type: 'subscribe' | 'unsubscribe' | 'value'
+//   id: string
+//   value: string
+//   time: number
+// }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getId = (input: AdapterRequest) => {
@@ -39,26 +50,28 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return endpoints.values.getIdFromInputs(config || makeConfig(), validator, false)
   }
   const getSubscription = (type: 'subscribe' | 'unsubscribe', id?: string) => {
-    if (!id) return
+    if (!id) return ''
     return { type, id, stream: 'value', cacheID: id } // Temporarily add another key named cacheID that won't be ignored when generating the subscription key in getSubsID
   }
   return () => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.ws.baseWsURL,
+        url: defaultConfig.ws?.baseWsURL,
         protocol: {
-          headers: { [AUTHORIZATION_HEADER]: defaultConfig.api.headers[AUTHORIZATION_HEADER] },
-        },
+          headers: {
+            [AUTHORIZATION_HEADER]: (defaultConfig.api as any).headers[AUTHORIZATION_HEADER],
+          },
+        } as any,
       },
       subscribe: (input) => getSubscription('subscribe', getId(input)),
       unsubscribe: (input) => getSubscription('unsubscribe', getId(input)),
-      subsFromMessage: (message: Message) => getSubscription('subscribe', `${message?.id}`),
-      isError: (message: { success: boolean }) => 'success' in message && !message.success,
-      filter: (message: Message) => {
+      subsFromMessage: (message: any) => getSubscription('subscribe', `${message?.id}`),
+      isError: (message: any) => 'success' in message && !message.success,
+      filter: (message: any) => {
         return message.type === 'value'
       },
-      toResponse: (message: Message) => {
+      toResponse: (message: any) => {
         const result = Requester.validateResultNumber(message, ['value'])
         return Requester.success('1', { data: { result } })
       },
