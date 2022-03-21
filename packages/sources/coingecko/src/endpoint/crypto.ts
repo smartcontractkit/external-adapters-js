@@ -112,7 +112,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   let ids: string
   let idToSymbol: OverrideToOriginalSymbol = {}
   if (!coinid) {
-    const coinsResponse = await getCoinIds(context, jobRunID)
     let overrider: Overrider = {} as Overrider
     try {
       overrider = new Overrider(internalOverrides, request.data?.overrides, AdapterName)
@@ -126,11 +125,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       })
     }
     const [overriddenCoins, remainingSyms] = overrider.performOverrides(base)
-    const requestedCoins = Overrider.convertRemainingSymbolsToIds(
-      overriddenCoins,
-      remainingSyms.map((sym) => sym.toLowerCase()),
-      coinsResponse,
-    )
+    let requestedCoins = overriddenCoins
+    if (remainingSyms.length > 0) {
+      const coinsResponse = await getCoinIds(context, jobRunID)
+      requestedCoins = Overrider.convertRemainingSymbolsToIds(
+        overriddenCoins,
+        remainingSyms.map((sym) => sym.toLowerCase()),
+        coinsResponse,
+      )
+    }
     ids = Object.values(requestedCoins).join(',')
     idToSymbol = Overrider.invertRequestedCoinsObject(requestedCoins)
   } else {

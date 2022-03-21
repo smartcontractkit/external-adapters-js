@@ -1,7 +1,6 @@
 import { AdapterRequest } from '@chainlink/types'
 import http from 'http'
 import { AddressInfo } from 'net'
-import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 
@@ -12,17 +11,11 @@ describe('execute', () => {
 
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
     server.close(done)
   })
 
@@ -30,7 +23,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        base: 'ETH',
+        base: 'PERP',
         quote: 'USD',
       },
     }

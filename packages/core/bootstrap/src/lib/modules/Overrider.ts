@@ -1,4 +1,5 @@
 import type { CoinsResponse } from '@chainlink/types'
+import { logger } from './logger'
 
 export class Overrider {
   adapterName: string
@@ -37,21 +38,22 @@ export class Overrider {
     coinsResponse: CoinsResponse[],
   ): RequestedCoins => {
     const requestedCoins = overriddenCoins || {}
-    const isConverted: { [symbol: string]: boolean } = {}
+    const isOverridden: { [symbol: string]: boolean } = {}
     for (const coinResponse of coinsResponse) {
       if (remainingSyms.includes(coinResponse.symbol)) {
-        if (isConverted[coinResponse.symbol])
-          throw Error(
-            `The symbol '${coinResponse.symbol}' has a duplicate coin id and no override.`,
+        if (isOverridden[coinResponse.symbol] === true)
+          logger.warn(
+            `The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
           )
-        else isConverted[coinResponse.symbol] = true
-        if (requestedCoins[coinResponse.symbol])
-          throw Error(`The symbol '${coinResponse.symbol}' has already been overridden.`)
-        requestedCoins[coinResponse.symbol] = coinResponse.id
+        // throw Error(
+        //   `The symbol '${coinResponse.symbol}' has a duplicate coin id and no override.`,
+        // )
+        else requestedCoins[coinResponse.symbol] = coinResponse.id
+        isOverridden[coinResponse.symbol] = true
       }
     }
     for (const remainingSym of remainingSyms) {
-      if (!isConverted[remainingSym])
+      if (!isOverridden[remainingSym])
         throw Error(`Could not find a matching coin id for the symbol '${remainingSym}'.`)
     }
     return requestedCoins
@@ -99,7 +101,7 @@ type AdapterOverrides = {
   [symbol: string]: string
 }
 
-type OverrideObj = {
+export type OverrideObj = {
   [adapterName: string]: AdapterOverrides
 }
 
