@@ -2,8 +2,9 @@ import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
+import { ExtendedConfig } from '@chainlink/json-rpc-adapter/src/config'
 
-interface Address {
+type Address = {
   address: string
 }
 
@@ -14,7 +15,8 @@ export const supportedEndpoints = ['balance', methodName]
 export const description =
   'The balance endpoint will fetch the balance of each address in the query and the total sum.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { addresses: Address[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     required: true,
     aliases: ['result'],
@@ -29,9 +31,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const jobRunID = validator.validated.id
   const addresses: Address[] = validator.validated.data.addresses
 
-  const jsonRpcConfig = JSONRPC.makeConfig()
-  jsonRpcConfig.api.headers['Authorization'] = `Bearer ${config.apiKey}`
-  const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute(jsonRpcConfig)
+  const jsonRpcConfig: ExtendedConfig = JSONRPC.makeConfig()
+  jsonRpcConfig.api = {
+    ...jsonRpcConfig.api,
+    headers: { ...jsonRpcConfig.api?.headers, Authorization: `Bearer ${config.apiKey}` },
+  }
+
+  const _execute: ExecuteWithConfig<ExtendedConfig, JSONRPC.types.TInputParameters> =
+    JSONRPC.makeExecute(jsonRpcConfig)
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
@@ -45,6 +52,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     const requestData = {
       id: jobRunID,
       data: {
+        url: jsonRpcConfig.RPC_URL || '',
         method: methodName,
         params: [address],
         requestId: requestId + 1,
@@ -68,7 +76,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     config: jsonRpcConfig.api,
   }
 
-  const result = balances.reduce((sum, balance) => sum.add(balance.result), BigNumber.from(0))
+  const result = balances.reduce(
+    (sum, balance) => sum.add(balance.result as BigNumber),
+    BigNumber.from(0),
+  )
 
   return Requester.success(
     jobRunID,

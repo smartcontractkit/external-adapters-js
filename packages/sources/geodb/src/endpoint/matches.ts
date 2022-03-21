@@ -6,7 +6,14 @@ export const supportedEndpoints = ['matches']
 export const description =
   'Counts the number of matches within the circle specified by a radius and coordinates during the selected time period.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  lat: string
+  lng: string
+  radius: string
+  start: string
+  end: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   lat: {
     required: true,
     description: 'latitude coordinate',
@@ -39,7 +46,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const lat = validator.validated.data.lat

@@ -8,7 +8,8 @@ export const supportedEndpoints = ['forex']
 export const description = `https://finage.co.uk/docs/api/forex-last-quote
 The result will be calculated as the midpoint between the ask and the bid.`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'symbol'],
@@ -34,7 +35,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
-  const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
+  const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
 
   const url = `/last/forex/${from}${to}`

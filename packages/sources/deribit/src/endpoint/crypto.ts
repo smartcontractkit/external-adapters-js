@@ -3,7 +3,8 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['crypto']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { currency: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   currency: {
     aliases: ['base', 'from', 'coin', 'symbol'],
     description: 'The symbol of the currency to query',
@@ -12,7 +13,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const currency = validator.validated.data.currency

@@ -3,7 +3,15 @@ import { InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['dwolla']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  method: string
+  transfer_id: string
+  amount: string
+  currency: string
+  destination: string
+  source: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   method: {
     required: false,
     description: 'API Method to use (overrided by `process.env.API_METHOD` if present)',
