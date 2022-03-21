@@ -1,15 +1,16 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator, Overrider } from '@chainlink/ea-bootstrap'
+import { AdapterError } from '@chainlink/ea-bootstrap/src/lib/modules'
 import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
-import { getCoinIds, getSymbolToId } from '../util'
-import overrides from '../config/symbols.json'
+import { getCoinIds } from '../util'
+import internalOverrides from '../config/overrides.json'
 
 export const supportedEndpoints = ['crypto-single']
 
 const buildPath =
   (path: string) =>
   (request: AdapterRequest): string => {
-    const validator = new Validator(request, inputParameters, {}, { overrides })
+    const validator = new Validator(request, inputParameters)
 
     const quote = validator.validated.data.quote
     return `quotes.${quote.toUpperCase()}.${path}`
@@ -74,18 +75,39 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName) as string
+  const base = validator.validated.data.base
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid as string | undefined
 
-  // If coinid was provided or base was overridden, that symbol will be fetched
-  let coin = coinid || (symbol !== validator.validated.data.base && symbol)
+  let coin = coinid
   if (!coin) {
-    const coinIds = await getCoinIds(context, jobRunID)
-    coin = getSymbolToId(symbol, coinIds)
+    let overrider: Overrider = {} as Overrider
+    try {
+      overrider = new Overrider(internalOverrides, request.data?.overrides, AdapterName)
+    } catch (untypedError) {
+      const error = untypedError as Error
+      new AdapterError({
+        jobRunID: validator.validated.id,
+        statusCode: 400,
+        message: error.message,
+        cause: error,
+      })
+    }
+    const [overriddenCoin, remainingSym] = overrider.performOverrides(base)
+    if (remainingSym.length === 0) {
+      coin = overriddenCoin[base]
+    } else {
+      const coinsResponse = await getCoinIds(context, jobRunID)
+      const requestedCoin = Overrider.convertRemainingSymbolsToIds(
+        overriddenCoin,
+        remainingSym.map((sym) => sym.toUpperCase()),
+        coinsResponse,
+      )
+      coin = requestedCoin[base]
+    }
   }
 
   const url = util.buildUrlPath('v1/tickers/:coin', { coin: coin.toLowerCase() })
@@ -102,7 +124,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, resultPath)
+  const coinInfo = response.data as unknown
+  if (!Array.isArray(coinInfo))
+    throw new AdapterError({
+      jobRunID,
+      message: 'invalid response object',
+    })
+  const result = Requester.validateResultNumber(coinInfo[0], resultPath)
   response.data.cost = 2
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)

@@ -166,3 +166,206 @@ export const mockPROCryptoResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+
+export const mockCryptoSingleResponseSuccess = (): nock.Scope =>
+  nock('https://api.coinpaprika.com', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/coins')
+    .reply(200, [
+      {
+        id: 'aaaa-token',
+        name: 'AAAA token',
+        symbol: 'AAAA',
+        rank: 200,
+        is_new: false,
+        is_active: true,
+        type: 'token',
+      },
+      {
+        id: 'ampl-ampleforth',
+        name: 'Ampleforth',
+        symbol: 'AMPL',
+        rank: 289,
+        is_new: false,
+        is_active: true,
+        type: 'token',
+      },
+      {
+        id: 'fake-ampleforth',
+        name: 'Fakeampleforth',
+        symbol: 'AMPL',
+        rank: 300,
+        is_new: false,
+        is_active: true,
+        type: 'token',
+      },
+      {
+        id: 'real-bbbb',
+        name: 'Realbbbb',
+        symbol: 'BBBB',
+        rank: 300,
+        is_new: false,
+        is_active: true,
+        type: 'token',
+      },
+      {
+        id: 'fake-bbbb',
+        name: 'Fakebbbb',
+        symbol: 'BBBB',
+        rank: 300,
+        is_new: false,
+        is_active: true,
+        type: 'token',
+      },
+    ])
+    .get('/v1/tickers/eth-ethereum')
+    .query({ quotes: 'USD' })
+    .reply(
+      200,
+      (_, request) => [
+        {
+          id: 'eth-ethereum',
+          name: 'Ethereum',
+          symbol: 'ETH',
+          rank: 2,
+          circulating_supply: 118033526,
+          total_supply: 118033574,
+          max_supply: 0,
+          beta_value: 1.08967,
+          first_data_at: '2015-08-07T00:00:00Z',
+          last_updated: '2021-10-22T18:11:05Z',
+          quotes: {
+            USD: {
+              price: 3949.2425813062,
+              volume_24h: 24136641726.138,
+              volume_24h_change_24h: -35.07,
+              market_cap: 466143026900,
+              market_cap_change_24h: -3.44,
+              percent_change_15m: 0.14,
+              percent_change_30m: -0.18,
+              percent_change_1h: -0.64,
+              percent_change_6h: -4.09,
+              percent_change_12h: -4.65,
+              percent_change_24h: -3.45,
+              percent_change_7d: 2.23,
+              percent_change_30d: 28.11,
+              percent_change_1y: 844.08,
+              ath_price: 4365.2053035,
+              ath_date: '2021-05-12T06:06:20Z',
+              percent_from_price_ath: -9.53,
+            },
+          },
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .get('/v1/tickers/aaaa-token')
+    .query({ quotes: 'USD' })
+    .reply(
+      200,
+      (_, request) => [
+        {
+          id: 'aaaa-token',
+          name: 'AAAA token',
+          symbol: 'AAAA',
+          rank: 2,
+          circulating_supply: 118033526,
+          total_supply: 118033574,
+          max_supply: 0,
+          beta_value: 1.08967,
+          first_data_at: '2015-08-07T00:00:00Z',
+          last_updated: '2021-10-22T18:11:05Z',
+          quotes: {
+            USD: {
+              price: 200.0,
+              volume_24h: 24136641726.138,
+              volume_24h_change_24h: -35.07,
+              market_cap: 466143026900,
+              market_cap_change_24h: -3.44,
+              percent_change_15m: 0.14,
+              percent_change_30m: -0.18,
+              percent_change_1h: -0.64,
+              percent_change_6h: -4.09,
+              percent_change_12h: -4.65,
+              percent_change_24h: -3.45,
+              percent_change_7d: 2.23,
+              percent_change_30d: 28.11,
+              percent_change_1y: 844.08,
+              ath_price: 4365.2053035,
+              ath_date: '2021-05-12T06:06:20Z',
+              percent_from_price_ath: -9.53,
+            },
+          },
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .get('/v1/tickers/real-bbbb')
+    .query({ quotes: 'USD' })
+    .reply(
+      200,
+      (_, request) => [
+        {
+          id: 'real-bbbb',
+          name: 'Realbbbb',
+          symbol: 'BBBB',
+          rank: 2,
+          circulating_supply: 118033526,
+          total_supply: 118033574,
+          max_supply: 0,
+          beta_value: 1.08967,
+          first_data_at: '2015-08-07T00:00:00Z',
+          last_updated: '2021-10-22T18:11:05Z',
+          quotes: {
+            USD: {
+              price: 300.0,
+              volume_24h: 24136641726.138,
+              volume_24h_change_24h: -35.07,
+              market_cap: 466143026900,
+              market_cap_change_24h: -3.44,
+              percent_change_15m: 0.14,
+              percent_change_30m: -0.18,
+              percent_change_1h: -0.64,
+              percent_change_6h: -4.09,
+              percent_change_12h: -4.65,
+              percent_change_24h: -3.45,
+              percent_change_7d: 2.23,
+              percent_change_30d: 28.11,
+              percent_change_1y: 844.08,
+              ath_price: 4365.2053035,
+              ath_date: '2021-05-12T06:06:20Z',
+              percent_from_price_ath: -9.53,
+            },
+          },
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
