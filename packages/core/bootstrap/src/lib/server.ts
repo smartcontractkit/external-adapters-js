@@ -32,8 +32,10 @@ export const initHandler =
   (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
   async (): Promise<http.Server> => {
     const name = adapterContext.name || ''
+    const envDefaultOverrides = adapterContext.envDefaultOverrides
     const context: AdapterContext = {
       name,
+      envDefaultOverrides,
       cache: null,
       rateLimit: getRateLimitConfig({
         limits: adapterContext.rateLimit || { http: {}, ws: {} },
