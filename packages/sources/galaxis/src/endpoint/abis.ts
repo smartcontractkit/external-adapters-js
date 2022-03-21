@@ -2,7 +2,7 @@ export const EC_REGISTRY_ABI = [
   {
     inputs: [
       { internalType: 'uint16', name: 'traitId', type: 'uint16' },
-      { internalType: 'uint32[]', name: '_ids', type: 'uint32[]' },
+      { internalType: 'uint16[]', name: '_ids', type: 'uint16[]' },
       { internalType: 'uint8[]', name: '_data', type: 'uint8[]' },
     ],
     name: 'setData',
