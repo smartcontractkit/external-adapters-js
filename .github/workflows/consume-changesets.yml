@@ -24,6 +24,9 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Get release notes
+        run: yarn get-release-notes
+
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AccuWeather
 
-Version: 1.1.20
+Version: 1.1.21
 
 [AccuWeather](https://www.accuweather.com/)
 

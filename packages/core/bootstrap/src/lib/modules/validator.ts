@@ -54,11 +54,11 @@ export class Validator {
     this.validateOverrides('overrides', this.validatorOptions.overrides)
     this.validateOverrides('tokenOverrides', presetTokens)
     this.validateIncludeOverrides()
+    this.checkDuplicateInputParams(inputConfigs)
   }
 
   validateInput(): void {
     try {
-      let inputAliases: string[] = []
       for (const key in this.inputConfigs) {
         const options = this.inputOptions[key]
         const inputConfig = this.inputConfigs[key]
@@ -66,9 +66,6 @@ export class Validator {
           // TODO move away from alias arrays in favor of InputParameter config type
           const usedKey = this.getUsedKey(key, inputConfig)
           if (!usedKey) this.throwInvalid(`None of aliases used for required key ${key}`)
-
-          inputAliases.push(key)
-          inputAliases = inputAliases.concat(inputConfig)
           this.validateRequiredParam(this.input.data[usedKey as string], key, options)
         } else if (typeof inputConfig === 'boolean') {
           // TODO move away from required T/F in favor of InputParameter config type
@@ -76,15 +73,8 @@ export class Validator {
             ? this.validateRequiredParam(this.input.data[key], key, options)
             : this.validateOptionalParam(this.input.data[key], key, options)
         } else {
-          inputAliases.push(key)
-          if (inputConfig.aliases) {
-            inputAliases = inputAliases.concat(inputConfig.aliases)
-          }
           this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
         }
-      }
-      if (inputAliases.length != new Set(inputAliases).size) {
-        this.throwInvalid('Duplicate Input Aliases')
       }
     } catch (e) {
       this.parseError(e)
@@ -100,6 +90,26 @@ export class Validator {
       this.validated[path] = this.formatOverride(merge({ ...preset }, this.input.data[path]))
     } catch (e) {
       this.parseError(e)
+    }
+  }
+
+  checkDuplicateInputParams(inputConfig: InputParameters): void {
+    let aliases: string[] = []
+    for (const key in inputConfig) {
+      const param = inputConfig[key]
+      if (Array.isArray(param)) {
+        aliases = aliases.concat(param)
+      } else if (typeof inputConfig === 'boolean') {
+        return
+      } else {
+        aliases.push(key)
+        if (typeof param === 'object' && 'aliases' in param && Array.isArray(param.aliases)) {
+          aliases = aliases.concat(param.aliases)
+        }
+      }
+    }
+    if (aliases.length != new Set(aliases).size) {
+      this.throwInvalid('Duplicate Input Aliases')
     }
   }
 
