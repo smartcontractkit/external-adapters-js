@@ -7,7 +7,8 @@ export const supportedEndpoints = ['balance']
 export const description =
   'The balance endpoint will fetch the balance of each address in the query.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { addresses: Address[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     aliases: ['result'],
     required: true,
@@ -22,12 +23,12 @@ interface AddressWithBalance {
   balance: string
 }
 
-interface Address {
+type Address = {
   address: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses as Address[]
@@ -40,7 +41,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const balances = await Promise.all(addresses.map((addr) => getBalance(addr.address, config)))
+  const balances: AddressWithBalance[] = await Promise.all(
+    addresses.map((addr) => getBalance(addr.address, config)),
+  )
 
   const response = {
     jobRunID,

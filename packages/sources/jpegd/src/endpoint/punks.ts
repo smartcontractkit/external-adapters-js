@@ -9,7 +9,8 @@ export interface ResponseSchema {
   value: number
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { block: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   block: {
     required: true,
     description: 'The block number for which information is being queried',
@@ -19,7 +20,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
