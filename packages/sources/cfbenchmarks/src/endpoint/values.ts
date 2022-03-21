@@ -8,7 +8,8 @@ const idFromBaseQuoteSymbol: { [baseQuote: string]: string } = {
   'BTC/USD': 'BRTI',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { index: string; base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   index: {
     description: 'The ID of the index',
     type: 'string',
@@ -46,7 +47,7 @@ const getIdFromBaseQuoteSymbols = (config: Config, base: string, quote: string) 
 
 export const getIdFromInputs = (
   config: Config,
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   shouldThrowError = true,
 ): string | undefined => {
   if (
@@ -86,7 +87,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
 
