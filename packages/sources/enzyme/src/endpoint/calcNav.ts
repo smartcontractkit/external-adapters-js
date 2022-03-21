@@ -8,7 +8,8 @@ export const supportedEndpoints = ['calcNav']
 
 export const description = 'Endpoint to call the `calcNav` function on the contract.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { calculatorContract: string; vaultProxy: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   calculatorContract: {
     required: true,
     type: 'string',
@@ -20,7 +21,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const calculatorContractAddress = validator.validated.data.calculatorContract

@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { InputParameters, NestableValue, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config } from '@chainlink/ea-bootstrap'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { serialize } from '../codec'
@@ -8,7 +8,15 @@ export const supportedEndpoints = ['write']
 
 export const description = 'Write data to IPFS'
 
-const inputParameters = {
+export type TInputParameters = {
+  data: string | NestableValue
+  codec: string
+  cidVersion: number
+  type: string
+  format: string
+  hashAlg: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   data: {
     required: true,
     description: 'The data to write',
@@ -47,7 +55,7 @@ const inputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const data = validator.validated.data.data
@@ -57,7 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const format = validator.validated.data.format
   const hashAlg = validator.validated.data.hashAlg
 
-  const client = create({ url: config.api.baseURL })
+  const client = create({ url: config.api?.baseURL })
   const options = { cidVersion }
 
   let cid: IPFSPath = ''

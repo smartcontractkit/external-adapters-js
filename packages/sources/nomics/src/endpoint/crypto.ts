@@ -95,7 +95,8 @@ export const description = `The \`crypto\` endpoint fetches the price of a reque
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'ids'],
     required: true,
@@ -120,7 +121,7 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -149,13 +150,13 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
-  const symbol = validator.overrideSymbol(AdapterName)
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const symbols = Array.isArray(symbol) ? symbol : [symbol]
   const convert = validator.validated.data.quote.toUpperCase()
   const jobRunID = validator.validated.id
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
 
   const url = `/currencies/ticker`
   // Correct common tickers that are misidentified

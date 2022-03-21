@@ -8,7 +8,8 @@ export const batchablePropertyPath = [{ name: 'base' }]
 
 export const description = 'https://finage.co.uk/docs/api/stock-market-previous-close'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'symbol'],
@@ -26,13 +27,13 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const symbol = Array.isArray(base)
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
-    : (validator.overrideSymbol(NAME) as string).toUpperCase()
+    : validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
 
   const url = `/agg/stock/prev-close/${symbol}`
   const params = {

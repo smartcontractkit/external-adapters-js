@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteFactory, ExecuteWithConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   AdapterResponse,
@@ -9,7 +9,8 @@ import {
 import { IexMessage, IntrinioRealtime } from './util'
 import { makeConfig, NAME } from './config'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'asset'],
     required: true,
@@ -18,8 +19,8 @@ export const inputParameters: InputParameters = {
   },
 }
 
-export const execute = async (input: AdapterRequest, config: Config) => {
-  const validator = new Validator(input, inputParameters)
+export const execute: ExecuteWithConfig<Config> = async (input: AdapterRequest, config: Config) => {
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base.toUpperCase()
@@ -35,14 +36,14 @@ export const execute = async (input: AdapterRequest, config: Config) => {
     params,
   }
 
-  const response = await Requester.request(request)
+  const response = await Requester.request<Record<string, unknown>>(request)
   response.data.result = Requester.validateResultNumber(response.data, ['last_price'])
 
   return Requester.success(jobRunID, response)
 }
 
-export const makeExecute = (config?: Config) => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config?: Config) => {
+  return async (request, context) => execute(request, context, config || makeConfig())
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
@@ -53,7 +54,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     if (validator.error) {
       return ''
     }
-    return (validator.overrideSymbol(NAME) as string).toUpperCase()
+    return validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
   }
 
   return async () => {
@@ -66,18 +67,17 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       connection: {
         getUrl: ws._makeSocketUrl.bind(ws),
       },
-      subscribe: (input) => ws._makeJoinMessage(getBase(input)),
-      unsubscribe: (input) => ws._makeLeaveMessage(getBase(input)),
-      subsFromMessage: (message) => ws._makeJoinMessage(message.payload.ticker),
-      isError: (message: { TYPE: string }) =>
-        Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: (message: IexMessage) => message.event == 'quote' && message.payload?.type == 'last',
-      toResponse: (wsResponse: IexMessage): AdapterResponse => {
+      subscribe: (input) => ws._makeJoinMessage(getBase(input)) as any,
+      unsubscribe: (input) => ws._makeLeaveMessage(getBase(input)) as any,
+      subsFromMessage: (message: any) => ws._makeJoinMessage(message.payload.ticker) as any,
+      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: (message: any) => message.event == 'quote' && message.payload?.type == 'last',
+      toResponse: (wsResponse: any): AdapterResponse => {
         return Requester.success(undefined, { data: { result: wsResponse?.payload?.price } })
       },
 
       heartbeatIntervalInMS: 3000, // Same as the one from the Intrinio WS SDK
-      heartbeatMessage: () => ws._makeHeartbeatMessage(),
+      heartbeatMessage: () => ws._makeHeartbeatMessage() as any,
     }
   }
 }

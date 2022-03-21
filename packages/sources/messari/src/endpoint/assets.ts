@@ -8,7 +8,8 @@ export const endpointResultPaths = {
   assets: 'marketcap.marketcap_dominance_percent',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['market', 'to', 'quote'],
@@ -50,11 +51,11 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const url = `assets/${base}/metrics`
 
   const options = {

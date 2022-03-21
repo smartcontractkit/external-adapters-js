@@ -11,14 +11,25 @@ import { makeConfig } from './config'
 import overrides from './config/symbols.json'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
@@ -37,7 +48,7 @@ export type DXFeedMessage = {
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (request: 'subscribe' | 'unsubscribe', ticker?: string) => {
-    if (!ticker) return
+    if (!ticker) return ''
     return [
       {
         channel: SERVICE_SUB,
@@ -57,9 +68,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
 
   return () => {
     const defaultConfig = config || makeConfig()
-    const isDataMessage = (message: DXFeedMessage) =>
+    const isDataMessage = (message: any) =>
       Array.isArray(message) && message[0].channel === SERVICE_DATA
-    const isDataSubscriptionMsg = (subscriptionMessage: DXFeedMessage) =>
+    const isDataSubscriptionMsg = (subscriptionMessage: any) =>
       Array.isArray(subscriptionMessage) && subscriptionMessage[0].channel === SERVICE_SUB
 
     const handshakeMsg = [
@@ -97,7 +108,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
 
     return {
       connection: {
-        url: defaultConfig.ws.baseWsURL,
+        url: defaultConfig.ws?.baseWsURL,
       },
       subscribe: (input) => {
         const validator = new Validator(
@@ -121,7 +132,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const ticker = validator.validated.data.base
         return getSubscription('unsubscribe', ticker)
       },
-      subsFromMessage: (message: DXFeedMessage) => {
+      subsFromMessage: (message: any) => {
         switch (message[0].channel) {
           case META_HANDSHAKE:
             return handshakeMsg
@@ -130,32 +141,35 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           case SERVICE_DATA:
             return getSubscription('subscribe', message[0].data[1][0])
           default:
-            return null
+            return ''
         }
       },
       isError: (message) => (message as DXFeedMessage)[0].successful === false,
-      filter: (message: DXFeedMessage) => {
+      filter: (message: any) => {
         return isDataMessage(message)
       },
-      toResponse: (message: DXFeedMessage) => {
+      toResponse: (message: any) => {
         const data = message[0].data[1]
         const result = data[6]
         return Requester.success('1', { data: { ...message[0], result } }, defaultConfig.verbose)
       },
-      saveOnConnectToConnection: (message: DXFeedMessage) => {
+      saveOnConnectToConnection: (message: any) => {
         return {
           requestId: parseInt(message[0].id),
           clientId: message[0].clientId,
         }
       },
       modifySubscriptionPayload: (original, _, connectionParams, id) => {
-        original[0].clientId = connectionParams.clientId
-        original[0].id = id.toString()
+        const orig = original as Array<any>
+        orig[0].clientId = (connectionParams as any).clientId
+        orig[0].id = id.toString()
         return original
       },
-      shouldModifyPayload: (payload) =>
-        payload[0].channel === META_CONNECT || payload[0].channel === SERVICE_SUB,
-      shouldSaveToConnection: (message: DXFeedMessage) => {
+      shouldModifyPayload: (payload) => {
+        const p = payload as Array<any>
+        return p[0].channel === META_CONNECT || p[0].channel === SERVICE_SUB
+      },
+      shouldSaveToConnection: (message: any) => {
         return !!message[0].clientId
       },
       shouldReplyToServerHeartbeat: (message) => {
@@ -167,13 +181,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           id: parseInt((message as DXFeedMessage)[0].id) + 1,
           channel: META_CONNECT,
           connectionType: 'websocket',
-          clientId: connectionParams.clientId,
+          clientId: (connectionParams as any).clientId,
         },
       ],
       heartbeatIntervalInMS: 30000,
-      shouldSaveToStore: (subscriptionMessage: DXFeedMessage) =>
-        isDataSubscriptionMsg(subscriptionMessage),
-      isOnConnectChainMessage: (message: DXFeedMessage) =>
+      shouldSaveToStore: (subscriptionMessage: any) => isDataSubscriptionMsg(subscriptionMessage),
+      isOnConnectChainMessage: (message: any) =>
         message[0].channel === META_HANDSHAKE || message[0].channel === META_CONNECT,
       isDataMessage: (message) => isDataSubscriptionMsg(message as DXFeedMessage),
       onConnectChain: [
@@ -182,11 +195,11 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         },
         {
           payload: firstHeartbeatMsg,
-          filter: (message: DXFeedMessage) => message[0].id == '2',
+          filter: (message: any) => message[0].id == '2',
         },
         {
           payload: heartbeatMsg,
-          filter: (message: DXFeedMessage) =>
+          filter: (message: any) =>
             message[0].id === '3' ||
             (Object.keys(message[0]).length === 3 && message[0].channel === META_CONNECT),
           shouldNeverUnsubscribe: true,

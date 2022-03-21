@@ -15,7 +15,8 @@ export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 
 const customError = (data: { status: string }) => data.status !== 'OK'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'coin', 'market'],
@@ -28,7 +29,7 @@ const quoteEventSymbols: { [key: string]: boolean } = {
 }
 
 const getBase = (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
   if (validator.error) throw validator.error
   return validator.validated.data.base
 }
@@ -78,10 +79,10 @@ export interface ResponseSchema {
   }
 }
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(config.name || AdapterName)
+  const base = validator.overrideSymbol(config.name || AdapterName, validator.validated.data.base)
   const symbol = getSymbol(base)
 
   const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
