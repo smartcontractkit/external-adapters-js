@@ -20,6 +20,7 @@ import {
   Overrider,
   Builder,
 } from './lib/modules'
+import { OverrideObj } from './lib/modules'
 import * as metrics from './lib/metrics'
 import * as RateLimit from './lib/middleware/rate-limit'
 import * as burstLimit from './lib/middleware/burst-limit'
@@ -161,3 +162,5 @@ export {
   Cache,
   RateLimit,
 }
+
+export type { OverrideObj }

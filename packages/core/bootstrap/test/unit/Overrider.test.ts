@@ -27,18 +27,6 @@ describe('Overrider', () => {
   })
 
   describe('convertRemainingSymbolsToIds', () => {
-    it('Throws an error if a duplicated symbol without an override is requested', () => {
-      const overriddenCoins = { ETH: 'ethereum', BTC: 'bitcoin' }
-      const remainingSyms = ['SOL', 'ADA']
-      const coinsResponse = [
-        { id: 'fakecardano', symbol: 'ADA', name: 'Fake Cardano' },
-        { id: 'cardano', symbol: 'ADA', name: 'Cardano' },
-        { id: 'solana', symbol: 'SOL', name: 'Solana' },
-      ]
-      expect(() => {
-        Overrider.convertRemainingSymbolsToIds(overriddenCoins, remainingSyms, coinsResponse)
-      }).toThrow("The symbol 'ADA' has a duplicate coin id and no override.")
-    })
     it('Throws an error if no matching symbol is found', () => {
       const overriddenCoins = { ETH: 'ethereum', BTC: 'bitcoin' }
       const remainingSyms = ['ADA', 'SOL']
@@ -63,6 +51,23 @@ describe('Overrider', () => {
       expect(
         Overrider.convertRemainingSymbolsToIds(overriddenCoins, remainingSyms, coinsResponse),
       ).toEqual({ ETH: 'ethereum', BTC: 'bitcoin', ADA: 'cardano', SOL: 'solana' })
+    })
+    it("Uses first coin matched in DP provider's list if there is a duplicate", () => {
+      const overriddenCoins = { ETH: 'ethereum', BTC: 'bitcoin' }
+      const remainingSyms = ['SOL', 'ADA']
+      const coinsResponse = [
+        { id: 'fakecardano', symbol: 'ADA', name: 'Fake Cardano' },
+        { id: 'cardano', symbol: 'ADA', name: 'Cardano' },
+        { id: 'solana', symbol: 'SOL', name: 'Solana' },
+      ]
+      expect(
+        Overrider.convertRemainingSymbolsToIds(overriddenCoins, remainingSyms, coinsResponse),
+      ).toEqual({
+        SOL: 'solana',
+        ADA: 'fakecardano',
+        ETH: 'ethereum',
+        BTC: 'bitcoin',
+      })
     })
   })
 
