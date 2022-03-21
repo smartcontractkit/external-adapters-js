@@ -224,8 +224,8 @@ export type Middleware<TInput = AdapterRequest, TContext = AdapterContext> = (
 
 export type Callback = (statusCode: number, data?: AdapterResponse | AdapterErrorResponse) => void
 
-import type { AxiosResponse, AxiosRequestConfig } from 'axios'
-export { AxiosResponse, AxiosRequestConfig }
+import type { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
+export { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders }
 export interface WSConfig {
   baseWsURL?: string
 }

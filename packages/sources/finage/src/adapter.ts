@@ -10,26 +10,37 @@ import { Config, makeConfig, NAME } from './config'
 import * as endpoints from './endpoint'
 import overrides from './config/symbols.json'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint<Config> =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
-  p: string
-  a: string
-  b: string
-  s: string
-}
+// interface Message {
+//   p: string
+//   a: string
+//   b: string
+//   s: string
+// }
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getSubscription = (symbols?: string, subscribe = true) => {
-    if (!symbols) return
+    if (!symbols) return ''
     return {
       action: subscribe ? 'subscribe' : 'unsubscribe',
       symbols,
@@ -46,10 +57,10 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return validator.validated.data.base.toUpperCase()
   }
   const isStock = (input: AdapterRequest): boolean =>
-    endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
+    !!input.data.endpoint && endpoints.stock.supportedEndpoints.includes(input.data.endpoint)
 
   const isCrypto = (input: AdapterRequest): boolean =>
-    endpoints.crypto.supportedEndpoints.includes(input.data.endpoint)
+    !!input.data.endpoint && endpoints.crypto.supportedEndpoints.includes(input.data.endpoint)
 
   const getCryptoSymbol = (input: AdapterRequest) => {
     const validator = new Validator(
@@ -72,12 +83,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       { shouldThrowError: false, overrides },
     )
     if (validator.error) return
-    const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
+    const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
     const to = validator.validated.data.quote.toUpperCase()
     return `${from}/${to}` // Note that this adds the "/", whereas the REST endpoint doesn't use this
   }
   const isForex = (input: AdapterRequest): boolean =>
-    endpoints.forex.supportedEndpoints.includes(input.data.endpoint)
+    !!input.data.endpoint && endpoints.forex.supportedEndpoints.includes(input.data.endpoint)
 
   const getSymbol = (input: AdapterRequest): string | undefined => {
     if (isStock(input)) {
@@ -116,18 +127,18 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       shouldNotServeInputUsingWS: (input) => !isForex(input) && !isStock(input) && !isCrypto(input),
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
-      subsFromMessage: (message: Message) => {
+      subsFromMessage: (message: any) => {
         if (message.s) return getSubscription(message.s.toUpperCase())
-        return undefined
+        return ''
       },
-      isError: (message: { status_code: number }) => {
+      isError: (message: any) => {
         if (message['status_code']) {
           return message['status_code'] !== 200
         }
         return false
       },
-      filter: (message: Message) => !!message.p || (!!message.a && !!message.b),
-      toResponse: (message: Message) => {
+      filter: (message: any) => !!message.p || (!!message.a && !!message.b),
+      toResponse: (message: any) => {
         if (message.p) {
           const result = Requester.validateResultNumber(message, ['p'])
           return Requester.success('1', { data: { result } })

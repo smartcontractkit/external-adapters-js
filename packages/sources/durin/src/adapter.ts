@@ -7,12 +7,13 @@ import { Interface } from '@ethersproject/abi'
 import { HandlerResponse } from './types'
 import { concat, hexlify } from '@ethersproject/bytes'
 
-const inputParameters: InputParameters = {
+export type TInputParameters = { data: string }
+const inputParameters: InputParameters<TInputParameters> = {
   data: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const response = await endpoints.optimismGateway.execute(request, context, config)
   const handlerResponse = response.data.result as HandlerResponse

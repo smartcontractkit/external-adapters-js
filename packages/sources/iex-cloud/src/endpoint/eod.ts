@@ -4,7 +4,8 @@ import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['eod-close', 'eod']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'asset', 'symbol'],
     description: 'The symbol to query',
@@ -73,10 +74,10 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName) as string
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const url = `stock/${base.toUpperCase()}/quote`
 
   const params = {

@@ -34,7 +34,8 @@ interface ErrorSchema {
 
 const customError = (data: ErrorSchema) => data.status === '0'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { speed: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   speed: {
     required: false,
     description: 'The desired speed',
@@ -45,10 +46,10 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const speedValue: keyof Speed = validator.validated.data.speed
+  const speedValue: keyof Speed = validator.validated.data.speed as keyof Speed
   const speed = speedType[speedValue] || speedType.fast
   const url = `/api`
 

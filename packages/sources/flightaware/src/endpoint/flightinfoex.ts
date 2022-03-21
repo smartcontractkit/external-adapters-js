@@ -42,7 +42,8 @@ export const description = `Supports the following endpoint params to return a f
 - \`estimatedarrivaltime\`: Returns the estimatedarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint
 - \`actualarrivaltime\`: Returns the actualarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { departure: number; flight: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   departure: {
     required: true,
     description: 'The departure time of the flight as a UNIX timestamp in seconds',
@@ -56,7 +57,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
@@ -70,7 +71,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const auth = {
-    username: config.api.username,
+    username: config.api?.username,
     password: config.apiKey,
   }
 

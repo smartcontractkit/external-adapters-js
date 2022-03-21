@@ -9,8 +9,8 @@ export interface ResponseSchema {
     price: number
   }
 }
-
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 interface ResponseInfo {
   result: number
@@ -22,7 +22,7 @@ const responseInfo: ResponseInfo = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

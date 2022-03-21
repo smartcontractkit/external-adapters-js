@@ -9,7 +9,8 @@ export interface ResponseSchema {
   currency: string
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { token: string; chainId: string; network: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   token: {
     required: true,
     aliases: ['asset', 'coin'],
