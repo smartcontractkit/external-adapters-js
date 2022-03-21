@@ -10,7 +10,8 @@ export const endpointResultPaths = {
   'crypto-vwap': '0.price',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; hours: number; coinid: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
@@ -40,10 +41,10 @@ const customError = (data: ResponseSchema) => !data.length
 const formatUtcDate = (date: Date) => date.toISOString().split('T')[0]
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName) as string
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const coinid = validator.validated.data.coinid as string | undefined
 
   // If coinid was provided or base was overridden, that symbol will be fetched
