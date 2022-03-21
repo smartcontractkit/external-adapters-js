@@ -1,7 +1,6 @@
-import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Builder, DefaultConfig } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
-  Config,
   ExecuteFactory,
   ExecuteWithConfig,
   MakeWSHandler,
@@ -13,27 +12,42 @@ import { crypto } from './endpoint'
 import includes from './config/includes.json'
 
 // Export function to integrate with Chainlink node
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<DefaultConfig, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<DefaultConfig, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<DefaultConfig, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<DefaultConfig, endpoints.TInputParameters>(
+    request,
+    makeConfig(),
+    endpoints,
+  )
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<DefaultConfig, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
-  params: {
-    result: {
-      last: number
-      pair: string
-    }
-    subscription: string
-  }
-}
-export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
+// interface Message {
+//   params: {
+//     result: {
+//       last: number
+//       pair: string
+//     }
+//     subscription: string
+//   }
+// }
+export const makeWSHandler = (defaultConfig?: DefaultConfig): MakeWSHandler => {
   const subscriptions: Record<string, unknown> = {}
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(
@@ -42,37 +56,38 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
       {},
       { shouldThrowError: false, includes },
     )
-    if (validator.error) return
-    const base = (validator.overrideSymbol(NAME) as string).toLowerCase()
+    if (validator.error) return ''
+    const base = validator.overrideSymbol(NAME, validator.validated.data.base).toLowerCase()
     const quote = validator.validated.data.quote.toLowerCase()
     return `${base}_${quote}`
   }
   const getSubscription = (pair?: string) => {
-    if (!pair) return
+    if (!pair) return ''
     return { id: 1, method: 'subscribe', params: ['market:tickers', { pair }] }
   }
   const getUnsubscription = (pair?: string) => {
-    if (!pair) return
+    if (!pair) return ''
     return { id: 1, method: 'unsubscribe', params: [subscriptions[pair]] }
   }
+
   return () => {
     const config = defaultConfig || makeConfig()
     return {
       connection: {
-        url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
-        protocol: { headers: { ...config.api.headers } },
+        url: config.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        protocol: { headers: { ...config.api?.headers } } as any,
       },
       subscribe: (input) => getSubscription(getPair(input)),
       unsubscribe: (input) => getUnsubscription(getPair(input)),
-      subsFromMessage: (message: Message) => {
+      subsFromMessage: (message: any) => {
         const pair = message?.params?.result?.pair
         subscriptions[pair] = message?.params?.subscription
         return getSubscription(message?.params?.result?.pair)
       },
       // https://github.com/web3data/web3data-js/blob/5b177803cb168dcaed0a8a6e2b2fbd835b82e0f9/src/websocket.js#L43
       isError: () => false, // Amberdata never receives error types?
-      filter: (message: Message) => !!message.params,
-      toResponse: (message: Message) => {
+      filter: (message: any) => !!message.params,
+      toResponse: (message: any) => {
         const result = Requester.validateResultNumber(message, ['params', 'result', 'last'])
         return Requester.success('1', { data: { result } })
       },
