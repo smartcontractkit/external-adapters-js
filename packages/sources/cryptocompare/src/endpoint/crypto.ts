@@ -129,7 +129,8 @@ export interface ResponseSchema {
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'fsym'],
     description: 'The symbol of the currency to query',
@@ -144,14 +145,15 @@ export const inputParameters: InputParameters = {
 
 const handleBatchedRequest = (
   jobRunID: string,
+  bases: string[],
   request: AdapterRequest,
-  response: AxiosResponse<ResponseSchema[]>,
-  validator: Validator,
+  response: AxiosResponse<ResponseSchema>,
+  validator: Validator<TInputParameters>,
   resultPath: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base of request.data.base) {
-    const baseWithOverride = (validator.overrideSymbol(AdapterName, base) as string)?.toUpperCase()
+  for (const base of bases) {
+    const baseWithOverride = validator.overrideSymbol<string>(AdapterName, base)?.toUpperCase()
     // Skip if the response does not contain the base
     if (!response.data.RAW[baseWithOverride]) {
       Logger.warn(`${baseWithOverride} not found in batch response data`)
@@ -181,13 +183,16 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const url = `/data/pricemultifull`
-  const symbol = validator.overrideSymbol(AdapterName)
+  const symbol = validator.overrideSymbol<string | string[]>(
+    AdapterName,
+    validator.validated.data.base,
+  )
   const quote = validator.validated.data.quote
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
 
   const params = {
     fsyms: (Array.isArray(symbol)
@@ -209,7 +214,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const response = await Requester.request<ResponseSchema>(options)
 
   if (Array.isArray(symbol) || Array.isArray(quote))
-    return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
+    return handleBatchedRequest(
+      jobRunID,
+      symbol as string[],
+      request,
+      response as AxiosResponse<ResponseSchema>,
+      validator,
+      resultPath,
+    )
 
   const result = Requester.validateResultNumber(response.data, [
     'RAW',
