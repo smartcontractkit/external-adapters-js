@@ -30,6 +30,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
+    "@ethercards/ec-util": "^1.0.1",
     "ethers": "^5.5.1",
     "tslib": "^2.3.1"
   },

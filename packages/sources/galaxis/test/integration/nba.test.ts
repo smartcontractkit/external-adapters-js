@@ -113,26 +113,7 @@ describe('nba', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      validateBytesResponse(response.body.result)
       expect(response.body).toMatchSnapshot()
     })
   })
 })
-
-const validateBytesResponse = (encodedResult: string): void => {
-  const expected = [
-    [
-      [
-        '0x163883263274e8Ef6332cFa84F35B23c6C51dF72',
-        '0xbb6f7ad00000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001',
-      ],
-    ],
-    true,
-  ]
-  const [callsArray, hasMore] = ethers.utils.defaultAbiCoder.decode(
-    ['string[][]', 'bool'],
-    encodedResult,
-  )
-  expect(callsArray).toEqual(expected[0])
-  expect(hasMore).toEqual(expected[1])
-}
