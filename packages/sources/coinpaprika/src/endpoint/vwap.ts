@@ -2,6 +2,7 @@ import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds, getSymbolToId } from '../util'
+//import internalOverrides from '../config/overrides.json'
 
 export const supportedEndpoints = ['vwap', 'crypto-vwap']
 

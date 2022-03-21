@@ -1,14 +1,16 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import {
+import { Requester, Validator, Overrider } from '@chainlink/ea-bootstrap'
+import { AdapterError, OverrideObj } from '@chainlink/ea-bootstrap/src/lib/modules'
+import type {
   ExecuteWithConfig,
   Config,
   AdapterRequest,
   InputParameters,
   AxiosResponse,
+  AdapterContext,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
-import { getCoin } from '../util'
-import overrides from '../config/symbols.json'
+import { getCoin, getCoinIds } from '../util'
+import internalOverrides from '../config/overrides.json'
 
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }]
@@ -117,54 +119,76 @@ const handleBatchedRequest = (
   return Requester.success(jobRunID, result, true, batchablePropertyPath)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+type RequestedCoins = {
+  [originalSymbol: string]: string
+}
+
+const getConvertedCoins = async (
+  jobRunID: string,
+  base: string | string[],
+  inputOverrides: OverrideObj,
+  context: AdapterContext,
+): Promise<RequestedCoins> => {
+  let overrider: Overrider = {} as Overrider
+  try {
+    overrider = new Overrider(internalOverrides, inputOverrides, AdapterName)
+  } catch (untypedError) {
+    const error = untypedError as Error
+    new AdapterError({
+      jobRunID,
+      statusCode: 400,
+      message: error.message,
+      cause: error,
+    })
+  }
+  const [overriddenCoins, remainingSyms] = overrider.performOverrides(base)
+  let requestedCoins = overriddenCoins
+  if (remainingSyms.length > 0) {
+    const coinsResponse = await getCoinIds(context, jobRunID)
+    requestedCoins = Overrider.convertRemainingSymbolsToIds(
+      overriddenCoins,
+      remainingSyms.map((sym) => sym.toLowerCase()),
+      coinsResponse,
+    )
+  }
+  return requestedCoins
+}
+
+export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName)
+  const base: string | string[] = validator.validated.base
   const requestedQuotes = validator.validated.data.quote
   const coinid = validator.validated.data.coinid as string | undefined
 
-  const url = 'v1/tickers'
   const resultPath = validator.validated.data.resultPath || endpointResultPaths.crypto
 
-  let quotes: string
-  if (Array.isArray(requestedQuotes)) {
-    quotes = requestedQuotes.map((quote) => quote.toUpperCase()).join(',')
-  } else {
-    quotes = requestedQuotes.toUpperCase()
-  }
+  const quotes = Array.isArray(requestedQuotes)
+    ? requestedQuotes.map((quote) => quote.toUpperCase()).join(',')
+    : requestedQuotes.toUpperCase()
 
-  const params = { quotes }
+  const requestedCoins = await getConvertedCoins(jobRunID, base, request.data.overrides, context)
+
   const options = {
     ...config.api,
-    url,
-    params,
+    url: 'v1/tickers',
+    params: { quotes },
   }
 
-  if (Array.isArray(symbol)) {
+  if (Array.isArray(base)) {
     const requestedData: RequestedData[] = []
-
-    for (let i = 0; i < symbol.length; i++) {
-      if (symbol[i] !== validator.validated.data.base[i]) {
-        requestedData.push({ coinid: symbol[i] })
-      } else {
-        requestedData.push({ symbol: symbol[i] })
-      }
-    }
-
+    /// something here?
     const response = await Requester.request<ResponseSchema[]>(options)
     return handleBatchedRequest(jobRunID, request, response, requestedData, resultPath)
   }
 
-  // If coinid was provided or base was overridden, that symbol will be fetched
-  const coin = coinid || (symbol !== validator.validated.data.base && symbol ? symbol : undefined)
-
+  options.url += '/' + requestedCoins[base]
   const response = await Requester.request<ResponseSchema[]>(options)
 
-  const coinData = getCoin(response.data, symbol, coin)
+  const coinData = getCoin(response.data, base, coinid || requestedCoins[base])
   if (!coinData) {
-    throw new Error(`unable to find coin: ${coin || symbol}`)
+    throw new Error(`unable to find coin: ${coinid || requestedCoins[base]}`)
   }
 
   const result = Requester.validateResultNumber(coinData, [

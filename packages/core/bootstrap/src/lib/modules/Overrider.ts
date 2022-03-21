@@ -45,9 +45,6 @@ export class Overrider {
           logger.warn(
             `The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
           )
-        // throw Error(
-        //   `The symbol '${coinResponse.symbol}' has a duplicate coin id and no override.`,
-        // )
         else requestedCoins[coinResponse.symbol] = coinResponse.id
         isOverridden[coinResponse.symbol] = true
       }
