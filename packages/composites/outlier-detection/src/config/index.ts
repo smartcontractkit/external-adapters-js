@@ -1,22 +1,22 @@
 import legos from '@chainlink/ea'
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BaseConfig, RequestConfig } from '@chainlink/types'
+import { Config, RequestConfig } from '@chainlink/types'
 
 export const DEFAULT_CHECK_THRESHOLD = 0
 export const DEFAULT_ONCHAIN_THRESHOLD = 0
 export const DEFAULT_NETWORK = 'ETHEREUM'
 export const NAME = 'OUTLIER_DETECTION'
+export const DEFAULT_ENDPOINT = 'outlier'
 
 export type SourceRequestOptions = { [source: string]: RequestConfig }
 export type CheckRequestOptions = { [check: string]: RequestConfig }
-
-export type Config = BaseConfig & {
+export interface ExtendedConfig extends Config {
   sources: SourceRequestOptions
   checks: CheckRequestOptions
   api: Record<string, unknown>
 }
 
-export const makeConfig = (prefix = ''): Config => {
+export const makeConfig = (prefix = ''): ExtendedConfig => {
   const sources: SourceRequestOptions = {}
   const checks: CheckRequestOptions = {}
   for (const a of legos.sources) {
@@ -26,7 +26,13 @@ export const makeConfig = (prefix = ''): Config => {
       checks[a] = makeRequestOptions(prefix, url)
     }
   }
-  return { sources, checks, api: {} }
+  return {
+    ...Requester.getDefaultConfig(prefix),
+    defaultEndpoint: DEFAULT_ENDPOINT,
+    sources,
+    checks,
+    api: {},
+  }
 }
 
 export const makeRequestOptions = (prefix: string, url: string): RequestConfig => {
@@ -38,7 +44,7 @@ export const makeRequestOptions = (prefix: string, url: string): RequestConfig =
   }
 }
 
-export const makeOptions = ({ sources, checks }: Config) => {
+export const makeOptions = ({ sources, checks }: ExtendedConfig) => {
   return {
     source: util.permutator(
       Object.keys(sources).map((value) => value.toLowerCase()),
