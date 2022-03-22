@@ -1,4 +1,4 @@
-import { Overrider } from '../../src/lib/modules/Overrider'
+import { Overrider } from '../../src/lib/modules/overrider'
 
 describe('Overrider', () => {
   describe('isOverrideObj', () => {

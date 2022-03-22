@@ -78,6 +78,32 @@ describe('execute', () => {
         .expect(200)
       expect(response.body).toMatchSnapshot()
     })
+
+    const dataWithArray: AdapterRequest = {
+      id,
+      data: {
+        base: ['OHM', 'ETH'],
+        quote: 'USD',
+        overrides: {
+          coingecko: {
+            OHM: 'olympus',
+          },
+        },
+      },
+    }
+
+    it('should return success for array', async () => {
+      mockCryptoSuccess()
+
+      const response = await req
+        .post('/')
+        .send(dataWithArray)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
   })
 
   describe('volume api', () => {

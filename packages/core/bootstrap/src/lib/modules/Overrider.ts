@@ -1,4 +1,5 @@
 import type { CoinsResponse } from '@chainlink/types'
+import { AdapterError } from '.'
 import { logger } from './logger'
 
 export class Overrider {
@@ -7,11 +8,22 @@ export class Overrider {
   internalOverrides: OverrideObj
   inputOverrides: OverrideObj
 
-  constructor(internalOverrides: unknown, inputOverrides: unknown, adapterName: string) {
+  constructor(
+    internalOverrides: unknown,
+    inputOverrides: unknown,
+    adapterName: string,
+    jobRunID: string,
+  ) {
     internalOverrides = internalOverrides || {}
     inputOverrides = inputOverrides || {}
-    if (!Overrider.isOverrideObj(internalOverrides)) throw Error('Internal overrides are invalid.')
-    if (!Overrider.isOverrideObj(inputOverrides)) throw Error('Input overrides are invalid.')
+    if (!Overrider.isOverrideObj(internalOverrides))
+      throw new AdapterError({
+        jobRunID,
+        statusCode: 400,
+        message: 'Overrider: Internal overrides are invalid.',
+      })
+    if (!Overrider.isOverrideObj(inputOverrides))
+      throw Error('Overrider: Input overrides are invalid.')
     this.internalOverrides = internalOverrides
     this.inputOverrides = inputOverrides
     this.adapterName = adapterName.toLowerCase()
@@ -33,34 +45,32 @@ export class Overrider {
   }
 
   static convertRemainingSymbolsToIds = (
-    overriddenCoins: OverriddenCoins,
+    overriddenCoins: OverriddenCoins = {},
     remainingSyms: RequestedSymbols,
     coinsResponse: CoinsResponse[],
   ): RequestedCoins => {
-    const requestedCoins = overriddenCoins || {}
     const isOverridden: { [symbol: string]: boolean } = {}
     for (const coinResponse of coinsResponse) {
       if (remainingSyms.includes(coinResponse.symbol)) {
         if (isOverridden[coinResponse.symbol] === true)
           logger.warn(
-            `The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
+            `Overrider: The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
           )
-        // throw Error(
-        //   `The symbol '${coinResponse.symbol}' has a duplicate coin id and no override.`,
-        // )
-        else requestedCoins[coinResponse.symbol] = coinResponse.id
+        else overriddenCoins[coinResponse.symbol] = coinResponse.id
         isOverridden[coinResponse.symbol] = true
       }
     }
     for (const remainingSym of remainingSyms) {
       if (!isOverridden[remainingSym])
-        throw Error(`Could not find a matching coin id for the symbol '${remainingSym}'.`)
+        throw Error(
+          `Overrider: Could not find a matching coin id for the symbol '${remainingSym}'.`,
+        )
     }
-    return requestedCoins
+    return overriddenCoins
   }
 
-  // Creates an object that maps from the overridden symbol/id
-  // to the symbol that was originally requested
+  /** Creates an object that maps from the overridden symbol/id
+      to the symbol that was originally requested */
   static invertRequestedCoinsObject = (
     requestedCoins: RequestedCoins,
   ): OverrideToOriginalSymbol => {

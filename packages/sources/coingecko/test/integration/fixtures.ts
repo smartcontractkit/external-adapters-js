@@ -76,23 +76,34 @@ export const mockCryptoSuccess = (): nock.Scope =>
       'Vary',
       'Origin',
     ])
-    // .get('/simple/price')
-    // .query({
-    //   ids: 'olympus',
-    //   vs_currencies: 'USD',
-    //   include_market_cap: false,
-    //   include_24hr_vol: true,
-    // })
-    // .reply(200, (_, request) => ({ olympus: { usd: 100.00, usd_24h_vol: 1111.111111  } }), [
-    //   'Content-Type',
-    //   'application/json',
-    //   'Connection',
-    //   'close',
-    //   'Vary',
-    //   'Accept-Encoding',
-    //   'Vary',
-    //   'Origin',
-    // ])
+    .get('/simple/price')
+    .query({
+      ids: 'olympus,ethereum',
+      vs_currencies: 'USD',
+      include_market_cap: false,
+      include_24hr_vol: false,
+    })
+    .reply(
+      200,
+      (_, request) => ({
+        ethereum: {
+          usd: 3015.64,
+        },
+        olympus: {
+          usd: 30.3,
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
 
     .get('/coins/list')
     .query(() => true)

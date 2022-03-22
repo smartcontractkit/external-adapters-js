@@ -1,5 +1,4 @@
 import { Requester, Validator, Overrider, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterError, OverrideToOriginalSymbol } from '@chainlink/ea-bootstrap/src/lib/modules'
 import {
   Config,
   ExecuteWithConfig,
@@ -20,7 +19,7 @@ const customError = (data: ResponseSchema) => {
 }
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides: internalOverrides })
+  const validator = new Validator(request, inputParameters)
 
   const quote = validator.validated.data.quote
   if (Array.isArray(quote)) return ''
@@ -61,6 +60,10 @@ export interface ResponseSchema {
   [key: string]: Record<string, number>
 }
 
+type OverrideToOriginalSymbol = {
+  [id: string]: string
+}
+
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
@@ -69,7 +72,7 @@ const handleBatchedRequest = (
   idToSymbol: OverrideToOriginalSymbol,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base of response.data) {
+  for (const base in response.data) {
     const quoteArray = Array.isArray(request.data.quote) ? request.data.quote : [request.data.quote]
     for (const quote of quoteArray) {
       const originalSymbol = idToSymbol[base]
@@ -78,7 +81,7 @@ const handleBatchedRequest = (
           ...request,
           data: {
             ...request.data,
-            base: idToSymbol[originalSymbol].toUpperCase(),
+            base: originalSymbol.toUpperCase(),
             quote: quote.toUpperCase(),
           },
         }
@@ -112,18 +115,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   let ids: string
   let idToSymbol: OverrideToOriginalSymbol = {}
   if (!coinid) {
-    let overrider: Overrider = {} as Overrider
-    try {
-      overrider = new Overrider(internalOverrides, request.data?.overrides, AdapterName)
-    } catch (untypedError) {
-      const error = untypedError as Error
-      new AdapterError({
-        jobRunID: validator.validated.id,
-        statusCode: 400,
-        message: error.message,
-        cause: error,
-      })
-    }
+    const overrider = new Overrider(
+      internalOverrides,
+      request.data?.overrides,
+      AdapterName,
+      jobRunID,
+    )
     const [overriddenCoins, remainingSyms] = overrider.performOverrides(base)
     let requestedCoins = overriddenCoins
     if (remainingSyms.length > 0) {
