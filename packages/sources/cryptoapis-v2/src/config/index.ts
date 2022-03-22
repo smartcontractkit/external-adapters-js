@@ -6,7 +6,7 @@ export const NAME = 'CRYPTOAPIS_V2'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
-  config.api.headers['X-API-Key'] = config.apiKey
+  if (config.apiKey) config.api.headers = { ...config.api.headers, 'X-API-Key': config.apiKey }
   config.api.baseURL = 'https://rest.cryptoapis.io'
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

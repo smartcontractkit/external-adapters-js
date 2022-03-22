@@ -38,7 +38,8 @@ export interface ResponseSchema {
 export const description =
   'https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-latest-mined-block'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { blockchain: string; network: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   blockchain: {
     aliases: ['coin', 'market'],
     description: 'The blockchain to retrieve info for',
@@ -55,7 +56,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const blockchain = validator.validated.data.blockchain
