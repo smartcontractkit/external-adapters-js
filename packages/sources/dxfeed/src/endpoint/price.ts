@@ -15,7 +15,7 @@ export const batchablePropertyPath = [{ name: 'base', limit: 120 }]
 
 const customError = (data: { status: string }) => data.status !== 'OK'
 
-export type TInputParameters = { base: string }
+export type TInputParameters = { base: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
@@ -85,7 +85,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const base = validator.overrideSymbol(config.name || AdapterName, validator.validated.data.base)
   const symbol = getSymbol(base)
 
-  const events = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
+  const events: string = quoteEventSymbols[symbol] ? 'Quote' : 'Trade'
   const url = 'events.json'
 
   const params = {
@@ -98,6 +98,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url,
     params,
   }
+
   const response = await Requester.request<ResponseSchema>(options, customError)
 
   if (Array.isArray(base)) {
@@ -122,13 +123,13 @@ const handleBatchedRequest = (
   events: string,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base in response.data[events]) {
+  for (const base in response.data[events as keyof ResponseSchema] as any) {
     payload.push([
       {
         ...request,
         data: {
           ...request.data,
-          base: response.data[events][base],
+          base: (response.data as any)[events][base],
         },
       },
       Requester.validateResultNumber(response.data, getResultPath(base)),
