@@ -1,4 +1,9 @@
-import { ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  ExecuteWithConfig,
+  ExecuteFactory,
+  InputParameters,
+  Requester,
+} from '@chainlink/ea-bootstrap'
 import { Config, makeConfig } from './config'
 import * as endpoints from './endpoint'
 import { ethers } from 'ethers'
@@ -16,7 +21,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const response = await endpoints.optimismGateway.execute(request, context, config)
-  const handlerResponse = response.data.result as HandlerResponse
+  const handlerResponse = response.data.result as unknown as HandlerResponse
 
   const sigHash = Interface.getSighash(handlerResponse.returnType)
   const abiEncoded = ethers.utils.defaultAbiCoder.encode(
@@ -25,9 +30,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   )
 
   const result = hexlify(concat([sigHash, abiEncoded]))
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
-  return {
+  const res = {
     jobRunID,
     result,
     statusCode: 200,
@@ -35,6 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       result,
     },
   }
+  return Requester.success(jobRunID, res, config.verbose)
 }
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

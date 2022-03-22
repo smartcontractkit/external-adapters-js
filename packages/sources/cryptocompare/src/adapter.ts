@@ -43,18 +43,18 @@ export interface WSErrorType {
 
 export const INVALID_SUB = 'INVALID_SUB'
 
-interface Message {
-  PRICE: number
-  TYPE: number
-  MARKET: string
-  FLAGS: number
-  FROMSYMBOL: string
-  TOSYMBOL: string
-  VOLUMEDAY: number
-  VOLUME24HOUR: number
-  VOLUMEDAYTO: number
-  VOLUME24HOURTO: number
-}
+// interface Message {
+//   PRICE: number
+//   TYPE: number
+//   MARKET: string
+//   FLAGS: number
+//   FROMSYMBOL: string
+//   TOSYMBOL: string
+//   VOLUMEDAY: number
+//   VOLUME24HOUR: number
+//   VOLUMEDAYTO: number
+//   VOLUME24HOURTO: number
+// }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://min-api.cryptocompare.com/documentation/websockets

@@ -1,6 +1,6 @@
 import { ADDRESS_MANAGER_ABI, STATE_COMMITMENT_CHAIN_ABI } from './abis'
 
-import { NestableValue, Validator, Value } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Value } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config } from '../../config'
@@ -97,7 +97,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     returnType: toInterface(optimismGatewayStubABI).getFunction(RETURN_TYPE_FN),
     response: ret,
   }
-  return {
+  const res = {
     jobRunID,
     result,
     statusCode: 200,
@@ -105,6 +105,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       result,
     },
   }
+  return Requester.success(jobRunID, res, config.verbose)
 }
 
 const loadContractFromManager = async (

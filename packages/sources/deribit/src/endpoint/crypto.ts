@@ -12,6 +12,15 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
+export interface ResponseSchema {
+  jsonrpc: string
+  result: number[][]
+  usIn: number
+  usOut: number
+  usDiff: number
+  testnet: boolean
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator<TInputParameters>(request, inputParameters)
 
@@ -25,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url: 'get_historical_volatility',
   }
 
-  const response = await Requester.request(requestConfig)
+  const response = await Requester.request<ResponseSchema>(requestConfig)
   const result: number[][] = response.data['result']
   const resultSorted = result.sort((a, b) => {
     if (a.length < 1 || b.length < 1) return 1
