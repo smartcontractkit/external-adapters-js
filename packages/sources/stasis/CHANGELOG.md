@@ -1,5 +1,11 @@
 # @chainlink/stasis-adapter
 
+## 1.1.22
+
+### Patch Changes
+
+- cf3548d92: Fix resultPath from Stasis API change
+
 ## 1.1.21
 
 ### Patch Changes
