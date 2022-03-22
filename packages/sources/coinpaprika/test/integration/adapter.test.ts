@@ -4,11 +4,7 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import {
-  mockCryptoResponseSuccess,
-  mockCryptoSingleResponseSuccess,
-  mockPROCryptoResponseSuccess,
-} from './fixtures'
+import { mockCryptoResponseSuccess, mockPROCryptoResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -267,20 +263,44 @@ describe('execute', () => {
   })
 
   describe('vwap api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        base: 'AMPL',
-        endpoint: 'vwap',
-      },
-    }
-
     it('should return success', async () => {
       mockCryptoResponseSuccess()
+      const vwapData: AdapterRequest = {
+        id,
+        data: {
+          base: 'ETH',
+          endpoint: 'vwap',
+        },
+      }
 
       const response = await req
         .post('/')
-        .send(data)
+        .send(vwapData)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return success with override', async () => {
+      mockCryptoResponseSuccess()
+      const dataWithOverride: AdapterRequest = {
+        id,
+        data: {
+          base: 'AAAA',
+          overrides: {
+            coinpaprika: {
+              AAAA: 'ampl-ampleforth',
+            },
+          },
+          endpoint: 'vwap',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(dataWithOverride)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
@@ -318,7 +338,7 @@ describe('execute with api key', () => {
 
   describe('crypto api pro', () => {
     const data: AdapterRequest = {
-      id,
+      id: '1',
       data: {
         base: 'ETH',
         quote: 'USD',

@@ -84,18 +84,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   let coin = coinid
   if (!coin) {
-    let overrider: Overrider = {} as Overrider
-    try {
-      overrider = new Overrider(internalOverrides, request.data?.overrides, AdapterName, jobRunID)
-    } catch (untypedError) {
-      const error = untypedError as Error
-      new AdapterError({
-        jobRunID: validator.validated.id,
-        statusCode: 400,
-        message: error.message,
-        cause: error,
-      })
-    }
+    const overrider = new Overrider(
+      internalOverrides,
+      request.data?.overrides,
+      AdapterName,
+      jobRunID,
+    )
     const [overriddenCoin, remainingSym] = overrider.performOverrides(base)
     if (remainingSym.length === 0) {
       coin = overriddenCoin[base]

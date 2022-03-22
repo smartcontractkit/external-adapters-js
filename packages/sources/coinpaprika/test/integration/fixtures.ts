@@ -301,6 +301,19 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         market_cap: 106686649,
       },
     ])
+    .get('/v1/tickers/eth-ethereum/historical')
+    .query({
+      start: /^\d{4}-\d{2}-\d{2}$/,
+      interval: '24h',
+    })
+    .reply(200, [
+      {
+        timestamp: '2022-01-30T00:00:00Z',
+        price: 4000,
+        volume_24h: 11111,
+        market_cap: 999999999,
+      },
+    ])
 
 export const mockPROCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api-pro.coinpaprika.com', {
