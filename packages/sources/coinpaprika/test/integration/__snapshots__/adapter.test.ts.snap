@@ -182,3 +182,26 @@ Object {
   "statusCode": 200,
 }
 `;
+
+exports[`execute with api key crypto-single api should return success 1`] = `
+Object {
+  "error": Object {
+    "feedID": "ETH/USD",
+    "message": "Nock: No match for request {
+  \\"method\\": \\"GET\\",
+  \\"url\\": \\"https://api-pro.coinpaprika.com/v1/coins\\",
+  \\"headers\\": {
+    \\"accept\\": \\"application/json, text/plain, */*\\",
+    \\"authorization\\": \\"fake-api-key\\",
+    \\"user-agent\\": \\"axios/0.24.0\\"
+  }
+}",
+    "name": "AdapterError",
+    "url": "https:/api-pro.coinpaprika.com/v1/coins",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 0,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;

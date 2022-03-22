@@ -81,7 +81,7 @@ describe('Overrider', () => {
         coingecko: { ETH: 'ethereum2' },
         nomics: { ETH: 'ETH2', BTC: 'BTC2' },
       }
-      const overrider = new Overrider(internalOverrides, inputOverrides, 'COINGECKO')
+      const overrider = new Overrider(internalOverrides, inputOverrides, 'COINGECKO', '1')
       const [overriddenSyms, remainingSyms] = overrider.performOverrides(['BTC', 'ETH', 'ADA'])
       expect(overriddenSyms).toEqual({ BTC: 'bitcoin', ETH: 'ethereum2' })
       expect(remainingSyms).toEqual(['ADA'])
