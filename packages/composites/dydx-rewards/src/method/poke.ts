@@ -1,6 +1,6 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
-import { Config } from '../config'
+import { ExtendedConfig } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import { OracleRequester } from '../contracts'
 import {
@@ -58,7 +58,7 @@ const parseAddress = (address: string): string => {
   return `0x${buf.toString('hex').slice(-40)}`
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
+export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context, config) => {
   const validator = new Validator(input, customParams)
 
   const jobRunID = validator.validated.jobRunID

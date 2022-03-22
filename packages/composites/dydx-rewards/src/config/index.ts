@@ -1,8 +1,9 @@
-import { RequestConfig } from '@chainlink/types'
+import { RequestConfig, Config } from '@chainlink/types'
 import { ethers } from 'ethers'
-import { util } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_METHOD = 'poke'
+export const DEFAULT_ENDPOINT = 'rewards'
 export const DEFAULT_TREASURY_CLAIM_ADDRESS = '0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54'
 export const DEFAULT_TRADER_REWARDS_AMOUNT = '3835616e18'
 export const DEFAULT_MARKET_MAKER_REWARDS_AMOUNT = '1150685e18'
@@ -18,7 +19,7 @@ export const ENV_TRADER_SCORE_A = 'TRADER_SCORE_A'
 export const ENV_TRADER_SCORE_B = 'TRADER_SCORE_B'
 export const ENV_TRADER_SCORE_C = 'TRADER_SCORE_C'
 
-export type Config = {
+export interface ExtendedConfig extends Config {
   wallet: ethers.Wallet
   api: RequestConfig
 
@@ -31,7 +32,7 @@ export type Config = {
   traderScoreC?: string
 }
 
-export const makeConfig = (prefix?: string): Config => {
+export const makeConfig = (prefix?: string): ExtendedConfig => {
   const privateKey = util.getRequiredEnv(ENV_PRIVATE_KEY, prefix)
   const provider = new ethers.providers.JsonRpcProvider(
     util.getRequiredEnvWithFallback(ENV_ETHEREUM_RPC_URL, [ENV_FALLBACK_RPC_URL], prefix),
@@ -39,6 +40,7 @@ export const makeConfig = (prefix?: string): Config => {
   const wallet = new ethers.Wallet(privateKey, provider)
 
   return {
+    ...Requester.getDefaultConfig(prefix),
     api: {},
     wallet,
     treasuryClaimAddress:
@@ -50,5 +52,6 @@ export const makeConfig = (prefix?: string): Config => {
     traderScoreA: util.getEnv(ENV_TRADER_SCORE_A),
     traderScoreB: util.getEnv(ENV_TRADER_SCORE_B),
     traderScoreC: util.getEnv(ENV_TRADER_SCORE_C),
+    defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }
