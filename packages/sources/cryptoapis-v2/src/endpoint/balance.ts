@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterData, InputParameters, Requester } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import {
   isCoinType,
@@ -14,7 +14,8 @@ export const supportedEndpoints = ['balance']
 export const description =
   'https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified-endpoints/get-address-details'
 
-export const inputParameters = balance.inputParameters
+export type TInputParameters = AdapterData
+export const inputParameters: InputParameters<TInputParameters> = balance.inputParameters
 
 interface ResponseSchema {
   apiVersion: string
