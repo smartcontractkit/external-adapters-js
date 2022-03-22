@@ -11,7 +11,8 @@ export const endpointResultPaths = {
 export const description =
   'https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { blockchain: string; network: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   blockchain: {
     aliases: ['coin', 'market'],
     description: 'The blockchain to retrieve info for',
@@ -43,12 +44,12 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const blockchain = validator.validated.data.blockchain
   const network = validator.validated.data.network || 'mainnet'
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const url = `/v1/bc/${blockchain.toLowerCase()}/${network.toLowerCase()}/info`
 
   const reqConfig = { ...config.api, url }
