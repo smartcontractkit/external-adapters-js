@@ -32,7 +32,7 @@ interface ErrorSchema {
   result: string
 }
 
-const customError = (data: ErrorSchema) => data.status === '0'
+const customError = (data: ResponseSchema | ErrorSchema) => data.status === '0'
 
 export type TInputParameters = { speed: string }
 export const inputParameters: InputParameters<TInputParameters> = {
