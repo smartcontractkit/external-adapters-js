@@ -4,7 +4,11 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockCryptoResponseSuccess, mockPROCryptoResponseSuccess } from './fixtures'
+import {
+  mockCryptoResponseSuccess,
+  mockCryptoSingleResponseSuccess,
+  mockPROCryptoResponseSuccess,
+} from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -25,21 +29,137 @@ describe('execute', () => {
     if (process.env.RECORD) {
       nock.recorder.play()
     }
-
     server.close(done)
   })
 
-  describe('crypto api', () => {
-    const data: AdapterRequest = {
-      id,
-      data: {
-        base: 'ETH',
-        quote: 'USD',
-      },
-    }
-
-    it('should return success', async () => {
+  describe('crypto-single api', () => {
+    describe('Successful request without override', () => {
       mockCryptoResponseSuccess()
+      it('Should be successful', async () => {
+        const data = {
+          id: '1',
+          data: {
+            endpoint: 'crypto-single',
+            to: 'USD',
+            from: 'ETH',
+          },
+        }
+        const response = await req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body.result).toMatchSnapshot()
+      })
+    })
+
+    describe('Successful request with override', () => {
+      mockCryptoResponseSuccess()
+      it('Should be successful', async () => {
+        const data = {
+          id: '1',
+          data: {
+            endpoint: 'crypto-single',
+            to: 'USD',
+            from: 'AMPL',
+            overrides: {
+              coinpaprika: {
+                AMPL: 'eth-ethereum',
+              },
+            },
+          },
+        }
+        const response = await req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body.result).toMatchSnapshot()
+      })
+    })
+
+    describe('Successful request with warning about duplicate ticker symbol', () => {
+      mockCryptoResponseSuccess()
+      it('Should be successful', async () => {
+        const data = {
+          id: '1',
+          data: {
+            endpoint: 'crypto-single',
+            to: 'USD',
+            from: 'BTC',
+          },
+        }
+        const response = await req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body.result).toMatchSnapshot()
+      })
+    })
+  })
+
+  describe('crypto api free', () => {
+    it('should return success for single symbol', async () => {
+      mockCryptoResponseSuccess()
+      const data: AdapterRequest = {
+        id,
+        data: {
+          base: 'ETH',
+          quote: 'USD',
+        },
+      }
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return success for multiple symbols', async () => {
+      mockCryptoResponseSuccess()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          base: ['ETH', 'BTC'],
+          quote: 'USD',
+        },
+      }
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should apply overrides', async () => {
+      mockCryptoResponseSuccess()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          base: ['ETH', 'BTC'],
+          quote: 'USD',
+          overrides: {
+            coinpaprika: {
+              BTC: 'btc-bitcoin',
+            },
+          },
+        },
+      }
 
       const response = await req
         .post('/')
@@ -196,31 +316,7 @@ describe('execute with api key', () => {
     server.close(done)
   })
 
-  // describe('crypto-single api', () => {
-  //   const data: AdapterRequest = {
-  //     id,
-  //     data: {
-  //       endpoint: 'crypto-single',
-  //       base: 'ETH',
-  //       quote: 'USD',
-  //     },
-  //   }
-
-  //   it('should return success', async () => {
-  //     mockPROCryptoResponseSuccess()
-
-  //     const response = await req
-  //       .post('/')
-  //       .send(data)
-  //       .set('Accept', '*/*')
-  //       .set('Content-Type', 'application/json')
-  //       .expect('Content-Type', /json/)
-  //       .expect(200)
-  //     expect(response.body).toMatchSnapshot()
-  //   })
-  // })
-
-  describe('crypto api', () => {
+  describe('crypto api pro', () => {
     const data: AdapterRequest = {
       id,
       data: {

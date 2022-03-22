@@ -1,5 +1,5 @@
 import { Requester, Validator, Overrider } from '@chainlink/ea-bootstrap'
-import { AdapterError, OverrideObj } from '@chainlink/ea-bootstrap/src/lib/modules'
+import { OverrideObj } from '@chainlink/ea-bootstrap/src/lib/modules'
 import type {
   ExecuteWithConfig,
   Config,
@@ -78,87 +78,15 @@ export const inputParameters: InputParameters = {
   },
 }
 
-interface RequestedData {
-  symbol?: string
-  coinid?: string
-}
-
-const handleBatchedRequest = (
-  jobRunID: string,
-  request: AdapterRequest,
-  response: AxiosResponse,
-  requestedData: RequestedData[],
-  resultPath: string,
-) => {
-  const responseData = response.data as ResponseSchema[]
-  const payload: [AdapterRequest, number][] = []
-
-  requestedData.forEach(({ coinid, symbol }) => {
-    const coin = getCoin(responseData, symbol, coinid)
-    if (!coin) {
-      throw new Error(`unable to find coin: ${coinid || symbol}`)
-    }
-
-    for (const quote in coin.quotes) {
-      payload.push([
-        {
-          ...request,
-          data: {
-            ...request.data,
-            base: coin.symbol.toUpperCase(),
-            quote: quote.toUpperCase(),
-          },
-        },
-        Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
-      ])
-    }
-  })
-
-  // We'll reset the response data to not output the entire CP coins list
-  const result = Requester.withResult({ ...response, data: {} }, undefined, payload)
-  return Requester.success(jobRunID, result, true, batchablePropertyPath)
-}
-
 type RequestedCoins = {
   [originalSymbol: string]: string
-}
-
-const getConvertedCoins = async (
-  jobRunID: string,
-  base: string | string[],
-  inputOverrides: OverrideObj,
-  context: AdapterContext,
-): Promise<RequestedCoins> => {
-  let overrider: Overrider = {} as Overrider
-  try {
-    overrider = new Overrider(internalOverrides, inputOverrides, AdapterName)
-  } catch (untypedError) {
-    const error = untypedError as Error
-    new AdapterError({
-      jobRunID,
-      statusCode: 400,
-      message: error.message,
-      cause: error,
-    })
-  }
-  const [overriddenCoins, remainingSyms] = overrider.performOverrides(base)
-  let requestedCoins = overriddenCoins
-  if (remainingSyms.length > 0) {
-    const coinsResponse = await getCoinIds(context, jobRunID)
-    requestedCoins = Overrider.convertRemainingSymbolsToIds(
-      overriddenCoins,
-      remainingSyms.map((sym) => sym.toLowerCase()),
-      coinsResponse,
-    )
-  }
-  return requestedCoins
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const base: string | string[] = validator.validated.base
+  const base: string | string[] = validator.validated.data.base
   const requestedQuotes = validator.validated.data.quote
   const coinid = validator.validated.data.coinid as string | undefined
 
@@ -169,7 +97,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     : requestedQuotes.toUpperCase()
 
   const requestedCoins = await getConvertedCoins(jobRunID, base, request.data.overrides, context)
-
   const options = {
     ...config.api,
     url: 'v1/tickers',
@@ -177,10 +104,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   if (Array.isArray(base)) {
-    const requestedData: RequestedData[] = []
-    /// something here?
     const response = await Requester.request<ResponseSchema[]>(options)
-    return handleBatchedRequest(jobRunID, request, response, requestedData, resultPath)
+    return handleBatchedRequest(jobRunID, request, response, requestedCoins, resultPath)
   }
 
   options.url += '/' + requestedCoins[base]
@@ -202,4 +127,62 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     config.verbose,
     batchablePropertyPath,
   )
+}
+
+const getConvertedCoins = async (
+  jobRunID: string,
+  base: string | string[],
+  inputOverrides: OverrideObj,
+  context: AdapterContext,
+): Promise<RequestedCoins> => {
+  const overrider = new Overrider(internalOverrides, inputOverrides, AdapterName, jobRunID)
+  const [overriddenCoins, remainingSyms] = overrider.performOverrides(base)
+  let requestedCoins = overriddenCoins
+  if (remainingSyms.length > 0) {
+    const coinsResponse = await getCoinIds(context, jobRunID)
+    requestedCoins = Overrider.convertRemainingSymbolsToIds(
+      overriddenCoins,
+      remainingSyms.map((sym) => sym.toUpperCase()),
+      coinsResponse,
+    )
+  }
+  return requestedCoins
+}
+
+const handleBatchedRequest = (
+  jobRunID: string,
+  request: AdapterRequest,
+  response: AxiosResponse,
+  requestedCoins: RequestedCoins,
+  resultPath: string,
+) => {
+  const responseData = response.data as ResponseSchema[]
+  const payload: [AdapterRequest, number][] = []
+  const requestedIds = Object.values(requestedCoins)
+  const idsToSymbols = Overrider.invertRequestedCoinsObject(requestedCoins)
+
+  requestedIds.forEach((coinid) => {
+    const coin = getCoin(responseData, undefined, coinid)
+    if (!coin) {
+      throw new Error(`unable to find coin: ${coinid}`)
+    }
+
+    for (const quote in coin.quotes) {
+      payload.push([
+        {
+          ...request,
+          data: {
+            ...request.data,
+            base: idsToSymbols[coinid].toUpperCase(),
+            quote: quote.toUpperCase(),
+          },
+        },
+        Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
+      ])
+    }
+  })
+
+  // We'll reset the response data to not output the entire CP coins list
+  const result = Requester.withResult({ ...response, data: {} }, undefined, payload)
+  return Requester.success(jobRunID, result, true, batchablePropertyPath)
 }
