@@ -567,6 +567,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/renvm-address-set"
       },
       {
+        "name": "@chainlink/reserve-wallet-adapter",
+        "reference": "workspace:packages/sources/reserve-wallet"
+      },
+      {
         "name": "@chainlink/satoshitango-adapter",
         "reference": "workspace:packages/sources/satoshitango"
       },
@@ -827,6 +831,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],
+      ["@chainlink/reserve-wallet-adapter", ["workspace:packages/sources/reserve-wallet"]],
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],
       ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],
@@ -5349,6 +5354,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
+            ["@chainlink/reserve-wallet-adapter", "workspace:packages/sources/reserve-wallet"],
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
@@ -6776,6 +6782,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["bitcoinjs-lib", "npm:5.2.0"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/reserve-wallet-adapter", [
+        ["workspace:packages/sources/reserve-wallet", {
+          "packageLocation": "./packages/sources/reserve-wallet/",
+          "packageDependencies": [
+            ["@chainlink/reserve-wallet-adapter", "workspace:packages/sources/reserve-wallet"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.4.7"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],

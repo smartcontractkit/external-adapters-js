@@ -124,6 +124,7 @@
     "@chainlink/polygon-adapter": "workspace:*",
     "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
+    "@chainlink/reserve-wallet-adapter": "workspace:*",
     "@chainlink/satoshitango-adapter": "workspace:*",
     "@chainlink/snowflake-adapter": "workspace:*",
     "@chainlink/sochain-adapter": "workspace:*",

@@ -93,6 +93,7 @@ import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
+import * as reserve_wallet from '@chainlink/reserve-wallet-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as snowflake from '@chainlink/snowflake-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
@@ -216,6 +217,7 @@ export default {
   polygon,
   reduce,
   renvm_adapter_address,
+  reserve_wallet,
   satoshitango,
   snowflake,
   sochain,
