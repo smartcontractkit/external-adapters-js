@@ -119,7 +119,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         )
         if (validator.errored) throw validator.errored
         const ticker = validator.validated.data.base
-        return getSubscription('subscribe', ticker)
+        return getSubscription('subscribe', ticker as any)
       },
       unsubscribe: (input) => {
         const validator = new Validator(
@@ -130,7 +130,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         )
         if (validator.errored) throw validator.errored
         const ticker = validator.validated.data.base
-        return getSubscription('unsubscribe', ticker)
+        return getSubscription('unsubscribe', ticker as any)
       },
       subsFromMessage: (message: any) => {
         switch (message[0].channel) {

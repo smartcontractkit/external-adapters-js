@@ -10,7 +10,7 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.name = NAME
   config.api.baseURL = config.api.baseURL || DEMO_ENDPOINT
-  config.api.baseWsURL = config.api.baseWsURL || ''
+  config.ws.baseWsURL = config.ws.baseWsURL || ''
   if (config.api.baseURL === DEMO_ENDPOINT)
     console.warn(`Using demo endpoint: ${DEMO_ENDPOINT} (Please do not use in production!)`)
 
