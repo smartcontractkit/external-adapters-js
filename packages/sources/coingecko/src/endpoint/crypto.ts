@@ -72,7 +72,7 @@ const handleBatchedRequest = (
   idToSymbol: OverrideToOriginalSymbol,
 ) => {
   const payload: [AdapterRequest, number][] = []
-  for (const base of response.data) {
+  for (const base in response.data) {
     const quoteArray = Array.isArray(request.data.quote) ? request.data.quote : [request.data.quote]
     for (const quote of quoteArray) {
       const originalSymbol = idToSymbol[base]
