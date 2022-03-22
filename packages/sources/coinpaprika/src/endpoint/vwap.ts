@@ -42,16 +42,12 @@ const formatUtcDate = (date: Date) => date.toISOString().split('T')[0]
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
-  console.log('REQUEST DATA')
-  console.log(request.data)
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const coinid = validator.validated.data.coinid as string | undefined
 
   let coin = coinid
   if (!coin) {
-    console.log(internalOverrides)
-    console.log(request.data?.overrides)
     const overrider = new Overrider(
       internalOverrides,
       request.data?.overrides,
@@ -59,7 +55,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       jobRunID,
     )
     const [overriddenCoin, remainingSym] = overrider.performOverrides(base)
-    console.log(overriddenCoin, remainingSym)
     if (remainingSym.length === 0) {
       coin = overriddenCoin[base]
     } else {
