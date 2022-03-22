@@ -162,5 +162,3 @@ export {
   Cache,
   RateLimit,
 }
-
-export type { OverrideObj }
