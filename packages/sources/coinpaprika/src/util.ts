@@ -1,8 +1,9 @@
 import { makeExecute } from './adapter'
-import { makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
+import { Config, makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
 import { ResponseSchema } from './endpoint/crypto'
 import { CoinsResponse } from './endpoint/coins'
 import { AdapterContext } from '@chainlink/ea-bootstrap'
+import * as endpoints from './endpoint'
 
 export const getCoin = (
   data: ResponseSchema[],
@@ -27,16 +28,17 @@ export function getCoinIds(context: AdapterContext, id: string): Promise<CoinsRe
     data: {
       endpoint: 'coins',
       maxAge: 60 * 60 * 1000, // 1 hour
+      market: '',
     },
     method: 'post',
     id,
   }
   return new Promise((resolve, reject) => {
-    const middleware = makeMiddleware(execute)
-    withMiddleware(execute, context, middleware)
+    const middleware = makeMiddleware<Config, endpoints.TInputParameters>(execute)
+    withMiddleware<endpoints.TInputParameters>(execute, context, middleware)
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
-          .then((value) => resolve(value.data))
+          .then((value) => resolve(value.data as unknown as CoinsResponse[]))
           .catch(reject)
       })
       .catch((error) => reject(error))
