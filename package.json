@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.16.1",
+  "version": "1.16.2",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -32,7 +32,8 @@
     "qa:adapter": "ts-node-transpile-only ./packages/scripts/src/ephemeral-adapters",
     "qa:flux:configure": "ts-node-transpile-only ./packages/scripts/src/flux-emulator",
     "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters",
-    "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate"
+    "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate",
+    "get-release-notes": "ts-node-transpile-only ./packages/scripts/src/get-release-notes"
   },
   "dependencies": {
     "@babel/core": "7.16.12",

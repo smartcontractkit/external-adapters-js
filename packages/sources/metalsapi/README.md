@@ -1,6 +1,6 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-Version: 1.6.17
+Version: 1.6.18
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

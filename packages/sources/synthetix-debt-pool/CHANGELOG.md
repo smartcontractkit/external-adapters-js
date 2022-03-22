@@ -4,7 +4,13 @@
 
 ### Major Changes
 
-- e6f6763d1: Remove synthetixjs/contracts-interface library and fetch contract addresses from AddressResolver contract
+- 48e69bfeb: Remove synthetixjs/contracts-interface library and fetch contract addresses from AddressResolver contract
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
 
 ## 2.1.0
 

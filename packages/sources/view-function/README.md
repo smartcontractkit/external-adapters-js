@@ -1,6 +1,6 @@
 # Chainlink External Adapter for View-Function
 
-Version: 1.1.20
+Version: 1.1.21
 
 External adapter for executing contract function and returning the result
 

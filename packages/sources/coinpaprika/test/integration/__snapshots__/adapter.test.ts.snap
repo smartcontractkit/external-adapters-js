@@ -71,3 +71,15 @@ Object {
   "statusCode": 200,
 }
 `;
+
+exports[`execute with api key crypto api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 3949.2425813062,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 3949.2425813062,
+  "statusCode": 200,
+}
+`;
