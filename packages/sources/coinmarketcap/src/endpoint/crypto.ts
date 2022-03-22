@@ -119,10 +119,6 @@ export const inputParameters: InputParameters = {
     type: 'string',
   },
 }
-// export const inputParameters: InputParameters = {
-//   base: ['asset', 'from', 'base'],
-//   quote: ['to', 'quote']
-// }
 
 const handleBatchedRequest = (
   jobRunID: string,
