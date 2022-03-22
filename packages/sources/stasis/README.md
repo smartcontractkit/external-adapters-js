@@ -45,7 +45,12 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": 89225940
+    "accounts": {
+      "nexpay": { "amount": "2742801.19" },
+      "xnt": { "amount": "85162500.00" },
+      "ext": { "amount": "29864028.69" }
+    },
+    "summary": { "amount": "117769329.88" }
   },
   "result": 89225940,
   "statusCode": 200,

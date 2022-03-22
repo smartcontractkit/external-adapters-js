@@ -9,7 +9,7 @@ export const description =
 
 export const inputParameters: InputParameters = {
   symbol: {
-    aliases: ['base', 'from', 'coin', 'symbol', 'assetId', 'indexId', 'asset'],
+    aliases: ['base', 'from', 'coin', 'assetId', 'indexId', 'asset'],
     description: ' Retrieve the VWAP for a particular asset or market',
     required: true,
     type: 'string',
