@@ -3,12 +3,10 @@ import { makeId } from '../rate-limit'
 import * as actions from './actions'
 
 export enum IntervalNames {
-  SECOND = 'SECOND',
   MINUTE = 'MINUTE',
 }
 
 export const Intervals: { [key: string]: number } = {
-  [IntervalNames.SECOND]: 1000,
   [IntervalNames.MINUTE]: 60 * 1000,
 }
 
@@ -23,31 +21,46 @@ export interface Request {
 
 export interface RequestsState {
   total: {
-    [interval: string]: number
+    [interval in IntervalNames]: number
   }
   participants: {
-    [interval: string]: Request[]
+    [interval in IntervalNames]: Request[]
   }
 }
 
 export const initialRequestsState: RequestsState = {
   total: {
-    SECOND: 0,
     MINUTE: 0,
   },
   participants: {
-    SECOND: [],
     MINUTE: [],
   },
 }
 
 export const requestReducer = createReducer<RequestsState>(initialRequestsState, (builder) => {
-  builder.addCase(actions.requestObserved, (state, action) => {
+  builder.addCase(actions.requestObserved, (state) => {
+    const time = Date.now()
+
+    const storedIntervals = [IntervalNames.MINUTE]
+
+    for (const intervalName of storedIntervals) {
+      // remove all requests that are older than the current interval
+      const window = time - Intervals[intervalName]
+      const isInWindow = (h: Request) => h.t >= window
+      state.participants[intervalName] = sortedFilter(state.participants[intervalName], isInWindow)
+
+      // update total
+      state.total[intervalName] = state.participants[intervalName].length
+    }
+
+    return state
+  })
+  builder.addCase(actions.requestFailedObserved, (state, action) => {
     const request: Request = {
       id: makeId(action.payload.input),
       t: Date.now(),
     }
-    const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
+    const storedIntervals = [IntervalNames.MINUTE]
 
     for (const intervalName of storedIntervals) {
       // remove all requests that are older than the current interval
@@ -90,21 +103,16 @@ export function sortedFilter(
   return requests.slice(firstNonStaleRequestIndex)
 }
 
-export function selectTotalNumberOfRequestsFor(
+export function selectParticiantsRequestsById(
   state: RequestsState,
   interval: IntervalNames,
-): number {
-  return state.total[interval] ?? 0
-}
-
-export function selectParticiantsRequestsFor(
-  state: RequestsState,
-  interval: IntervalNames,
+  id: string,
 ): Request[] {
-  return state.participants[interval] ?? []
+  const participants = state.participants[interval] ?? []
+  return participants.filter((participant) => participant.id === id)
 }
 
 export const rootReducer = combineReducers({
   requests: requestReducer,
 })
-export type BurstLimitState = ReturnType<typeof rootReducer>
+export type ErrorBackoffState = ReturnType<typeof rootReducer>

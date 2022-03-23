@@ -2,4 +2,4 @@
 '@chainlink/ea-bootstrap': minor
 ---
 
-(feat): Add error backoff to Burst Limit middleware
+(feat): Add new middleware: Error Backoff

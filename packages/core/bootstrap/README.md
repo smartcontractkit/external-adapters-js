@@ -41,6 +41,13 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 ## Performance
 
+### Error back offs
+
+Repeated requests that return errors are backed off from:
+| Required? | Name | Description | Options | Defaults to |
+| :-------: | :-------------------: | :-------------------------------------: | :-----: | :---------: |
+| | `ERROR_CAPACITY` | Maximum amount of time a request can error per minute before being backed off from | | `2` |
+
 ### Caching
 
 To cache data every adapter using the `bootstrap` package has access to a simple LRU cache that will cache successful 200 responses using SHA1 hash of input as a key.
@@ -128,11 +135,6 @@ To avoid hitting rate limit issues with the data provider subscription, a rate l
 | :-------: | :-----------------------: | :-------------------------: | :-----: | :----------------------------------------------: |
 |           | `RATE_LIMIT_API_PROVIDER` |    Name of the provider.    |         | The derived name of the running External Adapter |
 |           |   `RATE_LIMIT_API_TIER`   | Plan you are subscribed to. |         |                    undefined                     |
-
-Additionally repeated errors are backed off from:
-| Required? | Name | Description | Options | Defaults to |
-| :-------: | :-------------------: | :-------------------------------------: | :-----: | :---------: |
-| | `RATE_LIMIT_ERROR_CAPACITY` | Maximum amount of time a request can error per minute before being backed off from| | `2` |
 
 #### Provider Limits
 
