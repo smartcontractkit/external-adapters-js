@@ -8,7 +8,11 @@ export const DEFAULT_BASE_URL = 'https://flightxml.flightaware.com/json/FlightXM
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
-  config.api.username = util.getRequiredEnv('API_USERNAME')
+  config.api.auth = {
+    ...config.api.auth,
+    username: util.getRequiredEnv('API_USERNAME'),
+    password: '',
+  }
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

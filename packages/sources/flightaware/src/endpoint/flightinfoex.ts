@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['estimatedarrivaltime', 'actualarrivaltime']
@@ -71,11 +71,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const auth = {
-    username: config.api?.username,
-    password: config.apiKey,
+    username: config.api?.auth?.username || '',
+    password: config.apiKey || '',
   }
 
-  const options = { ...config.api, auth, params, url }
+  const options: AxiosRequestConfig = { ...config.api, auth, params, url }
 
   const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, resultPath)
