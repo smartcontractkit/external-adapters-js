@@ -77,6 +77,8 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
 
     return state
   })
+
+  builder.addCase(actions.shutdown, () => initialRequestsState)
 })
 
 /**

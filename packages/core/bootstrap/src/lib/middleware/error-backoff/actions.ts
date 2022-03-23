@@ -10,3 +10,5 @@ export const requestFailedObserved = createAction<RequestObservedPayload>(
 )
 
 export const requestObserved = createAction('EB/REQUEST_OBSERVED')
+
+export const shutdown = createAction('EB/SHUTDOWN')
