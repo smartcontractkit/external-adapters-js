@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LIDO fetches the amount of stETH for 1 wstETH 1`] = `
+Object {
+  "data": Object {
+    "result": 1065508199231399700,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1065508199231399700,
+  "statusCode": 200,
+}
+`;

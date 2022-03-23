@@ -1,19 +1,13 @@
 import { Builder } from '@chainlink/ea-bootstrap'
-import {
-  Config,
-  ExecuteWithConfig,
-  ExecuteFactory,
-  AdapterRequest,
-  APIEndpoint,
-} from '@chainlink/types'
-import { makeConfig } from './config'
-import * as endpoints from './endpoint' // The endpoints must be exported as shown in endpoint/index.ts for README generation.
+import { AdapterRequest, APIEndpoint, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { Config, makeConfig } from './config'
+import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   return Builder.buildSelector(request, context, config, endpoints)
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
+export const endpointSelector = (request: AdapterRequest): APIEndpoint<Config> =>
   Builder.selectEndpoint(request, makeConfig(), endpoints)
 
 export const makeExecute: ExecuteFactory<Config> = (config) => {

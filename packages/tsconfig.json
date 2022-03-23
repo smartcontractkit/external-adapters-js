@@ -48,6 +48,9 @@
       "path": "./composites/historical-average"
     },
     {
+      "path": "./composites/lido"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
@@ -340,9 +343,6 @@
     },
     {
       "path": "./sources/lcx"
-    },
-    {
-      "path": "./sources/lido"
     },
     {
       "path": "./sources/linkpool"
