@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.62
+
+### Patch Changes
+
+- Updated dependencies [cf3548d92]
+  - @chainlink/stasis-adapter@1.1.22
+
 ## 1.0.61
 
 ### Patch Changes
