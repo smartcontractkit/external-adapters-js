@@ -328,6 +328,13 @@ declare module '@chainlink/types' {
     to: string
     includes: IncludePair[]
   }
+
+  // Used by the Overrider class to map from symbols to coin ids
+  export interface CoinsResponse {
+    id: string
+    symbol: string
+    name: string
+  }
 }
 
 declare module 'object-path'

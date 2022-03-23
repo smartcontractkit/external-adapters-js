@@ -557,3 +557,12 @@ export const registerUnhandledRejectionHandler = (): void => {
     logger.warn(JSON.stringify(reason))
   })
 }
+
+/**
+ * Sleeps for the provided number of milliseconds
+ * @param ms The number of milliseconds to sleep for
+ * @returns a Promise that resolves once the specified time passes
+ */
+export const sleep = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

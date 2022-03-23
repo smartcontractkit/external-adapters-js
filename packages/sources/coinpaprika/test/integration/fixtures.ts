@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockCryptoResponseSuccess = (): nock =>
+export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.coinpaprika.com', {
     encodedQueryParams: true,
   })
@@ -109,7 +109,7 @@ export const mockCryptoResponseSuccess = (): nock =>
       },
     ])
 
-export const mockPROCryptoResponseSuccess = (): nock =>
+export const mockPROCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api-pro.coinpaprika.com', {
     encodedQueryParams: true,
     reqheaders: {
