@@ -3,11 +3,11 @@
 exports[`execute api should return success 1`] = `
 Object {
   "data": Object {
-    "result": 89225940,
+    "result": 117769329.88,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 89225940,
+  "result": 117769329.88,
   "statusCode": 200,
 }
 `;

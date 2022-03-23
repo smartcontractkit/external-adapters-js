@@ -1,5 +1,5 @@
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 
 export const inputParameters: InputParameters = {
   market: {
@@ -22,9 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market
-  const url = `https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com/${
-    endpoints[market.toLowerCase()]
-  }`
+  const url = util.buildUrlPath('/:endpoint', { endpoint: endpoints[market.toLowerCase()] }, '/')
 
   const auth = {
     username: '',

@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
@@ -65,7 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || DEFAULT_AMOUNT
   const precision = validator.validated.data.precision || DEFAULT_PRECISION
-  const url = `/v1/conversion/${from}/${to}`
+  const url = util.buildUrlPath('/v1/conversion/:from/:to', { from, to })
 
   const params = {
     ...config.api.params,

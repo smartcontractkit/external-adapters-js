@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/satoshitango-adapter",
-  "version": "1.2.20",
+  "version": "1.2.21",
   "description": "Chainlink SatoshiTango adapter.",
   "keywords": [
     "Chainlink",
