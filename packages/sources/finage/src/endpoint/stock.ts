@@ -53,9 +53,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request<ResponseSchema>(options)
+  const response = await Requester.request<ResponseSchema | ResponseSchema[]>(options)
+
   if (Array.isArray(base)) {
-    return handleBatchedRequest(jobRunID, request, response, validator)
+    return handleBatchedRequest(
+      jobRunID,
+      request,
+      response as AxiosResponse<ResponseSchema[]>,
+      validator,
+    )
   }
 
   const result = Requester.validateResultNumber(response.data, ['bid'])
@@ -72,7 +78,7 @@ const getStockURL = (base: string | string[], symbol: string) => {
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<ResponseSchema>,
+  response: AxiosResponse<ResponseSchema[]>,
   validator: Validator<TInputParameters>,
 ) => {
   const payload: [AdapterRequest, number][] = []
@@ -94,6 +100,6 @@ const handleBatchedRequest = (
       result,
     ])
   }
-  response.data.result = payload
+  ;(response.data as any).result = payload
   return Requester.success(jobRunID, response)
 }
