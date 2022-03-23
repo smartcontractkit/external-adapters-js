@@ -32,17 +32,17 @@ export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
-  timestamp: string
-  ccy?: string
-  type?: string
-  tenor?: string
-  rate?: string
-  currencyPair?: string
-  bid?: number
-  offer?: number
-  mid?: number
-}
+// interface Message {
+//   timestamp: string
+//   ccy?: string
+//   type?: string
+//   tenor?: string
+//   rate?: string
+//   currencyPair?: string
+//   bid?: number
+//   offer?: number
+//   mid?: number
+// }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getPair = (input: AdapterRequest) => {
