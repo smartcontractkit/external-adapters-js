@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Expert Car Broker
 
-Version: 1.2.20
+Version: 1.2.21
 
 Adapter to get data from Expert Car Broker.
 

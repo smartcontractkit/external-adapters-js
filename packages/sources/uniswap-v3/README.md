@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V3
 
-Version: 1.1.20
+Version: 1.1.21
 
 This adapter allows querying Uniswap V3 contracts
 

@@ -11589,6 +11589,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@types/k6", [
+        ["npm:0.36.0", {
+          "packageLocation": "./.yarn/cache/@types-k6-npm-0.36.0-ebe5562978-40945a5853.zip/node_modules/@types/k6/",
+          "packageDependencies": [
+            ["@types/k6", "npm:0.36.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@types/keccak", [
         ["npm:3.0.1", {
           "packageLocation": "./.yarn/cache/@types-keccak-npm-3.0.1-5763a04e62-55551902b3.zip/node_modules/@types/keccak/",
@@ -11770,6 +11779,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-16.7.8-c602e936a8-060ea222ce.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:16.7.8"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:17.0.14", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.14-b146771fcf-cc059ce296.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:17.0.14"]
           ],
           "linkType": "HARD",
         }],
@@ -14436,7 +14452,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/browserslist-npm-4.16.6-a20cef1ca7-3dffc86892.zip/node_modules/browserslist/",
           "packageDependencies": [
             ["browserslist", "npm:4.16.6"],
-            ["caniuse-lite", "npm:1.0.30001248"],
+            ["caniuse-lite", "npm:1.0.30001317"],
             ["colorette", "npm:1.2.2"],
             ["electron-to-chromium", "npm:1.3.793"],
             ["escalade", "npm:3.1.1"],
@@ -14448,7 +14464,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/browserslist-npm-4.18.1-38eb8a64b9-ae58322dee.zip/node_modules/browserslist/",
           "packageDependencies": [
             ["browserslist", "npm:4.18.1"],
-            ["caniuse-lite", "npm:1.0.30001282"],
+            ["caniuse-lite", "npm:1.0.30001317"],
             ["electron-to-chromium", "npm:1.3.907"],
             ["escalade", "npm:3.1.1"],
             ["node-releases", "npm:2.0.1"],
@@ -14460,7 +14476,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/browserslist-npm-4.19.3-580f50c44a-c28958313d.zip/node_modules/browserslist/",
           "packageDependencies": [
             ["browserslist", "npm:4.19.3"],
-            ["caniuse-lite", "npm:1.0.30001312"],
+            ["caniuse-lite", "npm:1.0.30001317"],
             ["electron-to-chromium", "npm:1.4.71"],
             ["escalade", "npm:3.1.1"],
             ["node-releases", "npm:2.0.2"],
@@ -14832,24 +14848,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["caniuse-lite", [
-        ["npm:1.0.30001248", {
-          "packageLocation": "./.yarn/cache/caniuse-lite-npm-1.0.30001248-9a84973707-86b3c232ad.zip/node_modules/caniuse-lite/",
+        ["npm:1.0.30001317", {
+          "packageLocation": "./.yarn/cache/caniuse-lite-npm-1.0.30001317-920e15d04d-0a5fc7fb8c.zip/node_modules/caniuse-lite/",
           "packageDependencies": [
-            ["caniuse-lite", "npm:1.0.30001248"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:1.0.30001282", {
-          "packageLocation": "./.yarn/cache/caniuse-lite-npm-1.0.30001282-49173a42dd-62797fd756.zip/node_modules/caniuse-lite/",
-          "packageDependencies": [
-            ["caniuse-lite", "npm:1.0.30001282"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:1.0.30001312", {
-          "packageLocation": "./.yarn/cache/caniuse-lite-npm-1.0.30001312-8a724a2f18-753fb9ea1e.zip/node_modules/caniuse-lite/",
-          "packageDependencies": [
-            ["caniuse-lite", "npm:1.0.30001312"]
+            ["caniuse-lite", "npm:1.0.30001317"]
           ],
           "linkType": "HARD",
         }]
@@ -23779,6 +23781,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.16.7"],
             ["@types/babel__core", "npm:7.1.18"],
             ["@types/babel__preset-env", "npm:7.9.2"],
+            ["@types/k6", "npm:0.36.0"],
+            ["@types/node", "npm:17.0.14"],
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.3"],
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],
             ["core-js", "npm:3.20.3"],
