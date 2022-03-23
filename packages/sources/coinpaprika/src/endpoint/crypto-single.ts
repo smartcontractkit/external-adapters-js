@@ -1,5 +1,4 @@
 import { Requester, util, Validator, Overrider } from '@chainlink/ea-bootstrap'
-import { AdapterError } from '@chainlink/ea-bootstrap/src/lib/modules'
 import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds } from '../util'
@@ -118,13 +117,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const coinInfo = response.data as unknown
-  if (!Array.isArray(coinInfo))
-    throw new AdapterError({
-      jobRunID,
-      message: 'invalid response object',
-    })
-  const result = Requester.validateResultNumber(coinInfo[0], resultPath)
+  const result = Requester.validateResultNumber(response.data, resultPath)
   response.data.cost = 2
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)

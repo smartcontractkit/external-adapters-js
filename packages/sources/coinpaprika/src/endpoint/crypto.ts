@@ -86,34 +86,52 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const base: string | string[] = validator.validated.data.base
-  const requestedQuotes = validator.validated.data.quote
-  const coinid = validator.validated.data.coinid as string | undefined
 
+  const base: string[] = Array.isArray(validator.validated.data.base)
+    ? validator.validated.data.base
+    : [validator.validated.data.base]
+
+  let coinid: string | string[] | undefined = validator.validated.data.coinid
+
+  const requestedQuotes = validator.validated.data.quote
   const resultPath = validator.validated.data.resultPath || endpointResultPaths.crypto
 
   const quotes = Array.isArray(requestedQuotes)
     ? requestedQuotes.map((quote) => quote.toUpperCase()).join(',')
     : requestedQuotes.toUpperCase()
 
-  const requestedCoins = await getConvertedCoins(jobRunID, base, request.data.overrides, context)
   const options = {
     ...config.api,
     url: 'v1/tickers',
     params: { quotes },
   }
-
-  if (Array.isArray(base)) {
-    const response = await Requester.request<ResponseSchema[]>(options)
-    return handleBatchedRequest(jobRunID, request, response, requestedCoins, resultPath)
-  }
-
-  options.url += '/' + requestedCoins[base]
   const response = await Requester.request<ResponseSchema[]>(options)
 
-  const coinData = getCoin(response.data, base, coinid || requestedCoins[base])
+  if (Array.isArray(validator.validated.data.base) || Array.isArray(coinid)) {
+    if (!coinid) {
+      const requestedCoins = await getConvertedCoins(
+        jobRunID,
+        base,
+        request.data.overrides,
+        context,
+      )
+      return handleBatchedRequest(jobRunID, request, response, requestedCoins, resultPath)
+    }
+    coinid = Array.isArray(coinid) ? coinid : [coinid]
+    return handleBatchedRequest(jobRunID, request, response, coinid, resultPath)
+  }
+
+  let coin: string
+  if (coinid) {
+    coin = coinid
+  } else {
+    const requestedCoin = await getConvertedCoins(jobRunID, base, request.data.overrides, context)
+    coin = Object.values(requestedCoin)[0]
+  }
+
+  const coinData = getCoin(response.data, undefined, coin)
   if (!coinData) {
-    throw new Error(`unable to find coin: ${coinid || requestedCoins[base]}`)
+    throw new Error(`unable to find coin: ${coin}`)
   }
 
   const result = Requester.validateResultNumber(coinData, [
@@ -153,13 +171,20 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse,
-  requestedCoins: RequestedCoins,
+  requestedCoins: RequestedCoins | RequestedCoinIds,
   resultPath: string,
 ) => {
   const responseData = response.data as ResponseSchema[]
   const payload: [AdapterRequest, number][] = []
-  const requestedIds = Object.values(requestedCoins)
-  const idsToSymbols = Overrider.invertRequestedCoinsObject(requestedCoins)
+
+  let requestedIds: RequestedCoinIds = []
+  let idsToSymbols: OverrideToOriginalSymbol = {}
+  if (isRequestedCoinIds(requestedCoins)) {
+    requestedIds = requestedCoins
+  } else {
+    idsToSymbols = Overrider.invertRequestedCoinsObject(requestedCoins)
+    requestedIds = Object.values(requestedCoins)
+  }
 
   requestedIds.forEach((coinid) => {
     const coin = getCoin(responseData, undefined, coinid)
@@ -168,15 +193,20 @@ const handleBatchedRequest = (
     }
 
     for (const quote in coin.quotes) {
-      payload.push([
-        {
-          ...request,
-          data: {
-            ...request.data,
-            base: idsToSymbols[coinid].toUpperCase(),
-            quote: quote.toUpperCase(),
-          },
+      const adapterRequest = {
+        ...request,
+        data: {
+          ...request.data,
+          quote: quote.toUpperCase(),
         },
+      }
+      if (isRequestedCoinIds(requestedCoins)) {
+        adapterRequest.data.base = coinid
+      } else {
+        adapterRequest.data.base = idsToSymbols[coinid].toUpperCase()
+      }
+      payload.push([
+        adapterRequest,
         Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
       ])
     }
@@ -185,4 +215,17 @@ const handleBatchedRequest = (
   // We'll reset the response data to not output the entire CP coins list
   const result = Requester.withResult({ ...response, data: {} }, undefined, payload)
   return Requester.success(jobRunID, result, true, batchablePropertyPath)
+}
+
+type OverrideToOriginalSymbol = {
+  [id: string]: string
+}
+
+type RequestedCoinIds = string[]
+
+const isRequestedCoinIds = (requestedCoinIds: unknown): requestedCoinIds is RequestedCoinIds => {
+  return (
+    Array.isArray(requestedCoinIds) &&
+    (requestedCoinIds.length === 0 || typeof requestedCoinIds[0] === 'string')
+  )
 }
