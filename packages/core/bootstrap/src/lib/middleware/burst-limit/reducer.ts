@@ -43,6 +43,23 @@ export const initialRequestsState: RequestsState = {
 }
 
 export const requestReducer = createReducer<RequestsState>(initialRequestsState, (builder) => {
+  builder.addCase(actions.updateIntervals, (state) => {
+    const time = Date.now()
+
+    const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
+
+    for (const intervalName of storedIntervals) {
+      // remove all requests that are older than the current interval
+      const window = time - Intervals[intervalName]
+      const isInWindow = (h: Request) => h.t >= window
+      state.participants[intervalName] = sortedFilter(state.participants[intervalName], isInWindow)
+
+      // update total
+      state.total[intervalName] = state.participants[intervalName].length
+    }
+
+    return state
+  })
   builder.addCase(actions.requestObserved, (state, action) => {
     const request: Request = {
       id: makeId(action.payload.input),
