@@ -104,6 +104,15 @@ export function selectParticiantsRequestsFor(
   return state.participants[interval] ?? []
 }
 
+export function selectParticiantsRequestsById(
+  state: RequestsState,
+  interval: IntervalNames,
+  id: string,
+): Request[] {
+  const participants = state.participants[interval] ?? []
+  return participants.filter((participant) => participant.id === id)
+}
+
 export const rootReducer = combineReducers({
   requests: requestReducer,
 })
