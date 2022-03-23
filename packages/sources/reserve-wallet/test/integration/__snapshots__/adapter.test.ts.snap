@@ -6,7 +6,8 @@ Object {
     "result": Array [
       Object {
         "address": "bc1q4gwx0f6yqurq0gwj9ktwlevrp3eu8snn5kaaax",
-        "network": "Bitcoin",
+        "chainId": "mainnet",
+        "network": "bitcoin",
       },
     ],
   },
@@ -14,7 +15,8 @@ Object {
   "result": Array [
     Object {
       "address": "bc1q4gwx0f6yqurq0gwj9ktwlevrp3eu8snn5kaaax",
-      "network": "Bitcoin",
+      "chainId": "mainnet",
+      "network": "bitcoin",
     },
   ],
   "statusCode": 200,

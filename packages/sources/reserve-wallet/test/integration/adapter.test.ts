@@ -38,6 +38,8 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id: '1',
       data: {
+        network: 'bitcoin',
+        chainId: 'mainnet',
         contractAddress: '0x0123456789abcdef0123456789abcdef01234567',
       },
     }
