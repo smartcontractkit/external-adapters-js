@@ -22,13 +22,8 @@ import {
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
-const sleep = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 describe('dxfeed', () => {
   let server: http.Server
-  const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -143,7 +138,7 @@ describe('websocket', () => {
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
       // populated cache entries.
-      await sleep(100)
+      await util.sleep(100)
       const response = await makeRequest()
 
       expect(response.body).toEqual({
