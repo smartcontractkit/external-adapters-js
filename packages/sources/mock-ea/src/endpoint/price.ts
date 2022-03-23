@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 
@@ -34,10 +34,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       now % 2 === 0 ? responseInfo.result + amountToDeviate : responseInfo.result - amountToDeviate
     responseInfo.lastUpdated = now
   }
-  return {
+  const result = {
     jobRunID,
     data: { result: responseInfo.result },
     result: responseInfo.result,
     statusCode: 200,
   }
+  return Requester.success(jobRunID, result, config.verbose)
 }
