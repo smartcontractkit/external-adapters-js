@@ -4,6 +4,7 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
+import { util } from '@chainlink/ea-bootstrap'
 import {
   mockResponseSuccess,
   mockResponseFailure,
@@ -27,10 +28,6 @@ import {
   DEFAULT_FOREX_WS_API_ENDPOINT,
   DEFAULT_STOCK_WS_API_ENDPOINT,
 } from '../../src/config'
-
-const sleep = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
 
 describe('execute', () => {
   const id = '1'
@@ -247,7 +244,7 @@ describe('websocket', () => {
 
       // This final request should disable the cache warmer
       const response = await makeRequest()
-      await sleep(100)
+      await util.sleep(100)
       expect(response.body).toEqual({
         jobRunID: '1',
         result: 43682.66306523,
@@ -330,7 +327,7 @@ describe('websocket', () => {
       await makeRequest()
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket populated cache entries.
-      await sleep(100)
+      await util.sleep(100)
       const response = await makeRequest()
 
       expect(response.body).toEqual({
@@ -419,7 +416,7 @@ describe('websocket', () => {
       await makeRequest()
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket populated cache entries.
-      await sleep(10)
+      await util.sleep(10)
       const response = await makeRequest()
 
       expect(response.body).toEqual({
