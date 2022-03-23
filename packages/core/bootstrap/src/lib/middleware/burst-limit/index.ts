@@ -23,6 +23,7 @@ const availableSecondLimitCapacity = async (
   burstCapacity1s: number,
 ) => {
   for (let retry = SECOND_LIMIT_RETRIES; retry > 0; retry--) {
+    store.dispatch(actions.updateIntervals())
     const state = store.getState()
     const { requests }: { requests: RequestsState } = state
 
@@ -54,7 +55,7 @@ export const withBurstLimit =
       const availableCapacity = availableSecondLimitCapacity(store, config.burstCapacity1s)
       if (!availableCapacity) {
         logger.warn(
-          `External Adapter backing off. Provider's limit of ${config.burstCapacity1s} requests per second reached.`,
+          `External Adapter backing off. Provider's burst limit of ${config.burstCapacity1s} requests per second reached.`,
         )
         throw new AdapterError({
           jobRunID: input.id,
