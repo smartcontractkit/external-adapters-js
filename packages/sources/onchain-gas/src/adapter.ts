@@ -32,11 +32,11 @@ export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
-  jsonrpc: string
-  params: { result: { number: string }; subscription: string }
-  method: string
-}
+// interface Message {
+//   jsonrpc: string
+//   params: { result: { number: string }; subscription: string }
+//   method: string
+// }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   return () => {
