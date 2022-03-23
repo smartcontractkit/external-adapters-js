@@ -6700,6 +6700,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
+            ["@chainlink/reserve-wallet-adapter", "workspace:packages/sources/reserve-wallet"],
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],

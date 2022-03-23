@@ -48,6 +48,7 @@
     "@chainlink/por-indexer-adapter": "workspace:*",
     "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
+    "@chainlink/reserve-wallet-adapter": "workspace:*",
     "@chainlink/sochain-adapter": "workspace:*",
     "@chainlink/wbtc-address-set-adapter": "workspace:*",
     "@chainlink/wrapped-adapter": "workspace:*",

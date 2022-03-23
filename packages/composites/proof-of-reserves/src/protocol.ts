@@ -6,11 +6,19 @@ import * as renVM from '@chainlink/renvm-address-set-adapter'
 import * as wBTC from '@chainlink/wbtc-address-set-adapter'
 import * as Gemini from '@chainlink/gemini-adapter'
 import * as chainReserveWallets from '@chainlink/chain-reserve-wallet-adapter'
+import * as reserveWallets from '@chainlink/reserve-wallet-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
-export const adapters: AdapterImplementation[] = [wBTC, renVM, Gemini, chainReserveWallets, wrapped]
+export const adapters: AdapterImplementation[] = [
+  wBTC,
+  renVM,
+  Gemini,
+  chainReserveWallets,
+  reserveWallets,
+  wrapped,
+]
 
 export type Protocol = typeof adapters[number]['NAME']
 
