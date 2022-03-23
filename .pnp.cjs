@@ -483,6 +483,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/lcx"
       },
       {
+        "name": "@chainlink/lido-adapter",
+        "reference": "workspace:packages/sources/lido"
+      },
+      {
         "name": "@chainlink/linkpool-adapter",
         "reference": "workspace:packages/sources/linkpool"
       },
@@ -797,6 +801,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
       ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],
+      ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
@@ -5328,6 +5333,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
             ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
+            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],
@@ -6189,6 +6195,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/lido-adapter", [
+        ["workspace:packages/sources/lido", {
+          "packageLocation": "./packages/sources/lido/",
+          "packageDependencies": [
+            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
