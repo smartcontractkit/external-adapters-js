@@ -49,9 +49,12 @@ export interface CacheOptions {
   minimumAge: number
 }
 
-export const defaultOptions = (shouldUseLocal?: boolean): CacheOptions => {
+export const defaultOptions = (
+  shouldUseLocal?: boolean,
+  adapterContext?: AdapterContext,
+): CacheOptions => {
   return {
-    enabled: parseBool(getEnv('CACHE_ENABLED')),
+    enabled: parseBool(getEnv('CACHE_ENABLED', undefined, adapterContext)),
     cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
     cacheBuilder: defaultCacheBuilder(),
     key: {
@@ -244,7 +247,7 @@ const handleFailedCacheRead = async (
 export const buildDefaultLocalAdapterCache = async (
   context: AdapterContext,
 ): Promise<AdapterCache> => {
-  const options = defaultOptions(true)
+  const options = defaultOptions(true, context)
   options.instance = await options.cacheBuilder(options.cacheImplOptions)
 
   return new AdapterCache({

@@ -136,10 +136,11 @@ declare module '@chainlink/types' {
   /**
    * To add a default override for an env var not present here,
    * ensure that the adapter context from `expose` is passed
-   * to the `getEnv` call for the variable in question. See
+   * to the `getEnv` call(s) for the variable in question. See
    * `WS_ENABLED` for example usage.
    */
   export type EnvDefaultOverrides = {
+    CACHE_ENABLED?: 'true' | 'false'
     WS_ENABLED?: 'true' | 'false'
   }
 

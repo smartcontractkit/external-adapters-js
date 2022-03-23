@@ -37,12 +37,15 @@ export const initHandler =
       name,
       envDefaultOverrides,
       cache: null,
-      rateLimit: getRateLimitConfig({
-        limits: adapterContext.rateLimit || { http: {}, ws: {} },
-        name,
-      }),
+      rateLimit: getRateLimitConfig(
+        {
+          limits: adapterContext.rateLimit || { http: {}, ws: {} },
+          name,
+        },
+        adapterContext,
+      ),
     }
-    const cacheOptions = defaultOptions()
+    const cacheOptions = defaultOptions(undefined, context)
     if (cacheOptions.enabled) {
       cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
       context.cache = cacheOptions

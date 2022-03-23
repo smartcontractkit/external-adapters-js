@@ -26,7 +26,8 @@ export const withCacheWarmer =
   async (execute, context) =>
   async (input: AdapterRequest) => {
     const isWarmerActive =
-      util.parseBool(util.getEnv('CACHE_ENABLED')) && util.parseBool(util.getEnv('WARMUP_ENABLED'))
+      util.parseBool(util.getEnv('CACHE_ENABLED', undefined, context)) &&
+      util.parseBool(util.getEnv('WARMUP_ENABLED'))
     if (!isWarmerActive) return await execute(input, context)
 
     const wsConfig = getWSConfig(input.data.endpoint, context)
