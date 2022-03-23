@@ -278,7 +278,6 @@ https://api.tiingo.com/documentation/crypto
 | :-------: | :------------------------: | :----------------------------------------: | :-----: | :---------: |
 |    ✅     | `base`, `from`, or `coin`  |     The cryptocurrency symbol to query     |         |             |
 |    ✅     | `quote`, `to`, or `market` | The output currency to return the price in |         |             |
-|           |          `hours`           | Number of hours to calculate the VWAP for  |         |    `24`     |
 |           |        `resultPath`        |            The value to return             |         |  `fxClose`  |
 
 ### Sample Input
