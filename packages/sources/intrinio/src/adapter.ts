@@ -6,7 +6,7 @@ import {
   InputParameters,
   MakeWSHandler,
 } from '@chainlink/ea-bootstrap'
-import { IexMessage, IntrinioRealtime } from './util'
+import { IntrinioRealtime } from './util'
 import { makeConfig, NAME } from './config'
 
 export type TInputParameters = { base: string }
@@ -19,7 +19,11 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input: AdapterRequest, config: Config) => {
+export const execute: ExecuteWithConfig<Config> = async (
+  input: AdapterRequest,
+  _,
+  config: Config,
+) => {
   const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const jobRunID = validator.validated.id
