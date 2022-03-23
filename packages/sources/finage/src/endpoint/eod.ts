@@ -8,7 +8,7 @@ export const batchablePropertyPath = [{ name: 'base' }]
 
 export const description = 'https://finage.co.uk/docs/api/stock-market-previous-close'
 
-export type TInputParameters = { base: string }
+export type TInputParameters = { base: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
@@ -19,11 +19,17 @@ export const inputParameters: InputParameters<TInputParameters> = {
 
 export interface ResponseSchema {
   symbol: string
-  ask: number
-  bid: number
-  asize: number
-  bsize: number
-  timestamp: number
+  totalResults: number
+  results: [
+    {
+      o: number
+      h: number
+      l: number
+      c: number
+      v: number
+      t: number
+    },
+  ]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -33,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const base = validator.validated.data.base
   const symbol = Array.isArray(base)
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
-    : validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
+    : validator.overrideSymbol(NAME, validator.validated.data.base.toString()).toUpperCase()
 
   const url = `/agg/stock/prev-close/${symbol}`
   const params = {
@@ -47,6 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema>(options)
+
   if (Array.isArray(base)) {
     return handleBatchedRequest(jobRunID, response)
   }
@@ -59,11 +66,11 @@ const handleBatchedRequest = (jobRunID: string, response: AxiosResponse<Response
   const payload: { symbol: string; bid: number }[] = []
   for (const base in response.data) {
     payload.push({
-      symbol: response.data[base].symbol,
-      bid: response.data[base].bid,
+      symbol: (response.data[base as keyof ResponseSchema] as any).symbol,
+      bid: (response.data[base as keyof ResponseSchema] as any).bid,
     })
     Requester.validateResultNumber(response.data, [base, 'bid'])
   }
-  response.data.result = payload
+  ;(response.data as any).result = payload
   return Requester.success(jobRunID, response)
 }
