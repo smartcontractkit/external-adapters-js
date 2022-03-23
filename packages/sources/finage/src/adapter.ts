@@ -70,7 +70,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       { shouldThrowError: false, overrides },
     )
     if (validator.error) return
-    const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
+    const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
     const to = validator.validated.data.quote.toUpperCase()
     return `${from}${to}`
   }
