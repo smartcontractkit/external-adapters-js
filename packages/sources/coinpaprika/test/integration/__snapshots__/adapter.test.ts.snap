@@ -82,6 +82,18 @@ Object {
 }
 `;
 
+exports[`execute crypto api free should return success for single coinid 1`] = `
+Object {
+  "data": Object {
+    "result": 3949.2425813062,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 3949.2425813062,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute crypto api free should return success for single symbol 1`] = `
 Object {
   "data": Object {
