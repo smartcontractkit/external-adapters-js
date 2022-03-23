@@ -76,23 +76,27 @@ describe('execute', () => {
 
     process.env.CACHE_ENABLED = 'false'
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
-
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
   })
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
+  afterAll(() => {
     process.env = oldEnv
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
+    if (process.env.RECORD) {
+      nock.recorder.play()
+    }
+  })
+
+  beforeEach(async () => {
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+  })
+
+  afterEach((done) => {
     server.close(done)
   })
 

@@ -11,7 +11,9 @@ import {
 
 export const supportedEndpoints = ['health']
 
-export const makeNetworkStatusCheck = (network: Networks) => {
+export const makeNetworkStatusCheck = (
+  network: Networks,
+): ((delta: number, deltaBlocks: number) => Promise<boolean>) => {
   let lastSeenBlock: { block: number; timestamp: number } = {
     block: 0,
     timestamp: 0,

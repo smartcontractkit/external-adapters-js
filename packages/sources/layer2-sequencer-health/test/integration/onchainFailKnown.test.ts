@@ -22,8 +22,10 @@ jest.mock('ethers', () => {
       ...originalModule.ethers,
       Wallet: class MockWallet extends originalModule.Wallet {
         sendTransaction(): Promise<ethers.providers.TransactionResponse> {
-          const message = mockMessages[this.provider.connection.url]
-          throw { error: { message } }
+          return new Promise((_, reject) => {
+            const message = mockMessages[this.provider.connection.url]
+            reject({ error: { message } })
+          })
         }
       },
     },
@@ -41,23 +43,27 @@ describe('execute', () => {
 
     process.env.CACHE_ENABLED = 'false'
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
-
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
   })
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
+  afterAll(() => {
     process.env = oldEnv
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
+    if (process.env.RECORD) {
+      nock.recorder.play()
+    }
+  })
+
+  beforeEach(async () => {
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+  })
+
+  afterEach((done) => {
     server.close(done)
   })
 
@@ -69,7 +75,7 @@ describe('execute', () => {
       },
     }
 
-    it('should return failure when transaction submission is unknown', async () => {
+    it('should return success when transaction submission is known', async () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
@@ -93,7 +99,7 @@ describe('execute', () => {
       },
     }
 
-    it('should return failure when transaction submission is unknown', async () => {
+    it('should return success when transaction submission is known', async () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 

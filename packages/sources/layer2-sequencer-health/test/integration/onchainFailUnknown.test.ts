@@ -17,7 +17,9 @@ jest.mock('ethers', () => {
       ...originalModule.ethers,
       Wallet: class MockWallet extends originalModule.Wallet {
         sendTransaction(): Promise<ethers.providers.TransactionResponse> {
-          throw new Error('hello I am a test')
+          return new Promise((_, reject) => {
+            reject({ error: { message: 'hello I am a test' } })
+          })
         }
       },
     },
@@ -35,23 +37,27 @@ describe('execute', () => {
 
     process.env.CACHE_ENABLED = 'false'
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
-
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
   })
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
+  afterAll(() => {
     process.env = oldEnv
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
+    if (process.env.RECORD) {
+      nock.recorder.play()
+    }
+  })
+
+  beforeEach(async () => {
+    server = await startServer()
+    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+  })
+
+  afterEach((done) => {
     server.close(done)
   })
 
