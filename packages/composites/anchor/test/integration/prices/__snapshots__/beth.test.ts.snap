@@ -4,7 +4,7 @@ exports[`price-beth error calls should throw an error if the Anchor Vault contra
 Object {
   "error": Object {
     "feedID": "BETH/ETH",
-    "message": "Invalid result for bETH/stETH Exchange Rate from Anchor Vault address error-anchor-vault-address",
+    "message": "Invalid result for stETH/bETH Exchange Rate from Anchor Vault address error-anchor-vault-address",
     "name": "AdapterError",
   },
   "jobRunID": "1",
@@ -30,7 +30,7 @@ exports[`price-beth error calls should throw an error if the stETH/ETH Curve poo
 Object {
   "error": Object {
     "feedID": "BETH/ETH",
-    "message": "Invalid result for ETH/stETH Exchange Rate from Curve Pool address error-curve-address",
+    "message": "Invalid result for stETH/ETH Exchange Rate from Curve Pool address error-curve-address",
     "name": "AdapterError",
   },
   "jobRunID": "1",
