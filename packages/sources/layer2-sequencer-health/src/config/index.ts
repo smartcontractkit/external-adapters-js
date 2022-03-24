@@ -1,7 +1,10 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { AdapterContext, Config } from '@chainlink/types'
+import { envDefaultOverrides } from './envDefaultOverrides'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
+
+export const adapterContext: AdapterContext = { name: NAME, envDefaultOverrides }
 
 export const DEFAULT_ENDPOINT = 'health'
 
@@ -41,7 +44,7 @@ export interface ExtendedConfig extends Config {
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
-  const isCacheEnabled = util.parseBool(util.getEnv('CACHE_ENABLED'))
+  const isCacheEnabled = util.parseBool(util.getEnv('CACHE_ENABLED', undefined, adapterContext))
   if (isCacheEnabled) {
     throw new Error('Cache cannot be enabled on this adapter')
   }
