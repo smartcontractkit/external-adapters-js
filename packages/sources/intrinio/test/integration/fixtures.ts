@@ -1,10 +1,10 @@
 import nock from 'nock'
 
 export const mockRateResponseSuccess = (): nock =>
-  nock('https://api-v2.intrinio.com/', {
+  nock('https://api-v2.intrinio.com', {
     encodedQueryParams: true,
   })
-    .get('/securities/ETH/prices/realtime')
+    .get('/securities/AAPL/prices/realtime')
     .query({ api_key: 'fake-api-key' })
     .reply(
       200,
@@ -43,3 +43,44 @@ export const mockRateResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+
+export const mockAuthResponse = (): nock =>
+  nock('https://realtime.intrinio.com', {
+    encodedQueryParams: true,
+  })
+    .get('/auth')
+    .query({ api_key: 'fake-api-key' })
+    .reply(200, 'fake-api-token', ['Transfer-Encoding', 'chunked'])
+
+export const mockSubscribeResponse = {
+  request: {
+    topic: 'iex:securities:AAPL',
+    event: 'phx_join',
+    payload: {},
+    ref: null,
+  },
+  response: [
+    {
+      topic: 'iex:securities:AAPL',
+      payload: {
+        type: 'last',
+        timestamp: 1646336888.345325,
+        ticker: 'AAPL',
+        size: 100,
+        price: 166.91,
+      },
+      event: 'quote',
+    },
+  ],
+}
+
+export const mockUnsubscribeResponse = {
+  request: {
+    topic: 'iex:securities:AAPL',
+    event: 'phx_leave',
+    payload: {},
+    ref: null,
+  },
+
+  response: '',
+}

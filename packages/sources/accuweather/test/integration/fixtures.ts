@@ -2,7 +2,7 @@ import nock from 'nock'
 
 // *** endpoint: location ***
 
-export const mockAWLocationResponseError = (): nock =>
+export const mockAWLocationResponseError = (): nock.Scope =>
   nock('http://apidev.accuweather.com')
     .get('/locations/v1/geoposition/search.json')
     .query({
@@ -11,7 +11,7 @@ export const mockAWLocationResponseError = (): nock =>
     })
     .reply(500, {})
 
-export const mockAWLocationResponseSuccessMalformed1 = (): nock =>
+export const mockAWLocationResponseSuccessMalformed1 = (): nock.Scope =>
   nock('http://apidev.accuweather.com')
     .get('/locations/v1/geoposition/search.json')
     .query({
@@ -20,7 +20,7 @@ export const mockAWLocationResponseSuccessMalformed1 = (): nock =>
     })
     .reply(200, {}) // should be an Array
 
-export const mockAWLocationResponseSuccessMalformed2 = (): nock =>
+export const mockAWLocationResponseSuccessMalformed2 = (): nock.Scope =>
   nock('http://apidev.accuweather.com')
     .get('/locations/v1/geoposition/search.json')
     .query({
@@ -34,7 +34,7 @@ export const mockAWLocationResponseSuccessMalformed2 = (): nock =>
       },
     ])
 
-export const mockAWLocationResponseSuccessLocationNotFound = (): nock =>
+export const mockAWLocationResponseSuccessLocationNotFound = (): nock.Scope =>
   nock('http://apidev.accuweather.com:80', { encodedQueryParams: true })
     .get('/locations/v1/geoposition/search.json')
     .query({ q: '0%2C0', apikey: 'test_api_key' })
@@ -63,7 +63,7 @@ export const mockAWLocationResponseSuccessLocationNotFound = (): nock =>
       ],
     )
 
-export const mockAWLocationResponseSuccessLocationFound = (): nock =>
+export const mockAWLocationResponseSuccessLocationFound = (): nock.Scope =>
   nock('http://apidev.accuweather.com:80', { encodedQueryParams: true })
     .get('/locations/v1/geoposition/search.json')
     .query({
@@ -146,19 +146,19 @@ export const mockAWLocationResponseSuccessLocationFound = (): nock =>
 
 // *** endpoint: current-conditions ***
 
-export const mockAWCurrentConditionsResponseError = (locationKey: number): nock =>
+export const mockAWCurrentConditionsResponseError = (locationKey: number): nock.Scope =>
   nock('http://apidev.accuweather.com')
     .get(`/currentconditions/v1/${locationKey}.json`)
     .query({ details: 'true', apikey: 'test_api_key' })
     .reply(500, {})
 
-export const mockAWCurrentConditionsResponseSuccessMalformed1 = (locationKey: number): nock =>
+export const mockAWCurrentConditionsResponseSuccessMalformed1 = (locationKey: number): nock.Scope =>
   nock('http://apidev.accuweather.com')
     .get(`/currentconditions/v1/${locationKey}.json`)
     .query({ details: 'true', apikey: 'test_api_key' })
     .reply(200, {}) // should be an Array
 
-export const mockAWCurrentConditionsResponseSuccessMalformed2 = (locationKey: number): nock =>
+export const mockAWCurrentConditionsResponseSuccessMalformed2 = (locationKey: number): nock.Scope =>
   nock('http://apidev.accuweather.com')
     .get(`/currentconditions/v1/${locationKey}.json`)
     .query({ details: 'true', apikey: 'test_api_key' })
@@ -169,7 +169,7 @@ export const mockAWCurrentConditionsResponseSuccessMalformed2 = (locationKey: nu
       },
     ])
 
-export const mockAWCurrentConditionsResponseSuccessMalformed3 = (locationKey: number): nock =>
+export const mockAWCurrentConditionsResponseSuccessMalformed3 = (locationKey: number): nock.Scope =>
   nock('http://apidev.accuweather.com')
     .get(`/currentconditions/v1/${locationKey}.json`)
     .query({ details: 'true', apikey: 'test_api_key' })
@@ -353,7 +353,7 @@ export const mockAWCurrentConditionsResponseSuccessMalformed3 = (locationKey: nu
       ],
     )
 
-export const mockAWCurrentConditionsResponseSuccess = (): nock =>
+export const mockAWCurrentConditionsResponseSuccess = (): nock.Scope =>
   nock('http://apidev.accuweather.com:80', { encodedQueryParams: true })
     .get('/currentconditions/v1/2097720.json')
     .query({ details: 'true', apikey: 'test_api_key' })

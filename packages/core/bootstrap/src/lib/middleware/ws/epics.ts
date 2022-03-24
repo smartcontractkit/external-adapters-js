@@ -57,7 +57,7 @@ import { getWSConfig } from './config'
 import { util } from '../../..'
 import { WebSocketClassProvider, WsMessageRecorder } from './recorder'
 
-const recordWsMessages = util.parseBool(process.env.RECORD)
+const recordWsMessages = util.parseBool(util.getEnv('RECORD'))
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
@@ -753,7 +753,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
         }
 
         const cache = await withCache()(execute, context)
-        const wsConfig = getWSConfig(input.data?.endpoint)
+        const wsConfig = getWSConfig(input.data?.endpoint, context)
 
         /**
          * Create an adapter request we send to the cache middleware

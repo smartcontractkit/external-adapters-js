@@ -1,10 +1,61 @@
-import { AdapterImplementation, AdapterRequest } from '@chainlink/types'
+import {
+  AdapterContext,
+  AdapterImplementation,
+  AdapterRequest,
+  EnvDefaults,
+} from '@chainlink/types'
 import { Decimal } from 'decimal.js'
 import { flatMap, values, pick, omit } from 'lodash'
 import objectHash from 'object-hash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
 import { logger } from './modules'
+
+/**
+ * Used in the `getEnv` util function as a backup when an env var
+ * is `empty` or `undefined`, and no `envDefaultOverride` is given.
+ */
+export const baseEnvDefaults: EnvDefaults = {
+  BASE_URL: '/',
+  EA_PORT: '8080',
+  METRICS_PORT: '9080',
+  RETRY: '1',
+  API_TIMEOUT: '30000',
+  SERVER_RATE_LIMIT_MAX: '250', // default to 250 req / 5 seconds max
+  SERVER_SLOW_DOWN_AFTER_FACTOR: '0.8', // we start slowing down requests when we reach 80% of our max limit for the current interval
+  SERVER_SLOW_DOWN_DELAY_MS: '500', // default to slowing down each request by 500ms
+  CACHE_ENABLED: 'true',
+  CACHE_TYPE: 'local',
+  CACHE_MAX_AGE: '90000', // 1.5 minutes
+  CACHE_MIN_AGE: '30000',
+  CACHE_MAX_ITEMS: '1000',
+  CACHE_UPDATE_AGE_ON_GET: 'false',
+  CACHE_REDIS_CONNECTION_TIMEOUT: '15000', // Timeout per long lived connection (ms)
+  CACHE_REDIS_HOST: '127.0.0.1', // IP address of the Redis server
+  CACHE_REDIS_MAX_QUEUED_ITEMS: '100', // Maximum length of the client's internal command queue
+  CACHE_REDIS_MAX_RECONNECT_COOLDOWN: '3000', // Max cooldown time before attempting to reconnect (ms)
+  CACHE_REDIS_PORT: '6379', // Port of the Redis server
+  CACHE_REDIS_TIMEOUT: '500', // Timeout per request (ms)
+  RATE_LIMIT_ENABLED: 'true',
+  WARMUP_ENABLED: 'true',
+  WARMUP_UNHEALTHY_THRESHOLD: '3',
+  WARMUP_SUBSCRIPTION_TTL: '3600000', // default 1h
+  REQUEST_COALESCING_INTERVAL: '100',
+  REQUEST_COALESCING_INTERVAL_MAX: '1000',
+  REQUEST_COALESCING_INTERVAL_COEFFICIENT: '2',
+  REQUEST_COALESCING_ENTROPY_MAX: '0',
+  REQUEST_COALESCING_MAX_RETRIES: '5',
+  WS_ENABLED: 'false',
+  WS_CONNECTION_KEY: '1',
+  WS_CONNECTION_LIMIT: '1',
+  WS_CONNECTION_TTL: '70000',
+  WS_CONNECTION_RETRY_LIMIT: '3',
+  WS_CONNECTION_RETRY_DELAY: '1000',
+  WS_SUBSCRIPTION_LIMIT: '10',
+  WS_SUBSCRIPTION_TTL: '120000',
+  WS_SUBSCRIPTION_UNRESPONSIVE_TTL: '120000',
+  DEFAULT_WS_HEARTBEAT_INTERVAL: '30000',
+}
 
 export const isObject = (o: unknown): boolean =>
   o !== null && typeof o === 'object' && Array.isArray(o) === false
@@ -101,9 +152,27 @@ const getEnvName = (name: string, prefix = '') => {
 // Only case-insensitive alphanumeric and underscore (_) are allowed for env vars
 const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
-export const getEnv = (name: string, prefix = ''): string | undefined => {
-  const envVar = process.env[getEnvName(name, prefix)]
-  return envVar === '' ? undefined : envVar
+/**
+ * Get the env var with the given `name`. If the variable is
+ * not present in `process.env`, it will default to the adapter's
+ * `envDefaultOverrides` if adapter's `context` is present, then
+ * `baseEnvDefaults`. In order for `envDefaultOverrides` to override the
+ * base default, the adapter's `context` must be passed into `getEnv`
+ * everywhere that the variable is fetched. See `WS_ENABLED` as an example.
+ * @param name Env var to fetch
+ * @param prefix Prefix for env var (useful when working with composites)
+ * @param context Adapter context to pull `envDefaultOverrides` from
+ * @returns the env var string if found, else undefined
+ */
+export const getEnv = (name: string, prefix = '', context?: AdapterContext): string | undefined => {
+  let envVar = process.env[getEnvName(name, prefix)]
+  if (!envVar || envVar === '') {
+    //@ts-expect-error EnvDefaultOverrides only allows specific string keys, but optional chaining
+    // protects against cases where 'name' is not in EnvDefaultOverrides
+    envVar = context?.envDefaultOverrides?.[name] ?? baseEnvDefaults[name]
+  }
+  if (envVar === '') envVar = undefined
+  return envVar
 }
 
 // Custom error for required env variable.
@@ -189,7 +258,7 @@ export const excludableAdapterRequestProperties: Record<string, true> = [
   'rateLimitMaxAge',
   'metricsMeta',
 ]
-  .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
+  .concat((getEnv('CACHE_KEY_IGNORED_PROPS') || '').split(',').filter((k) => k))
   .reduce((prev, next) => {
     prev[next] = true
     return prev
@@ -197,7 +266,7 @@ export const excludableAdapterRequestProperties: Record<string, true> = [
 
 /** Common keys within adapter requests that should be used to generate a stable key*/
 export const includableAdapterRequestProperties: string[] = ['data'].concat(
-  (process.env.CACHE_KEY_INCLUDED_PROPS || '').split(',').filter((k) => k),
+  (getEnv('CACHE_KEY_INCLUDED_PROPS') || '').split(',').filter((k) => k),
 )
 
 /** Common keys within adapter requests that should be ignored within "data" to create a stable key*/
@@ -248,12 +317,12 @@ export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => (
 
 // Helper to identify if debug mode is running
 export const isDebug = (): boolean => {
-  return parseBool(process.env.DEBUG) || process.env.NODE_ENV === 'development'
+  return parseBool(getEnv('DEBUG')) || getEnv('NODE_ENV') === 'development'
 }
 
 // Helper to identify if debug log level is set
 export const isDebugLogLevel = (): boolean => {
-  return process.env.LOG_LEVEL === 'debug'
+  return getEnv('LOG_LEVEL') === 'debug'
 }
 
 /**
@@ -480,7 +549,7 @@ let unhandledRejectionHandlerRegistered = false
  */
 export const registerUnhandledRejectionHandler = (): void => {
   if (unhandledRejectionHandlerRegistered) {
-    if (process.env.NODE_ENV !== 'test')
+    if (getEnv('NODE_ENV') !== 'test')
       logger.warn('UnhandledRejectionHandler attempted to be registered more than once')
     return
   }
@@ -499,4 +568,25 @@ export const registerUnhandledRejectionHandler = (): void => {
  */
 export const sleep = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+/**
+ * Remove stale request entries from an array.
+ * This function assumes that the array is sorted by timestamp,
+ * where the oldest entry lives in the 0th index, and the newest entry
+ * lives in the arr.length-1th index
+ * @param items The items to filter
+ * @param filter The windowing function to apply
+ */
+export function sortedFilter<T>(items: T[], windowingFunction: (item: T) => boolean): T[] {
+  // if we want a higher performance implementation
+  // we can later resort to a custom array class that is circular
+  // so we can amortize expensive operations like resizing, and make
+  // operations like moving the head index much quicker
+  const firstNonStaleItemIndex = items.findIndex(windowingFunction)
+  if (firstNonStaleItemIndex === -1) {
+    return []
+  }
+
+  return items.slice(firstNonStaleItemIndex)
 }

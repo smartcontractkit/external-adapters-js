@@ -5,6 +5,7 @@
 import * as https from 'https'
 import * as events from 'events'
 import { Logger } from '@chainlink/ea-bootstrap'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const EventEmitter = events.EventEmitter
 
@@ -110,22 +111,22 @@ export class IntrinioRealtime extends EventEmitter {
 
     if (this.options.provider == 'iex') {
       auth_url = {
-        host: 'realtime.intrinio.com',
+        host: 'https://realtime.intrinio.com',
         path: '/auth',
       }
     } else if (this.options.provider == 'quodd') {
       auth_url = {
-        host: 'api.intrinio.com',
+        host: 'https://api.intrinio.com',
         path: '/token?type=QUODD',
       }
     } else if (this.options.provider == 'cryptoquote') {
       auth_url = {
-        host: 'crypto.intrinio.com',
+        host: 'https://crypto.intrinio.com',
         path: '/auth',
       }
     } else if (this.options.provider == 'fxcm') {
       auth_url = {
-        host: 'fxcm.intrinio.com',
+        host: 'https://fxcm.intrinio.com',
         path: '/auth',
       }
     }
@@ -150,7 +151,7 @@ export class IntrinioRealtime extends EventEmitter {
     return auth_url
   }
 
-  _makeHeaders() {
+  _makeHeaders(): { 'Content-Type': 'application/json'; Authorization?: string } {
     if (this.options.api_key) {
       return {
         'Content-Type': 'application/json',
@@ -169,49 +170,44 @@ export class IntrinioRealtime extends EventEmitter {
     Logger.debug('Requesting auth token...')
 
     return new Promise<void>((fulfill, reject) => {
-      const agent = this.options.agent || false
       const { host, path } = this._makeAuthUrl()
       const headers = this._makeHeaders()
 
       // Get token
-      const options = {
-        host: host,
-        path: path,
-        agent: agent,
-        headers: headers,
+      const options: AxiosRequestConfig = {
+        baseURL: host,
+        url: path,
+        headers,
       }
 
-      const req = https.get(options, (res) => {
-        if (res.statusCode == 401) {
-          this._throw('Unable to authorize')
-          reject()
-        } else if (res.statusCode != 200) {
-          console.error(
-            'IntrinioRealtime | Could not get auth token: Status code ' + res.statusCode,
-          )
-          reject()
-        } else {
-          res.on('data', (data: string) => {
-            this.token = Buffer.from(data, 'base64').toString()
-            Logger.debug('Received auth token!')
-            fulfill()
-          })
-        }
-      })
-
-      req.on('error', (e) => {
-        console.error('IntrinioRealtime | Could not get auth token: ' + e)
-        reject(e)
-      })
-
-      req.end()
+      axios(options)
+        .then((response: AxiosResponse) => {
+          Logger.debug('Received auth token!')
+          this.token = response.data
+          fulfill()
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            Logger.error('IntrinioRealtime | Unable to authorize')
+            reject(error.response)
+          } else {
+            Logger.error(
+              'IntrinioRealtime | Could not get auth token: Status code ' + error.response.status,
+              reject(error.response),
+            )
+          }
+        })
     })
   }
 
   async _makeSocketUrl(): Promise<string> {
     if (!this.token) {
-      await this._refreshToken()
-      if (!this.token) return ''
+      try {
+        await this._refreshToken()
+        if (!this.token) return ''
+      } catch (_) {
+        return ''
+      }
     }
 
     if (this.options.provider == 'iex') {
