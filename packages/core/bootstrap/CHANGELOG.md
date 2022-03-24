@@ -1,5 +1,21 @@
 # @chainlink/ea-bootstrap
 
+## 1.14.0
+
+### Minor Changes
+
+- 57b29ab0c: This change ensures that there are no duplicate aliases for input parameters. It also includes a test in the bootstrap validator test.
+- 1b342b00e: Add base env defaults to core bootstrap
+- cd9ccdc89: (feat): Add new middleware: Error Backoff
+- 1b342b00e: Add CACHE_ENABLED to envDefaultOverrides
+- d7857c911: Created Overrider class to handle overrides & implemented Overrider class for CoinGecko EA
+
+### Patch Changes
+
+- a51daa9c8: Refactor sleep util function into bootstrap util
+- e538ee7be: refactor sortedFilter into util
+- e538ee7be: (fix): Ensure Burst Limit's second retry correctly updates state's sliding window
+
 ## 1.13.1
 
 ### Patch Changes
