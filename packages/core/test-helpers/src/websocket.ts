@@ -11,8 +11,15 @@ import { Server, WebSocket } from 'mock-socket'
  * @param provider singleton WebSocketClassProvider
  */
 export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
+  // Extend mock WebSocket class to bypass protocol headers error
+  class MockWebSocket extends WebSocket {
+    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
+      super(url, protocol instanceof Object ? undefined : protocol)
+    }
+  }
+
   // Need to disable typing, the mock-socket impl does not implement the ws interface fully
-  provider.set(WebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export const mockWebSocketServer = (url: string): Server => {

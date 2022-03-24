@@ -500,3 +500,24 @@ export const registerUnhandledRejectionHandler = (): void => {
 export const sleep = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
+
+/**
+ * Remove stale request entries from an array.
+ * This function assumes that the array is sorted by timestamp,
+ * where the oldest entry lives in the 0th index, and the newest entry
+ * lives in the arr.length-1th index
+ * @param items The items to filter
+ * @param filter The windowing function to apply
+ */
+export function sortedFilter<T>(items: T[], windowingFunction: (item: T) => boolean): T[] {
+  // if we want a higher performance implementation
+  // we can later resort to a custom array class that is circular
+  // so we can amortize expensive operations like resizing, and make
+  // operations like moving the head index much quicker
+  const firstNonStaleItemIndex = items.findIndex(windowingFunction)
+  if (firstNonStaleItemIndex === -1) {
+    return []
+  }
+
+  return items.slice(firstNonStaleItemIndex)
+}
