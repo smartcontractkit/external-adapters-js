@@ -4250,7 +4250,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/types": 1.0.2
+    "@chainlink/types": 1.1.0
     "@types/supertest": 2.0.11
     nock: 13.1.3
     supertest: 6.1.6
@@ -4699,7 +4699,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/types@1.0.2, @chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
+"@chainlink/types@1.1.0, @chainlink/types@workspace:*, @chainlink/types@workspace:packages/core/types/@chainlink":
   version: 0.0.0-use.local
   resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
