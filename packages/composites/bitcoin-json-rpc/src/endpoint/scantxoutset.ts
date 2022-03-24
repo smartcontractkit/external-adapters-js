@@ -6,7 +6,7 @@ import {
   AdapterContext,
   InputParameters,
 } from '@chainlink/types'
-import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, Logger, util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'scantxoutset'
 export const supportedEndpoints = [NAME, 'scan', 'scanobject']
