@@ -46,15 +46,13 @@ export const MockWsServer = Server
  *
  * @param server the mocked WS server
  * @param flow an array of message exchanges
+ * @param options options to enforce sequence and error on unexpected messages
  * @returns a promise that resolves when all exchanges have executed
  */
 export const mockWebSocketFlow = async (
   server: Server,
   flow: WsMessageExchange[],
-  options: {
-    enforceSequence: boolean
-    errorOnUnexpectedMessage: boolean
-  } = {
+  options = {
     enforceSequence: true,
     errorOnUnexpectedMessage: true,
   },
