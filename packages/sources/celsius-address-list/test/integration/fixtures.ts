@@ -2,10 +2,9 @@ import nock from 'nock'
 
 export function mockResponseSuccess(): void {
   nock('https://test-rpc-url:443', { encodedQueryParams: true })
-    .post('/http', { method: 'eth_chainId', params: [], id: 42, jsonrpc: '2.0' })
-    .reply(200, { jsonrpc: '2.0', result: '0x2a', id: 42 }, [])
-    .post('/http', { method: 'eth_chainId', params: [], id: 43, jsonrpc: '2.0' })
-    .reply(200, { jsonrpc: '2.0', result: '0x2a', id: 43 }, [])
+    .persist()
+    .post('/http', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
+    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x2a' }), [])
     .post('/http', {
       method: 'eth_call',
       params: [
@@ -15,17 +14,17 @@ export function mockResponseSuccess(): void {
         },
         'latest',
       ],
-      id: 44,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
       200,
-      {
+      (_, request) => ({
         jsonrpc: '2.0',
         result:
           '0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002a626331713467777830663679717572713067776a396b74776c6576727033657538736e6e356b6161617800000000000000000000000000000000000000000000',
-        id: 44,
-      },
+        id: request['id'],
+      }),
       [],
     )
 }
