@@ -1,6 +1,7 @@
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { makeExecute as makeViewFunction } from '../../../../sources/view-function'
+//import { makeExecute as makeViewFunction } from '../../../../sources/view-function'
+import { makeExecute as makeViewFunction } from '@chainlink/view-function-adapter'
 import type { Config } from '../config/index'
 
 import abi from '../abi/WstETH.json'

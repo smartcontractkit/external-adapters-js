@@ -6,5 +6,5 @@
   },
   "include": ["src/**/*", "src/**/*.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../../core/test-helpers" }, { "path": "../../core/bootstrap" }]
+  "references": [{ "path": "../../sources/view-function" }, { "path": "../../core/bootstrap" }]
 }
