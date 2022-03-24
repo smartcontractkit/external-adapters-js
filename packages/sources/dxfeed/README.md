@@ -1,6 +1,6 @@
 # Chainlink External Adapter for dxFeed
 
-Version: 1.2.23
+Version: 1.2.24
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

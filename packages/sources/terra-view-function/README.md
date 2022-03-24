@@ -1,6 +1,6 @@
 # Chainlink External Adapter for querying Terra view functions
 
-Version: 1.2.4
+Version: 1.2.5
 
 This external adapter allows querying contracts on the Terra blockchain. A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 

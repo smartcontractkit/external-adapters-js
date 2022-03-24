@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoCompare
 
-Version: 1.3.10
+Version: 1.3.11
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -45,7 +45,8 @@ Request:
     "resultPath": "PRICE",
     "base": "ETH",
     "quote": "BTC"
-  }
+  },
+  "rateLimitMaxAge": 29201
 }
 ```
 
@@ -191,7 +192,8 @@ Request:
     "resultPath": "MKTCAP",
     "base": "ETH",
     "quote": "BTC"
-  }
+  },
+  "rateLimitMaxAge": 58402
 }
 ```
 
@@ -334,7 +336,8 @@ Request:
     "resultPath": "VOLUME24HOURTO",
     "base": "ETH",
     "quote": "BTC"
-  }
+  },
+  "rateLimitMaxAge": 87604
 }
 ```
 
@@ -495,7 +498,8 @@ Request:
     "base": "AMPL",
     "quote": "USD",
     "hours": 24
-  }
+  },
+  "rateLimitMaxAge": 116805
 }
 ```
 
