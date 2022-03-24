@@ -16,13 +16,13 @@ export const supportedEndpoints = ['price']
 export const inputParameters: InputParameters = {
   from: {
     required: true,
-    aliases: ['base', 'from'],
+    aliases: ['base'],
     description: 'The symbol of the currency to query',
     options: ['bETH', 'bLUNA'],
   },
   to: {
     required: true,
-    aliases: ['quote', 'to'],
+    aliases: ['quote'],
     description: 'The symbol of the currency to convert to',
     options: ['ETH', 'USD'],
   },

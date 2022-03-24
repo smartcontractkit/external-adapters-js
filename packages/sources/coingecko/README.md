@@ -29,7 +29,7 @@ Query the crypto price from [Coingecko](https://api.coingecko.com/api/v3/simple/
 |  (✅ if not using `base`)  |          `coinid`          | The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy `base` will need to be supplied) | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
 | (✅ if not using `coinid`) | `base`, `from`, or `coin`  |                                            The symbol or array of symbols of the currency to query                                             |                                           ↑                                            |             |
 |             ✅             | `quote`, `to`, or `market` |                                                    The symbol of the currency to convert to                                                    |                                           ↑                                            |             |
-|                            |        `overrides`         |                                           If base provided is found in overrides, that will be used                                            |  [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json)  |             |
+|                            |        `overrides`         |                           If base provided is found in overrides, the coin id specified in `overrides` will be used                            |                         [Format](./src/config/overrides.json)                          |             |
 
 ### Sample Input
 
@@ -225,11 +225,12 @@ Query the Market Cap for the requested assets
 
 ### Input Params
 
-|         Required?          |            Name            |                  Description                   |                                        Options                                         | Defaults to |
-| :------------------------: | :------------------------: | :--------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|  (✅ if not using `base`)  |          `coinid`          |     The CoinGecko id of the coin to query      | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
-| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |      The symbol of the currency to query       |                                           ↑                                            |             |
-|             ✅             | `quote`, `to`, or `market` | The symbol of the currency to fecth market cap |                                           ↑                                            |             |
+|         Required?          |            Name            |                                        Description                                        |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :---------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  (✅ if not using `base`)  |          `coinid`          |                           The CoinGecko id of the coin to query                           | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |                            The symbol of the currency to query                            |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` |                      The symbol of the currency to fecth market cap                       |                                           ↑                                            |             |
+|                            |        `overrides`         | If base provided is found in overrides, the coin id specified in `overrides` will be used |                         [Format](./src/config/overrides.json)                          |             |
 
 ### Sample Input
 
@@ -263,11 +264,12 @@ Query the volume for the requested assets
 
 ### Input Params
 
-|         Required?          |            Name            |                  Description                   |                                        Options                                         | Defaults to |
-| :------------------------: | :------------------------: | :--------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
-|  (✅ if not using `base`)  |          `coinid`          |     The CoinGecko id of the coin to query      | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
-| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |      The symbol of the currency to query       |                                           ↑                                            |             |
-|             ✅             | `quote`, `to`, or `market` | The symbol of the currency to fecth market cap |                                           ↑                                            |             |
+|         Required?          |            Name            |                                        Description                                        |                                        Options                                         | Defaults to |
+| :------------------------: | :------------------------: | :---------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: | :---------: |
+|  (✅ if not using `base`)  |          `coinid`          |                           The CoinGecko id of the coin to query                           | [See list here](https://www.coingecko.com/api/documentations/v3#/coins/get_coins_list) |             |
+| (✅ if not using `coinid`) | `base`, `from`, or `coin`  |                            The symbol of the currency to query                            |                                           ↑                                            |             |
+|             ✅             | `quote`, `to`, or `market` |                      The symbol of the currency to fecth market cap                       |                                           ↑                                            |             |
+|                            |        `overrides`         | If base provided is found in overrides, the coin id specified in `overrides` will be used |                         [Format](./src/config/overrides.json)                          |             |
 
 ### Sample Input
 

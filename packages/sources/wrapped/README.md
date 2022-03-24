@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wrapped
 
-Version: 2.1.20
+Version: 2.1.21
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

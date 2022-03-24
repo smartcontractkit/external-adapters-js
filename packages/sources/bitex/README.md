@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Bitex
 
-Version: 1.3.20
+Version: 1.3.21
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
