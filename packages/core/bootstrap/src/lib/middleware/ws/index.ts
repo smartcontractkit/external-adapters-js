@@ -11,6 +11,7 @@ import { getWSConfig } from './config'
 import { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
+import { getEnv } from '../../util'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -26,7 +27,7 @@ export const withWebSockets =
   (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
   async (execute, context) =>
   async (input: AdapterRequest) => {
-    const wsConfig = getWSConfig(input.data.endpoint)
+    const wsConfig = getWSConfig(input.data.endpoint, context)
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
     if (input.id === WARMUP_REQUEST_ID || input.id === WARMUP_BATCH_REQUEST_ID)
       return await execute(input, context) // ignore middleware if warmer request
@@ -66,7 +67,7 @@ export const withWebSockets =
     // Check if adapter only supports WS
     if (wsHandler.noHttp) {
       // If so, we try to get a result from cache within API_TIMEOUT
-      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
+      const requestTimeout = Number(getEnv('API_TIMEOUT'))
       const deadline = Date.now() + requestTimeout
       return await awaitResult(context, input, deadline)
     }
