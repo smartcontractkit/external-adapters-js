@@ -4,7 +4,6 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockCryptoResponseSuccess, mockPROCryptoResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -30,7 +29,6 @@ describe('execute', () => {
 
   describe('crypto-single api', () => {
     describe('Successful request without override', () => {
-      mockCryptoResponseSuccess()
       it('Should be successful', async () => {
         const data = {
           id: '1',
@@ -47,12 +45,11 @@ describe('execute', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-        expect(response.body.result).toMatchSnapshot()
+        expect(response.body.result).toBeGreaterThan(0)
       })
     })
 
     describe('Successful request with override', () => {
-      mockCryptoResponseSuccess()
       it('Should be successful', async () => {
         const data = {
           id: '1',
@@ -74,12 +71,11 @@ describe('execute', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-        expect(response.body.result).toMatchSnapshot()
+        expect(response.body.result).toBeGreaterThan(0)
       })
     })
 
     describe('Successful request with warning about duplicate ticker symbol', () => {
-      mockCryptoResponseSuccess()
       it('Should be successful', async () => {
         const data = {
           id: '1',
@@ -96,14 +92,13 @@ describe('execute', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
-        expect(response.body.result).toMatchSnapshot()
+        expect(response.body.result).toBeGreaterThan(0)
       })
     })
   })
 
   describe('crypto api free', () => {
     it('should return success for single symbol', async () => {
-      mockCryptoResponseSuccess()
       const data: AdapterRequest = {
         id,
         data: {
@@ -118,12 +113,10 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
 
     it('should return success for multiple symbols', async () => {
-      mockCryptoResponseSuccess()
-
       const data: AdapterRequest = {
         id,
         data: {
@@ -138,12 +131,10 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toBeDefined()
     })
 
     it('should apply overrides', async () => {
-      mockCryptoResponseSuccess()
-
       const data: AdapterRequest = {
         id,
         data: {
@@ -164,11 +155,10 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toBeDefined()
     })
 
     it('should return success for single coinid', async () => {
-      mockCryptoResponseSuccess()
       const data: AdapterRequest = {
         id,
         data: {
@@ -184,7 +174,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -199,8 +189,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockCryptoResponseSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -208,7 +196,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -222,8 +210,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockCryptoResponseSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -231,7 +217,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -245,8 +231,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockCryptoResponseSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -254,7 +238,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
@@ -269,8 +253,6 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockCryptoResponseSuccess()
-
       const response = await req
         .post('/')
         .send(data)
@@ -278,13 +260,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 
   describe('vwap api', () => {
     it('should return success', async () => {
-      mockCryptoResponseSuccess()
       const vwapData: AdapterRequest = {
         id,
         data: {
@@ -300,11 +281,10 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
 
     it('should return success with override', async () => {
-      mockCryptoResponseSuccess()
       const dataWithOverride: AdapterRequest = {
         id,
         data: {
@@ -325,57 +305,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
-})
-
-describe('execute with api key', () => {
-  const id = '1'
-  let server: http.Server
-  let req: SuperTest<Test>
-
-  beforeAll(async () => {
-    process.env.API_KEY = 'fake-api-key'
-    process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    server.close(done)
-  })
-
-  describe('crypto api pro', () => {
-    const data: AdapterRequest = {
-      id: '1',
-      data: {
-        base: 'ETH',
-        quote: 'USD',
-      },
-    }
-
-    it('should return success', async () => {
-      mockPROCryptoResponseSuccess()
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body.result).toBeGreaterThan(0)
     })
   })
 })
