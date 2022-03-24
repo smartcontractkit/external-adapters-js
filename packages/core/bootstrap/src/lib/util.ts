@@ -154,8 +154,11 @@ const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
 
 /**
  * Get the env var with the given `name`. If the variable is
- * not present in `process.env`, it will default to the adapter's `envDefaultOverrides`
- * first, then `baseEnvDefaults` if there is no override.
+ * not present in `process.env`, it will default to the adapter's
+ * `envDefaultOverrides` if adapter's `context` is present, then
+ * `baseEnvDefaults`. In order for `envDefaultOverrides` to override the
+ * base default, the adapter's `context` must be passed into `getEnv`
+ * everywhere that the variable is fetched. See `WS_ENABLED` as an example.
  * @param name Env var to fetch
  * @param prefix Prefix for env var (useful when working with composites)
  * @param context Adapter context to pull `envDefaultOverrides` from
