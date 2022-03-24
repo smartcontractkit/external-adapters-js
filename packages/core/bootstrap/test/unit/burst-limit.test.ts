@@ -1,7 +1,11 @@
-import { AdapterContext, APIEndpoint, Execute } from '@chainlink/types'
+import { AdapterContext, Execute } from '@chainlink/types'
 import { createStore } from 'redux'
 import { useFakeTimers, SinonFakeTimers } from 'sinon'
-import { reducer as burstLimitReducer, withBurstLimit } from '../../src/lib/middleware/burst-limit'
+import {
+  reducer as burstLimitReducer,
+  SECOND_LIMIT_RETRIES,
+  withBurstLimit,
+} from '../../src/lib/middleware/burst-limit'
 
 describe('burst limit', () => {
   let clock: SinonFakeTimers
@@ -14,14 +18,10 @@ describe('burst limit', () => {
     clock.restore()
   })
 
-  it('successfully blocks burst of requests', async () => {
+  it('successfully delays burst of request per second', async () => {
+    const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
     const execute: Execute = async () => {
-      return {
-        jobRunID: '1',
-        statusCode: 200,
-        data: { result: 1 },
-        result: 1,
-      }
+      return mockResponse
     }
 
     const request = {
@@ -44,7 +44,8 @@ describe('burst limit', () => {
 
     // Perform initial requests; these should pass
     for (let i = 0; i < 6; i++) {
-      await middleware(request, {})
+      const result = await middleware(request, {})
+      expect(result).toBe(mockResponse)
     }
     // This next one will fail on the burst limiter.
     // Wrapped in a custom promise to check state synchronously.
@@ -66,8 +67,134 @@ describe('burst limit', () => {
 
     // Now the redux store should have been updated, and our promise resolved.
     const result = await promise
-
-    // NOTE - Doesn't work, because reducer is only triggered on successful request.
-    expect(result).toBeNull()
+    expect(result).toBe(mockResponse)
   }, 10000)
+
+  it('successfully delays burst of request per second', async () => {
+    const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
+    const execute: Execute = async () => {
+      return mockResponse
+    }
+
+    const request = {
+      id: '1',
+      data: {
+        endpoint: 'testDownstreamEndpoint',
+        source: 'SOMESOURCEADAPTER',
+      },
+    }
+
+    const context: AdapterContext = {
+      rateLimit: {
+        enabled: true,
+        burstCapacity1s: 5,
+      },
+    }
+
+    const store = createStore(burstLimitReducer.rootReducer, {})
+    const middleware = await withBurstLimit(store)(execute, context)
+
+    // Perform initial requests; these should pass
+    for (let i = 0; i < 6; i++) {
+      const result = await middleware(request, {})
+      expect(result).toBe(mockResponse)
+    }
+    // This next one will fail on the burst limiter.
+    // Wrapped in a custom promise to check state synchronously.
+    let burstLimitedRequestResolved = false
+    // eslint-disable-next-line no-async-promise-executor
+    const promise = new Promise(async (resolve) => {
+      const result = await middleware(request, {})
+      burstLimitedRequestResolved = true
+      resolve(result)
+    })
+
+    // Advance the clock 2s. It will still be retrying, because the total requests are only updated
+    // when the reducer is fired by a successful request.
+    clock.tickAsync(2000)
+    expect(burstLimitedRequestResolved).toBe(false)
+
+    // We can make another request, which should pass.
+    await middleware(request, {})
+
+    // Now the redux store should have been updated, and our promise resolved.
+    const result = await promise
+    expect(result).toBe(mockResponse)
+  }, 10000)
+
+  it(
+    'successfully blocks burst of request per second after retrying',
+    async () => {
+      const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
+      const execute: Execute = async () => {
+        return mockResponse
+      }
+
+      const request = {
+        id: '1',
+        data: {
+          endpoint: 'testDownstreamEndpoint',
+          source: 'SOMESOURCEADAPTER',
+        },
+      }
+
+      const context: AdapterContext = {
+        rateLimit: {
+          enabled: true,
+          burstCapacity1s: 1,
+        },
+      }
+
+      const store = createStore(burstLimitReducer.rootReducer, {})
+      const middleware = await withBurstLimit(store)(execute, context)
+
+      // Send a request to fill 1s capacity
+      await middleware(request, {})
+
+      // Send a subsequent request that will be retried
+      expect(middleware(request, {})).rejects.toThrow()
+
+      // Keep capacity filled until second request times out
+      for (let i = 0; i < SECOND_LIMIT_RETRIES; i++) {
+        clock.tickAsync(1000)
+        const result = await middleware(request, {})
+        expect(result).toBe(mockResponse)
+      }
+    },
+    SECOND_LIMIT_RETRIES * 1000,
+  )
+
+  it('successfully blocks burst of request per minute', async () => {
+    const burstCapacity = 5
+    const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
+    const execute: Execute = async () => {
+      return mockResponse
+    }
+
+    const request = {
+      id: '1',
+      data: {
+        endpoint: 'testDownstreamEndpoint',
+        source: 'SOMESOURCEADAPTER',
+      },
+    }
+
+    const context: AdapterContext = {
+      rateLimit: {
+        enabled: true,
+        burstCapacity1m: burstCapacity,
+      },
+    }
+
+    const store = createStore(burstLimitReducer.rootReducer, {})
+    const middleware = await withBurstLimit(store)(execute, context)
+
+    // Perform initial requests; these should pass
+    for (let i = 0; i < burstCapacity; i++) {
+      await middleware(request, {})
+      clock.tickAsync(2000)
+    }
+    // This next one will fail on the burst limiter.
+    expect(middleware(request, {})).rejects.toThrow()
+  })
 })
