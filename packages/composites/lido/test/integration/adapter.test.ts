@@ -9,7 +9,6 @@ import { mockContractCallResponseSuccess } from './fixtures'
 describe('LIDO', () => {
   process.env.ETHEREUM_RPC_URL = 'http://localhost:8545'
   mockContractCallResponseSuccess()
-
   let server: http.Server
   let req: SuperTest<Test>
 
