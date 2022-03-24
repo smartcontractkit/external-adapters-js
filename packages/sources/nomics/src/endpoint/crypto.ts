@@ -106,6 +106,13 @@ export const inputParameters: InputParameters = {
     required: true,
     description: 'The symbol of the currency to convert to',
   },
+  pageSize: {
+    aliases: ['page', 'pageLength', 'perPage'],
+    required: false,
+    description: 'The maximum number of items to return per paginated response.',
+    type: 'number',
+    default: 100
+  },
 }
 
 const convertId: Record<string, string> = {
@@ -167,7 +174,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ids,
     convert,
     key: config.apiKey,
-    'per-page': 100,
+    'per-page': validator.validated.data.pageSize,
   }
   const reqConfig = {
     ...config.api,
