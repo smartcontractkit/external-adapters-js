@@ -6,6 +6,7 @@ declare module '@chainlink/types' {
   export interface AdapterContext {
     name?: string
     cache?: Cache.CacheOptions
+    envDefaultOverrides?: EnvDefaultOverrides
     rateLimit?: RateLimit.config.Config
   }
 
@@ -128,6 +129,19 @@ declare module '@chainlink/types' {
     }
     rpcUrl?: string
     rpcPort?: number
+  }
+
+  export type EnvDefaults = { [name: string]: string }
+
+  /**
+   * To add a default override for an env var not present here,
+   * ensure that the adapter context from `expose` is passed
+   * to the `getEnv` call(s) for the variable in question. See
+   * `WS_ENABLED` for example usage.
+   */
+  export type EnvDefaultOverrides = {
+    CACHE_ENABLED?: 'true' | 'false'
+    WS_ENABLED?: 'true' | 'false'
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>

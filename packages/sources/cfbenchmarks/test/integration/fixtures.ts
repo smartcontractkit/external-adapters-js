@@ -27,3 +27,37 @@ export const mockResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+
+export const mockSubscribeResponse = {
+  request: {
+    type: 'subscribe',
+    id: 'BRTI',
+    stream: 'value',
+    cacheID: 'BRTI',
+  },
+  response: [
+    {
+      type: 'value',
+      time: 1645203822000,
+      id: 'BRTI',
+      value: '40067.00',
+    },
+  ],
+}
+
+export const mockUnsubscribeResponse = {
+  request: {
+    type: 'unsubscribe',
+    id: 'BRTI',
+    stream: 'value',
+    cacheID: 'BRTI',
+  },
+  response: [
+    {
+      type: 'unsubscribe',
+      id: 'BRTI',
+      stream: 'value',
+      success: true,
+    },
+  ],
+}
