@@ -1,6 +1,5 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import request, { SuperTest, Test } from 'supertest'
 import {
   mockAWCurrentConditionsResponseError,
   mockAWCurrentConditionsResponseSuccess,
@@ -10,15 +9,9 @@ import {
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
 import { SuiteContext } from './adapter.test'
-import { AddressInfo } from 'net'
 
 export function locationCurrentConditionsTests(context: SuiteContext): void {
   const id = '1'
-  let req: SuperTest<Test>
-
-  beforeAll(() => {
-    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
-  })
 
   describe('error calls', () => {
     describe('when the location endpoint fails', () => {
@@ -34,7 +27,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         }
         mockAWLocationResponseError()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -60,7 +53,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         mockAWLocationResponseSuccessLocationFound()
         mockAWCurrentConditionsResponseError(2097720)
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -87,7 +80,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationNotFound()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -112,7 +105,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationNotFound()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -139,7 +132,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         mockAWLocationResponseSuccessLocationFound()
         mockAWCurrentConditionsResponseSuccess()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -165,7 +158,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         mockAWLocationResponseSuccessLocationFound()
         mockAWCurrentConditionsResponseSuccess()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
