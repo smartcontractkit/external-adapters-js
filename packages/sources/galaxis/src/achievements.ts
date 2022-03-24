@@ -144,7 +144,7 @@ const groupAchievements = (
     if (!acc[achievement_id]) {
       acc[achievement_id] = []
     }
-    acc[achievement_id.toString()].push(curr)
+    acc[achievement_id].push(curr)
     return acc
   }, achievementsByID)
 }
