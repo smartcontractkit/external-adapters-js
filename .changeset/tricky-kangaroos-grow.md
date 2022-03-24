@@ -2,4 +2,4 @@
 "@chainlink/nomics-adapter": patch
 ---
 
-Fix API 422 response for free plan
+Add per-page field to nomics crypto endpoint
