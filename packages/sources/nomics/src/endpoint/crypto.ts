@@ -167,7 +167,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ids,
     convert,
     key: config.apiKey,
-    'per-page': 100,
   }
   const reqConfig = {
     ...config.api,
