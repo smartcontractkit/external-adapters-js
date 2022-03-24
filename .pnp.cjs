@@ -6211,10 +6211,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/morgan", "npm:1.9.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
-            ["morgan", "npm:1.10.0"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
@@ -11737,16 +11735,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@types/morgan", [
-        ["npm:1.9.3", {
-          "packageLocation": "./.yarn/cache/@types-morgan-npm-1.9.3-118eec1c2b-0b9bc8641c.zip/node_modules/@types/morgan/",
-          "packageDependencies": [
-            ["@types/morgan", "npm:1.9.3"],
-            ["@types/node", "npm:16.6.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@types/ms", [
         ["npm:0.7.31", {
           "packageLocation": "./.yarn/cache/@types-ms-npm-0.7.31-ea3b89342b-daadd354ae.zip/node_modules/@types/ms/",
@@ -13903,16 +13891,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/base64-js-npm-1.5.1-b2f7275641-669632eb37.zip/node_modules/base64-js/",
           "packageDependencies": [
             ["base64-js", "npm:1.5.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["basic-auth", [
-        ["npm:2.0.1", {
-          "packageLocation": "./.yarn/cache/basic-auth-npm-2.0.1-f1627ef330-3419b805d5.zip/node_modules/basic-auth/",
-          "packageDependencies": [
-            ["basic-auth", "npm:2.0.1"],
-            ["safe-buffer", "npm:5.1.2"]
           ],
           "linkType": "HARD",
         }]
@@ -16642,13 +16620,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/depd-npm-1.1.2-b0c8414da7-6b406620d2.zip/node_modules/depd/",
           "packageDependencies": [
             ["depd", "npm:1.1.2"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:2.0.0", {
-          "packageLocation": "./.yarn/cache/depd-npm-2.0.0-b6c51a4b43-abbe19c768.zip/node_modules/depd/",
-          "packageDependencies": [
-            ["depd", "npm:2.0.0"]
           ],
           "linkType": "HARD",
         }]
@@ -26121,20 +26092,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["morgan", [
-        ["npm:1.10.0", {
-          "packageLocation": "./.yarn/cache/morgan-npm-1.10.0-a0da109b6b-fb41e226ab.zip/node_modules/morgan/",
-          "packageDependencies": [
-            ["morgan", "npm:1.10.0"],
-            ["basic-auth", "npm:2.0.1"],
-            ["debug", "virtual:1c60b718ef568256b33897a16c158670531f97e2dee74572ac0378c073b9ba5c6848ab7234b6d4dd9cc6248b2b380e3a9b4433f3f8ccd29b69377ff5ae2369ed#npm:2.6.9"],
-            ["depd", "npm:2.0.0"],
-            ["on-finished", "npm:2.3.0"],
-            ["on-headers", "npm:1.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["mortice", [
         ["npm:2.0.1", {
           "packageLocation": "./.yarn/cache/mortice-npm-2.0.1-f11fe843c0-58e4e19ef7.zip/node_modules/mortice/",
@@ -27184,15 +27141,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["on-finished", "npm:2.3.0"],
             ["ee-first", "npm:1.1.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["on-headers", [
-        ["npm:1.0.2", {
-          "packageLocation": "./.yarn/cache/on-headers-npm-1.0.2-e7cd3ea25e-2bf1346721.zip/node_modules/on-headers/",
-          "packageDependencies": [
-            ["on-headers", "npm:1.0.2"]
           ],
           "linkType": "HARD",
         }]

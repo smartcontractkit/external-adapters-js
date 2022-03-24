@@ -7,6 +7,7 @@ import { AddressInfo } from 'net'
 import { mockContractCallResponseSuccess } from './fixtures'
 
 describe('LIDO', () => {
+  process.env.RPC_URL = 'http://localhost:8545'
   mockContractCallResponseSuccess()
 
   let server: http.Server
