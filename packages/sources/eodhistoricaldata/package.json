@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/eodhistoricaldata-adapter",
-  "version": "1.2.21",
+  "version": "1.2.22",
   "description": "Chainlink eodhistoricaldata adapter.",
   "keywords": [
     "Chainlink",

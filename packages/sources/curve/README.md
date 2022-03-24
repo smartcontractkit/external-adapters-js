@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-Version: 1.2.1
+Version: 1.2.2
 
 This adapter allows querying Curve.fi contracts
 
