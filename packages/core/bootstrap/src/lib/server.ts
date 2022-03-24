@@ -17,6 +17,7 @@ import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
+import { shutdown } from './middleware/error-backoff/actions'
 import { AddressInfo } from 'net'
 
 const app = express()
@@ -124,6 +125,7 @@ export const initHandler =
       const server = app.listen(port, () => {
         server.on('close', () => {
           storeSlice('cacheWarmer').dispatch(warmupShutdown())
+          storeSlice('errorBackoff').dispatch(shutdown())
           context.cache?.instance?.close()
         })
 
