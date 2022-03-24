@@ -1,38 +1,14 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig } from '../config'
-import { ethers } from 'ethers'
-import { EC_REGISTRY_ABI, EC_REGISTRY_MAP_ABI } from './abis'
-import { ByteArray } from '@ethercards/ec-util'
+import { Achievement } from '../types'
+import { getEncodedCallsResult } from '../achievements'
 
 export const supportedEndpoints = ['nba']
-
-export interface Achievement {
-  team_id?: number
-  player_id?: number
-  achievement_id: number
-  value: boolean
-}
 
 export interface ResponseSchema {
   player_achievements: Achievement[]
   team_achievements: Achievement[]
-}
-
-export interface TeamStruct {
-  id: number
-  name: string
-  city: string
-  tricode: string
-  real_id: ethers.BigNumber
-}
-
-export interface PlayerStruct {
-  id: number
-  team_id: number
-  real_id: ethers.BigNumber
-  real_team_id: ethers.BigNumber
-  full_name: string
 }
 
 const customError = (data: Record<string, unknown>) => data.Response === 'Error'
@@ -47,7 +23,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const encodedCalls = await getFilteredAchievements(response.data, config)
+  const encodedCalls = await getEncodedCallsResult(
+    response.data.player_achievements,
+    response.data.team_achievements,
+    config,
+  )
   return {
     jobRunID,
     result: encodedCalls,
@@ -56,136 +36,4 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       result: encodedCalls,
     },
   }
-}
-
-export interface FilteredAchievements {
-  encodedCalls: string
-  hasMore: boolean
-}
-
-export const getFilteredAchievements = async (
-  response: ResponseSchema,
-  config: ExtendedConfig,
-): Promise<string> => {
-  const groupedAchievements = getGroupedAchievementsByID(response)
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
-  const { teams, players } = await getPlayerAndTeamMaps(provider, config)
-  const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
-  const calls: string[][] = []
-
-  let hasHitLimit = false
-  let encodedCalls = ''
-
-  const achievementIDs = Object.keys(groupedAchievements)
-  let currAchievementIdIdx = 0
-  while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
-    const achievementID = achievementIDs[currAchievementIdIdx]
-    if (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) {
-      const values = groupedAchievements[achievementID].map(({ value }) =>
-        typeof value === 'boolean' ? (value ? 1 : 0) : value,
-      )
-      const ids = groupedAchievements[achievementID].map(({ team_id, player_id }) => {
-        if (team_id) {
-          const team = teams.find((t) => t.real_id.toString() === team_id.toString())
-          if (!team) {
-            throw new Error(`Cannot match team ID ${team_id} with response from ECRegistryMap`)
-          }
-          return team.id
-        } else if (player_id) {
-          const player = players.find((p) => p.real_id.toString() === player_id.toString())
-          if (!player) {
-            throw new Error(`Cannot match player ID ${team_id} with response from ECRegistryMap`)
-          }
-          return player.id
-        } else {
-          throw new Error('Missing player and team IDs')
-        }
-      })
-      calls.push([
-        config.ecRegistryAddress,
-        ecRegistry.interface.encodeFunctionData('setData', [parseInt(achievementID), ids, values]),
-      ])
-      const updatedEncodedCalls = encodeAchievements(calls)
-      if (updatedEncodedCalls.length <= config.maxEncodedCallsBytes) {
-        encodedCalls = updatedEncodedCalls
-      }
-      hasHitLimit = updatedEncodedCalls.length > config.maxEncodedCallsBytes
-    }
-    currAchievementIdIdx++
-  }
-  return encodedCalls + `0${hasHitLimit ? 1 : 0}` // Strip out 0x
-}
-
-export interface AchievementsByIDs {
-  [T: string]: Achievement[]
-}
-
-export const getGroupedAchievementsByID = (response: ResponseSchema): AchievementsByIDs => {
-  let result: AchievementsByIDs = {}
-  const { player_achievements, team_achievements } = response
-  result = groupAchievements(player_achievements, result)
-  return groupAchievements(team_achievements, result)
-}
-
-export const groupAchievements = (
-  achievements: Achievement[],
-  achievementsByID: AchievementsByIDs,
-): AchievementsByIDs => {
-  return achievements.reduce((acc, curr) => {
-    const { achievement_id } = curr
-    if (!acc[achievement_id]) {
-      acc[achievement_id] = []
-    }
-    acc[achievement_id.toString()].push(curr)
-    return acc
-  }, achievementsByID)
-}
-
-export const getPlayerAndTeamMaps = async (
-  provider: ethers.providers.JsonRpcProvider,
-  config: ExtendedConfig,
-): Promise<{ teams: TeamStruct[]; players: PlayerStruct[] }> => {
-  const ecRegistryMap = new ethers.Contract(
-    config.ecRegistryMapAddress,
-    EC_REGISTRY_MAP_ABI,
-    provider,
-  )
-  const teams = await ecRegistryMap.getTeams()
-  const players = await ecRegistryMap.getPlayers()
-  return {
-    teams,
-    players,
-  }
-}
-
-export const encodeAchievements = (calls: string[][]): string => {
-  let bytes = ''
-  const header = new ByteArray(Buffer.alloc(2))
-  // add call num
-  header.writeUnsignedShort(calls.length)
-  bytes = header.toString('hex')
-
-  for (let i = 0; i < calls.length; i++) {
-    const callLen = callLentoHex(removeZeroX(calls[i][1]).length)
-    const address = addresstoCallData(calls[i][0])
-    const callData = removeZeroX(calls[i][1])
-    const packet = callLen + address + callData
-
-    bytes += packet
-  }
-  return bytes
-}
-
-const removeZeroX = (str: string): string => {
-  return str.replace('0x', '')
-}
-
-const addresstoCallData = (str: string): string => {
-  return '000000000000000000000000' + removeZeroX(str)
-}
-
-const callLentoHex = (num: number): string => {
-  const data = new ByteArray(Buffer.alloc(2))
-  data.writeUnsignedShort(num / 2)
-  return removeZeroX(data.toString('hex'))
 }

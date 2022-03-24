@@ -20,6 +20,20 @@ export const EC_REGISTRY_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [{ internalType: 'uint16', name: '', type: 'uint16' }],
+    name: 'traits',
+    outputs: [
+      { internalType: 'uint16', name: 'id', type: 'uint16' },
+      { internalType: 'uint8', name: 'traitType', type: 'uint8' },
+      { internalType: 'uint16', name: 'start', type: 'uint16' },
+      { internalType: 'uint16', name: 'end', type: 'uint16' },
+      { internalType: 'address', name: 'implementer', type: 'address' },
+      { internalType: 'string', name: 'name', type: 'string' },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const EC_REGISTRY_MAP_ABI = [
@@ -61,6 +75,19 @@ export const EC_REGISTRY_MAP_ABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+]
+
+export const TRAIT_IMPLEMENTER_ABI = [
+  {
+    inputs: [
+      { internalType: 'uint16[]', name: '_tokenIds', type: 'uint16[]' },
+      { internalType: 'uint8[]', name: '_value', type: 'uint8[]' },
+    ],
+    name: 'setData',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ]
