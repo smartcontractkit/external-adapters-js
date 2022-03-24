@@ -52,7 +52,10 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
       // remove all requests that are older than the current interval
       const window = time - Intervals[intervalName]
       const isInWindow = (h: Request) => h.t >= window
-      state.participants[intervalName] = sortedFilter(state.participants[intervalName], isInWindow)
+      state.participants[intervalName] = sortedFilter<Request>(
+        state.participants[intervalName],
+        isInWindow,
+      )
 
       // update total
       state.total[intervalName] = state.participants[intervalName].length
