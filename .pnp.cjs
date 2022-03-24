@@ -179,6 +179,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/k6"
       },
       {
+        "name": "observation",
+        "reference": "workspace:packages/observation"
+      },
+      {
         "name": "@chainlink/ea-scripts",
         "reference": "workspace:packages/scripts"
       },
@@ -861,7 +865,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
       ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]],
-      ["k6", ["workspace:packages/k6"]]
+      ["k6", ["workspace:packages/k6"]],
+      ["observation", ["workspace:packages/observation"]]
     ],
     "fallbackPool": [
     ],
@@ -27067,6 +27072,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["observable-webworkers", "npm:1.0.0"]
           ],
           "linkType": "HARD",
+        }]
+      ]],
+      ["observation", [
+        ["workspace:packages/observation", {
+          "packageLocation": "./packages/observation/",
+          "packageDependencies": [
+            ["observation", "workspace:packages/observation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["axios", "npm:0.24.0"]
+          ],
+          "linkType": "SOFT",
         }]
       ]],
       ["on-finished", [

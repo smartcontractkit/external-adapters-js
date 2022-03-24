@@ -22525,6 +22525,15 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
+"observation@workspace:packages/observation":
+  version: 0.0.0-use.local
+  resolution: "observation@workspace:packages/observation"
+  dependencies:
+    "@chainlink/types": "workspace:*"
+    axios: ^0.24.0
+  languageName: unknown
+  linkType: soft
+
 "on-finished@npm:~2.3.0":
   version: 2.3.0
   resolution: "on-finished@npm:2.3.0"
