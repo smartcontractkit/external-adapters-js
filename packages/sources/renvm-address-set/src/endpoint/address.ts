@@ -12,7 +12,7 @@ import {
   RenContract,
   resolveInToken,
 } from '../ren'
-import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/utils/PorInputAddress'
 
 export const supportedEndpoints = ['address']
 

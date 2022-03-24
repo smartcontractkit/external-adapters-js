@@ -1,7 +1,7 @@
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, makeConfig } from './config'
-import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/utils/PorInputAddress'
 import Decimal from 'decimal.js'
 
 const inputParams = {
