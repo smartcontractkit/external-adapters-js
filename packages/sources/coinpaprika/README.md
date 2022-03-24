@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinPaprika
 
-Version: 1.4.0
+Version: 1.5.0
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
@@ -33,12 +33,11 @@ Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |    Name     |    Aliases     |                                        Description                                        |                 Type                  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------: | :------------: | :---------------------------------------------------------------------------------------: | :-----------------------------------: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |    base     | `coin`, `from` |                            The symbol of the currency to query                            |                                       |         |         |            |                |
-|    ✅     |    quote    | `market`, `to` |                         The symbol of the currency to convert to                          |                                       |         |         |            |                |
-|           |   coinid    |                |                     The coin ID (optional to use in place of `base`)                      |                string                 |         |         |            |                |
-|           | `overrides` |                | If base provided is found in overrides, the coin id specified in `overrides` will be used | [Format](./src/config/overrides.json) |         |         |            |                |
+| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `coin`, `from` |       The symbol of the currency to query        |        |         |         |            |                |
+|    ✅     | quote  | `market`, `to` |     The symbol of the currency to convert to     |        |         |         |            |                |
+|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
 
 ### Example
 
@@ -50,8 +49,9 @@ Request:
   "data": {
     "endpoint": "crypto",
     "resultPath": "price",
-    "base": "ETH",
-    "quote": "USD"
+    "base": "AAAA",
+    "quote": "USD",
+    "coinid": "eth-ethereum"
   }
 }
 ```
@@ -91,6 +91,72 @@ Response:
             "percent_change_30d": 28.11,
             "percent_change_1y": 844.08,
             "ath_price": 4365.2053035,
+            "ath_date": "2021-05-12T06:06:20Z",
+            "percent_from_price_ath": -9.53
+          }
+        }
+      },
+      {
+        "id": "btc-bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "rank": 2,
+        "circulating_supply": 118033526,
+        "total_supply": 118033574,
+        "max_supply": 0,
+        "beta_value": 1.08967,
+        "first_data_at": "2015-08-07T00:00:00Z",
+        "last_updated": "2021-10-22T18:11:05Z",
+        "quotes": {
+          "USD": {
+            "price": 40000.2425813062,
+            "volume_24h": 24136641726.138,
+            "volume_24h_change_24h": -35.07,
+            "market_cap": 466143026900,
+            "market_cap_change_24h": -3.44,
+            "percent_change_15m": 0.14,
+            "percent_change_30m": -0.18,
+            "percent_change_1h": -0.64,
+            "percent_change_6h": -4.09,
+            "percent_change_12h": -4.65,
+            "percent_change_24h": -3.45,
+            "percent_change_7d": 2.23,
+            "percent_change_30d": 28.11,
+            "percent_change_1y": 844.08,
+            "ath_price": 40000.2053035,
+            "ath_date": "2021-05-12T06:06:20Z",
+            "percent_from_price_ath": -9.53
+          }
+        }
+      },
+      {
+        "id": "fake-btc-bitcoin",
+        "name": "Fakecoin",
+        "symbol": "BTC",
+        "rank": 2,
+        "circulating_supply": 118033526,
+        "total_supply": 118033574,
+        "max_supply": 0,
+        "beta_value": 1.08967,
+        "first_data_at": "2015-08-07T00:00:00Z",
+        "last_updated": "2021-10-22T18:11:05Z",
+        "quotes": {
+          "USD": {
+            "price": 0.11,
+            "volume_24h": 24136641726.138,
+            "volume_24h_change_24h": -35.07,
+            "market_cap": 466143026900,
+            "market_cap_change_24h": -3.44,
+            "percent_change_15m": 0.14,
+            "percent_change_30m": -0.18,
+            "percent_change_1h": -0.64,
+            "percent_change_6h": -4.09,
+            "percent_change_12h": -4.65,
+            "percent_change_24h": -3.45,
+            "percent_change_7d": 2.23,
+            "percent_change_30d": 28.11,
+            "percent_change_1y": 844.08,
+            "ath_price": 40000.2053035,
             "ath_date": "2021-05-12T06:06:20Z",
             "percent_from_price_ath": -9.53
           }
@@ -111,221 +177,6 @@ Response:
   "providerStatusCode": 200
 }
 ```
-
-<details>
-<summary>Additional Examples</summary>
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": [
-      {
-        "id": "eth-ethereum",
-        "name": "Ethereum",
-        "symbol": "ETH",
-        "rank": 2,
-        "circulating_supply": 118033526,
-        "total_supply": 118033574,
-        "max_supply": 0,
-        "beta_value": 1.08967,
-        "first_data_at": "2015-08-07T00:00:00Z",
-        "last_updated": "2021-10-22T18:11:05Z",
-        "quotes": {
-          "USD": {
-            "price": 3949.2425813062,
-            "volume_24h": 24136641726.138,
-            "volume_24h_change_24h": -35.07,
-            "market_cap": 466143026900,
-            "market_cap_change_24h": -3.44,
-            "percent_change_15m": 0.14,
-            "percent_change_30m": -0.18,
-            "percent_change_1h": -0.64,
-            "percent_change_6h": -4.09,
-            "percent_change_12h": -4.65,
-            "percent_change_24h": -3.45,
-            "percent_change_7d": 2.23,
-            "percent_change_30d": 28.11,
-            "percent_change_1y": 844.08,
-            "ath_price": 4365.2053035,
-            "ath_date": "2021-05-12T06:06:20Z",
-            "percent_from_price_ath": -9.53
-          }
-        }
-      }
-    ],
-    "result": 3949.2425813062
-  },
-  "result": 3949.2425813062,
-  "statusCode": 200,
-  "debug": {
-    "batchablePropertyPath": [
-      {
-        "name": "base"
-      }
-    ]
-  },
-  "providerStatusCode": 200
-}
-```
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "marketcap",
-    "resultPath": "market_cap",
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": [
-      {
-        "id": "eth-ethereum",
-        "name": "Ethereum",
-        "symbol": "ETH",
-        "rank": 2,
-        "circulating_supply": 118033526,
-        "total_supply": 118033574,
-        "max_supply": 0,
-        "beta_value": 1.08967,
-        "first_data_at": "2015-08-07T00:00:00Z",
-        "last_updated": "2021-10-22T18:11:05Z",
-        "quotes": {
-          "USD": {
-            "price": 3949.2425813062,
-            "volume_24h": 24136641726.138,
-            "volume_24h_change_24h": -35.07,
-            "market_cap": 466143026900,
-            "market_cap_change_24h": -3.44,
-            "percent_change_15m": 0.14,
-            "percent_change_30m": -0.18,
-            "percent_change_1h": -0.64,
-            "percent_change_6h": -4.09,
-            "percent_change_12h": -4.65,
-            "percent_change_24h": -3.45,
-            "percent_change_7d": 2.23,
-            "percent_change_30d": 28.11,
-            "percent_change_1y": 844.08,
-            "ath_price": 4365.2053035,
-            "ath_date": "2021-05-12T06:06:20Z",
-            "percent_from_price_ath": -9.53
-          }
-        }
-      }
-    ],
-    "result": 466143026900
-  },
-  "result": 466143026900,
-  "statusCode": 200,
-  "debug": {
-    "batchablePropertyPath": [
-      {
-        "name": "base"
-      }
-    ]
-  },
-  "providerStatusCode": 200
-}
-```
-
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "volume",
-    "resultPath": "volume_24h",
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": [
-      {
-        "id": "eth-ethereum",
-        "name": "Ethereum",
-        "symbol": "ETH",
-        "rank": 2,
-        "circulating_supply": 118033526,
-        "total_supply": 118033574,
-        "max_supply": 0,
-        "beta_value": 1.08967,
-        "first_data_at": "2015-08-07T00:00:00Z",
-        "last_updated": "2021-10-22T18:11:05Z",
-        "quotes": {
-          "USD": {
-            "price": 3949.2425813062,
-            "volume_24h": 24136641726.138,
-            "volume_24h_change_24h": -35.07,
-            "market_cap": 466143026900,
-            "market_cap_change_24h": -3.44,
-            "percent_change_15m": 0.14,
-            "percent_change_30m": -0.18,
-            "percent_change_1h": -0.64,
-            "percent_change_6h": -4.09,
-            "percent_change_12h": -4.65,
-            "percent_change_24h": -3.45,
-            "percent_change_7d": 2.23,
-            "percent_change_30d": 28.11,
-            "percent_change_1y": 844.08,
-            "ath_price": 4365.2053035,
-            "ath_date": "2021-05-12T06:06:20Z",
-            "percent_from_price_ath": -9.53
-          }
-        }
-      }
-    ],
-    "result": 24136641726.138
-  },
-  "result": 24136641726.138,
-  "statusCode": 200,
-  "debug": {
-    "batchablePropertyPath": [
-      {
-        "name": "base"
-      }
-    ]
-  },
-  "providerStatusCode": 200
-}
-```
-
-</details>
 
 ---
 
@@ -343,7 +194,70 @@ Response:
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto-single",
+    "resultPath": "quotes.USD.price",
+    "overrides": {
+      "coinpaprika": {
+        "AMPL": "eth-ethereum"
+      }
+    },
+    "base": "AMPL",
+    "quote": "USD"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "id": "eth-ethereum",
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "rank": 2,
+    "circulating_supply": 118033526,
+    "total_supply": 118033574,
+    "max_supply": 0,
+    "beta_value": 1.08967,
+    "first_data_at": "2015-08-07T00:00:00Z",
+    "last_updated": "2021-10-22T18:11:05Z",
+    "quotes": {
+      "USD": {
+        "price": 3949.2425813062,
+        "volume_24h": 24136641726.138,
+        "volume_24h_change_24h": -35.07,
+        "market_cap": 466143026900,
+        "market_cap_change_24h": -3.44,
+        "percent_change_15m": 0.14,
+        "percent_change_30m": -0.18,
+        "percent_change_1h": -0.64,
+        "percent_change_6h": -4.09,
+        "percent_change_12h": -4.65,
+        "percent_change_24h": -3.45,
+        "percent_change_7d": 2.23,
+        "percent_change_30d": 28.11,
+        "percent_change_1y": 844.08,
+        "ath_price": 4365.2053035,
+        "ath_date": "2021-05-12T06:06:20Z",
+        "percent_from_price_ath": -9.53
+      }
+    },
+    "cost": 2,
+    "result": 3949.2425813062
+  },
+  "result": 3949.2425813062,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
@@ -487,10 +401,37 @@ Response:
   "jobRunID": "1",
   "data": [
     {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
       "id": "ampl-ampleforth",
       "name": "Ampleforth",
       "symbol": "AMPL",
       "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
       "is_new": false,
       "is_active": true,
       "type": "token"
@@ -500,6 +441,438 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 
@@ -517,6 +890,44 @@ Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "vwap",
+    "resultPath": "0.price",
+    "overrides": {
+      "coinpaprika": {
+        "AAAA": "ampl-ampleforth"
+      }
+    },
+    "base": "AAAA",
+    "hours": 24
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "0": {
+      "timestamp": "2022-01-30T00:00:00Z",
+      "price": 0.949723,
+      "volume_24h": 1354916,
+      "market_cap": 106686649
+    },
+    "cost": 2,
+    "result": 0.949723
+  },
+  "result": 0.949723,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
