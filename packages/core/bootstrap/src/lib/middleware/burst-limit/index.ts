@@ -9,7 +9,7 @@ import {
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
 import { AdapterError, logger } from '../../modules'
-import { util } from '../../..'
+import { delay } from '../../util'
 
 export * as actions from './actions'
 export * as reducer from './reducer'
@@ -32,7 +32,7 @@ const availableSecondLimitCapacity = async (
       logger.debug(
         `Per Second Burst rate limit cap of ${burstCapacity1s} reached. ${observedRequestsInSecond} requests sent in the last minute. Waiting 1 second. Retry number: ${retry}`,
       )
-      await util.delay(1000)
+      await delay(1000)
     } else return true
   }
   return false
