@@ -1,11 +1,11 @@
 import nock from 'nock'
 
 export function mockResponseSuccess(): void {
-  nock('https://test-rpc-url:443', { encodedQueryParams: true })
+  nock('https://test-rpc-url:8545', { encodedQueryParams: true })
     .persist()
-    .post('/http', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
+    .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
     .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x2a' }), [])
-    .post('/http', {
+    .post('/', {
       method: 'eth_call',
       params: [
         {
