@@ -33,11 +33,12 @@ Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `coin`, `from` |       The symbol of the currency to query        |        |         |         |            |                |
-|    ✅     | quote  | `market`, `to` |     The symbol of the currency to convert to     |        |         |         |            |                |
-|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
+| Required? |    Name     |    Aliases     |                                        Description                                        |                 Type                  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------: | :------------: | :---------------------------------------------------------------------------------------: | :-----------------------------------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    base     | `coin`, `from` |                            The symbol of the currency to query                            |                                       |         |         |            |                |
+|    ✅     |    quote    | `market`, `to` |                         The symbol of the currency to convert to                          |                                       |         |         |            |                |
+|           |   coinid    |                |                     The coin ID (optional to use in place of `base`)                      |                string                 |         |         |            |                |
+|           | `overrides` |                | If base provided is found in overrides, the coin id specified in `overrides` will be used | [Format](./src/config/overrides.json) |         |         |            |                |
 
 ### Example
 
