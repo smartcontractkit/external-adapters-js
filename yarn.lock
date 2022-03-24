@@ -4019,6 +4019,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/observation@workspace:packages/observation":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/observation@workspace:packages/observation"
+  dependencies:
+    "@chainlink/types": "workspace:*"
+    axios: ^0.24.0
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/oilpriceapi-adapter@workspace:*, @chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi"
@@ -22524,15 +22535,6 @@ fsevents@~2.1.1:
   checksum: e74b36bf3ee2ccb04e44d7f7e05a312588e0a76f0f44fae16c198f19ea5d8d2717186bd1040d9457907521d69eff2625a285d5a96ec33054931eca626eef8731
   languageName: node
   linkType: hard
-
-"observation@workspace:packages/observation":
-  version: 0.0.0-use.local
-  resolution: "observation@workspace:packages/observation"
-  dependencies:
-    "@chainlink/types": "workspace:*"
-    axios: ^0.24.0
-  languageName: unknown
-  linkType: soft
 
 "on-finished@npm:~2.3.0":
   version: 2.3.0

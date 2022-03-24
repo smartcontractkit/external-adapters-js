@@ -179,7 +179,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/k6"
       },
       {
-        "name": "observation",
+        "name": "@chainlink/observation",
         "reference": "workspace:packages/observation"
       },
       {
@@ -816,6 +816,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
+      ["@chainlink/observation", ["workspace:packages/observation"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],
@@ -865,8 +866,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],
       ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],
       ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]],
-      ["k6", ["workspace:packages/k6"]],
-      ["observation", ["workspace:packages/observation"]]
+      ["k6", ["workspace:packages/k6"]]
     ],
     "fallbackPool": [
     ],
@@ -6481,6 +6481,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.11"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/observation", [
+        ["workspace:packages/observation", {
+          "packageLocation": "./packages/observation/",
+          "packageDependencies": [
+            ["@chainlink/observation", "workspace:packages/observation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["axios", "npm:0.24.0"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -27072,17 +27085,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["observable-webworkers", "npm:1.0.0"]
           ],
           "linkType": "HARD",
-        }]
-      ]],
-      ["observation", [
-        ["workspace:packages/observation", {
-          "packageLocation": "./packages/observation/",
-          "packageDependencies": [
-            ["observation", "workspace:packages/observation"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["axios", "npm:0.24.0"]
-          ],
-          "linkType": "SOFT",
         }]
       ]],
       ["on-finished", [
