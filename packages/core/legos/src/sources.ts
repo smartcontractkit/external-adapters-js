@@ -19,6 +19,7 @@ import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
 import * as cache_gold from '@chainlink/cache.gold-adapter'
+import * as celsius_address_list from '@chainlink/celsius-address-list-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
@@ -93,7 +94,6 @@ import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
-import * as reserve_wallet from '@chainlink/reserve-wallet-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as snowflake from '@chainlink/snowflake-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
@@ -143,6 +143,7 @@ export default {
   bravenewcoin,
   btc_com,
   cache_gold,
+  celsius_address_list,
   cfbenchmarks,
   chain_reserve_wallet,
   coinapi,
@@ -217,7 +218,6 @@ export default {
   polygon,
   reduce,
   renvm_adapter_address,
-  reserve_wallet,
   satoshitango,
   snowflake,
   sochain,

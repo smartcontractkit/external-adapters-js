@@ -180,6 +180,9 @@
       "path": "./sources/cache.gold"
     },
     {
+      "path": "./sources/celsius-address-list"
+    },
+    {
       "path": "./sources/cfbenchmarks"
     },
     {
@@ -400,9 +403,6 @@
     },
     {
       "path": "./sources/renvm-address-set"
-    },
-    {
-      "path": "./sources/reserve-wallet"
     },
     {
       "path": "./sources/satoshitango"

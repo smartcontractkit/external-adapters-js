@@ -2,4 +2,4 @@
 '@chainlink/proof-of-reserves-adapter': minor
 ---
 
-Add Reserve Wallet support to Proof of Reserve composite adapter
+Add Celsius Address list adapter support to Proof of Reserve composite adapter

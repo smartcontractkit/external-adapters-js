@@ -1,7 +1,7 @@
 const protocolEnvironmentVariables = [
   { envKey: 'WBTC_ADAPTER_URL', value: 'wbtc' },
   { envKey: 'RENVM_ADAPTER_URL', value: 'renvm' },
-  { envKey: 'RESERVE_WALLET_ADAPTER_URL', value: 'reserve_wallet' },
+  { envKey: 'CELSIUS_ADDRESS_LIST_ADAPTER_URL', value: 'celsius_address_list' },
 ]
 
 const indexerEnvironmentVariables = [

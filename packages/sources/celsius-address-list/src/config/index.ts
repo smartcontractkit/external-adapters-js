@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
-export const NAME = 'RESERVE_WALLET'
+export const NAME = 'CELSIUS_ADDRESS_LIST'
 
 export const DEFAULT_ENDPOINT = 'wallet'
 
