@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V2
 
-Version: 1.1.21
+Version: 1.1.22
 
 This adapter allows querying Uniswap V2 contracts
 
