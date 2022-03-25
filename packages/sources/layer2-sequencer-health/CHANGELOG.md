@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 4e078a0bc: Export default environment variables for testing
+
 ## 1.2.0
 
 ### Minor Changes

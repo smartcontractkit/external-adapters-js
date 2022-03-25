@@ -1,5 +1,15 @@
 # @chainlink/ea
 
+## 1.0.64
+
+### Patch Changes
+
+- Updated dependencies [4240307ed]
+- Updated dependencies [4e078a0bc]
+  - @chainlink/dxfeed-adapter@1.2.25
+  - @chainlink/layer2-sequencer-health-adapter@1.2.1
+  - @chainlink/dxfeed-secondary-adapter@1.1.37
+
 ## 1.0.63
 
 ### Patch Changes

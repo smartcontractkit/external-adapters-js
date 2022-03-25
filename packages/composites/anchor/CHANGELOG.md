@@ -1,5 +1,11 @@
 # @chainlink/anchor-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- 478f73a11: Fix issues related to bETH/USD calculation. Issues were mainly due to token pair exchange rates being flipped the wrong way around.
+
 ## 3.1.2
 
 ### Patch Changes
