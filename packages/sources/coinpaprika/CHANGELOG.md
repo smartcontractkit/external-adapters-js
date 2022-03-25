@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- 555e3fe4c: fixed excessive logging
+
 ## 1.6.0
 
 ### Minor Changes

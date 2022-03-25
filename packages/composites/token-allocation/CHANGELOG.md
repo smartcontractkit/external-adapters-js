@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.4
+
+### Patch Changes
+
+- Updated dependencies [555e3fe4c]
+  - @chainlink/coinpaprika-adapter@1.7.0
+
 ## 1.3.3
 
 ### Patch Changes

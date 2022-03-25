@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Nomics
 
-Version: 1.1.6
+Version: 1.1.7
 
 An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
 
