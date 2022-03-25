@@ -3353,7 +3353,6 @@ __metadata:
     "@babel/core": 7.16.12
     "@babel/preset-env": 7.16.11
     "@babel/preset-typescript": 7.16.7
-    "@chainlink/view-function-adapter": "workspace:^"
     "@changesets/cli": 2.18.1
     "@types/babel__core": 7.1.18
     "@types/babel__preset-env": 7.9.2
@@ -3368,7 +3367,6 @@ __metadata:
     husky: 7.0.4
     jest: 27.3.1
     lint-staged: 11.2.6
-    outbound-http-logger: ^1.0.3
     prettier: 2.5.1
     source-map-support: 0.5.21
     ts-node: 10.4.0
@@ -12056,13 +12054,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorz@npm:^0.1.9":
-  version: 0.1.9
-  resolution: "colorz@npm:0.1.9"
-  checksum: ccbd16f4202a720aafb9372e30abb877e8b7bd66626008b21b13667ff2f3f3dc72f99594f54eda3ecdd8f3466b65b7cc81129d30c562b6337b2247381ae2a8bd
-  languageName: node
-  linkType: hard
-
 "combined-stream@npm:^1.0.6, combined-stream@npm:^1.0.8, combined-stream@npm:~1.0.6":
   version: 1.0.8
   resolution: "combined-stream@npm:1.0.8"
@@ -19325,15 +19316,6 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"json-colorz@npm:^0.2.3":
-  version: 0.2.7
-  resolution: "json-colorz@npm:0.2.7"
-  dependencies:
-    colorz: ^0.1.9
-  checksum: 5534f6cd4646b04e46185a59d1ae2691ee080afa7c59d40ab84ca5cbe7867ead21135caeb78a448c180ded5111e874a7d51f3431c528419723f58475e42e44af
-  languageName: node
-  linkType: hard
-
 "json-loader@npm:^0.5.4":
   version: 0.5.7
   resolution: "json-loader@npm:0.5.7"
@@ -20811,13 +20793,6 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"lodash@npm:^3.10.1":
-  version: 3.10.1
-  resolution: "lodash@npm:3.10.1"
-  checksum: 53065d3712a2fd90b55690c5af19f9625a5bbb2b7876ff76d782ee1dc22618fd4dff191d44a8e165a17b5b81a851c3e884d3b5b25e314422fbe24bb299542685
-  languageName: node
-  linkType: hard
-
 "log-symbols@npm:3.0.0":
   version: 3.0.0
   resolution: "log-symbols@npm:3.0.0"
@@ -21651,7 +21626,7 @@ fsevents@~2.1.1:
   languageName: node
   linkType: hard
 
-"moment@npm:>= 2.9.0, moment@npm:^2.10.6, moment@npm:^2.29.1":
+"moment@npm:>= 2.9.0, moment@npm:^2.29.1":
   version: 2.29.1
   resolution: "moment@npm:2.29.1"
   checksum: 1e14d5f422a2687996be11dd2d50c8de3bd577c4a4ca79ba5d02c397242a933e5b941655de6c8cb90ac18f01cc4127e55b4a12ae3c527a6c0a274e455979345e
@@ -22703,20 +22678,6 @@ fsevents@~2.1.1:
     os-homedir: ^1.0.0
     os-tmpdir: ^1.0.0
   checksum: 779d261920f2a13e5e18cf02446484f12747d3f2ff82280912f52b213162d43d312647a40c332373cbccd5e3fb8126915d3bfea8dde4827f70f82da76e52d359
-  languageName: node
-  linkType: hard
-
-"outbound-http-logger@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "outbound-http-logger@npm:1.0.3"
-  dependencies:
-    debug: ^2.2.0
-    json-colorz: ^0.2.3
-    lodash: ^3.10.1
-    moment: ^2.10.6
-    shimmer: ^1.1.0
-    uuid: ^2.0.1
-  checksum: d5b3aa6e3b943a14fcaf881370d1899b3b23e52ffbcfb51957ef108d141185a508435317bf88746d43b554d394dd157cac13ad39cdabf8845085b4a9b8f2b20e
   languageName: node
   linkType: hard
 
@@ -25338,13 +25299,6 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"shimmer@npm:^1.1.0":
-  version: 1.2.1
-  resolution: "shimmer@npm:1.2.1"
-  checksum: aa0d6252ad1c682a4fdfda69e541be987f7a265ac7b00b1208e5e48cc68dc55f293955346ea4c71a169b7324b82c70f8400b3d3d2d60b2a7519f0a3522423250
-  languageName: node
-  linkType: hard
-
 "side-channel@npm:^1.0.4":
   version: 1.0.4
   resolution: "side-channel@npm:1.0.4"
@@ -27727,13 +27681,6 @@ resolve@1.17.0:
   bin:
     uuid: ./bin/uuid
   checksum: 8793629d2799f500aeea9fcd0aec6c4e9fbcc4d62ed42159ad96be345c3fffac1bbf61a23e18e2782600884fee05e6d4012ce4b70d0037c8e987533ae6a77870
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^2.0.1":
-  version: 2.0.3
-  resolution: "uuid@npm:2.0.3"
-  checksum: 44adb0e235a683005fda9a869ddf2e88decbea082ea6b938e6f21b83147fda494fdc25ed8eba56196c4d5794ffc1c3efa4e3fef3e6205be2ee4084497f434e0f
   languageName: node
   linkType: hard
 

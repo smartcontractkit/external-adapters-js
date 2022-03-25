@@ -72,7 +72,6 @@ import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
-import * as lido from '@chainlink/lido-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
@@ -196,7 +195,6 @@ export default {
   kaiko,
   layer2_sequencer_health,
   lcx,
-  lido,
   linkpool,
   lition,
   lotus,

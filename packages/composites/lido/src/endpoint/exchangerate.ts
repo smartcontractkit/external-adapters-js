@@ -1,6 +1,5 @@
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
-//import { makeExecute as makeViewFunction } from '../../../../sources/view-function'
+import { ExecuteWithConfig } from '@chainlink/types'
 import { makeExecute as makeViewFunction } from '@chainlink/view-function-adapter'
 import type { Config } from '../config/index'
 
@@ -8,11 +7,7 @@ import abi from '../abi/WstETH.json'
 
 export const supportedEndpoints = ['exchangerate']
 
-export const execute = async (
-  request: AdapterRequest,
-  _: AdapterContext,
-  config: Config,
-): Promise<AdapterResponse> => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request)
   const jobRunID = validator.validated.id
 
