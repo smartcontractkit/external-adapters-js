@@ -1,5 +1,13 @@
 # @chainlink/unibit-adapter
 
+## 1.3.18
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.17
 
 ### Patch Changes
