@@ -53,11 +53,11 @@ export class Overrider {
     const alreadyWarned: { [symbol: string]: boolean } = {}
     for (const coinResponse of coinsResponse) {
       if (remainingSyms.includes(coinResponse.symbol)) {
-        if (isOverridden[coinResponse.symbol] === true && !alreadyWarned[coinResponse.symbol]) {
+        if (isOverridden[coinResponse.symbol] === true) {
+          if (!alreadyWarned[coinResponse.symbol]) alreadyWarned[coinResponse.symbol] = true
           logger.warn(
             `Overrider: The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
           )
-          alreadyWarned[coinResponse.symbol] = true
         } else {
           overriddenCoins[coinResponse.symbol] = coinResponse.id
         }
