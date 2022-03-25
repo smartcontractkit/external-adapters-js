@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 1.2.25
+
+### Patch Changes
+
+- 4240307ed: added null safety checks for makeWSHandler
+
 ## 1.2.24
 
 ### Patch Changes
