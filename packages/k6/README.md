@@ -31,3 +31,68 @@ To test using docker against ephemeral adapters you can follow the below:
    ```bash
    yarn test:docker
    ```
+
+## Upper limit testing
+
+K6 can be used to test the upper limits of the EAs. This is done by measuring how many requests we can send per second
+(RPS), where certain metrics are within certain thresholds.
+
+Testing is done with one adapter at a time, with a pre-configured RPS target.
+
+### 1. Getting payloads
+
+We can generate payloads from the RDD using:
+
+```bash
+yarn qa:flux:configure k6payload ${adapter} empty
+```
+
+### 2. Which adapters to use
+
+To specify the EA to use, set `CI_ADAPTER_NAME` in the `limits.env` file. E.g.:
+
+```dotenv
+CI_ADAPTER_NAME=coingecko
+```
+
+We can use a local EA or separated load-testing EAs in infra-k8s.
+For local EAs, include `LOCAL_ADAPTER_NAME` in the `limits.env` file. E.g.:
+
+```dotenv
+LOCAL_ADAPTER_NAME=coingecko
+```
+
+If not set, the script will target the EA in staging k8s with the name `$CI_ADAPTER_NAME-load-testing`.
+
+### 3. Tweak config
+
+- **TEST_DURATION**: How long to run the test for
+- **RPS**: How many requests to target per second
+- **T**: The expected time for each request. Should to include network latency. This is used to determine how many
+  workers to use to send requests, and how often. The more accurate this variable is, the more constant the RPS will be.
+
+```dotenv
+TEST_DURATION=1h
+RPS=100
+T=2
+```
+
+### 4. Run it!
+
+If you haven't already, build the test files:
+
+```bash
+yarn build
+```
+
+Once completed, you can run the test:
+
+```bash
+# This command assumes you are running it from the directory of this README
+docker run -v $(pwd)/dist:/load -v $(pwd)/src/config:/config --env-file limits.env -i loadimpact/k6 run /load/testLimits.js
+```
+
+#### Notes
+
+Due to the time it takes for the EA to warm up from a cold start, you can try running the test for a minute at first,
+before starting the real test for a longer period of time.
