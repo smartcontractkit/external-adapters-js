@@ -10,7 +10,7 @@ export const INTERMEDIARY_TOKEN = 'ETH'
 /**
  * execute returns the USD/bETH price by performing a conversion between
  * several intermediate prices. The calculation is as follows:
- * result = (USD / ETH) * (stETH / bETH) * (ETH / stETH) = USD / bETH
+ * result = (USD / ETH) * (ETH / stETH) / (bETH / stETH) = USD / bETH
  * @param input AdapterRequest
  * @param _ AdapterContext
  * @param config Config
@@ -20,20 +20,20 @@ export const INTERMEDIARY_TOKEN = 'ETH'
 export const execute: PriceExecute = async (input, _, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  const stEthPerBEth = await getStEthBEthExchangeRate(input.id, config, provider)
-  const stEthPerETH = await getStETHExchangeRate(input.id, config, provider)
-  return usdPerEth.mul(stEthPerBEth).div(stEthPerETH)
+  const ethPerStETH = await getEthStETHExchangeRate(input.id, config, provider)
+  const bEthPerStETH = await getBEthStETHExchangeRate(input.id, config, provider)
+  return usdPerEth.mul(ethPerStETH).div(bEthPerStETH)
 }
 
 /**
- * getStETHExchangeRate returns a promise for the value of stETH/ETH
- * from the Curve stETH/ETH pool contract.
+ * getEthStETHExchangeRate returns a promise for the value of ETH/stETH
+ * from the Curve ETH/stETH pool contract.
  * @param jobRunID string
  * @param config Config
  * @param provider ethers.providers.JsonRpcProvider
  * @returns Promise<ethers.BigNumber>
  */
-const getStETHExchangeRate = async (
+const getEthStETHExchangeRate = async (
   jobRunID: string,
   config: Config,
   provider: ethers.providers.JsonRpcProvider,
@@ -43,7 +43,15 @@ const getStETHExchangeRate = async (
     curvePoolAbi,
     provider,
   )
-  const result = await stEthPoolContract.get_dy(1, 0, ethers.BigNumber.from(10).pow(18))
+  const baseTokenIndex = 1 // stETH has a token index of 1 in the curve pool
+  const quoteTokenIndex = 0 // ETH has a token index of 0 in the curve pool
+
+  // Gets how much ETH the pool will return if 1 stETH is traded.  The pool uses 18dp so 1 = 10**18.
+  const result = await stEthPoolContract.get_dy(
+    baseTokenIndex,
+    quoteTokenIndex,
+    ethers.BigNumber.from(10).pow(18),
+  )
   throwErrorForInvalidResult(
     jobRunID,
     result,
@@ -53,14 +61,14 @@ const getStETHExchangeRate = async (
 }
 
 /**
- * getStEthBEthExchangeRate returns a promise for the value of stETH/bETH
- * from the stETH/bETH Anchor Vault contract
+ * getBEthStETHExchangeRate returns a promise for the value of bEth/StETH
+ * from the bEth/StETH Anchor Vault contract
  * @param jobRunID string
  * @param config Config
  * @param provider ethers.providers.JsonRpcProvider
  * @returns Promise<ethers.BigNumber>
  */
-const getStEthBEthExchangeRate = async (
+const getBEthStETHExchangeRate = async (
   jobRunID: string,
   config: Config,
   provider: ethers.providers.JsonRpcProvider,

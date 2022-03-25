@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Blockcypher
 
-Version: 1.2.21
+Version: 1.2.22
 
 Queries BTC address balance from blockcypher.com
 

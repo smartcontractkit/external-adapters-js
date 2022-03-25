@@ -12,7 +12,9 @@ import {
 } from '../fixtures'
 
 const ERROR_LUNA_FEED = 'error-luna-feed-address'
+const FAILED_LUNA_FEED = 'failed-luna-feed-address'
 const ERROR_TERRA_BLUNA_HUB_CONTRACT_ADDRESS = 'error-terra-bluna-hub-contract-address'
+const FAILED_TERRA_BLUNA_HUB_CONTRACT_ADDRESS = 'failed-terra-bluna-hub-contract-address'
 
 jest.mock('@chainlink/terra-view-function-adapter', () => {
   return {
@@ -21,11 +23,23 @@ jest.mock('@chainlink/terra-view-function-adapter', () => {
       jest.fn().mockImplementation((input: AdapterRequest) => {
         const { address, query } = input.data
         if (query === 'latest_round_data') {
-          return address === ERROR_LUNA_FEED ? mockErrorFeedResponse : mockSuccessfulLunaFeedResp
+          switch (address) {
+            case ERROR_LUNA_FEED:
+              return mockErrorFeedResponse
+            case FAILED_LUNA_FEED:
+              throw new Error('Call to Terra bLUNA/USD feed reverted')
+            default:
+              return mockSuccessfulLunaFeedResp
+          }
         } else if (query.state) {
-          return address === ERROR_TERRA_BLUNA_HUB_CONTRACT_ADDRESS
-            ? mockErrorAnchorHubContractResp
-            : mockSuccessfulAnchorHubContractAddress
+          switch (address) {
+            case ERROR_TERRA_BLUNA_HUB_CONTRACT_ADDRESS:
+              return mockErrorAnchorHubContractResp
+            case FAILED_TERRA_BLUNA_HUB_CONTRACT_ADDRESS:
+              throw new Error('Call to Terra bLuna HUB contract reverted')
+            default:
+              return mockSuccessfulAnchorHubContractAddress
+          }
         }
       }),
     ),
@@ -65,8 +79,28 @@ describe('price-bluna', () => {
   })
 
   describe('error calls', () => {
-    it('should throw an error if the LUNA/USD feed is down', async () => {
+    it('should throw an error if the LUNA/USD feed returns 0', async () => {
       process.env.LUNA_TERRA_FEED_ADDRESS = ERROR_LUNA_FEED
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          from: 'BLuna',
+          to: 'USD',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should throw an error if call to the LUNA/USD feed reverts', async () => {
+      process.env.LUNA_TERRA_FEED_ADDRESS = FAILED_LUNA_FEED
       const data: AdapterRequest = {
         id: jobID,
         data: {
@@ -87,6 +121,27 @@ describe('price-bluna', () => {
 
     it('should throw an error if the Anchor bLUNA Hub contract returns 0', async () => {
       process.env.TERRA_BLUNA_HUB_CONTRACT_ADDRESS = ERROR_TERRA_BLUNA_HUB_CONTRACT_ADDRESS
+
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          from: 'BLuna',
+          to: 'USD',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should throw an error if the call to the Anchor bLUNA Hub reverts', async () => {
+      process.env.TERRA_BLUNA_HUB_CONTRACT_ADDRESS = FAILED_TERRA_BLUNA_HUB_CONTRACT_ADDRESS
 
       const data: AdapterRequest = {
         id: jobID,

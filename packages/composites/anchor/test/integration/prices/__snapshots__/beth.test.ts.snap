@@ -13,7 +13,7 @@ Object {
 }
 `;
 
-exports[`price-beth error calls should throw an error if the ETH/USD feed is down 1`] = `
+exports[`price-beth error calls should throw an error if the ETH/USD feed returns 0 1`] = `
 Object {
   "error": Object {
     "feedID": "BETH/ETH",
@@ -26,7 +26,20 @@ Object {
 }
 `;
 
-exports[`price-beth error calls should throw an error if the stETH/ETH Curve pool is having issues 1`] = `
+exports[`price-beth error calls should throw an error if the ETH/USD feed reverts 1`] = `
+Object {
+  "error": Object {
+    "feedID": "BETH/ETH",
+    "message": "Call to ETH-USD Terra feed has reverted",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`price-beth error calls should throw an error if the stETH/ETH Curve pool is returns 0 1`] = `
 Object {
   "error": Object {
     "feedID": "BETH/ETH",
@@ -39,13 +52,26 @@ Object {
 }
 `;
 
+exports[`price-beth error calls should throw an error if the stETH/ETH Curve pool reverts 1`] = `
+Object {
+  "error": Object {
+    "feedID": "BETH/ETH",
+    "message": "Call to Curve pool to fetch stETH/ETH rate reverted",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`price-beth successful calls return success when fetching the USD/BEth price 1`] = `
 Object {
   "data": Object {
-    "result": "253114383422",
+    "result": "271217959548",
   },
   "jobRunID": "1",
-  "result": "253114383422",
+  "result": "271217959548",
   "statusCode": 200,
 }
 `;
@@ -53,10 +79,10 @@ Object {
 exports[`price-beth successful calls returns success when fetching the ETH/BEth price 1`] = `
 Object {
   "data": Object {
-    "result": "96604907",
+    "result": "103514409",
   },
   "jobRunID": "1",
-  "result": "96604907",
+  "result": "103514409",
   "statusCode": 200,
 }
 `;

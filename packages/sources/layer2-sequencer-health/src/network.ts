@@ -91,19 +91,14 @@ export const getStatusByTransaction = async (
     }
     return (Requester.getResult(e, paths[network]) as string) || ''
   }
-  const _setTxTimeout = (timeout: number): Promise<never> =>
-    new Promise((_, rej) =>
-      setTimeout(
-        () => rej(new Error(`Transaction receipt not received in ${timeout} milliseconds`)),
-        timeout,
-      ),
-    )
+
   try {
     Logger.info(`Submitting empty transaction for network: ${network}`)
-    const receipt = await Promise.race([
-      _setTxTimeout(timeout),
-      wallet.sendTransaction(networkTx[network]),
-    ])
+    const receipt = await race({
+      timeout,
+      promise: wallet.sendTransaction(networkTx[network]),
+      error: `Transaction receipt not received in ${timeout} milliseconds`,
+    })
     Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
   } catch (e) {
@@ -114,4 +109,26 @@ export const getStatusByTransaction = async (
     Logger.error(`Transaction submission failed with an unexpected error: ${e.message}`)
     return false
   }
+}
+
+export function race({
+  promise,
+  timeout,
+  error,
+}: {
+  promise: Promise<ethers.providers.TransactionResponse>
+  timeout: number
+  error: string
+}): Promise<ethers.providers.TransactionResponse> {
+  let timer: NodeJS.Timeout
+
+  return Promise.race([
+    new Promise((_, reject) => {
+      timer = setTimeout(reject, timeout, error)
+    }) as Promise<ethers.providers.TransactionResponse>,
+    promise.then((value) => {
+      clearTimeout(timer)
+      return value
+    }),
+  ])
 }

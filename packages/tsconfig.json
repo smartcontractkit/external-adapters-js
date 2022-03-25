@@ -186,6 +186,9 @@
       "path": "./sources/cache.gold"
     },
     {
+      "path": "./sources/celsius-address-list"
+    },
+    {
       "path": "./sources/cfbenchmarks"
     },
     {

@@ -6,19 +6,7 @@ import { RedisModules, RedisScripts } from '@node-redis/client/dist/lib/commands
 import { logger } from '../../../modules'
 import { CacheEntry } from '../types'
 import * as metrics from './metrics'
-
-const DEFAULT_CACHE_REDIS_HOST = '127.0.0.1' // IP address of the Redis server
-const DEFAULT_CACHE_REDIS_PORT = 6379 // Port of the Redis server
-const DEFAULT_CACHE_REDIS_PATH = undefined // The UNIX socket string of the Redis server
-const DEFAULT_CACHE_REDIS_URL = undefined // The URL of the Redis server
-const DEFAULT_CACHE_REDIS_PASSWORD = undefined // The password required for redis auth
-const DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT = 15 * 1000 // Timeout per long lived connection (ms)
-const DEFAULT_CACHE_REDIS_MAX_RECONNECT_COOLDOWN = 3 * 1000 // Max cooldown time before attempting to reconnect (ms)
-const DEFAULT_CACHE_REDIS_REQUEST_TIMEOUT = 500 // Timeout per request (ms)
-const DEFAULT_CACHE_MAX_AGE = 90 * 1000 // 1.5 minutes
-const DEFAULT_CACHE_REDIS_MAX_QUEUED_ITEMS = 100 // Maximum length of the client's internal command queue
-
-const env = process.env
+import { getEnv } from '../../../util'
 
 export type RedisOptions = RedisClientOptions<RedisModules, RedisScripts> & {
   maxAge: number
@@ -30,28 +18,22 @@ export const defaultOptions = (): RedisOptions => {
   const options: RedisOptions = {
     type: 'redis',
     socket: {
-      host: env.CACHE_REDIS_HOST || DEFAULT_CACHE_REDIS_HOST,
-      port: Number(env.CACHE_REDIS_PORT) || DEFAULT_CACHE_REDIS_PORT,
-      path: env.CACHE_REDIS_PATH || DEFAULT_CACHE_REDIS_PATH,
+      host: getEnv('CACHE_REDIS_HOST'),
+      port: Number(getEnv('CACHE_REDIS_PORT')),
+      path: getEnv('CACHE_REDIS_PATH'),
       reconnectStrategy: (retries: number): number => {
         metrics.redis_retries_count.inc()
         logger.warn(`Redis reconnect attempt #${retries}`)
-        return Math.min(
-          retries * 100,
-          Number(env.CACHE_REDIS_MAX_RECONNECT_COOLDOWN) ||
-            DEFAULT_CACHE_REDIS_MAX_RECONNECT_COOLDOWN,
-        ) // Next reconnect attempt time
+        return Math.min(retries * 100, Number(getEnv('CACHE_REDIS_MAX_RECONNECT_COOLDOWN'))) // Next reconnect attempt time
       },
-      connectTimeout:
-        Number(env.CACHE_REDIS_CONNECTION_TIMEOUT) || DEFAULT_CACHE_REDIS_CONNECTION_TIMEOUT,
+      connectTimeout: Number(getEnv('CACHE_REDIS_CONNECTION_TIMEOUT')),
     },
-    password: env.CACHE_REDIS_PASSWORD || DEFAULT_CACHE_REDIS_PASSWORD,
-    commandsQueueMaxLength:
-      Number(env.CACHE_REDIS_MAX_QUEUED_ITEMS) || DEFAULT_CACHE_REDIS_MAX_QUEUED_ITEMS,
-    maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-    timeout: Number(env.CACHE_REDIS_TIMEOUT) || DEFAULT_CACHE_REDIS_REQUEST_TIMEOUT,
+    password: getEnv('CACHE_REDIS_PASSWORD'),
+    commandsQueueMaxLength: Number(getEnv('CACHE_REDIS_MAX_QUEUED_ITEMS')),
+    maxAge: Number(getEnv('CACHE_MAX_AGE')),
+    timeout: Number(getEnv('CACHE_REDIS_TIMEOUT')),
   }
-  const cacheRedisURL = env.CACHE_REDIS_URL || DEFAULT_CACHE_REDIS_URL
+  const cacheRedisURL = getEnv('CACHE_REDIS_URL')
   if (cacheRedisURL) options.url = cacheRedisURL
   return options
 }
