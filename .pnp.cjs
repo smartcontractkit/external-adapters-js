@@ -6212,6 +6212,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/lido-adapter", "workspace:packages/composites/lido"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
