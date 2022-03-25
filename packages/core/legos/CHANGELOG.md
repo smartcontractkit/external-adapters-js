@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.66
+
+### Patch Changes
+
+- Updated dependencies [4d76cf8b8]
+  - @chainlink/coinranking-adapter@1.2.0
+
 ## 1.0.65
 
 ### Patch Changes

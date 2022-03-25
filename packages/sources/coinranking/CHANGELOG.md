@@ -1,5 +1,11 @@
 # @chainlink/coinranking-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 4d76cf8b8: Fixed logging
+
 ## 1.1.23
 
 ### Patch Changes
