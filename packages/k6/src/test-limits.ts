@@ -102,7 +102,12 @@ const valueWithinRange = (val: JSONValue): boolean => {
     return false
   }
 
-  return 0 < val && val < 10_000_000_000_000
+  const numVal = Number(val)
+  if (isNaN(numVal)) {
+    return false
+  }
+
+  return 0 < numVal && numVal < 10_000_000_000_000
 }
 
 export default (): void => {
