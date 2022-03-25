@@ -1,4 +1,5 @@
-import { getEnv, buildUrlPath, buildUrl } from '../../src/lib/util'
+import { AdapterContext } from '@chainlink/types'
+import { getEnv, buildUrlPath, buildUrl, baseEnvDefaults } from '../../src/lib/util'
 
 describe('utils', () => {
   let oldEnv
@@ -11,7 +12,7 @@ describe('utils', () => {
     process.env = oldEnv
   })
 
-  describe('getRequiredEnv', () => {
+  describe('getEnv', () => {
     it('fetches the correct environment variable', () => {
       process.env.TEST = 'test'
       const actual = getEnv('TEST')
@@ -22,6 +23,42 @@ describe('utils', () => {
       process.env.TEST = ''
       const actual = getEnv('TEST')
       expect(actual).toBeUndefined()
+    })
+
+    it('prefers user-specified env vars over bootstrap base defaults', () => {
+      process.env.WS_ENABLED = 'true'
+      const actual = getEnv('WS_ENABLED')
+      expect(baseEnvDefaults.WS_ENABLED).toEqual('false')
+      expect(actual).toEqual('true')
+    })
+
+    it('prefers EA default overrides over bootstrap base defaults', () => {
+      const adapterContext: AdapterContext = { envDefaultOverrides: { WS_ENABLED: 'true' } }
+      const actual = getEnv('WS_ENABLED', undefined, adapterContext)
+      expect(baseEnvDefaults.WS_ENABLED).toEqual('false')
+      expect(actual).toEqual('true')
+    })
+
+    it('prefers user-specified env vars over EA default overrides', () => {
+      process.env.WS_ENABLED = 'true'
+      const adapterContext: AdapterContext = { envDefaultOverrides: { WS_ENABLED: 'false' } }
+      const actual = getEnv('WS_ENABLED', undefined, adapterContext)
+      expect(actual).toEqual('true')
+    })
+
+    it('defaults to bootstrap base defaults when user-specified env vars are undefined', () => {
+      process.env.WS_ENABLED = ''
+      const actual = getEnv('WS_ENABLED')
+      expect(baseEnvDefaults.WS_ENABLED).toEqual('false')
+      expect(actual).toEqual('false')
+    })
+
+    it('defaults to EA default overrides when user-specified env vars are undefined but overrides are present', () => {
+      process.env.WS_ENABLED = ''
+      const adapterContext: AdapterContext = { envDefaultOverrides: { WS_ENABLED: 'true' } }
+      const actual = getEnv('WS_ENABLED', undefined, adapterContext)
+      expect(baseEnvDefaults.WS_ENABLED).toEqual('false')
+      expect(actual).toEqual('true')
     })
   })
 

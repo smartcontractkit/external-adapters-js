@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coin Lore
 
-Version: 1.2.21
+Version: 1.2.22
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

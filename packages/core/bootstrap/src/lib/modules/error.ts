@@ -1,4 +1,5 @@
 import { AdapterErrorResponse } from '@chainlink/types'
+import { getEnv } from '../util'
 
 export class AdapterError extends Error {
   jobRunID: string
@@ -43,7 +44,7 @@ export class AdapterError extends Error {
   }
 
   toJSONResponse(): AdapterErrorResponse {
-    const showDebugInfo = process.env.NODE_ENV === 'development' || process.env.DEBUG === 'true'
+    const showDebugInfo = getEnv('NODE_ENV') === 'development' || getEnv('DEBUG') === 'true'
     const errorBasic = {
       name: this.name,
       message: this.message,

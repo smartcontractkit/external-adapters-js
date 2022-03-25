@@ -146,6 +146,7 @@ export const expose = <C extends Config>(
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
 ): ExecuteHandler => {
   util.registerUnhandledRejectionHandler()
+
   const middleware = makeMiddleware(execute, makeWsHandler, endpointSelector)
   return {
     server: server.initHandler(context, execute, middleware),

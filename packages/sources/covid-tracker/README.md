@@ -1,6 +1,6 @@
 # Chainlink External Adapter for COVID Tracker
 
-Version: 1.2.21
+Version: 1.2.22
 
 Notice: The COVID Tracking Project is ending all data collection on March 7, 2021. The existing API will continue to work until May 2021, but will only include data up to March 7, 2021.
 
