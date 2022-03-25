@@ -1,1 +1,1 @@
-export * as volatility from './volatility'
+export * as volatilityIndex from './volatilityIndex'

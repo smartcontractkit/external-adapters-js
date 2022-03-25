@@ -2,7 +2,7 @@ import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { calculate } from '../utils/cryptoVolatilityIndex'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
-export const supportedEndpoints = ['volatility']
+export const supportedEndpoints = ['volatilityIndex']
 
 const inputParameters: InputParameters = {
   contract: {
