@@ -1,5 +1,14 @@
 # @chainlink/sochain-adapter
 
+## 1.2.23
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-factories@1.0.37
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.22
 
 ### Patch Changes
