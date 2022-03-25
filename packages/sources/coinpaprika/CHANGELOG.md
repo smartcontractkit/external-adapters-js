@@ -1,5 +1,17 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- 2ab22634e: Fixed bug which caused the last ranked coinid to be used instead of the first
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.5.0
 
 ### Minor Changes
