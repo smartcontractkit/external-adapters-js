@@ -271,6 +271,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/cache.gold"
       },
       {
+        "name": "@chainlink/celsius-address-list-adapter",
+        "reference": "workspace:packages/sources/celsius-address-list"
+      },
+      {
         "name": "@chainlink/cfbenchmarks-adapter",
         "reference": "workspace:packages/sources/cfbenchmarks"
       },
@@ -722,6 +726,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
+      ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],
@@ -4587,6 +4592,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/celsius-address-list-adapter", [
+        ["workspace:packages/sources/celsius-address-list", {
+          "packageLocation": "./packages/sources/celsius-address-list/",
+          "packageDependencies": [
+            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.4.7"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/cfbenchmarks-adapter", [
         ["workspace:packages/sources/cfbenchmarks", {
           "packageLocation": "./packages/sources/cfbenchmarks/",
@@ -5275,6 +5300,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
+            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],
@@ -6169,8 +6195,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.2.4"],
             ["sinon", "npm:12.0.1"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6685,6 +6714,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
+            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],

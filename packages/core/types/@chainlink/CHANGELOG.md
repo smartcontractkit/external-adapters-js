@@ -1,5 +1,11 @@
 # @chainlink/types
 
+## 1.1.0
+
+### Minor Changes
+
+- d7857c911: Created Overrider class to handle overrides & implemented Overrider class for CoinGecko EA
+
 ## 1.0.2
 
 ### Patch Changes
