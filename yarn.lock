@@ -3353,6 +3353,7 @@ __metadata:
     "@babel/core": 7.16.12
     "@babel/preset-env": 7.16.11
     "@babel/preset-typescript": 7.16.7
+    "@chainlink/view-function-adapter": "workspace:^"
     "@changesets/cli": 2.18.1
     "@types/babel__core": 7.1.18
     "@types/babel__preset-env": 7.9.2
@@ -4806,7 +4807,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/view-function-adapter@workspace:*, @chainlink/view-function-adapter@workspace:packages/sources/view-function":
+"@chainlink/view-function-adapter@workspace:*, @chainlink/view-function-adapter@workspace:^, @chainlink/view-function-adapter@workspace:packages/sources/view-function":
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-adapter@workspace:packages/sources/view-function"
   dependencies:
