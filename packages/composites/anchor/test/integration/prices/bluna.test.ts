@@ -65,7 +65,7 @@ describe('price-bluna', () => {
   })
 
   describe('error calls', () => {
-    it('should throw an error if the LUNA/USD feed is down', async () => {
+    it('should throw an error if the LUNA/USD feed returns 0', async () => {
       process.env.LUNA_TERRA_FEED_ADDRESS = ERROR_LUNA_FEED
       const data: AdapterRequest = {
         id: jobID,
