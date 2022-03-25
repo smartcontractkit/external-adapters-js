@@ -1,5 +1,27 @@
 # @chainlink/anchor-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- 478f73a11: Fix issues related to bETH/USD calculation. Issues were mainly due to token pair exchange rates being flipped the wrong way around.
+
+## 3.1.2
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.5
+
 ## 3.1.1
 
 ### Patch Changes

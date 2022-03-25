@@ -25,6 +25,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [bravenewcoin](./bravenewcoin/README.md)
 - [btc.com](./btc.com/README.md)
 - [cache.gold](./cache.gold/README.md)
+- [celsius-address-list](./celsius-address-list/README.md)
 - [cfbenchmarks](./cfbenchmarks/README.md)
 - [chain-reserve-wallet](./chain-reserve-wallet/README.md)
 - [coinapi](./coinapi/README.md)

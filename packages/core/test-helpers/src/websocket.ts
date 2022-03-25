@@ -11,8 +11,15 @@ import { Server, WebSocket } from 'mock-socket'
  * @param provider singleton WebSocketClassProvider
  */
 export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
+  // Extend mock WebSocket class to bypass protocol headers error
+  class MockWebSocket extends WebSocket {
+    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
+      super(url, protocol instanceof Object ? undefined : protocol)
+    }
+  }
+
   // Need to disable typing, the mock-socket impl does not implement the ws interface fully
-  provider.set(WebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export const mockWebSocketServer = (url: string): Server => {
@@ -22,6 +29,10 @@ export const mockWebSocketServer = (url: string): Server => {
 export type WsMessageExchange = {
   request: unknown
   response: unknown
+}
+
+export type ParsedWsMessageExchange = WsMessageExchange & {
+  expected: string
 }
 
 // Export this here so adapter packages don't have to add the mock library themselves.
@@ -35,46 +46,81 @@ export const MockWsServer = Server
  *
  * @param server the mocked WS server
  * @param flow an array of message exchanges
+ * @param options options to enforce sequence and error on unexpected messages
  * @returns a promise that resolves when all exchanges have executed
  */
 export const mockWebSocketFlow = async (
   server: Server,
   flow: WsMessageExchange[],
+  options = {
+    enforceSequence: true,
+    errorOnUnexpectedMessage: true,
+  },
 ): Promise<boolean> => {
   return new Promise((resolve) => {
-    let currentExchange = 0
+    const buildPayload = (msg: unknown) => (typeof msg === 'string' ? msg : JSON.stringify(msg))
+
+    // Parse requests beforehand to avoid stringifying all exchanges on every incoming ws message
+    const parsedFlow: ParsedWsMessageExchange[] = flow.map((exchange) => ({
+      ...exchange,
+      expected: buildPayload(exchange.request),
+    }))
+
     server.on('connection', async (connection) => {
-      connection.on('message', (received) => {
-        const { request, response } = flow[currentExchange]
-        let expected
-        if (typeof request === 'string') {
-          expected = request
+      // Handler to send the response (or responses) back to the client
+      const sendResponse = (response: unknown, nested = false) => {
+        if (!nested && Array.isArray(response) && response.length > 0) {
+          response.forEach((r) => sendResponse(r, true))
         } else {
-          expected = JSON.stringify(request)
+          connection.send(buildPayload(response))
+        }
+      }
+
+      connection.on('message', (received) => {
+        let exchange
+
+        if (parsedFlow.length === 0 && options.errorOnUnexpectedMessage) {
+          throw Error(`Unexpected WS message, received: '${received}'`)
         }
 
-        if (received === expected) {
-          if (Array.isArray(response) && response.length > 0) {
-            response.forEach((r) => {
-              if (typeof r === 'string') {
-                return connection.send(r)
-              }
-              return connection.send(JSON.stringify(r))
-            })
-          } else if (typeof response === 'string') {
-            connection.send(response)
-          } else {
-            connection.send(JSON.stringify(response))
+        if (options.enforceSequence) {
+          // If the sequence is enforced, get first item from the flow of exchanges
+          exchange = parsedFlow[0] as ParsedWsMessageExchange
+
+          if (exchange.expected !== received) {
+            if (options.errorOnUnexpectedMessage) {
+              throw Error(
+                `The WS message received does not match the expected one.
+                 Expected: '${exchange.expected}'
+                 Received: '${received}'`,
+              )
+            } else {
+              return
+            }
           }
 
-          currentExchange++
-          if (currentExchange === flow.length) {
-            resolve(true)
-          }
+          // Message received matches expected request, remove exchange from the list
+          parsedFlow.shift()
         } else {
-          throw Error(
-            `The WS message received does not match the expected one. \nExpected: ${expected}\nReceived${received}`,
-          )
+          // If the sequence is not enforced, try to find the received msg within the list of expected exchanges
+          const i = parsedFlow.findIndex((exchange) => exchange.expected === received)
+
+          if (i === -1) {
+            if (options.errorOnUnexpectedMessage) {
+              throw Error(`Unexpected WS message, received: '${received}'`)
+            } else {
+              return
+            }
+          }
+
+          // Message received matches expected request, remove exchange from the list
+          exchange = parsedFlow.splice(i, 1)[0]
+        }
+
+        sendResponse(exchange.response)
+
+        if (parsedFlow.length === 0) {
+          resolve(true)
         }
       })
     })

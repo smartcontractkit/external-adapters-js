@@ -1,5 +1,26 @@
 # @chainlink/dxfeed-adapter
 
+## 1.2.25
+
+### Patch Changes
+
+- 4240307ed: added null safety checks for makeWSHandler
+
+## 1.2.24
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.23
 
 ### Patch Changes
