@@ -66,7 +66,8 @@ If not set, the script will target the EA in staging k8s with the name `$CI_ADAP
 
 ### 3. Tweak config
 
-- **TEST_DURATION**: How long to run the test for
+- **TEST_DURATION**: How long to run the test for. This is the period of time with a stable RPS, after a 5m warmup and
+  1m scale-up time.
 - **RPS**: How many requests to target per second
 - **T**: The expected time for each request. Should to include network latency. This is used to determine how many
   workers to use to send requests, and how often. The more accurate this variable is, the more constant the RPS will be.
@@ -91,8 +92,3 @@ Once completed, you can run the test:
 # This command assumes you are running it from the directory of this README
 docker run -v $(pwd)/dist:/load -v $(pwd)/src/config:/config --env-file limits.env -i loadimpact/k6 run /load/testLimits.js
 ```
-
-#### Notes
-
-Due to the time it takes for the EA to warm up from a cold start, you can try running the test for a minute at first,
-before starting the real test for a longer period of time.

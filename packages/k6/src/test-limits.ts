@@ -26,16 +26,6 @@ if (__ENV.VU && !isNaN(parseInt(__ENV.VU))) {
   VU = parseInt(__ENV.VU)
 }
 
-// set the k6 running options
-export const options = {
-  vus: VU,
-  duration: testDuration,
-  thresholds: {
-    http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-    http_req_duration: ['p(90)<1000'], // 90% of requests should be below 1s
-  },
-}
-
 export const errorRate = new Rate('errors')
 
 // load the test data
@@ -79,6 +69,19 @@ if (__ENV.UNIQUE_REQUESTS && parseInt(__ENV.UNIQUE_REQUESTS)) {
 }
 
 console.info(`Using ${uniqueRequests} unique requests`)
+
+// set the k6 running options
+export const options = {
+  thresholds: {
+    http_req_failed: ['rate<0.01'], // http errors should be less than 1%
+    http_req_duration: ['p(90)<1000'], // 90% of requests should be below 1s
+  },
+  stages: [
+    { duration: '5m', target: uniqueRequests }, // 5m warmup from 0 to `uniqueRequests`
+    { duration: '1m', target: VU }, // 1m warmup from `uniqueRequests` to target RPS
+    { duration: testDuration, target: VU }, // `testDuration` with constant target RPS
+  ],
+}
 
 const buildAdapterUrl = (): string => {
   if (__ENV.LOCAL_ADAPTER_NAME) {
