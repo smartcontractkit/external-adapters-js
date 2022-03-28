@@ -24,6 +24,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
   const encodedCalls = await getEncodedCallsResult(
+    jobRunID,
     response.data.player_achievements,
     response.data.team_achievements,
     config,

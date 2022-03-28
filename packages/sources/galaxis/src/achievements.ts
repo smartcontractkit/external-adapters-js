@@ -1,10 +1,17 @@
 import { ethers } from 'ethers'
-import { EC_REGISTRY_ABI, EC_REGISTRY_MAP_ABI, TRAIT_IMPLEMENTER_ABI } from './abis'
-import { encodeAchievements } from './encoder'
+import {
+  BATCH_WRITER_ABI,
+  EC_REGISTRY_ABI,
+  EC_REGISTRY_MAP_ABI,
+  TRAIT_IMPLEMENTER_ABI,
+} from './abis'
+import { callToRequestData } from './encoder'
 import { ExtendedConfig } from './config'
 import { Achievement, AchievementsByIDs, PlayerStruct, TeamStruct } from './types'
+import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
 
 export const getEncodedCallsResult = async (
+  jobRunID: string,
   playerAchievements: Achievement[],
   teamAchievements: Achievement[],
   config: ExtendedConfig,
@@ -17,9 +24,14 @@ export const getEncodedCallsResult = async (
 
   let hasHitLimit = false
   let encodedCalls = ''
+  const achievementIDs = Object.keys(groupedAchievements).sort((a, b) => parseInt(a) - parseInt(b))
+  const batchWriter = new ethers.Contract(config.batchWriterAddress, BATCH_WRITER_ABI, provider)
+  let currAchievementIdIdx = await getIdxLastProcessedAchievementID(
+    jobRunID,
+    achievementIDs,
+    batchWriter,
+  )
 
-  const achievementIDs = Object.keys(groupedAchievements)
-  let currAchievementIdIdx = 0
   while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
     const achievementID = achievementIDs[currAchievementIdIdx]
     if (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) {
@@ -32,15 +44,41 @@ export const getEncodedCallsResult = async (
         ecRegistry,
       )
       calls.push([config.ecRegistryAddress, encodedCall])
-      const updatedEncodedCalls = encodeAchievements(calls)
-      if (updatedEncodedCalls.length <= config.maxEncodedCallsBytes) {
+      const updatedEncodedCalls = callToRequestData(calls, parseInt(achievementID))
+      try {
+        const gasCostEstimate = await batchWriter.estimateGas.fulfillBytes(
+          jobRunID,
+          `0x${updatedEncodedCalls}`,
+        )
+        Logger.info(`Successfully estimated gas ${gasCostEstimate.toString()}`)
         encodedCalls = updatedEncodedCalls
+      } catch (e) {
+        hasHitLimit = true
+        Logger.info(`Hit gas limit when processing achievementID ${achievementID}`)
       }
-      hasHitLimit = updatedEncodedCalls.length > config.maxEncodedCallsBytes
     }
     currAchievementIdIdx++
   }
-  return encodedCalls + `0${hasHitLimit ? 1 : 0}` // Strip out 0x
+  return encodedCalls
+}
+
+const getIdxLastProcessedAchievementID = async (
+  jobRunID: string,
+  sortedAchievementIDs: string[],
+  batchWriter: ethers.Contract,
+): Promise<number> => {
+  const lastProcessedID = await batchWriter.LastDataRecordId()
+  const lastProcessedIDIdx = sortedAchievementIDs.findIndex(
+    (achievementID) => achievementID === lastProcessedID.toString(),
+  )
+  if (lastProcessedIDIdx < 0) {
+    throw new AdapterError({
+      jobRunID,
+      statusCode: 500,
+      message: `Cannot find achievementID ${lastProcessedID}`,
+    })
+  }
+  return lastProcessedIDIdx
 }
 
 const getMappedIDs = (
