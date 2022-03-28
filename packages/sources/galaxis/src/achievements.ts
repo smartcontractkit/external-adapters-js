@@ -7,7 +7,13 @@ import {
 } from './abis'
 import { callToRequestData } from './encoder'
 import { ExtendedConfig } from './config'
-import { Achievement, AchievementsByIDs, PlayerStruct, TeamStruct } from './types'
+import {
+  Achievement,
+  AchievementsByIDs,
+  AchievementWithMappedID,
+  PlayerStruct,
+  TeamStruct,
+} from './types'
 import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
 
 export const getEncodedCallsResult = async (
@@ -81,31 +87,6 @@ const getIdxLastProcessedAchievementID = async (
   return lastProcessedIDIdx
 }
 
-const getMappedIDs = (
-  teams: TeamStruct[],
-  players: PlayerStruct[],
-  groupedAchievements: AchievementsByIDs,
-  achievementID: string,
-): number[] => {
-  return groupedAchievements[achievementID].map(({ team_id, player_id }) => {
-    if (team_id) {
-      const team = teams.find((t) => t.real_id.toString() === team_id.toString())
-      if (!team) {
-        throw new Error(`Cannot match team ID ${team_id} with response from ECRegistryMap`)
-      }
-      return team.id
-    } else if (player_id) {
-      const player = players.find((p) => p.real_id.toString() === player_id.toString())
-      if (!player) {
-        throw new Error(`Cannot match player ID ${team_id} with response from ECRegistryMap`)
-      }
-      return player.id
-    } else {
-      throw new Error('Missing player and team IDs')
-    }
-  })
-}
-
 const getSetDataEncodedCall = async (
   provider: ethers.providers.JsonRpcProvider,
   teams: TeamStruct[],
@@ -114,22 +95,52 @@ const getSetDataEncodedCall = async (
   achievementID: string,
   ecRegistry: ethers.Contract,
 ): Promise<string> => {
-  const ids = getMappedIDs(teams, players, groupedAchievements, achievementID)
+  const achievements = getAchievementsWithMappedIDs(
+    teams,
+    players,
+    groupedAchievements,
+    achievementID,
+  )
   if (isOnlyBooleanValues(groupedAchievements[achievementID].map(({ value }) => value))) {
-    return getSetDataEncodedCallForOnlyBooleanAchievement(
-      ecRegistry,
-      ids,
-      achievementID,
-      groupedAchievements,
-    )
+    return getSetDataEncodedCallForOnlyBooleanAchievement(ecRegistry, achievements, achievementID)
   }
   return await getSetDataEncodedCallForMixedValueAchievement(
     provider,
     ecRegistry,
-    ids,
+    achievements,
     achievementID,
     groupedAchievements,
   )
+}
+
+const getAchievementsWithMappedIDs = (
+  teams: TeamStruct[],
+  players: PlayerStruct[],
+  groupedAchievements: AchievementsByIDs,
+  achievementID: string,
+): AchievementWithMappedID[] => {
+  return groupedAchievements[achievementID].map(({ team_id, player_id, ...rest }) => {
+    let mappedID
+    if (team_id) {
+      const team = teams.find((t) => t.real_id.toString() === team_id.toString())
+      if (!team) {
+        throw new Error(`Cannot match team ID ${team_id} with response from ECRegistryMap`)
+      }
+      mappedID = team.id
+    } else if (player_id) {
+      const player = players.find((p) => p.real_id.toString() === player_id.toString())
+      if (!player) {
+        throw new Error(`Cannot match player ID ${team_id} with response from ECRegistryMap`)
+      }
+      mappedID = player.id
+    } else {
+      throw new Error('Missing player and team IDs')
+    }
+    return {
+      ...rest,
+      mappedID: mappedID,
+    }
+  })
 }
 
 const isOnlyBooleanValues = (values: (number | boolean)[]): boolean => {
@@ -139,20 +150,38 @@ const isOnlyBooleanValues = (values: (number | boolean)[]): boolean => {
   return true
 }
 
-const getSetDataEncodedCallForOnlyBooleanAchievement = (
+// Data in ECRegistry is stored in a BitMap which means we need
+// to load existing data, check for differences and only update the
+// new key uint8's that have been changed
+// https://github.com/ethercards/ec-chain-batch-execute/blob/master/tests/batchWriter.ts#L228
+const getSetDataEncodedCallForOnlyBooleanAchievement = async (
   ecRegistry: ethers.Contract,
-  ids: number[],
+  updatedAchievements: AchievementWithMappedID[],
   achievementID: string,
-  groupedAchievements: AchievementsByIDs,
-): string => {
-  const values = groupedAchievements[achievementID].map(({ value }) => (!value ? 1 : 0))
-  return ecRegistry.interface.encodeFunctionData('setData', [parseInt(achievementID), ids, values])
+): Promise<string> => {
+  const pageNumber = 0
+  const numPageRecords = updatedAchievements.length
+  const oldValues = await ecRegistry.getData(achievementID, pageNumber, numPageRecords)
+  const valueDifferences: number[] = []
+  const valueDifferenceIDs: number[] = []
+  for (let z = 0; z < updatedAchievements.length; z++) {
+    const boolAsNum = typeof updatedAchievements[z].value === 'boolean' ? 1 : 0
+    if (oldValues[z] !== boolAsNum) {
+      valueDifferenceIDs.push(updatedAchievements[z].mappedID)
+      valueDifferences.push(boolAsNum)
+    }
+  }
+  return ecRegistry.interface.encodeFunctionData('setData', [
+    parseInt(achievementID),
+    valueDifferenceIDs,
+    valueDifferences,
+  ])
 }
 
 const getSetDataEncodedCallForMixedValueAchievement = async (
   provider: ethers.providers.JsonRpcProvider,
   ecRegistry: ethers.Contract,
-  ids: number[],
+  achievements: AchievementWithMappedID[],
   achievementID: string,
   groupedAchievements: AchievementsByIDs,
 ): Promise<string> => {
@@ -161,7 +190,10 @@ const getSetDataEncodedCallForMixedValueAchievement = async (
   )
   const { implementer: implementerAddress } = await ecRegistry.traits(achievementID)
   const implementer = new ethers.Contract(implementerAddress, TRAIT_IMPLEMENTER_ABI, provider)
-  return implementer.interface.encodeFunctionData('setData', [ids, values])
+  return implementer.interface.encodeFunctionData('setData', [
+    achievements.map((a) => a.mappedID),
+    values,
+  ])
 }
 
 const getGroupedAchievementsByID = (

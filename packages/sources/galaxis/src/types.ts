@@ -12,6 +12,10 @@ export interface Achievement {
   value: boolean | number
 }
 
+export interface AchievementWithMappedID extends Achievement {
+  mappedID: number
+}
+
 export interface TeamStruct {
   id: number
   name: string
