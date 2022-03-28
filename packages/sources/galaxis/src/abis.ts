@@ -94,71 +94,10 @@ export const TRAIT_IMPLEMENTER_ABI = [
 
 export const BATCH_WRITER_ABI = [
   {
-    inputs: [{ internalType: 'uint16', name: 'id', type: 'uint16' }],
-    name: 'CallFailed',
-    type: 'error',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'address', name: 'previousOwner', type: 'address' },
-      { indexed: true, internalType: 'address', name: 'newOwner', type: 'address' },
-    ],
-    name: 'OwnershipTransferred',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'bytes32', name: 'requestId', type: 'bytes32' },
-      { indexed: true, internalType: 'bytes', name: 'data', type: 'bytes' },
-    ],
-    name: 'RequestFulfilled',
-    type: 'event',
-  },
-  {
-    inputs: [{ internalType: 'address', name: '_addr', type: 'address' }],
-    name: 'canCall',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    inputs: [],
+    name: 'LastDataRecordId',
+    outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'bytes32', name: 'requestId', type: 'bytes32' },
-      { internalType: 'bytes', name: 'bytesData', type: 'bytes' },
-    ],
-    name: 'fulfillBytes',
-    outputs: [{ internalType: 'bool[]', name: '', type: 'bool[]' }],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'owner',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'requestBytes',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
 ]
