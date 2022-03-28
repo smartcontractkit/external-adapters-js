@@ -33,7 +33,8 @@ export const getEncodedCallsResult = async (
   const batchWriter = new ethers.Contract(config.batchWriterAddress, BATCH_WRITER_ABI, provider)
   const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
 
-  let currAchievementIdIdx = await getIdxLastProcessedAchievementID(achievementIDs, batchWriter)
+  const lastProcessedInfo = await getIdxLastProcessedAchievementID(achievementIDs, batchWriter)
+  let currAchievementIdIdx = lastProcessedInfo.idx
   while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
     const achievementID = achievementIDs[currAchievementIdIdx]
     if (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) {
@@ -55,7 +56,23 @@ export const getEncodedCallsResult = async (
     }
     currAchievementIdIdx++
   }
+  const lastProcessedID = lastProcessedInfo.lastProcessedID
+  validateEncodedCallsNotEmpty(jobRunID, lastProcessedID, encodedCalls)
   return encodedCalls
+}
+
+const validateEncodedCallsNotEmpty = (
+  jobRunID: string,
+  lastProcessedID: string,
+  encodedCalls: string,
+) => {
+  if (encodedCalls.length === 0) {
+    throw new AdapterError({
+      jobRunID,
+      statusCode: 500,
+      message: `Got empty encoded results when resuming from achievementID ${lastProcessedID}`,
+    })
+  }
 }
 
 const updateEncodedCalls = async (
@@ -96,16 +113,25 @@ const updateEncodedCalls = async (
 const getIdxLastProcessedAchievementID = async (
   sortedAchievementIDs: string[],
   batchWriter: ethers.Contract,
-): Promise<number> => {
+): Promise<{
+  idx: number
+  lastProcessedID: string
+}> => {
   const lastProcessedID = await batchWriter.LastDataRecordId()
   const lastProcessedIDIdx = sortedAchievementIDs.findIndex(
     (achievementID) => achievementID === lastProcessedID.toString(),
   )
   if (lastProcessedIDIdx < 0) {
     Logger.info(`Cannot find achievementID ${lastProcessedID}.  Will process all achievements`)
-    return 0
+    return {
+      idx: 0,
+      lastProcessedID: lastProcessedID.toString(),
+    }
   }
-  return lastProcessedIDIdx
+  return {
+    idx: lastProcessedIDIdx,
+    lastProcessedID: lastProcessedID.toString(),
+  }
 }
 
 const getSetDataEncodedCall = async (

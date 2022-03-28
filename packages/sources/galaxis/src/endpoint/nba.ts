@@ -29,6 +29,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     response.data.team_achievements,
     config,
   )
+
   return {
     jobRunID,
     result: encodedCalls,
