@@ -1,5 +1,11 @@
 # @chainlink/xsushi-price-adapter
 
+## 1.0.14
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.3.4
+
 ## 1.0.13
 
 ### Patch Changes

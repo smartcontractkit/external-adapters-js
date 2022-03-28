@@ -1,6 +1,6 @@
 # Chainlink External Adapter for US Consumer Price Index (USCPI)
 
-Version: 1.1.22
+Version: 1.1.23
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
