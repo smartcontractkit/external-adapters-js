@@ -152,7 +152,7 @@ jobs:
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
 
-              yarn qa:test saveAdapterDependencies(ADAPTER_NAMES) # saves list like "a,b,c d,e,f a,b,d,e" to soakTestDependencies.txt
+              yarn qa:test saveAdapterDependencies(ADAPTER_NAMES) # saves list like "a,b,c:d,e,f:a,b,d,e" to soakTestDependencies.txt
               ADAPTER_DEPENDENCIES="${ADAPTER_DEPENDENCIES} ${adapter}"
             done
 
