@@ -449,3 +449,6 @@ export type Includes = {
   to: string
   includes: IncludePair[]
 }
+
+import objectPath from 'object-path'
+export { objectPath }
