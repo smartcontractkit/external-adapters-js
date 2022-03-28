@@ -7,7 +7,8 @@ export const supportedEndpoints = ['getpayout', 'read']
 export const description =
   'Endpoint used to get information about a transaction or batch of transactions.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { payout_id: string; type: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   payout_id: {
     required: true,
     description: 'ID of the payout batch or item to lookup',
@@ -27,7 +28,7 @@ const paramOptions = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, paramOptions)
+  const validator = new Validator<TInputParameters>(request, inputParameters, paramOptions)
 
   const jobRunID = validator.validated.id
   const payout_id: string = validator.validated.data.payout_id
@@ -50,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   try {
-    const response = await config.api.client.execute(paypal_req)
+    const response = await (config.api as any).client.execute(paypal_req)
     return Requester.success(jobRunID, { data: response, status: response.statusCode })
   } catch (e) {
     throw Requester.errored(jobRunID, e, e.statusCode)
