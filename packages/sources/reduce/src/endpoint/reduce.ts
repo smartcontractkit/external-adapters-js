@@ -1,12 +1,18 @@
-import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { NestableValue, objectPath, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Execute, InputParameters } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 
 export const supportedEndpoints = ['reduce']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  reducer: string
+  initialValue: number | string
+  dataPath: string
+  valuePath: string
+  addresses: NestableValue
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   reducer: {
     required: true,
     description:
@@ -36,14 +42,14 @@ const DEFAULT_DATA_PATH = 'result'
 
 // Export function to integrate with Chainlink node
 export const execute: Execute = async (request) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
 
   const { data } = validator.validated
 
   const dataPath = data.dataPath || DEFAULT_DATA_PATH
-  let inputData = <number[]>objectPath.get(request.data, dataPath)
+  let inputData = <Record<string, unknown>[]>objectPath.get(request.data, dataPath)
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0) {
@@ -57,13 +63,13 @@ export const execute: Execute = async (request) => {
   }
 
   // Get value at specified path
-  const _get = (val: unknown): number => objectPath.get(val, path)
+  const _get = (val: Record<string, unknown>): number => objectPath.get(val, path)
 
   // Filter undesired values
   inputData = inputData.filter((val) => !!_get(val))
 
   // Check if all items are numbers
-  const _isNumber = (val: unknown): boolean => !isNaN(_get(val))
+  const _isNumber = (val: Record<string, unknown>): boolean => !isNaN(_get(val))
   if (!inputData.every(_isNumber)) {
     throw Error(`Not every '${path}' item is a number.`)
   }
@@ -73,43 +79,45 @@ export const execute: Execute = async (request) => {
     case 'sum': {
       result = inputData.reduce((acc, val) => {
         return acc.plus(new Decimal(_get(val)))
-      }, new Decimal(data.initialValue) || new Decimal(0))
+      }, new Decimal(data.initialValue || 0))
       break
     }
     case 'product': {
       result = inputData.reduce(
         (acc, val) => acc.mul(new Decimal(_get(val))),
-        new Decimal(data.initialValue) || new Decimal(1),
+        new Decimal(data.initialValue || 1),
       )
       break
     }
     case 'average': {
       result = inputData.reduce(
         (acc, val, _, { length }) => acc.plus(new Decimal(_get(val)).div(new Decimal(length))),
-        new Decimal(data.initialValue) || new Decimal(0),
+        new Decimal(data.initialValue || 0),
       )
       break
     }
     case 'median': {
-      const sortedData = inputData.sort((a, b) => _get(a) - _get(b))
+      const sortedData: Record<string, unknown>[] = inputData.sort((a, b) => _get(a) - _get(b))
       const mid = Math.ceil(inputData.length / 2)
       result =
         inputData.length % 2 === 0
-          ? new Decimal(sortedData[mid]).plus(new Decimal(sortedData[mid - 1])).div(new Decimal(2))
-          : new Decimal(sortedData[mid - 1])
+          ? new Decimal(_get(sortedData[mid]))
+              .plus(new Decimal(_get(sortedData[mid - 1])))
+              .div(new Decimal(2))
+          : new Decimal(_get(sortedData[mid - 1]))
       break
     }
     case 'min': {
       result = inputData.reduce(
         (acc, val) => Decimal.min(acc, new Decimal(_get(val))),
-        new Decimal(data.initialValue) || new Decimal(Number.MAX_VALUE),
+        new Decimal(data.initialValue || Number.MAX_VALUE),
       )
       break
     }
     case 'max': {
       result = inputData.reduce(
         (acc, val) => Decimal.max(acc, new Decimal(_get(val))),
-        new Decimal(data.initialValue) || new Decimal(Number.MIN_VALUE),
+        new Decimal(data.initialValue || Number.MIN_VALUE),
       )
       break
     }
