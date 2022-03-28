@@ -25,19 +25,15 @@ export const getEncodedCallsResult = async (
   const groupedAchievements = getGroupedAchievementsByID(playerAchievements, teamAchievements)
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const { teams, players } = await getPlayerAndTeamMaps(provider, config)
-  const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
   const calls: string[][] = []
 
   let hasHitLimit = false
   let encodedCalls = ''
   const achievementIDs = Object.keys(groupedAchievements).sort((a, b) => parseInt(a) - parseInt(b))
   const batchWriter = new ethers.Contract(config.batchWriterAddress, BATCH_WRITER_ABI, provider)
-  let currAchievementIdIdx = await getIdxLastProcessedAchievementID(
-    jobRunID,
-    achievementIDs,
-    batchWriter,
-  )
+  const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
 
+  let currAchievementIdIdx = await getIdxLastProcessedAchievementID(achievementIDs, batchWriter)
   while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
     const achievementID = achievementIDs[currAchievementIdIdx]
     if (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) {
@@ -53,14 +49,22 @@ export const getEncodedCallsResult = async (
       const updatedEncodedCalls = callToRequestData(calls, parseInt(achievementID))
       try {
         const gasCostEstimate = await batchWriter.estimateGas.fulfillBytes(
-          jobRunID,
+          ethers.utils.formatBytes32String(jobRunID),
           `0x${updatedEncodedCalls}`,
         )
         Logger.info(`Successfully estimated gas ${gasCostEstimate.toString()}`)
         encodedCalls = updatedEncodedCalls
       } catch (e) {
-        hasHitLimit = true
-        Logger.info(`Hit gas limit when processing achievementID ${achievementID}`)
+        if (e.code === 'UNPREDICTABLE_GAS_LIMIT') {
+          hasHitLimit = true
+          Logger.info(`Hit gas limit when processing achievementID ${achievementID}`)
+        } else {
+          throw new AdapterError({
+            jobRunID,
+            message: e.message,
+            statusCode: 500,
+          })
+        }
       }
     }
     currAchievementIdIdx++
@@ -69,7 +73,6 @@ export const getEncodedCallsResult = async (
 }
 
 const getIdxLastProcessedAchievementID = async (
-  jobRunID: string,
   sortedAchievementIDs: string[],
   batchWriter: ethers.Contract,
 ): Promise<number> => {
@@ -78,11 +81,8 @@ const getIdxLastProcessedAchievementID = async (
     (achievementID) => achievementID === lastProcessedID.toString(),
   )
   if (lastProcessedIDIdx < 0) {
-    throw new AdapterError({
-      jobRunID,
-      statusCode: 500,
-      message: `Cannot find achievementID ${lastProcessedID}`,
-    })
+    Logger.info(`Cannot find achievementID ${lastProcessedID}.  Will process all achievements`)
+    return 0
   }
   return lastProcessedIDIdx
 }

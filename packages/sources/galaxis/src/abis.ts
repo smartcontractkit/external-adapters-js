@@ -34,6 +34,17 @@ export const EC_REGISTRY_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [
+      { internalType: 'uint16', name: 'traitId', type: 'uint16' },
+      { internalType: 'uint8', name: '_page', type: 'uint8' },
+      { internalType: 'uint16', name: '_perPage', type: 'uint16' },
+    ],
+    name: 'getData',
+    outputs: [{ internalType: 'uint8[]', name: '', type: 'uint8[]' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const EC_REGISTRY_MAP_ABI = [
@@ -98,6 +109,16 @@ export const BATCH_WRITER_ABI = [
     name: 'LastDataRecordId',
     outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'requestId', type: 'bytes32' },
+      { internalType: 'bytes', name: 'bytesData', type: 'bytes' },
+    ],
+    name: 'fulfillBytes',
+    outputs: [{ internalType: 'bool[]', name: '', type: 'bool[]' }],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ]
