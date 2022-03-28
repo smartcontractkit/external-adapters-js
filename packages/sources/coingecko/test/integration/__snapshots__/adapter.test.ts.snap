@@ -12,6 +12,70 @@ Object {
 }
 `;
 
+exports[`execute crypto api should return success for array 1`] = `
+Object {
+  "data": Object {
+    "ethereum": Object {
+      "usd": 3015.64,
+    },
+    "olympus": Object {
+      "usd": 30.3,
+    },
+    "results": Array [
+      Array [
+        Object {
+          "data": Object {
+            "base": "ETH",
+            "endpoint": "crypto",
+            "overrides": Object {
+              "coingecko": Object {
+                "OHM": "olympus",
+              },
+            },
+            "quote": "USD",
+            "resultPath": "usd",
+          },
+          "id": "1",
+        },
+        3015.64,
+      ],
+      Array [
+        Object {
+          "data": Object {
+            "base": "OHM",
+            "endpoint": "crypto",
+            "overrides": Object {
+              "coingecko": Object {
+                "OHM": "olympus",
+              },
+            },
+            "quote": "USD",
+            "resultPath": "usd",
+          },
+          "id": "1",
+        },
+        30.3,
+      ],
+    ],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute crypto api should return success for override 1`] = `
+Object {
+  "data": Object {
+    "result": 100,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 100,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute dominance api should return success 1`] = `
 Object {
   "data": Object {

@@ -1,6 +1,6 @@
 # Chainlink Open Exchange Rates External Adapter
 
-Version: 1.3.19
+Version: 1.3.21
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

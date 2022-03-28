@@ -1,6 +1,6 @@
 # Chainlink Polygon External Adapter
 
-Version: 1.4.19
+Version: 1.4.21
 
 This adapter is for [Polygon.io](https://polygon.io/) and supports the conversion endpoint.
 

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Eth-balance
 
-Version: 1.1.21
+Version: 1.1.23
 
 External adapter for fetching balances for ETH addresses
 

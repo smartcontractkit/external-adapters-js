@@ -1,4 +1,5 @@
 import * as client from 'prom-client'
+import { getEnv } from '../../util'
 
 interface CacheExecutionDurationParams {
   participantId: string
@@ -10,7 +11,7 @@ export const beginObserveCacheMetrics = ({
   feedId,
   isFromWs,
 }: CacheExecutionDurationParams) => {
-  const cacheType = process.env.CACHE_TYPE === 'redis' ? CacheTypes.Redis : CacheTypes.Local
+  const cacheType = getEnv('CACHE_TYPE') === 'redis' ? CacheTypes.Redis : CacheTypes.Local
   const base = {
     feed_id: feedId,
     participant_id: participantId,

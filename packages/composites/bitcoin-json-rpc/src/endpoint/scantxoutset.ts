@@ -1,6 +1,6 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { Config, ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
-import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, Logger, util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'scantxoutset'
 
@@ -57,7 +57,7 @@ const scanWithRetries = async (
       if (e.cause?.response?.data?.error?.code === -8) {
         Logger.debug('scan is already in progress, waiting 1s...')
         Logger.debug(`time left to wait: ${deadline - Date.now()}ms`)
-        await sleep(1000)
+        await util.sleep(1000)
         continue
       } else if (e.message === `timeout of ${config.api.timeout}ms exceeded`) {
         // Highly experimental:
@@ -83,8 +83,4 @@ const scanWithRetries = async (
   }
 
   throw new Error('unable to start query within timeout')
-}
-
-const sleep = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
 }

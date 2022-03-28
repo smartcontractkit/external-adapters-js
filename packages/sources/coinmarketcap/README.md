@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmarketcap
 
-Version: 1.3.22
+Version: 1.3.24
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

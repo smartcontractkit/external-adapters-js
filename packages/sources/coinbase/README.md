@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinbase
 
-Version: 1.2.21
+Version: 1.2.23
 
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 

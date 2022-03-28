@@ -1,7 +1,5 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { AddressInfo } from 'net'
-import request, { SuperTest, Test } from 'supertest'
 import { SuiteContext } from './adapter.test'
 import {
   mockCoinmetricsResponseError1,
@@ -13,11 +11,6 @@ import {
 
 export function totalBurnedTests(context: SuiteContext): void {
   const id = '1'
-  let req: SuperTest<Test>
-
-  beforeAll(() => {
-    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
-  })
 
   describe('error calls', () => {
     describe('when unsuccessfully requesting coinmetrics API', () => {
@@ -33,7 +26,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseError1()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -58,7 +51,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccessMalformed1()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -81,7 +74,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccessMalformed2()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -108,7 +101,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccess1()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -135,7 +128,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccess2()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')

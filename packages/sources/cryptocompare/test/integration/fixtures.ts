@@ -159,3 +159,72 @@ export const mockPriceResponseFailure = (): nock =>
       'Vary',
       'Origin',
     ])
+
+export const mockSubscribeResponse = {
+  request: {
+    action: 'SubAdd',
+    subs: ['5~CCCAGG~ETH~BTC'],
+  },
+  response: [
+    {
+      TYPE: '16',
+      MESSAGE: 'SUBSCRIBECOMPLETE',
+      SUB: '5~CCCAGG~ETH~BTC',
+    },
+    {
+      TYPE: '3',
+      MESSAGE: 'LOADCOMPLETE',
+      INFO: 'All your valid subs have been loaded.',
+    },
+    {
+      TYPE: '5',
+      MARKET: 'CCCAGG',
+      FROMSYMBOL: 'ETH',
+      TOSYMBOL: 'BTC',
+      FLAGS: 2,
+      PRICE: 0.07038,
+      LASTUPDATE: 1645027932,
+      MEDIAN: 0.07038,
+      LASTVOLUME: 0.045,
+      LASTVOLUMETO: 0.00316565955,
+      LASTTRADEID: '16450279320001',
+      VOLUMEDAY: 253257.38626818382,
+      VOLUMEDAYTO: 11398.462174583636,
+      VOLUME24HOUR: 78687.65999060342,
+      VOLUME24HOURTO: 5583.496196776957,
+      OPENDAY: 0.07148,
+      HIGHDAY: 0.07187,
+      LOWDAY: 0.07014,
+      OPEN24HOUR: 0.07057,
+      HIGH24HOUR: 0.0719,
+      LOW24HOUR: 0.07013,
+      LASTMARKET: 'aax',
+      VOLUMEHOUR: 9845.973204030126,
+      VOLUMEHOURTO: 406.67115535224315,
+      OPENHOUR: 0.07033,
+      HIGHHOUR: 0.07043,
+      LOWHOUR: 0.07021,
+      TOPTIERVOLUME24HOUR: 78687.39639060342,
+      TOPTIERVOLUME24HOURTO: 5583.4778180780095,
+      CURRENTSUPPLY: 119524383.0615,
+      CIRCULATINGSUPPLY: 119524383.0615,
+      MAXSUPPLY: -1,
+      MKTCAPPENALTY: 0,
+      CURRENTSUPPLYMKTCAP: 8412126.079868369,
+      CIRCULATINGSUPPLYMKTCAP: 8412126.079868369,
+      MAXSUPPLYMKTCAP: -1,
+    },
+  ],
+}
+
+export const mockUnsubscribeResponse = {
+  request: {
+    action: 'SubRemove',
+    subs: ['5~CCCAGG~ETH~BTC'],
+  },
+  response: {
+    TYPE: '17',
+    MESSAGE: 'UNSUBSCRIBECOMPLETE',
+    SUB: '5~CCCAGG~ETH~BTC',
+  },
+}

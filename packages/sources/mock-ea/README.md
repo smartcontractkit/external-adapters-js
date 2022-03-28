@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Mock data (Test only)
 
-Version: 2.0.9
+Version: 2.0.11
 
 The Mock EA is to only be used by the integration team for soak testing. It will return a value that deviates after a given interval.
 
@@ -51,9 +51,9 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": 950
+    "result": 1050
   },
-  "result": 950,
+  "result": 1050,
   "statusCode": 200
 }
 ```

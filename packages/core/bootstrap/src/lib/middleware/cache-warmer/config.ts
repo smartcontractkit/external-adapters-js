@@ -1,5 +1,5 @@
 import objectHash from 'object-hash'
-import { getHashOpts } from '../../util'
+import { getEnv, getHashOpts } from '../../util'
 import { logger } from '../../modules'
 
 export const WARMUP_REQUEST_ID = '9001'
@@ -35,7 +35,7 @@ export interface Config {
 }
 
 export function get(): Config {
-  const warmupInterval = Number(process.env.WARMUP_INTERVAL)
+  const warmupInterval = Number(getEnv('WARMUP_INTERVAL'))
   if (warmupInterval < MINIMUM_WARMUP_INTERVAL) {
     logger.warn(
       `Warmup Interval configured at ${warmupInterval}ms. Using minimum allowed time of ${MINIMUM_WARMUP_INTERVAL}ms`,
@@ -44,8 +44,8 @@ export function get(): Config {
 
   return {
     hashOpts: getHashOpts(),
-    unhealthyThreshold: Number(process.env.WARMUP_UNHEALTHY_THRESHOLD) || 3,
-    warmupInterval: Number(process.env.WARMUP_INTERVAL),
-    subscriptionTTL: Number(process.env.WARMUP_SUBSCRIPTION_TTL) || 60 * 1000 * 60, // default 1h
+    unhealthyThreshold: Number(getEnv('WARMUP_UNHEALTHY_THRESHOLD')),
+    warmupInterval: Number(getEnv('WARMUP_INTERVAL')),
+    subscriptionTTL: Number(getEnv('WARMUP_SUBSCRIPTION_TTL')),
   }
 }

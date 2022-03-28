@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Gemini
 
-Version: 2.1.21
+Version: 2.1.23
 
 An external adapter to get data from Gemini
 

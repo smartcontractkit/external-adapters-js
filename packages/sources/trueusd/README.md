@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TrueUSD
 
-Version: 1.1.21
+Version: 1.1.23
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

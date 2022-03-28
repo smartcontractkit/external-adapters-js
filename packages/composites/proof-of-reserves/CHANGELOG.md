@@ -1,5 +1,70 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.39
+  - @chainlink/por-indexer-adapter@1.0.22
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.16
+  - @chainlink/amberdata-adapter@1.3.19
+  - @chainlink/blockchain.com-adapter@1.1.23
+  - @chainlink/blockchair-adapter@1.1.23
+  - @chainlink/blockcypher-adapter@1.2.23
+  - @chainlink/btc.com-adapter@1.2.23
+  - @chainlink/celsius-address-list-adapter@1.0.2
+  - @chainlink/chain-reserve-wallet-adapter@2.2.19
+  - @chainlink/cryptoapis-adapter@1.1.23
+  - @chainlink/eth-balance-adapter@1.1.23
+  - @chainlink/gemini-adapter@2.1.23
+  - @chainlink/lotus-adapter@2.1.23
+  - @chainlink/reduce-adapter@1.2.11
+  - @chainlink/renvm-address-set-adapter@1.3.12
+  - @chainlink/sochain-adapter@1.2.23
+  - @chainlink/wbtc-address-set-adapter@1.3.21
+  - @chainlink/wrapped-adapter@2.1.23
+
+## 1.5.0
+
+### Minor Changes
+
+- db2d44a13: Add Celsius Address List adapter support to Proof of Reserve composite adapter
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.38
+  - @chainlink/por-indexer-adapter@1.0.21
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.15
+  - @chainlink/amberdata-adapter@1.3.18
+  - @chainlink/blockchain.com-adapter@1.1.22
+  - @chainlink/blockchair-adapter@1.1.22
+  - @chainlink/blockcypher-adapter@1.2.22
+  - @chainlink/btc.com-adapter@1.2.22
+  - @chainlink/celsius-address-list-adapter@1.0.1
+  - @chainlink/chain-reserve-wallet-adapter@2.2.18
+  - @chainlink/cryptoapis-adapter@1.1.22
+  - @chainlink/eth-balance-adapter@1.1.22
+  - @chainlink/gemini-adapter@2.1.22
+  - @chainlink/lotus-adapter@2.1.22
+  - @chainlink/reduce-adapter@1.2.10
+  - @chainlink/renvm-address-set-adapter@1.3.11
+  - @chainlink/sochain-adapter@1.2.22
+  - @chainlink/wbtc-address-set-adapter@1.3.20
+  - @chainlink/wrapped-adapter@2.1.22
+
 ## 1.4.19
 
 ### Patch Changes

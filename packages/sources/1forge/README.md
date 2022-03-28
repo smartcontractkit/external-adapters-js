@@ -1,6 +1,6 @@
 # Chainlink External Adapter for 1Forge
 
-Version: 1.4.20
+Version: 1.4.22
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
