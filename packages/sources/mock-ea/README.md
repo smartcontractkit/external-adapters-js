@@ -1,50 +1,61 @@
-# Chainlink External Adapter for mock-ea
+# Chainlink External Adapter for Mock data (Test only)
+
+Version: 2.0.11
 
 The Mock EA is to only be used by the integration team for soak testing. It will return a value that deviates after a given interval.
 
-### Environment Variables
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-| Required? |         Name          |                              Description                              | Options | Defaults to |
-| :-------: | :-------------------: | :-------------------------------------------------------------------: | :-----: | :---------: |
-|           | UPDATE_INTERVAL_IN_MS | The number of milliseconds to update the result sent back from the EA |         |   300000    |
-|           |   DEVIATION_AMOUNT    |          The percentage amount to deviate after an interval           |         |      5      |
+## Environment Variables
 
----
-
-### Input Parameters
-
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#mock-ea-Endpoint) |    price    |
+| Required? |         Name          | Description |  Type  | Options | Default  |
+| :-------: | :-------------------: | :---------: | :----: | :-----: | :------: |
+|    ✅     | UPDATE_INTERVAL_IN_MS |             | string |         | `300000` |
+|    ✅     |   DEVIATION_AMOUNT    |             | string |         |   `5`    |
+|    ✅     |      MIN_RESULT       |             | string |         |          |
 
 ---
 
-## price Endpoint
+## Input Parameters
 
-The mock price endpoint that will return a mock price
+| Required? |   Name   |     Description     |  Type  |         Options          | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
+
+---
+
+## Price Endpoint
+
+`price` is the only supported name for this endpoint.
 
 ### Input Params
 
-N/A
+There are no input parameters for this endpoint.
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
-  "data": {}
+  "data": {
+    "endpoint": "price"
+  }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "result": 1000
+    "result": 1050
   },
-  "result": 1000,
+  "result": 1050,
   "statusCode": 200
 }
 ```
+
+---

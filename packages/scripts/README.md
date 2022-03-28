@@ -4,174 +4,79 @@ Folder containing various scripts and functions to make development simpler.
 
 **Table of Contents**
 
-- [Documentation Generator](#Documentation-Generator)
-- [Docker Deployment](#Docker-Deployment)
-- [Docker Container Creator](#Docker-Container-Creator)
-- [New Adapter](#New-Adapter)
+- [Master List Generator](#master-list-generator)
+- [README Generator](#readme-generator)
 
-## [Documentation Generator](./src/docgen.ts)
+---
 
-Script used to generate an OpenAPI Specification (OAS) from code comments for each external adapter (EA).
+## [Master List Generator](./src/generate-master-list)
 
-### Usage
+The Master List Generator is a tool used to automatically generate the root [MASTERLIST.md](../../MASTERLIST.md), [composites/README.md](../composites/README.md), [sources/README.md](../sources/README.md), and [targets/README.md](../targets/README.md). There are a number of ways to use the tool:
 
-The following functions can be run from the root EA directory:
+### Auto-Generation
+
+When code is merged to `develop`, a github workflow runs the `generate:master-list` script, which collects data on each adapter such as endpoints, package versions, and test support.
+
+### Manual Usage
+
+If you would like to see the output of the script ahead of time, you can run it from the command line. This operation will generate the new documentation locally, and skips any adapters that have issues when trying to pull config data from them.
+
+**Note: All examples assume the user is in the [root](../../) of the `external-adapters-js` repo.**
+
+Generate all adapter list documentation:
 
 ```bash
-# for generating a single OAS file: yarn generate:oas <adapter-type> <adapter-name>
-yarn generate:oas source coingecko
-
-# for generating OAS file for all EAs
-yarn generate:oas:all
+yarn generate:master-list
 ```
 
-#### Code Comment Structure
+Generate all adapter list documentation with verbose logging. This is useful when determining the reason for `unknown` entries in the master list:
 
-The goal is to keep the comments as close to the respective code as possible. See the [coingecko adapter](../sources/coingecko) for a complete example.
-
-Comments are:
-
-- Typically inserted below the package declarations and above the remaining code
-- Written in a YAML format
-
-##### Environment Variables in `config.ts`
-
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    API_KEY:
- *      required: true
- *    API_ENDPOINT:
- *      required: false
- *      default: https://some_endpoint.com
- */
+```bash
+yarn generate:readme -v
 ```
 
-Additional environment variables can be added similar to `API_KEY`. If no environment variables are needed the comment can be not included or can be written with an empty object (see below).
+---
 
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables: {}
- */
-```
+## [README Generator](./src/generate-readme)
 
-If an environment variable can be dynamically named, use parentheses to indicate. `{}` will throw an error.
+The README Generator is a tool used to automatically regenerate README files for source adapters. When a new source adapter is added or existing ones updated, the script will automatically regenerate the files in a separate PR when changes are merged to `develop`. There are a number of ways to use the tool:
 
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    (SOURCE)_ADAPTER_URL:
- *      required: true
- */
-```
+### Auto-Generation
 
-Additionally, `oneOf` can be used to indicate a list of environment variables where at least one must be present. The example below shows the EA requires a source adapter and requires one of `XBTO`, `GENESIS_VOLATILITY`, or `DXFEED` provider URLS to be present.
+When code is merged to `develop`, a github workflow runs the `generate:readme` script, which pulls all adapters from the `/source` directory, then filters out adapters from the [blacklist](./src/generate-readme/readmeBlacklist.json) so it only operates on adapters that meet the requirements for README auto-generation. The removed set includes composite adapters, target adapters, adapters without integration tests, and adapters with incorrect file structures. Finally, the script runs through each adapter and collects data from relevant files, then constructs each README and saves them if no errors occurred during the collection process. The generation process as a whole takes several minutes if you wish to generate READMEs for every adapter, but this will usually only need to happen in the github workflows.
 
-```
-/**
- * @swagger
- * securityDefinitions:
- *  environment-variables:
- *    source-adapter:
- *      oneOf:
- *        - XBTO_ADAPTER_URL
- *        - GENESIS_VOLATILITY_ADAPTER_URL
- *        - DXFEED_ADAPTER_URL
- *    check-adapter:
- *      oneOf:
- *        - DERIBIT_ADAPTER_URL
- *        - OILPRICEAPI_COM_ADAPTER_URL
- *        - DXFEED_ADAPTER_URL
- *    RPC_URL:
- *      required: false
- */
+### Manual Usage
+
+If you would like to see the output of the constructed README(s) ahead of time, you can run the script from the command line. This operation will generate the new READMEs locally, but if an adapter does not meet the requirements for the README to be generated, the script will exit without saving any change.
+
+**Note: All examples assume the user is in the [root](../../) of the `external-adapters-js` repo.**
+
+Generate a single README (excluding blacklist):
+
+```bash
+yarn generate:readme <adapter-name>
 ```
 
-##### Endpoints in `adapter.ts`
+Generate multiple READMEs (excluding blacklist):
 
-```
-/**
- * @swagger
- * /:
- *  post:
- *    requestBody:
- *      description: request body for EA
- *      schema:
- *        properties:
- *          endpoint:
- *            type: string
- *            default: price
- *            enum:
- *              - price
- *              - globalmarketcap
- *              - dominance
- *              - marketcap
- *        required:
- *          oneOf:
- *            - $ref: '#/endpoints/price'
- *            - $ref: '#/endpoints/globalmarketcap'
- *            - $ref: '#/endpoints/dominance'
- *            - $ref: '#/endpoints/marketcap'
- */
+```bash
+yarn generate:readme <adapter-1> <adapter-2> ...
 ```
 
-This comment describes the overall structure which shows:
+Generate README with verbose logging:
 
-- the API uses a `POST` request to the `/` endpoint
-- in the request body it is expecting a `endpoint` parameter
-- the `endpoint` parameter defaults to `price` and has options: `price`, `globalmarketcap`, etc
-- the request body also requires one of the corresponding parameter definitions depending on `endpoint`
-
-##### Endpoint definitions in `endpoint/*.ts`
-
-```
-/**
- * @swagger
- * endpoints:
- *  price:
- *    properties:
- *      - coinid
- *      - base
- *      - from
- *      - coin
- *      - quote
- *      - to
- *      - market
- *    required:
- *      - oneOf:
- *        - coinid
- *        - oneOf:
- *            - base
- *            - from
- *            - coin
- *      - oneOf:
- *        - quote
- *        - to
- *        - market
- */
+```bash
+yarn generate:readme -v <adapter-name> ...
 ```
 
-This describes a endpoint named `price` with the following properties:
+Generate all non-blacklisted READMEs (`-v` is encouraged for monitoring since this operation takes a while):
 
-- It uses a list of all possible properties: `coinid`, `base`, `from`, etc
-- The required section dictates which parameters are required through `oneOf`:
-  - One of `base`, `from`, or `coin` is required if `coinid` is not defined
-  - One of `quote`, `to`, or `market` is required
+```bash
+yarn generate:readme -a -v
+```
 
-## [Docker Deployment](./src/docker-build.ts)
+Generate README for any adapter outside the source directory (only works for 1 adapter at a time):
 
-More documentation coming soon!
-
-## [Docker Container Creator](./src/docker.ts)
-
-More documentation coming soon! See the root [README](../../README.md) for now.
-
-## [New Adapter](./new.ts)
-
-More documentation coming soon! See the root [README](../../README.md) for now.
+```bash
+yarn generate:readme -t <path-to-adapter>
+```

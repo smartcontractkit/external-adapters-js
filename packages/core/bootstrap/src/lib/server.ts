@@ -15,14 +15,15 @@ import {
 import { logger } from './modules'
 import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
-import { toObjectWithNumbers } from './util'
+import { getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
+import { shutdown } from './middleware/error-backoff/actions'
 import { AddressInfo } from 'net'
 
 const app = express()
-const version = process.env.npm_package_version
-const port = process.env.EA_PORT || 8080
-const baseUrl = process.env.BASE_URL || '/'
+const version = getEnv('npm_package_version')
+const port = parseInt(getEnv('EA_PORT') as string)
+const baseUrl = getEnv('BASE_URL') as string
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -32,15 +33,20 @@ export const initHandler =
   (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
   async (): Promise<http.Server> => {
     const name = adapterContext.name || ''
+    const envDefaultOverrides = adapterContext.envDefaultOverrides
     const context: AdapterContext = {
       name,
+      envDefaultOverrides,
       cache: null,
-      rateLimit: getRateLimitConfig({
-        limits: adapterContext.rateLimit || { http: {}, ws: {} },
-        name,
-      }),
+      rateLimit: getRateLimitConfig(
+        {
+          limits: adapterContext.rateLimit || { http: {}, ws: {} },
+          name,
+        },
+        adapterContext,
+      ),
     }
-    const cacheOptions = defaultOptions()
+    const cacheOptions = defaultOptions(undefined, context)
     if (cacheOptions.enabled) {
       cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
       context.cache = cacheOptions
@@ -119,6 +125,7 @@ export const initHandler =
       const server = app.listen(port, () => {
         server.on('close', () => {
           storeSlice('cacheWarmer').dispatch(warmupShutdown())
+          storeSlice('errorBackoff').dispatch(shutdown())
           context.cache?.instance?.close()
         })
 
@@ -130,8 +137,8 @@ export const initHandler =
 
 function setupMetricsServer(name: string) {
   const metricsApp = express()
-  const metricsPort = process.env.METRICS_PORT || 9080
-  const endpoint = process.env.METRICS_USE_BASE_URL ? join(baseUrl, 'metrics') : '/metrics'
+  const metricsPort = parseInt(getEnv('METRICS_PORT') as string)
+  const endpoint = getEnv('METRICS_USE_BASE_URL') ? join(baseUrl, 'metrics') : '/metrics'
 
   setupMetrics(name)
 
@@ -144,9 +151,9 @@ function setupMetricsServer(name: string) {
 }
 
 const windowMs = 1000 * 5
-const max = parseInt(process.env.SERVER_RATE_LIMIT_MAX || '250') // default to 250 req / 5 seconds max
-const delayAfter = max * (Number(process.env.SERVER_SLOW_DOWN_AFTER_FACTOR) || 0.8) // we start slowing down requests when we reach 80% of our max limit for the current interval
-const delayMs = parseInt(process.env.SERVER_SLOW_DOWN_DELAY_MS || '500') // default to slowing down each request by 500ms
+const max = parseInt(getEnv('SERVER_RATE_LIMIT_MAX') as string)
+const delayAfter = max * Number(getEnv('SERVER_SLOW_DOWN_AFTER_FACTOR'))
+const delayMs = parseInt(getEnv('SERVER_SLOW_DOWN_DELAY_MS') as string)
 
 function initExpressMiddleware(app: express.Express) {
   app.set('trust proxy', 1)

@@ -26,6 +26,12 @@ export const inputParameters: InputParameters = {
       'Which chain ID to connect to. Default is `DEFAULT_CHAIN_ID` environment variable (`columbus-5`, `bombay-12`, `localterra`, etc.)',
     type: 'string',
   },
+  resultPath: {
+    required: false,
+    description:
+      'The object-path string to parse a single `result` value. When not provided the entire response will be provided.',
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {

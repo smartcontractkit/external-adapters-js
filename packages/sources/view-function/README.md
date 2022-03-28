@@ -1,82 +1,67 @@
 # Chainlink External Adapter for View-Function
 
+Version: 1.1.23
+
 External adapter for executing contract function and returning the result
 
-### Environment Variables
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-The adapter takes the following environment variables:
+## Environment Variables
 
-| Required? |       Name       |          Description          | Options | Defaults to |
-| :-------: | :--------------: | :---------------------------: | :-----: | :---------: |
-|    ✅     | ETHEREUM_RPC_URL | RPC URL of a Mainnet ETH node |         |             |
-
----
-
-### Input Parameters
-
-| Required? |   Name   |     Description     |            Options             | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [function](#Function-Endpoint) |  function   |
+| Required? |       Name       |               Description                |  Type  | Options | Default |
+| :-------: | :--------------: | :--------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ETHEREUM_RPC_URL |      RPC URL of a Mainnet ETH node       | string |         |         |
+|           |     RPC_URL      | A fallback RPC URL of a Mainnet ETH node | string |         |         |
 
 ---
 
-## Function Endpoint
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |             Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [function](#endpoints-endpoint) | `function` |
+
+---
+
+## Endpoints Endpoint
+
+`function` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |           Name            |                                                                         Description                                                                         | Options | Defaults to |
-| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |  `address` or `contract`  |                                                                   Address of the contract                                                                   |         |             |
-|    ✅     | `function` or `signature` | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |         |             |
-|           |       `inputParams`       |                                                            Array of function parameters in order                                                            |         |             |
+| Required? |    Name     |  Aliases   |                                                                         Description                                                                         |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------: | :--------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  signature  | `function` | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |        |         |         |            |                |
+|    ✅     |   address   | `contract` |                                                                   Address of the contract                                                                   | string |         |         |            |                |
+|           | inputParams |            |                                                            Array of function parameters in order                                                            | array  |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
-  "id": 1,
+  "id": "1",
   "data": {
-    "contract": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "function": "function symbol() view returns (string)"
+    "endpoint": "function",
+    "signature": "function symbol() view returns (string)",
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": 1,
-  "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
-  "statusCode": 200,
+  "jobRunID": "1",
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000"
-  }
-}
-```
-
-### Sample Input with parameters
-
-```json
-{
-  "id": 1,
-  "data": {
-    "contract": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "function": "function balanceOf(address) view returns (uint)",
-    "inputParams": ["0x3BA0d70d2C522477607c1cfa14f66482bA920f9D"]
-  }
-}
-```
-
-### Output
-
-```json
-{
-  "jobRunID": 1,
-  "result": "0x000000000000000000000000000000000000000000000000000000002cf42545",
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000045553445400000000000000000000000000000000000000000000000000000000",
   "statusCode": 200,
-  "data": {
-    "result": "0x000000000000000000000000000000000000000000000000000000002cf42545"
-  }
+  "providerStatusCode": 200
 }
 ```
+
+---

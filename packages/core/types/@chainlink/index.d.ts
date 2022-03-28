@@ -6,6 +6,7 @@ declare module '@chainlink/types' {
   export interface AdapterContext {
     name?: string
     cache?: Cache.CacheOptions
+    envDefaultOverrides?: EnvDefaultOverrides
     rateLimit?: RateLimit.config.Config
   }
 
@@ -133,6 +134,19 @@ declare module '@chainlink/types' {
     rpcPort?: number
   }
 
+  export type EnvDefaults = { [name: string]: string }
+
+  /**
+   * To add a default override for an env var not present here,
+   * ensure that the adapter context from `expose` is passed
+   * to the `getEnv` call(s) for the variable in question. See
+   * `WS_ENABLED` for example usage.
+   */
+  export type EnvDefaultOverrides = {
+    CACHE_ENABLED?: 'true' | 'false'
+    WS_ENABLED?: 'true' | 'false'
+  }
+
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
   export type ExecuteSync = (
     input: AdapterRequest,
@@ -172,6 +186,14 @@ declare module '@chainlink/types' {
     execute?: Execute | ExecuteWithConfig<C>
     makeExecute?: ExecuteFactory<C>
   }
+
+  type upstreamEndpointName = string
+  type inputPropertyName = string
+  export type UpstreamEndpointsGroup<C extends Config = Config> = [
+    inputPropertyName,
+    { [adapterName: string]: Record<string, APIEndpoint<C>> },
+    upstreamEndpointName,
+  ]
 
   export type ResultPath = string | (number | string)[]
   export type MakeResultPath = (input: AdapterRequest) => ResultPath
@@ -309,6 +331,13 @@ declare module '@chainlink/types' {
     from: string
     to: string
     includes: IncludePair[]
+  }
+
+  // Used by the Overrider class to map from symbols to coin ids
+  export interface CoinsResponse {
+    id: string
+    symbol: string
+    name: string
   }
 }
 

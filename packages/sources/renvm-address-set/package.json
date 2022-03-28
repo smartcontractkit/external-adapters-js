@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/renvm-address-set-adapter",
-  "version": "1.3.6",
+  "version": "1.3.12",
   "description": "Chainlink adapter to query RenVM address set.",
   "keywords": [
     "Chainlink",
@@ -26,8 +26,8 @@
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",
     "build": "tsc -b",
-    "server": "node --openssl-legacy-provider -e 'require(\"./index.js\").server()'",
-    "server:dist": "node --openssl-legacy-provider -e 'require(\"./dist/index.js\").server()'",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
   "dependencies": {

@@ -5,14 +5,24 @@ import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
 
 export const NAME = 'format'
+export const supportedEndpoints = [NAME]
 
 export const description =
   'The format endpoint encodes the chainId, block hash, and block receiptsRoot as bytes and returns that without a 0x prefix.'
 
-export const inputParams = {
-  url: false,
-  chainId: true,
-  blockNumber: true,
+export const inputParameters = {
+  url: {
+    description: 'Blockchain RPC endpoint',
+    required: false,
+  },
+  chainId: {
+    description: 'An identifier for which network of the blockchain to use',
+    required: false,
+  },
+  blockNumber: {
+    description: 'Block number to query for',
+    required: true,
+  },
 }
 
 interface ResponseSchema {
@@ -39,7 +49,7 @@ interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
 
   const url = validator.validated.data.url || config.RPC_URL || DEFAULT_RPC_URL
   const provider = new ethers.providers.JsonRpcProvider(url)

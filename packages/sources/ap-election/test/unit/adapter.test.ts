@@ -3,9 +3,20 @@ import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
 import { makeExecute } from '../../src/adapter'
 
+let oldEnv: NodeJS.ProcessEnv
+
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
+
+  beforeAll(() => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.API_KEY = 'fake-api-key'
+  })
+
+  afterAll(() => {
+    process.env = oldEnv
+  })
 
   describe('validation error', () => {
     const requests = [

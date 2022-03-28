@@ -6,7 +6,7 @@ import {
   AdapterBatchResponse,
   AdapterRequest,
 } from '@chainlink/types'
-import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, CacheKey, util } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -41,7 +41,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
     : (validator.overrideSymbol(NAME) as string).toUpperCase()
 
-  const url = `/agg/stock/prev-close/${symbol}`
+  const url = util.buildUrlPath('/agg/stock/prev-close/:symbol', { symbol })
   const params = {
     apikey: config.apiKey,
   }

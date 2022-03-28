@@ -182,4 +182,6 @@ export default {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+  verbose: false,
+  silent: false,
 }

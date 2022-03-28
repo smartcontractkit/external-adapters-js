@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/intrinio-adapter",
-  "version": "1.1.17",
+  "version": "1.2.1",
   "description": "Chainlink intrinio adapter.",
   "keywords": [
     "Chainlink",
@@ -39,6 +39,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
+    "axios": "^0.24.0",
     "express": "^4.17.1",
     "intrinio-realtime": "^2.3.0",
     "tslib": "^2.3.1"

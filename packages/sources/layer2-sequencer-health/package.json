@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/layer2-sequencer-health-adapter",
-  "version": "1.1.6",
+  "version": "1.2.2",
   "description": "Layer 2 sequencer health check adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,10 @@
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
+    "@types/supertest": "2.0.11",
+    "nock": "13.2.4",
     "sinon": "12.0.1",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

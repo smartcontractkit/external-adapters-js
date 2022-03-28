@@ -1,6 +1,9 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
+export const description =
+  "Queries JPEG'd API for the value of a floor Cryptopunk at the requested block."
+
 export const supportedEndpoints = ['punks']
 
 export interface ResponseSchema {

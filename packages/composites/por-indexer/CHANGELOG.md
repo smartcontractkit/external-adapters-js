@@ -1,5 +1,68 @@
 # @chainlink/por-indexer-adapter
 
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/proof-of-reserves-adapter@1.5.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [db2d44a13]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/proof-of-reserves-adapter@1.5.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.20
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/proof-of-reserves-adapter@1.4.19
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/proof-of-reserves-adapter@1.4.18
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/proof-of-reserves-adapter@1.4.17
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/proof-of-reserves-adapter@1.4.16
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.16
 
 ### Patch Changes

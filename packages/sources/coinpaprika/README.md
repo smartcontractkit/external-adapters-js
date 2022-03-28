@@ -1,100 +1,281 @@
-# Chainlink CoinPaprika External Adapter
+# Chainlink External Adapter for CoinPaprika
 
-### Environment Variables
-
-| Required? |     Name     |                                                   Description                                                   | Options | Defaults to |
-| :-------: | :----------: | :-------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|           |   API_KEY    |                       An API key that can be obtained from the data provider's dashboard                        |         |             |
-|           | IS_TEST_MODE | Whether or not the Coinpaprika API is running in testmode. This will be removed once their API is in production |         |             |
-
-### Input Parameters
-
-| Required? |   Name   |     Description     |                                                                                                                            Options                                                                                                                            | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [dominance](#Dominance-Endpoint), [globalmarketcap](#Global-Market-Capitalization-Endpoint), [marketcap](#Marketcap-Endpoint), [volume](#Volume-Endpoint), crypto-single, marketcap-single, [vwap or crypto-vwap](#Vwap-Endpoint) |  `crypto`   |
+Version: 1.7.0
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
+
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Environment Variables
+
+| Required? |     Name     | Description | Type | Options | Default |
+| :-------: | :----------: | :---------: | :--: | :-----: | :-----: |
+|           |   API_KEY    |             |      |         |         |
+|           | IS_TEST_MODE |             |      |         |         |
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                          Options                                                                                                                                                           | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-single](#cryptosingle-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+The `marketcap` endpoint fetches market cap of assets, the `volume` endpoint fetches 24-hour volume of assets, and the `crypto`/`price` endpoint fetches current price of asset pairs (https://api.coinpaprika.com/v1/tickers/`{COIN}`).
 
-https://api.coinpaprika.com/v1/tickers/`{COIN}`
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 
-| Required? |          Name           |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :---------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |            The symbol of the currency to query            |                                                                                      |             |
-|    ✅     | `quote`, `to`, `market` |         The symbol of the currency to convert to          |                                                                                      |             |
-|    🟡     |        `coinid`         |     The coin ID (optional to use in place of `base`)      |                                                                                      |             |
-|    🟡     |       `overrides`       | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `coin`, `from` |       The symbol of the currency to query        |        |         |         |            |                |
+|    ✅     | quote  | `market`, `to` |     The symbol of the currency to convert to     |        |         |         |            |                |
+|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "base": "ETH",
+    "endpoint": "crypto",
+    "resultPath": "price",
+    "base": "AAAA",
+    "quote": "USD",
+    "coinid": "eth-ethereum"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      {
+        "id": "eth-ethereum",
+        "name": "Ethereum",
+        "symbol": "ETH",
+        "rank": 2,
+        "circulating_supply": 118033526,
+        "total_supply": 118033574,
+        "max_supply": 0,
+        "beta_value": 1.08967,
+        "first_data_at": "2015-08-07T00:00:00Z",
+        "last_updated": "2021-10-22T18:11:05Z",
+        "quotes": {
+          "USD": {
+            "price": 3949.2425813062,
+            "volume_24h": 24136641726.138,
+            "volume_24h_change_24h": -35.07,
+            "market_cap": 466143026900,
+            "market_cap_change_24h": -3.44,
+            "percent_change_15m": 0.14,
+            "percent_change_30m": -0.18,
+            "percent_change_1h": -0.64,
+            "percent_change_6h": -4.09,
+            "percent_change_12h": -4.65,
+            "percent_change_24h": -3.45,
+            "percent_change_7d": 2.23,
+            "percent_change_30d": 28.11,
+            "percent_change_1y": 844.08,
+            "ath_price": 4365.2053035,
+            "ath_date": "2021-05-12T06:06:20Z",
+            "percent_from_price_ath": -9.53
+          }
+        }
+      },
+      {
+        "id": "btc-bitcoin",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "rank": 2,
+        "circulating_supply": 118033526,
+        "total_supply": 118033574,
+        "max_supply": 0,
+        "beta_value": 1.08967,
+        "first_data_at": "2015-08-07T00:00:00Z",
+        "last_updated": "2021-10-22T18:11:05Z",
+        "quotes": {
+          "USD": {
+            "price": 40000.2425813062,
+            "volume_24h": 24136641726.138,
+            "volume_24h_change_24h": -35.07,
+            "market_cap": 466143026900,
+            "market_cap_change_24h": -3.44,
+            "percent_change_15m": 0.14,
+            "percent_change_30m": -0.18,
+            "percent_change_1h": -0.64,
+            "percent_change_6h": -4.09,
+            "percent_change_12h": -4.65,
+            "percent_change_24h": -3.45,
+            "percent_change_7d": 2.23,
+            "percent_change_30d": 28.11,
+            "percent_change_1y": 844.08,
+            "ath_price": 40000.2053035,
+            "ath_date": "2021-05-12T06:06:20Z",
+            "percent_from_price_ath": -9.53
+          }
+        }
+      },
+      {
+        "id": "fake-btc-bitcoin",
+        "name": "Fakecoin",
+        "symbol": "BTC",
+        "rank": 2,
+        "circulating_supply": 118033526,
+        "total_supply": 118033574,
+        "max_supply": 0,
+        "beta_value": 1.08967,
+        "first_data_at": "2015-08-07T00:00:00Z",
+        "last_updated": "2021-10-22T18:11:05Z",
+        "quotes": {
+          "USD": {
+            "price": 0.11,
+            "volume_24h": 24136641726.138,
+            "volume_24h_change_24h": -35.07,
+            "market_cap": 466143026900,
+            "market_cap_change_24h": -3.44,
+            "percent_change_15m": 0.14,
+            "percent_change_30m": -0.18,
+            "percent_change_1h": -0.64,
+            "percent_change_6h": -4.09,
+            "percent_change_12h": -4.65,
+            "percent_change_24h": -3.45,
+            "percent_change_7d": 2.23,
+            "percent_change_30d": 28.11,
+            "percent_change_1y": 844.08,
+            "ath_price": 40000.2053035,
+            "ath_date": "2021-05-12T06:06:20Z",
+            "percent_from_price_ath": -9.53
+          }
+        }
+      }
+    ],
+    "result": 3949.2425813062
+  },
+  "result": 3949.2425813062,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## CryptoSingle Endpoint
+
+`crypto-single` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `coin`, `from` |       The symbol of the currency to query        | string |         |         |            |                |
+|    ✅     | quote  | `market`, `to` |     The symbol of the currency to convert to     | string |         |         |            |                |
+|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto-single",
+    "resultPath": "quotes.USD.price",
+    "overrides": {
+      "coinpaprika": {
+        "AMPL": "eth-ethereum"
+      }
+    },
+    "base": "AMPL",
     "quote": "USD"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
   "data": {
     "id": "eth-ethereum",
     "name": "Ethereum",
     "symbol": "ETH",
     "rank": 2,
-    "circulating_supply": 109469522,
-    "total_supply": 109469556,
+    "circulating_supply": 118033526,
+    "total_supply": 118033574,
     "max_supply": 0,
-    "beta_value": 1.04048,
-    "last_updated": "2020-01-28T21:56:03Z",
+    "beta_value": 1.08967,
+    "first_data_at": "2015-08-07T00:00:00Z",
+    "last_updated": "2021-10-22T18:11:05Z",
     "quotes": {
       "USD": {
-        "price": 173.00001891,
-        "volume_24h": 8256159044.3763,
-        "volume_24h_change_24h": 2.54,
-        "market_cap": 18938229376,
-        "market_cap_change_24h": 0.93,
-        "percent_change_1h": 0.27,
-        "percent_change_12h": 1.04,
-        "percent_change_24h": 0.92,
-        "percent_change_7d": 2.18,
-        "percent_change_30d": 27.49,
-        "percent_change_1y": 64.2,
-        "ath_price": 1432.88,
-        "ath_date": "2018-01-13T21:04:00Z",
-        "percent_from_price_ath": -87.93
+        "price": 3949.2425813062,
+        "volume_24h": 24136641726.138,
+        "volume_24h_change_24h": -35.07,
+        "market_cap": 466143026900,
+        "market_cap_change_24h": -3.44,
+        "percent_change_15m": 0.14,
+        "percent_change_30m": -0.18,
+        "percent_change_1h": -0.64,
+        "percent_change_6h": -4.09,
+        "percent_change_12h": -4.65,
+        "percent_change_24h": -3.45,
+        "percent_change_7d": 2.23,
+        "percent_change_30d": 28.11,
+        "percent_change_1y": 844.08,
+        "ath_price": 4365.2053035,
+        "ath_date": "2021-05-12T06:06:20Z",
+        "percent_from_price_ath": -9.53
       }
     },
-    "result": 173.00001891
+    "cost": 2,
+    "result": 3949.2425813062
   },
-  "result": 173.00001891,
-  "statusCode": 200
+  "result": 3949.2425813062,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---
 
 ## Dominance Endpoint
 
 Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.com/v1/global)
 
+`dominance` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |          Name           |             Description             | Options | Defaults to |
-| :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `BTC`  |             |
+| Required? |  Name  |    Aliases    |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | market | `quote`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
@@ -106,41 +287,50 @@ Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.c
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "market_cap_usd": 368198248292,
-    "volume_24h_usd": 59351367068,
-    "bitcoin_dominance_percentage": 59.98,
-    "cryptocurrencies_number": 2435,
-    "market_cap_ath_value": 835692000000,
-    "market_cap_ath_date": "2018-01-07T11:17:00Z",
-    "volume_24h_ath_value": 197699715619,
-    "volume_24h_ath_date": "2020-03-13T10:00:00Z",
-    "volume_24h_percent_from_ath": -69.98,
-    "volume_24h_percent_to_ath": 233.1,
-    "market_cap_change_24h": -0.2,
-    "volume_24h_change_24h": 16.98,
-    "last_updated": 1603238207,
-    "result": 59.98
+    "market_cap_usd": 2559344984924,
+    "volume_24h_usd": 217605673763,
+    "bitcoin_dominance_percentage": 44.68,
+    "cryptocurrencies_number": 5438,
+    "market_cap_ath_value": 2729904005915,
+    "market_cap_ath_date": "2021-10-21T09:45:00Z",
+    "volume_24h_ath_value": 33401557439370,
+    "volume_24h_ath_date": "2021-10-22T12:50:00Z",
+    "volume_24h_percent_from_ath": -99.35,
+    "volume_24h_percent_to_ath": 9999.99,
+    "market_cap_change_24h": -1.86,
+    "volume_24h_change_24h": -18.21,
+    "last_updated": 1634927806,
+    "result": 44.68
   },
-  "result": 59.98,
-  "statusCode": 200
+  "result": 44.68,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
-## Global Market Capitalization Endpoint
+---
+
+## GlobalMarketcap Endpoint
 
 Returns the global market capitilization from the [global endpoint](https://api.coinpaprika.com/v1/global)
 
+`globalmarketcap` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |          Name           |             Description             | Options | Defaults to |
-| :-------: | :---------------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | `quote`, `to`, `market` | The symbol of the currency to query |  `USD`  |             |
+| Required? |  Name  |    Aliases    |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | market | `quote`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
+
+### Example
+
+Request:
 
 ```json
 {
@@ -152,197 +342,592 @@ Returns the global market capitilization from the [global endpoint](https://api.
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "market_cap_usd": 368198248292,
-    "volume_24h_usd": 59351367068,
-    "bitcoin_dominance_percentage": 59.98,
-    "cryptocurrencies_number": 2435,
-    "market_cap_ath_value": 835692000000,
-    "market_cap_ath_date": "2018-01-07T11:17:00Z",
-    "volume_24h_ath_value": 197699715619,
-    "volume_24h_ath_date": "2020-03-13T10:00:00Z",
-    "volume_24h_percent_from_ath": -69.98,
-    "volume_24h_percent_to_ath": 233.1,
-    "market_cap_change_24h": -0.2,
-    "volume_24h_change_24h": 16.98,
-    "last_updated": 1603238207,
-    "result": 368198248292
+    "market_cap_usd": 2559344984924,
+    "volume_24h_usd": 217605673763,
+    "bitcoin_dominance_percentage": 44.68,
+    "cryptocurrencies_number": 5438,
+    "market_cap_ath_value": 2729904005915,
+    "market_cap_ath_date": "2021-10-21T09:45:00Z",
+    "volume_24h_ath_value": 33401557439370,
+    "volume_24h_ath_date": "2021-10-22T12:50:00Z",
+    "volume_24h_percent_from_ath": -99.35,
+    "volume_24h_percent_to_ath": 9999.99,
+    "market_cap_change_24h": -1.86,
+    "volume_24h_change_24h": -18.21,
+    "last_updated": 1634927806,
+    "result": 2559344984924
   },
-  "result": 368198248292,
-  "statusCode": 200
+  "result": 2559344984924,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
-## Marketcap Endpoint
+---
 
-Fetch one or multiple market cap assets
+## Coins Endpoint
+
+`coins` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |          Name           |                   Description                    | Options | Defaults to |
-| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
-|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
-|           |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
+There are no input parameters for this endpoint.
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
-  "jobId": "1",
   "data": {
-    "endpoint": "marketcap",
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "id": "eth-ethereum",
-    "name": "Ethereum",
-    "symbol": "ETH",
-    "rank": 2,
-    "circulating_supply": 109469522,
-    "total_supply": 109469556,
-    "max_supply": 0,
-    "beta_value": 1.04048,
-    "last_updated": "2020-01-28T21:56:03Z",
-    "quotes": {
-      "USD": {
-        "price": 173.00001891,
-        "volume_24h": 8256159044.3763,
-        "volume_24h_change_24h": 2.54,
-        "market_cap": 18938229376,
-        "market_cap_change_24h": 0.93,
-        "percent_change_1h": 0.27,
-        "percent_change_12h": 1.04,
-        "percent_change_24h": 0.92,
-        "percent_change_7d": 2.18,
-        "percent_change_30d": 27.49,
-        "percent_change_1y": 64.2,
-        "ath_price": 1432.88,
-        "ath_date": "2018-01-13T21:04:00Z",
-        "percent_from_price_ath": -87.93
-      }
-    },
-    "result": 173.00001891
+    "endpoint": "coins",
+    "maxAge": 3600000
   },
-  "result": 173.00001891,
-  "statusCode": 200
+  "method": "post",
+  "id": "1"
 }
 ```
 
-## Volume Endpoint
-
-Fetch one or multiple assets for volume
-
-### Input Params
-
-| Required? |          Name           |                   Description                    | Options | Defaults to |
-| :-------: | :---------------------: | :----------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |       The symbol of the currency to query        |         |             |
-|    ✅     | `quote`, `to`, `market` |     The symbol of the currency to convert to     |         |             |
-|           |        `coinid`         | The coin ID (optional to use in place of `base`) |         |             |
-
-### Sample Input
+Response:
 
 ```json
 {
-  "jobId": "1",
-  "data": {
-    "endpoint": "volume",
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "id": "eth-ethereum",
-    "name": "Ethereum",
-    "symbol": "ETH",
-    "rank": 2,
-    "circulating_supply": 109469522,
-    "total_supply": 109469556,
-    "max_supply": 0,
-    "beta_value": 1.04048,
-    "last_updated": "2020-01-28T21:56:03Z",
-    "quotes": {
-      "USD": {
-        "price": 173.00001891,
-        "volume_24h": 8256159044.3763,
-        "volume_24h_change_24h": 2.54,
-        "market_cap": 18938229376,
-        "market_cap_change_24h": 0.93,
-        "percent_change_1h": 0.27,
-        "percent_change_12h": 1.04,
-        "percent_change_24h": 0.92,
-        "percent_change_7d": 2.18,
-        "percent_change_30d": 27.49,
-        "percent_change_1y": 64.2,
-        "ath_price": 1432.88,
-        "ath_date": "2018-01-13T21:04:00Z",
-        "percent_from_price_ath": -87.93
-      }
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
     },
-    "result": 8256159044.3763
-  },
-  "result": 8256159044.3763,
-  "statusCode": 200
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "coins",
+    "maxAge": 3600000
+  },
+  "method": "post",
+  "id": "1"
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": [
+    {
+      "id": "eth-ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "ampl-ampleforth",
+      "name": "Ampleforth",
+      "symbol": "AMPL",
+      "rank": 289,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "fake-btc-bitcoin",
+      "name": "Fakecoin",
+      "symbol": "BTC",
+      "rank": 1000,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    },
+    {
+      "id": "btc-bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "is_new": false,
+      "is_active": true,
+      "type": "token"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
+
+---
 
 ## Vwap Endpoint
 
-Aliases: vwap, crypto-vwap
+Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 
 ### Input Params
 
-| Required? |          Name          |                   Description                    | Options | Defaults to |
-| :-------: | :--------------------: | :----------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin` |       The symbol of the currency to query        |         |             |
-|    🟡     |        `coinid`        | The coin ID (optional to use in place of `base`) |         |             |
-|           |        `hours`         |    Number of hours to calculate the VWAP for     |         |    `24`     |
-|           |      `resultPath`      |               The value to return                |         |  `0.price`  |
+| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `coin`, `from` |                                                  | string |         |         |            |                |
+|           | hours  |                |         Number of hours to get VWAP for          | number |         |  `24`   |            |                |
+|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "base": "AMPL",
-    "endpoint": "crypto-vwap"
+    "endpoint": "vwap",
+    "resultPath": "0.price",
+    "overrides": {
+      "coinpaprika": {
+        "AAAA": "ampl-ampleforth"
+      }
+    },
+    "base": "AAAA",
+    "hours": 24
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": 0.949723,
-  "providerStatusCode": 200,
-  "statusCode": 200,
   "data": {
+    "0": {
+      "timestamp": "2022-01-30T00:00:00Z",
+      "price": 0.949723,
+      "volume_24h": 1354916,
+      "market_cap": 106686649
+    },
+    "cost": 2,
     "result": 0.949723
-  }
+  },
+  "result": 0.949723,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

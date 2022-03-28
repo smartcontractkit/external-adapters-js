@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/anchor-adapter",
-  "version": "1.3.6",
+  "version": "3.2.1",
   "description": "Chainlink anchor adapter.",
   "keywords": [
     "Chainlink",
@@ -33,8 +33,6 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/terra-view-function-adapter": "workspace:*",
-    "@chainlink/token-allocation-adapter": "workspace:*",
-    "bignumber.js": "9.0.2",
     "ethers": "^5.5.1",
     "tslib": "^2.3.1"
   },

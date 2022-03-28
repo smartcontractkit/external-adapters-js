@@ -6,7 +6,7 @@ import {
   InputParameters,
   AdapterBatchResponse,
 } from '@chainlink/types'
-import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -45,6 +45,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = getStockURL(base, symbol)
   const params = {
     apikey: config.apiKey,
+    ...(Array.isArray(base) ? { symbols: symbol } : null),
   }
 
   const options = {
@@ -64,9 +65,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
 const getStockURL = (base: string | string[], symbol: string) => {
   if (Array.isArray(base)) {
-    return `/last/stocks/?symbols=${symbol}`
+    return util.buildUrlPath('/last/stocks')
   }
-  return `/last/stock/${symbol}`
+  return util.buildUrlPath('/last/stock/:symbol', { symbol })
 }
 
 // TODO: check this

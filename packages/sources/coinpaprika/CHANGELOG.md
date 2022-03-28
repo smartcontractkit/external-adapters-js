@@ -1,5 +1,80 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- 555e3fe4c: fixed excessive logging
+
+## 1.6.0
+
+### Minor Changes
+
+- 2ab22634e: Fixed bug which caused the last ranked coinid to be used instead of the first
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.5.0
+
+### Minor Changes
+
+- 08be84e6b: Implemented the Overrider to handle symbol-to-id overrides for the CoinPaprika EA
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.4.0
+
+### Minor Changes
+
+- 0f79b1a8a: PRO_API_ENDPOINT added in config
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.11
+
+### Patch Changes
+
+- 8d6ff4693: Added buildUrl & buildUrlPath methods to util. Updated source adapters to use these methods for building URLs with user input.
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.10
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.8
 
 ### Patch Changes

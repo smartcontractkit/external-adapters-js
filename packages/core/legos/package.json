@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.56",
+  "version": "1.0.66",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -50,6 +50,7 @@
     "@chainlink/bravenewcoin-adapter": "workspace:*",
     "@chainlink/btc.com-adapter": "workspace:*",
     "@chainlink/cache.gold-adapter": "workspace:*",
+    "@chainlink/celsius-address-list-adapter": "workspace:*",
     "@chainlink/cfbenchmarks-adapter": "workspace:*",
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",

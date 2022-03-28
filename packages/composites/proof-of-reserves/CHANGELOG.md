@@ -1,5 +1,177 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.39
+  - @chainlink/por-indexer-adapter@1.0.22
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.16
+  - @chainlink/amberdata-adapter@1.3.19
+  - @chainlink/blockchain.com-adapter@1.1.23
+  - @chainlink/blockchair-adapter@1.1.23
+  - @chainlink/blockcypher-adapter@1.2.23
+  - @chainlink/btc.com-adapter@1.2.23
+  - @chainlink/celsius-address-list-adapter@1.0.2
+  - @chainlink/chain-reserve-wallet-adapter@2.2.19
+  - @chainlink/cryptoapis-adapter@1.1.23
+  - @chainlink/eth-balance-adapter@1.1.23
+  - @chainlink/gemini-adapter@2.1.23
+  - @chainlink/lotus-adapter@2.1.23
+  - @chainlink/reduce-adapter@1.2.11
+  - @chainlink/renvm-address-set-adapter@1.3.12
+  - @chainlink/sochain-adapter@1.2.23
+  - @chainlink/wbtc-address-set-adapter@1.3.21
+  - @chainlink/wrapped-adapter@2.1.23
+
+## 1.5.0
+
+### Minor Changes
+
+- db2d44a13: Add Celsius Address List adapter support to Proof of Reserve composite adapter
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.38
+  - @chainlink/por-indexer-adapter@1.0.21
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.15
+  - @chainlink/amberdata-adapter@1.3.18
+  - @chainlink/blockchain.com-adapter@1.1.22
+  - @chainlink/blockchair-adapter@1.1.22
+  - @chainlink/blockcypher-adapter@1.2.22
+  - @chainlink/btc.com-adapter@1.2.22
+  - @chainlink/celsius-address-list-adapter@1.0.1
+  - @chainlink/chain-reserve-wallet-adapter@2.2.18
+  - @chainlink/cryptoapis-adapter@1.1.22
+  - @chainlink/eth-balance-adapter@1.1.22
+  - @chainlink/gemini-adapter@2.1.22
+  - @chainlink/lotus-adapter@2.1.22
+  - @chainlink/reduce-adapter@1.2.10
+  - @chainlink/renvm-address-set-adapter@1.3.11
+  - @chainlink/sochain-adapter@1.2.22
+  - @chainlink/wbtc-address-set-adapter@1.3.20
+  - @chainlink/wrapped-adapter@2.1.22
+
+## 1.4.19
+
+### Patch Changes
+
+- Updated dependencies [4952ec20e]
+- Updated dependencies [382c16ac3]
+  - @chainlink/sochain-adapter@1.2.21
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.37
+  - @chainlink/por-indexer-adapter@1.0.20
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.14
+  - @chainlink/amberdata-adapter@1.3.17
+  - @chainlink/blockchain.com-adapter@1.1.21
+  - @chainlink/blockchair-adapter@1.1.21
+  - @chainlink/blockcypher-adapter@1.2.21
+  - @chainlink/btc.com-adapter@1.2.21
+  - @chainlink/chain-reserve-wallet-adapter@2.2.17
+  - @chainlink/cryptoapis-adapter@1.1.21
+  - @chainlink/eth-balance-adapter@1.1.21
+  - @chainlink/gemini-adapter@2.1.21
+  - @chainlink/lotus-adapter@2.1.21
+  - @chainlink/reduce-adapter@1.2.9
+  - @chainlink/renvm-address-set-adapter@1.3.10
+  - @chainlink/wbtc-address-set-adapter@1.3.19
+  - @chainlink/wrapped-adapter@2.1.21
+
+## 1.4.18
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+- Updated dependencies [f9125ee94]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/amberdata-adapter@1.3.16
+  - @chainlink/blockchain.com-adapter@1.1.20
+  - @chainlink/blockchair-adapter@1.1.20
+  - @chainlink/btc.com-adapter@1.2.20
+  - @chainlink/cryptoapis-adapter@1.1.20
+  - @chainlink/gemini-adapter@2.1.20
+  - @chainlink/renvm-address-set-adapter@1.3.9
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.36
+  - @chainlink/por-indexer-adapter@1.0.19
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.13
+  - @chainlink/blockcypher-adapter@1.2.20
+  - @chainlink/chain-reserve-wallet-adapter@2.2.16
+  - @chainlink/eth-balance-adapter@1.1.20
+  - @chainlink/lotus-adapter@2.1.20
+  - @chainlink/reduce-adapter@1.2.8
+  - @chainlink/sochain-adapter@1.2.20
+  - @chainlink/wbtc-address-set-adapter@1.3.18
+  - @chainlink/wrapped-adapter@2.1.20
+
+## 1.4.17
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.35
+  - @chainlink/por-indexer-adapter@1.0.18
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.12
+  - @chainlink/amberdata-adapter@1.3.15
+  - @chainlink/blockchain.com-adapter@1.1.19
+  - @chainlink/blockchair-adapter@1.1.19
+  - @chainlink/blockcypher-adapter@1.2.19
+  - @chainlink/btc.com-adapter@1.2.19
+  - @chainlink/chain-reserve-wallet-adapter@2.2.15
+  - @chainlink/cryptoapis-adapter@1.1.19
+  - @chainlink/eth-balance-adapter@1.1.19
+  - @chainlink/gemini-adapter@2.1.19
+  - @chainlink/lotus-adapter@2.1.19
+  - @chainlink/reduce-adapter@1.2.7
+  - @chainlink/renvm-address-set-adapter@1.3.8
+  - @chainlink/sochain-adapter@1.2.19
+  - @chainlink/wbtc-address-set-adapter@1.3.17
+  - @chainlink/wrapped-adapter@2.1.19
+
+## 1.4.16
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.34
+  - @chainlink/por-indexer-adapter@1.0.17
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.11
+  - @chainlink/amberdata-adapter@1.3.14
+  - @chainlink/blockchain.com-adapter@1.1.18
+  - @chainlink/blockchair-adapter@1.1.18
+  - @chainlink/blockcypher-adapter@1.2.18
+  - @chainlink/btc.com-adapter@1.2.18
+  - @chainlink/chain-reserve-wallet-adapter@2.2.14
+  - @chainlink/cryptoapis-adapter@1.1.18
+  - @chainlink/eth-balance-adapter@1.1.18
+  - @chainlink/gemini-adapter@2.1.18
+  - @chainlink/lotus-adapter@2.1.18
+  - @chainlink/reduce-adapter@1.2.6
+  - @chainlink/renvm-address-set-adapter@1.3.7
+  - @chainlink/sochain-adapter@1.2.18
+  - @chainlink/wbtc-address-set-adapter@1.3.16
+  - @chainlink/wrapped-adapter@2.1.18
+
 ## 1.4.15
 
 ### Patch Changes

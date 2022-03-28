@@ -1,5 +1,52 @@
 # @chainlink/ea-bootstrap
 
+## 1.14.1
+
+### Patch Changes
+
+- a14d1b69a: Change delay functions into using sleep util
+
+## 1.14.0
+
+### Minor Changes
+
+- 57b29ab0c: This change ensures that there are no duplicate aliases for input parameters. It also includes a test in the bootstrap validator test.
+- 1b342b00e: Add base env defaults to core bootstrap
+- cd9ccdc89: (feat): Add new middleware: Error Backoff
+- 1b342b00e: Add CACHE_ENABLED to envDefaultOverrides
+- d7857c911: Created Overrider class to handle overrides & implemented Overrider class for CoinGecko EA
+
+### Patch Changes
+
+- a51daa9c8: Refactor sleep util function into bootstrap util
+- e538ee7be: refactor sortedFilter into util
+- e538ee7be: (fix): Ensure Burst Limit's second retry correctly updates state's sliding window
+
+## 1.13.1
+
+### Patch Changes
+
+- 382c16ac3: Add global handler for unhandled promise rejections
+
+## 1.13.0
+
+### Minor Changes
+
+- 8d6ff4693: Added buildUrl & buildUrlPath methods to util. Updated source adapters to use these methods for building URLs with user input.
+- 196336176: Token Allocation passes through input parameters
+
+## 1.12.2
+
+### Patch Changes
+
+- effb61e40: Fix optional chain for ws last updated
+
+## 1.12.1
+
+### Patch Changes
+
+- e75038240: Log full output result in withIOLogger
+
 ## 1.12.0
 
 ### Minor Changes
