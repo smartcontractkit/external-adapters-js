@@ -13,10 +13,12 @@ import {
   resolveInToken,
 } from '../ren'
 import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
+import { RenNetworkString } from '@renproject/interfaces'
 
 export const supportedEndpoints = ['address']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { network: string; chainId: string; tokenOrContract: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: false,
     description:
@@ -34,7 +36,7 @@ export const inputParameters: InputParameters = {
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   Requester.logConfig(config)
 
@@ -71,7 +73,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const _getAddress = async (): Promise<string | undefined> => {
     if (!config.api) return undefined
-    const { renVM } = new RenJS(chainId, {
+    const { renVM } = new RenJS(chainId as RenNetworkString, {
       // use v1 legacy version
       useV2TransactionFormat: false,
     })
