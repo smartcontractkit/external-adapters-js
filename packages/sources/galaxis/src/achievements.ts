@@ -46,30 +46,51 @@ export const getEncodedCallsResult = async (
         ecRegistry,
       )
       calls.push([config.ecRegistryAddress, encodedCall])
-      const updatedEncodedCalls = callToRequestData(calls, parseInt(achievementID))
-      try {
-        const gasCostEstimate = await batchWriter.estimateGas.fulfillBytes(
-          ethers.utils.formatBytes32String(jobRunID),
-          `0x${updatedEncodedCalls}`,
-        )
-        Logger.info(`Successfully estimated gas ${gasCostEstimate.toString()}`)
+      const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
+        await updateEncodedCalls(jobRunID, achievementID, calls, batchWriter)
+      hasHitLimit = hasCallsHitLimit
+      if (!hasHitLimit) {
         encodedCalls = updatedEncodedCalls
-      } catch (e) {
-        if (e.code === 'UNPREDICTABLE_GAS_LIMIT') {
-          hasHitLimit = true
-          Logger.info(`Hit gas limit when processing achievementID ${achievementID}`)
-        } else {
-          throw new AdapterError({
-            jobRunID,
-            message: e.message,
-            statusCode: 500,
-          })
-        }
       }
     }
     currAchievementIdIdx++
   }
   return encodedCalls
+}
+
+const updateEncodedCalls = async (
+  jobRunID: string,
+  achievementID: string,
+  calls: string[][],
+  batchWriter: ethers.Contract,
+): Promise<{
+  hasHitLimit: boolean
+  encodedCalls: string
+}> => {
+  const encodedCalls = callToRequestData(calls, parseInt(achievementID))
+  let hasHitLimit = false
+  try {
+    const gasCostEstimate = await batchWriter.estimateGas.fulfillBytes(
+      ethers.utils.formatBytes32String(jobRunID),
+      `0x${encodedCalls}`,
+    )
+    Logger.info(`Successfully estimated gas ${gasCostEstimate.toString()}`)
+  } catch (e) {
+    if (e.code === 'UNPREDICTABLE_GAS_LIMIT') {
+      hasHitLimit = true
+      Logger.info(`Hit gas limit when processing achievementID ${achievementID}`)
+    } else {
+      throw new AdapterError({
+        jobRunID,
+        message: e.message,
+        statusCode: 500,
+      })
+    }
+  }
+  return {
+    encodedCalls,
+    hasHitLimit,
+  }
 }
 
 const getIdxLastProcessedAchievementID = async (
