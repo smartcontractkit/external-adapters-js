@@ -158,7 +158,6 @@ const getSetDataEncodedCall = async (
     ecRegistry,
     achievements,
     achievementID,
-    groupedAchievements,
   )
 }
 
@@ -232,16 +231,12 @@ const getSetDataEncodedCallForMixedValueAchievement = async (
   ecRegistry: ethers.Contract,
   achievements: AchievementWithMappedID[],
   achievementID: string,
-  groupedAchievements: AchievementsByIDs,
 ): Promise<string> => {
-  const values = groupedAchievements[achievementID].map(({ value }) =>
-    typeof value === 'boolean' ? (value ? 1 : 0) : value,
-  )
   const { implementer: implementerAddress } = await ecRegistry.traits(achievementID)
   const implementer = new ethers.Contract(implementerAddress, TRAIT_IMPLEMENTER_ABI, provider)
   return implementer.interface.encodeFunctionData('setData', [
     achievements.map((a) => a.mappedID),
-    values,
+    achievements.map(({ value }) => (typeof value === 'boolean' ? (value ? 1 : 0) : value)),
   ])
 }
 
