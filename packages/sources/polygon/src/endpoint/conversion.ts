@@ -13,13 +13,12 @@ export interface ErrorResponseSchema {
   error: string
 }
 
-const customError = (data: ErrorResponseSchema) => {
-  return data.status === 'ERROR'
-}
+const customError = (data: ResponseSchema | ErrorResponseSchema) => data.status === 'ERROR'
 
 export const description = 'Get FOREX price conversions'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string; amount: number; precision: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from'],
     required: true,
@@ -58,23 +57,22 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount || DEFAULT_AMOUNT
   const precision = validator.validated.data.precision || DEFAULT_PRECISION
   const url = `/v1/conversion/${from}/${to}`
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     amount,
     precision,
   }
 
   const options = { ...config.api, params, url }
-
   const response = await Requester.request<ResponseSchema>(options, customError)
   const result = Requester.validateResultNumber(response.data, ['converted'])
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
