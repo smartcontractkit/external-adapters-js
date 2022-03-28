@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.14.1
+
+### Patch Changes
+
+- a14d1b69a: Change delay functions into using sleep util
+
 ## 1.14.0
 
 ### Minor Changes

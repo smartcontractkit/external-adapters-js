@@ -100,9 +100,6 @@ export const uuid = (): string => {
   return process.env.UUID
 }
 
-export const delay = (ms: number): Promise<number> =>
-  new Promise((resolve) => setTimeout(resolve, ms))
-
 /**
  * Return a value used for exponential backoff in milliseconds.
  * @example
@@ -136,7 +133,7 @@ export const getWithCoalescing = async ({
     if (entry) return entry
     const inFlight = await isInFlight(retryCount)
     if (!inFlight) return
-    await delay(interval(retryCount))
+    await sleep(interval(retryCount))
     return await _self(_retries - 1)
   }
   return await _self(retries)

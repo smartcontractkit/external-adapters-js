@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { reducer } from '../middleware/cache-warmer'
 import axios, { AxiosResponse } from 'axios'
-import { deepType, getEnv } from '../util'
+import { deepType, getEnv, sleep } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import { AdapterError } from './error'
 import { logger } from './logger'
@@ -40,7 +40,7 @@ export class Requester {
     const _retry = async (n: number): Promise<AxiosResponse<T>> => {
       const _delayRetry = async (message: string) => {
         logger.warn(message)
-        await new Promise((resolve) => setTimeout(resolve, delay))
+        await sleep(delay)
         return await _retry(n - 1)
       }
 

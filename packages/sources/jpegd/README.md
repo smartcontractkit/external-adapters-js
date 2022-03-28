@@ -1,6 +1,6 @@
 # Chainlink External Adapter for JPEG'd
 
-Version: 1.1.4
+Version: 1.1.5
 
 Query NFT collection values from the JPEG'd API.
 

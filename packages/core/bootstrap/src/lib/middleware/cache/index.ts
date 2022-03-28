@@ -10,7 +10,6 @@ import { Store } from 'redux'
 import { reducer } from '../burst-limit'
 import { withBurstLimit } from '../burst-limit'
 import {
-  delay,
   exponentialBackOffMs,
   getEnv,
   getHashOpts,
@@ -18,6 +17,7 @@ import {
   parseBool,
   uuid,
   hash,
+  sleep,
 } from '../../util'
 import { getMaxAgeOverride, getTTL } from './ttl'
 import * as local from './local'
@@ -156,7 +156,7 @@ export class AdapterCache {
           // Add some entropy here because of possible scenario where the key won't be set before multiple
           // other instances in a burst request try to access the coalescing key.
           const randomMs = Math.random() * this.options.requestCoalescing.entropyMax
-          await delay(randomMs)
+          await sleep(randomMs)
         }
         const inFlight = await this.cache.getFlightMarker(this.getCoalescingKey(key))
         logger.debug(`Request coalescing: CHECK inFlight:${inFlight} on retry #${retryCount}`)

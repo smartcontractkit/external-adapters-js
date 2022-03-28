@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AP Election
 
-Version: 1.1.22
+Version: 1.1.23
 
 The AP Election adapter fetches the latest election results provided by the Associated Press API and returns the winner of a given election.
 

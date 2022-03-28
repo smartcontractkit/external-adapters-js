@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Marketstack
 
-Version: 1.2.22
+Version: 1.2.23
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
