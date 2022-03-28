@@ -3,7 +3,7 @@
 exports[`accounts errored calls returns an error when there are no addresses passed to the EA 1`] = `
 Object {
   "error": Object {
-    "feedID": "{\\"data\\":{\\"addresses\\":[],\\"endpoint\\":\\"accounts\\"}}",
+    "feedID": "{\\"data\\":{\\"addresses\\":[]}}",
     "message": "addresses parameter must be a non-empty array",
     "name": "AdapterError",
   },

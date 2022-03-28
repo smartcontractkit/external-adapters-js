@@ -1,12 +1,13 @@
 import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterData, InputParameters, Requester } from '@chainlink/ea-bootstrap'
 import { Account, Config, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { isCoinType, isChainType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
-export const inputParameters = balance.inputParameters
+export type TInputParameters = AdapterData
+export const inputParameters: InputParameters<TInputParameters> = balance.inputParameters
 
 interface ResponseSchema {
   status: string
@@ -43,5 +44,5 @@ const getBalance: balance.GetBalance = async (account, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config?: Config) =>
   balance.make({ ...config, getBalance, isSupported })
