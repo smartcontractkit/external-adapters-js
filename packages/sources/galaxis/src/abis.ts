@@ -50,6 +50,13 @@ export const EC_REGISTRY_ABI = [
 export const EC_REGISTRY_MAP_ABI = [
   {
     inputs: [],
+    name: 'playerCount',
+    outputs: [{ internalType: 'uint16', name: '', type: 'uint16' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'getPlayers',
     outputs: [
       {

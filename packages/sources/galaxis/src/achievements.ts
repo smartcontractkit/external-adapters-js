@@ -11,6 +11,7 @@ import {
   Achievement,
   AchievementsByIDs,
   AchievementWithMappedID,
+  GalaxisContracts,
   PlayerStruct,
   TeamStruct,
 } from './types'
@@ -23,16 +24,12 @@ export const getEncodedCallsResult = async (
   config: ExtendedConfig,
 ): Promise<string> => {
   const groupedAchievements = getGroupedAchievementsByID(playerAchievements, teamAchievements)
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
-  const { teams, players } = await getPlayerAndTeamMaps(provider, config)
+  const { provider, ecRegistry, ecRegistryMap, batchWriter } = initContracts(config)
+  const { teams, players } = await getPlayerAndTeamMaps(ecRegistryMap)
   const calls: string[][] = []
-
   let hasHitLimit = false
   let encodedCalls = ''
   const achievementIDs = Object.keys(groupedAchievements).sort((a, b) => parseInt(a) - parseInt(b))
-  const batchWriter = new ethers.Contract(config.batchWriterAddress, BATCH_WRITER_ABI, provider)
-  const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
-
   const lastProcessedInfo = await getIdxLastProcessedAchievementID(achievementIDs, batchWriter)
   let currAchievementIdIdx = lastProcessedInfo.idx
   while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
@@ -45,6 +42,7 @@ export const getEncodedCallsResult = async (
         groupedAchievements,
         achievementID,
         ecRegistry,
+        ecRegistryMap,
       )
       calls.push([config.ecRegistryAddress, encodedCall])
       const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
@@ -59,6 +57,23 @@ export const getEncodedCallsResult = async (
   const lastProcessedID = lastProcessedInfo.lastProcessedID
   validateEncodedCallsNotEmpty(jobRunID, lastProcessedID, encodedCalls)
   return encodedCalls
+}
+
+const initContracts = (config: ExtendedConfig): GalaxisContracts => {
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const batchWriter = new ethers.Contract(config.batchWriterAddress, BATCH_WRITER_ABI, provider)
+  const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
+  const ecRegistryMap = new ethers.Contract(
+    config.ecRegistryMapAddress,
+    EC_REGISTRY_MAP_ABI,
+    provider,
+  )
+  return {
+    provider,
+    batchWriter,
+    ecRegistry,
+    ecRegistryMap,
+  }
 }
 
 const validateEncodedCallsNotEmpty = (
@@ -143,6 +158,7 @@ const getSetDataEncodedCall = async (
   groupedAchievements: AchievementsByIDs,
   achievementID: string,
   ecRegistry: ethers.Contract,
+  ecRegistryMap: ethers.Contract,
 ): Promise<string> => {
   const achievements = getAchievementsWithMappedIDs(
     teams,
@@ -151,7 +167,12 @@ const getSetDataEncodedCall = async (
     achievementID,
   )
   if (isOnlyBooleanValues(groupedAchievements[achievementID].map(({ value }) => value))) {
-    return getSetDataEncodedCallForOnlyBooleanAchievement(ecRegistry, achievements, achievementID)
+    return getSetDataEncodedCallForOnlyBooleanAchievement(
+      ecRegistry,
+      ecRegistryMap,
+      achievements,
+      achievementID,
+    )
   }
   return await getSetDataEncodedCallForMixedValueAchievement(
     provider,
@@ -204,11 +225,12 @@ const isOnlyBooleanValues = (values: (number | boolean)[]): boolean => {
 // https://github.com/ethercards/ec-chain-batch-execute/blob/master/tests/batchWriter.ts#L228
 const getSetDataEncodedCallForOnlyBooleanAchievement = async (
   ecRegistry: ethers.Contract,
+  ecRegistryMap: ethers.Contract,
   updatedAchievements: AchievementWithMappedID[],
   achievementID: string,
 ): Promise<string> => {
   const pageNumber = 0
-  const numPageRecords = updatedAchievements.length
+  const numPageRecords = await ecRegistryMap.playerCount()
   const oldValues = await ecRegistry.getData(achievementID, pageNumber, numPageRecords)
   const valueDifferences: number[] = []
   const valueDifferenceIDs: number[] = []
@@ -264,14 +286,8 @@ const groupAchievements = (
 }
 
 const getPlayerAndTeamMaps = async (
-  provider: ethers.providers.JsonRpcProvider,
-  config: ExtendedConfig,
+  ecRegistryMap: ethers.Contract,
 ): Promise<{ teams: TeamStruct[]; players: PlayerStruct[] }> => {
-  const ecRegistryMap = new ethers.Contract(
-    config.ecRegistryMapAddress,
-    EC_REGISTRY_MAP_ABI,
-    provider,
-  )
   const teams = await ecRegistryMap.getTeams()
   const players = await ecRegistryMap.getPlayers()
   return {
