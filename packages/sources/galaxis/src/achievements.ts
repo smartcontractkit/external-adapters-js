@@ -91,7 +91,9 @@ const updateEncodedCalls = async (
       ethers.utils.formatBytes32String(jobRunID),
       `0x${encodedCalls}`,
     )
-    Logger.info(`Successfully estimated gas ${gasCostEstimate.toString()}`)
+    Logger.info(
+      `Successfully estimated gas ${gasCostEstimate.toString()} for processing achievementID ${achievementID}`,
+    )
   } catch (e) {
     if (e.code === 'UNPREDICTABLE_GAS_LIMIT') {
       hasHitLimit = true
