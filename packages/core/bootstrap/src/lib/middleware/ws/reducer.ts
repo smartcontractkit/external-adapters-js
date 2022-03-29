@@ -166,7 +166,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
     builder.addCase(actions.subscribeFulfilled, (state, action) => {
       // Add subscription
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const key = action.payload.input.debug?.cacheKey ?? getSubsId(action.payload.subscriptionMsg)
       state.all[key] = {
         active: true,
         wasEverActive: true,
@@ -179,7 +179,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
 
     builder.addCase(actions.subscribeRequested, (state, action) => {
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const key = action.payload.input.debug?.cacheKey ?? getSubsId(action.payload.subscriptionMsg)
       const isActive = state.all[key]?.active
       if (isActive) return
 
@@ -200,7 +200,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
 
     builder.addCase(actions.unsubscribeFulfilled, (state, action) => {
       // Remove subscription
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const key = action.payload.input.debug?.cacheKey ?? getSubsId(action.payload.subscriptionMsg)
 
       state.all[key].active = false
       state.all[key].unsubscribed = true
@@ -208,7 +208,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
 
     builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
-      const key = getSubsId(action.payload.subscriptionMsg)
+      const key = action.payload.input?.debug?.cacheKey ?? getSubsId(action.payload.subscriptionMsg)
       if (state.all[key]) {
         state.all[key].shouldNotRetry = action.payload.shouldNotRetrySubscription
       }

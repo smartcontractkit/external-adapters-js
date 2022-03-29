@@ -117,6 +117,7 @@ export interface WSSubscriptionErrorPayload extends WSErrorPayload {
 
 export interface WSSubscriptionErrorHandlerPayload {
   connectionInfo: WSConnectionInfo
+  input?: AdapterRequest
   subscriptionMsg?: any
   shouldNotRetrySubscription: boolean
   shouldNotRetryConnection: boolean

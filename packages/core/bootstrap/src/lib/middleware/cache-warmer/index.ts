@@ -54,7 +54,8 @@ export const withCacheWarmer =
 
       let batchMemberHasActiveWSSubscription = false
       await separateBatches(input, async (singleInput: AdapterRequest) => {
-        const wsSubscriptionKey = getSubsId(wsHandler.subscribe(singleInput))
+        const wsSubscriptionKey =
+          input.debug?.cacheKey ?? getSubsId(wsHandler.subscribe(singleInput))
         const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
 
         // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
