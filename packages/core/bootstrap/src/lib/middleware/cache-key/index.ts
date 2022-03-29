@@ -11,6 +11,7 @@ import crypto from 'crypto'
 import { baseInputParameters } from '../../modules/selector'
 import { isObject } from '../../util'
 import objectHash from 'object-hash'
+import { BatchableProperty } from '../cache-warmer/reducer'
 
 const baseInputParametersCachable = Object.keys(baseInputParameters).filter(
   (inputParam) => !excludableInternalAdapterRequestProperties.includes(inputParam),
@@ -35,7 +36,7 @@ export const withCacheKey: <C extends Config>(
 export function getCacheKey(
   request: AdapterRequest,
   inputParameters: InputParameters,
-  batchablePropertyPath?: unknown[],
+  batchablePropertyPath?: BatchableProperty[],
 ): string {
   const inputParameterKeys = Object.keys(inputParameters ?? {}).concat(baseInputParametersCachable)
   const validator = new Validator(request, inputParameters, {}, { shouldThrowError: false })
@@ -45,7 +46,7 @@ export function getCacheKey(
   for (const key of inputParameterKeys) {
     // We want the key to be consistent. So we omit batchable paths.
     // Otherwise it would change on every new child
-    if (batchablePropertyPath && batchablePropertyPath.includes(key)) continue
+    if (batchablePropertyPath && batchablePropertyPath.some(({ name }) => key === name)) continue
 
     const value = validator.validated.data[key]
     if (!value) continue

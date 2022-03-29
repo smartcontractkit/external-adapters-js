@@ -4,10 +4,13 @@ import { AdapterCache, defaultOptions, withCache } from '../../src/lib/middlewar
 import { LocalLRUCache } from '../../src/lib/middleware/cache/local'
 
 const mockCacheKey = 'mockCacheKey'
+const mockBatchCacheKey = 'mockBatchCacheKey'
 
 const callAndExpect = async (fn: any, n: number, result: any) => {
   while (n--) {
-    const { data } = await fn({ debug: { cacheKey: mockCacheKey } })
+    const { data } = await fn({
+      debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
+    })
     if (n === 0) expect(data.result).toBe(result)
   }
 }
@@ -154,6 +157,7 @@ describe('cache', () => {
       const request: AdapterRequest = {
         id: '1',
         data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
       }
       const response = {
         jobRunID: '1',
@@ -174,6 +178,7 @@ describe('cache', () => {
       const request: AdapterRequest = {
         id: '1',
         data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
       }
       const execute = async () => null
       const middleware = await withCache()(execute, context)
@@ -188,6 +193,7 @@ describe('cache', () => {
       const makeRequest = (id: string): AdapterRequest => ({
         id,
         data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
       })
       const response = {
         jobRunID: '1',
@@ -221,6 +227,7 @@ describe('cache', () => {
       const makeRequest = (id: string): AdapterRequest => ({
         id,
         data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
       })
       const response = {
         jobRunID: '1',
@@ -249,6 +256,7 @@ describe('cache', () => {
       const makeRequest = (id: string): AdapterRequest => ({
         id,
         data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
       })
       const response = {
         jobRunID: '1',

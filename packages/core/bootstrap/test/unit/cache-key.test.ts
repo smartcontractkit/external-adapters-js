@@ -35,8 +35,8 @@ describe('Cache key middleware', () => {
       expect(r).toEqual({
         ...request,
         debug: {
-          cacheKey: 'jpONzVqlW1OiMxz1nihoHY4Pzr8=',
-          batchKey: 'jpONzVqlW1OiMxz1nihoHY4Pzr8=',
+          cacheKey: 'CfLKR+CjhIqCrw1rmoaMpGJPHns=',
+          batchCacheKey: 'raWuJfUMD/EwHKzsnwDQYqzQE74=',
         },
       })
       return response

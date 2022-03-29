@@ -121,7 +121,7 @@ describe('side effect tests', () => {
     result: 2,
     debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
-  const batchKeyChild2 = '7e2ZCaTUPQXPgzIwbU/FjmNuPjk='
+  const batchKeyChild2 = '4XyyAD5vDCcrJZgc1kqwngWDKqM='
 
   describe('executeHandler', () => {
     describe('when there are no subscriptions', () => {
