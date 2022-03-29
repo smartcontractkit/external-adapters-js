@@ -9,11 +9,15 @@ import {
 } from './helpers'
 
 describe('Rate Limit/Cache - Integration', () => {
+  let oldEnv: NodeJS.ProcessEnv
+
   const capacity = 50
   let logWarnStub: any
   let logErrorStub: any
 
   beforeAll(() => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+
     process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
@@ -30,6 +34,7 @@ describe('Rate Limit/Cache - Integration', () => {
   afterAll(() => {
     logWarnStub.reset()
     logErrorStub.reset()
+    process.env = oldEnv
   })
 
   it('Composite feeds requests with warmer go over capacity on initialization, then stabilize', async () => {
@@ -44,7 +49,11 @@ describe('Rate Limit/Cache - Integration', () => {
     for (let i = 0; i < (1000 / timeBetweenRequests) * 180; i++) {
       const feedId = i % feedsNumber
       for (let internalReq = 0; internalReq < 10; internalReq++) {
-        const input = { id: '6', data: { warmerComposite1: feedId, quote: internalReq } }
+        const input = {
+          id: '6',
+          data: { warmerComposite1: feedId, quote: internalReq },
+          debug: { cacheKey: String(feedId) + '-' + String(internalReq) },
+        }
         await executeWithWarmer(input)
       }
       clock.tick(timeBetweenRequests)

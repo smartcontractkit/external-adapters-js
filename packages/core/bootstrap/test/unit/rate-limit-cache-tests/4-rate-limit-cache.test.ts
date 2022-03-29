@@ -10,12 +10,15 @@ import { withMiddleware } from '../../../src/index'
 import { AdapterContext } from '@chainlink/types'
 
 describe('Rate Limit/Cache - Integration', () => {
+  let oldEnv: NodeJS.ProcessEnv
   const context: AdapterContext = {}
   const capacity = 50
   let logWarnStub: any
   let logErrorStub: any
 
   beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+
     process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
@@ -33,12 +36,17 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
-    context.rateLimit = get()
+    context.rateLimit = get(undefined, context)
+  })
+
+  afterEach(async () => {
+    context.cache.instance.client.reset()
   })
 
   afterAll(() => {
     logWarnStub.reset()
     logErrorStub.reset()
+    process.env = oldEnv
   })
 
   it('Burst feeds requests stay under capacity', async () => {
@@ -58,7 +66,11 @@ describe('Rate Limit/Cache - Integration', () => {
       const feedId = i % feedsNumber
       await Promise.all(
         new Array(10).fill('').map(async (_, internalReq) => {
-          const input = { id: '6', data: { burst1: feedId, quote: internalReq } }
+          const input = {
+            id: '6',
+            data: { burst1: feedId, quote: internalReq },
+            debug: { cacheKey: String(feedId) + '-' + String(internalReq) },
+          }
           return await executeWithMiddleware(input, context)
         }),
       )
