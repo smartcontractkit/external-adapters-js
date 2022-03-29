@@ -6,9 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     | Description | Type | Options | Default |
-| :-------: | :----------: | :---------: | :--: | :-----: | :-----: |
-|           | API_ENDPOINT |             |      |         |         |
+| Required? |     Name     |              Description               |  Type  | Options | Default |
+| :-------: | :----------: | :------------------------------------: | :----: | :-----: | :-----: |
+|           | API_ENDPOINT |                                        |        |         |         |
+|           |   API_KEY    | An optional API key to increase limits | string |         |         |
 
 ---
 

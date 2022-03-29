@@ -41,7 +41,7 @@ exports[`medianizer validation error returns a validation error if the request c
 Object {
   "error": Object {
     "feedID": "ETH/USD",
-    "message": "Required parameter not supplied: sources",
+    "message": "Required parameter sources must be non-null and non-empty",
     "name": "AdapterError",
   },
   "jobRunID": "2",
@@ -54,7 +54,7 @@ exports[`medianizer validation error returns a validation error if the request d
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{}}",
-    "message": "Required parameter not supplied: sources",
+    "message": "Required parameter sources must be non-null and non-empty",
     "name": "AdapterError",
   },
   "jobRunID": "2",

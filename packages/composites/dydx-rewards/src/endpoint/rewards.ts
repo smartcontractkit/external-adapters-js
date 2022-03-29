@@ -5,7 +5,7 @@ import { poke } from '../method'
 
 export const supportedEndpoints = ['rewards']
 
-const inputParams: InputParameters = {
+const inputParameters: InputParameters = {
   method: {
     required: false,
     type: 'string',
@@ -15,7 +15,7 @@ const inputParams: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const method = validator.validated.data.method

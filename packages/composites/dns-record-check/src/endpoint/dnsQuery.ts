@@ -5,7 +5,7 @@ import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/t
 
 export const supportedEndpoints = ['dnsQuery']
 
-const inputParams: InputParameters = {
+const inputParameters: InputParameters = {
   name: {
     aliases: ['record'],
     required: true,
@@ -28,7 +28,7 @@ const inputParams: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const { name } = validator.validated.data
