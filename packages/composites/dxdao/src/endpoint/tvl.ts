@@ -1,5 +1,5 @@
 import { Validator, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, InputParameters } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { Config } from '../config'
@@ -9,7 +9,7 @@ export const NAME = 'TVL'
 export const description =
   'This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed on the XDai chain. The TVL is returned in USD.'
 
-const customParams = {
+const inputParameters: InputParameters = {
   pairContractAddress: true,
 }
 
@@ -39,7 +39,7 @@ export const getTokenAllocations = async (
   request: AdapterRequest,
   config: Config,
 ): Promise<TokenAllocation.types.TokenAllocation[]> => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
 
   const wethContractAddress = config.wethContractAddress
   const { pairContractAddress } = validator.validated.data
