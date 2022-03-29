@@ -13,7 +13,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |          POLYGON_RPC_URL          |       The RPC URL to connect to the Polygon network        | string |         |                                              |
 |    ✅     |           API_ENDPOINT            | The API endpoint to pull team and player achievements from | string |         |                                              |
 |           |        EC_REGISTRY_ADDRESS        |         The ECRegistry contract address on Polygon         | string |         | `0x163883263274e8Ef6332cFa84F35B23c6C51dF72` |
-|    ✅     |      EC_REGISTRY_MAP_ADDRESS      |       The ECRegistryMap contract address on Polygon        | string |         | `0x139B522955D54482E7662927653ABb0bFB6F19BA` |
+|           |      EC_REGISTRY_MAP_ADDRESS      |       The ECRegistryMap contract address on Polygon        | string |         | `0x139B522955D54482E7662927653ABb0bFB6F19BA` |
 |           | CHAIN_BATCH_WRITE_ADAPTER_ADDRESS |        The BatchWriter contract address on Polygon         | string |         | `0xB57fba975C89492B016e0215E819B4d489F0fbcD` |
 
 ---

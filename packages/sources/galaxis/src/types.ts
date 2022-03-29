@@ -8,6 +8,7 @@ export interface FilteredAchievements {
 export interface Achievement {
   team_id?: number
   player_id?: number
+  event_id: number
   achievement_id: number
   value: boolean | number
 }
@@ -41,4 +42,16 @@ export interface GalaxisContracts {
   ecRegistryMap: ethers.Contract
   batchWriter: ethers.Contract
   provider: ethers.providers.JsonRpcProvider
+}
+
+export interface GetSetDataEncodedCallParams {
+  provider: ethers.providers.JsonRpcProvider
+  teams: TeamStruct[]
+  players: PlayerStruct[]
+  groupedAchievements: AchievementsByIDs
+  achievementID: number
+  ecRegistry: ethers.Contract
+  ecRegistryMap: ethers.Contract
+  startEventIdx: number
+  endEventIdx: number
 }
