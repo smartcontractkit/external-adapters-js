@@ -23,6 +23,7 @@ Object {
     },
     "results": Array [
       Array [
+        "0eTPrre2wZw5jckHyQTkm7G/lug=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -35,11 +36,15 @@ Object {
             "quote": "USD",
             "resultPath": "usd",
           },
+          "debug": Object {
+            "cacheKey": "grJS724Gdf27qFwV363K6dG42GA=",
+          },
           "id": "1",
         },
         3015.64,
       ],
       Array [
+        "xKGkiFoynYTtd+61TBCkrW3nrwE=",
         Object {
           "data": Object {
             "base": "OHM",
@@ -51,6 +56,9 @@ Object {
             },
             "quote": "USD",
             "resultPath": "usd",
+          },
+          "debug": Object {
+            "cacheKey": "grJS724Gdf27qFwV363K6dG42GA=",
           },
           "id": "1",
         },

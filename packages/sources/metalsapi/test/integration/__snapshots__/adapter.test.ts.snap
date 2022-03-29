@@ -23,11 +23,15 @@ Object {
     },
     "results": Array [
       Array [
+        "xiIPP9C6zf4jXOYFKtypR5BH1BA=",
         Object {
           "data": Object {
             "base": "BTC",
             "endpoint": "latest",
             "quote": "USD",
+          },
+          "debug": Object {
+            "cacheKey": "JlfsC2hT5W1YKdXKZgflGE9j3Sc=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,
@@ -35,11 +39,15 @@ Object {
         42968.36778447169,
       ],
       Array [
+        "jMjlf21DnGEk4LJorrfRQ5Ma7CM=",
         Object {
           "data": Object {
             "base": "BTC",
             "endpoint": "latest",
             "quote": "XAU",
+          },
+          "debug": Object {
+            "cacheKey": "JlfsC2hT5W1YKdXKZgflGE9j3Sc=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,

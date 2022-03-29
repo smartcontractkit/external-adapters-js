@@ -63,6 +63,9 @@ Request:
         \\"address\\": \\"3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1\\"
       }
     ]
+  },
+  \\"debug\\": {
+    \\"cacheKey\\": \\"9doRg4e4BjlddcFz6YvwVGQcekk=\\"
   }
 }
 \`\`\`
@@ -137,6 +140,9 @@ Request:
     \\"base\\": \\"BTC\\",
     \\"quote\\": \\"USD\\",
     \\"coinid\\": 1
+  },
+  \\"debug\\": {
+    \\"cacheKey\\": \\"qGzf6V2ZllwJpDPjhrpH+roYyLY=\\"
   }
 }
 \`\`\`
@@ -166,6 +172,9 @@ Request:
     \\"base\\": \\"BTC\\",
     \\"quote\\": \\"USD\\",
     \\"coinid\\": 2
+  },
+  \\"debug\\": {
+    \\"cacheKey\\": \\"Aq22PMEI8m7C0USLt/F7M3Rg3p0=\\"
   }
 }
 \`\`\`
@@ -209,6 +218,9 @@ Request:
     \\"base\\": \\"BTC\\",
     \\"quote\\": \\"USD\\",
     \\"amount\\": 1
+  },
+  \\"debug\\": {
+    \\"cacheKey\\": \\"mGLpcgUHHP1xQ0nSPMV64/M3xDs=\\"
   }
 }
 \`\`\`
@@ -238,6 +250,9 @@ Request:
     \\"base\\": \\"BTC\\",
     \\"quote\\": \\"USD\\",
     \\"amount\\": 10
+  },
+  \\"debug\\": {
+    \\"cacheKey\\": \\"tCVBOPe1r6/cjC+nEUkqM8auLoA=\\"
   }
 }
 \`\`\`

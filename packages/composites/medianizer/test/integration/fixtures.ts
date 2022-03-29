@@ -5,6 +5,7 @@ export const mockSuccessfulResponsesWithoutCommaSeparatedSources = () => {
     .post('/coingecko', {
       id: '1',
       data: { sources: ['coingecko', 'coinpaprika'], from: 'ETH', to: 'USD' },
+      debug: { cacheKey: '4637da319732d51cc2eb1c0944b79702948c6a14' },
     })
     .reply(
       200,
@@ -42,6 +43,7 @@ export const mockSuccessfulResponsesWithoutCommaSeparatedSources = () => {
     .post('/coinpaprika', {
       id: '1',
       data: { sources: ['coingecko', 'coinpaprika'], from: 'ETH', to: 'USD' },
+      debug: { cacheKey: '4637da319732d51cc2eb1c0944b79702948c6a14' },
     })
     .reply(
       200,
@@ -81,6 +83,7 @@ export const mockSuccessfulResponsesWithCommaSeparatedSources = () => {
     .post('/coingecko', {
       id: '1',
       data: { sources: 'coingecko,coinpaprika', from: 'ETH', to: 'USD' },
+      debug: { cacheKey: '1933271131050be0bb08bccf92088cb2ff5bcef6' },
     })
     .reply(
       200,
@@ -118,6 +121,7 @@ export const mockSuccessfulResponsesWithCommaSeparatedSources = () => {
     .post('/coinpaprika', {
       id: '1',
       data: { sources: 'coingecko,coinpaprika', from: 'ETH', to: 'USD' },
+      debug: { cacheKey: '1933271131050be0bb08bccf92088cb2ff5bcef6' },
     })
     .reply(
       200,
@@ -157,6 +161,7 @@ export const mockSuccessfulResponsesWithSingleSource = () => {
     .post('/coingecko', {
       id: '1',
       data: { sources: 'coingecko', from: 'ETH', to: 'USD', minAnswers: 2 },
+      debug: { cacheKey: '4f459d917392d0c8885288b927bb0a19d58df01a' },
     })
     .reply(
       200,
