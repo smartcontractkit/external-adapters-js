@@ -47,18 +47,22 @@ export const getEncodedCallsResult = async (
         (a, b) => a.event_id - b.event_id,
       )
       for (let i = startingEventIdx + 1; i <= groupedAchievements[achievementID].length; i++) {
-        const { encodedCall, lastProcessedEventID } = await getSetDataEncodedCall({
-          provider,
-          teams,
-          players,
-          groupedAchievements,
-          achievementID,
-          ecRegistry,
-          ecRegistryMap,
-          startEventIdx: startingEventIdx,
-          endEventIdx: i,
-        })
-        calls.push([config.ecRegistryAddress, encodedCall])
+        const { encodedCall, lastProcessedEventID, implementerAddress } =
+          await getSetDataEncodedCall({
+            provider,
+            teams,
+            players,
+            groupedAchievements,
+            achievementID,
+            ecRegistry,
+            ecRegistryMap,
+            startEventIdx: startingEventIdx,
+            endEventIdx: i,
+          })
+
+        // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
+        const addressToCall = implementerAddress || config.ecRegistryAddress
+        calls.push([addressToCall, encodedCall])
         const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
           await updateEncodedCalls(
             jobRunID,
@@ -242,6 +246,7 @@ const getSetDataEncodedCall = async (
 ): Promise<{
   encodedCall: string
   lastProcessedEventID: number
+  implementerAddress?: string
 }> => {
   const {
     provider,
@@ -261,6 +266,7 @@ const getSetDataEncodedCall = async (
     achievementID,
   ).slice(startEventIdx, endEventIdx)
   let encodedCall
+  let implementerAddress
   if (isOnlyBooleanValues(groupedAchievements[achievementID].map(({ value }) => value))) {
     encodedCall = await getSetDataEncodedCallForOnlyBooleanAchievement(
       ecRegistry,
@@ -269,16 +275,21 @@ const getSetDataEncodedCall = async (
       achievementID,
     )
   } else {
-    encodedCall = await getSetDataEncodedCallForMixedValueAchievement(
+    const {
+      encodedCall: mixedValueEncodedCall,
+      implementerAddress: achievementImplementerAddress,
+    } = await getSetDataEncodedCallForMixedValueAchievement(
       provider,
       ecRegistry,
       achievements,
       achievementID,
     )
+    ;(encodedCall = mixedValueEncodedCall), (implementerAddress = achievementImplementerAddress)
   }
   return {
     encodedCall,
     lastProcessedEventID: achievements[achievements.length - 1].event_id,
+    implementerAddress,
   }
 }
 
@@ -353,13 +364,20 @@ const getSetDataEncodedCallForMixedValueAchievement = async (
   ecRegistry: ethers.Contract,
   achievements: AchievementWithMappedID[],
   achievementID: number,
-): Promise<string> => {
+): Promise<{
+  encodedCall: string
+  implementerAddress: string
+}> => {
   const { implementer: implementerAddress } = await ecRegistry.traits(achievementID)
   const implementer = new ethers.Contract(implementerAddress, TRAIT_IMPLEMENTER_ABI, provider)
-  return implementer.interface.encodeFunctionData('setData', [
+  const encodedCall = implementer.interface.encodeFunctionData('setData', [
     achievements.map((a) => a.mappedID),
     achievements.map(({ value }) => (typeof value === 'boolean' ? (value ? 1 : 0) : value)),
   ])
+  return {
+    encodedCall,
+    implementerAddress,
+  }
 }
 
 const getGroupedAchievementsByID = (
