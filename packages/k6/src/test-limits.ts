@@ -5,13 +5,13 @@ import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
 import { vu } from 'k6/execution'
 
-// load the test duration from the environment or default to 1 hour
-let testDuration = '1h'
+// load the test duration from the environment or default to 10m
+let testDuration = '10m'
 if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }
 
-let RPS = 10
+let RPS = 1000
 if (__ENV.RPS && !isNaN(parseInt(__ENV.RPS))) {
   RPS = parseInt(__ENV.RPS)
 }
@@ -62,7 +62,7 @@ if (__ENV.UNIQUE_REQUESTS && parseInt(__ENV.UNIQUE_REQUESTS)) {
       `Requested to use ${envUniqueRequests} unique requests, but only have ${uniqueRequests}`,
     )
   } else if (envUniqueRequests > VU) {
-    console.error(`Requested to use ${envUniqueRequests} unqiue requests, but only have ${VU} VUs`)
+    console.error(`Requested to use ${envUniqueRequests} unique requests, but only have ${VU} VUs`)
   } else {
     uniqueRequests = envUniqueRequests
   }
@@ -70,16 +70,56 @@ if (__ENV.UNIQUE_REQUESTS && parseInt(__ENV.UNIQUE_REQUESTS)) {
 
 console.info(`Using ${uniqueRequests} unique requests`)
 
+let scaleupDuration = '1m'
+if (__ENV.SCALEUP_DURATION) {
+  scaleupDuration = __ENV.SCALEUP_DURATION
+}
+
 // set the k6 running options
 export const options = {
   thresholds: {
-    http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-    http_req_duration: ['p(90)<1000'], // 90% of requests should be below 1s
+    http_req_failed: [
+      {
+        threshold: 'rate<0.01', // http errors should be less than 1%
+        abortOnFail: true,
+      },
+    ],
+    http_req_duration: [
+      {
+        threshold: 'p(95)<1000', // 95% of request durations should be below 1s
+        abortOnFail: true,
+      },
+    ],
+    checks: [
+      {
+        threshold: 'rate>0.999', // 99.9% of the extra checks should be successful
+        abortOnFail: true,
+      },
+    ],
   },
   stages: [
-    { duration: '5m', target: uniqueRequests }, // 5m warmup from 0 to `uniqueRequests`
-    { duration: '1m', target: VU }, // 1m warmup from `uniqueRequests` to target RPS
-    { duration: testDuration, target: VU }, // `testDuration` with constant target RPS
+    { duration: '5m', target: Math.min(uniqueRequests, VU / 10) }, // 5m warmup from 0 to min(uniqueRequests, VU/10)
+    // Do `scaleupDuration` duration of scaling up to (VU/10)*currentStage, then run that stage for `testDuration`
+    { duration: scaleupDuration, target: VU / 10 },
+    { duration: testDuration, target: VU / 10 },
+    { duration: scaleupDuration, target: (VU / 10) * 2 },
+    { duration: testDuration, target: (VU / 10) * 2 },
+    { duration: scaleupDuration, target: (VU / 10) * 3 },
+    { duration: testDuration, target: (VU / 10) * 3 },
+    { duration: scaleupDuration, target: (VU / 10) * 4 },
+    { duration: testDuration, target: (VU / 10) * 4 },
+    { duration: scaleupDuration, target: (VU / 10) * 5 },
+    { duration: testDuration, target: (VU / 10) * 5 },
+    { duration: scaleupDuration, target: (VU / 10) * 6 },
+    { duration: testDuration, target: (VU / 10) * 6 },
+    { duration: scaleupDuration, target: (VU / 10) * 7 },
+    { duration: testDuration, target: (VU / 10) * 7 },
+    { duration: scaleupDuration, target: (VU / 10) * 8 },
+    { duration: testDuration, target: (VU / 10) * 8 },
+    { duration: scaleupDuration, target: (VU / 10) * 9 },
+    { duration: testDuration, target: (VU / 10) * 9 },
+    { duration: scaleupDuration, target: VU },
+    { duration: testDuration, target: VU },
   ],
 }
 
@@ -118,10 +158,14 @@ export default (): void => {
 
   const config = requests[(vu.idInTest - 1) % uniqueRequests]
   const response = http.post(adapterUrl, config.body, config.params)
+  const after = new Date().getTime()
+  const diff = (after - before) / 1000
+  const remainder = T - diff
 
   const result = check(response, {
     [`returns 200 status code`]: (r) => r.status == 200,
     [`returns result within expected numeric range`]: (r) => valueWithinRange(r.json('result')),
+    [`doesn't exceed T`]: () => remainder >= 0,
   })
 
   if (!result) {
@@ -130,9 +174,6 @@ export default (): void => {
 
   errorRate.add(!result)
 
-  const after = new Date().getTime()
-  const diff = (after - before) / 1000
-  const remainder = T - diff
   if (remainder > 0) {
     sleep(remainder)
   } else {
