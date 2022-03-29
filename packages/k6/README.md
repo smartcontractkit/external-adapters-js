@@ -146,4 +146,5 @@ The actual RPS the EA can handle will be somewhere between these two values, wit
 `vus/T` being at the point that exceeds our thresholds.
 
 It's important to note that this is the RPS it can handle with the configured amount of unique requests, as a lower
-amount of unique requests can be easier to handle than a higher amount.
+amount of unique requests can be easier to handle than a higher amount. Try out different amounts of unique requests to
+understand how the RPS limits changes.
