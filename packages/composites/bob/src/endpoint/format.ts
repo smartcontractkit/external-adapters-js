@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { Config, ExecuteWithConfig } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
@@ -10,7 +10,7 @@ export const supportedEndpoints = [NAME]
 export const description =
   'The format endpoint encodes the chainId, block hash, and block receiptsRoot as bytes and returns that without a 0x prefix.'
 
-export const inputParameters = {
+export const inputParameters: InputParameters = {
   url: {
     description: 'Blockchain RPC endpoint',
     required: false,

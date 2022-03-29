@@ -6,6 +6,7 @@ import {
   Execute,
   AdapterResponse,
   AdapterContext,
+  InputParameters,
 } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { makeOptions } from '../config'
@@ -41,7 +42,7 @@ export const callAdapter = async (
   return output
 }
 
-const inputParams = {
+const inputParameters: InputParameters = {
   protocol: {
     required: true,
     type: 'string',
@@ -69,7 +70,7 @@ const inputParams = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParams, paramOptions)
+  const validator = new Validator(input, inputParameters, paramOptions)
 
   const jobRunID = validator.validated.jobRunID
   const protocol = validator.validated.data.protocol.toUpperCase()

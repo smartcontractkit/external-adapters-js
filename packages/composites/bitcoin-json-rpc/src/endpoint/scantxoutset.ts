@@ -14,7 +14,7 @@ export const description = `Calls \`"method": "scantxoutset"\` on the Bitcoin no
 
 **NOTE:** Requests to this endpoint may exceed the configured \`API_TIMEOUT\`. If a scan in progress, the adapter will wait an additional \`API_TIMEOUT\` period for the in-progress scan to complete. If the timeout is hit while a scan is in progress, a request to abort the scan is sent with an additional 1s timeout. This makes the theoretically maximum timeout for requests to this endpoint \`2 x API_TIMEOUT + 1000\` ms.`
 
-const inputParams: InputParameters = {
+const inputParameters: InputParameters = {
   scanobjects: {
     aliases: ['addresses'],
     required: true,
@@ -25,7 +25,7 @@ const inputParams: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const scanobjects = validator.validated.data.scanobjects.map((address: string) => {
     // Addresses must be formatted as addr(39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE)
