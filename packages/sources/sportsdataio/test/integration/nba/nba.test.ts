@@ -5,7 +5,7 @@ import http from 'http'
 import { server as startServer } from '../../../src'
 import { mockSportsDataProviderResponse } from './fixtures'
 import { AddressInfo } from 'net'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
 
