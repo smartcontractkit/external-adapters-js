@@ -40,12 +40,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const endpointName = validator.validated.data.endpoint
   let resultPath
 
-  if (endpointName === DEFAULT_FIELD) {
-    resultPath = DEFAULT_FIELD
-  } else if (endpointName === 'height') {
-    resultPath = 'blocks'
-  } else {
-    resultPath = validator.validated.data.resultPath || DEFAULT_FIELD
+  switch (endpointName) {
+    case DEFAULT_FIELD: {
+      resultPath = DEFAULT_FIELD
+      break
+    }
+    case 'height': {
+      resultPath = 'blocks'
+      break
+    }
+    default: {
+      resultPath = validator.validated.data.resultPath || DEFAULT_FIELD
+    }
   }
 
   const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
