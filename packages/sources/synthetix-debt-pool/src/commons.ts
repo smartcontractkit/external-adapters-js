@@ -5,7 +5,8 @@ import { SupportedChains, Config } from './config'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { SynthetixJS, synthetix } from '@synthetixio/contracts-interface'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { chainSources: string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   chainSources: {
     required: false,
     description: `Array of chains to pull debt from. Options for array elements are "mainnet", "mainnet-ovm", "kovan", "kovan-ovm"`,
@@ -20,7 +21,7 @@ export const getDataFromAcrossChains = async (
   config: Config,
   getDebtData: GetDebtData,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   const jobRunID = validator.validated.id
   let { chainSources } = validator.validated.data
 
