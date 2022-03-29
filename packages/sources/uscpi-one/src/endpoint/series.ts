@@ -63,7 +63,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const resultPath = validator.validated.data.resultPath || 'value'
 
   const url = util.buildUrlPath('/timeseries/data/:serie', { serie })
-  const options = { ...config.api, url }
+  const params = {
+    registrationkey: config.apiKey,
+  }
+  const options = { ...config.api, url, params }
   const response = await Requester.request<ResponseSchema>(options)
   const data = response.data.Results.series[0].data
 

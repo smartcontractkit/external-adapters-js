@@ -4,7 +4,7 @@ import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
-import { mockUSCPIResponseSuccess } from './fixtures'
+import { mockAuthenticatedSuccess, mockUSCPIResponseSuccess } from './fixtures'
 import { DEFAULT_BASE_URL } from '../../src/config'
 import { AddressInfo } from 'net'
 
@@ -46,7 +46,7 @@ describe('execute', () => {
     server.close(done)
   })
 
-  describe('with token', () => {
+  describe('with serie/month/year', () => {
     const data: AdapterRequest = {
       id: '1',
       data: {
@@ -58,6 +58,41 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockUSCPIResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('with API key', () => {
+    let oldEnvTest: NodeJS.ProcessEnv
+
+    beforeAll(() => {
+      oldEnvTest = JSON.parse(JSON.stringify(process.env))
+      process.env.API_KEY = 'testkey'
+    })
+
+    afterAll(() => {
+      process.env = oldEnvTest
+    })
+
+    const data: AdapterRequest = {
+      id: '1',
+      data: {
+        serie: 'CUSR0000SA0',
+        month: 'July',
+        year: '2021',
+      },
+    }
+
+    it('should return success', async () => {
+      mockAuthenticatedSuccess()
 
       const response = await req
         .post('/')
