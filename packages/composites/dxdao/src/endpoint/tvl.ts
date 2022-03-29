@@ -13,6 +13,7 @@ export const description =
 const inputParameters: InputParameters = {
   pairContractAddress: {
     required: true,
+    type: 'string',
     description: "The pair contract's address on the XDai Chain",
   },
 }

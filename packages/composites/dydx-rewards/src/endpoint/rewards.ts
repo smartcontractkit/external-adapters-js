@@ -1,6 +1,6 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { InputParameters, ExecuteWithConfig } from '@chainlink/types'
-import { DEFAULT_METHOD, ExtendedConfig } from '../config'
+import { ExtendedConfig } from '../config'
 import { poke } from '../method'
 
 export const supportedEndpoints = ['rewards']
@@ -8,7 +8,9 @@ export const supportedEndpoints = ['rewards']
 const inputParams: InputParameters = {
   method: {
     required: false,
+    type: 'string',
     description: 'The method to call',
+    default: 'poke',
   },
 }
 
@@ -16,7 +18,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const validator = new Validator(request, inputParams)
 
   const jobRunID = validator.validated.id
-  const method = validator.validated.data.method || DEFAULT_METHOD
+  const method = validator.validated.data.method
 
   switch (method.toLowerCase()) {
     case poke.NAME: {

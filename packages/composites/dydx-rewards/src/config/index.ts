@@ -2,7 +2,6 @@ import { RequestConfig, Config } from '@chainlink/types'
 import { ethers } from 'ethers'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 
-export const DEFAULT_METHOD = 'poke'
 export const DEFAULT_ENDPOINT = 'rewards'
 export const DEFAULT_TREASURY_CLAIM_ADDRESS = '0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54'
 export const DEFAULT_TRADER_REWARDS_AMOUNT = '3835616e18'
