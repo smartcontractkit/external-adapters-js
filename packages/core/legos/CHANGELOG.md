@@ -1,5 +1,17 @@
 # @chainlink/ea
 
+## 1.0.67
+
+### Patch Changes
+
+- Updated dependencies [8f01a55f5]
+- Updated dependencies [37e1c74ff]
+  - @chainlink/kaiko-adapter@1.2.0
+  - @chainlink/coingecko-adapter@1.4.2
+  - @chainlink/coinpaprika-adapter@1.7.1
+  - @chainlink/renvm-address-set-adapter@1.3.13
+  - @chainlink/wbtc-address-set-adapter@1.3.22
+
 ## 1.0.66
 
 ### Patch Changes

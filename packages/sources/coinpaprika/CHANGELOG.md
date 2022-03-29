@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.7.1
+
+### Patch Changes
+
+- 37e1c74ff: Fix Overrides casing normalization
+
 ## 1.7.0
 
 ### Minor Changes

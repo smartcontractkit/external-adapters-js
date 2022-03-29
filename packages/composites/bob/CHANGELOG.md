@@ -1,5 +1,11 @@
 # @chainlink/bob-adapter
 
+## 1.0.40
+
+### Patch Changes
+
+- 4aa3ebdfc: refactor, the structure of endpoints folders was implemented
+
 ## 1.0.39
 
 ### Patch Changes
