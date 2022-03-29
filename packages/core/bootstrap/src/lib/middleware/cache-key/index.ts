@@ -34,19 +34,17 @@ export function getCacheKey(request: AdapterRequest, inputParameters: InputParam
   const inputParameterKeys = Object.keys(inputParameters ?? {}).concat(baseInputParametersCachable)
   const validator = new Validator(request, inputParameters, {}, { shouldThrowError: false })
 
-  let cacheKey = ''
+  let data = ''
 
   for (const key of inputParameterKeys) {
-    const data = JSON.stringify(validator.validated.data[key])
-    if (!data) continue
-    const shasum = crypto.createHash('sha1')
-    shasum.update(data)
-    const hash = shasum.digest('base64')
-    cacheKey += hash
+    const value = JSON.stringify(validator.validated.data[key])
+    if (!value) continue
+    data += value
   }
 
-  const hashedCacheKey = crypto.createHash('sha1').update(cacheKey).digest('base64')
-  return hashedCacheKey
+  const shasum = crypto.createHash('sha1')
+  shasum.update(data)
+  return shasum.digest('base64')
 }
 
 export function getBatchCacheKey(
@@ -57,21 +55,19 @@ export function getBatchCacheKey(
   const inputParameterKeys = Object.keys(inputParameters ?? {}).concat(baseInputParametersCachable)
   const validator = new Validator(request, inputParameters, {}, { shouldThrowError: false })
 
-  let cacheKey = ''
+  let data = ''
 
   for (const key of inputParameterKeys) {
     // We want the key to be consistent. So we omit batchable paths.
     // Otherwise it would change on every new child
     if (batchablePropertyPath.includes(key)) continue
 
-    const data = JSON.stringify(validator.validated.data[key])
-    if (!data) continue
-    const shasum = crypto.createHash('sha1')
-    shasum.update(data)
-    const hash = shasum.digest('base64')
-    cacheKey += hash
+    const value = JSON.stringify(validator.validated.data[key])
+    if (!value) continue
+    data += value
   }
 
-  const hashedCacheKey = crypto.createHash('sha1').update(cacheKey).digest('base64')
-  return hashedCacheKey
+  const shasum = crypto.createHash('sha1')
+  shasum.update(data)
+  return shasum.digest('base64')
 }
