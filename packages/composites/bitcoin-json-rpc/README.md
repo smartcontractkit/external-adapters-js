@@ -173,51 +173,6 @@ timeout for requests to this endpoint `2 x API_TIMEOUT + 1000` ms.
 }
 ```
 
-## `scantxoutset` Endpoint
-
-Calls `"method": "scantxoutset"` on the Bitcoin node and returns the total balance of all supplied addresses.
-
-**NOTE:** Requests to this endpoint may exceed the configured `API_TIMEOUT`. If a scan in progress, the adapter will
-wait an additional `API_TIMEOUT` period for the in-progress scan to complete. If the timeout is hit while a scan is in
-progress, a request to abort the scan is sent with an additional 1s timeout. This makes the theoretically maximum
-timeout for requests to this endpoint `2 x API_TIMEOUT + 1000` ms.
-
-### Input Params
-
-| Required? |     Name      |        Description         |   Options   | Defaults to |
-| :-------: | :-----------: | :------------------------: | :---------: | :---------: |
-|    ✅     | `scanobjects` | Array of Bitcoin addresses | `addresses` |             |
-
-`scanobjects` is an array of strings of Bitcoin addresses that can be formatted as plain addresses or surrounded by `addr(` and `)`. See example below
-
-### Sample Input
-
-```json
-{
-  "jobID": "1",
-  "data": {
-    "endpoint": "scantxoutset",
-    "scanobjects": [
-      "39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE",
-      "addr(35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR)"
-    ]
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": 105049.28265606,
-  "statusCode": 200,
-  "data": {
-    "result": 105049.28265606
-  }
-}
-```
-
 ## Testing
 
 Testing is dependent on the type of node you're connecting to. You can set a local environment variable `BITCOIN_RPC_URL` to point to an RPC connection. Otherwise, the adapter will default to `"http://localhost:8545"`.
