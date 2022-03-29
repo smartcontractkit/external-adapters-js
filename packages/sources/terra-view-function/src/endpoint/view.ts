@@ -1,11 +1,18 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError, Value } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { LCDClient } from '@terra-money/terra.js'
+import { APIParams } from '@terra-money/terra.js/dist/client/lcd/APIRequester'
 import { Config, ChainId, SUPPORTED_CHAIN_IDS } from '../config'
 
 export const supportedEndpoints = ['view']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  address: string
+  query: Record<string, Value> | Record<string, Record<string, Value>>
+  params: Record<string, Value>
+  chainId: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   address: {
     aliases: ['contract'],
     required: true,
@@ -29,12 +36,14 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, { chainId: SUPPORTED_CHAIN_IDS })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {
+    chainId: SUPPORTED_CHAIN_IDS,
+  })
 
   const jobRunID = validator.validated.id
   const address = validator.validated.data.address
-  const query = validator.validated.data.query
-  const params = validator.validated.data.params
+  const query = validator.validated.data.query || {}
+  const params = validator.validated.data.params as APIParams
   const chainID = (validator.validated.data.chainId || config.defaultChainId) as ChainId
   const resultPath = validator.validated.data.resultPath as string
 
