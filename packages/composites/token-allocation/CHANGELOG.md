@@ -1,5 +1,15 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies [8f01a55f5]
+- Updated dependencies [37e1c74ff]
+  - @chainlink/kaiko-adapter@1.2.0
+  - @chainlink/coingecko-adapter@1.4.2
+  - @chainlink/coinpaprika-adapter@1.7.1
+
 ## 1.3.4
 
 ### Patch Changes

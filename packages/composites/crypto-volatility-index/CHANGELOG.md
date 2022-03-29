@@ -1,5 +1,12 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.1.12
+
+### Patch Changes
+
+- 4aa3ebdfc: refactor, the structure of endpoints folders was implemented
+  - @chainlink/token-allocation-adapter@1.3.5
+
 ## 1.1.11
 
 ### Patch Changes

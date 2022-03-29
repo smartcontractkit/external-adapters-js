@@ -1,5 +1,15 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.5.2
+
+### Patch Changes
+
+- Updated dependencies [4aa3ebdfc]
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.40
+  - @chainlink/por-indexer-adapter@1.0.23
+  - @chainlink/renvm-address-set-adapter@1.3.13
+  - @chainlink/wbtc-address-set-adapter@1.3.22
+
 ## 1.5.1
 
 ### Patch Changes

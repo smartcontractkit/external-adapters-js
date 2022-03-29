@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- 37e1c74ff: Fix Overrides casing normalization
+
 ## 1.4.1
 
 ### Patch Changes
