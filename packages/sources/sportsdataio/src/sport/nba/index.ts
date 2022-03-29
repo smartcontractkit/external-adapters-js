@@ -1,16 +1,20 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, InputParameters, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { makeConfig } from '../../config'
 import { playerStats } from './endpoint'
 
 export const NAME = 'nba'
 
-const inputParams = {
-  endpoint: true,
+export type TInputParameters = { endpoint: string }
+export const inputParams: InputParameters<TInputParameters> = {
+  endpoint: {
+    required: true,
+    type: 'string',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator<TInputParameters>(request, inputParams)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint
@@ -29,6 +33,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

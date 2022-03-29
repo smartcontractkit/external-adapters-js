@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AxiosResponse, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../../../config'
 import { utils } from 'ethers'
@@ -6,9 +6,18 @@ import { DateTime } from 'luxon'
 
 export const NAME = 'player-stats'
 
-const customParams = {
-  date: true,
-  playerID: true,
+export type TInputParameters = { date: string; playerID: string | number }
+export const customParams: InputParameters<TInputParameters> = {
+  date: {
+    required: true,
+    type: 'string',
+    description:
+      'The date of the game formatted as YYYY-MMM-DD e.g 2021-OCT-11. Adapter assumes date is in the America/Los Angeles timezone.',
+  },
+  playerID: {
+    required: true,
+    description: 'The player ID of the player to query for',
+  },
 }
 
 export interface ResponseSchema {
@@ -98,7 +107,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator<TInputParameters>(request, customParams)
 
   const jobRunID = validator.validated.id
   const { date, playerID } = validator.validated.data
@@ -110,7 +119,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = { ...config.api, params, url }
 
-  const response = await Requester.request<ResponseSchema>(options)
+  const response: AxiosResponse = await Requester.request<ResponseSchema>(options)
   const d = DateTime.fromISO(response.data.DateTime, { zone: 'GMT' })
   const epochSeconds = d.valueOf() / 1000
   return Requester.success(
