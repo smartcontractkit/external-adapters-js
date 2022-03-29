@@ -22,7 +22,11 @@ export const withCacheKey: <C extends Config>(
     endpoint && endpoint.inputParameters
       ? getCacheKey(input, endpoint.inputParameters)
       : hash(input, getHashOpts()) // Fallback to legacy object hash cache key
-  const inputWithCacheKey = { ...input, debug: { ...input.debug, cacheKey } }
+  const batchCacheKey =
+    endpoint && endpoint.inputParameters && endpoint.batchablePropertyPath
+      ? getBatchCacheKey(input, endpoint.inputParameters, endpoint.batchablePropertyPath)
+      : undefined
+  const inputWithCacheKey = { ...input, debug: { ...input.debug, cacheKey, batchCacheKey } }
   return execute(inputWithCacheKey, context)
 }
 
@@ -33,6 +37,33 @@ export function getCacheKey(request: AdapterRequest, inputParameters: InputParam
   let cacheKey = ''
 
   for (const key of inputParameterKeys) {
+    const data = JSON.stringify(validator.validated.data[key])
+    if (!data) continue
+    const shasum = crypto.createHash('sha1')
+    shasum.update(data)
+    const hash = shasum.digest('base64')
+    cacheKey += hash
+  }
+
+  const hashedCacheKey = crypto.createHash('sha1').update(cacheKey).digest('base64')
+  return hashedCacheKey
+}
+
+export function getBatchCacheKey(
+  request: AdapterRequest,
+  inputParameters: InputParameters,
+  batchablePropertyPath: unknown[],
+): string {
+  const inputParameterKeys = Object.keys(inputParameters ?? {}).concat(baseInputParametersCachable)
+  const validator = new Validator(request, inputParameters, {}, { shouldThrowError: false })
+
+  let cacheKey = ''
+
+  for (const key of inputParameterKeys) {
+    // We want the key to be consistent. So we omit batchable paths.
+    // Otherwise it would change on every new child
+    if (batchablePropertyPath.includes(key)) continue
+
     const data = JSON.stringify(validator.validated.data[key])
     if (!data) continue
     const shasum = crypto.createHash('sha1')

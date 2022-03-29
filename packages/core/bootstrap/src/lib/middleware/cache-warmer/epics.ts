@@ -69,12 +69,14 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
 
       // We want the key to be consistent. So we omit batchable paths.
       // Otherwise it would change on every new child
-      const batchWarmerSubscriptionKey = getSubscriptionKey(
-        omit(
-          payload,
-          batchablePropertyPath?.map(({ name }) => `data.${name}`),
-        ),
-      )
+      const batchWarmerSubscriptionKey =
+        payload.debug?.batchCacheKey ??
+        getSubscriptionKey(
+          omit(
+            payload,
+            batchablePropertyPath?.map(({ name }) => `data.${name}`),
+          ),
+        )
 
       const existingBatchWarmer = state.cacheWarmer.subscriptions[batchWarmerSubscriptionKey]
 

@@ -56,7 +56,7 @@ export const withCacheWarmer =
       await separateBatches(input, async (singleInput: AdapterRequest) => {
         const wsSubscriptionKey =
           input.debug?.cacheKey ?? getSubsId(wsHandler.subscribe(singleInput))
-        const cacheWarmerKey = getSubscriptionKey(warmupSubscribedPayload)
+        const cacheWarmerKey = input.debug?.cacheKey ?? getSubscriptionKey(warmupSubscribedPayload)
 
         // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
         const isActiveWSSubscription =

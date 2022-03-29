@@ -24,6 +24,7 @@ declare module '@chainlink/types' {
 
   export type AdapterDebug = {
     cacheKey?: string
+    batchCacheKey?: string
     ws?: boolean
     warmer?: boolean
     cacheHit?: boolean

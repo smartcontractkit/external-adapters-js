@@ -51,7 +51,7 @@ const maxThroughput = (weight: number, cost: number, totalCapacity: number): num
 }
 
 /**
- * Returns hash of the input request payload excluding some volatile paths
+ * [LEGACY] Returns hash of the input request payload excluding some volatile paths
  *
  * @param request payload
  */
