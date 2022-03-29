@@ -36,6 +36,7 @@ describe('Cache key middleware', () => {
         ...request,
         debug: {
           cacheKey: 'jpONzVqlW1OiMxz1nihoHY4Pzr8=',
+          batchKey: 'jpONzVqlW1OiMxz1nihoHY4Pzr8=',
         },
       })
       return response
