@@ -5,7 +5,7 @@ import { Validator, Requester } from '@chainlink/ea-bootstrap'
 export const NAME = 'getblockchaininfo'
 const DEFAULT_FIELD = 'difficulty'
 
-export const supportedEndpoints = [NAME, 'difficulty']
+export const supportedEndpoints = [NAME, 'difficulty', 'height']
 
 export const description = 'Calls `"method": "getblockchaininfo"` on the Bitcoin node.'
 
@@ -37,10 +37,16 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
-  const resultPath =
-    validator.validated.data.endpoint == DEFAULT_FIELD
-      ? DEFAULT_FIELD
-      : validator.validated.data.resultPath || DEFAULT_FIELD
+  const endpointName = validator.validated.data.endpoint
+  let resultPath
+
+  if (endpointName === DEFAULT_FIELD) {
+    resultPath = DEFAULT_FIELD
+  } else if (endpointName === 'height') {
+    resultPath = 'blocks'
+  } else {
+    resultPath = validator.validated.data.resultPath || DEFAULT_FIELD
+  }
 
   const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
   const response = await _execute(
