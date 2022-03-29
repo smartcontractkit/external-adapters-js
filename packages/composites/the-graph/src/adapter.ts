@@ -1,9 +1,15 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, Execute, ExecuteWithConfig } from '@chainlink/types'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  Execute,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/types'
 import { prices } from './methods'
 import { makeConfig, Config } from './config'
 
-const customParams = {
+const inputParameters: InputParameters = {
   method: false,
 }
 
@@ -12,7 +18,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   context,
   config,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.jobRunID
   const method = validator.validated.data.method

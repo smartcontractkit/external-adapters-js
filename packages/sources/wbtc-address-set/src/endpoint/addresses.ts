@@ -1,7 +1,7 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
-import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/utils/PorInputAddress'
 
 export const supportedEndpoints = ['addresses']
 

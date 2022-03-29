@@ -1,4 +1,4 @@
-import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
+import { AdapterResponse, Execute, AdapterRequest, InputParameters } from '@chainlink/types'
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from '../config'
 import { TokenAllocations, Config, ResponsePayload, GetPrices } from '../types'
 import { Decimal } from 'decimal.js'
@@ -107,7 +107,7 @@ const computeMarketCap = async (
   return { payload, result }
 }
 
-const inputParams = {
+const inputParameters: InputParameters = {
   source: false,
   allocations: true,
   quote: false,
@@ -116,7 +116,7 @@ const inputParams = {
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
   const paramOptions = makeOptions(config)
-  const validator = new Validator(input, inputParams, paramOptions)
+  const validator = new Validator(input, inputParameters, paramOptions)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id

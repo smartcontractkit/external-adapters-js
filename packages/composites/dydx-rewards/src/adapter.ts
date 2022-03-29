@@ -1,14 +1,14 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteFactory, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { DEFAULT_METHOD, makeConfig, Config } from './config'
 import { poke } from './method'
 
-const inputParams = {
+const inputParameters: InputParameters = {
   method: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const method = validator.validated.data.method || DEFAULT_METHOD
