@@ -31,30 +31,35 @@ const inputParameters: InputParameters = {
   geoJson: {
     required: true,
     description: 'A GeoJSON object containing the geographies to query',
-  },
-  pointInPolygon: {
-    required: false,
+    type: 'string',
   },
   dateFrom: {
     required: true,
     description: 'The date to query data from (inclusive) in ISO 8601 format',
+    type: 'string',
   },
   dateTo: {
     required: true,
     description: 'The date to query data to (inclusive) in ISO 8601 format',
+    type: 'string',
   },
   method: {
     required: true,
-    description: 'Which method to use to aggregate data in. Options: `AVG`, `SUM`, `MIN`, `MAX`',
+    description: 'Which method to use to aggregate data in',
+    options: ['AVG', 'SUM', 'MIN', 'MAX'],
+    type: 'string',
   },
   column: {
     required: true,
     description: 'Which column to fetch data from',
+    type: 'string',
   },
   units: {
     required: false,
-    description:
-      'What unit system to return the result in ([conversions](#unit-conversion)). Options: `imperial`, `metric`',
+    description: 'What unit system to return the result in ([conversions](#unit-conversion))',
+    options: ['imperial', 'metric'],
+    default: 'imperial',
+    type: 'string',
   },
 }
 
@@ -71,7 +76,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context,
   const dateTo = validator.validated.data.dateTo
   const method = validator.validated.data.method
   const column = validator.validated.data.column.toLowerCase()
-  const units = validator.validated.data.units || 'imperial'
+  const units = validator.validated.data.units
 
   if (!gjv.valid(geoJson)) {
     throw new Error('Provided GeoJSON data is not valid')

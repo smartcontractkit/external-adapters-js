@@ -1,13 +1,13 @@
-import { AdapterRequest, AdapterResponse, ExecuteWithConfig, RequestConfig } from '@chainlink/types'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  ExecuteWithConfig,
+  InputParameters,
+  RequestConfig,
+} from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
-import {
-  DEFAULT_CHECK_THRESHOLD,
-  DEFAULT_ONCHAIN_THRESHOLD,
-  DEFAULT_NETWORK,
-  makeOptions,
-  ExtendedConfig,
-} from '../config'
+import { makeOptions, ExtendedConfig } from '../config'
 import { AxiosResponse } from 'axios'
 
 export const supportedEndpoints = ['outlier']
@@ -15,14 +15,47 @@ export const supportedEndpoints = ['outlier']
 export type SourceRequestOptions = { [source: string]: RequestConfig }
 export type CheckRequestOptions = { [check: string]: RequestConfig }
 
-const inputParameters = {
-  referenceContract: ['referenceContract', 'contract'],
-  multiply: true,
-  source: true,
-  check: false,
-  check_threshold: false,
-  onchain_threshold: false,
-  network: false,
+const inputParameters: InputParameters = {
+  referenceContract: {
+    required: true,
+    aliases: ['contract'],
+    type: 'string',
+    description: 'The smart contract to read the reference data value from',
+  },
+  multiply: {
+    required: true,
+    type: 'number',
+    description: 'The amount to multiply the referenced value',
+  },
+  source: {
+    required: true,
+    type: 'string',
+    description:
+      'The source external adapter to use. Multiple sources can be through a `,` delimiter. (e.g. `xbto,dxfeed`)',
+  },
+  check: {
+    required: false,
+    type: 'string',
+    description:
+      'The check external adapter to use. Multiple checks can be through a `,` delimiter. (e.g. `deribit,dxfeed`). Required if `check_threshold` is used',
+  },
+  check_threshold: {
+    required: false,
+    type: 'number',
+    description: 'Set a percentage deviation threshold against the check data sources.',
+    default: 0,
+  },
+  onchain_threshold: {
+    required: false,
+    type: 'number',
+    description: 'Set a percentage deviation threshold against the on-chain value. ',
+    default: 0,
+  },
+  network: {
+    required: false,
+    description: 'The blockchain network to use.',
+    default: 'ETHEREUM',
+  },
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, config) => {
@@ -32,10 +65,10 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, confi
   const jobRunID = validator.validated.jobRunID
   const source = validator.validated.data.source.toUpperCase()
   const check = validator.validated.data.check?.toUpperCase()
-  const check_threshold = validator.validated.data.check_threshold || DEFAULT_CHECK_THRESHOLD
-  const onchain_threshold = validator.validated.data.onchain_threshold || DEFAULT_ONCHAIN_THRESHOLD
+  const check_threshold = validator.validated.data.check_threshold
+  const onchain_threshold = validator.validated.data.onchain_threshold
   const { referenceContract, multiply } = validator.validated.data
-  const network = validator.validated.data.network || DEFAULT_NETWORK
+  const network = validator.validated.data.network
 
   const onchainValue = await getLatestAnswer(network, referenceContract, multiply, input.meta)
 

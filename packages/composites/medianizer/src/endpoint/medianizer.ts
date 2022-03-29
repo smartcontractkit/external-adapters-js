@@ -1,14 +1,28 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, Config, RequestConfig } from '@chainlink/types'
+import {
+  AdapterRequest,
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  RequestConfig,
+} from '@chainlink/types'
 import { AxiosResponse } from 'axios'
 
 export const supportedEndpoints = ['medianizer']
 
 export type SourceRequestOptions = { [source: string]: RequestConfig }
 
-const inputParameters = {
-  sources: true,
-  minAnswers: false,
+const inputParameters: InputParameters = {
+  sources: {
+    required: true,
+    description: 'An array (string[]) or comma delimited list (string) of source adapters to query',
+  },
+  minAnswers: {
+    required: false,
+    type: 'number',
+    description: 'The minimum number of answers needed to return a value',
+    default: 1,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
@@ -16,7 +30,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const jobRunID = validator.validated.jobRunID
   const sources = parseSources(validator.validated.data.sources)
-  const minAnswers = validator.validated.data.minAnswers || 1
+  const minAnswers = validator.validated.data.minAnswers
 
   const urls = sources.map((source) => util.getRequiredURL(source.toUpperCase()))
   const result = await getExecuteMedian(urls, input, minAnswers, config)

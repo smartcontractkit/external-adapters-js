@@ -8,12 +8,14 @@ import {
   AdapterContext,
 } from '@chainlink/types'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
-import { makeOptions, DEFAULT_CONFIRMATIONS } from '../config'
+import { makeOptions } from '../config'
 import { runProtocolAdapter } from '../utils/protocol'
 import { Indexer, runBalanceAdapter } from '../utils/balance'
 import { runReduceAdapter } from '../utils/reduce'
 
 export const supportedEndpoints = ['reserves']
+
+const paramOptions = makeOptions()
 
 export const makeRequestFactory =
   (config: Config, prefix: string): Execute =>
@@ -40,20 +42,39 @@ export const callAdapter = async (
 }
 
 const inputParams = {
-  protocol: true,
-  indexer: true,
-  confirmations: false,
+  protocol: {
+    required: true,
+    type: 'string',
+    description: 'The protocol external adapter to use',
+    options: paramOptions.protocol,
+  },
+  indexer: {
+    required: true,
+    type: 'string',
+    description: 'The indexer external adapter to use',
+    options: paramOptions.indexer,
+  },
+  confirmations: {
+    required: false,
+    type: 'number',
+    description:
+      'The number of confirmations required for a transaction to be counted when getting an address balance',
+    default: 6,
+  },
+  addresses: {
+    required: false,
+    type: 'array',
+    description: 'An array of addresses to get the balance from, when `protocol` is set to `list`',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  console.log('here')
-  const paramOptions = makeOptions()
   const validator = new Validator(input, inputParams, paramOptions)
 
   const jobRunID = validator.validated.jobRunID
   const protocol = validator.validated.data.protocol.toUpperCase()
   const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
-  const confirmations = validator.validated.data.confirmations || DEFAULT_CONFIRMATIONS
+  const confirmations = validator.validated.data.confirmations
 
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
   const balanceOutput = await runBalanceAdapter(

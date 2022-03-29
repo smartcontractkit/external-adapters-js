@@ -3,8 +3,6 @@ import { Config } from '@chainlink/types'
 import { adapters as BalanceAdapters, Indexer } from '../utils/balance'
 import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from '../utils/protocol'
 
-export const DEFAULT_CONFIRMATIONS = 6
-
 export const NAME = 'PROOF_OF_RESERVES'
 export const DEFAULT_ENDPOINT = 'reserves'
 
