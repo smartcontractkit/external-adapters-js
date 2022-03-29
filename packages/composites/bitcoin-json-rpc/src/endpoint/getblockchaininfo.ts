@@ -9,7 +9,7 @@ export const supportedEndpoints = [NAME, 'difficulty']
 
 export const description = 'Calls `"method": "getblockchaininfo"` on the Bitcoin node.'
 
-const inputParams: InputParameters = {
+const inputParameters: InputParameters = {
   resultPath: {
     required: false,
   },
@@ -35,7 +35,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const resultPath =
     validator.validated.data.endpoint == DEFAULT_FIELD

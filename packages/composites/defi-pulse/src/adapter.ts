@@ -1,10 +1,16 @@
 import { Logger, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, AdapterRequest, Execute, AdapterContext } from '@chainlink/types'
+import {
+  AdapterResponse,
+  AdapterRequest,
+  Execute,
+  AdapterContext,
+  InputParameters,
+} from '@chainlink/types'
 import { getAllocations } from './index-allocations'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { makeConfig, Config } from './config'
 
-const customParams = {
+const inputParameters: InputParameters = {
   name: false,
   asset: false,
   address: true,
@@ -19,7 +25,7 @@ export const execute = async (
   Logger.warn(
     `WARN: This EA will be deprecated, 'set-token-index' will be used for future reference.`,
   )
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const asset = validator.validated.data

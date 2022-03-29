@@ -1,9 +1,9 @@
 import { Requester, Validator, AdapterError, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, Execute, AdapterRequest } from '@chainlink/types'
+import { AdapterResponse, Execute, AdapterRequest, InputParameters } from '@chainlink/types'
 import { makeConfig, Config, DEFAULT_NETWORK } from './config'
 import { getRpcLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
-const customParams = {
+const inputParameters: InputParameters = {
   source: true,
   contract: ['referenceContract'],
   multiply: false,
@@ -28,7 +28,7 @@ const transform = (offchain: number, onchain: number, operator: string, dividend
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
-  const validator = new Validator(input, customParams, { source: Object.keys(config.sources) })
+  const validator = new Validator(input, inputParameters, { source: Object.keys(config.sources) })
 
   const jobRunID = validator.validated.id
   const source = validator.validated.data.source
