@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinPaprika
 
-Version: 1.7.0
+Version: 1.7.1
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
