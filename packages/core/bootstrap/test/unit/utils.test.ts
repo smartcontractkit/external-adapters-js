@@ -1,11 +1,28 @@
 import { AdapterContext } from '@chainlink/types'
-import { getEnv, buildUrlPath, buildUrl, baseEnvDefaults } from '../../src/lib/util'
+import {
+  getEnv,
+  buildUrlPath,
+  buildUrl,
+  baseEnvDefaults,
+  getRandomRequiredEnv,
+  toObjectWithNumbers,
+  getRequiredEnv,
+  RequiredEnvError,
+  formatArray,
+  groupBy,
+  isDebugLogLevel,
+  permutator,
+  deepType,
+  getURL,
+  getRequiredEnvWithFallback,
+  registerUnhandledRejectionHandler,
+} from '../../src/lib/util'
 
 describe('utils', () => {
   let oldEnv
 
   beforeEach(() => {
-    oldEnv = process.env
+    oldEnv = JSON.parse(JSON.stringify(process.env))
   })
 
   afterEach(() => {
@@ -162,6 +179,213 @@ describe('utils', () => {
       const actual = withApiKey('wss://stream.tradingeconomics.com', 'keystring', 'secretstring')
 
       expect(actual).toEqual(expected)
+    })
+  })
+
+  describe('getRandomRequiredEnv', () => {
+    it('returns item from list env var at random', () => {
+      const varName = 'RANDOM_TEST_ENV_VAR'
+      process.env[varName] = 'one,two,three'
+      jest
+        .spyOn(global.Math, 'random')
+        .mockReturnValueOnce(0.1)
+        .mockReturnValueOnce(0.5)
+        .mockReturnValueOnce(0.7)
+
+      expect(getRandomRequiredEnv(varName)).toBe('one')
+      expect(getRandomRequiredEnv(varName)).toBe('two')
+      expect(getRandomRequiredEnv(varName)).toBe('three')
+
+      jest.restoreAllMocks()
+    })
+  })
+
+  describe('toObjectWithNumbers', () => {
+    it('replaces number strings with numbers', () => {
+      const input = {
+        a: 'test',
+        b: '2',
+        c: 3,
+        d: ['a', 'b'],
+      }
+      const expected = {
+        a: 'test',
+        b: 2,
+        c: 3,
+        d: ['a', 'b'],
+      }
+
+      expect(toObjectWithNumbers(input)).toEqual(expected)
+    })
+  })
+
+  describe('getRequiredEnv', () => {
+    it('throws error if required env var not present', () => {
+      expect(() => getRequiredEnv('asdfasdfasdf')).toThrow(RequiredEnvError)
+    })
+  })
+
+  describe('formatArray', () => {
+    it('wraps single string input in array', () => {
+      expect(formatArray('test')).toEqual(['test'])
+    })
+
+    it('leaves input array as is', () => {
+      expect(formatArray(['asd', 'qwe'])).toEqual(['asd', 'qwe'])
+    })
+  })
+
+  describe('groupBy', () => {
+    it('takes list of items and returns map with grouped array values', () => {
+      const input = [
+        {
+          a: 'one',
+          b: 'two',
+        },
+        {
+          a: 'one',
+          c: 'asd',
+        },
+        {
+          a: 'two',
+          b: 'two',
+        },
+        {
+          a: 'three',
+          c: 'one',
+          d: 'asd',
+        },
+        {
+          a: 'two',
+          b: 'three',
+        },
+      ]
+
+      const expected = new Map()
+      expected.set('one', [input[0], input[1]])
+      expected.set('two', [input[2], input[4]])
+      expected.set('three', [input[3]])
+
+      expect(groupBy(input, (i) => i.a)).toEqual(expected)
+    })
+  })
+
+  describe('isDebugLogLevel', () => {
+    it('parses log level var', () => {
+      process.env.LOG_LEVEL = 'debug'
+      expect(isDebugLogLevel()).toBe(true)
+      process.env.LOG_LEVEL = 'warn'
+      expect(isDebugLogLevel()).toBe(false)
+    })
+  })
+
+  describe('permutator', () => {
+    it('caulculates all permutations, returns array of arrays', () => {
+      const input = ['1', '2', '3']
+      const expected = [
+        ['1'],
+        ['2'],
+        ['3'],
+        ['1', '2'],
+        ['1', '3'],
+        ['2', '1'],
+        ['2', '3'],
+        ['3', '1'],
+        ['3', '2'],
+        ['1', '2', '3'],
+        ['1', '3', '2'],
+        ['2', '1', '3'],
+        ['2', '3', '1'],
+        ['3', '1', '2'],
+        ['3', '2', '1'],
+      ]
+
+      expect(permutator(input)).toEqual(expected)
+    })
+
+    it('caulculates all permutations, returns array of strings', () => {
+      const input = ['1', '2', '3']
+      const expected = [
+        '1',
+        '2',
+        '3',
+        '1,2',
+        '1,3',
+        '2,1',
+        '2,3',
+        '3,1',
+        '3,2',
+        '1,2,3',
+        '1,3,2',
+        '2,1,3',
+        '2,3,1',
+        '3,1,2',
+        '3,2,1',
+      ]
+
+      expect(permutator(input, ',')).toEqual(expected)
+    })
+
+    it('returns empty array when input is empty array', () => {
+      expect(permutator([])).toEqual([])
+    })
+  })
+
+  describe('deepType', () => {
+    it('returns expected types', () => {
+      expect(deepType('asd')).toBe('string')
+      expect(deepType(123)).toBe('number')
+      expect(deepType([])).toBe('array')
+      expect(deepType(null)).toBe('null')
+      expect(deepType(null, true)).toBe('[object Null]')
+      expect(deepType(new Map())).toBe('object')
+      expect(deepType(new Map(), true)).toBe('[object Map]')
+      expect(deepType(() => 123)).toBe('function')
+      expect(
+        deepType(function* () {
+          yield 123
+        }),
+      ).toBe('function')
+    })
+  })
+
+  describe('getURL', () => {
+    it('gets adapter url from env vars using new format', () => {
+      process.env.COINGECKO_ADAPTER_URL = 'http://coincecko-ea.test:1234'
+      expect(getURL('COINGECKO')).toBe('http://coincecko-ea.test:1234')
+      expect(getURL('COINGECKO', true)).toBe('http://coincecko-ea.test:1234')
+    })
+    it('gets adapter url from env vars using legacy format', () => {
+      process.env.COINGECKO_DATA_PROVIDER_URL = 'http://coincecko-ea.test:2345'
+      expect(getURL('COINGECKO')).toBe('http://coincecko-ea.test:2345')
+    })
+  })
+
+  describe('getRequiredEnvWithFallback', () => {
+    it('returns primary env var', () => {
+      process.env.TEST_VAR = 'zxcvbnm'
+      process.env.FALLBACK1 = 'fallback1'
+      expect(getRequiredEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toBe('zxcvbnm')
+    })
+    it('returns fallback env var', () => {
+      process.env.FALLBACK2 = 'fallback2'
+      expect(getRequiredEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toBe('fallback2')
+    })
+    it('throws error when neither primary nor fallbacks are present', () => {
+      expect(() => getRequiredEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toThrow(
+        RequiredEnvError,
+      )
+    })
+  })
+
+  describe('registerUnhandledRejectionHandler', () => {
+    it('successfully ignores unhandled rejections', async () => {
+      const failing = () => process.emit('unhandledRejection' as 'disconnect')
+
+      registerUnhandledRejectionHandler()
+      registerUnhandledRejectionHandler() // Test calling it twice will warn but continue
+
+      expect(failing).not.toThrow()
     })
   })
 })
