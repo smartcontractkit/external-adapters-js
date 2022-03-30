@@ -30,7 +30,8 @@ export interface DataSchema {
   footnotes: []
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { serie: string; year: string; month: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   serie: {
     required: false,
     description: 'The US CPI Data serieID (`CUSR0000SA0`, `LNS14000000`, etc)',
@@ -52,7 +53,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const serie = validator.validated.data.serie || 'CUSR0000SA0'
@@ -77,10 +78,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       return obj['year'] === year && obj['periodName'] === month
     })
   }
-  const result = Requester.validateResultNumber(filter, [0, resultPath])
+  const result = Requester.validateResultNumber(filter[0], resultPath)
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
-const capitalizeFirstLetter = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
+const capitalizeFirstLetter = (string: string) => string.charAt(0).toUpperCase() + string.slice(1)
