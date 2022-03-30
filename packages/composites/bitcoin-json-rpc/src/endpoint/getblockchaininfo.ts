@@ -7,6 +7,12 @@ const DEFAULT_FIELD = 'difficulty'
 
 export const supportedEndpoints = [NAME, 'difficulty', 'height']
 
+export const endpointResultPaths = {
+  getblockchaininfo: DEFAULT_FIELD,
+  difficulty: DEFAULT_FIELD,
+  height: 'blocks',
+}
+
 export const description = 'Calls `"method": "getblockchaininfo"` on the Bitcoin node.'
 
 const inputParameters: InputParameters = {
@@ -37,22 +43,7 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
-  const endpointName = validator.validated.data.endpoint
-  let resultPath
-
-  switch (endpointName) {
-    case DEFAULT_FIELD: {
-      resultPath = DEFAULT_FIELD
-      break
-    }
-    case 'height': {
-      resultPath = 'blocks'
-      break
-    }
-    default: {
-      resultPath = validator.validated.data.resultPath || DEFAULT_FIELD
-    }
-  }
+  const resultPath = validator.validated.data.resultPath || DEFAULT_FIELD
 
   const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
   const response = await _execute(
