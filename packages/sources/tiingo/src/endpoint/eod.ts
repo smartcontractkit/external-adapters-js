@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -42,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker
   const resultPath = validator.validated.data.resultPath
-  const url = `/tiingo/daily/${ticker.toLowerCase()}/prices`
+  const url = util.buildUrlPath(`/tiingo/daily/:ticker/prices`, { ticker: ticker.toLowerCase() })
 
   const reqConfig = {
     ...config.api,

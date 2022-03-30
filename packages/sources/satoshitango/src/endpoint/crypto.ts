@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['crypto', 'ticker']
@@ -50,7 +50,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
-  const url = `ticker/${quote}`
+  const url = util.buildUrlPath('ticker/:quote', { quote })
   const resultPath = (validator.validated.data.resultPath || '').toString()
 
   const options = {

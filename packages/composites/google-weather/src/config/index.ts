@@ -1,16 +1,18 @@
-import { util } from '@chainlink/ea-bootstrap'
-import { RequestConfig } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
+import type { RequestConfig, Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_DATASET = 'bigquery-public-data.noaa_gsod'
 export const NAME = 'GOOGLE_WEATHER'
+export const DEFAULT_ENDPOINT = 'weather'
 
-export type Config = {
+export interface ExtendedConfig extends Config {
   dataset: string
-
   api: RequestConfig
 }
 
-export const makeConfig = (prefix = ''): Config => ({
+export const makeConfig = (prefix?: string): ExtendedConfig => ({
+  ...Requester.getDefaultConfig(prefix),
   dataset: util.getEnv('DATASET', prefix) || DEFAULT_DATASET,
   api: {},
+  defaultEndpoint: DEFAULT_ENDPOINT,
 })

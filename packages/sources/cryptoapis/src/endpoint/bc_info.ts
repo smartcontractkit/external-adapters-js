@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['height', 'difficulty']
 
@@ -50,7 +50,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const blockchain = validator.validated.data.blockchain
   const network = validator.validated.data.network || 'mainnet'
   const resultPath = (validator.validated.data.resultPath || '').toString()
-  const url = `/v1/bc/${blockchain.toLowerCase()}/${network.toLowerCase()}/info`
+  const url = util.buildUrlPath('/v1/bc/:blockchain/:network/info', {
+    blockchain: blockchain.toLowerCase(),
+    network: network.toLowerCase(),
+  })
 
   const reqConfig = { ...config.api, url }
 

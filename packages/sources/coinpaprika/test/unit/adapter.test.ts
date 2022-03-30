@@ -27,12 +27,25 @@ describe('execute', () => {
         name: 'dominance: market not supplied',
         testData: { id: jobID, data: { endpoint: 'dominance' } },
       },
+      {
+        name: 'invalid overrides format',
+        testData: {
+          id: jobID,
+          data: {
+            base: 'ETH',
+            quote: 'USD',
+            overrides: {
+              ETH: 'ethereum',
+            },
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)

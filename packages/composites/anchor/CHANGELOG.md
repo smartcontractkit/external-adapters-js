@@ -1,5 +1,95 @@
 # @chainlink/anchor-adapter
 
+## 3.2.1
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.6
+
+## 3.2.0
+
+### Minor Changes
+
+- 478f73a11: Fix issues related to bETH/USD calculation. Issues were mainly due to token pair exchange rates being flipped the wrong way around.
+
+## 3.1.2
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.5
+
+## 3.1.1
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.4
+
+## 3.1.0
+
+### Minor Changes
+
+- e3cb3e1bc: Update Anchor EA README and schema/env.json to reflect change to pull intermediary token prices from on chain feeds instead of directly from data providers
+
+## 3.0.0
+
+### Major Changes
+
+- 2f1b665ce: allow the number of decimals for answer to be configurable with a default of 8dp
+
+## 2.0.0
+
+### Major Changes
+
+- aef22ac05: - Update EA to use fixed point decimal operations to handle decimals in EA much like how decimals are handled in Solidity. This allows us to remove the extra dependency to the original BigNumbers JS library. A side effect of this is that the result is now returned in a string format with no decimals.
+  - Update EA to pull intermediary token prices from on chain Terra feeds instead of directly from data providers
+
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/token-allocation-adapter@1.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.3
+
+## 1.3.8
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/token-allocation-adapter@1.2.3
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.2
+
+## 1.3.7
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/token-allocation-adapter@1.2.2
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.1
+
 ## 1.3.6
 
 ### Patch Changes

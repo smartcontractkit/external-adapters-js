@@ -93,7 +93,6 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
           defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
           defaultConfig.apiKey || '',
         ),
-        protocol: { query: { api_key: defaultConfig.apiKey } } as any,
       },
       subscribe: (input) => getSubscription('SubAdd', getPair(input)) as any,
       unsubscribe: (input) => getSubscription('SubRemove', getPair(input)) as any,

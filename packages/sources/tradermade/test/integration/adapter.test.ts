@@ -21,10 +21,7 @@ import {
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
-
-const sleep = (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
+import { util } from '@chainlink/ea-bootstrap'
 
 describe('execute', () => {
   const id = '1'
@@ -211,7 +208,7 @@ describe('websocket', () => {
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
       // populated cache entries.
-      await sleep(100)
+      await util.sleep(100)
       const response = await makeRequest()
 
       expect(response.body).toEqual({

@@ -1,41 +1,61 @@
 # Chainlink External Adapter for Cache.gold
 
-### Input Parameters
+Version: 1.2.23
 
-| Required? |   Name   |     Description     |          Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [lockedGold](#lockedGold) | lockedGold  |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |              Default              |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://contract.cache.gold/api` |
 
 ---
 
-## LokedGold Endpoint
+## Input Parameters
 
-Query the total gold grams locked in [cache.gold](https://contract.cache.gold/api/lockedGold)
+| Required? |   Name   |     Description     |  Type  |              Options               |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [lockedGold](#lockedgold-endpoint) | `lockedGold` |
+
+---
+
+## LockedGold Endpoint
+
+Query the total gold grams locked in [cache.gold](https://contract.cache.gold/api/lockedGold).
+
+`lockedGold` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? | Name |                 Description                  | Options | Defaults to |
-| :-------: | :--: | :------------------------------------------: | :-----: | :---------: |
-|  ⛔ None  | None | no parameters are needed to make the request |         |             |
+There are no input parameters for this endpoint.
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
-  "data": {}
+  "data": {
+    "endpoint": "lockedGold"
+  }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": 62293.77,
-  "statusCode": 200,
   "data": {
-    "result": 62293.77
-  }
+    "grams_locked": "91571.93000000",
+    "result": 91571.93
+  },
+  "result": 91571.93,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

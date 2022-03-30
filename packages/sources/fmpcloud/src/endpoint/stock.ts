@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['quote', 'price', 'stock']
 
@@ -61,7 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }
-  const url = `/api/v3/quote/${symbol}`
+  const url = util.buildUrlPath('/api/v3/quote/:symbol', { symbol }, '^')
 
   const options = {
     ...config.api,

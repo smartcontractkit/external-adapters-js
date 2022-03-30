@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['crypto', 'tickers']
 
@@ -47,7 +47,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
   const resultPath = validator.validated.data.resultPath || 'data.attributes.vwap'
-  const url = `tickers/${base}_${quote}`
+  const url = util.buildUrlPath(`tickers/:base_:quote`, { base, quote })
 
   const options = {
     ...config.api,

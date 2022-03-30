@@ -1,7 +1,9 @@
-import { ExecuteFactory, ExecuteWithConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
-import {
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type {
   AdapterRequest,
   AdapterResponse,
+  ExecuteFactory,
+  ExecuteWithConfig,
   Config,
   InputParameters,
   MakeWSHandler,
@@ -29,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base.toUpperCase()
 
-  const url = `securities/${symbol}/prices/realtime`
+  const url = util.buildUrlPath('securities/:symbol/prices/realtime', { symbol })
   const params = {
     api_key: config.apiKey,
   }

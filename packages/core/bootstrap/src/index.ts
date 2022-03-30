@@ -17,13 +17,21 @@ import {
   Cache,
   CacheWarmer,
   Debug,
+  ErrorBackoff,
   IoLogger,
   Normalize,
   RateLimit,
   StatusCode,
   WebSocket,
 } from './lib/middleware'
-import { AdapterError, logger as Logger, Requester, Validator, Builder } from './lib/modules'
+import {
+  AdapterError,
+  logger as Logger,
+  Requester,
+  Validator,
+  Builder,
+  Overrider,
+} from './lib/modules'
 import * as metrics from './lib/metrics'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
@@ -31,10 +39,11 @@ import * as util from './lib/util'
 
 export * from './types'
 
-const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'rateLimit', 'ws'] as const
+const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 
 const rootReducer = combineReducers({
+  errorBackoff: ErrorBackoff.reducer.rootReducer,
   burstLimit: BurstLimit.reducer.rootReducer,
   cacheWarmer: CacheWarmer.reducer.rootReducer,
   rateLimit: RateLimit.reducer.rootReducer,
@@ -46,6 +55,7 @@ export type RootState = ReturnType<typeof rootReducer>
 export const initialState: RootState = {
   burstLimit: BurstLimit.reducer.initialState,
   cacheWarmer: CacheWarmer.reducer.initialState,
+  errorBackoff: ErrorBackoff.reducer.initialState,
   rateLimit: RateLimit.reducer.initialState,
   ws: WebSocket.reducer.initialState,
 }
@@ -53,7 +63,7 @@ export const initialState: RootState = {
 // Initialize Redux store
 export const store = configureStore(
   rootReducer,
-  { burstLimit: {}, cacheWarmer: {}, rateLimit: {}, ws: {} },
+  { burstLimit: {}, cacheWarmer: {}, errorBackoff: {}, rateLimit: {}, ws: {} },
   [CacheWarmer.epics.epicMiddleware, WebSocket.epics.epicMiddleware],
 )
 
@@ -84,6 +94,7 @@ export const makeMiddleware = <C extends Config, D extends AdapterData>(
     : [Debug.withDebug()]
 
   return [
+    ErrorBackoff.withErrorBackoff(storeSlice('errorBackoff')),
     IoLogger.withIOLogger(),
     Cache.withCache(storeSlice('burstLimit')),
     CacheWarmer.withCacheWarmer<D>(storeSlice('cacheWarmer'), warmerMiddleware, {
@@ -141,10 +152,22 @@ export const expose = <C extends Config, D extends AdapterData>(
   makeWsHandler?: MakeWSHandler,
   endpointSelector?: (request: AdapterRequest) => APIEndpoint<C, D>,
 ): ExecuteHandler => {
+  util.registerUnhandledRejectionHandler()
   const middleware = makeMiddleware<C, D>(execute, makeWsHandler, endpointSelector)
   return {
     server: server.initHandler(context, execute, middleware),
   }
 }
 
-export { Requester, Validator, AdapterError, Builder, Logger, util, server, Cache, RateLimit }
+export {
+  Requester,
+  Validator,
+  Overrider,
+  AdapterError,
+  Builder,
+  Logger,
+  util,
+  server,
+  Cache,
+  RateLimit,
+}

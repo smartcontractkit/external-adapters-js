@@ -1,5 +1,5 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['marketcap', 'token']
@@ -50,7 +50,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const resultPath = validator.validated.data.resultPath || 'marketCapUSD'
-  const url = `/api/v2/market/tokens/prices/${coin.toLowerCase()}/latest`
+  const url = util.buildUrlPath(`/api/v2/market/tokens/prices/:coin/latest`, {
+    coin: coin.toLowerCase(),
+  })
 
   const reqConfig = { ...config.api, url }
 

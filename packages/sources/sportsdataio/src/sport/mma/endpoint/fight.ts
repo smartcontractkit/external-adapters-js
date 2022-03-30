@@ -1,4 +1,4 @@
-import { AxiosResponse, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AxiosResponse, util, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../../../config'
 
@@ -18,7 +18,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const fightId = validator.validated.data.fightId
-  const url = `/mma/stats/json/Fight/${fightId}`
+  const url = util.buildUrlPath('/mma/stats/json/Fight/:fightId', { fightId })
 
   const params = {
     key: config.mmaStatsKey,

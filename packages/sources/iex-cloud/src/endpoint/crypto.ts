@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto']
@@ -40,7 +40,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const quote = validator.validated.data.quote
-  const url = `crypto/${base.toUpperCase()}${quote.toUpperCase()}/quote`
+  const url = util.buildUrlPath(`crypto/:base:quote/quote`, {
+    base: base.toUpperCase(),
+    quote: quote.toUpperCase(),
+  })
 
   const params = {
     token: config.apiKey,

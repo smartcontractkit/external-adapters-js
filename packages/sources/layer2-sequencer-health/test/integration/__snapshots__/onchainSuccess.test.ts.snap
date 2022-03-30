@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute arbitrum network should return success when all methods succeed 1`] = `
+Object {
+  "data": Object {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute arbitrum network should return transaction submission is successful 1`] = `
+Object {
+  "data": Object {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute optimism network should return success when all methods succeed 1`] = `
+Object {
+  "data": Object {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute optimism network should return transaction submission is successful 1`] = `
+Object {
+  "data": Object {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;

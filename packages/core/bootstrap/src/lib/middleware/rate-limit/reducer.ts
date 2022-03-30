@@ -1,5 +1,6 @@
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { makeId } from '.'
+import { sortedFilter } from '../../util'
 import { WARMUP_REQUEST_ID } from '../cache-warmer/config'
 import { successfulResponseObserved } from './actions'
 
@@ -82,7 +83,7 @@ const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (buil
       // remove all heartbeats that are older than the current interval
       const window = heartbeat.t - Intervals[intervalName]
       const isInWindow = (h: Heartbeat) => h.t >= window
-      state.participants[id][intervalName] = sortedFilter(
+      state.participants[id][intervalName] = sortedFilter<Heartbeat>(
         state.participants[id][intervalName],
         isInWindow,
       )
@@ -107,30 +108,6 @@ const heartbeatReducer = createReducer<Heartbeats>(initialHeartbeatsState, (buil
     return state
   })
 })
-
-/**
- * Remove stale heartbeat entries from an array.
- * This function assumes that the array is sorted by timestamp,
- * where the oldest entry lives in the 0th index, and the newest entry
- * lives in the arr.length-1th index
- * @param heartbeats The heartbeats to filter
- * @param filter The windowing function to apply
- */
-function sortedFilter(
-  heartbeats: Heartbeat[],
-  windowingFunction: (h: Heartbeat) => boolean,
-): Heartbeat[] {
-  // if we want a higher performance implementation
-  // we can later resort to a custom array class that is circular
-  // so we can amortize expensive operations like resizing, and make
-  // operations like moving the head index much quicker
-  const firstNonStaleHeartbeatIndex = heartbeats.findIndex(windowingFunction)
-  if (firstNonStaleHeartbeatIndex === -1) {
-    return []
-  }
-
-  return heartbeats.slice(firstNonStaleHeartbeatIndex)
-}
 
 export function selectTotalNumberOfHeartbeatsFor(
   state: Heartbeats,

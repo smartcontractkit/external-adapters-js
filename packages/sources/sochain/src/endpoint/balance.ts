@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
-import { AdapterData, InputParameters, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterData, InputParameters, Requester, util } from '@chainlink/ea-bootstrap'
 import { Account, Config, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { isCoinType, isChainType } from '../config'
 
@@ -22,7 +22,11 @@ interface ResponseSchema {
 const getBalanceURI = (account: Account, confirmations: number) => {
   account.coin = account.coin?.toUpperCase()
   if (account.chain === 'testnet') account.coin = account.coin + 'TEST'
-  return `/api/v2/get_address_balance/${account.coin}/${account.address}/${confirmations}`
+  return util.buildUrlPath('/api/v2/get_address_balance/:coin/:address/:confirmations', {
+    coin: account.coin,
+    address: account.address,
+    confirmations,
+  })
 }
 
 const getBalance: balance.GetBalance = async (account, config) => {

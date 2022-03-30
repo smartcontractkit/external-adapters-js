@@ -21,7 +21,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
   amount: {
     required: false,
     type: 'number',
-    description: 'The amount fo the `base` currency',
+    description: 'The amount of the `base` currency',
     default: 1,
   },
 }

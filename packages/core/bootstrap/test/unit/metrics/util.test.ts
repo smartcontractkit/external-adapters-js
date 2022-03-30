@@ -122,5 +122,26 @@ describe('Bootstrap/Metrics Utils', () => {
       const feedName = util.getFeedId(input)
       expect(feedName).toBe('CACHE_WARMER')
     })
+
+    it(`Returns input as JSON string when validation fails`, () => {
+      const input: AdapterRequest = {
+        id: '1',
+        data: {
+          base: '',
+          quote: '',
+        },
+      }
+      const feedName = util.getFeedId(input)
+      expect(feedName).toBe('{"id":"1","data":{"base":"","quote":""}}')
+    })
+
+    it(`Returns 'undefined' when an error is caught`, () => {
+      const input: AdapterRequest = {
+        id: '1',
+        data: undefined,
+      }
+      const feedName = util.getFeedId(input)
+      expect(feedName).toBe('undefined')
+    })
   })
 })
