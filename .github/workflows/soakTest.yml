@@ -2,12 +2,13 @@ name: Soak test
 
 on:
   pull_request: ~
+  #TODO remove the following 3 lines
+  push:
+    branches:
+      - 'feature/soak-testing-composites'
+
 env:
   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-#TODO remove the following 3 lines
-push:
-  branches:
-    - 'feature/soak-testing'
 
 jobs:
   run-basic-checks:
