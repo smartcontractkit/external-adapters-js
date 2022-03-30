@@ -39,22 +39,30 @@ export const description = `The \`crypto\`, \`volume\`, and \`prices\` endpoints
 
 \`volume\` returns the 24h volume for a pair.`
 
-export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  resultPath: false,
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
+  base: {
+    aliases: ['from', 'coin'],
+    required: true,
+    description: 'The cryptocurrency symbol to query',
+  },
+  quote: {
+    aliases: ['to', 'market'],
+    required: true,
+    description: 'The output currency to return the price in',
+  },
 }
 
 // When an invalid symbol is given the response body is empty
 const customError = (data: ResponseSchema[]) => !data.length
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const quote = validator.validated.data.quote.toLowerCase()
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const url = '/tiingo/crypto/prices'
 
   const options = {
@@ -70,7 +78,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema[]>(options, customError)
-  const result = Requester.validateResultNumber(response.data, [0, 'priceData', 0, resultPath])
+  const result = Requester.validateResultNumber(response.data[0], ['priceData', 0, resultPath])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
