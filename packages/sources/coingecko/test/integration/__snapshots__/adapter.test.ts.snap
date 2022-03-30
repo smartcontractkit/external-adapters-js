@@ -23,7 +23,7 @@ Object {
     },
     "results": Array [
       Array [
-        "0eTPrre2wZw5jckHyQTkm7G/lug=",
+        "1PJjYb3NBPrAJtJymzIlPT3uKhI=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -37,14 +37,15 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "cacheKey": "grJS724Gdf27qFwV363K6dG42GA=",
+            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
+            "cacheKey": "lEcpBpYc/YWM9dphR8RPCLgMKYc=",
           },
           "id": "1",
         },
         3015.64,
       ],
       Array [
-        "xKGkiFoynYTtd+61TBCkrW3nrwE=",
+        "+FckiNYu0V4APZmxGRt53U8TQgU=",
         Object {
           "data": Object {
             "base": "OHM",
@@ -58,7 +59,8 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "cacheKey": "grJS724Gdf27qFwV363K6dG42GA=",
+            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
+            "cacheKey": "lEcpBpYc/YWM9dphR8RPCLgMKYc=",
           },
           "id": "1",
         },

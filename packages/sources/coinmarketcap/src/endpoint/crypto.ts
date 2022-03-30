@@ -154,7 +154,8 @@ const handleBatchedRequest = (
       ])
 
       payload.push([
-        CacheKey.getCacheKey(individualRequest, inputParameters),
+        CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
+
         individualRequest,
         result,
       ])

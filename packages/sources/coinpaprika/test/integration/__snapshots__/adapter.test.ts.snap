@@ -5,7 +5,7 @@ Object {
   "data": Object {
     "results": Array [
       Array [
-        "ZwNoNNAhXz9/lQzxS033MSrOfrA=",
+        "I3d0Y7Quuz6GwFlSx1d+qTAmKmI=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -19,14 +19,15 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "cacheKey": "KJCx2AVlXSzGvc5I3wpAwzr9dPc=",
+            "batchCacheKey": "pWWZH1qYiunmQzHl+MwfeHsLacA=",
+            "cacheKey": "nSYPjypQNNu29PnNIoBLQvS8d3c=",
           },
           "id": "1",
         },
         40000.2425813062,
       ],
       Array [
-        "0eTPrre2wZw5jckHyQTkm7G/lug=",
+        "1PJjYb3NBPrAJtJymzIlPT3uKhI=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -40,7 +41,8 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "cacheKey": "KJCx2AVlXSzGvc5I3wpAwzr9dPc=",
+            "batchCacheKey": "pWWZH1qYiunmQzHl+MwfeHsLacA=",
+            "cacheKey": "nSYPjypQNNu29PnNIoBLQvS8d3c=",
           },
           "id": "1",
         },
@@ -59,7 +61,7 @@ Object {
   "data": Object {
     "results": Array [
       Array [
-        "0eTPrre2wZw5jckHyQTkm7G/lug=",
+        "1PJjYb3NBPrAJtJymzIlPT3uKhI=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -68,14 +70,15 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "cacheKey": "KJCx2AVlXSzGvc5I3wpAwzr9dPc=",
+            "batchCacheKey": "pWWZH1qYiunmQzHl+MwfeHsLacA=",
+            "cacheKey": "nSYPjypQNNu29PnNIoBLQvS8d3c=",
           },
           "id": "1",
         },
         3949.2425813062,
       ],
       Array [
-        "ZwNoNNAhXz9/lQzxS033MSrOfrA=",
+        "I3d0Y7Quuz6GwFlSx1d+qTAmKmI=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -84,7 +87,8 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "cacheKey": "KJCx2AVlXSzGvc5I3wpAwzr9dPc=",
+            "batchCacheKey": "pWWZH1qYiunmQzHl+MwfeHsLacA=",
+            "cacheKey": "nSYPjypQNNu29PnNIoBLQvS8d3c=",
           },
           "id": "1",
         },

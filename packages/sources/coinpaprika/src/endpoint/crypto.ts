@@ -207,7 +207,7 @@ const handleBatchedRequest = (
         adapterRequest.data.base = idsToSymbols[coinid].toUpperCase()
       }
       payload.push([
-        CacheKey.getCacheKey(adapterRequest, inputParameters),
+        CacheKey.getCacheKey(adapterRequest, Object.keys(inputParameters)),
         adapterRequest,
         Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
       ])

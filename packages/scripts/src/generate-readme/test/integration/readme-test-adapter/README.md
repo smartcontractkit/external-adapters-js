@@ -1,6 +1,6 @@
 # README Test Adapter
 
-Version: 1.2.5
+Version: 1.2.7
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
@@ -63,6 +63,9 @@ Request:
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
       }
     ]
+  },
+  "debug": {
+    "cacheKey": "fs6uGAuWXabxCn6rpiDH3rUtlBg="
   }
 }
 ```
@@ -142,6 +145,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "coinid": 1
+  },
+  "debug": {
+    "cacheKey": "uwT3UuHpBgrkJ5yr3S0ZIcqLFcQ="
   }
 }
 ```
@@ -175,6 +181,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "coinid": 2
+  },
+  "debug": {
+    "cacheKey": "sJFF7bcQuI7BC+ko5MxPh4rkQUg="
   }
 }
 ```
@@ -224,6 +233,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "amount": 1
+  },
+  "debug": {
+    "cacheKey": "j9ucHeI+6Hns8DSJ5CP86iRIgFs="
   }
 }
 ```
@@ -257,6 +269,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "amount": 10
+  },
+  "debug": {
+    "cacheKey": "JqCKEWLt185/McyfjjpBSkZkwHI="
   }
 }
 ```

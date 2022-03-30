@@ -37,6 +37,7 @@ describe('Cache key middleware', () => {
         debug: {
           cacheKey: 'CfLKR+CjhIqCrw1rmoaMpGJPHns=',
           batchCacheKey: 'raWuJfUMD/EwHKzsnwDQYqzQE74=',
+          batchChildrenCacheKeys: ['oOYfoHUCOwQtUTrfXv/98hwnUqk='],
         },
       })
       return response

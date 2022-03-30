@@ -111,7 +111,10 @@ describe('side effect tests', () => {
     id: '0',
     data: adapterRequestData2,
   }
-  const childAdapterKey2 = getCacheKey(batchableAdapterRequest2, apiEndpoint.inputParameters)
+  const childAdapterKey2 = getCacheKey(
+    batchableAdapterRequest2,
+    Object.keys(apiEndpoint.inputParameters),
+  )
   const batchableAdapterResponse2: AdapterResponse = {
     jobRunID: '2',
     statusCode: 200,

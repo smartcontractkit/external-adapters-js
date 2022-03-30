@@ -10,6 +10,7 @@ export const separateBatches = async (
   input: AdapterRequest,
   callback: (singleInput: AdapterRequest) => Promise<void>,
 ): Promise<void> => {
+  console.log(input)
   await separateBatchesHelper(input, input, Object.keys(input.data), callback)
 }
 

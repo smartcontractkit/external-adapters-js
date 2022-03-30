@@ -108,7 +108,9 @@ export const subscribeReadyEpic: Epic<AnyAction, AnyAction, { ws: RootState }, a
     concatMap(async ({ payload }) => {
       const { wsHandler, config, context, request } = payload
       const subscriptionPayloads: WSSubscriptionPayload[] = []
+      console.log({ subscriptionPayloads })
       await separateBatches(request, async (singleInput: AdapterRequest) => {
+        console.log({ singleInput })
         const subscriptionMsg = wsHandler.onConnectChain
           ? wsHandler.onConnectChain[0].payload
           : wsHandler.subscribe(singleInput)
@@ -302,8 +304,20 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           if (isDataMessage && onConnectChain && isDataMessage(payload.subscriptionMsg)) {
             const connectionState = state.ws.connections.all[payload.connectionInfo.key]
             const hasOnConnectChainCompleted = connectionState.requestId >= onConnectChain.length
+            console.log(
+              '#E#E',
+              isDataMessage,
+              onConnectChain,
+              isDataMessage(payload.subscriptionMsg),
+            )
             return !shouldNotRetrySubscribing && isNotActive && hasOnConnectChainCompleted
           }
+          console.log(
+            '#E#E2',
+            shouldNotRetrySubscribing,
+            isNotActive,
+            !shouldNotRetrySubscribing && isNotActive,
+          )
           return !shouldNotRetrySubscribing && isNotActive
         }),
         // on a subscribe action being dispatched, open a new WS subscription if one doesn't exist yet
@@ -345,10 +359,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                       connectionState?.connectionParams,
                     ),
                   )
+                console.log({ currentSubscriptionKey })
                 const shouldPassAlong =
                   (payload.filterMultiplex && payload.filterMultiplex(message)) ||
                   currentSubscriptionKey === subscriptionKey
                 if (!shouldPassAlong) {
+                  console.log({ shouldPassAlong })
                   return false
                 }
                 /**
@@ -377,6 +393,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             .pipe(
               withLatestFrom(state$),
               mergeMap(([message, state]) => {
+                console.log({ message })
                 const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
                 const actionPayload = {
                   message,
@@ -404,6 +421,8 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   logger.info('WS: Subscribed', subscriptionMeta(payload))
                   return of(subscribeFulfilled(payload), messageReceived(actionPayload))
                 }
+                console.log('hello2')
+
                 return of(messageReceived(actionPayload))
               }),
               takeUntil(
@@ -524,6 +543,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           if (onConnectChainFinished) {
             return of(subscribeRequestedAction, onConnectComplete(subscriptionPayload))
           }
+          console.log({ heelllo: 'hee' })
           return of(subscribeRequestedAction)
         }),
       )
@@ -739,6 +759,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
     filter((action) => action.payload.wsHandler.filter(action.payload.message)),
     withLatestFrom(state$),
     mergeMap(async ([action, state]) => {
+      console.log('hello1')
       const wsHandler = action.payload.wsHandler
       try {
         const subscriptionState = state.ws.subscriptions.all[action.payload.subscriptionKey]
@@ -779,6 +800,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
           debug: { ws: true, ...input.debug },
           metricsMeta: { feedId: getFeedId(input) },
         }
+        console.log({ wsResponse })
         await cache(wsResponse, context)
         logger.trace('WS: Saved result', { input, result: response.result })
       } catch (e) {

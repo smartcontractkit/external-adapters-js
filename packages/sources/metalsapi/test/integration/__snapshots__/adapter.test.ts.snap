@@ -23,7 +23,7 @@ Object {
     },
     "results": Array [
       Array [
-        "xiIPP9C6zf4jXOYFKtypR5BH1BA=",
+        "jFELgqCICDuXhLL/mr7R6g+zJqA=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -31,7 +31,8 @@ Object {
             "quote": "USD",
           },
           "debug": Object {
-            "cacheKey": "JlfsC2hT5W1YKdXKZgflGE9j3Sc=",
+            "batchCacheKey": "VGCqz3e8RvHtFRTWsvYlAZdB9Ak=",
+            "cacheKey": "9tjbLUbXDPblZ8SkaEr2wnkwaWs=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,
@@ -39,7 +40,7 @@ Object {
         42968.36778447169,
       ],
       Array [
-        "jMjlf21DnGEk4LJorrfRQ5Ma7CM=",
+        "O4TFnRU6N9vTdFiMXeGa0zMF+fQ=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -47,7 +48,8 @@ Object {
             "quote": "XAU",
           },
           "debug": Object {
-            "cacheKey": "JlfsC2hT5W1YKdXKZgflGE9j3Sc=",
+            "batchCacheKey": "VGCqz3e8RvHtFRTWsvYlAZdB9Ak=",
+            "cacheKey": "9tjbLUbXDPblZ8SkaEr2wnkwaWs=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,

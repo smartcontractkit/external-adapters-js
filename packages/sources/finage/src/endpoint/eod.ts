@@ -82,7 +82,7 @@ const handleBatchedRequest = (
     const result = Requester.validateResultNumber(response.data, [base, 'bid'])
 
     payload.push([
-      CacheKey.getCacheKey(individualRequest, inputParameters),
+      CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
       individualRequest,
       result,
     ])
