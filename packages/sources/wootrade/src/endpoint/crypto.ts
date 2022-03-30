@@ -17,7 +17,8 @@ export const supportedEndpoints = ['crypto', 'ticker']
 
 const customError = (data: ResponseSchema) => data?.rows?.length === 0
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     required: true,
@@ -33,10 +34,10 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  let base = validator.overrideSymbol(AdapterName)
+  let base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   if (Array.isArray(base)) base = base[0]
   const quote = validator.validated.data.quote
   const symbol = `SPOT_${base.toUpperCase()}_${quote.toUpperCase()}`
