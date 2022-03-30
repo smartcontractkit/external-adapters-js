@@ -154,16 +154,20 @@ jobs:
               BUILD_NAMES="${BUILD_NAMES} ${adapter}-adapter"
             done
 
+            echo $BUILD_NAMES
+
             docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
             for adapter in ${BUILD_NAMES}; do
               docker push ${IMAGE_PREFIX}${adapter}:${IMAGE_TAG}
             done
           fi
 
-      - name: Clone infra-k8s repo
-        env:
-          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
-        run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/infra-k8s.git
+          echo "::set-output name=BUILD_ADAPTERS::${BUILD_ADAPTERS}"
+
+      # - name: Clone infra-k8s repo
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+      #   run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/infra-k8s.git
 
       - name: Deploy adapters
         working-directory: ./external-adapters-js
@@ -181,9 +185,9 @@ jobs:
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
 
-              cd ../infra-k8s
-              echo ${sops -d apps/files/adapters/${adapter}/secrets-develop.yaml}
-              cd ../external-adapters-js
+              # cd ../infra-k8s
+              # echo ${sops -d apps/files/adapters/${adapter}/secrets-develop.yaml}
+              # cd ../external-adapters-js
               yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
@@ -207,3 +211,9 @@ jobs:
                 --wait
             done
           fi
+
+      # TODO Figure out how to adjust time in k6 so we can vary it
+      - name: Wait 5 Minutes for tests to run
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '5m'

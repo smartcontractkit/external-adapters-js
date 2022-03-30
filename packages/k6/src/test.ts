@@ -7,7 +7,7 @@ import { Rate } from 'k6/metrics'
 const GROUP_COUNT = 1
 
 // load the test duration from the environment or default to 12 hours
-let testDuration = '12h'
+let testDuration = '5m'
 if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }
