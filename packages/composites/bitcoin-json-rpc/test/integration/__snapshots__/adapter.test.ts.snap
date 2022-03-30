@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute difficulty endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 27452707696466.39,
+  },
+  "jobRunID": "1",
+  "result": 27452707696466.39,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute height endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 729721,
+  },
+  "jobRunID": "1",
+  "result": 729721,
+  "statusCode": 200,
+}
+`;
