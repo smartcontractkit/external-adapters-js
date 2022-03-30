@@ -153,7 +153,8 @@ jobs:
           BUILD_ADAPTERS=
           if [ -n "$TEST_ADAPTERS" ]; then
             yarn qa:dependencies $TEST_ADAPTERS
-            BUILD_ADAPTERS="${TEST_ADAPTERS} ${cat ./packages/scripts/src/adapter-dependencies/dependencies.txt}"
+            DEP=$(cat ./packages/scripts/src/adapter-dependencies/dependencies.txt)
+            BUILD_ADAPTERS="${TEST_ADAPTERS} ${DEP}"
           fi
 
           BUILD_NAMES=
