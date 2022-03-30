@@ -11,29 +11,40 @@ import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
 import overrides from './config/symbols.json'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
-  symbol: string
-  ts: string
-  bid: number
-  ask: number
-  mid: number
-}
+// interface Message {
+//   symbol: string
+//   ts: string
+//   bid: number
+//   ask: number
+//   mid: number
+// }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
   const getSubscription = (pair?: string) => {
     const defaultConfig = config || makeConfig()
-    if (!pair) return
+    if (!pair) return ''
     const sub = {
       userKey: defaultConfig.wsApiKey,
       symbol: pair,
@@ -56,19 +67,19 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
-      shouldNotServeInputUsingWS: (input: AdapterRequest) =>
+      shouldNotServeInputUsingWS: (input: any) =>
         endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) === -1,
-      subscribe: (input: AdapterRequest) => getSubscription(getPair(input)),
-      unsubscribe: () => null, // Tradermade does not support unsubscribing.
-      subsFromMessage: (message: Message) => {
-        if (!message.symbol) return undefined
+      subscribe: (input: any) => getSubscription(getPair(input)),
+      unsubscribe: () => undefined, // Tradermade does not support unsubscribing.
+      subsFromMessage: (message: any) => {
+        if (!message.symbol) return ''
         return getSubscription(message.symbol)
       },
       isError: () => false, // No error
-      filter: (message: Message) => !!message.mid,
-      toResponse: (message: Message) => {
+      filter: (message: any) => !!message.mid,
+      toResponse: (message: any) => {
         const result = Requester.validateResultNumber(message, ['mid'])
         return Requester.success('1', { data: { result } })
       },

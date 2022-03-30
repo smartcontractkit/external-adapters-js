@@ -51,7 +51,7 @@ describe('execute', () => {
     server.close(done)
   })
 
-  describe('forex  api', () => {
+  describe('forex api', () => {
     it('should return success for single base/quote pair', async () => {
       const data: AdapterRequest = {
         id,

@@ -18,7 +18,8 @@ export const supportedEndpoints = []
 // NOTE: unused pending tradermade service agreement
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string | string[]; quote: string | string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'symbol'],
     required: true,
@@ -74,11 +75,11 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(NAME)
+  const symbol = validator.overrideSymbol(NAME, validator.validated.data.base)
   const to = validator.validated.data.quote || ''
   const pairArray = []
 
@@ -90,7 +91,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const currency = pairArray.toString()
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     currency,
   }
 
@@ -103,7 +104,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result),
-    config.api.verbose,
+    config.verbose,
     batchablePropertyPath,
   )
 }

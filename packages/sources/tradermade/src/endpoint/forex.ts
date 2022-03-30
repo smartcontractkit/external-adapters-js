@@ -10,7 +10,8 @@ import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['forex']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'symbol'],
     required: true,
@@ -24,7 +25,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(input, inputParameters, {}, { overrides })
 
   const transformedInputData = {
     ...input,
