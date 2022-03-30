@@ -1,5 +1,5 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError, AxiosResponse } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['deposits']
 
@@ -17,11 +17,10 @@ export type Address = {
   chainId: string
 }
 
-const customError = (data: unknown) => {
-  return typeof data !== 'object'
-}
+const customError = (data: unknown) => typeof data !== 'object'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { symbol: string; network: string; chainId: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   symbol: {
     description: 'The symbol of the currency to query (`BTC`, `ETH`, `LTC`, etc.).',
     type: 'string',
@@ -61,7 +60,7 @@ const networks: Networks = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol
