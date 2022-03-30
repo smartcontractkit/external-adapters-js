@@ -32,7 +32,8 @@ type Address = {
 type AddressType = 'custodial' | 'merchant' | 'deposit'
 type ChainType = 'btc' | 'eth'
 
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
