@@ -1,3 +1,5 @@
+import * as shell from 'shelljs'
+
 import { getJsonFile, saveText } from '../shared/docGenUtils'
 import { Schema } from '../shared/docGenTypes'
 
@@ -8,6 +10,9 @@ export const saveAdapterDependencies = (
   const dependencies: string[] = []
   for (const adapter of adapters) {
     const schemaPath = `./packages/composites/${adapter}/schemas/env.json`
+
+    if (!shell.test('-f', schemaPath)) continue
+
     const { allOf = [] } = getJsonFile(schemaPath) as Schema
 
     for (const dep of allOf) {
