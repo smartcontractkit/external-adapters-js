@@ -115,19 +115,20 @@ jobs:
 
               TEST_ADAPTERS="${TEST_ADAPTERS} ${adapter}"
 
-              # Move to the k6 package and build/push
               cd ./packages/k6
 
-              # configure docker env
               echo "" >> ./.env
               echo "PAYLOAD_GENERATED=true" >> ./.env
               echo "CI_ADAPTER_NAME=${adapter}" >> ./.env
               echo "QA_RELEASE_TAG=${PR_NUMBER}" >> ./.env
               echo "PR_NUMBER=${PR_NUMBER}" >> ./.env
               cat ./.env
+
               yarn build
               docker build -t ${IMAGE_PREFIX}:pr${PR_NUMBER}-${adapter} .
               docker push ${IMAGE_PREFIX}:pr${PR_NUMBER}-${adapter}
+
+              cd ../..
             done
             #TODO what is xargs?
             TEST_ADAPTERS="$(echo ${TEST_ADAPTERS} | xargs)"
