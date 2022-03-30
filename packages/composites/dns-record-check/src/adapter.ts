@@ -1,11 +1,11 @@
-import { ExecuteWithConfig, ExecuteFactory, Config } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, Config, InputParameters } from '@chainlink/types'
 import { Validator } from '@chainlink/ea-bootstrap'
 import { Requester } from '@chainlink/ea-bootstrap'
 import * as DNS from '@chainlink/dns-query-adapter'
 import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'
 import { makeConfig } from './config'
 
-const inputParams = {
+const inputParameters: InputParameters = {
   name: ['name', 'record'],
   type: true,
   do: false,
@@ -13,7 +13,7 @@ const inputParams = {
 }
 
 const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParams)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const { name } = validator.validated.data

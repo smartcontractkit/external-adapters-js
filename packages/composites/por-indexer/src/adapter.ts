@@ -1,10 +1,10 @@
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, makeConfig } from './config'
-import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/PorInputAddress'
+import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/utils/PorInputAddress'
 import Decimal from 'decimal.js'
 
-const inputParams = {
+const inputParameters: InputParameters = {
   addresses: true,
   minConfirmations: false,
 }
@@ -12,7 +12,7 @@ const inputParams = {
 const getPorId = (network: string, chainId: string) => `${network}_${chainId}`.toUpperCase()
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _context, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.jobRunID
   const minConfirmations = validator.validated.data.minConfirmations as number
