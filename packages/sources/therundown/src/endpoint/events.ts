@@ -1,11 +1,12 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['events']
 
 export const description = 'Returns all events within the specified params'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { sportId: string | number; date: string; status: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   sportId: {
     required: true,
     description: 'The ID of the sport to get events from',
@@ -41,13 +42,13 @@ const formatDate = (date: Date): string => {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const sportId = validator.validated.data.sportId
-  let date = validator.validated.data.date
+  const dateString = validator.validated.data.date
   const status = validator.validated.data.status
-  date = new Date(date)
+  const date = new Date(dateString)
   if (date.toString() === 'Invalid Date') {
     throw new AdapterError({
       jobRunID,
@@ -57,11 +58,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const url = `/sports/${sportId}/events/${formatDate(date)}`
 
-  const reqConfig = {
+  const reqConfig: AxiosRequestConfig = {
     ...config.api,
     headers: {
-      ...config.api.headers,
-      'x-rapidapi-key': config.apiKey,
+      ...config.api?.headers,
+      'x-rapidapi-key': config.apiKey || '',
     },
     params: {
       include: 'scores',
