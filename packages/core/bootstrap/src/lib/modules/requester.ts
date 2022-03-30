@@ -53,9 +53,9 @@ export class Requester {
         if (error.code === 'ECONNABORTED') {
           // Axios timeout code
           throw new AdapterError({
-            statusCode: 408,
+            statusCode: 504,
             name: 'Request Timeout error',
-            providerStatusCode: error?.response?.status ?? 408,
+            providerStatusCode: error?.response?.status ?? 504,
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
@@ -120,7 +120,7 @@ export class Requester {
       logger.error(message, { data, path })
       throw new AdapterError({
         message,
-        statusCode: 404,
+        statusCode: 502,
       })
     }
 
