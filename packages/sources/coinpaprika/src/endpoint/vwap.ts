@@ -6,8 +6,8 @@ import { getCoinIds, getSymbolToId } from '../util'
 export const supportedEndpoints = ['vwap', 'crypto-vwap']
 
 export const endpointResultPaths = {
-  vwap: '0.price',
-  'crypto-vwap': '0.price',
+  vwap: 'price',
+  'crypto-vwap': 'price',
 }
 
 export type TInputParameters = { base: string; hours: number; coinid: string }
@@ -74,7 +74,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, resultPath)
+  const result = Requester.validateResultNumber(response.data[0], resultPath)
 
   const returnResponse = {
     ...response,

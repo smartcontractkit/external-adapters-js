@@ -40,7 +40,7 @@ export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   const getId = (input: AdapterRequest) => {
-    const validator = new Validator(
+    const validator = new Validator<endpoints.TInputParameters>(
       input,
       endpoints.values.inputParameters,
       {},

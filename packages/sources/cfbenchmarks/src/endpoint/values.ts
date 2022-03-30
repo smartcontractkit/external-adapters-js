@@ -109,6 +109,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     return 0
   })
 
-  const result = Requester.validateResultNumber(values, [0, 'value'])
+  const result = Requester.validateResultNumber(values[0], 'value')
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

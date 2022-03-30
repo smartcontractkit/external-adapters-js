@@ -69,7 +69,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema[]>(options, customError)
-  const result = Requester.validateResultNumber(response.data, [0, 'price'])
+  const result = Requester.validateResultNumber(response.data[0], 'price')
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

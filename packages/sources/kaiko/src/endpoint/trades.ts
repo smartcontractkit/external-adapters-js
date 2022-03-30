@@ -142,8 +142,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const result = Requester.validateResultNumber(
     // sometimes, the most recent(fraction of a second) data contain null price
-    data,
-    [0, 'price'],
+    data[0],
+    'price',
     { inverse },
   )
 
