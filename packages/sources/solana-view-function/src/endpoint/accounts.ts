@@ -1,11 +1,12 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import * as solanaWeb3 from '@solana/web3.js'
 
 export const supportedEndpoints = ['accounts']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { addresses: string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     required: true,
     description: 'An array of the addresses to query information from',
@@ -14,7 +15,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   const jobRunID = validator.validated.id
 
   if (!config.rpcUrl)
@@ -36,7 +37,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   })
 
   const result = accountInformation.length
-  return {
+  const res = {
     jobRunID,
     data: {
       accountInformation,
@@ -45,4 +46,6 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     result,
     statusCode: 200,
   }
+
+  return Requester.success(jobRunID, res, true)
 }

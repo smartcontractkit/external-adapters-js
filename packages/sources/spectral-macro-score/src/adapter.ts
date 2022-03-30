@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import {
   ExecuteFactory,
   AdapterRequest,
@@ -6,19 +6,17 @@ import {
   AdapterResponse,
 } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
-import { MacroScoreAPI } from './endpoint'
+import { MacroScoreAPI, TInputParameters } from './endpoint'
 
-const inputParams = {
-  tokenIdInt: true,
-  tickSetId: true,
-}
-
-export const execute = async (
-  request: AdapterRequest,
+export const execute: ExecuteWithConfig<
+  SpectralAdapterConfig,
+  MacroScoreAPI.IRequestInput
+> = async (
+  request: AdapterRequest<MacroScoreAPI.IRequestInput>,
   _: AdapterContext,
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator<TInputParameters>(request, MacroScoreAPI.inputParameters)
 
   Requester.logConfig(config)
 
@@ -39,6 +37,8 @@ export const execute = async (
   }
 }
 
-export const makeExecute: ExecuteFactory<SpectralAdapterConfig> = (config) => {
+export const makeExecute: ExecuteFactory<SpectralAdapterConfig, MacroScoreAPI.IRequestInput> = (
+  config,
+) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

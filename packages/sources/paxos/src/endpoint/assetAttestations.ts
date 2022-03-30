@@ -4,7 +4,8 @@ import { DEFAULT_BASE_URL } from '../config'
 
 export const supportedEndpoints = ['assetAttestation']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { asset: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   asset: {
     required: true,
     description: 'The symbol of the currency to query',
@@ -22,7 +23,7 @@ type Attestation = {
 const getAttestationURI = (asset: string) => `/asset-attestations/${asset.toUpperCase()}`
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const asset = validator.validated.data.asset
   const jobRunID = validator.validated.id

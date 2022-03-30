@@ -2,6 +2,7 @@ import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import {
+  TInputParameters,
   getChainSynthetixInstance,
   getDataFromAcrossChains,
   inputParameters as commonInputParameters,
@@ -17,7 +18,7 @@ interface CurrentDebtResults {
   totalDebtShares: ethers.BigNumber
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) =>
+export const execute: ExecuteWithConfig<Config, TInputParameters> = async (request, _, config) =>
   await getDataFromAcrossChains(request, config, getDebtRatio)
 
 const getDebtRatio = async (
