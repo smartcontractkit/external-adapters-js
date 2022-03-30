@@ -104,6 +104,8 @@ jobs:
         run: |
           #TODO what does 'set -x' do?
           set -x
+          #TODO remove next line
+          PR_NUMBER = "feature/soak-testing-composites"
           TEST_ADAPTERS=
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
