@@ -5,7 +5,7 @@ on:
   #TODO remove the following 3 lines
   push:
     branches:
-      - 'feature/soak-testing'
+      - 'feature/soak-testing-composites'
 
 jobs:
   run-basic-checks:
