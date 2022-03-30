@@ -943,8 +943,8 @@ Array [
         "originalKey": "GENESIS_VOLATILITY_ADAPTER_URL",
         "type": "string",
       },
-      "OILPRICEAPI_COM_ADAPTER_URL": Object {
-        "originalKey": "OILPRICEAPI_COM_ADAPTER_URL",
+      "OILPRICEAPI_ADAPTER_URL": Object {
+        "originalKey": "OILPRICEAPI_ADAPTER_URL",
         "type": "string",
       },
       "XBTO_ADAPTER_URL": Object {

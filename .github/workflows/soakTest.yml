@@ -142,7 +142,6 @@ jobs:
           BUILD_ADAPTERS=
 
           if [ -n "$TEST_ADAPTERS" ]; then
-            # save list like "a b c d e" to dependencies.txt
             yarn qa:dependencies $TEST_ADAPTERS
             BUILD_ADAPTERS="${TEST_ADAPTERS} ${cat ./packages/scripts/src/adapter-dependencies/dependencies.txt}"
             done
@@ -154,7 +153,7 @@ jobs:
             for adapter in ${BUILD_ADAPTERS}; do
               BUILD_NAMES="${BUILD_NAMES} ${adapter}-adapter"
             done
-            echo $BUILD_NAMES
+
             docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
             for adapter in ${BUILD_NAMES}; do
               docker push ${IMAGE_PREFIX}${adapter}:${IMAGE_TAG}
