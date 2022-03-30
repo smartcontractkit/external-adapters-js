@@ -1,15 +1,15 @@
-import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/types'
 import { Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, Config } from './config'
 import { tvl } from './endpoint'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 
-const customParams = {
+const inputParameters: InputParameters = {
   pairContractAddress: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.jobRunID
   const allocations = await tvl.getTokenAllocations(request, config)
