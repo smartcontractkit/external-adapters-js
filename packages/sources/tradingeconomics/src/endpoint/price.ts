@@ -1,11 +1,12 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AxiosResponse, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config, NAME } from '../config'
 import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['price']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'asset'],
     required: true,
@@ -19,10 +20,10 @@ export const execute: ExecuteWithConfig<Config> = async (
   _,
   config: Config,
 ) => {
-  const validator = new Validator(input, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(input, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
+  const symbol = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
 
   // Fall back to getting the data from HTTP endpoint
   const url = `/symbol/${symbol}`
@@ -37,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (
     params,
   }
 
-  const response = await Requester.request(request)
+  const response: AxiosResponse = await Requester.request(request)
   if (!response.data || response.data.length < 1) {
     throw new Error('no result for query')
   }

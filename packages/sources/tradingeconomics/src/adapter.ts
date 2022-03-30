@@ -12,34 +12,45 @@ import * as endpoints from './endpoint'
 import { inputParameters } from './endpoint/price'
 import overrides from './config/symbols.json'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint<Config> =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
-  s: string
-  i: string
-  pch: number
-  nch: number
-  bid: number
-  ask: number
-  price: number
-  dt: number
-  state: string
-  type: string
-  dhigh: number
-  dlow: number
-  o: number
-  prev: number
-  topic: string
-}
+// interface Message {
+//   s: string
+//   i: string
+//   pch: number
+//   nch: number
+//   bid: number
+//   ask: number
+//   price: number
+//   dt: number
+//   state: string
+//   type: string
+//   dhigh: number
+//   dlow: number
+//   o: number
+//   prev: number
+//   topic: string
+// }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // http://api.tradingeconomics.com/documentation/Streaming
@@ -53,7 +64,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return {
       connection: {
         url: withApiKey(
-          defaultConfig.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+          defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
           defaultConfig.client.key || '',
           defaultConfig.client.secret || '',
         ),
@@ -68,19 +79,18 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         if (validator.error) {
           return
         }
-        const base = (validator.overrideSymbol(NAME) as string).toUpperCase()
+        const base = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
         return getSubscription(base)
       },
       unsubscribe: () => undefined,
-      subsFromMessage: (message: Message) => {
+      subsFromMessage: (message: any) => {
         return getSubscription(message?.s)
       },
-      isError: (message: { TYPE: string }) =>
-        Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: (message) => {
+      isError: (message: any) => Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
+      filter: (message: any) => {
         return message.topic && message.topic !== 'keepalive'
       },
-      toResponse: (wsResponse: Message): AdapterResponse =>
+      toResponse: (wsResponse: any): AdapterResponse =>
         Requester.success(undefined, { data: { result: wsResponse?.price } }),
     }
   }
