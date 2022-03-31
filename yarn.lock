@@ -2950,6 +2950,7 @@ __metadata:
     fast-redact: ^3.0.1
     lodash: ^4.17.21
     lru-cache: ^6.0.0
+    mock-socket: 9.1.2
     object-hash: ^2.2.0
     object-path: ^0.11.5
     pino: ^6.13.0

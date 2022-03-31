@@ -11,7 +11,7 @@ import { getWSConfig } from './config'
 import { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
-import { getEnv } from '../../util'
+import { getEnv, sleep } from '../../util'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -21,7 +21,6 @@ export * as reducer from './reducer'
 export * as types from './types'
 
 import { WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { util } from '../../..'
 
 export const withWebSockets =
   (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
@@ -103,7 +102,7 @@ const awaitResult = async (
       const cachedAdapterResponse = await localAdapterCache.getResultForRequest(input)
       if (cachedAdapterResponse) return cachedAdapterResponse
     }
-    await util.sleep(pollInterval)
+    await sleep(pollInterval)
   }
 
   throw Error('timed out waiting for result to be cached')

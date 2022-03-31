@@ -5444,6 +5444,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fast-redact", "npm:3.0.1"],
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
+            ["mock-socket", "npm:9.1.2"],
             ["object-hash", "npm:2.2.0"],
             ["object-path", "npm:0.11.5"],
             ["pino", "npm:6.13.0"],
