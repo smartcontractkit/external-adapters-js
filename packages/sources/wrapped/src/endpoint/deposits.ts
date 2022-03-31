@@ -4,7 +4,7 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootst
 export const supportedEndpoints = ['deposits']
 
 export interface ResponseSchema {
-  [token: string]: Address[]
+  [token: string]: string[]
 }
 
 export interface Networks {
@@ -59,6 +59,10 @@ const networks: Networks = {
   cUSD: 'celo',
 }
 
+interface ResponseWithResult extends Partial<AxiosResponse> {
+  result: Record<string, string>[]
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator<TInputParameters>(request, inputParameters)
 
@@ -81,14 +85,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const result = addresses.map((address: Address) => ({
+  const addressResult: Address[] = addresses.map((address: string) => ({
     address,
     network,
     chainId,
   }))
 
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, result as AxiosResponse<Address[]>),
-  )
+  const result: ResponseWithResult = {
+    ...response,
+    result: addressResult,
+    data: {
+      result: addressResult,
+    },
+  }
+
+  return Requester.success(jobRunID, result)
 }
