@@ -148,7 +148,7 @@ jobs:
           IMAGE_TAG: prsoak-testing-composites
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
         run: |
-          IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
+          GITHUB_WORKSPACE= IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
 
           BUILD_ADAPTERS=
           if [ -n "$TEST_ADAPTERS" ]; then
