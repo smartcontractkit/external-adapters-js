@@ -28,12 +28,25 @@ Object {
 exports[`impliedPrice successful calls returns success with comma separated sources 1`] = `
 Object {
   "data": Object {
-    "result": "0.0038862753119247289834",
+    "result": "0.0038975944001909025829",
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": "0.0038862753119247289834",
+  "result": "0.0038975944001909025829",
   "statusCode": 200,
+}
+`;
+
+exports[`impliedPrice validation error returns a validation error if the request contains unsupported sources 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"dividendSources\\":[\\"NOT_REAL\\"],\\"divisorSources\\":[\\"coingecko\\"],\\"dividendInput\\":{\\"from\\":\\"LINK\\",\\"to\\":\\"USD\\"},\\"divisorInput\\":{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}}}",
+    "message": "Please set the required env NOT_REAL_ADAPTER_URL.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
 }
 `;
 
