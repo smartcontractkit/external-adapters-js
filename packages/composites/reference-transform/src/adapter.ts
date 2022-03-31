@@ -74,6 +74,6 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
   return Requester.success(jobRunID, response)
 }
 
-export const makeExecute = (config?: Config): Execute => {
-  return async (request: AdapterRequest) => execute(request, config || makeConfig())
+export const makeExecute: ExecuteFactory<Config> = (config) => {
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

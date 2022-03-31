@@ -3,6 +3,8 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootst
 
 export const description = 'Get the current gas price on Ethereum'
 
+export const description = 'Get the current gas price on Ethereum'
+
 export const supportedEndpoints = ['gasprice']
 
 export interface ResponseSchema {

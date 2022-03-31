@@ -37,10 +37,7 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
-  const resultPath =
-    validator.validated.data.endpoint == DEFAULT_FIELD
-      ? DEFAULT_FIELD
-      : validator.validated.data.resultPath || DEFAULT_FIELD
+  const resultPath = validator.validated.data.resultPath || DEFAULT_FIELD
 
   const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute()
   const response = await _execute(

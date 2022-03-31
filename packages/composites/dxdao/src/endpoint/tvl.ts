@@ -2,9 +2,10 @@ import { Validator, Logger } from '@chainlink/ea-bootstrap'
 import type { AdapterRequest, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
-import { Config } from '../config'
+import { ExtendedConfig } from '../config'
 
 export const NAME = 'TVL'
+export const supportedEndpoints = [NAME]
 
 export const description =
   'This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed on the XDai chain. The TVL is returned in USD.'
@@ -37,7 +38,7 @@ const dxdWethContractAbi = [
 
 export const getTokenAllocations = async (
   request: AdapterRequest,
-  config: Config,
+  config: ExtendedConfig,
 ): Promise<TokenAllocation.types.TokenAllocation[]> => {
   const validator = new Validator(request, inputParameters)
 
@@ -46,7 +47,7 @@ export const getTokenAllocations = async (
   const tvlInWei = await getTvlAtAddressInWei(
     pairContractAddress,
     wethContractAddress,
-    config.rpcUrl,
+    config.RPC_URL,
   )
   return [
     {
@@ -60,7 +61,7 @@ export const getTokenAllocations = async (
 const getTvlAtAddressInWei = async (
   pairContractAddress: string,
   wethContractAddress: string,
-  jsonRpcUrl: string,
+  jsonRpcUrl: string | undefined,
 ): Promise<BigNumber> => {
   const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
   Logger.info(
@@ -69,4 +70,13 @@ const getTvlAtAddressInWei = async (
   const contract = new ethers.Contract(wethContractAddress, dxdWethContractAbi, provider)
   const tvlInWei = (await contract.balanceOf(pairContractAddress)).mul(2)
   return tvlInWei
+}
+
+export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
+  const validator = new Validator(request, inputParameters)
+
+  const jobRunID = validator.validated.jobRunID
+  const allocations = await getTokenAllocations(request, config)
+  const _execute = TokenAllocation.makeExecute()
+  return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)
 }

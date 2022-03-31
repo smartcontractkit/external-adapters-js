@@ -5,6 +5,7 @@ import Decimal from 'decimal.js'
 import snx from 'synthetix'
 import { SetRequired } from 'type-fest'
 import { Config, makeConfig } from './config'
+import * as endpoints from './endpoint'
 
 const inputParameters: InputParameters = {
   base: ['base', 'asset', 'from'],
@@ -87,6 +88,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   )
 }
 
-export const makeExecute = (config?: Config): Execute => {
+export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

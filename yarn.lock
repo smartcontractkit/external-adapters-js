@@ -1746,6 +1746,9 @@ __metadata:
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+    "@types/supertest": 2.0.11
+    nock: 13.2.4
+    supertest: 6.2.2
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4207,6 +4210,12 @@ __metadata:
     supertest: 6.2.2
     tslib: ^2.3.1
     typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/types@workspace:packages/core/types/@chainlink":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
   languageName: unknown
   linkType: soft
 
@@ -8738,7 +8747,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=10, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0, @types/node@npm:^17.0.14":
+"@types/node@npm:*, @types/node@npm:>=10, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
   version: 17.0.23
   resolution: "@types/node@npm:17.0.23"
   checksum: a3517554737cbb042e76c30d0e5482192ac4d9bea0eeb086e2622d9cabf460a0eb52a696b99fcd18e7fcc93c96db6cc7ae507f6608f256ef0b5c1d8c87a5a470
@@ -8777,6 +8786,13 @@ __metadata:
   version: 12.20.47
   resolution: "@types/node@npm:12.20.47"
   checksum: 97487af02fada4342e1bd47f9c9ebf601c12b85cbf17056ba73a315339ae996490403f2d4d1d799d8078cfe43a59e33370b4a5ae2d4fb79dd02359f4691934b4
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^17.0.14":
+  version: 17.0.14
+  resolution: "@types/node@npm:17.0.14"
+  checksum: cc059ce29686bad5890685f45741826a1a7d1d27382464f6d5fa00b72ba239f6f5b8245a7fa5a56c23ce928030dc76b165a4ab0b86dc078f05b44597d8fe1a46
   languageName: node
   linkType: hard
 

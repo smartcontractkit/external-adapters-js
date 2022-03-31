@@ -4,7 +4,8 @@ import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../../types'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
-export const NAME = 'price'
+export const NAME = 'prices'
+export const supportedEndpoints = ['prices']
 
 const inputParameters: InputParameters = {
   baseCoinTicker: ['baseCoinTicker', 'base', 'from', 'coin'],

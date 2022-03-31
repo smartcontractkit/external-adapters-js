@@ -46,7 +46,6 @@ afterAll(() => {
 
   nock.restore()
   nock.cleanAll()
-  nock.enableNetConnect()
 })
 
 describe('execute', () => {

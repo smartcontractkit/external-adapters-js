@@ -163,6 +163,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core/test-helpers"
       },
       {
+        "name": "@chainlink/types",
+        "reference": "workspace:packages/core/types/@chainlink"
+      },
+      {
         "name": "@chainlink/example-composite-adapter",
         "reference": "workspace:packages/examples/composite"
       },
@@ -849,6 +853,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],
+      ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],
       ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],
@@ -3987,6 +3992,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6720,6 +6728,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/types", [
+        ["workspace:packages/core/types/@chainlink", {
+          "packageLocation": "./packages/core/types/@chainlink/",
+          "packageDependencies": [
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"]
           ],
           "linkType": "SOFT",
         }]
@@ -11640,6 +11657,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-16.11.19-b289452f75-a9ba0cd1e6.zip/node_modules/@types/node/",
           "packageDependencies": [
             ["@types/node", "npm:16.11.19"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:17.0.14", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.14-b146771fcf-cc059ce296.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:17.0.14"]
           ],
           "linkType": "HARD",
         }],
@@ -23093,7 +23117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__core", "npm:7.1.18"],
             ["@types/babel__preset-env", "npm:7.9.2"],
             ["@types/k6", "npm:0.37.0"],
-            ["@types/node", "npm:17.0.23"],
+            ["@types/node", "npm:17.0.14"],
             ["babel-loader", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:8.2.3"],
             ["clean-webpack-plugin", "virtual:4f33a23cf772c9fbbeaff833230e51fa7f4a4c09ef609dd1b1396e9132fe2abc348652b57470c151673da706634f58c80da2f57c8a7b7ca0c06dcd07aea7c2c8#npm:4.0.0"],
             ["core-js", "npm:3.20.3"],
