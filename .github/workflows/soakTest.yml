@@ -98,14 +98,15 @@ jobs:
         id: k6-payloads
         working-directory: ./external-adapters-js
         env:
-          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          # PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          #TODO remove next line
+          PR_NUMBER: soak-testing-composites
           ADAPTER_NAMES: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k6
         run: |
           #TODO what does 'set -x' do?
           set -x
-          #TODO remove next line
-          PR_NUMBER=soak-testing-composites
+
           TEST_ADAPTERS=
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
@@ -144,14 +145,13 @@ jobs:
         working-directory: ./external-adapters-js
         id: build-adapters
         env:
-          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           TEST_ADAPTERS: ${{ steps.k6-payloads.outputs.TEST_ADAPTERS }}
+          # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
+          # TODO remove next line
+          IMAGE_TAG: prsoak-testing-composites
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
         run: |
-          IMAGE_TAG=pr${PR_NUMBER}
-          IMAGE_TAG=${IMAGE_TAG}
-          IMAGE_PREFIX=${IMAGE_PREFIX}
-          yarn generate:docker-compose
+          IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
 
           BUILD_ADAPTERS=
           if [ -n "$TEST_ADAPTERS" ]; then
@@ -161,7 +161,6 @@ jobs:
           fi
 
           BUILD_NAMES=
-
           if [ -n "$BUILD_ADAPTERS" ]; then
             for adapter in ${BUILD_ADAPTERS}; do
               BUILD_NAMES="${BUILD_NAMES} ${adapter}-adapter"
@@ -186,11 +185,11 @@ jobs:
         working-directory: ./external-adapters-js
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.build-adapters.outputs.BUILD_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
         run: |
-          IMAGE_TAG=pr${PR_NUMBER}
           # pull down the chainlink adapter helm chart
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
           # deploy all the adapters
@@ -208,9 +207,9 @@ jobs:
       - name: Deploy k6
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.k6-payloads.outputs.TEST_ADAPTERS }}
         run: |
-          IMAGE_TAG=pr${PR_NUMBER}
           cd ./packages/k6
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
