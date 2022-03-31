@@ -89,7 +89,7 @@ jobs:
           # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
           # TEST_ADAPTERS="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
           # TODO change get-changed-adapters to use blacklist instead of whitelist
-          TEST_ADAPTERS="coingecko coinpaprika"
+          TEST_ADAPTERS="reference-transform"
           # export adapters from this step
           echo "::set-output name=TEST_ADAPTERS::${TEST_ADAPTERS}"
 
@@ -210,4 +210,4 @@ jobs:
       - name: Wait 5 Minutes for tests to run
         uses: jakejarvis/wait-action@master
         with:
-          time: '5m'
+          time: '2m'
