@@ -9,11 +9,8 @@ export const description =
   'Endpoint to calculate the volume weighted average price (VWAP) for a price pair.'
 
 export type TInputParameters = {
-  address: string
-  debug: boolean
-  roundDay: boolean
-  start: string
-  end: string
+  base: string
+  quote: string
 }
 
 export const inputParameters: InputParameters<TInputParameters> = {
@@ -41,7 +38,6 @@ export interface ResponseSchema {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator<TInputParameters>(request, inputParameters)
 
-  const url = '/ethereum/ethereum/mainnet/es/event/search/'
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()

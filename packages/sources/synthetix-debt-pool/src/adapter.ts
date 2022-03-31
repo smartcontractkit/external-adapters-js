@@ -7,7 +7,7 @@ import {
 import { makeConfig, Config } from './config'
 import * as endpoints from './endpoint'
 import { Builder } from '@chainlink/ea-bootstrap'
-import { TInputParameters } from './commons'
+import { TInputParameters } from './utils'
 
 export const execute: ExecuteWithConfig<Config, TInputParameters> = async (
   request,

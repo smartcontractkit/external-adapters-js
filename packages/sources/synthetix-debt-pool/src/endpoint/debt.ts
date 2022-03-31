@@ -2,12 +2,12 @@ import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import {
+  getContractAddress,
   TInputParameters,
   getDataFromAcrossChains,
   inputParameters as commonInputParameters,
-} from '../commons'
+} from '../utils'
 import { Config } from '../config'
-import { getContractAddress } from '../utils'
 import { DEBT_CACHE_ABI } from './abi'
 
 // Needs to be exported so that doc generator script works

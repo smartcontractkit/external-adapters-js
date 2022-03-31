@@ -49,7 +49,7 @@ describe('dxfeed', () => {
     const priceRequest: AdapterRequest = {
       id: '1',
       data: {
-        base: 'TSLA',
+        base: 'TSLA:BFX',
       },
     }
 
@@ -62,6 +62,7 @@ describe('dxfeed', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+
       expect(response.body).toMatchSnapshot()
     })
   })
