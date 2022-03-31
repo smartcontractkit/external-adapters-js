@@ -1,9 +1,10 @@
 import { Config as DefaultConfig } from '@chainlink/types'
 import { DexSubgraph } from '../types'
-import { uniswapSubgraph } from '../methods/prices/dex'
-import { util } from '@chainlink/ea-bootstrap'
+import { uniswapSubgraph } from '../endpoint/prices/dex'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'THE_GRAPH'
+export const DEFAULT_ENDPOINT = 'prices'
 
 export type Config = DefaultConfig & {
   dexSubgraphs: {
@@ -22,8 +23,10 @@ export const makeConfig = (prefix?: string): Config => {
   const uniswapV2SubgraphEndpoint =
     util.getEnv('UNISWAP_V2_SUBGRAPH_ENDPOINT', prefix) || DEFAULT_UNISWAP_V2_SUBGRAPH_ENDPOINT
   return {
+    ...Requester.getDefaultConfig(prefix),
     dexSubgraphs: {
       [UNISWAP]: new uniswapSubgraph.UniswapSubgraph(uniswapV2SubgraphEndpoint),
     },
+    defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }
