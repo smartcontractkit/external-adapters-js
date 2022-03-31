@@ -1,13 +1,15 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
-import { adapters as BalanceAdapters, Indexer } from '../balance'
-import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from '../protocol'
-
-export const DEFAULT_CONFIRMATIONS = 6
+import { adapters as BalanceAdapters, Indexer } from '../utils/balance'
+import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from '../utils/protocol'
 
 export const NAME = 'PROOF_OF_RESERVES'
+export const DEFAULT_ENDPOINT = 'reserves'
 
-export const makeConfig = (prefix?: string): Config => Requester.getDefaultConfig(prefix)
+export const makeConfig = (prefix?: string): Config => ({
+  ...Requester.getDefaultConfig(prefix),
+  defaultEndpoint: DEFAULT_ENDPOINT,
+})
 
 export type Options = {
   protocol: Protocol[]

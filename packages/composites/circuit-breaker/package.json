@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/circuit-breaker-adapter",
-  "version": "1.0.30",
+  "version": "1.0.39",
   "description": "Chainlink circuit-breaker adapter.",
   "keywords": [
     "Chainlink",
@@ -25,8 +25,8 @@
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",
     "build": "tsc -b",
-    "server": "node -e 'require(\"./index.js\").handlers.server()'",
-    "server:dist": "node -e 'require(\"./dist/index.js\").handlers.server()'",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
   "dependencies": {

@@ -1,95 +1,115 @@
 import { server as startServer } from '../../src/index'
-import { BigNumber, utils } from 'ethers'
+import { BigNumber } from 'ethers'
 import request, { SuperTest, Test } from 'supertest'
 import http from 'http'
 import process from 'process'
 import { AddressInfo } from 'net'
+import { ethers } from 'ethers'
 
 const mockChainConfig = {
   ethereum: {
     rpcUrl: 'fake-ethereum-rpc-url',
     addressProviderContractAddress: 'fake-ethereum-address-provider',
-    debtCacheAddress: 'fake-ethereum-debt-cache-address',
+    debtPoolAddress: 'fake-ethereum-debt-pool-address',
     synthetixDebtShareAddress: 'fake-ethereum-synthetix-debt-share-address',
   },
   optimism: {
     rpcUrl: 'fake-optimism-rpc-url',
     addressProviderContractAddress: 'fake-optimism-address-provider',
-    debtCacheAddress: 'fake-optimism-debt-cache-address',
+    debtPoolAddress: 'fake-optimism-debt-pool-address',
     synthetixDebtShareAddress: 'fake-optimism-synthetix-debt-share-address',
   },
 }
 
-const getContractAddress = (contractNameBytes: string, chain: string): string => {
-  switch (contractNameBytes) {
-    case utils.formatBytes32String('DebtCache'):
-      return mockChainConfig[chain].debtCacheAddress
-    case utils.formatBytes32String('SynthetixDebtShare'):
-      return mockChainConfig[chain].synthetixDebtShareAddress
-  }
-}
-
 const mockEthereumAddressProviderContract = {
-  getAddress: (contractName: string) => getContractAddress(contractName, 'ethereum'),
+  getAddress: jest.fn().mockImplementation((contractName: string) => {
+    switch (contractName) {
+      case ethers.utils.formatBytes32String('DebtCache'):
+        return mockChainConfig.ethereum.debtPoolAddress
+      case ethers.utils.formatBytes32String('SynthetixDebtShare'):
+        return mockChainConfig.ethereum.synthetixDebtShareAddress
+    }
+  }),
 }
 
 const mockOptimismAddressProviderContract = {
-  getAddress: (contractName: string) => getContractAddress(contractName, 'optimism'),
+  getAddress: jest.fn().mockImplementation((contractName: string) => {
+    switch (contractName) {
+      case ethers.utils.formatBytes32String('DebtCache'):
+        return mockChainConfig.optimism.debtPoolAddress
+      case ethers.utils.formatBytes32String('SynthetixDebtShare'):
+        return mockChainConfig.optimism.synthetixDebtShareAddress
+    }
+  }),
 }
 
 const mockEthereumDebtCacheContract = {
-  currentDebt: () => [BigNumber.from('274504021465419663278269593'), false],
-  totalNonSnxBackedDebt: () => [BigNumber.from('388546283057244275166159'), false],
+  currentDebt: jest.fn().mockReturnValue([BigNumber.from('274504021465419663278269593'), false]),
 }
 
 const mockOptimismDebtCacheContract = {
-  currentDebt: () => [BigNumber.from('50977793699622560436740360'), false],
-  totalNonSnxBackedDebt: () => [BigNumber.from('18881943681246986146020'), false],
+  currentDebt: jest.fn().mockReturnValue([BigNumber.from('38769636591206730441317824'), false]),
 }
 
-const mockSynthetixDebtShareContract = {
-  totalSupply: () => BigNumber.from('214522823281993900095205964'),
+const mockEthereumSynthetixDebtShareContract = {
+  totalSupply: jest.fn().mockReturnValue(BigNumber.from('214522823281993900095205964')),
 }
 
-jest.mock('ethers', () => ({
-  ...jest.requireActual('ethers'),
-  ethers: {
-    providers: {
-      JsonRpcProvider: function (_: string) {
-        return {}
+const mockOptimismSynthetixDebtShareContract = {
+  totalSupply: jest.fn().mockReturnValue(BigNumber.from('38408585495575839320471531')),
+}
+
+const mockEthereumProvider = jest.fn()
+const mockOptimismProvider = jest.fn()
+
+jest.mock('ethers', () => {
+  const actualEthersLib = jest.requireActual('ethers')
+  return {
+    ...actualEthersLib,
+    ethers: {
+      utils: actualEthersLib.ethers.utils,
+      providers: {
+        JsonRpcProvider: jest.fn().mockImplementation((rpcURL: string) => {
+          switch (rpcURL) {
+            case mockChainConfig.ethereum.rpcUrl:
+              return mockEthereumProvider
+            case mockChainConfig.optimism.rpcUrl:
+              return mockOptimismProvider
+          }
+        }),
       },
+      Contract: jest.fn().mockImplementation((address: string) => {
+        switch (address) {
+          case mockChainConfig.ethereum.addressProviderContractAddress:
+            return mockEthereumAddressProviderContract
+          case mockChainConfig.optimism.addressProviderContractAddress:
+            return mockOptimismAddressProviderContract
+          case mockChainConfig.ethereum.debtPoolAddress:
+            return mockEthereumDebtCacheContract
+          case mockChainConfig.optimism.debtPoolAddress:
+            return mockOptimismDebtCacheContract
+          case mockChainConfig.ethereum.synthetixDebtShareAddress:
+            return mockEthereumSynthetixDebtShareContract
+          case mockChainConfig.optimism.synthetixDebtShareAddress:
+            return mockOptimismSynthetixDebtShareContract
+          default:
+            break
+        }
+      }),
     },
-    Contract: function (address: string) {
-      switch (address) {
-        case mockChainConfig.ethereum.addressProviderContractAddress:
-          return mockEthereumAddressProviderContract
-        case mockChainConfig.optimism.addressProviderContractAddress:
-          return mockOptimismAddressProviderContract
-        case mockChainConfig.ethereum.debtCacheAddress:
-          return mockEthereumDebtCacheContract
-        case mockChainConfig.optimism.debtCacheAddress:
-          return mockOptimismDebtCacheContract
-        case mockChainConfig.ethereum.synthetixDebtShareAddress:
-        case mockChainConfig.optimism.synthetixDebtShareAddress:
-          return mockSynthetixDebtShareContract
-        default:
-          break
-      }
-    },
-  },
-}))
+  }
+})
 
 let oldEnv: NodeJS.ProcessEnv
 
 beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.ETHEREUM_RPC_URL = mockChainConfig.ethereum.rpcUrl
-  process.env.ETHEREUM_ADDRESS_PROVIDER_CONTRACT_ADDRESS =
-    mockChainConfig.ethereum.addressProviderContractAddress
+  process.env.RPC_URL = mockChainConfig.ethereum.rpcUrl
   process.env.OPTIMISM_RPC_URL = mockChainConfig.optimism.rpcUrl
-  process.env.OPTIMISM_ADDRESS_PROVIDER_CONTRACT_ADDRESS =
+  process.env.ADDRESS_RESOLVER_CONTRACT_ADDRESS =
+    mockChainConfig.ethereum.addressProviderContractAddress
+  process.env.OPTIMISM_ADDRESS_RESOLVER_CONTRACT_ADDRESS =
     mockChainConfig.optimism.addressProviderContractAddress
-  process.env.CACHE_ENABLED = 'false'
 })
 
 afterAll(() => {
@@ -109,29 +129,11 @@ describe('synthetix-debt-pool', () => {
     server.close(done)
   })
 
-  describe('when making a request to fetch the current debt', () => {
-    it('successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is missing', async () => {
+  describe('debt', () => {
+    it('successfully fetches the current debt size of the synthetix debt cache across "mainnet" and "mainnet-ovm" if chainSources is missing', async () => {
       const request = {
         id: 1,
         data: {},
-      }
-      const response = await req
-        .post('/')
-        .send(request)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-
-      expect(response.body).toMatchSnapshot()
-    })
-
-    it('successfully fetches the current debt size of the synthetix debt cache across all chains if chainSources is empty', async () => {
-      const request = {
-        id: 1,
-        data: {
-          chainSources: null,
-        },
       }
       const response = await req
         .post('/')
@@ -148,7 +150,7 @@ describe('synthetix-debt-pool', () => {
       const request = {
         id: 1,
         data: {
-          chainSources: ['ethereum'],
+          chainSources: ['mainnet'],
         },
       }
       const response = await req
@@ -168,7 +170,67 @@ describe('synthetix-debt-pool', () => {
       const request = {
         id: 1,
         data: {
-          chainSources: ['ethereum-fake'],
+          chainSources: ['kovan'],
+        },
+      }
+      const response = await req
+        .post('/')
+        .send(request)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('debt-ratio', () => {
+    it('successfully fetches the debt ratio across all chains if chainSources is missing', async () => {
+      const request = {
+        id: 1,
+        data: {
+          endpoint: 'debt-ratio',
+        },
+      }
+      const response = await req
+        .post('/')
+        .send(request)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('successfully fetches the debt ratio for only one chain', async () => {
+      const request = {
+        id: 1,
+        data: {
+          chainSources: ['mainnet'],
+          endpoint: 'debt-ratio',
+        },
+      }
+      const response = await req
+        .post('/')
+        .send(request)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('errors', () => {
+    it('throws an error if the request contains a source without a chain configuration', async () => {
+      const request = {
+        id: 1,
+        data: {
+          chainSources: ['kovan'],
+          endpoint: 'debt-ratio',
         },
       }
       const response = await req

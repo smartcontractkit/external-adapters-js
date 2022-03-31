@@ -18,19 +18,16 @@ The adapter takes the following environment variables:
 
 ## VWAP Endpoint
 
-Service to calculate the volume weighted average price (VWAP) for any Uniswap asset
+Endpoint to calculate the volume weighted average price (VWAP) for a price pair.
 
 NOTE: requires an API key
 
 ### Input Params
 
-| Required? |    Name    |                    Description                     | Options | Defaults to  |
-| :-------: | :--------: | :------------------------------------------------: | :-----: | :----------: |
-|    ✅     | `address`  |         Uniswap pool **checksum address**          |         |              |
-|           |  `debug`   |         Switch to show `raw` trade values          |         |   `false`    |
-|           | `roundDay` | TSwitch to round the start and end to midnight UTC |         |   `false`    |
-|           |  `start`   |             Epoch timestamp in seconds             |         | `$now - 24h` |
-|           |   `end`    |             Epoch timestamp in seconds             |         |    `$now`    |
+| Required? |            Name            |                       Description                       | Options | Defaults to |
+| :-------: | :------------------------: | :-----------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `base`, `from`, or `coin`  | The symbol or array of symbols of the currency to query |         |             |
+|    ✅     | `quote`, `to`, or `market` |        The symbol of the currency to convert to         |         |             |
 
 ### Sample Input
 
@@ -40,8 +37,9 @@ Uniswap Offshift (XTF) example:
 {
   "id": "1",
   "data": {
-    "address": "0x2B9e92A5B6e69Db9fEdC47a4C656C9395e8a26d2",
-    "debug": true
+    "endpoint": "vwap",
+    "from": "AMPL",
+    "to": "USD"
   }
 }
 ```
@@ -51,21 +49,12 @@ Uniswap Offshift (XTF) example:
 ```json
 {
   "jobRunID": "1",
+  "result": 1.075280551563453,
+  "providerStatusCode": 200,
+  "statusCode": 200,
   "data": {
-    "result": 299.2532855156056,
-    "raw": [
-      {
-        "timestamp": 1600304409,
-        "reserve0": 1.3224814613263435e23,
-        "reserve1": 406170744097414250000
-      },
-      {
-        // more raw values
-      }
-    ]
-  },
-  "result": 299.2532855156056,
-  "statusCode": 200
+    "result": 1.075280551563453
+  }
 }
 ```
 

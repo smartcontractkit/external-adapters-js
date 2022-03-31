@@ -1,7 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { RequestConfig } from '@chainlink/types'
-import { ResponsePayload } from './types'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterResponse, RequestConfig } from '@chainlink/types'
+import { ResponsePayload, GetPrices } from './types'
 import { Logger } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/types'
 
 /**
  * @description
@@ -24,24 +25,81 @@ import { Logger } from '@chainlink/ea-bootstrap'
  * ```
  */
 
-export const getPriceProvider =
-  (source: string, jobRunID: string, apiConfig: RequestConfig) =>
-  async (symbols: string[], quote: string, withMarketCap = false): Promise<ResponsePayload> => {
+export const getPriceProvider = (
+  source: string,
+  jobRunID: string,
+  apiConfig: RequestConfig,
+): GetPrices => {
+  if (source === 'coinpaprika') {
+    return sendBatchedRequests(source, jobRunID, apiConfig)
+  }
+  return sendIndividualRequests(source, jobRunID, apiConfig)
+}
+
+export interface BatchedAdapterResponse {
+  data: {
+    results: (AdapterResponse | number)[][]
+  }
+}
+
+const sendBatchedRequests =
+  (source: string, jobRunID: string, apiConfig: RequestConfig): GetPrices =>
+  async (symbols, quote, additionalInput, withMarketCap = false): Promise<ResponsePayload> => {
+    const sortedSymbols = symbols.sort()
+    const data: AdapterRequest = {
+      id: jobRunID,
+      data: {
+        ...additionalInput,
+        base: sortedSymbols,
+        quote,
+        endpoint: withMarketCap ? 'marketcap' : 'crypto',
+      },
+    }
+    const responseData = await sendRequestToSource<BatchedAdapterResponse>(source, {
+      ...apiConfig,
+      data,
+    })
+    const tokenPrices = responseData.data.results
+
+    return sortedSymbols.reduce((response, symbol) => {
+      const tokenPrice = tokenPrices.find(
+        (priceResponse) => (priceResponse[0] as AdapterResponse).data.base === symbol,
+      )
+      if (!tokenPrice)
+        throw new AdapterError({
+          jobRunID,
+          statusCode: 500,
+          message: `Cannot find token price result for symbol ${symbol}`,
+        })
+
+      response[symbol] = {
+        quote: {
+          [quote]: { [withMarketCap ? 'marketCap' : 'price']: tokenPrice[1] },
+        },
+      }
+      return response
+    }, {} as ResponsePayload)
+  }
+
+const sendIndividualRequests =
+  (source: string, jobRunID: string, apiConfig: RequestConfig): GetPrices =>
+  async (symbols, quote, additionalInput, withMarketCap = false): Promise<ResponsePayload> => {
     const results = await Promise.all(
       symbols.map(async (base) => {
         const data = {
           id: jobRunID,
-          data: { base, quote, endpoint: withMarketCap ? 'marketcap' : 'crypto' },
+          data: {
+            ...additionalInput,
+            base,
+            quote,
+            endpoint: withMarketCap ? 'marketcap' : 'crypto',
+          },
         }
-        try {
-          const response = await Requester.request({ ...apiConfig, data: data })
-          return response.data.result
-        } catch (error) {
-          Logger.error(`Request to ${source} adapter failed: ${error}`)
-          throw new Error(
-            `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
-          )
-        }
+        const responseData = await sendRequestToSource<{ data: { result: number } }>(source, {
+          ...apiConfig,
+          data,
+        })
+        return responseData.data.result
       }),
     )
     const payloadEntries = symbols.map((symbol, i) => {
@@ -53,5 +111,18 @@ export const getPriceProvider =
       }
       return [key, val]
     })
+
     return Object.fromEntries(payloadEntries)
   }
+
+const sendRequestToSource = async <T>(source: string, request: AdapterRequest): Promise<T> => {
+  try {
+    const response = await Requester.request<T>(request)
+    return response.data
+  } catch (error) {
+    Logger.error(`Request to ${source} adapter failed: ${error}`)
+    throw new Error(
+      `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
+    )
+  }
+}

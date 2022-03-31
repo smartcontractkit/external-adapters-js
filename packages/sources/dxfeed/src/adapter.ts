@@ -122,6 +122,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return getSubscription('unsubscribe', ticker)
       },
       subsFromMessage: (message: DXFeedMessage) => {
+        if (!message) {
+          return null
+        }
         switch (message[0].channel) {
           case META_HANDSHAKE:
             return handshakeMsg
@@ -182,13 +185,14 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         },
         {
           payload: firstHeartbeatMsg,
-          filter: (message: DXFeedMessage) => message[0].id == '2',
+          filter: (message: DXFeedMessage) => message && message[0]?.id == '2',
         },
         {
           payload: heartbeatMsg,
           filter: (message: DXFeedMessage) =>
-            message[0].id === '3' ||
-            (Object.keys(message[0]).length === 3 && message[0].channel === META_CONNECT),
+            message &&
+            (message[0].id === '3' ||
+              (Object.keys(message[0]).length === 3 && message[0].channel === META_CONNECT)),
           shouldNeverUnsubscribe: true,
         },
       ],

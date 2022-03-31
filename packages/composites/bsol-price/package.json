@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bsol-price-adapter",
-  "version": "2.0.5",
+  "version": "2.0.18",
   "description": "Chainlink bsol-price adapter.",
   "keywords": [
     "Chainlink",
@@ -46,7 +46,7 @@
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
     "@types/supertest": "2.0.11",
-    "supertest": "6.1.6",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

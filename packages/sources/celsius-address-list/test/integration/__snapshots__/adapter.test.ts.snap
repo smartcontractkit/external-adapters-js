@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute wallet endpoint returns success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "bc1q4gwx0f6yqurq0gwj9ktwlevrp3eu8snn5kaaax",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "bc1q4gwx0f6yqurq0gwj9ktwlevrp3eu8snn5kaaax",
+      "chainId": "mainnet",
+      "network": "bitcoin",
+    },
+  ],
+  "statusCode": 200,
+}
+`;

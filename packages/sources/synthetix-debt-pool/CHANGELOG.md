@@ -1,5 +1,93 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 3.0.2
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 3.0.1
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 3.0.0
+
+### Major Changes
+
+- 48e69bfeb: Remove synthetixjs/contracts-interface library and fetch contract addresses from AddressResolver contract
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.1.0
+
+### Minor Changes
+
+- 0a58c1347: update synthetixjs library version
+
+## 2.0.4
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.0.3
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.0.0
+
+### Major Changes
+
+- d4c77ee63: Update Synthetix Debt Pool EA to reflect changes to SIP-165. This separates the EA to 2 endpoints. One is to calculate the Debt Ratio and the other is to calculate the total debt issued. The chain names that are passed in the request body have also been updated to match those in the SynthetixIO JavaScript library.
+
+## 1.3.6
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-reference-data-reader@1.1.6
+  - @chainlink/ea-test-helpers@1.1.0
+
 ## 1.3.5
 
 ### Patch Changes

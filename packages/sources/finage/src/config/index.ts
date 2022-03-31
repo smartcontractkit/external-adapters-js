@@ -6,7 +6,7 @@ export const NAME = 'FINAGE'
 export const DEFAULT_BASE_URL = 'https://api.finage.co.uk'
 export const DEFAULT_STOCK_WS_API_ENDPOINT = 'wss://e4s39ar3mr.finage.ws:7002'
 export const DEFAULT_FOREX_WS_API_ENDPOINT = 'wss://w29hxx2ndd.finage.ws:8001'
-export const DEFAULT_CRYPTO_WS_API_ENDPOINT = 'wss://72x8wsyx7t.finage.ws:6008'
+export const DEFAULT_CRYPTO_WS_API_ENDPOINT = 'wss://e3tne9d5zq.finage.ws:6014'
 export const DEFAULT_ENDPOINT = 'stock'
 
 export const ENV_STOCK_WS_API_ENDPOINT = 'STOCK_WS_API_ENDPOINT'

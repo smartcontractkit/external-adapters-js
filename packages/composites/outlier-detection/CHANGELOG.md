@@ -1,5 +1,146 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.67
+
+### Patch Changes
+
+- @chainlink/ea@1.0.67
+
+## 1.0.66
+
+### Patch Changes
+
+- @chainlink/ea@1.0.66
+
+## 1.0.65
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea@1.0.65
+  - @chainlink/ea-reference-data-reader@1.1.12
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.64
+
+### Patch Changes
+
+- @chainlink/ea@1.0.64
+
+## 1.0.63
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea@1.0.63
+  - @chainlink/ea-reference-data-reader@1.1.11
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.62
+
+### Patch Changes
+
+- @chainlink/ea@1.0.62
+
+## 1.0.61
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea@1.0.61
+  - @chainlink/ea-reference-data-reader@1.1.10
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.60
+
+### Patch Changes
+
+- @chainlink/ea@1.0.60
+
+## 1.0.59
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/ea-reference-data-reader@1.1.9
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.59
+
+## 1.0.58
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/ea-reference-data-reader@1.1.8
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.58
+
+## 1.0.57
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/ea@1.0.57
+  - @chainlink/ea-reference-data-reader@1.1.7
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.56
+
+### Patch Changes
+
+- @chainlink/ea@1.0.56
+
+## 1.0.55
+
+### Patch Changes
+
+- Updated dependencies [4dd7722b0]
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.55
+
+## 1.0.54
+
+### Patch Changes
+
+- 1e05790a6: Change start scripts to use standardized export style
+  - @chainlink/ea@1.0.54
+
+## 1.0.53
+
+### Patch Changes
+
+- @chainlink/ea@1.0.53
+
+## 1.0.52
+
+### Patch Changes
+
+- @chainlink/ea@1.0.52
+
+## 1.0.51
+
+### Patch Changes
+
+- Updated dependencies [d0b872f6c]
+  - @chainlink/ea-bootstrap@1.12.0
+  - @chainlink/ea-reference-data-reader@1.1.6
+  - @chainlink/ea-test-helpers@1.1.0
+  - @chainlink/ea@1.0.51
+
 ## 1.0.50
 
 ### Patch Changes

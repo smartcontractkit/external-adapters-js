@@ -1,41 +1,44 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { Config } from '../../config'
-import * as view from '@chainlink/terra-view-function-adapter'
+import { AdapterContext, AdapterRequest } from '@chainlink/types'
+import { Config, FIXED_POINT_DECIMALS } from '../../config'
 import { Validator } from '@chainlink/ea-bootstrap'
+import { ethers } from 'ethers'
+import { callViewFunctionEA, throwErrorForInvalidResult } from '../../utils'
 
 export const FROM = 'BLUNA'
-export const INTERMEDIARY_TOKEN_DECIMALS = 8
 export const INTERMEDIARY_TOKEN = 'LUNA'
 
+/**
+ * execute returns the USD/bLUNA price by performing a conversion between two
+ * intermediate prices. The calculation is as follows:
+ * result = (USD / LUNA) * (LUNA / bLUNA) = USD / bLUNA
+ * @param input AdapterRequest
+ * @param context AdapterContext
+ * @param config Config
+ * @param usdPerLuna ethers.BigNumber
+ * @returns Promise<ethers.BigNumber>
+ */
 export const execute = async (
   input: AdapterRequest,
   context: AdapterContext,
   config: Config,
-  taAdapterResponse: AdapterResponse,
-): Promise<AdapterResponse> => {
+  usdPerLuna: ethers.BigNumber,
+): Promise<ethers.BigNumber> => {
   const validator = new Validator(input)
   if (validator.error) throw validator.error
-  const _config = view.makeConfig()
-  const _execute = view.makeExecute(_config)
-  const viewFunctionAdapterRequest: AdapterRequest = {
-    id: input.id,
-    data: {
-      address: config.terraBLunaContractAddress,
-      query: {
-        state: {},
-      },
+  const viewFunctionAdapterResponse = await callViewFunctionEA(
+    input,
+    context,
+    config.terraBLunaHubContractAddress,
+    {
+      state: {},
     },
-  }
-  const viewFunctionAdapterResponse = await _execute(viewFunctionAdapterRequest, context)
+  )
   const lunaPerBLuna = viewFunctionAdapterResponse.data.result.exchange_rate
-  const usdPerLuna = taAdapterResponse.data.result
-  const result = lunaPerBLuna * usdPerLuna
-  return {
-    jobRunID: input.id,
-    statusCode: 200,
-    result,
-    data: {
-      result,
-    },
-  }
+  const lunaPerBLunaBigNum = ethers.utils.parseUnits(lunaPerBLuna, FIXED_POINT_DECIMALS)
+  throwErrorForInvalidResult(
+    input.id,
+    lunaPerBLunaBigNum,
+    `LUNA/bLUNA rate from bLUNA address ${config.terraBLunaHubContractAddress}`,
+  )
+  return lunaPerBLunaBigNum.mul(usdPerLuna).div(ethers.BigNumber.from(10).pow(FIXED_POINT_DECIMALS))
 }
