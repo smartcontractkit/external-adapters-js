@@ -8,9 +8,13 @@ export const supportedEndpoints = ['view']
 
 export type TInputParameters = {
   address: string
-  query: Record<string, Value> | Record<string, Record<string, Value>>
-  params: Record<string, Value>
-  chainId: string
+  query:
+    | string
+    | Record<string, Value>
+    | Record<string, Record<string, Value>>
+    | Record<string, unknown>
+  params?: Record<string, Value>
+  chainId?: string
 }
 export const inputParameters: InputParameters<TInputParameters> = {
   address: {
@@ -60,7 +64,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     chainID,
   })
 
-  const response = await terra.wasm.contractQuery<Record<string, unknown>>(address, query, params)
+  // NOTE: the types for terra.js don't show string queries, we need to coerce
+  const response = await terra.wasm.contractQuery<Record<string, unknown>>(
+    address,
+    query as Record<string, unknown>,
+    params,
+  )
   const result = resultPath ? Requester.validateResultNumber(response, [resultPath]) : response
 
   const output = {
