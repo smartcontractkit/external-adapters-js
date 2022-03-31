@@ -3,12 +3,28 @@ import * as shell from 'shelljs'
 import { getJsonFile, saveText } from '../shared/docGenUtils'
 import { Schema } from '../shared/docGenTypes'
 
+/**
+ * Dependency Overrides define which dependent adapters are required for a given
+ * composite adapter. If a composite adapter does not have overrides,
+ * then the dependencies are parsed from the schemas/env.json.
+ */
+const dependencyOverrides: { [adapter: string]: string[] } = {
+  'reference-transform': ['coingecko'],
+}
+
 export const saveAdapterDependencies = (
   adapters: string[],
   path = './packages/scripts/src/adapter-dependencies/dependencies.txt',
 ): void => {
   const dependencies: string[] = []
   for (const adapter of adapters) {
+    if (dependencyOverrides[adapter]) {
+      for (const dep of dependencyOverrides[adapter]) {
+        if (!dependencies.includes(dep)) dependencies.push(dep)
+      }
+      continue
+    }
+
     const schemaPath = `./packages/composites/${adapter}/schemas/env.json`
 
     if (!shell.test('-f', schemaPath)) continue
@@ -25,10 +41,6 @@ export const saveAdapterDependencies = (
           let adapterName = req.split('_ADAPTER_URL')[0]
 
           adapterName = adapterName.toLowerCase().replace('_', '-').replace('-com$', '.com')
-
-          if (adapterName === 'source') {
-            adapterName = 'coingecko' //TODO use whichever EAs are used for reference-transform test payloads
-          }
 
           if (!dependencies.includes(adapterName)) dependencies.push(adapterName)
         }

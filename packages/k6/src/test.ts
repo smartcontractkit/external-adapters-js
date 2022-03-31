@@ -6,8 +6,8 @@ import { Rate } from 'k6/metrics'
 // TODO set from env var
 const GROUP_COUNT = 1
 
-// load the test duration from the environment or default to 12 hours
-let testDuration = '5m'
+// load the test duration from the environment or default to 2 minutes
+let testDuration = '2m'
 if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }

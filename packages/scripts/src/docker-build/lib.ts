@@ -6,7 +6,6 @@ import { getWorkspacePackages, WorkspacePackages } from '../workspace'
 
 export async function writeFile(): Promise<void> {
   const path = process.env.GITHUB_WORKSPACE || ''
-  console.log({ path })
   fs.writeFileSync(join(path, 'docker-compose.generated.yaml'), await generateFile())
 }
 
