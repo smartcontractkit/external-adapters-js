@@ -6,10 +6,11 @@ import { AdapterContext } from '@chainlink/ea-bootstrap'
 import * as endpoints from './endpoint'
 
 export const getCoin = (
-  data: ResponseSchema[],
+  data: ResponseSchema[] | ResponseSchema,
   symbol?: string,
   coinId?: string,
 ): ResponseSchema | undefined => {
+  if (!Array.isArray(data)) data = [data]
   data.sort((a, b) => a.rank - b.rank)
   if (coinId) {
     return data.find(({ id }) => id.toLowerCase() === coinId.toLowerCase())

@@ -1,14 +1,8 @@
 import LRU from 'lru-cache'
 import type { LRUInterface } from './types'
-import { parseBool } from '../../../util'
+import { getEnv, parseBool } from '../../../util'
 import type { ICache, CacheEntry } from '../types'
 
-// Options
-const DEFAULT_CACHE_MAX_ITEMS = 1000
-const DEFAULT_CACHE_MAX_AGE = 1000 * 60 * 1.5 // 1.5 minutes
-const DEFAULT_CACHE_UPDATE_AGE_ON_GET = false
-
-const env = process.env
 export interface LocalOptions {
   type: 'local'
   max: number
@@ -18,9 +12,9 @@ export interface LocalOptions {
 export const defaultOptions = (): LocalOptions =>
   ({
     type: 'local',
-    max: Number(env.CACHE_MAX_ITEMS) || DEFAULT_CACHE_MAX_ITEMS,
-    maxAge: Number(env.CACHE_MAX_AGE) || DEFAULT_CACHE_MAX_AGE,
-    updateAgeOnGet: parseBool(env.CACHE_UPDATE_AGE_ON_GET) || DEFAULT_CACHE_UPDATE_AGE_ON_GET,
+    max: Number(getEnv('CACHE_MAX_ITEMS')),
+    maxAge: Number(getEnv('CACHE_MAX_AGE')),
+    updateAgeOnGet: parseBool(getEnv('CACHE_UPDATE_AGE_ON_GET')),
   } as const)
 // Options without sensitive data
 export const redactOptions = (opts: CacheOptions): CacheOptions => opts

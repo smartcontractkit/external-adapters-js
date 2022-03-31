@@ -1,5 +1,10 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type {
+  ExecuteWithConfig,
+  Config,
+  AdapterRequest,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['crypto', 'price']
@@ -65,7 +70,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
 
-  const url = `exchangerate/${symbol}/${quote}`
+  const url = util.buildUrlPath('exchangerate/:symbol/:quote', { symbol, quote })
 
   const options = {
     ...config.api,

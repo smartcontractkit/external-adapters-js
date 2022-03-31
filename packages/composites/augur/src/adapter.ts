@@ -1,14 +1,19 @@
 import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, Execute } from '@chainlink/ea-bootstrap'
+import {
+  AdapterRequest,
+  ExecuteWithConfig,
+  Execute,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { resolveMarkets, createMarkets, pokeMarkets } from './methods'
 import { Config, makeConfig } from './config'
 
-const customParams = {
+const inputParameters: InputParameters = {
   method: true,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.jobRunID
   const method = validator.validated.data.method

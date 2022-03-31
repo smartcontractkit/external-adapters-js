@@ -1,6 +1,12 @@
-import { InputParameters, Requester, AdapterData } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { balance } from '@chainlink/ea-factories'
-import { Config, ExecuteFactory, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
+import {
+  Config,
+  ExecuteFactory,
+  AxiosRequestConfig,
+  AdapterData,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
@@ -22,7 +28,8 @@ export interface ResponseSchema {
   }
 }
 
-const getBalanceURI = (address: string) => `/api/v2/addresses/${address}/account-balances/latest`
+const getBalanceURI = (address: string) =>
+  util.buildUrlPath('/api/v2/addresses/:address/account-balances/latest', { address })
 
 const getBlockchainHeader = (coin?: string) => {
   const network = Requester.toVendorName(coin, BLOCKCHAINS)

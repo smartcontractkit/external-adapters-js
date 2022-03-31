@@ -1,4 +1,10 @@
-import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  AxiosResponse,
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 
 export type TInputParameters = { market: string }
@@ -23,9 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market
-  const url = `https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com/${
-    endpoints[market.toLowerCase()]
-  }`
+  const url = util.buildUrlPath('/:endpoint', { endpoint: endpoints[market.toLowerCase()] }, '/')
 
   const auth = {
     username: '',

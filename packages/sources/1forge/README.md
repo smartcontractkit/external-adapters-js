@@ -1,169 +1,141 @@
-# Chainlink External Adapter for 1forge
+# Chainlink External Adapter for 1Forge
 
-### Environment Variables
+Version: 1.4.22
 
-| Required? |  Name   |                        Description                        | Options | Defaults to |
-| :-------: | :-----: | :-------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | API_KEY | An API key that can be obtained from the 1forge dashboard |         |             |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
----
+## Environment Variables
 
-### Input Parameters
-
-| Required? |   Name   |     Description     |                         Options                          | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [quotes](#Quotes-Endpoint), [convert](#Convert-Endpoint) |   convert   |
+| Required? |     Name     |                        Description                        |  Type  | Options |          Default          |
+| :-------: | :----------: | :-------------------------------------------------------: | :----: | :-----: | :-----------------------: |
+|    ✅     |   API_KEY    | An API key that can be obtained from the 1Forge dashboard | string |         |                           |
+|           | API_ENDPOINT |                                                           | string |         | `https://api.1forge.com/` |
 
 ---
 
-## Convert Endpoint
+## Input Parameters
 
-[`/convert`](https://1forge.com/api#convert) - Convert from one currency to another
+| Required? |   Name   |     Description     |  Type  |                                                    Options                                                     | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#quotes-endpoint), [price](#quotes-endpoint), [quotes](#quotes-endpoint) | `quotes` |
 
-### Input Params
-
-| Required? |      Name      |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from` |            The symbol of the currency to query            |                       [List](https://1forge.com/currency-list)                       |             |
-|    ✅     | `quote`, `to`  |         The symbol of the currency to convert to          |                       [List](https://1forge.com/currency-list)                       |             |
-|    🟡     |   `quantity`   |       An additional amount of the original currency       |                                                                                      |             |
-|    🟡     |  `overrides`   | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
-
-### Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "value": 1.22687,
-    "text": "1.0 GBP is worth 1.22687 USD",
-    "timestamp": 1587489920,
-    "result": 1.22687
-  },
-  "result": 1.22687,
-  "statusCode": 200
-}
-```
+---
 
 ## Quotes Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `quotes` endpoint instead.
+Returns a batched price comparison from a list currencies to a list of other currencies.
 
-#### Returns a batched price comparison from a list currencies to a list of other currencies.
+[`/quotes`](https://1forge.com/api#quotes) - Convert from one currency to another.
 
-[`/quotes`](https://1forge.com/api#quotes) - Convert from one currency to another
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `quotes` endpoint instead.**
+
+Supported names for this endpoint are: `forex`, `price`, `quotes`.
 
 ### Input Params
 
-| Required? |      Name      |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: | --- | --- |
-|    ✅     | `base`, `from` |            The symbol of the currency to query            |                       [List](https://1forge.com/currency-list)                       |             |
-|    ✅     | `quote`, `to`  |         The symbol of the currency to convert to          |                       [List](https://1forge.com/currency-list)                       |             |     |     |
-|    🟡     |  `overrides`   | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? |   Name   |    Aliases     | Description | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :------: | :------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   base   | `base`, `from` |             |      |         |         |            |                |
+|    ✅     |  quote   | `quote`, `to`  |             |      |         |         |            |                |
+|           | quantity |                |             |      |         |         |            |                |
 
-## Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "from": ["USD", "CAD"],
-    "to": ["EUR", "AUD"]
-  }
+    "endpoint": "quotes",
+    "base": "USD",
+    "quote": "EUR"
+  },
+  "rateLimitMaxAge": 38400
 }
 ```
 
-## Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "debug": {
-    "staleness": 0,
-    "performance": 0.340576126,
-    "providerCost": 1
-  },
-  "statusCode": 200,
   "data": {
-    "endpoint": "live",
-    "quotes": [
+    "payload": [
       {
-        "p": 0.84683,
-        "a": 0.84685,
-        "b": 0.8468,
+        "p": 0.8828,
+        "a": 0.8828,
+        "b": 0.8827,
         "s": "USD/EUR",
-        "t": 1627307111520
-      },
-      {
-        "p": 1.35439,
-        "a": 1.354353,
-        "b": 1.354371,
-        "s": "USD/AUD",
-        "t": 1627307111520
-      },
-      {
-        "p": 0.674955,
-        "a": 0.67491,
-        "b": 0.674932,
-        "s": "CAD/EUR",
-        "t": 1627307111520
-      },
-      {
-        "p": 1.086425,
-        "a": 1.08639,
-        "b": 1.086366,
-        "s": "CAD/AUD",
-        "t": 1627307111520
+        "t": 1641851954307
       }
     ],
-    "requested_time": "Thu, 29 Jul 2021 13:51:08 GMT",
-    "timestamp": 1627566669,
-    "results": [
-      [
-        {
-          "id": "1",
-          "data": {
-            "to": "EUR",
-            "from": "USD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        0.841446
-      ],
-      [
-        {
-          "id": "1",
-          "data": {
-            "to": "AUD",
-            "from": "USD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        1.354371
-      ],
-      [
-        {
-          "id": "1",
-          "data": {
-            "to": "EUR",
-            "from": "CAD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        0.674932
-      ],
-      [
-        {
-          "id": "1",
-          "data": {
-            "to": "AUD",
-            "from": "CAD"
-          },
-          "rateLimitMaxAge": 960
-        },
-        1.08639
-      ]
+    "result": 0.8828
+  },
+  "result": 0.8828,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "quote"
+      }
     ]
-  }
+  },
+  "providerStatusCode": 200
 }
 ```
+
+---
+
+## Convert Endpoint
+
+[`/convert`](https://1forge.com/api#convert) - Convert from one currency to another.
+
+`convert` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |   Name   | Aliases |                  Description                  |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :-------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   base   | `from`  |      The symbol of the currency to query      | string |         |         |            |                |
+|    ✅     |  quote   |  `to`   |   The symbol of the currency to convert to    | string |         |         |            |                |
+|           | quantity |         | An additional amount of the original currency | number |         |   `1`   |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "convert",
+    "base": "USD",
+    "quote": "EUR",
+    "quantity": 1
+  },
+  "rateLimitMaxAge": 19200
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "value": "0.862701",
+    "text": "1 USD is worth 0.862701 EUR",
+    "timestamp": 1636478097478,
+    "result": 0.862701
+  },
+  "result": 0.862701,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---

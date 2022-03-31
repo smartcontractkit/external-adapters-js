@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
@@ -50,8 +50,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker
-  const resultPath = (validator.validated.data.resultPath || '').toString()
-  const url = `iex/${ticker}`
+  const resultPath = validator.validated.data.resultPath
+  const url = util.buildUrlPath('iex/:ticker', { ticker })
   const options = {
     ...config.api,
     params: {

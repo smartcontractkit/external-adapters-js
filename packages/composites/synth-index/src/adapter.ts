@@ -1,12 +1,12 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import * as ta from '@chainlink/token-allocation-adapter'
-import { Execute, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
+import { Execute, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import Decimal from 'decimal.js'
 import snx from 'synthetix'
 import { SetRequired } from 'type-fest'
 import { Config, makeConfig } from './config'
 
-const customParams = {
+const inputParameters: InputParameters = {
   base: ['base', 'asset', 'from'],
   network: false,
 }
@@ -71,7 +71,7 @@ export function getSynthIndexFor(network: string, base: string): SynthIndex | un
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
 
   const { base, network = config.defaultNetwork } = validator.validated.data
   const synthIndex = getSynthIndexFor(network, base)

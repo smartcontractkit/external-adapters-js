@@ -1,5 +1,10 @@
-import { AxiosResponse, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AxiosResponse,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['getcoin']
 
@@ -21,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const options = {
     ...config.api,
-    url: `get_coin/${base}`,
+    url: util.buildUrlPath('get_coin/:base', { base }),
   }
 
   const response: AxiosResponse = await Requester.request(options)

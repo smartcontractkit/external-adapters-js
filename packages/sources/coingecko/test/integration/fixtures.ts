@@ -1,9 +1,26 @@
 import nock from 'nock'
 
-export const mockCryptoSuccess = (): nock =>
+export const mockCryptoSuccess = (): nock.Scope =>
   nock('https://api.coingecko.com/api/v3', {
     encodedQueryParams: true,
   })
+    .get('/simple/price')
+    .query({
+      ids: 'olympus',
+      vs_currencies: 'USD',
+      include_market_cap: false,
+      include_24hr_vol: false,
+    })
+    .reply(200, (_, request) => ({ olympus: { usd: 100.0 } }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
     .get('/simple/price')
     .query({
       ids: 'ethereum',
@@ -59,6 +76,34 @@ export const mockCryptoSuccess = (): nock =>
       'Vary',
       'Origin',
     ])
+    .get('/simple/price')
+    .query({
+      ids: 'olympus,ethereum',
+      vs_currencies: 'USD',
+      include_market_cap: false,
+      include_24hr_vol: false,
+    })
+    .reply(
+      200,
+      (_, request) => ({
+        ethereum: {
+          usd: 3015.64,
+        },
+        olympus: {
+          usd: 30.3,
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
 
     .get('/coins/list')
     .query(() => true)
@@ -83,7 +128,7 @@ export const mockCryptoSuccess = (): nock =>
       ],
     )
 
-export const mockDominanceSuccess = (): nock =>
+export const mockDominanceSuccess = (): nock.Scope =>
   nock('https://api.coingecko.com/api/v3', {
     encodedQueryParams: true,
   })

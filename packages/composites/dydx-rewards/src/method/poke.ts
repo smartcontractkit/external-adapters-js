@@ -1,5 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/ea-bootstrap'
+import type {
+  ExecuteWithConfig,
+  Execute,
+  AdapterContext,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import { OracleRequester } from '../contracts'
@@ -27,7 +32,7 @@ export const deconstructJsonTree = (data: MerkleTreeData): AddressRewards => {
   return res
 }
 
-const customParams = {
+const inputParameters: InputParameters = {
   traderRewardsAmount: false,
   marketMakerRewardsAmount: false,
   ipnsName: true,
@@ -59,7 +64,7 @@ const parseAddress = (address: string): string => {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.jobRunID
 

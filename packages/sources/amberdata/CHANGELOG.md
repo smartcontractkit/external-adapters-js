@@ -1,5 +1,68 @@
 # @chainlink/amberdata-adapter
 
+## 1.3.19
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-factories@1.0.37
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.18
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea-factories@1.0.36
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.17
+
+### Patch Changes
+
+- Updated dependencies [382c16ac3]
+  - @chainlink/ea-bootstrap@1.13.1
+  - @chainlink/ea-factories@1.0.35
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.16
+
+### Patch Changes
+
+- 8d6ff4693: Added buildUrl & buildUrlPath methods to util. Updated source adapters to use these methods for building URLs with user input.
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/ea-factories@1.0.34
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.15
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/ea-factories@1.0.33
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.14
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/ea-factories@1.0.32
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.13
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['assets', 'dominance']
@@ -56,7 +56,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
   const resultPath = (validator.validated.data.resultPath || '').toString()
-  const url = `assets/${base}/metrics`
+  const url = util.buildUrlPath('assets/:base/metrics', { base })
 
   const options = {
     ...config.api,
