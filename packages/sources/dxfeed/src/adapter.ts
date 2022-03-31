@@ -132,9 +132,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         const ticker = validator.validated.data.base
         return getSubscription('unsubscribe', ticker as any)
       },
-      subsFromMessage: (message: DXFeedMessage) => {
+      subsFromMessage: (message: any) => {
         if (!message) {
-          return null
+          return ''
         }
         switch (message[0].channel) {
           case META_HANDSHAKE:
@@ -147,7 +147,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
             return ''
         }
       },
-      isError: (message) => (message as DXFeedMessage)[0].successful === false,
+      isError: (message) => (message as any)[0].successful === false,
       filter: (message: any) => {
         return isDataMessage(message)
       },
@@ -176,12 +176,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         return !!message[0].clientId
       },
       shouldReplyToServerHeartbeat: (message) => {
-        const dxFeedMsg = message as DXFeedMessage
+        const dxFeedMsg = message as any
         return Object.keys(dxFeedMsg[0]).length === 3 && dxFeedMsg[0].channel === META_CONNECT
       },
       heartbeatReplyMessage: (message, _, connectionParams) => [
         {
-          id: parseInt((message as DXFeedMessage)[0].id) + 1,
+          id: parseInt((message as any)[0].id) + 1,
           channel: META_CONNECT,
           connectionType: 'websocket',
           clientId: (connectionParams as any).clientId,
@@ -198,11 +198,11 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         },
         {
           payload: firstHeartbeatMsg,
-          filter: (message: DXFeedMessage) => message && message[0]?.id == '2',
+          filter: (message: any) => message && message[0]?.id == '2',
         },
         {
           payload: heartbeatMsg,
-          filter: (message: DXFeedMessage) =>
+          filter: (message: any) =>
             message &&
             (message[0].id === '3' ||
               (Object.keys(message[0]).length === 3 && message[0].channel === META_CONNECT)),

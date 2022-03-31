@@ -27,6 +27,10 @@ type Address = {
   address: string
 }
 
+interface ResponseWithResult extends Partial<AxiosResponse> {
+  result: AddressWithBalance[]
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator<TInputParameters>(request, inputParameters)
 
@@ -51,13 +55,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     statusText: 'OK',
     headers: {},
     config: {},
-    data: balances,
   }
 
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, balances as AxiosResponse<AddressWithBalance[]>),
-  )
+  const result: ResponseWithResult = {
+    ...response,
+    result: balances,
+    data: {
+      result: balances,
+    },
+  }
+
+  return Requester.success(jobRunID, result)
 }
 
 const getBalance = async (address: string, config: Config): Promise<AddressWithBalance> => ({

@@ -13,6 +13,7 @@ import {
   resolveInToken,
 } from '../ren'
 import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/utils/PorInputAddress'
+import { RenNetworkString } from '@renproject/interfaces'
 
 export const supportedEndpoints = ['address']
 
