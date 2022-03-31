@@ -97,12 +97,12 @@ export const createOutput = (adapters: ChangedAdapters): string => {
   const combinedAdapters = [...adapters.sources, ...adapters.composites, ...adapters.targets, ...adapters['non-deployable'],]
 
   if (adapters.coreWasChanged) combinedAdapters.push('coingecko', 'reference-transform')
+  //TODO remove the following line
+  combinedAdapters.push('coingecko', 'reference-transform')
 
-  // const allowedAdapters = combinedAdapters.filter(a => !SoakTestBlacklist.includes(a))
+  const allowedAdapters = combinedAdapters.filter((a) => !SoakTestBlacklist.includes(a))
 
-  // return allowedAdapters.join(' ')
-  // TODO uncomment to above lines
-  return 'coingecko coinpaprika reference-transform'
+  return allowedAdapters.join(' ')
 }
 
 export async function main(): Promise<void> {
