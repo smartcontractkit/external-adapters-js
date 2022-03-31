@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/ea-bootstrap'
+import { Config, AxiosRequestHeaders } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'COINPAPRIKA'
 
@@ -9,11 +9,11 @@ export const PRO_API_ENDPOINT = 'https://api-pro.coinpaprika.com'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
-  const headers: { [T: string]: string | boolean } = {}
+  const headers: AxiosRequestHeaders = {}
   if (config.apiKey) headers['Authorization'] = config.apiKey
 
   const isInTestMode = util.parseBool(util.getEnv('IS_TEST_MODE', prefix))
-  if (isInTestMode) headers['COINPAPRIKA-API-KEY-VERIFY'] = true
+  if (isInTestMode) headers['COINPAPRIKA-API-KEY-VERIFY'] = 'true'
 
   config.api = {
     ...config.api,

@@ -22,7 +22,6 @@ const customError = (data: ResponseSchema) => data.result === 'error'
 export type TInputParameters = {
   base: string
   quote: string
-  includes: string
   interval: string
   millisecondsAgo: number
   sort: string

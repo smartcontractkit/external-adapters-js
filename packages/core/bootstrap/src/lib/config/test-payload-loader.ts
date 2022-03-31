@@ -7,7 +7,7 @@ import type { AdapterRequestData, AdapterData } from '../../types'
  * The test payload read in from filesystem
  */
 export interface Payload<D extends AdapterData> {
-  requests: AdapterRequestData<D>[]
+  requests: Array<AdapterRequestData<D>>
 }
 
 /**
@@ -22,7 +22,7 @@ type TestPayload<D extends AdapterData> = (Payload<D> & { isDefault: false }) | 
  */
 export function loadTestPayload<D extends AdapterData>(): TestPayload<D> {
   const ajv = new Ajv()
-  const schema: JSONSchemaType<Payload<D>> = {
+  const schema: JSONSchemaType<Payload<any>> = {
     type: 'object',
     required: ['requests'],
     properties: {

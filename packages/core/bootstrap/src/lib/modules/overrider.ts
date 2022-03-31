@@ -1,12 +1,12 @@
-import type { CoinsResponse } from '../../types'
+import type { CoinsResponse, OverrideRecord } from '../../types'
 import { AdapterError } from '.'
 import { logger } from './logger'
 
 export class Overrider {
   adapterName: string
   adapterOverrides: AdapterOverrides
-  internalOverrides: OverrideObj
-  inputOverrides: OverrideObj
+  internalOverrides: OverrideRecord
+  inputOverrides: OverrideRecord
 
   constructor(
     internalOverrides: unknown,
@@ -89,9 +89,9 @@ export class Overrider {
     return invertedCoinsObject
   }
 
-  static isOverrideObj = (obj: unknown): obj is OverrideObj => {
+  static isOverrideObj = (obj: unknown): obj is OverrideRecord => {
     if (typeof obj !== 'object' || Array.isArray(obj)) return false
-    const overrideObj = obj as OverrideObj
+    const overrideObj = obj as OverrideRecord
     for (const adapterName of Object.keys(overrideObj)) {
       if (typeof adapterName !== 'string') return false
       const adapterOverrides = overrideObj[adapterName]
@@ -117,10 +117,6 @@ export class Overrider {
 
 type AdapterOverrides = {
   [symbol: string]: string
-}
-
-export type OverrideObj = {
-  [adapterName: string]: AdapterOverrides
 }
 
 type OverriddenCoins = {

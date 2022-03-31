@@ -36,7 +36,7 @@ export const endpointResultPaths: {
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
-export type TInputParameters = { coinid: string; base: string; quote: string }
+export type TInputParameters = { coinid: string; base: string | string[]; quote: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   coinid: {
     description:
@@ -81,7 +81,7 @@ const handleBatchedRequest = (
           data: {
             ...request.data,
             base: originalSymbol.toUpperCase(),
-            quote: quote.toUpperCase(),
+            quote: (quote as string).toUpperCase(),
           },
         }
         payload.push([
@@ -103,7 +103,12 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides: internalOverrides })
+  const validator = new Validator<TInputParameters>(
+    request,
+    inputParameters,
+    {},
+    { overrides: internalOverrides },
+  )
 
   const endpoint = validator.validated.data.endpoint || ''
   const jobRunID = validator.validated.id
