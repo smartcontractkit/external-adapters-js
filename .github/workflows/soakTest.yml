@@ -146,10 +146,10 @@ jobs:
 
           echo "::set-output name=BUILD_ADAPTERS::${BUILD_ADAPTERS}"
 
-      # - name: Clone infra-k8s repo
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
-      #   run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/infra-k8s.git
+      - name: Clone adapter-secrets repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
+        run: git clone https://${GITHUB_TOKEN}@github.com/smartcontractkit/adapter-secrets.git
 
       - name: Deploy adapters
         working-directory: ./external-adapters-js
@@ -162,6 +162,9 @@ jobs:
         run: |
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
 
+          cd ../adapter-secrets
+          pwd
+          ls -al
           # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
