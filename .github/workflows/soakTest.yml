@@ -81,7 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
-          set -x
           # TODO uncomment these lines
           # CHANGED_FILES_NAME=./changedFiles.txt
           # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
@@ -98,23 +97,12 @@ jobs:
           # PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           #TODO remove next line
           PR_NUMBER: soak-testing-composites
-          ADAPTER_NAMES: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
+          TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k6
         run: |
-          #TODO what does 'set -x' do?
-          set -x
-
-          TEST_ADAPTERS=
-          if [ -n "$ADAPTER_NAMES" ]; then
-            for adapter in ${ADAPTER_NAMES}; do
-
-              NO_PAYLOAD=0
-              yarn qa:flux:configure k6payload ${adapter} ${PR_NUMBER} || NO_PAYLOAD=1
-              if [ $NO_PAYLOAD = 1 ]; then
-                continue
-              fi
-
-              TEST_ADAPTERS="${TEST_ADAPTERS} ${adapter}"
+          if [ -n "$TEST_ADAPTERS" ]; then
+            for adapter in ${TEST_ADAPTERS}; do
+              yarn qa:flux:configure k6payload ${adapter} ${PR_NUMBER} || exit 1
 
               cd ./packages/k6
 
@@ -131,18 +119,13 @@ jobs:
 
               cd ../..
             done
-            #TODO what is xargs?
-            TEST_ADAPTERS="$(echo ${TEST_ADAPTERS} | xargs)"
-
-            # export adapters from this step
-            echo "::set-output name=TEST_ADAPTERS::${TEST_ADAPTERS}"
           fi
 
       - name: Build adapters
         working-directory: ./external-adapters-js
         id: build-adapters
         env:
-          TEST_ADAPTERS: ${{ steps.k6-payloads.outputs.TEST_ADAPTERS }}
+          TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
           # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           # TODO remove next line
           IMAGE_TAG: prsoak-testing-composites
@@ -193,7 +176,6 @@ jobs:
           # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-
               # cd ../infra-k8s
               # echo ${sops -d apps/files/adapters/${adapter}/secrets-develop.yaml}
               # cd ../external-adapters-js
@@ -202,14 +184,14 @@ jobs:
           fi
 
       - name: Deploy k6
+        working-directory: ./external-adapters-js/packages/k6
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
-          ADAPTER_NAMES: ${{ steps.k6-payloads.outputs.TEST_ADAPTERS }}
+          TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
         run: |
-          cd ./packages/k6
-          if [ -n "$ADAPTER_NAMES" ]; then
-            for adapter in ${ADAPTER_NAMES}; do
+          if [ -n "$TEST_ADAPTERS" ]; then
+            for adapter in ${TEST_ADAPTERS}; do
               helm upgrade k6-${PR_NUMBER}-${adapter} ./k8s \
                 --install \
                 --namespace adapters \
