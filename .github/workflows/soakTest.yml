@@ -81,13 +81,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
-          # TODO uncomment these lines
-          # CHANGED_FILES_NAME=./changedFiles.txt
-          # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
-          # TEST_ADAPTERS="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
-          # TODO change get-changed-adapters to use blacklist instead of whitelist
-          TEST_ADAPTERS="reference-transform"
-          # export adapters from this step
+          CHANGED_FILES_NAME=./changedFiles.txt
+          gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
+          TEST_ADAPTERS="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
+
           echo "::set-output name=TEST_ADAPTERS::${TEST_ADAPTERS}"
 
       - name: Build the k6 payloads and images
@@ -170,9 +167,8 @@ jobs:
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
         run: |
-          # pull down the chainlink adapter helm chart
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
-          # deploy all the adapters
+
           # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
@@ -204,7 +200,7 @@ jobs:
           fi
 
       # TODO Figure out how to adjust time in k6 so we can vary it
-      - name: Wait 5 Minutes for tests to run
+      - name: Wait 2 Minutes for tests to run
         uses: jakejarvis/wait-action@master
         with:
           time: '2m'

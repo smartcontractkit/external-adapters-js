@@ -1,10 +1,9 @@
 import chalk from 'chalk'
 import fs from 'fs'
-import { AllowedAdapters } from './adapterAllowList'
+import { SoakTestBlacklist } from './soakTestBlacklist'
 const { red } = chalk
 
-const usageString = `
-Requires 1 argument of the changed files file path.`
+const usageString = `Requires 1 argument of the changed files file path.`
 
 /**
  * Checks the args for required input.
@@ -50,13 +49,12 @@ export const loadChangedFileList = (file: string): string[] => {
  */
 export const generateFilteredAdaptersListByType = (changedFiles: string[]): ChangedAdapters => {
   // Build lists of unique adapters changed for each type in each file
-  const coreChanges = filterFilesToAdapters(changedFiles, 'core')
   const changedAdapters: ChangedAdapters = {
-    sources: filterFilesToAdapters(changedFiles, 'sources'),
-    composites: filterFilesToAdapters(changedFiles, 'composites'),
-    targets: filterFilesToAdapters(changedFiles, 'targets'),
-    'non-deployable': filterFilesToAdapters(changedFiles, 'non-deployable'),
-    coreWasChanged: coreChanges.length > 0 ? true : false,
+    sources: filterFilesToAdapters(changedFiles, 'sources') as string[],
+    composites: filterFilesToAdapters(changedFiles, 'composites') as string[],
+    targets: filterFilesToAdapters(changedFiles, 'targets') as string[],
+    'non-deployable': filterFilesToAdapters(changedFiles, 'non-deployable') as string[],
+    coreWasChanged: filterFilesToAdapters(changedFiles, 'core', true) as boolean,
   }
   return changedAdapters
 }
@@ -66,27 +64,26 @@ export const generateFilteredAdaptersListByType = (changedFiles: string[]): Chan
  * are not part of a src directory.
  * @param {string[]} changedFiles The list of changed files
  * @param {string} filterForAdapterType The type of adapter to filter for
- * @returns {string[]} The filtered list of adapters that have changed
+ * @param {boolean} absolute If true, return T/F for whether source/package files have changed
+ * @returns {string[]|boolean} The filtered list of adapters that have changed, or T/F whether adapters have changed
  */
-const filterFilesToAdapters = (changedFiles: string[], filterForAdapterType: string): string[] => {
-  // filter files for specific adapter type
-  const changedFilesForType = changedFiles.filter(function (str) {
-    return str.includes(`packages/${filterForAdapterType}/`)
-  })
+const filterFilesToAdapters = (
+  changedFiles: string[],
+  filterForAdapterType: string,
+  absolute?: boolean,
+): string[] | boolean => {
+  const changedFilesForType = changedFiles.filter((str) =>
+    str.match(`packages/${filterForAdapterType}/.*(src|package.json)`),
+  )
+
+  if (absolute) return changedFilesForType.length > 0
 
   const uniqueAdapters: { [key: string]: boolean } = {}
-  for (let i = 0; i < changedFilesForType.length; i++) {
-    const line = changedFilesForType[i]
-    // remove any files not in a src folder
-    if (!line.includes('/src/')) {
-      continue
-    }
-
-    // load adapters into dictionary, means we don't have to worry about duplicates
+  for (const line of changedFilesForType) {
     const dirNames = line.split('/')
     uniqueAdapters[dirNames[2]] = true
   }
-  // return array of dictionary keys which is all the adapters that have changed
+
   return Object.keys(uniqueAdapters)
 }
 
@@ -97,26 +94,15 @@ const filterFilesToAdapters = (changedFiles: string[], filterForAdapterType: str
  * @returns {string} The bash array formatted string of adapters with changes.
  */
 export const createOutput = (adapters: ChangedAdapters): string => {
-  // TODO if needed do specific things for specific adapters, for example composites
-  // if needed do specific things for core changes
-  if (adapters.coreWasChanged) {
-    // TODO add an adapter of each type to the outgoing array to be tested
-  }
+  const combinedAdapters = [...adapters.sources, ...adapters.composites, ...adapters.targets, ...adapters['non-deployable'],]
 
-  // combine adapters lists to create bash usable array of adapters to test
-  const combinedAdapters = [
-    ...adapters.sources,
-    ...adapters.composites,
-    ...adapters.targets,
-    ...adapters['non-deployable'],
-  ]
+  if (adapters.coreWasChanged) combinedAdapters.push('coingecko', 'reference-transform')
 
-  // remove all adapters not in the allow list
-  const allowedAdapters = combinedAdapters.filter(function (adapter) {
-    return AllowedAdapters.includes(adapter)
-  })
+  // const allowedAdapters = combinedAdapters.filter(a => !SoakTestBlacklist.includes(a))
 
-  return allowedAdapters.join(' ')
+  // return allowedAdapters.join(' ')
+  // TODO uncomment to above lines
+  return 'coingecko coinpaprika reference-transform'
 }
 
 export async function main(): Promise<void> {
