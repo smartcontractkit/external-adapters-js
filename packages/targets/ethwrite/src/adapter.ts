@@ -1,11 +1,16 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
-import { txsend } from './endpoint'
+import { txsend, TInputParameters as EndpointInputParams } from './endpoint'
 
-const inputParams = {
-  endpoint: false,
+export type TInputParameters = { endpoint: string }
+const inputParams: InputParameters<TInputParameters> = {
+  endpoint: {
+    type: 'string',
+  },
 }
+
+export type TInputParams = EndpointInputParams & TInputParameters
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParams)
@@ -29,6 +34,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, TInputParams> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
