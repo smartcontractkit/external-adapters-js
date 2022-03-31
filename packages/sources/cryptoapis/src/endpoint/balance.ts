@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { balance } from '@chainlink/ea-factories'
-import { AdapterData, InputParameters, Requester } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteFactory } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
+import type { Config, ExecuteFactory, AdapterData, InputParameters } from '@chainlink/ea-bootstrap'
 import { isCoinType, isChainType, TESTNET_BLOCKCHAINS } from '../config'
 
 export const supportedEndpoints = ['balance']
@@ -27,7 +27,7 @@ export interface ResponseSchema {
 
 const getBalanceURI = (address: string, chain: string, coin: string) => {
   if (chain === 'testnet') chain = Requester.toVendorName(coin, TESTNET_BLOCKCHAINS) || chain
-  return `/v1/bc/${coin}/${chain}/address/${address}`
+  return util.buildUrlPath('/v1/bc/:coin/:chain/address/:address', { coin, chain, address })
 }
 
 const getBalance: balance.GetBalance = async (account, config) => {

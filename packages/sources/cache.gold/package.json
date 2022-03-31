@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cache.gold-adapter",
-  "version": "1.2.17",
+  "version": "1.2.23",
   "description": "Chainlink cache.gold adapter.",
   "keywords": [
     "Chainlink",

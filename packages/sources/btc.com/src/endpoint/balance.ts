@@ -1,6 +1,6 @@
 import { balance } from '@chainlink/ea-factories'
-import { AdapterData, InputParameters, Requester } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteFactory } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
+import type { Config, ExecuteFactory, AdapterData, InputParameters } from '@chainlink/ea-bootstrap'
 import { isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
@@ -26,7 +26,7 @@ export interface ResponseSchema {
   }
 }
 
-const getBalanceURI = (address: string) => `/v3/address/${address}`
+const getBalanceURI = (address: string) => util.buildUrlPath('/v3/address/:address', { address })
 
 const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig = {

@@ -1,5 +1,10 @@
-import { InputParameters, NestableValue, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import type {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  NestableValue,
+} from '@chainlink/ea-bootstrap'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { serialize } from '../codec'
 import { IPFSPath } from './read'

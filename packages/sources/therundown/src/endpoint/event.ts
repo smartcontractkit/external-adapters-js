@@ -1,5 +1,10 @@
-import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AxiosRequestConfig,
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['event']
 
@@ -26,7 +31,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const eventId = validator.validated.data.eventId
-  const url = `/events/${eventId}`
+  const url = util.buildUrlPath('/events/:eventId', { eventId })
 
   const reqConfig: AxiosRequestConfig = {
     ...config.api,

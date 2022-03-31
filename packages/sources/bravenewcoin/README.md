@@ -1,89 +1,130 @@
 # Chainlink External Adapter for BraveNewCoin
 
-### Input Parameters
+Version: 1.2.3
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   example   |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-### Configuration
+## Environment Variables
 
-The adapter takes the following environment variables:
-
-| Required? |    Name     | Description | Options | Defaults to |
-| :-------: | :---------: | :---------: | :-----: | :---------: |
-|    ✅     |  `API_KEY`  |             |         |             |
-|    ✅     | `CLIENT_ID` |             |         |             |
+| Required? |   Name    | Description |  Type  | Options | Default |
+| :-------: | :-------: | :---------: | :----: | :-----: | :-----: |
+|    ✅     |  API_KEY  |             | string |         |         |
+|    ✅     | CLIENT_ID |             | string |         |         |
 
 ---
 
-## Crypto endpoint
+## Input Parameters
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+| Required? |   Name   |     Description     |  Type  |                                    Options                                    | Default  |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [price](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
-[BraveNewCoin's AssetTicker endpoint](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_836afc67-19d2-45ae-bb56-c576cec9f602)
+---
+
+## Crypto Endpoint
+
+[BraveNewCoin's AssetTicker endpoint](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_836afc6
+
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Output
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "base": "ETH",
+    "quote": "BTC"
+  }
+}
+```
+
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "result": 8.533507688737274
+    "result": 0.06453350218072039
   },
-  "result": 8.533507688737274,
-  "statusCode": 200
+  "result": 0.06453350218072039,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
 ---
 
-## VWAP endpoint
+## Vwap Endpoint
 
 [BraveNewCoin's 24 Hour USD VWAP](https://rapidapi.com/BraveNewCoin/api/bravenewcoin?endpoint=apiendpoint_8b8774ba-b368-4399-9c4a-dc78f13fc786)
 
+`vwap` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |                                Name                                |                                                                       Description                                                                       |   Options    | Defaults to |
-| :-------: | :----------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: | :---------: |
-|    ✅     | `base`, `from`, `coin`, `symbol`, `assetId`, `indexId`, or `asset` |                                             Retrieve all the OHLCV values for a particular asset or market                                              |              |             |
-|           |                            `indexType`                             |                                                      Restrict the OHLCV results to the index type.                                                      | `MWA`, `GWA` |    `GWA`    |
-|           |                            `timestamp`                             | Retrieve all daily OHLCV records from the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ |              |             |
+| Required? |   Name    |                        Aliases                        |                                                                          Description                                                                          |  Type  |   Options    | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :---------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :----------: | :-----: | :--------: | :------------: |
+|    ✅     |  symbol   | `asset`, `assetId`, `base`, `coin`, `from`, `indexId` |                                                      Retrieve the VWAP for a particular asset or market                                                       | string |              |         |            |                |
+|           | indexType |                                                       |                                                         Restrict the OHLCV results to the index type.                                                         | string | `GWA`, `MWA` |         |            |                |
+|           | timestamp |                                                       | Retrieve the daily OHLCV record from before the timestamp provided. All dates are stored in UTC. Timestamp strings should be in the form YYYY-MM-DDThh:mm:ssZ |        |              |         |            |                |
 
-### Sample Output
+### Example
+
+Request:
 
 ```json
 {
-  "jobRunID": "1",
+  "id": "2",
+  "data": {
+    "endpoint": "vwap",
+    "symbol": "ETH"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "2",
   "data": {
     "content": [
       {
-        "indexId": "551cdbbe-2a97-4af8-b6bc-3254210ed021",
+        "indexId": "e991ba77-d384-48ff-b0a4-40e95ef6b7d6",
         "indexType": "GWA",
-        "open": 1.9248204798140678,
-        "high": 2.5557035027423054,
-        "low": 1.891225386234147,
-        "close": 2.4208656452222885,
-        "volume": 665942.7213355688,
-        "vwap": 2.12777657752828,
-        "twap": 2.07318626293901,
-        "startTimestamp": "2020-07-08T00:00:00Z",
-        "endTimestamp": "2020-07-08T23:59:59.999Z",
-        "timestamp": "2020-07-08T00:00:00Z",
-        "id": "637e68c3-681f-49c2-a69f-c239c14e1d18"
+        "open": 3872.444353468022,
+        "high": 4148.839979992307,
+        "low": 3830.078382818216,
+        "close": 4137.589066216359,
+        "volume": 3373487.6142539503,
+        "vwap": 3969.76725876602,
+        "twap": 3957.582228402148,
+        "startTimestamp": "2021-10-20T00:00:00Z",
+        "endTimestamp": "2021-10-20T23:59:59.999Z",
+        "timestamp": "2021-10-20T00:00:00Z",
+        "id": "735b94df-008c-4fc3-a50c-af0f2e0b25c4"
       }
     ],
-    "nextId": "637e68c3-681f-49c2-a69f-c239c14e1d18",
-    "result": 2.12777657752828
+    "nextId": "735b94df-008c-4fc3-a50c-af0f2e0b25c4",
+    "result": 3969.76725876602
   },
-  "result": 2.12777657752828,
-  "statusCode": 200
+  "result": 3969.76725876602,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

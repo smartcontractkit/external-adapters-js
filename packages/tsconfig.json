@@ -72,6 +72,9 @@
       "path": "./composites/reference-transform"
     },
     {
+      "path": "./composites/savax-price"
+    },
+    {
       "path": "./composites/set-token-index"
     },
     {
@@ -175,6 +178,9 @@
     },
     {
       "path": "./sources/cache.gold"
+    },
+    {
+      "path": "./sources/celsius-address-list"
     },
     {
       "path": "./sources/cfbenchmarks"

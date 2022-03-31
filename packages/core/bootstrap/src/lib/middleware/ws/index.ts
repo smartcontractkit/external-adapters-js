@@ -11,6 +11,7 @@ import { getWSConfig } from './config'
 import type { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
+import { getEnv } from '../../util'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -20,6 +21,7 @@ export * as reducer from './reducer'
 export * as types from './types'
 
 import { WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
+import { util } from '../../..'
 
 export const withWebSockets =
   <R extends AdapterRequest, C extends AdapterContext>(
@@ -28,7 +30,7 @@ export const withWebSockets =
   ): Middleware<R, C> =>
   async (execute, context) =>
   async (input) => {
-    const wsConfig = getWSConfig(input.data.endpoint)
+    const wsConfig = getWSConfig(input.data.endpoint, context)
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
     if (input.id === WARMUP_REQUEST_ID || input.id === WARMUP_BATCH_REQUEST_ID)
       return await execute(input, context) // ignore middleware if warmer request
@@ -68,7 +70,7 @@ export const withWebSockets =
     // Check if adapter only supports WS
     if (wsHandler.noHttp) {
       // If so, we try to get a result from cache within API_TIMEOUT
-      const requestTimeout = Number(process.env.API_TIMEOUT) || 30000
+      const requestTimeout = Number(getEnv('API_TIMEOUT'))
       const deadline = Date.now() + requestTimeout
       return await awaitResult(context, input, deadline)
     }
@@ -104,12 +106,8 @@ const awaitResult = async (
       const cachedAdapterResponse = await localAdapterCache.getResultForRequest(input)
       if (cachedAdapterResponse) return cachedAdapterResponse
     }
-    await sleep(pollInterval)
+    await util.sleep(pollInterval)
   }
 
   throw Error('timed out waiting for result to be cached')
-}
-
-const sleep = async (time: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, time))
 }

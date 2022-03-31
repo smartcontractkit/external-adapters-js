@@ -155,7 +155,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       isError: (message: any) => message.messageType === 'E',
       filter: (message: any) => message.messageType === 'A',
       subsFromMessage: (message: any) =>
-        message.data && message.messageType === 'A' && getSubscription(message.data[1]), // The ticker is always index 1
+        message.data &&
+        message.messageType === 'A' &&
+        getSubscription(message.service === 'iex' ? message.data[3] : message.data[1]), // The ticker is always index 1
       toResponse: (message: any, input: any) => {
         let result
         if (isFx(input)) {

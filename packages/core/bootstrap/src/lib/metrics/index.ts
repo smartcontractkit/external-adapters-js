@@ -1,16 +1,16 @@
 import * as client from 'prom-client'
-import { parseBool } from '../util'
+import { getEnv, parseBool } from '../util'
 import * as util from './util'
 import type { Middleware, AdapterRequest, AdapterMetricsMeta, AdapterContext } from '../../types'
 import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer'
 
-export const METRICS_ENABLED = parseBool(process.env.EXPERIMENTAL_METRICS_ENABLED)
+export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
 
 export const setupMetrics = (name: string): void => {
   client.collectDefaultMetrics()
   client.register.setDefaultLabels({
-    app_name: process.env.METRICS_NAME || name || 'N/A',
-    app_version: process.env.npm_package_version,
+    app_name: getEnv('METRICS_NAME') || name || 'N/A',
+    app_version: getEnv('npm_package_version'),
   })
 }
 

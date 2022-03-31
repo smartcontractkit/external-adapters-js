@@ -15,6 +15,15 @@ export interface ResponseSchema {
   summary: { amount: string }
 }
 
+export interface ResponseSchema {
+  accounts: {
+    nexpay: { amount: string }
+    xnt: { amount: string }
+    ext: { amount: string }
+  }
+  summary: { amount: string }
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator<TInputParameters>(request, inputParameters)
 

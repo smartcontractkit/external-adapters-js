@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['feed']
 
@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const product = validator.validated.data.product
   const feedId = validator.validated.data.feedId
-  const url = `${product}/feed-${feedId}`
+  const url = util.buildUrlPath(':product/feed-:feedId', { product, feedId })
 
   const params = {
     api_key: config.apiKey,

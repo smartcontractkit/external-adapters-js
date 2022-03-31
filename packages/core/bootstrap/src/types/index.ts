@@ -11,6 +11,7 @@ export type ExecuteHandler = {
 export interface AdapterContext {
   name?: string
   cache?: import('../lib/middleware/cache/types').CacheOptions
+  envDefaultOverrides?: EnvDefaultOverrides
   rateLimit?: import('../lib/config/provider-limits').Limits
   limits?: import('../lib/config/provider-limits/config').Config
 }
@@ -253,6 +254,19 @@ export interface DefaultConfig extends Config {
   }
 }
 
+export type EnvDefaults = { [name: string]: string }
+
+/**
+ * To add a default override for an env var not present here,
+ * ensure that the adapter context from `expose` is passed
+ * to the `getEnv` call(s) for the variable in question. See
+ * `WS_ENABLED` for example usage.
+ */
+export type EnvDefaultOverrides = {
+  CACHE_ENABLED?: 'true' | 'false'
+  WS_ENABLED?: 'true' | 'false'
+}
+
 export type Execute<TInput = AdapterRequest, TContext = AdapterContext> = (
   input: TInput,
   context: TContext,
@@ -300,6 +314,14 @@ export interface APIEndpoint<C extends Config = Config, D extends AdapterData = 
   execute?: Execute | ExecuteWithConfig<C, D>
   makeExecute?: ExecuteFactory<C>
 }
+
+type upstreamEndpointName = string
+type inputPropertyName = string
+export type UpstreamEndpointsGroup<C extends Config = Config> = [
+  inputPropertyName,
+  { [adapterName: string]: Record<string, APIEndpoint<C>> },
+  upstreamEndpointName,
+]
 
 export type ResultPath = string | (number | string)[]
 export type MakeResultPath = (input: AdapterRequest) => ResultPath
@@ -448,6 +470,13 @@ export type Includes = {
   from: string
   to: string
   includes: IncludePair[]
+}
+
+// Used by the Overrider class to map from symbols to coin ids
+export interface CoinsResponse {
+  id: string
+  symbol: string
+  name: string
 }
 
 import objectPath from 'object-path'

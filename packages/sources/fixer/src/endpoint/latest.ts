@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import {
+import type {
   ExecuteWithConfig,
   Config,
   InputParameters,
@@ -39,12 +39,6 @@ export const inputParameters: InputParameters<TInputParameters> = {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     type: 'string',
-  },
-  amount: {
-    required: false,
-    description: 'The amount of `base` currency',
-    type: 'number',
-    default: 1,
   },
 }
 

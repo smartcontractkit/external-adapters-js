@@ -1,4 +1,4 @@
-import { AxiosResponse, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AxiosResponse, util, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../../../config'
 
@@ -17,7 +17,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const season = validator.validated.data.season
-  const url = `/cfb/scores/json/Games/${season}`
+  const url = util.buildUrlPath('/cfb/scores/json/Games/:season', { season })
 
   const params = {
     key: config.cfbScoresKey,
