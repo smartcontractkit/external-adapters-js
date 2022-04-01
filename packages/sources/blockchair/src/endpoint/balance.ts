@@ -1,6 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
 import {
-  AdapterData,
   AxiosRequestConfig,
   AxiosResponse,
   InputParameters,
@@ -9,12 +8,13 @@ import {
 } from '@chainlink/ea-bootstrap'
 import type { Config, Account, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { COINS, isCoinType, isChainType } from '../config'
+import { TBalanceInputParameters } from '@chainlink/ea-factories/src/factories/balance'
 
 export const supportedEndpoints = ['balance']
 
 export const description = '[Address Balance Mass Check](https://blockchair.com/api/docs#link_390)'
 
-export type TInputParameters = AdapterData
+export type TInputParameters = TBalanceInputParameters
 export const inputParameters: InputParameters<TInputParameters> = balance.inputParameters
 
 const getBalanceURI = (coin: string, chain: string) => {
@@ -50,5 +50,5 @@ const getBalances: balance.GetBalances = async (accounts, config) => {
 
 const isSupported: balance.IsSupported = (coin, chain) => isChainType(chain) && isCoinType(coin)
 
-export const makeExecute: ExecuteFactory<Config> = (config?: Config) =>
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config?: Config) =>
   balance.make({ ...config, getBalances, isSupported })

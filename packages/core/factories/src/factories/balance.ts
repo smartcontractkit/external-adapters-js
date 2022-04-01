@@ -1,4 +1,4 @@
-import { AdapterError, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterData, AdapterError, util, Validator } from '@chainlink/ea-bootstrap'
 import {
   Account,
   Config,
@@ -81,21 +81,27 @@ const toGetBalances = (getBalance: GetBalance) => (accounts: Account[], config: 
   return accounts.map((acc) => getBalance(acc, config))
 }
 
-export const inputParameters: InputParameters = {
-  dataPath: false,
-  confirmations: false,
-  addresses: false,
+export type TBalanceInputParameters = {
+  dataPath?: string
+  confirmations?: number
+  addresses?: Record<string, string>[]
+  result?: Record<string, string>[]
+}
+export const inputParameters: InputParameters<TBalanceInputParameters> = {
+  dataPath: { required: false },
+  confirmations: { required: false },
+  addresses: { required: false },
+  result: { required: false },
 }
 
-export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {
+export const make: ExecuteFactory<BalanceConfig, AdapterData> = (config) => async (input) => {
   const validator = new Validator(input, inputParameters)
 
   if (!config) throw new Error('No configuration supplied')
 
-  config.confirmations = validator.validated.confirmations || DEFAULT_CONFIRMATIONS
+  config.confirmations = validator.validated.data.confirmations || DEFAULT_CONFIRMATIONS
   const jobRunID = validator.validated.id
   const dataPath = validator.validated.data.dataPath || DEFAULT_DATA_PATH
-
   const accounts = requireArray(jobRunID, dataPath, input.data).map((acc) =>
     toValidAccount(jobRunID, acc, config),
   )
@@ -118,5 +124,5 @@ export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => 
 
   if (!config.verbose) delete data.responses
 
-  return { jobRunID, statusCode: 200, data, result: data.result }
+  return { jobRunID, statusCode: 200, data, result: data.result } as any
 }
