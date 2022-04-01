@@ -1,11 +1,25 @@
-import { Requester, Validator, AdapterError, Logger } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import {
+  Requester,
+  Validator,
+  AdapterError,
+  Logger,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_NETWORK } from '../config'
 import { getRpcLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
 export const supportedEndpoints = ['transform']
 
-const customParams = {
+export type TInputParameters = {
+  source: string
+  contract: string
+  multiply: number
+  operator: string
+  dividend: string
+  network: string
+}
+const inputParameters: InputParameters<TInputParameters> = {
   source: true,
   contract: ['referenceContract'],
   multiply: false,
@@ -30,7 +44,9 @@ const transform = (offchain: number, onchain: number, operator: string, dividend
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams, { source: Object.keys(config.sources) })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {
+    source: Object.keys(config.sources),
+  })
 
   const jobRunID = validator.validated.id
   const source = validator.validated.data.source
@@ -68,7 +84,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
 
   const options = config.sources[source]
-  const response = (await Requester.request({ ...options, data: request })).data
+  const response = (await Requester.request({ ...options, data: request })).data as any
   response.data.result = transform(response.result, price, operator, dividend)
 
   Logger.debug('New result: ' + response.data.result)

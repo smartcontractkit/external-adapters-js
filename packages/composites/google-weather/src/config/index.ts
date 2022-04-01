@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import type { RequestConfig, Config } from '@chainlink/ea-bootstrap'
+import type { AxiosRequestConfig, Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_DATASET = 'bigquery-public-data.noaa_gsod'
 export const NAME = 'GOOGLE_WEATHER'
@@ -7,7 +7,7 @@ export const DEFAULT_ENDPOINT = 'weather'
 
 export interface ExtendedConfig extends Config {
   dataset: string
-  api: RequestConfig
+  api: AxiosRequestConfig
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => ({

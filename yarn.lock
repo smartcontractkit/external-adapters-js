@@ -4213,12 +4213,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/types@workspace:packages/core/types/@chainlink":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/types@workspace:packages/core/types/@chainlink"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/unibit-adapter@workspace:*, @chainlink/unibit-adapter@workspace:packages/sources/unibit":
   version: 0.0.0-use.local
   resolution: "@chainlink/unibit-adapter@workspace:packages/sources/unibit"

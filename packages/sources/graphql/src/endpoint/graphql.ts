@@ -11,9 +11,9 @@ export const supportedEndpoints = ['graphql']
 
 export type TInputParameters = {
   graphqlEndpoint: string
-  headers: AxiosRequestHeaders
+  headers?: AxiosRequestHeaders
   query: string
-  variables: Record<string, string | number | boolean>
+  variables?: Record<string, string | number | boolean>
 }
 export const inputParameters: InputParameters<TInputParameters> = {
   graphqlEndpoint: {

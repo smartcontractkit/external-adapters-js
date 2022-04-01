@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { Config, FLOATING_POINT_DECIMALS } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { ethers } from 'ethers'

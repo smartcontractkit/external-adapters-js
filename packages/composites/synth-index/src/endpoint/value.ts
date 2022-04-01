@@ -1,6 +1,6 @@
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import * as ta from '@chainlink/token-allocation-adapter'
-import { InputParameters, ExecuteWithConfig } from '@chainlink/types'
+import { InputParameters, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import Decimal from 'decimal.js'
 import snx from 'synthetix'
 import { SetRequired } from 'type-fest'

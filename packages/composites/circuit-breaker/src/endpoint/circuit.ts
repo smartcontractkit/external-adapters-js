@@ -5,7 +5,7 @@ import {
   AdapterRequest,
   ExecuteWithConfig,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['circuit']
 
@@ -23,7 +23,7 @@ const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const primarySource = validator.validated.data.primarySource
   const secondarySource = validator.validated.data.secondarySource
   const sources = secondarySource ? [primarySource, secondarySource] : [primarySource]

@@ -7,7 +7,7 @@ import {
   AdapterResponse,
   AdapterContext,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import { makeOptions } from '../config'
 import { runProtocolAdapter } from '../utils/protocol'
@@ -72,7 +72,7 @@ const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, paramOptions)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const protocol = validator.validated.data.protocol.toUpperCase()
   const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
   const confirmations = validator.validated.data.confirmations

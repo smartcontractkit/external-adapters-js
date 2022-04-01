@@ -3,8 +3,8 @@ import {
   AdapterResponse,
   ExecuteWithConfig,
   InputParameters,
-  RequestConfig,
-} from '@chainlink/types'
+  AxiosRequestConfig,
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import { makeOptions, ExtendedConfig } from '../config'
@@ -12,8 +12,8 @@ import { AxiosResponse } from 'axios'
 
 export const supportedEndpoints = ['outlier']
 
-export type SourceRequestOptions = { [source: string]: RequestConfig }
-export type CheckRequestOptions = { [check: string]: RequestConfig }
+export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
+export type CheckRequestOptions = { [check: string]: AxiosRequestConfig }
 
 const inputParameters: InputParameters = {
   referenceContract: {
@@ -62,7 +62,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, confi
   const paramOptions = makeOptions(config)
   const validator = new Validator(input, inputParameters, paramOptions)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const source = validator.validated.data.source.toUpperCase()
   const check = validator.validated.data.check?.toUpperCase()
   const check_threshold = validator.validated.data.check_threshold

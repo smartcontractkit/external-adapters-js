@@ -56,7 +56,7 @@ export interface Hexable {
   toHexString(): string
 }
 export type BigNumberish = BigNumber | Bytes | bigint | string | number
-export interface BigNumber extends Hexable {
+export type BigNumber = Hexable & {
   readonly _hex: string
   // constructor(constructorGuard: unknown, hex: string): void
   readonly _isBigNumber: boolean
@@ -90,7 +90,7 @@ export interface BigNumber extends Hexable {
   from(value: unknown): BigNumber
   isBigNumber(value: unknown): value is BigNumber
 }
-export type Value = BigNumberish | BigNumberish[] | boolean | undefined
+export type Value = BigNumberish | Array<BigNumberish> | boolean | undefined
 /**
  * Pseudo-unknown type
  *
@@ -104,9 +104,11 @@ export type NestableValue =
   | BatchedResultT
   | Record<string, unknown> // generic object
 
-export interface AdapterData {
-  [key: string]: NestableValue
-}
+export type AdapterData =
+  | {
+      [key: string]: NestableValue
+    }
+  | Record<string, never>
 
 export type TBaseInputParameters = {
   endpoint?: string
@@ -304,9 +306,9 @@ export type InputParameter<T extends AdapterData = AdapterData> = {
   exclusive?: (keyof T)[] // other inputs that cannot be present with this one
 }
 
-export type LegacyInputParameter<T extends AdapterData = AdapterData> = Array<keyof T> | boolean
+export type LegacyInputParameter = Array<string> | boolean
 export type InputParameters<T extends AdapterData = AdapterData> = {
-  [Property in keyof T]: InputParameter<T> | LegacyInputParameter<T>
+  [Property in keyof T]: InputParameter<T> | LegacyInputParameter
 }
 
 export interface APIEndpoint<C extends Config = Config, D extends AdapterData = AdapterData> {
@@ -337,10 +339,15 @@ export interface EndpointResultPaths {
 
 export type ConfigFactory<C extends Config = Config> = (prefix?: string) => C
 
-export type AdapterImplementation = {
+export type AdapterImplementation<
+  C extends Config = Config,
+  Input extends AdapterData = AdapterData,
+  Output extends AdapterData = AdapterData,
+> = {
   NAME: string
-  makeExecute: ExecuteFactory<Config>
-  makeConfig: ConfigFactory
+  makeExecute: ExecuteFactory<C, Input, Output>
+  makeConfig: ConfigFactory<C>
+  endpoints?: { [endpoint: string]: APIEndpoint<C, Input> }
 } & ExecuteHandler
 
 /* IMPLEMENTATIONS */

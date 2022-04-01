@@ -1,4 +1,4 @@
-import { RequestConfig, AdapterResponse } from '@chainlink/ea-bootstrap'
+import { AxiosRequestConfig, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import * as cmc from '@chainlink/coinmarketcap-adapter'
 
@@ -8,7 +8,7 @@ export type ResponsePayload = {
 }[]
 
 export const getPriceProvider =
-  (source: string, jobRunID: string, apiConfig: RequestConfig) =>
+  (source: string, jobRunID: string, apiConfig: AxiosRequestConfig) =>
   async (
     base: string,
     quote: string,
@@ -38,7 +38,7 @@ const getCoinMarketCapPrice = async (
   fromDate: Date,
   toDate: Date,
   interval: string,
-  config: RequestConfig,
+  config: AxiosRequestConfig,
 ): Promise<ResponsePayload> => {
   const data = {
     id: jobRunID,

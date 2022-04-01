@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, InputParameters, Config } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters, Config } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import * as DNS from '@chainlink/dns-query-adapter'
 import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'

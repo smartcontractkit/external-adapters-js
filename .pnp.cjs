@@ -163,10 +163,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core/test-helpers"
       },
       {
-        "name": "@chainlink/types",
-        "reference": "workspace:packages/core/types/@chainlink"
-      },
-      {
         "name": "@chainlink/example-composite-adapter",
         "reference": "workspace:packages/examples/composite"
       },
@@ -853,7 +849,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],
-      ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],
       ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],
@@ -6728,15 +6723,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/types", [
-        ["workspace:packages/core/types/@chainlink", {
-          "packageLocation": "./packages/core/types/@chainlink/",
-          "packageDependencies": [
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"]
           ],
           "linkType": "SOFT",
         }]

@@ -7,7 +7,7 @@ export const supportedEndpoints = ['request']
 export type TInputParameters = {
   url: string
   method: string
-  params: string[]
+  params: string[] | Record<string, unknown>
   requestId: string | number
 }
 export const inputParameters: InputParameters<TInputParameters> = {

@@ -2,6 +2,19 @@ import { DexSubgraph, GraphqlAdapterRequest, TokenInformation } from '../../../t
 import { fetchFromGraphqlAdapter } from '../dataProvider'
 import { getPairQuery, getTokenQuery } from './graphqlQueries'
 
+type TokenResponseSchema = {
+  result: {
+    tokens: TokenInformation[]
+    error?: string
+  }
+}
+
+type TokenPairResponseSchema = {
+  result: {
+    pairs: any
+  }
+}
+
 export class UniswapSubgraph implements DexSubgraph {
   private url: string
 
@@ -17,19 +30,19 @@ export class UniswapSubgraph implements DexSubgraph {
       },
       graphqlEndpoint: this.url,
     }
-    const response = await fetchFromGraphqlAdapter(jobRunID, data)
-    if (!response.result.data) {
-      const error = response.result.error || 'Failed to get token information'
+    const response = await fetchFromGraphqlAdapter<TokenResponseSchema>(jobRunID, data)
+    if (!response.data.result) {
+      const error = response.data.result.error || 'Failed to get token information'
       throw new Error(error)
     }
-    const tokens = response.result.data.tokens
+    const tokens = response.data.result.tokens
     if (tokens.length !== 1) {
       throw new Error(`Token ${symbol} not found`)
     }
     const token = tokens[0]
     return {
-      id: token.id as string,
-      decimals: token.decimals as number,
+      id: token.id,
+      decimals: token.decimals,
     }
   }
 
@@ -46,8 +59,8 @@ export class UniswapSubgraph implements DexSubgraph {
       },
       graphqlEndpoint: this.url,
     }
-    const req1Response = await fetchFromGraphqlAdapter(jobRunID, req1Data)
-    const req1Pairs = req1Response.result.data.pairs
+    const req1Response = await fetchFromGraphqlAdapter<TokenPairResponseSchema>(jobRunID, req1Data)
+    const req1Pairs = req1Response.data.result.pairs
     if (req1Pairs.length > 0) {
       const highestVolumePair = req1Pairs[0]
       return highestVolumePair['token1Price']
@@ -63,8 +76,8 @@ export class UniswapSubgraph implements DexSubgraph {
       graphqlEndpoint: this.url,
     }
 
-    const req2Response = await fetchFromGraphqlAdapter(jobRunID, req2Data)
-    const req2Pairs = req2Response.result.data.pairs
+    const req2Response = await fetchFromGraphqlAdapter<TokenPairResponseSchema>(jobRunID, req2Data)
+    const req2Pairs = req2Response.data.result.pairs
     if (req2Pairs.length > 0) {
       const highestVolumePair = req2Pairs[0]
       return highestVolumePair['token0Price']

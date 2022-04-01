@@ -25,7 +25,7 @@ export function getAllocations(
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
           // NOTE: coercing type because allocations doesn't fit normal responses
-          .then((value) => resolve(value.data as unknown as TA.types.TokenAllocation[]))
+          .then((value) => resolve(value.data as unknown as TA.types.TokenAllocations))
           .catch(reject)
       })
       .catch((error) => reject(error))

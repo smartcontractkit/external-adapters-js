@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import convert from 'convert-units'
 import * as gjv from 'geojson-validation'
@@ -66,7 +66,7 @@ const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   let geoJson = validator.validated.data.geoJson
   if (typeof geoJson === 'string') {
     geoJson = JSON.parse(geoJson)

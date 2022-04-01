@@ -14,7 +14,7 @@ const getPorId = (network: string, chainId: string) => `${network}_${chainId}`.t
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _context, config) => {
   const validator = new Validator(request, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const minConfirmations = validator.validated.data.minConfirmations as number
   const porInputAddresses = validator.validated.data.addresses as PorInputAddress[]
 

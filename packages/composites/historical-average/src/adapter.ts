@@ -21,14 +21,14 @@ const inputParameters: InputParameters = {
   interval: false,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   input,
   _,
   config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
   const from = validator.validated.data.from
   const to = validator.validated.data.to
@@ -138,6 +138,6 @@ export const getFromToDates = (
   })
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
