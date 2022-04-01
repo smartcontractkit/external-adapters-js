@@ -1,5 +1,13 @@
 # @chainlink/bea-adapter
 
+## 1.1.25
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.24
 
 ### Patch Changes

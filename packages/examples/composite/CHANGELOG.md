@@ -1,5 +1,12 @@
 # @chainlink/example-composite-adapter
 
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+
 ## 1.0.38
 
 ### Patch Changes
