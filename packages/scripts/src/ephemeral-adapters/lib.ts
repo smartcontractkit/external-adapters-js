@@ -167,7 +167,7 @@ export const deployAdapter = (config: Inputs): void => {
 
   // deploy the chart
   const deployHelm = new Shell().exec(
-    `helm upgrade ${config.secretsPath ? 'secret' : ''} ${config.name} ${config.helmChartDir} \
+    `helm ${config.secretsPath ? 'secrets' : ''} upgrade ${config.name} ${config.helmChartDir} \
       --install \
       --namespace ${NAMESPACE} \
       --create-namespace \
