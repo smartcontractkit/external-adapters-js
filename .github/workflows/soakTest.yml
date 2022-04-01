@@ -22,6 +22,21 @@ jobs:
           role-to-assume: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
 
+      - name: Save AWS Profile
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.QA_SDLC_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.QA_SDLC_AWS_SECRET_KEY }}
+          AWS_REGION: ${{ secrets.QA_SDLC_AWS_REGION }}
+          AWS_ROLE_TO_ASSUME: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
+        run: |
+          mkdir ./.aws
+          touch ./.aws/credentials
+          echo "[default]" >> ./.aws/credentials
+          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ./.aws/credentials
+          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ./.aws/credentials
+          echo "region=${AWS_REGION}" >> ./.aws/credentials
+          echo "role_name=${AWS_ROLE_TO_ASSUME}" >> ./.aws/credentials
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -176,7 +191,7 @@ jobs:
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              HELM_SECRETS_PATH=../adapter-secrets/secure-sdlc/secrets.${adapter}.yaml yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
+              AWS_PROFILE=default HELM_SECRETS_PATH=../adapter-secrets/secure-sdlc/secrets.${adapter}.yaml yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
 
