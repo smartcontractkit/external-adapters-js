@@ -111,7 +111,7 @@ export const inputParameters: InputParameters = {
     required: false,
     description: 'The maximum number of items to return per paginated response.',
     type: 'number',
-    default: 100
+    default: 100,
   },
 }
 
