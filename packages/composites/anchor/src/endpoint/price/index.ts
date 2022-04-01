@@ -13,7 +13,9 @@ import * as bluna from './bluna'
 
 export const supportedEndpoints = ['price']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { from: string; to: string; conversionFeedDecimals?: number }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   from: {
     required: true,
     aliases: ['base'],
@@ -42,7 +44,7 @@ export type PriceExecute = (
 const supportedSymbols = [beth.FROM, bluna.FROM]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const { from, to, conversionFeedDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()
@@ -85,6 +87,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     result: resToRequiredDP,
     data: {
       result: resToRequiredDP,
+      statusCode: 200,
     },
   }
 }
