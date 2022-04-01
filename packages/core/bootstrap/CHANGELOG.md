@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.16.0
+
+### Minor Changes
+
+- 6d0ffbbbc: decrease default API_TIMEOUT environment variable to 5s
+
 ## 1.15.0
 
 ### Minor Changes
