@@ -1,5 +1,13 @@
 # @chainlink/medianizer-adapter
 
+## 1.0.38
+
+### Patch Changes
+
+- 4fbbe69d2: refactor, added endpoints folder structure
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+
 ## 1.0.37
 
 ### Patch Changes
