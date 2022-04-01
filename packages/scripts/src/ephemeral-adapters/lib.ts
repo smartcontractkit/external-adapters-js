@@ -17,9 +17,9 @@ export interface Inputs {
   imageTag?: string
   imageRepository?: string
   helmChartDir?: string
+  helmSecrets?: string
   helmValuesOverride?: string
   name: string
-  secretsPath?: string
 }
 
 const usageString = `
@@ -131,7 +131,9 @@ export const checkArgs = (): Inputs => {
   if (!name) name = ''
 
   // Get path to secrets file in smartcontractkit/adapter-secrets
-  const secretsPath: string | undefined = process.env['HELM_SECRETS_PATH']
+  const helmSecrets = process.env['HELM_SECRETS_PATH']
+    ? `-f ${process.env['HELM_SECRETS_PATH']}`
+    : ''
 
   const inputs: Inputs = {
     action,
@@ -140,9 +142,9 @@ export const checkArgs = (): Inputs => {
     imageTag,
     imageRepository,
     helmChartDir,
+    helmSecrets,
     helmValuesOverride,
     name,
-    secretsPath,
   }
   if (!name) inputs.name = generateName(inputs)
 
@@ -167,7 +169,7 @@ export const deployAdapter = (config: Inputs): void => {
 
   // deploy the chart
   const deployHelm = new Shell().exec(
-    `helm ${config.secretsPath ? 'secrets' : ''} upgrade ${config.name} ${config.helmChartDir} \
+    `helm ${config.helmSecrets ? 'secrets' : ''} upgrade ${config.name} ${config.helmChartDir} \
       --install \
       --namespace ${NAMESPACE} \
       --create-namespace \
@@ -175,7 +177,7 @@ export const deployAdapter = (config: Inputs): void => {
       --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
       --set image.tag=${config.imageTag} \
       --set name=${config.name} \
-      ${config.secretsPath ? `-f ${config.secretsPath}` : ''}\
+      ${config.helmSecrets} \
       --wait`,
   )
   if (deployHelm.code !== 0) {
