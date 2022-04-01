@@ -24,22 +24,24 @@ export function getAllocations(
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
-          .then((value) => resolve(value.data))
+          // NOTE: coercing type because allocations doesn't fit normal responses
+          .then((value) => resolve(value.data as unknown as TA.types.TokenAllocation[]))
           .catch(reject)
       })
       .catch((error) => reject(error))
   })
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { source?: string; quote?: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   source: false,
   quote: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const allocations = await getAllocations(context, jobRunID)
 
   const _execute = TA.makeExecute()

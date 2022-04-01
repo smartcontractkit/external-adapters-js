@@ -102,6 +102,7 @@ export type NestableValue =
   | Record<string, Record<string, Value>>
   | Record<string, Value | Record<string, Value> | Record<string, Value>[]>[] // "includes" type
   | BatchedResultT
+  | Record<string, unknown> // generic object
 
 export interface AdapterData {
   [key: string]: NestableValue
@@ -267,10 +268,11 @@ export type EnvDefaultOverrides = {
   WS_ENABLED?: 'true' | 'false'
 }
 
-export type Execute<TInput = AdapterRequest, TContext = AdapterContext> = (
-  input: TInput,
-  context: TContext,
-) => Promise<AdapterResponse>
+export type Execute<
+  Input = AdapterRequest,
+  C = AdapterContext,
+  Output extends AdapterData = AdapterData,
+> = (input: Input, context: C) => Promise<AdapterResponse<Output>>
 
 export type ExecuteSync = <D extends AdapterData>(
   input: AdapterRequest<D>,
@@ -285,9 +287,11 @@ export type ExecuteWithConfig<C extends Config, D extends AdapterData = AdapterD
   config: C,
 ) => Promise<AdapterResponse>
 
-export type ExecuteFactory<C extends Config, D extends AdapterData = AdapterData> = (
-  config?: C,
-) => Execute<AdapterRequest<D>>
+export type ExecuteFactory<
+  C extends Config,
+  Input extends AdapterData = AdapterData,
+  Output extends AdapterData = AdapterData,
+> = (config?: C) => Execute<AdapterRequest<Input>, AdapterContext, Output>
 
 export type InputParameter<T extends AdapterData = AdapterData> = {
   aliases?: string[]
