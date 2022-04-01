@@ -3224,6 +3224,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/implied-price-adapter@workspace:packages/composites/implied-price":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/implied-price-adapter@workspace:packages/composites/implied-price"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    "@types/supertest": 2.0.11
+    axios: ^0.26.1
+    decimal.js: ^10.3.1
+    nock: ^13.2.4
+    supertest: ^6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/intrinio-adapter@workspace:*, @chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
@@ -10135,6 +10152,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.26.1":
+  version: 0.26.1
+  resolution: "axios@npm:0.26.1"
+  dependencies:
+    follow-redirects: ^1.14.8
+  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
+  languageName: node
+  linkType: hard
+
 "babel-jest@npm:^27.5.1":
   version: 27.5.1
   resolution: "babel-jest@npm:27.5.1"
@@ -14544,7 +14570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.14.8":
   version: 1.14.9
   resolution: "follow-redirects@npm:1.14.9"
   peerDependenciesMeta:

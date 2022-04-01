@@ -1,0 +1,24 @@
+{
+ "requests": [{
+  "dividendSources": ["coingecko"],
+  "divisorSources": ["coingecko"],
+  "dividendInput": {
+   "from": "LINK",
+   "to": "USD",
+   "overrides": {
+    "coingecko": {
+     "LINK": "chainlink"
+    }
+   }
+  },
+  "divisorInput": {
+   "from": "ETH",
+   "to": "USD",
+   "overrides": {
+    "coingecko": {
+     "ETH": "ethereum"
+    }
+   }
+  }
+ }]
+}

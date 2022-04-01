@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`impliedPrice erroring calls returns error if not reaching minAnswers 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"dividendSources\\":[\\"coingecko\\"],\\"dividendMinAnswers\\":2,\\"divisorSources\\":[\\"coingecko\\"],\\"dividendInput\\":{\\"from\\":\\"LINK\\",\\"to\\":\\"USD\\"},\\"divisorInput\\":{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}}}",
+    "message": "Not returning median: got 1 answers, requiring min. 2 answers",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`impliedPrice successful calls return success without comma separated sources 1`] = `
+Object {
+  "data": Object {
+    "result": "0.0038975944001909025829",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0.0038975944001909025829",
+  "statusCode": 200,
+}
+`;
+
+exports[`impliedPrice successful calls returns success with comma separated sources 1`] = `
+Object {
+  "data": Object {
+    "result": "0.0038975944001909025829",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0.0038975944001909025829",
+  "statusCode": 200,
+}
+`;
+
+exports[`impliedPrice validation error returns a validation error if the request contains unsupported sources 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"dividendSources\\":[\\"NOT_REAL\\"],\\"divisorSources\\":[\\"coingecko\\"],\\"dividendInput\\":{\\"from\\":\\"LINK\\",\\"to\\":\\"USD\\"},\\"divisorInput\\":{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}}}",
+    "message": "Please set the required env NOT_REAL_ADAPTER_URL.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`impliedPrice validation error returns a validation error if the request data is empty 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{}}",
+    "message": "Required parameter dividendSources must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
