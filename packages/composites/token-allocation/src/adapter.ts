@@ -3,7 +3,13 @@ import type { AdapterRequest, APIEndpoint, ConfigFactory } from '@chainlink/ea-b
 import { adapters, makeConfig as makeUpstreamConfig } from './config'
 import { Config } from './types'
 
-const endpointMap = Object.fromEntries(adapters.map((adapter) => [adapter.NAME, adapter.endpoints]))
+const endpointMap = Object.fromEntries(
+  adapters.map((adapter) => {
+    if (!adapter.endpoints)
+      throw new Error(`${adapter.NAME} package does not have endpoints exported.`)
+    return [adapter.NAME, adapter.endpoints]
+  }),
+)
 
 /**
  * endPointSelector Factory that either:
@@ -28,7 +34,7 @@ export const makeEndpointSelector = <C>(
       request,
       makeDownstreamConfig(),
       downstreamEndpoints,
-      [['source', endpointMap, endpointName]],
+      [['source', endpointMap, endpointName as string]],
       upstreamConfig,
       true,
     )
