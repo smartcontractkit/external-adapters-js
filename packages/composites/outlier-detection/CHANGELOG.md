@@ -1,5 +1,15 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.69
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-reference-data-reader@1.1.13
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.69
+
 ## 1.0.68
 
 ### Patch Changes
