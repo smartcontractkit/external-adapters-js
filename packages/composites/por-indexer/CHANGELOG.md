@@ -1,5 +1,14 @@
 # @chainlink/por-indexer-adapter
 
+## 1.0.24
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [4fbbe69d2]
+- Updated dependencies [4fbbe69d2]
+  - @chainlink/proof-of-reserves-adapter@1.5.3
+
 ## 1.0.23
 
 ### Patch Changes

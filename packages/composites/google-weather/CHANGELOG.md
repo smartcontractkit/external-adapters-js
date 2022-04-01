@@ -1,5 +1,11 @@
 # @chainlink/google-weather-adapter
 
+## 1.0.40
+
+### Patch Changes
+
+- 4fbbe69d2: refactor, added endpoints folder structure
+
 ## 1.0.39
 
 ### Patch Changes

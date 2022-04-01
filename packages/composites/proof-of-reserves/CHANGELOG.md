@@ -1,5 +1,18 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.5.3
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- 4fbbe69d2: refactor, added endpoints folder structure
+- Updated dependencies [7144f461f]
+- Updated dependencies [4fbbe69d2]
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.0
+  - @chainlink/por-indexer-adapter@1.0.24
+  - @chainlink/renvm-address-set-adapter@1.3.14
+  - @chainlink/wbtc-address-set-adapter@1.3.23
+
 ## 1.5.2
 
 ### Patch Changes

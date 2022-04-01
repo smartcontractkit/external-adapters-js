@@ -1,5 +1,16 @@
 # @chainlink/ea
 
+## 1.0.68
+
+### Patch Changes
+
+- Updated dependencies [6f867c614]
+- Updated dependencies [997f0cc8b]
+  - @chainlink/finage-adapter@1.3.25
+  - @chainlink/uscpi-one-adapter@1.2.0
+  - @chainlink/renvm-address-set-adapter@1.3.14
+  - @chainlink/wbtc-address-set-adapter@1.3.23
+
 ## 1.0.67
 
 ### Patch Changes

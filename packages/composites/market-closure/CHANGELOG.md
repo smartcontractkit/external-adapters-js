@@ -1,5 +1,12 @@
 # @chainlink/market-closure-adapter
 
+## 1.0.39
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- 4fbbe69d2: refactor, added endpoints folder structure
+
 ## 1.0.38
 
 ### Patch Changes

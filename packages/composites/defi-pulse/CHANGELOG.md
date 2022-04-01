@@ -1,5 +1,14 @@
 # @chainlink/defi-pulse-adapter
 
+## 1.0.56
+
+### Patch Changes
+
+- a8770ad67: refactor, added endpoints folder structure
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [4fbbe69d2]
+  - @chainlink/token-allocation-adapter@1.3.6
+
 ## 1.0.55
 
 ### Patch Changes

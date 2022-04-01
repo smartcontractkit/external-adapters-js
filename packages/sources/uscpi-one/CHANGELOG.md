@@ -1,5 +1,11 @@
 # @chainlink/uscpi-one-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 997f0cc8b: Add API key support
+
 ## 1.1.23
 
 ### Patch Changes

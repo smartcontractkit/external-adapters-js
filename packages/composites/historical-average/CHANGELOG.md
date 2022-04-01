@@ -1,5 +1,11 @@
 # @chainlink/historical-average-adapter
 
+## 1.0.36
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+
 ## 1.0.35
 
 ### Patch Changes

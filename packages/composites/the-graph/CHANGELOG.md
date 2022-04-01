@@ -1,5 +1,12 @@
 # @chainlink/the-graph-adapter
 
+## 1.0.39
+
+### Patch Changes
+
+- dc217930b: refactor, added endpoints folder structure
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+
 ## 1.0.38
 
 ### Patch Changes

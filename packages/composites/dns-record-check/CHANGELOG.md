@@ -1,5 +1,12 @@
 # @chainlink/dns-record-check-adapter
 
+## 1.1.19
+
+### Patch Changes
+
+- a8770ad67: refactor, added endpoints folder structure
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+
 ## 1.1.18
 
 ### Patch Changes

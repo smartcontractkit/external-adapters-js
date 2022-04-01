@@ -1,5 +1,12 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.68
+
+### Patch Changes
+
+- 4fbbe69d2: refactor, added endpoints folder structure
+  - @chainlink/ea@1.0.68
+
 ## 1.0.67
 
 ### Patch Changes

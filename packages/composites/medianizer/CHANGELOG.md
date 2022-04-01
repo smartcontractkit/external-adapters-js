@@ -1,5 +1,11 @@
 # @chainlink/medianizer-adapter
 
+## 1.0.38
+
+### Patch Changes
+
+- 4fbbe69d2: refactor, added endpoints folder structure
+
 ## 1.0.37
 
 ### Patch Changes

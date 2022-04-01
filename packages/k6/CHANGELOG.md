@@ -1,5 +1,11 @@
 # k6
 
+## 2.1.0
+
+### Minor Changes
+
+- 7cd459717: Added tooling for EA upper limit load testing
+
 ## 2.0.1
 
 ### Patch Changes

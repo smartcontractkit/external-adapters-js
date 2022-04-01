@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.3.25
+
+### Patch Changes
+
+- 6f867c614: change config DEFAULT_CRYPTO_WS_API_ENDPOINT
+
 ## 1.3.24
 
 ### Patch Changes

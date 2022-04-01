@@ -1,5 +1,13 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.6
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6f867c614]
+  - @chainlink/finage-adapter@1.3.25
+
 ## 1.3.5
 
 ### Patch Changes

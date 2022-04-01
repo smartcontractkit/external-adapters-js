@@ -1,5 +1,15 @@
 # @chainlink/bitcoin-json-rpc-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 7144f461f: added 'height' endpoint to return current block count
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+
 ## 1.0.40
 
 ### Patch Changes

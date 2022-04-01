@@ -1,5 +1,11 @@
 # @chainlink/augur-adapter
 
+## 1.0.40
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+
 ## 1.0.39
 
 ### Patch Changes
