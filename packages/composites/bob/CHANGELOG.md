@@ -1,5 +1,15 @@
 # @chainlink/bob-adapter
 
+## 1.0.41
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/json-rpc-adapter@1.2.12
+
 ## 1.0.40
 
 ### Patch Changes
