@@ -4,14 +4,14 @@ import {
   Config,
   ExecuteFactory,
   AxiosRequestConfig,
-  AdapterData,
   InputParameters,
 } from '@chainlink/ea-bootstrap'
 import { BLOCKCHAINS, isChainType, isCoinType } from '../config'
+import { TBalanceInputParameters } from '@chainlink/ea-factories/src/factories/balance'
 
 export const supportedEndpoints = ['balance']
 
-export type TInputParameters = AdapterData
+export type TInputParameters = TBalanceInputParameters
 export const inputParameters: InputParameters<TInputParameters> = balance.inputParameters
 
 export interface ResponseSchema {
