@@ -90,7 +90,7 @@ jobs:
           CHANGED_FILES_NAME=./changedFiles.txt
           # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
           # TEST_ADAPTERS="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
-          TEST_ADAPTERS="coingecko"
+          TEST_ADAPTERS="coinpaprika"
           # TODO remove above line
 
           echo "::set-output name=TEST_ADAPTERS::${TEST_ADAPTERS}"
@@ -179,7 +179,7 @@ jobs:
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              HELM_SECRETS_PATH=adapter-secrets/secure-sdlc/secrets.${adapter}.yaml yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
+              HELM_SECRETS_PATH=../adapter-secrets/secure-sdlc/secrets.${adapter}.yaml yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
 
