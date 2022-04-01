@@ -1,5 +1,36 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.5.3
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- 4fbbe69d2: refactor, added endpoints folder structure
+- Updated dependencies [7144f461f]
+- Updated dependencies [4fbbe69d2]
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.0
+  - @chainlink/por-indexer-adapter@1.0.24
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/renvm-address-set-adapter@1.3.14
+  - @chainlink/wbtc-address-set-adapter@1.3.23
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.17
+  - @chainlink/amberdata-adapter@1.3.20
+  - @chainlink/blockchain.com-adapter@1.1.24
+  - @chainlink/blockchair-adapter@1.1.24
+  - @chainlink/blockcypher-adapter@1.2.24
+  - @chainlink/btc.com-adapter@1.2.24
+  - @chainlink/celsius-address-list-adapter@1.0.3
+  - @chainlink/chain-reserve-wallet-adapter@2.2.20
+  - @chainlink/cryptoapis-adapter@1.1.24
+  - @chainlink/eth-balance-adapter@1.1.24
+  - @chainlink/gemini-adapter@2.1.24
+  - @chainlink/lotus-adapter@2.1.24
+  - @chainlink/reduce-adapter@1.2.12
+  - @chainlink/sochain-adapter@1.2.24
+  - @chainlink/wrapped-adapter@2.1.24
+
 ## 1.5.2
 
 ### Patch Changes

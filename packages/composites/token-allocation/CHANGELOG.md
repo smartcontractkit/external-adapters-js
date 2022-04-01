@@ -1,5 +1,28 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.6
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6f867c614]
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/finage-adapter@1.3.25
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/amberdata-adapter@1.3.20
+  - @chainlink/cfbenchmarks-adapter@1.4.16
+  - @chainlink/coinapi-adapter@1.1.25
+  - @chainlink/coingecko-adapter@1.4.3
+  - @chainlink/coinmarketcap-adapter@1.3.25
+  - @chainlink/coinmetrics-adapter@1.2.24
+  - @chainlink/coinpaprika-adapter@1.7.2
+  - @chainlink/cryptocompare-adapter@1.3.13
+  - @chainlink/kaiko-adapter@1.2.1
+  - @chainlink/ncfx-adapter@1.2.2
+  - @chainlink/nomics-adapter@1.1.8
+  - @chainlink/tiingo-adapter@1.8.4
+
 ## 1.3.5
 
 ### Patch Changes
