@@ -280,7 +280,7 @@ describe('utils', () => {
   })
 
   describe('permutator', () => {
-    it('caulculates all permutations, returns array of arrays', () => {
+    it('calculates all permutations, returns array of arrays', () => {
       const input = ['1', '2', '3']
       const expected = [
         ['1'],
@@ -303,7 +303,7 @@ describe('utils', () => {
       expect(permutator(input)).toEqual(expected)
     })
 
-    it('caulculates all permutations, returns array of strings', () => {
+    it('calculates all permutations, returns array of strings', () => {
       const input = ['1', '2', '3']
       const expected = [
         '1',
