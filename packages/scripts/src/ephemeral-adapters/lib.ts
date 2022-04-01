@@ -130,6 +130,9 @@ export const checkArgs = (): Inputs => {
   let name: string | undefined = process.env['NAME']
   if (!name) name = ''
 
+  // Get path to secrets file in smartcontractkit/adapter-secrets
+  const secretsPath: string | undefined = process.env['HELM_SECRETS_PATH']
+
   const inputs: Inputs = {
     action,
     adapter,
@@ -139,12 +142,9 @@ export const checkArgs = (): Inputs => {
     helmChartDir,
     helmValuesOverride,
     name,
+    secretsPath,
   }
   if (!name) inputs.name = generateName(inputs)
-
-  // Get path to secrets file in smartcontractkit/adapter-secrets
-  const secretsPath: string | undefined = process.argv[6]
-  if (secretsPath) inputs.secretsPath = secretsPath
 
   return inputs
 }

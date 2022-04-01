@@ -179,7 +179,7 @@ jobs:
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG} "adapter-secrets/secure-sdlc/secrets.${adapter}.yaml"
+              HELM_SECRETS_PATH=adapter-secrets/secure-sdlc/secrets.${adapter}.yaml yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
 
