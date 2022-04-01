@@ -1,5 +1,49 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/token-allocation-adapter@1.3.7
+  - @chainlink/ea-reference-data-reader@1.1.14
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [4fbbe69d2]
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/token-allocation-adapter@1.3.6
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-reference-data-reader@1.1.13
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.12
+
+### Patch Changes
+
+- 4aa3ebdfc: refactor, the structure of endpoints folders was implemented
+  - @chainlink/token-allocation-adapter@1.3.5
+
+## 1.1.11
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.3.4
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/token-allocation-adapter@1.3.3
+  - @chainlink/ea-reference-data-reader@1.1.12
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.9
 
 ### Patch Changes

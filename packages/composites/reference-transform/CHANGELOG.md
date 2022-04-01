@@ -1,5 +1,52 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.69
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-reference-data-reader@1.1.14
+  - @chainlink/ea@1.0.69
+
+## 1.0.68
+
+### Patch Changes
+
+- dc217930b: refactor, added endpoints folder structure
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea@1.0.68
+  - @chainlink/ea-reference-data-reader@1.1.13
+
+## 1.0.67
+
+### Patch Changes
+
+- @chainlink/ea@1.0.67
+
+## 1.0.66
+
+### Patch Changes
+
+- @chainlink/ea@1.0.66
+
+## 1.0.65
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea@1.0.65
+  - @chainlink/ea-reference-data-reader@1.1.12
+
+## 1.0.64
+
+### Patch Changes
+
+- @chainlink/ea@1.0.64
+
 ## 1.0.63
 
 ### Patch Changes

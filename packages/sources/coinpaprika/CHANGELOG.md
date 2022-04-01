@@ -1,5 +1,45 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.7.3
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.7.2
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.7.1
+
+### Patch Changes
+
+- 37e1c74ff: Fix Overrides casing normalization
+
+## 1.7.0
+
+### Minor Changes
+
+- 555e3fe4c: fixed excessive logging
+
+## 1.6.0
+
+### Minor Changes
+
+- 2ab22634e: Fixed bug which caused the last ranked coinid to be used instead of the first
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.5.0
 
 ### Minor Changes

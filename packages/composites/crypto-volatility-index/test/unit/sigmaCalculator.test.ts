@@ -1,7 +1,7 @@
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
-import { CurrencyDerivativesData, OptionData } from '../../src/derivativesDataProvider'
-import { SigmaCalculator } from '../../src/sigmaCalculator'
+import { CurrencyDerivativesData, OptionData } from '../../src/utils/derivativesDataProvider'
+import { SigmaCalculator } from '../../src/utils/sigmaCalculator'
 
 describe('sigma calculator', () => {
   describe('data handling', () => {

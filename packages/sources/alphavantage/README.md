@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AlphaVantage
 
-Version: 1.1.22
+Version: 1.1.23
 
 Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage.co/documentation/) from a Chainlink node.
 

@@ -1,5 +1,41 @@
 # @chainlink/por-indexer-adapter
 
+## 1.0.25
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/proof-of-reserves-adapter@1.5.4
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.24
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [4fbbe69d2]
+- Updated dependencies [6d0ffbbbc]
+- Updated dependencies [4fbbe69d2]
+  - @chainlink/proof-of-reserves-adapter@1.5.3
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.23
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.5.2
+
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/proof-of-reserves-adapter@1.5.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.21
 
 ### Patch Changes

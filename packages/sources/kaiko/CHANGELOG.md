@@ -1,5 +1,35 @@
 # @chainlink/kaiko-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.2.0
+
+### Minor Changes
+
+- 8f01a55f5: Kaiko updated its API so all requests can now be routed to the same endpoint. This change now routes quote requests in 'ETH' to the same endpoint as all other requests.
+
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.10
 
 ### Patch Changes

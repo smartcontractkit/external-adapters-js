@@ -1,12 +1,17 @@
 import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import {
+  AdapterResponse,
+  ExecuteWithConfig,
+  ExecuteFactory,
+  InputParameters,
+} from '@chainlink/types'
 import { getPriceProvider } from './dataProvider'
 import { Config, makeConfig } from './config'
 import { Decimal } from 'decimal.js'
 
 Decimal.set({ precision: 100 })
 
-const customParams = {
+const inputParameters: InputParameters = {
   from: ['base', 'from', 'coin'],
   to: ['quote', 'to', 'market'],
   source: false,
@@ -21,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   _,
   config,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.jobRunID
 

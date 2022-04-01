@@ -1,5 +1,35 @@
 # @chainlink/coingecko-adapter
 
+## 1.4.4
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.4.3
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.4.2
+
+### Patch Changes
+
+- 37e1c74ff: Fix Overrides casing normalization
+
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.4.0
 
 ### Minor Changes

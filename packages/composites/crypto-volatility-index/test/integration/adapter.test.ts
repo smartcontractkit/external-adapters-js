@@ -70,7 +70,7 @@ describe('execute', () => {
   const id = '1'
 
   beforeAll(async () => {
-    execute = await cryptoVolatilityAdapter.execute
+    execute = await cryptoVolatilityAdapter.makeExecute()
   })
 
   describe('with isAdaptive true', () => {

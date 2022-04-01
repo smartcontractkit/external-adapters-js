@@ -1,5 +1,23 @@
 # @chainlink/ea-bootstrap
 
+## 1.16.0
+
+### Minor Changes
+
+- 6d0ffbbbc: decrease default API_TIMEOUT environment variable to 5s
+
+## 1.15.0
+
+### Minor Changes
+
+- 6d0ffbbbc: decrease default API_TIMEOUT environment variable to 5s
+
+## 1.14.1
+
+### Patch Changes
+
+- a14d1b69a: Change delay functions into using sleep util
+
 ## 1.14.0
 
 ### Minor Changes

@@ -1,5 +1,34 @@
 # @chainlink/dns-record-check-adapter
 
+## 1.1.20
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.20
+
+## 1.1.19
+
+### Patch Changes
+
+- a8770ad67: refactor, added endpoints folder structure
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.19
+
+## 1.1.18
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.18
+
 ## 1.1.17
 
 ### Patch Changes

@@ -20,7 +20,7 @@ export const baseEnvDefaults: EnvDefaults = {
   EA_PORT: '8080',
   METRICS_PORT: '9080',
   RETRY: '1',
-  API_TIMEOUT: '30000',
+  API_TIMEOUT: '5000',
   SERVER_RATE_LIMIT_MAX: '250', // default to 250 req / 5 seconds max
   SERVER_SLOW_DOWN_AFTER_FACTOR: '0.8', // we start slowing down requests when we reach 80% of our max limit for the current interval
   SERVER_SLOW_DOWN_DELAY_MS: '500', // default to slowing down each request by 500ms
@@ -100,9 +100,6 @@ export const uuid = (): string => {
   return process.env.UUID
 }
 
-export const delay = (ms: number): Promise<number> =>
-  new Promise((resolve) => setTimeout(resolve, ms))
-
 /**
  * Return a value used for exponential backoff in milliseconds.
  * @example
@@ -136,7 +133,7 @@ export const getWithCoalescing = async ({
     if (entry) return entry
     const inFlight = await isInFlight(retryCount)
     if (!inFlight) return
-    await delay(interval(retryCount))
+    await sleep(interval(retryCount))
     return await _self(_retries - 1)
   }
   return await _self(retries)

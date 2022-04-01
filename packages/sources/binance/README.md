@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance
 
-Version: 1.2.22
+Version: 1.2.23
 
 Adapter using the public Binance market API for both HTTP(s) and WS.
 
