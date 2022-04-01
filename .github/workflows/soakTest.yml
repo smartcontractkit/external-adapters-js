@@ -36,12 +36,11 @@ jobs:
           AWS_ROLE_TO_ASSUME: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
         run: |
           mkdir ./.aws
-          touch ./.aws/credentials
-          echo "[default]" >> ./.aws/credentials
-          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ./.aws/credentials
-          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ./.aws/credentials
-          echo "region=${AWS_REGION}" >> ./.aws/credentials
-          echo "role_name=${AWS_ROLE_TO_ASSUME}" >> ./.aws/credentials
+          touch ./.aws/config
+          echo "[profile qa-sdlc]" >> ./.aws/config
+          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ./.aws/config
+          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ./.aws/config
+          echo "aws_session_token=IQoJb3JpZ2luX2VjEJj//////////wEaCXVzLXdlc3QtMiJHMEUCIQCimE0CIEKVryKrwmmElVHMdf6H28GadlqYlGjef6xlggIgcU2T0do55dXgPmUbDl86y41kXWp74p0pGKu8ZcqfWuYqpAMIMRACGgw3OTU5NTMxMjgzODYiDHRWPFiSOxh/DfKW8yqBA1ot4+pIGoyS5qM5Ulr1Npp77H1+8R1sKkGObh83tp/RQOPaQYVnI4VchSFIDxKdMrZxQ3CRpogD6Q3KNcY9x3FSEXwIg8ynohulxm9qN6Z+U0zah5CnmaRe6E0jPCn3wiGP+wMtcZ3ZavZfgDXsHeIuGlL6UeudIT4hm/eCiFiAoaruegUT5gt9g7xDtPpx0XfvznxEpuaLoSZ21hmQ+2hljmL/QbCvlsehPb7ZWyfiZzxNfV8YwGzv/I8t14PpCcomyN/H3rd/DQRIDDyOpCy7GwVS58uspVj3BESkgINeHASdXc51r+kFXoX679RfK9BkzD5LL5EYb+EaxSWhSiVp+tztL1S0yZodYNlaPJeLtUk7v4rmU2za2U6S/cagIT8N8iDSSzak8LDSP0WrvV5LNT7UC/VLlvG41RPHkHf9NjDG0CI1dQBBpiVjxnRTP0CFZVCu13+ukP2M/dwUF6d+VuCePxvyBWm3sqDjzwGHB/iTkjA6GdTezeEzJKajIQAwsLackgY6pgGHanpzBbZiwbYWTMh0zIsE8E5i3RQ/3ijIyi9UY7zZwza96VL/7Q31yRhb4qzT/ZMQREuPC/UXZKNKKCVOWKn2AKzDQOksXiP3FFJuvJ58Jky1ypvcXU42ePN0eWCIcKLNdvxYEyDuCnXXwpaazUCPUhYO3AhEhBxS7jfIzZ0vfV8OiUvrnl+j2bCvMj9HgfnEqXmvtqlgg3tiZhEEuXZRTyCPfCbM" >> ./.aws/config
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -184,7 +183,7 @@ jobs:
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              AWS_PROFILE=default HELM_SECRETS_PATH=../adapter-secrets/secure-sdlc/secrets.${adapter}.yaml yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
+              AWS_PROFILE=qa-sdlc HELM_SECRETS_PATH=../adapter-secrets/secure-sdlc/secrets.${adapter}.yaml yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
             done
           fi
 
