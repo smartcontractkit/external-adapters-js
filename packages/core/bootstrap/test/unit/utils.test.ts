@@ -1,4 +1,4 @@
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 import { getEnv, buildUrlPath, buildUrl, baseEnvDefaults } from '../../src/lib/util'
 
 describe('utils', () => {

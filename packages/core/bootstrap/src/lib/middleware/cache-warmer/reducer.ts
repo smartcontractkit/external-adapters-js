@@ -1,10 +1,4 @@
-import type {
-  AdapterRequest,
-  AdapterRequestData,
-  BatchableProperty,
-  BigNumberish,
-  Execute,
-} from '../../../types'
+import type { AdapterRequest, AdapterRequestData, BatchableProperty, Execute } from '../../../types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../../modules'
 import * as actions from './actions'
@@ -113,11 +107,12 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
           const uniqueBatchableValue = new Set<typeof batchWarmer['origin']['name']>()
           const originalValue = batchWarmer.origin[name]
           uniqueBatchableValue.add(originalValue)
-          const incomingValue =
-            childRequestData[name] ||
-            (typeof childRequestData.data === 'object' &&
-              (childRequestData.data as Record<string, BigNumberish>)[name])
+          const incomingValue = childRequestData[name]
           // TODO: remove nested .data
+          // TODO: check
+          // ||
+          // (typeof childRequestData.data === 'object' &&
+          //   (childRequestData.data as Record<string, BigNumberish>)[name])
           uniqueBatchableValue.add(incomingValue)
           batchWarmer.origin[name] = [
             ...uniqueBatchableValue,

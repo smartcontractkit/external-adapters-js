@@ -66,7 +66,7 @@ const parseAddress = (address: string): string => {
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
   let traderRewardsAmount = new bn.BigNumber(config.traderRewardsAmount)
   let marketMakerRewardsAmount = new bn.BigNumber(config.marketMakerRewardsAmount)

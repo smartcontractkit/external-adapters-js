@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { withDebug } from '../../src/lib/middleware/debugger'
 
 describe('Debugger', () => {

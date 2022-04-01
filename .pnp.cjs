@@ -83,6 +83,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/historical-average"
       },
       {
+        "name": "@chainlink/implied-price-adapter",
+        "reference": "workspace:packages/composites/implied-price"
+      },
+      {
         "name": "@chainlink/linear-finance-adapter",
         "reference": "workspace:packages/composites/linear-finance"
       },
@@ -161,10 +165,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/ea-test-helpers",
         "reference": "workspace:packages/core/test-helpers"
-      },
-      {
-        "name": "@chainlink/types",
-        "reference": "workspace:packages/core/types/@chainlink"
       },
       {
         "name": "@chainlink/example-composite-adapter",
@@ -795,6 +795,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
+      ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],
       ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],
@@ -853,7 +854,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],
-      ["@chainlink/types", ["workspace:packages/core/types/@chainlink"]],
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],
       ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],
@@ -5627,6 +5627,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/implied-price-adapter", [
+        ["workspace:packages/composites/implied-price", {
+          "packageLocation": "./packages/composites/implied-price/",
+          "packageDependencies": [
+            ["@chainlink/implied-price-adapter", "workspace:packages/composites/implied-price"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["axios", "npm:0.26.1"],
+            ["decimal.js", "npm:10.3.1"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/intrinio-adapter", [
         ["workspace:packages/sources/intrinio", {
           "packageLocation": "./packages/sources/intrinio/",
@@ -6728,15 +6747,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@chainlink/types", [
-        ["workspace:packages/core/types/@chainlink", {
-          "packageLocation": "./packages/core/types/@chainlink/",
-          "packageDependencies": [
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"]
           ],
           "linkType": "SOFT",
         }]
@@ -13291,6 +13301,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/axios-npm-0.24.0-39e5c1e79e-468cf496c0.zip/node_modules/axios/",
           "packageDependencies": [
             ["axios", "npm:0.24.0"],
+            ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.9"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.26.1", {
+          "packageLocation": "./.yarn/cache/axios-npm-0.26.1-a6641ce4e3-d9eb58ff4b.zip/node_modules/axios/",
+          "packageDependencies": [
+            ["axios", "npm:0.26.1"],
             ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.9"]
           ],
           "linkType": "HARD",

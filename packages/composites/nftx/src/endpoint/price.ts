@@ -21,7 +21,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
   const vaultAddress = validator.validated.data.vaultAddress
   const vault = new ethers.Contract(vaultAddress, vaultABI, config.provider)

@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { AdapterImplementation } from '@chainlink/types'
+import { AdapterImplementation } from '@chainlink/ea-bootstrap'
 import { Config, SourceRequestOptions } from '../types'
 import * as Amberdata from '@chainlink/amberdata-adapter'
 import * as CFBenchmarks from '@chainlink/cfbenchmarks-adapter'
@@ -14,23 +14,22 @@ import * as Kaiko from '@chainlink/kaiko-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
 import * as NCFX from '@chainlink/ncfx-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
-import { AdapterImplementation } from '@chainlink/ea-bootstrap'
-import { Config, SourceRequestOptions } from '../types'
 
+// TODO types
 export const adapters: AdapterImplementation[] = [
-  Amberdata,
-  CFBenchmarks,
-  CoinApi,
-  CoinGecko,
-  CoinMarketCap,
-  CoinMetrics,
-  CoinPaprika,
-  CryptoCompare,
-  Finage,
-  Kaiko,
-  NCFX,
-  Nomics,
-  Tiingo,
+  Amberdata as any,
+  CFBenchmarks as any,
+  CoinApi as any,
+  CoinGecko as any,
+  CoinMarketCap as any,
+  CoinMetrics as any,
+  CoinPaprika as any,
+  CryptoCompare as any,
+  Finage as any,
+  Kaiko as any,
+  NCFX as any,
+  Nomics as any,
+  Tiingo as any,
 ]
 
 export type Source = typeof adapters[number]['NAME']

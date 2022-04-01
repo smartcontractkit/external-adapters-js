@@ -94,7 +94,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const address = validator.validated.data.address
 
   if (!cachedDirectory) {

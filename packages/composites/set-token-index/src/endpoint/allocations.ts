@@ -69,7 +69,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const contractAddress = validator.validated.data.contractAddress
   const setAddress = validator.validated.data.setAddress
 

@@ -1,4 +1,4 @@
-import { AdapterContext, Execute } from '@chainlink/types'
+import { AdapterContext, Execute } from '@chainlink/ea-bootstrap'
 import { createStore } from 'redux'
 import { useFakeTimers, SinonFakeTimers } from 'sinon'
 import {

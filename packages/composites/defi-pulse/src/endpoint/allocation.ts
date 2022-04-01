@@ -1,5 +1,5 @@
 import { Logger, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { getAllocations } from '../index-allocations'
 import { DEFAULT_NETWORK, DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'

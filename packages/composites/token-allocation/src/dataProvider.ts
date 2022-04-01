@@ -1,5 +1,5 @@
 import { AdapterError, Requester, Logger } from '@chainlink/ea-bootstrap'
-import type { AdapterResponse, RequestConfig, AdapterRequest } from '@chainlink/ea-bootstrap'
+import type { AdapterResponse, AxiosRequestConfig, AdapterRequest } from '@chainlink/ea-bootstrap'
 import { ResponsePayload, GetPrices } from './types'
 
 /**
@@ -26,7 +26,7 @@ import { ResponsePayload, GetPrices } from './types'
 export const getPriceProvider = (
   source: string,
   jobRunID: string,
-  apiConfig: RequestConfig,
+  apiConfig: AxiosRequestConfig,
 ): GetPrices => {
   if (source === 'coinpaprika') {
     return sendBatchedRequests(source, jobRunID, apiConfig)
@@ -41,7 +41,7 @@ export interface BatchedAdapterResponse {
 }
 
 const sendBatchedRequests =
-  (source: string, jobRunID: string, apiConfig: RequestConfig): GetPrices =>
+  (source: string, jobRunID: string, apiConfig: AxiosRequestConfig): GetPrices =>
   async (symbols, quote, additionalInput, withMarketCap = false): Promise<ResponsePayload> => {
     const sortedSymbols = symbols.sort()
     const data: AdapterRequest = {
@@ -80,7 +80,7 @@ const sendBatchedRequests =
   }
 
 const sendIndividualRequests =
-  (source: string, jobRunID: string, apiConfig: RequestConfig): GetPrices =>
+  (source: string, jobRunID: string, apiConfig: AxiosRequestConfig): GetPrices =>
   async (symbols, quote, additionalInput, withMarketCap = false): Promise<ResponsePayload> => {
     const results = await Promise.all(
       symbols.map(async (base) => {
@@ -113,7 +113,7 @@ const sendIndividualRequests =
     return Object.fromEntries(payloadEntries)
   }
 
-const sendRequestToSource = async <T>(source: string, request: AdapterRequest): Promise<T> => {
+const sendRequestToSource = async <T>(source: string, request: AxiosRequestConfig): Promise<T> => {
   try {
     const response = await Requester.request<T>(request)
     return response.data

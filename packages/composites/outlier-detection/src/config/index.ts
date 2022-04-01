@@ -1,12 +1,12 @@
 import legos from '@chainlink/ea'
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config, RequestConfig } from '@chainlink/ea-bootstrap'
+import { Config, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'OUTLIER_DETECTION'
 export const DEFAULT_ENDPOINT = 'outlier'
 
-export type SourceRequestOptions = { [source: string]: RequestConfig }
-export type CheckRequestOptions = { [check: string]: RequestConfig }
+export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
+export type CheckRequestOptions = { [check: string]: AxiosRequestConfig }
 export interface ExtendedConfig extends Config {
   sources: SourceRequestOptions
   checks: CheckRequestOptions
@@ -32,7 +32,7 @@ export const makeConfig = (prefix = ''): ExtendedConfig => {
   }
 }
 
-export const makeRequestOptions = (prefix: string, url: string): RequestConfig => {
+export const makeRequestOptions = (prefix: string, url: string): AxiosRequestConfig => {
   const defaultConfig = Requester.getDefaultConfig(prefix)
   return {
     ...defaultConfig.api,

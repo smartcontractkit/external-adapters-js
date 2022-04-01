@@ -71,7 +71,11 @@ export function getSynthIndexFor(network: string, base: string): SynthIndex | un
   return isSynthIndex(synth) ? synth : undefined
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  input,
+  context,
+  config,
+) => {
   const validator = new Validator(input, inputParameters)
 
   const { base, network = config.defaultNetwork } = validator.validated.data
@@ -88,6 +92,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   )
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

@@ -4,13 +4,13 @@ import {
   ExecuteWithConfig,
   Config,
   InputParameters,
-  RequestConfig,
-} from '@chainlink/types'
-import { AxiosResponse } from 'axios'
+  AxiosRequestConfig,
+  AxiosResponse,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['medianizer']
 
-export type SourceRequestOptions = { [source: string]: RequestConfig }
+export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
 
 const inputParameters: InputParameters = {
   sources: {
@@ -28,7 +28,7 @@ const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const sources = parseSources(validator.validated.data.sources)
   const minAnswers = validator.validated.data.minAnswers
 

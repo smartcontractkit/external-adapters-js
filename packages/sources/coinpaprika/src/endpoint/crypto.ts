@@ -1,5 +1,4 @@
-import { Requester, Validator, Overrider } from '@chainlink/ea-bootstrap'
-import { OverrideObj } from '@chainlink/ea-bootstrap/src/lib/modules'
+import { Requester, Validator, Overrider, OverrideRecord } from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Config,
@@ -60,7 +59,11 @@ export const description = `The \`marketcap\` endpoint fetches market cap of ass
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export type TInputParameters = { base: string; quote: string; coinid: string }
+export type TInputParameters = {
+  base: string | string[]
+  quote: string
+  coinid?: string | string[]
+}
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
@@ -79,20 +82,16 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
-type RequestedCoins = {
-  [originalSymbol: string]: string
-}
-
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
 
-  const base: string[] = Array.isArray(validator.validated.data.base)
+  const base = Array.isArray(validator.validated.data.base)
     ? validator.validated.data.base
     : [validator.validated.data.base]
 
-  let coinid: string | string[] | undefined = validator.validated.data.coinid
+  let coinid = validator.validated.data.coinid
 
   const requestedQuotes = validator.validated.data.quote
   const resultPath = (validator.validated.data.resultPath || endpointResultPaths.crypto).toString()
@@ -113,22 +112,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       const requestedCoins = await getConvertedCoins(
         jobRunID,
         base,
-        request.data.overrides,
+        request.data.overrides || {},
         context,
       )
       return handleBatchedRequest(jobRunID, request, response, requestedCoins, resultPath)
     }
-    coinid = Array.isArray(coinid) ? coinid : [coinid]
+    coinid = Array.isArray(coinid) ? coinid : Array(coinid)
     return handleBatchedRequest(jobRunID, request, response, coinid, resultPath)
   }
 
-  let coin: string
-  if (coinid) {
-    coin = coinid
-  } else {
-    const requestedCoin = await getConvertedCoins(jobRunID, base, request.data.overrides, context)
-    coin = Object.values(requestedCoin)[0]
-  }
+  const coin =
+    coinid ??
+    Object.values(await getConvertedCoins(jobRunID, base, request.data.overrides || {}, context))[0]
 
   const coinData = getCoin(response.data, undefined, coin)
   if (!coinData) {
@@ -151,32 +146,31 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 const getConvertedCoins = async (
   jobRunID: string,
   base: string | string[],
-  inputOverrides: OverrideObj,
+  inputOverrides: OverrideRecord,
   context: AdapterContext,
-): Promise<RequestedCoins> => {
+): Promise<ReturnType<typeof Overrider.convertRemainingSymbolsToIds>> => {
   const overrider = new Overrider(internalOverrides, inputOverrides, AdapterName, jobRunID)
   const [overriddenCoins, remainingSyms] = overrider.performOverrides(base)
-  let requestedCoins = overriddenCoins
-  if (remainingSyms.length > 0) {
-    const coinsResponse = await getCoinIds(context, jobRunID)
-    requestedCoins = Overrider.convertRemainingSymbolsToIds(
-      overriddenCoins,
-      remainingSyms.map((sym) => sym.toUpperCase()),
-      coinsResponse,
-    )
-  }
-  return requestedCoins
+
+  if (remainingSyms.length === 0) return overriddenCoins
+
+  const coinsResponse = await getCoinIds(context, jobRunID)
+  return Overrider.convertRemainingSymbolsToIds(
+    overriddenCoins,
+    remainingSyms.map((sym) => sym.toUpperCase()),
+    coinsResponse,
+  )
 }
 
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse,
-  requestedCoins: RequestedCoins | RequestedCoinIds,
+  requestedCoins: ReturnType<typeof Overrider.convertRemainingSymbolsToIds> | RequestedCoinIds,
   resultPath: string,
 ) => {
   const responseData = response.data as ResponseSchema[]
-  const payload: [AdapterRequest, number][] = []
+  const payload: [AdapterRequest<TInputParameters>, number][] = []
 
   let requestedIds: RequestedCoinIds = []
   let idsToSymbols: OverrideToOriginalSymbol = {}
@@ -194,17 +188,14 @@ const handleBatchedRequest = (
     }
 
     for (const quote in coin.quotes) {
-      const adapterRequest = {
+      const base = isRequestedCoinIds(requestedCoins) ? coinid : idsToSymbols[coinid].toUpperCase()
+      const adapterRequest: AdapterRequest<TInputParameters> = {
         ...request,
         data: {
           ...request.data,
           quote: quote.toUpperCase(),
+          base,
         },
-      }
-      if (isRequestedCoinIds(requestedCoins)) {
-        adapterRequest.data.base = coinid
-      } else {
-        adapterRequest.data.base = idsToSymbols[coinid].toUpperCase()
       }
       payload.push([
         adapterRequest,

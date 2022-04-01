@@ -1,4 +1,4 @@
-import { AdapterContext, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
+import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import { Config } from '../config'
@@ -24,17 +24,20 @@ export function getSushiAddress(context: AdapterContext, id: string): Promise<st
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
-          .then((value) => resolve(value.data))
+          .then((value) => resolve(value.data as any))
           .catch(reject)
       })
       .catch((error) => reject(error))
   })
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, {})
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters = {}
 
-  const jobRunID = validator.validated.jobRunID
+export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
+  const validator = new Validator(input, inputParameters)
+
+  const jobRunID = validator.validated.id
   const xsushiAddress = config.xsushiAddress
   const sushiAddress = await getSushiAddress(context, jobRunID)
 

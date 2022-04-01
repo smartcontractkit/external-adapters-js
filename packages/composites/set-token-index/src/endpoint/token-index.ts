@@ -51,7 +51,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const contractAddress = validator.validated.data.address
   const adapter = validator.validated.data.adapter
   const allocations = await getAllocations(context, jobRunID, adapter, contractAddress)
