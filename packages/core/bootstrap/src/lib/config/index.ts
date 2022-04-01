@@ -9,7 +9,7 @@ const ENV_API_VERBOSE = 'API_VERBOSE'
 const ENV_WS_API_ENDPOINT = 'WS_API_ENDPOINT'
 const ENV_WS_API_KEY = 'WS_API_KEY'
 
-const DEFAULT_API_TIMEOUT = 30000
+const DEFAULT_API_TIMEOUT = 5000
 
 export const constants = {
   ENV_API_KEY,
