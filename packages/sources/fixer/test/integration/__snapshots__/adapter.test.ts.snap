@@ -21,7 +21,7 @@ Object {
     "url": "https:/data.fixer.io/api/convert",
   },
   "jobRunID": "1",
-  "providerStatusCode": 402,
+  "providerStatusCode": 200,
   "status": "errored",
   "statusCode": 200,
 }
