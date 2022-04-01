@@ -19,6 +19,7 @@ export interface Inputs {
   helmChartDir?: string
   helmValuesOverride?: string
   name: string
+  secretsPath?: string
 }
 
 const usageString = `
@@ -141,6 +142,10 @@ export const checkArgs = (): Inputs => {
   }
   if (!name) inputs.name = generateName(inputs)
 
+  // Get path to secrets file in smartcontractkit/adapter-secrets
+  const secretsPath: string | undefined = process.argv[6]
+  if (secretsPath) inputs.secretsPath = secretsPath
+
   return inputs
 }
 
@@ -162,7 +167,7 @@ export const deployAdapter = (config: Inputs): void => {
 
   // deploy the chart
   const deployHelm = new Shell().exec(
-    `helm upgrade ${config.name} ${config.helmChartDir} \
+    `helm upgrade ${config.secretsPath ? 'secret' : ''} ${config.name} ${config.helmChartDir} \
       --install \
       --namespace ${NAMESPACE} \
       --create-namespace \
@@ -170,6 +175,7 @@ export const deployAdapter = (config: Inputs): void => {
       --set image.repository="${config.imageRepository}${config.adapter}-adapter" \
       --set image.tag=${config.imageTag} \
       --set name=${config.name} \
+      ${config.secretsPath ? `-f ${config.secretsPath}` : ''}\
       --wait`,
   )
   if (deployHelm.code !== 0) {
