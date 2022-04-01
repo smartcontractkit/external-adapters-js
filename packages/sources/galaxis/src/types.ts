@@ -37,13 +37,6 @@ export interface AchievementsByIDs {
   [T: string]: Achievement[]
 }
 
-export interface GalaxisContracts {
-  ecRegistry: ethers.Contract
-  ecRegistryMap: ethers.Contract
-  batchWriter: ethers.Contract
-  provider: ethers.providers.JsonRpcProvider
-}
-
 export interface GetSetDataEncodedCallParams {
   provider: ethers.providers.JsonRpcProvider
   teams: TeamStruct[]

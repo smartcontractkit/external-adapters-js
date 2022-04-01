@@ -1,17 +1,11 @@
 import { ethers } from 'ethers'
-import {
-  BATCH_WRITER_ABI,
-  EC_REGISTRY_ABI,
-  EC_REGISTRY_MAP_ABI,
-  TRAIT_IMPLEMENTER_ABI,
-} from './abis'
+import { TRAIT_IMPLEMENTER_ABI } from './abis'
 import { callToRequestData } from './encoder'
 import { ExtendedConfig } from './config'
 import {
   Achievement,
   AchievementsByIDs,
   AchievementWithMappedID,
-  GalaxisContracts,
   GetSetDataEncodedCallParams,
   PlayerStruct,
   TeamStruct,
@@ -23,9 +17,10 @@ export const getEncodedCallsResult = async (
   playerAchievements: Achievement[],
   teamAchievements: Achievement[],
   config: ExtendedConfig,
+  date: string,
 ): Promise<string> => {
   const groupedAchievements = getGroupedAchievementsByID(playerAchievements, teamAchievements)
-  const { provider, ecRegistry, ecRegistryMap, batchWriter } = initContracts(config)
+  const { provider, ecRegistry, ecRegistryMap, batchWriter } = config
   const { teams, players } = await getPlayerAndTeamMaps(ecRegistryMap)
   const calls: string[][] = []
   let hasHitLimit = false
@@ -42,7 +37,7 @@ export const getEncodedCallsResult = async (
   let startingEventIdx = lastProcessedInfo.startEventIdx
   while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
     const achievementID = achievementIDs[currAchievementIdIdx]
-    if (await ecRegistry.addressCanModifyTrait(config.batchWriterAddress, achievementID)) {
+    if (await ecRegistry.addressCanModifyTrait(batchWriter.address, achievementID)) {
       groupedAchievements[achievementID] = groupedAchievements[achievementID].sort(
         (a, b) => a.event_id - b.event_id,
       )
@@ -61,7 +56,7 @@ export const getEncodedCallsResult = async (
           })
 
         // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
-        const addressToCall = implementerAddress || config.ecRegistryAddress
+        const addressToCall = implementerAddress || ecRegistry.address
         calls.push([addressToCall, encodedCall])
         const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
           await updateEncodedCalls(
@@ -70,6 +65,7 @@ export const getEncodedCallsResult = async (
             calls,
             batchWriter,
             lastProcessedEventID,
+            date,
           )
         hasHitLimit = hasCallsHitLimit
         if (hasHitLimit) {
@@ -96,23 +92,6 @@ export const getEncodedCallsResult = async (
   return encodedCalls
 }
 
-const initContracts = (config: ExtendedConfig): GalaxisContracts => {
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
-  const batchWriter = new ethers.Contract(config.batchWriterAddress, BATCH_WRITER_ABI, provider)
-  const ecRegistry = new ethers.Contract(config.ecRegistryAddress, EC_REGISTRY_ABI, provider)
-  const ecRegistryMap = new ethers.Contract(
-    config.ecRegistryMapAddress,
-    EC_REGISTRY_MAP_ABI,
-    provider,
-  )
-  return {
-    provider,
-    batchWriter,
-    ecRegistry,
-    ecRegistryMap,
-  }
-}
-
 const validateEncodedCallsNotEmpty = (
   jobRunID: string,
   lastProcessedID: number,
@@ -133,14 +112,23 @@ const updateEncodedCalls = async (
   calls: string[][],
   batchWriter: ethers.Contract,
   eventID: number,
+  date: string,
 ): Promise<{
   hasHitLimit: boolean
   encodedCalls: string
 }> => {
-  const encodedCalls = callToRequestData(calls, eventID)
+  // Try worst case scenario where we hit limit and we need to push requestBytes call
+  const appendedCalls = calls.concat([
+    batchWriter.address,
+    batchWriter.interface.encodeFunctionData('requestBytes', []),
+  ])
   let hasHitLimit = false
+
+  // Assume that we have hit the limit and try encode that call.  This tests for the more expensive scenario
+  // as this transaction will cost more gas than when there is no more entries to process
+  let encodedCalls = callToRequestData(appendedCalls, eventID, date, true)
   try {
-    const gasCostEstimate = await batchWriter.estimateGas.fulfillBytes(
+    const gasCostEstimate = await batchWriter.estimateGas.estimate(
       ethers.utils.formatBytes32String(jobRunID),
       `0x${encodedCalls}`,
     )
@@ -158,6 +146,9 @@ const updateEncodedCalls = async (
       })
     }
   }
+
+  // If we have not hit the gas limit, then we encode only the calls array without the call to requestBytes
+  if (!hasHitLimit) encodedCalls = callToRequestData(calls, eventID, date, false)
   return {
     encodedCalls,
     hasHitLimit,

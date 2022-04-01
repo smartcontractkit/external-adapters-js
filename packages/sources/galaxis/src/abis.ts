@@ -119,11 +119,42 @@ export const BATCH_WRITER_ABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'LastDate',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'NeedsMoreProcessing',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'requestBytes',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     inputs: [
       { internalType: 'bytes32', name: 'requestId', type: 'bytes32' },
       { internalType: 'bytes', name: 'bytesData', type: 'bytes' },
     ],
     name: 'fulfillBytes',
+    outputs: [{ internalType: 'bool[]', name: '', type: 'bool[]' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'requestId', type: 'bytes32' },
+      { internalType: 'bytes', name: 'bytesData', type: 'bytes' },
+    ],
+    name: 'estimate',
     outputs: [{ internalType: 'bool[]', name: '', type: 'bool[]' }],
     stateMutability: 'nonpayable',
     type: 'function',

@@ -3,6 +3,7 @@ import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig } from '../config'
 import { Achievement } from '../types'
 import { getEncodedCallsResult } from '../achievements'
+import { ethers } from 'ethers'
 
 export const supportedEndpoints = ['nba']
 
@@ -16,11 +17,17 @@ const customError = (data: Record<string, unknown>) => data.Response === 'Error'
 export const description =
   'This endpoint fetches a list of achievements for NBA teams and players and returns them as an encoded value'
 
-export const inputParameters: InputParameters = {}
+export const inputParameters: InputParameters = {
+  date: {
+    type: 'string',
+  },
+}
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
+  const date = await getDate(config, validator.validated.date)
+  config.api.url = await getURL(config, date)
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
   const encodedCalls = await getEncodedCallsResult(
@@ -28,6 +35,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     response.data.player_achievements,
     response.data.team_achievements,
     config,
+    date,
   )
 
   return {
@@ -39,3 +47,29 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     },
   }
 }
+
+const getDate = async (config: ExtendedConfig, paramsDate?: string): Promise<string> => {
+  const date = paramsDate
+  if (date) {
+    return date
+  }
+  const recordedDate = await config.ecRegistry.LastDate()
+  if (isDateNotSet(recordedDate)) {
+    throw new Error('Date not set')
+  }
+  if (!paramsDate) {
+    throw new Error('Date param missing')
+  }
+  const currentDate = ethers.utils.parseBytes32String(recordedDate)
+  const d = new Date(currentDate)
+  const tomorrow = new Date(d.getDate() + 1)
+  return `${tomorrow.getUTCFullYear()}-${tomorrow.getUTCMonth()}-${tomorrow.getUTCDay()}`
+}
+
+const getURL = async (config: ExtendedConfig, date: string): Promise<string> => {
+  if (isDateNotSet(date)) return config.api.url
+  return `${config.api.url}/nightly_achievements_${date}` // YYYY-MM-DD
+}
+
+export const isDateNotSet = (date: string): boolean =>
+  date === '0x0000000000000000000000000000000000000000000000000000000000000000'
