@@ -15,7 +15,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
+    process.env.API_KEY = 'fake-api-key'
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
