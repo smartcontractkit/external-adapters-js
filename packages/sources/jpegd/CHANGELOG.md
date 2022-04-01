@@ -1,5 +1,13 @@
 # @chainlink/jpegd-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.5
 
 ### Patch Changes

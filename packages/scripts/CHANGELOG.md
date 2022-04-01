@@ -1,5 +1,13 @@
 # @chainlink/ea-scripts
 
+## 2.0.4
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-factories@1.0.38
+
 ## 2.0.3
 
 ### Patch Changes
