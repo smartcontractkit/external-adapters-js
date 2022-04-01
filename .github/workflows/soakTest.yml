@@ -77,6 +77,9 @@ jobs:
           sudo dpkg -i "$TEMP_DEB" &&
           rm -f "$TEMP_DEB"
 
+      - name: Install Helm Secrets
+        run: helm plugin install https://github.com/jkroepke/helm-secrets --version v3.12.0
+
       - name: Use GH CLI to get pr info
         working-directory: ./external-adapters-js
         id: get-pr-info
@@ -174,16 +177,9 @@ jobs:
         run: |
           helm repo add chainlink https://raw.githubusercontent.com/smartcontractkit/charts/gh-pages/ --password ${GITHUB_TOKEN} --username dummy
 
-          cd ../adapter-secrets
-          pwd
-          ls -al
-          # TODO Set HELM_VALUES = yaml file with envVars: ... for extra creds (converted from envSecrets in decrypted file)
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              # cd ../infra-k8s
-              # echo ${sops -d apps/files/adapters/${adapter}/secrets-develop.yaml}
-              # cd ../external-adapters-js
-              yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
+              yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG} "adapter-secrets/secure-sdlc/secrets.${adapter}.yaml"
             done
           fi
 
