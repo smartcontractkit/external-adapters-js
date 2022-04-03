@@ -1,53 +1,53 @@
 # Chainlink External Adapter for dxFeed
 
-### Environment Variables
+Version: 1.2.26
 
-| Required? |     Name     |         Description          | Options |                Defaults to                 |
-| :-------: | :----------: | :--------------------------: | :-----: | :----------------------------------------: |
-|    ✅     | API_USERNAME |                              |         |                                            |
-|    ✅     | API_PASSWORD |                              |         |                                            |
-|           | API_ENDPOINT | The endpoint for your dxFeed |         | `https://tools.dxfeed.com/webservice/rest` |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Environment Variables
+
+| Required? |     Name     |         Description          |  Type  | Options |                  Default                   |
+| :-------: | :----------: | :--------------------------: | :----: | :-----: | :----------------------------------------: |
+|    ✅     | API_USERNAME |                              | string |         |                                            |
+|    ✅     | API_PASSWORD |                              | string |         |                                            |
+|           | API_ENDPOINT | The endpoint for your dxFeed | string |         | `https://tools.dxfeed.com/webservice/rest` |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [price](#Price-Endpoint) |   `price`   |
+| Required? |   Name   |     Description     |  Type  |                                                                 Options                                                                 | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#price-endpoint), [crypto](#price-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint) | `price` |
 
 ---
 
 ## Price Endpoint
 
+Supported names for this endpoint are: `commodities`, `crypto`, `forex`, `price`, `stock`.
+
 ### Input Params
 
-| Required? |               Name               |                        Description                        |                                       Options                                        | Defaults to |
-| :-------: | :------------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------------------------------: | :---------: |
-|    ✅     | `base`, `from`, `coin`, `market` |            The symbol of the currency to query            |                                                                                      |             |
-|    🟡     |           `overrides`            | If base provided is found in overrides, that will be used | [Format](../../core/bootstrap/src/lib/external-adapter/overrides/presetSymbols.json) |             |
+| Required? | Name |         Aliases          |             Description             | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :----------------------: | :---------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from`, `market` | The symbol of the currency to query |      |         |         |            |                |
 
-`overrides` should contain the following symbol conversions:
+### Example
 
-```bash
-N225 ➡️ 'NKY.IND:TEI'
-FTSE ➡️ 'UKX.IND:TEI'
-TSLA ➡️ 'TSLA:BFX'
-TSLAX ➡️ 'TSLA.US:TEI'
-```
-
-### Sample Input
+Request:
 
 ```json
 {
-  "id": 1,
+  "id": "1",
   "data": {
-    "base": "FTSE"
+    "endpoint": "price",
+    "resultPath": ["Trade", "TSLA", "price"],
+    "base": "TSLA"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
@@ -55,24 +55,36 @@ TSLAX ➡️ 'TSLA.US:TEI'
   "data": {
     "status": "OK",
     "Trade": {
-      "UKX:FTSE": {
-        "eventSymbol": "UKX:FTSE",
+      "TSLA:BFX": {
+        "eventSymbol": "TSLA:BFX",
         "eventTime": 0,
-        "time": 1593001772000,
+        "time": 1636744209248,
         "timeNanoPart": 0,
-        "sequence": 115972,
-        "exchangeCode": "",
-        "price": 6194.63,
-        "size": 0,
-        "dayVolume": 0,
-        "dayTurnover": "NaN",
+        "sequence": 775394,
+        "exchangeCode": "V",
+        "price": 239.255,
+        "change": 0.03,
+        "size": 3,
+        "dayVolume": 700004,
+        "dayTurnover": 167577930,
         "tickDirection": "ZERO_UP",
         "extendedTradingHours": false
       }
     },
-    "result": 6194.63
+    "result": 239.255
   },
-  "result": 6194.63,
-  "statusCode": 200
+  "result": 239.255,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "base",
+        "limit": 120
+      }
+    ]
+  },
+  "providerStatusCode": 200
 }
 ```
+
+---

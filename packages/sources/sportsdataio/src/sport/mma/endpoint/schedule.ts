@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config } from '../../../config'
 
@@ -15,7 +15,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const league = validator.validated.data.league
   const season = validator.validated.data.season
-  const url = `/mma/scores/json/Schedule/${league}/${season}`
+  const url = util.buildUrlPath('/mma/scores/json/Schedule/:league/:season', { league, season })
 
   const params = {
     key: config.mmaStatsKey,

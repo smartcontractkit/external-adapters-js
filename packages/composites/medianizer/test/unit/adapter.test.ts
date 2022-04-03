@@ -1,4 +1,4 @@
-import { median, parseSources } from '../../src/adapter'
+import { median, parseSources } from '../../src/endpoint/medianizer'
 
 describe('parseSources', () => {
   it('parses an array of sources', () => {

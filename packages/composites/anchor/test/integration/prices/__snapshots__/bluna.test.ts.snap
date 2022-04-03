@@ -1,23 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`price-bluna successful calls return success when fetching the USD/BLuna price 1`] = `
+exports[`price-bluna error calls should throw an error if call to the LUNA/USD feed reverts 1`] = `
 Object {
-  "data": Object {
-    "result": 69.24049753409115,
+  "error": Object {
+    "feedID": "BLUNA/USD",
+    "message": "Call to Terra bLUNA/USD feed reverted",
+    "name": "AdapterError",
   },
   "jobRunID": "1",
-  "result": 69.24049753409115,
-  "statusCode": 200,
+  "status": "errored",
+  "statusCode": 500,
 }
 `;
 
-exports[`price-bluna successful calls returns success when fetching the BTC/BLuna price 1`] = `
+exports[`price-bluna error calls should throw an error if the Anchor bLUNA Hub contract returns 0 1`] = `
 Object {
-  "data": Object {
-    "result": 0.0012232006772089734,
+  "error": Object {
+    "feedID": "BLUNA/USD",
+    "message": "Invalid result for LUNA/bLUNA rate from bLUNA address error-terra-bluna-hub-contract-address",
+    "name": "AdapterError",
   },
   "jobRunID": "1",
-  "result": 0.0012232006772089734,
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`price-bluna error calls should throw an error if the LUNA/USD feed returns 0 1`] = `
+Object {
+  "error": Object {
+    "feedID": "BLUNA/USD",
+    "message": "Invalid result for Chainlink Terra feed error-luna-feed-address",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`price-bluna error calls should throw an error if the call to the Anchor bLUNA Hub reverts 1`] = `
+Object {
+  "error": Object {
+    "feedID": "BLUNA/USD",
+    "message": "Call to Terra bLuna HUB contract reverted",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`price-bluna successful calls return success when fetching the USD/BLuna price 1`] = `
+Object {
+  "data": Object {
+    "result": "262011742574",
+  },
+  "jobRunID": "1",
+  "result": "262011742574",
   "statusCode": 200,
 }
 `;
@@ -25,10 +66,10 @@ Object {
 exports[`price-bluna successful calls returns success when fetching the ETH/BLuna price 1`] = `
 Object {
   "data": Object {
-    "result": 0.015256184292256317,
+    "result": "100000718",
   },
   "jobRunID": "1",
-  "result": 0.015256184292256317,
+  "result": "100000718",
   "statusCode": 200,
 }
 `;

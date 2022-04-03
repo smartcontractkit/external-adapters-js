@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['energy']
@@ -39,7 +39,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const date = validator.validated.data.date || `${currentTime.toISOString().slice(0, 10)}` // YYYY-MM-DD
   const hour = validator.validated.data.hour || currentTime.getUTCHours()
 
-  const url = `energy/source/${source}/date/${date}/hour/${hour}/`
+  const url = util.buildUrlPath('energy/source/:source/date/:date/hour/:hour/', {
+    source,
+    date,
+    hour,
+  })
 
   const options = {
     ...config.api,

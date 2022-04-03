@@ -1,5 +1,11 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, Includes, IncludePair, InputParameters } from '@chainlink/types'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import type {
+  Config,
+  ExecuteWithConfig,
+  Includes,
+  IncludePair,
+  InputParameters,
+} from '@chainlink/types'
 import {
   DEFAULT_INTERVAL,
   DEFAULT_SORT,
@@ -9,7 +15,7 @@ import {
 import includes from '../config/includes.json'
 import overrides from '../config/symbols.json'
 
-export const supportedEndpoints = ['trades']
+export const supportedEndpoints = ['trades', 'price']
 
 const customError = (data: ResponseSchema) => data.result === 'error'
 
@@ -23,11 +29,6 @@ export const inputParameters: InputParameters = {
     aliases: ['to', 'market'],
     required: true,
     description: 'The symbol of the currency to convert',
-  },
-  includes: {
-    aliases: ['overrides'],
-    required: false,
-    description: 'If base provided is found in overrides, that will be used',
   },
   interval: {
     required: false,
@@ -49,12 +50,16 @@ export const inputParameters: InputParameters = {
 }
 
 const symbolUrl = (from: string, to: string) =>
-  to.toLowerCase() === 'eth'
-    ? directUrl(from, to)
-    : `/spot_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
+  util.buildUrlPath('/spot_exchange_rate/:from/:to', {
+    from: from.toLowerCase(),
+    to: to.toLowerCase(),
+  })
 
 const directUrl = (from: string, to: string) =>
-  `/spot_direct_exchange_rate/${from.toLowerCase()}/${to.toLowerCase()}`
+  util.buildUrlPath('/spot_direct_exchange_rate/:from/:to', {
+    from: from.toLowerCase(),
+    to: to.toLowerCase(),
+  })
 
 export interface ResponseSchema {
   query: {

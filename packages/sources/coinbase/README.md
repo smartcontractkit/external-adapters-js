@@ -1,27 +1,58 @@
 # Chainlink External Adapter for Coinbase
 
+Version: 1.2.23
+
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
-### Input Parameters
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
+## Environment Variables
+
+| Required? |      Name       | Description |  Type  | Options |             Default              |
+| :-------: | :-------------: | :---------: | :----: | :-----: | :------------------------------: |
+|           |  API_ENDPOINT   |             | string |         |    `https://api.coinbase.com`    |
+|           | WS_API_ENDPOINT |             | string |         | `wss://ws-feed.pro.coinbase.com` |
 
 ---
 
-## Price Endpoint
+## Input Parameters
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+| Required? |   Name   |     Description     |  Type  |                        Options                        | Default  |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [price](#crypto-endpoint) | `crypto` |
+
+---
+
+## Crypto Endpoint
+
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? |  Name   |            Aliases            |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :---------------------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | symbol  | `base`, `coin`, `from`, `sym` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | convert |    `market`, `quote`, `to`    | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Output
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "symbol": "BTC",
+    "convert": "USD"
+  },
+  "rateLimitMaxAge": 370
+}
+```
+
+Response:
 
 ```json
 {
@@ -30,11 +61,14 @@ Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
     "data": {
       "base": "BTC",
       "currency": "USD",
-      "amount": "46823.85"
+      "amount": "57854.29"
     },
-    "result": 46823.85
+    "result": 57854.29
   },
-  "result": 46823.85,
-  "statusCode": 200
+  "result": 57854.29,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

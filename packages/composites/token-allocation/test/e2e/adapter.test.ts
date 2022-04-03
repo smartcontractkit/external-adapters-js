@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src/adapter'
+import { makeExecute } from '../../src/endpoint'
 import { makeConfig } from '../../src/config'
 
 describe('execute', () => {
@@ -23,7 +23,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)

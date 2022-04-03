@@ -27,9 +27,18 @@ export const description =
   'Returns a batched price comparison from one currency to a list of other currencies.'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  amount: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (

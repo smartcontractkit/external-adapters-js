@@ -1,5 +1,94 @@
 # @chainlink/augur-adapter
 
+## 1.0.41
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/sportsdataio-adapter@1.1.39
+  - @chainlink/therundown-adapter@1.2.25
+
+## 1.0.40
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/sportsdataio-adapter@1.1.38
+  - @chainlink/therundown-adapter@1.2.24
+
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/sportsdataio-adapter@1.1.37
+  - @chainlink/therundown-adapter@1.2.23
+
+## 1.0.38
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/sportsdataio-adapter@1.1.36
+  - @chainlink/therundown-adapter@1.2.22
+
+## 1.0.37
+
+### Patch Changes
+
+- Updated dependencies [4952ec20e]
+- Updated dependencies [382c16ac3]
+  - @chainlink/sportsdataio-adapter@1.1.35
+  - @chainlink/therundown-adapter@1.2.21
+  - @chainlink/ea-bootstrap@1.13.1
+
+## 1.0.36
+
+### Patch Changes
+
+- Updated dependencies [8d6ff4693]
+- Updated dependencies [196336176]
+  - @chainlink/ea-bootstrap@1.13.0
+  - @chainlink/sportsdataio-adapter@1.1.34
+  - @chainlink/therundown-adapter@1.2.20
+
+## 1.0.35
+
+### Patch Changes
+
+- Updated dependencies [effb61e40]
+  - @chainlink/ea-bootstrap@1.12.2
+  - @chainlink/sportsdataio-adapter@1.1.33
+  - @chainlink/therundown-adapter@1.2.19
+
+## 1.0.34
+
+### Patch Changes
+
+- Updated dependencies [e75038240]
+  - @chainlink/ea-bootstrap@1.12.1
+  - @chainlink/sportsdataio-adapter@1.1.32
+  - @chainlink/therundown-adapter@1.2.18
+
+## 1.0.33
+
+### Patch Changes
+
+- @chainlink/sportsdataio-adapter@1.1.31
+- @chainlink/therundown-adapter@1.2.17
+
 ## 1.0.32
 
 ### Patch Changes

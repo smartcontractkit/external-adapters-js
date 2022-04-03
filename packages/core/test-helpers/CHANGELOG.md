@@ -1,5 +1,11 @@
 # @chainlink/ea-test-helpers
 
+## 1.2.0
+
+### Minor Changes
+
+- 4dd7722b0: add mockWebSocketFlow support for requests and responses with string type
+
 ## 1.1.0
 
 ### Minor Changes

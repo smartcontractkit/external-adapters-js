@@ -1,60 +1,69 @@
 # Chainlink External Adapter for Marketstack
 
-### Environment Variables
+Version: 1.2.23
 
-| Required? |  Name   | Description | Options | Defaults to |
-| :-------: | :-----: | :---------: | :-----: | :---------: |
-|    ✅     | API_KEY |             |         |             |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |             Default              |
+| :-------: | :----------: | :---------: | :----: | :-----: | :------------------------------: |
+|    ✅     |   API_KEY    |             | string |         |                                  |
+|           | API_ENDPOINT |             | string |         | `http://api.marketstack.com/v1/` |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |         Options          | Defaults to |
-| :-------: | :------: | :-----------------: | :----------------------: | :---------: |
-|           | endpoint | The endpoint to use | [stock](#Stock-Endpoint) |    stock    |
+| Required? |   Name   |     Description     |  Type  |                     Options                      | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [eod](#stock-endpoint), [stock](#stock-endpoint) | `stock` |
 
 ---
 
 ## Stock Endpoint
 
-##### NOTE: the `eod` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.
+**NOTE: the `eod` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**
+
+Supported names for this endpoint are: `eod`, `stock`.
 
 ### Input Params
 
-| Required? |           Name            |               Description                | Options | Defaults to |
-| :-------: | :-----------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin` |   The symbol of the currency to query    |         |             |
-|    🟡     |        `interval`         | The symbol of the currency to convert to |         |    1min     |
-|    🟡     |          `limit`          |     The limit for number of results      |         |      1      |
+| Required? |   Name   |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :------: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   base   | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|           | interval |                | The symbol of the currency to convert to | string |         | `1min`  |            |                |
+|           |  limit   |                |     The limit for number of results      | number |         |   `1`   |            |                |
 
-### Output
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "stock",
+    "base": "AAPL",
+    "interval": "1min",
+    "limit": 1
+  },
+  "rateLimitMaxAge": 2921840
+}
+```
+
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "pagination": { "limit": 1, "offset": 0, "count": 1, "total": 252 },
-    "data": [
-      {
-        "open": 129.19,
-        "high": 130.17,
-        "low": 128.5,
-        "close": 128.98,
-        "volume": 100620880,
-        "adj_high": 130.17,
-        "adj_low": 128.5,
-        "adj_close": 128.98,
-        "adj_open": 129.19,
-        "adj_volume": 100620880,
-        "symbol": "AAPL",
-        "exchange": "XNAS",
-        "date": "2021-01-11T00:00:00+0000"
-      }
-    ],
-    "result": 128.98
+    "result": 164.77
   },
-  "result": 128.98,
-  "statusCode": 200
+  "result": 164.77,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

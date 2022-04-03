@@ -22,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let market = validator.validated.data.market.toLowerCase()
   if (market in commonKeys) market = commonKeys[market]
 
-  const url = `/futures/${market.toUpperCase()}/sip62`
+  const url = util.buildUrlPath('/futures/:market/sip62', { market: market.toUpperCase() })
 
   const headers = {
     'x-api-key': util.getRandomRequiredEnv('API_KEY'),

@@ -1,9 +1,7 @@
 import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
 import { getEnv, parseBool } from '../../util'
 import { logger } from '../../modules'
-import { DEFAULT_CACHE_ENABLED } from '../cache'
-
-export const DEFAULT_RATE_LIMIT_ENABLED = true
+import { AdapterContext } from '@chainlink/types'
 
 export interface Config {
   /**
@@ -22,10 +20,11 @@ export interface Config {
 
 export function get(
   rateLimitConfig: { limits: Limits; name: string } = { limits: { http: {}, ws: {} }, name: '' },
+  context: AdapterContext,
 ): Config {
   const enabled =
-    parseBool(getEnv('CACHE_ENABLED') ?? DEFAULT_CACHE_ENABLED) &&
-    parseBool(getEnv('RATE_LIMIT_ENABLED') ?? DEFAULT_RATE_LIMIT_ENABLED)
+    parseBool(getEnv('CACHE_ENABLED', undefined, context)) &&
+    parseBool(getEnv('RATE_LIMIT_ENABLED'))
   let capacity = parseInt(getEnv('RATE_LIMIT_CAPACITY') || '')
   const perSecRateLimit = getEnv('RATE_LIMIT_CAPACITY_SECOND')
   const perMinuteRateLimit = getEnv('RATE_LIMIT_CAPACITY_MINUTE')

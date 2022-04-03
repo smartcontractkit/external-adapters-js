@@ -8,6 +8,16 @@
 
 ---
 
+### Input Parameters
+
+| Required? |   Name   |     Description     |          Options           | Defaults to |
+| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [price](##-Price-Endpoint) |    price    |
+
+---
+
+## Price Endpoint
+
 ### Input Params
 
 | Required? |            Name            |                                                      Description                                                      |                                       Options                                        | Defaults to |

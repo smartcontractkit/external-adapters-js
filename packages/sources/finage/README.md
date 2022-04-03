@@ -1,169 +1,222 @@
 # Chainlink External Adapter for Finage
 
-### Input Parameters
+Version: 1.3.24
 
-| Required? |   Name   |     Description     |                                               Options                                                | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [eod](#EOD-endpoint), [stock](#Stock-endpoint), [forex](#Forex-endpoint), [crypto](#Crypto-endpoint) |   `stock`   |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-### Configuration
+## Environment Variables
 
-The adapter takes the following environment variables:
-
-| Required? |           Name           |                               Description                               | Options |            Defaults to            |
-| :-------: | :----------------------: | :---------------------------------------------------------------------: | :-----: | :-------------------------------: |
-|    ✅     |        `API_KEY`         |   An API key that can be obtained from the data provider's dashboard    |         |                                   |
-|           |     `WS_SOCKET_KEY`      | A WEBSOCKET key that can be obtained from the data provider's dashboard |         |                                   |
-|           | `STOCK_WS_API_ENDPOINT`  |           The Websocket endpoint to connect to for stock data           |         | `wss://e4s39ar3mr.finage.ws:7002` |
-|           | `FOREX_WS_API_ENDPOINT`  |           The Websocket endpoint to connect to for forex data           |         | `wss://w29hxx2ndd.finage.ws:8001` |
-|           | `CRYPTO_WS_API_ENDPOINT` |          The Websocket endpoint to connect to for crypto data           |         | `wss://72x8wsyx7t.finage.ws:6008` |
+| Required? |          Name          |                               Description                               |  Type  | Options |              Default              |
+| :-------: | :--------------------: | :---------------------------------------------------------------------: | :----: | :-----: | :-------------------------------: |
+|    ✅     |        API_KEY         |   An API key that can be obtained from the data provider's dashboard    | string |         |                                   |
+|           |     WS_SOCKET_KEY      | A WEBSOCKET key that can be obtained from the data provider's dashboard | string |         |                                   |
+|           | STOCK_WS_API_ENDPOINT  |           The Websocket endpoint to connect to for stock data           | string |         | `wss://e4s39ar3mr.finage.ws:7002` |
+|           | FOREX_WS_API_ENDPOINT  |           The Websocket endpoint to connect to for forex data           | string |         | `wss://w29hxx2ndd.finage.ws:8001` |
+|           | CRYPTO_WS_API_ENDPOINT |          The Websocket endpoint to connect to for crypto data           | string |         | `wss://72x8wsyx7t.finage.ws:6008` |
 
 ---
 
-## EOD endpoint
+## Input Parameters
 
-https://finage.co.uk/docs/api/stock-market-previous-close
-
-### Input Params
-
-| Required? |            Name             |             Description             |       Options       | Defaults to |
-| :-------: | :-------------------------: | :---------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `symbol` | The symbol of the currency to query | `BTC`, `ETH`, `USD` |             |
-
-### Sample Input
-
-### Sample Output
+| Required? |   Name   |     Description     |  Type  |                                               Options                                                | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint) | `stock` |
 
 ---
 
-## Stock endpoint
+## Stock Endpoint
 
 https://finage.co.uk/docs/api/stock-last-quote
-
 The result will be calculated as the midpoint between the ask and the bid.
+
+`stock` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name             |             Description             | Options | Defaults to |
-| :-------: | :-------------------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `symbol` | The symbol of the currency to query |         |             |
+| Required? | Name |     Aliases      |             Description             | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :--------------: | :---------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `from`, `symbol` | The symbol of the currency to query |      |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
-    "from": "UK100"
+    "endpoint": "stock",
+    "base": "ETH"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "currencies": [
-      {
-        "name": "UK100",
-        "value": 6395.5,
-        "change": 61,
-        "difference": 0.96
-      }
-    ],
-    "lastUpdate": "2020-11-27T17:07:02",
-    "lastUpdate_Timestamp": "1606496822",
-    "result": 6395.5
+    "symbol": "ETH",
+    "ask": 26.32,
+    "bid": 25.8,
+    "asize": 13,
+    "bsize": 1,
+    "timestamp": 1628899200621,
+    "result": 25.8
   },
-  "result": 6395.5,
-  "statusCode": 200
+  "result": 25.8,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
 ---
 
-## Forex endpoint
+## Eod Endpoint
 
-https://finage.co.uk/docs/api/forex-last-quote
+https://finage.co.uk/docs/api/stock-market-previous-close
 
-The result will be calculated as the midpoint between the ask and the bid.
+`eod` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name             |               Description                | Options | Defaults to |
-| :-------: | :-------------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `symbol` |   The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, or `market`  | The symbol of the currency to convert to |         |             |
+| Required? | Name |     Aliases      |             Description             | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :--------------: | :---------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `from`, `symbol` | The symbol of the currency to query |      |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "eod",
+    "base": "ETH"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "symbol": "ETH",
+    "totalResults": 1,
+    "results": [
+      {
+        "o": 26.79,
+        "h": 26.85,
+        "l": 26.02,
+        "c": 26.3,
+        "v": 367009,
+        "t": 1628884800000
+      }
+    ],
+    "result": 26.3
+  },
+  "result": 26.3,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## Forex Endpoint
+
+https://finage.co.uk/docs/api/forex-last-quote
+The result will be calculated as the midpoint between the ask and the bid.
+
+`forex` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name  |     Aliases      |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `from`, `symbol` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote |  `market`, `to`  | The symbol of the currency to convert to | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "forex",
     "from": "GBP",
     "to": "USD"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
   "data": {
-    "currencies": [
-      {
-        "name": "UK100",
-        "value": 6395.5,
-        "change": 61,
-        "difference": 0.96
-      }
-    ],
-    "lastUpdate": "2020-11-27T17:07:02",
-    "lastUpdate_Timestamp": "1606496822",
-    "result": 6395.5
+    "symbol": "GBPUSD",
+    "ask": 1.34435,
+    "bid": 1.34426,
+    "timestamp": 1637060382000,
+    "result": 1.3443049999999999
   },
-  "result": 6395.5,
-  "statusCode": 200
+  "result": 1.3443049999999999,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
 
 ---
 
-## Crypto endpoint
+## Crypto Endpoint
+
+`crypto` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name             |               Description                | Options | Defaults to |
-| :-------: | :-------------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `symbol` |   The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, or `market`  | The symbol of the currency to convert to |         |             |
+| Required? | Name  |     Aliases      |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `from`, `symbol` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote |  `market`, `to`  | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "crypto",
     "from": "BTC",
     "to": "USD"
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
-  "result": 51200,
-  "statusCode": 200,
   "data": {
-    "result": 51200
-  }
+    "symbol": "BTCUSD",
+    "price": 50940.12,
+    "timestamp": 1638898619885,
+    "result": 50940.12
+  },
+  "result": 50940.12,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

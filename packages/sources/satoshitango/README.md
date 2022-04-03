@@ -1,35 +1,56 @@
 # Chainlink External Adapter for SatoshiTango
 
-### Input Parameters
+Version: 1.2.23
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   crypto    |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+
+## Environment Variables
+
+| Required? |     Name     | Description |  Type  | Options |              Default              |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------------: |
+|           | API_ENDPOINT |             | string |         | `https://api.satoshitango.com/v3` |
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                        Options                         | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [ticker](#crypto-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `ticker` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+**NOTE: the `ticker` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Input Params
 
-| Required? |          Name           |                               Description                                | Options | Defaults to |
-| :-------: | :---------------------: | :----------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, `coin`  |                   The symbol of the currency to query                    |         |             |
-|    ✅     | `quote`, `to`, `market` |                 The symbol of the currency to convert to                 |
-|           |         `field`         | The object path to access the value that will be returned as the result. |         |    `bid`    |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
-  "data": { "base": "BTC", "quote": "ARS" }
+  "data": {
+    "endpoint": "crypto",
+    "resultPath": "bid",
+    "base": "BTC",
+    "quote": "ARS"
+  },
+  "rateLimitMaxAge": 16666
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
@@ -38,64 +59,136 @@
     "data": {
       "ticker": {
         "BTC": {
-          "date": "2020-10-06 10:46:03",
-          "timestamp": 1601981163,
-          "bid": 1480212.48,
-          "ask": 1560168.95,
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 11161854.6,
+          "ask": 11724743.65,
           "high": 0,
           "low": 0,
           "volume": 0
         },
         "ETH": {
-          "date": "2020-10-06 10:46:03",
-          "timestamp": 1601981163,
-          "bid": 48425.72,
-          "ask": 51062.97,
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 898714.07,
+          "ask": 945231.42,
           "high": 0,
           "low": 0,
           "volume": 0
         },
         "LTC": {
-          "date": "2020-10-06 10:46:03",
-          "timestamp": 1601981163,
-          "bid": 6397.68,
-          "ask": 6747.77,
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 40837.06,
+          "ask": 42890.6,
           "high": 0,
           "low": 0,
           "volume": 0
         },
         "XRP": {
-          "date": "2020-10-06 10:46:03",
-          "timestamp": 1601981163,
-          "bid": 35.13,
-          "ask": 37.07,
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 194.94,
+          "ask": 204.69,
           "high": 0,
           "low": 0,
           "volume": 0
         },
         "BCH": {
-          "date": "2020-10-06 10:46:03",
-          "timestamp": 1601981163,
-          "bid": 30381.7,
-          "ask": 32059.34,
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 112124.88,
+          "ask": 117602.72,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "ADA": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 307.75,
+          "ask": 322.81,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "DOGE": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 42.28,
+          "ask": 44.38,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "LINK": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 5058.71,
+          "ask": 5308.5,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "UNI": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 4060.62,
+          "ask": 4267.95,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "XLM": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 66.73,
+          "ask": 70.08,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "SOL": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 41136.32,
+          "ask": 43275.96,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "DOT": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 7356.24,
+          "ask": 7717.83,
           "high": 0,
           "low": 0,
           "volume": 0
         },
         "DAI": {
-          "date": "2020-10-06 10:46:03",
-          "timestamp": 1601981163,
-          "bid": 139,
-          "ask": 147.68,
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 195.43,
+          "ask": 205.18,
           "high": 0,
           "low": 0,
           "volume": 0
         },
         "USDC": {
-          "date": "2020-10-06 10:46:03",
-          "timestamp": 1601981163,
-          "bid": 138.32,
-          "ask": 145.55,
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 195.48,
+          "ask": 205.09,
+          "high": 0,
+          "low": 0,
+          "volume": 0
+        },
+        "USDT": {
+          "date": "2021-11-30 16:23:04",
+          "timestamp": 1638289384,
+          "bid": 195.66,
+          "ask": 205.27,
           "high": 0,
           "low": 0,
           "volume": 0
@@ -103,9 +196,12 @@
       },
       "code": "success"
     },
-    "result": 1480212.48
+    "result": 11161854.6
   },
-  "result": 1480212.48,
-  "statusCode": 200
+  "result": 11161854.6,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

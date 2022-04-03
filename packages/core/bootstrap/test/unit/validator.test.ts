@@ -603,6 +603,63 @@ describe('Validator', () => {
     })
   })
 
+  describe('with duplicate input parameters', () => {
+    it('errors with complex input parameters', () => {
+      const inputConfig: InputParameters = {
+        key1: {
+          aliases: ['keyA', 'keyB'],
+          description: 'First key',
+          required: true,
+          type: 'string',
+        },
+        key2: {
+          aliases: ['keyB', 'keyC'],
+          description: 'Second key',
+          required: true,
+          type: 'string',
+        },
+      }
+
+      try {
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            limit: 'limit',
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('Duplicate Input Aliases')
+      }
+    })
+
+    it('errors with legacy input parameters', () => {
+      const inputConfig: InputParameters = {
+        key1: ['keyA', 'keyB'],
+        key2: ['keyB', 'keyC'],
+      }
+
+      try {
+        const input = {
+          id: '1',
+          data: {
+            key1: 'A',
+            key2: 'B',
+            limit: 'limit',
+          },
+        }
+        new Validator(input, inputConfig, {})
+      } catch (error) {
+        expect(error?.jobRunID).toEqual('1')
+        expect(error?.statusCode).toEqual(400)
+        expect(error?.message).toEqual('Duplicate Input Aliases')
+      }
+    })
+  })
   //TODO update test
   // describe('overrideReverseLookup', () => {
   //   it('returns ????', () => {

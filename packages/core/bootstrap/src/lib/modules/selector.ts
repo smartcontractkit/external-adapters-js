@@ -7,8 +7,10 @@ import {
   InputParameters,
   AdapterContext,
   MakeResultPath,
+  UpstreamEndpointsGroup,
 } from '@chainlink/types'
 import { logger } from '../modules'
+import { cloneDeep } from 'lodash'
 
 export const baseInputParameters: InputParameters = {
   endpoint: {
@@ -113,6 +115,96 @@ const selectEndpoint = <C extends Config>(
   return apiEndpoint
 }
 
+/**
+ *
+ * @param request the request coming in to the External Adapter
+ * @param downstreamConfig configuration for the downstream adapter (composite)
+ * @param downstreamEndpoints endpoints for the downstream adapter (composite)
+ * @param upstreamEndpointsGroups endpoint groups for the upstream adapter (source)
+ *
+ * The following data structure is used:
+ *
+ * [
+ *
+ *    input property name of upstream adapter name,
+ *
+ *    upstream Endpoints mapped to UPPERCASE adapter names,
+ *
+ *    the endpoint name to select upstream
+ *
+ * ]
+ *
+ * @param upstreamConfig configuration for the upstream adapter (source)
+ * @param ignoreRequired whether to maintain the required status of input parameters
+ * @param customParams additional input parameters to add to the ones defined within the API endpoint
+ * @returns
+ */
+const selectCompositeEndpoint = <ConfigDownstream extends Config, ConfigUpstream extends Config>(
+  request: AdapterRequest,
+  downstreamConfig: ConfigDownstream,
+  downstreamEndpoints: Record<string, APIEndpoint<ConfigDownstream>>,
+  upstreamEndpointsGroups: UpstreamEndpointsGroup[],
+  upstreamConfig: ConfigUpstream,
+  ignoreRequired = false,
+  customParams?: InputParameters,
+): APIEndpoint<ConfigDownstream> => {
+  const downstreamEndpoint = selectEndpoint(
+    request,
+    downstreamConfig,
+    downstreamEndpoints,
+    customParams,
+  )
+
+  let additionalInputParameters = {}
+
+  for (const [inputPropertyName, adapterMap, upstreamEndpointName] of upstreamEndpointsGroups) {
+    const keyFromRequest = request.data[inputPropertyName]
+    const upstreamAPIEndpoints = adapterMap[keyFromRequest?.toUpperCase()]
+
+    if (!upstreamAPIEndpoints) {
+      logger.warn(
+        `The request provided a ${inputPropertyName} of ${keyFromRequest} that was not found while merging upstream input parameters. It may not be supported or may be misconfigured. SKIPPING`,
+      )
+      continue
+    }
+
+    // Modify the endpoint input parameter on the request data to select the upstream endpoint code
+    const requestWithUpstreamEndpoint = cloneDeep(request)
+    requestWithUpstreamEndpoint.data.endpoint = upstreamEndpointName
+
+    const upstreamEndpoint = selectEndpoint(
+      requestWithUpstreamEndpoint,
+      upstreamConfig,
+      upstreamAPIEndpoints,
+      customParams,
+    )
+
+    // Note: Ignoring required parameters will lose alias names
+    // TODO: this will be handled better once input parameters are refactored to include: default, required, and aliases
+    const upstreamInputParameters = ignoreRequired
+      ? Object.fromEntries(
+          Object.keys(upstreamEndpoint.inputParameters || {}).map((parameter) => [
+            parameter,
+            false,
+          ]),
+        )
+      : upstreamEndpoint.inputParameters
+
+    additionalInputParameters = {
+      ...additionalInputParameters,
+      ...upstreamInputParameters,
+    }
+  }
+
+  // Merge input parameters, favoring the composite input parameters
+  downstreamEndpoint.inputParameters = {
+    ...downstreamEndpoint.inputParameters,
+    ...additionalInputParameters,
+  }
+
+  return downstreamEndpoint
+}
+
 const buildSelector = <C extends Config>(
   request: AdapterRequest,
   context: AdapterContext,
@@ -136,4 +228,4 @@ const buildSelector = <C extends Config>(
   })
 }
 
-export const Builder = { selectEndpoint, buildSelector }
+export const Builder = { selectEndpoint, selectCompositeEndpoint, buildSelector }

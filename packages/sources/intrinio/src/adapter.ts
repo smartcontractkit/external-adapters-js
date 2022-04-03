@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   AdapterResponse,
@@ -24,7 +24,7 @@ export const execute = async (input: AdapterRequest, config: Config) => {
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base.toUpperCase()
 
-  const url = `securities/${symbol}/prices/realtime`
+  const url = util.buildUrlPath('securities/:symbol/prices/realtime', { symbol })
   const params = {
     api_key: config.apiKey,
   }

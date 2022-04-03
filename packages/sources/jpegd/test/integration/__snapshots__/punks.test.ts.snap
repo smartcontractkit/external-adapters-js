@@ -3,11 +3,11 @@
 exports[`execute punk valuation api should return success 1`] = `
 Object {
   "data": Object {
-    "result": 14000000,
+    "result": 5.568735828488373,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 14000000,
+  "result": 5.568735828488373,
   "statusCode": 200,
 }
 `;

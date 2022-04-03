@@ -54,6 +54,7 @@ export class Validator {
     this.validateOverrides('overrides', this.validatorOptions.overrides)
     this.validateOverrides('tokenOverrides', presetTokens)
     this.validateIncludeOverrides()
+    this.checkDuplicateInputParams(inputConfigs)
   }
 
   validateInput(): void {
@@ -89,6 +90,26 @@ export class Validator {
       this.validated[path] = this.formatOverride(merge({ ...preset }, this.input.data[path]))
     } catch (e) {
       this.parseError(e)
+    }
+  }
+
+  checkDuplicateInputParams(inputConfig: InputParameters): void {
+    let aliases: string[] = []
+    for (const key in inputConfig) {
+      const param = inputConfig[key]
+      if (Array.isArray(param)) {
+        aliases = aliases.concat(param)
+      } else if (typeof inputConfig === 'boolean') {
+        return
+      } else {
+        aliases.push(key)
+        if (typeof param === 'object' && 'aliases' in param && Array.isArray(param.aliases)) {
+          aliases = aliases.concat(param.aliases)
+        }
+      }
+    }
+    if (aliases.length != new Set(aliases).size) {
+      this.throwInvalid('Duplicate Input Aliases')
     }
   }
 
@@ -209,7 +230,6 @@ export class Validator {
 
   validateObjectParam(key: string, shouldThrowError = true): void {
     const inputConfig = this.inputConfigs[key] as InputParameter
-
     const usedKey = this.getUsedKey(key, inputConfig.aliases ?? [])
 
     const param = usedKey

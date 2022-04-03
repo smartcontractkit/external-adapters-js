@@ -1,5 +1,5 @@
 import { balance } from '@chainlink/ea-factories'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory } from '@chainlink/types'
 import { isChainType, isCoinType } from '../config'
 
@@ -9,7 +9,7 @@ export const description = '[Address](https://btc.com/api-doc#Address)'
 
 export const inputParameters = balance.inputParameters
 
-const getBalanceURI = (address: string) => `/v3/address/${address}`
+const getBalanceURI = (address: string) => util.buildUrlPath('/v3/address/:address', { address })
 
 const getBalance: balance.GetBalance = async (account, config) => {
   const reqConfig = {

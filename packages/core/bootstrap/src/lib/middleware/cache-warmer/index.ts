@@ -10,13 +10,10 @@ import { separateBatches } from '../ws/utils'
 import * as actions from './actions'
 import { CacheWarmerState } from './reducer'
 import { getSubscriptionKey } from './util'
-import { DEFAULT_CACHE_ENABLED } from '../cache'
 
 export * as actions from './actions'
 export * as epics from './epics'
 export * as reducer from './reducer'
-
-export const DEFAULT_WARMUP_ENABLED = true
 
 interface WSInput {
   store: Store<WSState>
@@ -29,11 +26,11 @@ export const withCacheWarmer =
   async (execute, context) =>
   async (input: AdapterRequest) => {
     const isWarmerActive =
-      util.parseBool(util.getEnv('CACHE_ENABLED') ?? DEFAULT_CACHE_ENABLED) &&
-      util.parseBool(util.getEnv('WARMUP_ENABLED') ?? DEFAULT_WARMUP_ENABLED)
+      util.parseBool(util.getEnv('CACHE_ENABLED', undefined, context)) &&
+      util.parseBool(util.getEnv('WARMUP_ENABLED'))
     if (!isWarmerActive) return await execute(input, context)
 
-    const wsConfig = getWSConfig(input.data.endpoint)
+    const wsConfig = getWSConfig(input.data.endpoint, context)
     const warmupSubscribedPayload: actions.WarmupSubscribedPayload = {
       ...input,
       // We need to initilialize the middleware on every beat to open a connection with the cache

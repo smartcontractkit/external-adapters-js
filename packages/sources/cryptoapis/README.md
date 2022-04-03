@@ -1,170 +1,85 @@
-# Chainlink CryptoAPIs External Adapter
+# Chainlink External Adapter for CryptoAPIs
 
-### Environment Variables
+Version: 1.1.23
 
-| Required? |    Name     |                             Description                             | Options | Defaults to |
-| :-------: | :---------: | :-----------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://cryptoapis.io/) |         |             |
-|           | API_TIMEOUT |                          Timeout parameter                          |         |   `30000`   |
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
----
+## Environment Variables
 
-### Input Parameters
-
-| Required? |   Name   |     Description     |                                                                Options                                                                | Defaults to |
-| :-------: | :------: | :-----------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint), [difficulty](#Difficulty-&-Height-Endpoint), [height](#Difficulty-&-Height-Endpoint), [balance](#Balance) |  `crypto`   |
+| Required? |    Name     |                             Description                             |  Type  | Options | Default |
+| :-------: | :---------: | :-----------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |   API_KEY   | An API key that can be obtained from [here](https://cryptoapis.io/) | string |         |         |
+|           | API_TIMEOUT |                          Timeout parameter                          | number |         | `30000` |
 
 ---
 
-## Crypto Endpoint
+## Input Parameters
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+| Required? |   Name   |     Description     |  Type  |                                                                      Options                                                                      | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [crypto](#crypto-endpoint), [difficulty](#bc_info-endpoint), [height](#bc_info-endpoint), [price](#crypto-endpoint) | `crypto` |
 
-https://docs.cryptoapis.io/rest-apis/crypto-market-data-apis/index#exchange-rates
+---
 
-### Input Params
-
-| Required? |                Name                |                      Description                       | Options | Defaults to |
-| :-------: | :--------------------------------: | :----------------------------------------------------: | :-----: | :---------: |
-|    ✅     |   `base`, `from`, `coin`, `sym`    |          The symbol of the currency to query           |         |             |
-|    ✅     | `quote`, `to`, `market`, `convert` |        The symbol of the currency to convert to        |         |             |
-|           |               `cid`                |  The CMC coin ID (optional to use in place of `base`)  |         |             |
-|           |               `slug`               | The CMC coin name (optional to use in place of `base`) |         |             |
-
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "BTC",
-    "quote": "USD"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": {
-      "weightedAveragePrice": 36670.69405468086,
-      "amount": 135.37338203000004,
-      "timestamp": 1610724372,
-      "datetime": "2021-01-15T15:26:12+0000",
-      "baseAsset": "BTC",
-      "quoteAsset": "USD"
-    },
-    "result": 36670.69405468086
-  },
-  "result": 36670.69405468086,
-  "statusCode": 200
-}
-```
-
-## Difficulty & Height Endpoint
-
-https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common
-
-### Input Params
-
-| Required? |              Name              |             Description             |                      Options                       | Defaults to |
-| :-------: | :----------------------------: | :---------------------------------: | :------------------------------------------------: | :---------: |
-|    ✅     | `blockchain`, `coin`, `market` | The blockchain to retrieve info for | `BTC`, `ETH`, `LTC`, `ETC`, `BCH`, `DOGE`, `DASH`. |             |
-|           |           `network`            |     The blockchain network name     |                `mainnet`, `testnet`                |  `mainnet`  |
-
-### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "endpoint": "difficulty",
-    "blockchain": "BTC"
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": {
-      "difficulty": 20607418304385.63,
-      "headers": 666185,
-      "chain": "main",
-      "chainWork": "000000000000000000000000000000000000000018255ab714d1a15ffccd987e",
-      "mediantime": 1610721116,
-      "blocks": 666185,
-      "bestBlockHash": "0000000000000000000cc82b0a9a6e290cd13721a1abf88fdebb37fdc927308e",
-      "currency": "BTC",
-      "transactions": 606560353,
-      "verificationProgress": 0.9999930065052965
-    },
-    "result": 20607418304385.63
-  },
-  "result": 20607418304385.63,
-  "statusCode": 200
-}
-```
-
-### Balance
+## Balance Endpoint
 
 https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/btc/index#btc-address-info-endpoint
 
-| Required? |      Name       |                                 Description                                 | Options | Defaults to |
-| :-------: | :-------------: | :-------------------------------------------------------------------------: | :-----: | :---------: |
-|           |   `dataPath`    |                   Path where to find the addresses array                    |         |  `result`   |
-|           | `confirmations` |                           Confirmations parameter                           |         |      6      |
-|           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
+`balance` is the only supported name for this endpoint.
 
-Addresses is an an array of objects that contain the following information:
+### Input Params
 
-| Required? |   Name    |                 Description                  |                  Options                  | Defaults to |
-| :-------: | :-------: | :------------------------------------------: | :---------------------------------------: | :---------: |
-|    ✅     | `address` |               Address to query               |                                           |             |
-|           |  `coin`   |              Currency to query               | `btc`. `eth`, `bch`, `ltc`, `btsv`, `zec` |    `btc`    |
-|           |  `chain`  | Chain to query (Ethereum testnet is Rinkeby) |           `mainnet`, `testnet`            |  `mainnet`  |
+| Required? |     Name      | Aliases |                        Description                         |  Type  | Options | Default  | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :--------------------------------------------------------: | :----: | :-----: | :------: | :--------: | :------------: |
+|    ✅     |   addresses   |         | Array of objects with address information as defined below | array  |         |          |            |                |
+|           | confirmations |         |                  Confirmations parameter                   | number |         |   `6`    |            |                |
+|           |   dataPath    |         |           Path where to find the addresses array           | string |         | `result` |            |                |
 
-### Sample Input
+Address objects within `addresses` have the following properties:
+
+| Required? |  Name   |                 Description                  |  Type  |                    Options                    |  Default  |
+| :-------: | :-----: | :------------------------------------------: | :----: | :-------------------------------------------: | :-------: |
+|    ✅     | address |               Address to query               | string |                                               |           |
+|           |  chain  | Chain to query (Ethereum testnet is Rinkeby) | string |             `mainnet`, `testnet`              | `mainnet` |
+|           |  coin   |              Currency to query               | string | Ex. `bch`, `btc`, `btsv`, `eth`, `ltc`, `zec` |   `btc`   |
+
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
     "endpoint": "balance",
+    "dataPath": "addresses",
     "addresses": [
       {
         "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
         "chain": "testnet"
       }
-    ],
-    "dataPath": "addresses"
+    ]
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
   "jobRunID": "1",
+  "statusCode": 200,
   "data": {
     "responses": [
       {
         "payload": {
           "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
           "totalSpent": "0.0498",
-          "totalReceived": "131.40923575",
-          "balance": "131.35943575",
+          "totalReceived": "135.74870753",
+          "balance": "135.69890753",
           "txi": 1,
-          "txo": 1590,
-          "txsCount": 1587,
+          "txo": 1958,
+          "txsCount": 1944,
           "addresses": ["n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF"]
         }
       }
@@ -174,7 +89,7 @@ Addresses is an an array of objects that contain the following information:
         "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
         "chain": "testnet",
         "coin": "btc",
-        "balance": "131.35943575"
+        "balance": "13569890753"
       }
     ]
   },
@@ -183,9 +98,119 @@ Addresses is an an array of objects that contain the following information:
       "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
       "chain": "testnet",
       "coin": "btc",
-      "balance": "13135943575"
+      "balance": "13569890753"
     }
-  ],
-  "statusCode": 200
+  ]
 }
 ```
+
+---
+
+## Crypto Endpoint
+
+**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
+
+Supported names for this endpoint are: `crypto`, `price`.
+
+### Input Params
+
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "base": "BTC",
+    "quote": "USD"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": {
+      "weightedAveragePrice": 64671.845340501786,
+      "amount": 2.2908423,
+      "timestamp": 1636989278,
+      "datetime": "2021-11-15T15:14:38+0000",
+      "baseAsset": "BTC",
+      "quoteAsset": "USD"
+    },
+    "result": 64671.845340501786
+  },
+  "result": 64671.845340501786,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## Bc_info Endpoint
+
+https://docs.cryptoapis.io/rest-apis/blockchain-as-a-service-apis/common/index#common
+
+Supported names for this endpoint are: `difficulty`, `height`.
+
+### Input Params
+
+| Required? |    Name    |     Aliases      |             Description             |  Type  |                      Options                      |  Default  | Depends On | Not Valid With |
+| :-------: | :--------: | :--------------: | :---------------------------------: | :----: | :-----------------------------------------------: | :-------: | :--------: | :------------: |
+|    ✅     | blockchain | `coin`, `market` | The blockchain to retrieve info for | string | `BCH`, `BTC`, `DASH`, `DOGE`, `ETC`, `ETH`, `LTC` |           |            |                |
+|    ✅     |  network   |                  |     The blockchain network name     | string |                                                   | `mainnet` |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "difficulty",
+    "resultPath": "difficulty",
+    "blockchain": "BTC",
+    "network": "mainnet"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": {
+      "difficulty": 22674148233453.11,
+      "headers": 709848,
+      "chain": "main",
+      "chainWork": "000000000000000000000000000000000000000024275e7297eb45d00a73320f",
+      "mediantime": 1636987430,
+      "blocks": 709848,
+      "bestBlockHash": "000000000000000000097d3bd56240cba422ae3ffd42c5a8fe349157f3de6c20",
+      "currency": "BTC",
+      "transactions": 686990377,
+      "verificationProgress": 0.9999988307165758
+    },
+    "result": 22674148233453.11
+  },
+  "result": 22674148233453.11,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---

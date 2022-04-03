@@ -1,5 +1,5 @@
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 import { ResponseSchema } from './forex'
@@ -27,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
 
-  const url = `/last/crypto/${from}${to}`
+  const url = util.buildUrlPath('/last/crypto/:from:to', { from, to })
   const params = {
     apikey: config.apiKey,
   }

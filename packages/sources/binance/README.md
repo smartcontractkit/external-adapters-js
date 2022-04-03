@@ -1,49 +1,71 @@
 # Chainlink External Adapter for Binance
 
+Version: 1.2.23
+
 Adapter using the public Binance market API for both HTTP(s) and WS.
 
-### Input Parameters
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-| Required? |   Name   |     Description     |          Options           | Defaults to |
-| :-------: | :------: | :-----------------: | :------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [crypto](#Crypto-Endpoint) |   ticker    |
+## Environment Variables
+
+| Required? |      Name       | Description |  Type  | Options |              Default               |
+| :-------: | :-------------: | :---------: | :----: | :-----: | :--------------------------------: |
+|           |  API_ENDPOINT   |             | string |         |     `https://api.binance.com`      |
+|           | WS_API_ENDPOINT |             | string |         | `wss://stream.binance.com:9443/ws` |
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                        Options                         | Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [ticker](#crypto-endpoint) | `crypto` |
 
 ---
 
 ## Crypto Endpoint
 
-##### NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.
+**Note: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
 
-An example endpoint description
+Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Input Params
 
-| Required? |            Name            |               Description                | Options | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    |         |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to |         |             |
+| Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "USDT"
-  }
+    "quote": "BTC"
+  },
+  "rateLimitMaxAge": 55
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "result": 2429.02,
+  "jobRunID": "1",
   "data": {
-    "result": 2429.02
+    "symbol": "ETHBTC",
+    "price": "0.07077300",
+    "result": 0.070773
   },
-  "statusCode": 200
+  "result": 0.070773,
+  "statusCode": 200,
+  "providerStatusCode": 200
 }
 ```
+
+---

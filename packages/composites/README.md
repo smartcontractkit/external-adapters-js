@@ -1,23 +1,10 @@
-# Chainlink Composite Adapters
+# Chainlink Composite External Adapters
 
-This section contains packages that represent composite adapters that use data from multiple other Chainlink external adapters.
+This section contains packages that represent composite adapters, which request data from one or more other running adapters.
 
 They are published to NPM under the `@chainlink` organization.
 
-## List
-
-[APY Finance](./apy-finance/README.md)
-[Bitcoin JSON RPC](./bitcoin-json-rpc/README.md)
-[Crypto Volatility Index](./crypto-volatility-index/README.md)
-[DeFi Pulse](./defi-pulse/README.md)
-[DNS Record Check](./dns-record-check/README.md)
-[Market Closure](./market-closure/README.md)
-[Outlier Detection](./outlier-detection/README.md)
-[Proof of Reserves](./proof-of-reserves/README.md)
-[Reference Transform](./reference-transform/README.md)
-[Synth Index](./synth-index/README.md)
-[Token Allocation](./token-allocation/README.md)
-[PoR Indexer](./por-indexer/README.md)
+This document was generated automatically. Please see [Master List Generator](../scripts#master-list-generator) for more info.
 
 ## Service Discovery
 
@@ -64,3 +51,36 @@ Then run it with:
 ```bash
 docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter:latest
 ```
+
+## List
+
+- [anchor](./anchor/README.md)
+- [apy-finance](./apy-finance/README.md)
+- [augur](./augur/README.md)
+- [bitcoin-json-rpc](./bitcoin-json-rpc/README.md)
+- [bob](./bob/README.md)
+- [bsol-price](./bsol-price/README.md)
+- [circuit-breaker](./circuit-breaker/README.md)
+- [crypto-volatility-index](./crypto-volatility-index/README.md)
+- [defi-dozen](./defi-dozen/README.md)
+- [defi-pulse](./defi-pulse/README.md)
+- [dns-record-check](./dns-record-check/README.md)
+- [dxdao](./dxdao/README.md)
+- [dydx-rewards](./dydx-rewards/README.md)
+- [google-weather](./google-weather/README.md)
+- [historical-average](./historical-average/README.md)
+- [linear-finance](./linear-finance/README.md)
+- [market-closure](./market-closure/README.md)
+- [medianizer](./medianizer/README.md)
+- [nftx](./nftx/README.md)
+- [outlier-detection](./outlier-detection/README.md)
+- [por-indexer](./por-indexer/README.md)
+- [proof-of-reserves](./proof-of-reserves/README.md)
+- [reference-transform](./reference-transform/README.md)
+- [savax-price](./savax-price/README.md)
+- [set-token-index](./set-token-index/README.md)
+- [synth-index](./synth-index/README.md)
+- [the-graph](./the-graph/README.md)
+- [token-allocation](./token-allocation/README.md)
+- [vesper](./vesper/README.md)
+- [xsushi-price](./xsushi-price/README.md)

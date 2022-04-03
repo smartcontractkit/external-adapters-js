@@ -1,4 +1,5 @@
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
+import { sortedFilter } from '../../util'
 import { makeId } from '../rate-limit'
 import * as actions from './actions'
 
@@ -42,6 +43,26 @@ export const initialRequestsState: RequestsState = {
 }
 
 export const requestReducer = createReducer<RequestsState>(initialRequestsState, (builder) => {
+  builder.addCase(actions.updateIntervals, (state) => {
+    const time = Date.now()
+
+    const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
+
+    for (const intervalName of storedIntervals) {
+      // remove all requests that are older than the current interval
+      const window = time - Intervals[intervalName]
+      const isInWindow = (h: Request) => h.t >= window
+      state.participants[intervalName] = sortedFilter<Request>(
+        state.participants[intervalName],
+        isInWindow,
+      )
+
+      // update total
+      state.total[intervalName] = state.participants[intervalName].length
+    }
+
+    return state
+  })
   builder.addCase(actions.requestObserved, (state, action) => {
     const request: Request = {
       id: makeId(action.payload.input),
@@ -53,7 +74,10 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
       // remove all requests that are older than the current interval
       const window = request.t - Intervals[intervalName]
       const isInWindow = (h: Request) => h.t >= window
-      state.participants[intervalName] = sortedFilter(state.participants[intervalName], isInWindow)
+      state.participants[intervalName] = sortedFilter<Request>(
+        state.participants[intervalName],
+        isInWindow,
+      )
 
       // add new request
       state.participants[intervalName] = state.participants[intervalName].concat([request])
@@ -65,30 +89,6 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
     return state
   })
 })
-
-/**
- * Remove stale request entries from an array.
- * This function assumes that the array is sorted by timestamp,
- * where the oldest entry lives in the 0th index, and the newest entry
- * lives in the arr.length-1th index
- * @param requests The requests to filter
- * @param filter The windowing function to apply
- */
-export function sortedFilter(
-  requests: Request[],
-  windowingFunction: (h: Request) => boolean,
-): Request[] {
-  // if we want a higher performance implementation
-  // we can later resort to a custom array class that is circular
-  // so we can amortize expensive operations like resizing, and make
-  // operations like moving the head index much quicker
-  const firstNonStaleRequestIndex = requests.findIndex(windowingFunction)
-  if (firstNonStaleRequestIndex === -1) {
-    return []
-  }
-
-  return requests.slice(firstNonStaleRequestIndex)
-}
 
 export function selectTotalNumberOfRequestsFor(
   state: RequestsState,

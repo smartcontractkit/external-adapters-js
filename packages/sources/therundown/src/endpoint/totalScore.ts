@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['total-score']
@@ -26,7 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const matchId = validator.validated.data.matchId
-  const url = `events/${matchId}`
+  const url = util.buildUrlPath('events/:matchId', { matchId })
 
   const reqConfig = {
     ...config.api,

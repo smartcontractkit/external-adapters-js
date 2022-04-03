@@ -1,7 +1,10 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { AdapterContext, Config } from '@chainlink/types'
+import { envDefaultOverrides } from './envDefaultOverrides'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
+
+export const adapterContext: AdapterContext = { name: NAME, envDefaultOverrides }
 
 export const DEFAULT_ENDPOINT = 'health'
 
@@ -17,19 +20,21 @@ export enum Networks {
   Optimism = 'optimism',
 }
 
+const DEFAULT_ARBITRUM_RPC_ENDPOINT = 'https://arb1.arbitrum.io/rpc'
+const DEFAULT_OPTIMISM_RPC_ENDPOINT = 'https://mainnet.optimism.io'
 export const RPC_ENDPOINTS = {
-  [Networks.Arbitrum]: util.getEnv('ARBITRUM_RPC_ENDPOINT') || 'https://arb1.arbitrum.io/rpc',
-  [Networks.Optimism]: util.getEnv('OPTIMISM_RPC_ENDPOINT') || 'https://mainnet.optimism.io',
+  [Networks.Arbitrum]: util.getEnv('ARBITRUM_RPC_ENDPOINT') || DEFAULT_ARBITRUM_RPC_ENDPOINT,
+  [Networks.Optimism]: util.getEnv('OPTIMISM_RPC_ENDPOINT') || DEFAULT_OPTIMISM_RPC_ENDPOINT,
 }
 
+const DEFAULT_OPTIMISM_HEALTH_ENDPOINT = 'https://mainnet-sequencer.optimism.io/health'
 export const HEALTH_ENDPOINTS = {
   [Networks.Arbitrum]: {
     endpoint: util.getEnv('ARBITRUM_HEALTH_ENDPOINT'),
     responsePath: [],
   },
   [Networks.Optimism]: {
-    endpoint:
-      util.getEnv('OPTIMISM_HEALTH_ENDPOINT') || 'https://mainnet-sequencer.optimism.io/health',
+    endpoint: util.getEnv('OPTIMISM_HEALTH_ENDPOINT') || DEFAULT_OPTIMISM_HEALTH_ENDPOINT,
     responsePath: ['healthy'],
   },
 }
@@ -41,7 +46,7 @@ export interface ExtendedConfig extends Config {
 }
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
-  const isCacheEnabled = util.parseBool(util.getEnv('CACHE_ENABLED'))
+  const isCacheEnabled = util.parseBool(util.getEnv('CACHE_ENABLED', undefined, adapterContext))
   if (isCacheEnabled) {
     throw new Error('Cache cannot be enabled on this adapter')
   }

@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, Includes, IncludePair, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import includes from './../config/includes.json'
@@ -10,12 +10,18 @@ const customError = (data: ResponseSchema) => {
 }
 
 const symbolOptions = (from: string, to: string) => ({
-  url: `/api/v2/market/spot/prices/pairs/${from.toLowerCase()}_${to.toLowerCase()}/latest`,
+  url: util.buildUrlPath('/api/v2/market/spot/prices/pairs/:from_:to/latest', {
+    from: from.toLowerCase(),
+    to: to.toLowerCase(),
+  }),
   params: { includeCrossRates: true },
 })
 
 const tokenOptions = (from: string, to: string) => ({
-  url: `/api/v2/market/defi/prices/pairs/bases/${from}/quotes/${to}/latest`,
+  url: util.buildUrlPath('/api/v2/market/defi/prices/pairs/bases/:from/quotes/:to/latest', {
+    from,
+    to,
+  }),
   params: {},
 })
 

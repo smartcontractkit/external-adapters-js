@@ -34,9 +34,9 @@ Calls `"method": "getblockchaininfo"` on the Bitcoin node.
 
 ### Input Params
 
-| Required? |  Name   |     Description     | Options | Defaults to  |
-| :-------: | :-----: | :-----------------: | :-----: | :----------: |
-|           | `field` | Parameter to return |         | `difficulty` |
+| Required? |  Name   |     Description     |        Options         | Defaults to  |
+| :-------: | :-----: | :-----------------: | :--------------------: | :----------: |
+|           | `field` | Parameter to return | `difficulty`, `height` | `difficulty` |
 
 ### Sample Input
 
@@ -101,6 +101,30 @@ Calls `"method": "getblockchaininfo"` on the Bitcoin node.
   },
   "result": 665582,
   "statusCode": 200
+}
+```
+
+### Sample Input
+
+```json
+{
+  "jobID": "1",
+  "data": {
+    "endpoint": "height"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": 729568,
+  "statusCode": 200,
+  "data": {
+    "result": 729568
+  }
 }
 ```
 

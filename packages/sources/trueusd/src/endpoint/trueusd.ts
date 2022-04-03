@@ -13,7 +13,14 @@ const customError = (data: ResponseSchema) => !data.success
 
 export const description = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
 
-export const inputParameters: InputParameters = {}
+export const inputParameters: InputParameters = {
+  resultPath: {
+    required: false,
+    description:
+      'The object-path string to parse a single `result` value. When not provided the entire response will be provided.',
+    type: 'string',
+  },
+}
 
 interface ResponseSchema {
   responseData: {

@@ -5,5 +5,6 @@
     "rootDir": "../"
   },
   "include": ["src/**/*", "src/**/*.json"],
+  "exclude": ["src/generate-readme/*"],
   "files": ["../tsconfig.json"]
 }

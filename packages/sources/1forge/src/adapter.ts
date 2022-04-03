@@ -7,7 +7,7 @@ import {
   APIEndpoint,
   MakeWSHandler,
 } from '@chainlink/types'
-import { makeConfig } from './config'
+import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
@@ -48,7 +48,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
 
     return {
       connection: {
-        url: 'wss://sockets.1forge.com/socket',
+        url: DEFAULT_WS_API_ENDPOINT,
       },
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),

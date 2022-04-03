@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import { ResponseSchema } from './eod'
@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(AdapterName) as string
-  const url = `stock/${base.toUpperCase()}/quote`
+  const url = util.buildUrlPath('stock/:base/quote', { base: base.toUpperCase() })
 
   const params = {
     token: config.apiKey,

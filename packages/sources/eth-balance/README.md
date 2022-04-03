@@ -1,22 +1,24 @@
 # Chainlink External Adapter for Eth-balance
 
+Version: 1.1.23
+
 External adapter for fetching balances for ETH addresses
 
-### Environment Variables
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-The adapter takes the following environment variables:
+## Environment Variables
 
-| Required? |       Name       |             Description             | Options | Defaults to |
-| :-------: | :--------------: | :---------------------------------: | :-----: | :---------: |
-|    ✅     | ETHEREUM_RPC_URL | RPC URL of an Ethereum Mainnet node |         |             |
+| Required? |       Name       |             Description             |  Type  | Options | Default |
+| :-------: | :--------------: | :---------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ETHEREUM_RPC_URL | RPC URL of an Ethereum Mainnet node | string |         |         |
 
 ---
 
-### Input Parameters
+## Input Parameters
 
-| Required? |   Name   |     Description     |           Options            | Defaults to |
-| :-------: | :------: | :-----------------: | :--------------------------: | :---------: |
-|           | endpoint | The endpoint to use | [balance](#Balance-Endpoint) |   balance   |
+| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
 
 ---
 
@@ -24,59 +26,110 @@ The adapter takes the following environment variables:
 
 The balance endpoint will fetch the balance of each address in the query.
 
+`balance` is the only supported name for this endpoint.
+
 ### Input Params
 
-| Required? |    Name     |                                         Description                                          | Options | Defaults to |
-| :-------: | :---------: | :------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `addresses` | An array of addresses to get the balances of (this may also be under the 'result' parameter) |         |             |
+| Required? |   Name    | Aliases  |                                            Description                                            | Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :------: | :-----------------------------------------------------------------------------------------------: | :---: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | addresses | `result` | An array of addresses to get the balances of (as an object with string `address` as an attribute) | array |         |         |            |                |
 
-`addresses` or `result` is an array of objects that contain the following information:
+### Example
 
-| Required? |   Name    |   Description    | Options | Defaults to |
-| :-------: | :-------: | :--------------: | :-----: | :---------: |
-|    ✅     | `address` | Address to query |         |
-
-### Sample Input
+Request:
 
 ```json
 {
   "id": "1",
   "data": {
+    "endpoint": "balance",
     "addresses": [
-      { "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588" },
-      { "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d" }
-    ]
-  }
-}
-```
-
-### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": [
-    {
-      "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588",
-      "balance": "0.0"
-    },
-    {
-      "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d",
-      "balance": "0.046572563850192871"
-    }
-  ],
-  "statusCode": 200,
-  "data": {
-    "result": [
       {
-        "address": "0xfF1BE3171A16FE431E31d874E4De14814362E588",
-        "balance": "0.0"
-      },
-      {
-        "address": "0xbef7bcbDFbE321e1f407282a9caFcA41A4984a4d",
-        "balance": "0.046572563850192871"
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d"
       }
     ]
   }
 }
 ```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "balance",
+    "addresses": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed"
+      }
+    ]
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371"
+    },
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
+
+---

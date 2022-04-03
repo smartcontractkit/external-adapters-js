@@ -1,6 +1,5 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import request, { SuperTest, Test } from 'supertest'
 import {
   mockAWCurrentConditionsResponseError,
   mockAWCurrentConditionsResponseSuccess,
@@ -10,15 +9,9 @@ import {
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
 import { SuiteContext } from './adapter.test'
-import { AddressInfo } from 'net'
 
 export function currentConditionsTests(context: SuiteContext): void {
   const id = '1'
-  let req: SuperTest<Test>
-
-  beforeAll(() => {
-    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
-  })
 
   describe('error calls', () => {
     const locationKey = 123456
@@ -35,7 +28,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseError(locationKey)
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -59,7 +52,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseSuccessMalformed1(locationKey)
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -81,7 +74,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseSuccessMalformed2(locationKey)
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -103,7 +96,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseSuccessMalformed3(locationKey)
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -128,7 +121,7 @@ export function currentConditionsTests(context: SuiteContext): void {
       }
       mockAWCurrentConditionsResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -152,7 +145,7 @@ export function currentConditionsTests(context: SuiteContext): void {
       }
       mockAWCurrentConditionsResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

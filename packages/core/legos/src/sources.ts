@@ -19,6 +19,7 @@ import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
 import * as cache_gold from '@chainlink/cache.gold-adapter'
+import * as celsius_address_list from '@chainlink/celsius-address-list-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
@@ -142,6 +143,7 @@ export default {
   bravenewcoin,
   btc_com,
   cache_gold,
+  celsius_address_list,
   cfbenchmarks,
   chain_reserve_wallet,
   coinapi,
