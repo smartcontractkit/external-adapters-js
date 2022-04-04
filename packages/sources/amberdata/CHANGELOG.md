@@ -1,5 +1,14 @@
 # @chainlink/amberdata-adapter
 
+## 1.3.22
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-factories@1.0.40
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.21
 
 ### Patch Changes

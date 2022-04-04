@@ -1,5 +1,13 @@
 # @chainlink/uscpi-one-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.1
 
 ### Patch Changes
