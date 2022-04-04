@@ -1,5 +1,13 @@
 # @chainlink/lition-adapter
 
+## 1.1.26
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.25
 
 ### Patch Changes
