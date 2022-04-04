@@ -52,7 +52,7 @@ export class Overrider {
     const isOverridden: { [symbol: string]: boolean } = {}
     const alreadyWarned: { [symbol: string]: boolean } = {}
     for (const coinResponse of coinsResponse) {
-      const symbol = coinResponse.symbol.toUpperCase()
+      const symbol = coinResponse.symbol
 
       if (remainingSyms.includes(symbol)) {
         if (isOverridden[symbol] === true) {

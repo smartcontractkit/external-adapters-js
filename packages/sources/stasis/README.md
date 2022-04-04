@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Stasis
 
-Version: 1.1.24
+Version: 1.1.28
 
 Stasis adapter to get Circulating Supply of EURS
 
