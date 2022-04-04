@@ -1,5 +1,13 @@
 # @chainlink/lotus-adapter
 
+## 2.1.27
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/json-rpc-adapter@1.2.15
+
 ## 2.1.26
 
 ### Patch Changes

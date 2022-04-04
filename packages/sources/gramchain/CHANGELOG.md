@@ -1,5 +1,13 @@
 # @chainlink/example-source-adapter
 
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.15
 
 ### Patch Changes

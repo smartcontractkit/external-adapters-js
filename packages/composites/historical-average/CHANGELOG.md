@@ -1,5 +1,13 @@
 # @chainlink/historical-average-adapter
 
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/coinmarketcap-adapter@1.3.28
+
 ## 1.0.38
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # Chainlink Fixer External Adapter
 
-Version: 1.3.21
+Version: 1.3.25
 
 This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpoint.
 

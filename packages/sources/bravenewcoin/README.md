@@ -1,6 +1,6 @@
 # Chainlink External Adapter for BraveNewCoin
 
-Version: 1.2.3
+Version: 1.2.7
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
