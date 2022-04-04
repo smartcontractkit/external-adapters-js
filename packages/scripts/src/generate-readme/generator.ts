@@ -12,7 +12,6 @@ import {
 import { balance } from '@chainlink/ea-factories'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
-import { DEFAULT_WS_API_ENDPOINT } from '../../../sources/tradingeconomics/src/config'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -175,7 +174,7 @@ export class ReadmeGenerator {
       ? buildTable(tableText, paramHeaders)
       : 'There are no input parameters for this adapter.'
 
-    this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](https://github.com/smartcontractkit/external-adapters-js/tree/develop/packages/core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
+    this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
   }
 
   addEndpointSections(): void {
