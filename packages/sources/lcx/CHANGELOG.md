@@ -1,5 +1,13 @@
 # @chainlink/lcx-adapter
 
+## 1.2.14
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.13
 
 ### Patch Changes
