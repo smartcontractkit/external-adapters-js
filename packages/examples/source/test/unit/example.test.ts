@@ -1,35 +1,18 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
-import { makeExecute } from '../../src/adapter'
+import * as adapter from '../../src'
 
-describe('execute', () => {
-  const jobID = '1'
-  const execute = makeExecute()
-
-  describe('validation error', () => {
-    const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
-      {
-        name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
-      },
-      {
-        name: 'quote not supplied',
-        testData: { id: jobID, data: { base: 'ETH' } },
-      },
-    ]
-
-    requests.forEach((req) => {
-      it(`${req.name}`, async () => {
-        try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
-        }
-      })
-    })
+describe('adapter', () => {
+  it('has expected root exports', () => {
+    expect(adapter).toHaveProperty('NAME')
+    expect(typeof adapter.NAME).toBe('string')
+    expect(adapter).toHaveProperty('makeExecute')
+    expect(typeof adapter.makeExecute).toBe('function')
+    expect(adapter).toHaveProperty('makeConfig')
+    expect(typeof adapter.makeConfig).toBe('function')
+    expect(adapter).toHaveProperty('server')
+    expect(typeof adapter.server).toBe('function')
+    expect(adapter).toHaveProperty('types')
+    expect(typeof adapter.types).toBe('object')
+    expect(adapter).toHaveProperty('endpoints')
+    expect(typeof adapter.endpoints).toBe('object')
   })
 })
