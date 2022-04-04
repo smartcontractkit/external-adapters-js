@@ -1,5 +1,13 @@
 # @chainlink/intrinio-adapter
 
+## 1.2.5
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.4
 
 ### Patch Changes

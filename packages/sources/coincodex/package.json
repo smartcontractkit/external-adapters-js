@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coincodex-adapter",
-  "version": "1.2.26",
+  "version": "1.2.27",
   "description": "Chainlink coincodex adapter.",
   "keywords": [
     "Chainlink",

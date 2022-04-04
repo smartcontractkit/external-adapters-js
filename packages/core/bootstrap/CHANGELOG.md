@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.17.1
+
+### Patch Changes
+
+- 1a65c7b7d: Revert Overrider casing change
+
 ## 1.17.0
 
 ### Minor Changes
