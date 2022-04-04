@@ -1,5 +1,13 @@
 # @chainlink/linear-finance-adapter
 
+## 2.0.18
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/token-allocation-adapter@1.3.9
+
 ## 2.0.17
 
 ### Patch Changes
