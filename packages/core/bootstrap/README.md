@@ -8,16 +8,22 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 ## Table of Contents
 
-1. [Server configuration](#Server-configuration)
-2. [Performance](#Performance)
-   - [Caching](#Caching)
-   - [Redis](#Redis)
-   - [Rate Limiting](#Rate-Limiting)
-     - [Provider Limits](#Provider-Limits)
-   - [Cache Warming](#Cache-Warming)
-   - [Request Coalescing](#Request-Coalescing)
-3. [Metrics](#Metrics)
-4. [Websockets](#Websockets)
+- [Chainlink External Adapter Bootstrap](#chainlink-external-adapter-bootstrap)
+  - [Table of Contents](#table-of-contents)
+  - [Server configuration](#server-configuration)
+  - [Performance](#performance)
+    - [Error back offs](#error-back-offs)
+    - [Caching](#caching)
+    - [Cache key](#cache-key)
+      - [Ignoring keys](#ignoring-keys)
+    - [Local cache](#local-cache)
+    - [Redis](#redis)
+    - [Rate Limiting](#rate-limiting)
+      - [Provider Limits](#provider-limits)
+    - [Cache Warming](#cache-warming)
+    - [Request Coalescing](#request-coalescing)
+  - [Metrics](#metrics)
+  - [Websockets](#websockets)
 
 ---
 
@@ -31,7 +37,7 @@ Detailed here is optional configuration that can be provided to any EA through e
 |           |             `DEBUG`             |                                                                                                                                                                                       Toggles debug mode.                                                                                                                                                                                       |                          |       `false`        |
 |           |           `NODE_ENV`            |                                                                                                                                          Toggles development mode. When set to developement the log messages will be prettified to be more read-able.                                                                                                                                           |      `development`       |      undefined       |
 |           |           `LOG_LEVEL`           |                                                                                                                                               The [winston](https://github.com/winstonjs/winston) log level. Set to debug for full log messages.                                                                                                                                                | `info`, `debug`, `trace` |        `info`        |
-|           |          `API_TIMEOUT`          |                                                                                                                                                      The number of milliseconds a request can be pending before returning a timeout error.                                                                                                                                                      |                          |        `5000`        |
+|           |          `API_TIMEOUT`          |                                                                                                                                                      The number of milliseconds a request can be pending before returning a timeout error.                                                                                                                                                      |                          |       `30000`        |
 |           |         `API_ENDPOINT`          |                                                                                                                                                                              Override the base URL within the EA.                                                                                                                                                                               |                          |    Defined in EA     |
 |           |        `WS_API_ENDPOINT`        |                                                                                                                                                                         Override the base websocket URL within the EA.                                                                                                                                                                          |                          |    Defined in EA     |
 |           |          `API_VERBOSE`          |                                                                                                                              Toggle whether the response from the EA should contain just the results or also include the full response body from the queried API.                                                                                                                               |                          |       `false`        |

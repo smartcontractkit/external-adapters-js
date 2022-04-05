@@ -1,5 +1,17 @@
 # @chainlink/ea-bootstrap
 
+## 1.17.1
+
+### Patch Changes
+
+- 1a65c7b7d: Revert Overrider casing change
+
+## 1.17.0
+
+### Minor Changes
+
+- f9d466a77: Changed the default API timeout from 5 seconds back to 30 seconds
+
 ## 1.16.0
 
 ### Minor Changes
