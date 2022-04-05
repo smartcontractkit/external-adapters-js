@@ -2,7 +2,7 @@
 
 This adapter only has Websocket support for the forex endpoint.
 
-Version: 1.6.20
+Version: 1.6.24
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
