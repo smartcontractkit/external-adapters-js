@@ -1,3 +1,4 @@
+import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
 import { ByteArray } from '@ethercards/ec-util'
 import { ethers } from 'ethers'
 
@@ -37,4 +38,111 @@ const callLentoHex = (num: number): string => {
   const data = new ByteArray(Buffer.alloc(2))
   data.writeUnsignedShort(num / 2)
   return removeZeroX(data.toString('hex'))
+}
+
+export const updateEncodedCalls = async (
+  jobRunID: string,
+  achievementID: number,
+  calls: string[][],
+  batchWriter: ethers.Contract,
+  eventID: number,
+  date: string,
+  procesedEventIDs: { achievementID: number; eventID: number }[],
+): Promise<{
+  hasHitLimit: boolean
+  encodedCalls: string
+}> => {
+  const gasEstimation = await estimateCallsGasCost(
+    jobRunID,
+    achievementID,
+    calls,
+    batchWriter,
+    eventID,
+    date,
+  )
+  let encodedCalls = gasEstimation.encodedCalls
+  if (gasEstimation.hasHitLimit) {
+    encodedCalls = await handleWhenCallsNeedsMoreProcessing(
+      jobRunID,
+      calls,
+      batchWriter,
+      date,
+      procesedEventIDs,
+    )
+  }
+  return {
+    encodedCalls,
+    hasHitLimit: gasEstimation.hasHitLimit,
+  }
+}
+
+export const handleWhenCallsNeedsMoreProcessing = async (
+  jobRunID: string,
+  calls: string[][],
+  batchWriter: ethers.Contract,
+  date: string,
+  procesedEventIDs: { achievementID: number; eventID: number }[],
+): Promise<string> => {
+  let isOverGasLimit = true
+  let encodedCalls = ''
+  while (isOverGasLimit) {
+    calls.pop()
+    procesedEventIDs.pop()
+    const lastProcessedEvent = procesedEventIDs[procesedEventIDs.length - 1]
+    const poppedCalls = calls.concat([
+      batchWriter.address,
+      batchWriter.interface.encodeFunctionData('requestBytes', []),
+    ])
+    const newEncodedCallsResult = await estimateCallsGasCost(
+      jobRunID,
+      lastProcessedEvent.achievementID,
+      poppedCalls,
+      batchWriter,
+      lastProcessedEvent.eventID,
+      date,
+      true,
+    )
+    isOverGasLimit = newEncodedCallsResult.hasHitLimit
+    encodedCalls = newEncodedCallsResult.encodedCalls
+  }
+  return encodedCalls
+}
+
+export const estimateCallsGasCost = async (
+  jobRunID: string,
+  achievementID: number,
+  calls: string[][],
+  batchWriter: ethers.Contract,
+  eventID: number,
+  date: string,
+  needsMoreProcesing = false,
+): Promise<{
+  hasHitLimit: boolean
+  encodedCalls: string
+}> => {
+  let hasHitLimit = false
+  const encodedCalls = callToRequestData(calls, eventID, date, needsMoreProcesing)
+  try {
+    const gasCostEstimate = await batchWriter.estimateGas.estimate(
+      ethers.utils.formatBytes32String(jobRunID),
+      `0x${encodedCalls}`,
+    )
+    Logger.info(
+      `Successfully estimated gas ${gasCostEstimate.toString()} for processing achievementID ${achievementID} and eventID ${eventID}`,
+    )
+  } catch (e) {
+    if (e.code === 'UNPREDICTABLE_GAS_LIMIT') {
+      hasHitLimit = true
+    } else {
+      throw new AdapterError({
+        jobRunID,
+        message: e.message,
+        statusCode: 500,
+      })
+    }
+  }
+  return {
+    encodedCalls,
+    hasHitLimit,
+  }
 }

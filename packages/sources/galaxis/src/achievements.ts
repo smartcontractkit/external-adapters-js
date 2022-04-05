@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { TRAIT_IMPLEMENTER_ABI } from './abis'
-import { callToRequestData } from './encoder'
+import { updateEncodedCalls } from './encoder'
 import { ExtendedConfig } from './config'
 import {
   Achievement,
@@ -23,6 +23,7 @@ export const getEncodedCallsResult = async (
   const { provider, ecRegistry, ecRegistryMap, batchWriter } = config
   const { teams, players } = await getPlayerAndTeamMaps(ecRegistryMap)
   const calls: string[][] = []
+  const procesedEventIDs = []
   let hasHitLimit = false
   let encodedCalls = ''
   const achievementIDs = Object.keys(groupedAchievements)
@@ -58,6 +59,10 @@ export const getEncodedCallsResult = async (
         // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
         const addressToCall = implementerAddress || ecRegistry.address
         calls.push([addressToCall, encodedCall])
+        procesedEventIDs.push({
+          achievementID,
+          eventID: lastProcessedEventID,
+        })
         const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
           await updateEncodedCalls(
             jobRunID,
@@ -66,6 +71,7 @@ export const getEncodedCallsResult = async (
             batchWriter,
             lastProcessedEventID,
             date,
+            procesedEventIDs,
           )
         hasHitLimit = hasCallsHitLimit
         if (hasHitLimit) {
@@ -103,55 +109,6 @@ const validateEncodedCallsNotEmpty = (
       statusCode: 500,
       message: `Got empty encoded results when resuming from achievementID ${lastProcessedID}`,
     })
-  }
-}
-
-const updateEncodedCalls = async (
-  jobRunID: string,
-  achievementID: number,
-  calls: string[][],
-  batchWriter: ethers.Contract,
-  eventID: number,
-  date: string,
-): Promise<{
-  hasHitLimit: boolean
-  encodedCalls: string
-}> => {
-  // Try worst case scenario where we hit limit and we need to push requestBytes call
-  const appendedCalls = calls.concat([
-    batchWriter.address,
-    batchWriter.interface.encodeFunctionData('requestBytes', []),
-  ])
-  let hasHitLimit = false
-
-  // Assume that we have hit the limit and try encode that call.  This tests for the more expensive scenario
-  // as this transaction will cost more gas than when there is no more entries to process
-  let encodedCalls = callToRequestData(appendedCalls, eventID, date, true)
-  try {
-    const gasCostEstimate = await batchWriter.estimateGas.estimate(
-      ethers.utils.formatBytes32String(jobRunID),
-      `0x${encodedCalls}`,
-    )
-    Logger.info(
-      `Successfully estimated gas ${gasCostEstimate.toString()} for processing achievementID ${achievementID} and eventID ${eventID}`,
-    )
-  } catch (e) {
-    if (e.code === 'UNPREDICTABLE_GAS_LIMIT') {
-      hasHitLimit = true
-    } else {
-      throw new AdapterError({
-        jobRunID,
-        message: e.message,
-        statusCode: 500,
-      })
-    }
-  }
-
-  // If we have not hit the gas limit, then we encode only the calls array without the call to requestBytes
-  if (!hasHitLimit) encodedCalls = callToRequestData(calls, eventID, date, false)
-  return {
-    encodedCalls,
-    hasHitLimit,
   }
 }
 
