@@ -28,11 +28,11 @@ exports[`execute live  api with invalid base should return failure 1`] = `
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"endpoint\\":\\"live\\",\\"base\\":\\"NON-EXISTING\\"}}",
-    "message": "Result could not be found in path",
+    "message": "Result could not be found in path or is empty",
     "name": "AdapterError",
   },
   "jobRunID": "1",
   "status": "errored",
-  "statusCode": 500,
+  "statusCode": 502,
 }
 `;
