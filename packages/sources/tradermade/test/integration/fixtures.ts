@@ -138,7 +138,7 @@ export const mockResponseFailure = () =>
         endpoint: 'live',
         quotes: [
           {
-            error: 400,
+            error: 502,
             instrument: 'NON_EXISTING',
             message: 'currency code is invalid',
           },

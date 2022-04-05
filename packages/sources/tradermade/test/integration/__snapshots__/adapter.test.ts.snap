@@ -33,6 +33,6 @@ Object {
   },
   "jobRunID": "1",
   "status": "errored",
-  "statusCode": 404,
+  "statusCode": 502,
 }
 `;
