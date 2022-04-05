@@ -1,5 +1,51 @@
 # @chainlink/market-closure-adapter
 
+## 1.0.42
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-reference-data-reader@1.1.16
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/fcsapi-adapter@1.1.15
+  - @chainlink/finnhub-adapter@1.1.15
+
+## 1.0.41
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-reference-data-reader@1.1.15
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/fcsapi-adapter@1.1.14
+  - @chainlink/finnhub-adapter@1.1.14
+
+## 1.0.40
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-reference-data-reader@1.1.14
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/fcsapi-adapter@1.1.13
+  - @chainlink/finnhub-adapter@1.1.13
+
+## 1.0.39
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- 4fbbe69d2: refactor, added endpoints folder structure
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-reference-data-reader@1.1.13
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/fcsapi-adapter@1.1.12
+  - @chainlink/finnhub-adapter@1.1.12
+
 ## 1.0.38
 
 ### Patch Changes

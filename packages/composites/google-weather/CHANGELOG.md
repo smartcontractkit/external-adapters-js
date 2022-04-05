@@ -1,5 +1,38 @@
 # @chainlink/google-weather-adapter
 
+## 1.0.43
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/google-bigquery-adapter@1.1.27
+
+## 1.0.42
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/google-bigquery-adapter@1.1.26
+
+## 1.0.41
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/google-bigquery-adapter@1.1.25
+
+## 1.0.40
+
+### Patch Changes
+
+- 4fbbe69d2: refactor, added endpoints folder structure
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/google-bigquery-adapter@1.1.24
+
 ## 1.0.39
 
 ### Patch Changes

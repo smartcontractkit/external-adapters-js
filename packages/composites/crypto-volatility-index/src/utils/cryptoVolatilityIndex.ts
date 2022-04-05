@@ -6,7 +6,7 @@ import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
 import { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/types'
-import { DEFAULT_NETWORK } from './config'
+import { DEFAULT_NETWORK } from '../config'
 
 interface InputData {
   contract: string

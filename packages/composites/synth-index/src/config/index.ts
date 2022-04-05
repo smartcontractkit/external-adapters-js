@@ -3,7 +3,7 @@ import * as ta from '@chainlink/token-allocation-adapter'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'SYNTH_INDEX'
-
+export const DEFAULT_ENDPOINT = 'value'
 export interface Config extends BaseConfig {
   defaultNetwork: string
   taConfig: ta.types.Config
@@ -14,5 +14,6 @@ export const makeConfig = (prefix = ''): Config => {
     api: {},
     defaultNetwork: util.getEnv('DEFAULT_NETWORK') || 'mainnet',
     taConfig: ta.makeConfig(prefix),
+    defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }

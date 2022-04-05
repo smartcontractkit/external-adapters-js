@@ -1,5 +1,101 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/amberdata-adapter@1.3.23
+  - @chainlink/cfbenchmarks-adapter@1.4.19
+  - @chainlink/coinapi-adapter@1.1.28
+  - @chainlink/coingecko-adapter@1.4.6
+  - @chainlink/coinmarketcap-adapter@1.3.28
+  - @chainlink/coinmetrics-adapter@1.2.27
+  - @chainlink/coinpaprika-adapter@1.7.5
+  - @chainlink/cryptocompare-adapter@1.3.16
+  - @chainlink/finage-adapter@1.3.28
+  - @chainlink/kaiko-adapter@1.2.4
+  - @chainlink/ncfx-adapter@1.2.5
+  - @chainlink/nomics-adapter@1.1.11
+  - @chainlink/tiingo-adapter@1.8.7
+
+## 1.3.8
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/amberdata-adapter@1.3.22
+  - @chainlink/cfbenchmarks-adapter@1.4.18
+  - @chainlink/coinapi-adapter@1.1.27
+  - @chainlink/coingecko-adapter@1.4.5
+  - @chainlink/coinmarketcap-adapter@1.3.27
+  - @chainlink/coinmetrics-adapter@1.2.26
+  - @chainlink/coinpaprika-adapter@1.7.4
+  - @chainlink/cryptocompare-adapter@1.3.15
+  - @chainlink/finage-adapter@1.3.27
+  - @chainlink/kaiko-adapter@1.2.3
+  - @chainlink/ncfx-adapter@1.2.4
+  - @chainlink/nomics-adapter@1.1.10
+  - @chainlink/tiingo-adapter@1.8.6
+
+## 1.3.7
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/amberdata-adapter@1.3.21
+  - @chainlink/cfbenchmarks-adapter@1.4.17
+  - @chainlink/coinapi-adapter@1.1.26
+  - @chainlink/coingecko-adapter@1.4.4
+  - @chainlink/coinmarketcap-adapter@1.3.26
+  - @chainlink/coinmetrics-adapter@1.2.25
+  - @chainlink/coinpaprika-adapter@1.7.3
+  - @chainlink/cryptocompare-adapter@1.3.14
+  - @chainlink/finage-adapter@1.3.26
+  - @chainlink/kaiko-adapter@1.2.2
+  - @chainlink/ncfx-adapter@1.2.3
+  - @chainlink/nomics-adapter@1.1.9
+  - @chainlink/tiingo-adapter@1.8.5
+
+## 1.3.6
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6f867c614]
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/finage-adapter@1.3.25
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/amberdata-adapter@1.3.20
+  - @chainlink/cfbenchmarks-adapter@1.4.16
+  - @chainlink/coinapi-adapter@1.1.25
+  - @chainlink/coingecko-adapter@1.4.3
+  - @chainlink/coinmarketcap-adapter@1.3.25
+  - @chainlink/coinmetrics-adapter@1.2.24
+  - @chainlink/coinpaprika-adapter@1.7.2
+  - @chainlink/cryptocompare-adapter@1.3.13
+  - @chainlink/kaiko-adapter@1.2.1
+  - @chainlink/ncfx-adapter@1.2.2
+  - @chainlink/nomics-adapter@1.1.8
+  - @chainlink/tiingo-adapter@1.8.4
+
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies [8f01a55f5]
+- Updated dependencies [37e1c74ff]
+  - @chainlink/kaiko-adapter@1.2.0
+  - @chainlink/coingecko-adapter@1.4.2
+  - @chainlink/coinpaprika-adapter@1.7.1
+
 ## 1.3.4
 
 ### Patch Changes

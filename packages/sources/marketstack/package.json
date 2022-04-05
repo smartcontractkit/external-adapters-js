@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/marketstack-adapter",
-  "version": "1.2.23",
+  "version": "1.2.27",
   "description": "Chainlink marketstack adapter.",
   "keywords": [
     "Chainlink",

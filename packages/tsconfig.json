@@ -48,6 +48,9 @@
       "path": "./composites/historical-average"
     },
     {
+      "path": "./composites/implied-price"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {

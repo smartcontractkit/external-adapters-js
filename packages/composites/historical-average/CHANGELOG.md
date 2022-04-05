@@ -1,5 +1,38 @@
 # @chainlink/historical-average-adapter
 
+## 1.0.39
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/coinmarketcap-adapter@1.3.28
+
+## 1.0.38
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/coinmarketcap-adapter@1.3.27
+
+## 1.0.37
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/coinmarketcap-adapter@1.3.26
+
+## 1.0.36
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/coinmarketcap-adapter@1.3.25
+
 ## 1.0.35
 
 ### Patch Changes

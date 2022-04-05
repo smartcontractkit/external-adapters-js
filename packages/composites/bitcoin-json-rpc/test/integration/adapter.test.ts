@@ -1,27 +1,21 @@
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
-import process from 'process'
-import nock from 'nock'
-import http from 'http'
+import * as process from 'process'
 import { server as startServer } from '../../src'
-import { mockUSCPIResponseSuccess } from './fixtures'
-import { DEFAULT_BASE_URL } from '../../src/config'
+import { mockCRPCCallResponseSuccess } from './fixtures'
+import * as nock from 'nock'
+import * as http from 'http'
 import { AddressInfo } from 'net'
 
-let oldEnv: NodeJS.ProcessEnv
-
 beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.CACHE_ENABLED = 'false'
-  process.env.API_ENDPOINT = process.env.API_ENDPOINT || DEFAULT_BASE_URL
-  process.env.API_VERBOSE = 'true'
+  process.env.RPC_URL = 'http://localhost:8545'
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
 })
 
 afterAll(() => {
-  process.env = oldEnv
   if (process.env.RECORD) {
     nock.recorder.play()
   }
@@ -39,25 +33,44 @@ describe('execute', () => {
   beforeAll(async () => {
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
   })
 
   afterAll((done) => {
     server.close(done)
   })
 
-  describe('with token', () => {
+  describe('difficulty endpoint', () => {
     const data: AdapterRequest = {
-      id: '1',
+      id,
       data: {
-        serie: 'CUSR0000SA0',
-        month: 'July',
-        year: '2021',
+        endpoint: 'difficulty',
       },
     }
 
     it('should return success', async () => {
-      mockUSCPIResponseSuccess()
+      mockCRPCCallResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('height endpoint', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'height',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCRPCCallResponseSuccess()
 
       const response = await req
         .post('/')

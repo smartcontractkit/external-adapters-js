@@ -1,6 +1,6 @@
 # Chainlink External Adapters for BTC.com
 
-Version: 1.2.23
+Version: 1.2.27
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
