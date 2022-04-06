@@ -1,5 +1,12 @@
 # @chainlink/por-indexer-adapter
 
+## 1.0.29
+
+### Patch Changes
+
+- Updated dependencies [92441b087]
+  - @chainlink/proof-of-reserves-adapter@1.5.8
+
 ## 1.0.28
 
 ### Patch Changes
