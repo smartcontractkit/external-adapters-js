@@ -1,5 +1,17 @@
 # @chainlink/kaiko-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 9e91ddcdf: Cleaned up code (renamed function and removed unused code for old Kaiko endpoint)
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.4
 
 ### Patch Changes
