@@ -1,5 +1,14 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.5.8
+
+### Patch Changes
+
+- 92441b087: Fixes compile issues
+  - @chainlink/por-indexer-adapter@1.0.29
+  - @chainlink/renvm-address-set-adapter@1.3.19
+  - @chainlink/wbtc-address-set-adapter@1.3.28
+
 ## 1.5.7
 
 ### Patch Changes
