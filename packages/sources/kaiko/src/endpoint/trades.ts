@@ -49,14 +49,8 @@ export const inputParameters: InputParameters = {
   },
 }
 
-const symbolUrl = (from: string, to: string) =>
+const getUrl = (from: string, to: string) =>
   util.buildUrlPath('/spot_exchange_rate/:from/:to', {
-    from: from.toLowerCase(),
-    to: to.toLowerCase(),
-  })
-
-const directUrl = (from: string, to: string) =>
-  util.buildUrlPath('/spot_direct_exchange_rate/:from/:to', {
     from: from.toLowerCase(),
     to: to.toLowerCase(),
   })
@@ -149,7 +143,7 @@ const getOptions = (
   const includeOptions = getIncludesOptions(validator, base, quote, includes)
   return (
     includeOptions ?? {
-      url: symbolUrl(base, quote),
+      url: getUrl(base, quote),
     }
   )
 }
@@ -163,7 +157,7 @@ const getIncludesOptions = (
   const include = getIncludes(validator, from, to, includes)
   if (!include) return undefined
   return {
-    url: directUrl(include.from, include.to),
+    url: getUrl(include.from, include.to),
     inverse: include.inverse,
   }
 }
