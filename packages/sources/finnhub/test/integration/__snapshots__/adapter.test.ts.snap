@@ -21,6 +21,6 @@ Object {
   },
   "jobRunID": "1",
   "status": "errored",
-  "statusCode": 500,
+  "statusCode": 400,
 }
 `;
