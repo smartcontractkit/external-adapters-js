@@ -1,6 +1,7 @@
 import { AdapterImplementation, Config, AdapterResponse, AdapterContext } from '@chainlink/types'
 import { Requester } from '@chainlink/ea-bootstrap'
-import { callAdapter, makeRequestFactory } from '../endpoint/reserves'
+import { makeRequestFactory, callAdapter } from '.'
+
 // protocol adapters
 import * as renVM from '@chainlink/renvm-address-set-adapter'
 import * as wBTC from '@chainlink/wbtc-address-set-adapter'
