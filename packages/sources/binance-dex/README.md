@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance DEX
 
-Version: 1.2.27
+Version: 1.2.28
 
 The following `base` and `quote` pair must be taken from [this list](https://dex.binance.org/api/v1/markets)
 

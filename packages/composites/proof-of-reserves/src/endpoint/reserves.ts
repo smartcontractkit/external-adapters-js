@@ -1,46 +1,13 @@
-import { Logger, util } from '@chainlink/ea-bootstrap'
-import {
-  AdapterRequest,
-  ExecuteWithConfig,
-  Config,
-  Execute,
-  AdapterResponse,
-  AdapterContext,
-  InputParameters,
-} from '@chainlink/types'
-import { Validator, Requester } from '@chainlink/ea-bootstrap'
+import { Validator } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { makeOptions } from '../config'
-import { runProtocolAdapter } from '../utils/protocol'
 import { Indexer, runBalanceAdapter } from '../utils/balance'
+import { runProtocolAdapter } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
 
 export const supportedEndpoints = ['reserves']
 
 const paramOptions = makeOptions()
-
-export const makeRequestFactory =
-  (config: Config, prefix: string): Execute =>
-  async (input: AdapterRequest) =>
-    (
-      await Requester.request({
-        ...config.api,
-        method: 'post',
-        url: util.getURL(prefix, true),
-        data: input,
-      })
-    ).data as AdapterResponse
-
-// Run, log, throw on error
-export const callAdapter = async (
-  execute: Execute,
-  context: AdapterContext,
-  input: AdapterRequest,
-  tag: string,
-): Promise<AdapterResponse> => {
-  const output = await execute(input, context)
-  Logger.debug(tag, { output })
-  return output
-}
 
 const inputParameters: InputParameters = {
   protocol: {

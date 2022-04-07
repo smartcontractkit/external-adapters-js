@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute mc02 endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 3041044,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 3041044,
+  "statusCode": 200,
+}
+`;
