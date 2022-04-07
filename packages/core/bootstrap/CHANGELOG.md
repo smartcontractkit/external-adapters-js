@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 1.18.0
+
+### Minor Changes
+
+- 62095689f: add granular status code
+
 ## 1.17.1
 
 ### Patch Changes
