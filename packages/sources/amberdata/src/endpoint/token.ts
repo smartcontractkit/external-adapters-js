@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import includes from './../config/includes.json'
 
@@ -64,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
   const resultPath = validator.validated.data.resultPath || 'marketCap'
-  const url = util.buildUrlPath(`/api/v2/market/rankings/latest`)
+  const url = '/api/v2/market/rankings/latest'
 
   const reqConfig = { ...config.api, url }
 
