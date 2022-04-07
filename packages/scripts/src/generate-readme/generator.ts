@@ -42,6 +42,7 @@ export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
   defaultEndpoint = ''
+  defaultBaseUrl = ''
   endpointDetails: EndpointDetails = {}
   envVars: EnvVars
   integrationTestPath: string | null
@@ -51,6 +52,8 @@ export class ReadmeGenerator {
   skipTests: boolean
   verbose: boolean
   version: string
+  versionBadgeUrl: string
+  license: string
 
   constructor(adapterPath: string, verbose = false, skipTests = false) {
     this.verbose = verbose
@@ -64,6 +67,8 @@ export class ReadmeGenerator {
     const packagePath = checkFilePaths([adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
+    this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
+    this.license = packageJson.license ?? ''
 
     if (verbose) console.log(`${adapterPath}: Checking schema/env.json`)
 
@@ -88,7 +93,9 @@ export class ReadmeGenerator {
       this.adapterPath + 'src/config.ts',
       this.adapterPath + 'src/config/index.ts',
     ])
-    this.defaultEndpoint = (await require(localPathToRoot + configPath)).DEFAULT_ENDPOINT
+    const configFile = await require(localPathToRoot + configPath)
+    this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
+    this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
 
@@ -103,6 +110,7 @@ export class ReadmeGenerator {
     this.addEnvVarSection()
     this.addInputParamsSection()
     this.addEndpointSections()
+    this.addLicense()
 
     console.log(`${this.adapterPath}: README has been generated (unsaved)`)
   }
@@ -110,8 +118,11 @@ export class ReadmeGenerator {
   addIntroSection(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Adding title and version`)
 
-    this.readmeText = `# ${this.name}\n\nVersion: ${this.version}\n\n`
+    this.readmeText = `# ${this.name}\n\n![${this.version}](${this.versionBadgeUrl})\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
+    if (this.defaultBaseUrl) {
+      this.readmeText += `Base URL ${this.defaultBaseUrl}\n\n`
+    }
     this.readmeText += `${genSig}\n\n`
   }
 
@@ -163,7 +174,7 @@ export class ReadmeGenerator {
       ? buildTable(tableText, paramHeaders)
       : 'There are no input parameters for this adapter.'
 
-    this.readmeText += `## Input Parameters\n\n${inputParamTable}\n\n---\n\n`
+    this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
   }
 
   addEndpointSections(): void {
@@ -337,6 +348,12 @@ export class ReadmeGenerator {
       .join('\n\n---\n\n')
 
     this.readmeText += endpointSections + '\n\n---\n'
+  }
+
+  addLicense(): void {
+    if (this.license) {
+      this.readmeText += `${this.license} License \n`
+    }
   }
 
   createReadmeFile(): void {
