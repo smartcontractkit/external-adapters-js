@@ -183,7 +183,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         connection_key: payload.connectionInfo.key,
         connection_url: censor(url),
         feed_id: getFeedId({ ...payload.input }),
-        subscription_key: payload.input.debug?.cacheKey ?? getSubsId(payload.subscriptionMsg),
+        subscription_key: getSubsId(payload.subscriptionMsg),
       })
 
       const openObserver = new Subject()
@@ -265,7 +265,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         filter(({ payload }) => payload.connectionInfo.key === connectionKey),
         map(({ payload }) => ({
           payload,
-          subscriptionKey: payload.input.debug?.cacheKey ?? getSubsId(payload.subscriptionMsg),
+          subscriptionKey: getSubsId(payload.subscriptionMsg),
         })),
         withLatestFrom(state$),
         filter(([{ subscriptionKey }, state]) => {
@@ -275,7 +275,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
             return false
           }
           const currentInput = state.ws.subscriptions.all[subscriptionKey]?.input
-          const currentSubscriptionKey = currentInput.debug?.cacheKey ?? getSubsId(currentInput)
+          const currentSubscriptionKey = getSubsId(currentInput)
           return currentSubscriptionKey !== subscriptionKey
         }),
         mergeMap(async ([{ subscriptionKey, payload }]) => {
@@ -291,7 +291,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         filter(({ payload }) => payload.connectionInfo.key === connectionKey),
         map(({ payload }) => ({
           payload,
-          subscriptionKey: payload.input.debug?.cacheKey ?? getSubsId(payload.subscriptionMsg),
+          subscriptionKey: getSubsId(payload.subscriptionMsg),
         })),
         withLatestFrom(state$),
         filter(([{ subscriptionKey, payload }, state]) => {
@@ -349,16 +349,14 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 ),
               (message) => {
                 const connectionState = state.ws.connections.all[payload.connectionInfo.key]
-                const currentSubscriptionKey =
-                  payload.input.debug?.cacheKey ??
-                  getSubsId(
-                    wsHandler.subsFromMessage(
-                      message,
-                      payload.subscriptionMsg,
-                      payload.input,
-                      connectionState?.connectionParams,
-                    ),
-                  )
+                const currentSubscriptionKey = getSubsId(
+                  wsHandler.subsFromMessage(
+                    message,
+                    payload.subscriptionMsg,
+                    payload.input,
+                    connectionState?.connectionParams,
+                  ),
+                )
                 console.log({ currentSubscriptionKey })
                 const shouldPassAlong =
                   (payload.filterMultiplex && payload.filterMultiplex(message)) ||
@@ -429,11 +427,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 merge(
                   action$.pipe(
                     filter(unsubscribeRequested.match),
-                    filter(
-                      (a) =>
-                        (a.payload.input.debug?.cacheKey ??
-                          getSubsId(a.payload.subscriptionMsg)) === subscriptionKey,
-                    ),
+                    filter((a) => getSubsId(a.payload.subscriptionMsg) === subscriptionKey),
                     tap((a) => logger.info('WS: Unsubscribed', subscriptionMeta(a.payload))),
                   ),
                   action$.pipe(
@@ -605,16 +599,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         // when a subscription comes in
         // TODO: we need to filter duplicated subscriptions here
         mergeMap(({ payload }) => {
-          const subscriptionKey =
-            payload.input.debug?.cacheKey ?? getSubsId(payload.subscriptionMsg)
+          const subscriptionKey = getSubsId(payload.subscriptionMsg)
           // we look for matching subscriptions of the same type
           // which deactivates the current timer
           const reset$ = subscriptions$.pipe(
-            filter(
-              ({ payload }) =>
-                subscriptionKey ===
-                (payload.input.debug?.cacheKey ?? getSubsId(payload.subscriptionMsg)),
-            ),
+            filter(({ payload }) => subscriptionKey === getSubsId(payload.subscriptionMsg)),
             take(1),
           )
           // start the current unsubscription timer
@@ -794,6 +783,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
          * Create an adapter request we send to the cache middleware
          * so it uses the following object for setting cache keys
          */
+        console.log(input)
         const wsResponse: AdapterRequest = {
           ...input,
           data: { maxAge: wsConfig.subscriptionTTL, ...input.data },
@@ -825,15 +815,13 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
       const subscriptionLabels = (payload: WSSubscriptionPayload) => ({
         connection_key: payload.connectionInfo.key,
         feed_id: getFeedId({ ...payload.input }),
-        subscription_key: payload.input.debug?.cacheKey ?? getSubsId(payload.subscriptionMsg),
+        subscription_key: getSubsId(payload.subscriptionMsg),
       })
       const subscriptionErrorLabels = (payload: WSSubscriptionErrorPayload) => ({
         connection_key: payload.connectionInfo.key,
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
-        subscription_key:
-          payload.input?.debug?.cacheKey ??
-          (payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A'),
+        subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
       })
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({
@@ -862,8 +850,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           ws_subscription_errors.labels(subscriptionErrorLabels(action.payload)).inc()
           break
         case unsubscribeFulfilled.type: {
-          const key =
-            action.payload.input.debug?.cacheKey ?? getSubsId(action.payload.subscriptionMsg)
+          const key = getSubsId(action.payload.subscriptionMsg)
           if (state.ws.subscriptions.all[key]?.wasEverActive) {
             ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
           }
