@@ -1,12 +1,13 @@
 import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
-import { Config, WETH, DEFAULT_NETWORK } from '../../config'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../../types'
+import { Config, WETH, DEFAULT_NETWORK } from '../config'
+import { ExecuteWithConfig } from '@chainlink/types'
+import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../types'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
-export const NAME = 'price'
+export const NAME = 'prices'
+export const supportedEndpoints = ['prices']
 
-const inputParameters: InputParameters = {
+const customParams = {
   baseCoinTicker: ['baseCoinTicker', 'base', 'from', 'coin'],
   quoteCoinTicker: ['quoteCoinTicker', 'quote', 'to', 'market'],
   dex: true,
@@ -18,7 +19,8 @@ const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
+  console.log('here')
+  const validator = new Validator(input, customParams)
 
   const jobRunID = validator.validated.id
   const {

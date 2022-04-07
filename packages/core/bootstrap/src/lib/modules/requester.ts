@@ -51,6 +51,19 @@ export class Requester {
         response = await axios(config)
       } catch (error) {
         // Request error
+        if (error.code === 'ECONNABORTED') {
+          // Axios timeout code
+          throw new AdapterError({
+            statusCode: 504,
+            name: 'Request Timeout error',
+            providerStatusCode: error?.response?.status ?? 504,
+            message: error?.message,
+            cause: error,
+            errorResponse: error?.response?.data?.error,
+            url,
+          })
+        }
+
         if (n === 1) {
           throw new AdapterError({
             statusCode: 200,
@@ -102,15 +115,23 @@ export class Requester {
     options?: { inverse?: boolean },
   ): number {
     const result = this.getResult(data, path)
-    if (typeof result === 'undefined') {
-      const message = 'Result could not be found in path'
+
+    if (typeof result === 'undefined' || result === null) {
+      const message = 'Result could not be found in path or is empty'
       logger.error(message, { data, path })
-      throw new AdapterError({ message })
+      throw new AdapterError({
+        message,
+        statusCode: 502,
+      })
     }
+
     if (Number(result) === 0 || isNaN(Number(result))) {
       const message = 'Invalid result received'
       logger.error(message, { data, path })
-      throw new AdapterError({ message })
+      throw new AdapterError({
+        message,
+        statusCode: 400,
+      })
     }
     const num = Number(result)
     if (options?.inverse && num != 0) {

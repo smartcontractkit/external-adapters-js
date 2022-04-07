@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Finage
 
-Version: 1.3.24
+Version: 1.3.29
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -46,8 +46,9 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "stock",
-    "base": "ETH"
-  }
+    "base": "AAPL"
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 
@@ -57,7 +58,7 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "symbol": "ETH",
+    "symbol": "AAPL",
     "ask": 26.32,
     "bid": 25.8,
     "asize": 13,
@@ -95,7 +96,8 @@ Request:
   "data": {
     "endpoint": "eod",
     "base": "ETH"
-  }
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 
@@ -152,7 +154,8 @@ Request:
     "endpoint": "forex",
     "from": "GBP",
     "to": "USD"
-  }
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 
@@ -198,7 +201,8 @@ Request:
     "endpoint": "crypto",
     "from": "BTC",
     "to": "USD"
-  }
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 

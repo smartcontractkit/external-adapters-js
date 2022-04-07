@@ -1,5 +1,46 @@
 # @chainlink/linear-finance-adapter
 
+## 2.0.19
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/token-allocation-adapter@1.3.10
+
+## 2.0.18
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/token-allocation-adapter@1.3.9
+
+## 2.0.17
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/token-allocation-adapter@1.3.8
+
+## 2.0.16
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/token-allocation-adapter@1.3.7
+
+## 2.0.15
+
+### Patch Changes
+
+- Updated dependencies [4fbbe69d2]
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/token-allocation-adapter@1.3.6
+  - @chainlink/ea-bootstrap@1.15.0
+
 ## 2.0.14
 
 ### Patch Changes

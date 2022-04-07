@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmetrics
 
-Version: 1.2.23
+Version: 1.2.28
 
 ### Websocket support
 

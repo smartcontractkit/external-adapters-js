@@ -5,7 +5,8 @@ import {
   Account,
   AdapterContext,
 } from '@chainlink/types'
-import { callAdapter, makeRequestFactory } from '../endpoint/reserves'
+import { makeRequestFactory, callAdapter } from '.'
+
 // balance adapters
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'

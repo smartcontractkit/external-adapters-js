@@ -48,6 +48,9 @@
       "path": "./composites/historical-average"
     },
     {
+      "path": "./composites/implied-price"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
@@ -142,6 +145,9 @@
     },
     {
       "path": "./sources/ap-election"
+    },
+    {
+      "path": "./sources/armanino"
     },
     {
       "path": "./sources/bea"
