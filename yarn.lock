@@ -2024,6 +2024,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/armanino-adapter@workspace:*, @chainlink/armanino-adapter@workspace:packages/sources/armanino":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/armanino-adapter@workspace:packages/sources/armanino"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.19
+    "@types/supertest": 2.0.11
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/augur-adapter@workspace:packages/composites/augur":
   version: 0.0.0-use.local
   resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
@@ -3066,6 +3083,7 @@ __metadata:
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
+    "@chainlink/armanino-adapter": "workspace:*"
     "@chainlink/bea-adapter": "workspace:*"
     "@chainlink/binance-adapter": "workspace:*"
     "@chainlink/binance-dex-adapter": "workspace:*"
@@ -3345,6 +3363,9 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.19
+    "@types/supertest": 2.0.11
+    nock: 13.2.4
+    supertest: 6.2.2
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
