@@ -1,6 +1,6 @@
 import * as reduce from '@chainlink/reduce-adapter'
 import { AdapterContext, AdapterResponse } from '@chainlink/types'
-import { callAdapter } from '../endpoint/reserves'
+import { callAdapter } from '.'
 import { Indexer } from './balance'
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import * as bitcoinPorIndexer from '@chainlink/por-indexer-adapter'

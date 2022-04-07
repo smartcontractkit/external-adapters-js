@@ -1,5 +1,13 @@
 # @chainlink/google-weather-adapter
 
+## 1.0.44
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/google-bigquery-adapter@1.1.28
+
 ## 1.0.43
 
 ### Patch Changes

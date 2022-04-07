@@ -227,6 +227,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ap-election"
       },
       {
+        "name": "@chainlink/armanino-adapter",
+        "reference": "workspace:packages/sources/armanino"
+      },
+      {
         "name": "@chainlink/bea-adapter",
         "reference": "workspace:packages/sources/bea"
       },
@@ -714,6 +718,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],
       ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
+      ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],
       ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],
@@ -4289,6 +4294,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/armanino-adapter", [
+        ["workspace:packages/sources/armanino", {
+          "packageLocation": "./packages/sources/armanino/",
+          "packageDependencies": [
+            ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/augur-adapter", [
         ["workspace:packages/composites/augur", {
           "packageLocation": "./packages/composites/augur/",
@@ -5296,6 +5320,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
             ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],
             ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],
+            ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],
             ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],
@@ -5740,6 +5765,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
