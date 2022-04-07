@@ -45,6 +45,18 @@ Detailed here is optional configuration that can be provided to any EA through e
 |           | `SERVER_SLOW_DOWN_AFTER_FACTOR` |                                                                                                                                  The amount of requests after which subsequent requests will be slowed down by a delay (as a percentage of the max requests).                                                                                                                                   |                          |        `0.8`         |
 |           |   `SERVER_SLOW_DOWN_DELAY_MS`   |                                                                                                                                                 The number of milliseconds to delay a request once the slow down factor's threshold is reached.                                                                                                                                                 |                          |        `500`         |
 
+### Base input parameters
+
+Base input parameters are accepted for every EA
+
+| Required? | Name             | Description                                                                                           |
+| --------- | ---------------- | ----------------------------------------------------------------------------------------------------- |
+|           | `endpoint`       | The External Adapter "endpoint" name to use.                                                          |
+|           | `resultPath`     | The path to key into the API response the retrieve the result                                         |
+|           | `overrides`      | Override the mapping of token symbols to another token symbol                                         |
+|           | `tokenOverrides` | Override the mapping of token symbols to smart contract address                                       |
+|           | `includes`       | Override the array of includes that holds additional input parameters when matching a pair of symbols |
+
 ## Performance
 
 ### Error back offs
