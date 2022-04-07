@@ -1,6 +1,7 @@
 import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
 import { ByteArray } from '@ethercards/ec-util'
 import { ethers } from 'ethers'
+import { ProcessedEventInfo } from './types'
 
 export const callToRequestData = (
   calls: string[][],
@@ -47,7 +48,7 @@ export const updateEncodedCalls = async (
   batchWriter: ethers.Contract,
   eventID: number,
   date: string,
-  procesedEventIDs: { achievementID: number; eventID: number }[],
+  procesedEventIDs: ProcessedEventInfo[],
 ): Promise<{
   hasHitLimit: boolean
   encodedCalls: string
@@ -81,7 +82,7 @@ export const handleWhenCallsNeedsMoreProcessing = async (
   calls: string[][],
   batchWriter: ethers.Contract,
   date: string,
-  procesedEventIDs: { achievementID: number; eventID: number }[],
+  procesedEventIDs: ProcessedEventInfo[],
 ): Promise<string> => {
   let isOverGasLimit = true
   let encodedCalls = ''
@@ -89,14 +90,14 @@ export const handleWhenCallsNeedsMoreProcessing = async (
     calls.pop()
     procesedEventIDs.pop()
     const lastProcessedEvent = procesedEventIDs[procesedEventIDs.length - 1]
-    const poppedCalls = calls.concat([
+    const needsMoreProcessingCall = calls.concat([
       batchWriter.address,
       batchWriter.interface.encodeFunctionData('requestBytes', []),
     ])
     const newEncodedCallsResult = await estimateCallsGasCost(
       jobRunID,
       lastProcessedEvent.achievementID,
-      poppedCalls,
+      needsMoreProcessingCall,
       batchWriter,
       lastProcessedEvent.eventID,
       date,

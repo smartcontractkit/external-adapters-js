@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { ExtendedConfig } from './config'
 
 export interface FilteredAchievements {
   encodedCalls: string
@@ -47,4 +48,36 @@ export interface GetSetDataEncodedCallParams {
   ecRegistryMap: ethers.Contract
   startEventIdx: number
   endEventIdx: number
+}
+
+export interface LastProcessedInfo {
+  startEventIdx: number
+  startAchievementIdx: number
+  lastProcessedEventID: number
+}
+
+export interface ProcessAllAchievementParams {
+  jobRunID: string
+  date: string
+  teams: TeamStruct[]
+  players: PlayerStruct[]
+  groupedAchievements: AchievementsByIDs
+  sortedAchievementIDs: number[]
+  lastProcessedInfo: LastProcessedInfo
+}
+
+export interface ProcessAchievementParams {
+  jobRunID: string
+  achievementID: number
+  groupedAchievements: AchievementsByIDs
+  config: ExtendedConfig
+  teams: TeamStruct[]
+  players: PlayerStruct[]
+  date: string
+  startEventIdx: number
+}
+
+export interface ProcessedEventInfo {
+  achievementID: number
+  eventID: number
 }

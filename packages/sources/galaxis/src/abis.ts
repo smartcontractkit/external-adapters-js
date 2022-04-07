@@ -45,6 +45,13 @@ export const EC_REGISTRY_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [],
+    name: 'LastDate',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
 
 export const EC_REGISTRY_MAP_ABI = [
@@ -115,13 +122,6 @@ export const BATCH_WRITER_ABI = [
     inputs: [],
     name: 'LastDataRecordId',
     outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'LastDate',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
     stateMutability: 'view',
     type: 'function',
   },

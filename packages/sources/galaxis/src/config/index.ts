@@ -6,10 +6,12 @@ import { BATCH_WRITER_ABI, EC_REGISTRY_ABI, EC_REGISTRY_MAP_ABI } from '../abis'
 export const NAME = 'GALAXIS'
 
 export const DEFAULT_ENDPOINT = 'nba'
-export const DEFAULT_EC_REGISTRY_ADDRESS = '0xf882B1A26Fc5C42005A055f7545150959dED27a8'
+export const DEFAULT_EC_REGISTRY_ADDRESS = '0x3ae233ED7Bc9D055CC14Fa8f3C5620612428a838'
 export const DEFAULT_CHAIN_BATCH_WRITE_ADAPTER_ADDRESS =
-  '0xCF01E438E6bC82653a65273f215Ae5e5D19B1B33'
-export const DEFAULT_EC_REGISTRY_MAP_ADDRESS = '0x7cdF091AF6a9ED75E3192500d3e5BB0f63e22Dea'
+  '0xCb2445BD39f6143000997a2EF44F1AFe20bB4f4E'
+export const DEFAULT_EC_REGISTRY_MAP_ADDRESS = '0x0b407d055098Ce336dDF9C2845CECCF22cE0b377'
+export const DEFAULT_API_ENDPOINT =
+  'https://cdn.nba.com/static/json/staticData/NFTNightlyAchievements/2022'
 
 export interface ExtendedConfig extends Config {
   ecRegistry: ethers.Contract
@@ -20,7 +22,8 @@ export interface ExtendedConfig extends Config {
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
   const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = util.getRequiredEnv('API_ENDPOINT', prefix)
+  config.rpcUrl = util.getRequiredEnv('POLYGON_RPC_URL', prefix)
+  config.api.baseURL = util.getEnv('API_ENDPOINT', prefix) || DEFAULT_API_ENDPOINT
   config.defaultEndpoint = DEFAULT_ENDPOINT
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const ecRegistryAddress =
@@ -32,7 +35,6 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
     DEFAULT_CHAIN_BATCH_WRITE_ADAPTER_ADDRESS
   return {
     ...config,
-    rpcUrl: util.getRequiredEnv('POLYGON_RPC_URL', prefix),
     ecRegistry: new ethers.Contract(ecRegistryAddress, EC_REGISTRY_ABI, provider),
     ecRegistryMap: new ethers.Contract(ecRegistryMapAddress, EC_REGISTRY_MAP_ABI, provider),
     batchWriter: new ethers.Contract(batchWriterAddress, BATCH_WRITER_ABI, provider),

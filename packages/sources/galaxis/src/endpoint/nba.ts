@@ -26,7 +26,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
-  const date = await getDate(config, validator.validated.date)
+  const date = await getDate(config, validator.validated.data.date)
   config.api.url = await getURL(config, date)
   const options = config.api
   const response = await Requester.request<ResponseSchema>(options, customError)
@@ -57,9 +57,6 @@ const getDate = async (config: ExtendedConfig, paramsDate?: string): Promise<str
   if (isDateNotSet(recordedDate)) {
     throw new Error('Date not set')
   }
-  if (!paramsDate) {
-    throw new Error('Date param missing')
-  }
   const currentDate = ethers.utils.parseBytes32String(recordedDate)
   const d = new Date(currentDate)
   const tomorrow = new Date(d.getDate() + 1)
@@ -67,8 +64,8 @@ const getDate = async (config: ExtendedConfig, paramsDate?: string): Promise<str
 }
 
 const getURL = async (config: ExtendedConfig, date: string): Promise<string> => {
-  if (isDateNotSet(date)) return config.api.url
-  return `${config.api.url}/nightly_achievements_${date}` // YYYY-MM-DD
+  if (isDateNotSet(date)) return config.api.baseURL
+  return `${config.api.baseURL}/nightly_achievements_${date}.json` // YYYY-MM-DD
 }
 
 export const isDateNotSet = (date: string): boolean =>

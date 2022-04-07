@@ -7,7 +7,11 @@ import {
   AchievementsByIDs,
   AchievementWithMappedID,
   GetSetDataEncodedCallParams,
+  LastProcessedInfo,
   PlayerStruct,
+  ProcessAchievementParams,
+  ProcessAllAchievementParams,
+  ProcessedEventInfo,
   TeamStruct,
 } from './types'
 import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
@@ -20,82 +24,158 @@ export const getEncodedCallsResult = async (
   date: string,
 ): Promise<string> => {
   const groupedAchievements = getGroupedAchievementsByID(playerAchievements, teamAchievements)
-  const { provider, ecRegistry, ecRegistryMap, batchWriter } = config
-  const { teams, players } = await getPlayerAndTeamMaps(ecRegistryMap)
-  const calls: string[][] = []
-  const procesedEventIDs = []
-  let hasHitLimit = false
-  let encodedCalls = ''
-  const achievementIDs = Object.keys(groupedAchievements)
+  const { teams, players } = await getPlayerAndTeamMaps(config.ecRegistryMap)
+  const sortedAchievementIDs = Object.keys(groupedAchievements)
     .map(Number)
     .sort((a, b) => a - b)
-  const lastProcessedInfo = await getIdxOfFirstAchievementToProcess(
-    achievementIDs,
+  const lastProcessedInfo = await getLastProcessedInformation(
+    sortedAchievementIDs,
     groupedAchievements,
-    batchWriter,
+    config.batchWriter,
   )
-  let currAchievementIdIdx = lastProcessedInfo.startAchievementIdx
-  let startingEventIdx = lastProcessedInfo.startEventIdx
-  while (!hasHitLimit && currAchievementIdIdx < achievementIDs.length) {
-    const achievementID = achievementIDs[currAchievementIdIdx]
-    if (await ecRegistry.addressCanModifyTrait(batchWriter.address, achievementID)) {
-      groupedAchievements[achievementID] = groupedAchievements[achievementID].sort(
-        (a, b) => a.event_id - b.event_id,
-      )
-      for (let i = startingEventIdx + 1; i <= groupedAchievements[achievementID].length; i++) {
-        const { encodedCall, lastProcessedEventID, implementerAddress } =
-          await getSetDataEncodedCall({
-            provider,
-            teams,
-            players,
-            groupedAchievements,
-            achievementID,
-            ecRegistry,
-            ecRegistryMap,
-            startEventIdx: startingEventIdx,
-            endEventIdx: i,
-          })
-
-        // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
-        const addressToCall = implementerAddress || ecRegistry.address
-        calls.push([addressToCall, encodedCall])
-        procesedEventIDs.push({
-          achievementID,
-          eventID: lastProcessedEventID,
-        })
-        const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
-          await updateEncodedCalls(
-            jobRunID,
-            achievementID,
-            calls,
-            batchWriter,
-            lastProcessedEventID,
-            date,
-            procesedEventIDs,
-          )
-        hasHitLimit = hasCallsHitLimit
-        if (hasHitLimit) {
-          Logger.info(
-            `Hit gas limit when trying to process achievementID ${achievementID} and eventID ${lastProcessedEventID}`,
-          )
-          break
-        } else {
-          encodedCalls = updatedEncodedCalls
-          const hasAchievementBeenFullyProcessed = groupedAchievements[achievementID].length === i
-          if (!hasAchievementBeenFullyProcessed) {
-            // If achievement has not been processed then we pop the last element from the calls array
-            // and then try populate it again with the next achievement event in the next iteration
-            calls.pop()
-          }
-        }
-      }
-    }
-    startingEventIdx = 0
-    currAchievementIdIdx++
-  }
+  const encodedCalls = await processAllAchievements(
+    {
+      jobRunID,
+      date,
+      teams,
+      players,
+      groupedAchievements,
+      sortedAchievementIDs,
+      lastProcessedInfo,
+    },
+    config,
+  )
   const startEventID = lastProcessedInfo.lastProcessedEventID
   validateEncodedCallsNotEmpty(jobRunID, startEventID, encodedCalls)
   return encodedCalls
+}
+
+const processAllAchievements = async (
+  params: ProcessAllAchievementParams,
+  config: ExtendedConfig,
+): Promise<string> => {
+  const {
+    jobRunID,
+    date,
+    teams,
+    players,
+    groupedAchievements,
+    sortedAchievementIDs,
+    lastProcessedInfo,
+  } = params
+  const calls: string[][] = []
+  const procesedEventIDs: ProcessedEventInfo[] = []
+  let hasHitLimit = false
+  let encodedCalls = ''
+  let { startEventIdx, startAchievementIdx: currAchievementIdIdx } = lastProcessedInfo
+  while (!hasHitLimit && currAchievementIdIdx < sortedAchievementIDs.length) {
+    const achievementID = sortedAchievementIDs[currAchievementIdIdx]
+    if (await config.ecRegistry.addressCanModifyTrait(config.batchWriter.address, achievementID)) {
+      const processedAchievementResult = await processSingleAchievement(
+        {
+          jobRunID,
+          achievementID,
+          groupedAchievements,
+          config,
+          teams,
+          players,
+          date,
+          startEventIdx,
+        },
+        procesedEventIDs,
+        calls,
+      )
+      hasHitLimit = processedAchievementResult.hasHitLimit
+      encodedCalls = processedAchievementResult.encodedCalls
+    }
+
+    // Reset startEventIdx to 0 as we want to process the first event of the next achievement
+    startEventIdx = 0
+    currAchievementIdIdx++
+  }
+  return encodedCalls
+}
+
+const processSingleAchievement = async (
+  params: ProcessAchievementParams,
+  procesedEventIDs: {
+    achievementID: number
+    eventID: number
+  }[],
+  calls: string[][],
+) => {
+  const {
+    jobRunID,
+    achievementID,
+    groupedAchievements,
+    config,
+    teams,
+    players,
+    date,
+    startEventIdx,
+  } = params
+  const { provider, ecRegistry, ecRegistryMap, batchWriter } = config
+  groupedAchievements[achievementID] = groupedAchievements[achievementID].sort(
+    (a, b) => a.event_id - b.event_id,
+  )
+  let encodedCalls = ''
+  let hasHitLimit = false
+  let endEventIdx = startEventIdx + 1
+
+  // Loop through each achievement's events and try find the maximum number of events that can be processed
+  // before hitting the gas limit
+  while (!hasHitLimit && endEventIdx <= groupedAchievements[achievementID].length) {
+    const { encodedCall, lastProcessedEventID, implementerAddress } = await getSetDataEncodedCall({
+      provider,
+      teams,
+      players,
+      groupedAchievements,
+      achievementID,
+      ecRegistry,
+      ecRegistryMap,
+      startEventIdx,
+      endEventIdx,
+    })
+
+    // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
+    const addressToCall = implementerAddress || ecRegistry.address
+    calls.push([addressToCall, encodedCall])
+    procesedEventIDs.push({
+      achievementID,
+      eventID: lastProcessedEventID,
+    })
+    const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
+      await updateEncodedCalls(
+        jobRunID,
+        achievementID,
+        calls,
+        batchWriter,
+        lastProcessedEventID,
+        date,
+        procesedEventIDs,
+      )
+    hasHitLimit = hasCallsHitLimit
+    endEventIdx++
+    if (hasHitLimit) {
+      Logger.info(
+        `Hit gas limit when trying to process achievementID ${achievementID} and eventID ${lastProcessedEventID}`,
+      )
+    } else {
+      encodedCalls = updatedEncodedCalls
+      const hasAchievementBeenFullyProcessed =
+        endEventIdx === groupedAchievements[achievementID].length
+      if (!hasAchievementBeenFullyProcessed) {
+        // If achievement has not been processed then we pop the last element from the calls array
+        // to remove the function call for that achievement, add another event in the next iteration
+        // and then try process it again.
+        calls.pop()
+      }
+    }
+  }
+  return {
+    encodedCalls,
+    hasHitLimit,
+  }
 }
 
 const validateEncodedCallsNotEmpty = (
@@ -112,15 +192,11 @@ const validateEncodedCallsNotEmpty = (
   }
 }
 
-const getIdxOfFirstAchievementToProcess = async (
+const getLastProcessedInformation = async (
   sortedAchievementIDs: number[],
   groupedAchievements: AchievementsByIDs,
   batchWriter: ethers.Contract,
-): Promise<{
-  startEventIdx: number
-  startAchievementIdx: number
-  lastProcessedEventID: number
-}> => {
+): Promise<LastProcessedInfo> => {
   const lastProcessedEventID = await batchWriter.LastDataRecordId()
   const {
     achievementID: lastProcessedAchievementID,
