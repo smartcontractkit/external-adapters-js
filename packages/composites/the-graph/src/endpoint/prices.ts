@@ -19,7 +19,6 @@ const customParams = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  console.log('here')
   const validator = new Validator(input, customParams)
 
   const jobRunID = validator.validated.id

@@ -1,7 +1,7 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
 import { logger } from '../../modules'
-import { getHashOpts, hash } from '../../util'
+import { getHashOpts, hash } from '../../middleware/cache-key/util'
 import * as actions from './actions'
 
 /**
