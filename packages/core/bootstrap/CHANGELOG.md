@@ -1,5 +1,15 @@
 # @chainlink/ea-bootstrap
 
+## 2.0.0
+
+### Major Changes
+
+- 7c0e0d672: Change to deterministic cache key generation
+
+### Patch Changes
+
+- b6a12af05: added base input params section in README
+
 ## 1.18.0
 
 ### Minor Changes

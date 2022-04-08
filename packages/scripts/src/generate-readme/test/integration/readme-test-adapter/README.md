@@ -65,6 +65,9 @@ Request:
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
       }
     ]
+  },
+  "debug": {
+    "cacheKey": "lTBXOJ+YWu4hSLnRtApWBUhCu40="
   }
 }
 ```
@@ -144,6 +147,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "coinid": 1
+  },
+  "debug": {
+    "cacheKey": "DpZS5CoFN19tP4shmR6mkFkvJ2w="
   }
 }
 ```
@@ -177,6 +183,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "coinid": 2
+  },
+  "debug": {
+    "cacheKey": "w3GwX88vkpKKHcxGEVagYaFaozw="
   }
 }
 ```
@@ -226,6 +235,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "amount": 1
+  },
+  "debug": {
+    "cacheKey": "L98LAmN1SgxnUxkXmEcJC1+nxVY="
   }
 }
 ```
@@ -259,6 +271,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "amount": 10
+  },
+  "debug": {
+    "cacheKey": "4FyMTrMFLiEe85bTJ4tVO4XRuFA="
   }
 }
 ```
