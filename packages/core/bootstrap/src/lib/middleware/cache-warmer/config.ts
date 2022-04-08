@@ -1,5 +1,6 @@
 import objectHash from 'object-hash'
-import { getEnv, getHashOpts } from '../../util'
+import { getHashOpts } from '../../middleware/cache-key/util'
+import { getEnv } from '../../util'
 import { logger } from '../../modules'
 
 export const WARMUP_REQUEST_ID = '9001'
