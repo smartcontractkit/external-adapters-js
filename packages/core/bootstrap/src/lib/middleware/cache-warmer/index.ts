@@ -4,7 +4,7 @@ import { withMiddleware } from '../../../index'
 import { logger } from '../../modules'
 import * as util from '../../util'
 import { getWSConfig } from '../ws/config'
-import { RootState as WSState } from '../ws/reducer'
+import { getSubsId, RootState as WSState } from '../ws/reducer'
 import * as actions from './actions'
 import { CacheWarmerState } from './reducer'
 
@@ -35,9 +35,11 @@ export const withCacheWarmer =
 
       const keysToCheck = input.debug?.batchChildrenCacheKeys || []
 
-      for (const key of keysToCheck) {
-        // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
-        const isActiveWSSubscription = ws.store.getState().subscriptions.all[key]?.active
+      for (const [key, childRequest] of keysToCheck) {
+        // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed'      const wsHandler = await ws.makeWSHandler()
+        const wsHandler = await ws.makeWSHandler()
+        const wsKey = getSubsId(wsHandler.subscribe(childRequest))
+        const isActiveWSSubscription = ws.store.getState().subscriptions.all[wsKey]?.active
         // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
         const isActiveCWSubsciption = warmerStore.getState().subscriptions[key]
         if (isActiveWSSubscription) {

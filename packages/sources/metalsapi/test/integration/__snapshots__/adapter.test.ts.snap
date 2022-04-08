@@ -23,7 +23,7 @@ Object {
     },
     "results": Array [
       Array [
-        "jFELgqCICDuXhLL/mr7R6g+zJqA=",
+        "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -31,8 +31,21 @@ Object {
             "quote": "USD",
           },
           "debug": Object {
-            "batchCacheKey": "VGCqz3e8RvHtFRTWsvYlAZdB9Ak=",
-            "cacheKey": "9tjbLUbXDPblZ8SkaEr2wnkwaWs=",
+            "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
+                Object {
+                  "data": Object {
+                    "base": "BTC",
+                    "endpoint": "latest",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,
@@ -40,7 +53,7 @@ Object {
         42968.36778447169,
       ],
       Array [
-        "O4TFnRU6N9vTdFiMXeGa0zMF+fQ=",
+        "jn7Ay27+0XZwS3+kIquAQibbEtg=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -48,8 +61,21 @@ Object {
             "quote": "XAU",
           },
           "debug": Object {
-            "batchCacheKey": "VGCqz3e8RvHtFRTWsvYlAZdB9Ak=",
-            "cacheKey": "9tjbLUbXDPblZ8SkaEr2wnkwaWs=",
+            "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
+                Object {
+                  "data": Object {
+                    "base": "BTC",
+                    "endpoint": "latest",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,

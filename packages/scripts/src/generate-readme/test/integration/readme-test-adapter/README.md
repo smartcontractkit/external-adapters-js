@@ -67,7 +67,7 @@ Request:
     ]
   },
   "debug": {
-    "cacheKey": "fs6uGAuWXabxCn6rpiDH3rUtlBg="
+    "cacheKey": "lTBXOJ+YWu4hSLnRtApWBUhCu40="
   }
 }
 ```
@@ -149,7 +149,7 @@ Request:
     "coinid": 1
   },
   "debug": {
-    "cacheKey": "uwT3UuHpBgrkJ5yr3S0ZIcqLFcQ="
+    "cacheKey": "DpZS5CoFN19tP4shmR6mkFkvJ2w="
   }
 }
 ```
@@ -185,7 +185,7 @@ Request:
     "coinid": 2
   },
   "debug": {
-    "cacheKey": "sJFF7bcQuI7BC+ko5MxPh4rkQUg="
+    "cacheKey": "w3GwX88vkpKKHcxGEVagYaFaozw="
   }
 }
 ```
@@ -237,7 +237,7 @@ Request:
     "amount": 1
   },
   "debug": {
-    "cacheKey": "j9ucHeI+6Hns8DSJ5CP86iRIgFs="
+    "cacheKey": "L98LAmN1SgxnUxkXmEcJC1+nxVY="
   }
 }
 ```
@@ -273,7 +273,7 @@ Request:
     "amount": 10
   },
   "debug": {
-    "cacheKey": "JqCKEWLt185/McyfjjpBSkZkwHI="
+    "cacheKey": "4FyMTrMFLiEe85bTJ4tVO4XRuFA="
   }
 }
 ```

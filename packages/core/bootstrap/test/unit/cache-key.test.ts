@@ -35,9 +35,32 @@ describe('Cache key middleware', () => {
       expect(r).toEqual({
         ...request,
         debug: {
-          cacheKey: 'CfLKR+CjhIqCrw1rmoaMpGJPHns=',
-          batchCacheKey: 'raWuJfUMD/EwHKzsnwDQYqzQE74=',
-          batchChildrenCacheKeys: ['oOYfoHUCOwQtUTrfXv/98hwnUqk='],
+          cacheKey: 'Golyna0Qc+GRcASb5oBWQsn7yyI=',
+          batchCacheKey: 'dqKaaikVnrFiduxXI7VKTYpph9c=',
+          batchChildrenCacheKeys: [
+            [
+              'TqD76f8doobwnYbka8XwwKh0O8M=',
+              {
+                data: {
+                  batchPropArray: 'str1',
+                  batchPropString: 'batchString',
+                  endpoint: 'random',
+                  from: 'btc',
+                  includes: {},
+                  maxAge: 444,
+                  number: 123.4,
+                  overrides: {
+                    btc: 'bitcoin',
+                  },
+                  to: 'eth',
+                  tokenOverrides: {
+                    eth: 'test',
+                  },
+                },
+                id: '1',
+              },
+            ],
+          ],
         },
       })
       return response

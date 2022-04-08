@@ -72,7 +72,7 @@ export function getCacheKey(
 export function getBatchChildKeys<C extends Config>(
   input: AdapterRequest,
   endpoint: APIEndpoint<C>,
-): string[] {
+): [string, AdapterRequest][] {
   const children: AdapterRequest[] = []
   separateBatches(input, async (data) => {
     children.push(data)
@@ -88,6 +88,6 @@ export function getBatchChildKeys<C extends Config>(
       {},
       { shouldThrowError: false },
     )
-    return getCacheKey(validator.validated, inputParameterKeys)
+    return [getCacheKey(validator.validated, inputParameterKeys), child]
   })
 }

@@ -23,7 +23,7 @@ Object {
     },
     "results": Array [
       Array [
-        "1PJjYb3NBPrAJtJymzIlPT3uKhI=",
+        "Pf9I9hvghjvtwZjKiSGUm9w0QnM=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -37,15 +37,34 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
-            "cacheKey": "lEcpBpYc/YWM9dphR8RPCLgMKYc=",
+            "batchCacheKey": "1IrComlb8BmgInXsFJWp+10Vm5g=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "wJkwexX+DIxcqBD4+24lzO5TBP4=",
+                Object {
+                  "data": Object {
+                    "base": "OHM",
+                    "endpoint": "crypto",
+                    "overrides": Object {
+                      "coingecko": Object {
+                        "OHM": "olympus",
+                      },
+                    },
+                    "quote": "USD",
+                    "resultPath": "usd",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "pqCYXWI2QYNqSCH3NFst2Ema61w=",
           },
           "id": "1",
         },
         3015.64,
       ],
       Array [
-        "+FckiNYu0V4APZmxGRt53U8TQgU=",
+        "wJkwexX+DIxcqBD4+24lzO5TBP4=",
         Object {
           "data": Object {
             "base": "OHM",
@@ -59,8 +78,27 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
-            "cacheKey": "lEcpBpYc/YWM9dphR8RPCLgMKYc=",
+            "batchCacheKey": "1IrComlb8BmgInXsFJWp+10Vm5g=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "wJkwexX+DIxcqBD4+24lzO5TBP4=",
+                Object {
+                  "data": Object {
+                    "base": "OHM",
+                    "endpoint": "crypto",
+                    "overrides": Object {
+                      "coingecko": Object {
+                        "OHM": "olympus",
+                      },
+                    },
+                    "quote": "USD",
+                    "resultPath": "usd",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "pqCYXWI2QYNqSCH3NFst2Ema61w=",
           },
           "id": "1",
         },
