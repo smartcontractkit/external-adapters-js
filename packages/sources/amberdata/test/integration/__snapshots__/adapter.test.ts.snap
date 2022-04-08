@@ -52,11 +52,11 @@ Object {
 exports[`amberdata when making a request to marketcap endpoint should reply with success 1`] = `
 Object {
   "data": Object {
-    "result": 490182085144.57404,
+    "result": 391118025366,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 490182085144.57404,
+  "result": 391118025366,
   "statusCode": 200,
 }
 `;
