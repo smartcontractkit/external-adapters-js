@@ -53,6 +53,7 @@ export type Package = {
   name?: string
   version?: string
   dependencies?: { [name: string]: string }
+  license: string
 }
 
 export type Schema = {
