@@ -23,11 +23,29 @@ Object {
     },
     "results": Array [
       Array [
+        "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
         Object {
           "data": Object {
             "base": "BTC",
             "endpoint": "latest",
             "quote": "USD",
+          },
+          "debug": Object {
+            "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
+                Object {
+                  "data": Object {
+                    "base": "BTC",
+                    "endpoint": "latest",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,
@@ -35,11 +53,29 @@ Object {
         42968.36778447169,
       ],
       Array [
+        "jn7Ay27+0XZwS3+kIquAQibbEtg=",
         Object {
           "data": Object {
             "base": "BTC",
             "endpoint": "latest",
             "quote": "XAU",
+          },
+          "debug": Object {
+            "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
+                Object {
+                  "data": Object {
+                    "base": "BTC",
+                    "endpoint": "latest",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
           },
           "id": "1",
           "rateLimitMaxAge": 176470588,
