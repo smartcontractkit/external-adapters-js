@@ -105,7 +105,6 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
           parent: batchWarmerSubscriptionKey,
           batchablePropertyPath,
         }
-        // TODO: check this
         const childKey = payload.debug?.cacheKey ?? getSubscriptionKey(warmupSubscribedPayloadChild)
         childLastSeenById[childKey] = Date.now()
         actionsToDispatch.push(warmupSubscribed(warmupSubscribedPayloadChild))

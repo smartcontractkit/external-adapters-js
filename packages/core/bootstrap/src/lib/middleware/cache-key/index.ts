@@ -2,7 +2,7 @@ import type { Middleware, AdapterRequest, Config, APIEndpoint } from '@chainlink
 import { Validator } from '../../modules'
 import { getHashOpts, hash, excludableInternalAdapterRequestProperties } from './util'
 import crypto from 'crypto'
-import { baseInputParameters } from '../../modules/selector'
+import { baseInputParameterKeys, baseInputParameters } from '../../modules/selector'
 import { isObject } from '../../util'
 import objectHash from 'object-hash'
 import { BatchableProperty } from '../cache-warmer/reducer'
@@ -51,7 +51,9 @@ export function getCacheKey(
 ): string {
   let data = ''
 
-  for (const key of inputParameterKeys) {
+  const inputParameterKeySet = new Set([...baseInputParameterKeys, ...inputParameterKeys])
+
+  for (const key of inputParameterKeySet) {
     // We want the key to be consistent. So we omit batchable paths.
     // Otherwise it would change on every new child
     if (batchablePropertyPath && batchablePropertyPath.some(({ name }) => key === name)) continue

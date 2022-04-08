@@ -36,7 +36,6 @@ export const withCacheWarmer =
       const keysToCheck = input.debug?.batchChildrenCacheKeys || []
 
       for (const key of keysToCheck) {
-        console.log({ key })
         // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed
         const isActiveWSSubscription = ws.store.getState().subscriptions.all[key]?.active
         // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
@@ -56,7 +55,7 @@ export const withCacheWarmer =
             const isBatched = !!warmerStore.getState().subscriptions[key]?.childLastSeenById
             warmerStore.dispatch(
               actions.warmupUnsubscribed({
-                key: key,
+                key,
                 isBatched,
                 reason: 'Turning off Cache Warmer to use WS.',
               }),

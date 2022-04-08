@@ -42,6 +42,7 @@ export const baseInputParameters: InputParameters = {
     // type: 'string', TODO: Once complex types are supported this could be { from: string, to: string, includes: [{ from: string, to: string, adapters: string[], inverse: boolean, tokens: boolean }] } }[]
   },
 }
+export const baseInputParameterKeys = Object.keys(baseInputParameters)
 
 const findSupportedEndpoint = <C extends Config>(
   apiEndpoints: Record<string, APIEndpoint<C>>,
