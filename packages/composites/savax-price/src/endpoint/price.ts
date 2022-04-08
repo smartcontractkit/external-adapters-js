@@ -34,7 +34,6 @@ export const validateNonZeroValue = (
   value: ethers.BigNumber,
   label: string,
 ): void => {
-  console.log(value.toString())
   if (value.eq(ethers.BigNumber.from(0)))
     throw new AdapterError({
       jobRunID,

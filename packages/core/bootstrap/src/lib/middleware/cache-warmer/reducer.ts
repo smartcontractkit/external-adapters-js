@@ -55,7 +55,7 @@ export interface SubscriptionState {
 
 export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builder) => {
   builder.addCase(actions.warmupSubscribed, (state, { payload }) => {
-    const key = payload.key || getSubscriptionKey(payload)
+    const key = payload.key || payload.debug?.cacheKey || getSubscriptionKey(payload)
     state[key] = {
       origin: payload.data,
       executeFn: payload.executeFn,

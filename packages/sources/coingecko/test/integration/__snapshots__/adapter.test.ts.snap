@@ -23,6 +23,7 @@ Object {
     },
     "results": Array [
       Array [
+        "Pf9I9hvghjvtwZjKiSGUm9w0QnM=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -35,11 +36,35 @@ Object {
             "quote": "USD",
             "resultPath": "usd",
           },
+          "debug": Object {
+            "batchCacheKey": "1IrComlb8BmgInXsFJWp+10Vm5g=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "wJkwexX+DIxcqBD4+24lzO5TBP4=",
+                Object {
+                  "data": Object {
+                    "base": "OHM",
+                    "endpoint": "crypto",
+                    "overrides": Object {
+                      "coingecko": Object {
+                        "OHM": "olympus",
+                      },
+                    },
+                    "quote": "USD",
+                    "resultPath": "usd",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "pqCYXWI2QYNqSCH3NFst2Ema61w=",
+          },
           "id": "1",
         },
         3015.64,
       ],
       Array [
+        "wJkwexX+DIxcqBD4+24lzO5TBP4=",
         Object {
           "data": Object {
             "base": "OHM",
@@ -51,6 +76,29 @@ Object {
             },
             "quote": "USD",
             "resultPath": "usd",
+          },
+          "debug": Object {
+            "batchCacheKey": "1IrComlb8BmgInXsFJWp+10Vm5g=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "wJkwexX+DIxcqBD4+24lzO5TBP4=",
+                Object {
+                  "data": Object {
+                    "base": "OHM",
+                    "endpoint": "crypto",
+                    "overrides": Object {
+                      "coingecko": Object {
+                        "OHM": "olympus",
+                      },
+                    },
+                    "quote": "USD",
+                    "resultPath": "usd",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "pqCYXWI2QYNqSCH3NFst2Ema61w=",
           },
           "id": "1",
         },
