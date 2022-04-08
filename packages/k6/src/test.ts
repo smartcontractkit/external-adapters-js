@@ -147,7 +147,6 @@ function buildRequests() {
 }
 
 const batchRequests = buildRequests()
-console.log(JSON.stringify(batchRequests))
 
 export default (): void => {
   currIteration++
