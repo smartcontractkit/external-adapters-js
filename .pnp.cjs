@@ -5890,6 +5890,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.5.1"],
+            ["moment", "npm:2.29.2"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
@@ -26132,6 +26133,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/moment-npm-2.29.1-787d9fdafd-1e14d5f422.zip/node_modules/moment/",
           "packageDependencies": [
             ["moment", "npm:2.29.1"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.29.2", {
+          "packageLocation": "./.yarn/cache/moment-npm-2.29.2-7e4b405a08-ee850b5776.zip/node_modules/moment/",
+          "packageDependencies": [
+            ["moment", "npm:2.29.2"]
           ],
           "linkType": "HARD",
         }]

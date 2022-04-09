@@ -1,4 +1,4 @@
-import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
+import { Logger } from '@chainlink/ea-bootstrap'
 import { ByteArray } from '@ethercards/ec-util'
 import { ethers } from 'ethers'
 import { ProcessedEventInfo } from './types'
@@ -132,15 +132,7 @@ export const estimateCallsGasCost = async (
       `Successfully estimated gas ${gasCostEstimate.toString()} for processing achievementID ${achievementID} and eventID ${eventID}`,
     )
   } catch (e) {
-    if (e.code === 'UNPREDICTABLE_GAS_LIMIT') {
-      hasHitLimit = true
-    } else {
-      throw new AdapterError({
-        jobRunID,
-        message: e.message,
-        statusCode: 500,
-      })
-    }
+    hasHitLimit = true
   }
   return {
     encodedCalls,

@@ -4,6 +4,7 @@ import { ExtendedConfig } from '../config'
 import { Achievement } from '../types'
 import { getEncodedCallsResult } from '../achievements'
 import { ethers } from 'ethers'
+import moment from 'moment'
 
 export const supportedEndpoints = ['nba']
 
@@ -58,9 +59,7 @@ const getDate = async (config: ExtendedConfig, paramsDate?: string): Promise<str
     throw new Error('Date not set')
   }
   const currentDate = ethers.utils.parseBytes32String(recordedDate)
-  const d = new Date(currentDate)
-  const tomorrow = new Date(d.getDate() + 1)
-  return `${tomorrow.getUTCFullYear()}-${tomorrow.getUTCMonth()}-${tomorrow.getUTCDay()}`
+  return moment(currentDate).add(1, 'day').format('YYYY-MM-DD')
 }
 
 const getURL = async (config: ExtendedConfig, date: string): Promise<string> => {
