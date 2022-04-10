@@ -5,11 +5,13 @@ export const MOCK_BOOLEAN_ONLY_GALAXIS_API_RESP = {
     {
       team_id: 1610612737,
       achievement_id: 2,
+      event_id: 10,
       value: true,
     },
     {
       team_id: 1610612738,
       achievement_id: 8,
+      event_id: 11,
       value: true,
     },
   ],
@@ -17,19 +19,21 @@ export const MOCK_BOOLEAN_ONLY_GALAXIS_API_RESP = {
     {
       player_id: 203991,
       achievement_id: 15,
+      event_id: 12,
       value: false,
     },
     {
       player_id: 203992,
       achievement_id: 17,
+      event_id: 13,
       value: true,
     },
   ],
 }
 
-export function mockBooleanOnlyGalaxisApiResp(apiEndpoint: string): void {
+export function mockBooleanOnlyGalaxisApiResp(apiEndpoint: string, date: string): void {
   nock(apiEndpoint, { encodedQueryParams: true })
-    .get('/')
+    .get(`/nightly_achievements_${date}.json`)
     .reply(200, MOCK_BOOLEAN_ONLY_GALAXIS_API_RESP, [
       'Connection',
       'close',
@@ -107,9 +111,9 @@ export const MOCK_NON_BOOLEAN_ONLY_GALAXIS_API_RESP = {
   ],
 }
 
-export function mockNonBooleanOnlyGalaxisApiResp(apiEndpoint: string): void {
+export function mockNonBooleanOnlyGalaxisApiResp(apiEndpoint: string, date: string): void {
   nock(apiEndpoint, { encodedQueryParams: true })
-    .get('/')
+    .get(`/nightly_achievements_${date}.json`)
     .reply(200, MOCK_NON_BOOLEAN_ONLY_GALAXIS_API_RESP, [
       'Connection',
       'close',

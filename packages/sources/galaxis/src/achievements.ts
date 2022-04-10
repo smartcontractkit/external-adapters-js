@@ -334,7 +334,7 @@ const getAchievementsWithMappedIDs = (
     } else if (player_id) {
       const player = players.find((p) => p.real_id.toString() === player_id.toString())
       if (!player) {
-        throw new Error(`Cannot match player ID ${team_id} with response from ECRegistryMap`)
+        throw new Error(`Cannot match player ID ${player_id} with response from ECRegistryMap`)
       }
       mappedID = player.id
     } else {

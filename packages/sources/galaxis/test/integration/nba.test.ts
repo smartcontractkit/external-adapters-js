@@ -8,17 +8,30 @@ import { ethers } from 'ethers'
 import { AddressInfo } from 'net'
 import { mockBooleanOnlyGalaxisApiResp, mockNonBooleanOnlyGalaxisApiResp } from './fixtures'
 import { Interface } from 'ethers/lib/utils'
-import { EC_REGISTRY_ABI, TRAIT_IMPLEMENTER_ABI } from '../../src/abis'
+import { BATCH_WRITER_ABI, EC_REGISTRY_ABI, TRAIT_IMPLEMENTER_ABI } from '../../src/abis'
 
-const fakeBooleanOnlyEndpoint = 'http://galaxis.com/achievements/'
-const fakeNonBooleanOnlyEndpoint = 'http://galaxis-fake-non-boolean.com/achievements/'
+const fakeBooleanOnlyEndpoint = 'http://galaxis.com/achievements'
+const fakeNonBooleanOnlyEndpoint = 'http://galaxis-fake-non-boolean.com/achievements'
 
 const mockECRegistryInterface = new Interface(EC_REGISTRY_ABI)
 const mockTraitImplementerInterface = new Interface(TRAIT_IMPLEMENTER_ABI)
+const mockBatchWriterInterface = new Interface(BATCH_WRITER_ABI)
 const mockImplementerAddress = 'test-implementer-address'
+const mockBatchWriterAddress = 'test-batch-writer-address'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
+
+  const getMockContractInterface = (address: string): ethers.ContractInterface => {
+    switch (address) {
+      case mockImplementerAddress:
+        return mockTraitImplementerInterface
+      case mockBatchWriterAddress:
+        return mockBatchWriterInterface
+      default:
+        return mockECRegistryInterface
+    }
+  }
   return {
     ...actualModule,
     ethers: {
@@ -29,15 +42,26 @@ jest.mock('ethers', () => {
         },
       },
       Contract: function (address: string) {
+        let estimateGasIncrement = 20000
+        const numTimesGasEstimated = 0
+        const initialGasEstimate = 90000
         return {
-          interface:
-            address === mockImplementerAddress
-              ? mockTraitImplementerInterface
-              : mockECRegistryInterface,
-          traits: jest.fn().mockReturnValue({ implementer: 'test-implementer-address' }),
-          addressCanModifyTrait: jest.fn().mockImplementation((_, achievementID: string) => {
-            return achievementID === '2' || achievementID === '15'
+          address,
+          estimateGas: {
+            estimate: jest.fn().mockImplementation(() => {
+              const estimatedGas = numTimesGasEstimated * estimateGasIncrement + initialGasEstimate
+              estimateGasIncrement++
+              return estimatedGas
+            }),
+          },
+          interface: getMockContractInterface(address),
+          LastDataRecordId: jest.fn().mockReturnValue(0),
+          traits: jest.fn().mockReturnValue({ implementer: mockImplementerAddress }),
+          addressCanModifyTrait: jest.fn().mockImplementation((_, achievementID: number) => {
+            return achievementID === 2 || achievementID === 15
           }),
+          getData: jest.fn().mockReturnValue([]),
+          playerCount: jest.fn().mockReturnValue(300),
           getTeams: jest.fn().mockReturnValue([
             {
               id: 1,
@@ -89,6 +113,7 @@ describe('nba', () => {
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
     process.env.POLYGON_RPC_URL = process.env.POLYGON_RPC_URL || 'fake-polygon-rpc-url'
     process.env.CACHE_ENABLED = 'false'
+    process.env.CHAIN_BATCH_WRITE_ADAPTER_ADDRESS = mockBatchWriterAddress
 
     if (process.env.RECORD) {
       nock.recorder.rec()
@@ -109,12 +134,16 @@ describe('nba', () => {
   })
 
   describe('successful call for successful calls', () => {
+    const date = '2021-05-22'
+
     it('return success when fetching the achievements and returns the correct result for boolean only achievements', async () => {
       process.env.API_ENDPOINT = process.env.API_ENDPOINT || fakeBooleanOnlyEndpoint
-      mockBooleanOnlyGalaxisApiResp(fakeBooleanOnlyEndpoint)
+      mockBooleanOnlyGalaxisApiResp(fakeBooleanOnlyEndpoint, date)
       const data: AdapterRequest = {
         id: jobID,
-        data: {},
+        data: {
+          date,
+        },
       }
 
       const response = await req
@@ -129,10 +158,12 @@ describe('nba', () => {
 
     it('return success when fetching the achievements and returns the correct result for non boolean only achievements', async () => {
       process.env.API_ENDPOINT = process.env.API_ENDPOINT || fakeNonBooleanOnlyEndpoint
-      mockNonBooleanOnlyGalaxisApiResp(fakeNonBooleanOnlyEndpoint)
+      mockNonBooleanOnlyGalaxisApiResp(fakeNonBooleanOnlyEndpoint, date)
       const data: AdapterRequest = {
         id: jobID,
-        data: {},
+        data: {
+          date,
+        },
       }
 
       const response = await req
