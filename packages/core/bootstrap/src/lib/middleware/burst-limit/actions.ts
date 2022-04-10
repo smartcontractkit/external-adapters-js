@@ -6,5 +6,7 @@ export interface RequestObservedPayload {
 }
 
 export const requestObserved = createAction<RequestObservedPayload>(
-  'RL/SUCCESSFUL_REQUEST_OBSERVED',
+  'BL/SUCCESSFUL_REQUEST_OBSERVED',
 )
+
+export const updateIntervals = createAction('BL/UPDATE_INTERVALS')

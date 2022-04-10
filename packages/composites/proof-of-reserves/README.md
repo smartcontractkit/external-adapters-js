@@ -15,6 +15,7 @@ At least one of each of the following categories must be set as an environment v
    |           |         `WBTC_ADAPTER_URL`         |    The location of a WBTC external adapter     |         |             |
    |           |        `RENVM_ADAPTER_URL`         |    The location of a RenVM external adapter    |         |             |
    |           |        `GEMINI_ADAPTER_URL`        |   The location of a Gemini external adapter    |         |             |
+   |           | `CELSIUS_ADDRESS_LIST_ADAPTER_URL` | The location of a Celsius Address List adapter |         |             |
    |           | `CHAIN_RESERVE_WALLET_ADAPTER_URL` | The location of a Chain reserve wallet adapter |         |             |
    |           |       `WRAPPED_ADAPTER_URL`        |   The location of a Wrapped external adapter   |         |             |
 
@@ -41,12 +42,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |      Name       |                                             Description                                              |                                                                         Options                                                                          | Defaults to |
-| :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                           `chain_reserve_wallet`, `gemini`, `list`, `renvm`, `wbtc`, `wrapped`                                           |             |
-|    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `ada_balance`, `amberdata`, `bitcoin_json_rpc`, `blockchain_com`. `blockchair`, `blockcypher`,`btc_com`, `cryptoapis`, `eth_balance`, `lotus`, `sochain` |             |
-|           | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                                                                                          |      6      |
-|           |   `addresses`   |           An array of addresses to get the balance from, when "protocol" is set to `list`            |                                                                                                                                                          |             |
+| Required? |      Name       |                                             Description                                              |                                                                                 Options                                                                                 | Defaults to |
+| :-------: | :-------------: | :--------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     |   `protocol`    |                                 The protocol external adapter to use                                 |                                      `celsius_address_list`, `chain_reserve_wallet`, `gemini`, `list`, `renvm`, `wbtc`, `wrapped`                                       |             |
+|    ✅     |    `indexer`    |                                 The indexer external adapter to use                                  | `ada_balance`, `amberdata`, `bitcoin_json_rpc`, `blockchain_com`. `blockchair`, `blockcypher`,`btc_com`, `cryptoapis`, `eth_balance`, `lotus`, `por_indexer`, `sochain` |             |
+|           | `confirmations` | The number of confirmations required for a transaction to be counted when getting an address balance |                                                                                                                                                                         |      6      |
+|           |   `addresses`   |           An array of addresses to get the balance from, when "protocol" is set to `list`            |                                                                                                                                                                         |             |
 
 Additionally the first underlying adapter in the sequence, in this case the protocol adapter, may have parameters.
 

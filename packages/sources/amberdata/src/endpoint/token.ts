@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import includes from './../config/includes.json'
 
@@ -23,23 +23,39 @@ export interface ResponseSchema {
   status: number
   title: string
   description: string
-  payload: Payload[]
+  payload: Payload
 }
 
 export interface Payload {
-  address: string
-  circulatingSupply: string
-  dailyPercentChangeUSD: string
-  dailyVolumeUSD: string
-  hourlyPercentChangeUSD: string
-  marketCapUSD: string
-  name: string
-  priceUSD: string
-  symbol: string
-  totalSupply: string
-  weeklyPercentChangeUSD: string
-  decimals: string
-  timestamp: number
+  data: {
+    address: string | null
+    changeInPrice: string
+    changeInPriceHourly: string
+    changeInPriceDaily: string
+    chaingeInPriceWeekly: string
+    currentPrice: string
+    decimals: string
+    marketCap: string
+    liquidMarketCap: string
+    name: string
+    rank: number
+    symbol: string
+    circulatingSupply: string
+    totalSupply: string
+    maxSupply: string
+    tokenVelocity: string | null
+    uniqueAdresses: string | null
+    transactionVolume: string | null
+    tradeVolume: string
+    specifications: unknown[]
+    blockchain: {
+      name: string
+      slug: string
+      symbol: string
+      blockchainId: string
+      icon: string
+    }
+  }[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
@@ -47,15 +63,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
-  const resultPath = validator.validated.data.resultPath || 'marketCapUSD'
-  const url = util.buildUrlPath(`/api/v2/market/tokens/prices/:coin/latest`, {
-    coin: coin.toLowerCase(),
-  })
+  const resultPath = validator.validated.data.resultPath || 'marketCap'
+  const url = '/api/v2/market/rankings/latest'
 
   const reqConfig = { ...config.api, url }
 
   const response = await Requester.request<ResponseSchema>(reqConfig, customError)
-  const coinData = response.data.payload.find(
+  const coinData = response.data.payload.data.find(
     (asset: { symbol: string }) => asset.symbol.toUpperCase() === coin.toUpperCase(),
   )
   if (coinData) {

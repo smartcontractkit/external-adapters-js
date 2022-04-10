@@ -26,6 +26,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
   server: http.Server
+  req: SuperTest<Test>
 }
 
 beforeAll(() => {
@@ -45,19 +46,20 @@ afterAll(() => {
 
   nock.restore()
   nock.cleanAll()
-  nock.enableNetConnect()
 })
 
 describe('execute', () => {
   const context: SuiteContext = {
     server: null,
+    req: null,
   }
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     context.server = await startServer()
+    context.req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
   })
 
-  afterAll((done) => {
+  afterEach((done) => {
     context.server.close(done)
   })
 

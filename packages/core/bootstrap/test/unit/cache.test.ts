@@ -1,11 +1,16 @@
-import { AdapterContext, Execute } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
 import { useFakeTimers } from 'sinon'
-import { defaultOptions, withCache } from '../../src/lib/middleware/cache'
+import { AdapterCache, defaultOptions, withCache } from '../../src/lib/middleware/cache'
 import { LocalLRUCache } from '../../src/lib/middleware/cache/local'
+
+const mockCacheKey = 'mockCacheKey'
+const mockBatchCacheKey = 'mockBatchCacheKey'
 
 const callAndExpect = async (fn: any, n: number, result: any) => {
   while (n--) {
-    const { data } = await fn(0)
+    const { data } = await fn({
+      debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
+    })
     if (n === 0) expect(data.result).toBe(result)
   }
 }
@@ -17,7 +22,14 @@ const counterFrom =
     const result = i++
     return {
       jobRunID: request.id,
-      data: { jobRunID: request.id, statusCode: 200, data: request, result, ...data },
+      data: {
+        jobRunID: request.id,
+        statusCode: 200,
+        debug: { cacheKey: mockCacheKey },
+        data: request,
+        result,
+        ...data,
+      },
       result,
       statusCode: 200,
     }
@@ -83,6 +95,7 @@ describe('cache', () => {
     })
 
     afterEach(() => {
+      jest.restoreAllMocks()
       clock.restore()
     })
 
@@ -135,6 +148,150 @@ describe('cache', () => {
 
       clock.tick(1000 * 30 + 1) // extra 1ms
       await callAndExpect(counter, 1, 1)
+    })
+
+    it(`handles failed cache read, bypasses local and executes`, async () => {
+      jest.spyOn(AdapterCache.prototype, 'getResultForRequest').mockImplementation(() => {
+        throw 'asd'
+      })
+      const request: AdapterRequest = {
+        id: '1',
+        data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
+      }
+      const response = {
+        jobRunID: '1',
+        data: { jobRunID: '1', statusCode: 200, data: {}, result: 123 },
+        result: 123,
+        statusCode: 200,
+      }
+      const execute = async () => response
+      const middleware = await withCache()(execute, context)
+      const result = await middleware(request, {})
+      expect(result).toBe(response)
+    })
+
+    it(`handles failed cache read, bypasses local and executes but gets no response`, async () => {
+      jest.spyOn(AdapterCache.prototype, 'getResultForRequest').mockImplementation(() => {
+        throw 'asd'
+      })
+      const request: AdapterRequest = {
+        id: '1',
+        data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
+      }
+      const execute = async () => null
+      const middleware = await withCache()(execute, context)
+      const result = await middleware(request, {})
+      expect(result).toBe(null)
+    })
+
+    it(`parses batch results from successful response`, async () => {
+      jest.spyOn(AdapterCache.prototype, 'getResultForRequest').mockImplementation(() => {
+        throw 'asd'
+      })
+      const makeRequest = (id: string): AdapterRequest => ({
+        id,
+        data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
+      })
+      const response = {
+        jobRunID: '1',
+        data: {
+          data: {},
+          results: {
+            btc: [makeRequest('1'), 123],
+            eth: [makeRequest('2'), 234],
+          },
+        },
+        result: null,
+        statusCode: 200,
+      }
+      const execute = jest.fn().mockReturnValueOnce(null).mockReturnValueOnce(response)
+      const middleware = await withCache()(execute, context)
+      const result = await middleware(makeRequest('3'), {})
+      expect(result).toEqual({
+        ...response,
+        debug: {
+          performance: 0,
+          providerCost: 1,
+          staleness: 0,
+        },
+      })
+    })
+
+    it(`fails to parse batch results from successful response, returns result`, async () => {
+      jest.spyOn(AdapterCache.prototype, 'getResultForRequest').mockImplementation(() => {
+        throw 'asd'
+      })
+      const makeRequest = (id: string): AdapterRequest => ({
+        id,
+        data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
+      })
+      const response = {
+        jobRunID: '1',
+        data: {
+          data: {},
+          results: {
+            btc: 123,
+            eth: 234,
+          },
+        },
+        result: null,
+        statusCode: 200,
+      }
+      const execute = jest.fn().mockReturnValueOnce(null).mockReturnValueOnce(response)
+      const middleware = await withCache()(execute, context)
+      const result = await middleware(makeRequest('3'), {})
+      expect(result).toBe(response)
+    })
+
+    it(`successfully coalesces requests`, async () => {
+      context.cache.requestCoalescing = {
+        ...context.cache.requestCoalescing,
+        enabled: true,
+        entropyMax: 10,
+      }
+      const makeRequest = (id: string): AdapterRequest => ({
+        id,
+        data: {},
+        debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
+      })
+      const response = {
+        jobRunID: '1',
+        data: {
+          data: {},
+          result: 123,
+        },
+        result: null,
+        statusCode: 200,
+      }
+      const execute = jest.fn().mockReturnValueOnce(null).mockReturnValueOnce(response)
+      const middleware = await withCache()(execute, context)
+
+      // Make a request, tick 10ms, then make another that will be coalesced with the first one.
+      // Then, tick a bunch so all the timeouts complete. This is to guarantee ordering and
+      // make the test as deterministic as possible.
+      middleware(makeRequest('3'), {})
+      await clock.tickAsync(10)
+      const promise = middleware(makeRequest('4'), {})
+      await clock.tickAsync(10000)
+      const result = await promise
+
+      // Remove debug performance, it's not deterministic even with a fixed clock
+      expect(typeof result.debug.performance).toBe('number')
+      expect(result.debug.performance).toBeGreaterThan(0)
+      delete result.debug.performance
+
+      expect(await promise).toEqual({
+        ...response,
+        debug: {
+          providerCost: 1,
+          staleness: 0,
+        },
+      })
+      expect(execute.mock.calls.length).toBe(2)
     })
   })
 })

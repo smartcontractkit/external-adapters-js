@@ -83,6 +83,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/historical-average"
       },
       {
+        "name": "@chainlink/implied-price-adapter",
+        "reference": "workspace:packages/composites/implied-price"
+      },
+      {
         "name": "@chainlink/linear-finance-adapter",
         "reference": "workspace:packages/composites/linear-finance"
       },
@@ -223,6 +227,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ap-election"
       },
       {
+        "name": "@chainlink/armanino-adapter",
+        "reference": "workspace:packages/sources/armanino"
+      },
+      {
         "name": "@chainlink/bea-adapter",
         "reference": "workspace:packages/sources/bea"
       },
@@ -269,6 +277,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/cache.gold-adapter",
         "reference": "workspace:packages/sources/cache.gold"
+      },
+      {
+        "name": "@chainlink/celsius-address-list-adapter",
+        "reference": "workspace:packages/sources/celsius-address-list"
       },
       {
         "name": "@chainlink/cfbenchmarks-adapter",
@@ -710,6 +722,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],
       ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],
+      ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],
       ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],
@@ -726,6 +739,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
+      ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],
@@ -795,6 +809,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
+      ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],
       ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],
@@ -4284,6 +4299,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/armanino-adapter", [
+        ["workspace:packages/sources/armanino", {
+          "packageLocation": "./packages/sources/armanino/",
+          "packageDependencies": [
+            ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/augur-adapter", [
         ["workspace:packages/composites/augur", {
           "packageLocation": "./packages/composites/augur/",
@@ -4372,6 +4406,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -4584,6 +4621,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/celsius-address-list-adapter", [
+        ["workspace:packages/sources/celsius-address-list", {
+          "packageLocation": "./packages/sources/celsius-address-list/",
+          "packageDependencies": [
+            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.4.7"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
@@ -5268,6 +5325,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],
             ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],
             ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],
+            ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],
             ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],
@@ -5280,6 +5338,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
+            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],
@@ -5402,7 +5461,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express-slow-down", "npm:1.3.2"],
             ["@types/fast-redact", "npm:3.0.1"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/lodash", "npm:4.14.178"],
+            ["@types/lodash", "npm:4.14.181"],
             ["@types/lru-cache", "npm:5.1.1"],
             ["@types/node", "npm:16.11.19"],
             ["@types/object-hash", "npm:2.1.1"],
@@ -5711,6 +5770,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6084,6 +6146,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/implied-price-adapter", [
+        ["workspace:packages/composites/implied-price", {
+          "packageLocation": "./packages/composites/implied-price/",
+          "packageDependencies": [
+            ["@chainlink/implied-price-adapter", "workspace:packages/composites/implied-price"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["axios", "npm:0.26.1"],
+            ["decimal.js", "npm:10.3.1"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/intrinio-adapter", [
         ["workspace:packages/sources/intrinio", {
           "packageLocation": "./packages/sources/intrinio/",
@@ -6095,6 +6177,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
             ["@types/supertest", "npm:2.0.11"],
+            ["axios", "npm:0.24.0"],
             ["express", "npm:4.17.1"],
             ["intrinio-realtime", "npm:2.3.0"],
             ["nock", "npm:13.2.4"],
@@ -6196,8 +6279,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.19"],
+            ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.2.4"],
             ["sinon", "npm:12.0.1"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -6712,6 +6798,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
+            ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
@@ -11692,6 +11779,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lodash", "npm:4.14.178"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:4.14.181", {
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.181-a4e20bcfaf-0d1863d838.zip/node_modules/@types/lodash/",
+          "packageDependencies": [
+            ["@types/lodash", "npm:4.14.181"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@types/long", [
@@ -13526,6 +13620,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["axios", "npm:0.24.0"],
             ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.26.1", {
+          "packageLocation": "./.yarn/cache/axios-npm-0.26.1-a6641ce4e3-d9eb58ff4b.zip/node_modules/axios/",
+          "packageDependencies": [
+            ["axios", "npm:0.26.1"],
+            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.14.9"]
           ],
           "linkType": "HARD",
         }]
@@ -19048,10 +19150,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
+        ["npm:1.14.9", {
+          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.14.9-522f191631-f5982e0eb4.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "npm:1.14.9"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5", {
           "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-02c2a4727a/0/cache/follow-redirects-npm-1.14.5-7c681222a0-f004a76b2e.zip/node_modules/follow-redirects/",
           "packageDependencies": [
             ["follow-redirects", "virtual:39e5c1e79ea63134f0cf339f4463df92854aaf708a45210afd29a0b4b9f67f95b34a1abbcabaae6d0033ad99a1d5f690ab51ed8e5d3283b87ccbc3a9ab3ec05f#npm:1.14.5"],
+            ["@types/debug", null],
+            ["debug", "virtual:c2bff3e67180802999655a22d390062982690e911b9d9225c258f3b25e7409f3867b2682c16232b77415f560a09d05a95042dc512a5b8c566c42bbbed88b0bbc#npm:4.3.2"]
+          ],
+          "packagePeers": [
+            "@types/debug"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.14.9", {
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-2db68225c5/0/cache/follow-redirects-npm-1.14.9-522f191631-f5982e0eb4.zip/node_modules/follow-redirects/",
+          "packageDependencies": [
+            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.14.9"],
             ["@types/debug", null],
             ["debug", "virtual:c2bff3e67180802999655a22d390062982690e911b9d9225c258f3b25e7409f3867b2682c16232b77415f560a09d05a95042dc512a5b8c566c42bbbed88b0bbc#npm:4.3.2"]
           ],

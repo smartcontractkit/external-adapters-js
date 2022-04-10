@@ -38,6 +38,9 @@
       "path": "../../sources/ap-election"
     },
     {
+      "path": "../../sources/armanino"
+    },
+    {
       "path": "../../sources/bea"
     },
     {
@@ -72,6 +75,9 @@
     },
     {
       "path": "../../sources/cache.gold"
+    },
+    {
+      "path": "../../sources/celsius-address-list"
     },
     {
       "path": "../../sources/cfbenchmarks"

@@ -5,10 +5,11 @@ import {
   AdapterRequest,
   AdapterRequestData,
   ResultPath,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import { reducer } from '../middleware/cache-warmer'
 import axios, { AxiosResponse } from 'axios'
-import { deepType } from '../util'
+import { deepType, getEnv, sleep } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import { AdapterError } from './error'
 import { logger } from './logger'
@@ -17,18 +18,16 @@ import { join } from 'path'
 
 const getFalse = () => false
 
-const DEFAULT_RETRY = 1
-
 export class Requester {
   static async request<T extends AdapterRequestData>(
     config: RequestConfig,
     customError?: any,
-    retries = Number(process.env.RETRY) || DEFAULT_RETRY,
+    retries = Number(getEnv('RETRY')),
     delay = 1000,
   ): Promise<AxiosResponse<T>> {
     if (typeof config === 'string') config = { url: config }
     if (typeof config.timeout === 'undefined') {
-      const timeout = Number(process.env.TIMEOUT)
+      const timeout = Number(getEnv('TIMEOUT'))
       config.timeout = !isNaN(timeout) ? timeout : 3000
     }
 
@@ -42,7 +41,7 @@ export class Requester {
     const _retry = async (n: number): Promise<AxiosResponse<T>> => {
       const _delayRetry = async (message: string) => {
         logger.warn(message)
-        await new Promise((resolve) => setTimeout(resolve, delay))
+        await sleep(delay)
         return await _retry(n - 1)
       }
 
@@ -52,6 +51,19 @@ export class Requester {
         response = await axios(config)
       } catch (error) {
         // Request error
+        if (error.code === 'ECONNABORTED') {
+          // Axios timeout code
+          throw new AdapterError({
+            statusCode: 504,
+            name: 'Request Timeout error',
+            providerStatusCode: error?.response?.status ?? 504,
+            message: error?.message,
+            cause: error,
+            errorResponse: error?.response?.data?.error,
+            url,
+          })
+        }
+
         if (n === 1) {
           throw new AdapterError({
             statusCode: 200,
@@ -103,15 +115,23 @@ export class Requester {
     options?: { inverse?: boolean },
   ): number {
     const result = this.getResult(data, path)
-    if (typeof result === 'undefined') {
-      const message = 'Result could not be found in path'
+
+    if (typeof result === 'undefined' || result === null) {
+      const message = 'Result could not be found in path or is empty'
       logger.error(message, { data, path })
-      throw new AdapterError({ message })
+      throw new AdapterError({
+        message,
+        statusCode: 502,
+      })
     }
+
     if (Number(result) === 0 || isNaN(Number(result))) {
       const message = 'Invalid result received'
       logger.error(message, { data, path })
-      throw new AdapterError({ message })
+      throw new AdapterError({
+        message,
+        statusCode: 400,
+      })
     }
     const num = Number(result)
     if (options?.inverse && num != 0) {
@@ -134,7 +154,7 @@ export class Requester {
   static withResult<T>(
     response: AxiosResponse<T>,
     result?: number | string,
-    results?: [AdapterRequest, number][],
+    results?: [string, AdapterRequest, number][],
   ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
     const isObj = deepType(response.data) === 'object'
     const output = isObj
@@ -248,7 +268,7 @@ interface BatchedResult {
    *    its result
    * ]
    */
-  results?: [AdapterRequest, number][]
+  results?: AdapterBatchResponse
 }
 
 /**

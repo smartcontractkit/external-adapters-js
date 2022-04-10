@@ -222,8 +222,6 @@ export const mockResponseSuccess = (): nock =>
       convertCurrency: 'usd',
       consolidateBaseCurrency: true,
       resampleFreq: '24hour',
-      startDate: /^\d{4}-\d{2}-\d{2}$/,
-      endDate: /^\d{4}-\d{2}-\d{2}$/,
     })
     .reply(
       200,

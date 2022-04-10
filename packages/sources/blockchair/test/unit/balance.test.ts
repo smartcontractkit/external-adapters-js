@@ -24,7 +24,6 @@ describe('stats endpoint', () => {
           await execute(req.testData as AdapterRequest)
         } catch (error) {
           const errorResp = Requester.errored(jobID, new AdapterError(error))
-          console.log({ errorResp })
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockCoinmetricsResponseError1 = (): nock =>
+export const mockCoinmetricsResponseError1 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -14,7 +14,7 @@ export const mockCoinmetricsResponseError1 = (): nock =>
     })
     .reply(500, {})
 
-export const mockCoinmetricsResponseError2 = (): nock =>
+export const mockCoinmetricsResponseError2 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -26,7 +26,7 @@ export const mockCoinmetricsResponseError2 = (): nock =>
     })
     .reply(500, {})
 
-export const mockCoinmetricsResponseSuccessMalformed1 = (): nock =>
+export const mockCoinmetricsResponseSuccessMalformed1 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -42,7 +42,7 @@ export const mockCoinmetricsResponseSuccessMalformed1 = (): nock =>
       data: {},
     })
 
-export const mockCoinmetricsResponseSuccessMalformed2 = (): nock =>
+export const mockCoinmetricsResponseSuccessMalformed2 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -66,7 +66,7 @@ export const mockCoinmetricsResponseSuccessMalformed2 = (): nock =>
       ],
     })
 
-export const mockCoinmetricsResponseSuccessMalformed3 = (): nock =>
+export const mockCoinmetricsResponseSuccessMalformed3 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -88,7 +88,7 @@ export const mockCoinmetricsResponseSuccessMalformed3 = (): nock =>
       ],
     })
 
-export const mockCoinmetricsResponseSuccessMalformed4 = (): nock =>
+export const mockCoinmetricsResponseSuccessMalformed4 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -110,7 +110,7 @@ export const mockCoinmetricsResponseSuccessMalformed4 = (): nock =>
       ],
     })
 
-export const mockCoinmetricsResponseSuccess1 = (): nock =>
+export const mockCoinmetricsResponseSuccess1 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -169,7 +169,7 @@ export const mockCoinmetricsResponseSuccess1 = (): nock =>
       ],
     })
 
-export const mockCoinmetricsResponseSuccess2 = (): nock =>
+export const mockCoinmetricsResponseSuccess2 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -223,7 +223,7 @@ export const mockCoinmetricsResponseSuccess2 = (): nock =>
       ],
     })
 
-export const mockCoinmetricsResponseSuccess3 = (): nock =>
+export const mockCoinmetricsResponseSuccess3 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({
@@ -246,7 +246,7 @@ export const mockCoinmetricsResponseSuccess3 = (): nock =>
       next_page_token: '0.MjAyMS0wOC0wNlQwMDowMDowMFo',
     })
 
-export const mockCoinmetricsResponseSuccess4 = (): nock =>
+export const mockCoinmetricsResponseSuccess4 = (): nock.Scope =>
   nock('https://api.coinmetrics.io/v4')
     .get('/timeseries/asset-metrics')
     .query({

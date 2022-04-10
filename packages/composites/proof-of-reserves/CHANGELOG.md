@@ -1,5 +1,257 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.5.9
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [fa1fe2b73]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/amberdata-adapter@1.4.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.5
+  - @chainlink/por-indexer-adapter@1.0.30
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.22
+  - @chainlink/blockchain.com-adapter@1.1.29
+  - @chainlink/blockchair-adapter@1.1.29
+  - @chainlink/blockcypher-adapter@1.2.29
+  - @chainlink/btc.com-adapter@1.2.29
+  - @chainlink/celsius-address-list-adapter@1.0.8
+  - @chainlink/chain-reserve-wallet-adapter@2.2.25
+  - @chainlink/cryptoapis-adapter@1.1.29
+  - @chainlink/eth-balance-adapter@1.1.29
+  - @chainlink/gemini-adapter@2.1.29
+  - @chainlink/lotus-adapter@2.1.29
+  - @chainlink/reduce-adapter@1.2.17
+  - @chainlink/renvm-address-set-adapter@1.3.20
+  - @chainlink/sochain-adapter@1.2.29
+  - @chainlink/wbtc-address-set-adapter@1.3.29
+  - @chainlink/wrapped-adapter@2.1.29
+
+## 1.5.8
+
+### Patch Changes
+
+- 92441b087: Fixes compile issues
+  - @chainlink/por-indexer-adapter@1.0.29
+  - @chainlink/renvm-address-set-adapter@1.3.19
+  - @chainlink/wbtc-address-set-adapter@1.3.28
+
+## 1.5.7
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.4
+  - @chainlink/por-indexer-adapter@1.0.28
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.21
+  - @chainlink/amberdata-adapter@1.3.24
+  - @chainlink/blockchain.com-adapter@1.1.28
+  - @chainlink/blockchair-adapter@1.1.28
+  - @chainlink/blockcypher-adapter@1.2.28
+  - @chainlink/btc.com-adapter@1.2.28
+  - @chainlink/celsius-address-list-adapter@1.0.7
+  - @chainlink/chain-reserve-wallet-adapter@2.2.24
+  - @chainlink/cryptoapis-adapter@1.1.28
+  - @chainlink/eth-balance-adapter@1.1.28
+  - @chainlink/gemini-adapter@2.1.28
+  - @chainlink/lotus-adapter@2.1.28
+  - @chainlink/reduce-adapter@1.2.16
+  - @chainlink/renvm-address-set-adapter@1.3.18
+  - @chainlink/sochain-adapter@1.2.28
+  - @chainlink/wbtc-address-set-adapter@1.3.27
+  - @chainlink/wrapped-adapter@2.1.28
+
+## 1.5.6
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.3
+  - @chainlink/por-indexer-adapter@1.0.27
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.20
+  - @chainlink/amberdata-adapter@1.3.23
+  - @chainlink/blockchain.com-adapter@1.1.27
+  - @chainlink/blockchair-adapter@1.1.27
+  - @chainlink/blockcypher-adapter@1.2.27
+  - @chainlink/btc.com-adapter@1.2.27
+  - @chainlink/celsius-address-list-adapter@1.0.6
+  - @chainlink/chain-reserve-wallet-adapter@2.2.23
+  - @chainlink/cryptoapis-adapter@1.1.27
+  - @chainlink/eth-balance-adapter@1.1.27
+  - @chainlink/gemini-adapter@2.1.27
+  - @chainlink/lotus-adapter@2.1.27
+  - @chainlink/reduce-adapter@1.2.15
+  - @chainlink/renvm-address-set-adapter@1.3.17
+  - @chainlink/sochain-adapter@1.2.27
+  - @chainlink/wbtc-address-set-adapter@1.3.26
+  - @chainlink/wrapped-adapter@2.1.27
+
+## 1.5.5
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.2
+  - @chainlink/por-indexer-adapter@1.0.26
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.19
+  - @chainlink/amberdata-adapter@1.3.22
+  - @chainlink/blockchain.com-adapter@1.1.26
+  - @chainlink/blockchair-adapter@1.1.26
+  - @chainlink/blockcypher-adapter@1.2.26
+  - @chainlink/btc.com-adapter@1.2.26
+  - @chainlink/celsius-address-list-adapter@1.0.5
+  - @chainlink/chain-reserve-wallet-adapter@2.2.22
+  - @chainlink/cryptoapis-adapter@1.1.26
+  - @chainlink/eth-balance-adapter@1.1.26
+  - @chainlink/gemini-adapter@2.1.26
+  - @chainlink/lotus-adapter@2.1.26
+  - @chainlink/reduce-adapter@1.2.14
+  - @chainlink/renvm-address-set-adapter@1.3.16
+  - @chainlink/sochain-adapter@1.2.26
+  - @chainlink/wbtc-address-set-adapter@1.3.25
+  - @chainlink/wrapped-adapter@2.1.26
+
+## 1.5.4
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.1
+  - @chainlink/por-indexer-adapter@1.0.25
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.18
+  - @chainlink/amberdata-adapter@1.3.21
+  - @chainlink/blockchain.com-adapter@1.1.25
+  - @chainlink/blockchair-adapter@1.1.25
+  - @chainlink/blockcypher-adapter@1.2.25
+  - @chainlink/btc.com-adapter@1.2.25
+  - @chainlink/celsius-address-list-adapter@1.0.4
+  - @chainlink/chain-reserve-wallet-adapter@2.2.21
+  - @chainlink/cryptoapis-adapter@1.1.25
+  - @chainlink/eth-balance-adapter@1.1.25
+  - @chainlink/gemini-adapter@2.1.25
+  - @chainlink/lotus-adapter@2.1.25
+  - @chainlink/reduce-adapter@1.2.13
+  - @chainlink/renvm-address-set-adapter@1.3.15
+  - @chainlink/sochain-adapter@1.2.25
+  - @chainlink/wbtc-address-set-adapter@1.3.24
+  - @chainlink/wrapped-adapter@2.1.25
+
+## 1.5.3
+
+### Patch Changes
+
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- 4fbbe69d2: refactor, added endpoints folder structure
+- Updated dependencies [7144f461f]
+- Updated dependencies [4fbbe69d2]
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.0
+  - @chainlink/por-indexer-adapter@1.0.24
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/renvm-address-set-adapter@1.3.14
+  - @chainlink/wbtc-address-set-adapter@1.3.23
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.17
+  - @chainlink/amberdata-adapter@1.3.20
+  - @chainlink/blockchain.com-adapter@1.1.24
+  - @chainlink/blockchair-adapter@1.1.24
+  - @chainlink/blockcypher-adapter@1.2.24
+  - @chainlink/btc.com-adapter@1.2.24
+  - @chainlink/celsius-address-list-adapter@1.0.3
+  - @chainlink/chain-reserve-wallet-adapter@2.2.20
+  - @chainlink/cryptoapis-adapter@1.1.24
+  - @chainlink/eth-balance-adapter@1.1.24
+  - @chainlink/gemini-adapter@2.1.24
+  - @chainlink/lotus-adapter@2.1.24
+  - @chainlink/reduce-adapter@1.2.12
+  - @chainlink/sochain-adapter@1.2.24
+  - @chainlink/wrapped-adapter@2.1.24
+
+## 1.5.2
+
+### Patch Changes
+
+- Updated dependencies [4aa3ebdfc]
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.40
+  - @chainlink/por-indexer-adapter@1.0.23
+  - @chainlink/renvm-address-set-adapter@1.3.13
+  - @chainlink/wbtc-address-set-adapter@1.3.22
+
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.39
+  - @chainlink/por-indexer-adapter@1.0.22
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.16
+  - @chainlink/amberdata-adapter@1.3.19
+  - @chainlink/blockchain.com-adapter@1.1.23
+  - @chainlink/blockchair-adapter@1.1.23
+  - @chainlink/blockcypher-adapter@1.2.23
+  - @chainlink/btc.com-adapter@1.2.23
+  - @chainlink/celsius-address-list-adapter@1.0.2
+  - @chainlink/chain-reserve-wallet-adapter@2.2.19
+  - @chainlink/cryptoapis-adapter@1.1.23
+  - @chainlink/eth-balance-adapter@1.1.23
+  - @chainlink/gemini-adapter@2.1.23
+  - @chainlink/lotus-adapter@2.1.23
+  - @chainlink/reduce-adapter@1.2.11
+  - @chainlink/renvm-address-set-adapter@1.3.12
+  - @chainlink/sochain-adapter@1.2.23
+  - @chainlink/wbtc-address-set-adapter@1.3.21
+  - @chainlink/wrapped-adapter@2.1.23
+
+## 1.5.0
+
+### Minor Changes
+
+- db2d44a13: Add Celsius Address List adapter support to Proof of Reserve composite adapter
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.0.38
+  - @chainlink/por-indexer-adapter@1.0.21
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.15
+  - @chainlink/amberdata-adapter@1.3.18
+  - @chainlink/blockchain.com-adapter@1.1.22
+  - @chainlink/blockchair-adapter@1.1.22
+  - @chainlink/blockcypher-adapter@1.2.22
+  - @chainlink/btc.com-adapter@1.2.22
+  - @chainlink/celsius-address-list-adapter@1.0.1
+  - @chainlink/chain-reserve-wallet-adapter@2.2.18
+  - @chainlink/cryptoapis-adapter@1.1.22
+  - @chainlink/eth-balance-adapter@1.1.22
+  - @chainlink/gemini-adapter@2.1.22
+  - @chainlink/lotus-adapter@2.1.22
+  - @chainlink/reduce-adapter@1.2.10
+  - @chainlink/renvm-address-set-adapter@1.3.11
+  - @chainlink/sochain-adapter@1.2.22
+  - @chainlink/wbtc-address-set-adapter@1.3.20
+  - @chainlink/wrapped-adapter@2.1.22
+
 ## 1.4.19
 
 ### Patch Changes
