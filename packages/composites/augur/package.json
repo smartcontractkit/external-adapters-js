@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/augur-adapter",
-  "version": "1.0.40",
+  "version": "1.0.45",
   "description": "Chainlink augur adapter.",
   "keywords": [
     "Chainlink",

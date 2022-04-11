@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/example-source-adapter",
-  "version": "1.0.39",
+  "version": "0.0.2",
   "description": "Chainlink example source adapter.",
   "keywords": [
     "Chainlink",
@@ -35,6 +35,9 @@
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
+    "@types/supertest": "2.0.11",
+    "nock": "13.2.4",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

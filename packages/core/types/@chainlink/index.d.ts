@@ -23,6 +23,9 @@ declare module '@chainlink/types' {
   }
 
   export type AdapterDebug = {
+    cacheKey?: string
+    batchCacheKey?: string
+    batchChildrenCacheKeys?: [string, AdapterRequest][]
     ws?: boolean
     warmer?: boolean
     cacheHit?: boolean
@@ -103,6 +106,8 @@ declare module '@chainlink/types' {
     providerStatusCode?: number
     error: ErrorBasic | ErrorFull
   }
+
+  export type AdapterBatchResponse = [string, AdapterRequest, number][]
 
   /* BOOTSTRAP */
   export type Middleware = (

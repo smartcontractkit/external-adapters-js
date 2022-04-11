@@ -65,7 +65,7 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
   })
   builder.addCase(actions.requestObserved, (state, action) => {
     const request: Request = {
-      id: makeId(action.payload.input),
+      id: action.payload.input?.debug?.cacheKey ?? makeId(action.payload.input),
       t: Date.now(),
     }
     const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
