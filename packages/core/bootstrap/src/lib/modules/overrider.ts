@@ -52,23 +52,24 @@ export class Overrider {
     const isOverridden: { [symbol: string]: boolean } = {}
     const alreadyWarned: { [symbol: string]: boolean } = {}
     for (const coinResponse of coinsResponse) {
-      const symbol = coinResponse.symbol
+      const symbolUpperCase = coinResponse.symbol.toUpperCase()
+      const symbolLowerCase = coinResponse.symbol.toLowerCase()
 
-      if (remainingSyms.includes(symbol)) {
-        if (isOverridden[symbol] === true) {
-          if (!alreadyWarned[symbol])
-            logger.warn(
-              `Overrider: The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
+      if (remainingSyms.includes(symbolUpperCase) || remainingSyms.includes(symbolLowerCase)) {
+        if (isOverridden[symbolUpperCase] === true) {
+          if (!alreadyWarned[symbolUpperCase])
+            logger.debug(
+              `Overrider: The symbol "${symbolUpperCase}" has a duplicate coin id and no override.`,
             )
-          alreadyWarned[symbol] = true
+          alreadyWarned[symbolUpperCase] = true
         } else {
-          overriddenCoins[symbol] = coinResponse.id
+          overriddenCoins[symbolUpperCase] = coinResponse.id
         }
-        isOverridden[symbol] = true
+        isOverridden[symbolUpperCase] = true
       }
     }
     for (const remainingSym of remainingSyms) {
-      if (!isOverridden[remainingSym]) {
+      if (!isOverridden[remainingSym.toUpperCase()]) {
         throw Error(
           `Overrider: Could not find a matching coin id for the symbol '${remainingSym}'.`,
         )
