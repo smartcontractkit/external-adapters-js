@@ -1,6 +1,7 @@
 import { Logger } from '@chainlink/ea-bootstrap'
 import { ByteArray } from '@ethercards/ec-util'
 import { ethers } from 'ethers'
+import { ZERO_ADDRESS } from './config'
 import { ProcessedEventInfo } from './types'
 
 export const callToRequestData = (
@@ -127,6 +128,9 @@ export const estimateCallsGasCost = async (
     const gasCostEstimate = await batchWriter.estimateGas.estimate(
       ethers.utils.formatBytes32String(jobRunID),
       `0x${encodedCalls}`,
+      {
+        from: ZERO_ADDRESS,
+      },
     )
     Logger.info(
       `Successfully estimated gas ${gasCostEstimate.toString()} for processing achievementID ${achievementID} and eventID ${eventID}`,
