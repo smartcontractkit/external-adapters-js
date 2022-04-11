@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinCodex
 
-Version: 1.2.23
+Version: 1.2.28
 
 Price adapter to query the price of an asset in USD. Only USD is supported by CoinCodex as a quote currency.
 

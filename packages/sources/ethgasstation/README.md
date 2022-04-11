@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EthGasStation
 
-Version: 1.3.12
+Version: 1.3.17
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

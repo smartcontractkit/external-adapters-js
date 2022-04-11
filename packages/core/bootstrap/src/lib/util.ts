@@ -1,12 +1,6 @@
-import {
-  AdapterContext,
-  AdapterImplementation,
-  AdapterRequest,
-  EnvDefaults,
-} from '@chainlink/types'
+import { AdapterContext, AdapterImplementation, EnvDefaults } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
-import { flatMap, values, pick, omit } from 'lodash'
-import objectHash from 'object-hash'
+import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
 import { logger } from './modules'
@@ -20,7 +14,7 @@ export const baseEnvDefaults: EnvDefaults = {
   EA_PORT: '8080',
   METRICS_PORT: '9080',
   RETRY: '1',
-  API_TIMEOUT: '5000',
+  API_TIMEOUT: '30000',
   SERVER_RATE_LIMIT_MAX: '250', // default to 250 req / 5 seconds max
   SERVER_SLOW_DOWN_AFTER_FACTOR: '0.8', // we start slowing down requests when we reach 80% of our max limit for the current interval
   SERVER_SLOW_DOWN_DELAY_MS: '500', // default to slowing down each request by 500ms
@@ -245,72 +239,6 @@ export const toFixedMax = (num: number | string | Decimal, decimals: number): st
     .replace(/(\.\d*?[1-9])0+$/g, '$1')
     // remove decimal part if all zeros (or only decimal point)
     .replace(/\.0*$/g, '')
-
-/** Common keys within adapter requests that should be ignored to generate a stable key*/
-export const excludableAdapterRequestProperties: Record<string, true> = [
-  'id',
-  'maxAge',
-  'meta',
-  'debug',
-  'rateLimitMaxAge',
-  'metricsMeta',
-]
-  .concat((getEnv('CACHE_KEY_IGNORED_PROPS') || '').split(',').filter((k) => k))
-  .reduce((prev, next) => {
-    prev[next] = true
-    return prev
-  }, {} as Record<string, true>)
-
-/** Common keys within adapter requests that should be used to generate a stable key*/
-export const includableAdapterRequestProperties: string[] = ['data'].concat(
-  (getEnv('CACHE_KEY_INCLUDED_PROPS') || '').split(',').filter((k) => k),
-)
-
-/** Common keys within adapter requests that should be ignored within "data" to create a stable key*/
-export const excludableInternalAdapterRequestProperties = [
-  'resultPath',
-  'overrides',
-  'tokenOverrides',
-  'includes',
-]
-
-export const getKeyData = (data: AdapterRequest) =>
-  omit(
-    pick(data, includableAdapterRequestProperties),
-    excludableInternalAdapterRequestProperties.map((property) => `data.${property}`),
-  )
-
-export type HashMode = 'include' | 'exclude'
-/**
- * Generates a key by hashing input data
- *
- * @param data Adapter request input data
- * @param hashOptions Additional configuration for the objectHash package
- * @param mode Which behavior to use:
- *    include (default) - hash only selected properties throwing out everything else
- *    exclude           - hash the entire data object after excluding certain properties
- *
- * @returns string
- */
-export const hash = (
-  data: AdapterRequest,
-  hashOptions: Required<Parameters<typeof objectHash>>['1'],
-  mode: HashMode = 'include',
-): string => {
-  return mode === 'include' || !data
-    ? objectHash(getKeyData(data), hashOptions)
-    : objectHash(data, getHashOpts())
-}
-
-export const getHashOpts = (): Required<Parameters<typeof objectHash>>['1'] => ({
-  algorithm: 'sha1',
-  encoding: 'hex',
-  unorderedSets: false,
-  respectType: false,
-  respectFunctionProperties: false,
-  respectFunctionNames: false,
-  excludeKeys: (props: string) => excludableAdapterRequestProperties[props],
-})
 
 // Helper to identify if debug mode is running
 export const isDebug = (): boolean => {
