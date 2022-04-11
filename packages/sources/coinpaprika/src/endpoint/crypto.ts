@@ -160,7 +160,7 @@ const getConvertedCoins = async (
     const coinsResponse = await getCoinIds(context, jobRunID)
     requestedCoins = Overrider.convertRemainingSymbolsToIds(
       overriddenCoins,
-      remainingSyms.map((sym) => sym.toUpperCase()),
+      remainingSyms,
       coinsResponse,
     )
   }

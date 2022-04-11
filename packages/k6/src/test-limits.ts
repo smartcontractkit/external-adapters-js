@@ -98,7 +98,7 @@ export const options = {
     ],
   },
   stages: [
-    { duration: '5m', target: Math.min(uniqueRequests, VU / 10) }, // 5m warmup from 0 to min(uniqueRequests, VU/10)
+    { duration: '1m', target: Math.min(uniqueRequests, VU / 10) }, // 5m warmup from 0 to min(uniqueRequests, VU/10)
     // Do `scaleupDuration` duration of scaling up to (VU/10)*currentStage, then run that stage for `testDuration`
     { duration: scaleupDuration, target: VU / 10 },
     { duration: testDuration, target: VU / 10 },
