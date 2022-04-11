@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, APIEndpoint, Config } from '@chainlink/types'
 import { DeepPartial } from 'redux'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { Subject } from 'rxjs'
@@ -16,6 +16,7 @@ import {
 } from '../../src/lib/middleware/cache-warmer/epics'
 import { subscriptionsReducer } from '../../src/lib/middleware/cache-warmer/reducer'
 import { RootState, SubscriptionState } from '../../src/lib/middleware/cache-warmer/reducer'
+import { getCacheKey } from '../../src/lib/middleware/cache-key'
 
 let scheduler: TestScheduler
 
@@ -58,6 +59,24 @@ describe('side effect tests', () => {
     epicDependencies = { config: get() }
   })
 
+  const apiEndpoint: APIEndpoint<Config> = {
+    supportedEndpoints: ['test'],
+    inputParameters: {
+      key1: {
+        type: 'string',
+      },
+      key2: {
+        type: 'string',
+      },
+    },
+    execute: null,
+    batchablePropertyPath: [
+      {
+        name: 'key1',
+      },
+    ],
+  }
+
   const batchKeyParent = 'a227f4e12a0b5b5558b871a53c92dbc9255a390b'
   const batchableAdapterRequest1: AdapterRequest = {
     id: '0',
@@ -83,21 +102,29 @@ describe('side effect tests', () => {
   }
   const batchKeyChild1 = '500fb5c94385c85a5998d5870b463cf5041d4403'
 
-  const batchableAdapterRequest2: AdapterRequest = { id: '0', data: { key1: ['baz'], key2: 'bar' } }
+  const batchableAdapterRequest2: AdapterRequest = {
+    id: '0',
+    data: { key1: ['baz'], key2: 'bar', resultPath: undefined },
+  }
+  const adapterRequestData2 = { key1: 'baz', key2: 'bar' }
   const childAdapterRequest2: AdapterRequest = {
     id: '0',
-    data: { key1: 'baz', key2: 'bar' },
+    data: adapterRequestData2,
   }
+  const childAdapterKey2 = getCacheKey(
+    batchableAdapterRequest2,
+    Object.keys(apiEndpoint.inputParameters),
+  )
   const batchableAdapterResponse2: AdapterResponse = {
     jobRunID: '2',
     statusCode: 200,
     data: {
-      results: [[{ data: { key1: 'baz', key2: 'bar' } }, 2]],
+      results: [[childAdapterKey2, { data: adapterRequestData2 }, 2]],
     },
     result: 2,
     debug: { batchablePropertyPath: [{ name: 'key1' }] },
   }
-  const batchKeyChild2 = 'e4d4ae76e0deb22ff3a4802acfe4f081ca54825d'
+  const batchKeyChild2 = '4XyyAD5vDCcrJZgc1kqwngWDKqM='
 
   describe('executeHandler', () => {
     describe('when there are no subscriptions', () => {
@@ -161,6 +188,7 @@ describe('side effect tests', () => {
               members: [
                 {
                   executeFn: executeStub,
+                  key: childAdapterKey2,
                   ...childAdapterRequest2,
                   parent: batchKeyParent,
                   result: batchableAdapterResponse2,
@@ -253,6 +281,7 @@ describe('side effect tests', () => {
                 {
                   executeFn: executeStub,
                   ...childAdapterRequest2,
+                  key: childAdapterKey2,
                   parent: batchKeyParent,
                   result: batchableAdapterResponse2,
                   batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,

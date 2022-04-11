@@ -1,7 +1,8 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator, Overrider } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
-import { getCoinIds, getSymbolToId } from '../util'
+import { getCoinIds } from '../util'
+import internalOverrides from '../config/overrides.json'
 
 export const supportedEndpoints = ['vwap', 'crypto-vwap']
 
@@ -41,19 +42,32 @@ const formatUtcDate = (date: Date) => date.toISOString().split('T')[0]
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
-
   const jobRunID = validator.validated.id
-  const symbol = validator.overrideSymbol(AdapterName) as string
+  const base = validator.validated.data.base
   const coinid = validator.validated.data.coinid as string | undefined
 
-  // If coinid was provided or base was overridden, that symbol will be fetched
-  let coin = coinid || (symbol !== validator.validated.data.base && symbol)
+  let coin = coinid
   if (!coin) {
-    const coinIds = await getCoinIds(context, jobRunID)
-    coin = getSymbolToId(symbol, coinIds)
+    const overrider = new Overrider(
+      internalOverrides,
+      request.data?.overrides,
+      AdapterName,
+      jobRunID,
+    )
+    const [overriddenCoin, remainingSym] = overrider.performOverrides(base)
+    if (remainingSym.length === 0) {
+      coin = overriddenCoin[base]
+    } else {
+      const coinsResponse = await getCoinIds(context, jobRunID)
+      const requestedCoin = Overrider.convertRemainingSymbolsToIds(
+        overriddenCoin,
+        remainingSym.map((sym) => sym.toUpperCase()),
+        coinsResponse,
+      )
+      coin = requestedCoin[base]
+    }
   }
-
-  const url = `v1/tickers/${coin.toLowerCase()}/historical`
+  const url = util.buildUrlPath('v1/tickers/:coin/historical', { coin: coin.toLowerCase() })
   const resultPath = validator.validated.data.resultPath
   const hours = validator.validated.data.hours
 

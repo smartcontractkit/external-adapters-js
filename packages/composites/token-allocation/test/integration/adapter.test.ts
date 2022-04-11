@@ -3,9 +3,14 @@ import * as tokenAllocationAdapter from '../../src/index'
 import { dataProviderConfig, mockDataProviderResponses } from './fixtures'
 import nock from 'nock'
 
-const jobRunID = 1
+const jobRunID = '1'
 
-const getPriceRequest = (source: string, method = 'price', quote = 'EUR'): AdapterRequest => ({
+const getPriceRequest = (
+  source: string,
+  method = 'price',
+  quote = 'EUR',
+  additional = {},
+): AdapterRequest => ({
   id: jobRunID,
   data: {
     source,
@@ -22,6 +27,7 @@ const getPriceRequest = (source: string, method = 'price', quote = 'EUR'): Adapt
     ],
     quote,
     method,
+    ...additional,
   },
 })
 
@@ -29,7 +35,6 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('execute', () => {
   let execute: Execute
-  const id = '1'
 
   beforeAll(async () => {
     execute = await tokenAllocationAdapter.makeExecute()
@@ -57,35 +62,49 @@ describe('execute', () => {
 
   describe('price method', () => {
     mockDataProviderResponses()
+
     for (const source of Object.keys(dataProviderConfig)) {
       const request = getPriceRequest(source)
       it(`should return the correct price for source ${source}`, async () => {
-        const resp = await execute(request)
+        const resp = await execute(request, {})
         expect(resp).toMatchSnapshot()
       })
     }
 
     it('should return the correct price using a batched request when pulling data from coin API and the quote is USD', async () => {
       const request = getPriceRequest('coinapi', 'price', 'USD')
-      const resp = await execute(request)
+      const resp = await execute(request, {})
       expect(resp).toMatchSnapshot()
     })
   })
 
   describe('marketcap method', () => {
     mockDataProviderResponses()
+
     for (const source of Object.keys(dataProviderConfig)) {
       const request = getPriceRequest(source, 'marketcap')
       it(`should return the correct price for source ${source}`, async () => {
-        const resp = await execute(request)
+        const resp = await execute(request, {})
         expect(resp).toMatchSnapshot()
       })
     }
 
     it('should return the correct price using a batched request when pulling data from coin API and the quote is USD', async () => {
       const request = getPriceRequest('coinapi', 'marketcap', 'USD')
-      const resp = await execute(request)
+      const resp = await execute(request, {})
       expect(resp).toMatchSnapshot()
     })
+  })
+
+  describe('additional input parameter pass through', () => {
+    mockDataProviderResponses()
+
+    for (const source of Object.keys(dataProviderConfig)) {
+      const request = getPriceRequest(source, 'price')
+      it(`should return the correct price for source ${source} with additional input  `, async () => {
+        const resp = await execute(request, {})
+        expect(resp).toMatchSnapshot()
+      })
+    }
   })
 })

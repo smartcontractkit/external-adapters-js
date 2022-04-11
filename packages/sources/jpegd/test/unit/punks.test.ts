@@ -10,11 +10,9 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
       {
-        name: 'block not set to number',
-        testData: { id: jobID, data: { block: null } },
+        name: 'invalid block string',
+        testData: { data: { block: 'abc' } },
       },
     ]
 

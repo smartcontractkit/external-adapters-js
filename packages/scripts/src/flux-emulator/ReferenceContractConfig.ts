@@ -1,11 +1,14 @@
 import axios from 'axios-observable'
-import { transformAndValidateSync } from 'class-transformer-validator'
 import { retryBackoff } from 'backoff-rxjs'
 import { Observable, of } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import console from 'console'
 import { AxiosRequestConfig } from 'axios'
+import { randomUUID } from 'crypto'
 
+// ReferenceContractConfig is the shape of reference data for a given data feed,
+// which includes the address of the feed, contract version, and the node operators (nodes)
+// that are being contracted for this feed.
 export class ReferenceContractConfig {
   name: string
   contractVersion: number
@@ -18,29 +21,74 @@ export class ReferenceContractConfig {
   path: string
   status: string
 
-  constructor() {
-    this.name = ''
-    this.contractVersion = 0
-    this.address = ''
-    this.deviationThreshold = 0
-    this.data = {}
-    this.nodes = []
-    this.precision = 8
-    this.symbol = ''
-    this.path = ''
-    this.status = ''
+  constructor(input: Record<string, unknown>) {
+    const ValidationError = (param: string) => {
+      Error(`Contract config "${param}" param is missing or incorrect type`)
+    }
+
+    if (typeof input?.name !== 'string') throw ValidationError('name')
+    else this.name = input.name
+
+    if (typeof input?.contractVersion !== 'number') throw ValidationError('contractVersion')
+    this.contractVersion = input.contractVersion
+
+    if (typeof input?.address !== 'string') throw ValidationError('address')
+    this.address = input.address
+
+    if (typeof input?.deviationThreshold !== 'number') throw ValidationError('deviationThreshold')
+    this.deviationThreshold = input.deviationThreshold
+
+    if (!(typeof input?.data === 'object' && !Array.isArray(input?.data) && input?.data !== null))
+      throw ValidationError('data')
+    this.data = input.data as Record<string, unknown>
+
+    if (!Array.isArray(input?.nodes)) throw ValidationError('nodes')
+    this.nodes = input.nodes.map((node: unknown) => new FeedNode(node))
+
+    if (typeof input?.precision !== 'number') throw ValidationError('precision')
+    this.precision = input.precision
+
+    if (typeof input?.symbol !== 'string') throw ValidationError('symbol')
+    this.symbol = input.symbol
+
+    if (typeof input?.path !== 'string') throw ValidationError('path')
+    this.path = input.path
+
+    if (typeof input?.status !== 'string') throw ValidationError('status')
+    this.status = input.status
   }
 }
 
+// FeedNode is the shape of reference data for a single node operator on a single data feed.
+// The dataProviders are the data providers (usually 1-to-1 with adapters) being used by the
+// node operator for a given feed.
 export class FeedNode {
   name: string
   address: string
   dataProviders: string[]
-  constructor() {
-    this.name = ''
-    this.address = ''
-    this.dataProviders = []
+  constructor(input: any) {
+    const ValidationError = (param: string) => {
+      Error(`Feed node "${param}" param is missing or incorrect type`)
+    }
+
+    if (typeof input?.name !== 'string') throw ValidationError('name')
+    else this.name = input.name
+
+    if (typeof input?.address !== 'string') throw ValidationError('address')
+    this.address = input.address
+
+    if (
+      !Array.isArray(input?.dataProviders) ||
+      input.dataProviders.some((dp: unknown) => typeof dp !== 'string')
+    )
+      throw ValidationError('dataProviders')
+    this.dataProviders = input.dataProviders
   }
+}
+
+export interface ConfigPayload {
+  name: string
+  data: Record<string, unknown>
 }
 
 export interface K6Payload {
@@ -108,9 +156,7 @@ export const fetchConfigFromUrl = (
  * @returns {ReferenceContractConfig[]} The verified input as a config array
  */
 export const parseConfig = (rawConfig: Record<string, unknown>[]): ReferenceContractConfig[] => {
-  return transformAndValidateSync(ReferenceContractConfig, rawConfig, {
-    validator: { forbidUnknownValues: true },
-  })
+  return rawConfig.map((rc) => new ReferenceContractConfig(rc))
 }
 
 /**
@@ -181,7 +227,7 @@ const newConfigWithoutNodes = (feedConfig: ReferenceContractConfig): ReferenceCo
 }
 
 const newNodeWithoutAdapters = (feedNode: FeedNode): FeedNode => {
-  const node: FeedNode = { ...new FeedNode(), ...feedNode }
+  const node: FeedNode = { ...feedNode }
   node.dataProviders = []
   return node
 }
@@ -281,17 +327,17 @@ export const adapterExistsInConfig = (
 
 /**
  * Converts the flux emulator config into a k6 payload
- * @param {ReferenceContractConfig[]} referenceConfig The configuration to convert to a k6 compatible payload
+ * @param {ConfigPayload[]} referenceConfig The configuration to convert to a k6 compatible payload
  * @returns {K6Payload[]} The k6 compatible payload
  */
-export const convertConfigToK6Payload = (
-  referenceConfig: ReferenceContractConfig[],
-): K6Payload[] => {
+export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Payload[] => {
+  const id = randomUUID()
+
   const payloads: K6Payload[] = []
   for (const config of referenceConfig) {
     const payload: K6Payload = {
       name: config.name,
-      id: '86f45dcc-90db-4c39-b385-53945c5a9a30',
+      id,
       method: 'POST',
       data: JSON.stringify({ data: config.data }),
     }

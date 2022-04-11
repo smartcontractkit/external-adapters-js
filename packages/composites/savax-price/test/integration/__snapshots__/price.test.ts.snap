@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute sAvax price error responses should throw an error if the AVAX price is 0 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"source\\":\\"coinpaprika\\"}}",
+    "message": "ERROR: No price value found for AVAX/USD from the coinpaprika adapter.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`execute sAvax price error responses should throw an error if the pooled sAVAX shares is 0 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"source\\":\\"coinpaprika\\"}}",
+    "message": "Avax Pool Shares shold not be 0",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`execute sAvax price successul responses should return the price of sAVAX correctly 1`] = `
+Object {
+  "data": Object {
+    "result": "79328233833934023829",
+  },
+  "jobRunID": "1",
+  "result": "79328233833934023829",
+  "statusCode": 200,
+}
+`;

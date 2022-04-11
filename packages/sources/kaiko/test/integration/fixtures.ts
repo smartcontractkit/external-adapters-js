@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockRateResponseSuccess = (): nock =>
+export const mockRateResponseSuccess = (): nock.Scope =>
   nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
     encodedQueryParams: true,
     reqheaders: {
@@ -110,7 +110,7 @@ export const mockRateResponseSuccess = (): nock =>
         'Origin',
       ],
     )
-    .get('/spot_direct_exchange_rate/ltc/eth')
+    .get('/spot_exchange_rate/ltc/eth')
     .query((query) => true)
     .reply(
       200,
@@ -279,7 +279,7 @@ export const mockRateResponseSuccess = (): nock =>
       ],
     )
 
-export const mockRateResponseFailure = (): nock =>
+export const mockRateResponseFailure = (): nock.Scope =>
   nock('https://us.market-api.kaiko.io/v2/data/trades.v1', {
     encodedQueryParams: true,
   })

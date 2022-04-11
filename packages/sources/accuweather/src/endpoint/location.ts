@@ -20,6 +20,18 @@ export type LocationResultEncoded = [boolean, string]
 
 export const supportedEndpoints = ['location']
 
+export const description = `Returns location information by geoposition
+
+### Data Conversions - Location Endpoint
+
+**countryCode**
+
+ISO 3166 alpha-2 codes encoded as \`bytes2\`. See [list of ISO-3166 country codes](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)
+
+### Solidity types - Location Current Conditions Endpoint
+
+See [Solidity Types](#solidity-types)`
+
 export const inputParameters: InputParameters = {
   lat: {
     aliases: ['latitude'],

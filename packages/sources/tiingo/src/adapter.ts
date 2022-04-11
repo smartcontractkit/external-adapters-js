@@ -62,7 +62,7 @@ interface SyntheticMessage {
 }
 interface UpdateMessage extends Message {
   messageType: 'A'
-  service: 'crypto_data'
+  service: 'crypto_data' | 'iex'
   data: TopOfBookUpdateData | TradeUpdateData | SyntheticMessage
 }
 
@@ -134,7 +134,9 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
       subsFromMessage: (message: UpdateMessage) =>
-        message.data && message.messageType === 'A' && getSubscription(message.data[1]), // The ticker is always index 1
+        message.data &&
+        message.messageType === 'A' &&
+        getSubscription(message.service === 'iex' ? message.data[3] : message.data[1]),
       toResponse: (message: UpdateMessage, input: AdapterRequest) => {
         let result
         if (isFx(input)) {

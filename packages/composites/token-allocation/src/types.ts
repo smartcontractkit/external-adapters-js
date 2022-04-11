@@ -23,12 +23,13 @@ export type TokenAllocations = TokenAllocation[]
 export type GetPrices = (
   baseSymbols: string[],
   quote: string,
-  withMarketCap?: boolean,
+  additionalInput: Record<string, unknown>,
+  withMarketCap: boolean,
 ) => Promise<ResponsePayload>
 
 export type SourceRequestOptions = { [source: string]: DefaultConfig }
 
-export type Config = {
+export interface Config extends DefaultConfig {
   sources: SourceRequestOptions
   defaultMethod: string
   defaultQuote: string

@@ -1,10 +1,11 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
   Config,
   InputParameters,
   AdapterRequest,
   AxiosResponse,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 
@@ -27,9 +28,18 @@ export const description =
   'Returns a batched price comparison from one currency to a list of other currencies.'
 
 export const inputParameters: InputParameters = {
-  base: ['base', 'from', 'coin'],
-  quote: ['quote', 'to', 'market'],
-  amount: false,
+  base: {
+    required: true,
+    aliases: ['from', 'coin'],
+    description: 'The symbol of the currency to query',
+    type: 'string',
+  },
+  quote: {
+    required: true,
+    aliases: ['to', 'market'],
+    description: 'The symbol of the currency to convert to',
+    type: 'string',
+  },
 }
 
 const handleBatchedRequest = (
@@ -39,17 +49,31 @@ const handleBatchedRequest = (
   resultPath: string,
   symbols: string[],
 ) => {
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
+
   for (const symbol of symbols) {
     const from = response.data.base
+
+    const individualRequest = {
+      ...request,
+      data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
+    }
+
+    const result = Requester.validateResultNumber(response.data, [resultPath, symbol])
+
     payload.push([
-      {
-        ...request,
-        data: { ...request.data, base: from.toUpperCase(), quote: symbol.toUpperCase() },
-      },
-      Requester.validateResultNumber(response.data, [resultPath, symbol]),
+      CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
+      individualRequest,
+      result,
+    ])
+
+    payload.push([
+      CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
+      individualRequest,
+      result,
     ])
   }
+
   return Requester.success(
     jobRunID,
     Requester.withResult(response, undefined, payload),

@@ -1,10 +1,10 @@
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Execute, InputParameters } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import { Config, makeConfig, DEFAULT_NETWORK } from './config'
 import { getCheckImpl, getCheckProvider } from './checks'
 
-const customParams = {
+const inputParameters: InputParameters = {
   check: true,
   source: true,
   referenceContract: ['referenceContract', 'contract'],
@@ -13,7 +13,7 @@ const customParams = {
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const referenceContract = validator.validated.data.referenceContract

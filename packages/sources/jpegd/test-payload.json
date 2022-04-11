@@ -1,5 +1,5 @@
 {
  "requests": [{
-  "block": 9999999
+  "block": "latest"
  }]
 }

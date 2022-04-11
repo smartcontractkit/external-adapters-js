@@ -2,7 +2,6 @@
   "extends": [
     "config:base",
     ":automergePatch",
-    ":prConcurrentLimit10",
     ":automergeLinters",
     ":automergeTesters",
     ":automergeTypes",
@@ -11,5 +10,6 @@
     ":automergePr",
     ":automergeRequireAllStatusChecks"
   ],
-  "ignorePaths": [".yarn/sdks"]
+  "ignorePaths": [".yarn/sdks"],
+  "prConcurrentLimit": 5
 }

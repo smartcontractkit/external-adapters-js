@@ -10,9 +10,13 @@ export const anchorVaultAbi = [
 
 export const curvePoolAbi = [
   {
-    name: 'balances',
+    name: 'get_dy',
     outputs: [{ type: 'uint256', name: '' }],
-    inputs: [{ type: 'uint256', name: 'i' }],
+    inputs: [
+      { type: 'int128', name: 'i' },
+      { type: 'int128', name: 'j' },
+      { type: 'uint256', name: 'dx' },
+    ],
     stateMutability: 'view',
     type: 'function',
   },

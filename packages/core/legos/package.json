@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.51",
+  "version": "1.0.75",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -38,6 +38,7 @@
     "@chainlink/amberdata-adapter": "workspace:*",
     "@chainlink/anyblock-adapter": "workspace:*",
     "@chainlink/ap-election-adapter": "workspace:*",
+    "@chainlink/armanino-adapter": "workspace:*",
     "@chainlink/bea-adapter": "workspace:*",
     "@chainlink/binance-adapter": "workspace:*",
     "@chainlink/binance-dex-adapter": "workspace:*",
@@ -50,6 +51,7 @@
     "@chainlink/bravenewcoin-adapter": "workspace:*",
     "@chainlink/btc.com-adapter": "workspace:*",
     "@chainlink/cache.gold-adapter": "workspace:*",
+    "@chainlink/celsius-address-list-adapter": "workspace:*",
     "@chainlink/cfbenchmarks-adapter": "workspace:*",
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",
@@ -89,6 +91,7 @@
     "@chainlink/fixer-adapter": "workspace:*",
     "@chainlink/flightaware-adapter": "workspace:*",
     "@chainlink/fmpcloud-adapter": "workspace:*",
+    "@chainlink/galaxis-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/genesis-volatility-adapter": "workspace:*",
     "@chainlink/geodb-adapter": "workspace:*",

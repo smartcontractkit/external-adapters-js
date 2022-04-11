@@ -24,6 +24,8 @@ export interface ResponseSchema {
   rate: number
 }
 
+export const description = 'Gets the exchange rate between two tokens'
+
 export const inputParameters: InputParameters = {
   from: {
     aliases: ['base', 'coin'],

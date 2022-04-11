@@ -1,4 +1,4 @@
-name: Actions
+name: Test & build
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: '16.x'
       - name: Install Yarn
         run: npm install -g yarn
       - name: Re-download dependencies & verify checksum
@@ -28,17 +28,18 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: '16.x'
       - name: Install Yarn
         run: npm install -g yarn
       - run: yarn install
       - run: yarn setup
       - run: timeout 300 yarn test:ci:integration
-      - uses: codecov/codecov-action@v2
-        with:
-          flags: integration
-          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+  # Disable Codecov until we can make it reliable: sc-22561
+  #      - uses: codecov/codecov-action@v2
+  #        with:
+  #          flags: integration
+  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
+  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-unit-tests:
     name: Run unit tests
@@ -47,32 +48,54 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: '16.x'
       - name: Install Yarn
         run: npm install -g yarn
       - run: yarn install
       - run: yarn setup
       - run: yarn test:ci:unit
-      - uses: codecov/codecov-action@v2
-        with:
-          flags: unit
-          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
-          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+  # Disable Codecov until we can make it reliable: sc-22561
+  #      - uses: codecov/codecov-action@v2
+  #        with:
+  #          flags: unit
+  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
+  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-basic-checks:
-    name: Run linters and unit tests
+    name: Run linters
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: '16.x'
       - name: Install Yarn
         run: npm install -g yarn
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
       - run: yarn format:check
+
+  run-docmentation-check:
+    name: Documentation generation test
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - name: Install Yarn
+        run: |
+          npm install -g yarn
+          yarn install
+      - name: Build Repo
+        run: yarn setup
+      - name: Test Master List Generation
+        run: yarn generate:master-list -v
+      - name: Test README Generation
+        run: yarn generate:readme -a -v
 
   # Changeset check
   adapter-change-has-changeset:
@@ -97,7 +120,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: '16.x'
       - name: Generate job matrix
         id: create-matrix
         run: yarn generate:gha:matrix
@@ -112,7 +135,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: '16.x'
       - name: Install yarn deps
         run: yarn
       - name: Generate docker-compose file

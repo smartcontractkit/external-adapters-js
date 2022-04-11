@@ -57,3 +57,34 @@ export const mockResponseSuccess = (): nock =>
         'Origin',
       ],
     )
+
+export const mockSubscribeRequest = {
+  request: {
+    topic: 'subscribe',
+    to: 'EURUSD:CUR',
+  },
+  response: [
+    {
+      s: 'EURUSD:CUR',
+      i: 'EURUSD',
+      pch: 0,
+      nch: -0.00004,
+      bid: 1.13676,
+      ask: 1.13676,
+      price: 1.13676,
+      dt: 1645166298573,
+      state: 'open',
+      type: 'currency',
+      dhigh: 1.13712,
+      dlow: 1.13583,
+      o: 1.13594,
+      prev: 1.1368,
+      topic: 'EURUSD',
+    },
+  ],
+}
+
+export const mockUnsubscribeRequest = {
+  request: undefined,
+  response: {},
+}

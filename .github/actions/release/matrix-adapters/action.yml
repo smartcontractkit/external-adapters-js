@@ -11,7 +11,7 @@ runs:
   steps:
     - uses: actions/setup-node@v2
       with:
-        node-version: '17.x'
+        node-version: '16.x'
 
     - name: Generate job matrix
       id: create-matrix

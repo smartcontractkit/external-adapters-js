@@ -8,16 +8,22 @@ Detailed here is optional configuration that can be provided to any EA through e
 
 ## Table of Contents
 
-1. [Server configuration](#Server-configuration)
-2. [Performance](#Performance)
-   - [Caching](#Caching)
-   - [Redis](#Redis)
-   - [Rate Limiting](#Rate-Limiting)
-     - [Provider Limits](#Provider-Limits)
-   - [Cache Warming](#Cache-Warming)
-   - [Request Coalescing](#Request-Coalescing)
-3. [Metrics](#Metrics)
-4. [Websockets](#Websockets)
+- [Chainlink External Adapter Bootstrap](#chainlink-external-adapter-bootstrap)
+  - [Table of Contents](#table-of-contents)
+  - [Server configuration](#server-configuration)
+  - [Performance](#performance)
+    - [Error back offs](#error-back-offs)
+    - [Caching](#caching)
+    - [Cache key](#cache-key)
+      - [Ignoring keys](#ignoring-keys)
+    - [Local cache](#local-cache)
+    - [Redis](#redis)
+    - [Rate Limiting](#rate-limiting)
+      - [Provider Limits](#provider-limits)
+    - [Cache Warming](#cache-warming)
+    - [Request Coalescing](#request-coalescing)
+  - [Metrics](#metrics)
+  - [Websockets](#websockets)
 
 ---
 
@@ -39,7 +45,26 @@ Detailed here is optional configuration that can be provided to any EA through e
 |           | `SERVER_SLOW_DOWN_AFTER_FACTOR` |                                                                                                                                  The amount of requests after which subsequent requests will be slowed down by a delay (as a percentage of the max requests).                                                                                                                                   |                          |        `0.8`         |
 |           |   `SERVER_SLOW_DOWN_DELAY_MS`   |                                                                                                                                                 The number of milliseconds to delay a request once the slow down factor's threshold is reached.                                                                                                                                                 |                          |        `500`         |
 
+### Base input parameters
+
+Base input parameters are accepted for every EA
+
+| Required? | Name             | Description                                                                                           |
+| --------- | ---------------- | ----------------------------------------------------------------------------------------------------- |
+|           | `endpoint`       | The External Adapter "endpoint" name to use.                                                          |
+|           | `resultPath`     | The path to key into the API response the retrieve the result                                         |
+|           | `overrides`      | Override the mapping of token symbols to another token symbol                                         |
+|           | `tokenOverrides` | Override the mapping of token symbols to smart contract address                                       |
+|           | `includes`       | Override the array of includes that holds additional input parameters when matching a pair of symbols |
+
 ## Performance
+
+### Error back offs
+
+Repeated requests that return errors are backed off from:
+| Required? | Name | Description | Options | Defaults to |
+| :-------: | :-------------------: | :-------------------------------------: | :-----: | :---------: |
+| | `ERROR_CAPACITY` | Maximum amount of time a request can error per minute before being backed off from | | `2` |
 
 ### Caching
 

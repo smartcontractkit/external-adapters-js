@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, NAME } from '../config'
 import overrides from '../config/symbols.json'
@@ -25,7 +25,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
 
   // Fall back to getting the data from HTTP endpoint
-  const url = `/symbol/${symbol}`
+  const url = util.buildUrlPath('/symbol/:symbol', { symbol }, ':')
 
   const params = {
     c: `${config.client.key}:${config.client.secret}`,

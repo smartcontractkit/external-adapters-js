@@ -7,7 +7,7 @@ import { Interface } from '@ethersproject/abi'
 import { HandlerResponse } from './types'
 import { concat, hexlify } from '@ethersproject/bytes'
 
-const inputParameters: InputParameters = {
+export const inputParameters: InputParameters = {
   data: true,
 }
 

@@ -69,12 +69,14 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
 
       // We want the key to be consistent. So we omit batchable paths.
       // Otherwise it would change on every new child
-      const batchWarmerSubscriptionKey = getSubscriptionKey(
-        omit(
-          payload,
-          batchablePropertyPath?.map(({ name }) => `data.${name}`),
-        ),
-      )
+      const batchWarmerSubscriptionKey =
+        payload.debug?.batchCacheKey ??
+        getSubscriptionKey(
+          omit(
+            payload,
+            batchablePropertyPath?.map(({ name }) => `data.${name}`),
+          ),
+        )
 
       const existingBatchWarmer = state.cacheWarmer.subscriptions[batchWarmerSubscriptionKey]
 
@@ -83,7 +85,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
       // If result was from a batch request
       if (payload.result?.data?.results) {
         const members = []
-        for (const [request] of Object.values<[AdapterRequest, number]>(
+        for (const [childKey, request] of Object.values<[string, AdapterRequest, number]>(
           payload.result.data.results,
         )) {
           const warmupSubscribedPayloadChild = {
@@ -91,8 +93,8 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
             ...request,
             parent: batchWarmerSubscriptionKey,
             batchablePropertyPath,
+            key: childKey,
           }
-          const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
           childLastSeenById[childKey] = Date.now()
           members.push(warmupSubscribedPayloadChild)
         }
@@ -103,7 +105,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, RootState, EpicDependenc
           parent: batchWarmerSubscriptionKey,
           batchablePropertyPath,
         }
-        const childKey = getSubscriptionKey(warmupSubscribedPayloadChild)
+        const childKey = payload.debug?.cacheKey ?? getSubscriptionKey(warmupSubscribedPayloadChild)
         childLastSeenById[childKey] = Date.now()
         actionsToDispatch.push(warmupSubscribed(warmupSubscribedPayloadChild))
       }
@@ -162,7 +164,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
     filter(warmupSubscribed.match),
     map(({ payload }) => ({
       payload,
-      key: payload.key || getSubscriptionKey(payload),
+      key: payload.key || payload.debug?.cacheKey || getSubscriptionKey(payload),
     })),
     withLatestFrom(state$),
     // check if the subscription already exists, then noop
@@ -312,7 +314,10 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
   // used as a helper stream for the timeout limit stream
   const keyedSubscription$ = action$.pipe(
     filter(warmupSubscribed.match),
-    map(({ payload }) => ({ payload, key: getSubscriptionKey(payload) })),
+    map(({ payload }) => ({
+      payload,
+      key: payload.debug?.cacheKey || getSubscriptionKey(payload),
+    })),
   )
 
   const unsubscribeOnTimeout$ = keyedSubscription$.pipe(

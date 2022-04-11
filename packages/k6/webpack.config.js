@@ -7,6 +7,8 @@ module.exports = {
   entry: {
     test: './test.ts',
     testCryptocompare: './test-cryptocompare.ts',
+    reproTest: './repro-test.ts',
+    testLimits: './test-limits.ts',
   },
   output: {
     path: path.join(__dirname, 'dist'),

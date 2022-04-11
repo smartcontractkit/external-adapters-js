@@ -7,7 +7,7 @@ export const withIOLogger: Middleware =
     Logger.debug('Input: ', { input })
     try {
       const result = await execute(input, context)
-      Logger.debug(`Output: [${result.statusCode}]: `, { output: result.data })
+      Logger.debug(`Output: [${result.statusCode}]: `, { output: result })
       return result
     } catch (error) {
       const feedID = getFeedId(input)

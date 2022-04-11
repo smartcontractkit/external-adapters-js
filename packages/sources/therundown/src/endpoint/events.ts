@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['events']
@@ -55,7 +55,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 400,
     })
   }
-  const url = `/sports/${sportId}/events/${formatDate(date)}`
+  const url = util.buildUrlPath('/sports/:sportId/events/:eventDate', {
+    sportId,
+    eventDate: formatDate(date),
+  })
 
   const reqConfig = {
     ...config.api,

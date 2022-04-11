@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, Includes, IncludePair, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import includes from './../config/includes.json'
@@ -13,7 +13,10 @@ const today = new Date()
 const yesterday = new Date(today)
 
 const symbolOptions = (from: string, to: string) => ({
-  url: `/api/v2/market/spot/prices/pairs/${from.toLowerCase()}_${to.toLowerCase()}/historical`,
+  url: util.buildUrlPath('/api/v2/market/spot/prices/pairs/:from_:to/historical', {
+    from: from.toLowerCase(),
+    to: to.toLowerCase(),
+  }),
   params: {
     timeInterval: 'd',
     startDate: yesterday.setDate(yesterday.getDate() - 1),
@@ -23,7 +26,10 @@ const symbolOptions = (from: string, to: string) => ({
 })
 
 const tokenOptions = (from: string, to: string) => ({
-  url: `/api/v2/market/defi/prices/pairs/bases/${from}/quotes/${to}/historical`,
+  url: util.buildUrlPath('/api/v2/market/defi/prices/pairs/bases/:from/quotes/:to/historical', {
+    from,
+    to,
+  }),
   params: {
     timeInterval: 'd',
     startDate: yesterday.setDate(yesterday.getDate() - 1),

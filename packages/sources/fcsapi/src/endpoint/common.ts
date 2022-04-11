@@ -68,7 +68,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = {
     ...config.api,
     params,
-    url: endpoint,
+    url: util.buildUrlPath(':endpoint', { endpoint }, '/'),
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)

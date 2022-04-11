@@ -1,12 +1,31 @@
-import { getTokenAllocations } from '../../src/tvl'
-import { ethers } from 'ethers'
-import { DEFAULT_CONTROLLER_ADDRESS } from '../../src/config'
+import { AdapterRequest } from '@chainlink/types'
+import { makeExecute } from '../../src/adapter'
+import { makeConfig } from '../../src/config'
 
-describe('getTokenAllocations', () => {
-  describe('successful calls @integration', () => {
-    it(`gets the allocations`, async () => {
-      const provider = new ethers.providers.InfuraProvider()
-      await getTokenAllocations(DEFAULT_CONTROLLER_ADDRESS, provider)
+describe('execute', () => {
+  const jobID = '1'
+  process.env.DATA_PROVIDER_URL = 'ignoreable'
+  const execute = makeExecute(makeConfig(''))
+
+  describe('error calls @integration', () => {
+    const requests = [
+      {
+        name: '',
+        testData: {
+          id: jobID,
+          data: {},
+        },
+      },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest, {})
+        } catch (error) {
+          // TODO: integration tests
+        }
+      })
     })
   })
 })

@@ -90,8 +90,6 @@ export function mockVwapEndpointSuccess() {
     .get('/ohlcv')
     .query({
       indexId: 'e991ba77-d384-48ff-b0a4-40e95ef6b7d6',
-      indexType: 'GWA',
-      timestamp: /.*/i,
       size: '1',
     })
     .reply(
