@@ -34,6 +34,7 @@ jobs:
           echo "[profile qa-sdlc]" >> ./.aws/config
           echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ./.aws/config
           echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ./.aws/config
+          echo "region=${AWS_REGION}" >> ./.aws/config
 
       - name: Login to Amazon ECR
         id: login-ecr
