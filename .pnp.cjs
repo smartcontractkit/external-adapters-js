@@ -6778,7 +6778,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/node", "npm:14.17.21"],
+            ["@types/node", "npm:14.18.12"],
             ["decimal.js", "npm:10.3.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
@@ -6969,7 +6969,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/jsonwebtoken", "npm:8.5.6"],
+            ["@types/jsonwebtoken", "npm:8.5.8"],
             ["@types/node", "npm:16.11.25"],
             ["@types/supertest", "npm:2.0.11"],
             ["jsonwebtoken", "npm:8.5.1"],
@@ -11727,10 +11727,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/jsonwebtoken", [
-        ["npm:8.5.6", {
-          "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.6-a2debacc40-c1c0e40cb1.zip/node_modules/@types/jsonwebtoken/",
+        ["npm:8.5.8", {
+          "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.8-798e14708c-56738a918c.zip/node_modules/@types/jsonwebtoken/",
           "packageDependencies": [
-            ["@types/jsonwebtoken", "npm:8.5.6"],
+            ["@types/jsonwebtoken", "npm:8.5.8"],
             ["@types/node", "npm:16.6.1"]
           ],
           "linkType": "HARD",
@@ -11908,10 +11908,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:14.17.21", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.17.21-499809933c-f5fc54b1a8.zip/node_modules/@types/node/",
+        ["npm:14.18.12", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.12-61f7082f71-8a0273caa0.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:14.17.21"]
+            ["@types/node", "npm:14.18.12"]
           ],
           "linkType": "HARD",
         }],
