@@ -1,13 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute api should return success 1`] = `
+exports[`execute should return success for token 1`] = `
 Object {
   "data": Object {
-    "result": 1256102560.69,
+    "result": 1373465520.7227664,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 1256102560.69,
+  "result": 1373465520.7227664,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute should return success for trust 1`] = `
+Object {
+  "data": Object {
+    "result": 1385192938.49,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1385192938.49,
   "statusCode": 200,
 }
 `;
