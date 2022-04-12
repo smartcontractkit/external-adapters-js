@@ -41,7 +41,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.19",
+    "@types/node": "16.11.25",
     "nock": "13.2.4",
     "type-fest": "2.6.0",
     "typescript": "4.3.5"
