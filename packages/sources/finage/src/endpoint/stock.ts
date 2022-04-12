@@ -4,8 +4,9 @@ import {
   Config,
   ExecuteWithConfig,
   InputParameters,
+  AdapterBatchResponse,
 } from '@chainlink/types'
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, util, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -69,13 +70,15 @@ const getStockURL = (base: string | string[], symbol: string) => {
   return util.buildUrlPath('/last/stock/:symbol', { symbol })
 }
 
+// TODO: check this
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema>,
   validator: Validator,
 ) => {
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
+
   for (const base in response.data) {
     const symbol = validator.overrideReverseLookup(NAME, 'overrides', response.data[base].symbol)
 
@@ -83,17 +86,25 @@ const handleBatchedRequest = (
     const bid = Requester.validateResultNumber(response.data, [base, 'bid'])
     const result = (ask + bid) / 2
 
-    payload.push([
-      {
-        ...request,
-        data: {
-          ...request.data,
-          base: symbol.toUpperCase(),
-        },
+    const individualRequest = {
+      ...request,
+      data: {
+        ...request.data,
+        base: symbol.toUpperCase(),
       },
+    }
+
+    payload.push([
+      CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
+      individualRequest,
       result,
     ])
   }
-  response.data.result = payload
-  return Requester.success(jobRunID, response)
+
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, undefined, payload),
+    true,
+    batchablePropertyPath,
+  )
 }

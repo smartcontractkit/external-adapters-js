@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CurrencyLayer
 
-Version: 1.3.25
+Version: 1.3.26
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

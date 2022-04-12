@@ -1,5 +1,26 @@
 # @chainlink/ea-scripts
 
+## 2.1.0
+
+### Minor Changes
+
+- b6a12af05: updated readme generator script to include EA version badge, base url, base input params and license
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/ea-factories@1.0.43
+
+## 2.0.8
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea-factories@1.0.42
+
 ## 2.0.7
 
 ### Patch Changes
