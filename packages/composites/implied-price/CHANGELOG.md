@@ -1,5 +1,20 @@
 # @chainlink/implied-price-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+
 ## 1.0.3
 
 ### Patch Changes

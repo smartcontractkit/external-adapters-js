@@ -1,4 +1,4 @@
-import { Requester, Validator, Overrider } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Overrider, CacheKey } from '@chainlink/ea-bootstrap'
 import { OverrideObj } from '@chainlink/ea-bootstrap/src/lib/modules'
 import type {
   ExecuteWithConfig,
@@ -6,6 +6,7 @@ import type {
   AdapterRequest,
   InputParameters,
   AxiosResponse,
+  AdapterBatchResponse,
   AdapterContext,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
@@ -175,7 +176,7 @@ const handleBatchedRequest = (
   resultPath: string,
 ) => {
   const responseData = response.data as ResponseSchema[]
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
 
   let requestedIds: RequestedCoinIds = []
   let idsToSymbols: OverrideToOriginalSymbol = {}
@@ -206,6 +207,7 @@ const handleBatchedRequest = (
         adapterRequest.data.base = idsToSymbols[coinid].toUpperCase()
       }
       payload.push([
+        CacheKey.getCacheKey(adapterRequest, Object.keys(inputParameters)),
         adapterRequest,
         Requester.validateResultNumber(coin, ['quotes', quote, resultPath]),
       ])

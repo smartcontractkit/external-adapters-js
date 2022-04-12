@@ -1,5 +1,28 @@
 # @chainlink/amberdata-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- fa1fe2b73: Update amberdata marketcap endpoint
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/ea-factories@1.0.43
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.24
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea-factories@1.0.42
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.23
 
 ### Patch Changes
