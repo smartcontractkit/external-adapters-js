@@ -4,7 +4,7 @@ import { Config } from '@chainlink/types'
 export const NAME = 'TRUEUSD'
 
 export const DEFAULT_ENDPOINT = 'trueusd'
-export const DEFAULT_BASE_URL = 'https://core-api.real-time-attest.trustexplorer.io'
+export const DEFAULT_BASE_URL = 'https://api.real-time-attest.trustexplorer.io'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
