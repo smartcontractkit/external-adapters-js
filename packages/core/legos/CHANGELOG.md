@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.75
+
+### Patch Changes
+
+- Updated dependencies [32745d8ef]
+  - @chainlink/galaxis-adapter@2.0.0
+
 ## 1.0.74
 
 ### Patch Changes
