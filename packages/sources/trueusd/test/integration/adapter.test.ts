@@ -32,23 +32,43 @@ describe('execute', () => {
     server.close(done)
   })
 
-  describe('api', () => {
+  it('should return success for trust', async () => {
     const data: AdapterRequest = {
       id,
-      data: {},
+      data: {
+        field: 'totalTrust',
+      },
     }
 
-    it('should return success', async () => {
-      mockResponseSuccess()
+    mockResponseSuccess()
 
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
+    const response = await req
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body).toMatchSnapshot()
+  })
+
+  it('should return success for token', async () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        field: 'totalToken',
+      },
+    }
+
+    mockResponseSuccess()
+
+    const response = await req
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body).toMatchSnapshot()
   })
 })
