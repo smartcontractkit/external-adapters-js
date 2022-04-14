@@ -1,5 +1,11 @@
 # @chainlink/trueusd-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 4588662ee: Updates trueusd endpoint to use new dp endpoint
+
 ## 1.1.29
 
 ### Patch Changes
