@@ -112,6 +112,8 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       state.all[key].shouldNotRetryConnecting = action.payload.shouldNotRetryConnection
     })
 
+    builder.addCase(actions.WSReset, () => initConnectionsState)
+
     builder.addMatcher(
       isAnyOf(
         actions.connectRequested,
@@ -223,6 +225,8 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       const key = action.payload.subscriptionKey
       state.all[key].lastUpdatedAt = action.payload.timestamp
     })
+
+    builder.addCase(actions.WSReset, () => initSubscriptionsState)
 
     builder.addMatcher(
       isAnyOf(actions.subscribeRequested, actions.subscribeFulfilled, actions.unsubscribeFulfilled),
