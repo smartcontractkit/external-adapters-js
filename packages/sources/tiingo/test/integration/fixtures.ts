@@ -404,3 +404,52 @@ export const mockCryptoUnsubscribeResponse = {
     messageType: 'I',
   },
 }
+
+export const mockForexSubscribeResponse = {
+  request: {
+    eventName: 'subscribe',
+    authorization: 'fake-api-key',
+    eventData: {
+      thresholdLevel: 5,
+      tickers: ['eurusd'],
+    },
+  },
+  response: [
+    {
+      messageType: 'I',
+      data: {
+        subscriptionId: 7480745,
+      },
+      response: {
+        code: 200,
+        message: 'Success',
+      },
+    },
+    {
+      messageType: 'H',
+      response: {
+        code: 200,
+        message: 'HeartBeat',
+      },
+    },
+  ],
+}
+
+export const mockForexUnsubscribeResponse = {
+  request: {
+    eventName: 'unsubscribe',
+    authorization: 'fake-api-key',
+    eventData: { thresholdLevel: 5, tickers: ['eurusd'] },
+  },
+  response: {
+    messageType: 'I',
+    data: {
+      thresholdLevel: 5,
+      tickers: [],
+    },
+    response: {
+      code: 200,
+      message: 'Success',
+    },
+  },
+}
