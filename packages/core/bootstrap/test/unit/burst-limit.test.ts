@@ -1,11 +1,7 @@
 import { AdapterContext, Execute } from '@chainlink/types'
 import { createStore } from 'redux'
 import { useFakeTimers, SinonFakeTimers } from 'sinon'
-import {
-  reducer as burstLimitReducer,
-  SECOND_LIMIT_RETRIES,
-  withBurstLimit,
-} from '../../src/lib/middleware/burst-limit'
+import { reducer as burstLimitReducer, withBurstLimit } from '../../src/lib/middleware/burst-limit'
 
 describe('burst limit', () => {
   let clock: SinonFakeTimers
