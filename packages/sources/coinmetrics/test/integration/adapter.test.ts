@@ -83,7 +83,7 @@ describe('websocket', () => {
 
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '100'
+    process.env.WS_SUBSCRIPTION_TTL = '1000'
 
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
@@ -134,7 +134,7 @@ describe('websocket', () => {
 
       // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket
       // populated cache entries.
-      await util.sleep(10)
+      await util.sleep(500)
       const response = await makeRequest()
 
       expect(response.body).toEqual({

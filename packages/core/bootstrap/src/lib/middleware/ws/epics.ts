@@ -38,6 +38,7 @@ import {
   WSSubscriptionPayload,
   WSConfigOverride,
   wsSubscriptionReady,
+  WSReset,
   saveFirstMessageReceived,
   updateSubscriptionInput,
   onConnectComplete,
@@ -416,6 +417,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     filter(disconnectFulfilled.match),
                     filter((a) => a.payload.config.connectionInfo.key === connectionKey),
                   ),
+                  action$.pipe(filter(WSReset.match)),
                 ),
               ),
               endWith(unsubscribeFulfilled(payload)),
@@ -456,9 +458,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               return EMPTY
             }),
             takeUntil(
-              action$.pipe(
-                filter(disconnectFulfilled.match),
-                filter((action) => action.payload.config.connectionInfo.key === connectionKey),
+              merge(
+                action$.pipe(
+                  filter(disconnectFulfilled.match),
+                  filter((action) => action.payload.config.connectionInfo.key === connectionKey),
+                ),
+                action$.pipe(filter(WSReset.match)),
               ),
             ),
           )
@@ -687,13 +692,16 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         respondWithHeartbeat$,
       ).pipe(
         takeUntil(
-          action$.pipe(
-            // TODO: not seeing unsubscribe events because of this
-            filter(disconnectFulfilled.match),
-            filter((a) => a.payload.config.connectionInfo.key === connectionKey),
-            tap((action) => {
-              logger.debug('WS: Disconnected Fulfilled', connectionMeta(action.payload))
-            }),
+          merge(
+            action$.pipe(
+              // TODO: not seeing unsubscribe events because of this
+              filter(disconnectFulfilled.match),
+              filter((a) => a.payload.config.connectionInfo.key === connectionKey),
+              tap((action) => {
+                logger.debug('WS: Disconnected Fulfilled', connectionMeta(action.payload))
+              }),
+            ),
+            action$.pipe(filter(WSReset.match)),
           ),
         ),
       )
