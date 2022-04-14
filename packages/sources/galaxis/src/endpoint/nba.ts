@@ -38,13 +38,14 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     config,
     date,
   )
+  const result = `0x${encodedCalls}`
 
   return {
     jobRunID,
-    result: encodedCalls,
+    result,
     statusCode: 200,
     data: {
-      result: encodedCalls,
+      result,
     },
   }
 }
