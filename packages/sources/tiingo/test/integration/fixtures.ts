@@ -432,6 +432,20 @@ export const mockForexSubscribeResponse = {
         message: 'HeartBeat',
       },
     },
+    {
+      messageType: 'A',
+      service: 'fx',
+      data: [
+        'Q',
+        'eurusd',
+        '2022-04-14T19:33:12.474000+00:00',
+        1000000,
+        1.08267,
+        1.08272,
+        1000000,
+        1.08277,
+      ],
+    },
   ],
 }
 
