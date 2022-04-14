@@ -52,7 +52,7 @@
     "@types/jest": "27.0.3",
     "@types/lodash": "4.14.181",
     "@types/lru-cache": "5.1.1",
-    "@types/node": "16.11.19",
+    "@types/node": "16.11.25",
     "@types/object-hash": "2.1.1",
     "@types/object-path": "0.11.1",
     "@types/pino": "6.3.12",
@@ -63,6 +63,7 @@
     "@types/sinon": "10.0.11",
     "@types/uuid": "8.3.4",
     "@types/ws": "7.4.7",
+    "mock-socket": "9.1.2",
     "sinon": "12.0.1",
     "typescript": "4.3.5"
   }

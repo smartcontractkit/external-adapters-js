@@ -1,28 +1,23 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock =>
-  nock('https://core-api.real-time-attest.trustexplorer.io', {
+  nock('https://api.real-time-attest.trustexplorer.io', {
     encodedQueryParams: true,
   })
-    .get('/trusttoken/TrueUSD')
+    .get('/chainlink/TrueUSD')
     .reply(
       200,
       (_, request) => ({
-        responseData: {
-          accountName: 'TrueUSD',
-          totalTrust: 1256102560.69,
-          totalToken: 1250717352.7853243,
-          updatedAt: '2021-11-08T13:49:45.112Z',
-          token: [
-            { tokenName: 'TUSDB (BNB)', principle: 617032.83532437 },
-            { tokenName: 'TUSD (TRON)', principle: 269206919.78 },
-            { tokenName: 'TUSD (ETH)', principle: 980893400.1700001 },
-            { tokenName: 'TUSD (AVA)', principle: 0 },
-          ],
-        },
-        message: [{ msg: 'get contractSupply successfully' }],
-        success: true,
-        responseCode: 200,
+        accountName: 'TrueUSD',
+        totalTrust: 1385192938.49,
+        totalToken: 1373465520.7227664,
+        updatedAt: '2022-04-05T16:45:04.973Z',
+        token: [
+          { principle: 5316985.88276643, tokenName: 'TUSDB (BNB)' },
+          { principle: 254336540.22, tokenName: 'TUSD (TRON)' },
+          { principle: 1109418823.8999999, tokenName: 'TUSD (ETH)' },
+          { principle: 4393170.72, tokenName: 'TUSD (AVA)' },
+        ],
       }),
       [
         'Content-Type',
