@@ -49,27 +49,29 @@ export class Overrider {
     remainingSyms: RequestedSymbols,
     coinsResponse: CoinsResponse[],
   ): RequestedCoins => {
-    const isOverridden: { [symbol: string]: boolean } = {}
+    const isConverted: { [symbol: string]: boolean } = {}
     const alreadyWarned: { [symbol: string]: boolean } = {}
-    for (const coinResponse of coinsResponse) {
-      const symbolUpperCase = coinResponse.symbol.toUpperCase()
-      const symbolLowerCase = coinResponse.symbol.toLowerCase()
+    const remainingSymsMap: { [symbol: string]: boolean } = {}
+    for (const remainingSym of remainingSyms) {
+      remainingSymsMap[remainingSym.toUpperCase()] = true
+    }
 
-      if (remainingSyms.includes(symbolUpperCase) || remainingSyms.includes(symbolLowerCase)) {
-        if (isOverridden[symbolUpperCase] === true) {
-          if (!alreadyWarned[symbolUpperCase])
-            logger.debug(
-              `Overrider: The symbol "${symbolUpperCase}" has a duplicate coin id and no override.`,
-            )
-          alreadyWarned[symbolUpperCase] = true
-        } else {
-          overriddenCoins[symbolUpperCase] = coinResponse.id
-        }
-        isOverridden[symbolUpperCase] = true
+    for (const coinResponse of coinsResponse) {
+      const symbol = coinResponse.symbol.toUpperCase()
+      if (!remainingSymsMap[symbol]) continue
+      if (!isConverted[symbol] && !overriddenCoins[symbol]) {
+        overriddenCoins[symbol] = coinResponse.id
+        isConverted[symbol] = true
+      } else if (isConverted[symbol] && !alreadyWarned[symbol]) {
+        logger.debug(
+          `Overrider: The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
+        )
+        alreadyWarned[symbol] = true
       }
     }
+
     for (const remainingSym of remainingSyms) {
-      if (!isOverridden[remainingSym.toUpperCase()]) {
+      if (!isConverted[remainingSym.toUpperCase()]) {
         throw Error(
           `Overrider: Could not find a matching coin id for the symbol '${remainingSym}'.`,
         )
