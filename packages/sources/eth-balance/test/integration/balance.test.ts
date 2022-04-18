@@ -2,7 +2,7 @@ import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import { mockETHBalanceResponseSuccess } from './fixtures'
+import { mockETHBalanceResponseSuccess, mockETHBalanceAtBlockResponseSuccess } from './fixtures'
 import * as nock from 'nock'
 import * as http from 'http'
 import { AddressInfo } from 'net'
@@ -75,6 +75,29 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockETHBalanceResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('with explicit minConfirmations', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        result: [{ address: '0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed' }],
+        minConfirmations: 20,
+      },
+    }
+
+    it('should return success', async () => {
+      mockETHBalanceAtBlockResponseSuccess()
 
       const response = await req
         .post('/')
