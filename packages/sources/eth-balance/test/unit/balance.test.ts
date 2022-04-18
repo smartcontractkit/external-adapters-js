@@ -21,6 +21,46 @@ describe('execute', () => {
         name: 'empty result',
         testData: { id: jobID, data: { result: [] } },
       },
+      {
+        name: 'invalid confirmations (string)',
+        testData: {
+          id: jobID,
+          data: {
+            addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
+            confirmations: 'asd',
+          },
+        },
+      },
+      {
+        name: 'invalid confirmations (float)',
+        testData: {
+          id: jobID,
+          data: {
+            addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
+            confirmations: 12.3,
+          },
+        },
+      },
+      {
+        name: 'invalid confirmations (negative)',
+        testData: {
+          id: jobID,
+          data: {
+            addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
+            confirmations: -1,
+          },
+        },
+      },
+      {
+        name: 'invalid confirmations (over 64)',
+        testData: {
+          id: jobID,
+          data: {
+            addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
+            confirmations: 65,
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {
