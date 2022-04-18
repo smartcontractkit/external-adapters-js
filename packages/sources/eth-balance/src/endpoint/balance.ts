@@ -15,9 +15,9 @@ export const inputParameters: InputParameters = {
     description:
       'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
   },
-  confirmations: {
+  minConfirmations: {
     required: false,
-    aliases: ['minConfirmations'],
+    aliases: ['confirmations'],
     type: 'number',
     default: 0,
     description:
@@ -39,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses as Address[]
-  const confirmations = validator.validated.data.confirmations
+  const minConfirmations = validator.validated.data.minConfirmations
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterError({
@@ -50,7 +50,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   // The limitation of 64 is to make it work with both full and light/fast sync nodes
-  if (!Number.isInteger(confirmations) || confirmations < 0 || confirmations > 64) {
+  if (!Number.isInteger(minConfirmations) || minConfirmations < 0 || minConfirmations > 64) {
     throw new AdapterError({
       jobRunID,
       message: `Min confirmations must be an integer between 0 and 64`,
@@ -59,9 +59,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   let targetBlockTag: string | number = 'latest'
-  if (confirmations !== 0) {
+  if (minConfirmations !== 0) {
     const lastBlockNumber = await config.provider.getBlockNumber()
-    targetBlockTag = lastBlockNumber - confirmations
+    targetBlockTag = lastBlockNumber - minConfirmations
   }
 
   const balances = await Promise.all(
