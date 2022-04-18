@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.74",
+  "version": "1.0.76",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.19",
+    "@types/node": "16.11.25",
     "typescript": "4.3.5"
   },
   "dependencies": {
@@ -91,6 +91,7 @@
     "@chainlink/fixer-adapter": "workspace:*",
     "@chainlink/flightaware-adapter": "workspace:*",
     "@chainlink/fmpcloud-adapter": "workspace:*",
+    "@chainlink/galaxis-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/genesis-volatility-adapter": "workspace:*",
     "@chainlink/geodb-adapter": "workspace:*",

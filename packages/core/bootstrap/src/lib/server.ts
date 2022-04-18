@@ -19,6 +19,7 @@ import { getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { AddressInfo } from 'net'
+import { WSReset } from './middleware/ws/actions'
 
 const app = express()
 const version = getEnv('npm_package_version')
@@ -126,6 +127,7 @@ export const initHandler =
         server.on('close', () => {
           storeSlice('cacheWarmer').dispatch(warmupShutdown())
           storeSlice('errorBackoff').dispatch(shutdown())
+          storeSlice('ws').dispatch(WSReset())
           context.cache?.instance?.close()
         })
 

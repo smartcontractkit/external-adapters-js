@@ -8,7 +8,8 @@
     "preview:dockerCompose",
     "preview:dockerVersions",
     ":automergePr",
-    ":automergeRequireAllStatusChecks"
+    ":automergeRequireAllStatusChecks",
+    "schedule:weekends"
   ],
   "ignorePaths": [".yarn/sdks"],
   "prConcurrentLimit": 5

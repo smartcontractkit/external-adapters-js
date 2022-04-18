@@ -1,5 +1,21 @@
 # @chainlink/ea
 
+## 1.0.76
+
+### Patch Changes
+
+- Updated dependencies [4588662ee]
+- Updated dependencies [e9f40e81a]
+  - @chainlink/trueusd-adapter@1.2.0
+  - @chainlink/galaxis-adapter@2.1.0
+
+## 1.0.75
+
+### Patch Changes
+
+- Updated dependencies [32745d8ef]
+  - @chainlink/galaxis-adapter@2.0.0
+
 ## 1.0.74
 
 ### Patch Changes
