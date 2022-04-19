@@ -5560,7 +5560,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["backoff-rxjs", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:6.5.7"],
             ["chalk", "npm:4.1.2"],
             ["class-validator", "npm:0.13.2"],
-            ["command-line-args", "npm:5.2.0"],
+            ["command-line-args", "npm:5.2.1"],
             ["command-line-usage", "npm:6.1.1"],
             ["json-schema-ref-parser", "npm:9.0.9"],
             ["mockserver-client", "npm:5.11.2"],
@@ -15675,10 +15675,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["command-line-args", [
-        ["npm:5.2.0", {
-          "packageLocation": "./.yarn/cache/command-line-args-npm-5.2.0-fb7d5cad56-a63dd41541.zip/node_modules/command-line-args/",
+        ["npm:5.2.1", {
+          "packageLocation": "./.yarn/cache/command-line-args-npm-5.2.1-093a68d295-e759519087.zip/node_modules/command-line-args/",
           "packageDependencies": [
-            ["command-line-args", "npm:5.2.0"],
+            ["command-line-args", "npm:5.2.1"],
             ["array-back", "npm:3.1.0"],
             ["find-replace", "npm:3.0.0"],
             ["lodash.camelcase", "npm:4.3.0"],
