@@ -1,5 +1,6 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { NAME as ADAPTER_NAME } from '../config'
 
 export const NAME = 'price'
 
@@ -53,7 +54,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const url = `/api/v1/ticker/24hr`
-  const base = validator.validated.data.base.toUpperCase()
+  const base = (validator.overrideSymbol(ADAPTER_NAME) as string).toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const symbol = `${base}_${quote}`
 
