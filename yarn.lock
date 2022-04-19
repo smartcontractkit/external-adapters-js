@@ -3041,7 +3041,7 @@ __metadata:
     backoff-rxjs: 6.5.7
     chalk: 4.1.2
     class-validator: 0.13.2
-    command-line-args: 5.2.0
+    command-line-args: 5.2.1
     command-line-usage: 6.1.1
     json-schema-ref-parser: 9.0.9
     mockserver-client: 5.11.2
@@ -12193,15 +12193,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"command-line-args@npm:5.2.0":
-  version: 5.2.0
-  resolution: "command-line-args@npm:5.2.0"
+"command-line-args@npm:5.2.1":
+  version: 5.2.1
+  resolution: "command-line-args@npm:5.2.1"
   dependencies:
     array-back: ^3.1.0
     find-replace: ^3.0.0
     lodash.camelcase: ^4.3.0
     typical: ^4.0.0
-  checksum: a63dd41541fc98fcef7a5f4f63e626a6c5955fae57247b604077f1d0cfbff58c5830240880903342785a0c40952c4bbd3a977425ba3f4c7d515253296843a566
+  checksum: e759519087be3cf2e86af8b9a97d3058b4910cd11ee852495be881a067b72891f6a32718fb685ee6d41531ab76b2b7bfb6602f79f882cd4b7587ff1e827982c7
   languageName: node
   linkType: hard
 
