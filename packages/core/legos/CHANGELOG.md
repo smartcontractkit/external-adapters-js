@@ -1,5 +1,28 @@
 # @chainlink/ea
 
+## 1.0.77
+
+### Patch Changes
+
+- Updated dependencies [bbf2cb60b]
+- Updated dependencies [1695f8882]
+- Updated dependencies [2e6fef7dc]
+- Updated dependencies [aeec388a3]
+- Updated dependencies [3b19a44a2]
+- Updated dependencies [977ebf639]
+- Updated dependencies [b7b9ab999]
+- Updated dependencies [2e6fef7dc]
+  - @chainlink/galaxis-adapter@2.3.0
+  - @chainlink/tiingo-adapter@1.10.0
+  - @chainlink/coingecko-adapter@1.6.0
+  - @chainlink/coinpaprika-adapter@1.8.0
+  - @chainlink/coinmetrics-adapter@1.2.30
+  - @chainlink/binance-dex-adapter@1.3.0
+  - @chainlink/nomics-adapter@1.2.0
+  - @chainlink/eth-balance-adapter@1.2.0
+  - @chainlink/renvm-address-set-adapter@1.3.21
+  - @chainlink/wbtc-address-set-adapter@1.3.30
+
 ## 1.0.76
 
 ### Patch Changes

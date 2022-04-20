@@ -1,5 +1,17 @@
 ## v1.1.0
 
+## 1.10.0
+
+### Minor Changes
+
+- 1695f8882: Add Tiingo forex ws support
+
+## 1.9.0
+
+### Minor Changes
+
+- 1695f8882: Add Tiingo forex ws support
+
 ## 1.8.9
 
 ### Patch Changes

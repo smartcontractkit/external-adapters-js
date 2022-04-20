@@ -1,5 +1,11 @@
 # @chainlink/nomics-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 977ebf639: add APE token override for nomics
+
 ## 1.1.13
 
 ### Patch Changes
