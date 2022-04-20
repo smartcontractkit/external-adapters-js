@@ -65,7 +65,8 @@ const getDate = async (config: ExtendedConfig, paramsDate?: string): Promise<str
 
 const getURL = async (config: ExtendedConfig, date: string): Promise<string> => {
   if (isDateNotSet(date)) return config.api.baseURL
-  return `${config.api.baseURL}/nightly_achievements_${date}.json` // YYYY-MM-DD
+  const year = date.split('-')[0]
+  return `${config.api.baseURL}/${year}/nightly_achievements_${date}.json` // YYYY-MM-DD
 }
 
 export const isDateNotSet = (date: string): boolean =>
