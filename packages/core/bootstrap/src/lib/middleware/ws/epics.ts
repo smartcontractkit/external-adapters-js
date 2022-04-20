@@ -38,6 +38,7 @@ import {
   WSSubscriptionPayload,
   WSConfigOverride,
   wsSubscriptionReady,
+  WSReset,
   saveFirstMessageReceived,
   updateSubscriptionInput,
   onConnectComplete,
@@ -57,7 +58,7 @@ import { getWSConfig } from './config'
 import { util } from '../../..'
 import { WebSocketClassProvider, WsMessageRecorder } from './recorder'
 
-const recordWsMessages = util.parseBool(process.env.RECORD)
+const recordWsMessages = util.parseBool(util.getEnv('RECORD'))
 
 // Rxjs deserializer defaults to JSON.parse.
 // We need to handle errors from non-parsable messages
@@ -266,14 +267,15 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
           subscriptionKey: getSubsId(payload.subscriptionMsg),
         })),
         withLatestFrom(state$),
-        filter(([{ subscriptionKey, payload }, state]) => {
+        filter(([{ subscriptionKey }, state]) => {
           const isActiveSubscription = !!state.ws.subscriptions.all[subscriptionKey]?.active
           const isSubscribing = state.ws.subscriptions.all[subscriptionKey]?.subscribing > 1
           if (!isActiveSubscription || isSubscribing) {
             return false
           }
           const currentInput = state.ws.subscriptions.all[subscriptionKey]?.input
-          return getSubsId(currentInput) !== getSubsId(payload.input)
+          const currentSubscriptionKey = getSubsId(currentInput)
+          return currentSubscriptionKey !== subscriptionKey
         }),
         mergeMap(async ([{ subscriptionKey, payload }]) => {
           return updateSubscriptionInput({
@@ -334,16 +336,17 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 ),
               (message) => {
                 const connectionState = state.ws.connections.all[payload.connectionInfo.key]
+                const currentSubscriptionKey = getSubsId(
+                  wsHandler.subsFromMessage(
+                    message,
+                    payload.subscriptionMsg,
+                    payload.input,
+                    connectionState?.connectionParams,
+                  ),
+                )
                 const shouldPassAlong =
                   (payload.filterMultiplex && payload.filterMultiplex(message)) ||
-                  getSubsId(
-                    wsHandler.subsFromMessage(
-                      message,
-                      payload.subscriptionMsg,
-                      payload.input,
-                      connectionState?.connectionParams,
-                    ),
-                  ) === subscriptionKey
+                  currentSubscriptionKey === subscriptionKey
                 if (!shouldPassAlong) {
                   return false
                 }
@@ -400,6 +403,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   logger.info('WS: Subscribed', subscriptionMeta(payload))
                   return of(subscribeFulfilled(payload), messageReceived(actionPayload))
                 }
+
                 return of(messageReceived(actionPayload))
               }),
               takeUntil(
@@ -413,6 +417,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     filter(disconnectFulfilled.match),
                     filter((a) => a.payload.config.connectionInfo.key === connectionKey),
                   ),
+                  action$.pipe(filter(WSReset.match)),
                 ),
               ),
               endWith(unsubscribeFulfilled(payload)),
@@ -453,9 +458,12 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               return EMPTY
             }),
             takeUntil(
-              action$.pipe(
-                filter(disconnectFulfilled.match),
-                filter((action) => action.payload.config.connectionInfo.key === connectionKey),
+              merge(
+                action$.pipe(
+                  filter(disconnectFulfilled.match),
+                  filter((action) => action.payload.config.connectionInfo.key === connectionKey),
+                ),
+                action$.pipe(filter(WSReset.match)),
               ),
             ),
           )
@@ -684,13 +692,16 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
         respondWithHeartbeat$,
       ).pipe(
         takeUntil(
-          action$.pipe(
-            // TODO: not seeing unsubscribe events because of this
-            filter(disconnectFulfilled.match),
-            filter((a) => a.payload.config.connectionInfo.key === connectionKey),
-            tap((action) => {
-              logger.debug('WS: Disconnected Fulfilled', connectionMeta(action.payload))
-            }),
+          merge(
+            action$.pipe(
+              // TODO: not seeing unsubscribe events because of this
+              filter(disconnectFulfilled.match),
+              filter((a) => a.payload.config.connectionInfo.key === connectionKey),
+              tap((action) => {
+                logger.debug('WS: Disconnected Fulfilled', connectionMeta(action.payload))
+              }),
+            ),
+            action$.pipe(filter(WSReset.match)),
           ),
         ),
       )
@@ -702,10 +713,11 @@ export const recordErrorEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any>
   action$.pipe(
     filter((action) => subscriptionError.match(action) && !!action.payload.error),
     mergeMap(({ payload }) => {
-      const { wsHandler, error, connectionInfo, subscriptionMsg } = payload
+      const { wsHandler, error, connectionInfo, subscriptionMsg, input } = payload
       const { shouldNotRetryConnection, shouldNotRetrySubscription } = wsHandler
       return of(
         subscriptionErrorHandler({
+          input,
           connectionInfo,
           subscriptionMsg,
           shouldNotRetryConnection: !!shouldNotRetryConnection && shouldNotRetryConnection(error),
@@ -753,7 +765,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
         }
 
         const cache = await withCache()(execute, context)
-        const wsConfig = getWSConfig(input.data?.endpoint)
+        const wsConfig = getWSConfig(input.data?.endpoint, context)
 
         /**
          * Create an adapter request we send to the cache middleware
@@ -762,7 +774,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
         const wsResponse: AdapterRequest = {
           ...input,
           data: { maxAge: wsConfig.subscriptionTTL, ...input.data },
-          debug: { ws: true },
+          debug: { ws: true, ...input.debug },
           metricsMeta: { feedId: getFeedId(input) },
         }
         await cache(wsResponse, context)
@@ -824,9 +836,8 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
           ws_subscription_errors.labels(subscriptionErrorLabels(action.payload)).inc()
           break
         case unsubscribeFulfilled.type: {
-          if (
-            state.ws.subscriptions.all[getSubsId(action.payload.subscriptionMsg)]?.wasEverActive
-          ) {
+          const key = getSubsId(action.payload.subscriptionMsg)
+          if (state.ws.subscriptions.all[key]?.wasEverActive) {
             ws_subscription_active.labels(subscriptionLabels(action.payload)).dec()
           }
           break

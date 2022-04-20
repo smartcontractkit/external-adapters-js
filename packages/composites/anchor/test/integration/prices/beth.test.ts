@@ -9,13 +9,16 @@ import { ethers, BigNumber } from 'ethers'
 import '@chainlink/terra-view-function-adapter'
 import { AddressInfo } from 'net'
 
-const mockBigNum = BigNumber.from(10).pow(18)
+const mockBethStEthResult = BigNumber.from(10).pow(18)
 const mockStETHETHPrice = BigNumber.from('1035144096528344468')
 const mockZero = BigNumber.from('0')
 
 const ERROR_ETH_FEED = 'error-eth-feed-address'
+const FAILED_ETH_FEED = 'failed-eth-feed-address'
 const ERROR_STETH_ETH_CURVE_ADDRESS = 'error-curve-address'
+const FAILED_STETH_ETH_CURVE_ADDRESS = 'failed-curve-address'
 const ERROR_ANCHOR_VAULT_ADDRESS = 'error-anchor-vault-address'
+const FAILED_ANCHOR_VAULT_ADDRESS = 'failed-anchor-vault-address'
 
 jest.mock('@chainlink/terra-view-function-adapter', () => {
   return {
@@ -23,10 +26,14 @@ jest.mock('@chainlink/terra-view-function-adapter', () => {
     makeExecute: jest.fn().mockReturnValue(
       jest.fn().mockImplementation((input: AdapterRequest) => {
         const address = input.data.address
-        if (address === ERROR_ETH_FEED) {
-          return mockErrorFeedResponse
+        switch (address) {
+          case ERROR_ETH_FEED:
+            return mockErrorFeedResponse
+          case FAILED_ETH_FEED:
+            throw new Error('Call to ETH-USD Terra feed has reverted')
+          default:
+            return mockSuccessfulTerraEthFeedResp
         }
-        return mockSuccessfulTerraEthFeedResp
       }),
     ),
   }
@@ -45,12 +52,26 @@ jest.mock('ethers', () => {
       },
       Contract: function (address: string) {
         return {
-          get_rate: (____: string) => {
-            return address === ERROR_ANCHOR_VAULT_ADDRESS ? mockZero : mockBigNum
-          },
-          get_dy: () => {
-            return address === ERROR_STETH_ETH_CURVE_ADDRESS ? mockZero : mockStETHETHPrice
-          },
+          get_rate: jest.fn().mockImplementation(() => {
+            switch (address) {
+              case ERROR_ANCHOR_VAULT_ADDRESS:
+                return mockZero
+              case FAILED_ANCHOR_VAULT_ADDRESS:
+                throw new Error('get_rate call to Anchor Hub contract reverted')
+              default:
+                return mockBethStEthResult
+            }
+          }),
+          get_dy: jest.fn().mockImplementation(() => {
+            switch (address) {
+              case ERROR_STETH_ETH_CURVE_ADDRESS:
+                return mockZero
+              case FAILED_STETH_ETH_CURVE_ADDRESS:
+                throw new Error('Call to Curve pool to fetch stETH/ETH rate reverted')
+              default:
+                return mockStETHETHPrice
+            }
+          }),
         }
       },
     },
@@ -86,7 +107,7 @@ describe('price-beth', () => {
   })
 
   describe('error calls', () => {
-    it('should throw an error if the ETH/USD feed is down', async () => {
+    it('should throw an error if the ETH/USD feed returns 0', async () => {
       process.env.ETH_TERRA_FEED_ADDRESS = ERROR_ETH_FEED
       const data: AdapterRequest = {
         id: jobID,
@@ -106,8 +127,48 @@ describe('price-beth', () => {
       expect(response.body).toMatchSnapshot()
     })
 
-    it('should throw an error if the stETH/ETH Curve pool is having issues', async () => {
+    it('should throw an error if the ETH/USD feed reverts', async () => {
+      process.env.ETH_TERRA_FEED_ADDRESS = FAILED_ETH_FEED
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          from: 'BETH',
+          to: 'ETH',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should throw an error if the stETH/ETH Curve pool is returns 0', async () => {
       process.env.STETH_POOL_CONTRACT_ADDRESS = ERROR_STETH_ETH_CURVE_ADDRESS
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          from: 'BETH',
+          to: 'ETH',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(500)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should throw an error if the stETH/ETH Curve pool reverts', async () => {
+      process.env.STETH_POOL_CONTRACT_ADDRESS = FAILED_STETH_ETH_CURVE_ADDRESS
       const data: AdapterRequest = {
         id: jobID,
         data: {

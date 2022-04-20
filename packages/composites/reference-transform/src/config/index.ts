@@ -4,9 +4,11 @@ import { Config as DefaultConfig } from '@chainlink/types'
 
 export const DEFAULT_NETWORK = 'ETHEREUM'
 export const NAME = 'REFERENCE_TRANSFORM'
+export const DEFAULT_ENDPOINT = 'transform'
 
 export type Config = {
   sources: { [name: string]: DefaultConfig }
+  defaultEndpoint: string
 }
 
 export const makeConfig = (prefix = ''): Config => {
@@ -23,5 +25,7 @@ export const makeConfig = (prefix = ''): Config => {
 
   return {
     sources,
+    ...Requester.getDefaultConfig(prefix),
+    defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }

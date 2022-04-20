@@ -49,22 +49,33 @@ export class Overrider {
     remainingSyms: RequestedSymbols,
     coinsResponse: CoinsResponse[],
   ): RequestedCoins => {
-    const isOverridden: { [symbol: string]: boolean } = {}
+    const isConverted: { [symbol: string]: boolean } = {}
+    const alreadyWarned: { [symbol: string]: boolean } = {}
+    const remainingSymsMap: { [symbol: string]: boolean } = {}
+    for (const remainingSym of remainingSyms) {
+      remainingSymsMap[remainingSym.toUpperCase()] = true
+    }
+
     for (const coinResponse of coinsResponse) {
-      if (remainingSyms.includes(coinResponse.symbol)) {
-        if (isOverridden[coinResponse.symbol] === true)
-          logger.warn(
-            `Overrider: The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
-          )
-        else overriddenCoins[coinResponse.symbol] = coinResponse.id
-        isOverridden[coinResponse.symbol] = true
+      const symbol = coinResponse.symbol.toUpperCase()
+      if (!remainingSymsMap[symbol]) continue
+      if (!isConverted[symbol] && !overriddenCoins[symbol]) {
+        overriddenCoins[symbol] = coinResponse.id
+        isConverted[symbol] = true
+      } else if (isConverted[symbol] && !alreadyWarned[symbol]) {
+        logger.debug(
+          `Overrider: The symbol "${coinResponse.symbol}" has a duplicate coin id and no override.`,
+        )
+        alreadyWarned[symbol] = true
       }
     }
+
     for (const remainingSym of remainingSyms) {
-      if (!isOverridden[remainingSym])
+      if (!isConverted[remainingSym.toUpperCase()]) {
         throw Error(
           `Overrider: Could not find a matching coin id for the symbol '${remainingSym}'.`,
         )
+      }
     }
     return overriddenCoins
   }

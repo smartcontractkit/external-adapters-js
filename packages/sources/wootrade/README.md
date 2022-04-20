@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wootrade
 
-Version: 1.1.21
+Version: 1.1.28
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 

@@ -16,12 +16,15 @@ import { withMiddleware } from '../../../src/index'
 import { AdapterContext } from '@chainlink/types'
 
 describe('Rate Limit/Cache - Integration', () => {
+  let oldEnv: NodeJS.ProcessEnv
   const context: AdapterContext = {}
   const capacity = 50
   let logWarnStub: any
   let logErrorStub: any
 
   beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+
     process.env.RATE_LIMIT_ENABLED = String(true)
     process.env.RATE_LIMIT_CAPACITY = String(capacity)
     process.env.CACHE_ENABLED = String(true)
@@ -39,12 +42,17 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
-    context.rateLimit = get()
+    context.rateLimit = get(undefined, context)
+  })
+
+  afterEach(async () => {
+    context.cache.instance.client.reset()
   })
 
   afterAll(() => {
     logWarnStub.reset()
     logErrorStub.reset()
+    process.env = oldEnv
   })
 
   it('Single feed requests stay under capacity', async () => {
@@ -59,7 +67,7 @@ describe('Rate Limit/Cache - Integration', () => {
       ])
       const secsInMin = 60
       for (let i = 0; i < secsInMin; i++) {
-        const input = { id: '6', data: { test1: 1 } }
+        const input = { id: '6', data: { test1: 1 }, debug: { cacheKey: '1' } }
         await executeWithMiddleware(input, context)
         clock.tick(1000)
       }
@@ -86,14 +94,13 @@ describe('Rate Limit/Cache - Integration', () => {
     const feedsNumber = 10
     for (let i = 0; i < (1000 / timeBetweenRequests) * 60; i++) {
       const feedId = i % feedsNumber
-      const input = { id: '6', data: { multiple1: feedId } }
+      const input = { id: '6', data: { multiple1: feedId }, debug: { cacheKey: String(feedId) } }
       await executeWithMiddleware(input, context)
       clock.tick(timeBetweenRequests)
     }
 
     const state = store.getState()
     const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
-
     expect(rlPerMinute[0]).toBeLessThan(capacity)
     restoreClock()
   })
@@ -114,7 +121,11 @@ describe('Rate Limit/Cache - Integration', () => {
     const feedsNumber = 10
     for (let i = 0; i < (1000 / timeBetweenRequests) * 120; i++) {
       const feedId = i % feedsNumber
-      const input = { id: '6', data: { [`multiple_cost:${cost}`]: feedId } }
+      const input = {
+        id: '6',
+        data: { [`multiple_cost:${cost}`]: feedId },
+        debug: { cacheKey: String(feedId) },
+      }
       await executeWithMiddleware(input, context)
       clock.tick(timeBetweenRequests)
     }
@@ -135,7 +146,7 @@ describe('Rate Limit/Cache - Integration', () => {
 
     const secsInMin = 60
     for (let i = 0; i < secsInMin; i++) {
-      const input = { id: '6', data: { warmer1: 1 } }
+      const input = { id: '6', data: { warmer1: 1 }, debug: { cacheKey: '1' } }
       await executeWithWarmer(input)
       clock.tick(1000)
     }
@@ -159,10 +170,16 @@ describe('Rate Limit/Cache - Integration', () => {
     const feeds = new Array(totalFeeds).fill('').map((_, feedId) => {
       if (feedId % (totalFeeds / composite) === 0) {
         return new Array(10).fill('').map((_, internalReq) => {
-          return { id: '6', data: { singleFeed: feedId, quote: internalReq } }
+          return {
+            id: '6',
+            data: { singleFeed: feedId, quote: internalReq },
+            debug: { cacheKey: String(feedId) },
+          }
         })
       }
-      return [{ id: '6', data: { singleFeed: feedId, quote: 1 } }]
+      return [
+        { id: '6', data: { singleFeed: feedId, quote: 1 }, debug: { cacheKey: String(feedId) } },
+      ]
     })
 
     const _getRandomFeed = () => {
@@ -184,8 +201,7 @@ describe('Rate Limit/Cache - Integration', () => {
     const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
     Object.values(rlPerMinute).forEach((req) => {
-      // TODO: check that + 35 is the right capacity
-      expect(req).toBeLessThan(capacity + 35)
+      expect(req).toBeLessThan(capacity + 20)
     })
     restoreClock()
   })

@@ -1,5 +1,129 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.77
+
+### Patch Changes
+
+- @chainlink/ea@1.0.77
+
+## 1.0.76
+
+### Patch Changes
+
+- @chainlink/ea@1.0.76
+
+## 1.0.75
+
+### Patch Changes
+
+- @chainlink/ea@1.0.75
+
+## 1.0.74
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/ea-reference-data-reader@1.1.18
+  - @chainlink/ea@1.0.74
+
+## 1.0.73
+
+### Patch Changes
+
+- @chainlink/ea@1.0.73
+
+## 1.0.72
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea@1.0.72
+  - @chainlink/ea-reference-data-reader@1.1.17
+
+## 1.0.71
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-reference-data-reader@1.1.16
+  - @chainlink/ea@1.0.71
+
+## 1.0.70
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-reference-data-reader@1.1.15
+  - @chainlink/ea@1.0.70
+
+## 1.0.69
+
+### Patch Changes
+
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.16.0
+  - @chainlink/ea-reference-data-reader@1.1.14
+  - @chainlink/ea@1.0.69
+
+## 1.0.68
+
+### Patch Changes
+
+- dc217930b: refactor, added endpoints folder structure
+- 4fbbe69d2: Add InputParameters type for all composite adapters missing it
+- Updated dependencies [6d0ffbbbc]
+  - @chainlink/ea-bootstrap@1.15.0
+  - @chainlink/ea@1.0.68
+  - @chainlink/ea-reference-data-reader@1.1.13
+
+## 1.0.67
+
+### Patch Changes
+
+- @chainlink/ea@1.0.67
+
+## 1.0.66
+
+### Patch Changes
+
+- @chainlink/ea@1.0.66
+
+## 1.0.65
+
+### Patch Changes
+
+- Updated dependencies [a14d1b69a]
+  - @chainlink/ea-bootstrap@1.14.1
+  - @chainlink/ea@1.0.65
+  - @chainlink/ea-reference-data-reader@1.1.12
+
+## 1.0.64
+
+### Patch Changes
+
+- @chainlink/ea@1.0.64
+
+## 1.0.63
+
+### Patch Changes
+
+- Updated dependencies [57b29ab0c]
+- Updated dependencies [a51daa9c8]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [e538ee7be]
+- Updated dependencies [cd9ccdc89]
+- Updated dependencies [1b342b00e]
+- Updated dependencies [d7857c911]
+  - @chainlink/ea-bootstrap@1.14.0
+  - @chainlink/ea@1.0.63
+  - @chainlink/ea-reference-data-reader@1.1.11
+
 ## 1.0.62
 
 ### Patch Changes

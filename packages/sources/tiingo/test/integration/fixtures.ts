@@ -222,8 +222,6 @@ export const mockResponseSuccess = (): nock =>
       convertCurrency: 'usd',
       consolidateBaseCurrency: true,
       resampleFreq: '24hour',
-      startDate: /^\d{4}-\d{2}-\d{2}$/,
-      endDate: /^\d{4}-\d{2}-\d{2}$/,
     })
     .reply(
       200,
@@ -404,5 +402,68 @@ export const mockCryptoUnsubscribeResponse = {
       thresholdLevel: '6',
     },
     messageType: 'I',
+  },
+}
+
+export const mockForexSubscribeResponse = {
+  request: {
+    eventName: 'subscribe',
+    authorization: 'fake-api-key',
+    eventData: {
+      thresholdLevel: 5,
+      tickers: ['eurusd'],
+    },
+  },
+  response: [
+    {
+      messageType: 'I',
+      data: {
+        subscriptionId: 7480745,
+      },
+      response: {
+        code: 200,
+        message: 'Success',
+      },
+    },
+    {
+      messageType: 'H',
+      response: {
+        code: 200,
+        message: 'HeartBeat',
+      },
+    },
+    {
+      messageType: 'A',
+      service: 'fx',
+      data: [
+        'Q',
+        'eurusd',
+        '2022-04-14T19:33:12.474000+00:00',
+        1000000,
+        1.08267,
+        1.08272,
+        1000000,
+        1.08277,
+      ],
+    },
+  ],
+}
+
+export const mockForexUnsubscribeResponse = {
+  request: {
+    eventName: 'unsubscribe',
+    authorization: 'fake-api-key',
+    eventData: { thresholdLevel: 5, tickers: ['eurusd'] },
+  },
+  response: {
+    messageType: 'I',
+    data: {
+      thresholdLevel: 5,
+      tickers: [],
+    },
+    response: {
+      code: 200,
+      message: 'Success',
+    },
   },
 }

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/vesper-adapter",
-  "version": "1.0.51",
+  "version": "1.0.62",
   "description": "Chainlink vesper adapter.",
   "keywords": [
     "Chainlink",
@@ -38,7 +38,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.19",
+    "@types/node": "16.11.25",
     "typescript": "4.3.5"
   }
 }

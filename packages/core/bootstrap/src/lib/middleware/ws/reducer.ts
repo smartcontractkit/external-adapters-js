@@ -1,7 +1,7 @@
 import { AdapterContext, AdapterRequest } from '@chainlink/types'
 import { combineReducers, createReducer, isAnyOf } from '@reduxjs/toolkit'
 import { logger } from '../../modules'
-import { getHashOpts, hash } from '../../util'
+import { getHashOpts, hash } from '../../middleware/cache-key/util'
 import * as actions from './actions'
 
 /**
@@ -111,6 +111,8 @@ export const connectionsReducer = createReducer<ConnectionsState>(
       const { key } = action.payload.connectionInfo
       state.all[key].shouldNotRetryConnecting = action.payload.shouldNotRetryConnection
     })
+
+    builder.addCase(actions.WSReset, () => initConnectionsState)
 
     builder.addMatcher(
       isAnyOf(
@@ -223,6 +225,8 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
       const key = action.payload.subscriptionKey
       state.all[key].lastUpdatedAt = action.payload.timestamp
     })
+
+    builder.addCase(actions.WSReset, () => initSubscriptionsState)
 
     builder.addMatcher(
       isAnyOf(actions.subscribeRequested, actions.subscribeFulfilled, actions.unsubscribeFulfilled),

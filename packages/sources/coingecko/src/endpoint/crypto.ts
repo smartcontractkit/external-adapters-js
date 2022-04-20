@@ -1,10 +1,11 @@
-import { Requester, Validator, Overrider, Logger } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, Overrider, Logger, CacheKey } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
   AxiosResponse,
   AdapterRequest,
   InputParameters,
+  AdapterBatchResponse,
 } from '@chainlink/types'
 import { NAME as AdapterName } from '../config'
 import internalOverrides from '../config/overrides.json'
@@ -71,7 +72,7 @@ const handleBatchedRequest = (
   endpoint: string,
   idToSymbol: OverrideToOriginalSymbol,
 ) => {
-  const payload: [AdapterRequest, number][] = []
+  const payload: AdapterBatchResponse = []
   for (const base in response.data) {
     const quoteArray = Array.isArray(request.data.quote) ? request.data.quote : [request.data.quote]
     for (const quote of quoteArray) {
@@ -85,12 +86,14 @@ const handleBatchedRequest = (
             quote: quote.toUpperCase(),
           },
         }
+        const result = Requester.validateResultNumber(response.data, [
+          base,
+          endpointResultPaths[endpoint](individualRequest),
+        ])
         payload.push([
+          CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
           individualRequest,
-          Requester.validateResultNumber(response.data, [
-            base,
-            endpointResultPaths[endpoint](individualRequest),
-          ]),
+          result,
         ])
       } else Logger.debug('WARNING: Symbol not found ', base)
     }
@@ -127,7 +130,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       const coinsResponse = await getCoinIds(context, jobRunID)
       requestedCoins = Overrider.convertRemainingSymbolsToIds(
         overriddenCoins,
-        remainingSyms.map((sym) => sym.toLowerCase()),
+        remainingSyms,
         coinsResponse,
       )
     }

@@ -59,22 +59,22 @@ describe('execute', () => {
     }
 
     it('beth execute responds with correct precision', async () => {
-      const stEthBEthString = '1' + '0'.repeat(150)
-      const stEthEthString = '1' + '0'.repeat(50)
-      const usdEthString = '1' + '0'.repeat(100)
+      const bEthStEthString = '1' + '0'.repeat(150)
+      const ethStETHString = '1' + '0'.repeat(50)
+      const usdEthString = '1' + '0'.repeat(300)
 
-      const stEthBEth = ethers.BigNumber.from(stEthBEthString)
-      const stEthEth = ethers.BigNumber.from(stEthEthString)
+      const bEthStEth = ethers.BigNumber.from(bEthStEthString)
+      const ethStETH = ethers.BigNumber.from(ethStETHString)
       const usdEth = ethers.BigNumber.from(usdEthString)
 
-      // (USD / ETH) * (stETH / bETH) * (ETH / stETH) = USD / bETH
-      const expected = '1' + '0'.repeat(200)
+      // (USD / ETH) * (ETH / stETH) / (bETH / stETH) = USD / bETH
+      const expected = '1' + '0'.repeat(200) // usdEthDecimals + ethStEthDecimals - bEthStEth decimals
 
       //@ts-expect-error ethers.Contract must be mocked this way
       ethers.Contract = jest.fn(function () {
         return {
-          get_rate: () => stEthBEth,
-          get_dy: () => stEthEth,
+          get_rate: () => bEthStEth,
+          get_dy: () => ethStETH,
         }
       })
 
