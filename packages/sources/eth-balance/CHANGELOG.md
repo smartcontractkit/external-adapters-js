@@ -1,5 +1,11 @@
 # @chainlink/eth-balance-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- b7b9ab999: Add confirmations param to balance endpoint
+
 ## 1.1.29
 
 ### Patch Changes

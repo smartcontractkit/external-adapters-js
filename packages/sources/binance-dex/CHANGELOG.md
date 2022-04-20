@@ -1,5 +1,11 @@
 # @chainlink/binance-dex-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 3b19a44a2: Added base override support to binance dex. Updated tests to verify.
+
 ## 1.2.29
 
 ### Patch Changes
