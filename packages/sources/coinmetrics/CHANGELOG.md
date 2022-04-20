@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 1.2.30
+
+### Patch Changes
+
+- aeec388a3: Add ETH and BTC to valid quotes for WS endpoint
+
 ## 1.2.29
 
 ### Patch Changes

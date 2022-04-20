@@ -1,5 +1,11 @@
 # @chainlink/apy-finance-adapter
 
+## 1.0.62
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.3.12
+
 ## 1.0.61
 
 ### Patch Changes
