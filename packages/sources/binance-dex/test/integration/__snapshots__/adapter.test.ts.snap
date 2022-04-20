@@ -12,6 +12,18 @@ Object {
 }
 `;
 
+exports[`execute rate api should return success for override 1`] = `
+Object {
+  "data": Object {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute rate api with invalid symbol should return failure 1`] = `
 Object {
   "error": Object {
