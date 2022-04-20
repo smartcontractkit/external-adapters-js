@@ -1,4 +1,4 @@
-import { getRandomRequiredEnv, getRandomEnv, getEnv } from '../util'
+import { getRandomRequiredEnv, getRandomEnv, getEnv, parseBool } from '../util'
 import { Config } from '@chainlink/types'
 import { logger } from '../modules/logger'
 
@@ -34,7 +34,7 @@ export function getDefaultConfig(prefix = '', requireKey = false, requireWsKey =
   return {
     apiKey,
     wsApiKey,
-    verbose: !!getEnv(ENV_API_VERBOSE, prefix),
+    verbose: parseBool(getEnv(ENV_API_VERBOSE, prefix)),
     api: {
       withCredentials: !!apiKey,
       baseURL: getEnv(ENV_API_ENDPOINT, prefix),
