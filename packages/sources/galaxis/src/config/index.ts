@@ -11,7 +11,7 @@ export const DEFAULT_CHAIN_BATCH_WRITE_ADAPTER_ADDRESS =
   '0xCb2445BD39f6143000997a2EF44F1AFe20bB4f4E'
 export const DEFAULT_EC_REGISTRY_MAP_ADDRESS = '0x0b407d055098Ce336dDF9C2845CECCF22cE0b377'
 export const DEFAULT_API_ENDPOINT =
-  'https://cdn.nba.com/static/json/staticData/NFTNightlyAchievements/2022'
+  'https://cdn.nba.com/static/json/staticData/NFTNightlyAchievements'
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export interface ExtendedConfig extends Config {
