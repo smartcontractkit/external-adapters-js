@@ -1,5 +1,11 @@
 # @chainlink/galaxis-adapter
 
+## 2.5.0
+
+### Minor Changes
+
+- 4f4738b41: bugfix for boolean only achievement handling
+
 ## 2.4.0
 
 ### Minor Changes
