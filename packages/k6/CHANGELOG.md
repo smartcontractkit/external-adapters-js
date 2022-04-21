@@ -1,5 +1,11 @@
 # k6
 
+## 2.2.0
+
+### Minor Changes
+
+- e7352bf70: Allow setting ADAPTER URL directly
+
 ## 2.1.0
 
 ### Minor Changes
