@@ -164,7 +164,7 @@ const processSingleAchievement = async (
     } else {
       encodedCalls = updatedEncodedCalls
       const hasAchievementBeenFullyProcessed =
-        endEventIdx === groupedAchievements[achievementID].length
+        endEventIdx > groupedAchievements[achievementID].length
       if (!hasAchievementBeenFullyProcessed) {
         // If achievement has not been processed then we pop the last element from the calls array
         // to remove the function call for that achievement, add another event in the next iteration
@@ -372,9 +372,9 @@ const getSetDataEncodedCallForOnlyBooleanAchievement = async (
 
   for (let z = 0; z < updatedAchievements.length; z++) {
     if (updatedAchievements[z].value) {
-      updatedTraitData.on(updatedAchievements[z].achievement_id)
+      updatedTraitData.on(updatedAchievements[z].mappedID)
     } else {
-      updatedTraitData.off(updatedAchievements[z].achievement_id)
+      updatedTraitData.off(updatedAchievements[z].mappedID)
     }
   }
 
@@ -388,7 +388,6 @@ const getSetDataEncodedCallForOnlyBooleanAchievement = async (
       newDataValues.push(updatedTraitDataArr[z])
     }
   }
-
   return ecRegistry.interface.encodeFunctionData('setData', [
     achievementID,
     newDataIndexes,
