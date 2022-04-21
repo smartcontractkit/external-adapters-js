@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.1.0
+
+### Minor Changes
+
+- 4f0191ae8: fix issue where config.verbose set to true when API_VERBOSE env var is set to false
+
 ## 2.0.0
 
 ### Major Changes

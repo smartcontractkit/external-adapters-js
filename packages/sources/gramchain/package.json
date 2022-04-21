@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/gramchain-adapter",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Chainlink gramchain adapter.",
   "keywords": [
     "Chainlink",

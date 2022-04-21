@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/iex-cloud-adapter",
-  "version": "1.1.29",
+  "version": "1.1.30",
   "description": "Chainlink iex-cloud adapter.",
   "keywords": [
     "Chainlink",
