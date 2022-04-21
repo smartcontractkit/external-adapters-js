@@ -15,6 +15,7 @@ import {
   TeamStruct,
 } from './types'
 import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
+import { BitArray } from '@ethercards/ec-util'
 
 export const getEncodedCallsResult = async (
   jobRunID: string,
@@ -366,20 +367,32 @@ const getSetDataEncodedCallForOnlyBooleanAchievement = async (
 ): Promise<string> => {
   const pageNumber = 0
   const numPageRecords = await ecRegistryMap.playerCount()
-  const oldValues = await ecRegistry.getData(achievementID, pageNumber, numPageRecords)
-  const valueDifferences: number[] = []
-  const valueDifferenceIDs: number[] = []
+  const chainData = await ecRegistry.getData(achievementID, pageNumber, numPageRecords)
+  const updatedTraitData = BitArray.fromUint8Array(chainData)
+
   for (let z = 0; z < updatedAchievements.length; z++) {
-    const boolAsNum = typeof updatedAchievements[z].value === 'boolean' ? 1 : 0
-    if (oldValues[z] !== boolAsNum) {
-      valueDifferenceIDs.push(updatedAchievements[z].mappedID)
-      valueDifferences.push(boolAsNum)
+    if (updatedAchievements[z].value) {
+      updatedTraitData.on(updatedAchievements[z].achievement_id)
+    } else {
+      updatedTraitData.off(updatedAchievements[z].achievement_id)
     }
   }
+
+  const updatedTraitDataArr = updatedTraitData.toArray()
+  const newDataIndexes: number[] = []
+  const newDataValues: number[] = []
+
+  for (let z = 0; z < updatedTraitDataArr.length; z++) {
+    if (chainData[z] !== updatedTraitDataArr[z]) {
+      newDataIndexes.push(z)
+      newDataValues.push(updatedTraitDataArr[z])
+    }
+  }
+
   return ecRegistry.interface.encodeFunctionData('setData', [
     achievementID,
-    valueDifferenceIDs,
-    valueDifferences,
+    newDataIndexes,
+    newDataValues,
   ])
 }
 
