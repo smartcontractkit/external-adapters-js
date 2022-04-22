@@ -22,7 +22,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const collection = validator.validated.data.collection
-  const url = `/api/v1/collections/values/${collection}/latest`
+  const url = `/api/v1/collections/${collection}/values/latest`
 
   const params = {
     api_key: config.apiKey,
