@@ -4,7 +4,7 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockMC02Response } from './fixtures'
+import { mockMCO2Response } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -37,14 +37,14 @@ describe('execute', () => {
     server.close(done)
   })
 
-  describe('mc02 endpoint', () => {
+  describe('mco2 endpoint', () => {
     const balanceRequest: AdapterRequest = {
       id: '1',
       data: {},
     }
 
     it('should return success', async () => {
-      mockMC02Response()
+      mockMCO2Response()
 
       const response = await req
         .post('/')

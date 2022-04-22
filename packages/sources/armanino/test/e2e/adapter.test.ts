@@ -35,7 +35,7 @@ describe('execute', () => {
     server.close(done)
   })
 
-  describe('mc02 endpoint', () => {
+  describe('mco2 endpoint', () => {
     const balanceRequest: AdapterRequest = {
       id: '1',
       data: {},

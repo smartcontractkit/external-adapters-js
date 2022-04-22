@@ -16,13 +16,13 @@ There are no environment variables for this adapter.
 
 | Required? |   Name   |     Description     |  Type  |                      Options                      | Default |
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [balance](#mc02-endpoint), [mc02](#mc02-endpoint) | `mc02`  |
+|           | endpoint | The endpoint to use | string | [balance](#mco2-endpoint), [mco2](#mco2-endpoint) | `mco2`  |
 
 ---
 
-## Mc02 Endpoint
+## Mco2 Endpoint
 
-Supported names for this endpoint are: `balance`, `mc02`.
+Supported names for this endpoint are: `balance`, `mco2`.
 
 ### Input Params
 
@@ -36,7 +36,7 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "mc02",
+    "endpoint": "mco2",
     "resultPath": "totalMCO2"
   }
 }

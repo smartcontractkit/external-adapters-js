@@ -1,10 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
-export const supportedEndpoints = ['mc02', 'balance']
+export const supportedEndpoints = ['mco2', 'balance']
 
 export const endpointResultPaths = {
-  mc02: 'totalMCO2',
+  mco2: 'totalMCO2',
   balance: 'totalMCO2',
 }
 
