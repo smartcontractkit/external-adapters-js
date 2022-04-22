@@ -2,11 +2,53 @@
 
 The core framework that every External Adapter uses.
 
+The goal of the framework is to make the overall system more efficient by using as few resources (e.g. API credits, networking traffic, CPU usage) as possible to fetch data.
+
+For more information on a specific middleware or module see its dedicated README.
+
+## Middlewares
+
+To fulfill the performance goals each External Adapter's data provider specific logic, called an `execute` function, is wrapped by middlewares that layer in additional functionality.
+
+Middlewares are first initialized to wrap the request. At runtime the execution happens in reverse order. If there is awaited code within the middleware it then happens in the original order once the `execute` function has returned.
+
+![Middleware diagram](./assets/middleware_flow.jpg?raw=true 'Middleware execution')
+
+Some examples of these are:
+
+### Caching
+
+Local cache (LRU) and Redis supported. Local cache can be used as a fallback.
+
+### Cache Warming
+
+For REST requests, cache warming is fired within the chain of observables from the redux architecture. WebSockets are treated as its own cache warming.
+
+### Batching
+
+Batching is directly tied to the caching and cache warming implementation. Each adapter that utilizes batch endpoints also implements DP specific code to handle those use cases.
+
+### Rate limiting
+
+Rate limiting is implemented in 3 parts:
+
+1. An express middleware that rate limits incoming requests and delays/throttles them.
+2. A redux middleware, named `Burst Limit`, that uses the same store that caching and batching rely on to check overall reqs per second/minute, and rejects them if they exceed a burst threshold.
+3. Another redux middleware, named `Rate Limit` with the same store that adjusts TTL according to the monthly limits.
+
+### Error Backoff
+
+If the adapter receives erroneous responses from the DP beyond a certain threshold, it rejects incoming requests until the specified time window passes.
+
+## Architecture
+
+![EA framework flow](./assets/flowchart.jpg?raw=true 'Framework flowchart')
+
+## Configuration
+
 Detailed here is optional configuration that can be provided to any EA through environment variables.
 
----
-
-## Table of Contents
+### Table of Contents
 
 - [Chainlink External Adapter Bootstrap](#chainlink-external-adapter-bootstrap)
   - [Table of Contents](#table-of-contents)
