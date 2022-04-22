@@ -47,14 +47,11 @@ Request:
 
 ```json
 {
-  "id": "1",
+  "jobID": "1",
   "data": {
-    "endpoint": "view",
-    "address": "terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy",
+    "address": "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts",
     "query": {
-      "aggregator_query": {
-        "get_latest_round_data": {}
-      }
+      "state": {}
     }
   }
 }
@@ -65,23 +62,33 @@ Response:
 ```json
 {
   "jobRunID": "1",
+  "result": {
+    "bluna_exchange_rate": "1.000007186291211709",
+    "stluna_exchange_rate": "1.025963605883917253",
+    "total_bond_bluna_amount": "84019024161042",
+    "total_bond_stluna_amount": "2620798650161",
+    "last_index_modification": 1650611699,
+    "prev_hub_balance": "293112080103",
+    "last_unbonded_time": 1650382207,
+    "last_processed_batch": 125,
+    "total_bond_amount": "84019024161042",
+    "exchange_rate": "1.000007186291211709"
+  },
+  "statusCode": 200,
   "data": {
     "result": {
-      "round_id": 102601,
-      "answer": "450925174149",
-      "started_at": 1635943989,
-      "updated_at": 1635943989,
-      "answered_in_round": 102601
+      "bluna_exchange_rate": "1.000007186291211709",
+      "stluna_exchange_rate": "1.025963605883917253",
+      "total_bond_bluna_amount": "84019024161042",
+      "total_bond_stluna_amount": "2620798650161",
+      "last_index_modification": 1650611699,
+      "prev_hub_balance": "293112080103",
+      "last_unbonded_time": 1650382207,
+      "last_processed_batch": 125,
+      "total_bond_amount": "84019024161042",
+      "exchange_rate": "1.000007186291211709"
     }
-  },
-  "result": {
-    "round_id": 102601,
-    "answer": "450925174149",
-    "started_at": 1635943989,
-    "updated_at": 1635943989,
-    "answered_in_round": 102601
-  },
-  "statusCode": 200
+  }
 }
 ```
 
