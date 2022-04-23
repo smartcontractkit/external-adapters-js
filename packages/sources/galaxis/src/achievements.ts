@@ -138,7 +138,7 @@ const processSingleAchievement = async (
       endEventIdx,
     })
 
-    let updatedEncodedCalls
+    let updatedEncodedCalls = ''
     if (encodedCall) {
       // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
       const addressToCall = implementerAddress || ecRegistry.address
