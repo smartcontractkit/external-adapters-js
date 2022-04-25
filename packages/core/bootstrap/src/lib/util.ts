@@ -15,9 +15,6 @@ export const baseEnvDefaults: EnvDefaults = {
   METRICS_PORT: '9080',
   RETRY: '1',
   API_TIMEOUT: '30000',
-  SERVER_RATE_LIMIT_MAX: '250', // default to 250 req / 5 seconds max
-  SERVER_SLOW_DOWN_AFTER_FACTOR: '0.8', // we start slowing down requests when we reach 80% of our max limit for the current interval
-  SERVER_SLOW_DOWN_DELAY_MS: '500', // default to slowing down each request by 500ms
   CACHE_ENABLED: 'true',
   CACHE_TYPE: 'local',
   CACHE_MAX_AGE: '90000', // 1.5 minutes

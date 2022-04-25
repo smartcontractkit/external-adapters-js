@@ -1,8 +1,6 @@
 import { AdapterContext, Execute, Middleware } from '@chainlink/types'
 import express from 'express'
 import http from 'http'
-import slowDown from 'express-slow-down'
-import rateLimit from 'express-rate-limit'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, storeSlice, withMiddleware } from '../index'
@@ -13,7 +11,7 @@ import {
   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
 } from './errors'
 import { logger } from './modules'
-import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
+import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
@@ -152,36 +150,7 @@ function setupMetricsServer(name: string) {
   metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
 }
 
-const windowMs = 1000 * 5
-const max = parseInt(getEnv('SERVER_RATE_LIMIT_MAX') as string)
-const delayAfter = max * Number(getEnv('SERVER_SLOW_DOWN_AFTER_FACTOR'))
-const delayMs = parseInt(getEnv('SERVER_SLOW_DOWN_DELAY_MS') as string)
-
 function initExpressMiddleware(app: express.Express) {
   app.set('trust proxy', 1)
-
-  const rateLimiter = rateLimit({
-    windowMs,
-    max, // limit each IP's requests per windowMs
-    keyGenerator: () => '*', // use one key for all incoming requests
-    handler: ((req, res, next) => {
-      if (req.url === '/health') {
-        next()
-      } else {
-        httpRateLimit.inc()
-        res.status(429).send('Too many requests, please try again later.')
-      }
-    }) as express.RequestHandler,
-  })
-  app.use(rateLimiter)
-
-  const speedLimiter = slowDown({
-    windowMs,
-    delayAfter,
-    delayMs,
-    keyGenerator: () => '*', // use one key for all incoming requests
-  })
-  app.use(speedLimiter)
-
   app.use(express.json({ limit: '1mb' }))
 }
