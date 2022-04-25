@@ -1,6 +1,8 @@
 # Chainlink External Adapter for CurrencyLayer
 
-Version: 1.3.26
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/currencylayer/package.json)
+
+Base URL https://api.currencylayer.com
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                Options                                                 |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#live-endpoint), [live](#live-endpoint), [price](#live-endpoint) | `convert` |
-
----
 
 ## Convert Endpoint
 
@@ -45,6 +47,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "amount": 1
+  },
+  "debug": {
+    "cacheKey": "fE+e01CMPOlT/0yVAcTGT32JAlQ="
   }
 }
 ```
@@ -96,3 +101,5 @@ Supported names for this endpoint are: `forex`, `live`, `price`.
 There are no examples for this endpoint.
 
 ---
+
+MIT License

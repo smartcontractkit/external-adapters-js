@@ -1,6 +1,8 @@
 # Chainlink External Adapter for Bitex
 
-Version: 1.3.28
+![1.3.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json)
+
+Base URL https://bitex.la/api
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                         Options                         | Default  |
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [tickers](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -45,6 +47,9 @@ Request:
     "endpoint": "crypto",
     "base": "ETH",
     "quote": "ARS"
+  },
+  "debug": {
+    "cacheKey": "mLZ9U6HS/OYR+sGPWycJB43/AaA="
   },
   "rateLimitMaxAge": 222
 }
@@ -80,3 +85,5 @@ Response:
 ```
 
 ---
+
+MIT License

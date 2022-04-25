@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmarketcap
 
-Version: 1.3.29
+![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +14,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                                                               Options                                                                                                                | Default  |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [historical](#historical-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint) | `crypto` |
-
----
 
 ## Dominance Endpoint
 
@@ -42,6 +42,9 @@ Request:
   "data": {
     "endpoint": "dominance",
     "market": "BTC"
+  },
+  "debug": {
+    "cacheKey": "68fvKmTaemya72URaHbma8IMB7s="
   }
 }
 ```
@@ -142,6 +145,24 @@ Request:
     "resultPath": "price",
     "base": "BTC",
     "convert": "USD"
+  },
+  "debug": {
+    "cacheKey": "OGfHdehjHraavx1cn4Ua96mPJmY=",
+    "batchCacheKey": "S9lQVRuqngyyYwVYhEJCVcsxqQU=",
+    "batchChildrenCacheKeys": [
+      [
+        "OGfHdehjHraavx1cn4Ua96mPJmY=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "crypto",
+            "resultPath": "price",
+            "base": "BTC",
+            "convert": "USD"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -223,6 +244,25 @@ Request:
     "base": "BTC",
     "convert": "USD",
     "cid": "1100"
+  },
+  "debug": {
+    "cacheKey": "o0FSMv8ruIrLjPJJYJjZ+Eb0/2Q=",
+    "batchCacheKey": "Wd3qvYisEtK0cdrn9igv+oYIMtU=",
+    "batchChildrenCacheKeys": [
+      [
+        "o0FSMv8ruIrLjPJJYJjZ+Eb0/2Q=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "crypto",
+            "resultPath": "price",
+            "base": "BTC",
+            "convert": "USD",
+            "cid": "1100"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -301,6 +341,25 @@ Request:
     "base": "BTC",
     "convert": "USD",
     "slug": "BTC"
+  },
+  "debug": {
+    "cacheKey": "Gg8B/hbMcomsAmJUDMcNJBf7mcY=",
+    "batchCacheKey": "c7TDhO68//9/Jk1uH2yNfnKqiAc=",
+    "batchChildrenCacheKeys": [
+      [
+        "Gg8B/hbMcomsAmJUDMcNJBf7mcY=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "crypto",
+            "resultPath": "price",
+            "base": "BTC",
+            "convert": "USD",
+            "slug": "BTC"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -378,6 +437,24 @@ Request:
     "resultPath": "price",
     "base": "BTC",
     "convert": "USD"
+  },
+  "debug": {
+    "cacheKey": "OGfHdehjHraavx1cn4Ua96mPJmY=",
+    "batchCacheKey": "S9lQVRuqngyyYwVYhEJCVcsxqQU=",
+    "batchChildrenCacheKeys": [
+      [
+        "OGfHdehjHraavx1cn4Ua96mPJmY=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "crypto",
+            "resultPath": "price",
+            "base": "BTC",
+            "convert": "USD"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -471,6 +548,9 @@ Request:
   "data": {
     "endpoint": "globalmarketcap",
     "market": "USD"
+  },
+  "debug": {
+    "cacheKey": "1+HiIBSsojqbfCOU78q7iZbzdWA="
   }
 }
 ```
@@ -576,6 +656,9 @@ Request:
     "start": "2021-07-23T14",
     "count": 10,
     "interval": "5m"
+  },
+  "debug": {
+    "cacheKey": "JT2rxlQZgzUERZo0ldZev/lpySo="
   }
 }
 ```
@@ -720,3 +803,5 @@ Response:
 ```
 
 ---
+
+MIT License

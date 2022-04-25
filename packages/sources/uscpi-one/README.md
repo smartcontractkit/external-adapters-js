@@ -1,6 +1,8 @@
 # Chainlink External Adapter for US Consumer Price Index (USCPI)
 
-Version: 1.2.4
+![1.2.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uscpi-one/package.json)
+
+Base URL https://api.bls.gov/publicAPI/v2
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |          Options           | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [series](#series-endpoint) | `series` |
-
----
 
 ## Series Endpoint
 
@@ -46,6 +48,9 @@ Request:
     "serie": "CUSR0000SA0",
     "year": "2021",
     "month": "July"
+  },
+  "debug": {
+    "cacheKey": "lU5fDIMOQ5L/KT5w0t5K2h4Ql5I="
   }
 }
 ```
@@ -112,6 +117,9 @@ Request:
     "serie": "CUSR0000SA0",
     "year": "2021",
     "month": "July"
+  },
+  "debug": {
+    "cacheKey": "lU5fDIMOQ5L/KT5w0t5K2h4Ql5I="
   }
 }
 ```
@@ -167,3 +175,5 @@ Response:
 </details>
 
 ---
+
+MIT License

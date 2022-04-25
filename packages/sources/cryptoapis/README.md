@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoAPIs
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoapis/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +15,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                      Options                                                                      | Default  |
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [crypto](#crypto-endpoint), [difficulty](#bc_info-endpoint), [height](#bc_info-endpoint), [price](#crypto-endpoint) | `crypto` |
-
----
 
 ## Balance Endpoint
 
@@ -59,6 +59,9 @@ Request:
         "chain": "testnet"
       }
     ]
+  },
+  "debug": {
+    "cacheKey": "bMYi1u3EPmP0Xyfhsf/Ofqh3y8c="
   }
 }
 ```
@@ -130,6 +133,9 @@ Request:
     "endpoint": "crypto",
     "base": "BTC",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI="
   }
 }
 ```
@@ -183,6 +189,9 @@ Request:
     "resultPath": "difficulty",
     "blockchain": "BTC",
     "network": "mainnet"
+  },
+  "debug": {
+    "cacheKey": "MpZFMEY8zxa0dHOlTifGLkwLqSc="
   }
 }
 ```
@@ -214,3 +223,5 @@ Response:
 ```
 
 ---
+
+MIT License

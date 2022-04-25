@@ -1,6 +1,8 @@
 # Chainlink External Adapter for Fmp Cloud
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fmpcloud/package.json)
+
+Base URL https://fmpcloud.io
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                   Options                                    | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [price](#stock-endpoint), [quote](#stock-endpoint), [stock](#stock-endpoint) | `stock` |
-
----
 
 ## Stock Endpoint
 
@@ -43,6 +45,9 @@ Request:
   "data": {
     "endpoint": "quote",
     "base": "AUD"
+  },
+  "debug": {
+    "cacheKey": "dLSVCsbn8V6tc3epL5j5NxGI7+M="
   },
   "rateLimitMaxAge": 384615
 }
@@ -89,3 +94,5 @@ Response:
 ```
 
 ---
+
+MIT License
