@@ -2,7 +2,9 @@
 
 This adapter only has Websocket support for the forex endpoint.
 
-Version: 1.6.25
+![1.6.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json)
+
+Base URL wss://marketdata.tradermade.com/feedadv
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -18,11 +20,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                 Options                                                  | Default |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [commodities](#live-endpoint), [forex](#forex-endpoint), [live](#live-endpoint), [stock](#live-endpoint) | `live`  |
-
----
 
 ## Live Endpoint
 
@@ -45,6 +47,9 @@ Request:
   "data": {
     "endpoint": "live",
     "base": "AAPL"
+  },
+  "debug": {
+    "cacheKey": "HHpABsvAKoDprbxdQVUIgj+YoK0="
   },
   "rateLimitMaxAge": 5843681
 }
@@ -100,6 +105,9 @@ Request:
     "base": "ETH",
     "quote": "USD"
   },
+  "debug": {
+    "cacheKey": "QjGCaijj/AZfhRuMfhhiXZgSxOY="
+  },
   "rateLimitMaxAge": 2921840
 }
 ```
@@ -131,3 +139,5 @@ Response:
 ```
 
 ---
+
+MIT License

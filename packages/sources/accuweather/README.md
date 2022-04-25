@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AccuWeather
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/accuweather/package.json)
 
 [AccuWeather](https://www.accuweather.com/)
 
@@ -29,6 +29,8 @@ Solidity types used in the encoded results:
 | `windDirectionDegrees` | `uint16` |
 | `windSpeed` | `uint16` |
 
+Base URL http://api.accuweather.com/
+
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
@@ -42,11 +44,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                        Options                                                                        | Default |
 | :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [current-conditions](#currentconditions-endpoint), [location-current-conditions](#locationcurrentconditions-endpoint), [location](#location-endpoint) |         |
-
----
 
 ## CurrentConditions Endpoint
 
@@ -120,6 +122,9 @@ Request:
     "locationKey": 2097720,
     "units": "metric",
     "encodeResult": true
+  },
+  "debug": {
+    "cacheKey": "z4rGh+66lDS2V1UIzsfX6ZBcYSM="
   }
 }
 ```
@@ -529,6 +534,9 @@ Request:
     "locationKey": 2097720,
     "units": "metric",
     "encodeResult": false
+  },
+  "debug": {
+    "cacheKey": "TUDuSR92POdVDacfK5z+RimwJzU="
   }
 }
 ```
@@ -995,6 +1003,9 @@ Request:
     "lon": 0,
     "units": "metric",
     "encodeResult": true
+  },
+  "debug": {
+    "cacheKey": "xcuAvzNDNq0PfrcBp0ptfZMLgzQ="
   }
 }
 ```
@@ -1028,6 +1039,9 @@ Request:
     "lon": 0,
     "units": "metric",
     "encodeResult": false
+  },
+  "debug": {
+    "cacheKey": "ADPJ3u+jGPKuvSfsLlSSTITQZeE="
   }
 }
 ```
@@ -1092,6 +1106,9 @@ Request:
     "lon": "-77.89687509335249",
     "units": "metric",
     "encodeResult": true
+  },
+  "debug": {
+    "cacheKey": "7uQOcGZqTrD+NvijbQHDYFdWGk8="
   }
 }
 ```
@@ -1579,6 +1596,9 @@ Request:
     "lon": "-77.89687509335249",
     "units": "metric",
     "encodeResult": false
+  },
+  "debug": {
+    "cacheKey": "xOXFR/BQRASOBKiu/URXHLhSvHc="
   }
 }
 ```
@@ -2121,6 +2141,9 @@ Request:
     "lat": 0,
     "lon": 0,
     "encodeResult": true
+  },
+  "debug": {
+    "cacheKey": "KmJFuZYlDK9vqVkoSudfdqtt400="
   }
 }
 ```
@@ -2153,6 +2176,9 @@ Request:
     "lat": 0,
     "lon": 0,
     "encodeResult": false
+  },
+  "debug": {
+    "cacheKey": "jUl9AlhnwseNE32QT6vc4SP/X9M="
   }
 }
 ```
@@ -2192,6 +2218,9 @@ Request:
     "lat": "40.78136100040876",
     "lon": "-77.89687509335249",
     "encodeResult": true
+  },
+  "debug": {
+    "cacheKey": "Sek20ZkkZSn2/PM3bMPBtQi7K20="
   }
 }
 ```
@@ -2298,6 +2327,9 @@ Request:
     "lat": "40.78136100040876",
     "lon": "-77.89687509335249",
     "encodeResult": false
+  },
+  "debug": {
+    "cacheKey": "k5UOHiu6zrngyq7s/5ovZPfJXsg="
   }
 }
 ```
@@ -2401,3 +2433,5 @@ Response:
 </details>
 
 ---
+
+MIT License

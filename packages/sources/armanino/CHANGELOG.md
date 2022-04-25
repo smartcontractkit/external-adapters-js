@@ -1,5 +1,11 @@
 # @chainlink/armanino-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- 86ae9787d: Armanino fixed naming of MC02 -> MCO2
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinranking
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinranking/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +14,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                       Options                                        | Default  |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -47,6 +47,9 @@ Request:
     "resultPath": "price",
     "base": "ETH",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "myCLTCj4zYsnsKksIJQuUgg6g+Y="
   }
 }
 ```
@@ -184,6 +187,9 @@ Request:
     "resultPath": "marketCap",
     "base": "ETH",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "pOdAjL3913pdWiqCSCbdpHFCw+w="
   }
 }
 ```
@@ -311,3 +317,5 @@ Response:
 </details>
 
 ---
+
+MIT License

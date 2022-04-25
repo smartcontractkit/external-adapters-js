@@ -1,8 +1,10 @@
 # Chainlink External Adapter for COVID Tracker
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/covid-tracker/package.json)
 
 Notice: The COVID Tracking Project is ending all data collection on March 7, 2021. The existing API will continue to work until May 2021, but will only include data up to March 7, 2021.
+
+Base URL https://api.covidtracking.com/v1
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ There are no environment variables for this adapter.
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |      Options       | Default |
 | :-------: | :------: | :-----------------: | :----: | :----------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [us](#us-endpoint) |  `us`   |
-
----
 
 ## Us Endpoint
 
@@ -40,6 +42,9 @@ Request:
   "data": {
     "endpoint": "us",
     "resultPath": "death"
+  },
+  "debug": {
+    "cacheKey": "HulnsPpS29hIXRL5A4zkpck31Kk="
   }
 }
 ```
@@ -169,3 +174,5 @@ Response:
 ```
 
 ---
+
+MIT License

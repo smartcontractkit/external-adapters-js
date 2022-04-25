@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Unibit
 
-Version: 1.3.23
+![1.3.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/unibit/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +15,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                             Options                             |   Default    |
 | :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------: | :----------: |
 |           | endpoint | The endpoint to use | string | [eod](#historical-endpoint), [historical](#historical-endpoint) | `historical` |
-
----
 
 ## Historical Endpoint
 
@@ -44,6 +44,9 @@ Request:
   "id": "1",
   "data": {
     "base": "VXX"
+  },
+  "debug": {
+    "cacheKey": "080e3aca0835c63ab958af9f1e5bb5163c86bcd6"
   },
   "rateLimitMaxAge": 57603
 }
@@ -85,3 +88,5 @@ Response:
 ```
 
 ---
+
+MIT License

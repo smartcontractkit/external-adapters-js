@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-Version: 1.2.8
+![1.2.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json)
 
 This adapter allows querying Curve.fi contracts
 
@@ -19,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |          Options           | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -56,6 +56,9 @@ Request:
     "from": "USDC",
     "to": "USDT",
     "amount": 1
+  },
+  "debug": {
+    "cacheKey": "8+57VCexLY5xpa6wBMELqPDkP4w="
   }
 }
 ```
@@ -98,6 +101,9 @@ Request:
     "to": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
     "toDecimals": 18,
     "amount": 10
+  },
+  "debug": {
+    "cacheKey": "GtHEA0XyZDBJS8lIwWVQtfKtIRM="
   }
 }
 ```
@@ -127,3 +133,5 @@ Response:
 </details>
 
 ---
+
+MIT License

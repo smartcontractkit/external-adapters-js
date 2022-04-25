@@ -1,6 +1,8 @@
 # Chainlink External Adapter for Deribit
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json)
+
+Base URL https://www.deribit.com/api/v2/public/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |          Options           | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -40,6 +42,9 @@ Request:
   "data": {
     "endpoint": "crypto",
     "currency": "ETH"
+  },
+  "debug": {
+    "cacheKey": "hJ7N538OT46zUTHH59trC5Qbouw="
   }
 }
 ```
@@ -59,3 +64,5 @@ Response:
 ```
 
 ---
+
+MIT License

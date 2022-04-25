@@ -1,8 +1,10 @@
 # Chainlink External Adapter for AP Election
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ap-election/package.json)
 
 The AP Election adapter fetches the latest election results provided by the Associated Press API and returns the winner of a given election.
+
+Base URL https://api.ap.org/v2
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
 |           | endpoint | The endpoint to use | string | [election](#election-endpoint) | `election` |
-
----
 
 ## Election Endpoint
 
@@ -57,6 +59,9 @@ Request:
     "officeID": "P",
     "raceType": "G",
     "resultsType": "l"
+  },
+  "debug": {
+    "cacheKey": "oSruSOaCPx2z6jWowhciPfG0/sY="
   }
 }
 ```
@@ -183,6 +188,9 @@ Request:
     "officeID": "A",
     "raceType": "D",
     "resultsType": "l"
+  },
+  "debug": {
+    "cacheKey": "KEpqOGL74kmCf79VniiKr+JxAzY="
   }
 }
 ```
@@ -265,3 +273,5 @@ Response:
 </details>
 
 ---
+
+MIT License

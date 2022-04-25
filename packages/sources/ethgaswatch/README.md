@@ -1,6 +1,8 @@
 # Chainlink External Adapter for EthGasWatch
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgaswatch/package.json)
+
+Base URL https://ethgas.watch
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
 |           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
-
----
 
 ## Gasprice Endpoint
 
@@ -40,6 +42,9 @@ Request:
   "data": {
     "endpoint": "gasprice",
     "speed": "fast"
+  },
+  "debug": {
+    "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="
   }
 }
 ```
@@ -123,3 +128,5 @@ Response:
 ```
 
 ---
+
+MIT License

@@ -1,6 +1,8 @@
 # Chainlink Open Exchange Rates External Adapter
 
-Version: 1.3.26
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/openexchangerates/package.json)
+
+Base URL https://openexchangerates.org/api/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [forex](#forex-endpoint), [price](#forex-endpoint) | `forex` |
-
----
 
 ## Forex Endpoint
 
@@ -45,6 +47,23 @@ Request:
     "endpoint": "forex",
     "base": "ETH",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "QjGCaijj/AZfhRuMfhhiXZgSxOY=",
+    "batchCacheKey": "bABKu8Pn740JrPW1AA9ksPP7vCs=",
+    "batchChildrenCacheKeys": [
+      [
+        "QjGCaijj/AZfhRuMfhhiXZgSxOY=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "forex",
+            "base": "ETH",
+            "quote": "USD"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -247,3 +266,5 @@ Response:
 ```
 
 ---
+
+MIT License

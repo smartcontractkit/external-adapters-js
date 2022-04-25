@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.80
+
+### Patch Changes
+
+- Updated dependencies [86ae9787d]
+  - @chainlink/armanino-adapter@1.0.3
+
 ## 1.0.79
 
 ### Patch Changes

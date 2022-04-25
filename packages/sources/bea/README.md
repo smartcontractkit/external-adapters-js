@@ -1,6 +1,8 @@
 # Chainlink External Adapter for the Bureau of Economic Analysis (BEA)
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bea/package.json)
+
+Base URL https://apps.bea.gov/api
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [average](#average-endpoint) | `average` |
-
----
 
 ## Average Endpoint
 
@@ -43,6 +45,9 @@ Request:
     "endpoint": "average",
     "series": "DPCERG",
     "last": 3
+  },
+  "debug": {
+    "cacheKey": "qw1uwRyMT0AuhV5lK4siprcSv8E="
   }
 }
 ```
@@ -321,3 +326,5 @@ Response:
 ```
 
 ---
+
+MIT License

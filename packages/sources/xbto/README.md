@@ -1,6 +1,8 @@
 # Chainlink External Adapter for XBTO
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/xbto/package.json)
+
+Base URL https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |         Options          | Default |
 | :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
-
----
 
 ## Price Endpoint
 
@@ -41,6 +43,9 @@ Request:
   "data": {
     "endpoint": "price",
     "market": "brent"
+  },
+  "debug": {
+    "cacheKey": "kOklXsmmSkKwHHQ7Y3UJdk26rC8="
   }
 }
 ```
@@ -70,6 +75,9 @@ Request:
   "data": {
     "endpoint": "price",
     "market": "wti"
+  },
+  "debug": {
+    "cacheKey": "ZFIDg0FVXiArti9zMRWkbguidY8="
   }
 }
 ```
@@ -91,3 +99,5 @@ Response:
 </details>
 
 ---
+
+MIT License
