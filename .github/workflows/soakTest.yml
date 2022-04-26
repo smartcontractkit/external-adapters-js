@@ -185,7 +185,9 @@ jobs:
         working-directory: ./external-adapters-js
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
-          IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
+          # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
+          # TODO remove next line
+          IMAGE_TAG: prsoak-testing-composites
           ADAPTER_NAMES: ${{ steps.build-adapters.outputs.BUILD_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
@@ -208,7 +210,9 @@ jobs:
         working-directory: ./external-adapters-js/packages/k6
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
-          IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
+          # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
+          # TODO remove next line
+          IMAGE_TAG: prsoak-testing-composites
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
         run: |
           if [ -n "$TEST_ADAPTERS" ]; then
@@ -218,7 +222,7 @@ jobs:
                 --namespace adapters \
                 --create-namespace \
                 -f ./k8s/values.yaml \
-                --set image.tag=${IMAGE_TAG}-${adapter} \
+                --set image.tag=${IMAGE_TAG} \
                 --set name=k6-${PR_NUMBER}-${adapter} \
                 --wait
             done
