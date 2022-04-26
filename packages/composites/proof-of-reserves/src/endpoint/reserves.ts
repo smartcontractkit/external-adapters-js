@@ -4,6 +4,7 @@ import { makeOptions } from '../config'
 import { Indexer, runBalanceAdapter } from '../utils/balance'
 import { runProtocolAdapter } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
+import { validateAddresses } from '../utils/addressValidator'
 
 export const supportedEndpoints = ['reserves']
 
@@ -38,13 +39,14 @@ const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, paramOptions)
-
   const jobRunID = validator.validated.jobRunID
   const protocol = validator.validated.data.protocol.toUpperCase()
   const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
   const confirmations = validator.validated.data.confirmations
 
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
+  protocolOutput.result = validateAddresses(indexer, protocolOutput.result)
+  protocolOutput.data.result = protocolOutput.result
   const balanceOutput = await runBalanceAdapter(
     indexer,
     context,

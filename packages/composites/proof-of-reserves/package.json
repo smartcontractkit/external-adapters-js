@@ -53,7 +53,7 @@
     "@chainlink/wbtc-address-set-adapter": "workspace:*",
     "@chainlink/wrapped-adapter": "workspace:*",
     "decimal.js": "^10.3.1",
-    "ethers": "^5.4.6",
+    "ethers": "^5.6.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
