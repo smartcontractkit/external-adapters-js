@@ -41,11 +41,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     name,
     type: 'TXT',
   }
-
   const options = { ...config.api, params }
-
   const response = await Requester.request<DNSProofResponseSchema>(options)
-
   const answers = response.data.Answer
 
   if (!Array.isArray(answers)) {
@@ -58,8 +55,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const isOwned = answers.some(({ data }: Answer) => data.toLowerCase() === record)
-
   response.data.result = isOwned
-
   return Requester.success(jobRunID, response, config.verbose)
 }

@@ -41,6 +41,7 @@ export function dnsProofTests(context: SuiteContext): void {
           .expect(200)
 
         assertError({ expected: 500, actual: response.body.providerStatusCode }, response.body, id)
+        expect(response.body).toMatchSnapshot()
       })
     })
 
@@ -66,6 +67,7 @@ export function dnsProofTests(context: SuiteContext): void {
           .expect(200)
 
         assertError({ expected: 200, actual: response.statusCode }, response.body, id)
+        expect(response.body).toMatchSnapshot()
       })
     })
   })
