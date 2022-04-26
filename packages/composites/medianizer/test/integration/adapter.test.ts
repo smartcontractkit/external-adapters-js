@@ -28,7 +28,7 @@ describe('medianizer', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
     setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
     if (process.env.RECORD) {
       nock.recorder.rec()

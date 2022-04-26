@@ -20,9 +20,9 @@ import { WSReset } from './middleware/ws/actions'
 const app = Fastify({
   logger: false,
 })
-const version =  getEnv('npm_package_version')
+const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
-const baseUrl =  getEnv('BASE_URL') as string
+const baseUrl = getEnv('BASE_URL') as string
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -127,7 +127,6 @@ export const initHandler =
 
     app.addHook('onClose', async () => {
       storeSlice('cacheWarmer').dispatch(warmupShutdown())
-      storeSlice('cacheWarmer').dispatch(warmupShutdown())
       storeSlice('errorBackoff').dispatch(shutdown())
       storeSlice('ws').dispatch(WSReset())
       context.cache?.instance?.close()
@@ -151,7 +150,7 @@ function setupMetricsServer(name: string) {
     logger: false,
   })
   const metricsPort = parseInt(getEnv('METRICS_PORT') as string)
-  const endpoint =  getEnv('METRICS_USE_BASE_URL') ? join(baseUrl, 'metrics') : '/metrics'
+  const endpoint = getEnv('METRICS_USE_BASE_URL') ? join(baseUrl, 'metrics') : '/metrics'
 
   setupMetrics(name)
 

@@ -28,7 +28,7 @@ describe('dxfeed', () => {
 
   beforeAll(async () => {
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
     process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
     process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
     if (util.parseBool(process.env.RECORD)) {
@@ -87,7 +87,7 @@ describe('websocket', () => {
     process.env.WS_SUBSCRIPTION_TTL = '1000'
 
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {

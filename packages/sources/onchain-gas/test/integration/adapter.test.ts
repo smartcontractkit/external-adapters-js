@@ -32,7 +32,7 @@ describe('websocket', () => {
     process.env.WS_SUBSCRIPTION_TTL = '100'
 
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {

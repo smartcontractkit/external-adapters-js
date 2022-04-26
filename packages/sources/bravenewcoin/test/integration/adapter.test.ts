@@ -15,7 +15,7 @@ describe('bravenewcoin', () => {
 
   beforeAll(async () => {
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
 
     process.env.API_KEY = process.env.API_KEY || 'test-api-key'

@@ -31,7 +31,7 @@ describe('execute', () => {
       nock.recorder.rec()
     }
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -85,7 +85,7 @@ describe('websocket', () => {
     process.env.WS_SUBSCRIPTION_TTL = '300'
 
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
