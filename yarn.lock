@@ -2946,7 +2946,7 @@ __metadata:
     "@types/express": 4.17.13
     "@types/fast-redact": 3.0.1
     "@types/jest": 27.0.3
-    "@types/lodash": 4.14.181
+    "@types/lodash": 4.14.182
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.25
     "@types/object-hash": 2.1.1
@@ -8893,10 +8893,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.181":
-  version: 4.14.181
-  resolution: "@types/lodash@npm:4.14.181"
-  checksum: 0d1863d8383fd2f8bb42e9e3fc1d6255bb88ff034d6df848941063698944313dae944fc1270315613e3d303fae7c7a9a86085ad3235ed6204c56c4b0b3699aa9
+"@types/lodash@npm:4.14.182":
+  version: 4.14.182
+  resolution: "@types/lodash@npm:4.14.182"
+  checksum: 7dd137aa9dbabd632408bd37009d984655164fa1ecc3f2b6eb94afe35bf0a5852cbab6183148d883e9c73a958b7fec9a9bcf7c8e45d41195add6a18c34958209
   languageName: node
   linkType: hard
 
