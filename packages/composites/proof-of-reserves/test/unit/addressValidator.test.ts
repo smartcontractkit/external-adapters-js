@@ -23,7 +23,6 @@ describe('Correctly validates Ethereum addresses and filters duplicates', () => 
       { address: '0x' + '8288c280F35Fb8809305906C79BD075962079Dd8'.toUpperCase() },
       { address: '0x' + '81910675DbaF69deE0fD77570BFD07f8E436386A'.toUpperCase() },
     ]
-    console.log(JSON.stringify(uppercaseAddresses))
     expect(validateAddresses('eth_balance', uppercaseAddresses)).toEqual(validChecksumAddresses)
   })
 
