@@ -15,7 +15,7 @@ export const validateAddresses = (indexer: string, addresses: AddressArray): Add
         return filterDuplicates(getValidEvmAddresses(addresses))
       default:
         Logger.debug(
-          `There is no address validation procedure defined for the "${addresses[0]?.network}" network.`,
+          `There is no address validation procedure defined for the "${addresses[0].network}" network.`,
         )
         return addresses
     }
