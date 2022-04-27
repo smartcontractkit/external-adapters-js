@@ -1,10 +1,22 @@
 import { utils } from 'ethers'
 import { Logger } from '@chainlink/ea-bootstrap'
+import { networkInterfaces } from 'os'
 
 type AddressObject = { address: string }
 type AddressArray = AddressObject[]
 
 export const validateAddresses = (indexer: string, addresses: AddressArray): AddressArray => {
+  if (addresses[0]?.network) {
+    switch (addresses[0].network.toLowerCase()) {
+      case 'ethereum':
+        return filterDuplicates(getValidEvmAddresses(addresses))
+      default:
+        Logger.debug(
+          `There is no address validation procedure defined for the "${network}" network.`,
+        )
+        return addresses
+    }
+  }
   switch (indexer) {
     case 'eth_balance':
       return filterDuplicates(getValidEvmAddresses(addresses))

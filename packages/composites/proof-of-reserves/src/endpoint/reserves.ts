@@ -45,14 +45,17 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const confirmations = validator.validated.data.confirmations
 
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
-  protocolOutput.result = validateAddresses(indexer, protocolOutput.result)
-  protocolOutput.data.result = protocolOutput.result
+  const validatedInput = { ...protocolOutput }
+  if (validator.validated.data.disableAddressValidation !== 'true') {
+    validatedInput.result = validateAddresses(indexer, protocolOutput.result)
+    validatedInput.data.result = protocolOutput.result
+  }
   const balanceOutput = await runBalanceAdapter(
     indexer,
     context,
     confirmations,
     config,
-    protocolOutput,
+    validatedInput,
   )
   const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
   return reduceOutput
