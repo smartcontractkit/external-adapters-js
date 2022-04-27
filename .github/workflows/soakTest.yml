@@ -174,7 +174,9 @@ jobs:
       - name: Deploy adapters
         working-directory: ./external-adapters-js
         env:
-          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          # PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          #TODO remove next line
+          PR_NUMBER: soak-testing-composites
           # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           # TODO remove next line
           IMAGE_TAG: prsoak-testing-composites
@@ -199,7 +201,9 @@ jobs:
       - name: Deploy k6
         working-directory: ./external-adapters-js/packages/k6
         env:
-          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          # PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          #TODO remove next line
+          PR_NUMBER: soak-testing-composites
           # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           # TODO remove next line
           IMAGE_TAG: prsoak-testing-composites
