@@ -2,7 +2,10 @@ import { utils } from 'ethers'
 import { Logger } from '@chainlink/ea-bootstrap'
 import { networkInterfaces } from 'os'
 
-type AddressObject = { address: string }
+type AddressObject = {
+  address: string
+  network?: string
+}
 type AddressArray = AddressObject[]
 
 export const validateAddresses = (indexer: string, addresses: AddressArray): AddressArray => {
@@ -12,7 +15,7 @@ export const validateAddresses = (indexer: string, addresses: AddressArray): Add
         return filterDuplicates(getValidEvmAddresses(addresses))
       default:
         Logger.debug(
-          `There is no address validation procedure defined for the "${network}" network.`,
+          `There is no address validation procedure defined for the "${addresses[0]?.network}" network.`,
         )
         return addresses
     }
