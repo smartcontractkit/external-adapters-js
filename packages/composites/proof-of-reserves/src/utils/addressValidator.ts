@@ -1,6 +1,5 @@
 import { utils } from 'ethers'
 import { Logger } from '@chainlink/ea-bootstrap'
-import { networkInterfaces } from 'os'
 
 type AddressObject = {
   address: string
