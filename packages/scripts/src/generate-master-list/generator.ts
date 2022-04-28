@@ -163,7 +163,7 @@ const getAdapterList = (pathToParent: string, listDescription: string) => {
   return { adapters, text }
 }
 
-const buildAirtable = async (adapterList: TableText) => {
+const generateAirtableMasterList = async (adapterList: TableText) => {
   const airtableApiKey = process.env.AIRTABLE_API_KEY
   const airtableBaseID = process.env.AIRTABLE_BASE_ID
 
@@ -173,6 +173,8 @@ const buildAirtable = async (adapterList: TableText) => {
   if (!airtableApiKey || !airtableBaseID) {
     throw 'Missing AIRTABLE_API_KEY and/or AIRTABLE_BASE_ID'
   }
+
+  console.log('Generating Airtable master adapters list.')
 
   const base = new Airtable({ apiKey: airtableApiKey }).base(airtableBaseID)
   const airtableRecordIds: { [key: string]: Record<string, string> } = {}
@@ -211,7 +213,6 @@ const buildAirtable = async (adapterList: TableText) => {
     const hasUnitTests = unwrapCode(adapter[10]).includes('✅')
     const hasIntegrationTests = unwrapCode(adapter[11]).includes('✅')
     const hasE2ETests = unwrapCode(adapter[12]).includes('✅')
-
     const airtableFields = {
       Name: name,
       Version: version,
@@ -268,7 +269,10 @@ const buildAirtable = async (adapterList: TableText) => {
   })
 }
 
-export const generateMasterList = async (verbose = false): Promise<void> => {
+export const generateMasterList = async (
+  verbose = false,
+  output: string[],
+): Promise<TableText | void> => {
   try {
     const composite = getAdapterList(pathToComposites, compositeListDescription)
     const source = getAdapterList(pathToSources, sourceListDescription)
@@ -324,37 +328,39 @@ export const generateMasterList = async (verbose = false): Promise<void> => {
       }),
     )
 
-    let allAdapterText =
-      'This document was generated automatically. Please see [Master List Generator](./packages/scripts#master-list-generator) for more info.\n\n'
+    // If no output is specified or specified value is `fs` generate and save master list data
+    if (output?.length && output.includes('fs')) {
+      let allAdapterText =
+        'This document was generated automatically. Please see [Master List Generator](./packages/scripts#master-list-generator) for more info.\n\n'
 
-    allAdapterText +=
-      buildTable(allAdaptersTable, [
-        'Name',
-        'Version',
-        'Type',
-        'Default API URL',
-        'Dependencies',
-        'Environment Variables (✅ = required)',
-        'Endpoints',
-        'Default Endpoint',
-        'Batchable Endpoints',
-        'Supports WS',
-        'Unit Tests',
-        'Integration Tests',
-        'End-to-End Tests',
-      ]) + '\n'
+      allAdapterText +=
+        buildTable(allAdaptersTable, [
+          'Name',
+          'Version',
+          'Type',
+          'Default API URL',
+          'Dependencies',
+          'Environment Variables (✅ = required)',
+          'Endpoints',
+          'Default Endpoint',
+          'Batchable Endpoints',
+          'Supports WS',
+          'Unit Tests',
+          'Integration Tests',
+          'End-to-End Tests',
+        ]) + '\n'
 
-    saveText([
-      { path: pathToComposites + 'README.md', text: composite.text },
-      { path: pathToSources + 'README.md', text: source.text },
-      { path: pathToTargets + 'README.md', text: target.text },
-      { path: 'MASTERLIST.md', text: allAdapterText },
-    ])
+      saveText([
+        { path: pathToComposites + 'README.md', text: composite.text },
+        { path: pathToSources + 'README.md', text: source.text },
+        { path: pathToTargets + 'README.md', text: target.text },
+        { path: 'MASTERLIST.md', text: allAdapterText },
+      ])
+    }
 
-    try {
-      await buildAirtable(allAdaptersTable)
-    } catch (e) {
-      console.warn(`Error updating AirTable. `, e)
+    // If output is specified to `airtable` generate and save master list data to Airtable DB
+    if (output?.length && output.includes('airtable')) {
+      await generateAirtableMasterList(allAdaptersTable)
     }
   } catch (error) {
     console.error({ error: error.message, stack: error.stack })
