@@ -63,7 +63,7 @@ const sendBatchedRequests =
 
     return sortedSymbols.reduce((response, symbol) => {
       const tokenPrice = tokenPrices.find(
-        (priceResponse) => (priceResponse[0] as AdapterResponse).data.base === symbol,
+        (priceResponse) => (priceResponse[1] as AdapterResponse).data.base === symbol,
       )
       if (!tokenPrice)
         throw new AdapterError({
@@ -74,7 +74,7 @@ const sendBatchedRequests =
 
       response[symbol] = {
         quote: {
-          [quote]: { [withMarketCap ? 'marketCap' : 'price']: tokenPrice[1] },
+          [quote]: { [withMarketCap ? 'marketCap' : 'price']: tokenPrice[2] },
         },
       }
       return response
