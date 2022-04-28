@@ -264,9 +264,7 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
     })
   }
 
-  return Promise.all(tasks).catch((e) => {
-    console.warn(`Error updating AirTable. `, e)
-  })
+  return Promise.all(tasks)
 }
 
 export const generateMasterList = async (
