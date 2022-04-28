@@ -1,8 +1,10 @@
 # Chainlink Fixer External Adapter
 
-Version: 1.3.26
+![1.3.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fixer/package.json)
 
 This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpoint.
+
+Base URL https://data.fixer.io
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                    Options                                                     |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#latest-endpoint), [latest](#latest-endpoint), [price](#latest-endpoint) | `convert` |
-
----
 
 ## Convert Endpoint
 
@@ -45,6 +47,9 @@ Request:
   "data": {
     "base": "EUR",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "55c3992cf1e9d0cd4f70dc1b3cea317c1fd9dbe2"
   }
 }
 ```
@@ -100,6 +105,9 @@ Request:
     "endpoint": "latest",
     "base": "EUR",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "7c1830561a48c6c99d6fa92ca28dfea45b0307c1"
   }
 }
 ```
@@ -133,3 +141,5 @@ Response:
 ```
 
 ---
+
+MIT License

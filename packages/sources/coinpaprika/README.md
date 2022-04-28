@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinPaprika
 
-Version: 1.7.6
+![1.8.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json)
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
@@ -17,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                                                                                                          Options                                                                                                                                                           | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-single](#cryptosingle-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -52,6 +52,25 @@ Request:
     "base": "AAAA",
     "quote": "USD",
     "coinid": "eth-ethereum"
+  },
+  "debug": {
+    "cacheKey": "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
+    "batchCacheKey": "lHEnqy20ZxpTIz2ArGwx40Q8Tyk=",
+    "batchChildrenCacheKeys": [
+      [
+        "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "crypto",
+            "resultPath": "price",
+            "base": "AAAA",
+            "quote": "USD",
+            "coinid": "eth-ethereum"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -209,6 +228,9 @@ Request:
     },
     "base": "AMPL",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "/qwtSQkI+hFL1XyVcMlcZ5qYWwE="
   }
 }
 ```
@@ -283,6 +305,9 @@ Request:
   "data": {
     "endpoint": "dominance",
     "market": "BTC"
+  },
+  "debug": {
+    "cacheKey": "68fvKmTaemya72URaHbma8IMB7s="
   }
 }
 ```
@@ -338,6 +363,9 @@ Request:
   "data": {
     "endpoint": "globalmarketcap",
     "market": "USD"
+  },
+  "debug": {
+    "cacheKey": "1+HiIBSsojqbfCOU78q7iZbzdWA="
   }
 }
 ```
@@ -390,7 +418,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -454,7 +485,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -515,7 +549,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -576,7 +613,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -637,7 +677,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -698,7 +741,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -759,7 +805,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -820,7 +869,10 @@ Request:
     "maxAge": 3600000
   },
   "method": "post",
-  "id": "1"
+  "id": "1",
+  "debug": {
+    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+  }
 }
 ```
 
@@ -905,6 +957,9 @@ Request:
     },
     "base": "AAAA",
     "hours": 24
+  },
+  "debug": {
+    "cacheKey": "I7txxQfwZOs1CsZp7ftEXG3XiXk="
   }
 }
 ```
@@ -931,3 +986,5 @@ Response:
 ```
 
 ---
+
+MIT License

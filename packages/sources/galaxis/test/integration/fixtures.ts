@@ -32,8 +32,9 @@ export const MOCK_BOOLEAN_ONLY_GALAXIS_API_RESP = {
 }
 
 export function mockBooleanOnlyGalaxisApiResp(apiEndpoint: string, date: string): void {
+  const year = date.split('-')[0]
   nock(apiEndpoint, { encodedQueryParams: true })
-    .get(`/nightly_achievements_${date}.json`)
+    .get(`/${year}/nightly_achievements_${date}.json`)
     .reply(200, MOCK_BOOLEAN_ONLY_GALAXIS_API_RESP, [
       'Connection',
       'close',
@@ -112,8 +113,9 @@ export const MOCK_NON_BOOLEAN_ONLY_GALAXIS_API_RESP = {
 }
 
 export function mockNonBooleanOnlyGalaxisApiResp(apiEndpoint: string, date: string): void {
+  const year = date.split('-')[0]
   nock(apiEndpoint, { encodedQueryParams: true })
-    .get(`/nightly_achievements_${date}.json`)
+    .get(`/${year}/nightly_achievements_${date}.json`)
     .reply(200, MOCK_NON_BOOLEAN_ONLY_GALAXIS_API_RESP, [
       'Connection',
       'close',

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/graphql-adapter",
-  "version": "1.1.29",
+  "version": "1.1.30",
   "description": "Chainlink graphql adapter.",
   "keywords": [
     "Chainlink",

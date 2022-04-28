@@ -1,6 +1,8 @@
 # Chainlink External Adapter for EthGasStation
 
-Version: 1.3.17
+![1.3.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgasstation/package.json)
+
+Base URL https://ethgasstation.info/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
 |           | endpoint | The endpoint to use | string | [gasprice](#gasprice-endpoint) | `gasprice` |
-
----
 
 ## Gasprice Endpoint
 
@@ -41,6 +43,9 @@ Request:
   "data": {
     "endpoint": "gasprice",
     "speed": "fast"
+  },
+  "debug": {
+    "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="
   },
   "rateLimitMaxAge": 2985074
 }
@@ -180,3 +185,5 @@ Response:
 ```
 
 ---
+
+MIT License

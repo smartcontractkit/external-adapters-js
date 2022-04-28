@@ -1,6 +1,8 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-Version: 1.6.25
+![1.6.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/metalsapi/package.json)
+
+Base URL https://metals-api.com/api/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                       Options                                        | Default |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#convert-endpoint), [latest](#latest-endpoint) | `forex` |
-
----
 
 ## Convert Endpoint
 
@@ -45,6 +47,9 @@ Request:
     "base": "XAU",
     "quote": "USD",
     "amount": 1
+  },
+  "debug": {
+    "cacheKey": "/VC1KUtn1FaFM+Mo8m3yBVfFvxc="
   },
   "rateLimitMaxAge": 58823529
 }
@@ -104,6 +109,23 @@ Request:
     "base": "XAU",
     "quote": "USD"
   },
+  "debug": {
+    "cacheKey": "4LsxrIT483BCS93HKnZ32ylFSOU=",
+    "batchCacheKey": "J6x3JpCcFEUOtH+1f2g+Ku0h0S0=",
+    "batchChildrenCacheKeys": [
+      [
+        "4LsxrIT483BCS93HKnZ32ylFSOU=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "latest",
+            "base": "XAU",
+            "quote": "USD"
+          }
+        }
+      ]
+    ]
+  },
   "rateLimitMaxAge": 117647058
 }
 ```
@@ -150,6 +172,23 @@ Request:
     "base": "BTC",
     "quote": ["USD", "XAU"]
   },
+  "debug": {
+    "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
+    "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
+    "batchChildrenCacheKeys": [
+      [
+        "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "latest",
+            "base": "BTC",
+            "quote": "USD"
+          }
+        }
+      ]
+    ]
+  },
   "rateLimitMaxAge": 176470588
 }
 ```
@@ -171,6 +210,7 @@ Response:
     "unit": "per ounce",
     "results": [
       [
+        "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
         {
           "id": "1",
           "data": {
@@ -178,17 +218,52 @@ Response:
             "base": "BTC",
             "quote": "USD"
           },
+          "debug": {
+            "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
+            "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
+            "batchChildrenCacheKeys": [
+              [
+                "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
+                {
+                  "id": "1",
+                  "data": {
+                    "endpoint": "latest",
+                    "base": "BTC",
+                    "quote": "USD"
+                  }
+                }
+              ]
+            ]
+          },
           "rateLimitMaxAge": 176470588
         },
         42968.36778447169
       ],
       [
+        "jn7Ay27+0XZwS3+kIquAQibbEtg=",
         {
           "id": "1",
           "data": {
             "endpoint": "latest",
             "base": "BTC",
             "quote": "XAU"
+          },
+          "debug": {
+            "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
+            "batchCacheKey": "2E1RbkLbQOXUVtGI1E2+n/etEO8=",
+            "batchChildrenCacheKeys": [
+              [
+                "2ZgJBx2Rs86dhkQN/BET4ojSkTU=",
+                {
+                  "id": "1",
+                  "data": {
+                    "endpoint": "latest",
+                    "base": "BTC",
+                    "quote": "USD"
+                  }
+                }
+              ]
+            ]
           },
           "rateLimitMaxAge": 176470588
         },
@@ -211,3 +286,5 @@ Response:
 </details>
 
 ---
+
+MIT License

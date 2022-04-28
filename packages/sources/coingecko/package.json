@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coingecko-adapter",
-  "version": "1.4.8",
+  "version": "1.6.1",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,8 @@
 # Chainlink External Adapter for TrueUSD
 
-Version: 1.1.28
+![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json)
+
+Base URL https://api.real-time-attest.trustexplorer.io
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,23 +16,23 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [trueusd](#trueusd-endpoint) | `trueusd` |
 
----
-
 ## Trueusd Endpoint
 
-https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
+https://api.real-time-attest.trustexplorer.io/chainlink/TrueUSD
 
 `trueusd` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |    Name    | Aliases |                                                   Description                                                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :--------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           | resultPath |         | The object-path string to parse a single `result` value. When not provided the entire response will be provided. | string |         |         |            |                |
+| Required? | Name  | Aliases |                                                   Description                                                    |  Type  | Options |   Default    | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :--------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------: | :--------: | :------------: |
+|           | field |         | The object-path string to parse a single `result` value. When not provided the entire response will be provided. | string |         | `totalTrust` |            |                |
 
 ### Example
 
@@ -41,7 +43,10 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "trueusd",
-    "resultPath": "totalTrust"
+    "field": "totalTrust"
+  },
+  "debug": {
+    "cacheKey": "kQAHeHapBfNqwyQZWhSsSGx6zIA="
   }
 }
 ```
@@ -52,43 +57,92 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "responseData": {
-      "accountName": "TrueUSD",
-      "totalTrust": 1256102560.69,
-      "totalToken": 1250717352.7853243,
-      "updatedAt": "2021-11-08T13:49:45.112Z",
-      "token": [
-        {
-          "tokenName": "TUSDB (BNB)",
-          "principle": 617032.83532437
-        },
-        {
-          "tokenName": "TUSD (TRON)",
-          "principle": 269206919.78
-        },
-        {
-          "tokenName": "TUSD (ETH)",
-          "principle": 980893400.1700001
-        },
-        {
-          "tokenName": "TUSD (AVA)",
-          "principle": 0
-        }
-      ]
-    },
-    "message": [
+    "accountName": "TrueUSD",
+    "totalTrust": 1385192938.49,
+    "totalToken": 1373465520.7227664,
+    "updatedAt": "2022-04-05T16:45:04.973Z",
+    "token": [
       {
-        "msg": "get contractSupply successfully"
+        "principle": 5316985.88276643,
+        "tokenName": "TUSDB (BNB)"
+      },
+      {
+        "principle": 254336540.22,
+        "tokenName": "TUSD (TRON)"
+      },
+      {
+        "principle": 1109418823.8999999,
+        "tokenName": "TUSD (ETH)"
+      },
+      {
+        "principle": 4393170.72,
+        "tokenName": "TUSD (AVA)"
       }
     ],
-    "success": true,
-    "responseCode": 200,
-    "result": 1256102560.69
+    "result": 1385192938.49
   },
-  "result": 1256102560.69,
+  "result": 1385192938.49,
   "statusCode": 200,
   "providerStatusCode": 200
 }
 ```
 
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "trueusd",
+    "field": "totalToken"
+  },
+  "debug": {
+    "cacheKey": "6Mf4n28MSikPZvECj9Vl7v+OXxM="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "accountName": "TrueUSD",
+    "totalTrust": 1385192938.49,
+    "totalToken": 1373465520.7227664,
+    "updatedAt": "2022-04-05T16:45:04.973Z",
+    "token": [
+      {
+        "principle": 5316985.88276643,
+        "tokenName": "TUSDB (BNB)"
+      },
+      {
+        "principle": 254336540.22,
+        "tokenName": "TUSD (TRON)"
+      },
+      {
+        "principle": 1109418823.8999999,
+        "tokenName": "TUSD (ETH)"
+      },
+      {
+        "principle": 4393170.72,
+        "tokenName": "TUSD (AVA)"
+      }
+    ],
+    "result": 1373465520.7227664
+  },
+  "result": 1373465520.7227664,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
+
 ---
+
+MIT License

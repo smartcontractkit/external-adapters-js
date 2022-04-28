@@ -1,6 +1,6 @@
 # Chainlink External Adapter for View-Function
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json)
 
 External adapter for executing contract function and returning the result
 
@@ -17,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |             Options             |  Default   |
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------: | :--------: |
 |           | endpoint | The endpoint to use | string | [function](#endpoints-endpoint) | `function` |
-
----
 
 ## Endpoints Endpoint
 
@@ -46,6 +46,9 @@ Request:
     "endpoint": "function",
     "signature": "function symbol() view returns (string)",
     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+  },
+  "debug": {
+    "cacheKey": "i+gWrJZw68WU1SlaR+u5dJb+fbA="
   }
 }
 ```
@@ -65,3 +68,5 @@ Response:
 ```
 
 ---
+
+MIT License

@@ -1,8 +1,10 @@
 # Chainlink External Adapter for Expert Car Broker
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/expert-car-broker/package.json)
 
 Adapter to get data from Expert Car Broker.
+
+Base URL https://prices.expertcarbroker.workers.dev/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,11 +18,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |        Options         | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [feed](#feed-endpoint) | `feed`  |
-
----
 
 ## Feed Endpoint
 
@@ -44,6 +46,9 @@ Request:
     "endpoint": "feed",
     "product": "ferrari-f12tdf",
     "feedId": 1
+  },
+  "debug": {
+    "cacheKey": "N+ZifCh5pNiaCwuYd+LTr8Ge6G4="
   }
 }
 ```
@@ -64,3 +69,5 @@ Response:
 ```
 
 ---
+
+MIT License

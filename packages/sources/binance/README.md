@@ -1,8 +1,10 @@
 # Chainlink External Adapter for Binance
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance/package.json)
 
 Adapter using the public Binance market API for both HTTP(s) and WS.
+
+Base URL https://api.binance.com
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                        Options                         | Default  |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [ticker](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -48,6 +50,9 @@ Request:
     "base": "ETH",
     "quote": "BTC"
   },
+  "debug": {
+    "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0="
+  },
   "rateLimitMaxAge": 55
 }
 ```
@@ -69,3 +74,5 @@ Response:
 ```
 
 ---
+
+MIT License

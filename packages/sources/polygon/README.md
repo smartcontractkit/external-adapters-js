@@ -1,8 +1,10 @@
 # Chainlink Polygon External Adapter
 
-Version: 1.4.26
+![1.4.28](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polygon/package.json)
 
 This adapter is for [Polygon.io](https://polygon.io/) and supports the conversion endpoint.
+
+Base URL https://api.polygon.io
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                         Options                                                          |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [conversion](#conversion-endpoint), [forex](#tickers-endpoint), [price](#tickers-endpoint), [tickers](#tickers-endpoint) | `tickers` |
-
----
 
 ## Tickers Endpoint
 
@@ -50,6 +52,23 @@ Request:
     "endpoint": "tickers",
     "base": "USD",
     "quote": "GBP"
+  },
+  "debug": {
+    "cacheKey": "mHeJ4ndsgJT0zeWSJArS/54XXLQ=",
+    "batchCacheKey": "dmCbCvr59JP/HC4lKuMpTIk7QEo=",
+    "batchChildrenCacheKeys": [
+      [
+        "mHeJ4ndsgJT0zeWSJArS/54XXLQ=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "tickers",
+            "base": "USD",
+            "quote": "GBP"
+          }
+        }
+      ]
+    ]
   },
   "rateLimitMaxAge": 26666
 }
@@ -592,6 +611,9 @@ Request:
     "amount": 1,
     "precision": 6
   },
+  "debug": {
+    "cacheKey": "LSis8oL66JPkLWlEfF1HOR1J8GM="
+  },
   "rateLimitMaxAge": 13333
 }
 ```
@@ -624,3 +646,5 @@ Response:
 ```
 
 ---
+
+MIT License

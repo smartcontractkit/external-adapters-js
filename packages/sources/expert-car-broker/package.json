@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/expert-car-broker-adapter",
-  "version": "1.2.29",
+  "version": "1.2.30",
   "description": "Chainlink expert-car-broker adapter.",
   "keywords": [
     "Chainlink",

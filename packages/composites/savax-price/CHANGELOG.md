@@ -1,5 +1,20 @@
 # @chainlink/savax-price-adapter
 
+## 2.0.13
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/token-allocation-adapter@1.3.13
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.0.12
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.3.12
+
 ## 2.0.11
 
 ### Patch Changes

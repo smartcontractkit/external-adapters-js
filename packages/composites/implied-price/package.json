@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/implied-price-adapter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Chainlink implied-price adapter.",
   "keywords": [
     "Chainlink",
@@ -40,8 +40,8 @@
     "@types/jest": "27.0.3",
     "@types/node": "16.11.19",
     "@types/supertest": "2.0.11",
-    "nock": "^13.2.4",
-    "supertest": "^6.2.2",
+    "nock": "13.2.4",
+    "supertest": "6.2.2",
     "typescript": "4.3.5"
   }
 }

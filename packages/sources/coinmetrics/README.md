@@ -1,12 +1,14 @@
 # Chainlink External Adapter for Coinmetrics
 
-Version: 1.2.28
+![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json)
 
 ### Websocket support
 
 This adapter supports Websockets. Due to the design of the API, each unique pair will be opened as a separate connection on the WS API. This may cause unexpected behaviour for a large number of unique pairs.
 
 Supported DateTime formats: `yyyy-MM-dd`, `yyyyMMdd`, `yyyy-MM-ddTHH:mm:ss`, `yyyy-MM-ddTHHmmss`, `yyyy-MM-ddTHH:mm:ss.SSS`, `yyyy-MM-ddTHHmmss.SSS`, `yyyy-MM-ddTHH:mm:ss.SSSSSS`, `yyyy-MM-ddTHHmmss.SSSSSS`, `yyyy-MM-ddTHH:mm:ss.SSSSSSSSS`, `yyyy-MM-ddTHHmmss.SSSSSSSSS`
+
+Base URL https://api.coinmetrics.io/v4
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -20,11 +22,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                           Options                                           | Default |
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [burned](#burned-endpoint), [price](#price-endpoint), [total-burned](#totalburned-endpoint) | `price` |
-
----
 
 ## Price Endpoint
 
@@ -50,6 +52,9 @@ Request:
     "endpoint": "price",
     "base": "ETH",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "XTlxaPrvbw+XqgAa5P+iBEPG3CY="
   },
   "rateLimitMaxAge": 2666
 }
@@ -103,6 +108,9 @@ Request:
   "data": {
     "endpoint": "burned",
     "asset": "eth"
+  },
+  "debug": {
+    "cacheKey": "0l65yC+9msDIdJG9kTwGuYMO7GY="
   },
   "rateLimitMaxAge": 2000
 }
@@ -165,6 +173,9 @@ Request:
     "pageSize": 10000,
     "startTime": "2021-09-20",
     "endTime": "2021-09-25"
+  },
+  "debug": {
+    "cacheKey": "kX/YnNossBD0tbjiRHbpGhW6s+4="
   },
   "rateLimitMaxAge": 666
 }
@@ -244,6 +255,9 @@ Request:
     "startTime": "2021-08-05",
     "endTime": "2021-08-07"
   },
+  "debug": {
+    "cacheKey": "3AkR3dG+M+8hhKKhp8VdyT8DVGQ="
+  },
   "rateLimitMaxAge": 1333
 }
 ```
@@ -274,3 +288,5 @@ Response:
 </details>
 
 ---
+
+MIT License

@@ -66,6 +66,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [fixer](./fixer/README.md)
 - [flightaware](./flightaware/README.md)
 - [fmpcloud](./fmpcloud/README.md)
+- [galaxis](./galaxis/README.md)
 - [gemini](./gemini/README.md)
 - [genesis-volatility](./genesis-volatility/README.md)
 - [geodb](./geodb/README.md)

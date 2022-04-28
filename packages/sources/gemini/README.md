@@ -1,8 +1,10 @@
 # Chainlink External Adapter for Gemini
 
-Version: 2.1.28
+![2.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gemini/package.json)
 
 An external adapter to get data from Gemini
+
+Base URL https://api.gemini.com
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,11 +18,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
 |           | endpoint | The endpoint to use | string | [reserves](#reserves-endpoint) | `reserves` |
-
----
 
 ## Reserves Endpoint
 
@@ -46,6 +48,9 @@ Request:
     "token": "EFIL",
     "chainId": "mainnet",
     "network": "filecoin"
+  },
+  "debug": {
+    "cacheKey": "AeB8DrMgHWj63Dzq1Lv1k7MaCyE="
   }
 }
 ```
@@ -93,3 +98,5 @@ Response:
 ```
 
 ---
+
+MIT License

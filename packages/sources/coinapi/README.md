@@ -1,6 +1,8 @@
 # Chainlink CoinApi External Adapter
 
-Version: 1.1.29
+![1.1.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json)
+
+Base URL https://rest.coinapi.io/v1/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,11 +18,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                      Options                                      | Default  |
 | :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [assets](#assets-endpoint), [crypto](#crypto-endpoint), [price](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -43,9 +45,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
+    "endpoint": null,
     "base": "ETH",
     "quote": "BTC"
+  },
+  "debug": {
+    "cacheKey": "/0p7oZyBNGEdy5lSEifn7tRP5fo="
   }
 }
 ```
@@ -221,6 +226,23 @@ Request:
     "endpoint": "assets",
     "resultPath": "price_usd",
     "base": "ETH"
+  },
+  "debug": {
+    "cacheKey": "Ur/htdfKFQCEg9u3OP04uh/3KH4=",
+    "batchCacheKey": "bw8uI6H3Mcl4otBbQjQdDzp3KUA=",
+    "batchChildrenCacheKeys": [
+      [
+        "Ur/htdfKFQCEg9u3OP04uh/3KH4=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "assets",
+            "resultPath": "price_usd",
+            "base": "ETH"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -268,3 +290,5 @@ Response:
 ```
 
 ---
+
+MIT License
