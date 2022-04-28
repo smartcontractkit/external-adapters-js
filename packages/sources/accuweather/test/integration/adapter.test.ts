@@ -45,7 +45,7 @@ describe('execute', () => {
 
   beforeEach(async () => {
     context.server = await startServer()
-    context.req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+    context.req = request(`localhost:${(context.server.server.address() as AddressInfo).port}`)
   })
 
   afterEach((done) => {

@@ -17,9 +17,6 @@ import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { WSReset } from './middleware/ws/actions'
 
-const app = Fastify({
-  logger: false,
-})
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
 const baseUrl = getEnv('BASE_URL') as string
@@ -31,6 +28,9 @@ export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 export const initHandler =
   (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
   async (): Promise<FastifyInstance> => {
+    const app = Fastify({
+      logger: false,
+    })
     const name = adapterContext.name || ''
     const envDefaultOverrides = adapterContext.envDefaultOverrides
     const context: AdapterContext = {
