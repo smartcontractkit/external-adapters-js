@@ -2213,6 +2213,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/blocksize-capital-adapter@workspace:*, @chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.25
+    "@types/supertest": 2.0.11
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/blockstream-adapter@workspace:*, @chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
@@ -3089,6 +3106,7 @@ __metadata:
     "@chainlink/blockchain.com-adapter": "workspace:*"
     "@chainlink/blockchair-adapter": "workspace:*"
     "@chainlink/blockcypher-adapter": "workspace:*"
+    "@chainlink/blocksize-capital-adapter": "workspace:*"
     "@chainlink/blockstream-adapter": "workspace:*"
     "@chainlink/bravenewcoin-adapter": "workspace:*"
     "@chainlink/btc.com-adapter": "workspace:*"

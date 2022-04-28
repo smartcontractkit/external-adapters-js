@@ -263,6 +263,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/blockcypher"
       },
       {
+        "name": "@chainlink/blocksize-capital-adapter",
+        "reference": "workspace:packages/sources/blocksize-capital"
+      },
+      {
         "name": "@chainlink/blockstream-adapter",
         "reference": "workspace:packages/sources/blockstream"
       },
@@ -733,6 +737,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],
       ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],
+      ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],
       ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],
@@ -4510,6 +4515,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/blocksize-capital-adapter", [
+        ["workspace:packages/sources/blocksize-capital", {
+          "packageLocation": "./packages/sources/blocksize-capital/",
+          "packageDependencies": [
+            ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.25"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/blockstream-adapter", [
         ["workspace:packages/sources/blockstream", {
           "packageLocation": "./packages/sources/blockstream/",
@@ -5334,6 +5358,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],
             ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],
+            ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
