@@ -5,52 +5,61 @@ type AddressObject = {
   address: string
   network?: string
 }
-type AddressArray = AddressObject[]
 
-export const validateAddresses = (indexer: string, addresses: AddressArray): AddressArray => {
-  if (addresses[0]?.network) {
-    switch (addresses[0].network.toLowerCase()) {
-      case 'ethereum':
-        return filterDuplicates(getValidEvmAddresses(addresses))
+export const validateAddresses = (indexer: string, addresses: AddressObject[]): AddressObject[] => {
+  const validatedAddresses: AddressObject[] = []
+  for (const addressObj of addresses) {
+    const { address, network } = addressObj
+    let validatedAddress: string | undefined
+    if (network) {
+      switch (network.toLowerCase()) {
+        case 'ethereum':
+          validatedAddress = getValidEvmAddress(address)
+          if (validatedAddress)
+            validatedAddresses.push({ ...addressObj, address: validatedAddress })
+          break
+        default:
+          Logger.debug(
+            `There is no address validation procedure defined for the "${network}" network.`,
+          )
+          validatedAddresses.push(addressObj)
+          break
+      }
+    }
+    switch (indexer) {
+      case 'eth_balance':
+        validatedAddress = getValidEvmAddress(address)
+        if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
+        break
       default:
         Logger.debug(
-          `There is no address validation procedure defined for the "${addresses[0].network}" network.`,
+          `There is no address validation procedure defined for the "${indexer}" indexer.`,
         )
-        return addresses
+        validatedAddresses.push(addressObj)
+        break
     }
   }
-  switch (indexer) {
-    case 'eth_balance':
-      return filterDuplicates(getValidEvmAddresses(addresses))
-    default:
-      Logger.debug(`There is no address validation procedure defined for the "${indexer}" indexer.`)
-      return addresses
-  }
+  return validatedAddresses
 }
 
-/** Converts an array of AddressObjects to an array of AddressObjects with valid checksums
- *
- * If an address is encountered with an invalid checksum, it is removed from the array
- * and a warning is logged.
+/** Returns either a valid Ethereum-style address with a valid checksum
+ *  or logs a warning and returns undefined
  */
-const getValidEvmAddresses = (addresses: AddressArray): AddressArray => {
-  const validAddresses: AddressArray = []
-  for (const { address } of addresses) {
-    try {
-      validAddresses.push({ address: utils.getAddress(address) })
-    } catch (error) {
-      Logger.warn(
-        error,
-        `The address "${address}" is invalid or has an invalid checksum and has been removed from the request.`,
-      )
-    }
+const getValidEvmAddress = (address: string): string | undefined => {
+  try {
+    return utils.getAddress(address)
+  } catch (error) {
+    Logger.warn(
+      error,
+      `The address "${address}" is invalid or has an invalid checksum and has been removed from the request.`,
+    )
   }
-  return validAddresses
+  return
 }
 
-const filterDuplicates = (addresses: AddressArray): AddressArray => {
+export const filterDuplicates = (addresses: AddressObject[]): AddressObject[] => {
   const uniqueMap: Record<string, boolean> = {}
-  const uniqueAddresses: AddressArray = []
+  const uniqueAddresses: AddressObject[] = []
   for (const addressObject of addresses) {
     if (uniqueMap[addressObject.address]) {
       Logger.warn(

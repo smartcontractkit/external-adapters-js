@@ -4,8 +4,7 @@ import { makeOptions } from '../config'
 import { Indexer, runBalanceAdapter } from '../utils/balance'
 import { runProtocolAdapter } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
-import { validateAddresses } from '../utils/addressValidator'
-
+import { filterDuplicates, validateAddresses } from '../utils/addressValidator'
 export const supportedEndpoints = ['reserves']
 
 const paramOptions = makeOptions()
@@ -46,10 +45,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
   const validatedInput = { ...protocolOutput }
-  if (validator.validated.data.disableAddressValidation !== 'true') {
-    validatedInput.result = validateAddresses(indexer, protocolOutput.result)
-    validatedInput.data.result = protocolOutput.result
-  }
+  // Casting as a boolean is required because the 'Boolean' constructor can handle the string
+  // values "true" and "false" as well as the boolean values true and false as input
+  if (Boolean(validator.validated.data.disableAddressValidation) === false)
+    validatedInput.result = validateAddresses(indexer, validatedInput.result)
+  if (Boolean(validator.validated.data.disableDuplicateAddressFiltering) === false)
+    validatedInput.result = filterDuplicates(validatedInput.result)
+  validatedInput.data.result = validatedInput.result
   const balanceOutput = await runBalanceAdapter(
     indexer,
     context,

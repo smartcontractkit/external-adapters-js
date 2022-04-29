@@ -1,4 +1,4 @@
-import { validateAddresses } from '../../src/utils/addressValidator'
+import { validateAddresses, filterDuplicates } from '../../src/utils/addressValidator'
 
 describe('Correctly validates Ethereum addresses and filters duplicates', () => {
   const validChecksumAddresses = [
@@ -39,7 +39,7 @@ describe('Correctly validates Ethereum addresses and filters duplicates', () => 
       { address: '0x8288c280F35Fb8809305906C79BD075962079Dd8' },
       { address: '0x8288c280F35Fb8809305906C79BD075962079Dd8'.toLowerCase() },
     ]
-    expect(validateAddresses('eth_balance', invalidChecksumAddresses)).toEqual([
+    expect(filterDuplicates(validateAddresses('eth_balance', invalidChecksumAddresses))).toEqual([
       { address: '0x8288c280F35Fb8809305906C79BD075962079Dd8' },
     ])
   })
