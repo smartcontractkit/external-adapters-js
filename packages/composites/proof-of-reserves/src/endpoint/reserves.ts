@@ -45,8 +45,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
   const validatedInput = { ...protocolOutput }
-  // Casting as a boolean is required because the 'Boolean' constructor can handle the string
-  // values "true" and "false" as well as the boolean values true and false as input
   if (Boolean(validator.validated.data.disableAddressValidation) === false)
     validatedInput.result = validateAddresses(indexer, validatedInput.result)
   if (Boolean(validator.validated.data.disableDuplicateAddressFiltering) === false)
