@@ -1,4 +1,4 @@
-import { check, JSONValue, sleep } from 'k6'
+import { check, fail, JSONValue, sleep } from 'k6'
 import { SharedArray } from 'k6/data'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
@@ -58,11 +58,9 @@ let uniqueRequests = Math.min(requests.length, VU)
 if (__ENV.UNIQUE_REQUESTS && parseInt(__ENV.UNIQUE_REQUESTS)) {
   const envUniqueRequests = parseInt(__ENV.UNIQUE_REQUESTS)
   if (envUniqueRequests > uniqueRequests) {
-    console.error(
-      `Requested to use ${envUniqueRequests} unique requests, but only have ${uniqueRequests}`,
-    )
+    fail(`Requested to use ${envUniqueRequests} unique requests, but only have ${uniqueRequests}`)
   } else if (envUniqueRequests > VU) {
-    console.error(`Requested to use ${envUniqueRequests} unique requests, but only have ${VU} VUs`)
+    fail(`Requested to use ${envUniqueRequests} unique requests, but only have ${VU} VUs`)
   } else {
     uniqueRequests = envUniqueRequests
   }
@@ -123,22 +121,10 @@ export const options = {
   ],
 }
 
-const buildAdapterUrl = (): string => {
-  if (__ENV.LOCAL_ADAPTER_NAME) {
-    /**
-     * Local environment only handles a single endpoint
-     */
-    return `http://host.docker.internal:${__ENV.LOCAL_ADAPTER_PORT || '8080'}`
-  } else {
-    if (__ENV.QA_RELEASE_TAG) {
-      return `https://adapters.main.sdlc.cldev.sh/${__ENV.CI_ADAPTER_NAME}`
-    } else {
-      return `https://adapters.main.stage.cldev.sh/${__ENV.CI_ADAPTER_NAME}-load-testing`
-    }
-  }
+const adapterUrl = __ENV.ADAPTER_URL || ''
+if (adapterUrl === '') {
+  fail('Missing `ADAPTER_URL` env var!')
 }
-
-const adapterUrl = buildAdapterUrl()
 
 const valueWithinRange = (val: JSONValue): boolean => {
   if (val === null) {

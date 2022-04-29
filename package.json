@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -50,7 +50,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@types/babel__core": "7.1.18",
+    "@types/babel__core": "7.1.19",
     "@types/babel__preset-env": "7.9.2",
     "@types/eslint": "7.29.0",
     "@types/node": "16.11.25",

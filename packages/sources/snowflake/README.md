@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Snowflake
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/snowflake/package.json)
 
 Adapter to query data from [Snowflake](https://www.snowflake.com/). Currently only contains an endpoint to query US confirmed Covid cases per County.
 To setup the environment, here are additional docs to [assign a key pair to a user](https://docs.snowflake.com/en/developer-guide/sql-api/guide.html#using-key-pair-authentication) and [finding your account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier.html).
@@ -25,11 +25,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |               Options               |    Default    |
 | :-------: | :------: | :-----------------: | :----: | :---------------------------------: | :-----------: |
 |           | endpoint | The endpoint to use | string | [covid-cases](#covidcases-endpoint) | `covid-cases` |
-
----
 
 ## CovidCases Endpoint
 
@@ -55,6 +55,9 @@ Request:
     "endpoint": "covid-cases",
     "state": "Alabama",
     "county": "Autauga"
+  },
+  "debug": {
+    "cacheKey": "L1/QFC2aiWJ1ikadMBxtZATqGI0="
   }
 }
 ```
@@ -107,3 +110,5 @@ Response:
 ```
 
 ---
+
+MIT License

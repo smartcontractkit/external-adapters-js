@@ -1,6 +1,8 @@
 # Chainlink External Adapter for IEX Cloud
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json)
+
+Base URL https://cloud.iexapis.com/stable
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                Options                                                 | Default |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [eod-close](#eod-endpoint), [eod](#eod-endpoint), [stock](#stock-endpoint) | `stock` |
-
----
 
 ## Stock Endpoint
 
@@ -41,6 +43,9 @@ Request:
   "data": {
     "endpoint": "stock",
     "base": "USD"
+  },
+  "debug": {
+    "cacheKey": "vUFTdjiClK4fJKdPdN1wirkMJdk="
   }
 }
 ```
@@ -139,6 +144,9 @@ Request:
     "endpoint": "crypto",
     "base": "ETH",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U="
   }
 }
 ```
@@ -190,6 +198,9 @@ Request:
   "data": {
     "endpoint": "eod",
     "base": "USD"
+  },
+  "debug": {
+    "cacheKey": "ltjBvntfHXGAo/NFw8mBiRHcbMU="
   }
 }
 ```
@@ -265,3 +276,5 @@ Response:
 ```
 
 ---
+
+MIT License

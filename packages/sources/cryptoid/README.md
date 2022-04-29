@@ -1,6 +1,6 @@
 # Chainlink External Adapter for cryptoID
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoid/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +14,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                           Options                            |   Default    |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------: | :----------: |
 |           | endpoint | The endpoint to use | string | [difficulty](#bc_info-endpoint), [height](#bc_info-endpoint) | `difficulty` |
-
----
 
 ## Bc_info Endpoint
 
@@ -40,6 +40,9 @@ Request:
   "id": "1",
   "data": {
     "coin": "BTC"
+  },
+  "debug": {
+    "cacheKey": "76f4c62584acabdeb7f0078f000fb644d588fda9"
   }
 }
 ```
@@ -59,3 +62,5 @@ Response:
 ```
 
 ---
+
+MIT License

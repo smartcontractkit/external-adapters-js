@@ -1,8 +1,10 @@
 # Chainlink External Adapter for AlphaVantage
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/alphavantage/package.json)
 
 Use this adapter for connecting to [AlphaVantage's API](https://www.alphavantage.co/documentation/) from a Chainlink node.
+
+Base URL https://www.alphavantage.co/query
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [forex](#forex-endpoint), [price](#forex-endpoint) | `forex` |
-
----
 
 ## Forex Endpoint
 
@@ -49,6 +51,9 @@ Request:
     "endpoint": "forex",
     "base": "GBP",
     "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "nNGTBPQMuNeDIBcqHmoSuDeMaVw="
   }
 }
 ```
@@ -79,3 +84,5 @@ Response:
 ```
 
 ---
+
+MIT License

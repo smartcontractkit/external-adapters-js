@@ -1,8 +1,10 @@
 # Chainlink External Adapter for CoinCodex
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coincodex/package.json)
 
 Price adapter to query the price of an asset in USD. Only USD is supported by CoinCodex as a quote currency.
+
+Base URL https://coincodex.com/api/coincodex/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,11 +18,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [getcoin](#getcoin-endpoint) | `getcoin` |
-
----
 
 ## Getcoin Endpoint
 
@@ -41,6 +43,9 @@ Request:
   "id": "1",
   "data": {
     "base": "ETH"
+  },
+  "debug": {
+    "cacheKey": "6fb77e7265859558a11c0d4e7de704cb1de254c0"
   }
 }
 ```
@@ -60,3 +65,5 @@ Response:
 ```
 
 ---
+
+MIT License

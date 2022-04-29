@@ -1,6 +1,6 @@
 # Chainlink External Adapter for querying Terra view functions
 
-Version: 1.2.11
+![1.2.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json)
 
 This external adapter allows querying contracts on the Terra blockchain. A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 
@@ -21,11 +21,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |        Options         | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [view](#view-endpoint) | `view`  |
-
----
 
 ## View Endpoint
 
@@ -56,6 +56,9 @@ Request:
         "get_latest_round_data": {}
       }
     }
+  },
+  "debug": {
+    "cacheKey": "yeD/bgLqBlPxq5DdKNylNKinKXQ="
   }
 }
 ```
@@ -86,3 +89,5 @@ Response:
 ```
 
 ---
+
+MIT License

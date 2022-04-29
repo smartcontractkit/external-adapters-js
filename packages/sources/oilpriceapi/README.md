@@ -1,6 +1,8 @@
 # Chainlink OilpriceAPI External Adapter
 
-Version: 2.0.28
+![2.0.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/oilpriceapi/package.json)
+
+Base URL https://api.oilpriceapi.com/v1/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |         Options          | Default |
 | :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
-
----
 
 ## Price Endpoint
 
@@ -42,6 +44,9 @@ Request:
     "endpoint": "price",
     "base": "bz",
     "url": "prices/latest"
+  },
+  "debug": {
+    "cacheKey": "RPRR3Z04AWc/TGtHftP/S/2ByRc="
   },
   "rateLimitMaxAge": 292184
 }
@@ -74,6 +79,9 @@ Request:
     "base": "wti",
     "url": "prices/latest"
   },
+  "debug": {
+    "cacheKey": "l95L0aoLWaAHs3sTSB6amSkhM1w="
+  },
   "rateLimitMaxAge": 584368
 }
 ```
@@ -95,3 +103,5 @@ Response:
 </details>
 
 ---
+
+MIT License

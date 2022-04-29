@@ -1,8 +1,10 @@
 # Chainlink External Adapter for Tradingeconomics
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json)
 
 This adapter uses the Tradingeconomics WS stream
+
+Base URL wss://stream.tradingeconomics.com/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -18,11 +20,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |         Options          | Default |
 | :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
-
----
 
 ## Price Endpoint
 
@@ -45,6 +47,9 @@ Request:
     "endpoint": "price",
     "base": "EURUSD:CUR"
   },
+  "debug": {
+    "cacheKey": "1CbLEKoATl+/z1X7pi4LVsQRqBs="
+  },
   "rateLimitMaxAge": 7999
 }
 ```
@@ -64,3 +69,5 @@ Response:
 ```
 
 ---
+
+MIT License

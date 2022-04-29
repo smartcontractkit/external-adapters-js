@@ -62,9 +62,12 @@ const sendBatchedRequests =
     const tokenPrices = responseData.data.results
 
     return sortedSymbols.reduce((response, symbol) => {
-      const tokenPrice = tokenPrices.find(
-        (priceResponse) => (priceResponse[0] as AdapterResponse).data.base === symbol,
-      )
+      const tokenPrice = tokenPrices.find((priceResponse) => {
+        const includesCacheKey = priceResponse.length > 2
+        return includesCacheKey
+          ? (priceResponse[1] as AdapterResponse).data.base === symbol
+          : (priceResponse[0] as AdapterResponse).data.base === symbol
+      })
       if (!tokenPrice)
         throw new AdapterError({
           jobRunID,
@@ -72,9 +75,14 @@ const sendBatchedRequests =
           message: `Cannot find token price result for symbol ${symbol}`,
         })
 
+      const tokenPriceIncludesCacheKey = tokenPrice.length > 2
       response[symbol] = {
         quote: {
-          [quote]: { [withMarketCap ? 'marketCap' : 'price']: tokenPrice[1] },
+          [quote]: {
+            [withMarketCap ? 'marketCap' : 'price']: tokenPriceIncludesCacheKey
+              ? tokenPrice[2]
+              : tokenPrice[1],
+          },
         },
       }
       return response

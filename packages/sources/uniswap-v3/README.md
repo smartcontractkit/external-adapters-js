@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V3
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json)
 
 This adapter allows querying Uniswap V3 contracts
 
@@ -20,11 +20,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |          Options           | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -59,6 +59,9 @@ Request:
     "to": "USDT",
     "amount": 1,
     "feeTiers": [500, 3000, 10000]
+  },
+  "debug": {
+    "cacheKey": "RhKibLmo25iWe5ios1+5Oy7aAEI="
   }
 }
 ```
@@ -101,6 +104,9 @@ Request:
     "toDecimals": 18,
     "amount": 10,
     "feeTiers": [500, 3000, 10000]
+  },
+  "debug": {
+    "cacheKey": "8VpYvrdtdB65ZwdSYzEM0snM538="
   }
 }
 ```
@@ -129,3 +135,5 @@ Response:
 </details>
 
 ---
+
+MIT License

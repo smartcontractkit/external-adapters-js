@@ -52,6 +52,32 @@ describe('execute', () => {
         .expect(200)
       expect(response.body).toMatchSnapshot()
     })
+
+    const dataWithOverride: AdapterRequest = {
+      id,
+      data: {
+        base: 'overridablevalue',
+        quote: 'USDT-6D8',
+        overrides: {
+          binance_dex: {
+            overridablevalue: 'BUSD-BD1',
+          },
+        },
+      },
+    }
+
+    it('should return success for override', async () => {
+      mockRateResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(dataWithOverride)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
   })
 
   describe('rate api with invalid symbol', () => {

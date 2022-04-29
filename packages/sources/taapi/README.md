@@ -1,6 +1,8 @@
 # Chainlink External Adapter for taapi.io
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/taapi/package.json)
+
+Base URL https://api.taapi.io/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |             Options              |   Default   |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------: | :---------: |
 |           | endpoint | The endpoint to use | string | [indicator](#indicator-endpoint) | `indicator` |
-
----
 
 ## Indicator Endpoint
 
@@ -47,6 +49,9 @@ Request:
     "exchange": "binance",
     "indicator": "avgprice",
     "interval": "1h"
+  },
+  "debug": {
+    "cacheKey": "71cd2331edf138075e0eaf02d900d8bea1d8a3d6"
   }
 }
 ```
@@ -79,6 +84,9 @@ Request:
     "exchange": "binance",
     "indicator": "cci",
     "interval": "1h"
+  },
+  "debug": {
+    "cacheKey": "49fc570d9836f96bec30bd81db27e131181cf97e"
   }
 }
 ```
@@ -100,3 +108,5 @@ Response:
 </details>
 
 ---
+
+MIT License

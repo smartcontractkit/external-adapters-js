@@ -1,6 +1,8 @@
 # Chainlink External Adapter for Bitso
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitso/package.json)
+
+Base URL https://api.bitso.com/v3
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                        Options                         | Default  |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [ticker](#crypto-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -44,6 +46,9 @@ Request:
     "endpoint": "ticker",
     "base": "BTC",
     "quote": "ARS"
+  },
+  "debug": {
+    "cacheKey": "hSR6+zXoUHi/vgQ+myhslIXWkKQ="
   },
   "rateLimitMaxAge": 1111
 }
@@ -77,3 +82,5 @@ Response:
 ```
 
 ---
+
+MIT License

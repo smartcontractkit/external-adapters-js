@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'ARMANINO'
 
-export const DEFAULT_ENDPOINT = 'mc02'
+export const DEFAULT_ENDPOINT = 'mco2'
 export const DEFAULT_BASE_URL = 'https://api.real-time-attest.trustexplorer.io/chainlink'
 
 export const makeConfig = (prefix?: string): Config => {

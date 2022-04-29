@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinlore-adapter",
-  "version": "1.2.29",
+  "version": "1.2.30",
   "description": "Chainlink Coin Lore adapter.",
   "keywords": [
     "Chainlink",

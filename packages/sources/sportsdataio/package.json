@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/sportsdataio-adapter",
-  "version": "1.1.43",
+  "version": "1.1.44",
   "description": "Chainlink sportsdataio adapter.",
   "keywords": [
     "Chainlink",

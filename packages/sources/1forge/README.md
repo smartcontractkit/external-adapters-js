@@ -1,6 +1,8 @@
 # Chainlink External Adapter for 1Forge
 
-Version: 1.4.27
+![1.4.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json)
+
+Base URL https://api.1forge.com/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                    Options                                                     | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#quotes-endpoint), [price](#quotes-endpoint), [quotes](#quotes-endpoint) | `quotes` |
-
----
 
 ## Quotes Endpoint
 
@@ -50,6 +52,23 @@ Request:
     "endpoint": "quotes",
     "base": "USD",
     "quote": "EUR"
+  },
+  "debug": {
+    "cacheKey": "7bgmviEbqyIiUCIfawMxKPrtU7Y=",
+    "batchCacheKey": "sd6ZPVkDqkZ6Jd06Y/63s1xaO58=",
+    "batchChildrenCacheKeys": [
+      [
+        "7bgmviEbqyIiUCIfawMxKPrtU7Y=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "quotes",
+            "base": "USD",
+            "quote": "EUR"
+          }
+        }
+      ]
+    ]
   },
   "rateLimitMaxAge": 38400
 }
@@ -117,6 +136,9 @@ Request:
     "quote": "EUR",
     "quantity": 1
   },
+  "debug": {
+    "cacheKey": "EbMPGiWl2oE1AmSzqMaVAMCtj3I="
+  },
   "rateLimitMaxAge": 19200
 }
 ```
@@ -139,3 +161,5 @@ Response:
 ```
 
 ---
+
+MIT License
