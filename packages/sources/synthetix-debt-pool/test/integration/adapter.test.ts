@@ -151,7 +151,7 @@ afterAll(() => {
 })
 
 describe('synthetix-debt-pool', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

@@ -69,7 +69,7 @@ afterAll(() => {
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

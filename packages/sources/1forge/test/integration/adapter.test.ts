@@ -1,4 +1,4 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -20,7 +20,7 @@ import {
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
-import { util } from '@chainlink/ea-bootstrap'
+import { util, FastifyInstance } from '@chainlink/ea-bootstrap'
 
 describe('execute', () => {
   const id = '1'
@@ -98,7 +98,7 @@ describe('execute', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv

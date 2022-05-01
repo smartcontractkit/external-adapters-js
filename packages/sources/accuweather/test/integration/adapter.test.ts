@@ -12,7 +12,7 @@ import { AddressInfo } from 'net'
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  server: http.Server
+  server: FastifyInstance
   req: SuperTest<Test>
 }
 

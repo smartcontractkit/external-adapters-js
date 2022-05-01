@@ -25,7 +25,7 @@ import { util } from '@chainlink/ea-bootstrap'
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  server: http.Server
+  server: FastifyInstance
   req: SuperTest<Test>
 }
 
@@ -69,7 +69,7 @@ describe('execute', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv

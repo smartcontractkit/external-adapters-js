@@ -3,7 +3,7 @@ declare module '@chainlink/types' {
   import type { Cache, RateLimit } from '@chainlink/ea-bootstrap'
   import { cacheWarmer } from '@chainlink/ea-bootstrap'
 
-  export type { FastifyInstance } from 'fastify'
+  // export type { FastifyInstance } from 'fastify'
   export interface AdapterContext {
     name?: string
     cache?: Cache.CacheOptions

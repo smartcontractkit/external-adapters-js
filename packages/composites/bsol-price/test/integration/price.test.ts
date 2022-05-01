@@ -21,7 +21,7 @@ jest.mock('@chainlink/token-allocation-adapter', () => ({
 let oldEnv: NodeJS.ProcessEnv
 
 describe('accounts', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   const SOLIDO_ADDRESS = 'EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ'

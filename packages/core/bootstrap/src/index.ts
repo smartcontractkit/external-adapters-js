@@ -168,4 +168,5 @@ export {
   server,
   Cache,
   RateLimit,
+  FastifyInstance,
 }

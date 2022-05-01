@@ -8,7 +8,7 @@ import { mockAssetEndpoint, mockCryptoEndpoint } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('coinapi', () => {
-  let server: http.Server
+  let server: FastifyInstance
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   let req: SuperTest<Test>
 

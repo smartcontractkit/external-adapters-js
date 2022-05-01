@@ -18,7 +18,7 @@ import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -65,7 +65,7 @@ describe('execute', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv

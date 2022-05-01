@@ -7,7 +7,7 @@ import * as http from 'http'
 import { mockRecordCheckResponse } from './fixtures'
 
 describe('dns record check', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req =
     SuperTest <
     Test >

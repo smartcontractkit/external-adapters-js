@@ -23,7 +23,7 @@ import {
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
 describe('dxfeed', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -69,7 +69,7 @@ describe('dxfeed', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv

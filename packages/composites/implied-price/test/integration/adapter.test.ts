@@ -16,7 +16,7 @@ const setupEnvironment = (adapters: string[]) => {
 }
 
 describe('impliedPrice', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

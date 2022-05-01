@@ -102,7 +102,7 @@ jest.mock('ethers', () => {
 
 let oldEnv: NodeJS.ProcessEnv
 
-let server: http.Server
+let server: FastifyInstance
 let req: SuperTest<Test>
 const jobID = '1'
 

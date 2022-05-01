@@ -8,7 +8,7 @@ import { mockMCO2Response } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
 

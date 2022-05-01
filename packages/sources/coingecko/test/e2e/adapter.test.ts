@@ -6,7 +6,7 @@ import { server as startServer } from '../../src'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

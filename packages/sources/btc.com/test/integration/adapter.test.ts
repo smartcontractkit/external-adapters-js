@@ -7,7 +7,7 @@ import * as http from 'http'
 import { mockBalanceResponse, mockBlockResponse } from './fixtures'
 
 describe('execute', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

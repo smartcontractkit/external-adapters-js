@@ -50,7 +50,7 @@ const jobID = '1'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('price-bluna', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeEach(async () => {

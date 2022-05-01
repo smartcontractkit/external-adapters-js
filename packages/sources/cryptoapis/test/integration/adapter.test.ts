@@ -8,7 +8,7 @@ import { mockBalanceResponse, mockBcInfoResponse, mockCryptoResponse } from './f
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

@@ -9,7 +9,7 @@ import { AddressInfo } from 'net'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
   process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
   beforeAll(async () => {

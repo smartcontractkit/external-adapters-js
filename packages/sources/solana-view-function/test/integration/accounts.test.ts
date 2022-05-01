@@ -18,7 +18,7 @@ jest.mock('@solana/web3.js', () => ({
 let oldEnv: NodeJS.ProcessEnv
 
 describe('accounts', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

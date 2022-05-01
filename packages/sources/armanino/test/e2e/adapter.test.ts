@@ -7,7 +7,7 @@ import * as http from 'http'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
 

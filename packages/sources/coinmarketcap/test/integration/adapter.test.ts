@@ -18,7 +18,7 @@ import { mockSuccessfulHistoricalCapResponse } from './historicalFixtures'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('coinmarketcap', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {

@@ -22,7 +22,7 @@ const setupEnvironment = (adapters: string[]) => {
 }
 
 describe('medianizer', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
