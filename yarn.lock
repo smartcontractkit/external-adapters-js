@@ -2966,7 +2966,7 @@ __metadata:
     fast-redact: ^3.0.1
     lodash: ^4.17.21
     lru-cache: ^6.0.0
-    mock-socket: 9.1.2
+    mock-socket: 9.1.3
     object-hash: ^2.2.0
     object-path: ^0.11.5
     pino: ^6.13.0
@@ -3045,7 +3045,7 @@ __metadata:
     shelljs: 0.8.5
     snake-case: 3.0.4
     swagger-jsdoc: 6.1.0
-    ts-jest: 27.0.5
+    ts-jest: 27.0.7
     tslib: 2.3.1
     typescript: 4.3.5
     yaml: 1.10.2
@@ -3061,7 +3061,7 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.25
     hardhat: 2.9.3
-    mock-socket: 9.1.2
+    mock-socket: 9.1.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -10503,9 +10503,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:8.2.4":
-  version: 8.2.4
-  resolution: "babel-loader@npm:8.2.4"
+"babel-loader@npm:8.2.5":
+  version: 8.2.5
+  resolution: "babel-loader@npm:8.2.5"
   dependencies:
     find-cache-dir: ^3.3.1
     loader-utils: ^2.0.0
@@ -10514,7 +10514,7 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
     webpack: ">=2"
-  checksum: 4968251fc4af4279c8e44adba523ed4ad18942f04b37061298e81640d09a570f66e6d53948e39a7d3c3d24ca2b025f0a07c606fadd8e3fbffa8912fd789fd4f0
+  checksum: a6605557885eabbc3250412405f2c63ca87287a95a439c643fdb47d5ea3d5326f72e43ab97be070316998cb685d5dfbc70927ce1abe8be7a6a4f5919287773fb
   languageName: node
   linkType: hard
 
@@ -19670,7 +19670,7 @@ fsevents@^1.2.7:
     "@types/babel__preset-env": 7.9.2
     "@types/k6": 0.36.0
     "@types/node": 17.0.14
-    babel-loader: 8.2.4
+    babel-loader: 8.2.5
     clean-webpack-plugin: 4.0.0
     core-js: 3.20.3
     typescript: 4.3.5
@@ -20802,6 +20802,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"lodash.memoize@npm:4.x":
+  version: 4.1.2
+  resolution: "lodash.memoize@npm:4.1.2"
+  checksum: 9ff3942feeccffa4f1fafa88d32f0d24fdc62fd15ded5a74a5f950ff5f0c6f61916157246744c620173dddf38d37095a92327d5fd3861e2063e736a5c207d089
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -20907,7 +20914,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lodash@npm:4.x, lodash@npm:^4.17.11, lodash@npm:^4.17.14, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.7.0, lodash@npm:~4.17.10":
+"lodash@npm:^4.17.11, lodash@npm:^4.17.14, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.7.0, lodash@npm:~4.17.10":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -21728,10 +21735,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mock-socket@npm:9.1.2":
-  version: 9.1.2
-  resolution: "mock-socket@npm:9.1.2"
-  checksum: ef25dbd57b7360a0c1e0bb072aa0d73ac53d11d88c1efebedd48da006ccff77327628d707fecf651906e81cc488e8929c733bdb9f2c4c4f3772e99d6b903aace
+"mock-socket@npm:9.1.3":
+  version: 9.1.3
+  resolution: "mock-socket@npm:9.1.3"
+  checksum: 1f218de64778d0a196adb88f73f651d8daffc4800482637ce19c7fc79189fb0de5ff74a3d9307cc612af5f0c3473b9355582b832327b4324c445a57ebe82163b
   languageName: node
   linkType: hard
 
@@ -26994,15 +27001,15 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:27.0.5":
-  version: 27.0.5
-  resolution: "ts-jest@npm:27.0.5"
+"ts-jest@npm:27.0.7":
+  version: 27.0.7
+  resolution: "ts-jest@npm:27.0.7"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
     jest-util: ^27.0.0
     json5: 2.x
-    lodash: 4.x
+    lodash.memoize: 4.x
     make-error: 1.x
     semver: 7.x
     yargs-parser: 20.x
@@ -27021,7 +27028,7 @@ resolve@1.17.0:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: fd53cdb6f913cbe802799d2b491f70f33c52c840c4b8483cecf600ff360efbd00c8d7ed9eb0dd677219f330ee38928b7b9890e9853e9f4d3574b9d8e1dcf4a30
+  checksum: 3711361cb5ae54aac547b00f8ad118ec88333c391af4bff0420497e9faa296eace4e8272c627ecbf4be675af9f68c437e4c2ccc5693c6d744796ec7da6dda131
   languageName: node
   linkType: hard
 
