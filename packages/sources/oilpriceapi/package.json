@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/oilpriceapi-adapter",
-  "version": "2.0.30",
+  "version": "2.0.31",
   "description": "Chainlink OilpriceAPI adapter.",
   "keywords": [
     "Chainlink",

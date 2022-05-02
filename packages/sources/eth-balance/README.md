@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Eth-balance
 
-![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json)
+![1.2.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json)
 
 External adapter for fetching balances for ETH addresses
 

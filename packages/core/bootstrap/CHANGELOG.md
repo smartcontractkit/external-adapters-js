@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.2.0
+
+### Minor Changes
+
+- 9a68af1e1: Remove rate limiting and slowdown middlewares
+
 ## 2.1.0
 
 ### Minor Changes

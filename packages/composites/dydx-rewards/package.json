@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dydx-rewards-adapter",
-  "version": "1.1.20",
+  "version": "1.1.21",
   "description": "Chainlink dydx-rewards adapter.",
   "keywords": [
     "Chainlink",
