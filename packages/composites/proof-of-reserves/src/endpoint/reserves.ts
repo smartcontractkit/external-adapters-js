@@ -45,9 +45,15 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
   const validatedInput = { ...protocolOutput }
-  if (Boolean(validator.validated.data.disableAddressValidation) === false)
+  if (
+    validator.validated.data.disableAddressValidation &&
+    validator.validated.data.disableAddressValidation !== 'false'
+  )
     validatedInput.result = validateAddresses(indexer, validatedInput.result)
-  if (Boolean(validator.validated.data.disableDuplicateAddressFiltering) === false)
+  if (
+    validator.validated.data.disableDuplicateAddressFiltering &&
+    validator.validated.data.disableDuplicateAddressFiltering !== 'false'
+  )
     validatedInput.result = filterDuplicates(validatedInput.result)
   validatedInput.data.result = validatedInput.result
   const balanceOutput = await runBalanceAdapter(
