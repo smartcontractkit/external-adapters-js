@@ -2966,7 +2966,7 @@ __metadata:
     fast-redact: ^3.0.1
     lodash: ^4.17.21
     lru-cache: ^6.0.0
-    mock-socket: 9.1.2
+    mock-socket: 9.1.3
     object-hash: ^2.2.0
     object-path: ^0.11.5
     pino: ^6.13.0
@@ -3061,7 +3061,7 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.25
     hardhat: 2.9.3
-    mock-socket: 9.1.2
+    mock-socket: 9.1.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -21723,10 +21723,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mock-socket@npm:9.1.2":
-  version: 9.1.2
-  resolution: "mock-socket@npm:9.1.2"
-  checksum: ef25dbd57b7360a0c1e0bb072aa0d73ac53d11d88c1efebedd48da006ccff77327628d707fecf651906e81cc488e8929c733bdb9f2c4c4f3772e99d6b903aace
+"mock-socket@npm:9.1.3":
+  version: 9.1.3
+  resolution: "mock-socket@npm:9.1.3"
+  checksum: 1f218de64778d0a196adb88f73f651d8daffc4800482637ce19c7fc79189fb0de5ff74a3d9307cc612af5f0c3473b9355582b832327b4324c445a57ebe82163b
   languageName: node
   linkType: hard
 
