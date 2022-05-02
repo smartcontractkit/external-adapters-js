@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/wrapped-adapter",
-  "version": "2.1.30",
+  "version": "2.1.31",
   "description": "Chainlink wrapped adapter.",
   "keywords": [
     "Chainlink",

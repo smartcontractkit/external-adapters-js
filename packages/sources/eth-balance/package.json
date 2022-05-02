@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/eth-balance-adapter",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Chainlink eth-balance adapter.",
   "keywords": [
     "Chainlink",

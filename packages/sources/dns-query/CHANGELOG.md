@@ -1,5 +1,13 @@
 # @chainlink/dns-query-adapter
 
+## 1.2.26
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.25
 
 ### Patch Changes

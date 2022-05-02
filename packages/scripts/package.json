@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-scripts",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "dependencies": {
     "@actions/core": "1.6.0",
     "@chainlink/ea-bootstrap": "workspace:*",

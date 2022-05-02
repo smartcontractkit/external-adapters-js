@@ -1,5 +1,27 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.14
+
+### Patch Changes
+
+- 87ad17007: Updated token-allocation batched request handling to handle requests with or without cache keys
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/amberdata-adapter@1.4.2
+  - @chainlink/cfbenchmarks-adapter@1.4.23
+  - @chainlink/coinapi-adapter@1.1.32
+  - @chainlink/coingecko-adapter@1.6.2
+  - @chainlink/coinmarketcap-adapter@1.3.32
+  - @chainlink/coinmetrics-adapter@1.2.32
+  - @chainlink/coinpaprika-adapter@1.8.2
+  - @chainlink/cryptocompare-adapter@1.3.20
+  - @chainlink/finage-adapter@1.3.32
+  - @chainlink/kaiko-adapter@1.3.3
+  - @chainlink/ncfx-adapter@1.2.9
+  - @chainlink/nomics-adapter@1.2.2
+  - @chainlink/tiingo-adapter@1.10.2
+
 ## 1.3.13
 
 ### Patch Changes
