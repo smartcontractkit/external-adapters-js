@@ -6,34 +6,24 @@ type AddressObject = {
   network?: string
 }
 
+const indexerToNetwork: Record<string, string> = {
+  eth_balance: 'ethereum',
+}
+
 export const validateAddresses = (indexer: string, addresses: AddressObject[]): AddressObject[] => {
   const validatedAddresses: AddressObject[] = []
   for (const addressObj of addresses) {
     const { address, network } = addressObj
     let validatedAddress: string | undefined
-    if (network) {
-      switch (network.toLowerCase()) {
-        case 'ethereum':
-          validatedAddress = getValidEvmAddress(address)
-          if (validatedAddress)
-            validatedAddresses.push({ ...addressObj, address: validatedAddress })
-          break
-        default:
-          Logger.debug(
-            `There is no address validation procedure defined for the "${network}" network.`,
-          )
-          validatedAddresses.push(addressObj)
-          break
-      }
-    }
-    switch (indexer) {
-      case 'eth_balance':
+    const validationNetwork = network || indexerToNetwork[indexer]
+    switch (validationNetwork.toLowerCase()) {
+      case 'ethereum':
         validatedAddress = getValidEvmAddress(address)
         if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
         break
       default:
         Logger.debug(
-          `There is no address validation procedure defined for the "${indexer}" indexer.`,
+          `There is no address validation procedure defined for the "${network}" network.`,
         )
         validatedAddresses.push(addressObj)
         break

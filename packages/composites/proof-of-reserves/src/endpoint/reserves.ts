@@ -34,6 +34,18 @@ const inputParameters: InputParameters = {
     type: 'array',
     description: 'An array of addresses to get the balance from, when `protocol` is set to `list`',
   },
+  disableAddressValidation: {
+    required: false,
+    type: 'boolean',
+    description: 'Gives the option to disable address validation before the balances are fetched.',
+  },
+  disableDuplicateAddressFiltering: {
+    required: false,
+    type: 'boolean',
+    description:
+      'Gives the option to disabled the filtering of duplicate addresses in a request. ' +
+      'If this is set to `true` and a duplicate address is contained in the request, the balance of that address will be counted twice.',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
