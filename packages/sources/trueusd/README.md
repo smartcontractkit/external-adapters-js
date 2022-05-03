@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TrueUSD
 
-![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json)
+![1.2.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json)
 
 Base URL https://api.real-time-attest.trustexplorer.io
 

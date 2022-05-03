@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Deribit
 
-![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json)
+![1.1.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json)
 
 Base URL https://www.deribit.com/api/v2/public/
 

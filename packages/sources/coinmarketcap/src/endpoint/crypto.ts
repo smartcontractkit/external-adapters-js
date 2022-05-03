@@ -91,6 +91,7 @@ const presetIds: { [symbol: string]: number } = {
   SUSHI: 6758,
   YFI: 5864,
   BAL: 5728,
+  STETH: 8085,
   '1INCH': 8104,
 }
 

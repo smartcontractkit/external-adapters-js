@@ -1,6 +1,6 @@
 # Chainlink External Adapter for taapi.io
 
-![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/taapi/package.json)
+![1.1.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/taapi/package.json)
 
 Base URL https://api.taapi.io/
 
