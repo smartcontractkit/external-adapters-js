@@ -36,3 +36,24 @@ export const SYNTHETIX_DEBT_SHARE_ABI = [
     type: 'function',
   },
 ]
+
+export const SYNTHETIX_BRIDGE_ABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'synthTransferReceived',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'synthTransferSent',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+]

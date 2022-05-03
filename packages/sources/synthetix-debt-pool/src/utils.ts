@@ -16,7 +16,7 @@ export const inputParameters: InputParameters = {
 type GetDebtData = (
   jobRunID: string,
   config: Config,
-  chainsToQuery: string[],
+  chainsToQuery: [string, number][],
 ) => Promise<ethers.BigNumber>
 
 export const getDataFromAcrossChains = async (
@@ -33,7 +33,9 @@ export const getDataFromAcrossChains = async (
     chainSources = [SupportedChains.ETHEREUM, SupportedChains.OPTIMISM]
   }
   validateChainSources(jobRunID, chainSources)
-  const debt = await getDebtData(jobRunID, config, chainSources)
+  // Pin to current moment's latest blocks to ensure time consistency
+  const latestBlockByChain = await getLatestBlockByChain(jobRunID, config, chainSources)
+  const debt = await getDebtData(jobRunID, config, latestBlockByChain)
   const result = {
     data: {
       result: debt.toString(),
@@ -67,3 +69,41 @@ export const getContractAddress = async (
   const contractNameBytes32 = ethers.utils.formatBytes32String(contractName)
   return await addressResolver.getAddress(contractNameBytes32)
 }
+
+export const getSynthetixBridgeName = (networkName: string, jobRunID: string): string => {
+  if (networkName === SupportedChains.ETHEREUM || networkName === SupportedChains.KOVAN)
+    return 'SynthetixBridgeToOptimism'
+  if (networkName === SupportedChains.OPTIMISM || networkName === SupportedChains.KOVAN_OPTIMISM)
+    return 'SynthetixBridgeToBase'
+  throw new AdapterError({
+    jobRunID,
+    message: `${networkName} is not a supported network.}`,
+  })
+}
+
+export const getLatestBlockByChain = async (
+  jobRunID: string,
+  config: Config,
+  chainsToQuery: string[],
+): Promise<[string, number][]> =>
+  await Promise.all(
+    chainsToQuery.map(async (network): Promise<[string, number]> => {
+      if (!config.chains[network])
+        throw new AdapterError({
+          jobRunID,
+          statusCode: 500,
+          message: `Chain ${network} not configured`,
+        })
+
+      const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
+      try {
+        const latestBlock = await networkProvider.getBlockNumber()
+        return [network, latestBlock]
+      } catch (e) {
+        throw new AdapterError({
+          jobRunID,
+          message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${e}`,
+        })
+      }
+    }),
+  )
