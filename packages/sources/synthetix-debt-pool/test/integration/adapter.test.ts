@@ -12,12 +12,14 @@ const mockChainConfig = {
     addressProviderContractAddress: 'fake-ethereum-address-provider',
     debtPoolAddress: 'fake-ethereum-debt-pool-address',
     synthetixDebtShareAddress: 'fake-ethereum-synthetix-debt-share-address',
+    synthetixBridgeAddress: 'fake-ethereum-synthetix-bridge-address',
   },
   optimism: {
     rpcUrl: 'fake-optimism-rpc-url',
     addressProviderContractAddress: 'fake-optimism-address-provider',
     debtPoolAddress: 'fake-optimism-debt-pool-address',
     synthetixDebtShareAddress: 'fake-optimism-synthetix-debt-share-address',
+    synthetixBridgeAddress: 'fake-ethereum-synthetix-bridge-address',
   },
 }
 
@@ -28,6 +30,8 @@ const mockEthereumAddressProviderContract = {
         return mockChainConfig.ethereum.debtPoolAddress
       case ethers.utils.formatBytes32String('SynthetixDebtShare'):
         return mockChainConfig.ethereum.synthetixDebtShareAddress
+      case ethers.utils.formatBytes32String('SynthetixBridgeToOptimism'):
+        return mockChainConfig.optimism.synthetixBridgeAddress
     }
   }),
 }
@@ -39,6 +43,8 @@ const mockOptimismAddressProviderContract = {
         return mockChainConfig.optimism.debtPoolAddress
       case ethers.utils.formatBytes32String('SynthetixDebtShare'):
         return mockChainConfig.optimism.synthetixDebtShareAddress
+      case ethers.utils.formatBytes32String('SynthetixBridgeToBase'):
+        return mockChainConfig.optimism.synthetixBridgeAddress
     }
   }),
 }
@@ -59,8 +65,18 @@ const mockOptimismSynthetixDebtShareContract = {
   totalSupply: jest.fn().mockReturnValue(BigNumber.from('38408585495575839320471531')),
 }
 
-const mockEthereumProvider = jest.fn()
-const mockOptimismProvider = jest.fn()
+const mockEthereumSynthetixBridgeContract = {
+  synthTransferReceived: jest.fn().mockReturnValue(BigNumber.from('0')),
+  synthTransferSent: jest.fn().mockReturnValue(BigNumber.from('2000000000000000000')),
+}
+
+const mockOptimismSynthetixBridgeContract = {
+  synthTransferReceived: jest.fn().mockReturnValue(BigNumber.from('0')),
+  synthTransferSent: jest.fn().mockReturnValue(BigNumber.from('2000000000000000000')),
+}
+
+const mockEthereumProvider = { getBlockNumber: jest.fn() }
+const mockOptimismProvider = { getBlockNumber: jest.fn() }
 
 jest.mock('ethers', () => {
   const actualEthersLib = jest.requireActual('ethers')
@@ -92,6 +108,10 @@ jest.mock('ethers', () => {
             return mockEthereumSynthetixDebtShareContract
           case mockChainConfig.optimism.synthetixDebtShareAddress:
             return mockOptimismSynthetixDebtShareContract
+          case mockChainConfig.ethereum.synthetixBridgeAddress:
+            return mockEthereumSynthetixBridgeContract
+          case mockChainConfig.optimism.synthetixBridgeAddress:
+            return mockOptimismSynthetixBridgeContract
           default:
             break
         }
