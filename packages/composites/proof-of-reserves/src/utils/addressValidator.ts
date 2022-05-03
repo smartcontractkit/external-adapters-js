@@ -42,8 +42,9 @@ export const validateAddresses = (indexer: string, addresses: AddressObject[]): 
   return validatedAddresses
 }
 
-/** Returns either a valid Ethereum-style address with a valid checksum
- *  or logs a warning and returns undefined
+/**
+ * Returns either a valid Ethereum-style address with a valid checksum
+ * or logs a warning and returns undefined
  */
 const getValidEvmAddress = (address: string): string | undefined => {
   try {
