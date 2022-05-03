@@ -1,6 +1,8 @@
 # Chainlink External Adapter for Cache.gold
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cache.gold/package.json)
+
+Base URL https://contract.cache.gold/api
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |              Options               |   Default    |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------------: | :----------: |
 |           | endpoint | The endpoint to use | string | [lockedGold](#lockedgold-endpoint) | `lockedGold` |
-
----
 
 ## LockedGold Endpoint
 
@@ -39,6 +41,9 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "lockedGold"
+  },
+  "debug": {
+    "cacheKey": "aZoya+gFve1ms9ObNR40aMrNGvE="
   }
 }
 ```
@@ -59,3 +64,5 @@ Response:
 ```
 
 ---
+
+MIT License

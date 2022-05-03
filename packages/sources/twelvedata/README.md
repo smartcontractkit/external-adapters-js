@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Twelvedata
 
-Version: 1.1.28
+![1.1.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twelvedata/package.json)
 
 `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
 
@@ -19,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                             Options                                                                             |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [closing](#closing-endpoint), [crypto](#price-endpoint), [eod](#closing-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint) | `closing` |
-
----
 
 ## Closing Endpoint
 
@@ -47,6 +47,9 @@ Request:
   "data": {
     "endpoint": "closing",
     "base": "VXX"
+  },
+  "debug": {
+    "cacheKey": "ZWDHGGXpQ0kNUlJ7WAZMGVmrHww="
   }
 }
 ```
@@ -94,6 +97,9 @@ Request:
   "data": {
     "endpoint": "price",
     "base": "VXX"
+  },
+  "debug": {
+    "cacheKey": "vRWHl92FGmzqMko1oZyLtKloXNI="
   }
 }
 ```
@@ -114,3 +120,5 @@ Response:
 ```
 
 ---
+
+MIT License

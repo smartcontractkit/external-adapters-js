@@ -1,6 +1,8 @@
 # Chainlink External Adapter for Nikkei
 
-Version: 1.1.38
+![1.1.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nikkei/package.json)
+
+Base URL https://indexes.nikkei.co.jp/en/nkave/
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [price](#stock-endpoint), [stock](#stock-endpoint) | `stock` |
-
----
 
 ## Stock Endpoint
 
@@ -42,6 +44,9 @@ Request:
   "data": {
     "endpoint": "stock",
     "base": "N225"
+  },
+  "debug": {
+    "cacheKey": "FEPCw1TB6aPM9u5xV1UgzEwAHx4="
   }
 }
 ```
@@ -75,3 +80,5 @@ Response:
 ```
 
 ---
+
+MIT License

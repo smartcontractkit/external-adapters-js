@@ -1,6 +1,6 @@
 # Chainlink External Adapters for querying wBTC custodial address set
 
-Version: 1.3.28
+![1.3.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wbtc-address-set/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +15,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                            Options                             |   Default   |
 | :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------: | :---------: |
 |           | endpoint | The endpoint to use | string | [addresses](#addresses-endpoint), [members](#members-endpoint) | `addresses` |
-
----
 
 ## Addresses Endpoint
 
@@ -38,6 +38,9 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "addresses"
+  },
+  "debug": {
+    "cacheKey": "5r8fx7Q3nfO/LZJVMjBrF5H2r1c="
   }
 }
 ```
@@ -98,6 +101,9 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "members"
+  },
+  "debug": {
+    "cacheKey": "FOTIQNRdneVgiSXx8lU+mK3y2fs="
   }
 }
 ```
@@ -140,3 +146,5 @@ Response:
 ```
 
 ---
+
+MIT License

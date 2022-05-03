@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute mc02 endpoint should return success 1`] = `
+exports[`execute mco2 endpoint should return success 1`] = `
 Object {
   "data": Object {
     "result": 3041044,

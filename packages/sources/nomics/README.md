@@ -1,8 +1,10 @@
 # Chainlink External Adapter for Nomics
 
-Version: 1.1.12
+![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
 
 An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
+
+Base URL https://api.nomics.com/v1
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,11 +19,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                                            Options                                                                                             | Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [filtered](#filtered-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint) | `crypto` |
-
----
 
 ## Globalmarketcap Endpoint
 
@@ -40,6 +42,9 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "globalmarketcap"
+  },
+  "debug": {
+    "cacheKey": "UgXT1GeGBteW8oldPY+NnKaTMEA="
   }
 }
 ```
@@ -374,6 +379,24 @@ Request:
     "resultPath": "price",
     "base": "BTC",
     "quote": "EUR"
+  },
+  "debug": {
+    "cacheKey": "ddvw8QbpkwL0/07MqB7W6GbRqvM=",
+    "batchCacheKey": "hKkUywMJxqGMRItXo/4YOoaLMBg=",
+    "batchChildrenCacheKeys": [
+      [
+        "ddvw8QbpkwL0/07MqB7W6GbRqvM=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "crypto",
+            "resultPath": "price",
+            "base": "BTC",
+            "quote": "EUR"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -498,6 +521,9 @@ Request:
     "resultPath": "price",
     "base": "LINK",
     "exchanges": "binance,coinbase"
+  },
+  "debug": {
+    "cacheKey": "zpqIgVvEnh4X7tqChwaEz9+AiFM="
   }
 }
 ```
@@ -519,3 +545,5 @@ Response:
 ```
 
 ---
+
+MIT License

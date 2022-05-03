@@ -1,5 +1,19 @@
 # @chainlink/coinmetrics-adapter
 
+## 1.2.31
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.2.30
+
+### Patch Changes
+
+- aeec388a3: Add ETH and BTC to valid quotes for WS endpoint
+
 ## 1.2.29
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Blockcypher
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blockcypher/package.json)
 
 Queries BTC address balance from blockcypher.com
 
@@ -16,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
-
----
 
 ## Balance Endpoint
 
@@ -58,6 +58,9 @@ Request:
         "coin": "btc"
       }
     ]
+  },
+  "debug": {
+    "cacheKey": "MHxB7oFt1/IGrY026AfawQ3I9ok="
   },
   "rateLimitMaxAge": 20000
 }
@@ -117,3 +120,5 @@ Response:
 ```
 
 ---
+
+MIT License

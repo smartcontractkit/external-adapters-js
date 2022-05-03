@@ -1,5 +1,25 @@
 ## v1.1.0
 
+## 1.10.1
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.10.0
+
+### Minor Changes
+
+- 1695f8882: Add Tiingo forex ws support
+
+## 1.9.0
+
+### Minor Changes
+
+- 1695f8882: Add Tiingo forex ws support
+
 ## 1.8.9
 
 ### Patch Changes

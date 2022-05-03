@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/implied-price-adapter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Chainlink implied-price adapter.",
   "keywords": [
     "Chainlink",

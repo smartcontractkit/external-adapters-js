@@ -1,6 +1,8 @@
 # Chainlink External Adapters to query address balance from SoChain
 
-Version: 1.2.28
+![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json)
+
+Base URL https://sochain.com
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
-
----
 
 ## Balance Endpoint
 
@@ -61,6 +63,9 @@ Request:
         "coin": "btc"
       }
     ]
+  },
+  "debug": {
+    "cacheKey": "AExDilGMUjYLkzTZ2d0iA6PbB40="
   },
   "rateLimitMaxAge": 222
 }
@@ -126,3 +131,5 @@ Response:
 ```
 
 ---
+
+MIT License

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/readme-test-adapter",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",

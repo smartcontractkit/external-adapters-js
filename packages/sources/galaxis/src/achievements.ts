@@ -15,6 +15,7 @@ import {
   TeamStruct,
 } from './types'
 import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
+import { BitArray } from '@ethercards/ec-util'
 
 export const getEncodedCallsResult = async (
   jobRunID: string,
@@ -163,7 +164,7 @@ const processSingleAchievement = async (
     } else {
       encodedCalls = updatedEncodedCalls
       const hasAchievementBeenFullyProcessed =
-        endEventIdx === groupedAchievements[achievementID].length
+        endEventIdx > groupedAchievements[achievementID].length
       if (!hasAchievementBeenFullyProcessed) {
         // If achievement has not been processed then we pop the last element from the calls array
         // to remove the function call for that achievement, add another event in the next iteration
@@ -366,20 +367,31 @@ const getSetDataEncodedCallForOnlyBooleanAchievement = async (
 ): Promise<string> => {
   const pageNumber = 0
   const numPageRecords = await ecRegistryMap.playerCount()
-  const oldValues = await ecRegistry.getData(achievementID, pageNumber, numPageRecords)
-  const valueDifferences: number[] = []
-  const valueDifferenceIDs: number[] = []
+  const chainData = await ecRegistry.getData(achievementID, pageNumber, numPageRecords)
+  const updatedTraitData = BitArray.fromUint8Array(chainData)
+
   for (let z = 0; z < updatedAchievements.length; z++) {
-    const boolAsNum = typeof updatedAchievements[z].value === 'boolean' ? 1 : 0
-    if (oldValues[z] !== boolAsNum) {
-      valueDifferenceIDs.push(updatedAchievements[z].mappedID)
-      valueDifferences.push(boolAsNum)
+    if (updatedAchievements[z].value) {
+      updatedTraitData.on(updatedAchievements[z].mappedID)
+    } else {
+      updatedTraitData.off(updatedAchievements[z].mappedID)
+    }
+  }
+
+  const updatedTraitDataArr = updatedTraitData.toArray()
+  const newDataIndexes: number[] = []
+  const newDataValues: number[] = []
+
+  for (let z = 0; z < updatedTraitDataArr.length; z++) {
+    if (chainData[z] !== updatedTraitDataArr[z]) {
+      newDataIndexes.push(z)
+      newDataValues.push(updatedTraitDataArr[z])
     }
   }
   return ecRegistry.interface.encodeFunctionData('setData', [
     achievementID,
-    valueDifferenceIDs,
-    valueDifferences,
+    newDataIndexes,
+    newDataValues,
   ])
 }
 
