@@ -4152,6 +4152,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.33"],
             ["ethers", "npm:5.4.6"],
             ["express", "npm:4.17.1"],
+            ["fastify", "npm:3.27.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
