@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinbase
 
-![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
+![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
 
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 

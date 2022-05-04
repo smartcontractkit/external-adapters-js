@@ -112,9 +112,4 @@ export const httpRequestsDataProviderHits = new client.Counter({
   labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
 })
 
-export const httpRateLimit = new client.Counter({
-  name: 'http_requests_rate_limit',
-  help: 'The number of denied requests because of server rate limiting',
-})
-
 export * as util from './util'

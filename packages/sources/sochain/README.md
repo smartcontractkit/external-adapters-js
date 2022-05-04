@@ -1,6 +1,6 @@
 # Chainlink External Adapters to query address balance from SoChain
 
-![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json)
+![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json)
 
 Base URL https://sochain.com
 
