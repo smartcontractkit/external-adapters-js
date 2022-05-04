@@ -1,3 +1,15 @@
+export const READ_PROXY_ABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'target',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
+]
+
 export const ADDRESS_RESOLVER_ABI = [
   {
     constant: true,

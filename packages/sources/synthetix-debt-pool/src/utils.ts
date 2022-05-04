@@ -3,7 +3,7 @@ import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/typ
 import { ethers } from 'ethers'
 import { SupportedChains, Config } from './config'
 import { AdapterError } from '@chainlink/ea-bootstrap'
-import { ADDRESS_RESOLVER_ABI } from './endpoint/abi'
+import { READ_PROXY_ABI, ADDRESS_RESOLVER_ABI } from './endpoint/abi'
 
 export const inputParameters: InputParameters = {
   chainSources: {
@@ -54,6 +54,14 @@ const validateChainSources = (jobRunID: string, chainSources: string[]) => {
       })
     }
   }
+}
+
+export const getAddressResolver = async (
+  provider: ethers.providers.JsonRpcProvider,
+  addressResolverProxyAddress: string,
+): Promise<string> => {
+  const addressResolver = new ethers.Contract(addressResolverProxyAddress, READ_PROXY_ABI, provider)
+  return await addressResolver.target()
 }
 
 export const getContractAddress = async (

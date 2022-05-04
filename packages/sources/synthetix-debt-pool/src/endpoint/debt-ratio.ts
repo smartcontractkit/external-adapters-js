@@ -2,6 +2,7 @@ import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import {
+  getAddressResolver,
   getContractAddress,
   getDataFromAcrossChains,
   inputParameters as commonInputParameters,
@@ -48,9 +49,13 @@ const getDebtRatio = async (
         })
       const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
       try {
+        const addressResolverAddress = await getAddressResolver(
+          networkProvider,
+          config.chains[network].chainAddressResolverProxyAddress,
+        )
         const synthetixDebtShareAddress = await getContractAddress(
           networkProvider,
-          config.chains[network].chainAddressResolverAddress,
+          addressResolverAddress,
           'SynthetixDebtShare',
         )
         const synthetixDebtShare = new ethers.Contract(

@@ -5,6 +5,7 @@ import {
   getDataFromAcrossChains,
   inputParameters as commonInputParameters,
   getSynthetixBridgeName,
+  getAddressResolver,
 } from '../utils'
 import { Config } from '../config'
 import { getContractAddress } from '../utils'
@@ -43,9 +44,14 @@ export const getDebtIssued = async (
         })
       const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
       try {
+        const addressResolverAddress = await getAddressResolver(
+          networkProvider,
+          config.chains[network].chainAddressResolverProxyAddress,
+        )
+
         const debtCacheAddress = await getContractAddress(
           networkProvider,
-          config.chains[network].chainAddressResolverAddress,
+          addressResolverAddress,
           'DebtCache',
         )
         const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
@@ -53,7 +59,7 @@ export const getDebtIssued = async (
 
         const synthetixBridgeAddress = await getContractAddress(
           networkProvider,
-          config.chains[network].chainAddressResolverAddress,
+          addressResolverAddress,
           getSynthetixBridgeName(network, jobRunID),
         )
         const synthetixBridge = new ethers.Contract(
