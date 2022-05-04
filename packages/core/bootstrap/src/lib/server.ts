@@ -5,10 +5,6 @@ import * as client from 'prom-client'
 import { executeSync, storeSlice, withMiddleware } from '../index'
 import { defaultOptions } from './middleware/cache'
 import { loadTestPayload } from './config/test-payload-loader'
-// import {
-//   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
-//   HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
-// } from './errors'
 import { logger } from './modules'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
@@ -58,11 +54,6 @@ export const initHandler =
     const executeWithMiddleware = await withMiddleware(execute, context, middleware)
 
     app.post(baseUrl, async (req, res) => {
-      // if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
-      //   return res
-      //     .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
-      //     .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
-      // }
       ;(req.body as AdapterRequest).data = {
         ...((req.body as AdapterRequest).data || {}),
         ...toObjectWithNumbers(req.query),
@@ -132,12 +123,7 @@ export const initHandler =
 
     return new Promise((resolve) => {
       app.listen(port, '0.0.0.0', function (_, address) {
-        // if (err) {
-        //   fastify.log.error(err)
-        //   process.exit(1)
-        // }
         logger.info(`Listening on port ${address}!`)
-
         resolve(app)
       })
     })
