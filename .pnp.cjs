@@ -383,6 +383,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/dxfeed-secondary"
       },
       {
+        "name": "@chainlink/ens-adapter",
+        "reference": "workspace:packages/sources/ens"
+      },
+      {
         "name": "@chainlink/enzyme-adapter",
         "reference": "workspace:packages/sources/enzyme"
       },
@@ -780,6 +784,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea-reference-data-reader", ["workspace:packages/core/reference-data-reader"]],
       ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],
+      ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],
       ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],
       ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],
@@ -5364,6 +5369,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],
+            ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],
             ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],
@@ -5584,6 +5590,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.25"],
             ["hardhat", "npm:2.9.3"],
             ["mock-socket", "npm:9.1.3"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/ens-adapter", [
+        ["workspace:packages/sources/ens", {
+          "packageLocation": "./packages/sources/ens/",
+          "packageDependencies": [
+            ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.25"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.5.3"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],

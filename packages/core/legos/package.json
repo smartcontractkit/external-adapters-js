@@ -77,6 +77,7 @@
     "@chainlink/dwolla-adapter": "workspace:*",
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",
+    "@chainlink/ens-adapter": "workspace:*",
     "@chainlink/enzyme-adapter": "workspace:*",
     "@chainlink/eodhistoricaldata-adapter": "workspace:*",
     "@chainlink/eth-balance-adapter": "workspace:*",
