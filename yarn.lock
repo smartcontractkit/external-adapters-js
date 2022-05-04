@@ -2941,7 +2941,7 @@ __metadata:
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
     "@chainlink/types": "workspace:*"
-    "@node-redis/client": 1.0.0
+    "@node-redis/client": 1.0.6
     "@reduxjs/toolkit": ^1.6.1
     "@types/express": 4.17.13
     "@types/fast-redact": 3.0.1
@@ -7726,7 +7726,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@node-redis/client@npm:1.0.0, @node-redis/client@npm:^1.0.0":
+"@node-redis/client@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@node-redis/client@npm:1.0.6"
+  dependencies:
+    cluster-key-slot: 1.1.0
+    generic-pool: 3.8.2
+    redis-parser: 3.0.0
+    yallist: 4.0.0
+  checksum: 480b204c7ecb8869bc145b06dc0b05dc91224842a6d567bb3048587fb54e83548adeed18e7eddc5aee33e0f2272f4510cee2e46be04531786159469bd5d89fb5
+  languageName: node
+  linkType: hard
+
+"@node-redis/client@npm:^1.0.0":
   version: 1.0.0
   resolution: "@node-redis/client@npm:1.0.0"
   dependencies:
