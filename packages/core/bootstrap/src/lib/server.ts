@@ -55,8 +55,6 @@ export const initHandler =
       setupMetricsServer(name)
     }
 
-    // initExpressMiddleware(app)
-
     const executeWithMiddleware = await withMiddleware(execute, context, middleware)
 
     app.post(baseUrl, async (req, res) => {
@@ -161,37 +159,3 @@ function setupMetricsServer(name: string) {
 
   metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
 }
-
-// const windowMs = 1000 * 5
-// const max = parseInt(process.env.SERVER_RATE_LIMIT_MAX || '250') // default to 250 req / 5 seconds max
-// const delayAfter = max * (Number(process.env.SERVER_SLOW_DOWN_AFTER_FACTOR) || 0.8) // we start slowing down requests when we reach 80% of our max limit for the current interval
-// const delayMs = parseInt(process.env.SERVER_SLOW_DOWN_DELAY_MS || '500') // default to slowing down each request by 500ms
-
-// function initExpressMiddleware(app: express.Express) {
-//   app.set('trust proxy', 1)
-
-//   const rateLimiter = rateLimit({
-//     windowMs,
-//     max, // limit each IP's requests per windowMs
-//     keyGenerator: () => '*', // use one key for all incoming requests
-//     handler: ((req, res, next) => {
-//       if (req.url === '/health') {
-//         next()
-//       } else {
-//         httpRateLimit.inc()
-//         res.status(429).send('Too many requests, please try again later.')
-//       }
-//     }) as express.RequestHandler,
-//   })
-//   app.use(rateLimiter)
-
-//   const speedLimiter = slowDown({
-//     windowMs,
-//     delayAfter,
-//     delayMs,
-//     keyGenerator: () => '*', // use one key for all incoming requests
-//   })
-//   app.use(speedLimiter)
-
-//   app.use(express.json({ limit: '1mb' }))
-// }
