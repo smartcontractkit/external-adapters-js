@@ -9,6 +9,7 @@ import { ethers } from 'ethers'
 const mockChainConfig = {
   ethereum: {
     rpcUrl: 'fake-ethereum-rpc-url',
+    addressProviderProxyContractAddress: 'fake-ethereum-address-provider-proxy',
     addressProviderContractAddress: 'fake-ethereum-address-provider',
     debtPoolAddress: 'fake-ethereum-debt-pool-address',
     synthetixDebtShareAddress: 'fake-ethereum-synthetix-debt-share-address',
@@ -16,11 +17,20 @@ const mockChainConfig = {
   },
   optimism: {
     rpcUrl: 'fake-optimism-rpc-url',
+    addressProviderProxyContractAddress: 'fake-optimism-address-provider-proxy',
     addressProviderContractAddress: 'fake-optimism-address-provider',
     debtPoolAddress: 'fake-optimism-debt-pool-address',
     synthetixDebtShareAddress: 'fake-optimism-synthetix-debt-share-address',
     synthetixBridgeAddress: 'fake-ethereum-synthetix-bridge-address',
   },
+}
+
+const mockEthereumAddressProviderProxyContract = {
+  target: jest.fn().mockReturnValue(mockChainConfig.ethereum.addressProviderContractAddress),
+}
+
+const mockOptimismAddressProviderProxyContract = {
+  target: jest.fn().mockReturnValue(mockChainConfig.optimism.addressProviderContractAddress),
 }
 
 const mockEthereumAddressProviderContract = {
@@ -96,6 +106,10 @@ jest.mock('ethers', () => {
       },
       Contract: jest.fn().mockImplementation((address: string) => {
         switch (address) {
+          case mockChainConfig.ethereum.addressProviderProxyContractAddress:
+            return mockEthereumAddressProviderProxyContract
+          case mockChainConfig.optimism.addressProviderProxyContractAddress:
+            return mockOptimismAddressProviderProxyContract
           case mockChainConfig.ethereum.addressProviderContractAddress:
             return mockEthereumAddressProviderContract
           case mockChainConfig.optimism.addressProviderContractAddress:
@@ -126,10 +140,10 @@ beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.RPC_URL = mockChainConfig.ethereum.rpcUrl
   process.env.OPTIMISM_RPC_URL = mockChainConfig.optimism.rpcUrl
-  process.env.ADDRESS_RESOLVER_CONTRACT_ADDRESS =
-    mockChainConfig.ethereum.addressProviderContractAddress
-  process.env.OPTIMISM_ADDRESS_RESOLVER_CONTRACT_ADDRESS =
-    mockChainConfig.optimism.addressProviderContractAddress
+  process.env.ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS =
+    mockChainConfig.ethereum.addressProviderProxyContractAddress
+  process.env.OPTIMISM_ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS =
+    mockChainConfig.optimism.addressProviderProxyContractAddress
 })
 
 afterAll(() => {
