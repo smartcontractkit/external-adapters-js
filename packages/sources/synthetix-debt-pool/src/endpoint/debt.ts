@@ -63,7 +63,7 @@ export const getDebtIssued = async (
         )
         const synthTransferReceived = await synthetixBridge.synthTransferReceived({ blockNumber })
         const synthTransferSent = await synthetixBridge.synthTransferSent({ blockNumber })
-        const issuedSynths = debtIssued.add(synthTransferReceived.sub(synthTransferSent))
+        const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
         return [network, blockNumber, issuedSynths]
       } catch (e) {
         throw new AdapterError({
