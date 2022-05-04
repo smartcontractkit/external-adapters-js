@@ -3,10 +3,8 @@ import { Server, SUCCESS_ARRAY_RESPONSE } from '../helpers/server'
 
 describe('HTTP', () => {
   const errorMessage = 'Request failed with status code 500'
-  const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
   const successUrl = 'http://localhost:18080'
   const successArrayUrl = 'http://localhost:18080/successArray'
-  const successStringUrl = 'http://localhost:18080/successString'
   const errorUrl = 'http://localhost:18080/error'
   const errorTwiceUrl = 'http://localhost:18080/errorsTwice'
   const customErrorUrl = 'http://localhost:18080/customError'
@@ -67,7 +65,7 @@ describe('HTTP', () => {
         expect(false).toBe(true)
       } catch (error) {
         expect(server.errorCount).toEqual(3)
-        expect(error.message).toEqual(customErrorMessage)
+        expect(error.message).toEqual(errorMessage)
       }
     })
 
@@ -229,9 +227,5 @@ describe('HTTP', () => {
       const withResult = Requester.withResult(response, undefined, mockResults)
       expect(withResult.data.results).toEqual(mockResults)
     })
-  })
-
-  afterAll((done) => {
-    server.stop(done)
   })
 })
