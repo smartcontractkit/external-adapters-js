@@ -2,10 +2,8 @@ import { AdapterContext, AdapterImplementation, EnvDefaults } from '@chainlink/t
 import { Decimal } from 'decimal.js'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { CacheEntry } from '../middleware/cache/types'
-
-export * from './clientIp'
-export * from './urlPathBuilder'
+import { CacheEntry } from './middleware/cache/types'
+import { logger } from './modules'
 
 /**
  * Used in the `getEnv` util function as a backup when an env var
@@ -396,4 +394,191 @@ export function sortedFilter<T>(items: T[], windowingFunction: (item: T) => bool
   }
 
   return items.slice(firstNonStaleItemIndex)
+}
+
+//  URL Encoding
+const charsToEncode = {
+  ':': '%3A',
+  '/': '%2F',
+  '?': '%3F',
+  '#': '%23',
+  '[': '%5B',
+  ']': '%5D',
+  '@': '%40',
+  '!': '%21',
+  $: '%24',
+  '&': '%26',
+  "'": '%27',
+  '(': '%28',
+  ')': '%29',
+  '*': '%2A',
+  '+': '%2B',
+  ',': '%2C',
+  ';': '%3B',
+  '=': '%3D',
+  '%': '%25',
+  ' ': '%20',
+  '"': '%22',
+  '<': '%3C',
+  '>': '%3E',
+  '{': '%7B',
+  '}': '%7D',
+  '|': '%7C',
+  '^': '%5E',
+  '`': '%60',
+  '\\': '%5C',
+}
+
+/**
+ * Check whether the given string contains characters in the given whitelist.
+ * @param str The string to check.
+ * @param whitelist The string array of whitelist entries. Returns true if any of these are found in 'str', otherwise returns false.
+ * @returns {boolean}
+ */
+const stringHasWhitelist = (str: string, whitelist: string[]): boolean =>
+  whitelist.some((el) => str.includes(el))
+
+/**
+ * Manually iterate through a given string and replace unsafe/reserved characters with encoded values (unless a character is whitelisted)
+ * @param str The string to encode.
+ * @param whitelist The string array of whitelist entries.
+ * @returns {string}
+ */
+const percentEncodeString = (str: string, whitelist: string[]): string =>
+  str
+    .split('')
+    .map((char) => {
+      const encodedValue = charsToEncode[char as keyof typeof charsToEncode]
+      return encodedValue && !whitelist.includes(char) ? encodedValue : char
+    })
+    .join('')
+
+/**
+ * Build a URL path using the given pathTemplate and params. If a param is found in pathTemplate, it will be inserted there; otherwise, it will be ignored.
+ * eg.) pathTemplate = "/from/:from/to/:to" and params = { from: "ETH", to: "BTC", note: "hello" } will become "/from/ETH/to/BTC"
+ * @param pathTemplate The path template for the URL path. Each param to include in the path should have a prefix of ':'.
+ * @param params The object containing keys & values to be added to the URL path.
+ * @param whitelist The list of characters to whitelist for the URL path (if a param contains one of your whitelisted characters, it will not be encoded).
+ * @returns {string}
+ */
+export const buildUrlPath = (pathTemplate = '', params = {}, whitelist = ''): string => {
+  const allowedChars = whitelist.split('')
+
+  for (const param in params) {
+    const value = params[param as keyof typeof params]
+    if (!value) continue
+
+    // If string contains a whitelisted character: manually replace any non-whitelisted characters with percent encoded values. Otherwise, encode the string as usual.
+    const encodedValue = stringHasWhitelist(value, allowedChars)
+      ? percentEncodeString(value, allowedChars)
+      : encodeURIComponent(value)
+
+    pathTemplate = pathTemplate.replace(`:${param}`, encodedValue)
+  }
+
+  return pathTemplate
+}
+
+/**
+ * Build a full URL using the given baseUrl, pathTemplate and params. Uses buildUrlPath to add path & params.
+ * @param baseUrl The base URL to add the pathTemplate & params to.
+ * @param pathTemplate The path template for the URL path. Leave empty if only searchParams are required.
+ * @param params The object containing keys & values to be added to the URL path.
+ * @param whitelist The list of characters to whitelist for the URL path.
+ * @returns {string}
+ */
+export const buildUrl = (baseUrl: string, pathTemplate = '', params = {}, whitelist = ''): string =>
+  new URL(buildUrlPath(pathTemplate, params, whitelist), baseUrl).toString()
+
+//  URL Encoding
+
+let unhandledRejectionHandlerRegistered = false
+
+/**
+ * Adapters use to run with Node 14, which by default didn't crash when a rejected promised bubbled up to the top.
+ * This function registers a global handler to catch those rejections and just log them to console.
+ */
+export const registerUnhandledRejectionHandler = (): void => {
+  if (unhandledRejectionHandlerRegistered) {
+    if (getEnv('NODE_ENV') !== 'test')
+      logger.warn('UnhandledRejectionHandler attempted to be registered more than once')
+    return
+  }
+
+  unhandledRejectionHandlerRegistered = true
+  process.on('unhandledRejection', (reason) => {
+    logger.warn('Unhandled promise rejection reached custom handler')
+    logger.warn(JSON.stringify(reason))
+  })
+}
+
+const ipRegex: Record<string, RegExp> = {
+  ipv4: /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/,
+  ipv6: /^((?=.*::)(?!.*::.+::)(::)?([\dA-F]{1,4}:(:|\b)|){5}|([\dA-F]{1,4}:){6})((([\dA-F]{1,4}((?!\3)::|:\b|$))|(?!\2\3)){2}|(((2[0-4]|1\d|[1-9])?\d|25[0-5])\.?\b){4})$/i,
+}
+
+export const isIp = (str: string | null | undefined): boolean =>
+  !!str && (ipRegex.ipv4.test(str) || ipRegex.ipv6.test(str))
+
+export function getClientIpFromXForwardedFor(value: unknown): string | null | undefined {
+  if (!value) return null
+  if (typeof value !== 'string') throw new TypeError(`Expected a string, got ${typeof value}`)
+
+  // x-forwarded-for may return multiple IP addresses in the format: "client IP, proxy 1 IP, proxy 2 IP"
+  // So the right-most IP address is the IP address of the most recent proxy and the left-most IP address is the IP address of the originating client.
+  // Azure Web App's also adds a port for some reason, so only use the first part (the IP)
+  // http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/x-forwarded-headers.html
+  const forwardedIps = value.split(',').map((e) => {
+    const ip = e.trim()
+    if (ip.includes(':')) {
+      const splitIp = ip.split(':') // only use this if it's ipv4 (ip:port)
+      if (splitIp.length === 2) return splitIp[0]
+    }
+    return ip
+  })
+
+  // Sometimes IP addresses in this header can be 'unknown' (http://stackoverflow.com/a/11285650), so take the left-most IP address that is not unknown
+  return forwardedIps.find((ip: string) => isIp(ip))
+}
+
+/**
+ * Get client IP address.
+ *
+ * @param req
+ * @returns {string} ip - The IP address if known, defaulting to 'unknown'.
+ */
+export function getClientIp(req: any): string {
+  if (req.headers) {
+    if (isIp(req.headers['x-client-ip'])) return req.headers['x-client-ip'] // Standard headers used by Amazon EC2, Heroku, and others.
+    const xForwardedFor = getClientIpFromXForwardedFor(req.headers['x-forwarded-for']) // Load-balancers (AWS ELB) or proxies.
+    if (isIp(xForwardedFor)) return String(xForwardedFor)
+    if (isIp(req.headers['cf-connecting-ip'])) return req.headers['cf-connecting-ip'] // Cloudflare.
+    if (isIp(req.headers['fastly-client-ip'])) return req.headers['fastly-client-ip'] // Fastly and Firebase hosting header
+    if (isIp(req.headers['true-client-ip'])) return req.headers['true-client-ip'] // Akamai and Cloudflare: True-Client-IP.
+    if (isIp(req.headers['x-real-ip'])) return req.headers['x-real-ip'] // Default nginx proxy/fcgi; alternative to x-forwarded-for, used by some proxies.
+    if (isIp(req.headers['x-cluster-client-ip'])) return req.headers['x-cluster-client-ip'] // Rackspace LB and Riverbed's Stingray
+    if (isIp(req.headers['x-forwarded'])) return req.headers['x-forwarded']
+    if (isIp(req.headers['forwarded-for'])) return req.headers['forwarded-for']
+    if (isIp(req.headers.forwarded)) return req.headers.forwarded
+  }
+
+  // Remote address checks
+  if (req.connection) {
+    if (isIp(req.connection.remoteAddress)) return req.connection.remoteAddress
+    if (req.connection.socket && isIp(req.connection.socket.remoteAddress))
+      return req.connection.socket.remoteAddress
+  }
+
+  if (req.socket && isIp(req.socket.remoteAddress)) return req.socket.remoteAddress
+  if (req.info && isIp(req.info.remoteAddress)) return req.info.remoteAddress
+
+  // AWS Api Gateway + Lambda
+  if (
+    req.requestContext &&
+    req.requestContext.identity &&
+    isIp(req.requestContext.identity.sourceIp)
+  )
+    return req.requestContext.identity.sourceIp
+
+  return 'unknown'
 }

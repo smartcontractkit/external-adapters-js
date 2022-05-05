@@ -65,10 +65,13 @@ export const initHandler =
           .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
           .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
       }
+      const metricsMeta = METRICS_ENABLED
+        ? { metricsMeta: { requestOrigin: getClientIp(req) } }
+        : {}
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
-        metricsMeta: { requestOrigin: getClientIp(req) },
+        ...metricsMeta,
       }
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.status(status).json(result)

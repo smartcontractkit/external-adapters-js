@@ -22,7 +22,6 @@ export const withMetrics: Middleware =
       requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
       feedId,
     }
-    console.log('metricsmeta', metricsMeta)
     const recordMetrics = () => {
       const labels: Parameters<typeof httpRequestsTotal.labels>[0] = {
         is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
