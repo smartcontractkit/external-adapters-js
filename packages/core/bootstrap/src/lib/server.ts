@@ -13,7 +13,7 @@ import {
 import { logger } from './modules'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
-import { getEnv, toObjectWithNumbers } from './util'
+import { getEnv, toObjectWithNumbers, getClientIp } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { AddressInfo } from 'net'
@@ -68,6 +68,7 @@ export const initHandler =
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
+        metricsMeta: { requestOrigin: getClientIp(req) },
       }
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.status(status).json(result)

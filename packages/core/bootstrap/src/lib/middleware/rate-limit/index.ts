@@ -84,6 +84,7 @@ export const withRateLimit =
 
     const defaultLabels = {
       feed_id: input.metricsMeta?.feedId ?? 'N/A',
+      request_origin: input.metricsMeta?.requestOrigin ?? 'N/A',
       participant_id: requestTypeId,
       experimental: 'true',
     }
