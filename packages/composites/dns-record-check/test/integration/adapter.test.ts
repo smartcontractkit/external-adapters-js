@@ -7,7 +7,7 @@ import * as http from 'http'
 import { mockRecordCheckResponse } from './fixtures'
 
 describe('dns record check', () => {
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req =
     SuperTest <
     Test >
@@ -18,8 +18,8 @@ describe('dns record check', () => {
         nock.recorder.rec()
       }
 
-      server = await startServer()
-      req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+      fastify = await startServer()
+      req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     })
 
   afterAll((done) => {
@@ -30,7 +30,7 @@ describe('dns record check', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('record check endpoint', () => {

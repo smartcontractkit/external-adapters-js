@@ -7,7 +7,7 @@ import { mockAssetEndpoint, mockCryptoEndpoint } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('coinapi', () => {
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   let req: SuperTest<Test>
 
@@ -19,8 +19,8 @@ describe('coinapi', () => {
     } else {
       process.env.API_KEY = 'mock-api-key'
     }
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -32,7 +32,7 @@ describe('coinapi', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('crypto endpoint', () => {

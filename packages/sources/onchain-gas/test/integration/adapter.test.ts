@@ -15,7 +15,7 @@ import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middlew
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv
@@ -31,13 +31,13 @@ describe('websocket', () => {
     process.env.WS_ENABLED = 'true'
     process.env.WS_SUBSCRIPTION_TTL = '100'
 
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('gas endpoint', () => {

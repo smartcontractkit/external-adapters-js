@@ -15,13 +15,13 @@ const setupEnvironment = (adapters: string[]) => {
 }
 
 describe('impliedPrice', () => {
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
     if (process.env.RECORD) {
       nock.recorder.rec()
@@ -36,7 +36,7 @@ describe('impliedPrice', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('successful calls', () => {

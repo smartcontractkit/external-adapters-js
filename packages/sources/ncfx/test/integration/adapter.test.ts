@@ -15,7 +15,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('price-beth', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -33,13 +33,13 @@ describe('price-beth', () => {
       process.env.WS_SUBSCRIPTION_TTL = '3000'
     }
 
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('successful calls', () => {

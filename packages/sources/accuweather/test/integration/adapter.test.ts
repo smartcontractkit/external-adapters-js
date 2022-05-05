@@ -11,7 +11,7 @@ import { AddressInfo } from 'net'
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  server: FastifyInstance
+  fastify: FastifyInstance
   req: SuperTest<Test>
 }
 
@@ -43,12 +43,12 @@ describe('execute', () => {
   }
 
   beforeEach(async () => {
-    context.server = await startServer()
-    context.req = request(`localhost:${(context.server.server.address() as AddressInfo).port}`)
+    context.fastify = await startServer()
+    context.req = request(`localhost:${(context.fastify.server.address() as AddressInfo).port}`)
   })
 
   afterEach((done) => {
-    context.server.close(done)
+    context.fastify.close(done)
   })
 
   describe('location endpoint', () => locationTests(context))

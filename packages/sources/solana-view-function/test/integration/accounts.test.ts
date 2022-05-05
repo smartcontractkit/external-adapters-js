@@ -17,19 +17,19 @@ jest.mock('@solana/web3.js', () => ({
 let oldEnv: NodeJS.ProcessEnv
 
 describe('accounts', () => {
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.RPC_URL = 'https://api.devnet.solana.com'
   })
 
   afterAll((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('successful calls', () => {

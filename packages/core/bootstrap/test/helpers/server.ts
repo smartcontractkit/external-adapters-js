@@ -1,5 +1,4 @@
 import Fastify, { FastifyInstance } from 'fastify'
-import { Server as HTTPServer } from 'http'
 
 export const SUCCESS_RESPONSE = {
   result: 'success',
@@ -11,7 +10,6 @@ export class Server {
   app: FastifyInstance
   port: number
   errorCount: number
-  server?: HTTPServer
 
   constructor() {
     this.port = 18080
@@ -60,7 +58,7 @@ export class Server {
   }
 
   stop(callback?: (err?: Error | undefined) => void): void {
-    if (this.server) this.server.close(callback)
+    if (this.app) this.app.close(callback)
   }
 
   reset(): void {

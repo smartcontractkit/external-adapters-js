@@ -32,17 +32,17 @@ afterAll(() => {
 })
 
 describe('synth-index X coingecko', () => {
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
   })
 
   afterAll((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('when making a request to coingecko for sDEFI', () => {
@@ -87,7 +87,7 @@ describe('synth-index X coingecko', () => {
     })
     describe('and coingecko replies with a failure repeatedly', () => {
       it('should try 3 times and then fail', async () => {
-        mockCoingeckoConnectionFailure((server.server.address() as AddressInfo).port, 4)
+        mockCoingeckoConnectionFailure((fastify.server.address() as AddressInfo).port, 4)
 
         const response = await req
           .post('/')

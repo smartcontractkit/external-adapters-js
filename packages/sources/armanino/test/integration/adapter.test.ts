@@ -8,7 +8,7 @@ import { mockMCO2Response } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
 
@@ -20,8 +20,8 @@ describe('execute', () => {
       nock.recorder.rec()
     }
 
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -34,7 +34,7 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('mco2 endpoint', () => {

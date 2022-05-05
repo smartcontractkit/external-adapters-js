@@ -24,7 +24,7 @@ import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middlew
 
 describe('dxfeed secondary', () => {
   const id = '1'
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -33,8 +33,8 @@ describe('dxfeed secondary', () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -44,7 +44,7 @@ describe('dxfeed secondary', () => {
 
     nock.restore()
     nock.cleanAll()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('price endpoint', () => {
@@ -72,7 +72,7 @@ describe('dxfeed secondary', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv
@@ -89,8 +89,8 @@ describe('websocket', () => {
     process.env.WS_ENABLED = 'true'
     process.env.WS_SUBSCRIPTION_TTL = '300'
 
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -98,7 +98,7 @@ describe('websocket', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('price endpoint', () => {

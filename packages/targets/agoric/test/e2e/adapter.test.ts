@@ -104,7 +104,7 @@ describe('execute', () => {
   describe('POST to localhost @integration', () => {
     let reqIndex: number
     let sends: Action[] = []
-    let server: FastifyInstance
+    let fastify: FastifyInstance
 
     const port = 18082
     process.env.AG_SOLO_ORACLE_URL = `http://localhost:${port}/api/oracle`

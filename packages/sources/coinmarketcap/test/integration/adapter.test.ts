@@ -17,7 +17,7 @@ import { mockSuccessfulHistoricalCapResponse } from './historicalFixtures'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('coinmarketcap', () => {
-  let server: FastifyInstance
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -27,8 +27,8 @@ describe('coinmarketcap', () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -40,7 +40,7 @@ describe('coinmarketcap', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('when making a request to coinmarket cap to globalmarketcap endpoint', () => {
