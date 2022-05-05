@@ -84,6 +84,9 @@ Request:
     "endpoint": "punks",
     "block": 10000000
   },
+  "debug": {
+    "cacheKey": "MJRDg3InuoFr8aNxF6EjmWVVPOU="
+  },
   "rateLimitMaxAge": 5555
 }
 ```
