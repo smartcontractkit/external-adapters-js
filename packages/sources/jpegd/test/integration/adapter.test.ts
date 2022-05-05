@@ -4,7 +4,7 @@ import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
-import { mockPunksValueResponseSuccess } from './fixtures'
+import { mockPunksValueResponseSuccess, mockCollectionsValueResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -36,13 +36,36 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        block: 10000000,
-        api_key: 'test-key',
+        block: 14000000,
+        endpoint: 'punks',
       },
     }
 
     it('should return success', async () => {
       mockPunksValueResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('collections valuation api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'collections',
+        collection: 'cryptopunks',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCollectionsValueResponseSuccess()
 
       const response = await req
         .post('/')
