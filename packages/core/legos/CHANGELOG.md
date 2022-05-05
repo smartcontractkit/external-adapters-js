@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.0.82
+
+### Patch Changes
+
+- Updated dependencies [8d9cc6271]
+- Updated dependencies [11f3d9536]
+  - @chainlink/coinmarketcap-adapter@1.3.33
+  - @chainlink/synthetix-debt-pool-adapter@3.1.0
+
 ## 1.0.81
 
 ### Patch Changes
