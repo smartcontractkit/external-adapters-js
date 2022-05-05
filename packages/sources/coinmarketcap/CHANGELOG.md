@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.3.33
+
+### Patch Changes
+
+- 8d9cc6271: Add CID for stETH on coinmarketcap
+
 ## 1.3.32
 
 ### Patch Changes

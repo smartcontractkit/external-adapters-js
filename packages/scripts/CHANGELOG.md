@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.2.0
+
+### Minor Changes
+
+- 60b7a3d5d: Masterlist generator now generates AirTable records for EA masterlist
+
 ## 2.1.2
 
 ### Patch Changes
