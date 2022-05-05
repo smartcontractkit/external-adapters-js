@@ -8,7 +8,6 @@ import {
   mockFilteredResponseSuccess,
 } from './fixtures'
 import * as nock from 'nock'
-import * as http from 'http'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {

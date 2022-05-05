@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as http from 'http'
 import { AddressInfo } from 'net'
 
 /* Since no API keys are set, all requests will error, but the error will

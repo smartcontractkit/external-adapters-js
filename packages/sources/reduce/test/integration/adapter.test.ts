@@ -1,7 +1,6 @@
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import * as http from 'http'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {

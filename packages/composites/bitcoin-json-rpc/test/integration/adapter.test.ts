@@ -4,7 +4,6 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import { mockCRPCCallResponseSuccess } from './fixtures'
 import * as nock from 'nock'
-import * as http from 'http'
 import { AddressInfo } from 'net'
 
 beforeAll(() => {
