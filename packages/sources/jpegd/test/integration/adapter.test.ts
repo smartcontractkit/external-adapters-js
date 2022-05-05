@@ -33,7 +33,7 @@ describe('execute', () => {
   })
 
   describe('punk valuation api', () => {
-    const data: AdapterRequest = {
+    const punkData: AdapterRequest = {
       id,
       data: {
         block: 14000000,
@@ -46,7 +46,7 @@ describe('execute', () => {
 
       const response = await req
         .post('/')
-        .send(data)
+        .send(punkData)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
@@ -56,11 +56,11 @@ describe('execute', () => {
   })
 
   describe('collections valuation api', () => {
-    const data: AdapterRequest = {
+    const collectionData: AdapterRequest = {
       id,
       data: {
         endpoint: 'collections',
-        collection: 'cryptopunks',
+        collection: 'jpeg-cards',
       },
     }
 
@@ -69,7 +69,7 @@ describe('execute', () => {
 
       const response = await req
         .post('/')
-        .send(data)
+        .send(collectionData)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)

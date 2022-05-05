@@ -28,7 +28,7 @@ export const mockPunksValueResponseSuccess = (): nock =>
 
 export const mockCollectionsValueResponseSuccess = (): nock =>
   nock('https://jpegapi.com')
-    .get('/api/v1/collections/cryptopunks/values/latest')
+    .get('/api/v1/collections/jpeg-cards/values/latest')
     .query({
       api_key: 'test-key',
     })
@@ -37,7 +37,7 @@ export const mockCollectionsValueResponseSuccess = (): nock =>
       (_, request) => ({
         success: true,
         block: 14000000,
-        value: 14000000,
+        value: 69000000,
       }),
       [
         'Content-Type',

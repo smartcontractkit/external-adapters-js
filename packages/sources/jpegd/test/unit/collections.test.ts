@@ -6,12 +6,15 @@ import { makeExecute } from '../../src/adapter'
 describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
-  process.env.API_KEY = process.env.API_KEY ?? 'test-key'
+  process.env.API_KEY = 'test-key'
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
+      { name: 'no collection in request', testData: { data: { endpoint: 'collections' } } },
+      {
+        name: 'invalid collection',
+        testData: { data: { endpoint: 'collections', collection: null } },
+      },
     ]
 
     requests.forEach((req) => {
