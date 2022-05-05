@@ -58,6 +58,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const protocol = validator.validated.data.protocol.toUpperCase()
   const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
   const confirmations = validator.validated.data.confirmations
+
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
   const validatedAddresses = getValidAddresses(protocolOutput, validator)
   const balanceOutput = await runBalanceAdapter(
