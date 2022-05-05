@@ -69,9 +69,9 @@ Queries JPEG'd API for the value of a floor Cryptopunk at the requested block.
 
 ### Input Params
 
-| Required? | Name  |          Aliases          |                       Description                       | Type | Options | Default  | Depends On | Not Valid With |
-| :-------: | :---: | :-----------------------: | :-----------------------------------------------------: | :--: | :-----: | :------: | :--------: | :------------: |
-|           | block | `blockNum`, `blockNumber` | The block number for which information is being queried |      |         | `latest` |            |                |
+| Required? |  Name   |             Description              | Options | Defaults to |
+| :-------: | :-----: | :----------------------------------: | :-----: | :---------: |
+|           | `block` | The block data is being queried from |         |   latest    |
 
 ### Example
 
@@ -81,13 +81,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "punks",
-    "block": 10000000
-  },
-  "debug": {
-    "cacheKey": "MJRDg3InuoFr8aNxF6EjmWVVPOU="
-  },
-  "rateLimitMaxAge": 5555
+    "block": "latest"
+  }
 }
 ```
 
@@ -95,16 +90,13 @@ Response:
 
 ```json
 {
-  "jobRunID": "1",
   "data": {
-    "success": true,
-    "block": 11000000,
-    "value": 5.568735828488373,
-    "result": 5.568735828488373
+    "result": 71.71525868055556
   },
-  "result": 5.568735828488373,
-  "statusCode": 200,
-  "providerStatusCode": 200
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 71.71525868055556,
+  "statusCode": 200
 }
 ```
 
