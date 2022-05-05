@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@chainlink/types": "workspace:*",
-    "@node-redis/client": "1.0.0",
+    "@node-redis/client": "1.0.6",
     "@types/express": "4.17.13",
     "@types/fast-redact": "3.0.1",
     "@types/jest": "27.0.3",
