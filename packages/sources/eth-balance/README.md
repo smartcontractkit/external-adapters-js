@@ -113,7 +113,8 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": [
+    "endpoint": "balance",
+    "addresses": [
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
         "balance": "842796652117371"
