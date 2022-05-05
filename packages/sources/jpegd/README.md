@@ -18,11 +18,48 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+| Required? |   Name   |     Description     |                            Options                            | Defaults to |
+| :-------: | :------: | :-----------------: | :-----------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [punks](#punks-endpoint) [collections](#collections-endpoint) |    punks    |
 
 | Required? |   Name   |     Description     |  Type  |         Options          | Default |
 | :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [punks](#punks-endpoint) | `punks` |
+
+## Collections Endpoint
+
+Queries JPEG'd API for the value of a floor NFT from the requested collection. Supersedes the Punks endpoint in functionality and will be used for all new collections moving forward.
+
+### Input Params
+
+| Required? |     Name     |           Description            | Options | Defaults to |
+| :-------: | :----------: | :------------------------------: | :-----: | :---------: |
+|    ✅     | `collection` | The NFT collection being queried |         |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "collection": "boredapeyachtclub"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "data": {
+    "success": true,
+    "block": 9999999,
+    "value": 100
+  },
+  "statusCode": 200
+}
+```
 
 ## Punks Endpoint
 

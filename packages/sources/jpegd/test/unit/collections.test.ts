@@ -10,9 +10,10 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
+      { name: 'no collection in request', testData: { data: { endpoint: 'collections' } } },
       {
-        name: 'invalid block string',
-        testData: { data: { block: 'abc' } },
+        name: 'invalid collection',
+        testData: { data: { endpoint: 'collections', collection: null } },
       },
     ]
 
