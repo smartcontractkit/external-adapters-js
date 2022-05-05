@@ -1,11 +1,10 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import type { AdapterResponse } from '@chainlink/types'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { makeOptions } from '../config'
 import { Indexer, runBalanceAdapter } from '../utils/balance'
 import { runProtocolAdapter } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
-import { filterDuplicates, validateAddresses } from '../utils/addressValidator'
+import { getValidAddresses } from '../utils/addressValidator'
 export const supportedEndpoints = ['reserves']
 
 const paramOptions = makeOptions()
@@ -70,28 +69,4 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   )
   const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
   return reduceOutput
-}
-
-const getValidAddresses = (
-  protocolOutput: AdapterResponse,
-  validator: Validator,
-): AdapterResponse => {
-  const validatedInput = { ...protocolOutput }
-  if (
-    !validator.validated.data.disableAddressValidation ||
-    validator.validated.data.disableAddressValidation !== 'true'
-  ) {
-    validatedInput.result = validateAddresses(
-      validator.validated.data.indexer,
-      validatedInput.result,
-    )
-  }
-  if (
-    !validator.validated.data.disableDuplicateAddressFiltering ||
-    validator.validated.data.disableDuplicateAddressFiltering !== 'true'
-  ) {
-    validatedInput.result = filterDuplicates(validatedInput.result)
-  }
-  validatedInput.data.result = validatedInput.result
-  return validatedInput
 }

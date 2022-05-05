@@ -1,5 +1,7 @@
 import { utils } from 'ethers'
 import { Logger } from '@chainlink/ea-bootstrap'
+import type { AdapterResponse } from '@chainlink/types'
+import type { Validator } from '@chainlink/ea-bootstrap'
 
 type AddressObject = {
   address: string
@@ -8,6 +10,30 @@ type AddressObject = {
 
 const indexerToNetwork: Record<string, string> = {
   eth_balance: 'ethereum',
+}
+
+export const getValidAddresses = (
+  protocolOutput: AdapterResponse,
+  validator: Validator,
+): AdapterResponse => {
+  const validatedInput = { ...protocolOutput }
+  if (
+    !validator.validated.data.disableAddressValidation ||
+    validator.validated.data.disableAddressValidation !== 'true'
+  ) {
+    validatedInput.result = validateAddresses(
+      validator.validated.data.indexer,
+      validatedInput.result,
+    )
+  }
+  if (
+    !validator.validated.data.disableDuplicateAddressFiltering ||
+    validator.validated.data.disableDuplicateAddressFiltering !== 'true'
+  ) {
+    validatedInput.result = filterDuplicates(validatedInput.result)
+  }
+  validatedInput.data.result = validatedInput.result
+  return validatedInput
 }
 
 export const validateAddresses = (indexer: string, addresses: AddressObject[]): AddressObject[] => {
