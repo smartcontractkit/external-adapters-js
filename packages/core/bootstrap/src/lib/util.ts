@@ -1,5 +1,6 @@
 import { AdapterContext, AdapterImplementation, EnvDefaults } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
+import { IncomingHttpHeaders } from 'http'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
@@ -541,13 +542,43 @@ export function getClientIpFromXForwardedFor(value: unknown): string | null | un
   return forwardedIps.find((ip: string) => isIp(ip))
 }
 
+interface RequestHeaders extends IncomingHttpHeaders {
+  'x-client-ip': string
+  'cf-connecting-ip': string
+  'fastly-client-ip': string
+  'true-client-ip': string
+  'x-real-ip': string
+  'x-cluster-client-ip': string
+  'x-forwarded': string
+  'forwarded-for': string
+  forwarded: string
+}
+export interface IncomingHttpRequest extends Express.Request {
+  headers?: RequestHeaders
+  connection?: {
+    remoteAddress: string
+    socket?: {
+      remoteAddress: string
+    }
+  }
+  socket?: {
+    remoteAddress: string
+  }
+  info?: { remoteAddress: string }
+  requestContext?: {
+    identity?: {
+      sourceIp: string
+    }
+  }
+}
 /**
  * Get client IP address.
  *
  * @param req
  * @returns {string} ip - The IP address if known, defaulting to 'unknown'.
  */
-export function getClientIp(req: any): string {
+export function getClientIp(request: unknown): string {
+  const req = request as IncomingHttpRequest
   if (req.headers) {
     if (isIp(req.headers['x-client-ip'])) return req.headers['x-client-ip'] // Standard headers used by Amazon EC2, Heroku, and others.
     const xForwardedFor = getClientIpFromXForwardedFor(req.headers['x-forwarded-for']) // Load-balancers (AWS ELB) or proxies.
