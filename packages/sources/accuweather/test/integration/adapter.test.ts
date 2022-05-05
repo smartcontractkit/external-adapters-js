@@ -1,6 +1,5 @@
 import process from 'process'
 import nock from 'nock'
-import http from 'http'
 import { DEV_BASE_URL } from '../../src/config'
 import { locationTests } from './location'
 import { currentConditionsTests } from './current-conditions'

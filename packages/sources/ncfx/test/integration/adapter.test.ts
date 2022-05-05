@@ -1,6 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../src'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
 import { mockLoginResponse, mockSubscribeResponse, mockUnsubscribeResponse } from './fixtures'

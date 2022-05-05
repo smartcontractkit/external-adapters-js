@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import nock from 'nock'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import {
   mockSuccessfulResponsesWithCommaSeparatedSources,

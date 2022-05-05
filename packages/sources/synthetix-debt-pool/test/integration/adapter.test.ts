@@ -1,7 +1,6 @@
 import { server as startServer } from '../../src/index'
 import { BigNumber } from 'ethers'
 import request, { SuperTest, Test } from 'supertest'
-import http from 'http'
 import process from 'process'
 import { AddressInfo } from 'net'
 import { ethers } from 'ethers'

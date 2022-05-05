@@ -1,7 +1,6 @@
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import nock from 'nock'
-import http from 'http'
 import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
 import { ENV_ETHEREUM_RPC_URL } from '../../src/config'

@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockAccountsInfo } from './fixtures'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
 

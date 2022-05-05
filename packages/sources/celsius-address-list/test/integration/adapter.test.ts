@@ -3,7 +3,6 @@ import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
 import { server as startServer } from '../../src'
 import nock from 'nock'
-import http from 'http'
 import { mockResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 

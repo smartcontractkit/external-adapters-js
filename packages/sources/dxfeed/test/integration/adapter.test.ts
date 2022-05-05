@@ -1,6 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
-import http from 'http'
 import nock from 'nock'
 import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'

@@ -1,5 +1,4 @@
 import { AdapterRequest } from '@chainlink/types'
-import http from 'http'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'

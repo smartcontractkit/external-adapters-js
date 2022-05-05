@@ -1,6 +1,5 @@
 import process from 'process'
 import nock from 'nock'
-import http from 'http'
 import { server as startServer } from '../../src'
 import { AdapterRequest } from '@chainlink/types'
 import { AddressInfo } from 'net'
