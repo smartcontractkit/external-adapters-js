@@ -88,7 +88,7 @@ Returns a batched price comparison from one currency to a list of other currenci
 
 Supported names for this endpoint are: `forex`, `live`, `price`.
 
-Supported names for this endpoint are: `forex`, `live`, `price`.
+### Input Params
 
 | Required? |  Name  |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
 | :-------: | :----: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |

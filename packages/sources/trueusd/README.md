@@ -28,8 +28,6 @@ https://api.real-time-attest.trustexplorer.io/chainlink/TrueUSD
 
 `trueusd` is the only supported name for this endpoint.
 
-`trueusd` is the only supported name for this endpoint.
-
 ### Input Params
 
 | Required? | Name  | Aliases |                                                   Description                                                    |  Type  | Options |   Default    | Depends On | Not Valid With |

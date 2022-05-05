@@ -343,31 +343,7 @@ Response:
 
 ## GlobalMarketcap Endpoint
 
----
-
-## CryptoSingle Endpoint
-
-`crypto-single` is the only supported name for this endpoint.
-
-### Input Params
-
-| Required? |  Name  |    Aliases     |                   Description                    |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :----------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `coin`, `from` |       The symbol of the currency to query        | string |         |         |            |                |
-|    ✅     | quote  | `market`, `to` |     The symbol of the currency to convert to     | string |         |         |            |                |
-|           | coinid |                | The coin ID (optional to use in place of `base`) | string |         |         |            |                |
-
-### Example
-
-There are no examples for this endpoint.
-
----
-
-## Dominance Endpoint
-
-Returns Bitcoin's dominance from the [global endpoint](https://api.coinpaprika.com/v1/global)
-
-`dominance` is the only supported name for this endpoint.
+Returns the global market capitilization from the [global endpoint](https://api.coinpaprika.com/v1/global)
 
 `globalmarketcap` is the only supported name for this endpoint.
 
