@@ -1,5 +1,15 @@
 # @chainlink/ea
 
+## 1.0.83
+
+### Patch Changes
+
+- Updated dependencies [e47a7e294]
+- Updated dependencies [c4272cb0b]
+- Updated dependencies [c4272cb0b]
+  - @chainlink/synthetix-debt-pool-adapter@3.1.1
+  - @chainlink/jpegd-adapter@2.0.0
+
 ## 1.0.82
 
 ### Patch Changes
