@@ -1,8 +1,10 @@
 # README Test Adapter
 
-Version: 1.2.5
+![1.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json)
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
+
+Base URL https://test.api.endpoint.link
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -20,11 +22,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                     Options                                                                     |  Default  |
 | :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
 |           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [convert](#price-endpoint), [marketcap](#marketcap-endpoint), [mc](#marketcap-endpoint), [price](#price-endpoint) | `balance` |
-
----
 
 ## Balance Endpoint
 
@@ -63,6 +65,9 @@ Request:
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
       }
     ]
+  },
+  "debug": {
+    "cacheKey": "lTBXOJ+YWu4hSLnRtApWBUhCu40="
   }
 }
 ```
@@ -142,6 +147,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "coinid": 1
+  },
+  "debug": {
+    "cacheKey": "DpZS5CoFN19tP4shmR6mkFkvJ2w="
   }
 }
 ```
@@ -175,6 +183,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "coinid": 2
+  },
+  "debug": {
+    "cacheKey": "w3GwX88vkpKKHcxGEVagYaFaozw="
   }
 }
 ```
@@ -224,6 +235,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "amount": 1
+  },
+  "debug": {
+    "cacheKey": "L98LAmN1SgxnUxkXmEcJC1+nxVY="
   }
 }
 ```
@@ -257,6 +271,9 @@ Request:
     "base": "BTC",
     "quote": "USD",
     "amount": 10
+  },
+  "debug": {
+    "cacheKey": "4FyMTrMFLiEe85bTJ4tVO4XRuFA="
   }
 }
 ```

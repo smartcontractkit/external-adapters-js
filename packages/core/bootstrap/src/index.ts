@@ -28,6 +28,7 @@ import * as ioLogger from './lib/middleware/io-logger'
 import * as statusCode from './lib/middleware/status-code'
 import * as debug from './lib/middleware/debugger'
 import * as normalize from './lib/middleware/normalize'
+import * as CacheKey from './lib/middleware/cache-key'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
 import * as util from './lib/util'
@@ -73,6 +74,7 @@ export const makeMiddleware = <C extends Config>(
     withCache(storeSlice('burstLimit')),
     RateLimit.withRateLimit(storeSlice('rateLimit')),
     statusCode.withStatusCode,
+    CacheKey.withCacheKey(endpointSelector),
     normalize.withNormalizedInput(endpointSelector),
   ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics] : [])
 
@@ -87,6 +89,7 @@ export const makeMiddleware = <C extends Config>(
     ws.withWebSockets(storeSlice('ws'), makeWsHandler),
     RateLimit.withRateLimit(storeSlice('rateLimit')),
     statusCode.withStatusCode,
+    CacheKey.withCacheKey(endpointSelector),
     normalize.withNormalizedInput(endpointSelector),
   ].concat(metrics.METRICS_ENABLED ? [metrics.withMetrics, debug.withDebug] : [debug.withDebug])
 }
@@ -157,6 +160,7 @@ export {
   Requester,
   Validator,
   Overrider,
+  CacheKey,
   AdapterError,
   Builder,
   Logger,

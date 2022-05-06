@@ -11,9 +11,11 @@ import {
   localPathToRoot,
   saveText,
   sortText,
+  unwrapCode,
   wrapCode,
 } from '../shared/docGenUtils'
 import { EndpointDetails, Package, Schema } from '../shared/docGenTypes'
+import Airtable from 'airtable'
 
 const pathToComposites = 'packages/composites/'
 const pathToSources = 'packages/sources/'
@@ -161,7 +163,114 @@ const getAdapterList = (pathToParent: string, listDescription: string) => {
   return { adapters, text }
 }
 
-export const generateMasterList = async (verbose = false): Promise<void> => {
+const generateAirtableMasterList = async (adapterList: TableText) => {
+  const airtableApiKey = process.env.AIRTABLE_API_KEY
+  const airtableBaseID = process.env.AIRTABLE_BASE_ID
+
+  const tableName = 'EA_MASTER_LIST'
+  const viewName = 'EA MasterList'
+
+  if (!airtableApiKey || !airtableBaseID) {
+    throw 'Missing AIRTABLE_API_KEY and/or AIRTABLE_BASE_ID'
+  }
+
+  console.log('Generating Airtable master adapters list.')
+
+  const base = new Airtable({ apiKey: airtableApiKey }).base(airtableBaseID)
+  const airtableRecordIds: { [key: string]: Record<string, string> } = {}
+
+  await base(tableName)
+    .select({
+      view: viewName,
+    })
+    .eachPage((records, fetchNextPage) => {
+      records.forEach((record) => {
+        const name: string = record.get('Name') as string
+        airtableRecordIds[name] = {
+          name: record.get('Name') as string,
+          version: record.get('Version') as string,
+          id: record.getId(),
+        }
+      })
+      fetchNextPage()
+    })
+
+  const tasks = []
+  for (const adapter of adapterList) {
+    let name = adapter[0]
+    name = name.substring(name.indexOf('[') + 1, name.lastIndexOf(']'))
+    const record = airtableRecordIds[name]
+
+    const version = unwrapCode(adapter[1])
+    const type = unwrapCode(adapter[2])
+    const defaultApiUrl = unwrapCode(adapter[3])
+    const dependencies = unwrapCode(adapter[4])
+    const envVars = unwrapCode(adapter[5])
+    const endpoints = unwrapCode(adapter[6])
+    const defEndpoint = unwrapCode(adapter[7])
+    const batchableEndpoints = unwrapCode(adapter[8])
+    const isWSSupported = unwrapCode(adapter[9]) === '✅'
+    const hasUnitTests = unwrapCode(adapter[10]).includes('✅')
+    const hasIntegrationTests = unwrapCode(adapter[11]).includes('✅')
+    const hasE2ETests = unwrapCode(adapter[12]).includes('✅')
+    const airtableFields = {
+      Name: name,
+      Version: version,
+      Type: type,
+      'Default API URL': defaultApiUrl,
+      Dependencies: dependencies,
+      'Environment Variables': envVars,
+      Endpoints: endpoints,
+      'Default Endpoint': defEndpoint,
+      'Batchable Endpoints': batchableEndpoints,
+      'Websocket Support': isWSSupported,
+      'Unit Tests': hasUnitTests,
+      'Integration Tests': hasIntegrationTests,
+      'E2E Tests': hasE2ETests,
+    }
+
+    if (!record) {
+      tasks.push(
+        base(tableName).create([
+          {
+            fields: airtableFields,
+          },
+        ]),
+      )
+    } else {
+      // if new local version is the same as in airtable, no need to update
+      if (record.version === version) {
+        continue
+      }
+      // update
+      tasks.push(
+        base(tableName).update([
+          {
+            id: record.id,
+            fields: airtableFields,
+          },
+        ]),
+      )
+    }
+  }
+
+  // in case AirTable has more records (some adapters were deleted)
+  if (Object.keys(airtableRecordIds).length > adapterList.length) {
+    const recordsToDelete = Object.keys(airtableRecordIds).filter(
+      (record) => !adapterList.find((adapter) => adapter[0].includes(record)),
+    )
+    recordsToDelete.forEach((record) => {
+      tasks.push(base(tableName).destroy(airtableRecordIds[record].id))
+    })
+  }
+
+  return Promise.all(tasks)
+}
+
+export const generateMasterList = async (
+  verbose = false,
+  output: string[],
+): Promise<TableText | void> => {
   try {
     const composite = getAdapterList(pathToComposites, compositeListDescription)
     const source = getAdapterList(pathToSources, sourceListDescription)
@@ -217,32 +326,40 @@ export const generateMasterList = async (verbose = false): Promise<void> => {
       }),
     )
 
-    let allAdapterText =
-      'This document was generated automatically. Please see [Master List Generator](./packages/scripts#master-list-generator) for more info.\n\n'
+    // If no output is specified or specified value is `fs` generate and save master list data
+    if (output?.length && output.includes('fs')) {
+      let allAdapterText =
+        'This document was generated automatically. Please see [Master List Generator](./packages/scripts#master-list-generator) for more info.\n\n'
 
-    allAdapterText +=
-      buildTable(allAdaptersTable, [
-        'Name',
-        'Version',
-        'Type',
-        'Default API URL',
-        'Dependencies',
-        'Environment Variables (✅ = required)',
-        'Endpoints',
-        'Default Endpoint',
-        'Batchable Endpoints',
-        'Supports WS',
-        'Unit Tests',
-        'Integration Tests',
-        'End-to-End Tests',
-      ]) + '\n'
+      allAdapterText +=
+        buildTable(allAdaptersTable, [
+          'Name',
+          'Version',
+          'Type',
+          'Default API URL',
+          'Dependencies',
+          'Environment Variables (✅ = required)',
+          'Endpoints',
+          'Default Endpoint',
+          'Batchable Endpoints',
+          'Supports WS',
+          'Unit Tests',
+          'Integration Tests',
+          'End-to-End Tests',
+        ]) + '\n'
 
-    saveText([
-      { path: pathToComposites + 'README.md', text: composite.text },
-      { path: pathToSources + 'README.md', text: source.text },
-      { path: pathToTargets + 'README.md', text: target.text },
-      { path: 'MASTERLIST.md', text: allAdapterText },
-    ])
+      saveText([
+        { path: pathToComposites + 'README.md', text: composite.text },
+        { path: pathToSources + 'README.md', text: source.text },
+        { path: pathToTargets + 'README.md', text: target.text },
+        { path: 'MASTERLIST.md', text: allAdapterText },
+      ])
+    }
+
+    // If output is specified to `airtable` generate and save master list data to Airtable DB
+    if (output?.length && output.includes('airtable')) {
+      await generateAirtableMasterList(allAdaptersTable)
+    }
   } catch (error) {
     console.error({ error: error.message, stack: error.stack })
     throw Error(error)

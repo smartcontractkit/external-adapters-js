@@ -97,6 +97,8 @@ export const onConnectComplete = createAction(
   asAction<WSSubscriptionPayload>(),
 )
 
+export const WSReset = createAction('WS/RESET')
+
 /** SUBSCRIPTIONS */
 export interface WSSubscriptionPayload {
   connectionInfo: WSConnectionInfo
@@ -117,6 +119,7 @@ export interface WSSubscriptionErrorPayload extends WSErrorPayload {
 
 export interface WSSubscriptionErrorHandlerPayload {
   connectionInfo: WSConnectionInfo
+  input?: AdapterRequest
   subscriptionMsg?: any
   shouldNotRetrySubscription: boolean
   shouldNotRetryConnection: boolean

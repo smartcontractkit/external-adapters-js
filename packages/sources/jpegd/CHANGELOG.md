@@ -1,5 +1,64 @@
 # @chainlink/jpegd-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- c4272cb0b: Adds new collections endpoint that will be used moving forward, replacing the punks endpoint.
+
+### Minor Changes
+
+- c4272cb0b: Change block parameter to use default value of 'latest', update tests accordingly.
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.10
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.7
 
 ### Patch Changes

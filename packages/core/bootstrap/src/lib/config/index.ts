@@ -1,4 +1,4 @@
-import { getRandomRequiredEnv, getRandomEnv, getEnv } from '../util'
+import { getRandomRequiredEnv, getRandomEnv, getEnv, parseBool } from '../util'
 import { Config } from '@chainlink/types'
 import { logger } from '../modules/logger'
 
@@ -9,7 +9,7 @@ const ENV_API_VERBOSE = 'API_VERBOSE'
 const ENV_WS_API_ENDPOINT = 'WS_API_ENDPOINT'
 const ENV_WS_API_KEY = 'WS_API_KEY'
 
-const DEFAULT_API_TIMEOUT = 5000
+const DEFAULT_API_TIMEOUT = 30000
 
 export const constants = {
   ENV_API_KEY,
@@ -34,7 +34,7 @@ export function getDefaultConfig(prefix = '', requireKey = false, requireWsKey =
   return {
     apiKey,
     wsApiKey,
-    verbose: !!getEnv(ENV_API_VERBOSE, prefix),
+    verbose: parseBool(getEnv(ENV_API_VERBOSE, prefix)),
     api: {
       withCredentials: !!apiKey,
       baseURL: getEnv(ENV_API_ENDPOINT, prefix),

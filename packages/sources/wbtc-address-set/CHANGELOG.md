@@ -1,5 +1,73 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 1.3.32
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/proof-of-reserves-adapter@1.5.12
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.31
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/proof-of-reserves-adapter@1.5.11
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.30
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.5.10
+
+## 1.3.29
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/proof-of-reserves-adapter@1.5.9
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.28
+
+### Patch Changes
+
+- Updated dependencies [92441b087]
+  - @chainlink/proof-of-reserves-adapter@1.5.8
+
+## 1.3.27
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/proof-of-reserves-adapter@1.5.7
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.26
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/proof-of-reserves-adapter@1.5.6
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.25
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/proof-of-reserves-adapter@1.5.5
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.24
 
 ### Patch Changes

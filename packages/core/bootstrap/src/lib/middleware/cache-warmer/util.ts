@@ -3,9 +3,15 @@ import { WarmupExecutePayload, WarmupSubscribedPayload } from './actions'
 import { get } from './config'
 import { BatchableProperty, SubscriptionData } from './reducer'
 import { AdapterRequest, AdapterResponse } from '@chainlink/types'
-import { hash } from '../../util'
+import { hash } from '../../middleware/cache-key/util'
 
 const conf = get()
+
+/**
+ * Returns hash of the input request payload excluding some volatile paths
+ *
+ * @param request payload
+ */
 export function getSubscriptionKey(
   request: WarmupSubscribedPayload | WarmupExecutePayload,
 ): string {

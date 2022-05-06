@@ -1,6 +1,8 @@
 # Chainlink External Adapter for US Consumer Price Index (USCPI)
 
-Version: 1.1.23
+![1.2.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uscpi-one/package.json)
+
+Base URL https://api.bls.gov/publicAPI/v2
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,11 +17,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |          Options           | Default  |
 | :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [series](#series-endpoint) | `series` |
-
----
 
 ## Series Endpoint
 
@@ -46,6 +48,9 @@ Request:
     "serie": "CUSR0000SA0",
     "year": "2021",
     "month": "July"
+  },
+  "debug": {
+    "cacheKey": "lU5fDIMOQ5L/KT5w0t5K2h4Ql5I="
   }
 }
 ```
@@ -98,4 +103,77 @@ Response:
 }
 ```
 
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "series",
+    "resultPath": "value",
+    "serie": "CUSR0000SA0",
+    "year": "2021",
+    "month": "July"
+  },
+  "debug": {
+    "cacheKey": "lU5fDIMOQ5L/KT5w0t5K2h4Ql5I="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": "REQUEST_SUCCEEDED",
+    "responseTime": 212,
+    "message": [],
+    "Results": {
+      "series": [
+        {
+          "seriesID": "CUSR0000SA0",
+          "data": [
+            {
+              "year": "2021",
+              "period": "M09",
+              "periodName": "September",
+              "latest": "true",
+              "value": "274.138",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M08",
+              "periodName": "August",
+              "value": "273.012",
+              "footnotes": [{}]
+            },
+            {
+              "year": "2021",
+              "period": "M07",
+              "periodName": "July",
+              "value": "271.123",
+              "footnotes": [{}]
+            }
+          ]
+        }
+      ]
+    },
+    "result": 271.123
+  },
+  "result": 271.123,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
+
 ---
+
+MIT License

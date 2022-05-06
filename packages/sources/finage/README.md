@@ -1,6 +1,8 @@
 # Chainlink External Adapter for Finage
 
-Version: 1.3.24
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json)
+
+Base URL https://api.finage.co.uk
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -18,11 +20,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                               Options                                                | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint) | `stock` |
-
----
 
 ## Stock Endpoint
 
@@ -46,8 +48,12 @@ Request:
   "id": "1",
   "data": {
     "endpoint": "stock",
-    "base": "ETH"
-  }
+    "base": "AAPL"
+  },
+  "debug": {
+    "cacheKey": "316c164b35ef3dc21075d5a230fbbdba1a73b311"
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 
@@ -57,7 +63,7 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "symbol": "ETH",
+    "symbol": "AAPL",
     "ask": 26.32,
     "bid": 25.8,
     "asize": 13,
@@ -95,7 +101,11 @@ Request:
   "data": {
     "endpoint": "eod",
     "base": "ETH"
-  }
+  },
+  "debug": {
+    "cacheKey": "44e2057382241c2f567f384645031f2261009e9f"
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 
@@ -152,7 +162,11 @@ Request:
     "endpoint": "forex",
     "from": "GBP",
     "to": "USD"
-  }
+  },
+  "debug": {
+    "cacheKey": "c61cfb94c8737ab068fded47bc6ae05eff279194"
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 
@@ -198,7 +212,11 @@ Request:
     "endpoint": "crypto",
     "from": "BTC",
     "to": "USD"
-  }
+  },
+  "debug": {
+    "cacheKey": "331717863b8c81a60435eeac184715e70176128e"
+  },
+  "rateLimitMaxAge": 60000
 }
 ```
 
@@ -220,3 +238,5 @@ Response:
 ```
 
 ---
+
+MIT License

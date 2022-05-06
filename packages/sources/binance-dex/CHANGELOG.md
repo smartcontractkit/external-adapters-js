@@ -1,5 +1,60 @@
 # @chainlink/binance-dex-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.0
+
+### Minor Changes
+
+- 3b19a44a2: Added base override support to binance dex. Updated tests to verify.
+
+## 1.2.29
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.2.28
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.2.27
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.2.26
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.25
 
 ### Patch Changes

@@ -7,6 +7,7 @@ import * as alpine from '@chainlink/alpine-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
+import * as armanino from '@chainlink/armanino-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
@@ -15,6 +16,7 @@ import * as bitso from '@chainlink/bitso-adapter'
 import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
+import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
@@ -59,6 +61,7 @@ import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
+import * as galaxis from '@chainlink/galaxis-adapter'
 import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -131,6 +134,7 @@ export default {
   amberdata,
   anyblock,
   ap_election,
+  armanino,
   bea,
   binance,
   binance_dex,
@@ -139,6 +143,7 @@ export default {
   blockchain_com,
   blockchair,
   blockcypher,
+  blocksize_capital,
   blockstream,
   bravenewcoin,
   btc_com,
@@ -183,6 +188,7 @@ export default {
   fixer,
   flightaware,
   fmpcloud,
+  galaxis,
   gemini,
   genesis_adapter,
   geodb,

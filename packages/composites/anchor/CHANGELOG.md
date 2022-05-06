@@ -1,5 +1,60 @@
 # @chainlink/anchor-adapter
 
+## 3.2.9
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.14
+
+## 3.2.8
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.13
+
+## 3.2.7
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.12
+
+## 3.2.6
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.11
+
+## 3.2.5
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.10
+
+## 3.2.4
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.9
+
 ## 3.2.3
 
 ### Patch Changes

@@ -147,6 +147,9 @@
       "path": "./sources/ap-election"
     },
     {
+      "path": "./sources/armanino"
+    },
+    {
       "path": "./sources/bea"
     },
     {
@@ -169,6 +172,9 @@
     },
     {
       "path": "./sources/blockcypher"
+    },
+    {
+      "path": "./sources/blocksize-capital"
     },
     {
       "path": "./sources/blockstream"
@@ -301,6 +307,9 @@
     },
     {
       "path": "./sources/fmpcloud"
+    },
+    {
+      "path": "./sources/galaxis"
     },
     {
       "path": "./sources/gemini"

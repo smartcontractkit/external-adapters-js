@@ -1,5 +1,45 @@
 # @chainlink/ea-bootstrap
 
+## 2.2.0
+
+### Minor Changes
+
+- 9a68af1e1: Remove rate limiting and slowdown middlewares
+
+## 2.1.0
+
+### Minor Changes
+
+- 4f0191ae8: fix issue where config.verbose set to true when API_VERBOSE env var is set to false
+
+## 2.0.0
+
+### Major Changes
+
+- 7c0e0d672: Change to deterministic cache key generation
+
+### Patch Changes
+
+- b6a12af05: added base input params section in README
+
+## 1.18.0
+
+### Minor Changes
+
+- 62095689f: add granular status code
+
+## 1.17.1
+
+### Patch Changes
+
+- 1a65c7b7d: Revert Overrider casing change
+
+## 1.17.0
+
+### Minor Changes
+
+- f9d466a77: Changed the default API timeout from 5 seconds back to 30 seconds
+
 ## 1.16.0
 
 ### Minor Changes

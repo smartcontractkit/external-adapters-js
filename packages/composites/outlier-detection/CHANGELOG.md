@@ -1,5 +1,114 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.83
+
+### Patch Changes
+
+- @chainlink/ea@1.0.83
+
+## 1.0.82
+
+### Patch Changes
+
+- @chainlink/ea@1.0.82
+
+## 1.0.81
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-reference-data-reader@1.1.20
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.81
+
+## 1.0.80
+
+### Patch Changes
+
+- @chainlink/ea@1.0.80
+
+## 1.0.79
+
+### Patch Changes
+
+- @chainlink/ea@1.0.79
+
+## 1.0.78
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-reference-data-reader@1.1.19
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.78
+
+## 1.0.77
+
+### Patch Changes
+
+- @chainlink/ea@1.0.77
+
+## 1.0.76
+
+### Patch Changes
+
+- @chainlink/ea@1.0.76
+
+## 1.0.75
+
+### Patch Changes
+
+- @chainlink/ea@1.0.75
+
+## 1.0.74
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/ea-reference-data-reader@1.1.18
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.74
+
+## 1.0.73
+
+### Patch Changes
+
+- @chainlink/ea@1.0.73
+
+## 1.0.72
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/ea@1.0.72
+  - @chainlink/ea-reference-data-reader@1.1.17
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.71
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/ea-reference-data-reader@1.1.16
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.71
+
+## 1.0.70
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/ea-reference-data-reader@1.1.15
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.70
+
 ## 1.0.69
 
 ### Patch Changes

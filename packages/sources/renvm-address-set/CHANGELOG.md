@@ -1,5 +1,73 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.3.23
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/proof-of-reserves-adapter@1.5.12
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.22
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/proof-of-reserves-adapter@1.5.11
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.21
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.5.10
+
+## 1.3.20
+
+### Patch Changes
+
+- Updated dependencies [b6a12af05]
+- Updated dependencies [7c0e0d672]
+  - @chainlink/ea-bootstrap@2.0.0
+  - @chainlink/proof-of-reserves-adapter@1.5.9
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.19
+
+### Patch Changes
+
+- Updated dependencies [92441b087]
+  - @chainlink/proof-of-reserves-adapter@1.5.8
+
+## 1.3.18
+
+### Patch Changes
+
+- Updated dependencies [62095689f]
+  - @chainlink/ea-bootstrap@1.18.0
+  - @chainlink/proof-of-reserves-adapter@1.5.7
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.17
+
+### Patch Changes
+
+- Updated dependencies [1a65c7b7d]
+  - @chainlink/ea-bootstrap@1.17.1
+  - @chainlink/proof-of-reserves-adapter@1.5.6
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.16
+
+### Patch Changes
+
+- Updated dependencies [f9d466a77]
+  - @chainlink/ea-bootstrap@1.17.0
+  - @chainlink/proof-of-reserves-adapter@1.5.5
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.15
 
 ### Patch Changes
