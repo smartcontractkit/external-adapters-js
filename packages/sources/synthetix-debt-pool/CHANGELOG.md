@@ -1,5 +1,11 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 3.1.1
+
+### Patch Changes
+
+- e47a7e294: Rename blockNumber -> blockTag & update ethers dep
+
 ## 3.1.0
 
 ### Minor Changes

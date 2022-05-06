@@ -1,5 +1,15 @@
 # @chainlink/jpegd-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- c4272cb0b: Adds new collections endpoint that will be used moving forward, replacing the punks endpoint.
+
+### Minor Changes
+
+- c4272cb0b: Change block parameter to use default value of 'latest', update tests accordingly.
+
 ## 1.1.13
 
 ### Patch Changes
