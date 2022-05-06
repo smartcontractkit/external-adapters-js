@@ -2,14 +2,15 @@ import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import {
+  getAddressResolver,
   getContractAddress,
   getDataFromAcrossChains,
   inputParameters as commonInputParameters,
 } from '../utils'
 import { Config } from '../config'
-import { DEBT_CACHE_ABI, SYNTHETIX_DEBT_SHARE_ABI } from './abi'
+import { SYNTHETIX_DEBT_SHARE_ABI } from './abi'
+import { getDebtIssued } from './debt'
 
-// Needs to be exported so that doc generator script works
 export const inputParameters = commonInputParameters
 export const supportedEndpoints = ['debt-ratio']
 
@@ -21,13 +22,25 @@ interface CurrentDebtResults {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) =>
   await getDataFromAcrossChains(request, config, getDebtRatio)
 
+/**
+ * Get the total debt ratios summed from multiple chains.
+ *
+ * The debt ratio can be calculated using:
+ * Total Debt Issued / Total Debt Shares
+ *
+ * @param jobRunID
+ * @param config
+ * @param chainsToQuery [string, number][]
+ * @returns BigNumber
+ */
 const getDebtRatio = async (
   jobRunID: string,
   config: Config,
-  chainsToQuery: string[],
+  chainsToQuery: [string, number][],
 ): Promise<BigNumber> => {
+  const debtIssued = await getDebtIssued(jobRunID, config, chainsToQuery)
   const chainResponses = await Promise.all(
-    chainsToQuery.map(async (network): Promise<CurrentDebtResults> => {
+    debtIssued.map(async ([network, blockNumber, issuedSynths]): Promise<CurrentDebtResults> => {
       if (!config.chains[network])
         throw new AdapterError({
           jobRunID,
@@ -36,16 +49,13 @@ const getDebtRatio = async (
         })
       const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
       try {
-        const debtCacheAddress = await getContractAddress(
+        const addressResolverAddress = await getAddressResolver(
           networkProvider,
-          config.chains[network].chainAddressResolverAddress,
-          'DebtCache',
+          config.chains[network].chainAddressResolverProxyAddress,
         )
-        const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
-        const [chainTotalDebt] = await debtCache.currentDebt()
         const synthetixDebtShareAddress = await getContractAddress(
           networkProvider,
-          config.chains[network].chainAddressResolverAddress,
+          addressResolverAddress,
           'SynthetixDebtShare',
         )
         const synthetixDebtShare = new ethers.Contract(
@@ -53,9 +63,9 @@ const getDebtRatio = async (
           SYNTHETIX_DEBT_SHARE_ABI,
           networkProvider,
         )
-        const chainTotalDebtShare = await synthetixDebtShare.totalSupply()
+        const chainTotalDebtShare = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
         return {
-          totalDebtIssued: chainTotalDebt,
+          totalDebtIssued: issuedSynths,
           totalDebtShares: chainTotalDebtShare,
         }
       } catch (e) {

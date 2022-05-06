@@ -1,6 +1,6 @@
 # Chainlink External Adapter for COVID Tracker
 
-![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/covid-tracker/package.json)
+![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/covid-tracker/package.json)
 
 Notice: The COVID Tracking Project is ending all data collection on March 7, 2021. The existing API will continue to work until May 2021, but will only include data up to March 7, 2021.
 

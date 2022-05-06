@@ -1,5 +1,14 @@
 # @chainlink/eth-balance-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-factories@1.0.45
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.1
 
 ### Patch Changes

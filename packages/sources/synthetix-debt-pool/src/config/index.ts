@@ -16,7 +16,7 @@ export interface Config extends DefaultConfig {
   chains: {
     [key: string]: {
       rpcURL: string
-      chainAddressResolverAddress: string
+      chainAddressResolverProxyAddress: string
     }
   }
 }
@@ -31,13 +31,13 @@ export const makeConfig = (prefix?: string): Config => {
   for (const chainName of Object.values(SupportedChains)) {
     const envVarPrefix = getRPCUrlPrefix(chainName)
     const chainRpcURL = util.getEnv('RPC_URL', envVarPrefix)
-    const chainAddressResolverAddress =
-      util.getEnv('ADDRESS_RESOLVER_CONTRACT_ADDRESS', envVarPrefix) ||
-      getDefaultAddressResolverAddress(chainName)
+    const chainAddressResolverProxyAddress =
+      util.getEnv('ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS', envVarPrefix) ||
+      getDefaultAddressResolverProxyAddress(chainName)
     if (chainRpcURL) {
       config.chains[chainName] = {
         rpcURL: chainRpcURL,
-        chainAddressResolverAddress,
+        chainAddressResolverProxyAddress,
       }
     }
   }
@@ -60,15 +60,15 @@ const getRPCUrlPrefix = (networkName: SupportedChains): string => {
   }
 }
 
-const getDefaultAddressResolverAddress = (networkName: SupportedChains): string => {
+const getDefaultAddressResolverProxyAddress = (networkName: SupportedChains): string => {
   switch (networkName) {
     case SupportedChains.ETHEREUM:
-      return '0x823bE81bbF96BEc0e25CA13170F5AaCb5B79ba83'
+      return '0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2'
     case SupportedChains.KOVAN:
-      return '0x84f87E3636Aa9cC1080c07E6C61aDfDCc23c0db6'
+      return '0x242a3DF52c375bEe81b1c668741D7c63aF68FDD2'
     case SupportedChains.OPTIMISM:
-      return '0x95A6a3f44a70172E7d50a9e28c85Dfd712756B8C'
+      return '0x1Cb059b7e74fD21665968C908806143E744D5F30'
     case SupportedChains.KOVAN_OPTIMISM:
-      return '0xb08b62e1cdfd37eCCd69A9ACe67322CCF801b3A6'
+      return '0x7a6f9eDDC03Db81927eA4131919343f93CA9b6a7'
   }
 }

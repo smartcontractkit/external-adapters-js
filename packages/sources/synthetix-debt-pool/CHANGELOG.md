@@ -1,5 +1,19 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 3.1.0
+
+### Minor Changes
+
+- 11f3d9536: Modifications for SIP-229: Optimism Bridge for Synths
+
+## 3.0.10
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 3.0.9
 
 ### Patch Changes

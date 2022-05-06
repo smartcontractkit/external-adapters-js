@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Expert Car Broker
 
-![1.2.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/expert-car-broker/package.json)
+![1.2.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/expert-car-broker/package.json)
 
 Adapter to get data from Expert Car Broker.
 

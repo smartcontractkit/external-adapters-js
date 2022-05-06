@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinapi-adapter",
-  "version": "1.1.31",
+  "version": "1.1.32",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

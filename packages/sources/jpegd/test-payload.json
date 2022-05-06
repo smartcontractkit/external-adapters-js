@@ -1,5 +1,5 @@
 {
  "requests": [{
-  "block": "latest"
+  "collection": "cryptopunks"
  }]
 }
