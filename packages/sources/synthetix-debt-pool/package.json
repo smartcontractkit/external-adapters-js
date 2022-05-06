@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/synthetix-debt-pool-adapter",
-  "version": "3.0.9",
+  "version": "3.1.1",
   "description": "Chainlink synthetix-debt-pool adapter.",
   "keywords": [
     "Chainlink",
@@ -30,7 +30,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
-    "ethers": "5.5.3",
+    "ethers": "^5.6.5",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
