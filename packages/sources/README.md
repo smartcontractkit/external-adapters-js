@@ -22,6 +22,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [blockchain.com](./blockchain.com/README.md)
 - [blockchair](./blockchair/README.md)
 - [blockcypher](./blockcypher/README.md)
+- [blocksize-capital](./blocksize-capital/README.md)
 - [blockstream](./blockstream/README.md)
 - [bravenewcoin](./bravenewcoin/README.md)
 - [btc.com](./btc.com/README.md)
