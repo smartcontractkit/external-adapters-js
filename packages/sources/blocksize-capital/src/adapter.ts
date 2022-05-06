@@ -71,7 +71,8 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       return subscriptionMsg
     },
     toResponse: (message: PriceUpdateResponse, input: AdapterRequest) => {
-      const result = Requester.validateResultNumber(message, ['price'])
+      const tickerUpdate = message.params.updates.find((u) => u.ticker === getPair(input)) || {}
+      const result = Requester.validateResultNumber(tickerUpdate, ['price'])
       return Requester.success(input.id, { data: { result } }, wsConfig.verbose)
     },
     filter: (message: ResponseMessage) => 'method' in message && message.method === 'vwap',
