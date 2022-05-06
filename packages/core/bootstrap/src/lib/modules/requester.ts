@@ -9,7 +9,7 @@ import {
 } from '@chainlink/types'
 import { reducer } from '../middleware/cache-warmer'
 import axios, { AxiosResponse } from 'axios'
-import { deepType, getEnv, sleep } from '../util'
+import { deepType, getEnv, parseBool, sleep } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import { AdapterError } from './error'
 import { logger } from './logger'
@@ -48,7 +48,13 @@ export class Requester {
       let response: AxiosResponse<T>
       const url = join(config.baseURL || '', config.url || '')
       try {
+        const startTime = process.hrtime()
+
         response = await axios(config)
+
+        const endTime = process.hrtime(startTime)
+        const milliseconds = Math.round(endTime[0] * 1000 + endTime[1] / 1000000)
+        response.headers['request-duration'] = milliseconds.toString()
       } catch (error) {
         // Request error
         if (error.code === 'ECONNABORTED') {
@@ -217,6 +223,32 @@ export class Requester {
 
     if (response.status) {
       adapterResponse.providerStatusCode = response.status
+    }
+
+    if (parseBool(getEnv('TELEMETRY_DATA_ENABLED'))) {
+      adapterResponse.telemetry = {
+        rateLimitEnabled: parseBool(getEnv('RATE_LIMIT_ENABLED')),
+        wsEnabled: parseBool(getEnv('WS_ENABLED')),
+        cacheEnabled: parseBool(getEnv('CACHE_ENABLED')),
+        cacheType: getEnv('CACHE_TYPE'),
+        cacheWarmingEnabled: parseBool(getEnv('WARMUP_ENABLED')),
+        cacheMaxAge: getEnv('CACHE_MAX_AGE'),
+        metricEnabled: parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED')),
+        rateLimitApiTier: getEnv('RATE_LIMIT_API_TIER'),
+        requestCoalescingEnabled: parseBool(getEnv('REQUEST_COALESCING_ENABLED')),
+      }
+
+      if (response?.headers && response?.config) {
+        adapterResponse.telemetry.protocol = 'http'
+      } else if (adapterResponse.telemetry.wsEnabled) {
+        adapterResponse.telemetry.protocol = 'ws'
+      }
+
+      if (response?.headers && response.headers['request-duration']) {
+        adapterResponse.telemetry.dataProviderRequestTime = Number(
+          response.headers['request-duration'],
+        )
+      }
     }
 
     return adapterResponse
