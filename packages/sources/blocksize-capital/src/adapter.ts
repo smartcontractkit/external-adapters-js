@@ -29,8 +29,6 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
-  const wsConfig = config || makeConfig()
-
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(
       input,
@@ -44,38 +42,42 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return base + quote
   }
 
-  return () => ({
-    connection: { url: DEFAULT_BASE_WS_URL },
-    onConnect: (): AuthenticationRequest => ({
-      jsonrpc: '2.0',
-      method: 'authentication_logon',
-      params: { api_key: wsConfig.apiKey },
-    }),
-    noHttp: true,
-    subscribe: (input: AdapterRequest): SubscribeRequest => ({
-      jsonrpc: '2.0',
-      method: 'vwap_subscribe',
-      params: { tickers: [getPair(input)] },
-    }),
-    unsubscribe: (input: AdapterRequest): UnsubscribeRequest => ({
-      jsonrpc: '2.0',
-      method: 'vwap_unsubscribe',
-      params: { tickers: [getPair(input)] },
-    }),
-    subsFromMessage: (message: ResponseMessage, subscriptionMsg: SubscribeRequest) => {
-      if (!('method' in message && message.method === 'vwap')) return
-      const subInMessage = message.params.updates.find((u) =>
-        subscriptionMsg.params.tickers?.includes(u.ticker),
-      )
-      if (!subInMessage) return
-      return subscriptionMsg
-    },
-    toResponse: (message: PriceUpdateResponse, input: AdapterRequest) => {
-      const tickerUpdate = message.params.updates.find((u) => u.ticker === getPair(input)) || {}
-      const result = Requester.validateResultNumber(tickerUpdate, ['price'])
-      return Requester.success(input.id, { data: { result } }, wsConfig.verbose)
-    },
-    filter: (message: ResponseMessage) => 'method' in message && message.method === 'vwap',
-    isError: (message: ResponseMessage) => 'error' in message,
-  })
+  return async () => {
+    const wsConfig = config || makeConfig()
+
+    return {
+      connection: { url: DEFAULT_BASE_WS_URL },
+      onConnect: (): AuthenticationRequest => ({
+        jsonrpc: '2.0',
+        method: 'authentication_logon',
+        params: { api_key: wsConfig.apiKey },
+      }),
+      noHttp: true,
+      subscribe: (input: AdapterRequest): SubscribeRequest => ({
+        jsonrpc: '2.0',
+        method: 'vwap_subscribe',
+        params: { tickers: [getPair(input)] },
+      }),
+      unsubscribe: (input: AdapterRequest): UnsubscribeRequest => ({
+        jsonrpc: '2.0',
+        method: 'vwap_unsubscribe',
+        params: { tickers: [getPair(input)] },
+      }),
+      subsFromMessage: (message: ResponseMessage, subscriptionMsg: SubscribeRequest) => {
+        if (!('method' in message && message.method === 'vwap')) return
+        const subInMessage = message.params.updates.find((u) =>
+          subscriptionMsg.params.tickers?.includes(u.ticker),
+        )
+        if (!subInMessage) return
+        return subscriptionMsg
+      },
+      toResponse: (message: PriceUpdateResponse, input: AdapterRequest) => {
+        const tickerUpdate = message.params.updates.find((u) => u.ticker === getPair(input)) || {}
+        const result = Requester.validateResultNumber(tickerUpdate, ['price'])
+        return Requester.success(input.id, { data: { result } }, wsConfig.verbose)
+      },
+      filter: (message: ResponseMessage) => 'method' in message && message.method === 'vwap',
+      isError: (message: ResponseMessage) => 'error' in message,
+    }
+  }
 }
