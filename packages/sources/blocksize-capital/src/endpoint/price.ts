@@ -2,6 +2,9 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['price']
 
+export const description =
+  'The price endpoint is used to fetch a price for a base/quote asset pair. This adapter currently only supports WS connection to the API on this endpoint.'
+
 export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
