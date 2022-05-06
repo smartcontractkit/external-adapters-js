@@ -1,4 +1,4 @@
-# @chainlink/example-source-adapter
+# @chainlink/blocksize-capital-adapter
 
 ## 0.0.3
 
