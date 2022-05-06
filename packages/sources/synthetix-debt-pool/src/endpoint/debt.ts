@@ -55,7 +55,7 @@ export const getDebtIssued = async (
           'DebtCache',
         )
         const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
-        const [debtIssued] = await debtCache.currentDebt({ blockNumber })
+        const [debtIssued] = await debtCache.currentDebt({ blockTag: blockNumber })
 
         const synthetixBridgeAddress = await getContractAddress(
           networkProvider,
@@ -67,8 +67,10 @@ export const getDebtIssued = async (
           SYNTHETIX_BRIDGE_ABI,
           networkProvider,
         )
-        const synthTransferReceived = await synthetixBridge.synthTransferReceived({ blockNumber })
-        const synthTransferSent = await synthetixBridge.synthTransferSent({ blockNumber })
+        const synthTransferReceived = await synthetixBridge.synthTransferReceived({
+          blockTag: blockNumber,
+        })
+        const synthTransferSent = await synthetixBridge.synthTransferSent({ blockTag: blockNumber })
         const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
         return [network, blockNumber, issuedSynths]
       } catch (e) {
