@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.3.0
+
+### Minor Changes
+
+- 54514ec52: Add blocksize-capital EA
+
 ## 2.2.0
 
 ### Minor Changes
