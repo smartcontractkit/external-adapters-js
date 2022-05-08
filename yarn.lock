@@ -3055,7 +3055,7 @@ __metadata:
     chalk: 4.1.2
     class-validator: 0.13.2
     command-line-args: 5.2.1
-    command-line-usage: 6.1.1
+    command-line-usage: 6.1.3
     json-schema-ref-parser: 9.0.9
     mockserver-client: 5.11.2
     rxjs: 7.4.0
@@ -10611,7 +10611,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array-back@npm:^4.0.1":
+"array-back@npm:^4.0.1, array-back@npm:^4.0.2":
   version: 4.0.2
   resolution: "array-back@npm:4.0.2"
   checksum: f30603270771eeb54e5aad5f54604c62b3577a18b6db212a7272b2b6c32049121b49431f656654790ed1469411e45f387e7627c0de8fd0515995cc40df9b9294
@@ -12613,15 +12613,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"command-line-usage@npm:6.1.1":
-  version: 6.1.1
-  resolution: "command-line-usage@npm:6.1.1"
+"command-line-usage@npm:6.1.3":
+  version: 6.1.3
+  resolution: "command-line-usage@npm:6.1.3"
   dependencies:
-    array-back: ^4.0.1
+    array-back: ^4.0.2
     chalk: ^2.4.2
-    table-layout: ^1.0.1
+    table-layout: ^1.0.2
     typical: ^5.2.0
-  checksum: f84268a10449323cc838cec3eeaa962b0e63b93142bbeb9202e3e5406ecbbc91fd018d235a49088430f5b757fa1e9c086c3ca141583cfc3950d3fb366b0b2fed
+  checksum: 8261d4e5536eb0bcddee0ec5e89c05bb2abd18e5760785c8078ede5020bc1c612cbe28eb6586f5ed4a3660689748e5aaad4a72f21566f4ef39393694e2fa1a0b
   languageName: node
   linkType: hard
 
@@ -26945,7 +26945,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"table-layout@npm:^1.0.1":
+"table-layout@npm:^1.0.2":
   version: 1.0.2
   resolution: "table-layout@npm:1.0.2"
   dependencies:
