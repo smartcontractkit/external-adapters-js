@@ -53,19 +53,16 @@ export const initHandler =
 
     const executeWithMiddleware = await withMiddleware(execute, context, middleware)
 
-    app.post(baseUrl, async (req, res) => {
-      ;(req.body as AdapterRequest).data = {
-        ...((req.body as AdapterRequest).data || {}),
+    app.post<{
+      Body: AdapterRequest
+    }>(baseUrl, async (req, res) => {
+      req.body.data = {
+        ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
       }
-      return executeSync(
-        req.body as AdapterRequest,
-        executeWithMiddleware,
-        context,
-        (status, result) => {
-          res.code(status).send(result)
-        },
-      )
+      return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
+        res.code(status).send(result)
+      })
     })
 
     app.get(join(baseUrl, 'health'), async (_, res) => {
