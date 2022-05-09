@@ -12326,7 +12326,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["npm:14.18.13", {
           "packageLocation": "./.yarn/cache/@types-node-npm-14.18.13-2a708b4d90-307cd26bd6.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:14.18.16"]
+            ["@types/node", "npm:14.18.13"]
           ],
           "linkType": "HARD",
         }],
