@@ -5582,7 +5582,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chalk", "npm:4.1.2"],
             ["class-validator", "npm:0.13.2"],
             ["command-line-args", "npm:5.2.1"],
-            ["command-line-usage", "npm:6.1.1"],
+            ["command-line-usage", "npm:6.1.3"],
             ["json-schema-ref-parser", "npm:9.0.9"],
             ["mockserver-client", "npm:5.11.2"],
             ["rxjs", "npm:7.4.0"],
@@ -16075,10 +16075,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["command-line-usage", [
-        ["npm:6.1.1", {
-          "packageLocation": "./.yarn/cache/command-line-usage-npm-6.1.1-e82833089f-f84268a104.zip/node_modules/command-line-usage/",
+        ["npm:6.1.3", {
+          "packageLocation": "./.yarn/cache/command-line-usage-npm-6.1.3-145c2dabe1-8261d4e553.zip/node_modules/command-line-usage/",
           "packageDependencies": [
-            ["command-line-usage", "npm:6.1.1"],
+            ["command-line-usage", "npm:6.1.3"],
             ["array-back", "npm:4.0.2"],
             ["chalk", "npm:2.4.2"],
             ["table-layout", "npm:1.0.2"],
