@@ -1,5 +1,14 @@
 # @chainlink/anchor-adapter
 
+## 3.2.11
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/terra-view-function-adapter@1.2.16
+
 ## 3.2.10
 
 ### Patch Changes

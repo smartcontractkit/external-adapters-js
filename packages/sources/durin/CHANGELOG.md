@@ -1,5 +1,12 @@
 # @chainlink/durin-adapter
 
+## 1.1.33
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+
 ## 1.1.32
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @chainlink/finnhub-adapter
 
+## 1.1.21
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.20
 
 ### Patch Changes
