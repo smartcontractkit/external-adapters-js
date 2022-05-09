@@ -1,5 +1,13 @@
 # @chainlink/ethgasstation-adapter
 
+## 1.3.21
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.20
 
 ### Patch Changes
