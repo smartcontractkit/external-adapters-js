@@ -51,18 +51,27 @@ Detailed here is optional configuration that can be provided to any EA through e
 ### Table of Contents
 
 - [Chainlink External Adapter Bootstrap](#chainlink-external-adapter-bootstrap)
-  - [Table of Contents](#table-of-contents)
+  - [Middlewares](#middlewares)
+    - [Caching](#caching)
+    - [Cache Warming](#cache-warming)
+    - [Batching](#batching)
+    - [Rate limiting](#rate-limiting)
+    - [Error Backoff](#error-backoff)
+  - [Architecture](#architecture)
+  - [Configuration](#configuration)
+    - [Table of Contents](#table-of-contents)
   - [Server configuration](#server-configuration)
+    - [Base input parameters](#base-input-parameters)
   - [Performance](#performance)
     - [Error back offs](#error-back-offs)
-    - [Caching](#caching)
+    - [Caching](#caching-1)
     - [Cache key](#cache-key)
       - [Ignoring keys](#ignoring-keys)
     - [Local cache](#local-cache)
     - [Redis](#redis)
-    - [Rate Limiting](#rate-limiting)
+    - [Rate Limiting](#rate-limiting-1)
       - [Provider Limits](#provider-limits)
-    - [Cache Warming](#cache-warming)
+    - [Cache Warming](#cache-warming-1)
     - [Request Coalescing](#request-coalescing)
   - [Metrics](#metrics)
   - [Websockets](#websockets)
@@ -156,7 +165,7 @@ For example, if the `CACHE_KEY_IGNORED_PROPS=timestamp` is set, these requests w
 | :-------: | :----------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |           |   `CACHE_REDIS_CONNECTION_TIMEOUT`   |                                             Timeout to end socket connection due to inactivity (ms)                                             |         |   `15000`   |
 |           |          `CACHE_REDIS_HOST`          |                                                         IP address of the Redis server.                                                         |         | `127.0.0.1` |
-|           |    `CACHE_REDIS_MAX_QUEUED_ITEMS`    |                                              Maximum length of the client's internal command queue                                              |         |     100     |
+|           |    `CACHE_REDIS_MAX_QUEUED_ITEMS`    |                                              Maximum length of the client's internal command queue                                              |         |     500     |
 |           | `CACHE_REDIS_MAX_RECONNECT_COOLDOWN` |                                              Max cooldown time before attempting to reconnect (ms)                                              |         |   `3000`    |
 |           |          `CACHE_REDIS_PORT`          |                                                            Port of the Redis server.                                                            |         |   `6379`    |
 |           |          `CACHE_REDIS_PATH`          |                                                   The UNIX socket string of the Redis server.                                                   |         |  undefined  |
