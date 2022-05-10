@@ -26,10 +26,7 @@ export const getValidAddresses = (
       validatedInput.result,
     )
   }
-  if (
-    !validator.validated.data.disableDuplicateAddressFiltering ||
-    validator.validated.data.disableDuplicateAddressFiltering !== 'true'
-  ) {
+  if (!parseBool(validator.validated.data.disableDuplicateAddressFiltering)) {
     validatedInput.result = filterDuplicates(validatedInput.result)
   }
   validatedInput.data.result = validatedInput.result
