@@ -11,9 +11,11 @@ export const makeConfig = (prefix?: string): Config => {
   const userId = util.getRequiredEnv('WS_USER_ID', prefix)
   const publicKey = util.getRequiredEnv('WS_PUBLIC_KEY', prefix)
   const privateKey = util.getRequiredEnv('WS_PRIVATE_KEY', prefix)
+  const WS_URL = util.getEnv('WS_API_ENDPOINT', prefix) || DEFAULT_WS_API_ENDPOINT
   config.api = {
     ...config.api,
     baseURL: config.api.baseURL || DEFAULT_BASE_URL,
+    baseWsURL: WS_URL,
     headers: {
       'x-auth-userid': userId,
     },

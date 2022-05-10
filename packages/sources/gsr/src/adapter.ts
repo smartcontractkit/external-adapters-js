@@ -7,7 +7,7 @@ import {
   APIEndpoint,
   MakeWSHandler,
 } from '@chainlink/types'
-import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
+import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 import crypto from 'crypto'
 import { AccessToken, AccessTokenRespopnse, TickerMessage } from './types'
@@ -23,7 +23,7 @@ export const makeExecute: ExecuteFactory<Config> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-const currentTimeNanoSeconds = (): number => new Date().getTime() * 1000000
+const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1000000
 
 const generateSignatureString = (
   userId: string,
@@ -47,7 +47,7 @@ const generateSignature = (
     .update(generateSignatureString(userId, ts, publicKey, existingToken))
     .digest('hex')
 
-const getAccessToken = async (
+export const getAccessToken = async (
   config: Config,
   existingToken?: AccessToken,
 ): Promise<AccessToken> => {
@@ -72,6 +72,7 @@ const getAccessToken = async (
         signature,
       },
     }
+
     const tokenResponse = await Requester.request<AccessTokenRespopnse>(data)
     if (!tokenResponse.data.success) throw new Error(tokenResponse.data.error)
     return {
@@ -116,7 +117,7 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
 
     return {
       connection: {
-        url: config.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: config.api.baseWsURL,
         protocol: { headers: { ...config.api.headers, 'x-auth-token': token.token } },
       },
       noHttp: true,
