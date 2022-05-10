@@ -120,6 +120,9 @@
       "path": "./scripts"
     },
     {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
+    },
+    {
       "path": "./sources/1forge"
     },
     {
@@ -406,6 +409,9 @@
     },
     {
       "path": "./sources/polygon"
+    },
+    {
+      "path": "./sources/por-address-list"
     },
     {
       "path": "./sources/reduce"

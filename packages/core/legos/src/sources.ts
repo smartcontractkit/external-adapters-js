@@ -94,6 +94,7 @@ import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
+import * as por_address_list from '@chainlink/por-address-list-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
@@ -220,6 +221,7 @@ export default {
   paypal,
   poa,
   polygon,
+  por_address_list,
   reduce,
   renvm_adapter_address,
   satoshitango,

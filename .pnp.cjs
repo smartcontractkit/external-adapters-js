@@ -575,6 +575,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/polygon"
       },
       {
+        "name": "@chainlink/por-address-list-adapter",
+        "reference": "workspace:packages/sources/por-address-list"
+      },
+      {
         "name": "@chainlink/reduce-adapter",
         "reference": "workspace:packages/sources/reduce"
       },
@@ -841,6 +845,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],
       ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
+      ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],
       ["@chainlink/por-indexer-adapter", ["workspace:packages/composites/por-indexer"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
       ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],
@@ -5412,6 +5417,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],
+            ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],
@@ -6761,6 +6767,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.25"],
             ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/por-address-list-adapter", [
+        ["workspace:packages/sources/por-address-list", {
+          "packageLocation": "./packages/sources/por-address-list/",
+          "packageDependencies": [
+            ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.25"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
