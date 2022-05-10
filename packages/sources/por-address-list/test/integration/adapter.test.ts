@@ -50,6 +50,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
 
     process.env.CACHE_ENABLED = 'false'
     if (process.env.RECORD) {
