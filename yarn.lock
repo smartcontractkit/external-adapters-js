@@ -3158,6 +3158,7 @@ __metadata:
     "@chainlink/google-bigquery-adapter": "workspace:*"
     "@chainlink/gramchain-adapter": "workspace:*"
     "@chainlink/graphql-adapter": "workspace:*"
+    "@chainlink/gsr-adapter": "workspace:*"
     "@chainlink/iex-cloud-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
@@ -3657,6 +3658,23 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.25
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/gsr-adapter@workspace:*, @chainlink/gsr-adapter@workspace:packages/sources/gsr":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.25
+    "@types/supertest": 2.0.11
+    nock: 13.2.4
+    supertest: 6.2.2
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
