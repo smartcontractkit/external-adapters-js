@@ -1,5 +1,33 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 3.1.3
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 3.1.2
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 3.1.1
+
+### Patch Changes
+
+- e47a7e294: Rename blockNumber -> blockTag & update ethers dep
+
+## 3.1.0
+
+### Minor Changes
+
+- 11f3d9536: Modifications for SIP-229: Optimism Bridge for Synths
+
 ## 3.0.10
 
 ### Patch Changes

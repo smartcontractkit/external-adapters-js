@@ -138,15 +138,16 @@ const processSingleAchievement = async (
       endEventIdx,
     })
 
-    // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
-    const addressToCall = implementerAddress || ecRegistry.address
-    calls.push([addressToCall, encodedCall])
-    procesedEventIDs.push({
-      achievementID,
-      eventID: lastProcessedEventID,
-    })
-    const { encodedCalls: updatedEncodedCalls, hasHitLimit: hasCallsHitLimit } =
-      await updateEncodedCalls(
+    let updatedEncodedCalls = ''
+    if (encodedCall) {
+      // Mixed value achievements need to call the implementerAddress else call the ECRegistryAddress
+      const addressToCall = implementerAddress || ecRegistry.address
+      calls.push([addressToCall, encodedCall])
+      procesedEventIDs.push({
+        achievementID,
+        eventID: lastProcessedEventID,
+      })
+      const { encodedCalls, hasHitLimit: hasCallsHitLimit } = await updateEncodedCalls(
         jobRunID,
         achievementID,
         calls,
@@ -155,7 +156,10 @@ const processSingleAchievement = async (
         date,
         procesedEventIDs,
       )
-    hasHitLimit = hasCallsHitLimit
+      hasHitLimit = hasCallsHitLimit
+      updatedEncodedCalls = encodedCalls
+    }
+
     endEventIdx++
     if (hasHitLimit) {
       Logger.info(
@@ -309,7 +313,8 @@ const getSetDataEncodedCall = async (
       achievements,
       achievementID,
     )
-    ;(encodedCall = mixedValueEncodedCall), (implementerAddress = achievementImplementerAddress)
+    encodedCall = mixedValueEncodedCall
+    implementerAddress = achievementImplementerAddress
   }
   return {
     encodedCall,
@@ -388,6 +393,7 @@ const getSetDataEncodedCallForOnlyBooleanAchievement = async (
       newDataValues.push(updatedTraitDataArr[z])
     }
   }
+  if (newDataIndexes.length === 0 || newDataValues.length === 0) return ''
   return ecRegistry.interface.encodeFunctionData('setData', [
     achievementID,
     newDataIndexes,
