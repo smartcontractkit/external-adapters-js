@@ -36,17 +36,17 @@ const inputParameters: InputParameters = {
   },
   disableAddressValidation: {
     required: false,
-    type: 'string',
+    type: 'boolean',
     description: 'Gives the option to disable address validation before the balances are fetched.',
-    default: 'false',
+    default: false,
   },
   disableDuplicateAddressFiltering: {
     required: false,
-    type: 'string',
+    type: 'boolean',
     description:
       'Gives the option to disabled the filtering of duplicate addresses in a request. ' +
       'If this is set to `true` and a duplicate address is contained in the request, the balance of that address will be counted twice.',
-    default: 'false',
+    default: false,
   },
 }
 
