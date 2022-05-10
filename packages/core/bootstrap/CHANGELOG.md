@@ -1,5 +1,23 @@
 # @chainlink/ea-bootstrap
 
+## 2.4.0
+
+### Minor Changes
+
+- dee93ac7b: Increased the default max Redis cache from 100 to 500
+
+## 2.3.0
+
+### Minor Changes
+
+- 54514ec52: Add blocksize-capital EA
+
+## 2.2.0
+
+### Minor Changes
+
+- 9a68af1e1: Remove rate limiting and slowdown middlewares
+
 ## 2.1.0
 
 ### Minor Changes

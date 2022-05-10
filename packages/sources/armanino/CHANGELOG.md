@@ -1,5 +1,35 @@
 # @chainlink/armanino-adapter
 
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.3
+
+### Patch Changes
+
+- 86ae9787d: Armanino fixed naming of MC02 -> MCO2
+
 ## 1.0.2
 
 ### Patch Changes

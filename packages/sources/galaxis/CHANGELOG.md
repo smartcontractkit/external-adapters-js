@@ -1,5 +1,33 @@
 # @chainlink/galaxis-adapter
 
+## 2.6.1
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.6.0
+
+### Minor Changes
+
+- ac5ec0a97: prevent unnecessary calls from being included in response
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 2.5.1
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 2.5.0
 
 ### Minor Changes

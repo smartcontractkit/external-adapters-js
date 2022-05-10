@@ -1,5 +1,32 @@
 # @chainlink/cryptoapis-adapter
 
+## 1.1.33
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-factories@1.0.47
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.32
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-factories@1.0.46
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.1.31
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-factories@1.0.45
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.30
 
 ### Patch Changes

@@ -1,5 +1,35 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.3.35
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.34
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.3.33
+
+### Patch Changes
+
+- 8d9cc6271: Add CID for stETH on coinmarketcap
+
+## 1.3.32
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.31
 
 ### Patch Changes

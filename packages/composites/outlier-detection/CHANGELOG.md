@@ -1,5 +1,53 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.0.85
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-reference-data-reader@1.1.22
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.85
+
+## 1.0.84
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea@1.0.84
+  - @chainlink/ea-reference-data-reader@1.1.21
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.0.83
+
+### Patch Changes
+
+- @chainlink/ea@1.0.83
+
+## 1.0.82
+
+### Patch Changes
+
+- @chainlink/ea@1.0.82
+
+## 1.0.81
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-reference-data-reader@1.1.20
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ea@1.0.81
+
+## 1.0.80
+
+### Patch Changes
+
+- @chainlink/ea@1.0.80
+
 ## 1.0.79
 
 ### Patch Changes

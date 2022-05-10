@@ -1,6 +1,6 @@
 # Chainlink External Adapter for querying Terra view functions
 
-Version: 1.2.11
+![1.2.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json)
 
 This external adapter allows querying contracts on the Terra blockchain. A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 
@@ -21,11 +21,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |        Options         | Default |
 | :-------: | :------: | :-----------------: | :----: | :--------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [view](#view-endpoint) | `view`  |
-
----
 
 ## View Endpoint
 
@@ -47,12 +47,18 @@ Request:
 
 ```json
 {
-  "jobID": "1",
+  "id": "1",
   "data": {
-    "address": "terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts",
+    "endpoint": "view",
+    "address": "terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy",
     "query": {
-      "state": {}
+      "aggregator_query": {
+        "get_latest_round_data": {}
+      }
     }
+  },
+  "debug": {
+    "cacheKey": "yeD/bgLqBlPxq5DdKNylNKinKXQ="
   }
 }
 ```
@@ -62,34 +68,26 @@ Response:
 ```json
 {
   "jobRunID": "1",
-  "result": {
-    "bluna_exchange_rate": "1.000007186291211709",
-    "stluna_exchange_rate": "1.025963605883917253",
-    "total_bond_bluna_amount": "84019024161042",
-    "total_bond_stluna_amount": "2620798650161",
-    "last_index_modification": 1650611699,
-    "prev_hub_balance": "293112080103",
-    "last_unbonded_time": 1650382207,
-    "last_processed_batch": 125,
-    "total_bond_amount": "84019024161042",
-    "exchange_rate": "1.000007186291211709"
-  },
-  "statusCode": 200,
   "data": {
     "result": {
-      "bluna_exchange_rate": "1.000007186291211709",
-      "stluna_exchange_rate": "1.025963605883917253",
-      "total_bond_bluna_amount": "84019024161042",
-      "total_bond_stluna_amount": "2620798650161",
-      "last_index_modification": 1650611699,
-      "prev_hub_balance": "293112080103",
-      "last_unbonded_time": 1650382207,
-      "last_processed_batch": 125,
-      "total_bond_amount": "84019024161042",
-      "exchange_rate": "1.000007186291211709"
+      "round_id": 102601,
+      "answer": "450925174149",
+      "started_at": 1635943989,
+      "updated_at": 1635943989,
+      "answered_in_round": 102601
     }
-  }
+  },
+  "result": {
+    "round_id": 102601,
+    "answer": "450925174149",
+    "started_at": 1635943989,
+    "updated_at": 1635943989,
+    "answered_in_round": 102601
+  },
+  "statusCode": 200
 }
 ```
 
 ---
+
+MIT License

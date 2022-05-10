@@ -1,5 +1,35 @@
 # @chainlink/ea-scripts
 
+## 2.2.2
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-factories@1.0.47
+
+## 2.2.1
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-factories@1.0.46
+
+## 2.2.0
+
+### Minor Changes
+
+- 60b7a3d5d: Masterlist generator now generates AirTable records for EA masterlist
+
+## 2.1.2
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-factories@1.0.45
+
 ## 2.1.1
 
 ### Patch Changes

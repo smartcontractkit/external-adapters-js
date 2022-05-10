@@ -32,4 +32,6 @@ export const sortText = (a: string, b: string): 1 | 0 | -1 => {
 
 export const wrapCode = (s: string | number = ''): string => `\`${s.toString()}\``
 
+export const unwrapCode = (str: string): string => str.replace(/`/g, '')
+
 export const wrapJson = (o: string): string => `\`\`\`json\n${o}\n\`\`\``

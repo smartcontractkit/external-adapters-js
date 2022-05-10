@@ -15,9 +15,6 @@ export const baseEnvDefaults: EnvDefaults = {
   METRICS_PORT: '9080',
   RETRY: '1',
   API_TIMEOUT: '30000',
-  SERVER_RATE_LIMIT_MAX: '250', // default to 250 req / 5 seconds max
-  SERVER_SLOW_DOWN_AFTER_FACTOR: '0.8', // we start slowing down requests when we reach 80% of our max limit for the current interval
-  SERVER_SLOW_DOWN_DELAY_MS: '500', // default to slowing down each request by 500ms
   CACHE_ENABLED: 'true',
   CACHE_TYPE: 'local',
   CACHE_MAX_AGE: '90000', // 1.5 minutes
@@ -26,7 +23,7 @@ export const baseEnvDefaults: EnvDefaults = {
   CACHE_UPDATE_AGE_ON_GET: 'false',
   CACHE_REDIS_CONNECTION_TIMEOUT: '15000', // Timeout per long lived connection (ms)
   CACHE_REDIS_HOST: '127.0.0.1', // IP address of the Redis server
-  CACHE_REDIS_MAX_QUEUED_ITEMS: '100', // Maximum length of the client's internal command queue
+  CACHE_REDIS_MAX_QUEUED_ITEMS: '500', // Maximum length of the client's internal command queue
   CACHE_REDIS_MAX_RECONNECT_COOLDOWN: '3000', // Max cooldown time before attempting to reconnect (ms)
   CACHE_REDIS_PORT: '6379', // Port of the Redis server
   CACHE_REDIS_TIMEOUT: '500', // Timeout per request (ms)
