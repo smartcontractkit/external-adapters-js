@@ -17,10 +17,7 @@ export const getValidAddresses = (
   validator: Validator,
 ): AdapterResponse => {
   const validatedInput = { ...protocolOutput }
-  if (
-    !validator.validated.data.disableAddressValidation ||
-    validator.validated.data.disableAddressValidation !== 'true'
-  ) {
+  if (!parseBool(validator.validated.data.disableAddressValidation)) {
     validatedInput.result = validateAddresses(
       validator.validated.data.indexer,
       validatedInput.result,
