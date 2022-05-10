@@ -1,6 +1,8 @@
 {
  "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+    "id": "1",
+    "data": {
+        "contractAddress": "0xA72206A7877B27831b520FE0405746f9Ef9a0B98"
+    }
+}]
 }

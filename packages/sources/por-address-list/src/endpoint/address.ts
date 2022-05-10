@@ -9,9 +9,7 @@ export const supportedEndpoints = ['address']
 export const description =
   'This EA fetches the list of custodial addresses that hold the funds for a PoR feed'
 
-// The inputParameters object must be present for README generation.
 export const inputParameters: InputParameters = {
-  // See InputParameters type for more config options
   confirmations: {
     description: 'The number of confirmations to query data from',
     default: 0,

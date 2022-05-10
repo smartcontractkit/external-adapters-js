@@ -38,7 +38,20 @@ This EA fetches the list of custodial addresses that hold the funds for a PoR fe
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "contractAddress": "0xA72206A7877B27831b520FE0405746f9Ef9a0B98",
+    "batchSize": 10,
+    "confirmations": 0
+  }
+}
+```
+
+Response:
 
 ---
 
