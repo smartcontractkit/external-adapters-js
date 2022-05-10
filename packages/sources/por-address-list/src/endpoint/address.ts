@@ -2,6 +2,7 @@ import { Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 import { POR_ADDRESS_LIST_ABI } from './abi'
+import { fetchAddressList } from './utils'
 
 export const supportedEndpoints = ['address']
 
@@ -40,29 +41,4 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     },
     statusCode: 200,
   }
-}
-
-const fetchAddressList = async (
-  addressManager: ethers.Contract,
-  confirmations: number,
-  batchSize: number,
-): Promise<string[]> => {
-  const blockTag = confirmations ? -confirmations : undefined
-  const numAddresses = await addressManager.getPoRAddressListLength({
-    blockTag,
-  })
-  let addresses: string[] = []
-  while (ethers.BigNumber.from(addresses.length).lt(numAddresses)) {
-    const startIdx = addresses.length
-    const nextEndIdx = ethers.BigNumber.from(startIdx + batchSize)
-    const endIdx = nextEndIdx.gt(numAddresses) ? numAddresses : nextEndIdx
-
-    // element at endIdx is included in result
-    const latestAddresses = await addressManager.getPoRAddressList(startIdx, endIdx, {
-      blockTag,
-    })
-    addresses = addresses.concat(latestAddresses)
-  }
-  // Filter out duplicate addresses
-  return [...new Set(addresses)]
 }
