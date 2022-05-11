@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute lookup endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "address": "0x0mockinputethtld.eth",
+    "controller": "fake-registry-owner",
+    "registrant": "fake-registrar-ownerOf",
+    "result": "0x0mockinputethtld.eth",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0x0mockinputethtld.eth",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute lookup endpoint should return success 2`] = `
+Object {
+  "data": Object {
+    "address": "0x0mockinputnonethtld.test",
+    "controller": "fake-registry-owner",
+    "result": "0x0mockinputnonethtld.test",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0x0mockinputnonethtld.test",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute lookup endpoint should return success 3`] = `
+Object {
+  "data": Object {
+    "address": "0x0subdomain.mockinputethtld.eth",
+    "controller": "fake-registry-owner",
+    "result": "0x0subdomain.mockinputethtld.eth",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0x0subdomain.mockinputethtld.eth",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute lookup endpoint should return success 4`] = `
+Object {
+  "data": Object {
+    "address": "0x0subdomain.mockinputnonethtld.test",
+    "controller": "fake-registry-owner",
+    "result": "0x0subdomain.mockinputnonethtld.test",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0x0subdomain.mockinputnonethtld.test",
+  "statusCode": 200,
+}
+`;
