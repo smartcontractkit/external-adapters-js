@@ -47,7 +47,7 @@ export class Server {
 
     app.get('/customError', (_, res) => {
       this.errorCount++
-      res.status(500).send({
+      res.status(200).send({
         result: 'error',
         value: 1,
       })

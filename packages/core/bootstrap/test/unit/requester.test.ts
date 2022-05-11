@@ -3,6 +3,7 @@ import { Server, SUCCESS_ARRAY_RESPONSE } from '../helpers/server'
 
 describe('HTTP', () => {
   const errorMessage = 'Request failed with status code 500'
+  const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
   const successUrl = 'http://localhost:18080'
   const successArrayUrl = 'http://localhost:18080/successArray'
   const errorUrl = 'http://localhost:18080/error'
@@ -65,7 +66,7 @@ describe('HTTP', () => {
         expect(false).toBe(true)
       } catch (error) {
         expect(server.errorCount).toEqual(3)
-        expect(error.message).toEqual(errorMessage)
+        expect(error.message).toEqual(customErrorMessage)
       }
     })
 
