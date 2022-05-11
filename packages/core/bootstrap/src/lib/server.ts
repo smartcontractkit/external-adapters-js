@@ -120,7 +120,7 @@ export const initHandler =
 
     return new Promise((resolve) => {
       app.listen(port, (_, address) => {
-        logger.info(`Listening on port ${port}!`)
+        logger.info(`Server listening on port ${address}!`)
         resolve(app)
       })
     })
