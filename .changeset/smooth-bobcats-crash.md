@@ -2,4 +2,4 @@
 '@chainlink/ea-bootstrap': minor
 ---
 
-migrate from Express to Fastify
+Change the internal HTTP server framework from Express to Fastify
