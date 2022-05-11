@@ -63,7 +63,7 @@ const getDebtRatio = async (
           SYNTHETIX_DEBT_SHARE_ABI,
           networkProvider,
         )
-        const chainTotalDebtShare = await synthetixDebtShare.totalSupply({ blockNumber })
+        const chainTotalDebtShare = await synthetixDebtShare.totalSupply({ blockTag: blockNumber })
         return {
           totalDebtIssued: issuedSynths,
           totalDebtShares: chainTotalDebtShare,

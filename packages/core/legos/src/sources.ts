@@ -16,6 +16,7 @@ import * as bitso from '@chainlink/bitso-adapter'
 import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
+import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
@@ -143,6 +144,7 @@ export default {
   blockchain_com,
   blockchair,
   blockcypher,
+  blocksize_capital,
   blockstream,
   bravenewcoin,
   btc_com,
