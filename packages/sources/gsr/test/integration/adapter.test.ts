@@ -1,5 +1,4 @@
 import { AdapterRequest } from '@chainlink/types'
-import http from 'http'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
@@ -14,7 +13,7 @@ import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middlew
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
   let spy: jest.SpyInstance
@@ -38,14 +37,14 @@ describe('websocket', () => {
       process.env.WS_SUBSCRIPTION_TTL = '3000'
     }
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
     spy.mockRestore()
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('price endpoint', () => {

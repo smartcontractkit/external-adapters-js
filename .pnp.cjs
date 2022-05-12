@@ -12668,6 +12668,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/supertest", [
+        ["npm:2.0.11", {
+          "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.11-a547f689c9-291abc0d37.zip/node_modules/@types/supertest/",
+          "packageDependencies": [
+            ["@types/supertest", "npm:2.0.11"],
+            ["@types/superagent", "npm:4.1.12"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:2.0.12", {
           "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.12-deccb2551b-f0e2b44f86.zip/node_modules/@types/supertest/",
           "packageDependencies": [
