@@ -1,52 +1,55 @@
 import { AdapterRequest } from '@chainlink/types'
-import http from 'http'
-import { AddressInfo } from 'net'
-import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
+import process from 'process'
+import nock from 'nock'
+import http from 'http'
 import { server as startServer } from '../../src'
-import { mockPriceSuccess } from './fixtures'
+import { mockEthereumResponseSuccess } from './fixtures'
+import { AddressInfo } from 'net'
+
+let oldEnv: NodeJS.ProcessEnv
+
+beforeAll(() => {
+  oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:8545'
+  if (process.env.RECORD) {
+    nock.recorder.rec()
+  }
+})
+
+afterAll(() => {
+  process.env = oldEnv
+  if (process.env.RECORD) {
+    nock.recorder.play()
+  }
+
+  nock.restore()
+  nock.cleanAll()
+  nock.enableNetConnect()
+})
 
 describe('execute', () => {
   const id = '1'
   let server: http.Server
   let req: SuperTest<Test>
-  let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-
-    process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
     server = await startServer()
     req = request(`localhost:${(server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
-    process.env = oldEnv
-
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
     server.close(done)
   })
 
-  describe('price api', () => {
+  describe('Get BTC dominance', () => {
     const data: AdapterRequest = {
       id,
-      data: {
-        base: 'ETH',
-        quote: 'USD',
-      },
+      data: {},
     }
 
     it('should return success', async () => {
-      mockPriceSuccess()
+      mockEthereumResponseSuccess()
 
       const response = await req
         .post('/')
