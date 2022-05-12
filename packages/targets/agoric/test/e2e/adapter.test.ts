@@ -1,8 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/types'
-import express from 'express'
-import { Server } from 'http'
+import Fastify, { FastifyInstance } from 'fastify'
 import { Action, makeExecute } from '../../src/adapter'
 import { makeConfig } from '../../src/config'
 
@@ -18,7 +17,7 @@ describe('execute', () => {
         {
           type: 'oracleServer/error',
           data: {
-            error: `Required parameter not supplied: request_id`,
+            error: `None of aliases used for required key request_id`,
           },
         },
       ],
@@ -33,7 +32,7 @@ describe('execute', () => {
           type: 'oracleServer/error',
           data: {
             queryId: '3939',
-            error: `Required parameter not supplied: payment`,
+            error: `None of aliases used for required key payment`,
           },
         },
       ],
@@ -76,7 +75,7 @@ describe('execute', () => {
     },
     {
       name: 'bad request_id',
-      status: 500,
+      status: 200,
       testData: {
         id: jobID,
         data: { request_id: 'bad', payment: '120000000000000', result: 'abc' },
@@ -105,7 +104,7 @@ describe('execute', () => {
   describe('POST to localhost @integration', () => {
     let reqIndex: number
     let sends: Action[] = []
-    let server: Server
+    let fastify: FastifyInstance
 
     const port = 18082
     process.env.AG_SOLO_ORACLE_URL = `http://localhost:${port}/api/oracle`
@@ -115,20 +114,21 @@ describe('execute', () => {
     beforeAll(
       () =>
         new Promise((resolve) => {
-          const app = express()
-          app.use(express.json())
-          app.post('/api/oracle', (req, res) => {
+          server = Fastify({
+            logger: false,
+          })
+          server.post('/api/oracle', (req, res) => {
             const a = req.body as unknown as Action
             sends.push(a)
             const { queryId } = (a.data as { queryId?: string }) || {}
             if (a.type === 'oracleServer/reply' && queryId === 'bad') {
-              res.status(500).json({ ok: false, rej: `invalid queryId ${queryId}` })
+              res.status(500).send({ ok: false, rej: `invalid queryId ${queryId}` })
             } else {
-              res.status(200).json(requests[reqIndex].receive)
+              res.status(200).send(requests[reqIndex].receive)
             }
           })
 
-          server = app.listen(port)
+          server.listen(port, '0.0.0.0')
           resolve(true)
         }),
     )

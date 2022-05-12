@@ -19,13 +19,13 @@ jest.mock('../../src/lib/config/test-payload-loader', () => ({
   },
 }))
 
-// Mock express to spy on the listen function, so we can close hanging servers
+// Mock fastify to spy on the listen function, so we can close hanging servers
 const spies = []
-jest.mock('express', () => {
-  const original = jest.requireActual('express')
+jest.mock('fastify', () => {
+  const original = jest.requireActual('fastify')
 
   const func = () => {
-    const exp = jest.requireActual('express')()
+    const exp = jest.requireActual('fastify')()
     spies.push(jest.spyOn(exp, 'listen'))
     return exp
   }
@@ -53,7 +53,7 @@ describe('server', () => {
 
   afterAll(async () => {
     for (const spy of spies) {
-      const server = spy.mock.results[0].value
+      const server = spy.mock.instances[0]
       await server.close()
     }
   })
