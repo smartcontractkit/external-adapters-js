@@ -1,6 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
-import http from 'http'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
@@ -9,13 +8,13 @@ import { mockVwapEndpointSuccess } from './vwapFixtures'
 import { AddressInfo } from 'net'
 
 describe('bravenewcoin', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
 
     process.env.API_KEY = process.env.API_KEY || 'test-api-key'
@@ -36,7 +35,7 @@ describe('bravenewcoin', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('when making a request to bravenewcoin to crypto endpoint', () => {

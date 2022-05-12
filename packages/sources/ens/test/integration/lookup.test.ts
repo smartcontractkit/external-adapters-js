@@ -1,5 +1,4 @@
 import { AdapterRequest } from '@chainlink/types'
-import http from 'http'
 import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
@@ -95,7 +94,7 @@ jest.mock('ethers', () => {
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
 
@@ -108,8 +107,8 @@ describe('execute', () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -122,7 +121,7 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('lookup endpoint', () => {

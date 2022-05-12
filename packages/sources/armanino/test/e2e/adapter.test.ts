@@ -3,11 +3,10 @@ import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import * as http from 'http'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
 
@@ -19,8 +18,8 @@ describe('execute', () => {
       nock.recorder.rec()
     }
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
     process.env = oldEnv
@@ -32,7 +31,7 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('mco2 endpoint', () => {

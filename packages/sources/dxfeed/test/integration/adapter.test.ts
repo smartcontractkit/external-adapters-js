@@ -1,6 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
-import http from 'http'
 import nock from 'nock'
 import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
@@ -23,12 +22,12 @@ import {
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
 describe('dxfeed', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
     process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
     if (util.parseBool(process.env.RECORD)) {
@@ -42,7 +41,7 @@ describe('dxfeed', () => {
     }
     nock.restore()
     nock.cleanAll()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('price endpoint', () => {
@@ -69,7 +68,7 @@ describe('dxfeed', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv
@@ -86,8 +85,8 @@ describe('websocket', () => {
     process.env.WS_ENABLED = 'true'
     process.env.WS_SUBSCRIPTION_TTL = '1000'
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -95,7 +94,7 @@ describe('websocket', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('price endpoint', () => {
