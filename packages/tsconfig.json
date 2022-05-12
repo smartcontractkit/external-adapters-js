@@ -228,6 +228,9 @@
       "path": "./sources/covid-tracker"
     },
     {
+      "path": "./sources/cryptex"
+    },
+    {
       "path": "./sources/cryptoapis"
     },
     {

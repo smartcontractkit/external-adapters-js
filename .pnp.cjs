@@ -335,6 +335,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/covid-tracker"
       },
       {
+        "name": "@chainlink/cryptex-adapter",
+        "reference": "workspace:packages/sources/cryptex"
+      },
+      {
         "name": "@chainlink/cryptoapis-adapter",
         "reference": "workspace:packages/sources/cryptoapis"
       },
@@ -763,6 +767,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],
+      ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],
       ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],
       ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],
@@ -4952,6 +4957,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/cryptex-adapter", [
+        ["workspace:packages/sources/cryptex", {
+          "packageLocation": "./packages/sources/cryptex/",
+          "packageDependencies": [
+            ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.33"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.6.5"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/crypto-volatility-index-adapter", [
         ["workspace:packages/composites/crypto-volatility-index", {
           "packageLocation": "./packages/composites/crypto-volatility-index/",
@@ -5380,6 +5405,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],
+            ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
             ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],
