@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import nock from 'nock'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import { mockSuccessfulResponseCoingecko, mockSuccessfulResponseCoinpaprika } from './fixtures'
 import { AddressInfo } from 'net'
@@ -16,13 +15,13 @@ const setupEnvironment = (adapters: string[]) => {
 }
 
 describe('impliedPrice', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
     if (process.env.RECORD) {
       nock.recorder.rec()
@@ -37,7 +36,7 @@ describe('impliedPrice', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('successful calls', () => {

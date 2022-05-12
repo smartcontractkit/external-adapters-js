@@ -3,7 +3,6 @@ import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import * as http from 'http'
 import { mockResponseFailureHealth, mockResponseFailureBlock } from './fixtures'
 import { AddressInfo } from 'net'
 import { ethers } from 'ethers'
@@ -34,7 +33,7 @@ jest.mock('ethers', () => {
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
 
@@ -59,12 +58,12 @@ describe('execute', () => {
   })
 
   beforeEach(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterEach((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('arbitrum network', () => {
