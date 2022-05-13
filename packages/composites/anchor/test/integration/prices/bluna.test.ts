@@ -1,7 +1,6 @@
 import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
 import {
@@ -50,13 +49,13 @@ const jobID = '1'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('price-bluna', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeEach(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.COLUMBUS_5_LCD_URL = 'fake-columbus-lcd'
     process.env.COINGECKO_ADAPTER_URL = 'http://localhost:5000'
     process.env.ETHEREUM_RPC_URL = 'test-rpc-url'
@@ -75,7 +74,7 @@ describe('price-bluna', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('error calls', () => {
