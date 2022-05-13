@@ -5,6 +5,7 @@ import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { ethers } from 'ethers'
+import { FastifyInstance } from '@chainlink/ea-bootstrap'
 
 const mockExpectedAddresses = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -44,7 +45,7 @@ jest.mock('ethers', () => {
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastifyInstance: FastifyInstance
   let req: SuperTest<Test>
   let oldEnv: NodeJS.ProcessEnv
 
@@ -56,8 +57,8 @@ describe('execute', () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastifyInstance = await startServer()
+    req = request(`localhost:${(fastifyInstance.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -70,7 +71,7 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastifyInstance.close(done)
   })
 
   describe('addresses', () => {
