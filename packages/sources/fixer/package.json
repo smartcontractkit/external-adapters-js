@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/fixer-adapter",
-  "version": "1.3.31",
+  "version": "1.3.32",
   "description": "Chainlink fixer adapter.",
   "keywords": [
     "Chainlink",

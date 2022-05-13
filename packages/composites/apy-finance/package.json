@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/apy-finance-adapter",
-  "version": "1.0.67",
+  "version": "1.0.68",
   "description": "Chainlink APY Finance TVL adapter",
   "keywords": [
     "Chainlink",

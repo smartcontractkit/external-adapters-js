@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/reference-transform-adapter",
-  "version": "1.0.85",
+  "version": "1.0.86",
   "description": "Transform external adapter results from an on-chain reference.",
   "keywords": [
     "Chainlink",

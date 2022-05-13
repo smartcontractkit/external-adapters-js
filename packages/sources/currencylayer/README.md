@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CurrencyLayer
 
-![1.3.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/currencylayer/package.json)
+![1.3.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/currencylayer/package.json)
 
 Base URL https://api.currencylayer.com
 

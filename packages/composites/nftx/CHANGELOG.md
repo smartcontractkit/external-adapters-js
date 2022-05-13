@@ -1,5 +1,15 @@
 # @chainlink/nftx-adapter
 
+## 2.0.16
+
+### Patch Changes
+
+- Updated dependencies [dc5c138da]
+- Updated dependencies [f99b2750a]
+  - @chainlink/ea-bootstrap@2.5.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/uniswap-v2-adapter@1.1.34
+
 ## 2.0.15
 
 ### Patch Changes
