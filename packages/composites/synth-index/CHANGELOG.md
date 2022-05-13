@@ -1,5 +1,15 @@
 # @chainlink/synth-index-adapter
 
+## 1.0.68
+
+### Patch Changes
+
+- Updated dependencies [dc5c138da]
+- Updated dependencies [f99b2750a]
+  - @chainlink/ea-bootstrap@2.5.0
+  - @chainlink/token-allocation-adapter@1.3.18
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.67
 
 ### Patch Changes

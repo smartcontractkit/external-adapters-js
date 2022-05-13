@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptoapis-adapter",
-  "version": "1.1.33",
+  "version": "1.1.34",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {

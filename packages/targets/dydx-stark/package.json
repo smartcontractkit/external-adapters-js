@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dydx-stark-adapter",
-  "version": "1.0.48",
+  "version": "1.0.49",
   "description": "Chainlink dydx-stark adapter.",
   "keywords": [
     "Chainlink",
