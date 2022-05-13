@@ -10,7 +10,7 @@ import { AddressInfo } from 'net'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('readme test adapter', () => {
-  let server: http.Server
+  let server: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -21,7 +21,7 @@ describe('readme test adapter', () => {
       nock.recorder.rec()
     }
     server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    req = request(`localhost:${(server.server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
     process.env = oldEnv

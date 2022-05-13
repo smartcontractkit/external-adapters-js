@@ -2,7 +2,6 @@
 declare module '@chainlink/types' {
   import type { Cache, RateLimit } from '@chainlink/ea-bootstrap'
   import { cacheWarmer } from '@chainlink/ea-bootstrap'
-
   export interface AdapterContext {
     name?: string
     cache?: Cache.CacheOptions
@@ -147,6 +146,7 @@ declare module '@chainlink/types' {
   export type EnvDefaultOverrides = {
     CACHE_ENABLED?: 'true' | 'false'
     WS_ENABLED?: 'true' | 'false'
+    WARMUP_ENABLED?: 'true' | 'false'
   }
 
   export type Execute = (input: AdapterRequest, context: AdapterContext) => Promise<AdapterResponse>
