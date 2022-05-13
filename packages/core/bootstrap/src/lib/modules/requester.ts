@@ -48,13 +48,13 @@ export class Requester {
       let response: AxiosResponse<T>
       const url = join(config.baseURL || '', config.url || '')
       try {
-        const startTime = process.hrtime()
+        const startTime = process.hrtime.bigint()
 
         response = await axios(config)
 
-        const endTime = process.hrtime(startTime)
-        const milliseconds = Math.round(endTime[0] * 1000 + endTime[1] / 1000000)
-        response.headers['request-duration'] = milliseconds.toString()
+        const endTime = process.hrtime.bigint()
+        const milliseconds = (endTime - startTime) / 1000000n
+        response.headers['ea-dp-request-duration'] = milliseconds.toString()
       } catch (error) {
         // Request error
         if (error.code === 'ECONNABORTED') {
@@ -238,15 +238,9 @@ export class Requester {
         requestCoalescingEnabled: parseBool(getEnv('REQUEST_COALESCING_ENABLED')),
       }
 
-      if (response?.headers && response?.config) {
-        adapterResponse.telemetry.protocol = 'http'
-      } else if (adapterResponse.telemetry.wsEnabled) {
-        adapterResponse.telemetry.protocol = 'ws'
-      }
-
-      if (response?.headers && response.headers['request-duration']) {
+      if (response?.headers && response.headers['ea-dp-request-duration']) {
         adapterResponse.telemetry.dataProviderRequestTime = Number(
-          response.headers['request-duration'],
+          response.headers['ea-dp-request-duration'],
         )
       }
     }

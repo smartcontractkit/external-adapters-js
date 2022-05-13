@@ -1,5 +1,5 @@
 ---
-'@chainlink/ea-bootstrap': patch
+'@chainlink/ea-bootstrap': minor
 ---
 
 added telemetry data to EA responses
