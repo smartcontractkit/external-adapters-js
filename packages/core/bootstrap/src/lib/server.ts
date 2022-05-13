@@ -8,7 +8,7 @@ import { loadTestPayload } from './config/test-payload-loader'
 import { logger } from './modules'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
-import { getEnv, toObjectWithNumbers } from './util'
+import { getClientIp, getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { WSReset } from './middleware/ws/actions'
@@ -25,6 +25,7 @@ export const initHandler =
   (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
   async (): Promise<FastifyInstance> => {
     const app = Fastify({
+      trustProxy: true,
       logger: false,
     })
     const name = adapterContext.name || ''
@@ -56,9 +57,13 @@ export const initHandler =
     app.post<{
       Body: AdapterRequest
     }>(baseUrl, async (req, res) => {
+      const metricsMeta = METRICS_ENABLED
+        ? { metricsMeta: { requestOrigin: getClientIp(req) } }
+        : {}
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
+        ...metricsMeta,
       }
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.code(status).send(result)
