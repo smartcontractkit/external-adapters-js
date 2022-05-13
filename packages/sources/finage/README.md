@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Finage
 
-![1.3.33](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json)
+![1.3.35](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json)
 
 Base URL https://api.finage.co.uk
 

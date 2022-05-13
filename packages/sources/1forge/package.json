@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/1forge-adapter",
-  "version": "1.4.32",
+  "version": "1.4.33",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

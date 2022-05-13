@@ -1,5 +1,15 @@
 # @chainlink/ea-bootstrap
 
+## 2.5.0
+
+### Minor Changes
+
+- f99b2750a: Change the internal HTTP server framework from Express to Fastify
+
+### Patch Changes
+
+- dc5c138da: Enable EA level override of framework env: WARMUP_ENABLED
+
 ## 2.4.0
 
 ### Minor Changes

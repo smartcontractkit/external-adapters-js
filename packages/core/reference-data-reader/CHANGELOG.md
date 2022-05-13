@@ -1,5 +1,13 @@
 # @chainlink/ea-reference-data-reader
 
+## 1.1.23
+
+### Patch Changes
+
+- Updated dependencies [dc5c138da]
+- Updated dependencies [f99b2750a]
+  - @chainlink/ea-bootstrap@2.5.0
+
 ## 1.1.22
 
 ### Patch Changes

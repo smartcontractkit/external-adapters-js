@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/mycryptoapi-adapter",
-  "version": "1.2.33",
+  "version": "1.2.34",
   "description": "Chainlink mycryptoapi adapter.",
   "keywords": [
     "Chainlink",
