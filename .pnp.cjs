@@ -507,6 +507,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/lcx"
       },
       {
+        "name": "@chainlink/lido-stmaic",
+        "reference": "workspace:packages/sources/lido-stmatic"
+      },
+      {
         "name": "@chainlink/linkpool-adapter",
         "reference": "workspace:packages/sources/linkpool"
       },
@@ -827,6 +831,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
       ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],
+      ["@chainlink/lido-stmaic", ["workspace:packages/sources/lido-stmatic"]],
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
@@ -6344,6 +6349,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.33"],
             ["@types/supertest", "npm:2.0.12"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/lido-stmaic", [
+        ["workspace:packages/sources/lido-stmatic", {
+          "packageLocation": "./packages/sources/lido-stmatic/",
+          "packageDependencies": [
+            ["@chainlink/lido-stmaic", "workspace:packages/sources/lido-stmatic"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.33"],
+            ["@types/supertest", "npm:2.0.12"],
+            ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
