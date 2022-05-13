@@ -414,8 +414,8 @@ describe('websocket', () => {
       // This first request will start both batch warmer & websocket
       await makeRequest()
 
-      // This final request should disable the cache warmer, sleep is used to make sure that the data is  pulled from the websocket populated cache entries.
-      await util.sleep(10)
+      // This final request should disable the cache warmer, sleep is used to make sure that the data is pulled from the websocket populated cache entries.
+      await util.sleep(100)
       const response = await makeRequest()
 
       expect(response.body).toEqual({
