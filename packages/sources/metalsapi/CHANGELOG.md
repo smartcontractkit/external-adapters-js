@@ -1,5 +1,21 @@
 # @chainlink/metalsapi-adapter
 
+## 1.6.30
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+
+## 1.6.29
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.6.28
 
 ### Patch Changes

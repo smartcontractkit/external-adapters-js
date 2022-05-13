@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.81",
+  "version": "1.0.85",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.25",
+    "@types/node": "16.11.33",
     "typescript": "4.3.5"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "@chainlink/blockchain.com-adapter": "workspace:*",
     "@chainlink/blockchair-adapter": "workspace:*",
     "@chainlink/blockcypher-adapter": "workspace:*",
+    "@chainlink/blocksize-capital-adapter": "workspace:*",
     "@chainlink/blockstream-adapter": "workspace:*",
     "@chainlink/bravenewcoin-adapter": "workspace:*",
     "@chainlink/btc.com-adapter": "workspace:*",
@@ -77,6 +78,7 @@
     "@chainlink/dwolla-adapter": "workspace:*",
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",
+    "@chainlink/ens-adapter": "workspace:*",
     "@chainlink/enzyme-adapter": "workspace:*",
     "@chainlink/eodhistoricaldata-adapter": "workspace:*",
     "@chainlink/eth-balance-adapter": "workspace:*",

@@ -4,12 +4,12 @@ import process from 'process'
 import nock from 'nock'
 import http from 'http'
 import { server as startServer } from '../../src'
-import { mockPunksValueResponseSuccess } from './fixtures'
+import { mockPunksValueResponseSuccess, mockCollectionsValueResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -17,8 +17,8 @@ describe('execute', () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -29,15 +29,15 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('punk valuation api', () => {
-    const data: AdapterRequest = {
+    const punkData: AdapterRequest = {
       id,
       data: {
-        block: 10000000,
-        api_key: 'test-key',
+        block: 14000000,
+        endpoint: 'punks',
       },
     }
 
@@ -46,7 +46,30 @@ describe('execute', () => {
 
       const response = await req
         .post('/')
-        .send(data)
+        .send(punkData)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('collections valuation api', () => {
+    const collectionData: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'collections',
+        collection: 'jpeg-cards',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCollectionsValueResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(collectionData)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)

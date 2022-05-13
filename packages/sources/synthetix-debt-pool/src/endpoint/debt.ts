@@ -1,25 +1,41 @@
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { BigNumber, ethers } from 'ethers'
-import { getDataFromAcrossChains, inputParameters as commonInputParameters } from '../utils'
+import {
+  getDataFromAcrossChains,
+  inputParameters as commonInputParameters,
+  getSynthetixBridgeName,
+  getAddressResolver,
+} from '../utils'
 import { Config } from '../config'
 import { getContractAddress } from '../utils'
-import { DEBT_CACHE_ABI } from './abi'
+import { DEBT_CACHE_ABI, SYNTHETIX_BRIDGE_ABI } from './abi'
 
-// Needs to be exported so that doc generator script works
 export const inputParameters = commonInputParameters
 export const supportedEndpoints = ['debt']
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) =>
   await getDataFromAcrossChains(request, config, getTotalDebtIssued)
 
-const getTotalDebtIssued = async (
+/**
+ * Get the debt issued from multiple chains.
+ *
+ * The issued synths for a single chain can be calculated using:
+ * DebtCache.currentDebt() + SynthetixBridge.synthTransferReceived() - SynthetixBridge.synthTransferSent()
+ *
+ * This was updated in SIP-229, see https://sips.synthetix.io/sips/sip-229/
+ * @param jobRunID string
+ * @param config
+ * @param chainsToQuery [string, number][]
+ * @returns [network, block number, debt amount][] - [string, number, BigNumber][]
+ */
+export const getDebtIssued = async (
   jobRunID: string,
   config: Config,
-  chainsToQuery: string[],
-): Promise<BigNumber> => {
-  const chainResponses = await Promise.all(
-    chainsToQuery.map(async (network): Promise<BigNumber> => {
+  chainsToQuery: [string, number][],
+): Promise<[string, number, BigNumber][]> =>
+  await Promise.all(
+    chainsToQuery.map(async ([network, blockNumber]): Promise<[string, number, BigNumber]> => {
       if (!config.chains[network])
         throw new AdapterError({
           jobRunID,
@@ -28,14 +44,35 @@ const getTotalDebtIssued = async (
         })
       const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
       try {
+        const addressResolverAddress = await getAddressResolver(
+          networkProvider,
+          config.chains[network].chainAddressResolverProxyAddress,
+        )
+
         const debtCacheAddress = await getContractAddress(
           networkProvider,
-          config.chains[network].chainAddressResolverAddress,
+          addressResolverAddress,
           'DebtCache',
         )
         const debtCache = new ethers.Contract(debtCacheAddress, DEBT_CACHE_ABI, networkProvider)
-        const [debtIssued] = await debtCache.currentDebt()
-        return debtIssued
+        const [debtIssued] = await debtCache.currentDebt({ blockTag: blockNumber })
+
+        const synthetixBridgeAddress = await getContractAddress(
+          networkProvider,
+          addressResolverAddress,
+          getSynthetixBridgeName(network, jobRunID),
+        )
+        const synthetixBridge = new ethers.Contract(
+          synthetixBridgeAddress,
+          SYNTHETIX_BRIDGE_ABI,
+          networkProvider,
+        )
+        const synthTransferReceived = await synthetixBridge.synthTransferReceived({
+          blockTag: blockNumber,
+        })
+        const synthTransferSent = await synthetixBridge.synthTransferSent({ blockTag: blockNumber })
+        const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
+        return [network, blockNumber, issuedSynths]
       } catch (e) {
         throw new AdapterError({
           jobRunID,
@@ -45,8 +82,15 @@ const getTotalDebtIssued = async (
     }),
   )
 
+const getTotalDebtIssued = async (
+  jobRunID: string,
+  config: Config,
+  chainsToQuery: [string, number][],
+): Promise<BigNumber> => {
+  const chainResponses = await getDebtIssued(jobRunID, config, chainsToQuery)
+
   let totalDebtIssued = BigNumber.from(0)
-  for (const chainSynthesizedDebt of chainResponses) {
+  for (const [, , chainSynthesizedDebt] of chainResponses) {
     totalDebtIssued = totalDebtIssued.add(chainSynthesizedDebt)
   }
   return totalDebtIssued

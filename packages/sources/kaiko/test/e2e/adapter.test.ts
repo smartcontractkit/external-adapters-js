@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as http from 'http'
 import { AddressInfo } from 'net'
 
 /* Since no API keys are set, all requests will error, but the error will
@@ -10,18 +9,18 @@ import { AddressInfo } from 'net'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
     process.env.API_KEY = 'fake-api-key'
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('exchange rate api', () => {

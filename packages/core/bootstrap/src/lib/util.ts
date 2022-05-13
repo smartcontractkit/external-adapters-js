@@ -24,7 +24,7 @@ export const baseEnvDefaults: EnvDefaults = {
   CACHE_UPDATE_AGE_ON_GET: 'false',
   CACHE_REDIS_CONNECTION_TIMEOUT: '15000', // Timeout per long lived connection (ms)
   CACHE_REDIS_HOST: '127.0.0.1', // IP address of the Redis server
-  CACHE_REDIS_MAX_QUEUED_ITEMS: '100', // Maximum length of the client's internal command queue
+  CACHE_REDIS_MAX_QUEUED_ITEMS: '500', // Maximum length of the client's internal command queue
   CACHE_REDIS_MAX_RECONNECT_COOLDOWN: '3000', // Max cooldown time before attempting to reconnect (ms)
   CACHE_REDIS_PORT: '6379', // Port of the Redis server
   CACHE_REDIS_TIMEOUT: '500', // Timeout per request (ms)
