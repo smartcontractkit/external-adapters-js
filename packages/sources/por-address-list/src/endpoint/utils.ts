@@ -21,6 +21,5 @@ export const fetchAddressList = async (
     addresses = addresses.concat(latestAddresses)
     startIdx = endIdx.add(1)
   }
-  // Filter out duplicate addresses
-  return [...new Set(addresses)]
+  return addresses
 }

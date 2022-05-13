@@ -97,17 +97,6 @@ describe('address endpoint', () => {
         { blockTag: undefined },
       )
     })
-
-    it('removes duplicate addresses', async () => {
-      const firstAddress = DEFAULT_EXPECTED_ADDRESSES[0]
-      const secondAddress = DEFAULT_EXPECTED_ADDRESSES[1]
-      const addressWithDuplicates = DEFAULT_EXPECTED_ADDRESSES.concat([firstAddress, secondAddress])
-      const addressManager = new AddressManagerMock(addressWithDuplicates)
-      const confirmations = 0
-      const batchSize = 3
-      const result = await fetchAddressList(addressManager, confirmations, batchSize)
-      verifyAddressListMatches(result, DEFAULT_EXPECTED_ADDRESSES)
-    })
   })
 })
 
