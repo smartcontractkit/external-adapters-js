@@ -3246,7 +3246,7 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.25
     "@types/supertest": 2.0.12
-    ethers: 5.5.3
+    ethers: 5.5.4
     nock: 13.2.4
     supertest: 6.2.2
     tslib: ^2.3.1
@@ -6618,33 +6618,6 @@ __metadata:
     bech32: 1.1.4
     ws: 7.4.6
   checksum: 8f29dfd9ef48613ffd4820ee1e77991492291172f8b87af9952380ef49231ef61b86df6df903c1bb2a7cfedc998fc337ca61c219e8aa74eeee18f6ff8cc7ad8b
-  languageName: node
-  linkType: hard
-
-"@ethersproject/providers@npm:5.5.2":
-  version: 5.5.2
-  resolution: "@ethersproject/providers@npm:5.5.2"
-  dependencies:
-    "@ethersproject/abstract-provider": ^5.5.0
-    "@ethersproject/abstract-signer": ^5.5.0
-    "@ethersproject/address": ^5.5.0
-    "@ethersproject/basex": ^5.5.0
-    "@ethersproject/bignumber": ^5.5.0
-    "@ethersproject/bytes": ^5.5.0
-    "@ethersproject/constants": ^5.5.0
-    "@ethersproject/hash": ^5.5.0
-    "@ethersproject/logger": ^5.5.0
-    "@ethersproject/networks": ^5.5.0
-    "@ethersproject/properties": ^5.5.0
-    "@ethersproject/random": ^5.5.0
-    "@ethersproject/rlp": ^5.5.0
-    "@ethersproject/sha2": ^5.5.0
-    "@ethersproject/strings": ^5.5.0
-    "@ethersproject/transactions": ^5.5.0
-    "@ethersproject/web": ^5.5.0
-    bech32: 1.1.4
-    ws: 7.4.6
-  checksum: f03b78017ffa39880508cfb4f811ef3b5983d222303af06b4ab47b6296a3fa67dcd058534e5e167302e4e3af41c4aa44f8c113a974b84fbaa65c62959c098558
   languageName: node
   linkType: hard
 
@@ -14950,9 +14923,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:5.5.3":
-  version: 5.5.3
-  resolution: "ethers@npm:5.5.3"
+"ethers@npm:5.5.4, ethers@npm:^5.5.4":
+  version: 5.5.4
+  resolution: "ethers@npm:5.5.4"
   dependencies:
     "@ethersproject/abi": 5.5.0
     "@ethersproject/abstract-provider": 5.5.1
@@ -14972,7 +14945,7 @@ __metadata:
     "@ethersproject/networks": 5.5.2
     "@ethersproject/pbkdf2": 5.5.0
     "@ethersproject/properties": 5.5.0
-    "@ethersproject/providers": 5.5.2
+    "@ethersproject/providers": 5.5.3
     "@ethersproject/random": 5.5.1
     "@ethersproject/rlp": 5.5.0
     "@ethersproject/sha2": 5.5.0
@@ -14984,7 +14957,7 @@ __metadata:
     "@ethersproject/wallet": 5.5.0
     "@ethersproject/web": 5.5.1
     "@ethersproject/wordlists": 5.5.0
-  checksum: 0ac0a9e3d37468894d5f283bb06a60c78a8c82fc43e834004b97046b93df35d2aed83c07e7dc8c4a664fa6b25989a47d303e58ee25e7ad6490b11cc50e74d54a
+  checksum: 5981da616471a35baf0a5919e851cd0e755eaa7d8d7ed5e54da03a50cafc38fe160f6c5e92ab953ab583778c53d8b4132ade9a157bcbb2fc05ace647db802ec3
   languageName: node
   linkType: hard
 
@@ -15154,44 +15127,6 @@ __metadata:
     "@ethersproject/web": 5.5.0
     "@ethersproject/wordlists": 5.5.0
   checksum: ee004e3e2f526c3dbaa432c08cd46c9483c7556797c40219ea5eacf0b5968351de05b83aa4b00743612a0df2f8dcd6028866ddd250e5226166824c6f035a0121
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^5.5.4":
-  version: 5.5.4
-  resolution: "ethers@npm:5.5.4"
-  dependencies:
-    "@ethersproject/abi": 5.5.0
-    "@ethersproject/abstract-provider": 5.5.1
-    "@ethersproject/abstract-signer": 5.5.0
-    "@ethersproject/address": 5.5.0
-    "@ethersproject/base64": 5.5.0
-    "@ethersproject/basex": 5.5.0
-    "@ethersproject/bignumber": 5.5.0
-    "@ethersproject/bytes": 5.5.0
-    "@ethersproject/constants": 5.5.0
-    "@ethersproject/contracts": 5.5.0
-    "@ethersproject/hash": 5.5.0
-    "@ethersproject/hdnode": 5.5.0
-    "@ethersproject/json-wallets": 5.5.0
-    "@ethersproject/keccak256": 5.5.0
-    "@ethersproject/logger": 5.5.0
-    "@ethersproject/networks": 5.5.2
-    "@ethersproject/pbkdf2": 5.5.0
-    "@ethersproject/properties": 5.5.0
-    "@ethersproject/providers": 5.5.3
-    "@ethersproject/random": 5.5.1
-    "@ethersproject/rlp": 5.5.0
-    "@ethersproject/sha2": 5.5.0
-    "@ethersproject/signing-key": 5.5.0
-    "@ethersproject/solidity": 5.5.0
-    "@ethersproject/strings": 5.5.0
-    "@ethersproject/transactions": 5.5.0
-    "@ethersproject/units": 5.5.0
-    "@ethersproject/wallet": 5.5.0
-    "@ethersproject/web": 5.5.1
-    "@ethersproject/wordlists": 5.5.0
-  checksum: 5981da616471a35baf0a5919e851cd0e755eaa7d8d7ed5e54da03a50cafc38fe160f6c5e92ab953ab583778c53d8b4132ade9a157bcbb2fc05ace647db802ec3
   languageName: node
   linkType: hard
 
