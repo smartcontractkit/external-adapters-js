@@ -1,6 +1,6 @@
 # Chainlink External Adapter for IEX Cloud
 
-![1.1.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json)
+![1.1.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json)
 
 Base URL https://cloud.iexapis.com/stable
 

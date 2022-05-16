@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/synthetix-debt-pool-adapter",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "Chainlink synthetix-debt-pool adapter.",
   "keywords": [
     "Chainlink",

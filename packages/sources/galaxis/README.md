@@ -1,6 +1,6 @@
 # Galaxis Source Adapter
 
-![2.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxis/package.json)
+![2.6.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxis/package.json)
 
 The Galaxis EA currently fetches Sports Data from a given API and encodes a function call that can be passed on chain.
 
