@@ -1,5 +1,13 @@
 # @chainlink/terra-view-function-adapter
 
+## 1.2.18
+
+### Patch Changes
+
+- Updated dependencies [1b94b51b2]
+  - @chainlink/ea-bootstrap@2.5.1
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.17
 
 ### Patch Changes
