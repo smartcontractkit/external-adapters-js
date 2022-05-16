@@ -3043,7 +3043,7 @@ __metadata:
     "@types/shelljs": 0.8.11
     "@types/swagger-jsdoc": 6.0.1
     "@types/yaml": 1.9.7
-    airtable: 0.11.3
+    airtable: 0.11.4
     axios: 0.22.0
     axios-mock-adapter: 1.20.0
     axios-observable: 1.3.0
@@ -10382,16 +10382,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"airtable@npm:0.11.3":
-  version: 0.11.3
-  resolution: "airtable@npm:0.11.3"
+"airtable@npm:0.11.4":
+  version: 0.11.4
+  resolution: "airtable@npm:0.11.4"
   dependencies:
     "@types/node": ">=8.0.0 <15"
     abort-controller: ^3.0.0
     abortcontroller-polyfill: ^1.4.0
     lodash: ^4.17.21
     node-fetch: ^2.6.7
-  checksum: 366bda78fe8169ffdff1e28267448873e74fa4f1761124af43228748d8fe5ac1484e80f5be3205ac9d8095c4f824145e1f0e844d65cc0df9a3a5015394463a79
+  checksum: a5c1d85902e688f54ed194e76ace2baa113b25800ed7108846b3a4ff18bf467f705063b488baa6cf2e5def80c733b18359b25ce88ad28b8392bcfd0a6f516b99
   languageName: node
   linkType: hard
 
