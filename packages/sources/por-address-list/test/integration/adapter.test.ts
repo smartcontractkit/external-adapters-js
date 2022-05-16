@@ -30,7 +30,9 @@ jest.mock('ethers', () => {
       ...actualModule.ethers,
       providers: {
         JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-          return {}
+          return {
+            getBlockNumber: jest.fn().mockReturnValue(1000),
+          }
         },
       },
       Contract: function () {

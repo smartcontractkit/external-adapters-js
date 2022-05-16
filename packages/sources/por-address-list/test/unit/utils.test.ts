@@ -14,6 +14,8 @@ const DEFAULT_EXPECTED_ADDRESSES = [
   '0xa0ee7a142d267c1f36714e4a8f75612f20a79720',
 ]
 
+const LATEST_BLOCK_NUM = 1000
+
 const AddressManagerMock: jest.Mock<ethers.Contract, string[][]> = jest
   .fn()
   .mockImplementation((expectedAddresses?: string[]) => {
@@ -38,12 +40,15 @@ describe('address endpoint', () => {
         const addressManager = new AddressManagerMock()
         const confirmations = 0
         const batchSize = DEFAULT_EXPECTED_ADDRESSES.length
-        await fetchAddressList(addressManager, confirmations, batchSize)
-        expect(addressManager.getPoRAddressListLength).toHaveBeenCalledWith({ blockTag: undefined })
+
+        await fetchAddressList(addressManager, LATEST_BLOCK_NUM, confirmations, batchSize)
+        expect(addressManager.getPoRAddressListLength).toHaveBeenCalledWith({
+          blockTag: LATEST_BLOCK_NUM,
+        })
         expect(addressManager.getPoRAddressList).toHaveBeenCalledWith(
           ethers.BigNumber.from(0),
           ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length),
-          { blockTag: undefined },
+          { blockTag: LATEST_BLOCK_NUM },
         )
       })
 
@@ -51,14 +56,14 @@ describe('address endpoint', () => {
         const addressManager = new AddressManagerMock()
         const confirmations = 2
         const batchSize = DEFAULT_EXPECTED_ADDRESSES.length
-        await fetchAddressList(addressManager, confirmations, batchSize)
+        await fetchAddressList(addressManager, LATEST_BLOCK_NUM, confirmations, batchSize)
         expect(addressManager.getPoRAddressListLength).toHaveBeenCalledWith({
-          blockTag: -confirmations,
+          blockTag: LATEST_BLOCK_NUM - confirmations,
         })
         expect(addressManager.getPoRAddressList).toHaveBeenCalledWith(
           ethers.BigNumber.from(0),
           ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length),
-          { blockTag: -confirmations },
+          { blockTag: LATEST_BLOCK_NUM - confirmations },
         )
       })
     })
@@ -67,7 +72,12 @@ describe('address endpoint', () => {
       const addressManager = new AddressManagerMock()
       const confirmations = 0
       const batchSize = DEFAULT_EXPECTED_ADDRESSES.length * 2
-      const result = await fetchAddressList(addressManager, confirmations, batchSize)
+      const result = await fetchAddressList(
+        addressManager,
+        LATEST_BLOCK_NUM,
+        confirmations,
+        batchSize,
+      )
       verifyAddressListMatches(result, DEFAULT_EXPECTED_ADDRESSES)
     })
 
@@ -75,26 +85,31 @@ describe('address endpoint', () => {
       const addressManager = new AddressManagerMock()
       const confirmations = 0
       const batchSize = 3
-      const result = await fetchAddressList(addressManager, confirmations, batchSize)
+      const result = await fetchAddressList(
+        addressManager,
+        LATEST_BLOCK_NUM,
+        confirmations,
+        batchSize,
+      )
       verifyAddressListMatches(result, DEFAULT_EXPECTED_ADDRESSES)
 
       expect(addressManager.getPoRAddressList).toHaveBeenNthCalledWith(
         1,
         ethers.BigNumber.from(0),
         ethers.BigNumber.from(3),
-        { blockTag: undefined },
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
       )
       expect(addressManager.getPoRAddressList).toHaveBeenNthCalledWith(
         2,
         ethers.BigNumber.from(4),
         ethers.BigNumber.from(7),
-        { blockTag: undefined },
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
       )
       expect(addressManager.getPoRAddressList).toHaveBeenNthCalledWith(
         3,
         ethers.BigNumber.from(8),
         ethers.BigNumber.from(DEFAULT_EXPECTED_ADDRESSES.length - 1),
-        { blockTag: undefined },
+        { blockTag: LATEST_BLOCK_NUM - confirmations },
       )
     })
   })

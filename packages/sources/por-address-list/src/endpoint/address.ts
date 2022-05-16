@@ -30,7 +30,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const addressManager = new ethers.Contract(contractAddress, POR_ADDRESS_LIST_ABI, provider)
-  const addressList = await fetchAddressList(addressManager, confirmations, batchSize)
+  const latestBlockNum = await provider.getBlockNumber()
+  const addressList = await fetchAddressList(
+    addressManager,
+    latestBlockNum,
+    confirmations,
+    batchSize,
+  )
   return {
     jobRunID,
     result: addressList,

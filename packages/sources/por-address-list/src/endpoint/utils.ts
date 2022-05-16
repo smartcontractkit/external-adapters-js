@@ -2,10 +2,11 @@ import { ethers } from 'ethers'
 
 export const fetchAddressList = async (
   addressManager: ethers.Contract,
+  latestBlockNum: number,
   confirmations = 0,
   batchSize = 10,
 ): Promise<string[]> => {
-  const blockTag = confirmations ? -confirmations : undefined
+  const blockTag = latestBlockNum - confirmations
   const numAddresses = await addressManager.getPoRAddressListLength({
     blockTag,
   })
