@@ -1,6 +1,6 @@
 # Chainlink External Adapter for SatoshiTango
 
-![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json)
+![1.2.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json)
 
 Base URL https://api.satoshitango.com/v3
 

@@ -2,7 +2,7 @@
 
 This adapter only has Websocket support for the forex endpoint.
 
-![1.6.29](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json)
+![1.6.31](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json)
 
 Base URL wss://marketdata.tradermade.com/feedadv
 

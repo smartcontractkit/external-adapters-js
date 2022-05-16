@@ -1,6 +1,6 @@
 # Blocksize Capital Adapter
 
-![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blocksize-capital/package.json)
+![1.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blocksize-capital/package.json)
 
 [Blocksize Capital API](https://data-dev.blocksize.capital/marketdata/docs/#blocksize-marketdata-api-v1)
 

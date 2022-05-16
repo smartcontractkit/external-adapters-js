@@ -1,5 +1,14 @@
 # @chainlink/nikkei-adapter
 
+## 1.1.44
+
+### Patch Changes
+
+- Updated dependencies [dc5c138da]
+- Updated dependencies [f99b2750a]
+  - @chainlink/ea-bootstrap@2.5.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.1.43
 
 ### Patch Changes

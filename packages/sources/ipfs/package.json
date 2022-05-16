@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ipfs-adapter",
-  "version": "1.2.29",
+  "version": "1.2.30",
   "description": "Chainlink IPFS adapter.",
   "keywords": [
     "Chainlink",
