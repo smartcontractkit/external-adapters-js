@@ -1,7 +1,6 @@
 import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../src'
 import nock from 'nock'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 
 import { ethers } from 'ethers'
@@ -102,15 +101,15 @@ jest.mock('ethers', () => {
 
 let oldEnv: NodeJS.ProcessEnv
 
-let server: http.Server
+let fastify: FastifyInstance
 let req: SuperTest<Test>
 const jobID = '1'
 
 describe('nba', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.POLYGON_RPC_URL = process.env.POLYGON_RPC_URL || 'fake-polygon-rpc-url'
     process.env.CACHE_ENABLED = 'false'
     process.env.CHAIN_BATCH_WRITE_ADAPTER_ADDRESS = mockBatchWriterAddress
@@ -122,7 +121,7 @@ describe('nba', () => {
 
   afterAll((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()

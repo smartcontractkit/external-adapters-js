@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as http from 'http'
 import { AddressInfo } from 'net'
 import { mockGetBlockByNumber, mockWSResponse } from './fixtures'
 import {
@@ -15,7 +14,7 @@ import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middlew
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv
@@ -31,13 +30,13 @@ describe('websocket', () => {
     process.env.WS_ENABLED = 'true'
     process.env.WS_SUBSCRIPTION_TTL = '100'
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('gas endpoint', () => {

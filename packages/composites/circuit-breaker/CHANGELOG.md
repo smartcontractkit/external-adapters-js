@@ -1,5 +1,27 @@
 # @chainlink/circuit-breaker-adapter
 
+## 1.0.50
+
+### Patch Changes
+
+- Updated dependencies [dc5c138da]
+- Updated dependencies [f99b2750a]
+  - @chainlink/ea-bootstrap@2.5.0
+
+## 1.0.49
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+
+## 1.0.48
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+
 ## 1.0.47
 
 ### Patch Changes

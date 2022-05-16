@@ -1,7 +1,6 @@
 import { server as startServer } from '../../src/index'
 import { BigNumber } from 'ethers'
 import request, { SuperTest, Test } from 'supertest'
-import http from 'http'
 import process from 'process'
 import { AddressInfo } from 'net'
 import { ethers } from 'ethers'
@@ -151,16 +150,16 @@ afterAll(() => {
 })
 
 describe('synthetix-debt-pool', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('debt', () => {

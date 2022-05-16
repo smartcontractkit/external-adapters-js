@@ -1,6 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
-import http from 'http'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
@@ -8,7 +7,7 @@ import { mockAssetEndpoint, mockCryptoEndpoint } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('coinapi', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
   let req: SuperTest<Test>
 
@@ -20,8 +19,8 @@ describe('coinapi', () => {
     } else {
       process.env.API_KEY = 'mock-api-key'
     }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -33,7 +32,7 @@ describe('coinapi', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('crypto endpoint', () => {

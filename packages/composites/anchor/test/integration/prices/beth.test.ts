@@ -1,13 +1,13 @@
 import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import { mockErrorFeedResponse, mockSuccessfulTerraEthFeedResp } from '../fixtures'
 
 import { ethers, BigNumber } from 'ethers'
 import '@chainlink/terra-view-function-adapter'
 import { AddressInfo } from 'net'
+import { FastifyInstance } from '@chainlink/ea-bootstrap'
 
 const mockBethStEthResult = BigNumber.from(10).pow(18)
 const mockStETHETHPrice = BigNumber.from('1035144096528344468')
@@ -79,16 +79,15 @@ jest.mock('ethers', () => {
 })
 
 let oldEnv: NodeJS.ProcessEnv
-
-let server: http.Server
+let fastify: FastifyInstance
 let req: SuperTest<Test>
 const jobID = '1'
 
 describe('price-beth', () => {
   beforeEach(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.COLUMBUS_5_LCD_URL = 'fake-columbus-lcd'
     process.env.API_KEY = 'test'
     process.env.ANCHOR_VAULT_CONTRACT_ADDRESS = 'test-address'
@@ -103,7 +102,7 @@ describe('price-beth', () => {
 
   afterEach((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('error calls', () => {

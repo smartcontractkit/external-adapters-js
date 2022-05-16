@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
 import nock from 'nock'
-import http from 'http'
 import { server as startServer } from '../../src'
 import {
   mockSubscribeResponse,
@@ -46,17 +45,17 @@ afterAll(() => {
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
   })
 
   afterAll((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('with token', () => {
@@ -85,7 +84,7 @@ describe('execute', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv
@@ -101,8 +100,8 @@ describe('websocket', () => {
     process.env.WS_ENABLED = 'true'
     process.env.WS_SUBSCRIPTION_TTL = '100'
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -110,7 +109,7 @@ describe('websocket', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('WS crypto endpoint', () => {
