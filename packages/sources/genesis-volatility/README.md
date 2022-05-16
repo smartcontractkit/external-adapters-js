@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Genesis Volatility
 
-![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/genesis-volatility/package.json)
+![1.2.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/genesis-volatility/package.json)
 
 Base URL https://app.pinkswantrading.com
 
