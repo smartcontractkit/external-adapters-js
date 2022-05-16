@@ -12,6 +12,7 @@ import { logger } from './modules'
 export const baseEnvDefaults: EnvDefaults = {
   BASE_URL: '/',
   EA_PORT: '8080',
+  EA_HOST: '::',
   METRICS_PORT: '9080',
   RETRY: '1',
   API_TIMEOUT: '30000',
