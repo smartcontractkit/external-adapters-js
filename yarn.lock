@@ -4316,7 +4316,7 @@ __metadata:
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
-    "@types/node": 14.18.16
+    "@types/node": 14.18.18
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -9460,10 +9460,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.16":
-  version: 14.18.16
-  resolution: "@types/node@npm:14.18.16"
-  checksum: 1999799309dc8620a2adf9a5d5e48416af87321bae4c950b4aa8018fcef2c3b6c1fcf98c39eae06f6492c03a643a5a44e2bb3750cd2574d9cf7eac33bac50e24
+"@types/node@npm:14.18.18":
+  version: 14.18.18
+  resolution: "@types/node@npm:14.18.18"
+  checksum: a165225cd2603f6e62af8407449e4a4407305e03b41c1adf6b186fdf546e1a03c8214217659b5b36c556947c0c06234993ac880d4db6378136a7a810d47e0742
   languageName: node
   linkType: hard
 

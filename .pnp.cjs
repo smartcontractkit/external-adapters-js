@@ -6847,7 +6847,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
-            ["@types/node", "npm:14.18.16"],
+            ["@types/node", "npm:14.18.18"],
             ["decimal.js", "npm:10.3.1"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
@@ -12358,10 +12358,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:14.18.16", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.16-c8b08d019c-1999799309.zip/node_modules/@types/node/",
+        ["npm:14.18.18", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.18-2f8f733938-a165225cd2.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:14.18.16"]
+            ["@types/node", "npm:14.18.18"]
           ],
           "linkType": "HARD",
         }],
