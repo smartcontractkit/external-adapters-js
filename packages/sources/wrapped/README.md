@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wrapped
 
-![2.1.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wrapped/package.json)
+![2.1.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wrapped/package.json)
 
 Base URL http://chainlink.wrappedeng.com
 

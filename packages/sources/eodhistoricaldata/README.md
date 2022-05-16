@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EOD Historical Data
 
-![1.2.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eodhistoricaldata/package.json)
+![1.2.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eodhistoricaldata/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
