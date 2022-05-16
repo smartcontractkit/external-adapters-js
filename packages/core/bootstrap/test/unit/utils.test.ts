@@ -1,4 +1,5 @@
 import { AdapterContext } from '@chainlink/types'
+import { FastifyRequest } from 'fastify'
 import {
   getEnv,
   buildUrlPath,
@@ -16,9 +17,7 @@ import {
   getURL,
   getRequiredEnvWithFallback,
   registerUnhandledRejectionHandler,
-  isIp,
   getClientIp,
-  getClientIpFromXForwardedFor,
 } from '../../src/lib/util'
 
 describe('utils', () => {
@@ -393,79 +392,15 @@ describe('utils', () => {
   })
 
   describe(`clientIp`, () => {
-    it(`isIp success (ipv4)`, () => expect(isIp('19.117.63.126')).toEqual(true))
-    it(`isIp success (ipv6)`, () => expect(isIp('684D:1111:222:3333:4444:5555:6:77')).toEqual(true))
-    it(`isIp failures`, () => {
-      const values = [
-        'abc',
-        '',
-        '1.2.3',
-        '684D:1111:222:3333:4444:5555',
-        '19.11a.63.126',
-        '684D:1111:222:3333:4z44:5555:6:77',
-        'http://example.com',
-        null,
-        undefined,
-      ]
-      values.forEach((val: string) => expect(isIp(val)).toEqual(false))
-    })
-
     it(`getClientIp retrieves ip address`, () => {
       const ip = '1.2.3.4'
-      const values = [
-        { headers: { 'x-client-ip': ip } },
-        { headers: { 'cf-connecting-ip': ip } },
-        { headers: { 'fastly-client-ip': ip } },
-        { headers: { 'true-client-ip': ip } },
-        { headers: { 'x-real-ip': ip } },
-        { headers: { 'x-cluster-client-ip': ip } },
-        { headers: { 'x-forwarded': ip } },
-        { headers: { 'forwarded-for': ip } },
-        { headers: { forwarded: ip } },
-        { headers: { 'x-forwarded-for': 'unknown,1.2.3.4:8080' } },
-        { connection: { remoteAddress: ip } },
-        { connection: { socket: { remoteAddress: ip } } },
-        { socket: { remoteAddress: ip } },
-        { info: { remoteAddress: ip } },
-        { requestContext: { identity: { sourceIp: ip } } },
-      ]
-      values.forEach((val) => expect(getClientIp(val)).toEqual(ip))
+      const values = [{ ip }, { ips: [ip] }, { ips: ['5.6.7.8', 'a.b.c.d', ip] }]
+      values.forEach((val) => expect(getClientIp(val as FastifyRequest)).toEqual(ip))
     })
 
     it(`getClientIp returns 'unknown'`, () => {
-      const values = [
-        {},
-        { headers: { 'x-client-ip': null } },
-        { requestContext: { identity: 'abc' } },
-      ]
-      values.forEach((val) => expect(getClientIp(val)).toEqual('unknown'))
-    })
-
-    it(`getClientIpFromXForwardedFor retrieves ip address`, () => {
-      const values = [
-        { value: '1.2.3.4', result: '1.2.3.4' },
-        { value: 'unknown,unknown,1.2.3.4:8080', result: '1.2.3.4' },
-        {
-          value: 'unknown,684D:1111:222:3333:4444:5555:6:77',
-          result: '684D:1111:222:3333:4444:5555:6:77',
-        },
-      ]
-      values.forEach((val: any) =>
-        expect(getClientIpFromXForwardedFor(val.value)).toEqual(val.result),
-      )
-    })
-    it(`getClientIpFromXForwardedFor returns null`, () => {
-      const values = [null, undefined, '']
-      values.forEach((val: string) => expect(getClientIpFromXForwardedFor(val)).toEqual(null))
-    })
-    it(`getClientIpFromXForwardedFor returns undefined`, () =>
-      expect(getClientIpFromXForwardedFor('unknown,unknown')).toEqual(undefined))
-    it(`getClientIpFromXForwardedFor throws TypeError`, () => {
-      try {
-        getClientIpFromXForwardedFor({})
-      } catch (error) {
-        expect(error.message).toEqual('Expected a string, got object')
-      }
+      const values = [{}, { ip: null }, { ips: [] }]
+      values.forEach((val) => expect(getClientIp(val as FastifyRequest)).toEqual('unknown'))
     })
   })
 })
