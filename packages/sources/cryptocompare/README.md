@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoCompare
 
-![1.3.23](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json)
+![1.3.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json)
 
 Base URL wss://streamer.cryptocompare.com/v2
 
@@ -49,11 +49,11 @@ Request:
     "quote": "BTC"
   },
   "debug": {
-    "cacheKey": "Kl7xyB2E0Cl4DDLqXj3MktqbI/A=",
-    "batchCacheKey": "d4QqxLRdj7pNRlfcScObaHqkEc8=",
+    "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0=",
+    "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
     "batchChildrenCacheKeys": [
       [
-        "Kl7xyB2E0Cl4DDLqXj3MktqbI/A=",
+        "Eao0YPhZDa3+RmRxiwOG5dAIIt0=",
         {
           "id": "1",
           "data": {
@@ -214,11 +214,11 @@ Request:
     "quote": "BTC"
   },
   "debug": {
-    "cacheKey": "Kij/amGSbqPNgiZvXKfuTwGXJ7Y=",
-    "batchCacheKey": "pAZ20K1bVH9pSV6DyEswwEL23xc=",
+    "cacheKey": "KbqgFjuDtvts/CAPorCDKS6azZ0=",
+    "batchCacheKey": "jn4lMO3NoQk/anX1RCCPMCMFBRU=",
     "batchChildrenCacheKeys": [
       [
-        "Kij/amGSbqPNgiZvXKfuTwGXJ7Y=",
+        "KbqgFjuDtvts/CAPorCDKS6azZ0=",
         {
           "id": "1",
           "data": {
@@ -376,11 +376,11 @@ Request:
     "quote": "BTC"
   },
   "debug": {
-    "cacheKey": "+jGF+Wkv7MuCklg91Bq5YJXntFU=",
-    "batchCacheKey": "QQd/qUqWGJzrfSF0NewAxcfh8YI=",
+    "cacheKey": "b8cVkUXVyDdOe/are/9XZjUuFsw=",
+    "batchCacheKey": "7tI8y8sPATDZY9jYxipk1dWrnus=",
     "batchChildrenCacheKeys": [
       [
-        "+jGF+Wkv7MuCklg91Bq5YJXntFU=",
+        "b8cVkUXVyDdOe/are/9XZjUuFsw=",
         {
           "id": "1",
           "data": {

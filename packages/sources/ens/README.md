@@ -1,6 +1,6 @@
 # ENS Adapter
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
+![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
 
 ENS Adapter
 
@@ -47,7 +47,7 @@ Request:
     "ensName": "mockinputethtld.eth"
   },
   "debug": {
-    "cacheKey": "lBQVhNyHkF8nstGK9E/bmMFenGM="
+    "cacheKey": "JSErNmN8G275BpWeOunk+wT/938="
   }
 }
 ```
@@ -83,7 +83,7 @@ Request:
     "ensName": "mockinputnonethtld.test"
   },
   "debug": {
-    "cacheKey": "PzVHxnsdOTP9OEKRVKRD8YhU2dg="
+    "cacheKey": "v7iYX6aZnnAHPZbnu9UDSLvRrgw="
   }
 }
 ```
@@ -115,7 +115,7 @@ Request:
     "ensName": "subdomain.mockinputethtld.eth"
   },
   "debug": {
-    "cacheKey": "0LOWogTArOegT4oJa3Twh8ok+IM="
+    "cacheKey": "ykDmNZC347HfwpLF5sh41ZVPHBQ="
   }
 }
 ```
@@ -147,7 +147,7 @@ Request:
     "ensName": "subdomain.mockinputnonethtld.test"
   },
   "debug": {
-    "cacheKey": "jDkQbMyh5qYQgHSDG0jRWgvx+cE="
+    "cacheKey": "D5d+Lo5QhukVF6maB6ySrhTLy7E="
   }
 }
 ```

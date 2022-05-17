@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.5.2
+
+### Patch Changes
+
+- f9b76857b: Fix cache batch warming key generation by ignoring overrides, others
+
 ## 2.5.1
 
 ### Patch Changes
