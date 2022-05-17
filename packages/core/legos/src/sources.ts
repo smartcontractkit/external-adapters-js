@@ -34,6 +34,7 @@ import * as coinmetrics from '@chainlink/coinmetrics-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
+import * as cryptex from '@chainlink/cryptex-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
@@ -163,6 +164,7 @@ export default {
   coinpaprika,
   coinranking,
   covid_tracker,
+  cryptex,
   cryptoapis,
   cryptoapis_v2,
   cryptocompare,
