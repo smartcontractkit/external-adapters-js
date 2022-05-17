@@ -29,13 +29,13 @@ jobs:
           AWS_REGION: ${{ secrets.QA_SDLC_AWS_REGION }}
           AWS_ROLE_TO_ASSUME: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
         run: |
-          mkdir ./.aws
-          touch ./.aws/config
-          echo "[profile qa-sdlc]" >> ./.aws/config
-          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ./.aws/config
-          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ./.aws/config
-          echo "region=${AWS_REGION}" >> ./.aws/config
-          echo "role_arn=${AWS_ROLE_TO_ASSUME}" >> ./.aws/config
+          mkdir ~/.aws
+          touch ~/.aws/config
+          echo "[profile qa-sdlc]" >> ~/.aws/config
+          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ~/.aws/config
+          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/config
+          echo "region=${AWS_REGION}" >> ~/.aws/config
+          echo "role_arn=${AWS_ROLE_TO_ASSUME}" >> ~/.aws/config
 
       - name: Login to Amazon ECR
         id: login-ecr
