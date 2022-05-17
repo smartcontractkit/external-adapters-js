@@ -1,6 +1,6 @@
 # Chainlink External Adapter for dxFeed
 
-![1.2.37](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json)
+![1.2.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -45,11 +45,11 @@ Request:
     "base": "TSLA"
   },
   "debug": {
-    "cacheKey": "DknAM1fQfWVHGPdFmvbGtNRNaVI=",
-    "batchCacheKey": "kZiBWu5BzEiUauh4lmvzs5ipAJ0=",
+    "cacheKey": "4TupE9qBq++X2he+M9kTw2ZmOv8=",
+    "batchCacheKey": "VrI9ktHz2Gp7oHbb2+1HMGmvh5k=",
     "batchChildrenCacheKeys": [
       [
-        "0Dhmfcxw8Az9FYLUzbWcuccPozo=",
+        "4TupE9qBq++X2he+M9kTw2ZmOv8=",
         {
           "id": "1",
           "data": {
