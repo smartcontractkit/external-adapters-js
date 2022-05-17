@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -10,7 +10,7 @@ import {
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 import crypto from 'crypto'
-import { AccessToken, AccessTokenRespopnse, TickerMessage } from './types'
+import { AccessToken, AccessTokenResponse, TickerMessage } from './types'
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   return Builder.buildSelector(request, context, config, endpoints)
@@ -73,19 +73,26 @@ export const getAccessToken = async (
       },
     }
 
-    const tokenResponse = await Requester.request<AccessTokenRespopnse>(data)
+    const tokenResponse = await Requester.request<AccessTokenResponse>(data)
     if (!tokenResponse.data.success) throw new Error(tokenResponse.data.error)
     return {
       token: tokenResponse.data.token,
       validUntil: new Date(tokenResponse.data.validUntil).getTime(),
     }
   } catch (error) {
-    throw new Error(error)
+    Logger.debug(
+      `Error: ${
+        existingToken
+          ? `failed to refresh token: ${existingToken.token}`
+          : `failed to get new token`
+      }, with error: ${error.message}`,
+    )
+    throw error
   }
 }
 
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
-  let token: AccessToken
+  let token: AccessToken | undefined
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(
       input,
@@ -100,15 +107,20 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
   }
 
   const refreshToken = async (config: Config) => {
-    if (!token) {
-      // Get inital token
-      token = await getAccessToken(config)
-      return
-    }
+    try {
+      if (!token) {
+        // Get inital token
+        token = await getAccessToken(config)
+        return
+      }
 
-    // Refresh token if it has less than 5 mins validity remaining
-    if (token.validUntil - new Date().getTime() < 300000)
-      token = await getAccessToken(config, token)
+      // Refresh token if it has less than 5 mins validity remaining
+      if (token.validUntil - new Date().getTime() < 3540000)
+        token = await getAccessToken(config, token)
+    } catch (error) {
+      token = undefined
+      throw error
+    }
   }
 
   return async () => {
@@ -118,7 +130,7 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
     return {
       connection: {
         url: config.api.baseWsURL,
-        protocol: { headers: { ...config.api.headers, 'x-auth-token': token.token } },
+        protocol: { headers: { ...config.api.headers, 'x-auth-token': token?.token || '' } },
       },
       noHttp: true,
       subscribe: (input) => ({ action: 'subscribe', symbols: [getPair(input)] }),

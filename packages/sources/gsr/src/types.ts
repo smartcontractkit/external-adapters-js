@@ -24,4 +24,4 @@ export interface AccessToken {
   validUntil: number
 }
 
-export type AccessTokenRespopnse = TokenError | TokenSuccess
+export type AccessTokenResponse = TokenError | TokenSuccess

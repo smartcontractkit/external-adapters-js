@@ -12364,6 +12364,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+        ["npm:16.11.33", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.33-01bfb97de4-5c86d3f1e3.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:16.11.33"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:16.11.35", {
           "packageLocation": "./.yarn/cache/@types-node-npm-16.11.35-d7356bc420-c06e8716f5.zip/node_modules/@types/node/",
           "packageDependencies": [
