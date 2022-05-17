@@ -2602,6 +2602,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/cryptex-adapter@workspace:*, @chainlink/cryptex-adapter@workspace:packages/sources/cryptex":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cryptex-adapter@workspace:packages/sources/cryptex"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.33
+    "@types/supertest": 2.0.11
+    ethers: ^5.6.5
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index":
   version: 0.0.0-use.local
   resolution: "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index"
@@ -3120,6 +3138,7 @@ __metadata:
     "@chainlink/coinpaprika-adapter": "workspace:*"
     "@chainlink/coinranking-adapter": "workspace:*"
     "@chainlink/covid-tracker-adapter": "workspace:*"
+    "@chainlink/cryptex-adapter": "workspace:*"
     "@chainlink/cryptoapis-adapter": "workspace:*"
     "@chainlink/cryptoapis-v2-adapter": "workspace:*"
     "@chainlink/cryptocompare-adapter": "workspace:*"

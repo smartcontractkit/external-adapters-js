@@ -65,6 +65,7 @@
     "@chainlink/coinpaprika-adapter": "workspace:*",
     "@chainlink/coinranking-adapter": "workspace:*",
     "@chainlink/covid-tracker-adapter": "workspace:*",
+    "@chainlink/cryptex-adapter": "workspace:*",
     "@chainlink/cryptoapis-adapter": "workspace:*",
     "@chainlink/cryptoapis-v2-adapter": "workspace:*",
     "@chainlink/cryptocompare-adapter": "workspace:*",
