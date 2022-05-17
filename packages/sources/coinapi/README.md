@@ -1,6 +1,6 @@
 # Chainlink CoinApi External Adapter
 
-![1.1.35](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json)
+![1.1.37](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json)
 
 Base URL https://rest.coinapi.io/v1/
 
@@ -228,11 +228,11 @@ Request:
     "base": "ETH"
   },
   "debug": {
-    "cacheKey": "Ur/htdfKFQCEg9u3OP04uh/3KH4=",
-    "batchCacheKey": "bw8uI6H3Mcl4otBbQjQdDzp3KUA=",
+    "cacheKey": "6hRLa7hFnxY6tCCa+2JjnKoexZ0=",
+    "batchCacheKey": "Nfk2A141x5CRat4rTzPErvOAh1A=",
     "batchChildrenCacheKeys": [
       [
-        "Ur/htdfKFQCEg9u3OP04uh/3KH4=",
+        "6hRLa7hFnxY6tCCa+2JjnKoexZ0=",
         {
           "id": "1",
           "data": {
