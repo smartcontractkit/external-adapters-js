@@ -23,7 +23,7 @@ Object {
     },
     "results": Array [
       Array [
-        "Pf9I9hvghjvtwZjKiSGUm9w0QnM=",
+        "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -37,10 +37,10 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "batchCacheKey": "1IrComlb8BmgInXsFJWp+10Vm5g=",
+            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "wJkwexX+DIxcqBD4+24lzO5TBP4=",
+                "+vG10HG97219/Jxd3VpKh16FAp8=",
                 Object {
                   "data": Object {
                     "base": "OHM",
@@ -57,14 +57,14 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "pqCYXWI2QYNqSCH3NFst2Ema61w=",
+            "cacheKey": "9WBEZj76qrWF1PzXDGmLubmB6BY=",
           },
           "id": "1",
         },
         3015.64,
       ],
       Array [
-        "wJkwexX+DIxcqBD4+24lzO5TBP4=",
+        "+vG10HG97219/Jxd3VpKh16FAp8=",
         Object {
           "data": Object {
             "base": "OHM",
@@ -78,10 +78,10 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "batchCacheKey": "1IrComlb8BmgInXsFJWp+10Vm5g=",
+            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "wJkwexX+DIxcqBD4+24lzO5TBP4=",
+                "+vG10HG97219/Jxd3VpKh16FAp8=",
                 Object {
                   "data": Object {
                     "base": "OHM",
@@ -98,7 +98,7 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "pqCYXWI2QYNqSCH3NFst2Ema61w=",
+            "cacheKey": "9WBEZj76qrWF1PzXDGmLubmB6BY=",
           },
           "id": "1",
         },
