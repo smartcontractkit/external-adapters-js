@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoMKT
 
-![1.2.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json)
+![1.2.36](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json)
 
 Base URL https://api.exchange.cryptomkt.com/api/3/
 
@@ -49,7 +49,7 @@ Request:
     "quote": "ARS"
   },
   "debug": {
-    "cacheKey": "CcS8zsdvjPOtcrwvJC+eqUSZheg="
+    "cacheKey": "DXqgDsgrZ489uGqrEFEK7PB3vv4="
   },
   "rateLimitMaxAge": 6666
 }

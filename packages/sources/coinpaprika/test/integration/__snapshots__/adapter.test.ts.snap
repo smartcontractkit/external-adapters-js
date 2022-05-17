@@ -5,7 +5,7 @@ Object {
   "data": Object {
     "results": Array [
       Array [
-        "y6QZ0KRdHNNJntPrJSxIN5ViUXY=",
+        "r6ZXhd+zEdyag6axryIefPg9QnI=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -19,10 +19,10 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "batchCacheKey": "kW9tx/q5SVRkYimDOOXAHIBOlik=",
+            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "1S4laj6wO7GdpDUP8Ijkhx9wkpc=",
+                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
                 Object {
                   "data": Object {
                     "base": "ETH",
@@ -39,14 +39,14 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "wUiGbqNUaDn4nPJc4Awsxhz35FA=",
+            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
           },
           "id": "1",
         },
         40000.2425813062,
       ],
       Array [
-        "1S4laj6wO7GdpDUP8Ijkhx9wkpc=",
+        "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -60,10 +60,10 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "batchCacheKey": "kW9tx/q5SVRkYimDOOXAHIBOlik=",
+            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "1S4laj6wO7GdpDUP8Ijkhx9wkpc=",
+                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
                 Object {
                   "data": Object {
                     "base": "ETH",
@@ -80,7 +80,7 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "wUiGbqNUaDn4nPJc4Awsxhz35FA=",
+            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
           },
           "id": "1",
         },
@@ -99,7 +99,7 @@ Object {
   "data": Object {
     "results": Array [
       Array [
-        "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
+        "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
         Object {
           "data": Object {
             "base": "ETH",
@@ -108,10 +108,10 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "batchCacheKey": "17asiOIup7+B7FZygsiP87VYnrg=",
+            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
+                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
                 Object {
                   "data": Object {
                     "base": "ETH",
@@ -123,14 +123,14 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "H4Z7T1+jd4RflsqhbnoOPBZALtw=",
+            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
           },
           "id": "1",
         },
         3949.2425813062,
       ],
       Array [
-        "OGfHdehjHraavx1cn4Ua96mPJmY=",
+        "r6ZXhd+zEdyag6axryIefPg9QnI=",
         Object {
           "data": Object {
             "base": "BTC",
@@ -139,10 +139,10 @@ Object {
             "resultPath": "price",
           },
           "debug": Object {
-            "batchCacheKey": "17asiOIup7+B7FZygsiP87VYnrg=",
+            "batchCacheKey": "mXZVj9p1sy/XdgDq5smj0d61CFE=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "myCLTCj4zYsnsKksIJQuUgg6g+Y=",
+                "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
                 Object {
                   "data": Object {
                     "base": "ETH",
@@ -154,7 +154,7 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "H4Z7T1+jd4RflsqhbnoOPBZALtw=",
+            "cacheKey": "TUZGn5pSW8BRvgodf27Xuoiu02Y=",
           },
           "id": "1",
         },

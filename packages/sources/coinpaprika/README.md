@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinPaprika
 
-![1.8.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json)
+![1.8.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json)
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
@@ -54,11 +54,11 @@ Request:
     "coinid": "eth-ethereum"
   },
   "debug": {
-    "cacheKey": "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
-    "batchCacheKey": "lHEnqy20ZxpTIz2ArGwx40Q8Tyk=",
+    "cacheKey": "/ZZUFW3JdvMNj7qmqWBfjk3M4YU=",
+    "batchCacheKey": "xfc2iTuKJFI92dUpgFzFhVxPrEQ=",
     "batchChildrenCacheKeys": [
       [
-        "gWjRcmQpTpE8K87sUfwnuD8ExbQ=",
+        "/ZZUFW3JdvMNj7qmqWBfjk3M4YU=",
         {
           "id": "1",
           "data": {
@@ -230,7 +230,7 @@ Request:
     "quote": "USD"
   },
   "debug": {
-    "cacheKey": "/qwtSQkI+hFL1XyVcMlcZ5qYWwE="
+    "cacheKey": "/mWFiJX9XlPfrers69lNKY9syOU="
   }
 }
 ```
@@ -959,7 +959,7 @@ Request:
     "hours": 24
   },
   "debug": {
-    "cacheKey": "I7txxQfwZOs1CsZp7ftEXG3XiXk="
+    "cacheKey": "sMT7ytI4rR7UAXxF4mi7tq5rHIc="
   }
 }
 ```

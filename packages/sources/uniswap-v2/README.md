@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V2
 
-![1.1.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json)
+![1.1.36](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json)
 
 This adapter allows querying Uniswap V2 contracts
 
@@ -58,7 +58,7 @@ Request:
     "amount": 1
   },
   "debug": {
-    "cacheKey": "8+57VCexLY5xpa6wBMELqPDkP4w="
+    "cacheKey": "YZV70B+kzz3Gu9THcBM+4QpTL3M="
   }
 }
 ```
@@ -102,7 +102,7 @@ Request:
     "amount": 10
   },
   "debug": {
-    "cacheKey": "vDDkmKyrSIMCbdoztDdiWyIDYmQ="
+    "cacheKey": "hmzKgkCmu9duLKvBc7VrO8c1qFw="
   }
 }
 ```
