@@ -69,6 +69,7 @@ import * as geodb from '@chainlink/geodb-adapter'
 import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
+import * as gsr from '@chainlink/gsr-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -197,6 +198,7 @@ export default {
   google_bigquery,
   gramchain,
   graphql,
+  gsr,
   iex_adapter,
   intrinio,
   ipfs,

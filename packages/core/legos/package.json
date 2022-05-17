@@ -100,6 +100,7 @@
     "@chainlink/google-bigquery-adapter": "workspace:*",
     "@chainlink/gramchain-adapter": "workspace:*",
     "@chainlink/graphql-adapter": "workspace:*",
+    "@chainlink/gsr-adapter": "workspace:*",
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",
