@@ -3,7 +3,6 @@ import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import * as http from 'http'
 import {
   mockLoginResponse,
   mockResponseSuccessConvertEndpoint,
@@ -20,11 +19,11 @@ import {
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
-import { util } from '@chainlink/ea-bootstrap'
+import { util, FastifyInstance } from '@chainlink/ea-bootstrap'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -32,8 +31,8 @@ describe('execute', () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -44,7 +43,7 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('convert api', () => {
@@ -98,7 +97,7 @@ describe('execute', () => {
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   let oldEnv: NodeJS.ProcessEnv
@@ -113,8 +112,8 @@ describe('websocket', () => {
     process.env.WS_ENABLED = 'true'
     process.env.WS_SUBSCRIPTION_TTL = '100'
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -122,7 +121,7 @@ describe('websocket', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('quotes api', () => {

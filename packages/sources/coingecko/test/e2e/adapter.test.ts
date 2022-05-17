@@ -1,22 +1,21 @@
 import { AdapterRequest } from '@chainlink/types'
-import http from 'http'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('crypto api', () => {

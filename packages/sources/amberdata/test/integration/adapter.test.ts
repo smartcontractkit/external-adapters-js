@@ -1,6 +1,5 @@
 import { AdapterRequest } from '@chainlink/types'
 import { util } from '@chainlink/ea-bootstrap'
-import http from 'http'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
@@ -15,7 +14,7 @@ import { AddressInfo } from 'net'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('amberdata', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -25,8 +24,8 @@ describe('amberdata', () => {
     if (util.parseBool(process.env.RECORD)) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -38,7 +37,7 @@ describe('amberdata', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('when making a request to crypto endpoint', () => {

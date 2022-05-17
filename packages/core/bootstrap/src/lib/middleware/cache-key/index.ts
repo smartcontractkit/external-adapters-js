@@ -56,7 +56,13 @@ export function getCacheKey(
   for (const key of inputParameterKeySet) {
     // We want the key to be consistent. So we omit batchable paths.
     // Otherwise it would change on every new child
-    if (batchablePropertyPath && batchablePropertyPath.some(({ name }) => key === name)) continue
+    const isBatchableProperty =
+      batchablePropertyPath && batchablePropertyPath.some(({ name }) => key === name)
+    // Additionally, we ignore things like overrides that are not relevant to the DP request itself.
+    const isExcludableProperty = excludableInternalAdapterRequestProperties.includes(key)
+    if (isBatchableProperty || isExcludableProperty) {
+      continue
+    }
 
     const value = validatedData.data[key]
     if (!value) continue

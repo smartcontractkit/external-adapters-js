@@ -1,7 +1,6 @@
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import http from 'http'
 import { mockLoginResponse, mockSubscribeResponse, mockUnsubscribeResponse } from './fixtures'
 import { AddressInfo } from 'net'
 import {
@@ -17,7 +16,7 @@ let oldEnv: NodeJS.ProcessEnv
 
 describe('websocket', () => {
   let mockedWsServer: InstanceType<typeof MockWsServer>
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -33,13 +32,13 @@ describe('websocket', () => {
       process.env.WS_SUBSCRIPTION_TTL = '3000'
     }
 
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('price endpoint', () => {

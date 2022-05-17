@@ -47,6 +47,7 @@ import * as durin from '@chainlink/durin-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as eth_balance from '@chainlink/eth-balance-adapter'
@@ -174,6 +175,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  ens,
   enzyme,
   eodhistoricaldata,
   eth_balance,
