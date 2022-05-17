@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 12345,
+  },
+  "jobRunID": "1",
+  "maxAge": 30000,
+  "result": 12345,
+  "statusCode": 200,
+}
+`;
