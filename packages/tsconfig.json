@@ -336,6 +336,9 @@
       "path": "./sources/graphql"
     },
     {
+      "path": "./sources/gsr"
+    },
+    {
       "path": "./sources/iex-cloud"
     },
     {

@@ -479,6 +479,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/graphql"
       },
       {
+        "name": "@chainlink/gsr-adapter",
+        "reference": "workspace:packages/sources/gsr"
+      },
+      {
         "name": "@chainlink/iex-cloud-adapter",
         "reference": "workspace:packages/sources/iex-cloud"
       },
@@ -821,6 +825,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],
       ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],
+      ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
@@ -5438,6 +5443,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],
             ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],
+            ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],
@@ -6150,6 +6156,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.35"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/gsr-adapter", [
+        ["workspace:packages/sources/gsr", {
+          "packageLocation": "./packages/sources/gsr/",
+          "packageDependencies": [
+            ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.33"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
