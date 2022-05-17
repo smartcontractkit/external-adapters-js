@@ -1,6 +1,6 @@
 # Chainlink External Adapter for SatoshiTango
 
-![1.2.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json)
+![1.2.36](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json)
 
 Base URL https://api.satoshitango.com/v3
 
@@ -49,7 +49,7 @@ Request:
     "quote": "ARS"
   },
   "debug": {
-    "cacheKey": "HuvixubrAxBvY45+06PCegj+ouA="
+    "cacheKey": "DXqgDsgrZ489uGqrEFEK7PB3vv4="
   },
   "rateLimitMaxAge": 16666
 }

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/lotus-adapter",
-  "version": "2.1.34",
+  "version": "2.1.36",
   "description": "Chainlink lotus adapter.",
   "keywords": [
     "Chainlink",
@@ -39,7 +39,7 @@
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.33",
+    "@types/node": "16.11.35",
     "@types/supertest": "2.0.12",
     "nock": "13.2.4",
     "supertest": "6.2.2",

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptoapis-v2-adapter",
-  "version": "1.1.34",
+  "version": "1.1.36",
   "description": "Chainlink cryptoapis-v2 adapter.",
   "keywords": [
     "Chainlink",
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.33",
+    "@types/node": "16.11.35",
     "typescript": "4.3.5"
   }
 }
