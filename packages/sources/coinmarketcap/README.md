@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmarketcap
 
-![1.3.36](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json)
+![1.3.38](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -147,11 +147,11 @@ Request:
     "convert": "USD"
   },
   "debug": {
-    "cacheKey": "OGfHdehjHraavx1cn4Ua96mPJmY=",
-    "batchCacheKey": "S9lQVRuqngyyYwVYhEJCVcsxqQU=",
+    "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI=",
+    "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
     "batchChildrenCacheKeys": [
       [
-        "OGfHdehjHraavx1cn4Ua96mPJmY=",
+        "r6ZXhd+zEdyag6axryIefPg9QnI=",
         {
           "id": "1",
           "data": {
@@ -246,11 +246,11 @@ Request:
     "cid": "1100"
   },
   "debug": {
-    "cacheKey": "o0FSMv8ruIrLjPJJYJjZ+Eb0/2Q=",
-    "batchCacheKey": "Wd3qvYisEtK0cdrn9igv+oYIMtU=",
+    "cacheKey": "oUY8FkVhDJJrR2ZkdnoUy8toHfw=",
+    "batchCacheKey": "RVbgjnAr6d0y46/w0auxngUIF8I=",
     "batchChildrenCacheKeys": [
       [
-        "o0FSMv8ruIrLjPJJYJjZ+Eb0/2Q=",
+        "oUY8FkVhDJJrR2ZkdnoUy8toHfw=",
         {
           "id": "1",
           "data": {
@@ -343,11 +343,11 @@ Request:
     "slug": "BTC"
   },
   "debug": {
-    "cacheKey": "Gg8B/hbMcomsAmJUDMcNJBf7mcY=",
-    "batchCacheKey": "c7TDhO68//9/Jk1uH2yNfnKqiAc=",
+    "cacheKey": "XuhDCzqkRjQn9IgF+jZtUB8muFE=",
+    "batchCacheKey": "v5neWkqA0RYlYjzOHUo7QNYFiSI=",
     "batchChildrenCacheKeys": [
       [
-        "Gg8B/hbMcomsAmJUDMcNJBf7mcY=",
+        "XuhDCzqkRjQn9IgF+jZtUB8muFE=",
         {
           "id": "1",
           "data": {
@@ -439,11 +439,11 @@ Request:
     "convert": "USD"
   },
   "debug": {
-    "cacheKey": "OGfHdehjHraavx1cn4Ua96mPJmY=",
-    "batchCacheKey": "S9lQVRuqngyyYwVYhEJCVcsxqQU=",
+    "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI=",
+    "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
     "batchChildrenCacheKeys": [
       [
-        "OGfHdehjHraavx1cn4Ua96mPJmY=",
+        "r6ZXhd+zEdyag6axryIefPg9QnI=",
         {
           "id": "1",
           "data": {

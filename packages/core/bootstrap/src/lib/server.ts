@@ -16,6 +16,7 @@ import { WSReset } from './middleware/ws/actions'
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
 const baseUrl = getEnv('BASE_URL') as string
+const eaHost = getEnv('EA_HOST') as string
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -119,7 +120,7 @@ export const initHandler =
     })
 
     return new Promise((resolve) => {
-      app.listen(port, (_, address) => {
+      app.listen(port, eaHost, (_, address) => {
         logger.info(`Server listening on ${address}!`)
         resolve(app)
       })
@@ -140,5 +141,7 @@ function setupMetricsServer(name: string) {
     res.send(await client.register.metrics())
   })
 
-  metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
+  metricsApp.listen(metricsPort, eaHost, () =>
+    logger.info(`Monitoring listening on port ${metricsPort}!`),
+  )
 }
