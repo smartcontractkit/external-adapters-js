@@ -105,7 +105,7 @@ jobs:
           CHANGED_FILES_NAME=./changedFiles.txt
           # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
           # TEST_ADAPTERS="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
-          TEST_ADAPTERS="coingecko"
+          TEST_ADAPTERS="coinpaprika"
           # TODO remove above line
 
           echo "::set-output name=TEST_ADAPTERS::${TEST_ADAPTERS}"
