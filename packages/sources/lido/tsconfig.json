@@ -4,7 +4,7 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/**/*", "src/abi/*.json", "src/config/*.json"],
+  "include": ["src/**/*", "src/**/*.json"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
   "references": [
     { "path": "../../core/test-helpers" },

@@ -1,12 +1,14 @@
 {
-  "name": "@chainlink/lido-stmaic",
+  "name": "@chainlink/lido-adapter",
   "version": "1.0.0",
-  "description": "Chainlink example source adapter.",
+  "description": "Chainlink Lido adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "lido",
+    "stmatic"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

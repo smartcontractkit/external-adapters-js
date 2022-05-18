@@ -8,8 +8,8 @@ describe('execute', () => {
   const execute = makeExecute()
 
   describe('validation error', () => {
-    const request = { name: 'chain not supplied', testData: { id: jobID } }
-    it('get price', async () => {
+    const request = { name: 'missing data', testData: { id: jobID } }
+    it('get stmatic price', async () => {
       try {
         await execute(request.testData as AdapterRequest)
       } catch (error) {

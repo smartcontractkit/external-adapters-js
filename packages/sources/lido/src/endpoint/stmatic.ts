@@ -1,6 +1,6 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters, AdapterResponse } from '@chainlink/types'
-import { POLYGON_RPC_URL, MATIC_AGGREGATOR_PROXY, STMATIC_RATE_PROVIDER } from '../config'
+import { MATIC_AGGREGATOR_PROXY, STMATIC_RATE_PROVIDER } from '../config'
 import rateProviderAbi from '../abi/RateProvider.json'
 import maticAggregatorAbi from '../abi/MaticAggregator.json'
 import { ethers } from 'ethers'
@@ -11,7 +11,11 @@ export const description = 'stMATIC token price in USD.'
 
 export const inputParameters: InputParameters = {}
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<Config> = async (
+  request,
+  _,
+  config,
+): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(config.api.baseURL)
@@ -25,14 +29,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const rate = values[0].div(ethers.utils.parseUnits('1', 10))
   const MaticUSD = values[1]
 
-  const data = {
-    STMATIC: MaticUSD.mul(rate).div(ethers.utils.parseUnits('1', 8)).toNumber(),
+  const result = MaticUSD.mul(rate).div(ethers.utils.parseUnits('1', 8)).toNumber()
+
+  const response = {
+    status: 200,
+    statusText: 'OK',
+    data: { result },
+    headers: {},
+    config: {},
   }
 
-  return {
-    jobRunID,
-    result: data.STMATIC,
-    data: { result: data },
-    statusCode: 200,
-  }
+  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
