@@ -1,5 +1,6 @@
 import { AdapterContext, AdapterImplementation, EnvDefaults } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
+import { FastifyRequest } from 'fastify'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
@@ -367,8 +368,37 @@ export const getRequiredEnvWithFallback = (
   throw new RequiredEnvError(getEnvName(primary, prefix))
 }
 
-//  URL Encoding
+/**
+ * Sleeps for the provided number of milliseconds
+ * @param ms The number of milliseconds to sleep for
+ * @returns a Promise that resolves once the specified time passes
+ */
+export const sleep = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
+/**
+ * Remove stale request entries from an array.
+ * This function assumes that the array is sorted by timestamp,
+ * where the oldest entry lives in the 0th index, and the newest entry
+ * lives in the arr.length-1th index
+ * @param items The items to filter
+ * @param filter The windowing function to apply
+ */
+export function sortedFilter<T>(items: T[], windowingFunction: (item: T) => boolean): T[] {
+  // if we want a higher performance implementation
+  // we can later resort to a custom array class that is circular
+  // so we can amortize expensive operations like resizing, and make
+  // operations like moving the head index much quicker
+  const firstNonStaleItemIndex = items.findIndex(windowingFunction)
+  if (firstNonStaleItemIndex === -1) {
+    return []
+  }
+
+  return items.slice(firstNonStaleItemIndex)
+}
+
+//  URL Encoding
 const charsToEncode = {
   ':': '%3A',
   '/': '%2F',
@@ -484,32 +514,5 @@ export const registerUnhandledRejectionHandler = (): void => {
   })
 }
 
-/**
- * Sleeps for the provided number of milliseconds
- * @param ms The number of milliseconds to sleep for
- * @returns a Promise that resolves once the specified time passes
- */
-export const sleep = (ms: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-/**
- * Remove stale request entries from an array.
- * This function assumes that the array is sorted by timestamp,
- * where the oldest entry lives in the 0th index, and the newest entry
- * lives in the arr.length-1th index
- * @param items The items to filter
- * @param filter The windowing function to apply
- */
-export function sortedFilter<T>(items: T[], windowingFunction: (item: T) => boolean): T[] {
-  // if we want a higher performance implementation
-  // we can later resort to a custom array class that is circular
-  // so we can amortize expensive operations like resizing, and make
-  // operations like moving the head index much quicker
-  const firstNonStaleItemIndex = items.findIndex(windowingFunction)
-  if (firstNonStaleItemIndex === -1) {
-    return []
-  }
-
-  return items.slice(firstNonStaleItemIndex)
-}
+export const getClientIp = (req: FastifyRequest): string =>
+  req.ip ? req.ip : req.ips?.length ? req.ips[req.ips.length - 1] : 'unknown'
