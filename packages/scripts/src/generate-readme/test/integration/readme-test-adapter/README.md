@@ -1,6 +1,6 @@
 # README Test Adapter
 
-![1.2.17](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json)
+![1.2.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json)
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
@@ -149,7 +149,7 @@ Request:
     "coinid": 1
   },
   "debug": {
-    "cacheKey": "DpZS5CoFN19tP4shmR6mkFkvJ2w="
+    "cacheKey": "2iiCdAuTmfjH0bS2z1yv/Ly6Pb0="
   }
 }
 ```
@@ -185,7 +185,7 @@ Request:
     "coinid": 2
   },
   "debug": {
-    "cacheKey": "w3GwX88vkpKKHcxGEVagYaFaozw="
+    "cacheKey": "oiEGtIbbJAJxXb37guRFigIef64="
   }
 }
 ```
@@ -237,7 +237,7 @@ Request:
     "amount": 1
   },
   "debug": {
-    "cacheKey": "L98LAmN1SgxnUxkXmEcJC1+nxVY="
+    "cacheKey": "q4gXYcTK9jHJrUUzwltWBL7NAUI="
   }
 }
 ```
@@ -273,7 +273,7 @@ Request:
     "amount": 10
   },
   "debug": {
-    "cacheKey": "4FyMTrMFLiEe85bTJ4tVO4XRuFA="
+    "cacheKey": "mTCSl1wfCZoVuG6Epaf7HkJgDwk="
   }
 }
 ```

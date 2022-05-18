@@ -8,7 +8,7 @@ import { loadTestPayload } from './config/test-payload-loader'
 import { logger } from './modules'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
-import { getEnv, toObjectWithNumbers } from './util'
+import { getClientIp, getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { WSReset } from './middleware/ws/actions'
@@ -16,6 +16,7 @@ import { WSReset } from './middleware/ws/actions'
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
 const baseUrl = getEnv('BASE_URL') as string
+const eaHost = getEnv('EA_HOST') as string
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -25,6 +26,7 @@ export const initHandler =
   (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
   async (): Promise<FastifyInstance> => {
     const app = Fastify({
+      trustProxy: true,
       logger: false,
     })
     const name = adapterContext.name || ''
@@ -56,9 +58,13 @@ export const initHandler =
     app.post<{
       Body: AdapterRequest
     }>(baseUrl, async (req, res) => {
+      const metricsMeta = METRICS_ENABLED
+        ? { metricsMeta: { requestOrigin: getClientIp(req) } }
+        : {}
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
+        ...metricsMeta,
       }
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.code(status).send(result)
@@ -119,7 +125,7 @@ export const initHandler =
     })
 
     return new Promise((resolve) => {
-      app.listen(port, (_, address) => {
+      app.listen(port, eaHost, (_, address) => {
         logger.info(`Server listening on ${address}!`)
         resolve(app)
       })
@@ -140,5 +146,7 @@ function setupMetricsServer(name: string) {
     res.send(await client.register.metrics())
   })
 
-  metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
+  metricsApp.listen(metricsPort, eaHost, () =>
+    logger.info(`Monitoring listening on port ${metricsPort}!`),
+  )
 }
