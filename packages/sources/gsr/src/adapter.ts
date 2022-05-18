@@ -115,7 +115,7 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
       }
 
       // Refresh token if it has less than 5 mins validity remaining
-      if (token.validUntil - new Date().getTime() < 3540000)
+      if (token.validUntil - new Date().getTime() < 300000)
         token = await getAccessToken(config, token)
     } catch (error) {
       token = undefined
