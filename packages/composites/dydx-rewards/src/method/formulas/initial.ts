@@ -109,8 +109,8 @@ export const calcTraderRewards = (
     (sum, addr) => sum.plus(epochData.tradeFeesPaid[addr]),
     new bn.BigNumber(0),
   )
-  const G = Object.keys(epochData.openInterest).reduce(
-    (sum, addr) => sum.plus(epochData.openInterest[addr]),
+  const G = Object.keys(epochData.averageOpenInterest).reduce(
+    (sum, addr) => sum.plus(epochData.averageOpenInterest[addr]),
     new bn.BigNumber(0),
   )
 
@@ -119,7 +119,7 @@ export const calcTraderRewards = (
 
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const f = epochData.tradeFeesPaid[addr]
-    const g = epochData.openInterest[addr] || 0
+    const g = epochData.averageOpenInterest[addr] || 0
     const score = new bn.BigNumber((f / F.toNumber()) ** traderScoreAlpha).times(
       (g / G.toNumber()) ** (1 - traderScoreAlpha),
     )
@@ -151,13 +151,14 @@ export const calcMarketMakerRewards = (
   )
 
   Object.keys(epochData.quoteScore).forEach((addr) => {
+    const addressToGiveRewardsTo = epochData.linkedPrimaryAddresses[addr] || addr
     const reward = marketMakerRewardsAmount
       .times(epochData.quoteScore[addr])
       .div(quoteScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
       .toFixed()
     if (reward !== '0') {
-      addReward(addressRewards, addr, reward)
+      addReward(addressRewards, addressToGiveRewardsTo, reward)
     }
   })
 }
