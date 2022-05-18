@@ -110,6 +110,7 @@
     "@chainlink/kaiko-adapter": "workspace:*",
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*",
     "@chainlink/lcx-adapter": "workspace:*",
+    "@chainlink/lido-adapter": "workspace:*",
     "@chainlink/linkpool-adapter": "workspace:*",
     "@chainlink/lition-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",

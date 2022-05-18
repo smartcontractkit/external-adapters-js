@@ -515,6 +515,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/lcx"
       },
       {
+        "name": "@chainlink/lido-adapter",
+        "reference": "workspace:packages/sources/lido"
+      },
+      {
         "name": "@chainlink/linkpool-adapter",
         "reference": "workspace:packages/sources/linkpool"
       },
@@ -837,6 +841,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
       ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],
+      ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
@@ -5452,6 +5457,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
             ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
+            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],
@@ -6395,6 +6401,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.35"],
             ["@types/supertest", "npm:2.0.12"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/lido-adapter", [
+        ["workspace:packages/sources/lido", {
+          "packageLocation": "./packages/sources/lido/",
+          "packageDependencies": [
+            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.33"],
+            ["@types/supertest", "npm:2.0.12"],
+            ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
@@ -8065,7 +8091,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/common", "npm:2.6.2"],
             ["@ethereumjs/tx", "npm:3.5.0"],
             ["ethereumjs-util", "npm:7.1.4"],
-            ["merkle-patricia-tree", "npm:4.2.3"]
+            ["merkle-patricia-tree", "npm:4.2.4"]
           ],
           "linkType": "HARD",
         }],
@@ -26429,19 +26455,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["merkle-patricia-tree", [
-        ["npm:4.2.3", {
-          "packageLocation": "./.yarn/cache/merkle-patricia-tree-npm-4.2.3-d20c8c348a-f95d1ab768.zip/node_modules/merkle-patricia-tree/",
-          "packageDependencies": [
-            ["merkle-patricia-tree", "npm:4.2.3"],
-            ["@types/levelup", "npm:4.3.3"],
-            ["ethereumjs-util", "npm:7.1.4"],
-            ["level-mem", "npm:5.0.1"],
-            ["level-ws", "npm:2.0.0"],
-            ["readable-stream", "npm:3.6.0"],
-            ["semaphore-async-await", "npm:1.5.1"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:4.2.4", {
           "packageLocation": "./.yarn/cache/merkle-patricia-tree-npm-4.2.4-d865962767-acedc7eea7.zip/node_modules/merkle-patricia-tree/",
           "packageDependencies": [
