@@ -19,6 +19,25 @@ Object {
 }
 `;
 
+exports[`execute with custom params should return success 2`] = `
+Object {
+  "data": Object {
+    "input": "10000000000000000000",
+    "inputDecimals": 18,
+    "inputToken": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "output": "3876205230018583676490",
+    "outputDecimals": 18,
+    "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "rate": 387.6205230018584,
+    "result": 387.6205230018584,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 387.6205230018584,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute with from/to should return success 1`] = `
 Object {
   "data": Object {
