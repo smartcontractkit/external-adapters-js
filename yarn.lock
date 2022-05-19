@@ -3183,6 +3183,7 @@ __metadata:
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*"
     "@chainlink/lcx-adapter": "workspace:*"
+    "@chainlink/lido-adapter": "workspace:*"
     "@chainlink/linkpool-adapter": "workspace:*"
     "@chainlink/lition-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
@@ -3907,6 +3908,24 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.35
     "@types/supertest": 2.0.12
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/lido-adapter@workspace:*, @chainlink/lido-adapter@workspace:packages/sources/lido":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/lido-adapter@workspace:packages/sources/lido"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.33
+    "@types/supertest": 2.0.12
+    ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
     tslib: ^2.3.1
@@ -21952,21 +21971,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"merkle-patricia-tree@npm:^4.2.3":
-  version: 4.2.3
-  resolution: "merkle-patricia-tree@npm:4.2.3"
-  dependencies:
-    "@types/levelup": ^4.3.0
-    ethereumjs-util: ^7.1.4
-    level-mem: ^5.0.1
-    level-ws: ^2.0.0
-    readable-stream: ^3.6.0
-    semaphore-async-await: ^1.5.1
-  checksum: f95d1ab7684b77cbd31d2ef1e6b0fc5688d57d2be0edd6af4af0593f0a0d89fdcc7fb0abb5664ba97aace0be160236bde6fb2f29ef04703e55c96c086e8b4070
-  languageName: node
-  linkType: hard
-
-"merkle-patricia-tree@npm:^4.2.4":
+"merkle-patricia-tree@npm:^4.2.3, merkle-patricia-tree@npm:^4.2.4":
   version: 4.2.4
   resolution: "merkle-patricia-tree@npm:4.2.4"
   dependencies:
