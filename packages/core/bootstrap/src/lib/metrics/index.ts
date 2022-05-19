@@ -23,8 +23,7 @@ export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
 export const recordDataProviderAttempt = (): ((
   method?: string,
   providerStatusCode?: number,
-) => void | null) => {
-  if (!METRICS_ENABLED) return () => null
+) => void) => {
   const labels: Parameters<typeof dataProviderRequestAttempts.labels>[0] = {}
   const end = dataProviderRequestDurationSeconds.startTimer()
   return (method = 'get', providerStatusCode?: number) => {

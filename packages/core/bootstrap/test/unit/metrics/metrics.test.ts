@@ -13,6 +13,8 @@ describe('Bootstrap/Metrics', () => {
 })
 
 describe('withMetrics middleware', () => {
+  afterEach(() => jest.clearAllMocks())
+
   it(`Records metrics successfully (with data provider hit)`, async () => {
     const spy = jest.spyOn(client.Counter.prototype, 'labels')
     const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
@@ -122,5 +124,33 @@ describe('withMetrics middleware', () => {
       expect(error.message).toEqual("Cannot read properties of undefined (reading 'maxAge')")
       expect(spy).toBeCalledWith(expectedLabels)
     }
+  })
+})
+
+describe('recordDataProviderAttempt', () => {
+  afterEach(() => jest.clearAllMocks())
+
+  it(`Records metrics successfully (GET, 200)`, async () => {
+    const spy = jest.spyOn(client.Counter.prototype, 'labels')
+    const expectedLabels = {
+      method: 'GET',
+      provider_status_code: 200,
+    }
+
+    const record = metrics.recordDataProviderAttempt()
+    record(expectedLabels.method, expectedLabels.provider_status_code)
+    expect(spy).toBeCalledWith(expectedLabels)
+  })
+
+  it(`Records metrics successfully (POST, 400)`, async () => {
+    const spy = jest.spyOn(client.Counter.prototype, 'labels')
+    const expectedLabels = {
+      method: 'POST',
+      provider_status_code: 400,
+    }
+
+    const record = metrics.recordDataProviderAttempt()
+    record(expectedLabels.method, expectedLabels.provider_status_code)
+    expect(spy).toBeCalledWith(expectedLabels)
   })
 })
