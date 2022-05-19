@@ -1,7 +1,6 @@
 import { server as startServer } from '../../src/index'
 import { BigNumber } from 'ethers'
 import request, { SuperTest, Test } from 'supertest'
-import http from 'http'
 import process from 'process'
 import { AddressInfo } from 'net'
 import { ethers } from 'ethers'
@@ -9,16 +8,28 @@ import { ethers } from 'ethers'
 const mockChainConfig = {
   ethereum: {
     rpcUrl: 'fake-ethereum-rpc-url',
+    addressProviderProxyContractAddress: 'fake-ethereum-address-provider-proxy',
     addressProviderContractAddress: 'fake-ethereum-address-provider',
     debtPoolAddress: 'fake-ethereum-debt-pool-address',
     synthetixDebtShareAddress: 'fake-ethereum-synthetix-debt-share-address',
+    synthetixBridgeAddress: 'fake-ethereum-synthetix-bridge-address',
   },
   optimism: {
     rpcUrl: 'fake-optimism-rpc-url',
+    addressProviderProxyContractAddress: 'fake-optimism-address-provider-proxy',
     addressProviderContractAddress: 'fake-optimism-address-provider',
     debtPoolAddress: 'fake-optimism-debt-pool-address',
     synthetixDebtShareAddress: 'fake-optimism-synthetix-debt-share-address',
+    synthetixBridgeAddress: 'fake-ethereum-synthetix-bridge-address',
   },
+}
+
+const mockEthereumAddressProviderProxyContract = {
+  target: jest.fn().mockReturnValue(mockChainConfig.ethereum.addressProviderContractAddress),
+}
+
+const mockOptimismAddressProviderProxyContract = {
+  target: jest.fn().mockReturnValue(mockChainConfig.optimism.addressProviderContractAddress),
 }
 
 const mockEthereumAddressProviderContract = {
@@ -28,6 +39,8 @@ const mockEthereumAddressProviderContract = {
         return mockChainConfig.ethereum.debtPoolAddress
       case ethers.utils.formatBytes32String('SynthetixDebtShare'):
         return mockChainConfig.ethereum.synthetixDebtShareAddress
+      case ethers.utils.formatBytes32String('SynthetixBridgeToOptimism'):
+        return mockChainConfig.optimism.synthetixBridgeAddress
     }
   }),
 }
@@ -39,6 +52,8 @@ const mockOptimismAddressProviderContract = {
         return mockChainConfig.optimism.debtPoolAddress
       case ethers.utils.formatBytes32String('SynthetixDebtShare'):
         return mockChainConfig.optimism.synthetixDebtShareAddress
+      case ethers.utils.formatBytes32String('SynthetixBridgeToBase'):
+        return mockChainConfig.optimism.synthetixBridgeAddress
     }
   }),
 }
@@ -59,8 +74,18 @@ const mockOptimismSynthetixDebtShareContract = {
   totalSupply: jest.fn().mockReturnValue(BigNumber.from('38408585495575839320471531')),
 }
 
-const mockEthereumProvider = jest.fn()
-const mockOptimismProvider = jest.fn()
+const mockEthereumSynthetixBridgeContract = {
+  synthTransferReceived: jest.fn().mockReturnValue(BigNumber.from('0')),
+  synthTransferSent: jest.fn().mockReturnValue(BigNumber.from('2000000000000000000')),
+}
+
+const mockOptimismSynthetixBridgeContract = {
+  synthTransferReceived: jest.fn().mockReturnValue(BigNumber.from('0')),
+  synthTransferSent: jest.fn().mockReturnValue(BigNumber.from('2000000000000000000')),
+}
+
+const mockEthereumProvider = { getBlockNumber: jest.fn() }
+const mockOptimismProvider = { getBlockNumber: jest.fn() }
 
 jest.mock('ethers', () => {
   const actualEthersLib = jest.requireActual('ethers')
@@ -80,6 +105,10 @@ jest.mock('ethers', () => {
       },
       Contract: jest.fn().mockImplementation((address: string) => {
         switch (address) {
+          case mockChainConfig.ethereum.addressProviderProxyContractAddress:
+            return mockEthereumAddressProviderProxyContract
+          case mockChainConfig.optimism.addressProviderProxyContractAddress:
+            return mockOptimismAddressProviderProxyContract
           case mockChainConfig.ethereum.addressProviderContractAddress:
             return mockEthereumAddressProviderContract
           case mockChainConfig.optimism.addressProviderContractAddress:
@@ -92,6 +121,10 @@ jest.mock('ethers', () => {
             return mockEthereumSynthetixDebtShareContract
           case mockChainConfig.optimism.synthetixDebtShareAddress:
             return mockOptimismSynthetixDebtShareContract
+          case mockChainConfig.ethereum.synthetixBridgeAddress:
+            return mockEthereumSynthetixBridgeContract
+          case mockChainConfig.optimism.synthetixBridgeAddress:
+            return mockOptimismSynthetixBridgeContract
           default:
             break
         }
@@ -106,10 +139,10 @@ beforeAll(() => {
   oldEnv = JSON.parse(JSON.stringify(process.env))
   process.env.RPC_URL = mockChainConfig.ethereum.rpcUrl
   process.env.OPTIMISM_RPC_URL = mockChainConfig.optimism.rpcUrl
-  process.env.ADDRESS_RESOLVER_CONTRACT_ADDRESS =
-    mockChainConfig.ethereum.addressProviderContractAddress
-  process.env.OPTIMISM_ADDRESS_RESOLVER_CONTRACT_ADDRESS =
-    mockChainConfig.optimism.addressProviderContractAddress
+  process.env.ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS =
+    mockChainConfig.ethereum.addressProviderProxyContractAddress
+  process.env.OPTIMISM_ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS =
+    mockChainConfig.optimism.addressProviderProxyContractAddress
 })
 
 afterAll(() => {
@@ -117,16 +150,16 @@ afterAll(() => {
 })
 
 describe('synthetix-debt-pool', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('debt', () => {

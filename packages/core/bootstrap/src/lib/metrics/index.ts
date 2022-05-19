@@ -18,14 +18,16 @@ export const withMetrics: Middleware =
   async (execute, context) => async (input: AdapterRequest) => {
     const feedId = util.getFeedId(input)
     const metricsMeta: AdapterMetricsMeta = {
+      // If no requestOrigin comes through, then this is a cache warmer request
+      requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
       feedId,
     }
-
     const recordMetrics = () => {
       const labels: Parameters<typeof httpRequestsTotal.labels>[0] = {
         is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
         method: 'POST',
         feed_id: feedId,
+        request_origin: metricsMeta.requestOrigin,
       }
       const end = httpRequestDurationSeconds.startTimer()
 
@@ -83,6 +85,7 @@ export const httpRequestsTotal = new client.Counter({
     'is_cache_warming',
     'feed_id',
     'provider_status_code',
+    'request_origin',
   ] as const,
 })
 
@@ -110,11 +113,6 @@ export const httpRequestsDataProviderHits = new client.Counter({
   name: 'http_requests_data_provider_hits',
   help: 'The number of http requests that hit the provider',
   labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
-})
-
-export const httpRateLimit = new client.Counter({
-  name: 'http_requests_rate_limit',
-  help: 'The number of denied requests because of server rate limiting',
 })
 
 export * as util from './util'

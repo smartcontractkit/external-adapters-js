@@ -1,5 +1,6 @@
 import { AdapterContext, AdapterImplementation, EnvDefaults } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
+import { FastifyRequest } from 'fastify'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
@@ -12,12 +13,10 @@ import { logger } from './modules'
 export const baseEnvDefaults: EnvDefaults = {
   BASE_URL: '/',
   EA_PORT: '8080',
+  EA_HOST: '::',
   METRICS_PORT: '9080',
   RETRY: '1',
   API_TIMEOUT: '30000',
-  SERVER_RATE_LIMIT_MAX: '250', // default to 250 req / 5 seconds max
-  SERVER_SLOW_DOWN_AFTER_FACTOR: '0.8', // we start slowing down requests when we reach 80% of our max limit for the current interval
-  SERVER_SLOW_DOWN_DELAY_MS: '500', // default to slowing down each request by 500ms
   CACHE_ENABLED: 'true',
   CACHE_TYPE: 'local',
   CACHE_MAX_AGE: '90000', // 1.5 minutes
@@ -26,7 +25,7 @@ export const baseEnvDefaults: EnvDefaults = {
   CACHE_UPDATE_AGE_ON_GET: 'false',
   CACHE_REDIS_CONNECTION_TIMEOUT: '15000', // Timeout per long lived connection (ms)
   CACHE_REDIS_HOST: '127.0.0.1', // IP address of the Redis server
-  CACHE_REDIS_MAX_QUEUED_ITEMS: '100', // Maximum length of the client's internal command queue
+  CACHE_REDIS_MAX_QUEUED_ITEMS: '500', // Maximum length of the client's internal command queue
   CACHE_REDIS_MAX_RECONNECT_COOLDOWN: '3000', // Max cooldown time before attempting to reconnect (ms)
   CACHE_REDIS_PORT: '6379', // Port of the Redis server
   CACHE_REDIS_TIMEOUT: '500', // Timeout per request (ms)
@@ -369,8 +368,37 @@ export const getRequiredEnvWithFallback = (
   throw new RequiredEnvError(getEnvName(primary, prefix))
 }
 
-//  URL Encoding
+/**
+ * Sleeps for the provided number of milliseconds
+ * @param ms The number of milliseconds to sleep for
+ * @returns a Promise that resolves once the specified time passes
+ */
+export const sleep = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
+/**
+ * Remove stale request entries from an array.
+ * This function assumes that the array is sorted by timestamp,
+ * where the oldest entry lives in the 0th index, and the newest entry
+ * lives in the arr.length-1th index
+ * @param items The items to filter
+ * @param filter The windowing function to apply
+ */
+export function sortedFilter<T>(items: T[], windowingFunction: (item: T) => boolean): T[] {
+  // if we want a higher performance implementation
+  // we can later resort to a custom array class that is circular
+  // so we can amortize expensive operations like resizing, and make
+  // operations like moving the head index much quicker
+  const firstNonStaleItemIndex = items.findIndex(windowingFunction)
+  if (firstNonStaleItemIndex === -1) {
+    return []
+  }
+
+  return items.slice(firstNonStaleItemIndex)
+}
+
+//  URL Encoding
 const charsToEncode = {
   ':': '%3A',
   '/': '%2F',
@@ -486,32 +514,5 @@ export const registerUnhandledRejectionHandler = (): void => {
   })
 }
 
-/**
- * Sleeps for the provided number of milliseconds
- * @param ms The number of milliseconds to sleep for
- * @returns a Promise that resolves once the specified time passes
- */
-export const sleep = (ms: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-/**
- * Remove stale request entries from an array.
- * This function assumes that the array is sorted by timestamp,
- * where the oldest entry lives in the 0th index, and the newest entry
- * lives in the arr.length-1th index
- * @param items The items to filter
- * @param filter The windowing function to apply
- */
-export function sortedFilter<T>(items: T[], windowingFunction: (item: T) => boolean): T[] {
-  // if we want a higher performance implementation
-  // we can later resort to a custom array class that is circular
-  // so we can amortize expensive operations like resizing, and make
-  // operations like moving the head index much quicker
-  const firstNonStaleItemIndex = items.findIndex(windowingFunction)
-  if (firstNonStaleItemIndex === -1) {
-    return []
-  }
-
-  return items.slice(firstNonStaleItemIndex)
-}
+export const getClientIp = (req: FastifyRequest): string =>
+  req.ip ? req.ip : req.ips?.length ? req.ips[req.ips.length - 1] : 'unknown'

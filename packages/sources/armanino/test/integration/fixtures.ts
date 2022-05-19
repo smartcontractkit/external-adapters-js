@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockMC02Response = (): nock.Scope =>
+export const mockMCO2Response = (): nock.Scope =>
   nock('https://api.real-time-attest.trustexplorer.io:443', {
     encodedQueryParams: true,
   })

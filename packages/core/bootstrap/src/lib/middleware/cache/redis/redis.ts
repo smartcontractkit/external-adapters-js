@@ -53,7 +53,7 @@ export class RedisCache {
     logger.info('Creating new redis client instance...')
 
     this.options = options
-    const client = createClient(options as RedisClientOptions<RedisModules, RedisScripts>)
+    const client = createClient(options as RedisClientOptions)
     client.on('error', (err) => logger.error(`[Redis client] Error connecting to Redis: ${err}`))
     client.on('end', () => logger.error('[Redis client] Connection ended.'))
     client.on('connect', () => logger.info('[Redis client] Initiating connection to Redis server.'))

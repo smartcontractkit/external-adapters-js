@@ -1,6 +1,6 @@
 # Chainlink External Adapter for dxFeed
 
-Version: 1.2.31
+![1.2.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                 Options                                                                 | Default |
 | :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [commodities](#price-endpoint), [crypto](#price-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint) | `price` |
-
----
 
 ## Price Endpoint
 
@@ -43,6 +43,23 @@ Request:
     "endpoint": "price",
     "resultPath": ["Trade", "TSLA", "price"],
     "base": "TSLA"
+  },
+  "debug": {
+    "cacheKey": "4TupE9qBq++X2he+M9kTw2ZmOv8=",
+    "batchCacheKey": "VrI9ktHz2Gp7oHbb2+1HMGmvh5k=",
+    "batchChildrenCacheKeys": [
+      [
+        "4TupE9qBq++X2he+M9kTw2ZmOv8=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "price",
+            "resultPath": "Trade",
+            "base": "TSLA"
+          }
+        }
+      ]
+    ]
   }
 }
 ```
@@ -88,3 +105,5 @@ Response:
 ```
 
 ---
+
+MIT License

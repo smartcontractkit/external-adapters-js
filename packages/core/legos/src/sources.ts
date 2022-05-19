@@ -16,6 +16,7 @@ import * as bitso from '@chainlink/bitso-adapter'
 import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
+import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
@@ -33,6 +34,7 @@ import * as coinmetrics from '@chainlink/coinmetrics-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
+import * as cryptex from '@chainlink/cryptex-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
@@ -46,6 +48,7 @@ import * as durin from '@chainlink/durin-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as eth_balance from '@chainlink/eth-balance-adapter'
@@ -67,6 +70,7 @@ import * as geodb from '@chainlink/geodb-adapter'
 import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
+import * as gsr from '@chainlink/gsr-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -75,6 +79,7 @@ import * as json_adapter from '@chainlink/json-rpc-adapter'
 import * as kaiko from '@chainlink/kaiko-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
+import * as lido from '@chainlink/lido-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
@@ -142,6 +147,7 @@ export default {
   blockchain_com,
   blockchair,
   blockcypher,
+  blocksize_capital,
   blockstream,
   bravenewcoin,
   btc_com,
@@ -159,6 +165,7 @@ export default {
   coinpaprika,
   coinranking,
   covid_tracker,
+  cryptex,
   cryptoapis,
   cryptoapis_v2,
   cryptocompare,
@@ -172,6 +179,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  ens,
   enzyme,
   eodhistoricaldata,
   eth_balance,
@@ -193,6 +201,7 @@ export default {
   google_bigquery,
   gramchain,
   graphql,
+  gsr,
   iex_adapter,
   intrinio,
   ipfs,
@@ -201,6 +210,7 @@ export default {
   kaiko,
   layer2_sequencer_health,
   lcx,
+  lido,
   linkpool,
   lition,
   lotus,

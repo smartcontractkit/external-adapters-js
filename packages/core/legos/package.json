@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.77",
+  "version": "1.0.88",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.25",
+    "@types/node": "16.11.35",
     "typescript": "4.3.5"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "@chainlink/blockchain.com-adapter": "workspace:*",
     "@chainlink/blockchair-adapter": "workspace:*",
     "@chainlink/blockcypher-adapter": "workspace:*",
+    "@chainlink/blocksize-capital-adapter": "workspace:*",
     "@chainlink/blockstream-adapter": "workspace:*",
     "@chainlink/bravenewcoin-adapter": "workspace:*",
     "@chainlink/btc.com-adapter": "workspace:*",
@@ -64,6 +65,7 @@
     "@chainlink/coinpaprika-adapter": "workspace:*",
     "@chainlink/coinranking-adapter": "workspace:*",
     "@chainlink/covid-tracker-adapter": "workspace:*",
+    "@chainlink/cryptex-adapter": "workspace:*",
     "@chainlink/cryptoapis-adapter": "workspace:*",
     "@chainlink/cryptoapis-v2-adapter": "workspace:*",
     "@chainlink/cryptocompare-adapter": "workspace:*",
@@ -77,6 +79,7 @@
     "@chainlink/dwolla-adapter": "workspace:*",
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",
+    "@chainlink/ens-adapter": "workspace:*",
     "@chainlink/enzyme-adapter": "workspace:*",
     "@chainlink/eodhistoricaldata-adapter": "workspace:*",
     "@chainlink/eth-balance-adapter": "workspace:*",
@@ -98,6 +101,7 @@
     "@chainlink/google-bigquery-adapter": "workspace:*",
     "@chainlink/gramchain-adapter": "workspace:*",
     "@chainlink/graphql-adapter": "workspace:*",
+    "@chainlink/gsr-adapter": "workspace:*",
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",
@@ -106,6 +110,7 @@
     "@chainlink/kaiko-adapter": "workspace:*",
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*",
     "@chainlink/lcx-adapter": "workspace:*",
+    "@chainlink/lido-adapter": "workspace:*",
     "@chainlink/linkpool-adapter": "workspace:*",
     "@chainlink/lition-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",

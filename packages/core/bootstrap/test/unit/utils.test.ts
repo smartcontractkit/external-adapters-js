@@ -1,4 +1,5 @@
 import { AdapterContext } from '@chainlink/types'
+import { FastifyRequest } from 'fastify'
 import {
   getEnv,
   buildUrlPath,
@@ -16,6 +17,7 @@ import {
   getURL,
   getRequiredEnvWithFallback,
   registerUnhandledRejectionHandler,
+  getClientIp,
 } from '../../src/lib/util'
 
 describe('utils', () => {
@@ -386,6 +388,19 @@ describe('utils', () => {
       registerUnhandledRejectionHandler() // Test calling it twice will warn but continue
 
       expect(failing).not.toThrow()
+    })
+  })
+
+  describe(`clientIp`, () => {
+    it(`getClientIp retrieves ip address`, () => {
+      const ip = '1.2.3.4'
+      const values = [{ ip }, { ips: [ip] }, { ips: ['5.6.7.8', 'a.b.c.d', ip] }]
+      values.forEach((val) => expect(getClientIp(val as FastifyRequest)).toEqual(ip))
+    })
+
+    it(`getClientIp returns 'unknown'`, () => {
+      const values = [{}, { ip: null }, { ips: [] }]
+      values.forEach((val) => expect(getClientIp(val as FastifyRequest)).toEqual('unknown'))
     })
   })
 })

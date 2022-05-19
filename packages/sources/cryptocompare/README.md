@@ -1,6 +1,8 @@
 # Chainlink External Adapter for CryptoCompare
 
-Version: 1.3.17
+![1.3.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json)
+
+Base URL wss://streamer.cryptocompare.com/v2
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,11 +16,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+
 | Required? |   Name   |     Description     |  Type  |                                                                                 Options                                                                                 | Default  |
 | :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
 |           | endpoint | The endpoint to use | string | [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint), [vwap](#vwap-endpoint) | `crypto` |
-
----
 
 ## Crypto Endpoint
 
@@ -45,6 +47,24 @@ Request:
     "resultPath": "PRICE",
     "base": "ETH",
     "quote": "BTC"
+  },
+  "debug": {
+    "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0=",
+    "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
+    "batchChildrenCacheKeys": [
+      [
+        "Eao0YPhZDa3+RmRxiwOG5dAIIt0=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "crypto",
+            "resultPath": "PRICE",
+            "base": "ETH",
+            "quote": "BTC"
+          }
+        }
+      ]
+    ]
   },
   "rateLimitMaxAge": 29201
 }
@@ -193,6 +213,24 @@ Request:
     "base": "ETH",
     "quote": "BTC"
   },
+  "debug": {
+    "cacheKey": "KbqgFjuDtvts/CAPorCDKS6azZ0=",
+    "batchCacheKey": "jn4lMO3NoQk/anX1RCCPMCMFBRU=",
+    "batchChildrenCacheKeys": [
+      [
+        "KbqgFjuDtvts/CAPorCDKS6azZ0=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "marketcap",
+            "resultPath": "MKTCAP",
+            "base": "ETH",
+            "quote": "BTC"
+          }
+        }
+      ]
+    ]
+  },
   "rateLimitMaxAge": 58402
 }
 ```
@@ -336,6 +374,24 @@ Request:
     "resultPath": "VOLUME24HOURTO",
     "base": "ETH",
     "quote": "BTC"
+  },
+  "debug": {
+    "cacheKey": "b8cVkUXVyDdOe/are/9XZjUuFsw=",
+    "batchCacheKey": "7tI8y8sPATDZY9jYxipk1dWrnus=",
+    "batchChildrenCacheKeys": [
+      [
+        "b8cVkUXVyDdOe/are/9XZjUuFsw=",
+        {
+          "id": "1",
+          "data": {
+            "endpoint": "volume",
+            "resultPath": "VOLUME24HOURTO",
+            "base": "ETH",
+            "quote": "BTC"
+          }
+        }
+      ]
+    ]
   },
   "rateLimitMaxAge": 87604
 }
@@ -499,6 +555,9 @@ Request:
     "quote": "USD",
     "hours": 24
   },
+  "debug": {
+    "cacheKey": "ktiYBaPq7+GA3M0Ss87tRIW2Nsw="
+  },
   "rateLimitMaxAge": 116805
 }
 ```
@@ -523,3 +582,5 @@ Response:
 ```
 
 ---
+
+MIT License

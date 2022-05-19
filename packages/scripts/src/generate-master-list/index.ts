@@ -13,6 +13,15 @@ export async function main(): Promise<void | string> {
         description: 'Include extra logs for debugging',
       },
       { name: 'help', alias: 'h', type: Boolean, description: 'Display usage guide' },
+      {
+        name: 'output',
+        alias: 'o',
+        type: String,
+        multiple: true,
+        defaultValue: 'fs',
+        description:
+          'Output destination. Supported options are `airtable`, `fs`. Default is `fs` (local file system)',
+      },
     ]
     const options = commandLineArgs(commandLineOptions)
 
@@ -39,7 +48,7 @@ export async function main(): Promise<void | string> {
 
     console.log('Generating master adapter lists.')
 
-    await generateMasterList(options.verbose)
+    await generateMasterList(options.verbose, options.output)
 
     console.log(`Master adapter lists generated.`)
     process.exit(0)
