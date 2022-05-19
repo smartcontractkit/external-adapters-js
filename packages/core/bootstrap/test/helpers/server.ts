@@ -53,7 +53,7 @@ export class Server {
       })
     })
 
-    app.listen(this.port, '0.0.0.0')
+    app.listen(this.port, '::')
     this.app = app
   }
 

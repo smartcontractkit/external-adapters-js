@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Nomics
 
-![1.2.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
+![1.2.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
 
 An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
 
@@ -381,11 +381,11 @@ Request:
     "quote": "EUR"
   },
   "debug": {
-    "cacheKey": "ddvw8QbpkwL0/07MqB7W6GbRqvM=",
-    "batchCacheKey": "hKkUywMJxqGMRItXo/4YOoaLMBg=",
+    "cacheKey": "Q8XOjOIavMitS4H7vXDU0zCQDPI=",
+    "batchCacheKey": "taTMTU5+0h1DBPfqhl8DnkxwNVg=",
     "batchChildrenCacheKeys": [
       [
-        "ddvw8QbpkwL0/07MqB7W6GbRqvM=",
+        "Q8XOjOIavMitS4H7vXDU0zCQDPI=",
         {
           "id": "1",
           "data": {
@@ -523,7 +523,7 @@ Request:
     "exchanges": "binance,coinbase"
   },
   "debug": {
-    "cacheKey": "zpqIgVvEnh4X7tqChwaEz9+AiFM="
+    "cacheKey": "Mj9Knk3fJxnNi1zzodWBDZfZ090="
   }
 }
 ```

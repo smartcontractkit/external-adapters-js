@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance DEX
 
-![1.3.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json)
+![1.3.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json)
 
 The following `base` and `quote` pair must be taken from [this list](https://dex.binance.org/api/v1/markets)
 
@@ -112,7 +112,7 @@ Request:
     "quote": "USDT-6D8"
   },
   "debug": {
-    "cacheKey": "nZP5JRLYRga+qXNMpjo4uhDgYtY="
+    "cacheKey": "7ox5Q7U2PnYBLLJ/xmMOV/qJJPs="
   },
   "rateLimitMaxAge": 444
 }

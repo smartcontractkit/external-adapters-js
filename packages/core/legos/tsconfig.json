@@ -119,6 +119,9 @@
       "path": "../../sources/covid-tracker"
     },
     {
+      "path": "../../sources/cryptex"
+    },
+    {
       "path": "../../sources/cryptoapis"
     },
     {
@@ -224,6 +227,9 @@
       "path": "../../sources/graphql"
     },
     {
+      "path": "../../sources/gsr"
+    },
+    {
       "path": "../../sources/iex-cloud"
     },
     {
@@ -246,6 +252,9 @@
     },
     {
       "path": "../../sources/lcx"
+    },
+    {
+      "path": "../../sources/lido"
     },
     {
       "path": "../../sources/linkpool"

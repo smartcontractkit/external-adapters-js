@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finage-adapter",
-  "version": "1.3.35",
+  "version": "1.3.37",
   "description": "Chainlink Finage adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.33",
+    "@types/node": "16.11.35",
     "@types/supertest": "2.0.12",
     "nock": "13.2.4",
     "supertest": "6.2.2",

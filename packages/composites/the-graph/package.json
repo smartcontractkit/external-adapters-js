@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/the-graph-adapter",
-  "version": "1.0.49",
+  "version": "1.0.51",
   "description": "Chainlink the-graph adapter.",
   "keywords": [
     "Chainlink",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.33",
+    "@types/node": "16.11.35",
     "typescript": "4.3.5"
   }
 }

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Blockstream
 
-![1.2.34](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blockstream/package.json)
+![1.2.36](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blockstream/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -40,7 +40,7 @@ Request:
     "resultPath": "difficulty"
   },
   "debug": {
-    "cacheKey": "8/YPGiX6OgJUyUzn7Q5lMP6/5gc="
+    "cacheKey": "M2t1gsXR+HlGGXfaCO62g0xXrcQ="
   }
 }
 ```
