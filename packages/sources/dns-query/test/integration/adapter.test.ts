@@ -1,4 +1,3 @@
-import http from 'http'
 import type { AddressInfo } from 'net'
 import nock from 'nock'
 import process from 'process'
