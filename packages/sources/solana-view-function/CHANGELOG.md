@@ -1,5 +1,14 @@
 # @chainlink/solana-view-function-adapter
 
+## 2.1.23
+
+### Patch Changes
+
+- Updated dependencies [66396e888]
+- Updated dependencies [307aa10ec]
+  - @chainlink/ea-bootstrap@2.6.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 2.1.22
 
 ### Patch Changes
