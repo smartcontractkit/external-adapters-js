@@ -5217,19 +5217,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
-<<<<<<< HEAD
             ["@types/node", "npm:16.11.36"],
-=======
-<<<<<<< HEAD
-            ["@types/node", "npm:16.11.35"],
-=======
-            ["@types/node", "npm:16.11.25"],
             ["@types/supertest", "npm:2.0.11"],
             ["ethers", "npm:5.5.4"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
->>>>>>> feat(dns-query): Add dnsProof endpoint
->>>>>>> feat(dns-query): Add dnsProof endpoint
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],

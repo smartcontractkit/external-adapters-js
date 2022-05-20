@@ -1,12 +1,17 @@
 import http from 'http'
+import type { AddressInfo } from 'net'
 import nock from 'nock'
 import process from 'process'
+import request from 'supertest'
+import type { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { dnsProofTests } from './dnsProof'
+
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  server: http.Server
+  fastify: FastifyInstance
+  req: SuperTest<Test>
 }
 
 beforeAll(() => {
@@ -32,14 +37,16 @@ afterAll(() => {
 describe('execute', () => {
   const context: SuiteContext = {
     server: null,
+    req: null,
   }
 
-  beforeAll(async () => {
-    context.server = await startServer()
+  beforeEach(async () => {
+    context.fastify = await startServer()
+    context.req = request(`localhost:${(context.fastify.server.address() as AddressInfo).port}`)
   })
 
-  afterAll((done) => {
-    context.server.close(done)
+  afterEach((done) => {
+    context.fastify.close(done)
   })
 
   describe('dnsProof endpoint', () => dnsProofTests(context))

@@ -1,9 +1,5 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import type { AdapterRequest } from '@chainlink/types'
-import type { AddressInfo } from 'net'
-import request from 'supertest'
-import type { SuperTest, Test } from 'supertest'
-
 import type { SuiteContext } from './adapter.test'
 import {
   mockDnsProofResponseError,
@@ -12,12 +8,7 @@ import {
 } from './fixtures'
 
 export function dnsProofTests(context: SuiteContext): void {
-  let req: SuperTest<Test>
   const id = '1'
-
-  beforeAll(() => {
-    req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
-  })
 
   describe('error calls', () => {
     describe('when unsuccessfully requests the API', () => {
@@ -32,7 +23,7 @@ export function dnsProofTests(context: SuiteContext): void {
         }
         mockDnsProofResponseError()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -58,7 +49,7 @@ export function dnsProofTests(context: SuiteContext): void {
 
         mockDnsProofResponseSuccessMalformed()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -84,7 +75,7 @@ export function dnsProofTests(context: SuiteContext): void {
       }
       mockDnsProofResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
