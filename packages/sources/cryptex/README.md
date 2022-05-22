@@ -1,6 +1,6 @@
 # Cryptex Adapter
 
-![0.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptex/package.json)
+![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptex/package.json)
 
 Cryptex adapter, providing BTC dominance over the total crypto market
 
@@ -54,10 +54,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "btcDominance": "0.42769884559808283",
-    "result": "0.42769884559808283"
+    "btcDominance": "0.435918142911669111",
+    "result": "0.435918142911669111"
   },
-  "result": "0.42769884559808283",
+  "result": "0.435918142911669111",
   "statusCode": 200,
   "providerStatusCode": 200
 }

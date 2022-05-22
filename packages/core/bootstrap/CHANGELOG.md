@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 2.6.0
+
+### Minor Changes
+
+- 66396e888: Added request_origin label to metrics, to indicate the source ip of requests
+- 307aa10ec: Add new Lido adapter
+
 ## 2.5.2
 
 ### Patch Changes

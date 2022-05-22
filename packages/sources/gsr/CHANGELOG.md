@@ -1,5 +1,19 @@
 # @chainlink/example-source-adapter
 
+## 1.0.0
+
+### Major Changes
+
+- 09c70d5b1: Added GSR WS EA
+
+### Patch Changes
+
+- c41a068d1: Updated GSR token refresh limit to 5 minutes
+- Updated dependencies [66396e888]
+- Updated dependencies [307aa10ec]
+  - @chainlink/ea-bootstrap@2.6.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 0.0.4
 
 ### Patch Changes

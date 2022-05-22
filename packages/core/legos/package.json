@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.88",
+  "version": "1.0.89",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -130,6 +130,7 @@
     "@chainlink/paypal-adapter": "workspace:*",
     "@chainlink/poa-adapter": "workspace:*",
     "@chainlink/polygon-adapter": "workspace:*",
+    "@chainlink/por-address-list-adapter": "workspace:*",
     "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
     "@chainlink/satoshitango-adapter": "workspace:*",
