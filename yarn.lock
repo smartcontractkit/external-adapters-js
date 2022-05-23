@@ -2602,6 +2602,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/cryptex-adapter@workspace:*, @chainlink/cryptex-adapter@workspace:packages/sources/cryptex":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cryptex-adapter@workspace:packages/sources/cryptex"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.33
+    "@types/supertest": 2.0.11
+    ethers: ^5.6.5
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index":
   version: 0.0.0-use.local
   resolution: "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index"
@@ -3120,6 +3138,7 @@ __metadata:
     "@chainlink/coinpaprika-adapter": "workspace:*"
     "@chainlink/coinranking-adapter": "workspace:*"
     "@chainlink/covid-tracker-adapter": "workspace:*"
+    "@chainlink/cryptex-adapter": "workspace:*"
     "@chainlink/cryptoapis-adapter": "workspace:*"
     "@chainlink/cryptoapis-v2-adapter": "workspace:*"
     "@chainlink/cryptocompare-adapter": "workspace:*"
@@ -3155,6 +3174,7 @@ __metadata:
     "@chainlink/google-bigquery-adapter": "workspace:*"
     "@chainlink/gramchain-adapter": "workspace:*"
     "@chainlink/graphql-adapter": "workspace:*"
+    "@chainlink/gsr-adapter": "workspace:*"
     "@chainlink/iex-cloud-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
@@ -3163,6 +3183,7 @@ __metadata:
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*"
     "@chainlink/lcx-adapter": "workspace:*"
+    "@chainlink/lido-adapter": "workspace:*"
     "@chainlink/linkpool-adapter": "workspace:*"
     "@chainlink/lition-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
@@ -3182,6 +3203,7 @@ __metadata:
     "@chainlink/paypal-adapter": "workspace:*"
     "@chainlink/poa-adapter": "workspace:*"
     "@chainlink/polygon-adapter": "workspace:*"
+    "@chainlink/por-address-list-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
@@ -3677,6 +3699,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/gsr-adapter@workspace:*, @chainlink/gsr-adapter@workspace:packages/sources/gsr":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.33
+    "@types/supertest": 2.0.11
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/harmony-adapter@workspace:packages/targets/harmony":
   version: 0.0.0-use.local
   resolution: "@chainlink/harmony-adapter@workspace:packages/targets/harmony"
@@ -3870,6 +3909,24 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.35
     "@types/supertest": 2.0.12
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/lido-adapter@workspace:*, @chainlink/lido-adapter@workspace:packages/sources/lido":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/lido-adapter@workspace:packages/sources/lido"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.33
+    "@types/supertest": 2.0.12
+    ethers: ^5.4.6
     nock: 13.2.4
     supertest: 6.2.2
     tslib: ^2.3.1
@@ -4281,6 +4338,24 @@ __metadata:
     "@types/jest": 27.0.3
     "@types/node": 16.11.35
     "@types/supertest": 2.0.12
+    nock: 13.2.4
+    supertest: 6.2.2
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/por-address-list-adapter@workspace:*, @chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/types": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.25
+    "@types/supertest": 2.0.11
+    ethers: ^5.5.1
     nock: 13.2.4
     supertest: 6.2.2
     tslib: ^2.3.1
@@ -9448,6 +9523,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:16.11.25":
+  version: 16.11.25
+  resolution: "@types/node@npm:16.11.25"
+  checksum: 0b6e25a81364be89256ad1a36341e27b387e646d3186e270108a8bb7b6ecdfdf5ae037aa1c75a5117b8a7509c80093b75431cd5cfcfbc4d553b52e7db2ca272e
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:16.11.33":
+  version: 16.11.33
+  resolution: "@types/node@npm:16.11.33"
+  checksum: 5c86d3f1e3b996607b41405d368d2e19d410eee0054595cef73d230368a609a2863926e75ad19f5091f0fd742cd018b667d54c51292018dd8020a202a5b29fa9
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:16.11.35":
   version: 16.11.35
   resolution: "@types/node@npm:16.11.35"
@@ -9728,6 +9817,15 @@ __metadata:
     "@types/cookiejar": "*"
     "@types/node": "*"
   checksum: 8b050f2a25bfc1b2f2f579d12a266680afe7add36d46fe075d066428d3e133909ccc317707bbefdfbc34089979f7d41a2c0ad84675567fe789e7616d6ac6ff55
+  languageName: node
+  linkType: hard
+
+"@types/supertest@npm:2.0.11":
+  version: 2.0.11
+  resolution: "@types/supertest@npm:2.0.11"
+  dependencies:
+    "@types/superagent": "*"
+  checksum: 291abc0d37abe833d517fcfd0c22d51e7d5ffea85ce990603a0d058afa7fe2465b1251d50642ddfd640f66d047029af512793215b612c39adbee72fae5b2ef4f
   languageName: node
   linkType: hard
 
@@ -21899,21 +21997,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"merkle-patricia-tree@npm:^4.2.3":
-  version: 4.2.3
-  resolution: "merkle-patricia-tree@npm:4.2.3"
-  dependencies:
-    "@types/levelup": ^4.3.0
-    ethereumjs-util: ^7.1.4
-    level-mem: ^5.0.1
-    level-ws: ^2.0.0
-    readable-stream: ^3.6.0
-    semaphore-async-await: ^1.5.1
-  checksum: f95d1ab7684b77cbd31d2ef1e6b0fc5688d57d2be0edd6af4af0593f0a0d89fdcc7fb0abb5664ba97aace0be160236bde6fb2f29ef04703e55c96c086e8b4070
-  languageName: node
-  linkType: hard
-
-"merkle-patricia-tree@npm:^4.2.4":
+"merkle-patricia-tree@npm:^4.2.3, merkle-patricia-tree@npm:^4.2.4":
   version: 4.2.4
   resolution: "merkle-patricia-tree@npm:4.2.4"
   dependencies:

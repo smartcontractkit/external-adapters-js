@@ -335,6 +335,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/covid-tracker"
       },
       {
+        "name": "@chainlink/cryptex-adapter",
+        "reference": "workspace:packages/sources/cryptex"
+      },
+      {
         "name": "@chainlink/cryptoapis-adapter",
         "reference": "workspace:packages/sources/cryptoapis"
       },
@@ -475,6 +479,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/graphql"
       },
       {
+        "name": "@chainlink/gsr-adapter",
+        "reference": "workspace:packages/sources/gsr"
+      },
+      {
         "name": "@chainlink/iex-cloud-adapter",
         "reference": "workspace:packages/sources/iex-cloud"
       },
@@ -505,6 +513,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/lcx-adapter",
         "reference": "workspace:packages/sources/lcx"
+      },
+      {
+        "name": "@chainlink/lido-adapter",
+        "reference": "workspace:packages/sources/lido"
       },
       {
         "name": "@chainlink/linkpool-adapter",
@@ -581,6 +593,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/polygon-adapter",
         "reference": "workspace:packages/sources/polygon"
+      },
+      {
+        "name": "@chainlink/por-address-list-adapter",
+        "reference": "workspace:packages/sources/por-address-list"
       },
       {
         "name": "@chainlink/reduce-adapter",
@@ -763,6 +779,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],
+      ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],
       ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],
       ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],
@@ -816,6 +833,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/google-weather-adapter", ["workspace:packages/composites/google-weather"]],
       ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],
+      ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],
@@ -827,6 +845,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],
       ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],
       ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],
+      ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],
       ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],
       ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],
       ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],
@@ -851,6 +870,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],
       ["@chainlink/poa-adapter", ["workspace:packages/sources/poa"]],
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],
+      ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],
       ["@chainlink/por-indexer-adapter", ["workspace:packages/composites/por-indexer"]],
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],
       ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],
@@ -4949,6 +4969,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/cryptex-adapter", [
+        ["workspace:packages/sources/cryptex", {
+          "packageLocation": "./packages/sources/cryptex/",
+          "packageDependencies": [
+            ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.33"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.6.5"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/crypto-volatility-index-adapter", [
         ["workspace:packages/composites/crypto-volatility-index", {
           "packageLocation": "./packages/composites/crypto-volatility-index/",
@@ -5377,6 +5417,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],
+            ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],
             ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],
@@ -5412,6 +5453,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],
             ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],
+            ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],
@@ -5420,6 +5462,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],
             ["@chainlink/layer2-sequencer-health-adapter", "workspace:packages/sources/layer2-sequencer-health"],
             ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],
+            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],
             ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],
             ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],
@@ -5439,6 +5482,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],
+            ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],
@@ -6130,6 +6174,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/gsr-adapter", [
+        ["workspace:packages/sources/gsr", {
+          "packageLocation": "./packages/sources/gsr/",
+          "packageDependencies": [
+            ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.33"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/harmony-adapter", [
         ["workspace:packages/targets/harmony", {
           "packageLocation": "./packages/targets/harmony/",
@@ -6344,6 +6407,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.35"],
             ["@types/supertest", "npm:2.0.12"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/lido-adapter", [
+        ["workspace:packages/sources/lido", {
+          "packageLocation": "./packages/sources/lido/",
+          "packageDependencies": [
+            ["@chainlink/lido-adapter", "workspace:packages/sources/lido"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.33"],
+            ["@types/supertest", "npm:2.0.12"],
+            ["ethers", "npm:5.4.6"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
@@ -6803,6 +6886,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.35"],
             ["@types/supertest", "npm:2.0.12"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.2"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/por-address-list-adapter", [
+        ["workspace:packages/sources/por-address-list", {
+          "packageLocation": "./packages/sources/por-address-list/",
+          "packageDependencies": [
+            ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.25"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["ethers", "npm:5.5.1"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.2"],
             ["tslib", "npm:2.3.1"],
@@ -8014,7 +8117,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethereumjs/common", "npm:2.6.2"],
             ["@ethereumjs/tx", "npm:3.5.0"],
             ["ethereumjs-util", "npm:7.1.4"],
-            ["merkle-patricia-tree", "npm:4.2.3"]
+            ["merkle-patricia-tree", "npm:4.2.4"]
           ],
           "linkType": "HARD",
         }],
@@ -12339,6 +12442,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
+        ["npm:16.11.25", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.25-78cf927571-0b6e25a813.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:16.11.25"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:16.11.33", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.33-01bfb97de4-5c86d3f1e3.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:16.11.33"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:16.11.35", {
           "packageLocation": "./.yarn/cache/@types-node-npm-16.11.35-d7356bc420-c06e8716f5.zip/node_modules/@types/node/",
           "packageDependencies": [
@@ -12639,6 +12756,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@types/supertest", [
+        ["npm:2.0.11", {
+          "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.11-a547f689c9-291abc0d37.zip/node_modules/@types/supertest/",
+          "packageDependencies": [
+            ["@types/supertest", "npm:2.0.11"],
+            ["@types/superagent", "npm:4.1.12"]
+          ],
+          "linkType": "HARD",
+        }],
         ["npm:2.0.12", {
           "packageLocation": "./.yarn/cache/@types-supertest-npm-2.0.12-deccb2551b-f0e2b44f86.zip/node_modules/@types/supertest/",
           "packageDependencies": [
@@ -26363,19 +26488,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["merkle-patricia-tree", [
-        ["npm:4.2.3", {
-          "packageLocation": "./.yarn/cache/merkle-patricia-tree-npm-4.2.3-d20c8c348a-f95d1ab768.zip/node_modules/merkle-patricia-tree/",
-          "packageDependencies": [
-            ["merkle-patricia-tree", "npm:4.2.3"],
-            ["@types/levelup", "npm:4.3.3"],
-            ["ethereumjs-util", "npm:7.1.4"],
-            ["level-mem", "npm:5.0.1"],
-            ["level-ws", "npm:2.0.0"],
-            ["readable-stream", "npm:3.6.0"],
-            ["semaphore-async-await", "npm:1.5.1"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:4.2.4", {
           "packageLocation": "./.yarn/cache/merkle-patricia-tree-npm-4.2.4-d865962767-acedc7eea7.zip/node_modules/merkle-patricia-tree/",
           "packageDependencies": [
