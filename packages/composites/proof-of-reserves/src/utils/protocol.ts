@@ -63,9 +63,9 @@ const listAdapter = (
     throw Error(`Missing "addresses" in request data`)
   }
   if (typeof data.addresses[0] === 'string') {
-    const result = (data.addresses as string[]).map((address: string) => {
-      return { address, network: data.network, chainId: data.chainId }
-    })
+    const result = (data.addresses as string[]).map((address: string) => (
+      { address, network: data.network, chainId: data.chainId }
+    ))
     return Requester.success(jobRunID, { data: { result } })
   }
   if (typeof data.addresses[0] === 'object') {
