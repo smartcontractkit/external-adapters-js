@@ -10,8 +10,8 @@ beforeAll(() => {
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
-  process.env.ETH_BALANCE_ADAPTER_URL = 'http://localhost:8081/'
-  process.env.POR_INDEXER_ADAPTER_URL = 'https://adapters.main.prod.cldev.sh/por-indexer'
+  process.env.ETH_BALANCE_ADAPTER_URL = 'https://eth-balance-adapter.com'
+  process.env.POR_INDEXER_ADAPTER_URL = 'https://por-indexer-adapter.com'
 })
 
 afterAll(() => {

@@ -57,15 +57,15 @@ const listAdapter = (
   jobRunID: string,
   data: { addresses: AddressList; chainId?: string; network?: string },
 ) => {
-  console.log('LIST ADAPTER')
-  console.log(data)
   if (!('addresses' in data)) {
     throw Error(`Missing "addresses" in request data`)
   }
   if (typeof data.addresses[0] === 'string') {
-    const result = (data.addresses as string[]).map((address: string) => (
-      { address, network: data.network, chainId: data.chainId }
-    ))
+    const result = (data.addresses as string[]).map((address: string) => ({
+      address,
+      network: data.network,
+      chainId: data.chainId,
+    }))
     return Requester.success(jobRunID, { data: { result } })
   }
   if (typeof data.addresses[0] === 'object') {
