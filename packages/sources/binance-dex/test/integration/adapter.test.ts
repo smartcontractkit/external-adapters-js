@@ -3,21 +3,20 @@ import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import * as http from 'http'
 import { mockRateResponseFailure, mockRateResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
   afterAll((done) => {
@@ -28,7 +27,7 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('rate api', () => {
@@ -46,6 +45,32 @@ describe('execute', () => {
       const response = await req
         .post('/')
         .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    const dataWithOverride: AdapterRequest = {
+      id,
+      data: {
+        base: 'overridablevalue',
+        quote: 'USDT-6D8',
+        overrides: {
+          binance_dex: {
+            overridablevalue: 'BUSD-BD1',
+          },
+        },
+      },
+    }
+
+    it('should return success for override', async () => {
+      mockRateResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(dataWithOverride)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)

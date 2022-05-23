@@ -1,5 +1,99 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.88
+
+### Patch Changes
+
+- Updated dependencies [f9b76857b]
+  - @chainlink/ea-bootstrap@2.5.2
+  - @chainlink/ea-reference-data-reader@1.1.25
+  - @chainlink/ea@1.0.88
+
+## 1.0.87
+
+### Patch Changes
+
+- Updated dependencies [1b94b51b2]
+  - @chainlink/ea-bootstrap@2.5.1
+  - @chainlink/ea-reference-data-reader@1.1.24
+  - @chainlink/ea@1.0.87
+
+## 1.0.86
+
+### Patch Changes
+
+- Updated dependencies [dc5c138da]
+- Updated dependencies [f99b2750a]
+  - @chainlink/ea-bootstrap@2.5.0
+  - @chainlink/ea-reference-data-reader@1.1.23
+  - @chainlink/ea@1.0.86
+
+## 1.0.85
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-reference-data-reader@1.1.22
+  - @chainlink/ea@1.0.85
+
+## 1.0.84
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea@1.0.84
+  - @chainlink/ea-reference-data-reader@1.1.21
+
+## 1.0.83
+
+### Patch Changes
+
+- @chainlink/ea@1.0.83
+
+## 1.0.82
+
+### Patch Changes
+
+- @chainlink/ea@1.0.82
+
+## 1.0.81
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-reference-data-reader@1.1.20
+  - @chainlink/ea@1.0.81
+
+## 1.0.80
+
+### Patch Changes
+
+- @chainlink/ea@1.0.80
+
+## 1.0.79
+
+### Patch Changes
+
+- @chainlink/ea@1.0.79
+
+## 1.0.78
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-reference-data-reader@1.1.19
+  - @chainlink/ea@1.0.78
+
+## 1.0.77
+
+### Patch Changes
+
+- @chainlink/ea@1.0.77
+
 ## 1.0.76
 
 ### Patch Changes

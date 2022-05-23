@@ -65,6 +65,9 @@
       "path": "../../sources/blockcypher"
     },
     {
+      "path": "../../sources/blocksize-capital"
+    },
+    {
       "path": "../../sources/blockstream"
     },
     {
@@ -153,6 +156,9 @@
     },
     {
       "path": "../../sources/dxfeed-secondary"
+    },
+    {
+      "path": "../../sources/ens"
     },
     {
       "path": "../../sources/enzyme"

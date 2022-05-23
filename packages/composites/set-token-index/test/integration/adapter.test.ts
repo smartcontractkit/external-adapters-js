@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
 import nock from 'nock'
-import http from 'http'
 import { server as startServer } from '../../src'
 import { mockDataProviderResponses } from './fixtures'
 import { AddressInfo } from 'net'
@@ -35,17 +34,17 @@ afterAll(() => {
 
 describe('execute', () => {
   const id = '1'
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.CACHE_ENABLED = 'false'
   })
 
   afterAll((done) => {
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('with coinmarketcap source', () => {

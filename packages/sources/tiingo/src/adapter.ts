@@ -62,8 +62,17 @@ interface SyntheticMessage {
 }
 interface UpdateMessage extends Message {
   messageType: 'A'
-  service: 'crypto_data' | 'iex'
+  service: 'crypto_data' | 'fx' | 'iex'
   data: TopOfBookUpdateData | TradeUpdateData | SyntheticMessage
+}
+
+type EndpointGetters = {
+  [endpoint: string]: {
+    resultIndex: number
+    getTicker: (input: AdapterRequest) => string | undefined
+    tickerIndex: 1 | 3
+    wsUrl: string
+  }
 }
 
 const customParams = {
@@ -71,14 +80,13 @@ const customParams = {
 }
 
 export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
-  const getFxTicker = (input: AdapterRequest): string | undefined => {
+  const getBaseTicker = (input: AdapterRequest): string | undefined => {
     const validator = new Validator(input, customParams, {}, { shouldThrowError: false, overrides })
     if (validator.error) return
     return validator.validated.data.base.toLowerCase()
   }
-  const isFx = (input: AdapterRequest): boolean =>
-    endpoints.iex.supportedEndpoints.includes(input.data.endpoint)
-  const getCryptoTicker = (input: AdapterRequest): string | undefined => {
+
+  const getBaseQuoteTicker = (input: AdapterRequest, slash = true): string | undefined => {
     const validator = new Validator(
       input,
       endpoints.prices.inputParameters,
@@ -87,25 +95,53 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     )
     if (validator.error) return
     const { base, quote } = validator.validated.data
-    return `${base}/${quote}`.toLowerCase()
+    return `${base}${slash ? '/' : ''}${quote}`.toLowerCase()
   }
-  const isCrypto = (input: AdapterRequest): boolean =>
-    endpoints.prices.supportedEndpoints.includes(input.data.endpoint)
 
-  const getTicker = (input: AdapterRequest) => {
-    if (isFx(input)) {
-      return getFxTicker(input)
-    } else if (isCrypto(input)) {
-      return getCryptoTicker(input)
+  const getEndpointRoute = (input: AdapterRequest): string | undefined => {
+    for (const endpoint in endpoints) {
+      //@ts-expect-error "endpoints" guaranteed to include "endpoint" as a key
+      if (endpoints[endpoint].supportedEndpoints.includes(input.data.endpoint)) return endpoint
     }
     return undefined
   }
 
+  const serviceToEndpoint = {
+    crypto_data: 'prices',
+    fx: 'forex',
+    iex: 'iex',
+  }
+
+  const wsEndpointGetters: EndpointGetters = {
+    forex: {
+      resultIndex: 5,
+      getTicker: (input) => getBaseQuoteTicker(input, false),
+      tickerIndex: 1,
+      wsUrl: 'fx',
+    },
+    iex: {
+      resultIndex: 5,
+      getTicker: getBaseTicker,
+      tickerIndex: 3,
+      wsUrl: 'iex',
+    },
+    prices: {
+      resultIndex: 4,
+      getTicker: getBaseQuoteTicker,
+      tickerIndex: 1,
+      wsUrl: 'crypto-synth',
+    },
+  }
+
+  const getTicker = (input: AdapterRequest) => {
+    const route = getEndpointRoute(input)
+    return wsEndpointGetters[route ?? 'prices'].getTicker(input)
+  }
+
   const getWSUrl = (baseURL: string, input: AdapterRequest): string => {
-    if (isFx(input)) {
-      return `${baseURL}/iex`
-    }
-    return `${baseURL}/crypto-synth`
+    const route = getEndpointRoute(input)
+    const suffix = wsEndpointGetters[route ?? 'prices'].wsUrl
+    return `${baseURL}/${suffix}`
   }
 
   return () => {
@@ -128,23 +164,27 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
         getUrl: async (input) =>
           getWSUrl(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
       },
-      shouldNotServeInputUsingWS: (input) => !isFx(input) && !isCrypto(input),
+      shouldNotServeInputUsingWS: (input) => {
+        const route = getEndpointRoute(input)
+        return !route || !(route in wsEndpointGetters)
+      },
       subscribe: (input) => getSubscription(getTicker(input)),
       unsubscribe: (input) => getSubscription(getTicker(input), false),
       isError: (message: Message) => message.messageType === 'E',
       filter: (message: Message) => message.messageType === 'A',
-      subsFromMessage: (message: UpdateMessage) =>
-        message.data &&
-        message.messageType === 'A' &&
-        getSubscription(message.service === 'iex' ? message.data[3] : message.data[1]),
+      subsFromMessage: (message: UpdateMessage) => {
+        return (
+          message.data &&
+          message.messageType === 'A' &&
+          getSubscription(
+            message.data[wsEndpointGetters[serviceToEndpoint[message.service]].tickerIndex],
+          )
+        )
+      },
       toResponse: (message: UpdateMessage, input: AdapterRequest) => {
-        let result
-        if (isFx(input)) {
-          result = Requester.validateResultNumber(message.data, [5])
-        } else {
-          // Crypto
-          result = Requester.validateResultNumber(message.data, [4])
-        }
+        const route = getEndpointRoute(input)
+        const resultIndex = wsEndpointGetters[route ?? 'prices'].resultIndex
+        const result = Requester.validateResultNumber(message.data, [resultIndex])
         return Requester.success('1', { data: { result } }, true)
       },
       minTimeToNextMessageUpdateInS: 1,

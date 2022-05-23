@@ -1,6 +1,5 @@
 import process from 'process'
 import nock from 'nock'
-import http from 'http'
 import { DEV_BASE_URL } from '../../src/config'
 import { locationTests } from './location'
 import { currentConditionsTests } from './current-conditions'
@@ -12,7 +11,7 @@ import { AddressInfo } from 'net'
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  server: http.Server
+  fastify: FastifyInstance
   req: SuperTest<Test>
 }
 
@@ -44,12 +43,12 @@ describe('execute', () => {
   }
 
   beforeEach(async () => {
-    context.server = await startServer()
-    context.req = request(`localhost:${(context.server.address() as AddressInfo).port}`)
+    context.fastify = await startServer()
+    context.req = request(`localhost:${(context.fastify.server.address() as AddressInfo).port}`)
   })
 
   afterEach((done) => {
-    context.server.close(done)
+    context.fastify.close(done)
   })
 
   describe('location endpoint', () => locationTests(context))

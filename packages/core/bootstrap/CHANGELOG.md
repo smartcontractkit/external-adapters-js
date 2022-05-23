@@ -1,5 +1,51 @@
 # @chainlink/ea-bootstrap
 
+## 2.5.2
+
+### Patch Changes
+
+- f9b76857b: Fix cache batch warming key generation by ignoring overrides, others
+
+## 2.5.1
+
+### Patch Changes
+
+- 1b94b51b2: Fix default EA host, add EA_HOST env var
+
+## 2.5.0
+
+### Minor Changes
+
+- f99b2750a: Change the internal HTTP server framework from Express to Fastify
+
+### Patch Changes
+
+- dc5c138da: Enable EA level override of framework env: WARMUP_ENABLED
+
+## 2.4.0
+
+### Minor Changes
+
+- dee93ac7b: Increased the default max Redis cache from 100 to 500
+
+## 2.3.0
+
+### Minor Changes
+
+- 54514ec52: Add blocksize-capital EA
+
+## 2.2.0
+
+### Minor Changes
+
+- 9a68af1e1: Remove rate limiting and slowdown middlewares
+
+## 2.1.0
+
+### Minor Changes
+
+- 4f0191ae8: fix issue where config.verbose set to true when API_VERBOSE env var is set to false
+
 ## 2.0.0
 
 ### Major Changes

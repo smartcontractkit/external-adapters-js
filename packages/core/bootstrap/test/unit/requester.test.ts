@@ -6,7 +6,6 @@ describe('HTTP', () => {
   const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
   const successUrl = 'http://localhost:18080'
   const successArrayUrl = 'http://localhost:18080/successArray'
-  const successStringUrl = 'http://localhost:18080/successString'
   const errorUrl = 'http://localhost:18080/error'
   const errorTwiceUrl = 'http://localhost:18080/errorsTwice'
   const customErrorUrl = 'http://localhost:18080/customError'
@@ -229,9 +228,5 @@ describe('HTTP', () => {
       const withResult = Requester.withResult(response, undefined, mockResults)
       expect(withResult.data.results).toEqual(mockResults)
     })
-  })
-
-  afterAll((done) => {
-    server.stop(done)
   })
 })

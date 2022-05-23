@@ -31,6 +31,19 @@ describe('price endpoint', () => {
           data: { base: 'ETH' },
         },
       },
+      {
+        name: 'invalid overrides format',
+        testData: {
+          id: jobID,
+          data: {
+            base: 'ETH',
+            quote: 'USD',
+            overrides: {
+              ETH: 'ethereum',
+            },
+          },
+        },
+      },
     ]
 
     requests.forEach((req) => {

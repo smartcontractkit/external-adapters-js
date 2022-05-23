@@ -1,30 +1,22 @@
-import { AdapterContext, Execute, Middleware } from '@chainlink/types'
-import express from 'express'
-import http from 'http'
-import slowDown from 'express-slow-down'
-import rateLimit from 'express-rate-limit'
+import { AdapterContext, Execute, Middleware, AdapterRequest } from '@chainlink/types'
+import Fastify, { FastifyInstance } from 'fastify'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, storeSlice, withMiddleware } from '../index'
 import { defaultOptions } from './middleware/cache'
 import { loadTestPayload } from './config/test-payload-loader'
-import {
-  HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE,
-  HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE,
-} from './errors'
 import { logger } from './modules'
-import { METRICS_ENABLED, httpRateLimit, setupMetrics } from './metrics'
+import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
-import { AddressInfo } from 'net'
 import { WSReset } from './middleware/ws/actions'
 
-const app = express()
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
 const baseUrl = getEnv('BASE_URL') as string
+const eaHost = getEnv('EA_HOST') as string
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -32,7 +24,10 @@ export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
   (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
-  async (): Promise<http.Server> => {
+  async (): Promise<FastifyInstance> => {
+    const app = Fastify({
+      logger: false,
+    })
     const name = adapterContext.name || ''
     const envDefaultOverrides = adapterContext.envDefaultOverrides
     const context: AdapterContext = {
@@ -57,22 +52,17 @@ export const initHandler =
       setupMetricsServer(name)
     }
 
-    initExpressMiddleware(app)
-
     const executeWithMiddleware = await withMiddleware(execute, context, middleware)
 
-    app.post(baseUrl, (req, res) => {
-      if (!req.is(CONTENT_TYPE_APPLICATION_JSON)) {
-        return res
-          .status(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE)
-          .send(HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE_MESSAGE)
-      }
+    app.post<{
+      Body: AdapterRequest
+    }>(baseUrl, async (req, res) => {
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
       }
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
-        res.status(status).json(result)
+        res.code(status).send(result)
       })
     })
 
@@ -122,23 +112,25 @@ export const initHandler =
       process.exit()
     })
 
-    return new Promise((resolve) => {
-      const server = app.listen(port, () => {
-        server.on('close', () => {
-          storeSlice('cacheWarmer').dispatch(warmupShutdown())
-          storeSlice('errorBackoff').dispatch(shutdown())
-          storeSlice('ws').dispatch(WSReset())
-          context.cache?.instance?.close()
-        })
+    app.addHook('onClose', async () => {
+      storeSlice('cacheWarmer').dispatch(warmupShutdown())
+      storeSlice('errorBackoff').dispatch(shutdown())
+      storeSlice('ws').dispatch(WSReset())
+      context.cache?.instance?.close()
+    })
 
-        logger.info(`Listening on port ${(server.address() as AddressInfo).port}!`)
-        resolve(server)
+    return new Promise((resolve) => {
+      app.listen(port, eaHost, (_, address) => {
+        logger.info(`Server listening on ${address}!`)
+        resolve(app)
       })
     })
   }
 
 function setupMetricsServer(name: string) {
-  const metricsApp = express()
+  const metricsApp = Fastify({
+    logger: false,
+  })
   const metricsPort = parseInt(getEnv('METRICS_PORT') as string)
   const endpoint = getEnv('METRICS_USE_BASE_URL') ? join(baseUrl, 'metrics') : '/metrics'
 
@@ -149,39 +141,7 @@ function setupMetricsServer(name: string) {
     res.send(await client.register.metrics())
   })
 
-  metricsApp.listen(metricsPort, () => logger.info(`Monitoring listening on port ${metricsPort}!`))
-}
-
-const windowMs = 1000 * 5
-const max = parseInt(getEnv('SERVER_RATE_LIMIT_MAX') as string)
-const delayAfter = max * Number(getEnv('SERVER_SLOW_DOWN_AFTER_FACTOR'))
-const delayMs = parseInt(getEnv('SERVER_SLOW_DOWN_DELAY_MS') as string)
-
-function initExpressMiddleware(app: express.Express) {
-  app.set('trust proxy', 1)
-
-  const rateLimiter = rateLimit({
-    windowMs,
-    max, // limit each IP's requests per windowMs
-    keyGenerator: () => '*', // use one key for all incoming requests
-    handler: ((req, res, next) => {
-      if (req.url === '/health') {
-        next()
-      } else {
-        httpRateLimit.inc()
-        res.status(429).send('Too many requests, please try again later.')
-      }
-    }) as express.RequestHandler,
-  })
-  app.use(rateLimiter)
-
-  const speedLimiter = slowDown({
-    windowMs,
-    delayAfter,
-    delayMs,
-    keyGenerator: () => '*', // use one key for all incoming requests
-  })
-  app.use(speedLimiter)
-
-  app.use(express.json({ limit: '1mb' }))
+  metricsApp.listen(metricsPort, eaHost, () =>
+    logger.info(`Monitoring listening on port ${metricsPort}!`),
+  )
 }

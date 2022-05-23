@@ -35,11 +35,11 @@ describe('Cache key middleware', () => {
       expect(r).toEqual({
         ...request,
         debug: {
-          cacheKey: 'Golyna0Qc+GRcASb5oBWQsn7yyI=',
-          batchCacheKey: 'dqKaaikVnrFiduxXI7VKTYpph9c=',
+          cacheKey: 'IiDTaC+lXPqyxhmcVrVfT2GtP/E=',
+          batchCacheKey: 'w8ekGHVms2AJFoDlV/iyLzGpFsc=',
           batchChildrenCacheKeys: [
             [
-              'TqD76f8doobwnYbka8XwwKh0O8M=',
+              'm3A/a6C/vZvxrqFWlRtsGdCBx6Y=',
               {
                 data: {
                   batchPropArray: 'str1',

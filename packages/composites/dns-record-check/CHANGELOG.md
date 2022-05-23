@@ -1,5 +1,69 @@
 # @chainlink/dns-record-check-adapter
 
+## 1.1.31
+
+### Patch Changes
+
+- Updated dependencies [f9b76857b]
+  - @chainlink/ea-bootstrap@2.5.2
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.31
+
+## 1.1.30
+
+### Patch Changes
+
+- Updated dependencies [1b94b51b2]
+  - @chainlink/ea-bootstrap@2.5.1
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.30
+
+## 1.1.29
+
+### Patch Changes
+
+- Updated dependencies [dc5c138da]
+- Updated dependencies [f99b2750a]
+  - @chainlink/ea-bootstrap@2.5.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.29
+
+## 1.1.28
+
+### Patch Changes
+
+- Updated dependencies [dee93ac7b]
+  - @chainlink/ea-bootstrap@2.4.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.28
+
+## 1.1.27
+
+### Patch Changes
+
+- Updated dependencies [54514ec52]
+  - @chainlink/ea-bootstrap@2.3.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.27
+
+## 1.1.26
+
+### Patch Changes
+
+- Updated dependencies [9a68af1e1]
+  - @chainlink/ea-bootstrap@2.2.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.26
+
+## 1.1.25
+
+### Patch Changes
+
+- Updated dependencies [4f0191ae8]
+  - @chainlink/ea-bootstrap@2.1.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/dns-query-adapter@1.2.25
+
 ## 1.1.24
 
 ### Patch Changes

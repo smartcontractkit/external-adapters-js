@@ -2,7 +2,6 @@ import { AdapterRequest } from '@chainlink/types'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockSolanaViewFunctionResponse, mockTokenAllocationResponse } from './fixtures'
-import http from 'http'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
 import '@chainlink/solana-view-function-adapter'
@@ -21,7 +20,7 @@ jest.mock('@chainlink/token-allocation-adapter', () => ({
 let oldEnv: NodeJS.ProcessEnv
 
 describe('accounts', () => {
-  let server: http.Server
+  let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   const SOLIDO_ADDRESS = 'EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ'
@@ -31,8 +30,8 @@ describe('accounts', () => {
 
   beforeEach(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    server = await startServer()
-    req = request(`localhost:${(server.address() as AddressInfo).port}`)
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
     process.env.RPC_URL = 'https://api.devnet.solana.com'
     process.env.SOLIDO_ADDRESS = SOLIDO_ADDRESS
     process.env.STSOL_ADDRESS = STSOL_ADDRESS
@@ -42,7 +41,7 @@ describe('accounts', () => {
 
   afterAll((done) => {
     process.env = oldEnv
-    server.close(done)
+    fastify.close(done)
   })
 
   describe('successful calls', () => {

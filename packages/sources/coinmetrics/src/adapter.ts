@@ -29,15 +29,17 @@ export interface WebsocketResponseSchema {
   cm_sequence_id: string
 }
 
+const VALID_REFERENCE_RATE_QUOTES = ['USD', 'EUR', 'ETH', 'BTC']
+
 const getSubKeyInfo = (input: AdapterRequest) => {
   const validator = new Validator(input, endpoints.price.inputParameters)
   const asset = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toUpperCase()
-  if (quote !== 'USD' && quote !== 'EUR')
+  if (!VALID_REFERENCE_RATE_QUOTES.includes(quote))
     throw new AdapterError({
       jobRunID: input.id,
       statusCode: 400,
-      message: 'Quote must be of type USD or EUR',
+      message: `Quote must be one of ${VALID_REFERENCE_RATE_QUOTES}`,
     })
   const metrics = `ReferenceRate${quote}`
   return { asset, metrics }

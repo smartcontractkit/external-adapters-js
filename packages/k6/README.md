@@ -56,17 +56,8 @@ yarn qa:flux:configure k6payload ${adapter} empty
 To specify the EA to use, set `CI_ADAPTER_NAME` in the `limits.env` file. E.g.:
 
 ```dotenv
-CI_ADAPTER_NAME=coingecko
+ADAPTER_URL=http://localhost:8080
 ```
-
-We can use a local EA or separated load-testing EAs in infra-k8s.
-For local EAs, include `LOCAL_ADAPTER_NAME` in the `limits.env` file. E.g.:
-
-```dotenv
-LOCAL_ADAPTER_NAME=coingecko
-```
-
-If not set, the script will target the EA in staging k8s with the name `$CI_ADAPTER_NAME-load-testing`.
 
 ### 3. Tweak config
 

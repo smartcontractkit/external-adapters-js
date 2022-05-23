@@ -16,6 +16,7 @@ import * as bitso from '@chainlink/bitso-adapter'
 import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
+import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
@@ -46,6 +47,7 @@ import * as durin from '@chainlink/durin-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as eth_balance from '@chainlink/eth-balance-adapter'
@@ -142,6 +144,7 @@ export default {
   blockchain_com,
   blockchair,
   blockcypher,
+  blocksize_capital,
   blockstream,
   bravenewcoin,
   btc_com,
@@ -172,6 +175,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  ens,
   enzyme,
   eodhistoricaldata,
   eth_balance,
