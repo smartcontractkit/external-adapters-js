@@ -17,13 +17,13 @@ export const getValidAddresses = (
   validator: Validator,
 ): AdapterResponse => {
   const validatedInput = { ...protocolOutput }
-  if (!parseBool(validator.validated.data.disableAddressValidation)) {
+  if (!parseBoolean(validator.validated.data.disableAddressValidation)) {
     validatedInput.result = validateAddresses(
       validator.validated.data.indexer,
       validatedInput.result,
     )
   }
-  if (!parseBool(validator.validated.data.disableDuplicateAddressFiltering)) {
+  if (!parseBoolean(validator.validated.data.disableDuplicateAddressFiltering)) {
     validatedInput.result = filterDuplicates(validatedInput.result)
   }
   validatedInput.data.result = validatedInput.result
@@ -83,4 +83,10 @@ export const filterDuplicates = (addresses: AddressObject[]): AddressObject[] =>
     }
   }
   return uniqueAddresses
+}
+
+const parseBoolean = (value: unknown) => {
+  if ((typeof value === 'boolean' && value) || (typeof value === 'string' && value === 'true'))
+    return true
+  return false
 }
