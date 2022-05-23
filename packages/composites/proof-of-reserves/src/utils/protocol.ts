@@ -23,6 +23,14 @@ export const adapters: AdapterImplementation[] = [
 
 export type Protocol = typeof adapters[number]['NAME']
 
+type AddressData =
+  | { token: string; chainId: string; network: string }
+  | { addresses: AddressList; chainId?: string; network?: string }
+
+type AddressList = string[] | AddressObject[]
+
+type AddressObject = { address: string; network?: string; chainId?: string }
+
 // Get address set for protocol
 export const runProtocolAdapter = async (
   jobRunID: string,
@@ -72,9 +80,3 @@ const listAdapter = (
   }
   throw Error('Invalid data received for list addresses parameter')
 }
-
-type AddressData =
-  | { token: string; chainId: string; network: string }
-  | { addresses: AddressList; chainId?: string; network?: string }
-type AddressList = string[] | AddressObject[]
-type AddressObject = { address: string; network?: string; chainId?: string }
