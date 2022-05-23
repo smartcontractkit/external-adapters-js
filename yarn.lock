@@ -4409,6 +4409,8 @@ __metadata:
     "@types/node": 16.11.35
     decimal.js: ^10.3.1
     ethers: ^5.4.6
+    nock: ^13.2.4
+    supertest: ^6.2.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -22896,7 +22898,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"nock@npm:13.2.4":
+"nock@npm:13.2.4, nock@npm:^13.2.4":
   version: 13.2.4
   resolution: "nock@npm:13.2.4"
   dependencies:
@@ -27170,6 +27172,16 @@ resolve@1.17.0:
     methods: ^1.1.2
     superagent: ^7.1.0
   checksum: 3c1956d57e32db1dfc17b4e4eb3eb3c80a29f9ed1b5209e0425b796df0eda7fce8a5c6485a6e666c6d3019c44e238c0494d6851c18e11a2c8bec01ff32dc06e3
+  languageName: node
+  linkType: hard
+
+"supertest@npm:^6.2.3":
+  version: 6.2.3
+  resolution: "supertest@npm:6.2.3"
+  dependencies:
+    methods: ^1.1.2
+    superagent: ^7.1.3
+  checksum: c1bed86c31723a4bc461153a58176fd80d675deb7d23ab7bd170213040673b35c38e3cbeab9a4eb8a325cf736176c08c6f6522e42f0293314f183e192a6681fa
   languageName: node
   linkType: hard
 

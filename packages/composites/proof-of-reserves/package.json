@@ -60,6 +60,8 @@
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.35",
+    "nock": "^13.2.4",
+    "supertest": "^6.2.3",
     "typescript": "4.3.5"
   }
 }
