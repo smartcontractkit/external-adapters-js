@@ -40,6 +40,7 @@ declare module '@chainlink/types' {
    */
   export interface AdapterMetricsMeta {
     feedId: string
+    requestOrigin: string
   }
 
   import { BigNumberish } from 'ethers'

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute Get BTC dominance should return success 1`] = `
+Object {
+  "data": Object {
+    "result": "0.435918142911669111",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0.435918142911669111",
+  "statusCode": 200,
+}
+`;

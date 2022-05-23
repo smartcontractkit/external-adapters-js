@@ -31,11 +31,13 @@ describe('withMetrics middleware', () => {
       ...mockResponse,
       metricsMeta: {
         feedId: '{"data":{"endpoint":"testDownstreamEndpoint","source":"SOMESOURCEADAPTER"}}',
+        requestOrigin: 'CACHE_WARMER',
       },
     }
 
     const expectedLabels = {
       feed_id: '{"data":{"endpoint":"testDownstreamEndpoint","source":"SOMESOURCEADAPTER"}}',
+      request_origin: 'CACHE_WARMER',
       is_cache_warming: 'false',
       method: 'POST',
       provider_status_code: undefined,
@@ -71,11 +73,13 @@ describe('withMetrics middleware', () => {
       ...mockResponse,
       metricsMeta: {
         feedId: '{"data":{"endpoint":"testDownstreamEndpoint","source":"SOMESOURCEADAPTER"}}',
+        requestOrigin: 'CACHE_WARMER',
       },
     }
 
     const expectedLabels = {
       feed_id: '{"data":{"endpoint":"testDownstreamEndpoint","source":"SOMESOURCEADAPTER"}}',
+      request_origin: 'CACHE_WARMER',
       is_cache_warming: 'false',
       method: 'POST',
       provider_status_code: undefined,
@@ -104,6 +108,7 @@ describe('withMetrics middleware', () => {
 
     const expectedLabels = {
       feed_id: '{"data":{"endpoint":"testDownstreamEndpoint","source":"SOMESOURCEADAPTER"}}',
+      request_origin: 'CACHE_WARMER',
       is_cache_warming: 'false',
       method: 'POST',
       provider_status_code: undefined,

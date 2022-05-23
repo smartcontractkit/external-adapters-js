@@ -1,5 +1,24 @@
 # @chainlink/ea-bootstrap
 
+## 2.6.0
+
+### Minor Changes
+
+- 66396e888: Added request_origin label to metrics, to indicate the source ip of requests
+- 307aa10ec: Add new Lido adapter
+
+## 2.5.2
+
+### Patch Changes
+
+- f9b76857b: Fix cache batch warming key generation by ignoring overrides, others
+
+## 2.5.1
+
+### Patch Changes
+
+- 1b94b51b2: Fix default EA host, add EA_HOST env var
+
 ## 2.5.0
 
 ### Minor Changes
