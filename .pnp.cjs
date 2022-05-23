@@ -5652,7 +5652,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.35"],
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.5"],
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.6"],
             ["mock-socket", "npm:9.1.3"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
@@ -20696,17 +20696,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["hardhat", [
-        ["npm:2.9.5", {
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.9.5-cbafcdba63-231a12c1f1.zip/node_modules/hardhat/",
+        ["npm:2.9.6", {
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.9.6-431bb9d716-479942921a.zip/node_modules/hardhat/",
           "packageDependencies": [
-            ["hardhat", "npm:2.9.5"]
+            ["hardhat", "npm:2.9.6"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.5", {
-          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-5989b01cfc/0/cache/hardhat-npm-2.9.5-cbafcdba63-231a12c1f1.zip/node_modules/hardhat/",
+        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.6", {
+          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-06bec9c1bf/0/cache/hardhat-npm-2.9.6-431bb9d716-479942921a.zip/node_modules/hardhat/",
           "packageDependencies": [
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.5"],
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.6"],
             ["@ethereumjs/block", "npm:3.6.2"],
             ["@ethereumjs/blockchain", "npm:5.5.2"],
             ["@ethereumjs/common", "npm:2.6.4"],
@@ -20736,7 +20736,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["find-up", "npm:2.1.0"],
             ["fp-ts", "npm:1.19.3"],
             ["fs-extra", "npm:7.0.1"],
-            ["glob", "npm:7.1.7"],
+            ["glob", "npm:7.2.0"],
             ["immutable", "npm:4.0.0-rc.14"],
             ["io-ts", "npm:1.10.4"],
             ["lodash", "npm:4.17.21"],
