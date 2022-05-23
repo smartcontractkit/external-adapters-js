@@ -15,7 +15,7 @@ import { AdapterError } from './error'
 import { logger } from './logger'
 import objectPath from 'object-path'
 import { join } from 'path'
-import { recordDataProviderAttempt } from '../metrics'
+import { recordDataProviderRequest } from '../metrics'
 
 const getFalse = () => false
 
@@ -48,7 +48,7 @@ export class Requester {
 
       let response: AxiosResponse<T>
       const url = join(config.baseURL || '', config.url || '')
-      const record = recordDataProviderAttempt()
+      const record = recordDataProviderRequest()
       try {
         response = await axios(config)
       } catch (error) {
