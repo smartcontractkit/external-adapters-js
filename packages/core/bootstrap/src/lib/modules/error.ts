@@ -1,4 +1,5 @@
 import { AdapterErrorResponse } from '@chainlink/types'
+import { HttpRequestType } from '../metrics'
 import { getEnv } from '../util'
 
 export class AdapterError extends Error {
@@ -12,6 +13,7 @@ export class AdapterError extends Error {
   errorResponse: any
   feedID?: string
   providerStatusCode?: number
+  metricsLabel: HttpRequestType
 
   constructor({
     jobRunID = '1',
@@ -41,6 +43,7 @@ export class AdapterError extends Error {
     }
     this.errorResponse = errorResponse
     this.providerStatusCode = providerStatusCode
+    this.metricsLabel = HttpRequestType.ADAPTER_ERROR
   }
 
   toJSONResponse(): AdapterErrorResponse {
@@ -60,5 +63,66 @@ export class AdapterError extends Error {
       providerStatusCode: this.providerStatusCode,
       error: showDebugInfo ? errorFull : errorBasic,
     }
+  }
+}
+
+export class AdapterConfigError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.CONFIG_ERROR
+  }
+}
+export class AdapterRateLimitError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.RATE_LIMIT_ERROR
+  }
+}
+export class AdapterBurstLimitError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.BURST_LIMIT_ERROR
+  }
+}
+export class AdapterBackoffError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.BACKOFF_ERROR
+  }
+}
+export class AdapterOverriderError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.OVERRIDES_ERROR
+  }
+}
+export class AdapterValidationError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.VALIDATION_ERROR
+  }
+}
+export class AdapterTimeoutError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.TIMEOUT_ERROR
+  }
+}
+export class AdapterResponseEmptyError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.RES_EMPTY_ERROR
+  }
+}
+export class AdapterResponseInvalidError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.RES_INVALID_ERROR
+  }
+}
+export class AdapterCustomErrorTriggeredError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.CUSTOM_ERROR
   }
 }

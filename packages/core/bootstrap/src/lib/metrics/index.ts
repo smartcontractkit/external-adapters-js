@@ -87,6 +87,16 @@ export enum HttpRequestType {
   CACHE_HIT = 'cacheHit',
   DATA_PROVIDER_HIT = 'dataProviderHit',
   ADAPTER_ERROR = 'adapterError',
+  CONFIG_ERROR = 'configError',
+  RATE_LIMIT_ERROR = 'rateLimitError',
+  BURST_LIMIT_ERROR = 'burstLimitError',
+  BACKOFF_ERROR = 'backoffError',
+  OVERRIDES_ERROR = 'overridesError',
+  VALIDATION_ERROR = 'validationError',
+  TIMEOUT_ERROR = 'timeoutError',
+  RES_EMPTY_ERROR = 'responseEmptyError',
+  RES_INVALID_ERROR = 'responseInvalidError',
+  CUSTOM_ERROR = 'customError',
 }
 
 // we should tune these as we collect data, this is the default bucket distribution that prom comes with
