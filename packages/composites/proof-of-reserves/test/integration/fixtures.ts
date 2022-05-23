@@ -1,8 +1,8 @@
 import nock from 'nock'
 
 export const mockPoRindexerSuccess = (): nock.Scope => {
-  return nock('https://adapters.main.prod.cldev.sh')
-    .post('/por-indexer')
+  return nock('https://por-indexer-adapter.com')
+    .post('/')
     .reply(200, {
       jobRunID: '1',
       result: '751.00045155',
@@ -18,7 +18,7 @@ export const mockPoRindexerSuccess = (): nock.Scope => {
 }
 
 export const mockEthBalanceSuccess = (): nock.Scope => {
-  return nock('http://localhost:8081/')
+  return nock('https://eth-balance-adapter.com')
     .post('/')
     .reply(200, {
       jobRunID: '1',
