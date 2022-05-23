@@ -137,7 +137,7 @@ describe('recordDataProviderAttempt', () => {
       provider_status_code: 200,
     }
 
-    const record = metrics.recordDataProviderAttempt()
+    const record = metrics.recordDataProviderRequest()
     record(expectedLabels.method, expectedLabels.provider_status_code)
     expect(spy).toBeCalledWith(expectedLabels)
   })
@@ -149,7 +149,7 @@ describe('recordDataProviderAttempt', () => {
       provider_status_code: 400,
     }
 
-    const record = metrics.recordDataProviderAttempt()
+    const record = metrics.recordDataProviderRequest()
     record(expectedLabels.method, expectedLabels.provider_status_code)
     expect(spy).toBeCalledWith(expectedLabels)
   })

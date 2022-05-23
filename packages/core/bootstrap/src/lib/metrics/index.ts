@@ -20,17 +20,17 @@ export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
   feedId: util.getFeedId(input),
 })
 
-export const recordDataProviderAttempt = (): ((
+export const recordDataProviderRequest = (): ((
   method?: string,
   providerStatusCode?: number,
 ) => void) => {
-  const labels: Parameters<typeof dataProviderRequestAttempts.labels>[0] = {}
+  const labels: Parameters<typeof dataProviderRequests.labels>[0] = {}
   const end = dataProviderRequestDurationSeconds.startTimer()
   return (method = 'get', providerStatusCode?: number) => {
     end()
     labels.provider_status_code = providerStatusCode
     labels.method = method.toUpperCase()
-    dataProviderRequestAttempts.labels(labels).inc()
+    dataProviderRequests.labels(labels).inc()
   }
 }
 
@@ -113,9 +113,9 @@ export const httpRequestDurationSeconds = new client.Histogram({
   buckets: requestDurationBuckets,
 })
 
-export const dataProviderRequestAttempts = new client.Counter({
-  name: 'data_provider_request_attempts',
-  help: 'The number of http requests that attempt to request from a data provider',
+export const dataProviderRequests = new client.Counter({
+  name: 'data_provider_requests',
+  help: 'The number of http requests that are made to a data provider',
   labelNames: ['method', 'provider_status_code'] as const,
 })
 
