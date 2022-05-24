@@ -118,10 +118,9 @@ export class Requester {
     const result = this.getResult(data, path)
 
     if (typeof result === 'undefined' || result === null) {
-      const message = missingResultsErrorMsg
-      logger.error(message, { data, path })
+      logger.error(missingResultsErrorMsg, { data, path })
       throw new AdapterError({
-        message,
+        message: missingResultsErrorMsg,
         statusCode: 502,
       })
     }
