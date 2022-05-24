@@ -145,7 +145,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const response = await Requester.request<ResponseSchema>(options)
   if (Array.isArray(from) || Array.isArray(to))
     return handleBatchedRequest(jobRunID, request, response, ['min', 'c'])
-  const result = Requester.validateResultNumber(response.data.tickers[0], ['min', 'c'])
+  const result = Requester.validateResultNumber(
+    response.data.tickers[0],
+    ['min', 'c'],
+    undefined,
+    'Result could not be found from response.  This is expected for some pairs during the weekend as the market is closed.',
+  )
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result),

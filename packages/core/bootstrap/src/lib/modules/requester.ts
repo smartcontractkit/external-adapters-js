@@ -113,11 +113,12 @@ export class Requester {
     data: { [key: string]: any },
     path: ResultPath,
     options?: { inverse?: boolean },
+    missingResultsErrorMsg = 'Result could not be found in path or is empty',
   ): number {
     const result = this.getResult(data, path)
 
     if (typeof result === 'undefined' || result === null) {
-      const message = 'Result could not be found in path or is empty'
+      const message = missingResultsErrorMsg
       logger.error(message, { data, path })
       throw new AdapterError({
         message,
