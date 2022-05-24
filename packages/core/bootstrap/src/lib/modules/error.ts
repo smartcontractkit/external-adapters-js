@@ -72,6 +72,12 @@ export class AdapterConfigError extends AdapterError {
     this.metricsLabel = HttpRequestType.CONFIG_ERROR
   }
 }
+export class AdapterInputError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.INPUT_ERROR
+  }
+}
 export class AdapterRateLimitError extends AdapterError {
   constructor(input: Partial<AdapterError>) {
     super(input)
@@ -108,6 +114,18 @@ export class AdapterTimeoutError extends AdapterError {
     this.metricsLabel = HttpRequestType.TIMEOUT_ERROR
   }
 }
+export class AdapterConnectionError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.CONNECTION_ERROR
+  }
+}
+export class AdapterDataProviderError extends AdapterError {
+  constructor(input: Partial<AdapterError>) {
+    super(input)
+    this.metricsLabel = HttpRequestType.DP_ERROR
+  }
+}
 export class AdapterResponseEmptyError extends AdapterError {
   constructor(input: Partial<AdapterError>) {
     super(input)
@@ -120,7 +138,7 @@ export class AdapterResponseInvalidError extends AdapterError {
     this.metricsLabel = HttpRequestType.RES_INVALID_ERROR
   }
 }
-export class AdapterCustomErrorTriggeredError extends AdapterError {
+export class AdapterCustomError extends AdapterError {
   constructor(input: Partial<AdapterError>) {
     super(input)
     this.metricsLabel = HttpRequestType.CUSTOM_ERROR

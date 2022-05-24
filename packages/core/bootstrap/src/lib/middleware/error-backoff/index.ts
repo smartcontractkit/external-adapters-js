@@ -8,7 +8,7 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { AdapterError, logger } from '../../modules'
+import { AdapterBackoffError, logger } from '../../modules'
 import { makeId } from '../rate-limit'
 import { getEnv } from '../../util'
 
@@ -41,7 +41,7 @@ export const withErrorBackoff =
         logger.warn(
           `External Adapter backing off errored request. ${errorCapacity} requests have returned errors in the last minute.`,
         )
-        throw new AdapterError({
+        throw new AdapterBackoffError({
           jobRunID: input.id,
           message:
             'Errored request backoff: This request has returned too many errors in the past minute.',

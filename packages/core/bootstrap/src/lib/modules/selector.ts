@@ -11,6 +11,7 @@ import {
 } from '@chainlink/types'
 import { logger } from '../modules'
 import { cloneDeep } from 'lodash'
+import { AdapterInputError, AdapterOverriderError } from './error'
 
 export const baseInputParameters: InputParameters = {
   endpoint: {
@@ -72,7 +73,7 @@ const selectEndpoint = <C extends Config>(
   const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
 
   if (!endpoint)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Endpoint not supplied and no default found`,
       statusCode: 400,
@@ -86,7 +87,7 @@ const selectEndpoint = <C extends Config>(
   }
 
   if (!apiEndpoint)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Endpoint ${endpoint} not supported.`,
       statusCode: 400,
@@ -98,7 +99,7 @@ const selectEndpoint = <C extends Config>(
     if (request?.data?.endpoint) request.data.endpoint = overridenEndpoint
 
     if (!apiEndpoint)
-      throw new AdapterError({
+      throw new AdapterOverriderError({
         jobRunID,
         message: `Overriden Endpoint ${overridenEndpoint} not supported.`,
         statusCode: 500,

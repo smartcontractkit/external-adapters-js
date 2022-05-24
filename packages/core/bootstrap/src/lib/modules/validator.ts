@@ -8,7 +8,7 @@ import {
 } from '@chainlink/types'
 import { merge } from 'lodash'
 import { isArray, isObject } from '../util'
-import { AdapterError } from './error'
+import { AdapterError, AdapterInputError } from './error'
 import presetTokens from '../config/overrides/presetTokens.json'
 import { Requester } from './requester'
 import { baseInputParameters } from './selector'
@@ -225,7 +225,7 @@ export class Validator {
   }
 
   throwInvalid = (message: string): void => {
-    throw new AdapterError({ jobRunID: this.validated.id, statusCode: 400, message })
+    throw new AdapterInputError({ jobRunID: this.validated.id, statusCode: 400, message })
   }
 
   validateObjectParam(key: string, shouldThrowError = true): void {
