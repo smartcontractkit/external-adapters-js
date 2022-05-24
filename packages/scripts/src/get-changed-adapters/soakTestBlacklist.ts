@@ -120,6 +120,7 @@ export const SoakTestBlacklist: string[] = [
   'therundown',
   'token-allocation',
   'trueusd',
+  'tradingeconomics',
   'twelvedata',
   'unibit',
   'uniswap-v2',
