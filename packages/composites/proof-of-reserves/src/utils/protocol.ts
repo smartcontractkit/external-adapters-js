@@ -23,14 +23,13 @@ export const adapters: AdapterImplementation[] = [
 
 export type Protocol = typeof adapters[number]['NAME']
 
-type AddressData =
-  | { token: string; chainId: string; network: string }
+type AddressData = { token: string; chainId: string; network: string } | AddressList
+
+type AddressList =
   | { addresses: string[]; chainId: string; network: string }
-  | { addresses: { address: string; chainId: string; network: string }[] }
+  | { addresses: AddressObject[] }
 
-type AddressList = string[] | AddressObject[]
-
-type AddressObject = { address: string; network?: string; chainId?: string }
+type AddressObject = { address: string; network: string; chainId: string }
 
 // Get address set for protocol
 export const runProtocolAdapter = async (
@@ -40,11 +39,7 @@ export const runProtocolAdapter = async (
   data: AddressData,
   config: Config,
 ): Promise<AdapterResponse> => {
-  if (protocol === LIST_ADAPTER)
-    return listAdapter(
-      jobRunID,
-      data as { addresses: AddressList; chainId?: string; network?: string },
-    )
+  if (protocol === LIST_ADAPTER) return listAdapter(jobRunID, data as AddressList)
 
   const execute = makeRequestFactory(config, protocol)
   const next = {
@@ -54,30 +49,20 @@ export const runProtocolAdapter = async (
   return callAdapter(execute, context, next, '_onProtocol')
 }
 
-const listAdapter = (
-  jobRunID: string,
-  data: { addresses: AddressList; chainId?: string; network?: string },
-) => {
+const listAdapter = (jobRunID: string, data: AddressList) => {
   if (!('addresses' in data)) {
     throw Error(`Missing "addresses" in request data`)
   }
   if (typeof data.addresses[0] === 'string') {
     const result = (data.addresses as string[]).map((address: string) => ({
       address,
-      network: data.network,
-      chainId: data.chainId,
+      network: (data as { addresses: string[]; chainId: string; network: string }).network,
+      chainId: (data as { addresses: string[]; chainId: string; network: string }).chainId,
     }))
     return Requester.success(jobRunID, { data: { result } })
   }
   if (typeof data.addresses[0] === 'object') {
-    const result = (data.addresses as AddressObject[]).map(({ address, network, chainId }) => {
-      if (!address) throw Error('Missing address parameter in one of the provided address objects.')
-      const addressObject: AddressObject = { address }
-      addressObject.network = network || data.network
-      addressObject.chainId = chainId || data.chainId
-      return addressObject
-    })
-    return Requester.success(jobRunID, { data: { result } })
+    return Requester.success(jobRunID, { data })
   }
   throw Error('Invalid data received for list addresses parameter')
 }
