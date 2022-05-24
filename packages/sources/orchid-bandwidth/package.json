@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/orchid-bandwidth-adapter",
-  "version": "1.1.36",
+  "version": "1.1.37",
   "description": "Chainlink Orchid bandwidth adapter.",
   "keywords": [
     "Chainlink",
@@ -34,10 +34,10 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.35",
+    "@types/node": "16.11.36",
     "@types/supertest": "2.0.12",
     "nock": "13.2.4",
-    "supertest": "6.2.2",
+    "supertest": "6.2.3",
     "typescript": "4.3.5"
   }
 }

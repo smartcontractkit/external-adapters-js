@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/anyblock-adapter",
-  "version": "1.2.18",
+  "version": "1.2.19",
   "license": "MIT",
   "keywords": [
     "Chainlink",
@@ -33,10 +33,10 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.35",
+    "@types/node": "16.11.36",
     "@types/supertest": "2.0.12",
     "nock": "13.2.4",
-    "supertest": "6.2.2",
+    "supertest": "6.2.3",
     "typescript": "4.3.5"
   }
 }
