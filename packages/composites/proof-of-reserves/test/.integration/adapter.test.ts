@@ -1,6 +1,9 @@
+import * as process from 'process'
+console.log('ENV VARS ARE BEING SET')
+process.env.ETH_BALANCE_ADAPTER_URL = 'https://eth-balance-adapter.com'
+process.env.POR_INDEXER_ADAPTER_URL = 'https://por-indexer-adapter.com'
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
 import { server as startServer } from '../../src'
 import { mockPoRindexerSuccess, mockEthBalanceSuccess } from './fixtures'
 import * as nock from 'nock'
@@ -10,8 +13,6 @@ beforeAll(() => {
   if (process.env.RECORD) {
     nock.recorder.rec()
   }
-  process.env.ETH_BALANCE_ADAPTER_URL = 'https://eth-balance-adapter.com'
-  process.env.POR_INDEXER_ADAPTER_URL = 'https://por-indexer-adapter.com'
 })
 
 afterAll(() => {
