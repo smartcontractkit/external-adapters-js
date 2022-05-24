@@ -183,6 +183,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/k6"
       },
       {
+        "name": "@chainlink/observation",
+        "reference": "workspace:packages/observation"
+      },
+      {
         "name": "@chainlink/ea-scripts",
         "reference": "workspace:packages/scripts"
       },
@@ -861,6 +865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
+      ["@chainlink/observation", ["workspace:packages/observation"]],
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],
@@ -6716,6 +6721,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],
             ["nock", "npm:13.2.4"],
             ["supertest", "npm:6.2.3"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/observation", [
+        ["workspace:packages/observation", {
+          "packageLocation": "./packages/observation/",
+          "packageDependencies": [
+            ["@chainlink/observation", "workspace:packages/observation"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["axios", "npm:0.24.0"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
