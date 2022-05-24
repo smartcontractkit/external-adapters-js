@@ -67,7 +67,7 @@ const listAdapter = (jobRunID: string, data: AddressList) => {
         typeof address === 'string' && typeof chainId === 'string' && typeof network === 'string',
     )
   ) {
-    return Requester.success(jobRunID, { data })
+    return Requester.success(jobRunID, { data: { result: data.addresses } })
   }
   throw Error('Invalid data received for list addresses parameter')
 }

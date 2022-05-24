@@ -4,7 +4,7 @@ import { makeOptions } from '../config'
 import { Indexer, runBalanceAdapter } from '../utils/balance'
 import { runProtocolAdapter } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
-
+import { getValidAddresses } from '../utils/addressValidator'
 export const supportedEndpoints = ['reserves']
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
@@ -36,6 +36,21 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       description:
         'An array of addresses to get the balance from, when `protocol` is set to `list`',
     },
+    disableAddressValidation: {
+      required: false,
+      type: 'boolean',
+      description:
+        'Gives the option to disable address validation before the balances are fetched.',
+      default: false,
+    },
+    disableDuplicateAddressFiltering: {
+      required: false,
+      type: 'boolean',
+      description:
+        'Gives the option to disabled the filtering of duplicate addresses in a request. ' +
+        'If this is set to `true` and a duplicate address is contained in the request, the balance of that address will be counted twice.',
+      default: false,
+    },
   }
 
   const validator = new Validator(input, inputParameters, paramOptions)
@@ -46,12 +61,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const confirmations = validator.validated.data.confirmations
 
   const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
+  const validatedAddresses = getValidAddresses(protocolOutput, validator)
   const balanceOutput = await runBalanceAdapter(
     indexer,
     context,
     confirmations,
     config,
-    protocolOutput,
+    validatedAddresses,
   )
   const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput)
   return reduceOutput
