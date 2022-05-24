@@ -65,6 +65,7 @@ export const inputParameters: InputParameters = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
+    required: true,
   },
   quote: {
     aliases: ['to', 'market'],
