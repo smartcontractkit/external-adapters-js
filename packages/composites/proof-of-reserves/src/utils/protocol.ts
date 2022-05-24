@@ -25,7 +25,8 @@ export type Protocol = typeof adapters[number]['NAME']
 
 type AddressData =
   | { token: string; chainId: string; network: string }
-  | { addresses: AddressList; chainId?: string; network?: string }
+  | { addresses: string[]; chainId: string; network: string }
+  | { addresses: { address: string; chainId: string; network: string }[] }
 
 type AddressList = string[] | AddressObject[]
 
