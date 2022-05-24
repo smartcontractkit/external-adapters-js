@@ -7,7 +7,9 @@ describe('Validates Ethereum addresses and filters duplicates', () => {
   ]
 
   it('Validates addresses with mixed casing and a valid checksum', () => {
-    expect(validateAddresses('eth_balance', validChecksumAddresses)).toEqual(validChecksumAddresses)
+    expect(validateAddresses('1', 'eth_balance', validChecksumAddresses)).toEqual(
+      validChecksumAddresses,
+    )
   })
 
   it('Validates addresses containing only lower case letters', () => {
@@ -15,7 +17,9 @@ describe('Validates Ethereum addresses and filters duplicates', () => {
       { address: '0x8288c280F35Fb8809305906C79BD075962079Dd8'.toLowerCase() },
       { address: '0x81910675DbaF69deE0fD77570BFD07f8E436386A'.toLowerCase() },
     ]
-    expect(validateAddresses('eth_balance', lowercaseAddresses)).toEqual(validChecksumAddresses)
+    expect(validateAddresses('1', 'eth_balance', lowercaseAddresses)).toEqual(
+      validChecksumAddresses,
+    )
   })
 
   it('Validates an address containing only upper case letters', () => {
@@ -23,7 +27,9 @@ describe('Validates Ethereum addresses and filters duplicates', () => {
       { address: '0x' + '8288c280F35Fb8809305906C79BD075962079Dd8'.toUpperCase() },
       { address: '0x' + '81910675DbaF69deE0fD77570BFD07f8E436386A'.toUpperCase() },
     ]
-    expect(validateAddresses('eth_balance', uppercaseAddresses)).toEqual(validChecksumAddresses)
+    expect(validateAddresses('1', 'eth_balance', uppercaseAddresses)).toEqual(
+      validChecksumAddresses,
+    )
   })
 
   it('Removes addresses with mixed casing and an invalid checksum', () => {
@@ -31,7 +37,7 @@ describe('Validates Ethereum addresses and filters duplicates', () => {
       { address: '0x8288C280F35Fb8809305906C79BD075962079Dd8' },
       { address: '0x81910675DbaF69dee0fD77570BFD07f8E436386A' },
     ]
-    expect(validateAddresses('eth_balance', invalidChecksumAddresses)).toEqual([])
+    expect(validateAddresses('1', 'eth_balance', invalidChecksumAddresses)).toEqual([])
   })
 
   it('Removes duplicate addresses', () => {
@@ -39,9 +45,9 @@ describe('Validates Ethereum addresses and filters duplicates', () => {
       { address: '0x8288c280F35Fb8809305906C79BD075962079Dd8' },
       { address: '0x8288c280F35Fb8809305906C79BD075962079Dd8'.toLowerCase() },
     ]
-    expect(filterDuplicates(validateAddresses('eth_balance', invalidChecksumAddresses))).toEqual([
-      { address: '0x8288c280F35Fb8809305906C79BD075962079Dd8' },
-    ])
+    expect(
+      filterDuplicates('1', validateAddresses('1', 'eth_balance', invalidChecksumAddresses)),
+    ).toEqual([{ address: '0x8288c280F35Fb8809305906C79BD075962079Dd8' }])
   })
 })
 
@@ -51,7 +57,7 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
       { address: '1AnwDVbwsLBVwRfqN2x9Eo4YEJSPXo2cwG', network: 'bitcoin', chainId: 'mainnet' },
       { address: '385cR5DM96n1HvBDMzLHPYcw89fZAXULJP', network: 'bitcoin', chainId: 'mainnet' },
     ]
-    expect(validateAddresses('bitcoin_json_rpc', validBase58Addresses)).toEqual(
+    expect(validateAddresses('1', 'bitcoin_json_rpc', validBase58Addresses)).toEqual(
       validBase58Addresses,
     )
   })
@@ -61,7 +67,7 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
       { address: '1AnwDVbwsLBVwRfqN2x9Eo4YEJSPXo2cw0', network: 'bitcoin', chainId: 'mainnet' },
       { address: '385cR5DM96n1HvBDMzLHPYcw89fZAXULJ0', network: 'bitcoin', chainId: 'mainnet' },
     ]
-    expect(validateAddresses('bitcoin_json_rpc', invalidBase58Addresses)).toEqual([])
+    expect(validateAddresses('1', 'bitcoin_json_rpc', invalidBase58Addresses)).toEqual([])
   })
 
   const validBech32Address = [
@@ -72,7 +78,9 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
     },
   ]
   it('Validates valid bech32 Bitcoin addresses', () => {
-    expect(validateAddresses('bitcoin_json_rpc', validBech32Address)).toEqual(validBech32Address)
+    expect(validateAddresses('1', 'bitcoin_json_rpc', validBech32Address)).toEqual(
+      validBech32Address,
+    )
   })
 
   it('Validates valid bech32 Bitcoin address with upper case characters', () => {
@@ -83,7 +91,7 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('bitcoin_json_rpc', validBech32AddressWithUppercase)).toEqual(
+    expect(validateAddresses('1', 'bitcoin_json_rpc', validBech32AddressWithUppercase)).toEqual(
       validBech32Address,
     )
   })
@@ -96,7 +104,7 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('eth_balance', invalidBech32Address)).toEqual([])
+    expect(validateAddresses('1', 'eth_balance', invalidBech32Address)).toEqual([])
   })
 
   it('Removes duplicate addresses', () => {
@@ -112,15 +120,15 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(filterDuplicates(validateAddresses('bitcoin_json_rpc', duplicateBech32Address))).toEqual(
-      [
-        {
-          address: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
-          network: 'bitcoin',
-          chainId: 'mainnet',
-        },
-      ],
-    )
+    expect(
+      filterDuplicates('1', validateAddresses('1', 'bitcoin_json_rpc', duplicateBech32Address)),
+    ).toEqual([
+      {
+        address: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
+        network: 'bitcoin',
+        chainId: 'mainnet',
+      },
+    ])
   })
 })
 
@@ -134,7 +142,7 @@ describe('Validates Cardano addresses', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('cardano', validBase58Address)).toEqual(validBase58Address)
+    expect(validateAddresses('1', 'cardano', validBase58Address)).toEqual(validBase58Address)
   })
 
   it('Does not validate invalid base58 address', () => {
@@ -146,7 +154,7 @@ describe('Validates Cardano addresses', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('cardano', invalidBase58Address)).toEqual([])
+    expect(validateAddresses('1', 'cardano', invalidBase58Address)).toEqual([])
   })
 
   const validBech32Address = [
@@ -157,7 +165,7 @@ describe('Validates Cardano addresses', () => {
     },
   ]
   it('Validates valid bech32 addresses', () => {
-    expect(validateAddresses('cardano', validBech32Address)).toEqual(validBech32Address)
+    expect(validateAddresses('1', 'cardano', validBech32Address)).toEqual(validBech32Address)
   })
 
   it('Validates valid bech32 address with upper case characters', () => {
@@ -168,7 +176,7 @@ describe('Validates Cardano addresses', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('cardano', validBech32AddressWithUppercase)).toEqual(
+    expect(validateAddresses('1', 'cardano', validBech32AddressWithUppercase)).toEqual(
       validBech32Address,
     )
   })
@@ -186,7 +194,7 @@ describe('Validates Cardano addresses', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('cardano', invalidBech32Address)).toEqual([])
+    expect(validateAddresses('1', 'cardano', invalidBech32Address)).toEqual([])
   })
 })
 
@@ -195,7 +203,7 @@ describe('Validates Dogecoin addresses', () => {
     const validAddress = [
       { address: 'DBXu2kgc3xtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
     ]
-    expect(validateAddresses('dogecoin', validAddress)).toEqual(validAddress)
+    expect(validateAddresses('1', 'dogecoin', validAddress)).toEqual(validAddress)
   })
 
   it('Does not validate invalid address', () => {
@@ -203,7 +211,7 @@ describe('Validates Dogecoin addresses', () => {
       { address: 'DBXu2kgc3OtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
       { address: 'BBXu2kgc3xtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
     ]
-    expect(validateAddresses('dogecoin', invalidAddresses)).toEqual([])
+    expect(validateAddresses('1', 'dogecoin', invalidAddresses)).toEqual([])
   })
 })
 
@@ -228,7 +236,7 @@ describe('Validates Filecoin addresses', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('filecoin', validAddresses)).toEqual(validAddresses)
+    expect(validateAddresses('1', 'filecoin', validAddresses)).toEqual(validAddresses)
   })
 
   it('Does not validate invalid address', () => {
@@ -245,6 +253,6 @@ describe('Validates Filecoin addresses', () => {
         chainId: 'mainnet',
       },
     ]
-    expect(validateAddresses('filecoin', invalidAddresses)).toEqual([])
+    expect(validateAddresses('1', 'filecoin', invalidAddresses)).toEqual([])
   })
 })

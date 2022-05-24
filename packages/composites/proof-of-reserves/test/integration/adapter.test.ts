@@ -24,6 +24,18 @@ afterAll(() => {
   nock.enableNetConnect()
 })
 
+let oldEnv: NodeJS.ProcessEnv
+
+beforeEach(() => {
+  oldEnv = JSON.parse(JSON.stringify(process.env))
+})
+
+afterEach(() => {
+  for (const envVar in oldEnv) {
+    process.env[envVar] = oldEnv[envVar]
+  }
+})
+
 describe('execute', () => {
   const id = '1'
   let fastify: FastifyInstance

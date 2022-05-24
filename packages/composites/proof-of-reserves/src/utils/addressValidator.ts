@@ -1,5 +1,5 @@
 import { utils } from 'ethers'
-import { Logger } from '@chainlink/ea-bootstrap'
+import { Logger, util } from '@chainlink/ea-bootstrap'
 import type { AdapterResponse } from '@chainlink/types'
 import type { Validator } from '@chainlink/ea-bootstrap'
 
@@ -21,20 +21,25 @@ export const getValidAddresses = (
   validator: Validator,
 ): AdapterResponse => {
   const validatedInput = { ...protocolOutput }
-  if (!parseBoolean(validator.validated.data.disableAddressValidation)) {
+  if (!util.parseBool(validator.validated.data.disableAddressValidation)) {
     validatedInput.result = validateAddresses(
+      validator.validated.id,
       validator.validated.data.indexer,
       validatedInput.result,
     )
   }
-  if (!parseBoolean(validator.validated.data.disableDuplicateAddressFiltering)) {
-    validatedInput.result = filterDuplicates(validatedInput.result)
+  if (!util.parseBool(validator.validated.data.disableDuplicateAddressFiltering)) {
+    validatedInput.result = filterDuplicates(validator.validated.id, validatedInput.result)
   }
   validatedInput.data.result = validatedInput.result
   return validatedInput
 }
 
-export const validateAddresses = (indexer: string, addresses: AddressObject[]): AddressObject[] => {
+export const validateAddresses = (
+  id: string,
+  indexer: string,
+  addresses: AddressObject[],
+): AddressObject[] => {
   const validatedAddresses: AddressObject[] = []
   for (const addressObj of addresses) {
     const { address, network } = addressObj
@@ -42,23 +47,23 @@ export const validateAddresses = (indexer: string, addresses: AddressObject[]): 
     const validationNetwork = network || indexerToNetwork[indexer]
     switch (validationNetwork.toLowerCase()) {
       case 'ethereum':
-        validatedAddress = getValidEvmAddress(address)
+        validatedAddress = getValidEvmAddress(id, address)
         break
       case 'bitcoin':
-        validatedAddress = getValidBtcAddress(address)
+        validatedAddress = getValidBtcAddress(id, address)
         break
       case 'dogecoin':
-        validatedAddress = getValidDogeAddress(address)
+        validatedAddress = getValidDogeAddress(id, address)
         break
       case 'cardano':
-        validatedAddress = getValidCardanoAddress(address)
+        validatedAddress = getValidCardanoAddress(id, address)
         break
       case 'filecoin':
-        validatedAddress = getValidFilecoinAddress(address)
+        validatedAddress = getValidFilecoinAddress(id, address)
         break
       default:
         Logger.debug(
-          `There is no address validation procedure defined for the "${network}" network.`,
+          `JobId ${id}: There is no address validation procedure defined for the "${network}" network.`,
         )
         validatedAddresses.push(addressObj)
         break
@@ -72,19 +77,19 @@ export const validateAddresses = (indexer: string, addresses: AddressObject[]): 
  * Returns either a valid Ethereum-style address with a valid checksum
  * or logs a warning and returns undefined
  */
-const getValidEvmAddress = (address: string): string | undefined => {
+const getValidEvmAddress = (id: string, address: string): string | undefined => {
   try {
     return utils.getAddress(address)
   } catch (error) {
     Logger.warn(
       error,
-      `The address "${address}" is invalid or has an invalid checksum and has been removed from the request.`,
+      `JobId ${id}: The address "${address}" is invalid or has an invalid checksum and has been removed from the request.`,
     )
   }
   return
 }
 
-const getValidBtcAddress = (address: string): string | undefined => {
+const getValidBtcAddress = (id: string, address: string): string | undefined => {
   const addressPrefix = address[0]
   switch (addressPrefix) {
     // Legacy (P2PKH) and Nested SegWit (P2SH) Bitcoin addresses start with 1 and are case-sensitive
@@ -93,7 +98,7 @@ const getValidBtcAddress = (address: string): string | undefined => {
       if (address.length === 34 && isBase58(address)) return address
       Logger.warn(
         { warning: 'Invalid address detected' },
-        `The address "${address}" is not a valid Bitcoin address and has been removed.`,
+        `JobId ${id}: The address "${address}" is not a valid Bitcoin address and has been removed.`,
       )
       return
     case 'b':
@@ -103,51 +108,73 @@ const getValidBtcAddress = (address: string): string | undefined => {
         return address
       Logger.warn(
         { warning: 'Invalid address detected' },
-        `The address "${address}" is not a valid Bitcoin address and has been removed.`,
+        `JobId ${id}: The address "${address}" is not a valid Bitcoin address and has been removed.`,
       )
       return
     default:
       Logger.warn(
         { warning: 'Invalid address detected' },
-        `The address "${address}" is not a valid Bitcoin address and has been removed.`,
+        `JobId ${id}: The address "${address}" is not a valid Bitcoin address and has been removed.`,
       )
       return
   }
 }
 
-const getValidDogeAddress = (address: string): string | undefined => {
-  if (address[0] !== 'D') return
+const getValidDogeAddress = (id: string, address: string): string | undefined => {
+  if (address[0] !== 'D') {
+    Logger.warn(
+      { warning: 'Invalid address detected' },
+      `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+    )
+    return
+  }
   if (isBase58(address.slice(1))) return address
   Logger.warn(
     { warning: 'Invalid address detected' },
-    `The address "${address}" is not a valid Dogecoin address and has been removed.`,
+    `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
   )
   return
 }
 
-const getValidCardanoAddress = (address: string): string | undefined => {
+const getValidCardanoAddress = (id: string, address: string): string | undefined => {
   if (address.slice(0, 4).toLowerCase() === 'addr' && isBech32(address.slice(5).toLowerCase()))
     return address.toLowerCase()
   if (isBase58(address)) return address
+  Logger.warn(
+    { warning: 'Invalid address detected' },
+    `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+  )
   return
 }
 
-const getValidFilecoinAddress = (address: string): string | undefined => {
+const getValidFilecoinAddress = (id: string, address: string): string | undefined => {
   address = address.toLowerCase()
-  if (address[0] !== 'f' && address[0] !== 't') return
-  if (address[1] !== '1' && address[1] !== '3') return
+  if (address[0] !== 'f' && address[0] !== 't') {
+    Logger.warn(
+      { warning: 'Invalid address detected' },
+      `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+    )
+    return
+  }
+  if (address[1] !== '1' && address[1] !== '3') {
+    Logger.warn(
+      { warning: 'Invalid address detected' },
+      `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+    )
+    return
+  }
   if (isBase32(address.slice(2))) return address
   return
 }
 
-export const filterDuplicates = (addresses: AddressObject[]): AddressObject[] => {
+export const filterDuplicates = (id: string, addresses: AddressObject[]): AddressObject[] => {
   const uniqueMap: Record<string, boolean> = {}
   const uniqueAddresses: AddressObject[] = []
   for (const addressObject of addresses) {
     if (uniqueMap[addressObject.address]) {
       Logger.warn(
         { warning: 'Duplicate address detected' },
-        `The address "${addressObject.address}" is duplicated in the request and the duplicate has been removed.`,
+        `JobId ${id}: The address "${addressObject.address}" is duplicated in the request and the duplicate has been removed.`,
       )
     } else {
       uniqueMap[addressObject.address] = true
@@ -157,11 +184,6 @@ export const filterDuplicates = (addresses: AddressObject[]): AddressObject[] =>
   return uniqueAddresses
 }
 
-const parseBoolean = (value: unknown) => {
-  if ((typeof value === 'boolean' && value) || (typeof value === 'string' && value === 'true'))
-    return true
-  return false
-}
 const isBase58 = (value: string): boolean => /^[A-HJ-NP-Za-km-z1-9]*$/.test(value)
 
 const isBase32 = (value: string): boolean => /^[a-z2-7]*$/.test(value)
