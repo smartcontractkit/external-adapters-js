@@ -241,9 +241,9 @@ describe('websocket', () => {
       // This first request will start both batch warmer & websocket
       await makeRequest()
 
+      await util.sleep(100)
       // This final request should disable the cache warmer
       const response = await makeRequest()
-      await util.sleep(100)
       expect(response.body).toEqual({
         jobRunID: '1',
         result: 43682.66306523,

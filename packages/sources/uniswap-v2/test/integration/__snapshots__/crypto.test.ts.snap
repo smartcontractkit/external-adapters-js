@@ -19,25 +19,6 @@ Object {
 }
 `;
 
-exports[`execute with custom params should return success 2`] = `
-Object {
-  "data": Object {
-    "input": "10000000000000000000",
-    "inputDecimals": 18,
-    "inputToken": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-    "output": "1476731200788443643994",
-    "outputDecimals": 18,
-    "outputToken": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-    "rate": 147.67312007884436,
-    "result": 147.67312007884436,
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 147.67312007884436,
-  "statusCode": 200,
-}
-`;
-
 exports[`execute with from/to should return success 1`] = `
 Object {
   "data": Object {
