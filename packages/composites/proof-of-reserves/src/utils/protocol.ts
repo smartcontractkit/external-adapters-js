@@ -53,7 +53,7 @@ const listAdapter = (jobRunID: string, data: AddressList) => {
   if (!('addresses' in data)) {
     throw Error(`Missing "addresses" in request data`)
   }
-  if (typeof data.addresses[0] === 'string') {
+  if ((data.addresses as string[]).every((address: string) => typeof address === 'string')) {
     const result = (data.addresses as string[]).map((address: string) => ({
       address,
       network: (data as { addresses: string[]; chainId: string; network: string }).network,
@@ -61,7 +61,12 @@ const listAdapter = (jobRunID: string, data: AddressList) => {
     }))
     return Requester.success(jobRunID, { data: { result } })
   }
-  if (typeof data.addresses[0] === 'object') {
+  if (
+    (data.addresses as AddressObject[]).every(
+      ({ address, chainId, network }: AddressObject) =>
+        typeof address === 'string' && typeof chainId === 'string' && typeof network === 'string',
+    )
+  ) {
     return Requester.success(jobRunID, { data })
   }
   throw Error('Invalid data received for list addresses parameter')
