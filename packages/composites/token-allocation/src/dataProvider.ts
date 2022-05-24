@@ -1,4 +1,4 @@
-import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError, Requester } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, RequestConfig } from '@chainlink/types'
 import { ResponsePayload, GetPrices } from './types'
 import { Logger } from '@chainlink/ea-bootstrap'
@@ -69,7 +69,7 @@ const sendBatchedRequests =
           : (priceResponse[0] as AdapterResponse).data.base === symbol
       })
       if (!tokenPrice)
-        throw new AdapterError({
+        throw new AdapterResponseInvalidError({
           jobRunID,
           statusCode: 500,
           message: `Cannot find token price result for symbol ${symbol}`,

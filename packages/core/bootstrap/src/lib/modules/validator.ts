@@ -128,7 +128,7 @@ export class Validator {
     const message = 'Error validating input.'
     if (error instanceof AdapterError) this.error = error
     else
-      this.error = new AdapterError({
+      this.error = new AdapterInputError({
         jobRunID: this.validated.id,
         statusCode: 400,
         message,

@@ -1,4 +1,4 @@
-import { AdapterError, util, Validator } from '@chainlink/ea-bootstrap'
+import { util, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import {
   Account,
   Config,
@@ -45,7 +45,7 @@ const requireArray = (jobRunID: string, dataPath: string, data: any) => {
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Input, at '${dataPath}' path, must be a non-empty array.`,
       statusCode: 400,
@@ -57,7 +57,7 @@ const requireArray = (jobRunID: string, dataPath: string, data: any) => {
 const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfig): Account => {
   // Is it possible to process?
   if (!account.address)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: ERROR_MISSING_ADDRESS,
       statusCode: 400,

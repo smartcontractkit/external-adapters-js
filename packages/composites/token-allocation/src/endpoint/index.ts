@@ -2,7 +2,7 @@ import { AdapterResponse, Execute, AdapterRequest, InputParameters } from '@chai
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from '../config'
 import { TokenAllocations, Config, ResponsePayload, GetPrices } from '../types'
 import { Decimal } from 'decimal.js'
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { getPriceProvider } from '../dataProvider'
 
@@ -51,7 +51,10 @@ export const marketCapTotalValue = (
 const toValidAllocations = (allocations: any[]): TokenAllocations => {
   const _toValidSymbol = (symbol: string) => {
     if (!symbol)
-      throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
+      throw new AdapterInputError({
+        message: `Symbol not available for all tokens.`,
+        statusCode: 400,
+      })
     return symbol.toUpperCase()
   }
   const _toValidDecimals = (decimals: number | undefined) => {
@@ -64,10 +67,10 @@ const toValidAllocations = (allocations: any[]): TokenAllocations => {
     try {
       BNbalance = BigNumber.from(balance.toString())
     } catch (e) {
-      throw new AdapterError({ message: `Invalid balance: ${e.message}`, statusCode: 400 })
+      throw new AdapterInputError({ message: `Invalid balance: ${e.message}`, statusCode: 400 })
     }
     if (BNbalance.isNegative())
-      throw new AdapterError({ message: `Balance cannot be negative`, statusCode: 400 })
+      throw new AdapterInputError({ message: `Balance cannot be negative`, statusCode: 400 })
     return balance
   }
   return allocations.map((t: any) => {
@@ -168,7 +171,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
       return _success(marketCap.payload, marketCap.result)
     }
     default:
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `Method ${method} not supported.`,
         statusCode: 400,

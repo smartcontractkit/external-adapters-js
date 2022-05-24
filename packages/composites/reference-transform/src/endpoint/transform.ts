@@ -1,4 +1,10 @@
-import { Requester, Validator, AdapterError, Logger } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  Logger,
+  AdapterInputError,
+  AdapterResponseInvalidError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Config, DEFAULT_NETWORK } from '../config'
 import { getRpcLatestAnswer } from '@chainlink/ea-reference-data-reader'
@@ -41,14 +47,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const network = validator.validated.data.network || DEFAULT_NETWORK
 
   if (operator !== 'multiply' && operator !== 'divide')
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Invalid operator parameter supplied.`,
       statusCode: 400,
     })
 
   if (dividend !== 'on-chain' && dividend !== 'off-chain')
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Invalid divident parameter supplied.`,
       statusCode: 400,
@@ -61,7 +67,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   Logger.debug('Value: ' + price)
 
   if (price <= 0)
-    throw new AdapterError({
+    throw new AdapterResponseInvalidError({
       jobRunID,
       message: `On-chain value equal or less than 0.`,
       statusCode: 500,
