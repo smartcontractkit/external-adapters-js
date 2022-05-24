@@ -123,3 +123,20 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
     )
   })
 })
+
+describe('Validates Dogecoin addresses', () => {
+  it('Validates valid address', () => {
+    const validAddress = [
+      { address: 'DBXu2kgc3xtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
+    ]
+    expect(validateAddresses('bitcoin_json_rpc', validAddress)).toEqual(validAddress)
+  })
+
+  it('Does not validate invalid address', () => {
+    const invalidBase58Addresses = [
+      { address: 'DBXu2kgc3OtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
+      { address: 'BBXu2kgc3xtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
+    ]
+    expect(validateAddresses('bitcoin_json_rpc', invalidBase58Addresses)).toEqual([])
+  })
+})

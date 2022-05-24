@@ -10,6 +10,7 @@ type AddressObject = {
 }
 
 const indexerToNetwork: Record<string, string> = {
+  ada_balance: 'cardano',
   eth_balance: 'ethereum',
   bitcoin_json_rpc: 'bitcoin',
 }
@@ -45,6 +46,10 @@ export const validateAddresses = (indexer: string, addresses: AddressObject[]): 
         break
       case 'bitcoin':
         validatedAddress = getValidBtcAddress(address)
+        if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
+        break
+      case 'dogecoin':
+        validatedAddress = getValidDogeAddress(address)
         if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
         break
       default:
@@ -103,6 +108,16 @@ const getValidBtcAddress = (address: string): string | undefined => {
       )
       return
   }
+}
+
+const getValidDogeAddress = (address: string): string | undefined => {
+  if (address[0] !== 'D') return
+  if (isBase58(address.slice(1))) return address
+  Logger.warn(
+    { warning: 'Invalid address detected' },
+    `The address "${address}" is not a valid Dogecoin address and has been removed.`,
+  )
+  return
 }
 
 export const filterDuplicates = (addresses: AddressObject[]): AddressObject[] => {
