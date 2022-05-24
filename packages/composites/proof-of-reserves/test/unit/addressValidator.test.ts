@@ -124,6 +124,72 @@ describe('Validates Bitcoin addresses and filters duplicates', () => {
   })
 })
 
+describe('Validates Cardano addresses', () => {
+  it('Validates valid base58 addresses', () => {
+    const validBase58Address = [
+      {
+        address:
+          '37btjrVyb4KDXBNC4haBVPCrro8AQPHwvCMp3RFhhSVWwfFmZ6wwzSK6JK1hY6wHNmtrpTf1kdbva8TCneM2YsiXT7mrzT21EacHnPpz5YyUdj64na',
+        network: 'cardano',
+        chainId: 'mainnet',
+      },
+    ]
+    expect(validateAddresses('cardano', validBase58Address)).toEqual(validBase58Address)
+  })
+
+  it('Does not validate invalid base58 address', () => {
+    const invalidBase58Address = [
+      {
+        address:
+          '37OtjrVyb4KDXBNC4haBVPCrro8AQPHwvCMp3RFhhSVWwfFmZ6wwzSK6JK1hY6wHNmtrpTf1kdbva8TCneM2YsiXT7mrzT21EacHnPpz5YyUdj64na',
+        network: 'cardano',
+        chainId: 'mainnet',
+      },
+    ]
+    expect(validateAddresses('cardano', invalidBase58Address)).toEqual([])
+  })
+
+  const validBech32Address = [
+    {
+      address: 'addr1vpu5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg0yu80w',
+      network: 'cardano',
+      chainId: 'mainnet',
+    },
+  ]
+  it('Validates valid bech32 addresses', () => {
+    expect(validateAddresses('cardano', validBech32Address)).toEqual(validBech32Address)
+  })
+
+  it('Validates valid bech32 address with upper case characters', () => {
+    const validBech32AddressWithUppercase = [
+      {
+        address: 'ADDR1VPU5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg0yu80w',
+        network: 'cardano',
+        chainId: 'mainnet',
+      },
+    ]
+    expect(validateAddresses('cardano', validBech32AddressWithUppercase)).toEqual(
+      validBech32Address,
+    )
+  })
+
+  it('Does not validate invalid bech32 addresses', () => {
+    const invalidBech32Address = [
+      {
+        address: 'stake1vpu5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg0yu80w',
+        network: 'cardano',
+        chainId: 'mainnet',
+      },
+      {
+        address: 'addr1vpu5Olrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg0yu80w',
+        network: 'cardano',
+        chainId: 'mainnet',
+      },
+    ]
+    expect(validateAddresses('cardano', invalidBech32Address)).toEqual([])
+  })
+})
+
 describe('Validates Dogecoin addresses', () => {
   it('Validates valid address', () => {
     const validAddress = [

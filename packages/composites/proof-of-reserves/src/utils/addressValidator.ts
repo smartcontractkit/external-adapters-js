@@ -52,6 +52,10 @@ export const validateAddresses = (indexer: string, addresses: AddressObject[]): 
         validatedAddress = getValidDogeAddress(address)
         if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
         break
+      case 'cardano':
+        validatedAddress = getValidCardanoAddress(address)
+        if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
+        break
       default:
         Logger.debug(
           `There is no address validation procedure defined for the "${network}" network.`,
@@ -117,6 +121,13 @@ const getValidDogeAddress = (address: string): string | undefined => {
     { warning: 'Invalid address detected' },
     `The address "${address}" is not a valid Dogecoin address and has been removed.`,
   )
+  return
+}
+
+const getValidCardanoAddress = (address: string): string | undefined => {
+  if (address.slice(0, 4).toLowerCase() === 'addr' && isBech32(address.slice(5).toLowerCase()))
+    return address.toLowerCase()
+  if (isBase58(address)) return address
   return
 }
 
