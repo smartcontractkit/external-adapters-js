@@ -1,5 +1,4 @@
 import * as process from 'process'
-console.log('SETTING ENVIRONMENT VARIABLES')
 process.env.ETH_BALANCE_ADAPTER_URL = 'https://eth-balance-adapter.com'
 process.env.POR_INDEXER_ADAPTER_URL = 'https://por-indexer-adapter.com'
 import { AdapterRequest } from '@chainlink/types'
