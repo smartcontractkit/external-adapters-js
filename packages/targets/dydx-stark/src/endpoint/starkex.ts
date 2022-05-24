@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { ethers, BigNumber } from 'ethers'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
-import { Logger, AdapterError } from '@chainlink/ea-bootstrap'
+import { Logger, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 
@@ -30,7 +30,7 @@ const WARN_PRECISION_LOSS_NUMBER =
   'Please use string type to avoid precision loss with very small/big numbers.'
 const WARN_PRECISION_LOSS_STRING = `Precision loss detected: over ${MAX_DECIMALS} decimals.`
 
-const error400 = (message: string) => new AdapterError({ message, statusCode: 400 })
+const error400 = (message: string) => new AdapterInputError({ message, statusCode: 400 })
 
 /**
  * Normalize price as string or throw on:
