@@ -45,9 +45,14 @@ describe('execute', () => {
       data: {
         protocol: 'list',
         indexer: 'por_indexer',
-        addresses: ['39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE', '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR'],
-        chainId: 'mainnet',
-        network: 'bitcoin',
+        addresses: [
+          { address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE', chainId: 'mainnet', network: 'bitcoin' },
+          {
+            address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
+            chainId: 'mainnet',
+            network: 'bitcoin',
+          },
+        ],
       },
     }
 
