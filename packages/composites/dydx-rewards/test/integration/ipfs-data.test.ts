@@ -50,12 +50,14 @@ describe('ipfs data', () => {
       tradeFeesPaid: {
         [address]: 123,
       },
-      openInterest: {
+      averageOpenInterest: {
         [address]: 123,
       },
       quoteScore: {
         [address]: 123,
       },
+      averageActiveStakedDYDX: {},
+      linkedPrimaryAddresses: {},
     }
 
     const writeParams = {

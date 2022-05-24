@@ -215,7 +215,10 @@ export const calcMarketMakerRewards = (
   marketMakerRewardsAmount: bn.BigNumber,
 ): void => initial.calcMarketMakerRewards(epochData, addressRewards, marketMakerRewardsAmount)
 
-const calcCumulativeRewards = (addressRewards: AddressRewards, previousRewards: AddressRewards) => {
+export const calcCumulativeRewards = (
+  addressRewards: AddressRewards,
+  previousRewards: AddressRewards,
+): void => {
   Object.keys(previousRewards).forEach((addr) => {
     addReward(addressRewards, addr, previousRewards[addr])
   })

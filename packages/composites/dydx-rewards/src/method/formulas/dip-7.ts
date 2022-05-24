@@ -24,10 +24,12 @@ export const calcTraderRewards = (
     const score = new bn.BigNumber(f ** a)
       .times(d ** b)
       .times(bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c)
-
+    console.log({ linkedAddress, f, d, g, score })
     traderScore[addr] = score
     traderScoreSum = traderScoreSum.plus(score)
   })
+
+  if (traderScoreSum.isZero()) return
 
   Object.keys(traderScore).forEach((addr) => {
     const addressToGiveRewardsTo = epochData.linkedPrimaryAddresses[addr] || addr
@@ -36,7 +38,15 @@ export const calcTraderRewards = (
       .div(traderScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
       .toFixed()
+    console.log({
+      1: traderRewardsAmount.toString(),
+      d: traderScore[addr].toString(),
+      3: traderScoreSum.toString(),
+      4: reward,
+      5: traderRewardsAmount.times(traderScore[addr]).div(traderScoreSum).toString(),
+    })
     if (reward !== '0') {
+      console.log({ addressRewards, addressToGiveRewardsTo, reward })
       addReward(addressRewards, addressToGiveRewardsTo, reward)
     }
   })

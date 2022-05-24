@@ -1,6 +1,7 @@
 import nock from 'nock'
 import expectedTestData1 from '../mock-data/expected-test-data-1.json'
 import expectedTestData2 from '../mock-data/expected-test-data-2.json'
+import expectedTestData3 from '../mock-data/expected-test-data-3.json'
 import mockRewards from '../mock-data/rewards.json'
 
 const fileUploadMatches = (expected) => (body) => {
@@ -8,7 +9,7 @@ const fileUploadMatches = (expected) => (body) => {
   return lines.length === 7 && lines[4] === expected
 }
 
-export const mockEthNode = (): nock =>
+export const mockEthNode = (): nock.Scope =>
   nock('http://127.0.0.1:8545', { encodedQueryParams: true })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
@@ -218,7 +219,7 @@ export const mockEthNode = (): nock =>
       ],
     )
 
-export const mockIpfsRetroactiveRewardsData = (): nock =>
+export const mockIpfsRetroactiveRewardsData = (): nock.Scope =>
   nock('http://127.0.0.1:5001', { encodedQueryParams: true })
     .post('/api/v0/name/resolve')
     .query({
@@ -280,23 +281,6 @@ export const mockIpfsRetroactiveRewardsData = (): nock =>
       200,
       {
         epoch: 0,
-        tradeFeesPaid: {
-          '0x111111110123456789ABCDEF0123456789ABCDEF': 10,
-          '0x222222220123456789ABCDEF0123456789ABCDEF': 10,
-          '0x333333330123456789ABCDEF0123456789ABCDEF': 0,
-        },
-        openInterest: {
-          '0x111111110123456789ABCDEF0123456789ABCDEF': 10,
-          '0x222222220123456789ABCDEF0123456789ABCDEF': 0,
-          '0x333333330123456789ABCDEF0123456789ABCDEF': 10,
-        },
-        quoteScore: {
-          '0x444444440123456789ABCDEF0123456789ABCDEF': 0.21733342751115192,
-          '0x555555550123456789ABCDEF0123456789ABCDEF': 0.05433335687778798,
-          '0x666666660123456789ABCDEF0123456789ABCDEF': 0.1283332156110601,
-          '0x777777770123456789ABCDEF0123456789ABCDEF': 0.36,
-          '0x888888880123456789ABCDEF0123456789ABCDEF': 0.24,
-        },
         retroactiveTradeVolume: {
           '0x111111110123456789ABCDEF0123456789ABCDEF': 1250,
           '0x222222220123456789ABCDEF0123456789ABCDEF': 13750,
@@ -312,6 +296,25 @@ export const mockIpfsRetroactiveRewardsData = (): nock =>
           '0xE4dDb4233513498b5aa79B98bEA473b01b101a67': 98.696,
         },
         isExpoUser: { '0x222222220123456789ABCDEF0123456789ABCDEF': true },
+        tradeFeesPaid: {
+          '0x111111110123456789ABCDEF0123456789ABCDEF': 10,
+          '0x222222220123456789ABCDEF0123456789ABCDEF': 10,
+          '0x333333330123456789ABCDEF0123456789ABCDEF': 0,
+        },
+        averageOpenInterest: {
+          '0x111111110123456789ABCDEF0123456789ABCDEF': 10,
+          '0x222222220123456789ABCDEF0123456789ABCDEF': 0,
+          '0x333333330123456789ABCDEF0123456789ABCDEF': 10,
+        },
+        averageActiveStakedDYDX: {},
+        quoteScore: {
+          '0x444444440123456789ABCDEF0123456789ABCDEF': 0.21733342751115192,
+          '0x555555550123456789ABCDEF0123456789ABCDEF': 0.05433335687778798,
+          '0x666666660123456789ABCDEF0123456789ABCDEF': 0.1283332156110601,
+          '0x777777770123456789ABCDEF0123456789ABCDEF': 0.36,
+          '0x888888880123456789ABCDEF0123456789ABCDEF': 0.24,
+        },
+        linkedPrimaryAddresses: {},
       },
       [
         'Access-Control-Allow-Headers',
@@ -337,6 +340,38 @@ export const mockIpfsRetroactiveRewardsData = (): nock =>
       ],
     )
     .post('/api/v0/add', fileUploadMatches(JSON.stringify(expectedTestData1)))
+    .query({ 'stream-channels': 'true', 'cid-version': '1', progress: 'false' })
+    .reply(
+      200,
+      {
+        Name: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Hash: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Size: '807',
+      },
+      [
+        'Access-Control-Allow-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Access-Control-Expose-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Connection',
+        'close',
+        'Content-Type',
+        'application/json',
+        'Server',
+        'go-ipfs/0.9.1',
+        'Trailer',
+        'X-Stream-Error',
+        'Vary',
+        'Origin',
+        'X-Chunked-Output',
+        '1',
+        'Date',
+        'Mon, 13 Sep 2021 15:25:10 GMT',
+        'Transfer-Encoding',
+        'chunked',
+      ],
+    )
+    .post('/api/v0/add', fileUploadMatches(JSON.stringify(expectedTestData3)))
     .query({ 'stream-channels': 'true', 'cid-version': '1', progress: 'false' })
     .reply(
       200,
