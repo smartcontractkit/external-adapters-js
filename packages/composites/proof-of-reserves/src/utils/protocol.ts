@@ -26,9 +26,11 @@ export type Protocol = typeof adapters[number]['NAME']
 type AddressData =
   | { token: string; chainId: string; network: string }
   | { addresses: string[]; chainId: string; network: string }
-  | { addresses: AddressObject[] }
+  | { addresses: { address: string; chainId: string; network: string }[] }
 
-type AddressObject = { address: string; network: string; chainId: string }
+type AddressList = string[] | AddressObject[]
+
+type AddressObject = { address: string; network?: string; chainId?: string }
 
 // Get address set for protocol
 export const runProtocolAdapter = async (
@@ -54,7 +56,7 @@ export const runProtocolAdapter = async (
 
 const listAdapter = (
   jobRunID: string,
-  data: AddressList,
+  data: { addresses: AddressList; chainId?: string; network?: string },
 ) => {
   if (!('addresses' in data)) {
     throw Error(`Missing "addresses" in request data`)
