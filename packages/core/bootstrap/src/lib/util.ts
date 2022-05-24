@@ -4,7 +4,7 @@ import { FastifyRequest } from 'fastify'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
-import { logger } from './modules'
+import { logger } from './modules/logger'
 
 /**
  * Used in the `getEnv` util function as a backup when an env var
