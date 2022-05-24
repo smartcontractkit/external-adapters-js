@@ -41,7 +41,7 @@
     "@chainlink/types": "workspace:*",
     "@types/convert-units": "2.3.5",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.35",
+    "@types/node": "16.11.36",
     "typescript": "4.3.5"
   }
 }
