@@ -195,14 +195,56 @@ describe('Validates Dogecoin addresses', () => {
     const validAddress = [
       { address: 'DBXu2kgc3xtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
     ]
-    expect(validateAddresses('bitcoin_json_rpc', validAddress)).toEqual(validAddress)
+    expect(validateAddresses('dogecoin', validAddress)).toEqual(validAddress)
   })
 
   it('Does not validate invalid address', () => {
-    const invalidBase58Addresses = [
+    const invalidAddresses = [
       { address: 'DBXu2kgc3OtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
       { address: 'BBXu2kgc3xtvCUWFcxFE3r9hEYgmuaaCyD', network: 'dogecoin', chainId: 'mainnet' },
     ]
-    expect(validateAddresses('bitcoin_json_rpc', invalidBase58Addresses)).toEqual([])
+    expect(validateAddresses('dogecoin', invalidAddresses)).toEqual([])
+  })
+})
+
+describe('Validates Filecoin addresses', () => {
+  it('Validates valid address', () => {
+    const validAddresses = [
+      {
+        address: 'f1abjxfbp274xpdqcpuaykwkfb43omjotacm2p3za',
+        network: 'filecoin',
+        chainId: 'mainnet',
+      },
+      {
+        address:
+          'f3ws62urh2ezj5rfo6xsecccgbucyh4j23ygyrbuuwmmgatgci4wexm6l7cq6pp5geob7hfcsekxhys5mvqsvq',
+        network: 'filecoin',
+        chainId: 'mainnet',
+      },
+      {
+        address:
+          'f3v2ua3tr344lbzpyl47blbb3hlmexk6hwuvsghbsaeoexm7qs5mpiovtv4s62om6lj67vk4n22cfdm2allvra',
+        network: 'filecoin',
+        chainId: 'mainnet',
+      },
+    ]
+    expect(validateAddresses('filecoin', validAddresses)).toEqual(validAddresses)
+  })
+
+  it('Does not validate invalid address', () => {
+    const invalidAddresses = [
+      {
+        address: '1abjxfbp274xpdqcpuaykwkfb43omjotacm2p3za',
+        network: 'filecoin',
+        chainId: 'mainnet',
+      },
+      {
+        address:
+          'f3ws62urh2ezj5rfo6xsecccgbucyh4j23ygyrbuuwmmgatgci4wexm6l7cq6pp5geob7hfcsekxhys5mvqsv1',
+        network: 'filecoin',
+        chainId: 'mainnet',
+      },
+    ]
+    expect(validateAddresses('filecoin', invalidAddresses)).toEqual([])
   })
 })

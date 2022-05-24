@@ -13,6 +13,7 @@ const indexerToNetwork: Record<string, string> = {
   ada_balance: 'cardano',
   eth_balance: 'ethereum',
   bitcoin_json_rpc: 'bitcoin',
+  lotus: 'filecoin',
 }
 
 export const getValidAddresses = (
@@ -37,24 +38,23 @@ export const validateAddresses = (indexer: string, addresses: AddressObject[]): 
   const validatedAddresses: AddressObject[] = []
   for (const addressObj of addresses) {
     const { address, network } = addressObj
-    let validatedAddress: string | undefined
+    let validatedAddress: string | undefined = undefined
     const validationNetwork = network || indexerToNetwork[indexer]
     switch (validationNetwork.toLowerCase()) {
       case 'ethereum':
         validatedAddress = getValidEvmAddress(address)
-        if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
         break
       case 'bitcoin':
         validatedAddress = getValidBtcAddress(address)
-        if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
         break
       case 'dogecoin':
         validatedAddress = getValidDogeAddress(address)
-        if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
         break
       case 'cardano':
         validatedAddress = getValidCardanoAddress(address)
-        if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
+        break
+      case 'filecoin':
+        validatedAddress = getValidFilecoinAddress(address)
         break
       default:
         Logger.debug(
@@ -63,6 +63,7 @@ export const validateAddresses = (indexer: string, addresses: AddressObject[]): 
         validatedAddresses.push(addressObj)
         break
     }
+    if (validatedAddress) validatedAddresses.push({ ...addressObj, address: validatedAddress })
   }
   return validatedAddresses
 }
@@ -131,6 +132,14 @@ const getValidCardanoAddress = (address: string): string | undefined => {
   return
 }
 
+const getValidFilecoinAddress = (address: string): string | undefined => {
+  address = address.toLowerCase()
+  if (address[0] !== 'f' && address[0] !== 't') return
+  if (address[1] !== '1' && address[1] !== '3') return
+  if (isBase32(address.slice(2))) return address
+  return
+}
+
 export const filterDuplicates = (addresses: AddressObject[]): AddressObject[] => {
   const uniqueMap: Record<string, boolean> = {}
   const uniqueAddresses: AddressObject[] = []
@@ -154,6 +163,8 @@ const parseBoolean = (value: unknown) => {
   return false
 }
 const isBase58 = (value: string): boolean => /^[A-HJ-NP-Za-km-z1-9]*$/.test(value)
+
+const isBase32 = (value: string): boolean => /^[a-z2-7]*$/.test(value)
 
 const isBech32 = (value: string): boolean => {
   for (const char of value) {
