@@ -26,11 +26,9 @@ export type Protocol = typeof adapters[number]['NAME']
 type AddressData =
   | { token: string; chainId: string; network: string }
   | { addresses: string[]; chainId: string; network: string }
-  | { addresses: { address: string; chainId: string; network: string }[] }
+  | { addresses: AddressObject[] }
 
-type AddressList = string[] | AddressObject[]
-
-type AddressObject = { address: string; network?: string; chainId?: string }
+type AddressObject = { address: string; network: string; chainId: string }
 
 // Get address set for protocol
 export const runProtocolAdapter = async (
