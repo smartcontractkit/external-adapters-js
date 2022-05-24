@@ -54,7 +54,7 @@ export const runProtocolAdapter = async (
 
 const listAdapter = (
   jobRunID: string,
-  data: { addresses: AddressList; chainId?: string; network?: string },
+  data: AddressList,
 ) => {
   if (!('addresses' in data)) {
     throw Error(`Missing "addresses" in request data`)
