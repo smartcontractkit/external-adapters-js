@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '.'
+import { Requester, Validator } from '.'
 import {
   AdapterRequest,
   Config,
@@ -11,7 +11,7 @@ import {
 } from '@chainlink/types'
 import { logger } from '../modules'
 import { cloneDeep } from 'lodash'
-import { AdapterInputError, AdapterOverriderError } from './error'
+import { AdapterConfigError, AdapterInputError, AdapterOverriderError } from './error'
 
 export const baseInputParameters: InputParameters = {
   endpoint: {
@@ -224,7 +224,7 @@ const buildSelector = <C extends Config>(
   if (typeof apiEndpoint.makeExecute === 'function') {
     return apiEndpoint.makeExecute(config)(request, context)
   }
-  throw new AdapterError({
+  throw new AdapterConfigError({
     message: `Internal error: no execute handler found.`,
     statusCode: 500,
   })

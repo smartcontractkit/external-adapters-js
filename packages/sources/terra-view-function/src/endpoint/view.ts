@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { LCDClient } from '@terra-money/terra.js'
 import { Config, ChainId, SUPPORTED_CHAIN_IDS } from '../config'
@@ -46,7 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const URL = config.lcdUrls[chainID]
   if (!URL)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       statusCode: 400,
       message: `RPC URL for ${chainID} is not configured as an environment variable.`,

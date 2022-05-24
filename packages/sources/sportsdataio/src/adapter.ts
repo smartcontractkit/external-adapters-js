@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_SPORT } from './config'
 import { MMA, NFL, NCAA_FB, NBA, MLB } from './sport'
@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       return await MLB.execute(request, context, config)
     }
     default: {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `Sport ${sport} not supported.`,
         statusCode: 400,

@@ -1,4 +1,4 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteFactory, ExecuteWithConfig } from '@chainlink/types'
 import { makeConfig } from '../../config'
 import { currentSeason, scores } from './endpoint'
@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       return await scores.execute(request, context, config)
     }
     default: {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `Endpoint ${endpoint} not supported.`,
         statusCode: 400,

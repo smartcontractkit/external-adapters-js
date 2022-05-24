@@ -1,4 +1,4 @@
-import { AdapterError, Builder, Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Builder, Requester, Validator, Logger, AdapterInputError } from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -36,7 +36,7 @@ const getSubKeyInfo = (input: AdapterRequest) => {
   const asset = validator.validated.data.base.toLowerCase()
   const quote = validator.validated.data.quote.toUpperCase()
   if (!VALID_REFERENCE_RATE_QUOTES.includes(quote))
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID: input.id,
       statusCode: 400,
       message: `Quote must be one of ${VALID_REFERENCE_RATE_QUOTES}`,

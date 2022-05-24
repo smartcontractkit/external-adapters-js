@@ -1,4 +1,11 @@
-import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
+import {
+  Validator,
+  Requester,
+  Logger,
+  AdapterInputError,
+  AdapterDataProviderError,
+  AdapterConnectionError,
+} from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 import { SupportedChains, Config } from './config'
@@ -48,7 +55,7 @@ const validateChainSources = (jobRunID: string, chainSources: string[]) => {
   const supportedChains = Object.values(SupportedChains) as string[]
   for (const source of chainSources) {
     if (!supportedChains.includes(source)) {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `${source} is not a supported chain.  Must be one of ${supportedChains.join(',')}`,
       })
@@ -108,10 +115,15 @@ export const getLatestBlockByChain = async (
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
       } catch (e) {
-        throw new AdapterError({
+        const errorPayload = {
           jobRunID,
           message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${e}`,
-        })
+        }
+        throw e.response
+          ? new AdapterDataProviderError(errorPayload)
+          : e.request
+          ? new AdapterConnectionError(errorPayload)
+          : new AdapterError(errorPayload)
       }
     }),
   )

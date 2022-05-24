@@ -1,4 +1,8 @@
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConnectionError,
+  AdapterDataProviderError,
+  AdapterError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { BigNumber, ethers } from 'ethers'
 import {
@@ -74,10 +78,15 @@ export const getDebtIssued = async (
         const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
         return [network, blockNumber, issuedSynths]
       } catch (e) {
-        throw new AdapterError({
+        const errorPayload = {
           jobRunID,
           message: `Failed to fetch debt data from chain ${network}.  Error Message: ${e}`,
-        })
+        }
+        throw e.response
+          ? new AdapterDataProviderError(errorPayload)
+          : e.request
+          ? new AdapterConnectionError(errorPayload)
+          : new AdapterError(errorPayload)
       }
     }),
   )

@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -143,14 +143,14 @@ const validateRequest = (request: AdapterRequest) => {
   const { statePostal, officeID, raceID } = request.data
   const statePostals = statePostal.split(',')
   if (statePostals.length > 1) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID: request.id,
       statusCode: 400,
       message: 'Adapter only supports finding results from a single state',
     })
   }
   if (!officeID && !raceID) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID: request.id,
       statusCode: 400,
       message: 'Either officeID or raceID must be present',

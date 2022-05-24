@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -155,7 +155,7 @@ export const noCurrentConditionsResult: CurrentConditionsResult = {
 
 export const validateUnitsParameter = (jobRunID: string, units: string): void => {
   if (!Object.values(Unit).includes(units as Unit)) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Invalid 'units': ${units}. Supported values are: ${Object.values(Unit).join(',')}.`,
       statusCode: 400,

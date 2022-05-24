@@ -1,4 +1,8 @@
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConnectionError,
+  AdapterDataProviderError,
+  AdapterError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import {
@@ -69,10 +73,15 @@ const getDebtRatio = async (
           totalDebtShares: chainTotalDebtShare,
         }
       } catch (e) {
-        throw new AdapterError({
+        const errorPayload = {
           jobRunID,
           message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${e.message}`,
-        })
+        }
+        throw e.response
+          ? new AdapterDataProviderError(errorPayload)
+          : e.request
+          ? new AdapterConnectionError(errorPayload)
+          : new AdapterError(errorPayload)
       }
     }),
   )
