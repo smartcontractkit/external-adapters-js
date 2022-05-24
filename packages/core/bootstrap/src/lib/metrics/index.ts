@@ -1,8 +1,10 @@
 import * as client from 'prom-client'
 import { getEnv, parseBool } from '../util'
 import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer/config'
-import * as util from './util'
 import { Middleware, AdapterRequest, AdapterMetricsMeta } from '@chainlink/types'
+import * as util from './util'
+
+export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
 
 export const setupMetrics = (name: string): void => {
   client.collectDefaultMetrics()
@@ -12,21 +14,35 @@ export const setupMetrics = (name: string): void => {
   })
 }
 
-export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
+export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
+  // If no requestOrigin comes through, then this is a cache warmer request
+  requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
+  feedId: util.getFeedId(input),
+})
+
+export const recordDataProviderRequest = METRICS_ENABLED
+  ? (): ((method?: string, providerStatusCode?: number) => void) => {
+      const labels: Parameters<typeof dataProviderRequests.labels>[0] = {}
+      const end = dataProviderRequestDurationSeconds.startTimer()
+      return (method = 'get', providerStatusCode?: number) => {
+        end()
+        labels.provider_status_code = providerStatusCode
+        labels.method = method.toUpperCase()
+        dataProviderRequests.labels(labels).inc()
+      }
+    }
+  : () => {
+      return () => null
+    }
 
 export const withMetrics: Middleware =
   async (execute, context) => async (input: AdapterRequest) => {
-    const feedId = util.getFeedId(input)
-    const metricsMeta: AdapterMetricsMeta = {
-      // If no requestOrigin comes through, then this is a cache warmer request
-      requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
-      feedId,
-    }
+    const metricsMeta: AdapterMetricsMeta = getMetricsMeta(input)
     const recordMetrics = () => {
       const labels: Parameters<typeof httpRequestsTotal.labels>[0] = {
         is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
         method: 'POST',
-        feed_id: feedId,
+        feed_id: metricsMeta.feedId,
         request_origin: metricsMeta.requestOrigin,
       }
       const end = httpRequestDurationSeconds.startTimer()
@@ -74,6 +90,9 @@ export enum HttpRequestType {
   ADAPTER_ERROR = 'adapterError',
 }
 
+// we should tune these as we collect data, this is the default bucket distribution that prom comes with
+const requestDurationBuckets = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+
 export const httpRequestsTotal = new client.Counter({
   name: 'http_requests_total',
   help: 'The number of http requests this external adapter has serviced for its entire uptime',
@@ -92,27 +111,19 @@ export const httpRequestsTotal = new client.Counter({
 export const httpRequestDurationSeconds = new client.Histogram({
   name: 'http_request_duration_seconds',
   help: 'A histogram bucket of the distribution of http request durations',
-  // we should tune these as we collect data, this is the default
-  // bucket distribution that prom comes with
-  buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10],
+  buckets: requestDurationBuckets,
 })
 
-export const cacheWarmerRequests = new client.Counter({
-  name: 'cache_warmer_requests',
-  help: 'The number of requests caused by the warmer',
-  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
+export const dataProviderRequests = new client.Counter({
+  name: 'data_provider_requests',
+  help: 'The number of http requests that are made to a data provider',
+  labelNames: ['method', 'provider_status_code'] as const,
 })
 
-export const httpRequestsCacheHits = new client.Counter({
-  name: 'http_requests_cache_hits',
-  help: 'The number of http requests that hit the cache',
-  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
-})
-
-export const httpRequestsDataProviderHits = new client.Counter({
-  name: 'http_requests_data_provider_hits',
-  help: 'The number of http requests that hit the provider',
-  labelNames: ['method', 'statusCode', 'apiKey', 'retry'] as const,
+export const dataProviderRequestDurationSeconds = new client.Histogram({
+  name: 'data_provider_request_duration_seconds',
+  help: 'A histogram bucket of the distribution of data provider request durations',
+  buckets: requestDurationBuckets,
 })
 
 export * as util from './util'
