@@ -40,7 +40,7 @@ describe('withMetrics middleware', () => {
       request_origin: 'CACHE_WARMER',
       is_cache_warming: 'false',
       method: 'POST',
-      provider_status_code: undefined,
+      provider_status_code: 200,
       status_code: 200,
       type: 'dataProviderHit',
     }
@@ -82,7 +82,7 @@ describe('withMetrics middleware', () => {
       request_origin: 'CACHE_WARMER',
       is_cache_warming: 'false',
       method: 'POST',
-      provider_status_code: undefined,
+      provider_status_code: 200,
       status_code: 200,
       type: 'cacheHit',
     }

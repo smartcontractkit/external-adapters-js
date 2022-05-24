@@ -13,6 +13,7 @@ export const setupMetrics = (name: string): void => {
 }
 
 export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
+const DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE = 200
 
 export const withMetrics: Middleware =
   async (execute, context) => async (input: AdapterRequest) => {
@@ -49,6 +50,7 @@ export const withMetrics: Middleware =
       const result = await execute({ ...input, metricsMeta }, context)
       record({
         statusCode: result.statusCode,
+        providerStatusCode: result.providerStatusCode || DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE,
         type:
           result.data.maxAge || (result as any).maxAge
             ? HttpRequestType.CACHE_HIT
