@@ -20,19 +20,20 @@ export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
   feedId: util.getFeedId(input),
 })
 
-export const recordDataProviderRequest = (): ((
-  method?: string,
-  providerStatusCode?: number,
-) => void) => {
-  const labels: Parameters<typeof dataProviderRequests.labels>[0] = {}
-  const end = dataProviderRequestDurationSeconds.startTimer()
-  return (method = 'get', providerStatusCode?: number) => {
-    end()
-    labels.provider_status_code = providerStatusCode
-    labels.method = method.toUpperCase()
-    dataProviderRequests.labels(labels).inc()
-  }
-}
+export const recordDataProviderRequest = METRICS_ENABLED
+  ? (): ((method?: string, providerStatusCode?: number) => void) => {
+      const labels: Parameters<typeof dataProviderRequests.labels>[0] = {}
+      const end = dataProviderRequestDurationSeconds.startTimer()
+      return (method = 'get', providerStatusCode?: number) => {
+        end()
+        labels.provider_status_code = providerStatusCode
+        labels.method = method.toUpperCase()
+        dataProviderRequests.labels(labels).inc()
+      }
+    }
+  : () => {
+      return () => null
+    }
 
 export const withMetrics: Middleware =
   async (execute, context) => async (input: AdapterRequest) => {

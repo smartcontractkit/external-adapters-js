@@ -2,6 +2,12 @@ import { AdapterRequest, Execute } from '@chainlink/types'
 import * as metrics from '../../../src/lib/metrics'
 import * as client from 'prom-client'
 
+// This is a workaround to mock METRICS_ENABLED, which is usually defined before jest is able to mock it's value
+jest.mock('../../../src/lib/util', () => ({
+  ...(jest.requireActual('../../../src/lib/util') as any),
+  parseBool: () => true,
+}))
+
 describe('Bootstrap/Metrics', () => {
   describe('setupMetrics', () => {
     it(`Gets the correct feed id with valid input`, () => {
