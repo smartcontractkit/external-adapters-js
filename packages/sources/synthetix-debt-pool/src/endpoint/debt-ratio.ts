@@ -1,4 +1,5 @@
 import {
+  AdapterConfigError,
   AdapterConnectionError,
   AdapterDataProviderError,
   AdapterError,
@@ -46,7 +47,7 @@ const getDebtRatio = async (
   const chainResponses = await Promise.all(
     debtIssued.map(async ([network, blockNumber, issuedSynths]): Promise<CurrentDebtResults> => {
       if (!config.chains[network])
-        throw new AdapterError({
+        throw new AdapterConfigError({
           jobRunID,
           statusCode: 500,
           message: `Chain ${network} not configured`,

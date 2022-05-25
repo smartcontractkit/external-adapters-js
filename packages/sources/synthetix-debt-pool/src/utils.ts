@@ -5,6 +5,7 @@ import {
   AdapterInputError,
   AdapterDataProviderError,
   AdapterConnectionError,
+  AdapterConfigError,
 } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
@@ -90,7 +91,7 @@ export const getSynthetixBridgeName = (networkName: string, jobRunID: string): s
     return 'SynthetixBridgeToOptimism'
   if (networkName === SupportedChains.OPTIMISM || networkName === SupportedChains.KOVAN_OPTIMISM)
     return 'SynthetixBridgeToBase'
-  throw new AdapterError({
+  throw new AdapterInputError({
     jobRunID,
     message: `${networkName} is not a supported network.}`,
   })
@@ -104,7 +105,7 @@ export const getLatestBlockByChain = async (
   await Promise.all(
     chainsToQuery.map(async (network): Promise<[string, number]> => {
       if (!config.chains[network])
-        throw new AdapterError({
+        throw new AdapterConfigError({
           jobRunID,
           statusCode: 500,
           message: `Chain ${network} not configured`,
