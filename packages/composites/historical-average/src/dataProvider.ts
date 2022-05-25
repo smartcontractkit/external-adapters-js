@@ -1,5 +1,5 @@
 import { RequestConfig, AdapterResponse } from '@chainlink/types'
-import { Logger, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, AdapterInputError, Logger, Requester } from '@chainlink/ea-bootstrap'
 import * as cmc from '@chainlink/coinmarketcap-adapter'
 
 export type ResponsePayload = {
@@ -23,12 +23,16 @@ export const getPriceProvider =
       }
     } catch (error) {
       Logger.error(`Request to ${source} adapter failed: ${error}`)
-      throw new Error(
-        `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
-      )
+      throw new AdapterConfigError({
+        jobRunID,
+        message: `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
+      })
     }
 
-    throw new Error(`No historical data implementation for source ${source}!`)
+    throw new AdapterInputError({
+      jobRunID,
+      message: `No historical data implementation for source ${source}!`,
+    })
   }
 
 const getCoinMarketCapPrice = async (

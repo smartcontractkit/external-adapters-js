@@ -32,7 +32,7 @@ const transform = (offchain: number, onchain: number, operator: string, dividend
     }
     return dividend / divisor
   }
-  throw new Error('Invalid operator')
+  throw new AdapterInputError({ message: 'Invalid operator' })
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
