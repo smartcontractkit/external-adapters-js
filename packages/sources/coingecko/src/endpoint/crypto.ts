@@ -20,7 +20,16 @@ const customError = (data: ResponseSchema) => {
 }
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(
+    {
+      id: request.id,
+      data: {
+        ...request.data,
+        base: request.data.base || 'dummy',
+      },
+    },
+    inputParameters,
+  )
 
   const quote = validator.validated.data.quote
   if (Array.isArray(quote)) return ''
