@@ -105,7 +105,7 @@ export const getStatusByTransaction = async (
     return (await receipt.wait()).confirmations > 0
   } catch (e) {
     if (sequencerOnlineErrors[network].includes(_getErrorMessage(e))) {
-      Logger.info(`Transaction submission failed with an expected error ${_getErrorMessage(e)}.`)
+      Logger.debug(`Transaction submission failed with an expected error ${_getErrorMessage(e)}.`)
       return true
     }
     Logger.error(
