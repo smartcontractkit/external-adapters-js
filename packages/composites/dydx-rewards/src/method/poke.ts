@@ -9,6 +9,7 @@ import {
   getDataForEpoch,
   MerkleTreeData,
   OracleRewardsData,
+  OracleRewardsDataPreEpoch10,
   storeJsonTree,
 } from '../ipfs-data'
 import * as IPFS from '@chainlink/ipfs-adapter'
@@ -16,6 +17,7 @@ import { MerkleTree } from 'merkletreejs'
 import * as bn from 'bignumber.js'
 import * as initial from './formulas/initial'
 import * as DIP7 from './formulas/dip-7'
+import * as APRIL2022 from './formulas/april-2022'
 
 export const NAME = 'poke'
 
@@ -188,7 +190,7 @@ export const addReward = (
 }
 
 export const calcTraderRewards = (
-  epochData: OracleRewardsData,
+  epochData: OracleRewardsDataPreEpoch10 | OracleRewardsData,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
   traderScoreA: number,
@@ -196,10 +198,25 @@ export const calcTraderRewards = (
   traderScoreC?: number,
 ): void => {
   if (epochData.epoch < 5) {
-    initial.calcTraderRewards(epochData, addressRewards, traderRewardsAmount, traderScoreA)
-  } else {
+    initial.calcTraderRewards(
+      epochData as OracleRewardsDataPreEpoch10,
+      addressRewards,
+      traderRewardsAmount,
+      traderScoreA,
+    )
+  }
+  if (epochData.epoch < 10) {
     DIP7.calcTraderRewards(
-      epochData,
+      epochData as OracleRewardsDataPreEpoch10,
+      addressRewards,
+      traderRewardsAmount,
+      traderScoreA,
+      traderScoreB,
+      traderScoreC,
+    )
+  } else {
+    APRIL2022.calcTraderRewards(
+      epochData as OracleRewardsData,
       addressRewards,
       traderRewardsAmount,
       traderScoreA,

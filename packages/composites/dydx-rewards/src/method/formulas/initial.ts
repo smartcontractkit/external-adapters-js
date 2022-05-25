@@ -1,5 +1,5 @@
 import * as bn from 'bignumber.js'
-import { AddressRewards, OracleRewardsData } from '../../ipfs-data'
+import { AddressRewards, OracleRewardsDataPreEpoch10, OracleRewardsData } from '../../ipfs-data'
 import { addReward } from '../poke'
 import { BigNumber } from 'ethers'
 
@@ -100,7 +100,7 @@ export const calcRetroactiveRewards = (
 }
 
 export const calcTraderRewards = (
-  epochData: OracleRewardsData,
+  epochData: OracleRewardsDataPreEpoch10,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
   traderScoreAlpha: number,
@@ -109,8 +109,8 @@ export const calcTraderRewards = (
     (sum, addr) => sum.plus(epochData.tradeFeesPaid[addr]),
     new bn.BigNumber(0),
   )
-  const G = Object.keys(epochData.averageOpenInterest).reduce(
-    (sum, addr) => sum.plus(epochData.averageOpenInterest[addr]),
+  const G = Object.keys(epochData.openInterest).reduce(
+    (sum, addr) => sum.plus(epochData.openInterest[addr]),
     new bn.BigNumber(0),
   )
 
@@ -119,7 +119,7 @@ export const calcTraderRewards = (
 
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const f = epochData.tradeFeesPaid[addr]
-    const g = epochData.averageOpenInterest[addr] || 0
+    const g = epochData.openInterest[addr] || 0
     const score = new bn.BigNumber((f / F.toNumber()) ** traderScoreAlpha).times(
       (g / G.toNumber()) ** (1 - traderScoreAlpha),
     )
@@ -141,7 +141,7 @@ export const calcTraderRewards = (
 }
 
 export const calcMarketMakerRewards = (
-  epochData: OracleRewardsData,
+  epochData: OracleRewardsDataPreEpoch10 | OracleRewardsData,
   addressRewards: AddressRewards,
   marketMakerRewardsAmount: bn.BigNumber,
 ): void => {
@@ -151,7 +151,8 @@ export const calcMarketMakerRewards = (
   )
 
   Object.keys(epochData.quoteScore).forEach((addr) => {
-    const addressToGiveRewardsTo = epochData.linkedPrimaryAddresses[addr] || addr
+    const addressToGiveRewardsTo =
+      ('linkedPrimaryAddresses' in epochData && epochData.linkedPrimaryAddresses[addr]) || addr
     const reward = marketMakerRewardsAmount
       .times(epochData.quoteScore[addr])
       .div(quoteScoreSum)
