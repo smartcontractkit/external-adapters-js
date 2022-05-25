@@ -1,4 +1,4 @@
-import { logger } from '../../modules'
+import { AdapterConfigError, logger } from '../../modules'
 
 export const DEFAULT_MINUTE_RATE_LIMIT = 60
 export const BURST_UNDEFINED_QUOTA_MULTIPLE = 2
@@ -62,15 +62,15 @@ const getProviderLimits = (
 ): HTTPTier | WSTier | undefined => {
   const providerConfig = parseLimits(limits)
   if (!providerConfig)
-    throw new Error(
-      `Rate Limit: Provider: "${provider}" doesn't match any provider spec in limits.json`,
-    )
+    throw new AdapterConfigError({
+      message: `Rate Limit: Provider: "${provider}" doesn't match any provider spec in limits.json`,
+    })
 
   const protocolConfig = providerConfig[protocol]
   if (!protocolConfig)
-    throw new Error(
-      `Rate Limit: "${provider}" doesn't have any configuration for ${protocol} in limits.json`,
-    )
+    throw new AdapterConfigError({
+      message: `Rate Limit: "${provider}" doesn't have any configuration for ${protocol} in limits.json`,
+    })
 
   let limitsConfig = protocolConfig[tier.toLowerCase()]
 
@@ -82,9 +82,9 @@ const getProviderLimits = (
   }
 
   if (!limitsConfig)
-    throw new Error(
-      `Rate Limit: Provider: "${provider}" has no tiers defined for ${protocol} in limits.json`,
-    )
+    throw new AdapterConfigError({
+      message: `Rate Limit: Provider: "${provider}" has no tiers defined for ${protocol} in limits.json`,
+    })
 
   return limitsConfig
 }

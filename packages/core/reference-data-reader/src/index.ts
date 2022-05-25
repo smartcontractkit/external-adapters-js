@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { AggregatorInterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorInterfaceFactory'
 import { AggregatorV2V3InterfaceFactory } from '@chainlink/contracts/ethers/v0.6/AggregatorV2V3InterfaceFactory'
-import { util, Logger } from '@chainlink/ea-bootstrap'
+import { util, Logger, AdapterConfigError } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers/utils'
 
 export interface RoundData {
@@ -66,9 +66,9 @@ export const getRpcUrl = (network: string): string => {
     return rpcURL
   }
 
-  throw new Error(
-    `Network ${network} must be configured with an environment variable ${`${network.toUpperCase()}_RPC_URL`}`,
-  )
+  throw new AdapterConfigError({
+    message: `Network ${network} must be configured with an environment variable ${`${network.toUpperCase()}_RPC_URL`}`,
+  })
 }
 
 export const isZeroAddress = (address: string): boolean => {

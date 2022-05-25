@@ -4,6 +4,7 @@ import { FastifyRequest } from 'fastify'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
+import { RequiredEnvError } from './modules/error'
 import { logger } from './modules/logger'
 
 /**
@@ -163,14 +164,6 @@ export const getEnv = (name: string, prefix = '', context?: AdapterContext): str
   }
   if (envVar === '') envVar = undefined
   return envVar
-}
-
-// Custom error for required env variable.
-export class RequiredEnvError extends Error {
-  constructor(name: string) {
-    super(`Please set the required env ${name}.`)
-    this.name = RequiredEnvError.name
-  }
 }
 
 /**

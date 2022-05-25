@@ -1,5 +1,5 @@
 import { AdapterErrorResponse } from '@chainlink/types'
-import { HttpRequestType } from '../metrics'
+import { HttpRequestType } from '../metrics/constants'
 import { getEnv } from '../util'
 
 export class AdapterError extends Error {
@@ -142,5 +142,13 @@ export class AdapterCustomError extends AdapterError {
   constructor(input: Partial<AdapterError>) {
     super(input)
     this.metricsLabel = HttpRequestType.CUSTOM_ERROR
+  }
+}
+// Custom error for required env variable. For metrics purposes, this also counts as a config error
+export class RequiredEnvError extends AdapterConfigError {
+  metricsLabel: HttpRequestType
+  constructor(name: string) {
+    super({ name: RequiredEnvError.name, message: `Please set the required env ${name}.` })
+    this.metricsLabel = HttpRequestType.CONFIG_ERROR
   }
 }

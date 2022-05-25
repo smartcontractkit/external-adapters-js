@@ -1,4 +1,4 @@
-import { util, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
+import { util, Validator, AdapterInputError, AdapterConfigError } from '@chainlink/ea-bootstrap'
 import {
   Account,
   Config,
@@ -90,7 +90,7 @@ export const inputParameters: InputParameters = {
 export const make: ExecuteFactory<BalanceConfig> = (config) => async (input) => {
   const validator = new Validator(input, inputParameters)
 
-  if (!config) throw new Error('No configuration supplied')
+  if (!config) throw new AdapterConfigError({ message: 'No configuration supplied' })
 
   config.confirmations = validator.validated.confirmations || DEFAULT_CONFIRMATIONS
   const jobRunID = validator.validated.id
