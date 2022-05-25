@@ -6979,8 +6979,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.36"],
+            ["@types/supertest", "npm:2.0.12"],
             ["decimal.js", "npm:10.3.1"],
             ["ethers", "npm:5.4.6"],
+            ["nock", "npm:13.2.4"],
+            ["supertest", "npm:6.2.3"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],

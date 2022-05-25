@@ -23,15 +23,23 @@ export const adapters: AdapterImplementation[] = [
 
 export type Protocol = typeof adapters[number]['NAME']
 
+type AddressData = { token: string; chainId: string; network: string } | AddressList
+
+type AddressList =
+  | { addresses: string[]; chainId: string; network: string }
+  | { addresses: AddressObject[] }
+
+type AddressObject = { address: string; network: string; chainId: string }
+
 // Get address set for protocol
 export const runProtocolAdapter = async (
   jobRunID: string,
   context: AdapterContext,
   protocol: Protocol,
-  data: { token: string; chainId: string; network: string } | { addresses: string[] },
+  data: AddressData,
   config: Config,
 ): Promise<AdapterResponse> => {
-  if (protocol === LIST_ADAPTER) return listAdapter(jobRunID, data as { addresses: string[] })
+  if (protocol === LIST_ADAPTER) return listAdapter(jobRunID, data)
 
   const execute = makeRequestFactory(config, protocol)
   const next = {
@@ -41,11 +49,25 @@ export const runProtocolAdapter = async (
   return callAdapter(execute, context, next, '_onProtocol')
 }
 
-const listAdapter = (jobRunID: string, data: { addresses: string[] }) => {
+const listAdapter = (jobRunID: string, data: AddressData) => {
   if (!('addresses' in data)) {
     throw Error(`Missing "addresses" in request data`)
   }
-
-  const result = data.addresses.map((address: string) => ({ address }))
-  return Requester.success(jobRunID, { data: { result } })
+  if ((data.addresses as string[]).every((address: string) => typeof address === 'string')) {
+    const result = (data.addresses as string[]).map((address: string) => ({
+      address,
+      network: (data as { addresses: string[]; chainId: string; network: string }).network,
+      chainId: (data as { addresses: string[]; chainId: string; network: string }).chainId,
+    }))
+    return Requester.success(jobRunID, { data: { result } })
+  }
+  if (
+    (data.addresses as AddressObject[]).every(
+      ({ address, chainId, network }: AddressObject) =>
+        typeof address === 'string' && typeof chainId === 'string' && typeof network === 'string',
+    )
+  ) {
+    return Requester.success(jobRunID, { data: { result: data.addresses } })
+  }
+  throw Error('Invalid data received for list addresses parameter')
 }
