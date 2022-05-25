@@ -114,6 +114,7 @@ export interface WSSubscriptionErrorPayload extends WSErrorPayload {
   subscriptionMsg?: any
   input?: AdapterRequest
   error?: unknown
+  type?: string
   wsHandler: WSHandlerOverride
 }
 
