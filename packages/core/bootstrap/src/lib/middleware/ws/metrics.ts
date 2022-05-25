@@ -12,6 +12,7 @@ export const ws_connection_errors = new client.Counter({
   labelNames: ['key', 'url', 'message', 'experimental'] as const,
 })
 
+// Doesn't seem to be any retry connection functionality yet
 export const ws_connection_retries = new client.Counter({
   name: 'ws_connection_retries',
   help: 'The number of connection retries',
@@ -20,7 +21,7 @@ export const ws_connection_retries = new client.Counter({
 
 export const ws_subscription_active = new client.Gauge({
   name: 'ws_subscription_active',
-  help: 'The number of active subscriptions',
+  help: 'The number of currently active subscriptions',
   labelNames: [
     'connection_key',
     'connection_url',
@@ -52,6 +53,7 @@ export const ws_subscription_errors = new client.Counter({
     'subscription_key',
     'message',
     'experimental',
+    'type',
   ] as const,
 })
 
@@ -59,11 +61,4 @@ export const ws_message_total = new client.Counter({
   name: 'ws_message_total',
   help: 'The number of messages received in total',
   labelNames: ['feed_id', 'subscription_key', 'experimental'] as const,
-})
-
-// TODO: Message error action
-export const ws_message_errors = new client.Counter({
-  name: 'ws_message_errors',
-  help: 'The number of message errors received in total',
-  labelNames: ['connection_key', 'connection_url', 'subscription_key', 'experimental'] as const,
 })
