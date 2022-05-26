@@ -1,6 +1,7 @@
 import nock from 'nock'
 import expectedTestData1 from '../mock-data/expected-test-data-1.json'
 import expectedTestData2 from '../mock-data/expected-test-data-2.json'
+import expectedTestData3 from '../mock-data/expected-test-data-3.json'
 import mockRewards from '../mock-data/rewards.json'
 
 const fileUploadMatches = (expected) => (body) => {
@@ -8,7 +9,7 @@ const fileUploadMatches = (expected) => (body) => {
   return lines.length === 7 && lines[4] === expected
 }
 
-export const mockEthNode = (): nock =>
+export const mockEthNode = (): nock.Scope =>
   nock('http://127.0.0.1:8545', { encodedQueryParams: true })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
@@ -218,7 +219,7 @@ export const mockEthNode = (): nock =>
       ],
     )
 
-export const mockIpfsRetroactiveRewardsData = (): nock =>
+export const mockIpfsRetroactiveRewardsData = (): nock.Scope =>
   nock('http://127.0.0.1:5001', { encodedQueryParams: true })
     .post('/api/v0/name/resolve')
     .query({
@@ -368,13 +369,45 @@ export const mockIpfsRetroactiveRewardsData = (): nock =>
         'chunked',
       ],
     )
+    .post('/api/v0/add', fileUploadMatches(JSON.stringify(expectedTestData3)))
+    .query({ 'stream-channels': 'true', 'cid-version': '1', progress: 'false' })
+    .reply(
+      200,
+      {
+        Name: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Hash: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Size: '807',
+      },
+      [
+        'Access-Control-Allow-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Access-Control-Expose-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Connection',
+        'close',
+        'Content-Type',
+        'application/json',
+        'Server',
+        'go-ipfs/0.9.1',
+        'Trailer',
+        'X-Stream-Error',
+        'Vary',
+        'Origin',
+        'X-Chunked-Output',
+        '1',
+        'Date',
+        'Mon, 13 Sep 2021 15:25:10 GMT',
+        'Transfer-Encoding',
+        'chunked',
+      ],
+    )
 
 export function mockIpfsResponseSuccess(): void {
   nock('http://127.0.0.1:5001', { encodedQueryParams: true })
     .post(
       '/api/v0/add',
       fileUploadMatches(
-        '{"epoch":123,"tradeFeesPaid":{"0xE4dDb4233513498b5aa79B98bEA473b01b101a67":123},"openInterest":{"0xE4dDb4233513498b5aa79B98bEA473b01b101a67":123},"quoteScore":{"0xE4dDb4233513498b5aa79B98bEA473b01b101a67":123}}',
+        '{"epoch":123,"tradeFeesPaid":{"0xE4dDb4233513498b5aa79B98bEA473b01b101a67":123},"openInterest":{"0xE4dDb4233513498b5aa79B98bEA473b01b101a67":123},"quoteScore":{"0xE4dDb4233513498b5aa79B98bEA473b01b101a67":123},"averageActiveStakedDYDX":{}}',
       ),
     )
     .query({ 'stream-channels': 'true', 'cid-version': '1', progress: 'false' })
