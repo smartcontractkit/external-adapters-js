@@ -7,6 +7,7 @@ export const supportedEndpoints = ['prices', 'price', 'crypto', 'volume', 'crypt
 
 export const endpointResultPaths = {
   prices: 'fxClose',
+  price: 'fxClose',
   crypto: 'fxClose',
   volume: 'volumeNotional',
 }
