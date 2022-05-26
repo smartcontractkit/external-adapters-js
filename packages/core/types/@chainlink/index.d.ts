@@ -55,6 +55,8 @@ declare module '@chainlink/types' {
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
     rateLimitMaxAge?: number
+    ip?: string
+    hostname?: string
   }
 
   /* RESPONSES */
