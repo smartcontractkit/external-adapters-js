@@ -103,34 +103,34 @@ describe('calculating rewards', () => {
     }).toMatchSnapshot()
   })
 
-  // it('should calculate the correct rewards for epoch 10', async () => {
-  //   mockIpfsResponseSuccess()
+  it('should calculate the correct rewards for epoch 10', async () => {
+    mockIpfsResponseSuccess()
 
-  //   const addressRewards: AddressRewards = {}
-  //   calcTraderRewards(
-  //     rewardsTestData3,
-  //     addressRewards,
-  //     new bn.BigNumber(3_835_616).shiftedBy(18),
-  //     0.67,
-  //     0.28,
-  //     0.05,
-  //   )
-  //   calcMarketMakerRewards(
-  //     rewardsTestData3,
-  //     addressRewards,
-  //     new bn.BigNumber(1_150_685).shiftedBy(18),
-  //   )
+    const addressRewards: AddressRewards = {}
+    calcTraderRewards(
+      rewardsTestData3,
+      addressRewards,
+      new bn.BigNumber(3_835_616).shiftedBy(18),
+      0.8,
+      0.15,
+      0.05,
+    )
+    calcMarketMakerRewards(
+      rewardsTestData3,
+      addressRewards,
+      new bn.BigNumber(1_150_685).shiftedBy(18),
+    )
 
-  //   const merkleTree = constructMerkleTree(addressRewards)
-  //   const jsonTree = constructJsonTree(addressRewards)
-  //   const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree, {})
+    const merkleTree = constructMerkleTree(addressRewards)
+    const jsonTree = constructJsonTree(addressRewards)
+    const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree, {})
 
-  //   expect({
-  //     jsonTree,
-  //     cid: newIpfsCid,
-  //     root: merkleTree.getRoot().toString('hex'),
-  //   }).toMatchSnapshot()
-  // })
+    expect({
+      jsonTree,
+      cid: newIpfsCid,
+      root: merkleTree.getRoot().toString('hex'),
+    }).toMatchSnapshot()
+  }, 20000)
 })
 
 describe('full request', () => {

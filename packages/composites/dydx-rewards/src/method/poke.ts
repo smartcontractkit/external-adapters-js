@@ -204,8 +204,7 @@ export const calcTraderRewards = (
       traderRewardsAmount,
       traderScoreA,
     )
-  }
-  if (epochData.epoch < 10) {
+  } else if (epochData.epoch < 10) {
     DIP7.calcTraderRewards(
       epochData as OracleRewardsDataPreEpoch10,
       addressRewards,
