@@ -67,6 +67,7 @@ export const getStatusByTransaction = async (
     [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
     // TODO: Optimism error needs to be confirmed by their team
     [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
+    [Networks.Metis]: ['cannot accept 0 gas price transaction'],
   }
 
   const networkTx: Record<Networks, ethers.providers.TransactionRequest> = {
@@ -83,11 +84,18 @@ export const getStatusByTransaction = async (
       gasPrice: 0,
       to: wallet.address,
     },
+    [Networks.Metis]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
   }
   const _getErrorMessage = (e: Record<string, unknown>): string => {
     const paths = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
+      [Networks.Metis]: ['error', 'message'],
     }
     return (Requester.getResult(e, paths[network]) as string) || ''
   }

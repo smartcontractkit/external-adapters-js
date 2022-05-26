@@ -60,6 +60,7 @@ export const makeNetworkStatusCheck = (
 const networks: Record<Networks, (delta: number, deltaBlocks: number) => Promise<boolean>> = {
   [Networks.Arbitrum]: makeNetworkStatusCheck(Networks.Arbitrum),
   [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
+  [Networks.Metis]: makeNetworkStatusCheck(Networks.Metis),
 }
 
 export const getL2NetworkStatus: NetworkHealthCheck = (
