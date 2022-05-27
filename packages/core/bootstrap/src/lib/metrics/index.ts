@@ -78,9 +78,7 @@ export const withMetrics: Middleware =
       record({
         statusCode: providerStatusCode ? 200 : 500,
         providerStatusCode,
-        type: providerStatusCode
-          ? HttpRequestType.DATA_PROVIDER_HIT
-          : HttpRequestType.ADAPTER_ERROR,
+        type: error.metricsLabel || HttpRequestType.ADAPTER_ERROR,
       })
       throw error
     }
