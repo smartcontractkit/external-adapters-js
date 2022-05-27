@@ -15,6 +15,7 @@ import { AdapterError } from './error'
 import { logger } from './logger'
 import objectPath from 'object-path'
 import { join } from 'path'
+import { recordDataProviderRequest } from '../metrics'
 
 const getFalse = () => false
 
@@ -47,6 +48,7 @@ export class Requester {
 
       let response: AxiosResponse<T>
       const url = join(config.baseURL || '', config.url || '')
+      const record = recordDataProviderRequest()
       try {
         const startTime = process.hrtime.bigint()
 
@@ -58,11 +60,13 @@ export class Requester {
       } catch (error) {
         // Request error
         if (error.code === 'ECONNABORTED') {
+          const providerStatusCode: number | undefined = error?.response?.status ?? 504
+          record(config.method, providerStatusCode)
           // Axios timeout code
           throw new AdapterError({
             statusCode: 504,
             name: 'Request Timeout error',
-            providerStatusCode: error?.response?.status ?? 504,
+            providerStatusCode,
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
@@ -71,9 +75,11 @@ export class Requester {
         }
 
         if (n === 1) {
+          const providerStatusCode: number | undefined = error?.response?.status ?? 0 // 0 -> connection error
+          record(config.method, providerStatusCode)
           throw new AdapterError({
             statusCode: 200,
-            providerStatusCode: error?.response?.status ?? 0, // 0 -> connection error
+            providerStatusCode,
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
@@ -89,9 +95,12 @@ export class Requester {
         if (n === 1) {
           const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
           const cause = response.data.error || 'customError'
+          const providerStatusCode: number | undefined =
+            response.data.error?.code ?? response.status
+          record(config.method, providerStatusCode)
           throw new AdapterError({
             statusCode: 200,
-            providerStatusCode: response.data.error?.code ?? response.status,
+            providerStatusCode,
             message,
             cause,
             url,
@@ -103,6 +112,7 @@ export class Requester {
 
       // Success
       const { data, status, statusText } = response
+      record(config.method, status)
       logger.debug({
         message: 'Received response',
         data,
