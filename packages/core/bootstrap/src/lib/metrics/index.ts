@@ -2,6 +2,7 @@ import * as client from 'prom-client'
 import { getEnv, parseBool } from '../util'
 import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer/config'
 import { Middleware, AdapterRequest, AdapterMetricsMeta } from '@chainlink/types'
+import { HttpRequestType, requestDurationBuckets } from './constants'
 import * as util from './util'
 
 export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
@@ -13,7 +14,7 @@ export const setupMetrics = (name: string): void => {
     app_version: getEnv('npm_package_version'),
   })
 }
-
+const DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE = 200
 export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
   // If no requestOrigin comes through, then this is a cache warmer request
   requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
@@ -65,6 +66,7 @@ export const withMetrics: Middleware =
       const result = await execute({ ...input, metricsMeta }, context)
       record({
         statusCode: result.statusCode,
+        providerStatusCode: result.providerStatusCode || DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE,
         type:
           result.data.maxAge || (result as any).maxAge
             ? HttpRequestType.CACHE_HIT
@@ -83,25 +85,6 @@ export const withMetrics: Middleware =
       throw error
     }
   }
-
-export enum HttpRequestType {
-  CACHE_HIT = 'cacheHit',
-  DATA_PROVIDER_HIT = 'dataProviderHit',
-  ADAPTER_ERROR = 'adapterError',
-  CONFIG_ERROR = 'configError',
-  RATE_LIMIT_ERROR = 'rateLimitError',
-  BURST_LIMIT_ERROR = 'burstLimitError',
-  BACKOFF_ERROR = 'backoffError',
-  OVERRIDES_ERROR = 'overridesError',
-  VALIDATION_ERROR = 'validationError',
-  TIMEOUT_ERROR = 'timeoutError',
-  RES_EMPTY_ERROR = 'responseEmptyError',
-  RES_INVALID_ERROR = 'responseInvalidError',
-  CUSTOM_ERROR = 'customError',
-}
-
-// we should tune these as we collect data, this is the default bucket distribution that prom comes with
-const requestDurationBuckets = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 
 export const httpRequestsTotal = new client.Counter({
   name: 'http_requests_total',

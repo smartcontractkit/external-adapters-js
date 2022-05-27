@@ -1,6 +1,11 @@
 import { ADDRESS_MANAGER_ABI, STATE_COMMITMENT_CHAIN_ABI } from './abis'
 
-import { Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConfigError,
+  AdapterError,
+  AdapterResponseInvalidError,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 import { Config } from '../../config'
@@ -48,8 +53,9 @@ const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  if (!config.addressManagerContract) throw Error('AddressManagerContract address not set')
-  if (!config.l2RpcUrl) throw Error('L2 RPC URL not set')
+  if (!config.addressManagerContract)
+    throw new AdapterConfigError({ message: 'AddressManagerContract address not set' })
+  if (!config.l2RpcUrl) throw new AdapterConfigError({ message: 'L2 RPC URL not set' })
 
   const jobRunID = validator.validated.id
   const { to: address, data, abi: optimismGatewayStubABI } = validator.validated.data
@@ -114,7 +120,9 @@ const loadContractFromManager = async (
 ): Promise<ethers.Contract> => {
   const address = await addressManager.getAddress(name)
   if (address === ZERO_ADDRESS) {
-    throw new Error(`Lib_AddressManager does not have a record for a contract named: ${name}`)
+    throw new AdapterError({
+      message: `Lib_AddressManager does not have a record for a contract named: ${name}`,
+    })
   }
   return new ethers.Contract(address, contractInterface, provider)
 }
@@ -159,7 +167,7 @@ const getLatestStateBatchHeader = async (
       }
     }
   }
-  throw Error('No state root batches found')
+  throw new AdapterResponseInvalidError({ message: 'No state root batches found' })
 }
 
 const getElementsToConstructProof = (stateBatchHeader: StateBatchHeader): string[] => {
