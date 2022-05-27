@@ -2,7 +2,7 @@ import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/type
 import { Config, FLOATING_POINT_DECIMALS } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { ethers } from 'ethers'
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
 
@@ -35,7 +35,7 @@ export const validateNonZeroValue = (
   label: string,
 ): void => {
   if (value.eq(ethers.BigNumber.from(0)))
-    throw new AdapterError({
+    throw new AdapterResponseInvalidError({
       jobRunID,
       statusCode: 500,
       message: `${label} shold not be 0`,

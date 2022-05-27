@@ -1,4 +1,4 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Validator } from '@chainlink/ea-bootstrap'
 import { InputParameters, ExecuteWithConfig } from '@chainlink/types'
 import { ExtendedConfig } from '../config'
 import { poke } from '../method'
@@ -25,7 +25,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
       return await poke.execute(request, context, config)
     }
     default: {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `Method ${method} not supported.`,
         statusCode: 400,

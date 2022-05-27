@@ -1,4 +1,4 @@
-import { util } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 
 export enum DNSProviders {
@@ -21,7 +21,7 @@ export const makeConfig = (): Config => {
   }
   const provider = util.getRequiredEnv('DNS_PROVIDER') as DNSProviders
   if (!Object.values(DNSProviders).includes(provider))
-    throw new Error(`Unknown DNS Provider: ${provider}`)
+    throw new AdapterConfigError({ message: `Unknown DNS Provider: ${provider}` })
 
   const config: Config = {
     api: {

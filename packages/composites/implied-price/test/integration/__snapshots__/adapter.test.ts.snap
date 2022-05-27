@@ -42,7 +42,7 @@ Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"dividendSources\\":[\\"NOT_REAL\\"],\\"divisorSources\\":[\\"coingecko\\"],\\"dividendInput\\":{\\"from\\":\\"LINK\\",\\"to\\":\\"USD\\"},\\"divisorInput\\":{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}}}",
     "message": "Please set the required env NOT_REAL_ADAPTER_URL.",
-    "name": "AdapterError",
+    "name": "RequiredEnvError",
   },
   "jobRunID": "1",
   "status": "errored",

@@ -1,4 +1,10 @@
-import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConfigError,
+  AdapterDataProviderError,
+  AdapterInputError,
+  Logger,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Schema, StateQuery } from '@cardano-ogmios/client'
 import { ExtendedConfig } from '../config'
@@ -31,7 +37,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const addresses = validator.validated.data.addresses
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Input at 'addresses' or 'result' path, must be a non-empty array.`,
       statusCode: 400,
@@ -61,7 +67,7 @@ const getOgmiosHosts = (jobRunID: string, config: ExtendedConfig): string[] => {
   if (!wsOgmiosURL || !httpOgmiosURL) {
     const { host, port, isTLSEnabled } = config
     if (!host) {
-      throw new AdapterError({
+      throw new AdapterConfigError({
         jobRunID,
         message: "Cannot construct Ogmios URLs as 'host' environment variable not set",
         statusCode: 500,
@@ -82,7 +88,7 @@ const getAddressBalances = async (
   httpURL: string,
 ): Promise<string> => {
   const errorHandler = (error: Error) => {
-    throw new AdapterError({
+    throw new AdapterDataProviderError({
       jobRunID,
       message: `Cardano Ogmios Error Name: "${error.name}" Message: "${error.message}"`,
       statusCode: 500,

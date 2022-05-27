@@ -11,7 +11,15 @@ import { reducer } from '../middleware/cache-warmer'
 import axios, { AxiosResponse } from 'axios'
 import { deepType, getEnv, parseBool, sleep } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
-import { AdapterError } from './error'
+import {
+  AdapterConnectionError,
+  AdapterCustomError,
+  AdapterDataProviderError,
+  AdapterError,
+  AdapterResponseEmptyError,
+  AdapterResponseInvalidError,
+  AdapterTimeoutError,
+} from './error'
 import { logger } from './logger'
 import objectPath from 'object-path'
 import { join } from 'path'
@@ -63,7 +71,7 @@ export class Requester {
           const providerStatusCode: number | undefined = error?.response?.status ?? 504
           record(config.method, providerStatusCode)
           // Axios timeout code
-          throw new AdapterError({
+          throw new AdapterTimeoutError({
             statusCode: 504,
             name: 'Request Timeout error',
             providerStatusCode,
@@ -77,7 +85,7 @@ export class Requester {
         if (n === 1) {
           const providerStatusCode: number | undefined = error?.response?.status ?? 0 // 0 -> connection error
           record(config.method, providerStatusCode)
-          throw new AdapterError({
+          throw new AdapterConnectionError({
             statusCode: 200,
             providerStatusCode,
             message: error?.message,
@@ -98,13 +106,16 @@ export class Requester {
           const providerStatusCode: number | undefined =
             response.data.error?.code ?? response.status
           record(config.method, providerStatusCode)
-          throw new AdapterError({
+          const errorPayload = {
             statusCode: 200,
             providerStatusCode,
             message,
             cause,
             url,
-          })
+          }
+          throw response.data.error
+            ? new AdapterDataProviderError(errorPayload)
+            : new AdapterCustomError(errorPayload)
         }
 
         return await _delayRetry(`Error in response. Retrying: ${JSON.stringify(response.data)}`)
@@ -129,14 +140,22 @@ export class Requester {
     data: { [key: string]: any },
     path: ResultPath,
     options?: { inverse?: boolean },
+    missingDataErrorMsg = 'Data provider response empty',
+    missingResultsErrorMsg = 'Result could not be found in path or is empty',
   ): number {
+    if (typeof data === 'undefined' || data === null || Object.keys(data).length === 0) {
+      logger.error(missingDataErrorMsg, { data, path })
+      throw new AdapterResponseEmptyError({
+        message: missingDataErrorMsg,
+        statusCode: 502,
+      })
+    }
     const result = this.getResult(data, path)
 
     if (typeof result === 'undefined' || result === null) {
-      const message = 'Result could not be found in path or is empty'
-      logger.error(message, { data, path })
-      throw new AdapterError({
-        message,
+      logger.error(missingResultsErrorMsg, { data, path })
+      throw new AdapterResponseInvalidError({
+        message: missingResultsErrorMsg,
         statusCode: 502,
       })
     }
@@ -144,7 +163,7 @@ export class Requester {
     if (Number(result) === 0 || isNaN(Number(result))) {
       const message = 'Invalid result received'
       logger.error(message, { data, path })
-      throw new AdapterError({
+      throw new AdapterResponseInvalidError({
         message,
         statusCode: 400,
       })
