@@ -1,5 +1,23 @@
 # @chainlink/reference-transform-adapter
 
+## 1.0.90
+
+### Patch Changes
+
+- 568e86deb: Updated core & EAs to use the new, more specific versions of AdapterError class, to better pinpoint the kind of errors that are occurring
+- Updated dependencies [568e86deb]
+- Updated dependencies [e6f8af918]
+- Updated dependencies [d360ce8ef]
+- Updated dependencies [0c59f06c8]
+- Updated dependencies [3000778b5]
+- Updated dependencies [6abc1eb98]
+- Updated dependencies [7313ac0a4]
+- Updated dependencies [b0f0cd681]
+- Updated dependencies [8e59df0fa]
+  - @chainlink/ea-bootstrap@2.7.0
+  - @chainlink/ea-reference-data-reader@1.1.27
+  - @chainlink/ea@1.0.90
+
 ## 1.0.89
 
 ### Patch Changes
