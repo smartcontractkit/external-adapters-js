@@ -4,6 +4,8 @@ import { BigNumber, ethers } from 'ethers'
 import { AdapterResponseEmptyError } from '@chainlink/ea-bootstrap'
 
 const DEFAULT_PRIVATE_KEY = '0x0000000000000000000000000000000000000000000000000000000000000001'
+const NO_ISSUE_MSG =
+  'This is an error that the EA uses to determine whether or not the L2 Sequencer is healthy.  It does not mean that there is an issue with the EA.'
 
 export interface NetworkHealthCheck {
   (network: Networks, delta: number, deltaBlocks: number): Promise<undefined | boolean>
@@ -106,10 +108,12 @@ export const getStatusByTransaction = async (
     return (await receipt.wait()).confirmations > 0
   } catch (e) {
     if (sequencerOnlineErrors[network].includes(_getErrorMessage(e))) {
-      Logger.info(`Transaction submission failed with an expected error: ${_getErrorMessage(e)}`)
+      Logger.debug(`Transaction submission failed with an expected error ${_getErrorMessage(e)}.`)
       return true
     }
-    Logger.error(`Transaction submission failed with an unexpected error: ${e.message}`)
+    Logger.error(
+      `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${e.message}`,
+    )
     return false
   }
 }
