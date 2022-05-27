@@ -28,7 +28,7 @@ exports[`execute live  api with invalid base should return failure 1`] = `
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"endpoint\\":\\"live\\",\\"base\\":\\"NON-EXISTING\\"}}",
-    "message": "Result could not be found in path",
+    "message": "Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.",
     "name": "AdapterError",
   },
   "jobRunID": "1",
