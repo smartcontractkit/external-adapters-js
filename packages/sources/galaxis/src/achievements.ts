@@ -14,7 +14,7 @@ import {
   ProcessedEventInfo,
   TeamStruct,
 } from './types'
-import { AdapterError, Logger } from '@chainlink/ea-bootstrap'
+import { AdapterValidationError, Logger } from '@chainlink/ea-bootstrap'
 import { BitArray } from '@ethercards/ec-util'
 
 export const getEncodedCallsResult = async (
@@ -189,7 +189,7 @@ const validateEncodedCallsNotEmpty = (
   encodedCalls: string,
 ) => {
   if (encodedCalls.length === 0) {
-    throw new AdapterError({
+    throw new AdapterValidationError({
       jobRunID,
       statusCode: 500,
       message: `Got empty encoded results when resuming from achievementID ${lastProcessedID}`,

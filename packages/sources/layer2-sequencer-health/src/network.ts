@@ -1,6 +1,7 @@
 import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
 import { BigNumber, ethers } from 'ethers'
+import { AdapterResponseEmptyError } from '@chainlink/ea-bootstrap'
 
 const DEFAULT_PRIVATE_KEY = '0x0000000000000000000000000000000000000000000000000000000000000001'
 const NO_ISSUE_MSG =
@@ -46,7 +47,9 @@ export const requestBlockHeight = async (network: Networks): Promise<number> => 
   const response = await Requester.request(request)
   const hexBlock = response?.data?.result
   if (!hexBlock) {
-    throw new Error(`Block number not found on network: ${network}`)
+    throw new AdapterResponseEmptyError({
+      message: `Block number not found on network: ${network}`,
+    })
   }
   return BigNumber.from(hexBlock).toNumber()
 }
