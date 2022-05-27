@@ -134,13 +134,13 @@ export class Requester {
     data: { [key: string]: any },
     path: ResultPath,
     options?: { inverse?: boolean },
+    missingDataErrorMsg = 'Data provider response empty',
     missingResultsErrorMsg = 'Result could not be found in path or is empty',
   ): number {
     if (typeof data === 'undefined' || data === null || Object.keys(data).length === 0) {
-      const message = 'Data provider response empty'
-      logger.error(message, { data, path })
+      logger.error(missingDataErrorMsg, { data, path })
       throw new AdapterResponseEmptyError({
-        message,
+        message: missingDataErrorMsg,
         statusCode: 502,
       })
     }
