@@ -1,9 +1,9 @@
 import * as bn from 'bignumber.js'
-import { AddressRewards, OracleRewardsData } from '../../ipfs-data'
+import { AddressRewards, OracleRewardsDataPreEpoch10 } from '../../ipfs-data'
 import { addReward } from '../poke'
 
 export const calcTraderRewards = (
-  epochData: OracleRewardsData,
+  epochData: OracleRewardsDataPreEpoch10,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
   a = 0.67, // TRADER_SCORE_A=670000000000000000
