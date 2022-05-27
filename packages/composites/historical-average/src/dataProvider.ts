@@ -25,7 +25,7 @@ export const getPriceProvider =
       Logger.error(`Request to ${source} adapter failed: ${error}`)
       throw new AdapterConfigError({
         jobRunID,
-        message: `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
+        message: `Failed to request the ${source} adapter. Ensure that the ${source} adapter is working correctly & ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
       })
     }
 
