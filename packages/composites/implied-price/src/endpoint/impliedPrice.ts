@@ -1,4 +1,4 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   ExecuteWithConfig,
@@ -132,9 +132,10 @@ const getExecuteMedian = async (
         (result as PromiseFulfilledResult<AxiosResponse<Record<string, number>>>).value.data.result,
     )
   if (values.length < minAnswers)
-    throw Error(
-      `Not returning median: got ${values.length} answers, requiring min. ${minAnswers} answers`,
-    )
+    throw new AdapterResponseInvalidError({
+      jobRunID,
+      message: `Not returning median: got ${values.length} answers, requiring min. ${minAnswers} answers`,
+    })
   return median(values)
 }
 

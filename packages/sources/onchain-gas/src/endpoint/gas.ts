@@ -1,4 +1,4 @@
-import { Validator, Logger, Requester } from '@chainlink/ea-bootstrap'
+import { Validator, Logger, Requester, AdapterConfigError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { DEFAULT_NUM_BLOCKS, MAX_BLOCKS_TO_QUERY } from '../config'
 
@@ -21,10 +21,10 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request) => {
   new Validator(request, inputParameters)
-
-  throw Error(
-    'The OnChain Gas adapter does not support making HTTP requests. Make sure WS is enabled in the adapter configuration.',
-  )
+  throw new AdapterConfigError({
+    message:
+      'The OnChain Gas adapter does not support making HTTP requests. Make sure WS is enabled in the adapter configuration.',
+  })
 }
 
 interface Block {

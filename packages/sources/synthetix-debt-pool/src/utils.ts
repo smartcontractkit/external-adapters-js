@@ -1,4 +1,12 @@
-import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
+import {
+  Validator,
+  Requester,
+  Logger,
+  AdapterInputError,
+  AdapterDataProviderError,
+  AdapterConnectionError,
+  AdapterConfigError,
+} from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 import { SupportedChains, Config } from './config'
@@ -48,7 +56,7 @@ const validateChainSources = (jobRunID: string, chainSources: string[]) => {
   const supportedChains = Object.values(SupportedChains) as string[]
   for (const source of chainSources) {
     if (!supportedChains.includes(source)) {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `${source} is not a supported chain.  Must be one of ${supportedChains.join(',')}`,
       })
@@ -83,7 +91,7 @@ export const getSynthetixBridgeName = (networkName: string, jobRunID: string): s
     return 'SynthetixBridgeToOptimism'
   if (networkName === SupportedChains.OPTIMISM || networkName === SupportedChains.KOVAN_OPTIMISM)
     return 'SynthetixBridgeToBase'
-  throw new AdapterError({
+  throw new AdapterInputError({
     jobRunID,
     message: `${networkName} is not a supported network.}`,
   })
@@ -97,7 +105,7 @@ export const getLatestBlockByChain = async (
   await Promise.all(
     chainsToQuery.map(async (network): Promise<[string, number]> => {
       if (!config.chains[network])
-        throw new AdapterError({
+        throw new AdapterConfigError({
           jobRunID,
           statusCode: 500,
           message: `Chain ${network} not configured`,
@@ -108,10 +116,15 @@ export const getLatestBlockByChain = async (
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
       } catch (e) {
-        throw new AdapterError({
+        const errorPayload = {
           jobRunID,
           message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${e}`,
-        })
+        }
+        throw e.response
+          ? new AdapterDataProviderError(errorPayload)
+          : e.request
+          ? new AdapterConnectionError(errorPayload)
+          : new AdapterError(errorPayload)
       }
     }),
   )

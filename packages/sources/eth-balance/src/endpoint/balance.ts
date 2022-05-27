@@ -1,4 +1,4 @@
-import { Validator, Requester, AdapterError } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
 import { Config } from '../config'
 
@@ -42,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const minConfirmations = validator.validated.data.minConfirmations
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
       statusCode: 400,
@@ -51,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   // The limitation of 64 is to make it work with both full and light/fast sync nodes
   if (!Number.isInteger(minConfirmations) || minConfirmations < 0 || minConfirmations > 64) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Min confirmations must be an integer between 0 and 64`,
       statusCode: 400,

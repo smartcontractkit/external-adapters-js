@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig } from '../config'
 import convert from 'convert-units'
@@ -79,7 +79,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context,
   const units = validator.validated.data.units
 
   if (!gjv.valid(geoJson)) {
-    throw new Error('Provided GeoJSON data is not valid')
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: 'Provided GeoJSON data is not valid',
+    })
   }
 
   const queryBuilder = new QueryBuilder(geoJson, dateFrom, dateTo, method, column, config.dataset)
@@ -170,7 +174,7 @@ class QueryBuilder {
       case 'MAX':
         return `MAX(${this.modifiedColumn()})`
       default:
-        throw new Error(`Unrecognized method: "${this.method}"`)
+        throw new AdapterInputError({ message: `Unrecognized method: "${this.method}"` })
     }
   }
 

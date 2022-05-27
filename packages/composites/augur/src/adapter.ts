@@ -1,4 +1,4 @@
-import { AdapterError, Logger, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Logger, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, Execute, InputParameters } from '@chainlink/types'
 import { resolveMarkets, createMarkets, pokeMarkets } from './methods'
 import { Config, makeConfig } from './config'
@@ -25,7 +25,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       Logger.debug(`Augur: Chose method poke`)
       return pokeMarkets.execute(input, context, config)
     default:
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `Method ${method} not supported.`,
         statusCode: 400,

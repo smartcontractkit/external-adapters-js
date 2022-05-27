@@ -1,4 +1,4 @@
-import { util } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import { RenNetwork } from '@renproject/interfaces'
 import { isRenNetwork } from '../ren'
@@ -15,7 +15,8 @@ export const DEFAULT_TOKEN_OR_CONTRACT = 'BTC'
 
 export const makeConfig = (prefix?: string): Config => {
   const network = util.getEnv(ENV_NETWORK, prefix)
-  if (network && !isRenNetwork(network)) throw Error(`Unknown Ren network: ${network}`)
+  if (network && !isRenNetwork(network))
+    throw new AdapterConfigError({ message: `Unknown Ren network: ${network}` })
 
   return {
     network: network as RenNetwork | undefined,

@@ -1,5 +1,10 @@
 import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { makeMiddleware, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
+import {
+  AdapterInputError,
+  makeMiddleware,
+  Validator,
+  withMiddleware,
+} from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { Config } from '../config'
 import { makeExecute } from '../adapter'
@@ -58,7 +63,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, context) => {
   const jobRunID = validator.validated.jobRunID
   const from = validator.validated.data.from
   if (from.toUpperCase() !== 'XSUSHI') {
-    throw new Error(`Cannot convert anything other than xSUSHI: ${from}`)
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `Cannot convert anything other than xSUSHI: ${from}`,
+    })
   }
 
   const allocations = [
