@@ -21,14 +21,12 @@ const customError = (data: ResponseSchema) => {
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
   const validator = new Validator(
-    {
-      id: request.id,
-      data: {
-        ...request.data,
-        base: request.data.base || 'dummy',
-      },
-    },
+    request,
     inputParameters,
+    {},
+    {
+      shouldThrowError: false,
+    },
   )
 
   const quote = validator.validated.data.quote
