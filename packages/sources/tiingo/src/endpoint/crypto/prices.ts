@@ -3,10 +3,11 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as AdapterName } from '../../config'
 import overrides from '../../config/symbols.json'
 
-export const supportedEndpoints = ['prices', 'crypto', 'volume', 'crypto-synth']
+export const supportedEndpoints = ['prices', 'price', 'crypto', 'volume', 'crypto-synth']
 
 export const endpointResultPaths = {
   prices: 'fxClose',
+  price: 'fxClose',
   crypto: 'fxClose',
   volume: 'volumeNotional',
 }
