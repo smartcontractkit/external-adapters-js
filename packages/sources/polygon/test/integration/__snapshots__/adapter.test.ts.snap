@@ -28,7 +28,7 @@ exports[`execute forex batch api should return the proper warning message when t
 Object {
   "error": Object {
     "feedID": "USD/GBP",
-    "message": "Result could not be found from response.  This is expected for some pairs during the weekend as the market is closed.",
+    "message": "Result could not be found in path or is empty",
     "name": "AdapterError",
   },
   "jobRunID": "1",

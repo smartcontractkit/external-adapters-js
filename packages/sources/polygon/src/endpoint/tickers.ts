@@ -149,7 +149,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     response.data.tickers[0],
     ['min', 'c'],
     undefined,
-    'Result could not be found from response.  This is expected for some pairs during the weekend as the market is closed.',
+    'Data Provder Issue:  Result could not be found from response.  This is expected for some pairs during the weekend or on public holidays as the market for the pair might be closed.',
   )
   return Requester.success(
     jobRunID,
