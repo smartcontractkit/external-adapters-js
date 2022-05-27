@@ -8,6 +8,7 @@ import {
 import * as bn from 'bignumber.js'
 import rewardsTestData1 from '../mock-data/rewards-test-data-1.json'
 import rewardsTestData2 from '../mock-data/rewards-test-data-2.json'
+import rewardsTestData3 from '../mock-data/rewards-test-data-3.json'
 import { AddressRewards, storeJsonTree } from '../../src/ipfs-data'
 import nock from 'nock'
 import { mockIpfsRetroactiveRewardsData, mockEthNode, mockIpfsResponseSuccess } from './fixtures'
@@ -101,6 +102,35 @@ describe('calculating rewards', () => {
       root: merkleTree.getRoot().toString('hex'),
     }).toMatchSnapshot()
   })
+
+  it('should calculate the correct rewards for epoch 10', async () => {
+    mockIpfsResponseSuccess()
+
+    const addressRewards: AddressRewards = {}
+    calcTraderRewards(
+      rewardsTestData3,
+      addressRewards,
+      new bn.BigNumber(3_835_616).shiftedBy(18),
+      0.8,
+      0.15,
+      0.05,
+    )
+    calcMarketMakerRewards(
+      rewardsTestData3,
+      addressRewards,
+      new bn.BigNumber(1_150_685).shiftedBy(18),
+    )
+
+    const merkleTree = constructMerkleTree(addressRewards)
+    const jsonTree = constructJsonTree(addressRewards)
+    const newIpfsCid = await storeJsonTree(jobRunID, ipfs, jsonTree, {})
+
+    expect({
+      jsonTree,
+      cid: newIpfsCid,
+      root: merkleTree.getRoot().toString('hex'),
+    }).toMatchSnapshot()
+  }, 20000)
 })
 
 describe('full request', () => {

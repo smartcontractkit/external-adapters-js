@@ -13,7 +13,7 @@ export const setupMetrics = (name: string): void => {
     app_version: getEnv('npm_package_version'),
   })
 }
-
+const DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE = 200
 export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
   // If no requestOrigin comes through, then this is a cache warmer request
   requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
@@ -65,6 +65,7 @@ export const withMetrics: Middleware =
       const result = await execute({ ...input, metricsMeta }, context)
       record({
         statusCode: result.statusCode,
+        providerStatusCode: result.providerStatusCode || DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE,
         type:
           result.data.maxAge || (result as any).maxAge
             ? HttpRequestType.CACHE_HIT
