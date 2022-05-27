@@ -2821,6 +2821,10 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.36
+    "@types/supertest": 2.0.11
+    ethers: ^5.5.4
+    nock: ^13.2.4
+    supertest: ^6.2.2
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -4191,6 +4195,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/observation@workspace:packages/observation":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/observation@workspace:packages/observation"
+  dependencies:
+    "@chainlink/types": "workspace:*"
+    axios: ^0.24.0
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/oilpriceapi-adapter@workspace:*, @chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi"
@@ -4407,8 +4422,11 @@ __metadata:
     "@chainlink/wrapped-adapter": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.36
+    "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
+    nock: 13.2.4
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -22994,7 +23012,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"nock@npm:13.2.4":
+"nock@npm:13.2.4, nock@npm:^13.2.4":
   version: 13.2.4
   resolution: "nock@npm:13.2.4"
   dependencies:

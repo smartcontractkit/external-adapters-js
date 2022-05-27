@@ -344,6 +344,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     connectionState?.connectionParams,
                   ),
                 )
+
+                // When onConnectChain is provided, this will check if we are in the process of opening the subscription.
+                // If we are, then do not continue as there will be further steps to take within onConnectChain before the subscription is established.
                 const shouldPassAlong =
                   (payload.filterMultiplex && payload.filterMultiplex(message)) ||
                   currentSubscriptionKey === subscriptionKey
@@ -366,6 +369,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     subscriptionError({
                       ...error,
                       wsHandler,
+                      type: 'isError',
                     }),
                   )
                   return false
@@ -644,6 +648,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               subscriptionError({
                 ...action,
                 reason: 'WS: unsubscribe -> subscribe (unresponsive channel)',
+                type: 'subscription timeout',
                 wsHandler,
               }),
               unsubscribeRequested(action),
@@ -808,6 +813,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
         subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
+        type: payload.type,
       })
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({

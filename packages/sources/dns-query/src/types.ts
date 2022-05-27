@@ -21,3 +21,13 @@ export type DNSQueryResponse = {
   Answer: DNSAnswer[]
   Comment?: string
 }
+
+export interface Answer {
+  data: string
+}
+
+export interface DNSProofResponseSchema {
+  data: Answer[]
+  Answer: Answer[]
+  result?: boolean
+}

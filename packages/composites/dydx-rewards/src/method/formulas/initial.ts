@@ -1,5 +1,5 @@
 import * as bn from 'bignumber.js'
-import { AddressRewards, OracleRewardsData } from '../../ipfs-data'
+import { AddressRewards, OracleRewardsDataPreEpoch10, OracleRewardsData } from '../../ipfs-data'
 import { addReward } from '../poke'
 import { BigNumber } from 'ethers'
 
@@ -100,7 +100,7 @@ export const calcRetroactiveRewards = (
 }
 
 export const calcTraderRewards = (
-  epochData: OracleRewardsData,
+  epochData: OracleRewardsDataPreEpoch10,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
   traderScoreAlpha: number,
@@ -141,7 +141,7 @@ export const calcTraderRewards = (
 }
 
 export const calcMarketMakerRewards = (
-  epochData: OracleRewardsData,
+  epochData: OracleRewardsDataPreEpoch10 | OracleRewardsData,
   addressRewards: AddressRewards,
   marketMakerRewardsAmount: bn.BigNumber,
 ): void => {
@@ -151,13 +151,15 @@ export const calcMarketMakerRewards = (
   )
 
   Object.keys(epochData.quoteScore).forEach((addr) => {
+    const addressToGiveRewardsTo =
+      ('linkedPrimaryAddresses' in epochData && epochData.linkedPrimaryAddresses[addr]) || addr
     const reward = marketMakerRewardsAmount
       .times(epochData.quoteScore[addr])
       .div(quoteScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
       .toFixed()
     if (reward !== '0') {
-      addReward(addressRewards, addr, reward)
+      addReward(addressRewards, addressToGiveRewardsTo, reward)
     }
   })
 }
