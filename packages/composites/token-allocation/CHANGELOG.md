@@ -1,5 +1,36 @@
 # @chainlink/token-allocation-adapter
 
+## 1.3.22
+
+### Patch Changes
+
+- 568e86deb: Updated core & EAs to use the new, more specific versions of AdapterError class, to better pinpoint the kind of errors that are occurring
+- Updated dependencies [568e86deb]
+- Updated dependencies [e6f8af918]
+- Updated dependencies [d360ce8ef]
+- Updated dependencies [3000778b5]
+- Updated dependencies [6abc1eb98]
+- Updated dependencies [3c9f975b9]
+- Updated dependencies [7313ac0a4]
+- Updated dependencies [62fa1c036]
+- Updated dependencies [b0f0cd681]
+- Updated dependencies [8e59df0fa]
+  - @chainlink/ea-bootstrap@2.7.0
+  - @chainlink/amberdata-adapter@1.4.9
+  - @chainlink/cfbenchmarks-adapter@1.4.30
+  - @chainlink/coinmarketcap-adapter@1.3.40
+  - @chainlink/coinmetrics-adapter@1.2.39
+  - @chainlink/ncfx-adapter@1.2.16
+  - @chainlink/kaiko-adapter@1.3.10
+  - @chainlink/coingecko-adapter@1.7.0
+  - @chainlink/tiingo-adapter@1.10.9
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/coinapi-adapter@1.1.39
+  - @chainlink/coinpaprika-adapter@1.8.9
+  - @chainlink/cryptocompare-adapter@1.3.27
+  - @chainlink/finage-adapter@1.3.39
+  - @chainlink/nomics-adapter@1.2.9
+
 ## 1.3.21
 
 ### Patch Changes
