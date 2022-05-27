@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const description =
@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const badString = typeof block === 'string' && block !== 'latest'
 
   if (badString || badType) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Invalid block parameter ${block} provided.`,
       statusCode: 400,

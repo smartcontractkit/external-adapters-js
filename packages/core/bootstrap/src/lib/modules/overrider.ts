@@ -1,5 +1,5 @@
 import type { CoinsResponse } from '@chainlink/types'
-import { AdapterError } from '.'
+import { AdapterConfigError, AdapterInputError, AdapterOverriderError } from './error'
 import { logger } from './logger'
 
 export class Overrider {
@@ -17,13 +17,17 @@ export class Overrider {
     internalOverrides = internalOverrides || {}
     inputOverrides = inputOverrides || {}
     if (!Overrider.isOverrideObj(internalOverrides))
-      throw new AdapterError({
+      throw new AdapterConfigError({
         jobRunID,
         statusCode: 400,
         message: 'Overrider: Internal overrides are invalid.',
       })
     if (!Overrider.isOverrideObj(inputOverrides))
-      throw Error('Overrider: Input overrides are invalid.')
+      throw new AdapterInputError({
+        jobRunID,
+        statusCode: 400,
+        message: 'Overrider: Input overrides are invalid.',
+      })
     this.internalOverrides = internalOverrides
     this.inputOverrides = inputOverrides
     this.adapterName = adapterName.toLowerCase()
@@ -72,9 +76,9 @@ export class Overrider {
 
     for (const remainingSym of remainingSyms) {
       if (!isConverted[remainingSym.toUpperCase()]) {
-        throw Error(
-          `Overrider: Could not find a matching coin id for the symbol '${remainingSym}'.`,
-        )
+        throw new AdapterOverriderError({
+          message: `Overrider: Could not find a matching coin id for the symbol '${remainingSym}'.`,
+        })
       }
     }
     return overriddenCoins

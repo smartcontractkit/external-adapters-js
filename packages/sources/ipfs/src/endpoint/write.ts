@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { serialize } from '../codec'
@@ -69,7 +69,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       cid = await putDag(data, client, { ...options, format, hashAlg })
       break
     default:
-      throw Error('Unknown type')
+      throw new AdapterInputError({ message: 'Unknown type' })
   }
 
   const response = {

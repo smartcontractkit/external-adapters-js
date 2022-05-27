@@ -1,3 +1,8 @@
+import {
+  AdapterDataProviderError,
+  AdapterResponseEmptyError,
+  AdapterResponseInvalidError,
+} from '@chainlink/ea-bootstrap'
 import { DexSubgraph, GraphqlAdapterRequest, TokenInformation } from '../../../types'
 import { fetchFromGraphqlAdapter } from '../dataProvider'
 import { getPairQuery, getTokenQuery } from './graphqlQueries'
@@ -19,12 +24,13 @@ export class UniswapSubgraph implements DexSubgraph {
     }
     const response = await fetchFromGraphqlAdapter(jobRunID, data)
     if (!response.result.data) {
-      const error = response.result.error || 'Failed to get token information'
-      throw new Error(error)
+      throw response.result.error
+        ? new AdapterDataProviderError(response.result.error)
+        : new AdapterResponseEmptyError({ message: 'Failed to get token information' })
     }
     const tokens = response.result.data.tokens
     if (tokens.length !== 1) {
-      throw new Error(`Token ${symbol} not found`)
+      throw new AdapterResponseInvalidError({ message: `Token ${symbol} not found` })
     }
     const token = tokens[0]
     return {

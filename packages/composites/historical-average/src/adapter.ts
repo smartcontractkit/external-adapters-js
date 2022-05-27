@@ -1,4 +1,9 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConfigError,
+  AdapterInputError,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import {
   AdapterResponse,
   ExecuteWithConfig,
@@ -34,13 +39,13 @@ export const execute: ExecuteWithConfig<Config> = async (
   const to = validator.validated.data.to
   const source = (validator.validated.data.source || config.defaultSource || '').toLowerCase()
   if (source === '') {
-    throw new AdapterError({
+    throw new AdapterConfigError({
       statusCode: 400,
       message: 'No source provided in request or the DEFAULT_SOURCE env var!',
     })
   }
   if (!(source in config.sources)) {
-    throw new AdapterError({
+    throw new AdapterConfigError({
       statusCode: 400,
       message: `The ADAPTER_URL has not been configured for source ${source}`,
     })
@@ -101,7 +106,7 @@ export const getFromToDates = (
     const fromDate = new Date(from)
     const toDate = new Date(to)
     if (fromDate >= toDate) {
-      throw new AdapterError({
+      throw new AdapterInputError({
         statusCode: 400,
         message: 'The "fromDate" must be before the "toDate"',
       })
@@ -109,14 +114,14 @@ export const getFromToDates = (
 
     return { fromDate, toDate }
   } else if (!days) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       statusCode: 400,
       message: 'Missing either from/to dates and days param',
     })
   }
   const numDays = Number(days)
   if (numDays <= 0) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       statusCode: 400,
       message: 'The days param is less than or equal to 0',
     })
@@ -132,7 +137,7 @@ export const getFromToDates = (
     return { fromDate, toDate }
   }
 
-  throw new AdapterError({
+  throw new AdapterInputError({
     statusCode: 400,
     message: 'Missing both from/to dates',
   })

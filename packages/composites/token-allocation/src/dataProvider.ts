@@ -1,4 +1,8 @@
-import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConnectionError,
+  AdapterResponseInvalidError,
+  Requester,
+} from '@chainlink/ea-bootstrap'
 import { AdapterResponse, RequestConfig } from '@chainlink/types'
 import { ResponsePayload, GetPrices } from './types'
 import { Logger } from '@chainlink/ea-bootstrap'
@@ -69,7 +73,7 @@ const sendBatchedRequests =
           : (priceResponse[0] as AdapterResponse).data.base === symbol
       })
       if (!tokenPrice)
-        throw new AdapterError({
+        throw new AdapterResponseInvalidError({
           jobRunID,
           statusCode: 500,
           message: `Cannot find token price result for symbol ${symbol}`,
@@ -129,8 +133,8 @@ const sendRequestToSource = async <T>(source: string, request: AdapterRequest): 
     return response.data
   } catch (error) {
     Logger.error(`Request to ${source} adapter failed: ${error}`)
-    throw new Error(
-      `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
-    )
+    throw new AdapterConnectionError({
+      message: `Failed to request the ${source} adapter. Ensure that the ${source.toUpperCase()}_ADAPTER_URL environment variable is correctly pointed to the adapter location.`,
+    })
   }
 }

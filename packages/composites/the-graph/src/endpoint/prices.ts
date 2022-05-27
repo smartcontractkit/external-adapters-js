@@ -1,4 +1,10 @@
-import { Validator, Requester, Logger } from '@chainlink/ea-bootstrap'
+import {
+  Validator,
+  Requester,
+  Logger,
+  AdapterInputError,
+  AdapterResponseInvalidError,
+} from '@chainlink/ea-bootstrap'
 import { Config, WETH, DEFAULT_NETWORK } from '../config'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../types'
@@ -34,12 +40,20 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     network,
   } = validator.validated.data
   if (!theGraphQuote && !quoteCoinTicker) {
-    throw new Error('quoteCoinTicker cannot be empty if theGraphQuote not supplied')
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: 'quoteCoinTicker cannot be empty if theGraphQuote not supplied',
+    })
   }
   const dexToUpperCase = dex.toUpperCase()
   const dexSubgraph = config.dexSubgraphs[dexToUpperCase]
   if (!dexSubgraph) {
-    throw new Error(`${dex} is currently not supported`)
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `${dex} is currently not supported`,
+    })
   }
   const inputParams: DexQueryInputParams = {
     jobRunID,
@@ -53,14 +67,18 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     network: network || DEFAULT_NETWORK,
   }
   if (baseCoinTicker === quoteCoinTicker) {
-    throw new Error('Base and Quote coins must be different')
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: 'Base and Quote coins must be different',
+    })
   }
   Logger.info(`Fetching quote for ${quoteCoinTicker}/${baseCoinTicker} pair from ${dex}`)
   let price
   try {
     price = await getQuotePrice(inputParams, dexSubgraph)
   } catch (e) {
-    throw new Error(`Failed to get price.  Reason "${e}"`)
+    throw new Error(`Failed to get price. Reason "${e}"`)
   }
   return Requester.success(
     jobRunID,
@@ -135,14 +153,14 @@ const validateTokenPrices = (
 ) => {
   if (!priceOne || !priceTwo) {
     if (!priceOne) {
-      throw new Error(
-        `Failed to get price because we could not determine the price of ${priceOneTicker}`,
-      )
+      throw new AdapterResponseInvalidError({
+        message: `Failed to get price because we could not determine the price of ${priceOneTicker}`,
+      })
     }
     if (!priceTwo) {
-      throw new Error(
-        `Failed to get price because we could not determine the price of ${priceTwoTicker}`,
-      )
+      throw new AdapterResponseInvalidError({
+        message: `Failed to get price because we could not determine the price of ${priceTwoTicker}`,
+      })
     }
   }
 }

@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, NAME } from '../config'
 
@@ -57,7 +57,7 @@ export const getIdFromInputs = (
   ) {
     const missingInput = !validator.validated.data.index ? 'index' : 'base /or quote'
     if (shouldThrowError) {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID: validator.validated.id,
         statusCode: 400,
         message: `Error: missing ${missingInput} input parameters`,

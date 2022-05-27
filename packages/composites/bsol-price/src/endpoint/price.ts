@@ -3,7 +3,7 @@ import { Config } from '../config'
 import * as solanaViewFunction from '@chainlink/solana-view-function-adapter'
 import BN from 'bn.js'
 import * as solanaWeb3 from '@solana/web3.js'
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError } from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
 import BigNumber from 'bignumber.js'
 
@@ -101,7 +101,7 @@ const readDataFromSolidoAddress = (
   const dataBytes = solidoRes.data
   const currentVersionNumber = dataBytes[0]
   if (config.solidoContractVersion !== currentVersionNumber)
-    throw new AdapterError({
+    throw new AdapterConfigError({
       jobRunID,
       message: `EA Solido Contract version number set to ${config.solidoContractVersion} but contract version number is ${currentVersionNumber}.  Please check that you have set the correct Solido contract address`,
     })

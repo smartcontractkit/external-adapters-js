@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config } from '../config'
 
@@ -42,7 +42,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
 
   if (!config.membersEndpoint) {
-    throw new Error('The member list endpoint has not been configured for this adapter')
+    throw new AdapterConfigError({
+      jobRunID,
+      statusCode: 500,
+      message: 'The member list endpoint has not been configured for this adapter',
+    })
   }
 
   const options = { ...config.api, baseURL: config.membersEndpoint }
