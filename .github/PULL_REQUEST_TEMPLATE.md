@@ -30,4 +30,4 @@
 - [ ] The branch naming follows git flow (`feature/x`, `chore/x`, `release/x`, `hotfix/x`, `fix/x`) or is created from Clubhouse/Shortcut
 - [ ] This is related to a maximum of one Clubhouse/Shortcut story or GitHub issue
 - [ ] Types are safe (avoid TypeScript/TSLint features like any and disable, instead use more specific types)
-- [ ] If a new feature was added, sufficient unit & integration test coverage is included
+- [ ] All code changes have 100% unit and integration test coverage. If testing is not applicable or too difficult to justify doing, the reasoning should be documented explicitly in the PR.
