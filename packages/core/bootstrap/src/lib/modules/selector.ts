@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '.'
+import { Requester, Validator } from '.'
 import {
   AdapterRequest,
   Config,
@@ -11,6 +11,7 @@ import {
 } from '@chainlink/types'
 import { logger } from '../modules'
 import { cloneDeep } from 'lodash'
+import { AdapterConfigError, AdapterInputError, AdapterOverriderError } from './error'
 
 export const baseInputParameters: InputParameters = {
   endpoint: {
@@ -72,7 +73,7 @@ const selectEndpoint = <C extends Config>(
   const endpoint = validator.validated.data.endpoint || config.defaultEndpoint
 
   if (!endpoint)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Endpoint not supplied and no default found`,
       statusCode: 400,
@@ -86,7 +87,7 @@ const selectEndpoint = <C extends Config>(
   }
 
   if (!apiEndpoint)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Endpoint ${endpoint} not supported.`,
       statusCode: 400,
@@ -98,7 +99,7 @@ const selectEndpoint = <C extends Config>(
     if (request?.data?.endpoint) request.data.endpoint = overridenEndpoint
 
     if (!apiEndpoint)
-      throw new AdapterError({
+      throw new AdapterOverriderError({
         jobRunID,
         message: `Overriden Endpoint ${overridenEndpoint} not supported.`,
         statusCode: 500,
@@ -223,7 +224,7 @@ const buildSelector = <C extends Config>(
   if (typeof apiEndpoint.makeExecute === 'function') {
     return apiEndpoint.makeExecute(config)(request, context)
   }
-  throw new AdapterError({
+  throw new AdapterConfigError({
     message: `Internal error: no execute handler found.`,
     statusCode: 500,
   })

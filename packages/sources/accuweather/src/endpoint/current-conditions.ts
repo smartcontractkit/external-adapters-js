@@ -1,4 +1,11 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterError,
+  AdapterInputError,
+  AdapterResponseInvalidError,
+  Requester,
+  util,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -155,7 +162,7 @@ export const noCurrentConditionsResult: CurrentConditionsResult = {
 
 export const validateUnitsParameter = (jobRunID: string, units: string): void => {
   if (!Object.values(Unit).includes(units as Unit)) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Invalid 'units': ${units}. Supported values are: ${Object.values(Unit).join(',')}.`,
       statusCode: 400,
@@ -172,11 +179,13 @@ export const getCurrentConditionsResult = (
   currentConditionsList: CurrentConditions[],
 ): CurrentConditionsResult => {
   if (!currentConditionsList.length)
-    throw new Error(`Current conditions not found in: ${JSON.stringify(currentConditionsList)}`)
+    throw new AdapterResponseInvalidError({
+      message: `Current conditions not found in: ${JSON.stringify(currentConditionsList)}`,
+    })
   if (currentConditionsList.length > 1)
-    throw new Error(
-      `Multiple current conditions found in: ${JSON.stringify(currentConditionsList)}`,
-    )
+    throw new AdapterResponseInvalidError({
+      message: `Multiple current conditions found in: ${JSON.stringify(currentConditionsList)}`,
+    })
 
   const system =
     unitsConditionKey.get(units) ??
@@ -281,28 +290,36 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const currentConditionsList = response.data
   if (!Array.isArray(currentConditionsList)) {
-    throw new Error(
-      `Unexpected response by location key: ${locationKey}. Expected an array but got: ${JSON.stringify(
+    throw new AdapterResponseInvalidError({
+      jobRunID,
+      statusCode: 500,
+      message: `Unexpected response by location key: ${locationKey}. Expected an array but got: ${JSON.stringify(
         currentConditionsList,
       )}.`,
-    )
+    })
   }
   let currentConditionsResult: CurrentConditionsResult
   try {
     currentConditionsResult = getCurrentConditionsResult(units, currentConditionsList)
   } catch (error) {
-    throw new Error(`Unprocessable response by location key: ${locationKey}. ${error}.`)
+    throw new AdapterError({
+      jobRunID,
+      statusCode: 500,
+      message: `Unprocessable response by location key: ${locationKey}. ${error}.`,
+    })
   }
   let result: CurrentConditionsResult | string
   if (encodeResult) {
     try {
       result = encodeCurrentConditionsResult(currentConditionsResult)
     } catch (error) {
-      throw new Error(
-        `Unexpected error encoding result: '${JSON.stringify(
+      throw new AdapterError({
+        jobRunID,
+        statusCode: 500,
+        message: `Unexpected error encoding result: '${JSON.stringify(
           currentConditionsResult,
         )}' by location key: ${locationKey}. Reason: ${error}.`,
-      )
+      })
     }
   } else {
     result = currentConditionsResult

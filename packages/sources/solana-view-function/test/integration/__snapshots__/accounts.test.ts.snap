@@ -18,7 +18,7 @@ Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"addresses\\":[\\"EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ\\"]}}",
     "message": "Please set the required env RPC_URL.",
-    "name": "AdapterError",
+    "name": "RequiredEnvError",
   },
   "jobRunID": "1",
   "status": "errored",

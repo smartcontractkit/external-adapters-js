@@ -2,7 +2,7 @@ import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/type
 import { BigNumber, ethers } from 'ethers'
 import { FIXED_POINT_DECIMALS } from './config'
 import * as view from '@chainlink/terra-view-function-adapter'
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError } from '@chainlink/ea-bootstrap'
 
 export const getTokenPrice = async (
   input: AdapterRequest,
@@ -57,7 +57,7 @@ export const throwErrorForInvalidResult = (
   label: string,
 ): void => {
   if (value.lte(BigNumber.from('0')))
-    throw new AdapterError({
+    throw new AdapterResponseInvalidError({
       jobRunID,
       statusCode: 500,
       message: `Invalid result for ${label}`,

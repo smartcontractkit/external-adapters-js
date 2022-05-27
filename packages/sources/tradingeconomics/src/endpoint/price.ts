@@ -1,4 +1,4 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponseEmptyError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Config, NAME } from '../config'
 import overrides from '../config/symbols.json'
@@ -39,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (
 
   const response = await Requester.request(request)
   if (!response.data || response.data.length < 1) {
-    throw new Error('no result for query')
+    throw new AdapterResponseEmptyError({ jobRunID, message: 'no result for query' })
   }
   // Replace array by the first object in array
   // to avoid unexpected behavior when returning arrays.

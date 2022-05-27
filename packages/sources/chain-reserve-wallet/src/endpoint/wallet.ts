@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 
@@ -75,11 +75,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const { chainId, contractAddress, network } = validator.validated.data
 
   if (!isNetwork(network)) {
-    throw Error(`Unknown network: ${network}`)
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `Unknown network: ${network}`,
+    })
   }
 
   if (!isChainId(chainId)) {
-    throw Error(`Unknown chainId: ${chainId}`)
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `Unknown chainId: ${chainId}`,
+    })
   }
 
   const chain = networkChainMap[`${network}_${chainId}`]

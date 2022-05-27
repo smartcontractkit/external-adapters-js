@@ -1,4 +1,10 @@
-import { AdapterError, Requester, Logger } from '@chainlink/ea-bootstrap'
+import {
+  AdapterError,
+  Requester,
+  Logger,
+  AdapterDataProviderError,
+  AdapterConnectionError,
+} from '@chainlink/ea-bootstrap'
 import moment from 'moment'
 import { Decimal } from 'decimal.js'
 
@@ -141,7 +147,11 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   } catch (error) {
     Logger.error(error)
     Logger.error(error.stack)
-    throw new AdapterError(error)
+    throw error.response
+      ? new AdapterDataProviderError(error)
+      : error.request
+      ? new AdapterConnectionError(error)
+      : new AdapterError(error)
   }
 }
 
