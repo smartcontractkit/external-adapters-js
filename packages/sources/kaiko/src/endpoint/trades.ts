@@ -117,7 +117,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const data = response.data.data.filter((x) => x.price !== null)
   if (data.length == 0) {
-    throw 'Unsupported Price Pair'
+    throw 'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.'
   }
 
   const result = Requester.validateResultNumber(
