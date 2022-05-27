@@ -1,4 +1,10 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterInputError,
+  AdapterResponseInvalidError,
+  Requester,
+  util,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { AdapterRequest, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { utils } from 'ethers'
 
@@ -143,14 +149,14 @@ const validateRequest = (request: AdapterRequest) => {
   const { statePostal, officeID, raceID } = request.data
   const statePostals = statePostal.split(',')
   if (statePostals.length > 1) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID: request.id,
       statusCode: 400,
       message: 'Adapter only supports finding results from a single state',
     })
   }
   if (!officeID && !raceID) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID: request.id,
       statusCode: 400,
       message: 'Either officeID or raceID must be present',
@@ -161,10 +167,12 @@ const validateRequest = (request: AdapterRequest) => {
 const validateResponse = (response: ResponseSchema) => {
   const races = response.races
   if (races.length === 0) {
-    throw Error('We could not find any races')
+    throw new AdapterResponseInvalidError({ message: 'We could not find any races' })
   }
   if (races.length > 1) {
-    throw Error("We don't support finding the winner from multiple races")
+    throw new AdapterResponseInvalidError({
+      message: "We don't support finding the winner from multiple races",
+    })
   }
 }
 
@@ -173,7 +181,7 @@ const getReportingUnit = (reportingUnits: ReportingUnit[], statePostal: string):
   const level = statePostal === 'US' ? 'national' : 'state'
   const reportingUnit = reportingUnits.find((ru) => ru.level === level)
   if (!reportingUnit) {
-    throw Error('Cannot find reporting unit')
+    throw new AdapterResponseInvalidError({ message: 'Cannot find reporting unit' })
   }
   return reportingUnit
 }
@@ -184,7 +192,7 @@ const getReportingUnitWinner = (reportingUnit: ReportingUnit): Candidate => {
       return candidate
     }
   }
-  throw Error('Candidate not found')
+  throw new AdapterResponseInvalidError({ message: 'Candidate not found' })
 }
 
 const concatenateName = (candidate: Candidate): string => `${candidate.voteCount},${candidate.last}`

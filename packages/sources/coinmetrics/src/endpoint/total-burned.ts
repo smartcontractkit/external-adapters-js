@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import { NAME as AdapterName } from '../config'
@@ -116,9 +116,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const responseData = response.data
     const { data: assetMetricsList } = responseData
     if (!Array.isArray(assetMetricsList)) {
-      throw new Error(
-        `Unexpected response: ${JSON.stringify(assetMetricsList)}. 'data' expected to be an array.`,
-      )
+      throw new AdapterResponseInvalidError({
+        jobRunID,
+        statusCode: 500,
+        message: `Unexpected response: ${JSON.stringify(
+          assetMetricsList,
+        )}. 'data' expected to be an array.`,
+      })
     }
     totalBurnedTKN = totalBurnedTKN.add(calculateBurnedTKN(assetMetricsList))
 

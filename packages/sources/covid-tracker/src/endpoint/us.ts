@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['us']
@@ -71,7 +71,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const date = validator.validated.data.date
   const resultPath = validator.validated.data.resultPath
   if (!validDate(date))
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: 'Invalid date format',
       statusCode: 400,
@@ -87,7 +87,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const response = await Requester.request<ResponseSchema[]>(options)
   const day = findDay(response.data, date)
   if (!day)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: 'Date not found in response data',
       statusCode: 400,

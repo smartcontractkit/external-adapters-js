@@ -1,4 +1,4 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig, Networks } from '../config'
 import {
@@ -36,9 +36,9 @@ export const makeNetworkStatusCheck = (
   return async (delta: number, deltaBlocks: number): Promise<boolean> => {
     const block = await requestBlockHeight(network)
     if (!_isValidBlock(block, deltaBlocks))
-      throw new Error(
-        `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
-      )
+      throw new AdapterResponseInvalidError({
+        message: `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
+      })
     if (!_isStaleBlock(block, delta)) {
       if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       Logger.info(

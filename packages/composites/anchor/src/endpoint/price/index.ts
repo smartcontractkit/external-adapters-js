@@ -1,4 +1,4 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterContext,
   AdapterRequest,
@@ -91,7 +91,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
 const mapToSymbolToAddress = (jobRunID: string, symbol: string, config: Config): string => {
   if (!config.feedAddresses[symbol.toLowerCase()])
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       statusCode: 400,
       message: `${symbol} is not a supported conversion currency`,

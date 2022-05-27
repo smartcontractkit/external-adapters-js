@@ -8,7 +8,7 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { AdapterError, logger } from '../../modules'
+import { AdapterBurstLimitError, logger } from '../../modules'
 import { sleep } from '../../util'
 
 export * as actions from './actions'
@@ -66,7 +66,7 @@ export const withBurstLimit =
             config.burstCapacity1m * MINUTE_LIMIT_WARMER_BUFFER
           } requests per minute reached. ${observedRequestsInMinute} requests sent in the last minute.`,
         )
-        throw new AdapterError({
+        throw new AdapterBurstLimitError({
           jobRunID: input.id,
           message: 'New request backoff: Minute Burst rate limit cap reached.',
           statusCode: 429,
@@ -81,7 +81,7 @@ export const withBurstLimit =
         logger.warn(
           `External Adapter backing off. Provider's burst limit of ${config.burstCapacity1s} requests per second reached.`,
         )
-        throw new AdapterError({
+        throw new AdapterBurstLimitError({
           jobRunID: input.id,
           message: 'New request backoff: Second Burst rate limit cap reached.',
           statusCode: 429,

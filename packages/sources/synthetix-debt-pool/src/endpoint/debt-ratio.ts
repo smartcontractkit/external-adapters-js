@@ -1,4 +1,9 @@
-import { AdapterError } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConfigError,
+  AdapterConnectionError,
+  AdapterDataProviderError,
+  AdapterError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { ethers, BigNumber } from 'ethers'
 import {
@@ -42,7 +47,7 @@ const getDebtRatio = async (
   const chainResponses = await Promise.all(
     debtIssued.map(async ([network, blockNumber, issuedSynths]): Promise<CurrentDebtResults> => {
       if (!config.chains[network])
-        throw new AdapterError({
+        throw new AdapterConfigError({
           jobRunID,
           statusCode: 500,
           message: `Chain ${network} not configured`,
@@ -69,10 +74,15 @@ const getDebtRatio = async (
           totalDebtShares: chainTotalDebtShare,
         }
       } catch (e) {
-        throw new AdapterError({
+        const errorPayload = {
           jobRunID,
           message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${e.message}`,
-        })
+        }
+        throw e.response
+          ? new AdapterDataProviderError(errorPayload)
+          : e.request
+          ? new AdapterConnectionError(errorPayload)
+          : new AdapterError(errorPayload)
       }
     }),
   )
