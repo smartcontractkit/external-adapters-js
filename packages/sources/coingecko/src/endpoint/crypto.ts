@@ -1,4 +1,11 @@
-import { Requester, Validator, Overrider, Logger, CacheKey } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  Overrider,
+  Logger,
+  CacheKey,
+  AdapterError,
+} from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -20,9 +27,23 @@ const customError = (data: ResponseSchema) => {
 }
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(
+    request,
+    inputParameters,
+    {},
+    {
+      // Handle case when base param not set.  This happens when the downstream EA's buildResultPath gets called whenever a composite EA tries to select an endpoint
+      shouldThrowError: false,
+    },
+  )
 
   const quote = validator.validated.data.quote
+  if (!quote)
+    throw new AdapterError({
+      jobRunID: request.id,
+      message: 'Missing quote',
+      statusCode: 400,
+    })
   if (Array.isArray(quote)) return ''
   return `${quote.toLowerCase()}${path}`
 }
