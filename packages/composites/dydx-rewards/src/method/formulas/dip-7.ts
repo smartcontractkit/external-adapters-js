@@ -1,9 +1,9 @@
 import * as bn from 'bignumber.js'
-import { AddressRewards, OracleRewardsDataPreEpoch10 } from '../../ipfs-data'
+import { AddressRewards, OracleRewardsData } from '../../ipfs-data'
 import { addReward } from '../poke'
 
 export const calcTraderRewards = (
-  epochData: OracleRewardsDataPreEpoch10,
+  epochData: OracleRewardsData,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
   a = 0.67, // TRADER_SCORE_A=670000000000000000
@@ -16,7 +16,7 @@ export const calcTraderRewards = (
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const f = epochData.tradeFeesPaid[addr]
     const d = epochData.openInterest[addr] || 0
-    const g = epochData.averageActiveStakedDYDX[addr] || 0
+    const g = epochData?.averageActiveStakedDYDX?.[addr] || 0
     const score = new bn.BigNumber(f ** a)
       .times(d ** b)
       .times(bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c)

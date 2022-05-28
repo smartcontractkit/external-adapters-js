@@ -27,9 +27,9 @@ export const calcTraderRewards = (
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const linkedAddress = epochData?.linkedPrimaryAddresses?.[addr]
     const f = epochData?.tradeFeesPaid?.[addr]
-    const d = epochData?.averageOpenInterest?.[addr] || 0
+    const d = epochData?.openInterest?.[addr] || 0
     const g =
-      epochData?.averageActiveStakedDYDX?.[linkedAddress] ||
+      (linkedAddress && epochData?.averageActiveStakedDYDX?.[linkedAddress]) ||
       epochData?.averageActiveStakedDYDX?.[addr] ||
       0
     const score = new bn.BigNumber(f ** a)
@@ -42,7 +42,7 @@ export const calcTraderRewards = (
   if (traderScoreSum.isZero()) return
 
   Object.keys(traderScore).forEach((addr) => {
-    const addressToGiveRewardsTo = epochData.linkedPrimaryAddresses[addr] || addr
+    const addressToGiveRewardsTo = epochData?.linkedPrimaryAddresses?.[addr] || addr
     const reward = traderRewardsAmount
       .times(traderScore[addr])
       .div(traderScoreSum)
