@@ -2,7 +2,7 @@ import * as IPFS_Adapter from '@chainlink/ipfs-adapter'
 import { types } from '@chainlink/ipfs-adapter'
 import {
   OracleRewardsDataByEpoch,
-  OracleRewardsDataPreEpoch10,
+  OracleRewardsData,
   storeJsonTree,
   MerkleTreeData,
 } from '../../src/ipfs-data'
@@ -45,7 +45,7 @@ describe('ipfs data', () => {
     const cidVersion = 1
     const address = '0xE4dDb4233513498b5aa79B98bEA473b01b101a67'
 
-    const writeData: OracleRewardsDataPreEpoch10 = {
+    const writeData: OracleRewardsData = {
       epoch: 123,
       tradeFeesPaid: {
         [address]: 123,
