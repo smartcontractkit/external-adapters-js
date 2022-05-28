@@ -67,7 +67,7 @@ export class Requester {
           // Axios timeout code
           throw new AdapterTimeoutError({
             statusCode: 504,
-            name: 'Request Timeout error',
+            name: 'Data Provider Request Timeout error',
             providerStatusCode,
             message: error?.message,
             cause: error,
@@ -89,13 +89,19 @@ export class Requester {
           })
         }
 
-        return await _delayRetry(`Caught error. Retrying: ${JSON.stringify(error.message)}`)
+        return await _delayRetry(
+          `Caught error trying to fetch data from Data Provider. Retrying: ${JSON.stringify(
+            error.message,
+          )}`,
+        )
       }
 
       if (response.data.error || customError(response.data)) {
         // Response error
         if (n === 1) {
-          const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
+          const message = `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: ${JSON.stringify(
+            response.data,
+          )}`
           const cause = response.data.error || 'customError'
           const providerStatusCode: number | undefined =
             response.data.error?.code ?? response.status
@@ -112,7 +118,9 @@ export class Requester {
             : new AdapterCustomError(errorPayload)
         }
 
-        return await _delayRetry(`Error in response. Retrying: ${JSON.stringify(response.data)}`)
+        return await _delayRetry(
+          `Error in response from Data Provider. Retrying: ${JSON.stringify(response.data)}`,
+        )
       }
 
       // Success
@@ -134,28 +142,29 @@ export class Requester {
     data: { [key: string]: any },
     path: ResultPath,
     options?: { inverse?: boolean },
+    missingDataErrorMsg = 'Data provider response empty',
+    missingResultsErrorMsg = 'Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
   ): number {
     if (typeof data === 'undefined' || data === null || Object.keys(data).length === 0) {
-      const message = 'Data provider response empty'
-      logger.error(message, { data, path })
+      logger.error(missingDataErrorMsg, { data, path })
       throw new AdapterResponseEmptyError({
-        message,
+        message: missingDataErrorMsg,
         statusCode: 502,
       })
     }
     const result = this.getResult(data, path)
 
     if (typeof result === 'undefined' || result === null) {
-      const message = `Result could not be found in path`
-      logger.error(message, { data, path })
+      logger.error(missingResultsErrorMsg, { data, path })
       throw new AdapterResponseInvalidError({
-        message,
+        message: missingResultsErrorMsg,
         statusCode: 502,
       })
     }
 
     if (Number(result) === 0 || isNaN(Number(result))) {
-      const message = 'Invalid result received'
+      const message =
+        'Invalid result received. This is likely an issue with the data provider or the input params/overrides.'
       logger.error(message, { data, path })
       throw new AdapterResponseInvalidError({
         message,
