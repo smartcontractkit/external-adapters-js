@@ -66,7 +66,6 @@ export const initHandler =
         ...toObjectWithNumbers(req.query),
         ...metricsMeta,
       }
-
       ;(context.ip = clientIp), (context.hostname = req.hostname)
 
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
