@@ -8,7 +8,7 @@ import { loadTestPayload } from './config/test-payload-loader'
 import { logger } from './modules'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
-import { getClientIp, getEnv, parseBool, toObjectWithNumbers } from './util'
+import { getClientIp, getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { WSReset } from './middleware/ws/actions'
@@ -17,7 +17,6 @@ const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
 const baseUrl = getEnv('BASE_URL') as string
 const eaHost = getEnv('EA_HOST') as string
-const debug = parseBool(getEnv('DEBUG') as string)
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -59,22 +58,16 @@ export const initHandler =
     app.post<{
       Body: AdapterRequest
     }>(baseUrl, async (req, res) => {
-      const metricsMeta = METRICS_ENABLED
-        ? { metricsMeta: { requestOrigin: getClientIp(req) } }
-        : {}
-      const ip = req.ip
-      const hostname = req.hostname
+      const clientIp = getClientIp(req)
+      const metricsMeta = METRICS_ENABLED ? { metricsMeta: { requestOrigin: clientIp } } : {}
+
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
         ...metricsMeta,
-        ip,
-        hostname,
       }
-      if (debug) {
-        logger.info(`Ip ${ip}`)
-        logger.info(`Host ${hostname}`)
-      }
+
+      ;(context.ip = clientIp), (context.hostname = req.hostname)
 
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.code(status).send(result)
