@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'TERRA_VIEW_FUNCTION'
@@ -49,7 +49,8 @@ const buildLcdUrlMapping = () => {
       hasAtLeastOneURL = true
     }
   }
-  if (!hasAtLeastOneURL) throw new Error('At least one LCD URL must be defined')
+  if (!hasAtLeastOneURL)
+    throw new AdapterConfigError({ message: 'At least one LCD URL must be defined' })
 
   return output
 }

@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { BigNumber } from 'ethers'
 
@@ -34,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const _execute: ExecuteWithConfig<Config> = JSONRPC.makeExecute(jsonRpcConfig)
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Input, at 'addresses' or 'result' path, must be a non-empty array.`,
       statusCode: 400,

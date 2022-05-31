@@ -1,5 +1,5 @@
 import objectPath from 'object-path'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Execute, InputParameters } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
@@ -47,13 +47,21 @@ export const execute: Execute = async (request) => {
 
   // Check if input data is valid
   if (!inputData || !Array.isArray(inputData) || inputData.length === 0) {
-    throw Error(`Input must be a non-empty array.`)
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `Input must be a non-empty array.`,
+    })
   }
 
   const path = data.valuePath || ''
   // Check if every input object has a path specified
   if (path && !inputData.every((val) => objectPath.has(val, path))) {
-    throw Error(`Path '${path}' not present in every item.`)
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `Path '${path}' not present in every item.`,
+    })
   }
 
   // Get value at specified path
@@ -65,7 +73,11 @@ export const execute: Execute = async (request) => {
   // Check if all items are numbers
   const _isNumber = (val: unknown): boolean => !isNaN(_get(val))
   if (!inputData.every(_isNumber)) {
-    throw Error(`Not every '${path}' item is a number.`)
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `Not every '${path}' item is a number.`,
+    })
   }
 
   let result: Decimal
@@ -114,7 +126,11 @@ export const execute: Execute = async (request) => {
       break
     }
     default: {
-      throw Error(`Reducer ${data.reducer} not supported.`)
+      throw new AdapterInputError({
+        jobRunID,
+        statusCode: 400,
+        message: `Reducer ${data.reducer} not supported.`,
+      })
     }
   }
 

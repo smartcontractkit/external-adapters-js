@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/types'
 import * as paypal from '@paypal/payouts-sdk'
 
@@ -22,7 +22,7 @@ export const makeConfig = (prefix = ''): Config => {
       environment = new paypal.core.LiveEnvironment(clientId, clientSecret)
       break
     default: {
-      throw new AdapterError({
+      throw new AdapterConfigError({
         jobRunID: undefined,
         message: `${mode} mode is not supported.`,
         statusCode: 400,

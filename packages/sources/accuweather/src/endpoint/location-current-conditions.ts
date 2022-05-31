@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterResponse,
   AxiosResponse,
@@ -124,9 +124,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
         encodeCurrentConditionsResult(endpointResult),
       ]
     } catch (error) {
-      throw new Error(
-        `Unexpected error encoding result: '${JSON.stringify(endpointResult)}'. Reason: ${error}.`,
-      )
+      throw new AdapterError({
+        jobRunID,
+        statusCode: 500,
+        message: `Unexpected error encoding result: '${JSON.stringify(
+          endpointResult,
+        )}'. Reason: ${error}.`,
+      })
     }
   } else {
     result = endpointResult

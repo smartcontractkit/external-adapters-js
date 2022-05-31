@@ -1,4 +1,10 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  AdapterError,
+  AdapterDataProviderError,
+  AdapterConnectionError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['graphql']
@@ -46,9 +52,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     response.data.result = responseData
     return Requester.success(jobRunID, response, config.verbose)
   } catch (e) {
-    throw new AdapterError({
+    const errorPayload = {
       jobRunID,
       message: `GraphQL request to ${graphqlEndpoint} failed with error ${e}`,
-    })
+    }
+    throw e.response
+      ? new AdapterDataProviderError(errorPayload)
+      : e.request
+      ? new AdapterConnectionError(errorPayload)
+      : new AdapterError(errorPayload)
   }
 }

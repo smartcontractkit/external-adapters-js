@@ -1,4 +1,4 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig } from '../config'
 import * as solanaWeb3 from '@solana/web3.js'
@@ -18,7 +18,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
 
   if (!config.rpcUrl)
-    throw new AdapterError({
+    throw new AdapterConfigError({
       jobRunID,
       message: 'Solana RPC URL not set',
     })

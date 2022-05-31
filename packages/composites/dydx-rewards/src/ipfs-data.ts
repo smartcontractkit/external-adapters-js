@@ -32,11 +32,14 @@ export interface OracleRewardsData {
   openInterest: {
     [address: string]: number
   }
+  averageActiveStakedDYDX?: {
+    [address: string]: number
+  }
   quoteScore: {
     [address: string]: number
   }
-  averageActiveStakedDYDX: {
-    [address: string]: number
+  linkedPrimaryAddresses?: {
+    [address: string]: string
   }
 }
 

@@ -6,9 +6,9 @@ import * as nock from 'nock'
 import {
   mockResponseSuccessConversionEndpoint,
   mockResponseSuccessTickersEndpoint,
+  mockEmptyResponseSuccessTickersEndpoint,
 } from './fixtures'
 import { AddressInfo } from 'net'
-import { conversion } from '../../src/endpoint'
 
 describe('execute', () => {
   const id = '1'
@@ -67,6 +67,18 @@ describe('execute', () => {
         quote: 'GBP',
       },
     }
+
+    it('should return the proper warning message when the API does not return a response', async () => {
+      mockEmptyResponseSuccessTickersEndpoint()
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(502)
+      expect(response.body).toMatchSnapshot()
+    })
 
     it('should return success', async () => {
       mockResponseSuccessTickersEndpoint()

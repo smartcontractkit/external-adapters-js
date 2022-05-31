@@ -1,5 +1,11 @@
 import { ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConfigError,
+  AdapterInputError,
+  AdapterResponseInvalidError,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, makeConfig } from './config'
 import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/utils/PorInputAddress'
 import Decimal from 'decimal.js'
@@ -23,7 +29,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
   const porServiceRequests = new Map<string, string[]>()
   for (const { network, chainId, address } of porInputAddresses) {
     if (typeof network === 'undefined' || typeof chainId === 'undefined') {
-      throw new Error(`network and chainId must be defined for address ${address}`)
+      throw new AdapterInputError({
+        jobRunID,
+        statusCode: 400,
+        message: `network and chainId must be defined for address ${address}`,
+      })
     }
     const id = getPorId(network, chainId)
     const existingAddresses = porServiceRequests.get(id) || []
@@ -36,7 +46,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
     const indexerEndpointEnvName = `${porId}_POR_INDEXER_URL` as keyof typeof config
     const indexerUrl = config[indexerEndpointEnvName]
     if (typeof indexerUrl !== 'string') {
-      throw new Error(`No PoR Indexer endpoint configured for ${indexerEndpointEnvName}`)
+      throw new AdapterConfigError({
+        jobRunID,
+        statusCode: 500,
+        message: `No PoR Indexer endpoint configured for ${indexerEndpointEnvName}`,
+      })
     }
 
     const response = Requester.request({
@@ -60,7 +74,10 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
     .map((response) => {
       const totalReserves = new Decimal(response.data.data.totalReserves)
       if (!totalReserves.isFinite() || totalReserves.isNaN()) {
-        throw new Error(`Invalid totalReserves answer: ${totalReserves.toString()}`)
+        throw new AdapterResponseInvalidError({
+          jobRunID,
+          message: `Invalid totalReserves answer: ${totalReserves.toString()}`,
+        })
       }
       return totalReserves
     })

@@ -1,4 +1,11 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  AdapterError,
+  AdapterInputError,
+  AdapterDataProviderError,
+  AdapterConnectionError,
+} from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
 import { initializeENS } from '../utils'
@@ -27,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const splitName = name.split('.')
   if (splitName.length < 2)
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Invalid ENS name. Format must be [domain].[top level domain], (e.g. chainlink.eth)`,
       statusCode: 400,
@@ -68,10 +75,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       address: address ?? undefined,
     }
   } catch (error) {
-    throw new AdapterError({
+    const errorPayload = {
       jobRunID,
       message: `Failed to fetch on-chain data.  Error Message: ${error}`,
-    })
+    }
+    throw error.response
+      ? new AdapterDataProviderError(errorPayload)
+      : error.request
+      ? new AdapterConnectionError(errorPayload)
+      : new AdapterError(errorPayload)
   }
 
   const result = response.data[resultPath]

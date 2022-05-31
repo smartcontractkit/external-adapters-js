@@ -1,3 +1,4 @@
+import { AdapterConfigError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['price']
@@ -19,7 +20,8 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async () => {
-  throw Error(
-    'The Blocksize Capital Adapter does not support HTTP requests. Ensure WS_ENABLED is "true" in the adapter configuration.',
-  )
+  throw new AdapterConfigError({
+    message:
+      'The Blocksize Capital Adapter does not support HTTP requests. Ensure WS_ENABLED is "true" in the adapter configuration.',
+  })
 }
