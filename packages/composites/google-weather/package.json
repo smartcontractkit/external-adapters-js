@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/google-weather-adapter",
-  "version": "1.0.53",
+  "version": "1.0.54",
   "description": "Chainlink google-weather adapter.",
   "keywords": [
     "Chainlink",

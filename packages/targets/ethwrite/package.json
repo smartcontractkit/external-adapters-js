@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ethwrite-adapter",
-  "version": "1.0.52",
+  "version": "1.0.53",
   "description": "Chainlink ethwrite adapter.",
   "keywords": [
     "ethtx",

@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as DefaultConfig } from '@chainlink/types'
 
 export const NAME = 'SYNTHETIX_DEBT_POOL'
@@ -43,7 +43,8 @@ export const makeConfig = (prefix?: string): Config => {
   }
 
   const chains = Object.keys(config.chains)
-  if (chains.length === 0) throw Error('Must set at least one RPC Chain URL')
+  if (chains.length === 0)
+    throw new AdapterConfigError({ message: 'Must set at least one RPC Chain URL' })
   return config
 }
 

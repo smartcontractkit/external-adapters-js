@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { Execute, AdapterResponse, ExecuteWithConfig } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
 import { conflux } from './endpoint'
@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (
       return await conflux.execute(request, context, config)
     }
     default: {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `Endpoint ${endpoint} not supported.`,
         statusCode: 400,

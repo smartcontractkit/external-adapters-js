@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { Decimal } from 'decimal.js'
 import moment from 'moment-timezone'
@@ -73,7 +73,7 @@ export const getURLPath = (jobRunID: string, index: string): string => {
     case XLCI:
       return '/v1/index/xangle-largecap'
     default:
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `${index} not supported. Must be one of ${XBCI}, ${XLCI}`,
         statusCode: 400,

@@ -1,4 +1,12 @@
-import { Builder, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConnectionError,
+  AdapterDataProviderError,
+  AdapterError,
+  Builder,
+  Logger,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import {
   Config,
   ExecuteWithConfig,
@@ -74,7 +82,8 @@ export const getAccessToken = async (
     }
 
     const tokenResponse = await Requester.request<AccessTokenResponse>(data)
-    if (!tokenResponse.data.success) throw new Error(tokenResponse.data.error)
+    if (!tokenResponse.data.success)
+      throw new AdapterDataProviderError({ message: tokenResponse.data.error })
     return {
       token: tokenResponse.data.token,
       validUntil: new Date(tokenResponse.data.validUntil).getTime(),
@@ -87,7 +96,11 @@ export const getAccessToken = async (
           : `failed to get new token`
       }, with error: ${error.message}`,
     )
-    throw error
+    throw error.response
+      ? new AdapterDataProviderError(error)
+      : error.request
+      ? new AdapterConnectionError(error)
+      : new AdapterError(error)
   }
 }
 

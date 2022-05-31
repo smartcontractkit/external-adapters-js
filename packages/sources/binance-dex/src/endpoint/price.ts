@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { NAME as ADAPTER_NAME } from '../config'
 
@@ -74,7 +74,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const curTime = new Date()
   // If data is older than 10 minutes, discard it
   if (lastUpdate < curTime.setMinutes(curTime.getMinutes() - 10))
-    throw new AdapterError({
+    throw new AdapterDataProviderError({
       jobRunID,
       message: `Data is too old`,
       statusCode: 500,

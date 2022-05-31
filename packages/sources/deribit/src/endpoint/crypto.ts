@@ -1,5 +1,5 @@
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError, Requester, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['crypto']
 
@@ -34,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   })
 
   if (resultSorted.length < 1 || resultSorted[0].length < 2) {
-    throw new Error('no derbit value')
+    throw new AdapterResponseInvalidError({ jobRunID, message: 'no derbit value' })
   }
 
   response.data.result = Requester.validateResultNumber(resultSorted, [0, 1])

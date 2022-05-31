@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['forex']
@@ -18,7 +18,8 @@ export const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<Config> = async (request) => {
   new Validator(request, inputParameters)
-  throw Error(
-    'The NCFX adapter does not support making HTTP requests. Make sure WS is enabled in the adapter configuration.',
-  )
+  throw new AdapterConfigError({
+    message:
+      'The NCFX adapter does not support making HTTP requests. Make sure WS is enabled in the adapter configuration.',
+  })
 }

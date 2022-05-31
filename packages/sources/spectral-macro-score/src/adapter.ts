@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { ExecuteFactory, AdapterRequest, AdapterContext, AdapterResponse } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
 import { MacroScoreAPI } from './endpoint'
@@ -25,7 +25,7 @@ export const execute = async (
       return await MacroScoreAPI.execute(request, config)
     }
     default: {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID: request.data.jobRunID,
         message: `Endpoint ${endpoint} not supported.`,
         statusCode: 400,

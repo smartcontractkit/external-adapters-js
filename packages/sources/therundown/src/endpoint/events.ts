@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['events']
@@ -49,7 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const status = validator.validated.data.status
   date = new Date(date)
   if (date.toString() === 'Invalid Date') {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Invalid date format`,
       statusCode: 400,

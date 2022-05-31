@@ -151,13 +151,15 @@ export const calcMarketMakerRewards = (
   )
 
   Object.keys(epochData.quoteScore).forEach((addr) => {
+    const addressToGiveRewardsTo =
+      ('linkedPrimaryAddresses' in epochData && epochData.linkedPrimaryAddresses?.[addr]) || addr
     const reward = marketMakerRewardsAmount
       .times(epochData.quoteScore[addr])
       .div(quoteScoreSum)
       .decimalPlaces(0, bn.BigNumber.ROUND_FLOOR)
       .toFixed()
     if (reward !== '0') {
-      addReward(addressRewards, addr, reward)
+      addReward(addressRewards, addressToGiveRewardsTo, reward)
     }
   })
 }

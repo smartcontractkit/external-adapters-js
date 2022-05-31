@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
 
 export const supportedEndpoints = ['deposits']
@@ -75,7 +75,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   if (!addresses) {
     const keys = Object.keys(response.data).join()
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Input, at 'symbol' path, must be one of the following values: ${keys}`,
       statusCode: 400,
