@@ -15,7 +15,7 @@ export interface OracleRewardsDataByEpoch {
   }
 }
 
-export interface OracleRewardsDataPreEpoch10 {
+export interface OracleRewardsData {
   epoch: number
   retroactiveTradeVolume?: {
     [address: string]: number
@@ -32,37 +32,13 @@ export interface OracleRewardsDataPreEpoch10 {
   openInterest: {
     [address: string]: number
   }
-  quoteScore: {
-    [address: string]: number
-  }
-  averageActiveStakedDYDX: {
-    [address: string]: number
-  }
-}
-export interface OracleRewardsData {
-  epoch: number
-  retroactiveTradeVolume?: {
-    [address: string]: number
-  }
-  tradeVolume?: {
-    [address: string]: number
-  }
-  isExpoUser?: {
-    [address: string]: boolean
-  }
-  tradeFeesPaid: {
-    [address: string]: number
-  }
-  averageOpenInterest: {
-    [address: string]: number
-  }
-  averageActiveStakedDYDX: {
+  averageActiveStakedDYDX?: {
     [address: string]: number
   }
   quoteScore: {
     [address: string]: number
   }
-  linkedPrimaryAddresses: {
+  linkedPrimaryAddresses?: {
     [address: string]: string
   }
 }

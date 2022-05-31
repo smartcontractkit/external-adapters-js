@@ -9,7 +9,6 @@ import {
   getDataForEpoch,
   MerkleTreeData,
   OracleRewardsData,
-  OracleRewardsDataPreEpoch10,
   storeJsonTree,
 } from '../ipfs-data'
 import * as IPFS from '@chainlink/ipfs-adapter'
@@ -190,7 +189,7 @@ export const addReward = (
 }
 
 export const calcTraderRewards = (
-  epochData: OracleRewardsDataPreEpoch10 | OracleRewardsData,
+  epochData: OracleRewardsData,
   addressRewards: AddressRewards,
   traderRewardsAmount: bn.BigNumber,
   traderScoreA: number,
@@ -199,14 +198,14 @@ export const calcTraderRewards = (
 ): void => {
   if (epochData.epoch < 5) {
     initial.calcTraderRewards(
-      epochData as OracleRewardsDataPreEpoch10,
+      epochData as OracleRewardsData,
       addressRewards,
       traderRewardsAmount,
       traderScoreA,
     )
   } else if (epochData.epoch < 10) {
     DIP7.calcTraderRewards(
-      epochData as OracleRewardsDataPreEpoch10,
+      epochData as OracleRewardsData,
       addressRewards,
       traderRewardsAmount,
       traderScoreA,
