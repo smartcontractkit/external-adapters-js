@@ -51,8 +51,8 @@ describe('constructJsonTree', () => {
   // In order to deterministically get a different array from the original
   // one (besides when n=1), simply reverse the array. The function is
   // supposed to sort it to the correct order.
-  const rewards = deconstructJsonTree(mockRewards)
-  const shuffledRewards = deconstructJsonTree([...mockRewards].reverse())
+  const rewards = deconstructJsonTree(mockRewards as [string, string][])
+  const shuffledRewards = deconstructJsonTree(([...mockRewards] as [string, string][]).reverse())
 
   it('should generate the same JSON tree no matter the order', () => {
     const regularJsonTree = constructJsonTree(rewards)

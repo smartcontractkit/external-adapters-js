@@ -6,7 +6,6 @@ import * as nock from 'nock'
 import { AddressInfo } from 'net'
 import {
   mockForexSingleSuccess,
-  mockForexBatchedSuccess,
   mockLiveSuccess,
   mockResponseFailure,
   mockSubscribeResponse,

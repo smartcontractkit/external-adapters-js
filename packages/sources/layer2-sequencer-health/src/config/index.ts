@@ -1,4 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
 import { AdapterContext, Config } from '@chainlink/types'
 import { envDefaultOverrides } from './envDefaultOverrides'
 
@@ -48,7 +48,7 @@ export interface ExtendedConfig extends Config {
 export const makeConfig = (prefix?: string): ExtendedConfig => {
   const isCacheEnabled = util.parseBool(util.getEnv('CACHE_ENABLED', undefined, adapterContext))
   if (isCacheEnabled) {
-    throw new Error('Cache cannot be enabled on this adapter')
+    throw new AdapterConfigError({ message: 'Cache cannot be enabled on this adapter' })
   }
   const config = Requester.getDefaultConfig(prefix)
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME

@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
 import { makeConfig, DEFAULT_ENDPOINT, Config } from './config'
 import { txsend } from './endpoint'
@@ -20,7 +20,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       return await txsend.execute(request, context, config)
     }
     default: {
-      throw new AdapterError({
+      throw new AdapterInputError({
         jobRunID,
         message: `Endpoint ${endpoint} not supported.`,
         statusCode: 400,

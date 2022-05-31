@@ -1,5 +1,21 @@
 # @chainlink/ea-bootstrap
 
+## 2.7.0
+
+### Minor Changes
+
+- 568e86deb: Updated core & EAs to use the new, more specific versions of AdapterError class, to better pinpoint the kind of errors that are occurring
+- d360ce8ef: Updated withMetrics middleware to record new error types to prometheus
+- 3000778b5: Added data_provider_request_attempts & data_provider_request_duration_seconds metrics to requester. Added error type label to ws_subscription_errors metric.
+- 6abc1eb98: allow custom error messages when a result cannot be found from the DP's response and left a warning for pairs not updating on weekends in Polygon EA
+- b0f0cd681: Added additional error types to HttpRequestType enum. Extended AdapterError to allow many different types of error to be thrown.
+- 8e59df0fa: ensure that providerStatusCode set to 200 when request is successful
+
+### Patch Changes
+
+- e6f8af918: Clarified error/log messages when there's likely DP issues
+- 7313ac0a4: Use logical OR instead of null coalesce for LOG_LEVEL
+
 ## 2.6.0
 
 ### Minor Changes

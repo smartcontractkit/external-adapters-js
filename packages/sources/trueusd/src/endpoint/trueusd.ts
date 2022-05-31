@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const NAME = 'trueusd'
@@ -33,7 +33,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = '/chainlink/TrueUSD'
 
   if (!['totalTrust', 'totalToken'].includes(field)) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: 'Parameter "resultPath" should be one of ["totalTrust", "totalToken"]',
       statusCode: 400,

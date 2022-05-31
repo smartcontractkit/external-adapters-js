@@ -4,6 +4,7 @@ import { FastifyRequest } from 'fastify'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { CacheEntry } from './middleware/cache/types'
+import { AdapterConfigError, RequiredEnvError } from './modules/error'
 import { logger } from './modules/logger'
 
 /**
@@ -135,7 +136,9 @@ export const getWithCoalescing = async ({
 const getEnvName = (name: string, prefix = '') => {
   const envName = prefix ? `${prefix}_${name}` : name
   if (!isEnvNameValid(envName))
-    throw Error(`Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`)
+    throw new AdapterConfigError({
+      message: `Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`,
+    })
   return envName
 }
 
@@ -163,14 +166,6 @@ export const getEnv = (name: string, prefix = '', context?: AdapterContext): str
   }
   if (envVar === '') envVar = undefined
   return envVar
-}
-
-// Custom error for required env variable.
-export class RequiredEnvError extends Error {
-  constructor(name: string) {
-    super(`Please set the required env ${name}.`)
-    this.name = RequiredEnvError.name
-  }
 }
 
 /**
