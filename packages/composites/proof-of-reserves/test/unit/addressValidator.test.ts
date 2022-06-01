@@ -236,6 +236,11 @@ describe('Validates Filecoin addresses', () => {
         chainId: 'mainnet',
       },
       {
+        address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi',
+        network: 'filecoin',
+        chainId: 'mainnet',
+      },
+      {
         address:
           'f3v2ua3tr344lbzpyl47blbb3hlmexk6hwuvsghbsaeoexm7qs5mpiovtv4s62om6lj67vk4n22cfdm2allvra',
         network: 'filecoin',
