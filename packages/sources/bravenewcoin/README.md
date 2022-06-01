@@ -1,6 +1,6 @@
 # Chainlink External Adapter for BraveNewCoin
 
-![1.2.17](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bravenewcoin/package.json)
+![1.2.18](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bravenewcoin/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

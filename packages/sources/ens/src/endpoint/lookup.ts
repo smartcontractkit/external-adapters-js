@@ -5,6 +5,7 @@ import {
   AdapterInputError,
   AdapterDataProviderError,
   AdapterConnectionError,
+  Logger,
 } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ethers } from 'ethers'
@@ -24,6 +25,8 @@ export const inputParameters: InputParameters = {
     type: 'string',
   },
 }
+
+const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
@@ -64,7 +67,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     >([
       isEthTLD && !isSubdomain
         ? await contracts.Registrar.ownerOf(tokenId)
-        : new Promise((resolve) => resolve(undefined)),
+        : new Promise((resolve) => resolve(ZERO_ADDRESS)),
       await contracts.Registry.owner(namehash),
       await networkProvider.resolveName(name),
     ])
@@ -72,18 +75,24 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     response.data = {
       registrant,
       controller,
-      address: address ?? undefined,
+      address: address ?? ZERO_ADDRESS,
     }
   } catch (error) {
     const errorPayload = {
       jobRunID,
       message: `Failed to fetch on-chain data.  Error Message: ${error}`,
     }
-    throw error.response
+    const errorResp = error.response
       ? new AdapterDataProviderError(errorPayload)
       : error.request
       ? new AdapterConnectionError(errorPayload)
       : new AdapterError(errorPayload)
+    Logger.error(errorResp)
+    response.data = {
+      registrant: ZERO_ADDRESS,
+      controller: ZERO_ADDRESS,
+      address: ZERO_ADDRESS,
+    }
   }
 
   const result = response.data[resultPath]
