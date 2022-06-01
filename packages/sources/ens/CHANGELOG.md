@@ -1,5 +1,11 @@
 # @chainlink/ens-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 9727d2eae: return 0 addresses when EA fails and when an address cannot be found
+
 ## 1.0.4
 
 ### Patch Changes
