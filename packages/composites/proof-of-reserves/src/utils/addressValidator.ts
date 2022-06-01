@@ -151,14 +151,14 @@ const getValidFilecoinAddress = (id: string, address: string): string | undefine
   if (address[0] !== 'f' && address[0] !== 't') {
     Logger.warn(
       { warning: 'Invalid address detected' },
-      `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+      `JobId ${id}: The address "${address}" is not a valid Filecoin address and has been removed.`,
     )
     return
   }
-  if (address[1] !== '1' && address[1] !== '3') {
+  if (address[1] !== '0' && address[1] !== '1' && address[1] !== '2' && address[1] !== '3') {
     Logger.warn(
       { warning: 'Invalid address detected' },
-      `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+      `JobId ${id}: The address "${address}" is not a valid Filecoin address and has been removed.`,
     )
     return
   }
