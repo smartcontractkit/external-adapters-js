@@ -20,6 +20,7 @@ Object {
   "data": Object {
     "address": "0x0mockinputnonethtld.test",
     "controller": "fake-registry-owner",
+    "registrant": "0x0000000000000000000000000000000000000000",
     "result": "0x0mockinputnonethtld.test",
   },
   "jobRunID": "1",
@@ -34,6 +35,7 @@ Object {
   "data": Object {
     "address": "0x0subdomain.mockinputethtld.eth",
     "controller": "fake-registry-owner",
+    "registrant": "0x0000000000000000000000000000000000000000",
     "result": "0x0subdomain.mockinputethtld.eth",
   },
   "jobRunID": "1",
@@ -48,6 +50,7 @@ Object {
   "data": Object {
     "address": "0x0subdomain.mockinputnonethtld.test",
     "controller": "fake-registry-owner",
+    "registrant": "0x0000000000000000000000000000000000000000",
     "result": "0x0subdomain.mockinputnonethtld.test",
   },
   "jobRunID": "1",
