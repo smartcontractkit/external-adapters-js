@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.92
+
+### Patch Changes
+
+- Updated dependencies [9727d2eae]
+  - @chainlink/ens-adapter@1.1.0
+
 ## 1.0.91
 
 ### Patch Changes
