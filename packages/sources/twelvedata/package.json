@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/twelvedata-adapter",
-  "version": "1.1.37",
+  "version": "1.1.38",
   "description": "Chainlink twelvedata adapter.",
   "keywords": [
     "Chainlink",
@@ -35,10 +35,10 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.35",
+    "@types/node": "16.11.36",
     "@types/supertest": "2.0.12",
     "nock": "13.2.4",
-    "supertest": "6.2.2",
+    "supertest": "6.2.3",
     "typescript": "4.3.5"
   }
 }

@@ -1,5 +1,31 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.3.31
+
+### Patch Changes
+
+- Updated dependencies [cd94fb61c]
+- Updated dependencies [cd94fb61c]
+  - @chainlink/proof-of-reserves-adapter@1.7.0
+
+## 1.3.30
+
+### Patch Changes
+
+- 568e86deb: Updated core & EAs to use the new, more specific versions of AdapterError class, to better pinpoint the kind of errors that are occurring
+- Updated dependencies [057735395]
+- Updated dependencies [568e86deb]
+- Updated dependencies [e6f8af918]
+- Updated dependencies [d360ce8ef]
+- Updated dependencies [3000778b5]
+- Updated dependencies [6abc1eb98]
+- Updated dependencies [7313ac0a4]
+- Updated dependencies [b0f0cd681]
+- Updated dependencies [8e59df0fa]
+  - @chainlink/proof-of-reserves-adapter@1.6.0
+  - @chainlink/ea-bootstrap@2.7.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.29
 
 ### Patch Changes

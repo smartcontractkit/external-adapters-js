@@ -56,6 +56,7 @@ describe('ipfs data', () => {
       quoteScore: {
         [address]: 123,
       },
+      averageActiveStakedDYDX: {},
     }
 
     const writeParams = {

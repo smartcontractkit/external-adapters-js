@@ -12,6 +12,7 @@ import { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
 import { getEnv, sleep } from '../../util'
+import { AdapterTimeoutError } from '../../modules/error'
 
 export * as actions from './actions'
 export * as config from './config'
@@ -105,5 +106,9 @@ const awaitResult = async (
     await sleep(pollInterval)
   }
 
-  throw Error('timed out waiting for result to be cached')
+  throw new AdapterTimeoutError({
+    jobRunID: input.id,
+    statusCode: 500,
+    message: 'timed out waiting for result to be cached',
+  })
 }

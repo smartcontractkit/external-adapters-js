@@ -2,6 +2,12 @@ import { AdapterRequest, Execute } from '@chainlink/types'
 import * as metrics from '../../../src/lib/metrics'
 import * as client from 'prom-client'
 
+// This is a workaround to mock METRICS_ENABLED, which is usually defined before jest is able to mock it's value
+jest.mock('../../../src/lib/util', () => ({
+  ...(jest.requireActual('../../../src/lib/util') as any),
+  parseBool: () => true,
+}))
+
 describe('Bootstrap/Metrics', () => {
   describe('setupMetrics', () => {
     it(`Gets the correct feed id with valid input`, () => {
@@ -13,6 +19,8 @@ describe('Bootstrap/Metrics', () => {
 })
 
 describe('withMetrics middleware', () => {
+  afterEach(() => jest.clearAllMocks())
+
   it(`Records metrics successfully (with data provider hit)`, async () => {
     const spy = jest.spyOn(client.Counter.prototype, 'labels')
     const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
@@ -40,7 +48,7 @@ describe('withMetrics middleware', () => {
       request_origin: 'CACHE_WARMER',
       is_cache_warming: 'false',
       method: 'POST',
-      provider_status_code: undefined,
+      provider_status_code: 200,
       status_code: 200,
       type: 'dataProviderHit',
     }
@@ -82,7 +90,7 @@ describe('withMetrics middleware', () => {
       request_origin: 'CACHE_WARMER',
       is_cache_warming: 'false',
       method: 'POST',
-      provider_status_code: undefined,
+      provider_status_code: 200,
       status_code: 200,
       type: 'cacheHit',
     }
@@ -122,5 +130,33 @@ describe('withMetrics middleware', () => {
       expect(error.message).toEqual("Cannot read properties of undefined (reading 'maxAge')")
       expect(spy).toBeCalledWith(expectedLabels)
     }
+  })
+})
+
+describe('recordDataProviderAttempt', () => {
+  afterEach(() => jest.clearAllMocks())
+
+  it(`Records metrics successfully (GET, 200)`, async () => {
+    const spy = jest.spyOn(client.Counter.prototype, 'labels')
+    const expectedLabels = {
+      method: 'GET',
+      provider_status_code: 200,
+    }
+
+    const record = metrics.recordDataProviderRequest()
+    record(expectedLabels.method, expectedLabels.provider_status_code)
+    expect(spy).toBeCalledWith(expectedLabels)
+  })
+
+  it(`Records metrics successfully (POST, 400)`, async () => {
+    const spy = jest.spyOn(client.Counter.prototype, 'labels')
+    const expectedLabels = {
+      method: 'POST',
+      provider_status_code: 400,
+    }
+
+    const record = metrics.recordDataProviderRequest()
+    record(expectedLabels.method, expectedLabels.provider_status_code)
+    expect(spy).toBeCalledWith(expectedLabels)
   })
 })

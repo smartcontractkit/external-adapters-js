@@ -1,4 +1,4 @@
-import { AdapterError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import { BLOCKCHAIN_NAME_BY_TICKER, BlockchainTickers } from '../config'
 
@@ -60,7 +60,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const blockchain = validator.validated.data.blockchain
   if (blockchain.toLowerCase() !== 'btc')
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: `Blockchain must be BTC`,
       statusCode: 400,

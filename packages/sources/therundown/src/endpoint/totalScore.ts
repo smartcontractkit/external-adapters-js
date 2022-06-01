@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError, util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 
 export const supportedEndpoints = ['total-score']
@@ -43,7 +43,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const response = await Requester.request<ResponseSchema>(reqConfig)
 
   if (response.data.score.event_status !== 'STATUS_FINAL') {
-    throw new AdapterError({
+    throw new AdapterInputError({
       jobRunID,
       message: 'Match status is not final',
       statusCode: 400,

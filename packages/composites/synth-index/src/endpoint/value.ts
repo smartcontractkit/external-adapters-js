@@ -1,4 +1,4 @@
-import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Validator } from '@chainlink/ea-bootstrap'
 import * as ta from '@chainlink/token-allocation-adapter'
 import { InputParameters, ExecuteWithConfig } from '@chainlink/types'
 import Decimal from 'decimal.js'
@@ -89,7 +89,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const { base, network = config.defaultNetwork } = validator.validated.data
   const synthIndex = getSynthIndexFor(network, base)
   if (!synthIndex) {
-    throw new AdapterError({ message: `Index synth not found: ${base}`, statusCode: 400 })
+    throw new AdapterInputError({ message: `Index synth not found: ${base}`, statusCode: 400 })
   }
 
   const allocations = getAllocations(synthIndex)

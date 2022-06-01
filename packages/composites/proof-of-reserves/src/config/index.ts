@@ -1,7 +1,11 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config as DefaultConfig } from '@chainlink/types'
 import { adapters as BalanceAdapters, Indexer } from '../utils/balance'
 import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from '../utils/protocol'
+
+export interface Config extends DefaultConfig {
+  options: Options
+}
 
 export const NAME = 'PROOF_OF_RESERVES'
 export const DEFAULT_ENDPOINT = 'reserves'
@@ -9,6 +13,7 @@ export const DEFAULT_ENDPOINT = 'reserves'
 export const makeConfig = (prefix?: string): Config => ({
   ...Requester.getDefaultConfig(prefix),
   defaultEndpoint: DEFAULT_ENDPOINT,
+  options: makeOptions(),
 })
 
 export type Options = {
@@ -27,8 +32,6 @@ export const makeOptions = (): Options => {
       options.protocol.push(a.NAME)
       options.protocol.push(a.NAME.toLowerCase())
     }
-    options.protocol.push(LIST_ADAPTER)
-    options.protocol.push(LIST_ADAPTER.toLowerCase())
   }
   for (const a of BalanceAdapters) {
     const url = util.getURL(a.NAME)
@@ -37,5 +40,7 @@ export const makeOptions = (): Options => {
       options.indexer.push(a.NAME.toLowerCase())
     }
   }
+  options.protocol.push(LIST_ADAPTER)
+  options.protocol.push(LIST_ADAPTER.toLowerCase())
   return options
 }
