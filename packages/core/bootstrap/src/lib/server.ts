@@ -31,7 +31,7 @@ export const initHandler =
     })
     const name = adapterContext.name || ''
     const envDefaultOverrides = adapterContext.envDefaultOverrides
-    const context: AdapterContext = {
+    let context: AdapterContext = {
       name,
       envDefaultOverrides,
       cache: null,
@@ -66,7 +66,12 @@ export const initHandler =
         ...toObjectWithNumbers(req.query),
         ...metricsMeta,
       }
-      ;(context.ip = clientIp), (context.hostname = req.hostname)
+
+      context = {
+        ...context,
+        ip: clientIp,
+        hostname: req.hostname,
+      }
 
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.code(status).send(result)
