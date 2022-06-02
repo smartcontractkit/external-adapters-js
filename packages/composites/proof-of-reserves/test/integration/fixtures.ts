@@ -48,3 +48,51 @@ export const mockEthBalanceSuccess = (): nock.Scope => {
       },
     })
 }
+
+export const mockGeminiFilecoinAddressList = (): nock.Scope => {
+  return nock('https://gemini-adapter.com')
+    .post('/')
+    .reply(200, {
+      result: [
+        {
+          address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi',
+          network: 'filecoin',
+          chainId: 'mainnet',
+        },
+        {
+          address: 'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay',
+          network: 'filecoin',
+          chainId: 'mainnet',
+        },
+      ],
+      maxAge: 30000,
+      statusCode: 200,
+      data: {
+        result: [
+          {
+            address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi',
+            network: 'filecoin',
+            chainId: 'mainnet',
+          },
+          {
+            address: 'f225ey7bq53ur6sgrkxgf74hl2ftxkajupatwnmay',
+            network: 'filecoin',
+            chainId: 'mainnet',
+          },
+        ],
+      },
+    })
+}
+
+export const mockLotusSuccess = (): nock.Scope => {
+  return nock('https://lotus-adapter.com')
+    .post('/')
+    .reply(200, {
+      result: '127530375584000000000000',
+      maxAge: 30000,
+      statusCode: 200,
+      data: {
+        result: '127530375584000000000000',
+      },
+    })
+}

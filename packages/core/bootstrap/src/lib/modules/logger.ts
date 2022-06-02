@@ -1,7 +1,8 @@
 import { uuid } from '../util'
-import pino from 'pino'
+import pino, { stdTimeFunctions } from 'pino'
 import { wsRedactPaths } from '../middleware/ws/config'
 import { cloneDeep } from 'lodash'
+import * as process from 'process'
 
 export const paths = [...wsRedactPaths]
 
@@ -39,6 +40,7 @@ export const logger = pino({
       return { level: label }
     },
   },
+  timestamp: process.env.DEBUG === 'true' ? stdTimeFunctions.isoTime : stdTimeFunctions.epochTime,
   hooks: {
     logMethod(inputArgs, method) {
       // flipping the order of inputs (switching from winston to pino)
