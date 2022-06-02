@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 
 import { makeConfig } from './config'
@@ -13,10 +13,20 @@ export interface Action {
   data: unknown
 }
 
-const inputParams = {
-  request_id: ['request_id'],
-  result: ['result'],
-  payment: ['payment'],
+export type TInputParameters = { request_id: string; result: string; payment: string }
+export const inputParams: InputParameters<TInputParameters> = {
+  request_id: {
+    type: 'string',
+    required: true,
+  },
+  result: {
+    type: 'string',
+    required: true,
+  },
+  payment: {
+    type: 'string',
+    required: true,
+  },
 }
 
 // Convert the payment in $LINK into Agoric's pegged $LINK token.
@@ -32,7 +42,7 @@ export interface PostReply {
 }
 
 const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator<TInputParameters>(request, inputParams)
 
   Requester.logConfig(config)
 
@@ -103,6 +113,6 @@ const tryExecuteLogError =
   }
 
 export const execute = tryExecuteLogError(executeImpl)
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

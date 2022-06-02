@@ -1,4 +1,4 @@
-import { InputParameters } from '@chainlink/types'
+import { InputParameters } from '@chainlink/ea-bootstrap'
 
 export type Adapter = {
   name: string

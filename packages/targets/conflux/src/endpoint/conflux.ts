@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, ExecuteWithConfig } from '@chainlink/types'
+import { InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponse, ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Conflux } from 'js-conflux-sdk'
 import { ethers } from 'ethers'
 import { Config } from '../config'
@@ -30,13 +30,31 @@ const sendFulfillment = async (
 
 // const customError = (data: any) => data.Response === 'Error'
 
-const customParams = {
+export type TInputParameters = {
+  address: string
+  dataPrefix: string
+  functionSelector: string
+  value: number
+}
+export const customParams: InputParameters<TInputParameters> = {
   // Use two sets of possible keys in case the node operator
   // is using a non-EI initiator where the primary keys are reserved.
-  address: ['address', 'cfxAddress'],
-  dataPrefix: ['dataPrefix', 'cfxDataPrefix'],
-  functionSelector: ['functionSelector', 'cfxFunctionSelector'],
-  value: ['result', 'value'],
+  address: {
+    type: 'string',
+    required: true,
+  },
+  dataPrefix: {
+    type: 'string',
+    required: true,
+  },
+  functionSelector: {
+    type: 'string',
+    required: true,
+  },
+  value: {
+    type: 'number',
+    required: true,
+  },
 }
 
 export const NAME = 'conflux'
@@ -46,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   _,
   config,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator<TInputParameters>(request, customParams)
 
   const provider = new Conflux({
     url: config.rpcUrl,

@@ -1,5 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import types from '@chainlink/types'
+import { Requester, util, Config as TypesConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'HARMONY'
 export const DEFAULT_API_ENDPOINT = 'https://api.s0.t.hmny.io'
@@ -10,7 +9,7 @@ const ENV_PRIVATE_KEY = 'PRIVATE_KEY'
 const ENV_CHAIN_ID = 'CHAIN_ID'
 const ENV_GAS_LIMIT = 'GAS_LIMIT'
 
-export type Config = types.Config & {
+export type Config = TypesConfig & {
   privateKey: string
   chainID: string
   gasLimit: string

@@ -1,19 +1,32 @@
-import objectPath from 'object-path'
-import { ExecuteWithConfig } from '@chainlink/types'
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  ExecuteWithConfig,
+  InputParameters,
+  objectPath,
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator, Logger } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_DATA_PATH } from '../config'
 import { PriceDataPoint, requireNormalizedPrice, getPricePayload } from './starkex'
 
 export const NAME = 'send'
 
-const customParams = {
-  dataPath: false,
-  result: false,
-  asset: true,
+export type TInputParameters = { dataPath: string; asset: string }
+export const customParams: InputParameters<TInputParameters> = {
+  dataPath: {
+    description: 'Optional path where to find the price data, defaults to `result`',
+    type: 'string',
+    required: false,
+  },
+  asset: {
+    description: 'Required asset name (of your choice, per asset. for example "BTCUSD")',
+    type: 'string',
+    required: true,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator<TInputParameters>(request, customParams)
 
   const jobRunID = validator.validated.id
   const { asset, ...data } = validator.validated.data
@@ -36,14 +49,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   Logger.debug('Sending payload: ', { payload })
 
-  const options = {
+  const options: AxiosRequestConfig = {
     ...config.api,
     url: '',
     method: 'POST',
     data: payload,
   }
 
-  const response = await Requester.request(options)
+  const response: AxiosResponse = await Requester.request(options)
   response.data.result = response.data
 
   return Requester.success(jobRunID, response, config.verbose)
