@@ -95,7 +95,7 @@ const getValidBtcAddress = (id: string, address: string): string | undefined => 
     // Legacy (P2PKH) and Nested SegWit (P2SH) Bitcoin addresses start with 1 and are case-sensitive
     case '1':
     case '3':
-      if (address.length === 34 && isBase58(address)) return address
+      if (isBase58(address)) return address
       Logger.warn(
         { warning: 'Invalid address detected' },
         `JobId ${id}: The address "${address}" is not a valid Bitcoin address and has been removed.`,
@@ -104,8 +104,7 @@ const getValidBtcAddress = (id: string, address: string): string | undefined => 
     case 'b':
     case 'B':
       address = address.toLowerCase()
-      if (address.slice(0, 3) === 'bc1' && address.length === 42 && isBech32(address.slice(3)))
-        return address
+      if (address.slice(0, 3) === 'bc1' && isBech32(address.slice(3))) return address
       Logger.warn(
         { warning: 'Invalid address detected' },
         `JobId ${id}: The address "${address}" is not a valid Bitcoin address and has been removed.`,
@@ -152,14 +151,14 @@ const getValidFilecoinAddress = (id: string, address: string): string | undefine
   if (address[0] !== 'f' && address[0] !== 't') {
     Logger.warn(
       { warning: 'Invalid address detected' },
-      `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+      `JobId ${id}: The address "${address}" is not a valid Filecoin address and has been removed.`,
     )
     return
   }
-  if (address[1] !== '1' && address[1] !== '3') {
+  if (address[1] !== '0' && address[1] !== '1' && address[1] !== '2' && address[1] !== '3') {
     Logger.warn(
       { warning: 'Invalid address detected' },
-      `JobId ${id}: The address "${address}" is not a valid Dogecoin address and has been removed.`,
+      `JobId ${id}: The address "${address}" is not a valid Filecoin address and has been removed.`,
     )
     return
   }
