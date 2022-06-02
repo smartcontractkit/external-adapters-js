@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 // This should be filled in with a lowercase name corresponding to the API endpoint
@@ -22,7 +22,8 @@ const customError = (data: ResponseSchema) => !!data.error
 
 export const description = 'Endpoint to get the reference price of the asset.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -38,10 +39,10 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const quote = validator.validated.data.quote
   const url = 'timeseries/asset-metrics'
   const metric = `ReferenceRate${quote.toUpperCase()}`

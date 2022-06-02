@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber, FixedNumber, ethers } from 'ethers'
 import EACAggregatorProxyAbi from '../abis/EACAggregatorProxy.json'
 import { LatestRoundResponse } from '../types'
@@ -7,7 +7,9 @@ import { Config } from '../config'
 
 export const supportedEndpoints = ['btc-dominance', 'dominance']
 export const description = 'Endpoint to calculate BTC dominance'
-export const inputParameters: InputParameters = {}
+
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 const getMarketCapValue = async (address: string, config: Config): Promise<BigNumber> => {
   const contract = new ethers.Contract(address, EACAggregatorProxyAbi, config.provider)
@@ -19,7 +21,7 @@ const calculateBtcDominance = (btcMcap: BigNumber, totalMcap: BigNumber): FixedN
   FixedNumber.from(btcMcap).divUnsafe(FixedNumber.from(totalMcap))
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   const jobRunID = validator.validated.id
 
   const btcmcap = await getMarketCapValue(config.btcMcapAddress, config)

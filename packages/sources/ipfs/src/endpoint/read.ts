@@ -1,5 +1,5 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { CID } from 'multiformats/cid'
 import { AsyncReturnType } from 'type-fest'
@@ -11,7 +11,8 @@ export const supportedEndpoints = ['read']
 
 export const description = 'Read data from IPFS'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { cid: string; ipns: string; codec: string; type: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   cid: {
     required: false,
     description: 'The CID to read. Required if IPNS is not set',
@@ -38,7 +39,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   let cid: IPFSPath = validator.validated.data.cid
@@ -51,7 +52,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  const client = create({ url: config.api.baseURL })
+  const client = create({ url: config.api?.baseURL })
 
   // If CID is not included, we try to resolve IPNS
   if (!cid) {

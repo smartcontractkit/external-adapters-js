@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Amberdata
 
-![1.4.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
+![1.4.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
 
 Base URL wss://ws.web3api.io
 
@@ -24,7 +24,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [crypto](#crypto-endpoint), [gasprice](#gasprice-endpoint), [marketcap](#token-endpoint), [price](#crypto-endpoint), [token](#token-endpoint), [volume](#volume-endpoint) |         |
 
-## Balance Endpoint
+---
 
 `balance` is the only supported name for this endpoint.
 
@@ -149,6 +149,8 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 **NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**
 
 Supported names for this endpoint are: `crypto`, `price`.
+
+Supported names for this endpoint are: `marketcap`, `token`.
 
 ### Input Params
 

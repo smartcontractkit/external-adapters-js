@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TrueUSD
 
-![1.2.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json)
+![1.2.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json)
 
 Base URL https://api.real-time-attest.trustexplorer.io
 
@@ -25,6 +25,8 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 ## Trueusd Endpoint
 
 https://api.real-time-attest.trustexplorer.io/chainlink/TrueUSD
+
+`trueusd` is the only supported name for this endpoint.
 
 `trueusd` is the only supported name for this endpoint.
 

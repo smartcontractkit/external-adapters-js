@@ -1,15 +1,16 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['closing', 'eod']
 
-const customError = (data: { status: string }) => data.status === 'error'
+const customError = (data: ResponseSchema) => data.status === 'error'
 
 export const description =
   'This `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'market', 'symbol'],
     required: true,
@@ -24,13 +25,14 @@ interface ResponseSchema {
   currency: string
   datetime: string
   close: string
+  status: string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
 
   const url = `eod`
   const params = {

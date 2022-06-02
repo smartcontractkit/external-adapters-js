@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../../../config'
 import { ethers } from 'ethers'
 import { GameResponse } from '../types'
@@ -7,12 +7,17 @@ import { getGamesByDate } from '../utils'
 
 export const NAME = 'schedule'
 
-const customParams = {
-  date: true,
+export type TInputParameters = { date: string }
+export const customParams: InputParameters<TInputParameters> = {
+  date: {
+    required: true,
+    type: 'string',
+    description: 'The date games to query were/are played on',
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, customParams)
+  const validator = new Validator<TInputParameters>(request, customParams)
 
   const jobRunID = validator.validated.id
   const date = validator.validated.data.date

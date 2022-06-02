@@ -1,11 +1,12 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import { ResponseSchema } from './eod'
 
 export const supportedEndpoints = ['stock']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'asset', 'symbol'],
     description: 'The symbol to query',
@@ -15,10 +16,10 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName) as string
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const url = util.buildUrlPath('stock/:base/quote', { base: base.toUpperCase() })
 
   const params = {

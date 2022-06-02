@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['dataquery']
 
@@ -7,7 +7,9 @@ const customError = (data: ResponseSchema) => data.status !== '200'
 
 export const description = 'Retrieves price data for a given currency pair.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string; field: string }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -42,7 +44,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toUpperCase()
@@ -53,8 +55,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const headers = {
     'content-type': 'application/octet-stream',
     'x-rapidapi-host': host,
-    'x-rapidapi-key': config.apiKey,
-    useQueryString: true,
+    'x-rapidapi-key': config.apiKey || '',
   }
 
   const params = {
@@ -63,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     chainlink_node: true,
   }
 
-  const options = {
+  const options: AxiosRequestConfig = {
     ...config.api,
     url,
     params,
@@ -71,7 +72,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, [resultPath])
+  const result = Requester.validateResultNumber(response.data, resultPath)
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

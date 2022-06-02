@@ -1,9 +1,15 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AxiosResponse,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['getcoin']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -13,7 +19,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
@@ -23,7 +29,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url: util.buildUrlPath('get_coin/:base', { base }),
   }
 
-  const response = await Requester.request(options)
+  const response: AxiosResponse = await Requester.request(options)
+
   response.data.result = Requester.validateResultNumber(response.data, ['last_price_usd'])
   return Requester.success(jobRunID, response)
 }

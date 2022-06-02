@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['vwap', 'crypto-vwap']
@@ -14,7 +14,8 @@ export interface ResponseSchema {
   [quoteSymbol: string]: number | ConversionType // ConversionType is needed as an option here, because types
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string; hours: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'fsym'],
     description: 'The symbol of the currency to query',
@@ -33,11 +34,14 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const url = `/data/dayAvg`
-  let symbol = validator.overrideSymbol(AdapterName)
+  let symbol = validator.overrideSymbol<string | string[]>(
+    AdapterName,
+    validator.validated.data.base,
+  )
   if (Array.isArray(symbol)) symbol = symbol[0]
   const quote = validator.validated.data.quote
 

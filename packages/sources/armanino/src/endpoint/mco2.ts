@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['mco2', 'balance']
 
@@ -14,10 +14,11 @@ export interface ResponseSchema {
   timestamp: string
 }
 
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const url = `MCO2`
@@ -26,7 +27,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = { ...config.api, url }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, [resultPath])
+  const result = Requester.validateResultNumber(response.data, [resultPath as string])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

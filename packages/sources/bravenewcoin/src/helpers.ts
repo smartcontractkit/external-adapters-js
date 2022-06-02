@@ -43,14 +43,20 @@ export interface Asset {
   }[]
 }
 
+export interface AuthResponse {
+  access_token: string
+  scope: string
+  expires_in: number
+  token_type: string
+}
+
 export const authenticate = async (): Promise<string> => {
-  const response = await Requester.request({
+  const response = await Requester.request<AuthResponse>({
     method: 'POST',
     url: `https://${host}/oauth/token`,
     headers: {
       'content-type': 'application/json',
       accept: 'application/json',
-      useQueryString: true,
       ...apiHeaders,
     },
     data: {
@@ -67,7 +73,6 @@ export const getAssetId = async (symbol: string): Promise<string> => {
     url: `https://${host}/asset`,
     headers: {
       'content-type': 'application/octet-stream',
-      useQueryString: true,
       ...apiHeaders,
     },
     params: {
@@ -90,7 +95,6 @@ export const convert = async (
     headers: {
       ...apiHeaders,
       authorization: `Bearer ${token}`,
-      useQueryString: true,
     },
     params: {
       assetId: baseAssetId,
@@ -110,7 +114,6 @@ export const convert = async (
     headers: {
       ...apiHeaders,
       authorization: `Bearer ${token}`,
-      useQueryString: true,
     },
     params: {
       assetId: quoteAssetId,

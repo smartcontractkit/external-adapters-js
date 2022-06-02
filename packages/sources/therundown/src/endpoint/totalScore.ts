@@ -1,12 +1,18 @@
 import { Requester, Validator, util, AdapterInputError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AxiosRequestConfig,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['total-score']
 
 export const description =
   "Returns the sum of both teams' scores for a match (match status must be final)"
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { matchId: string | number }
+export const inputParameters: InputParameters<TInputParameters> = {
   matchId: {
     required: true,
     description: 'The ID of the match to query',
@@ -22,17 +28,17 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const matchId = validator.validated.data.matchId
   const url = util.buildUrlPath('events/:matchId', { matchId })
 
-  const reqConfig = {
+  const reqConfig: AxiosRequestConfig = {
     ...config.api,
     headers: {
-      ...config.api.headers,
-      'x-rapidapi-key': config.apiKey,
+      ...config.api?.headers,
+      'x-rapidapi-key': config.apiKey || '',
     },
     params: {
       include: 'scores',

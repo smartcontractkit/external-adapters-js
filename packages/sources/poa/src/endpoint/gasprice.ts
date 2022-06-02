@@ -1,9 +1,10 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AxiosResponse, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['gasprice']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { speed: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   speed: {
     required: false,
     description: 'The desired speed',
@@ -14,7 +15,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   Requester.logConfig(config)
   const jobRunID = validator.validated.id
@@ -22,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const reqConfig = {
     ...config.api,
   }
-  const response = await Requester.request(reqConfig)
+  const response: AxiosResponse = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, [speed]) * 1e9
   return Requester.success(jobRunID, response, config.verbose)
 }

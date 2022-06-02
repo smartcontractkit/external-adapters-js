@@ -7,30 +7,41 @@ import {
   Requester,
   Validator,
 } from '@chainlink/ea-bootstrap'
-import {
+import type {
   Config,
   ExecuteWithConfig,
   ExecuteFactory,
   AdapterRequest,
   APIEndpoint,
   MakeWSHandler,
-} from '@chainlink/types'
+  Method,
+} from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 import crypto from 'crypto'
 import { AccessToken, AccessTokenResponse, TickerMessage } from './types'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
-
 const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1000000
 
 const generateSignatureString = (
@@ -72,7 +83,7 @@ export const getAccessToken = async (
     const tokenOrKey = existingToken ? { token: existingToken.token } : { apiKey: publicKey }
     const data = {
       url: `${config.api?.baseURL}/token`,
-      method: existingToken ? 'put' : 'post',
+      method: existingToken ? ('put' as Method) : ('post' as Method),
       data: {
         ...tokenOrKey,
         userId,
@@ -104,7 +115,8 @@ export const getAccessToken = async (
   }
 }
 
-export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
+export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
+  // TODO: full WS message types
   let token: AccessToken | undefined
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(
@@ -142,13 +154,16 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
 
     return {
       connection: {
-        url: config.api.baseWsURL,
-        protocol: { headers: { ...config.api.headers, 'x-auth-token': token?.token || '' } },
+        url: config.ws?.baseWsURL,
+        protocol: { headers: { ...config.api?.headers, 'x-auth-token': token?.token || '' } },
       },
       noHttp: true,
-      subscribe: (input) => ({ action: 'subscribe', symbols: [getPair(input)] }),
-      unsubscribe: (input) => ({ action: 'unsubscribe', symbols: [getPair(input)] }),
-      subsFromMessage: (message, subscriptionMessage) => {
+      subscribe: (input: AdapterRequest) => ({ action: 'subscribe', symbols: [getPair(input)] }),
+      unsubscribe: (input: AdapterRequest) => ({
+        action: 'unsubscribe',
+        symbols: [getPair(input)],
+      }),
+      subsFromMessage: (message: any, subscriptionMessage: any) => {
         if (message.type !== 'ticker') return
         if (!subscriptionMessage.symbols.includes(message.data.symbol)) return
         return subscriptionMessage
@@ -163,6 +178,6 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
           config.verbose,
         )
       },
-    }
+    } as any // TODO: connection type mismatch
   }
 }

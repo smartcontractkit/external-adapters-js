@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -9,13 +9,12 @@ export const endpointResultPaths = {
   filtered: 'price',
 }
 
-const customError = (data: Record<string, unknown>) => {
-  return Object.keys(data).length === 0
-}
+const customError = (data: ResponseSchema) => Object.keys(data).length === 0
 
 export const description = 'Fetches the price of an asset using specified exchanges.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; exchanges: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'id'],
     required: true,
@@ -33,9 +32,9 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
-  const symbol = validator.overrideSymbol(AdapterName)
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const jobRunID = validator.validated.id
   const exchanges = validator.validated.data.exchanges
   const resultPath = validator.validated.data.resultPath

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import { Achievement } from '../types'
 import { getEncodedCallsResult } from '../achievements'
@@ -13,24 +13,23 @@ export interface ResponseSchema {
   team_achievements: Achievement[]
 }
 
-const customError = (data: Record<string, unknown>) => data.Response === 'Error'
-
 export const description =
   'This endpoint fetches a list of achievements for NBA teams and players and returns them as an encoded value'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { date: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   date: {
     type: 'string',
   },
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   const jobRunID = validator.validated.id
   const date = await getDate(config, validator.validated.data.date)
-  config.api.url = await getURL(config, date)
-  const options = config.api
-  const response = await Requester.request<ResponseSchema>(options, customError)
+  if (config.api?.url) config.api.url = await getURL(config, date)
+  const options = config.api || {}
+  const response = await Requester.request<ResponseSchema>(options)
   const encodedCalls = await getEncodedCallsResult(
     jobRunID,
     response.data.player_achievements,
@@ -46,6 +45,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     statusCode: 200,
     data: {
       result,
+      statusCode: 200,
     },
   }
 }
@@ -66,7 +66,7 @@ const getDate = async (config: ExtendedConfig, paramsDate?: string): Promise<str
 const getURL = async (config: ExtendedConfig, date: string): Promise<string> => {
   if (isDateNotSet(date)) throw Error('No date set')
   const year = date.split('-')[0]
-  return `${config.api.baseURL}/${year}/nightly_achievements_${date}.json` // YYYY-MM-DD
+  return `${config.api?.baseURL}/${year}/nightly_achievements_${date}.json` // YYYY-MM-DD
 }
 
 export const isDateNotSet = (date: string): boolean =>

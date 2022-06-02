@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Answer, DNSProofResponseSchema } from '../types'
 
@@ -7,7 +7,8 @@ export const supportedEndpoints = ['dnsProof']
 
 export const endpointResultPaths = {}
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { name: string; record: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   name: {
     aliases: ['domain'],
     description: 'The domain name to check ownership of.',
@@ -23,7 +24,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -50,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       jobRunID,
       statusCode: 200,
       message: `Unexpected response from API. Response: ${answers} was not an array.`,
-      url: options.baseUrl,
+      url: options.baseURL,
     })
   }
 

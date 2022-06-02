@@ -1,19 +1,20 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { API_ENDPOINT_MAIN } from '../config'
 
 export const supportedEndpoints = ['height']
 
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
 
   const reqConfig = {
     ...config.api,
-    baseURL: config.api.baseURL || API_ENDPOINT_MAIN,
+    baseURL: config.api?.baseURL || API_ENDPOINT_MAIN,
     url: 'q/getblockcount',
   }
 

@@ -1,12 +1,12 @@
 import { Requester, Validator, util, CacheKey } from '@chainlink/ea-bootstrap'
-import {
+import type {
   ExecuteWithConfig,
   Config,
   InputParameters,
   AdapterRequest,
   AxiosResponse,
   AdapterBatchResponse,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['tickers', 'forex', 'price']
@@ -16,10 +16,18 @@ export const description = `Convert a currency or currencies into another curren
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`tickers\` endpoint instead.**`
 
-export const inputParameters: InputParameters = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
-  quantity: false,
+export type TInputParameters = { base: string | string[]; quote: string | string }
+export const inputParameters: InputParameters<TInputParameters> = {
+  base: {
+    aliases: ['from'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
+  quote: {
+    aliases: ['to'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
 }
 
 export interface ResponseSchema {
@@ -47,19 +55,19 @@ export interface Tickers {
     l: number
     o: number
     v: number
-    prevDay: {
-      c: number
-      h: number
-      l: number
-      o: number
-      v: number
-      vw: number
-    }
-    ticker: string
-    todaysChange: number
-    todaysChangePerc: number
-    updated: number
   }
+  prevDay: {
+    c: number
+    h: number
+    l: number
+    o: number
+    v: number
+    vw: number
+  }
+  ticker: string
+  todaysChange: number
+  todaysChangePerc: number
+  updated: number
 }
 
 interface keyPair {
@@ -78,8 +86,8 @@ const handleBatchedRequest = (
   const payload: AdapterBatchResponse = []
   const pairDict: keyPair = {}
   const supportedTickers: string[] = []
-  for (const b of request.data.base) {
-    for (const q of request.data.quote) {
+  for (const b of request.data.base as string[]) {
+    for (const q of request.data.quote as string[]) {
       pairDict[`C:${b}${q}`] = {
         base: String(b),
         quote: String(q),
@@ -120,10 +128,10 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   const jobRunID = validator.validated.id
   const url = `/v2/snapshot/locale/global/markets/forex/tickers`
-  const from = validator.overrideSymbol(AdapterName)
+  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const to = validator.validated.data.quote
   const pairArray = []
   for (const fromCurrency of util.formatArray(from)) {
@@ -133,7 +141,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const pairs = pairArray.toString()
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     tickers: pairs,
   }
   const options = {

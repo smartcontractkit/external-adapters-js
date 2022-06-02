@@ -1,5 +1,5 @@
 import { AdapterResponseInvalidError, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, Networks } from '../config'
 import {
   requestBlockHeight,
@@ -70,14 +70,15 @@ export const getL2NetworkStatus: NetworkHealthCheck = (
   return networks[network](delta, deltaBlocks)
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { network: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: true,
   },
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const network = validator.validated.data.network as Networks

@@ -13,7 +13,7 @@ import {
   AdapterRequest,
   InputParameters,
   AdapterBatchResponse,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import internalOverrides from '../config/overrides.json'
 
@@ -22,9 +22,7 @@ import { getCoinIds } from '../util'
 export const supportedEndpoints = ['crypto', 'price', 'marketcap', 'volume']
 export const batchablePropertyPath = [{ name: 'base' }, { name: 'quote' }]
 
-const customError = (data: ResponseSchema) => {
-  return Object.keys(data).length === 0
-}
+const customError = (data: ResponseSchema) => Object.keys(data).length === 0
 
 const buildResultPath = (path: string) => (request: AdapterRequest) => {
   const validator = new Validator(
@@ -60,7 +58,8 @@ export const endpointResultPaths: {
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { coinid: string; base: string | string[]; quote: string | string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   coinid: {
     description:
       'The CoinGecko id or array of ids of the coin(s) to query (Note: because of current limitations to use a dummy base will need to be supplied)',
@@ -104,7 +103,7 @@ const handleBatchedRequest = (
           data: {
             ...request.data,
             base: originalSymbol.toUpperCase(),
-            quote: quote.toUpperCase(),
+            quote: (quote as string).toUpperCase(),
           },
         }
         const result = Requester.validateResultNumber(response.data, [
@@ -128,9 +127,14 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides: internalOverrides })
+  const validator = new Validator<TInputParameters>(
+    request,
+    inputParameters,
+    {},
+    { overrides: internalOverrides },
+  )
 
-  const endpoint = validator.validated.data.endpoint
+  const endpoint = validator.validated.data.endpoint || ''
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
@@ -162,7 +166,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   const url = '/simple/price'
-  const resultPath: string = validator.validated.data.resultPath
+  const resultPath: string = (validator.validated.data.resultPath || '').toString()
 
   const params = {
     ids,

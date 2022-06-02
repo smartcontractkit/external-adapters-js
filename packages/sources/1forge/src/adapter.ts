@@ -1,29 +1,44 @@
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
-  Config,
+  DefaultConfig,
   ExecuteWithConfig,
   ExecuteFactory,
   AdapterRequest,
   APIEndpoint,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<DefaultConfig, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<DefaultConfig, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<DefaultConfig, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<DefaultConfig, endpoints.TInputParameters>(
+    request,
+    makeConfig(),
+    endpoints,
+  )
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<DefaultConfig, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
-  const getSubscription = (symbol?: string, subscribe = true) => {
-    if (!symbol) return
+export const makeWSHandler = (config?: DefaultConfig): MakeWSHandler => {
+  const getSubscription = (symbol?: string, subscribe = true): string => {
+    if (!symbol) return ''
     return subscribe ? `subscribe_to|${symbol}` : `unsubscribe_from|${symbol}`
   }
   const getSymbol = (input: AdapterRequest) => {
@@ -52,21 +67,21 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
       },
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
-      subsFromMessage: (message) => {
-        if (!message.data || message.data.indexOf('update') === -1) return
+      subsFromMessage: (message: any) => {
+        if (!message.data || message.data.indexOf('update') === -1) return ''
         const { data } = parseResponse(message.data)
         return getSubscription(data.s)
       },
       isError: () => false,
-      filter: (message) => message.data.indexOf('update') !== -1,
-      toResponse: (message) => {
+      filter: (message: any) => message.data.indexOf('update') !== -1,
+      toResponse: (message: any) => {
         const { data } = parseResponse(message.data)
         return Requester.success('1', { data: { result: data.p } })
       },
       onConnectChain: [
         {
           payload: `login|${defaultConfig.apiKey}`,
-          filter: (message: { data: string }) => message.data.indexOf('post_login_success') !== -1,
+          filter: (message: any) => message.data.indexOf('post_login_success') !== -1,
         },
       ],
     }

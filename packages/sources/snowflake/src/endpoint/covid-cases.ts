@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { SnowflakeConfig } from '../config'
 import { buildSnowflakeJWT } from '../util'
 
@@ -8,7 +8,8 @@ export const supportedEndpoints = ['covid-cases']
 export const description =
   'Queries US confirmed Covid cases per County, using the John Hopkins University table from the [StarSchema COVID-19 Epidemiological dataset](https://www.snowflake.com/datasets/starschema-covid-19-epidemiological-data/).'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { state: string; county: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   state: {
     required: true,
     description: 'The state of the desired county',
@@ -55,7 +56,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<SnowflakeConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const state = validator.validated.data.state

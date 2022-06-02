@@ -5,21 +5,32 @@ import {
   ExecuteWithConfig,
   MakeWSHandler,
   ExecuteFactory,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME, Config } from './config'
 import * as endpoints from './endpoint'
 import { inputParameters } from './endpoint/price'
 import overrides from './config/symbols.json'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint<Config> =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
@@ -41,7 +52,11 @@ interface Message {
   topic: string
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+export const makeWSHandler = (
+  config?: Config,
+): MakeWSHandler<
+  Message | any // TODO: full WS types
+> => {
   // http://api.tradingeconomics.com/documentation/Streaming
   // https://github.com/boxhock/tradingeconomics-nodejs-stream/blob/master/src/index.ts
   const withApiKey = (url: string, key: string, secret: string) => `${url}?client=${key}:${secret}`
@@ -53,7 +68,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     return {
       connection: {
         url: withApiKey(
-          defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+          defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
           defaultConfig.client.key || '',
           defaultConfig.client.secret || '',
         ),
@@ -68,19 +83,18 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
         if (validator.error) {
           return
         }
-        const base = (validator.overrideSymbol(NAME) as string).toUpperCase()
+        const base = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
         return getSubscription(base)
       },
       unsubscribe: () => undefined,
       subsFromMessage: (message: Message) => {
         return getSubscription(message?.s)
       },
-      isError: (message: { TYPE: string }) =>
-        Number(message.TYPE) > 400 && Number(message.TYPE) < 900,
-      filter: (message) => {
-        return message.topic && message.topic !== 'keepalive'
+      isError: (message: Message) => Number(message.type) > 400 && Number(message.type) < 900,
+      filter: (message: Message): boolean => {
+        return !!message.topic && message.topic !== 'keepalive'
       },
-      toResponse: (wsResponse: Message): AdapterResponse =>
+      toResponse: (wsResponse: any): AdapterResponse =>
         Requester.success(undefined, { data: { result: wsResponse?.price } }),
     }
   }

@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config, EnvDefaultOverrides } from '@chainlink/types'
+import type { Config, EnvDefaultOverrides } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'ENS'
 

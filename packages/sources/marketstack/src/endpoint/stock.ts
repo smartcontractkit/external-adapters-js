@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { DEFAULT_INTERVAL, DEFAULT_LIMIT } from '../config'
 
 export const supportedEndpoints = ['stock', 'eod']
@@ -7,7 +7,8 @@ export const supportedEndpoints = ['stock', 'eod']
 export const description =
   '**NOTE: the `eod` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; interval: string; limit: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'coin'],
@@ -49,7 +50,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const symbols = validator.validated.data.base.toUpperCase()

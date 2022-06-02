@@ -1,4 +1,10 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import request, { SuperTest, Test } from 'supertest'
+import process from 'process'
+import nock from 'nock'
+import http from 'http'
+import { server as startServer } from '../../src'
+import { mockPunksValueResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
@@ -7,10 +13,12 @@ import { mockVwapSuccess } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
+
   let fastify: FastifyInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
+    process.env.API_KEY = 'test-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -33,6 +41,8 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        block: 10000000,
+        api_key: 'test-key',
         endpoint: 'vwap',
         from: 'AMPL',
         to: 'USD',

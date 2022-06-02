@@ -1,11 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { BigQuery, BigQueryOptions } from '@google-cloud/bigquery'
 
 export const supportedEndpoints = ['bigquery']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { query: string; params?: Record<string, string>; location?: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   query: {
     required: true,
     description: 'The query to run',
@@ -25,7 +26,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   Requester.logConfig(config)
 

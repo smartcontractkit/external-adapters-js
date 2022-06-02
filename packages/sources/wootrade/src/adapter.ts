@@ -6,18 +6,29 @@ import {
   AdapterRequest,
   APIEndpoint,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
@@ -32,9 +43,10 @@ interface Message {
     bidSize: number
   }
 }
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+
+export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> => {
   const getSubscription = (symbol?: string, subscribe = true) => {
-    if (!symbol) return
+    if (!symbol) return undefined
     return {
       event: subscribe ? 'subscribe' : 'unsubscribe',
       topic: `${symbol}@bbo`,
@@ -57,16 +69,15 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL,
+        url: defaultConfig.ws?.baseWsURL,
       },
-      subscribe: (input) => getSubscription(getSymbol(input)),
-      unsubscribe: (input) => getSubscription(getSymbol(input), false),
-      subsFromMessage: (message) => {
-        if (!message.data) return undefined
+      subscribe: (input: AdapterRequest) => getSubscription(getSymbol(input)),
+      unsubscribe: (input: AdapterRequest) => getSubscription(getSymbol(input), false),
+      subsFromMessage: (message: Message) => {
+        if (!message.data) return ''
         return getSubscription(message.data.symbol)
       },
-      isError: (message: { type?: string; success: boolean }) =>
-        message.type === 'error' || message.success === false,
+      isError: (message: any) => message.type === 'error' || message.success === false,
       // Ignore everything is not a ticker message. Throw an error on incoming errors.
       filter: (message: Message) => message.data !== undefined,
       toResponse: (message: Message) => {

@@ -1,9 +1,10 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['feed']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { product: string; feedId: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   product: {
     required: true,
     description: 'The product to query',
@@ -21,7 +22,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const product = validator.validated.data.product

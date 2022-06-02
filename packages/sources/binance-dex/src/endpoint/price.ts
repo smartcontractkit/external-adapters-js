@@ -1,14 +1,14 @@
 import { Requester, Validator, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as ADAPTER_NAME } from '../config'
-
-export const NAME = 'price'
 
 const customError = (data: ResponseSchema[]) => data.length === 0
 
 export const supportedEndpoints = ['price']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -50,11 +50,13 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const url = `/api/v1/ticker/24hr`
-  const base = (validator.overrideSymbol(ADAPTER_NAME) as string).toUpperCase()
+  const base = (
+    validator.overrideSymbol(ADAPTER_NAME, validator.validated.data.base) as string
+  ).toUpperCase()
   const quote = validator.validated.data.quote.toUpperCase()
   const symbol = `${base}_${quote}`
 
@@ -70,6 +72,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema[]>(options, customError)
 
+  console.log('RES', response.data)
+
   const lastUpdate = response.data[0].closeTime
   const curTime = new Date()
   // If data is older than 10 minutes, discard it
@@ -80,7 +84,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 500,
     })
 
-  const result = Requester.validateResultNumber(response.data, [0, 'lastPrice'])
+  const result = Requester.validateResultNumber<ResponseSchema>(response.data[0], ['lastPrice'])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

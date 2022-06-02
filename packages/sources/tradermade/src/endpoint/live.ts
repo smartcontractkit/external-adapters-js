@@ -1,11 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['live', 'commodities', 'stock']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'symbol', 'market'],
     required: true,
@@ -34,12 +35,12 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(input, inputParameters, {}, { overrides })
 
   Requester.logConfig(config)
 
   const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(NAME) as string).toUpperCase()
+  const symbol = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
 
   /**
    * Note that currency can also mean equity.  This is why "to" is not a required variable
@@ -48,7 +49,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const currency = `${symbol}${to}`
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     currency,
   }
 

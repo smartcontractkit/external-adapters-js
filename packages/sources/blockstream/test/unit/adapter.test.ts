@@ -1,7 +1,8 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { assertSuccess, assertError } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
+import { assertError } from '@chainlink/ea-test-helpers'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint/blocks'
 
 describe('execute', () => {
   const jobID = '1'
@@ -18,7 +19,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 502, actual: errorResp.statusCode }, errorResp, jobID)

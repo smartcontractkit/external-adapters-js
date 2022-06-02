@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'NCFX'
 
@@ -11,7 +11,7 @@ export const FOREX_DEFAULT_BASE_WS_URL = 'wss://ws-spot.newchangefx.com'
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.api.baseWebsocketURL = config.api.baseWebsocketURL || DEFAULT_BASE_WS_URL
+  config.ws.baseWsURL = config.ws.baseWsURL || DEFAULT_BASE_WS_URL
   config.defaultEndpoint = DEFAULT_ENDPOINT
   const username = util.getEnv('API_USERNAME', prefix) || ''
   const password = util.getEnv('API_PASSWORD', prefix) || ''

@@ -1,20 +1,16 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { DEFAULT_ENDPOINT } from '../config'
 
 export const supportedEndpoints = ['height', 'difficulty']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { blockchain: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   blockchain: {
     aliases: ['coin'],
     required: true,
     type: 'string',
     description: 'The blockchain name.',
-  },
-  endpoint: {
-    description: 'Name of the endpoint to use',
-    required: false,
-    type: 'string',
   },
 }
 
@@ -24,7 +20,7 @@ const endpointToApiFunctionName: { [key: string]: string } = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   Requester.logConfig(config)
 
@@ -39,7 +35,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const reqConfig = {
     ...config.api,
     params,
-    baseURL: config.api.baseURL || `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
+    baseURL: config.api?.baseURL || `https://${blockchain}.cryptoid.info/${blockchain}/api.dws`,
   }
   const response = await Requester.request(reqConfig)
   response.data = { result: response.data }

@@ -31,7 +31,7 @@ describe('config tests', () => {
       process.env.IS_TEST_MODE = 'true'
       const config = makeConfig()
       const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
-      expect(testModeHeader).toBe(true)
+      expect(testModeHeader).toBe('true')
     })
 
     it('does not start the adapter in test mode if the IS_IN_TEST_MODE env var is set to false', () => {

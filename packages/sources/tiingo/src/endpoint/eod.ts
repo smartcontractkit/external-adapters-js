@@ -1,5 +1,10 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters, EndpointResultPaths } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  EndpointResultPaths,
+} from '@chainlink/ea-bootstrap'
 import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['eod']
@@ -10,9 +15,13 @@ export const endpointResultPaths: EndpointResultPaths = {
 
 export const description = 'https://api.tiingo.com/documentation/end-of-day'
 
-export const inputParameters: InputParameters = {
-  ticker: ['ticker', 'base', 'from', 'coin'],
-  resultPath: false,
+export type TInputParameters = { ticker: string }
+export const inputParameters: InputParameters<TInputParameters> = {
+  ticker: {
+    aliases: ['base', 'from', 'coin'],
+    required: true,
+    description: 'The stock ticker to query',
+  },
 }
 
 interface ResponseSchema {
@@ -32,11 +41,11 @@ interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const ticker = validator.validated.data.ticker
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const url = util.buildUrlPath(`/tiingo/daily/:ticker/prices`, { ticker: ticker.toLowerCase() })
 
   const reqConfig = {
@@ -48,7 +57,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema[]>(reqConfig)
-  const result = Requester.validateResultNumber(response.data, [0, resultPath])
-
+  const result = Requester.validateResultNumber(response.data[0], resultPath)
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

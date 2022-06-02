@@ -1,9 +1,15 @@
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import {
+  AxiosRequestConfig,
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['volatility']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { symbol: string; days: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   symbol: {
     required: true,
     aliases: ['base', 'from', 'coin'],
@@ -29,7 +35,7 @@ const daysConversion: Record<number, string> = {
 
 // TODO: Run tests with valid pro tier + API Key
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const url = '/graphql'
@@ -50,10 +56,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const headers = {
-    'x-oracle': config.apiKey,
+    'x-oracle': config.apiKey || '',
   }
 
-  const reqConfig = {
+  const reqConfig: AxiosRequestConfig = {
     ...config.api,
     url,
     method: 'GET',
@@ -61,7 +67,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data,
   }
 
-  const response = await Requester.request(reqConfig)
+  const response = await Requester.request<{ result: number }>(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, [
     'data',
     'ChainlinkIv',

@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import type { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'LIDO'
 export const MATIC_AGGREGATOR_PROXY = '0xAB594600376Ec9fD91F8e885dADF0CE036862dE0'

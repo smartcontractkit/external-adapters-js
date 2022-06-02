@@ -1,17 +1,16 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { DEFAULT_BASE_URL, ExtendedConfig } from '../config'
 
 export const supportedEndpoints = ['request']
 
-const inputParams = {
-  url: false,
-  method: false,
-  params: false,
-  requestId: false,
+export type TInputParameters = {
+  url: string
+  method: string
+  params: string[] | Record<string, unknown>
+  requestId: string | number
 }
-
-export const inputParameters: InputParameters = {
+export const inputParameters: InputParameters<TInputParameters> = {
   url: {
     required: false,
   },
@@ -28,7 +27,7 @@ export const inputParameters: InputParameters = {
 
 // Export function to integrate with Chainlink node
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParams)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const url = config.RPC_URL || validator.validated.data.url || DEFAULT_BASE_URL
@@ -43,19 +42,19 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     params,
   }
 
-  const options = {
+  const options: AxiosRequestConfig = {
     ...config.api,
     url,
     method: 'POST',
     headers: {
-      ...config.api.headers,
+      ...config.api?.headers,
       'Content-Type': 'application/json',
     },
     // Remove undefined values
     data: JSON.parse(JSON.stringify(data)),
   }
 
-  const response = await Requester.request(options)
+  const response = await Requester.request<Record<string, unknown>>(options)
   if (response.status >= 400) throw response.data.error
 
   return Requester.success(request.id, response)

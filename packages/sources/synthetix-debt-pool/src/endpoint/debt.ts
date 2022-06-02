@@ -4,7 +4,7 @@ import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import {
   getDataFromAcrossChains,
@@ -19,7 +19,7 @@ import { DEBT_CACHE_ABI, SYNTHETIX_BRIDGE_ABI } from './abi'
 export const inputParameters = commonInputParameters
 export const supportedEndpoints = ['debt']
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) =>
+export const execute: ExecuteWithConfig<Config, InputParameters> = async (request, _, config) =>
   await getDataFromAcrossChains(request, config, getTotalDebtIssued)
 
 /**

@@ -1,5 +1,5 @@
-import { Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 
 export const supportedEndpoints = ['price']
@@ -9,8 +9,8 @@ export interface ResponseSchema {
     price: number
   }
 }
-
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 interface ResponseInfo {
   result: number
@@ -22,7 +22,7 @@ const responseInfo: ResponseInfo = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
@@ -34,10 +34,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       now % 2 === 0 ? responseInfo.result + amountToDeviate : responseInfo.result - amountToDeviate
     responseInfo.lastUpdated = now
   }
-  return {
+  const result = {
     jobRunID,
     data: { result: responseInfo.result },
     result: responseInfo.result,
     statusCode: 200,
   }
+  return Requester.success(jobRunID, result, config.verbose)
 }

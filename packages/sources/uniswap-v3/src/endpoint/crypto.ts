@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName, Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import quoterABI from '../abis/quoter.json'
@@ -24,7 +24,18 @@ export interface ResponseSchema {
   rate: number
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  from: string
+  fromAddress: string
+  fromDecimals: number
+  to: string
+  toAddress: string
+  toDecimals: number
+  amount: number
+  feeTiers: number[]
+  [name: string]: number | number[] | string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   from: {
     aliases: ['base', 'coin'],
     required: true,
@@ -77,7 +88,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const { address: from, decimals: fromDecimals } = await getTokenDetails(validator, 'from', config)
@@ -113,7 +124,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     config: {},
     data: data,
   }
-  const result = Requester.validateResultNumber(response.data, [resultPath])
+  const result = Requester.validateResultNumber(response.data, resultPath)
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
@@ -137,20 +148,22 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
  * @param config Configuration to extract token decimals from
  */
 const getTokenDetails = async (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   direction: string,
   config: Config,
 ): Promise<{ address: string; decimals: number }> => {
   const symbol = validator.overrideSymbol(
     AdapterName,
-    validator.validated.data[direction],
-  ) as string
-  const address =
+    validator.validated.data[direction].toString(),
+  )
+  const address = (
     validator.validated.data[`${direction}Address`] ||
     validator.overrideToken(symbol, config.network) ||
     symbol
-  const decimals =
-    validator.validated.data[`${direction}Decimals`] || (await getDecimals(address, config))
+  ).toString()
+  const decimals = Number(
+    validator.validated.data[`${direction}Decimals`] || (await getDecimals(address, config)),
+  )
 
   return { address, decimals }
 }

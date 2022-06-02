@@ -1,11 +1,17 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import {
+  AxiosRequestConfig,
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['event']
 
 export const description = 'Returns data for a specific event'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { eventId: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   eventId: {
     required: true,
     description: 'The ID of the event to query',
@@ -21,17 +27,17 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const eventId = validator.validated.data.eventId
   const url = util.buildUrlPath('/events/:eventId', { eventId })
 
-  const reqConfig = {
+  const reqConfig: AxiosRequestConfig = {
     ...config.api,
     headers: {
-      ...config.api.headers,
-      'x-rapidapi-key': config.apiKey,
+      ...config.api?.headers,
+      'x-rapidapi-key': config.apiKey || '',
     },
     params: {
       include: 'scores',

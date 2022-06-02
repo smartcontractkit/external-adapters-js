@@ -4,7 +4,7 @@ import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import {
   getAddressResolver,
@@ -24,7 +24,7 @@ interface CurrentDebtResults {
   totalDebtShares: ethers.BigNumber
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) =>
+export const execute: ExecuteWithConfig<Config, InputParameters> = async (request, _, config) =>
   await getDataFromAcrossChains(request, config, getDebtRatio)
 
 /**

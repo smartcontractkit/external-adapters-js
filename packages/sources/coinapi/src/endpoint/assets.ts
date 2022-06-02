@@ -1,12 +1,17 @@
-import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
 import {
+  Requester,
+  Validator,
+  CacheKey,
+  ResultPath,
+  AdapterBatchResponse,
+} from '@chainlink/ea-bootstrap'
+import type {
   ExecuteWithConfig,
-  Config,
+  DefaultConfig,
   AxiosResponse,
   AdapterRequest,
   InputParameters,
-  AdapterBatchResponse,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['assets']
@@ -36,7 +41,11 @@ export interface ResponseSchema {
   id_icon: string
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  base: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to convert to ',
@@ -48,8 +57,8 @@ const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
   response: AxiosResponse<ResponseSchema[]>,
-  validator: Validator,
-  resultPath: string,
+  validator: Validator<TInputParameters>,
+  resultPath: ResultPath | undefined,
 ) => {
   const payload: AdapterBatchResponse = []
 
@@ -66,7 +75,7 @@ const handleBatchedRequest = (
     payload.push([
       CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
       individualRequest,
-      Requester.validateResultNumber(asset, [resultPath]),
+      Requester.validateResultNumber(asset, resultPath),
     ])
   }
   return Requester.success(
@@ -77,8 +86,8 @@ const handleBatchedRequest = (
   )
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+export const execute: ExecuteWithConfig<DefaultConfig> = async (request, _, config) => {
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
@@ -100,7 +109,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (Array.isArray(symbol))
     return handleBatchedRequest(jobRunID, request, response, validator, resultPath)
 
-  const result = Requester.validateResultNumber(response.data[0], [resultPath])
+  const result = Requester.validateResultNumber(response.data[0], resultPath)
   return Requester.success(
     jobRunID,
     Requester.withResult(response, result),

@@ -1,7 +1,8 @@
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { market: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   market: {
     required: false,
     type: 'string',
@@ -18,7 +19,7 @@ const endpoints: Record<string, string> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market
@@ -35,7 +36,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     auth,
   }
 
-  const response = await Requester.request(reqConfig)
+  const response: AxiosResponse = await Requester.request(reqConfig)
   response.data.result = Requester.validateResultNumber(response.data, ['index'])
-  return Requester.success(jobRunID, response)
+  return Requester.success(jobRunID, response, config.verbose)
 }

@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'SPECTRAL_MACRO_SCORE'
 
@@ -14,13 +14,16 @@ export interface SpectralAdapterConfig extends Config {
 
 export const makeConfig = (prefix?: string): SpectralAdapterConfig => {
   const config = <SpectralAdapterConfig>Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.api.timeout = DEFAULT_TIMEOUT
+  config.api = {
+    ...config.api,
+    baseURL: config.api?.baseURL || DEFAULT_BASE_URL,
+    timeout: DEFAULT_TIMEOUT,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': config.apiKey ?? '',
+    },
+  }
   config.rpcUrl = util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix)
   config.nfcAddress = util.getRequiredEnv('NFC_ADDRESS')
-  config.api.headers = {
-    'Content-Type': 'application/json',
-    'x-api-key': config.apiKey ?? '',
-  }
   return config
 }

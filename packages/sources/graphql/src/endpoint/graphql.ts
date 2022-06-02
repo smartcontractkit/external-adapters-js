@@ -2,14 +2,22 @@ import {
   Requester,
   Validator,
   AdapterError,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
   AdapterDataProviderError,
   AdapterConnectionError,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['graphql']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  graphqlEndpoint: string
+  headers?: AxiosRequestHeaders
+  query: string
+  variables?: Record<string, string | number | boolean>
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   graphqlEndpoint: {
     required: true,
     type: 'string',
@@ -31,11 +39,11 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
-  const { graphqlEndpoint, query, variables, headers } = request.data
-  const reqConfig = {
+  const jobRunID = validator.validated.id
+  const { graphqlEndpoint, query, variables, headers } = request.data as TInputParameters
+  const reqConfig: AxiosRequestConfig = {
     ...config.api,
     url: graphqlEndpoint,
     data: {
@@ -45,7 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     headers,
   }
   try {
-    const response = await Requester.request(reqConfig)
+    const response = await Requester.request<Record<string, unknown>>(reqConfig)
 
     // Prevent circular reference
     const responseData = JSON.parse(JSON.stringify(response.data))

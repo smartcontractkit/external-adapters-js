@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
@@ -58,7 +58,13 @@ interface ReferenceCurrenciesResponseSchema {
 
 export const description = 'https://api.coinranking.com/v2/coins'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  base: string
+  quote: string
+  coinid: string
+  referenceCurrencyUuid: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -97,13 +103,15 @@ const referenceSymbolToUuid = async (symbol: string, config: Config): Promise<st
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.base
   const quote = validator.validated.data.quote
   const coinid = validator.validated.data.coinid
-  const overridenCoinid = validator.overrideSymbol(AdapterName) as string
+  const overridenCoinid = validator.validated.data.coinid
+    ? validator.overrideSymbol(AdapterName, validator.validated.data.coinid)
+    : undefined
   let referenceCurrencyUuid = validator.validated.data.referenceCurrencyUuid as string | undefined
   const resultPath = validator.validated.data.resultPath
 

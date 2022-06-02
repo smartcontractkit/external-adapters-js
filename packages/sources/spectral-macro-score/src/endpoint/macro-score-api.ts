@@ -1,5 +1,12 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { InputParameters, RequestConfig } from '@chainlink/types'
+import {
+  AdapterData,
+  AdapterRequest,
+  AdapterResponse,
+  AxiosRequestConfig,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
+import { InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { getTickSet } from '../abi/NFC'
 import { SpectralAdapterConfig } from '../config'
@@ -12,12 +19,13 @@ export interface ICustomError {
 
 export const supportedEndpoints = ['spectral-proxy']
 
-const customError = (data: ICustomError) => {
+const customError = (data: ICustomError | ScoreResponse[]) => {
+  if (Array.isArray(data)) return false
   if (data.Response === 'Error') return true
   return false
 }
 
-export interface IRequestInput {
+export interface IRequestInput extends AdapterData {
   id: string // numeric
   data: {
     tokenIdInt: string // numeric
@@ -39,7 +47,8 @@ export interface ScoreResponse {
 
 export const description = 'Default endpoint used to retrieve a MACRO Score for a given token ID.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { tokenIdInt: string; tickSetId: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   tokenIdInt: {
     required: true,
     description: 'The tokenID for the user as an integer value',
@@ -59,13 +68,16 @@ export const computeTickWithScore = (score: number, tickSet: BigNumber[]): numbe
   return tickSet.length // returns the last (greatest) tick
 }
 
-export const execute = async (request: IRequestInput, config: SpectralAdapterConfig) => {
-  const validator = new Validator(request, inputParameters)
+export const execute = async (
+  request: AdapterRequest<IRequestInput>,
+  config: SpectralAdapterConfig,
+): Promise<AdapterResponse<AdapterData>> => {
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const tokenIdInt = validator.validated.data.tokenIdInt
   const tickSetId = validator.validated.data.tickSetId
 
-  const options: RequestConfig = {
+  const options: AxiosRequestConfig = {
     ...config.api,
     url: '/spectral-proxy',
     method: 'POST',
@@ -78,7 +90,7 @@ export const execute = async (request: IRequestInput, config: SpectralAdapterCon
   const score = Requester.validateResultNumber(response.data[0], ['score'])
   const tick = computeTickWithScore(score, tickSet)
   return Requester.success(
-    request.data.jobRunID,
+    request.data.jobRunID?.toString(),
     Requester.withResult(response, tick),
     config.verbose,
   )

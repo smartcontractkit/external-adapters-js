@@ -1,10 +1,11 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['globalmarketcap']
 
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 export interface ResponseSchema {
   num_currencies: string
@@ -53,7 +54,7 @@ export interface PriceChange {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, {}, {}, { overrides })
+  const validator = new Validator<TInputParameters>(request, {}, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const url = `/global-ticker`

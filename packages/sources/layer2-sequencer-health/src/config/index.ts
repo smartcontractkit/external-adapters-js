@@ -1,5 +1,5 @@
 import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
-import { AdapterContext, Config } from '@chainlink/types'
+import { AdapterContext, Config } from '@chainlink/ea-bootstrap'
 import { envDefaultOverrides } from './envDefaultOverrides'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'

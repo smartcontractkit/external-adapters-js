@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'BLOCKSTREAM'
 
@@ -10,7 +10,7 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api = {
     ...config.api,
-    baseURL: config.api.baseUrl || DEFAULT_API_ENDPOINT,
+    baseURL: config.api.baseURL || DEFAULT_API_ENDPOINT,
   }
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

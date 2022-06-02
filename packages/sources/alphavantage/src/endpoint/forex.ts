@@ -1,18 +1,18 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['forex', 'price']
 
-const customError = (data: Record<string, unknown>) => {
-  return !!data['Error Message']
-}
+const customError = (data: ResponseSchema): boolean => !!data['Error Message']
 
 export const description = `Returns the exchange rate from a currency's current price to a given currency.
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`forex\` endpoint instead.**"`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
@@ -41,17 +41,18 @@ export interface ResponseSchema {
     '8. Bid Price': string
     '9. Ask Price': string
   }
+  'Error Message': string
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const from = validator.overrideSymbol(AdapterName)
+  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const to = validator.validated.data.quote
 
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     function: 'CURRENCY_EXCHANGE_RATE',
     from_currency: from,
     to_currency: to,

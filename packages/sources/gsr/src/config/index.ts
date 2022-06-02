@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import type { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'GSR'
 export const DEFAULT_ENDPOINT = 'price'
@@ -15,11 +15,11 @@ export const makeConfig = (prefix?: string): Config => {
   config.api = {
     ...config.api,
     baseURL: config.api.baseURL || DEFAULT_BASE_URL,
-    baseWsURL: WS_URL,
     headers: {
       'x-auth-userid': userId,
     },
   }
+  config.ws.baseWsURL = WS_URL
   config.adapterSpecificParams = {
     userId,
     publicKey,

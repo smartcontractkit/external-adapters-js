@@ -1,9 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['coins']
 
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 export interface CoinsResponse {
   id: string
@@ -12,7 +13,7 @@ export interface CoinsResponse {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request)
+  const validator = new Validator<TInputParameters>(request, {})
 
   const jobRunID = validator.validated.id
   const url = '/coins/list'

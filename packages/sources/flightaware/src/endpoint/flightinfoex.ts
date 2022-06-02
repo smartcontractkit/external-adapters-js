@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['estimatedarrivaltime', 'actualarrivaltime']
 
@@ -42,7 +42,8 @@ export const description = `Supports the following endpoint params to return a f
 - \`estimatedarrivaltime\`: Returns the estimatedarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint
 - \`actualarrivaltime\`: Returns the actualarrivaltime value from the [FlightInfoEx](https://flightaware.com/commercial/aeroapi/explorer/#op_FlightInfoEx) endpoint`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { departure: number; flight: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   departure: {
     required: true,
     description: 'The departure time of the flight as a UNIX timestamp in seconds',
@@ -56,7 +57,7 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath
@@ -70,11 +71,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const auth = {
-    username: config.api.username,
-    password: config.apiKey,
+    username: config.api?.auth?.username || '',
+    password: config.apiKey || '',
   }
 
-  const options = { ...config.api, auth, params, url }
+  const options: AxiosRequestConfig = { ...config.api, auth, params, url }
 
   const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, resultPath)
