@@ -9,7 +9,8 @@ echo "{}" > "${MOCK_API_DIR}"/responses.json
 adapterNames=()
 for var in "$@"
 do
-  printf -v name "%s-adapter" "$var"
+  adapter=$(echo "$var" | cut -d : -f 1)
+  printf -v name "%s-adapter" "$adapter"
   adapterNames+=("$name")
 done
 
@@ -19,15 +20,20 @@ adapterListenPort=8080
 
 for var in "$@"
 do
+  adapter=$(echo "$var" | cut -d : -f 1)
+  version=$(echo "$var" | cut -d : -f 2)
+
   # Run the mock API
-  printf -v envDpSourceUrl "%s_SOURCE_URL" "$var"
+  printf -v envDpSourceUrl "%s_SOURCE_URL" "$adapter"
   cd "$MOCK_API_DIR" && env SOURCE_URL="${!envDpSourceUrl}" PORT="$mockApiListenPort" yarn start &
 
   # Run the EA
-  printf -v adapterName "%s-adapter" "$var"
-  printf -v mockApiEndpoint "host.docker.internal:%d" "$mockApiListenPort"
-  printf -v envFileName "%s.env" "$var"
-  docker-compose --env-file="$envFileName" -f ./../../docker-compose.generated.yaml run -d -p "$adapterListenPort":8080 -e API_ENDPOINT="$mockApiEndpoint" --name "$adapterName" "$adapterName"
+  printf -v adapterName "%s-adapter" "$adapter"
+  printf -v ecrPath "public.ecr.aws/chainlink/adapters/%s-adapter:%s" "$adapter" "$version"
+  printf -v mockApiEndpoint "http://localhost:%d" "$mockApiListenPort"
+  printf -v envFileName "%s.env" "$adapter"
+
+  docker run --network host --env-file="$envFileName" --rm -d -p "$adapterListenPort":8080 -e API_ENDPOINT="$mockApiEndpoint" --name "$adapterName" "$ecrPath"
 
   # Increment port numbers
   ((mockApiListenPort+=1))
@@ -43,7 +49,8 @@ i=0
 for var in "$@"
 do
   port=$((8080+"$i"))
-  printf -v adapterOutput " %s:%d" "$var" "$port"
+  adapter=$(echo "$var" | cut -d : -f 1)
+  printf -v adapterOutput " %s:%d" "$adapter" "$port"
   OUTPUT+=$adapterOutput
   ((i+=1))
 done

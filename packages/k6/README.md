@@ -154,21 +154,7 @@ git clone [...] && cd external-adapters-tooling/mock-api
 export MOCK_API_DIR=$(pwd)
 ```
 
-#### 2. Docker compose
-
-From the repo root directory, generate the docker-compose file:
-
-```bash
-yarn generate:docker-compose
-```
-
-Build the adapters that you want to run:
-
-```bash
-docker-compose -f docker-compose.generated.yaml build [adapter_name]-adapter [...]
-```
-
-### 3. Configuration
+### 2. Configuration
 
 For each EA that you want to run, create an .env file in this directory named `[adapter].env`.
 E.g.:
@@ -193,16 +179,15 @@ export coingecko_SOURCE_URL="https://api.coingecko.com/api/v3"
 Before you start the EAs, make sure you've followed the steps above to:
 
 1. Prepare the mock API and set the `MOCK_API_DIR` env var.
-2. Generate docker-compose and build the EAs you want to run.
-3. Configure the .env files for each EA you want to run. Set the `[adapter]_SOURCE_URL` env var for each EA
+2. Configure the .env files for each EA you want to run. Set the `[adapter]_SOURCE_URL` env var for each EA
 
 To start the EAs with mock APIs, run:
 
 ```bash
-./automate-start.sh [adapter_1] [adapter_2] [...]
+./automate-start.sh [adapter_1]:[adapter_1_version] [adapter_2]:[adapter_2_version] [...]
 ```
 
-E.g.: `./automate-start.sh coingecko coinpaprika`
+E.g.: `./automate-start.sh coingecko:1.7.0 coinpaprika:1.8.9`
 
 This script will run the mock APIs and EAs, and outputs the command you have to run with k6 to hit these EAs.
 
