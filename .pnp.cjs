@@ -5558,7 +5558,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify", "npm:3.27.1"],
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
-            ["mock-socket", "npm:9.1.3"],
+            ["mock-socket", "npm:9.1.4"],
             ["object-hash", "npm:2.2.0"],
             ["object-path", "npm:0.11.5"],
             ["pino", "npm:6.13.0"],
@@ -5662,7 +5662,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.36"],
             ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.6"],
-            ["mock-socket", "npm:9.1.3"],
+            ["mock-socket", "npm:9.1.4"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -27043,10 +27043,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mock-socket", [
-        ["npm:9.1.3", {
-          "packageLocation": "./.yarn/cache/mock-socket-npm-9.1.3-063f337bb9-1f218de647.zip/node_modules/mock-socket/",
+        ["npm:9.1.4", {
+          "packageLocation": "./.yarn/cache/mock-socket-npm-9.1.4-b9f37b52cd-49ea90f6a3.zip/node_modules/mock-socket/",
           "packageDependencies": [
-            ["mock-socket", "npm:9.1.3"]
+            ["mock-socket", "npm:9.1.4"]
           ],
           "linkType": "HARD",
         }]
