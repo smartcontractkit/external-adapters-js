@@ -1,7 +1,7 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BaseConfig } from '@chainlink/types'
 
-export const NAME = 'DURIN'
+export const NAME = 'CCIP_READ'
 
 export const DEFAULT_ENDPOINT = 'optimism-gateway'
 

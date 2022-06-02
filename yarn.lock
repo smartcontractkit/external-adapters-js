@@ -2334,6 +2334,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/ccip-read-adapter@workspace:*, @chainlink/ccip-read-adapter@workspace:packages/sources/ccip-read":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ccip-read-adapter@workspace:packages/sources/ccip-read"
+  dependencies:
+    "@chainlink/ea-bootstrap": "*"
+    "@chainlink/ea-test-helpers": "*"
+    "@chainlink/types": "workspace:*"
+    "@ethersproject/abi": ^5.5.0
+    "@ethersproject/bytes": ^5.5.0
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.36
+    ethers: ^5.4.6
+    merkletreejs: ^0.2.18
+    tslib: ^2.3.1
+    typescript: 4.3.5
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/celsius-address-list-adapter@workspace:*, @chainlink/celsius-address-list-adapter@workspace:packages/sources/celsius-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/celsius-address-list-adapter@workspace:packages/sources/celsius-address-list"
@@ -2847,24 +2865,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/durin-adapter@workspace:*, @chainlink/durin-adapter@workspace:packages/sources/durin":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/durin-adapter@workspace:packages/sources/durin"
-  dependencies:
-    "@chainlink/ea-bootstrap": "*"
-    "@chainlink/ea-test-helpers": "*"
-    "@chainlink/types": "workspace:*"
-    "@ethersproject/abi": ^5.5.0
-    "@ethersproject/bytes": ^5.5.0
-    "@types/jest": 27.0.3
-    "@types/node": 16.11.36
-    ethers: ^5.4.6
-    merkletreejs: ^0.2.18
-    tslib: ^2.3.1
-    typescript: 4.3.5
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/dwolla-adapter@workspace:*, @chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
   version: 0.0.0-use.local
   resolution: "@chainlink/dwolla-adapter@workspace:packages/sources/dwolla"
@@ -3129,6 +3129,7 @@ __metadata:
     "@chainlink/bravenewcoin-adapter": "workspace:*"
     "@chainlink/btc.com-adapter": "workspace:*"
     "@chainlink/cache.gold-adapter": "workspace:*"
+    "@chainlink/ccip-read-adapter": "workspace:*"
     "@chainlink/celsius-address-list-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
@@ -3152,7 +3153,6 @@ __metadata:
     "@chainlink/curve-adapter": "workspace:*"
     "@chainlink/deribit-adapter": "workspace:*"
     "@chainlink/dns-query-adapter": "workspace:*"
-    "@chainlink/durin-adapter": "workspace:*"
     "@chainlink/dwolla-adapter": "workspace:*"
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/dxfeed-secondary-adapter": "workspace:*"

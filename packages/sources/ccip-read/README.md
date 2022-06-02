@@ -1,6 +1,6 @@
-# Chainlink External Adapter for Durin
+# Chainlink External Adapter for CCIP Read
 
-The Durin adapter acts as the gateway server for the Durin protocol as outlined here https://github.com/Arachnid/EIPs/blob/durin/EIPS/eip-3668.md. It's job is to take in data from a client, fetch proofs from outside the L1 chain and return it to the client.
+The CCIP Read adapter acts as the gateway server for the CCIP Read protocol as outlined here https://github.com/Arachnid/EIPs/blob/ccip-read/EIPS/eip-3668.md. It's job is to take in data from a client, fetch proofs from outside the L1 chain and return it to the client.
 
 ### Environment Variables
 
