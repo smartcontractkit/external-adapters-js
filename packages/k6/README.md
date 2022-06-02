@@ -139,3 +139,71 @@ The actual RPS the EA can handle will be somewhere between these two values, wit
 It's important to note that this is the RPS it can handle with the configured amount of unique requests, as a lower
 amount of unique requests can be easier to handle than a higher amount. Try out different amounts of unique requests to
 understand how the RPS limits changes.
+
+## Upper limit load testing with multiple EAs
+
+### Setup
+
+#### 1. Mock API
+
+Pull down the (private) EA tooling repo and store the path to the `mock-api` directory as the `MOCK_API_DIR` env var.
+E.g.:
+
+```bash
+git clone [...] && cd external-adapters-tooling/mock-api
+export MOCK_API_DIR=$(pwd)
+```
+
+#### 2. Docker compose
+
+From the repo root directory, generate the docker-compose file:
+
+```bash
+yarn generate:docker-compose
+```
+
+Build the adapters that you want to run:
+
+```bash
+docker-compose -f docker-compose.generated.yaml build [adapter_name]-adapter [...]
+```
+
+### 3. Configuration
+
+For each EA that you want to run, create an .env file in this directory named `[adapter].env`.
+E.g.:
+
+```dotenv
+# coingecko.env
+CACHE_ENABLED=true
+```
+
+Then, remember to set the source URL for each EA you want to run in the `[adapter]_SOURCE_URL` env var.
+E.g.:
+
+```bash
+export coingecko_SOURCE_URL="https://api.coingecko.com/api/v3"
+```
+
+> **Note**
+> Adapter names are defined in lower case here, as you would when running other commands
+
+## Run tests
+
+Before you start the EAs, make sure you've followed the steps above to:
+
+1. Prepare the mock API and set the `MOCK_API_DIR` env var.
+2. Generate docker-compose and build the EAs you want to run.
+3. Configure the .env files for each EA you want to run. Set the `[adapter]_SOURCE_URL` env var for each EA
+
+To start the EAs with mock APIs, run:
+
+```bash
+./automate-start.sh [adapter_1] [adapter_2] [...]
+```
+
+E.g.: `./automate-start.sh coingecko coinpaprika`
+
+This script will run the mock APIs and EAs, and outputs the command you have to run with k6 to hit these EAs.
+
+You can stop the EAs with <kbd>Ctrl</kbd>+<kbd>C</kbd>
