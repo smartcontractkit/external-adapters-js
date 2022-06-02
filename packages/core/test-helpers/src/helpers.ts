@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 
 const mockContext = {}
 

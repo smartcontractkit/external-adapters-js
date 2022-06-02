@@ -1,4 +1,4 @@
-import { AdapterRequest, APIEndpoint, Config, Execute } from '@chainlink/types'
+import { AdapterRequest, APIEndpoint, Config, Execute } from '@chainlink/ea-bootstrap'
 import { withNormalizedInput } from '../../src/lib/middleware/normalize'
 
 describe('Normalize middleware', () => {

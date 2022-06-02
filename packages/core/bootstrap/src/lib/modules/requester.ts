@@ -1,15 +1,14 @@
-import {
+import type {
   AdapterErrorResponse,
+  BatchedResult,
   AdapterResponse,
-  RequestConfig,
-  AdapterRequest,
-  AdapterRequestData,
-  ResultPath,
+  AxiosRequestConfig,
   AdapterBatchResponse,
-} from '@chainlink/types'
-import { reducer } from '../middleware/cache-warmer'
+  ResultPath,
+  BatchableProperty,
+} from '../../types'
 import axios, { AxiosResponse } from 'axios'
-import { deepType, getEnv, sleep } from '../util'
+import { deepType, getEnv, sleep, isArraylikeAccessor, isRecord, isObject } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import {
   AdapterConnectionError,
@@ -25,12 +24,13 @@ import objectPath from 'object-path'
 import { join } from 'path'
 import { recordDataProviderRequest } from '../metrics'
 
-const getFalse = () => false
+type CustomError<T = unknown> = (data: T) => boolean
+const defaultCustomError = () => false
 
 export class Requester {
-  static async request<T extends AdapterRequestData>(
-    config: RequestConfig,
-    customError?: any,
+  static async request<T>(
+    config: AxiosRequestConfig,
+    customError = defaultCustomError as CustomError<T>,
     retries = Number(getEnv('RETRY')),
     delay = 1000,
   ): Promise<AxiosResponse<T>> {
@@ -38,13 +38,6 @@ export class Requester {
     if (typeof config.timeout === 'undefined') {
       const timeout = Number(getEnv('TIMEOUT'))
       config.timeout = !isNaN(timeout) ? timeout : 3000
-    }
-
-    if (!customError) customError = getFalse
-    if (typeof customError !== 'function') {
-      delay = retries
-      retries = customError
-      customError = getFalse
     }
 
     const _retry = async (n: number): Promise<AxiosResponse<T>> => {
@@ -96,15 +89,15 @@ export class Requester {
         )
       }
 
-      if (response.data.error || customError(response.data)) {
+      if (response.data && customError && customError(response.data)) {
         // Response error
         if (n === 1) {
           const message = `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: ${JSON.stringify(
             response.data,
           )}`
-          const cause = response.data.error || 'customError'
+          const cause = (response.data as T & { error: unknown }).error || 'customError'
           const providerStatusCode: number | undefined =
-            response.data.error?.code ?? response.status
+            (response.data as T & { error: { code: number } }).error?.code ?? response.status
           record(config.method, providerStatusCode)
           const errorPayload = {
             statusCode: 200,
@@ -113,7 +106,7 @@ export class Requester {
             cause,
             url,
           }
-          throw response.data.error
+          throw (response.data as T & { error: unknown }).error
             ? new AdapterDataProviderError(errorPayload)
             : new AdapterCustomError(errorPayload)
         }
@@ -138,21 +131,25 @@ export class Requester {
     return await _retry(retries)
   }
 
-  static validateResultNumber(
-    data: { [key: string]: any },
-    path: ResultPath,
+  static validateResultNumber<T extends unknown>(
+    data: T,
+    path?: ResultPath,
     options?: { inverse?: boolean },
     missingDataErrorMsg = 'Data provider response empty',
     missingResultsErrorMsg = 'Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
   ): number {
-    if (typeof data === 'undefined' || data === null || Object.keys(data).length === 0) {
+    if (
+      typeof data === 'undefined' ||
+      data === null ||
+      (isObject(data) && Object.keys(data as Record<string, unknown>).length === 0)
+    ) {
       logger.error(missingDataErrorMsg, { data, path })
       throw new AdapterResponseEmptyError({
         message: missingDataErrorMsg,
         statusCode: 502,
       })
     }
-    const result = this.getResult(data, path)
+    const result = path ? this.getResult(data, path) : data
 
     if (typeof result === 'undefined' || result === null) {
       logger.error(missingResultsErrorMsg, { data, path })
@@ -172,14 +169,37 @@ export class Requester {
       })
     }
     const num = Number(result)
-    if (options?.inverse && num != 0) {
-      return 1 / num
-    }
+    if (options?.inverse && num != 0) return 1 / num
     return num
   }
 
-  static getResult(data: { [key: string]: unknown }, path: ResultPath): unknown {
+  static getResult<T extends unknown>(data: T, path: ResultPath): unknown {
+    if (
+      (typeof data === 'string' || Array.isArray(data)) &&
+      Array.isArray(path) &&
+      isArraylikeAccessor(path)
+    )
+      return this.getResultFromArraylike(data, path)
+
+    if (isRecord(data)) return this.getResultFromObject(data, path)
+
+    const message = 'Invalid validateResultNumber usage'
+    logger.error(message, { data, path })
+    throw new AdapterError({ message })
+  }
+
+  static getResultFromObject<T extends Record<string, T[keyof T]>>(
+    data: T,
+    path: ResultPath,
+  ): unknown {
     return objectPath.get(data, path)
+  }
+
+  static getResultFromArraylike<T extends string | ArrayLike<unknown>>(
+    data: T,
+    path: [number],
+  ): unknown {
+    return data[path[0]]
   }
 
   /**
@@ -189,18 +209,22 @@ export class Requester {
    * @param results (optional) a group of results from a batch request
    */
 
-  static withResult<T>(
+  static withResult<T extends Record<string, unknown> | unknown>(
     response: AxiosResponse<T>,
     result?: number | string,
-    results?: [string, AdapterRequest, number][],
-  ): AxiosResponseWithLiftedResult<T> | AxiosResponseWithPayloadAndLiftedResult<T> {
+    results?: AdapterBatchResponse,
+  ): AxiosReponseWithResult<T> {
     const isObj = deepType(response.data) === 'object'
-    const output = isObj
-      ? (response as AxiosResponseWithLiftedResult<T>)
-      : ({
-          ...response,
-          data: { payload: response.data },
-        } as AxiosResponseWithPayloadAndLiftedResult<T>)
+    if (isObj) {
+      const output = response as AxiosReponseWithResult<T>
+      if (result) output.data.result = result
+      if (results) output.data.results = results
+      return output
+    }
+    const output = {
+      ...response,
+      data: { payload: response.data },
+    } as AxiosReponseWithResult<T>
     if (result) output.data.result = result
     if (results) output.data.results = results
     return output
@@ -241,7 +265,7 @@ export class Requester {
     jobRunID = '1',
     response: Partial<AxiosResponse>,
     verbose = false,
-    batchablePropertyPath?: reducer.BatchableProperty[],
+    batchablePropertyPath?: BatchableProperty[],
   ): AdapterResponse {
     const debug = batchablePropertyPath ? { batchablePropertyPath } : undefined
 
@@ -285,31 +309,6 @@ interface SingleResult {
 }
 
 /**
- * Contained within the body of an api response
- * from a request that asked for multiple data points
- *
- * @example Request Parameters
- * ```
- * {
- *  "data": {
- *      "base": "ETH,BTC",
- *      "quote": "USD"
- *   }
- *}
- * ```
- */
-interface BatchedResult {
-  /**
-   * Tuples for
-   * [
-   *    its input parameters as a single request (used in caching),
-   *    its result
-   * ]
-   */
-  results?: AdapterBatchResponse
-}
-
-/**
  * A lifted result is derived from a raw response,
  * where the response payload will be slightly normalized,
  * "lifting" nested data into the root object
@@ -345,3 +344,10 @@ type AxiosResponseWithLiftedResult<T> = AxiosResponse<T & LiftedResult>
  * The original response data will be store under the key of payload.
  */
 type AxiosResponseWithPayloadAndLiftedResult<T> = AxiosResponse<{ payload: T } & LiftedResult>
+
+type AxiosReponseWithResult<T extends Record<string, unknown> | unknown> = T extends Record<
+  string,
+  unknown
+>
+  ? AxiosResponseWithLiftedResult<T>
+  : AxiosResponseWithPayloadAndLiftedResult<T>

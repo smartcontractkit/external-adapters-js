@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest, NestableValue } from '../../../types'
 
 /**
  * Separates a batched request into indivdual requests and calls a callback function with the individual request passed in
@@ -22,15 +22,15 @@ const separateBatchesHelper = async (
   if (dataFields.length === 0) {
     await callback(curr)
   } else {
-    let dataValues = input.data[dataFields[0]]
+    const dataValues = input.data[dataFields[0]]
     if (dataValues != null && dataValues != undefined) {
-      dataValues = Array.isArray(dataValues) ? dataValues : [dataValues]
-      for (const val of dataValues) {
-        const updatedCurr = {
+      const dataValuesArray = Array.isArray(dataValues) ? dataValues : [dataValues]
+      for (const val of dataValuesArray) {
+        const updatedCurr: AdapterRequest = {
           ...curr,
           data: {
             ...curr.data,
-            [dataFields[0]]: val,
+            [dataFields[0]]: val as NestableValue,
           },
         }
         await separateBatchesHelper(updatedCurr, input, dataFields.slice(1), callback)

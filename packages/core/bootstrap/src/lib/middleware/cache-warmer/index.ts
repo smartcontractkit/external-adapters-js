@@ -1,5 +1,11 @@
-import { AdapterRequest, Execute, MakeWSHandler, Middleware } from '@chainlink/types'
-import { Store } from 'redux'
+import type {
+  AdapterData,
+  AdapterRequest,
+  Execute,
+  MakeWSHandler,
+  Middleware,
+} from '../../../types'
+import type { Store } from 'redux'
 import { withMiddleware } from '../../../index'
 import { logger } from '../../modules'
 import * as util from '../../util'
@@ -8,6 +14,7 @@ import { getSubsId, RootState as WSState } from '../ws/reducer'
 import * as actions from './actions'
 import { CacheWarmerState } from './reducer'
 
+export { WARMUP_REQUEST_ID } from './config'
 export * as actions from './actions'
 export * as epics from './epics'
 export * as reducer from './reducer'
@@ -17,11 +24,18 @@ interface WSInput {
   makeWSHandler?: MakeWSHandler
 }
 
+/**
+  Premptively polls a data provider to keep data in the cache fresh
+*/
 export const withCacheWarmer =
-  (warmerStore: Store<CacheWarmerState>, middleware: Middleware[], ws: WSInput) =>
-  (rawExecute: Execute): Middleware =>
+  <D extends AdapterData>(
+    warmerStore: Store<CacheWarmerState>,
+    middleware: Middleware<AdapterRequest<D>>[],
+    ws: WSInput,
+  ) =>
+  (rawExecute: Execute<AdapterRequest<D>>): Middleware<AdapterRequest<D>> =>
   async (execute, context) =>
-  async (input: AdapterRequest) => {
+  async (input) => {
     const isWarmerActive =
       util.parseBool(util.getEnv('CACHE_ENABLED', undefined, context)) &&
       util.parseBool(util.getEnv('WARMUP_ENABLED', undefined, context))
@@ -38,8 +52,9 @@ export const withCacheWarmer =
       for (const [key, childRequest] of keysToCheck) {
         // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed'      const wsHandler = await ws.makeWSHandler()
         const wsHandler = await ws.makeWSHandler()
-        const wsKey = getSubsId(wsHandler.subscribe(childRequest))
-        const isActiveWSSubscription = ws.store.getState().subscriptions.all[wsKey]?.active
+        const subMessage = wsHandler.subscribe(childRequest)
+        const wsKey = subMessage && getSubsId(subMessage)
+        const isActiveWSSubscription = wsKey && ws.store.getState().subscriptions.all[wsKey]?.active
         // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment
         const isActiveCWSubsciption = warmerStore.getState().subscriptions[key]
         if (isActiveWSSubscription) {
@@ -76,15 +91,16 @@ export const withCacheWarmer =
     // Dispatch subscription only if execute was succesful
     const result = await execute(input, context)
 
-    const warmupExecutePayload: actions.WarmupExecutePayload = {
+    const warmupExecutePayload: actions.WarmupExecutePayload<D> = {
       ...input,
-      executeFn: async (input: AdapterRequest) =>
+      executeFn: async (input) =>
         await (
           await withMiddleware(rawExecute, context, middleware)
         )(input, context),
       result,
     }
-    warmerStore.dispatch(actions.warmupExecute(warmupExecutePayload))
+    const warmupExecuteAction = actions.makeWarmupExecute<D>()
+    warmerStore.dispatch(warmupExecuteAction(warmupExecutePayload))
 
     return result
   }

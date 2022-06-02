@@ -1,4 +1,4 @@
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 import { FastifyRequest } from 'fastify'
 import {
   getEnv,

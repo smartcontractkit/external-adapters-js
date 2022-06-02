@@ -7,12 +7,18 @@ interface CacheExecutionDurationParams {
   requestOrigin?: string
   isFromWs: boolean
 }
+
+interface CacheMetricsMethods {
+  stalenessAndExecutionTime(cacheHit: boolean, staleness?: number): number
+  cacheGet({ value }: { value: unknown }): void
+  cacheSet({ statusCode, maxAge }: { statusCode: number; maxAge: number }): void
+}
 export const beginObserveCacheMetrics = ({
   participantId,
   feedId,
   requestOrigin,
   isFromWs,
-}: CacheExecutionDurationParams) => {
+}: CacheExecutionDurationParams): CacheMetricsMethods => {
   const cacheType = getEnv('CACHE_TYPE') === 'redis' ? CacheTypes.Redis : CacheTypes.Local
   const base = {
     feed_id: feedId,

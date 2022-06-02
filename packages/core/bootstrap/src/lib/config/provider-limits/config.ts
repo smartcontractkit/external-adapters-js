@@ -1,7 +1,7 @@
 import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
 import { getEnv, parseBool } from '../../util'
 import { logger } from '../../modules'
-import { AdapterContext } from '@chainlink/types'
+import type { AdapterContext } from '../../../types'
 
 export interface Config {
   /**

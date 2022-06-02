@@ -1,14 +1,15 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import type {
+  AdapterRequest,
+  AdapterRequestData,
+  BatchableProperty,
+  Execute,
+  Value,
+} from '../../../types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../../modules'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
 import { merge, uniq } from 'lodash'
-
-export interface BatchableProperty {
-  name: string
-  limit?: number
-}
 
 /**
  * Metadata about a request
@@ -107,18 +108,31 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     for (const childKey in payload.childLastSeenById) {
       const childRequestData = state[childKey]?.origin
       if (childRequestData) {
-        // Join request data
+        // Join and deduplicate request data
         for (const { name } of payload.batchablePropertyPath) {
-          const uniqueBatchableValue = new Set(batchWarmer.origin[name])
-          const singleBatchablevalue = childRequestData[name] ?? childRequestData.data?.[name]
-          if (singleBatchablevalue) uniqueBatchableValue.add(singleBatchablevalue)
-          else
-            logger.error(`[subscriptionsReducer] name=${name} not found in childRequestData`, {
-              childKey,
-              childRequestData,
-              name,
+          const originalValue = batchWarmer.origin[name]
+          if (
+            !Array.isArray(originalValue) ||
+            (originalValue as Array<unknown>).every((v) => {
+              typeof v === 'string'
             })
-          batchWarmer.origin[name] = [...uniqueBatchableValue]
+          )
+            throw new Error(
+              "Batch Warmer's Batchable key does not have the expected type as an array of strings",
+            )
+          const uniqueBatchableValue = new Set(originalValue as Array<string>)
+          const incomingValue =
+            childRequestData[name] ||
+            (typeof childRequestData.data === 'object' &&
+              (childRequestData.data as Record<string, Value>)[name])
+          if (typeof incomingValue !== 'string')
+            throw new Error(
+              "Incoming child's batchable key does not have the expected type of string",
+            )
+          uniqueBatchableValue.add(incomingValue)
+          batchWarmer.origin[name] = [
+            ...uniqueBatchableValue,
+          ] as typeof batchWarmer['origin']['name']
         }
 
         // Join overrides
@@ -151,14 +165,15 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
     )
 
     // The request data for a batch request should only contain unique values
-    const requestDataWithUniqueValues = Object.fromEntries<Set<string>>(
-      payload.batchablePropertyPath.map(({ name }) => [name, new Set()]),
-    )
+    const requestDataWithUniqueValues = Object.fromEntries<
+      Set<typeof state['id']['origin']['name']>
+    >(payload.batchablePropertyPath.map(({ name }) => [name, new Set()]))
 
     // Rebuild the request data without the removed children's data
     const batchRequestData = remainingChildIds.reduce((acc, childId) => {
       for (const { name } of payload.batchablePropertyPath) {
-        acc[name].add(state[childId].origin[name])
+        const value = state[childId].origin[name]
+        acc[name].add(value)
       }
       return acc
     }, requestDataWithUniqueValues)
@@ -170,9 +185,9 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
 
     // Rebuild the overrides
     const overrides = remainingChildIds.reduce<{
-      overrides?: Record<string, string>
-      tokenOverrides?: Record<string, string>
-      includes?: string[]
+      overrides?: AdapterRequestData['overrides']
+      tokenOverrides?: AdapterRequestData['tokenOverrides']
+      includes?: AdapterRequestData['includes']
     }>((acc, childId) => {
       const childOriginData = state[childId].origin
       if (childOriginData.overrides)
@@ -284,3 +299,4 @@ export const rootReducer = combineReducers({
 })
 
 export type CacheWarmerState = ReturnType<typeof rootReducer>
+export const initialState: CacheWarmerState = { warmups: {}, subscriptions: {} }

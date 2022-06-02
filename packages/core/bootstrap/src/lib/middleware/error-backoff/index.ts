@@ -1,4 +1,4 @@
-import { Middleware } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, Middleware } from '../../../types'
 import { Store } from 'redux'
 import {
   ErrorBackoffState,
@@ -16,7 +16,9 @@ export * as actions from './actions'
 export * as reducer from './reducer'
 
 export const withErrorBackoff =
-  (store?: Store<ErrorBackoffState>): Middleware =>
+  <R extends AdapterRequest, C extends AdapterContext>(
+    store?: Store<ErrorBackoffState>,
+  ): Middleware<R, C> =>
   async (execute, context) =>
   async (input) => {
     if (!store) return await execute(input, context)

@@ -1,9 +1,9 @@
 import * as client from 'prom-client'
 import { getEnv, parseBool } from '../util'
-import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer/config'
-import { Middleware, AdapterRequest, AdapterMetricsMeta } from '@chainlink/types'
-import { HttpRequestType, requestDurationBuckets } from './constants'
 import * as util from './util'
+import type { Middleware, AdapterRequest, AdapterMetricsMeta, AdapterContext } from '../../types'
+import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer'
+import { HttpRequestType, requestDurationBuckets } from './constants'
 
 export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
 
@@ -17,7 +17,8 @@ export const setupMetrics = (name: string): void => {
 const DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE = 200
 export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
   // If no requestOrigin comes through, then this is a cache warmer request
-  requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
+  requestOrigin:
+    (input.data.metricsMeta as AdapterMetricsMeta)?.requestOrigin || util.WARMER_FEED_ID,
   feedId: util.getFeedId(input),
 })
 
@@ -36,8 +37,10 @@ export const recordDataProviderRequest = METRICS_ENABLED
       return () => null
     }
 
-export const withMetrics: Middleware =
-  async (execute, context) => async (input: AdapterRequest) => {
+export const withMetrics =
+  <R extends AdapterRequest, C extends AdapterContext>(): Middleware<R, C> =>
+  async (execute, context) =>
+  async (input) => {
     const metricsMeta: AdapterMetricsMeta = getMetricsMeta(input)
     const recordMetrics = () => {
       const labels: Parameters<typeof httpRequestsTotal.labels>[0] = {
@@ -68,7 +71,7 @@ export const withMetrics: Middleware =
         statusCode: result.statusCode,
         providerStatusCode: result.providerStatusCode || DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE,
         type:
-          result.data.maxAge || (result as any).maxAge
+          result.data.maxAge || result.maxAge
             ? HttpRequestType.CACHE_HIT
             : HttpRequestType.DATA_PROVIDER_HIT,
       })

@@ -1,4 +1,4 @@
-import { AdapterContext, Execute, Middleware, AdapterRequest } from '@chainlink/types'
+import type { AdapterContext, Execute, Middleware, AdapterRequest, AdapterData } from '../types'
 import Fastify, { FastifyInstance } from 'fastify'
 import { join } from 'path'
 import * as client from 'prom-client'
@@ -7,11 +7,12 @@ import { defaultOptions } from './middleware/cache'
 import { loadTestPayload } from './config/test-payload-loader'
 import { logger } from './modules'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
-import { get as getRateLimitConfig } from './middleware/rate-limit/config'
+import { get as getRateLimitConfig } from './config/provider-limits/config'
 import { getClientIp, getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { WSReset } from './middleware/ws/actions'
+import { Limits } from './config/provider-limits'
 
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
@@ -23,7 +24,11 @@ export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
-  (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
+  <D extends AdapterData>(
+    adapterContext: AdapterContext,
+    execute: Execute<AdapterRequest<D>>,
+    middleware: Middleware<AdapterRequest<D>>[],
+  ) =>
   async (): Promise<FastifyInstance> => {
     const app = Fastify({
       trustProxy: true,
@@ -31,13 +36,15 @@ export const initHandler =
     })
     const name = adapterContext.name || ''
     const envDefaultOverrides = adapterContext.envDefaultOverrides
+    const rateLimit: Limits = adapterContext.rateLimit || { http: {}, ws: {} }
     const context: AdapterContext = {
       name,
+      cache: undefined,
       envDefaultOverrides,
-      cache: null,
-      rateLimit: getRateLimitConfig(
+      rateLimit,
+      limits: getRateLimitConfig(
         {
-          limits: adapterContext.rateLimit || { http: {}, ws: {} },
+          limits: rateLimit,
           name,
         },
         adapterContext,
@@ -53,17 +60,17 @@ export const initHandler =
       setupMetricsServer(name)
     }
 
-    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
+    const executeWithMiddleware = await withMiddleware<D>(execute, context, middleware)
 
     app.post<{
-      Body: AdapterRequest
+      Body: AdapterRequest<D>
     }>(baseUrl, async (req, res) => {
       const metricsMeta = METRICS_ENABLED
         ? { metricsMeta: { requestOrigin: getClientIp(req) } }
         : {}
       req.body.data = {
         ...(req.body.data || {}),
-        ...toObjectWithNumbers(req.query),
+        ...toObjectWithNumbers(req.query as Record<string, unknown>),
         ...metricsMeta,
       }
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
@@ -85,7 +92,7 @@ export const initHandler =
       res.status(200).send({ message: 'OK', version })
     })
 
-    const testPayload = loadTestPayload()
+    const testPayload = loadTestPayload<D>()
     app.get(join(baseUrl, 'smoke'), async (_, res) => {
       if (testPayload.isDefault) {
         return res.status(200).send('OK')
@@ -95,7 +102,7 @@ export const initHandler =
 
       for (const index in testPayload.requests) {
         try {
-          await executeSync(
+          await executeSync<D>(
             { data: testPayload.requests[index], id: index },
             executeWithMiddleware,
             context,

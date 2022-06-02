@@ -38,8 +38,9 @@ describe('IO Logger', () => {
 
     const { withIOLogger } = await import('../../src/lib/middleware/io-logger')
 
-    const middleware = await withIOLogger(execute, {})
-    const result = await middleware(request, {})
+    const middleware = await withIOLogger()
+    const wrappedExecute = await middleware(execute, {})
+    const result = await wrappedExecute(request, {})
 
     expect(mockLogger.debug.mock.calls).toMatchObject([
       ['Input: ', { input: request }],
@@ -83,8 +84,10 @@ describe('IO Logger', () => {
 
     const { withIOLogger } = await import('../../src/lib/middleware/io-logger')
 
-    const middleware = await withIOLogger(execute, {})
-    await expect(async () => await middleware(request, {})).rejects.toThrowError('errorasd')
+    const middleware = await withIOLogger()
+    const wrappedExecute = await middleware(execute, {})
+
+    await expect(async () => await wrappedExecute(request, {})).rejects.toThrowError('errorasd')
 
     expect(mockLogger.debug).toHaveBeenCalledWith('Input: ', { input: request })
     expect(mockLogger.error.mock.calls[0]).toMatchObject([
@@ -135,8 +138,10 @@ describe('IO Logger', () => {
 
     const { withIOLogger } = await import('../../src/lib/middleware/io-logger')
 
-    const middleware = await withIOLogger(execute, {})
-    await expect(async () => await middleware(request, {})).rejects.toThrowError('errorasd')
+    const middleware = await withIOLogger()
+    const wrappedExecute = await middleware(execute, {})
+
+    await expect(async () => await wrappedExecute(request, {})).rejects.toThrowError('errorasd')
 
     expect(mockLogger.debug).toHaveBeenCalledWith('Input: ', { input: request })
     expect(mockLogger.error.mock.calls[0]).toMatchObject([
