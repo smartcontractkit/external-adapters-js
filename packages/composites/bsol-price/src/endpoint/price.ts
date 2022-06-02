@@ -1,4 +1,10 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import {
+  AdapterContext,
+  AdapterRequest,
+  AdapterResponse,
+  Validator,
+  BigNumber as TBN,
+} from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as solanaViewFunction from '@chainlink/solana-view-function-adapter'
 import BN from 'bn.js'
@@ -11,13 +17,18 @@ export const supportedEndpoints = ['price']
 
 const LAMBERT_DECIMALS = 9
 
+export type TInputParameters = TA.types.TInputParameters
+export const inputParameters = TA.types.inputParameters
+
 export const execute = async (
   input: AdapterRequest,
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> => {
+  const validator = new Validator<TInputParameters>(input, inputParameters)
+
   const addresses = [config.solidoAddress, config.bSolAddress, config.stSolAddress]
-  const jobRunID = input.data.jobRunID
+  const jobRunID = validator.validated.id
   const accountsInfo = await getAccountsInformation(jobRunID, context, addresses)
   const bSOLUSDPrice = await getBSolUSDPrice(jobRunID, config, input, context, accountsInfo)
   return {
@@ -26,6 +37,7 @@ export const execute = async (
     result: bSOLUSDPrice,
     data: {
       result: bSOLUSDPrice,
+      statusCode: 200,
     },
   }
 }
@@ -37,18 +49,22 @@ const getAccountsInformation = async (
 ): Promise<solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>[]> => {
   const _config = solanaViewFunction.makeConfig()
   const _execute = solanaViewFunction.makeExecute(_config)
-  const solanaViewFunctionAdapterRequest: AdapterRequest = {
-    id: jobRunID,
-    data: {
-      addresses,
-    },
-  }
+  const solanaViewFunctionAdapterRequest: AdapterRequest<solanaViewFunction.types.TInputParameters> =
+    {
+      id: jobRunID,
+      data: {
+        addresses,
+      },
+    }
   const solanaViewFunctionAdapterResponse = await _execute(
     solanaViewFunctionAdapterRequest,
     context,
   )
-  const accountsInfo: solanaWeb3.AccountInfo<Buffer | solanaWeb3.ParsedAccountData>[] =
-    solanaViewFunctionAdapterResponse.data.accountInformation
+  const accountsInfo = solanaViewFunctionAdapterResponse.data
+    .accountInformation as unknown as solanaWeb3.AccountInfo<
+    Buffer | solanaWeb3.ParsedAccountData
+  >[]
+  // TODO: makeExecute return types
   return accountsInfo
 }
 
@@ -124,7 +140,8 @@ export const getStSolPerUSD = async (
   const allocations = [
     {
       symbol: 'SOL',
-      balance: new BigNumber(10).pow(LAMBERT_DECIMALS),
+      balance: new BigNumber(10).pow(LAMBERT_DECIMALS) as unknown as TBN,
+      // TODO: BigNumber type
       decimals: LAMBERT_DECIMALS,
     },
   ]
@@ -132,6 +149,7 @@ export const getStSolPerUSD = async (
     { id: input.id, data: { ...input.data, allocations, quote: 'USD', method: 'price' } },
     context,
   )
-  const usdPerSol = new BigNumber(usdSolResp.data.result)
+  // TODO: makeExecute return types
+  const usdPerSol = new BigNumber(usdSolResp.data.result as any)
   return stSolPerSol.dividedBy(usdPerSol)
 }

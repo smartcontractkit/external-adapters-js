@@ -1,1 +1,2 @@
-export * as circuit from './circuit'
+import * as circuit from './circuit'
+export type TInputParameters = circuit.TInputParameters

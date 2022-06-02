@@ -1,1 +1,2 @@
-export * as allocation from './allocation'
+import * as allocation from './allocation'
+export type TInputParameters = allocation.TInputParameters

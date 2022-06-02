@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Validator, Requester } from '@chainlink/ea-bootstrap'
 import * as SA from '@chainlink/uniswap-v2-adapter'
 import { Config } from '../config'
@@ -8,7 +8,11 @@ import vaultABI from '../abi/vault.json'
 
 export const supportedEndpoints = ['price']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  vaultAddress: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   vaultAddress: {
     required: true,
     description: 'The address of the NFTX vault being queried for.',
@@ -18,10 +22,10 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
   if (validator.error) throw validator.error
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
   const vaultAddress = validator.validated.data.vaultAddress
   const vault = new ethers.Contract(vaultAddress, vaultABI, config.provider)
@@ -32,13 +36,14 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const _config = SA.makeConfig()
   const _execute = SA.makeExecute(_config)
+  // TODO type makeExecute response
 
   const pricePayload = {
     from: 'WETH',
     to: vaultAddress,
   }
   const priceResponse = await _execute({ id: jobRunID, data: pricePayload }, context)
-  const priceInverse = new Decimal(priceResponse.result) // WETH per token
+  const priceInverse = new Decimal(priceResponse.result as any) // WETH per token
   const price = new Decimal(1).div(priceInverse)
   const priceWithFee = new Decimal(1).plus(fee).mul(price)
 

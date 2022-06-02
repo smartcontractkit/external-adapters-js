@@ -1,12 +1,19 @@
 import { Logger, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { getAllocations } from '../index-allocations'
 import { DEFAULT_NETWORK, DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 
 export const supportedEndpoints = ['allocation']
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  name?: string
+  asset?: string
+  address: string
+  adapter: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   name: {
     required: false,
     description: 'Index Name',
@@ -29,7 +36,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   Logger.warn(
     `WARN: This EA will be deprecated, 'set-token-index' will be used for future reference.`,
   )
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const asset = validator.validated.data

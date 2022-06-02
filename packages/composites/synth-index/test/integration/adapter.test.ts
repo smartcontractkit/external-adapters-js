@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'

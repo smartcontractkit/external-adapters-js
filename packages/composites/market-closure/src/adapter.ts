@@ -1,10 +1,17 @@
-import { AdapterRequest, AdapterResponse, Execute, InputParameters } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, Execute, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import { Config, makeConfig, DEFAULT_NETWORK } from './config'
 import { getCheckImpl, getCheckProvider } from './checks'
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  check: string
+  source: string
+  referenceContract: string
+  multiply: number
+  network?: string
+}
+const inputParameters: InputParameters<TInputParameters> = {
   check: true,
   source: true,
   referenceContract: ['referenceContract', 'contract'],
@@ -13,7 +20,7 @@ const inputParameters: InputParameters = {
 }
 
 export const execute = async (input: AdapterRequest, config: Config): Promise<AdapterResponse> => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const referenceContract = validator.validated.data.referenceContract
@@ -29,7 +36,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     return Requester.success(jobRunID, { data: { result }, status: 200 })
   }
 
-  return await config.getPriceAdapter(source)(input)
+  return (await config.getPriceAdapter(source)(input)) as any
 }
 
 export const makeExecute = (config?: Config): Execute => {

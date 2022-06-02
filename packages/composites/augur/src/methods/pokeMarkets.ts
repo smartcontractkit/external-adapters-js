@@ -1,5 +1,5 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/types'
+import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
 
@@ -73,7 +73,11 @@ interface RoundDataForCoin {
   roundId: BigNumberish
 }
 
-const pokeParams = {
+export type TInputParameters = {
+  contractAddress: string
+}
+
+const pokeParams: InputParameters<TInputParameters> = {
   contractAddress: true,
 }
 
@@ -82,7 +86,7 @@ export async function execute(
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> {
-  const validator = new Validator(input, pokeParams)
+  const validator = new Validator<TInputParameters>(input, pokeParams)
 
   const jobRunID = input.id
 

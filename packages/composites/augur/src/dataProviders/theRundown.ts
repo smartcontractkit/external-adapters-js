@@ -1,5 +1,5 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Execute } from '@chainlink/types'
+import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import type { Execute, BigNumber as TBN } from '@chainlink/ea-bootstrap'
 import * as TheRundown from '@chainlink/therundown-adapter'
 import { ethers } from 'ethers'
 import { CreateTeamEvent } from '../methods/createMarkets'
@@ -50,7 +50,15 @@ interface TheRundownEvent {
 
 const TBD_TEAM_ID = 2756
 
-const createParams = {
+export type TInputParameters = {
+  sport: string
+  daysInAdvance: number
+  startBuffer: number
+  contract: ethers.Contract
+  affiliateIds: number[]
+}
+
+const createParams: InputParameters<TInputParameters> = {
   sport: true,
   daysInAdvance: true,
   startBuffer: true,
@@ -65,14 +73,14 @@ const addDays = (date: Date, days: number): Date => {
 }
 
 export const create: Execute = async (input, context) => {
-  const validator = new Validator(input, createParams)
+  const validator = new Validator<TInputParameters>(input, createParams)
 
   const sport = validator.validated.data.sport.toUpperCase()
   const sportId = sportIdMapping[sport]
   const daysInAdvance = validator.validated.data.daysInAdvance
   const startBuffer = validator.validated.data.startBuffer
   const contract = validator.validated.data.contract
-  const affiliateIds: number[] = validator.validated.data.affiliateIds
+  const affiliateIds = validator.validated.data.affiliateIds
   const getAffiliateId = (event: TheRundownEvent) =>
     affiliateIds.find((id) => !!event.lines && id in event.lines)
 
@@ -92,7 +100,15 @@ export const create: Execute = async (input, context) => {
   for (let i = 0; i < daysInAdvance; i++) {
     params.data.date = addDays(params.data.date, 1)
     Logger.debug(`Augur theRundown: Fetching data for date ${params.data.date}`)
-    const response = await theRundownExec(params, context)
+    const input = {
+      ...params,
+      data: {
+        ...params.data,
+        date: Date.toString(),
+      },
+    }
+    const response = (await theRundownExec(input, context)) as any
+    // TODO: makeExecute return types
     events.push(...(response.result as TheRundownEvent[]))
   }
 
@@ -207,7 +223,12 @@ const eventStatus: { [key: string]: number } = {
   STATUS_SUSPENDED: 4, // treating as canceled
 }
 
-const resolveParams = {
+export type TResolveParameters = {
+  sport: string
+  eventId: TBN
+}
+
+const resolveParams: InputParameters<TResolveParameters> = {
   sport: true,
   eventId: true,
 }
@@ -215,7 +236,7 @@ const resolveParams = {
 export const numToEventId = (num: BigNumber): string => num.toHexString().slice(2)
 
 export const resolve: Execute = async (input, context) => {
-  const validator = new Validator(input, resolveParams)
+  const validator = new Validator<TResolveParameters>(input, resolveParams)
 
   const theRundownExec = TheRundown.makeExecute({
     ...TheRundown.makeConfig(TheRundown.NAME),
@@ -237,8 +258,8 @@ export const resolve: Execute = async (input, context) => {
     },
   }
 
-  const response = (await theRundownExec(req, context)).data as TheRundownEvent
-
+  const response = (await theRundownExec(req, context)).data as unknown as TheRundownEvent
+  // TODO: makeExecute return type
   const event: ResolveTeam = {
     id: eventIdToNum(response.event_id),
     status: eventStatus[response.score.event_status],

@@ -5,11 +5,16 @@ import {
   AdapterRequest,
   ExecuteWithConfig,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['circuit']
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  primarySource: string
+  secondarySource: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   primarySource: {
     required: true,
     description: 'First source adapters to query',
@@ -21,9 +26,9 @@ const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator<TInputParameters>(request, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const primarySource = validator.validated.data.primarySource
   const secondarySource = validator.validated.data.secondarySource
   const sources = secondarySource ? [primarySource, secondarySource] : [primarySource]

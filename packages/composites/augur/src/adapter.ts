@@ -1,16 +1,24 @@
-import { AdapterInputError, Logger, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, Execute, InputParameters } from '@chainlink/types'
+import { AdapterInputError, ExecuteFactory, Logger, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { resolveMarkets, createMarkets, pokeMarkets } from './methods'
 import { Config, makeConfig } from './config'
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  method: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   method: true,
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
+export const execute: ExecuteWithConfig<Config, TInputParameters> = async (
+  input,
+  context,
+  config,
+) => {
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const method = validator.validated.data.method
 
   Logger.debug(`Augur: Choosing method ${method}`)
@@ -33,6 +41,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   }
 }
 
-export const makeExecute = (): Execute => {
-  return async (request: AdapterRequest, context) => execute(request, context, makeConfig())
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config) => {
+  return async (request, context) => execute(request, context, config || makeConfig())
 }

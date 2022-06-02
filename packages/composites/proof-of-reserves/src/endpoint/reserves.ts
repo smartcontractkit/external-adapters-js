@@ -1,13 +1,23 @@
 import { Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
-import { Config } from '../config'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { adapters as indexerAdapters, Indexer, runBalanceAdapter } from '../utils/balance'
 import { adapters as protocolAdapters, runProtocolAdapter } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
 import { getValidAddresses } from '../utils/addressValidator'
+import { Config } from '../config'
+
 export const supportedEndpoints = ['reserves']
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  protocol: string
+  indexer: string
+  confirmations?: number
+  addresses?: string[]
+  disableAddressValidation?: boolean
+  disableDuplicateAddressFiltering?: boolean
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   protocol: {
     required: true,
     type: 'string',
@@ -55,16 +65,23 @@ const inputParameters: InputParameters = {
     default: false,
   },
 }
-
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters, config.options)
+  const validator = new Validator<TInputParameters>(input, inputParameters, config.options)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const protocol = validator.validated.data.protocol.toUpperCase()
   const indexer: Indexer = validator.validated.data.indexer.toUpperCase()
-  const confirmations = validator.validated.data.confirmations
+  // TODO: defaults fill as non-nullable
+  const confirmations = validator.validated.data.confirmations as number
 
-  const protocolOutput = await runProtocolAdapter(jobRunID, context, protocol, input.data, config)
+  // TODO: type input
+  const protocolOutput = await runProtocolAdapter(
+    jobRunID,
+    context,
+    protocol,
+    input.data as any,
+    config,
+  )
   const validatedAddresses = getValidAddresses(protocolOutput, validator)
   const balanceOutput = await runBalanceAdapter(
     indexer,

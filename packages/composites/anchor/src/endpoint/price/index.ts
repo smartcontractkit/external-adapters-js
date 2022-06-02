@@ -1,10 +1,10 @@
 import { AdapterInputError, Validator } from '@chainlink/ea-bootstrap'
-import {
+import type {
   AdapterContext,
   AdapterRequest,
   ExecuteWithConfig,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config, FIXED_POINT_DECIMALS } from '../../config'
 import { convertUSDQuote, getTokenPrice } from '../../utils'
@@ -13,7 +13,9 @@ import * as bluna from './bluna'
 
 export const supportedEndpoints = ['price']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { from: string; to: string; conversionFeedDecimals?: number }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   from: {
     required: true,
     aliases: ['base'],
@@ -42,7 +44,7 @@ export type PriceExecute = (
 const supportedSymbols = [beth.FROM, bluna.FROM]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const { from, to, conversionFeedDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()
@@ -85,6 +87,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     result: resToRequiredDP,
     data: {
       result: resToRequiredDP,
+      statusCode: 200,
     },
   }
 }

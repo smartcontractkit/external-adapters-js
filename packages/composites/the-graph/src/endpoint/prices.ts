@@ -6,26 +6,38 @@ import {
   AdapterResponseInvalidError,
 } from '@chainlink/ea-bootstrap'
 import { Config, WETH, DEFAULT_NETWORK } from '../config'
-import { ExecuteWithConfig } from '@chainlink/types'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { DexSubgraph, DexQueryInputParams, ReferenceModifierAction } from '../types'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 
 export const NAME = 'prices'
 export const supportedEndpoints = ['prices']
 
-const customParams = {
+export type TInputParameters = {
+  baseCoinTicker: string
+  quoteCoinTicker: string
+  dex: string
+  intermediaryToken?: string
+  referenceContract: string
+  referenceContractDivisor: number
+  theGraphQuote?: string
+  network?: string
+  referenceModifierAction?: string
+}
+const inputParameters: InputParameters<TInputParameters> = {
   baseCoinTicker: ['baseCoinTicker', 'base', 'from', 'coin'],
   quoteCoinTicker: ['quoteCoinTicker', 'quote', 'to', 'market'],
   dex: true,
   intermediaryToken: false,
-  referenceContract: false,
-  referenceContractDivisor: false,
+  referenceContract: true,
+  referenceContractDivisor: true,
   theGraphQuote: false,
   network: false,
+  referenceModifierAction: false,
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, customParams)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const {

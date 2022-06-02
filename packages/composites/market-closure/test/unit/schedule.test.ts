@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { rejects } from 'assert'
 import { isMarketClosed } from '../../src/checks/schedule'
 

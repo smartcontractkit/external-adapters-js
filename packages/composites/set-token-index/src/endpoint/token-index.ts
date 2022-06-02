@@ -1,4 +1,4 @@
-import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { makeMiddleware, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
@@ -28,14 +28,22 @@ export function getAllocations(
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
-          .then((value) => resolve(value.data))
+          // TODO: makeExecute return types
+          .then((value) => resolve(value.data as any))
           .catch(reject)
       })
       .catch((error) => reject(error))
   })
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  address: string
+  adapter: string
+  source?: string
+  quote?: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   address: {
     required: true,
     description: 'Address of the SetToken',
@@ -49,9 +57,9 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const contractAddress = validator.validated.data.address
   const adapter = validator.validated.data.adapter
   const allocations = await getAllocations(context, jobRunID, adapter, contractAddress)

@@ -1,4 +1,4 @@
-export interface GraphqlAdapterRequest {
+export type GraphqlAdapterRequest = {
   query: string
   variables: {
     [T: string]: string | number

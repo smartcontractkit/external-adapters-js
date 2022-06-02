@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 import * as apyFinanceAdapter from '../../src/index'
 import { mockEthereumCalls, mockTiingoResponse } from './fixtures'

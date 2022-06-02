@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
@@ -27,7 +27,8 @@ export function getToken(
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
-          .then((value) => resolve(value.data))
+          // TODO: makeExecute return types
+          .then((value) => resolve(value.data as any))
           .catch(reject)
       })
       .catch((error) => reject(error))
@@ -57,7 +58,12 @@ const ABI = [
   },
 ]
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  contractAddress: string
+  setAddress: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   contractAddress: {
     required: true,
   },
@@ -67,9 +73,9 @@ export const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const contractAddress = validator.validated.data.contractAddress
   const setAddress = validator.validated.data.setAddress
 

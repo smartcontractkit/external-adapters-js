@@ -1,5 +1,5 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterContext, Execute } from '@chainlink/types'
+import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterContext, Execute } from '@chainlink/ea-bootstrap'
 import * as Sportsdataio from '@chainlink/sportsdataio-adapter'
 import { BigNumber, ethers } from 'ethers'
 import { CreateFighterEvent, CreateTeamEvent } from '../methods/createMarkets'
@@ -99,7 +99,8 @@ const getCurrentSeason = async (
   }
 
   const response = await exec(input, context)
-  return response.data.result
+  return response.data.result as string
+  // TODO: makeExecute return types
 }
 
 const getTeams = async (
@@ -118,7 +119,8 @@ const getTeams = async (
     },
   }
   const response = await exec(input, context)
-  return response.data.result
+  return response.data.result as unknown as NFLTeam[]
+  // TODO: makeExecute return types
 }
 
 const getSchedule = async (
@@ -142,7 +144,10 @@ const getSchedule = async (
           },
         }
         const response = await exec(input, context)
-        const filtered = (response.result as NFLEvent[]).filter((event) => event.GlobalGameID != 0)
+        // TODO: makeExecute return types
+        const filtered = (response.result as unknown as NFLEvent[]).filter(
+          (event) => event.GlobalGameID != 0,
+        )
 
         events = [...events, ...filtered]
       }
@@ -191,7 +196,8 @@ const getSchedule = async (
       }
 
       const response = await exec(input, context)
-      const filtered = (response.result as { GlobalGameID: number }[]).filter(
+      // TODO: makeExecute return types
+      const filtered = (response.result as unknown as { GlobalGameID: number }[]).filter(
         (event) => event.GlobalGameID != 0,
       )
 
@@ -235,7 +241,10 @@ const getScores = async (
           },
         }
         const response = await exec(input, context)
-        const filtered = (response.result as NFLScores[]).filter((event) => event.GlobalGameID != 0)
+        // TODO: makeExecute return types
+        const filtered = (response.result as unknown as NFLScores[]).filter(
+          (event) => event.GlobalGameID != 0,
+        )
 
         events = [...events, ...filtered]
       }
@@ -260,7 +269,8 @@ const getScores = async (
       }
 
       const response = await exec(input, context)
-      const filtered = (response.result as { GlobalGameID: number }[]).filter(
+      // TODO: makeExecute return types
+      const filtered = (response.result as unknown as { GlobalGameID: number }[]).filter(
         (event) => event.GlobalGameID != 0,
       )
 
@@ -279,7 +289,14 @@ const getScores = async (
   }
 }
 
-const createParams = {
+export type TInputParameters = {
+  sport: string
+  daysInAdvance: number
+  startBuffer?: number
+  contract: ethers.Contract
+}
+
+const createParams: InputParameters<TInputParameters> = {
   sport: true,
   daysInAdvance: true,
   startBuffer: false,
@@ -287,7 +304,7 @@ const createParams = {
 }
 
 export const createTeam: Execute = async (input, context) => {
-  const validator = new Validator(input, createParams)
+  const validator = new Validator<TInputParameters>(input, createParams)
 
   const sport = validator.validated.data.sport.toLowerCase()
   if (!SPORTS_SUPPORTED.includes(sport)) {
@@ -295,11 +312,14 @@ export const createTeam: Execute = async (input, context) => {
   }
 
   const daysInAdvance = validator.validated.data.daysInAdvance
-  const startBuffer = validator.validated.data.startBuffer
+  const startBuffer = validator.validated.data.startBuffer ?? 0
 
   const contract: ethers.Contract = validator.validated.data.contract
 
-  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
+  const sportsdataioExec = Sportsdataio.makeExecute(
+    Sportsdataio.makeConfig(Sportsdataio.NAME),
+  ) as any
+  // TODO: makeExecute return types
 
   const schedule = (await getSchedule(input.id, sport, sportsdataioExec, context)).filter(
     (event) => event.Status === 'Scheduled',
@@ -416,7 +436,8 @@ const getFightSchedule = async (
     },
   }
   const response = await exec(input, context)
-  return (response.result as FightSchedule[]).filter((event) => event.Active)
+  return (response.result as unknown as FightSchedule[]).filter((event) => event.Active)
+  // TODO: makeExecute return types
 }
 
 const getFights = async (
@@ -435,7 +456,7 @@ const getFights = async (
     },
   }
   const response = await exec(input, context)
-  const fights = (response.result as FightEvent).Fights
+  const fights = (response.result as unknown as FightEvent).Fights
   return fights.filter((fight) => fight.Active)
 }
 
@@ -450,7 +471,10 @@ export const createFighter: Execute = async (input, context) => {
   const daysInAdvance = validator.validated.data.daysInAdvance
   const contract: ethers.Contract = validator.validated.data.contract
 
-  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
+  const sportsdataioExec = Sportsdataio.makeExecute(
+    Sportsdataio.makeConfig(Sportsdataio.NAME),
+  ) as any
+  // TODO: makeExecute return types
 
   const fights: Fight[] = []
 
@@ -541,7 +565,11 @@ const eventStatus: { [status: string]: number } = {
   Canceled: 4,
 }
 
-const resolveParams = {
+export type TResolveParameters = {
+  sport: string
+  eventId: string
+}
+const resolveParams: InputParameters<TResolveParameters> = {
   sport: true,
   eventId: true,
 }
@@ -558,11 +586,14 @@ const findEventScore = async (
 }
 
 export const resolveTeam: Execute = async (input, context) => {
-  const validator = new Validator(input, resolveParams)
+  const validator = new Validator<TResolveParameters>(input, resolveParams)
 
   const eventId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport
-  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
+  const sportsdataioExec = Sportsdataio.makeExecute(
+    Sportsdataio.makeConfig(Sportsdataio.NAME),
+  ) as any
+  // TODO: makeExecute return types
 
   const event = await findEventScore(input.id, sport, eventId, sportsdataioExec, context)
   if (!event) {
@@ -602,15 +633,19 @@ const getFight = async (
     },
   }
   const response = await exec(input, context)
-  return response.result
+  return response.result as unknown as Fight
+  // TODO: makeExecute return types
 }
 
 export const resolveFight: Execute = async (input, context) => {
-  const validator = new Validator(input, resolveParams)
+  const validator = new Validator<TResolveParameters>(input, resolveParams)
 
   const fightId = Number(validator.validated.data.eventId)
   const sport = validator.validated.data.sport
-  const sportsdataioExec = Sportsdataio.makeExecute(Sportsdataio.makeConfig(Sportsdataio.NAME))
+  const sportsdataioExec = Sportsdataio.makeExecute(
+    Sportsdataio.makeConfig(Sportsdataio.NAME),
+  ) as any
+  // TODO: makeExecute return types
 
   Logger.debug(`Getting fight ${input.id} for sport ${sport}, which has fightId ${fightId}`)
   const fight = await getFight(input.id, sport, fightId, sportsdataioExec, context)

@@ -1,8 +1,15 @@
-import { AdapterResponse, Execute, AdapterRequest, InputParameters } from '@chainlink/types'
+import {
+  AdapterResponse,
+  Execute,
+  AdapterRequest,
+  InputParameters,
+  util,
+  AdapterInputError,
+} from '@chainlink/ea-bootstrap'
 import { DEFAULT_TOKEN_BALANCE, DEFAULT_TOKEN_DECIMALS, makeConfig, makeOptions } from '../config'
 import { TokenAllocations, Config, ResponsePayload, GetPrices } from '../types'
 import { Decimal } from 'decimal.js'
-import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { getPriceProvider } from '../dataProvider'
 
@@ -48,37 +55,40 @@ export const marketCapTotalValue = (
     .toNumber()
 }
 
-const toValidAllocations = (allocations: any[]): TokenAllocations => {
-  const _toValidSymbol = (symbol: string) => {
-    if (!symbol)
-      throw new AdapterInputError({
-        message: `Symbol not available for all tokens.`,
-        statusCode: 400,
-      })
+const toValidAllocations = (allocations: unknown[]): TokenAllocations => {
+  const _toValidSymbol = (symbol: unknown) => {
+    if (!symbol || typeof symbol !== 'string')
+      throw new AdapterError({ message: `Symbol not available for all tokens.`, statusCode: 400 })
     return symbol.toUpperCase()
   }
-  const _toValidDecimals = (decimals: number | undefined) => {
+  const _toValidDecimals = (decimals: unknown): number => {
     if (decimals === undefined) return DEFAULT_TOKEN_DECIMALS
-    return Number.isInteger(decimals) && decimals >= 0 ? decimals : DEFAULT_TOKEN_DECIMALS
+    return !isNaN(Number(decimals)) && Number(decimals) >= 0
+      ? (decimals as number)
+      : DEFAULT_TOKEN_DECIMALS
   }
-  const _toValidBalance = (balance: number | string | undefined, decimals: number) => {
+  const _toValidBalance = (balance: unknown, decimals: number): number | string => {
     if (!balance) return DEFAULT_TOKEN_BALANCE * 10 ** decimals
     let BNbalance
     try {
-      BNbalance = BigNumber.from(balance.toString())
+      BNbalance = BigNumber.from((balance as any).toString())
     } catch (e) {
-      throw new AdapterInputError({ message: `Invalid balance: ${e.message}`, statusCode: 400 })
+      throw new AdapterError({ message: `Invalid balance: ${e.message}`, statusCode: 400 })
     }
     if (BNbalance.isNegative())
-      throw new AdapterInputError({ message: `Balance cannot be negative`, statusCode: 400 })
-    return balance
+      throw new AdapterError({ message: `Balance cannot be negative`, statusCode: 400 })
+    return balance as number | string
   }
-  return allocations.map((t: any) => {
-    const decimals = _toValidDecimals(t.decimals)
+  return allocations.map((t: unknown) => {
+    if (util.isObject(t))
+      throw new AdapterError({ message: `Invalid allocations`, statusCode: 400 })
+    const aObj = t as Record<string, unknown>
+
+    const decimals = _toValidDecimals(aObj.decimals)
     return {
-      symbol: _toValidSymbol(t.symbol),
+      symbol: _toValidSymbol(aObj.symbol),
       decimals,
-      balance: _toValidBalance(t.balance, decimals),
+      balance: _toValidBalance(aObj.balance, decimals),
     }
   })
 }
@@ -110,7 +120,13 @@ const computeMarketCap = async (
   return { payload, result }
 }
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  source: string
+  allocations: TokenAllocations
+  quote: string
+  method: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   source: false,
   allocations: true,
   quote: false,
@@ -156,7 +172,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         getPrices,
         startingAllocations,
         quote,
-        additionalInput,
+        additionalInput as Record<string, unknown>,
       )
       return _success(price.payload, price.result)
     }
@@ -166,7 +182,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
         getPrices,
         startingAllocations,
         quote,
-        additionalInput,
+        additionalInput as Record<string, unknown>,
       )
       return _success(marketCap.payload, marketCap.result)
     }

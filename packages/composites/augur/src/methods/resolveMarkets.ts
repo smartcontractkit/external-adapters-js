@@ -1,12 +1,22 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
+import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import type {
+  ExecuteWithConfig,
+  Execute,
+  AdapterContext,
+  BigNumber as TBigNumber,
+} from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS, NFL_ABI } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 import mmaABI from '../abis/mma.json'
 
-const resolveParams = {
+export type TInputParameters = {
+  contractAddress: string
+  sport: string
+}
+
+const resolveParams: InputParameters<TInputParameters> = {
   contractAddress: true,
   sport: true,
 }
@@ -34,7 +44,7 @@ const statusCompleted = [
 ]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator(input, resolveParams)
+  const validator = new Validator<TInputParameters>(input, resolveParams)
 
   const sport = validator.validated.data.sport.toLowerCase()
   const contractAddress = validator.validated.data.contractAddress
@@ -80,12 +90,13 @@ const resolveTeam = async (
           id: jobRunID,
           data: {
             sport,
-            eventId,
+            eventId: eventId as TBigNumber,
           },
         },
         context,
       )
-      events.push(response.result as ResolveTeam)
+      // TODO: makeExecute return types
+      events.push(response.result as unknown as ResolveTeam)
     } catch (e) {
       Logger.error(e)
     }
@@ -171,12 +182,14 @@ const resolveFights = async (
           id: jobRunID,
           data: {
             sport,
-            eventId,
+            eventId: eventId as TBigNumber,
+            // TODO: BigNumber type
           },
         },
         context,
       )
-      events.push(response.result as ResolveFight)
+      // TODO: makeExecute return types
+      events.push(response.result as unknown as ResolveFight)
     } catch (e) {
       Logger.error(e)
     }

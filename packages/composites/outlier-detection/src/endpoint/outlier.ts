@@ -3,8 +3,8 @@ import {
   AdapterResponse,
   ExecuteWithConfig,
   InputParameters,
-  RequestConfig,
-} from '@chainlink/types'
+  AxiosRequestConfig,
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
 import { makeOptions, ExtendedConfig } from '../config'
@@ -12,10 +12,20 @@ import { AxiosResponse } from 'axios'
 
 export const supportedEndpoints = ['outlier']
 
-export type SourceRequestOptions = { [source: string]: RequestConfig }
-export type CheckRequestOptions = { [check: string]: RequestConfig }
+export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
+export type CheckRequestOptions = { [check: string]: AxiosRequestConfig }
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  referenceContract: string
+  multiply: number
+  source: string
+  check?: string
+  check_threshold?: number
+  onchain_threshold?: number
+  network?: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   referenceContract: {
     required: true,
     aliases: ['contract'],
@@ -60,15 +70,16 @@ const inputParameters: InputParameters = {
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, config) => {
   const paramOptions = makeOptions(config)
-  const validator = new Validator(input, inputParameters, paramOptions)
+  const validator = new Validator<TInputParameters>(input, inputParameters, paramOptions)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const source = validator.validated.data.source.toUpperCase()
   const check = validator.validated.data.check?.toUpperCase()
-  const check_threshold = validator.validated.data.check_threshold
-  const onchain_threshold = validator.validated.data.onchain_threshold
+  const check_threshold = validator.validated.data.check_threshold as number
+  const onchain_threshold = validator.validated.data.onchain_threshold as number
+  // TODO: non-nullable default types
   const { referenceContract, multiply } = validator.validated.data
-  const network = validator.validated.data.network
+  const network = validator.validated.data.network as string
 
   const onchainValue = await getLatestAnswer(network, referenceContract, multiply, input.meta)
 

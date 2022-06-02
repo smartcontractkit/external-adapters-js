@@ -1,7 +1,10 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, InputParameters } from '@chainlink/types'
+import { AdapterRequest, InputParameters } from '@chainlink/ea-bootstrap'
 
-const inputParameters: InputParameters = {
+type TInputParameters = {
+  symbol: string
+}
+const inputParameters: InputParameters<TInputParameters> = {
   symbol: ['symbol', 'base', 'asset', 'from'],
 }
 
@@ -11,7 +14,7 @@ const commonKeys: Record<string, string> = {
 }
 
 export const isMarketClosed = async (input: AdapterRequest): Promise<boolean> => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
   const symbol = validator.validated.data.symbol
   const url = 'https://www.tradinghours.com/api/v2/status'

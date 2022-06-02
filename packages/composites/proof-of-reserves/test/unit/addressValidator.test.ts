@@ -219,24 +219,13 @@ describe('Validates Filecoin addresses', () => {
   it('Validates valid address', () => {
     const validAddresses = [
       {
-        address:
-          'f0ws62urh2ezj5rfo6xsecccgbucyh4j23ygyrbuuwmmgatgci4wexm6l7cq6pp5geob7hfcsekxhys5mvqsvq',
-        network: 'filecoin',
-        chainId: 'mainnet',
-      },
-      {
         address: 'f1abjxfbp274xpdqcpuaykwkfb43omjotacm2p3za',
         network: 'filecoin',
         chainId: 'mainnet',
       },
       {
         address:
-          'f2ws62urh2ezj5rfo6xsecccgbucyh4j23ygyrbuuwmmgatgci4wexm6l7cq6pp5geob7hfcsekxhys5mvqsvq',
-        network: 'filecoin',
-        chainId: 'mainnet',
-      },
-      {
-        address: 'f2eaaj6w4evrdscw4s4o5c3df7ph725tbs3yvg6gi',
+          'f3ws62urh2ezj5rfo6xsecccgbucyh4j23ygyrbuuwmmgatgci4wexm6l7cq6pp5geob7hfcsekxhys5mvqsvq',
         network: 'filecoin',
         chainId: 'mainnet',
       },

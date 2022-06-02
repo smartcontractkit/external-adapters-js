@@ -1,5 +1,5 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import convert from 'convert-units'
 import * as gjv from 'geojson-validation'
@@ -27,7 +27,16 @@ export interface GeoJSON {
   features: Feature[]
 }
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  geoJson: string
+  dateFrom: string
+  dateTo: string
+  method: 'AVG' | 'SUM' | 'MIN' | 'MAX'
+  column: string
+  units?: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   geoJson: {
     required: true,
     description: 'A GeoJSON object containing the geographies to query',
@@ -64,9 +73,9 @@ const inputParameters: InputParameters = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context, config) => {
-  const validator = new Validator(input, inputParameters)
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   let geoJson = validator.validated.data.geoJson
   if (typeof geoJson === 'string') {
     geoJson = JSON.parse(geoJson)
@@ -76,20 +85,26 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context,
   const dateTo = validator.validated.data.dateTo
   const method = validator.validated.data.method
   const column = validator.validated.data.column.toLowerCase()
-  const units = validator.validated.data.units
+  const units = validator.validated.data.units as string
+  // TODO: non-nullable default types
 
   if (!gjv.valid(geoJson)) {
-    throw new AdapterInputError({
-      jobRunID,
-      statusCode: 400,
-      message: 'Provided GeoJSON data is not valid',
-    })
+    throw new Error('Provided GeoJSON data is not valid')
   }
 
-  const queryBuilder = new QueryBuilder(geoJson, dateFrom, dateTo, method, column, config.dataset)
+  // TODO: geojson type
+  const queryBuilder = new QueryBuilder(
+    geoJson as any,
+    dateFrom,
+    dateTo,
+    method,
+    column,
+    config.dataset,
+  )
 
   const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
-  const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() }, context)
+  // TODO: big query type
+  const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() as any }, context)
   const imperialValue = Requester.validateResultNumber(response.result, [0, 'result'])
   const result = convertUnits(column, imperialValue, units)
   return Requester.success(jobRunID, { data: { result } })

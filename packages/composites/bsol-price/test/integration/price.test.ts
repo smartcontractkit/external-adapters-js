@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockSolanaViewFunctionResponse, mockTokenAllocationResponse } from './fixtures'

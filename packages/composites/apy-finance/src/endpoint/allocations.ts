@@ -2,12 +2,15 @@ import { BigNumber, ethers } from 'ethers'
 import registryAbi from '../abi/IRegistry.json'
 import assetAllocationAbi from '../abi/IAssetAllocation.json'
 import { types } from '@chainlink/token-allocation-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { BigNumberish } from 'ethers'
 
 export const supportedEndpoints = ['allocations']
+
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 const getAllocations = async (registry: ethers.Contract): Promise<types.TokenAllocations> => {
   const allocationIds = await registry.getAssetAllocationIds()
@@ -25,9 +28,9 @@ const getAllocations = async (registry: ethers.Contract): Promise<types.TokenAll
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, {})
+  const validator = new Validator<TInputParameters>(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const registry = new ethers.Contract(config.registryAddr, registryAbi, provider)

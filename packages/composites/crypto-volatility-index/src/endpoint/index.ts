@@ -1,1 +1,2 @@
-export * as volatilityIndex from './volatilityIndex'
+import * as volatilityIndex from './volatilityIndex'
+export type TInputParameters = volatilityIndex.TInputParameters
