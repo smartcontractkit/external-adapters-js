@@ -75,6 +75,7 @@ declare module '@chainlink/types' {
     data: any // Response data, holds "result" for Flux Monitor. Correct way.
     result: any // Result for OCR
     maxAge?: number
+    telemetry?: Telemetry
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
     providerStatusCode?: number
@@ -109,6 +110,19 @@ declare module '@chainlink/types' {
     statusCode: number
     providerStatusCode?: number
     error: ErrorBasic | ErrorFull
+  }
+
+  export type Telemetry = {
+    rateLimitEnabled: boolean
+    wsEnabled: boolean
+    cacheEnabled: boolean
+    cacheType?: string
+    cacheWarmingEnabled: boolean
+    cacheMaxAge?: string
+    metricEnabled: boolean
+    rateLimitApiTier?: string
+    requestCoalescingEnabled: boolean
+    dataProviderRequestTime?: number
   }
 
   export type AdapterBatchResponse = [string, AdapterRequest, number][]

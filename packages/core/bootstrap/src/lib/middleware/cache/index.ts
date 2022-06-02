@@ -321,9 +321,14 @@ export const withCache =
         const _cacheOnSuccess = async ({
           statusCode,
           data,
+          telemetry,
+          providerStatusCode,
           result,
           debug,
-        }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result' | 'debug'>) => {
+        }: Pick<
+          AdapterResponse,
+          'statusCode' | 'data' | 'result' | 'debug' | 'telemetry' | 'providerStatusCode'
+        >) => {
           if (statusCode === 200) {
             const debugBatchablePropertyPath = debug
               ? { batchablePropertyPath: debug.batchablePropertyPath }
@@ -332,6 +337,8 @@ export const withCache =
               statusCode,
               data,
               result,
+              telemetry,
+              providerStatusCode,
               maxAge,
               debug: debugBatchablePropertyPath,
             }
