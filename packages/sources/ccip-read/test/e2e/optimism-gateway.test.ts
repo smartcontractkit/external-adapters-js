@@ -7,7 +7,7 @@ import { makeExecute, makeConfig } from '../../src/index'
  * Make sure to run your local optimism node along with the gateway server before trying to run this test.
  *
  * Steps to run local optimism node: https://community.optimism.io/docs/developers/l2/dev-node.html
- * Optimism Gateway example: https://github.com/smartcontractkit/ccip-read/tree/optimism-experimental/examples/optimism-gateway
+ * Optimism Gateway example: https://github.com/smartcontractkit/ccip-read/tree/optimism-experimental/examples/optimism-metis-gateway
  *
  */
 

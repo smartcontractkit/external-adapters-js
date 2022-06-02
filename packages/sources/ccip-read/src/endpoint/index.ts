@@ -1,1 +1,1 @@
-export * as optimismGateway from './optimism-gateway'
+export * as optimismGateway from './optimism-metis-gateway'

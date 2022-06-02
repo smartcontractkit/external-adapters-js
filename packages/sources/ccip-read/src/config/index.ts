@@ -3,7 +3,7 @@ import { Config as BaseConfig } from '@chainlink/types'
 
 export const NAME = 'CCIP_READ'
 
-export const DEFAULT_ENDPOINT = 'optimism-gateway'
+export const DEFAULT_ENDPOINT = 'optimism-metis-gateway'
 
 export interface Config extends BaseConfig {
   l2RpcUrl?: string
