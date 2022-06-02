@@ -42,7 +42,6 @@
     "ws": "^7.4.4"
   },
   "devDependencies": {
-    "@chainlink/types": "workspace:*",
     "@node-redis/client": "1.0.6",
     "@types/fast-redact": "3.0.1",
     "@types/jest": "27.0.3",

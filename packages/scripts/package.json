@@ -24,7 +24,6 @@
     "yaml": "1.10.2"
   },
   "devDependencies": {
-    "@chainlink/types": "workspace:*",
     "@types/command-line-args": "5.2.0",
     "@types/command-line-usage": "5.0.2",
     "@types/jest": "27.0.3",
