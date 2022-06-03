@@ -9,7 +9,7 @@ import {
 } from '@chainlink/types'
 import { reducer } from '../middleware/cache-warmer'
 import axios, { AxiosResponse } from 'axios'
-import { deepType, getEnv, sleep } from '../util'
+import { deepType, getEnv, parseBool, sleep } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import {
   AdapterConnectionError,
@@ -58,7 +58,13 @@ export class Requester {
       const url = join(config.baseURL || '', config.url || '')
       const record = recordDataProviderRequest()
       try {
+        const startTime = process.hrtime.bigint()
+
         response = await axios(config)
+
+        const endTime = process.hrtime.bigint()
+        const milliseconds = (endTime - startTime) / 1000000n
+        response.headers['ea-dp-request-duration'] = milliseconds.toString()
       } catch (error) {
         // Request error
         if (error.code === 'ECONNABORTED') {
@@ -255,6 +261,26 @@ export class Requester {
 
     if (response.status) {
       adapterResponse.providerStatusCode = response.status
+    }
+
+    if (parseBool(getEnv('TELEMETRY_DATA_ENABLED'))) {
+      adapterResponse.telemetry = {
+        rateLimitEnabled: parseBool(getEnv('RATE_LIMIT_ENABLED')),
+        wsEnabled: parseBool(getEnv('WS_ENABLED')),
+        cacheEnabled: parseBool(getEnv('CACHE_ENABLED')),
+        cacheType: getEnv('CACHE_TYPE'),
+        cacheWarmingEnabled: parseBool(getEnv('WARMUP_ENABLED')),
+        cacheMaxAge: getEnv('CACHE_MAX_AGE'),
+        metricEnabled: parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED')),
+        rateLimitApiTier: getEnv('RATE_LIMIT_API_TIER'),
+        requestCoalescingEnabled: parseBool(getEnv('REQUEST_COALESCING_ENABLED')),
+      }
+
+      if (response?.headers && response.headers['ea-dp-request-duration']) {
+        adapterResponse.telemetry.dataProviderRequestTime = Number(
+          response.headers['ea-dp-request-duration'],
+        )
+      }
     }
 
     return adapterResponse
