@@ -1,5 +1,18 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- d0214ba04: added override to coinid for UST
+
+### Patch Changes
+
+- Updated dependencies [346fa7d45]
+- Updated dependencies [979dbe1d7]
+  - @chainlink/ea-bootstrap@2.8.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.3.40
 
 ### Patch Changes
