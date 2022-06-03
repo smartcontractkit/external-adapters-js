@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#set -e
-
 # Set up the mock API
 cd "$MOCK_API_DIR" && yarn && cd -
 echo "{}" > "${MOCK_API_DIR}"/responses.json
@@ -33,17 +31,21 @@ do
   printf -v mockApiEndpoint "http://localhost:%d" "$mockApiListenPort"
   printf -v envFileName "%s.env" "$adapter"
 
-  docker run --network host --env-file="$envFileName" --rm -d -p "$adapterListenPort":8080 -e API_ENDPOINT="$mockApiEndpoint" --name "$adapterName" "$ecrPath"
+  docker run --network host --env-file="$envFileName" --rm -d -e API_ENDPOINT="$mockApiEndpoint" -e EA_PORT="$adapterListenPort" --name "$adapterName" "$ecrPath"
 
   # Increment port numbers
   ((mockApiListenPort+=1))
   ((adapterListenPort+=1))
 done
 
+# Add a sleep to allow for the mock API to finish starting up
+sleep 1
+
 # Output the run command on the k6 side
 echo "Adapters are running. Stop with Ctrl+C"
 echo "You can now run the following command on the k6 instance:"
 
+# TODO: Needs to be switched out with the proper run command in ticket sc-42715
 OUTPUT="yarn run whatever"
 i=0
 for var in "$@"
@@ -64,6 +66,7 @@ wait
 
 echo "Stopping..."
 
-docker stop "${adapterNames[@]}" && docker rm "${adapterNames[@]}"
+# Stop the docker containers. No rm needed here because we ran them with the --rm flag!
+docker stop "${adapterNames[@]}"
 
 exit 0

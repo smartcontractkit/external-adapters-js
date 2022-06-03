@@ -30,27 +30,23 @@ export const errorRate = new Rate('errors')
 
 // load the test data
 const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
-const payloadData = [
-  new SharedArray('payloadData', () => {
-    return JSON.parse(open(payloadPath)) as Payload[]
-  }),
-]
+const payloadData = new SharedArray('payloadData', () => {
+  return JSON.parse(open(payloadPath)) as Payload[]
+})
 
 function buildRequests() {
-  const requests = new Array(numAdapters)
+  const requests = []
   const params = {
     headers: {
       'Content-Type': 'application/json',
     },
   }
 
-  for (let i = 0; i < numAdapters; i++) {
-    for (const payload of payloadData[i]) {
-      requests[i].push({
-        body: payload.data,
-        params,
-      })
-    }
+  for (const payload of payloadData) {
+    requests.push({
+      body: payload.data,
+      params,
+    })
   }
 
   return requests
@@ -143,17 +139,11 @@ const valueWithinRange = (val: JSONValue): boolean => {
   return 0 < numVal && numVal < 10_000_000_000_000
 }
 
-// TODO
-const numAdapters = 2
-
 export default (): void => {
-  const adapterId = (vu.idInTest - 1) % numAdapters
-  const requestId = (vu.idInTest - 1) % uniqueRequests
-
-  const config = requests[adapterId][requestId]
-
   const before = new Date().getTime()
-  const response = http.post(adapterUrl[adapterId], config.body, config.params)
+
+  const config = requests[(vu.idInTest - 1) % uniqueRequests]
+  const response = http.post(adapterUrl, config.body, config.params)
   const after = new Date().getTime()
   const diff = (after - before) / 1000
   const remainder = T - diff

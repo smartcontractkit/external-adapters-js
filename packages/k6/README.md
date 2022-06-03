@@ -154,7 +154,7 @@ git clone [...] && cd external-adapters-tooling/mock-api
 export MOCK_API_DIR=$(pwd)
 ```
 
-### 2. Configuration
+#### 2. Configuration
 
 For each EA that you want to run, create an .env file in this directory named `[adapter].env`.
 E.g.:
@@ -174,7 +174,7 @@ export coingecko_SOURCE_URL="https://api.coingecko.com/api/v3"
 > **Note**
 > Adapter names are defined in lower case here, as you would when running other commands
 
-## Run tests
+### Run tests
 
 Before you start the EAs, make sure you've followed the steps above to:
 
