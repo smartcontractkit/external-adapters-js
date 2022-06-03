@@ -50,7 +50,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [curve](./curve/README.md)
 - [deribit](./deribit/README.md)
 - [dns-query](./dns-query/README.md)
-- [durin](./durin/README.md)
+- [ccip-read](./ccip-read/README.md)
 - [dwolla](./dwolla/README.md)
 - [dxfeed](./dxfeed/README.md)
 - [dxfeed-secondary](./dxfeed-secondary/README.md)

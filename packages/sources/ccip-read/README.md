@@ -1,29 +1,34 @@
-# Chainlink External Adapter for Durin
+# Chainlink External Adapter for CCIP Read
 
-The Durin adapter acts as the gateway server for the Durin protocol as outlined here https://github.com/Arachnid/EIPs/blob/durin/EIPS/eip-3668.md. It's job is to take in data from a client, fetch proofs from outside the L1 chain and return it to the client.
+The CCIP Read adapter acts as the gateway server for the CCIP Read protocol as outlined here https://github.com/Arachnid/EIPs/blob/ccip-read/EIPS/eip-3668.md. It's job is to take in data from a client, fetch proofs from outside the L1 chain and return it to the client.
 
 ### Environment Variables
 
-| Required? |           Name           |                                                 Description                                                  | Options | Defaults to |
-| :-------: | :----------------------: | :----------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |         RPC_URL          |                                    The RPC URL to connect to the L1 chain                                    |         |             |
-|           |        L2_RPC_URL        |          The L2 RPC URL to connect to the L2 chain. Required if using the optimism global endpoint.          |         |             |
-|           | ADDRESS_MANAGER_CONTRACT | The address of the AddresssManager contract in the L1 chain. Required if using the optimism global endpoint. |         |             |
+| Required? |           Name           |                                                    Description                                                     | Options | Defaults to |
+| :-------: | :----------------------: | :----------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     |         RPC_URL          |                                       The RPC URL to connect to the L1 chain                                       |         |             |
+|           |        L2_RPC_URL        |          The L2 RPC URL to connect to the L2 chain. Required if using the optimism-metis global endpoint.          |         |             |
+|           | ADDRESS_MANAGER_CONTRACT | The address of the AddresssManager contract in the L1 chain. Required if using the optimism-metis global endpoint. |         |             |
 
 ---
 
 ### Input Parameters
 
-| Required? |   Name   |     Description     |                   Options                    |   Defaults to   |
-| :-------: | :------: | :-----------------: | :------------------------------------------: | :-------------: |
-|           | endpoint | The endpoint to use | [optimism-global](#Optimism-Global-Endpoint) | optimism-global |
+| Required? |   Name   |     Description     |                          Options                           |      Defaults to       |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------------: | :--------------------: |
+|           | endpoint | The endpoint to use | [optimism-metis-gateway](#Optimism Metis Gateway Endpoint) | optimism-metis-gateway |
 
 ---
 
-## Optimism Global Endpoint
+## Optimism Metis Gateway Endpoint
 
-The optimism global endpoint reads the latest proof from an Optimism as the L2 chain and returns the proof to the caller.
+The endpoint reads the latest proof from Optimism/Metis as the L2 chain and returns the proof to the caller.
 Currently this endpoint has the same functionality as the server in this example https://github.com/smartcontractkit/ccip-read/tree/6d4deb917781f3becda39b9ebad6f21e037af1a6/examples/optimism-gateway.
+
+### L2 Chains supported
+
+- Optimism
+- Metis
 
 ### Input Params
 

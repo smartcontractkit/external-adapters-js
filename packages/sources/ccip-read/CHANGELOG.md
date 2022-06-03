@@ -1,4 +1,4 @@
-# @chainlink/durin-adapter
+# @chainlink/ccip-read-adapter
 
 ## 1.1.38
 

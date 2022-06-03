@@ -92,6 +92,7 @@ const presetIds: { [symbol: string]: number } = {
   YFI: 5864,
   BAL: 5728,
   STETH: 8085,
+  UST: 7129,
   '1INCH': 8104,
 }
 

@@ -39,7 +39,7 @@
   - @chainlink/cryptoapis-v2-adapter@1.1.38
   - @chainlink/deribit-adapter@1.1.38
   - @chainlink/dns-query-adapter@1.4.0
-  - @chainlink/durin-adapter@1.1.38
+  - @chainlink/ccip-read-adapter@1.1.38
   - @chainlink/ens-adapter@1.0.4
   - @chainlink/eth-balance-adapter@1.2.9
   - @chainlink/galaxis-adapter@2.6.6
@@ -212,7 +212,7 @@
   - @chainlink/curve-adapter@1.2.17
   - @chainlink/deribit-adapter@1.1.37
   - @chainlink/dns-query-adapter@1.2.32
-  - @chainlink/durin-adapter@1.1.37
+  - @chainlink/ccip-read-adapter@1.1.37
   - @chainlink/dwolla-adapter@1.1.37
   - @chainlink/dxfeed-adapter@1.2.40
   - @chainlink/dxfeed-secondary-adapter@1.1.52
@@ -344,7 +344,7 @@
 - @chainlink/curve-adapter@1.2.16
 - @chainlink/deribit-adapter@1.1.36
 - @chainlink/dns-query-adapter@1.2.31
-- @chainlink/durin-adapter@1.1.36
+- @chainlink/ccip-read-adapter@1.1.36
 - @chainlink/dwolla-adapter@1.1.36
 - @chainlink/dxfeed-adapter@1.2.39
 - @chainlink/dxfeed-secondary-adapter@1.1.51
@@ -475,7 +475,7 @@
 - @chainlink/curve-adapter@1.2.15
 - @chainlink/deribit-adapter@1.1.35
 - @chainlink/dns-query-adapter@1.2.30
-- @chainlink/durin-adapter@1.1.35
+- @chainlink/ccip-read-adapter@1.1.35
 - @chainlink/dwolla-adapter@1.1.35
 - @chainlink/dxfeed-adapter@1.2.38
 - @chainlink/dxfeed-secondary-adapter@1.1.50
@@ -608,7 +608,7 @@
   - @chainlink/curve-adapter@1.2.14
   - @chainlink/deribit-adapter@1.1.34
   - @chainlink/dns-query-adapter@1.2.29
-  - @chainlink/durin-adapter@1.1.34
+  - @chainlink/ccip-read-adapter@1.1.34
   - @chainlink/dwolla-adapter@1.1.34
   - @chainlink/dxfeed-adapter@1.2.37
   - @chainlink/dxfeed-secondary-adapter@1.1.49
@@ -738,7 +738,7 @@
 - @chainlink/curve-adapter@1.2.13
 - @chainlink/deribit-adapter@1.1.33
 - @chainlink/dns-query-adapter@1.2.28
-- @chainlink/durin-adapter@1.1.33
+- @chainlink/ccip-read-adapter@1.1.33
 - @chainlink/dwolla-adapter@1.1.33
 - @chainlink/dxfeed-adapter@1.2.36
 - @chainlink/dxfeed-secondary-adapter@1.1.48
@@ -870,7 +870,7 @@
   - @chainlink/curve-adapter@1.2.12
   - @chainlink/deribit-adapter@1.1.32
   - @chainlink/dns-query-adapter@1.2.27
-  - @chainlink/durin-adapter@1.1.32
+  - @chainlink/ccip-read-adapter@1.1.32
   - @chainlink/dwolla-adapter@1.1.32
   - @chainlink/dxfeed-adapter@1.2.35
   - @chainlink/dxfeed-secondary-adapter@1.1.47
@@ -1017,7 +1017,7 @@
 - @chainlink/curve-adapter@1.2.11
 - @chainlink/deribit-adapter@1.1.31
 - @chainlink/dns-query-adapter@1.2.26
-- @chainlink/durin-adapter@1.1.31
+- @chainlink/ccip-read-adapter@1.1.31
 - @chainlink/dwolla-adapter@1.1.31
 - @chainlink/dxfeed-adapter@1.2.34
 - @chainlink/dxfeed-secondary-adapter@1.1.46
@@ -1162,7 +1162,7 @@
   - @chainlink/curve-adapter@1.2.10
   - @chainlink/deribit-adapter@1.1.30
   - @chainlink/dns-query-adapter@1.2.25
-  - @chainlink/durin-adapter@1.1.30
+  - @chainlink/ccip-read-adapter@1.1.30
   - @chainlink/dwolla-adapter@1.1.30
   - @chainlink/dxfeed-adapter@1.2.33
   - @chainlink/dxfeed-secondary-adapter@1.1.45
@@ -1330,7 +1330,7 @@
   - @chainlink/curve-adapter@1.2.9
   - @chainlink/deribit-adapter@1.1.29
   - @chainlink/dns-query-adapter@1.2.24
-  - @chainlink/durin-adapter@1.1.29
+  - @chainlink/ccip-read-adapter@1.1.29
   - @chainlink/dwolla-adapter@1.1.29
   - @chainlink/dxfeed-adapter@1.2.32
   - @chainlink/dxfeed-secondary-adapter@1.1.44
@@ -1468,7 +1468,7 @@
   - @chainlink/curve-adapter@1.2.8
   - @chainlink/deribit-adapter@1.1.28
   - @chainlink/dns-query-adapter@1.2.23
-  - @chainlink/durin-adapter@1.1.28
+  - @chainlink/ccip-read-adapter@1.1.28
   - @chainlink/dwolla-adapter@1.1.28
   - @chainlink/dxfeed-adapter@1.2.31
   - @chainlink/dxfeed-secondary-adapter@1.1.43
@@ -1594,7 +1594,7 @@
 - @chainlink/curve-adapter@1.2.7
 - @chainlink/deribit-adapter@1.1.27
 - @chainlink/dns-query-adapter@1.2.22
-- @chainlink/durin-adapter@1.1.27
+- @chainlink/ccip-read-adapter@1.1.27
 - @chainlink/dwolla-adapter@1.1.27
 - @chainlink/dxfeed-adapter@1.2.30
 - @chainlink/dxfeed-secondary-adapter@1.1.42
@@ -1721,7 +1721,7 @@
 - @chainlink/curve-adapter@1.2.6
 - @chainlink/deribit-adapter@1.1.26
 - @chainlink/dns-query-adapter@1.2.21
-- @chainlink/durin-adapter@1.1.26
+- @chainlink/ccip-read-adapter@1.1.26
 - @chainlink/dwolla-adapter@1.1.26
 - @chainlink/dxfeed-adapter@1.2.29
 - @chainlink/dxfeed-secondary-adapter@1.1.41
@@ -1848,7 +1848,7 @@
 - @chainlink/curve-adapter@1.2.5
 - @chainlink/deribit-adapter@1.1.25
 - @chainlink/dns-query-adapter@1.2.20
-- @chainlink/durin-adapter@1.1.25
+- @chainlink/ccip-read-adapter@1.1.25
 - @chainlink/dwolla-adapter@1.1.25
 - @chainlink/dxfeed-adapter@1.2.28
 - @chainlink/dxfeed-secondary-adapter@1.1.40
@@ -1981,7 +1981,7 @@
   - @chainlink/curve-adapter@1.2.4
   - @chainlink/deribit-adapter@1.1.24
   - @chainlink/dns-query-adapter@1.2.19
-  - @chainlink/durin-adapter@1.1.24
+  - @chainlink/ccip-read-adapter@1.1.24
   - @chainlink/dwolla-adapter@1.1.24
   - @chainlink/dxfeed-adapter@1.2.27
   - @chainlink/dxfeed-secondary-adapter@1.1.39
@@ -2124,7 +2124,7 @@
   - @chainlink/curve-adapter@1.2.3
   - @chainlink/deribit-adapter@1.1.23
   - @chainlink/dns-query-adapter@1.2.18
-  - @chainlink/durin-adapter@1.1.23
+  - @chainlink/ccip-read-adapter@1.1.23
   - @chainlink/dwolla-adapter@1.1.23
   - @chainlink/dxfeed-adapter@1.2.26
   - @chainlink/dxfeed-secondary-adapter@1.1.38
@@ -2273,7 +2273,7 @@
   - @chainlink/curve-adapter@1.2.2
   - @chainlink/deribit-adapter@1.1.22
   - @chainlink/dns-query-adapter@1.2.17
-  - @chainlink/durin-adapter@1.1.22
+  - @chainlink/ccip-read-adapter@1.1.22
   - @chainlink/dwolla-adapter@1.1.22
   - @chainlink/dxfeed-adapter@1.2.24
   - @chainlink/dxfeed-secondary-adapter@1.1.36
@@ -2416,7 +2416,7 @@
   - @chainlink/curve-adapter@1.2.1
   - @chainlink/deribit-adapter@1.1.21
   - @chainlink/dns-query-adapter@1.2.16
-  - @chainlink/durin-adapter@1.1.21
+  - @chainlink/ccip-read-adapter@1.1.21
   - @chainlink/dwolla-adapter@1.1.21
   - @chainlink/dxfeed-adapter@1.2.23
   - @chainlink/dxfeed-secondary-adapter@1.1.35
@@ -2560,7 +2560,7 @@
   - @chainlink/currencylayer-adapter@1.3.18
   - @chainlink/deribit-adapter@1.1.20
   - @chainlink/dns-query-adapter@1.2.15
-  - @chainlink/durin-adapter@1.1.20
+  - @chainlink/ccip-read-adapter@1.1.20
   - @chainlink/dwolla-adapter@1.1.20
   - @chainlink/dxfeed-adapter@1.2.22
   - @chainlink/dxfeed-secondary-adapter@1.1.34
@@ -2669,7 +2669,7 @@
 - @chainlink/curve-adapter@1.1.19
 - @chainlink/deribit-adapter@1.1.19
 - @chainlink/dns-query-adapter@1.2.14
-- @chainlink/durin-adapter@1.1.19
+- @chainlink/ccip-read-adapter@1.1.19
 - @chainlink/dwolla-adapter@1.1.19
 - @chainlink/dxfeed-adapter@1.2.21
 - @chainlink/dxfeed-secondary-adapter@1.1.33
@@ -2798,7 +2798,7 @@
   - @chainlink/curve-adapter@1.1.18
   - @chainlink/deribit-adapter@1.1.18
   - @chainlink/dns-query-adapter@1.2.13
-  - @chainlink/durin-adapter@1.1.18
+  - @chainlink/ccip-read-adapter@1.1.18
   - @chainlink/dwolla-adapter@1.1.18
   - @chainlink/dxfeed-adapter@1.2.20
   - @chainlink/dxfeed-secondary-adapter@1.1.32
@@ -2933,7 +2933,7 @@
   - @chainlink/curve-adapter@1.1.17
   - @chainlink/deribit-adapter@1.1.17
   - @chainlink/dns-query-adapter@1.2.12
-  - @chainlink/durin-adapter@1.1.17
+  - @chainlink/ccip-read-adapter@1.1.17
   - @chainlink/dwolla-adapter@1.1.17
   - @chainlink/dxfeed-adapter@1.2.19
   - @chainlink/dxfeed-secondary-adapter@1.1.31
@@ -3089,7 +3089,7 @@
   - @chainlink/curve-adapter@1.1.16
   - @chainlink/deribit-adapter@1.1.16
   - @chainlink/dns-query-adapter@1.2.11
-  - @chainlink/durin-adapter@1.1.16
+  - @chainlink/ccip-read-adapter@1.1.16
   - @chainlink/dwolla-adapter@1.1.16
   - @chainlink/dxfeed-adapter@1.2.18
   - @chainlink/dxfeed-secondary-adapter@1.1.30
@@ -3215,7 +3215,7 @@
   - @chainlink/curve-adapter@1.1.15
   - @chainlink/deribit-adapter@1.1.15
   - @chainlink/dns-query-adapter@1.2.10
-  - @chainlink/durin-adapter@1.1.15
+  - @chainlink/ccip-read-adapter@1.1.15
   - @chainlink/dwolla-adapter@1.1.15
   - @chainlink/dxfeed-adapter@1.2.17
   - @chainlink/dxfeed-secondary-adapter@1.1.29
@@ -3346,7 +3346,7 @@
   - @chainlink/curve-adapter@1.1.14
   - @chainlink/deribit-adapter@1.1.14
   - @chainlink/dns-query-adapter@1.2.9
-  - @chainlink/durin-adapter@1.1.14
+  - @chainlink/ccip-read-adapter@1.1.14
   - @chainlink/dwolla-adapter@1.1.14
   - @chainlink/dxfeed-adapter@1.2.16
   - @chainlink/dxfeed-secondary-adapter@1.1.28
@@ -3478,7 +3478,7 @@
 - @chainlink/curve-adapter@1.1.13
 - @chainlink/deribit-adapter@1.1.13
 - @chainlink/dns-query-adapter@1.2.8
-- @chainlink/durin-adapter@1.1.13
+- @chainlink/ccip-read-adapter@1.1.13
 - @chainlink/dwolla-adapter@1.1.13
 - @chainlink/dxfeed-adapter@1.2.15
 - @chainlink/dxfeed-secondary-adapter@1.1.27
@@ -3621,7 +3621,7 @@
   - @chainlink/curve-adapter@1.1.12
   - @chainlink/deribit-adapter@1.1.12
   - @chainlink/dns-query-adapter@1.2.7
-  - @chainlink/durin-adapter@1.1.12
+  - @chainlink/ccip-read-adapter@1.1.12
   - @chainlink/dwolla-adapter@1.1.12
   - @chainlink/dxfeed-adapter@1.2.14
   - @chainlink/dxfeed-secondary-adapter@1.1.26
@@ -3727,7 +3727,7 @@
   - @chainlink/cryptocompare-adapter@1.3.0
   - @chainlink/cryptomkt-adapter@1.2.11
   - @chainlink/currencylayer-adapter@1.3.9
-  - @chainlink/durin-adapter@1.1.11
+  - @chainlink/ccip-read-adapter@1.1.11
   - @chainlink/enzyme-adapter@1.1.11
   - @chainlink/eodhistoricaldata-adapter@1.2.11
   - @chainlink/eth-balance-adapter@1.1.11
@@ -3876,7 +3876,7 @@
   - @chainlink/curve-adapter@1.1.10
   - @chainlink/deribit-adapter@1.1.10
   - @chainlink/dns-query-adapter@1.2.5
-  - @chainlink/durin-adapter@1.1.10
+  - @chainlink/ccip-read-adapter@1.1.10
   - @chainlink/dwolla-adapter@1.1.10
   - @chainlink/dxfeed-adapter@1.2.11
   - @chainlink/dxfeed-secondary-adapter@1.1.23
@@ -3997,7 +3997,7 @@
 - @chainlink/curve-adapter@1.1.9
 - @chainlink/deribit-adapter@1.1.9
 - @chainlink/dns-query-adapter@1.2.4
-- @chainlink/durin-adapter@1.1.9
+- @chainlink/ccip-read-adapter@1.1.9
 - @chainlink/dwolla-adapter@1.1.9
 - @chainlink/dxfeed-adapter@1.2.10
 - @chainlink/dxfeed-secondary-adapter@1.1.22
@@ -4134,7 +4134,7 @@
 - @chainlink/curve-adapter@1.1.8
 - @chainlink/deribit-adapter@1.1.8
 - @chainlink/dns-query-adapter@1.2.3
-- @chainlink/durin-adapter@1.1.8
+- @chainlink/ccip-read-adapter@1.1.8
 - @chainlink/dwolla-adapter@1.1.8
 - @chainlink/dxfeed-adapter@1.2.9
 - @chainlink/dxfeed-secondary-adapter@1.1.21
@@ -4265,7 +4265,7 @@
 - @chainlink/curve-adapter@1.1.7
 - @chainlink/deribit-adapter@1.1.7
 - @chainlink/dns-query-adapter@1.2.2
-- @chainlink/durin-adapter@1.1.7
+- @chainlink/ccip-read-adapter@1.1.7
 - @chainlink/dwolla-adapter@1.1.7
 - @chainlink/dxfeed-adapter@1.2.8
 - @chainlink/dxfeed-secondary-adapter@1.1.20
@@ -4388,7 +4388,7 @@
   - @chainlink/curve-adapter@1.1.6
   - @chainlink/deribit-adapter@1.1.6
   - @chainlink/dns-query-adapter@1.2.1
-  - @chainlink/durin-adapter@1.1.6
+  - @chainlink/ccip-read-adapter@1.1.6
   - @chainlink/dxfeed-adapter@1.2.7
   - @chainlink/enzyme-adapter@1.1.6
   - @chainlink/eodhistoricaldata-adapter@1.2.6
@@ -4499,7 +4499,7 @@
   - @chainlink/coingecko-adapter@1.1.6
   - @chainlink/cryptoapis-v2-adapter@1.1.5
   - @chainlink/amberdata-adapter@1.3.1
-  - @chainlink/durin-adapter@1.1.5
+  - @chainlink/ccip-read-adapter@1.1.5
   - @chainlink/1forge-adapter@1.4.3
   - @chainlink/alphavantage-adapter@1.1.5
   - @chainlink/bea-adapter@1.1.5
@@ -4662,7 +4662,7 @@
   - @chainlink/curve-adapter@1.1.4
   - @chainlink/deribit-adapter@1.1.4
   - @chainlink/dns-query-adapter@1.1.4
-  - @chainlink/durin-adapter@1.1.4
+  - @chainlink/ccip-read-adapter@1.1.4
   - @chainlink/dwolla-adapter@1.1.4
   - @chainlink/dxfeed-adapter@1.2.5
   - @chainlink/dxfeed-secondary-adapter@1.1.17
@@ -4800,7 +4800,7 @@
   - @chainlink/currencylayer-adapter@1.3.1
   - @chainlink/deribit-adapter@1.1.3
   - @chainlink/dns-query-adapter@1.1.3
-  - @chainlink/durin-adapter@1.1.3
+  - @chainlink/ccip-read-adapter@1.1.3
   - @chainlink/dwolla-adapter@1.1.3
   - @chainlink/dxfeed-adapter@1.2.4
   - @chainlink/dxfeed-secondary-adapter@1.1.16
@@ -4919,7 +4919,7 @@
   - @chainlink/curve-adapter@1.1.2
   - @chainlink/deribit-adapter@1.1.2
   - @chainlink/dns-query-adapter@1.1.2
-  - @chainlink/durin-adapter@1.1.2
+  - @chainlink/ccip-read-adapter@1.1.2
   - @chainlink/dwolla-adapter@1.1.2
   - @chainlink/dxfeed-adapter@1.2.3
   - @chainlink/dxfeed-secondary-adapter@1.1.15
@@ -5036,7 +5036,7 @@
 - @chainlink/curve-adapter@1.1.1
 - @chainlink/deribit-adapter@1.1.1
 - @chainlink/dns-query-adapter@1.1.1
-- @chainlink/durin-adapter@1.1.1
+- @chainlink/ccip-read-adapter@1.1.1
 - @chainlink/dwolla-adapter@1.1.1
 - @chainlink/dxfeed-adapter@1.2.2
 - @chainlink/dxfeed-secondary-adapter@1.1.14
@@ -5172,7 +5172,7 @@
   - @chainlink/1forge-adapter@1.3.0
   - @chainlink/deribit-adapter@1.1.0
   - @chainlink/dns-query-adapter@1.1.0
-  - @chainlink/durin-adapter@1.1.0
+  - @chainlink/ccip-read-adapter@1.1.0
   - @chainlink/dwolla-adapter@1.1.0
   - @chainlink/dxfeed-adapter@1.2.0
   - @chainlink/enzyme-adapter@1.1.0
@@ -5331,7 +5331,7 @@
   - @chainlink/curve-adapter@1.0.14
   - @chainlink/deribit-adapter@1.0.14
   - @chainlink/dns-query-adapter@1.0.14
-  - @chainlink/durin-adapter@1.0.14
+  - @chainlink/ccip-read-adapter@1.0.14
   - @chainlink/dwolla-adapter@1.0.14
   - @chainlink/dxfeed-adapter@1.1.11
   - @chainlink/dxfeed-secondary-adapter@1.1.11
@@ -5574,7 +5574,7 @@
 - @chainlink/curve-adapter@1.0.13
 - @chainlink/deribit-adapter@1.0.13
 - @chainlink/dns-query-adapter@1.0.13
-- @chainlink/durin-adapter@1.0.13
+- @chainlink/ccip-read-adapter@1.0.13
 - @chainlink/dwolla-adapter@1.0.13
 - @chainlink/dxfeed-adapter@1.1.10
 - @chainlink/dxfeed-secondary-adapter@1.1.10
@@ -5703,7 +5703,7 @@
 - @chainlink/curve-adapter@1.0.12
 - @chainlink/deribit-adapter@1.0.12
 - @chainlink/dns-query-adapter@1.0.12
-- @chainlink/durin-adapter@1.0.12
+- @chainlink/ccip-read-adapter@1.0.12
 - @chainlink/dwolla-adapter@1.0.12
 - @chainlink/dxfeed-adapter@1.1.9
 - @chainlink/dxfeed-secondary-adapter@1.1.9
@@ -5825,7 +5825,7 @@
 - @chainlink/curve-adapter@1.0.11
 - @chainlink/deribit-adapter@1.0.11
 - @chainlink/dns-query-adapter@1.0.11
-- @chainlink/durin-adapter@1.0.11
+- @chainlink/ccip-read-adapter@1.0.11
 - @chainlink/dwolla-adapter@1.0.11
 - @chainlink/dxfeed-adapter@1.1.8
 - @chainlink/dxfeed-secondary-adapter@1.1.8
@@ -5947,7 +5947,7 @@
 - @chainlink/curve-adapter@1.0.10
 - @chainlink/deribit-adapter@1.0.10
 - @chainlink/dns-query-adapter@1.0.10
-- @chainlink/durin-adapter@1.0.10
+- @chainlink/ccip-read-adapter@1.0.10
 - @chainlink/dwolla-adapter@1.0.10
 - @chainlink/dxfeed-adapter@1.1.7
 - @chainlink/dxfeed-secondary-adapter@1.1.7
@@ -6069,7 +6069,7 @@
 - @chainlink/curve-adapter@1.0.9
 - @chainlink/deribit-adapter@1.0.9
 - @chainlink/dns-query-adapter@1.0.9
-- @chainlink/durin-adapter@1.0.9
+- @chainlink/ccip-read-adapter@1.0.9
 - @chainlink/dwolla-adapter@1.0.9
 - @chainlink/dxfeed-adapter@1.1.6
 - @chainlink/dxfeed-secondary-adapter@1.1.6
@@ -6194,7 +6194,7 @@
   - @chainlink/curve-adapter@1.0.8
   - @chainlink/deribit-adapter@1.0.8
   - @chainlink/dns-query-adapter@1.0.8
-  - @chainlink/durin-adapter@1.0.8
+  - @chainlink/ccip-read-adapter@1.0.8
   - @chainlink/dwolla-adapter@1.0.8
   - @chainlink/dxfeed-adapter@1.1.5
   - @chainlink/dxfeed-secondary-adapter@1.1.5
@@ -6317,7 +6317,7 @@
   - @chainlink/curve-adapter@1.0.7
   - @chainlink/deribit-adapter@1.0.7
   - @chainlink/dns-query-adapter@1.0.7
-  - @chainlink/durin-adapter@1.0.7
+  - @chainlink/ccip-read-adapter@1.0.7
   - @chainlink/dwolla-adapter@1.0.7
   - @chainlink/dxfeed-adapter@1.1.4
   - @chainlink/dxfeed-secondary-adapter@1.1.4
@@ -6441,7 +6441,7 @@
   - @chainlink/curve-adapter@1.0.6
   - @chainlink/deribit-adapter@1.0.6
   - @chainlink/dns-query-adapter@1.0.6
-  - @chainlink/durin-adapter@1.0.6
+  - @chainlink/ccip-read-adapter@1.0.6
   - @chainlink/dwolla-adapter@1.0.6
   - @chainlink/dxfeed-adapter@1.1.3
   - @chainlink/dxfeed-secondary-adapter@1.1.3
@@ -6559,7 +6559,7 @@
 - @chainlink/curve-adapter@1.0.6
 - @chainlink/deribit-adapter@1.0.6
 - @chainlink/dns-query-adapter@1.0.6
-- @chainlink/durin-adapter@1.0.6
+- @chainlink/ccip-read-adapter@1.0.6
 - @chainlink/dwolla-adapter@1.0.6
 - @chainlink/dxfeed-adapter@1.1.3
 - @chainlink/dxfeed-secondary-adapter@1.1.3
@@ -6680,7 +6680,7 @@
 - @chainlink/curve-adapter@1.0.5
 - @chainlink/deribit-adapter@1.0.5
 - @chainlink/dns-query-adapter@1.0.5
-- @chainlink/durin-adapter@1.0.5
+- @chainlink/ccip-read-adapter@1.0.5
 - @chainlink/dwolla-adapter@1.0.5
 - @chainlink/dxfeed-adapter@1.1.2
 - @chainlink/dxfeed-secondary-adapter@1.1.2
@@ -6893,7 +6893,7 @@
 - @chainlink/curve-adapter@1.0.4
 - @chainlink/deribit-adapter@1.0.4
 - @chainlink/dns-query-adapter@1.0.4
-- @chainlink/durin-adapter@1.0.4
+- @chainlink/ccip-read-adapter@1.0.4
 - @chainlink/dwolla-adapter@1.0.4
 - @chainlink/dxfeed-adapter@1.1.1
 - @chainlink/dxfeed-secondary-adapter@1.1.1
@@ -7021,7 +7021,7 @@
   - @chainlink/curve-adapter@1.0.3
   - @chainlink/deribit-adapter@1.0.3
   - @chainlink/dns-query-adapter@1.0.3
-  - @chainlink/durin-adapter@1.0.3
+  - @chainlink/ccip-read-adapter@1.0.3
   - @chainlink/dwolla-adapter@1.0.3
   - @chainlink/enzyme-adapter@1.0.3
   - @chainlink/eodhistoricaldata-adapter@1.0.3
@@ -7146,7 +7146,7 @@
   - @chainlink/curve-adapter@1.0.2
   - @chainlink/deribit-adapter@1.0.2
   - @chainlink/dns-query-adapter@1.0.2
-  - @chainlink/durin-adapter@1.0.2
+  - @chainlink/ccip-read-adapter@1.0.2
   - @chainlink/dwolla-adapter@1.0.2
   - @chainlink/dxfeed-adapter@1.0.2
   - @chainlink/dxfeed-secondary-adapter@1.0.2
@@ -7283,7 +7283,7 @@
 - @chainlink/curve-adapter@1.0.1
 - @chainlink/deribit-adapter@1.0.1
 - @chainlink/dns-query-adapter@1.0.1
-- @chainlink/durin-adapter@1.0.1
+- @chainlink/ccip-read-adapter@1.0.1
 - @chainlink/dwolla-adapter@1.0.1
 - @chainlink/dxfeed-adapter@1.0.1
 - @chainlink/dxfeed-secondary-adapter@1.0.1

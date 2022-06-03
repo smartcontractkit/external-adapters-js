@@ -1,10 +1,17 @@
 import * as process from 'process'
 process.env.ETH_BALANCE_ADAPTER_URL = 'https://eth-balance-adapter.com'
 process.env.POR_INDEXER_ADAPTER_URL = 'https://por-indexer-adapter.com'
+process.env.GEMINI_ADAPTER_URL = 'https://gemini-adapter.com'
+process.env.LOTUS_ADAPTER_URL = 'https://lotus-adapter.com'
 import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockPoRindexerSuccess, mockEthBalanceSuccess } from './fixtures'
+import {
+  mockPoRindexerSuccess,
+  mockEthBalanceSuccess,
+  mockGeminiFilecoinAddressList,
+  mockLotusSuccess,
+} from './fixtures'
 import * as nock from 'nock'
 import { AddressInfo } from 'net'
 
@@ -37,7 +44,6 @@ afterEach(() => {
 })
 
 describe('execute', () => {
-  const id = '1'
   let fastify: FastifyInstance
   let req: SuperTest<Test>
 
@@ -97,6 +103,29 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockEthBalanceSuccess()
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('Filecoin Gemini protocol', () => {
+    const data: AdapterRequest = {
+      id: '1',
+      data: {
+        indexer: 'lotus',
+        protocol: 'gemini',
+      },
+    }
+
+    it('should return success', async () => {
+      mockGeminiFilecoinAddressList()
+      mockLotusSuccess()
       const response = await req
         .post('/')
         .send(data)

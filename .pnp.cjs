@@ -287,6 +287,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/cache.gold"
       },
       {
+        "name": "@chainlink/ccip-read-adapter",
+        "reference": "workspace:packages/sources/ccip-read"
+      },
+      {
         "name": "@chainlink/celsius-address-list-adapter",
         "reference": "workspace:packages/sources/celsius-address-list"
       },
@@ -377,10 +381,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@chainlink/dns-query-adapter",
         "reference": "workspace:packages/sources/dns-query"
-      },
-      {
-        "name": "@chainlink/durin-adapter",
-        "reference": "workspace:packages/sources/durin"
       },
       {
         "name": "@chainlink/dwolla-adapter",
@@ -768,6 +768,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],
       ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],
+      ["@chainlink/ccip-read-adapter", ["workspace:packages/sources/ccip-read"]],
       ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],
       ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],
@@ -797,7 +798,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],
       ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],
       ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],
-      ["@chainlink/durin-adapter", ["workspace:packages/sources/durin"]],
       ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],
       ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],
@@ -4680,6 +4680,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
+      ["@chainlink/ccip-read-adapter", [
+        ["workspace:packages/sources/ccip-read", {
+          "packageLocation": "./packages/sources/ccip-read/",
+          "packageDependencies": [
+            ["@chainlink/ccip-read-adapter", "workspace:packages/sources/ccip-read"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@ethersproject/abi", "npm:5.5.0"],
+            ["@ethersproject/bytes", "npm:5.5.0"],
+            ["@types/jest", "npm:27.0.3"],
+            ["@types/node", "npm:16.11.36"],
+            ["ethers", "npm:5.4.6"],
+            ["merkletreejs", "npm:0.2.24"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["@chainlink/celsius-address-list-adapter", [
         ["workspace:packages/sources/celsius-address-list", {
           "packageLocation": "./packages/sources/celsius-address-list/",
@@ -5247,26 +5267,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@chainlink/durin-adapter", [
-        ["workspace:packages/sources/durin", {
-          "packageLocation": "./packages/sources/durin/",
-          "packageDependencies": [
-            ["@chainlink/durin-adapter", "workspace:packages/sources/durin"],
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
-            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
-            ["@ethersproject/abi", "npm:5.5.0"],
-            ["@ethersproject/bytes", "npm:5.5.0"],
-            ["@types/jest", "npm:27.0.3"],
-            ["@types/node", "npm:16.11.36"],
-            ["ethers", "npm:5.4.6"],
-            ["merkletreejs", "npm:0.2.24"],
-            ["tslib", "npm:2.3.1"],
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@chainlink/dwolla-adapter", [
         ["workspace:packages/sources/dwolla", {
           "packageLocation": "./packages/sources/dwolla/",
@@ -5413,6 +5413,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],
+            ["@chainlink/ccip-read-adapter", "workspace:packages/sources/ccip-read"],
             ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],
@@ -5436,7 +5437,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],
             ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],
             ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],
-            ["@chainlink/durin-adapter", "workspace:packages/sources/durin"],
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],
@@ -5558,7 +5558,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify", "npm:3.27.1"],
             ["lodash", "npm:4.17.21"],
             ["lru-cache", "npm:6.0.0"],
-            ["mock-socket", "npm:9.1.3"],
+            ["mock-socket", "npm:9.1.4"],
             ["object-hash", "npm:2.2.0"],
             ["object-path", "npm:0.11.5"],
             ["pino", "npm:6.13.0"],
@@ -5662,7 +5662,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.36"],
             ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.6"],
-            ["mock-socket", "npm:9.1.3"],
+            ["mock-socket", "npm:9.1.4"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
           ],
@@ -27043,10 +27043,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["mock-socket", [
-        ["npm:9.1.3", {
-          "packageLocation": "./.yarn/cache/mock-socket-npm-9.1.3-063f337bb9-1f218de647.zip/node_modules/mock-socket/",
+        ["npm:9.1.4", {
+          "packageLocation": "./.yarn/cache/mock-socket-npm-9.1.4-b9f37b52cd-49ea90f6a3.zip/node_modules/mock-socket/",
           "packageDependencies": [
-            ["mock-socket", "npm:9.1.3"]
+            ["mock-socket", "npm:9.1.4"]
           ],
           "linkType": "HARD",
         }]
