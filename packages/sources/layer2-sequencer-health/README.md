@@ -50,7 +50,7 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
   "result": 0,
   "statusCode": 200,
   "data": {
-    "isHealthy": 0,
+    "isHealthy": true,
     "result": 0
   }
 }

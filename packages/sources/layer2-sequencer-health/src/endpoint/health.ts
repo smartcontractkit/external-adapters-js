@@ -86,17 +86,19 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     return isHealthy ? 0 : 1
   }
 
-  const _respond = (isHealthy: boolean) =>
-    Requester.success(
+  const _respond = (isHealthy: boolean) => {
+    const result = _translateIntoFeedResponse(isHealthy)
+    return Requester.success(
       jobRunID,
       {
         data: {
-          isHealthy: _translateIntoFeedResponse(isHealthy),
-          result: _translateIntoFeedResponse(isHealthy),
+          isHealthy: result === 0,
+          result,
         },
       },
       config.verbose,
     )
+  }
 
   const _tryMethod =
     (fn: NetworkHealthCheck) =>
