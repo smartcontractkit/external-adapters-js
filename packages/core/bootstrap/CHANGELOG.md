@@ -1,5 +1,15 @@
 # @chainlink/ea-bootstrap
 
+## 2.8.0
+
+### Minor Changes
+
+- 346fa7d45: added telemetry data to EA responses
+
+### Patch Changes
+
+- 979dbe1d7: with DEBUG=true iso time is used for logs, instead of epoch time
+
 ## 2.7.0
 
 ### Minor Changes
