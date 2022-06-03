@@ -23,6 +23,8 @@ describe('IO Logger', () => {
         statusCode: 200,
       },
     }
+
+    const context = { ip: 'localhost', hostname: 'hostname.com' }
     const execute = async () => response
 
     const mockLogger = {
@@ -38,11 +40,12 @@ describe('IO Logger', () => {
 
     const { withIOLogger } = await import('../../src/lib/middleware/io-logger')
 
-    const middleware = await withIOLogger(execute, {})
+    const middleware = await withIOLogger(execute, context)
     const result = await middleware(request, {})
 
     expect(mockLogger.debug.mock.calls).toMatchObject([
       ['Input: ', { input: request }],
+      [`Received request from IP ${context.ip} and Host ${context.hostname}`],
       ['Output: [200]: ', { output: response }],
     ])
     expect(result).toBe(response)

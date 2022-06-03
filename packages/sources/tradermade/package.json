@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tradermade-adapter",
-  "version": "1.6.35",
+  "version": "1.6.36",
   "description": "Chainlink tradermade adapter.",
   "keywords": [
     "Chainlink",

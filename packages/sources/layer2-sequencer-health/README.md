@@ -13,6 +13,8 @@ Adapter that checks the Layer 2 Sequencer status
 |           | `ARBITRUM_HEALTH_ENDPOINT` |                            Arbitrum Health Endpoint                             |         |                                              |
 |           |  `OPTIMISM_RPC_ENDPOINT`   |                              Optimism RPC Endpoint                              |         |         https://mainnet.optimism.io          |
 |           | `OPTIMISM_HEALTH_ENDPOINT` |                            Optimism Health Endpoint                             |         | https://mainnet-sequencer.optimism.io/health |
+|           |    `METIS_RPC_ENDPOINT`    |                               Metis RPC Endpoint                                |         |    https://andromeda.metis.io/?owner=1088    |
+|           |  `METIS_HEALTH_ENDPOINT`   |                              Metis Health Endpoint                              |         |  https://tokenapi.metis.io/andromeda/health  |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 
@@ -20,9 +22,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |       Options        | Defaults to |
-| :-------: | :-----: | :----------------------: | :------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | arbitrum or optimism |             |
+| Required? |  Name   |       Description        |             Options             | Defaults to |
+| :-------: | :-----: | :----------------------: | :-----------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `metis` |             |
 
 ---
 
@@ -39,13 +41,17 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Sample Output
 
+0 = Sequencer is healthy
+1 = Sequencer is unhealthy
+
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
   "data": {
-    "result": true,
-    "isHealthy": true
-  },
-  "statusCode": 200
+    "isHealthy": true,
+    "result": 0
+  }
 }
 ```
