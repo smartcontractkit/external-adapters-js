@@ -38,7 +38,7 @@ export const initHandler =
         process.env[key] = envDefaultOverrides[key]
       }
     }
-    const context: AdapterContext = {
+    let context: AdapterContext = {
       name,
       envDefaultOverrides,
       cache: null,
@@ -65,14 +65,21 @@ export const initHandler =
     app.post<{
       Body: AdapterRequest
     }>(baseUrl, async (req, res) => {
-      const metricsMeta = METRICS_ENABLED
-        ? { metricsMeta: { requestOrigin: getClientIp(req) } }
-        : {}
+      const clientIp = getClientIp(req)
+      const metricsMeta = METRICS_ENABLED ? { metricsMeta: { requestOrigin: clientIp } } : {}
+
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
         ...metricsMeta,
       }
+
+      context = {
+        ...context,
+        ip: clientIp,
+        hostname: req.hostname,
+      }
+
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.code(status).send(result)
       })

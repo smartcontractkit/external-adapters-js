@@ -7,6 +7,8 @@ declare module '@chainlink/types' {
     cache?: Cache.CacheOptions
     envDefaultOverrides?: EnvDefaultOverrides
     rateLimit?: RateLimit.config.Config
+    ip?: string
+    hostname?: string
   }
 
   /* REQUESTS */
@@ -98,6 +100,8 @@ declare module '@chainlink/types' {
     errorResponse?: any
     rawError?: any
     stack?: any
+    ip?: string
+    host?: string
   }
 
   export type AdapterErrorResponse = {
