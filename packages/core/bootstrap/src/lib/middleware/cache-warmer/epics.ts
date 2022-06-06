@@ -15,7 +15,7 @@ import {
   takeUntil,
   withLatestFrom,
 } from 'rxjs/operators'
-import { RootState } from '../../..'
+import { RootState, serverShutdown } from '../../..'
 import {
   warmupExecute,
   warmupFailed,
@@ -195,7 +195,11 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
         interval > WARMUP_POLL_OFFSET * 2 ? interval - WARMUP_POLL_OFFSET : interval
       return timer(pollInterval, pollInterval).pipe(
         mapTo(warmupRequested({ key })),
-        takeUntil(action$.pipe(filter(warmupShutdown.match))),
+        takeUntil(
+          action$.pipe(
+            filter((action) => serverShutdown.match(action) || warmupShutdown.match(action)),
+          ),
+        ),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
           action$.pipe(
@@ -336,7 +340,11 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       // start the current unsubscription timer
       const timeout$ = of(warmupUnsubscribed({ key, isBatched, reason: 'Timeout' })).pipe(
         delay(config.subscriptionTTL),
-        takeUntil(action$.pipe(filter(warmupShutdown.match))),
+        takeUntil(
+          action$.pipe(
+            filter((action) => serverShutdown.match(action) || warmupShutdown.match(action)),
+          ),
+        ),
       )
 
       // if a re-subscription comes in before timeout emits, then we emit nothing

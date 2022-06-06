@@ -55,7 +55,7 @@ import {
 import { getSubsId, RootState } from './reducer'
 import { separateBatches } from './utils'
 import { getWSConfig } from './config'
-import { util } from '../../..'
+import { serverShutdown, util } from '../../..'
 import { WebSocketClassProvider, WsMessageRecorder } from './recorder'
 
 const recordWsMessages = util.parseBool(util.getEnv('RECORD'))
@@ -421,7 +421,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     filter(disconnectFulfilled.match),
                     filter((a) => a.payload.config.connectionInfo.key === connectionKey),
                   ),
-                  action$.pipe(filter(WSReset.match)),
+                  action$.pipe(
+                    filter((action) => WSReset.match(action) || serverShutdown.match(action)),
+                  ),
                 ),
               ),
               endWith(unsubscribeFulfilled(payload)),
@@ -467,7 +469,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   filter(disconnectFulfilled.match),
                   filter((action) => action.payload.config.connectionInfo.key === connectionKey),
                 ),
-                action$.pipe(filter(WSReset.match)),
+                action$.pipe(
+                  filter((action) => WSReset.match(action) || serverShutdown.match(action)),
+                ),
               ),
             ),
           )
@@ -706,7 +710,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 logger.debug('WS: Disconnected Fulfilled', connectionMeta(action.payload))
               }),
             ),
-            action$.pipe(filter(WSReset.match)),
+            action$.pipe(filter((action) => WSReset.match(action) || serverShutdown.match(action))),
           ),
         ),
       )

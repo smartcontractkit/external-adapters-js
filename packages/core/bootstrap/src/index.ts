@@ -9,7 +9,7 @@ import {
   Callback,
   Config,
 } from '@chainlink/types'
-import { combineReducers, Store } from 'redux'
+import { AnyAction, combineReducers, Store } from 'redux'
 import { Cache, withCache } from './lib/middleware/cache'
 import * as cacheWarmer from './lib/middleware/cache-warmer'
 import { logger as Logger, Requester, Validator, Overrider, Builder } from './lib/modules'
@@ -27,17 +27,27 @@ import { configureStore } from './lib/store'
 import * as util from './lib/util'
 import * as ws from './lib/middleware/ws'
 import { FastifyInstance } from 'fastify'
+import { createAction } from '@reduxjs/toolkit'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 
-const rootReducer = combineReducers({
+export const serverShutdown = createAction('SERVER/SHUTDOWN')
+
+const serverReducer = combineReducers({
   errorBackoff: ErrorBackoff.reducer.rootReducer,
   burstLimit: burstLimit.reducer.rootReducer,
   cacheWarmer: cacheWarmer.reducer.rootReducer,
   rateLimit: RateLimit.reducer.rootReducer,
   ws: ws.reducer.rootReducer,
 })
+
+const rootReducer = (state: ReturnType<typeof serverReducer>, action: AnyAction) => {
+  if (serverShutdown.match(action)) {
+    return serverReducer(undefined, { type: undefined })
+  }
+  return serverReducer(state, action)
+}
 
 export type RootState = ReturnType<typeof rootReducer>
 
