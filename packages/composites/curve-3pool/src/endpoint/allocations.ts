@@ -8,18 +8,32 @@ import { BigNumberish } from 'ethers'
 
 export const supportedEndpoints = ['allocations']
 
-const getAllocations = async (registry: ethers.Contract): Promise<types.TokenAllocations> => {
-  const allocationIds = await registry.getAssetAllocationIds()
-  const [components, balances, decimals] = await Promise.all<string[], BigNumberish[], number[]>([
-    Promise.all(allocationIds.map((id: string) => registry.symbolOf(id))),
-    Promise.all(allocationIds.map((id: string) => registry.balanceOf(id))),
-    Promise.all(allocationIds.map((id: string) => registry.decimalsOf(id))),
+const LP_TOKEN_ADDRESS = '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490'
+
+const getAllocations = async (
+  pool: ethers.Contract,
+  lpToken: ethers.Contract,
+): Promise<types.TokenAllocations> => {
+  const components = ['DAI', 'USDC', 'USDT']
+  const decPads = [18, 6, 6].map((d) => 18 - d) // used to pad balances to 18 decimals
+
+  const lpTotalSupply = await lpToken.totalSupply()
+  let balances = await Promise.all<BigNumberish>([
+    pool.balances(0),
+    pool.balances(1),
+    pool.balances(2),
   ])
+  balances = balances.map((b, i) =>
+    BigNumber.from(10)
+      .pow(18 + decPads[i])
+      .mul(b)
+      .div(lpTotalSupply),
+  )
 
   return components.map((symbol, i) => ({
     symbol,
     balance: BigNumber.from(balances[i]).toString(),
-    decimals: BigNumber.from(decimals[i]).toNumber(),
+    decimals: 18,
   }))
 }
 
@@ -29,15 +43,10 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.jobRunID
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
-  const registry = new ethers.Contract(config.registryAddr, registryAbi, provider)
-  const chainlinkRegistryAddress = await registry.chainlinkRegistryAddress()
-  const chainlinkRegistry = new ethers.Contract(
-    chainlinkRegistryAddress,
-    assetAllocationAbi,
-    provider,
-  )
+  const pool = new ethers.Contract(config.poolAddr, stableSwap3PoolAbi, provider)
+  const lpToken = new ethers.Contract(LP_TOKEN_ADDRESS, stableSwap3PoolAbi, provider)
 
-  const allocations = await getAllocations(chainlinkRegistry)
+  const allocations = await getAllocations(pool, lpToken)
   const response = {
     data: allocations,
   }

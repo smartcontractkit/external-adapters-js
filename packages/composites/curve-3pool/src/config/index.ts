@@ -3,7 +3,7 @@ import * as types from '@chainlink/types'
 
 export type Config = types.Config & {
   rpcUrl: string
-  registryAddr: string
+  poolAddr: string
 }
 
 export const DEFAULT_ENDPOINT = 'price'
@@ -13,7 +13,7 @@ export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
     rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
-    registryAddr: util.getRequiredEnv('CURVE_3POOL_ADDRESS', prefix),
+    poolAddr: util.getRequiredEnv('CURVE_3POOL_ADDRESS', prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }
