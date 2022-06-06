@@ -1,6 +1,5 @@
 import { BigNumber, ethers } from 'ethers'
-import registryAbi from '../abi/IRegistry.json'
-import assetAllocationAbi from '../abi/IAssetAllocation.json'
+import stableSwap3PoolAbi from '../abi/StableSwap3Pool.json'
 import { types } from '@chainlink/token-allocation-adapter'
 import { ExecuteWithConfig } from '@chainlink/types'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
