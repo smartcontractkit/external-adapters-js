@@ -8,6 +8,7 @@ import { BigNumberish } from 'ethers'
 
 export const supportedEndpoints = ['allocations']
 
+const POOL_ADDRESS = '0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7'
 const LP_TOKEN_ADDRESS = '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490'
 
 const getAllocations = async (
@@ -43,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.jobRunID
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
-  const pool = new ethers.Contract(config.poolAddr, stableSwap3PoolAbi, provider)
+  const pool = new ethers.Contract(POOL_ADDRESS, stableSwap3PoolAbi, provider)
   const lpToken = new ethers.Contract(LP_TOKEN_ADDRESS, stableSwap3PoolAbi, provider)
 
   const allocations = await getAllocations(pool, lpToken)
