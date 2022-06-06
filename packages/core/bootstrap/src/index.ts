@@ -23,16 +23,13 @@ import * as debug from './lib/middleware/debugger'
 import * as normalize from './lib/middleware/normalize'
 import * as CacheKey from './lib/middleware/cache-key'
 import * as server from './lib/server'
-import { configureStore } from './lib/store'
+import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import * as ws from './lib/middleware/ws'
 import { FastifyInstance } from 'fastify'
-import { createAction } from '@reduxjs/toolkit'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
-
-export const serverShutdown = createAction('SERVER/SHUTDOWN')
 
 const serverReducer = combineReducers({
   errorBackoff: ErrorBackoff.reducer.rootReducer,

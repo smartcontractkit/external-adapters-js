@@ -15,7 +15,7 @@ import {
   takeUntil,
   withLatestFrom,
 } from 'rxjs/operators'
-import { RootState, serverShutdown } from '../../..'
+import { RootState } from '../../..'
 import {
   warmupExecute,
   warmupFailed,
@@ -45,6 +45,7 @@ import { getTTL, getMaxAgeOverride } from '../cache/ttl'
 import * as metrics from './metrics'
 import { getFeedId } from '../../metrics/util'
 import { PayloadAction } from '@reduxjs/toolkit'
+import { serverShutdown } from '../../store'
 
 export interface EpicDependencies {
   config: Config

@@ -55,8 +55,9 @@ import {
 import { getSubsId, RootState } from './reducer'
 import { separateBatches } from './utils'
 import { getWSConfig } from './config'
-import { serverShutdown, util } from '../../..'
+import { util } from '../../..'
 import { WebSocketClassProvider, WsMessageRecorder } from './recorder'
+import { serverShutdown } from '../../store'
 
 const recordWsMessages = util.parseBool(util.getEnv('RECORD'))
 
