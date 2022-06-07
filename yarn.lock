@@ -3095,7 +3095,7 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.38
-    hardhat: 2.9.6
+    hardhat: 2.9.7
     mock-socket: 9.1.4
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -16850,9 +16850,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"hardhat@npm:2.9.6":
-  version: 2.9.6
-  resolution: "hardhat@npm:2.9.6"
+"hardhat@npm:2.9.7":
+  version: 2.9.7
+  resolution: "hardhat@npm:2.9.7"
   dependencies:
     "@ethereumjs/block": ^3.6.2
     "@ethereumjs/blockchain": ^5.5.2
@@ -16906,7 +16906,7 @@ fsevents@^1.2.7:
     chai: ^4.2.0
   bin:
     hardhat: internal/cli/cli.js
-  checksum: 479942921a4f1616fb40eec524044d027ef1114020b7a520d2fb764c32acce33e31ea141d20dfee7e1db1ca395af4121218aaf35a553488b45933bb44011cbb9
+  checksum: 7435cdeb375a07078c89d43b4f28702c68203524be85510985838d7d2becba43613b271cf3d6b1739dbe3528d3a9921f95b22a166337d52dc9622bfd219b6253
   languageName: node
   linkType: hard
 
