@@ -34,12 +34,11 @@ normalizing balances to be 18 decimals, we have (in python):
 ```python
 # `balances` is as in the vyper code
 # `prices` is list of coin prices in USD
-amounts = [balances[i] * 10 ** (18 - decimals[i]) / total_supply for i in range(len(balances))]
-lp_token_price = sum(prices[i] * amounts[i] // 10 ** 18)
+amounts = [balance * 10 ** (18 - dec) / total_supply for (balance, dec) in zip(balances, decimals)]
+lp_token_price = sum(price * amount // 10 ** 18 for (price, amount) in zip(prices, amounts))
 ```
 
-The token allocation adapter will compute `lp_token_price` by pulling `prices` and taking
-in the relevant `balances` and `decimals` from the `allocations` array.
+This composite adapter uses the Token Allocation adapter to compute `lp_token_price` by taking in the relevant balance, decimals, and symbol from the `allocations` array, using the symbol to pull the price.
 
 - [Repo for 3Pool contracts](https://github.com/curvefi/curve-contract/tree/master/contracts/pools/3pool)
 - [3Pool on Mainnet (etherscan)](https://etherscan.io/address/0xbebc44782c7db0a1a60cb6fe97d0b483032ff1c7)
