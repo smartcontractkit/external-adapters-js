@@ -12,8 +12,6 @@ describe('execute', () => {
     execute = await apyFinanceAdapter.makeExecute()
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.CACHE_ENABLED = 'false'
-    process.env.REGISTRY_ADDRESS =
-      process.env.REGISTRY_ADDRESS || '0x7ec81b7035e91f8435bdeb2787dcbd51116ad303'
     process.env.TIINGO_DATA_PROVIDER_URL =
       process.env.TIINGO_DATA_PROVIDER_URL || 'http://localhost:3000'
     process.env.ETHEREUM_RPC_URL =
