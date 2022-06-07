@@ -38,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, ['data', speed]) * 1e9
+  const result = Requester.validateResultNumber(response.data, ['data', speed])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
