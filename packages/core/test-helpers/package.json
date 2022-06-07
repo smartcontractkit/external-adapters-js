@@ -26,7 +26,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.36",
+    "@types/node": "16.11.38",
     "hardhat": "2.9.6",
     "mock-socket": "9.1.4",
     "typescript": "4.3.5"
