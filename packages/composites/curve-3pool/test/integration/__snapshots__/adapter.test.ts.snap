@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+// LP token total supply:
+// 1625179183297904961402885195
+//
+// DAI
+// padded coin balance: 341559993453255280376078872
+// int(1e18) * 341559993453255280376078872 // 1625179183297904961402885195
+// 210167590726914517
+//
+// USDC
+// padded coin balance: 337168503460222000000000000
+// int(1e18) * 337168503460222000000000000 // 1625179183297904961402885195
+// 207465433304419219
+// 
+// Tether
+// padded coin balance: 981453312885486000000000000
+// int(1e18) * 981453312885486000000000000 // 1625179183297904961402885195
+// 603904678925228271
+//
+// LP token price
+// (210167590726914517 + 207465433304419219 + 603904678925228271) / 1e18
+// 1.021537702956562
+
 exports[`execute with request properly formatted should return success 1`] = `
 Object {
   "data": Object {
@@ -11,14 +33,28 @@ Object {
           },
         },
       },
+      "USDC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1,
+          },
+        },
+      },
+      "USDT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1,
+          },
+        },
+      },
     },
-    "result": 0,
+    "result": 1.021537702956562,
     "sources": Array [],
   },
   "debug": undefined,
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 0,
+  "result": 1.021537702956562,
   "statusCode": 200,
 }
 `;
