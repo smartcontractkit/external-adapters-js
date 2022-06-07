@@ -45,6 +45,7 @@ import { getTTL, getMaxAgeOverride } from '../cache/ttl'
 import * as metrics from './metrics'
 import { getFeedId } from '../../metrics/util'
 import { PayloadAction } from '@reduxjs/toolkit'
+import { serverShutdown } from '../../store'
 
 export interface EpicDependencies {
   config: Config
@@ -195,7 +196,11 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, any, EpicDependencies>
         interval > WARMUP_POLL_OFFSET * 2 ? interval - WARMUP_POLL_OFFSET : interval
       return timer(pollInterval, pollInterval).pipe(
         mapTo(warmupRequested({ key })),
-        takeUntil(action$.pipe(filter(warmupShutdown.match))),
+        takeUntil(
+          action$.pipe(
+            filter((action) => serverShutdown.match(action) || warmupShutdown.match(action)),
+          ),
+        ),
         // unsubscribe our warmup algo when a matching unsubscribe comes in
         takeUntil(
           action$.pipe(
@@ -336,7 +341,11 @@ export const warmupUnsubscriber: Epic<AnyAction, AnyAction, any, EpicDependencie
       // start the current unsubscription timer
       const timeout$ = of(warmupUnsubscribed({ key, isBatched, reason: 'Timeout' })).pipe(
         delay(config.subscriptionTTL),
-        takeUntil(action$.pipe(filter(warmupShutdown.match))),
+        takeUntil(
+          action$.pipe(
+            filter((action) => serverShutdown.match(action) || warmupShutdown.match(action)),
+          ),
+        ),
       )
 
       // if a re-subscription comes in before timeout emits, then we emit nothing
