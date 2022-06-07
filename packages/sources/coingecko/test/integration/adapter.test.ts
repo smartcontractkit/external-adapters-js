@@ -1,34 +1,19 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import { AddressInfo } from 'net'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import { mockCryptoSuccess, mockDominanceSuccess } from './fixtures'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+
+const superTest = {
+  req: null,
+}
+
+const envVariables = {
+  CACHE_ENABLED: 'false',
+}
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, startServer, superTest)
 
   describe('crypto api', () => {
     const data: AdapterRequest = {
@@ -42,7 +27,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoSuccess()
 
-      const response = await req
+      const response = await superTest.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -68,7 +53,7 @@ describe('execute', () => {
     it('should return success for override', async () => {
       mockCryptoSuccess()
 
-      const response = await req
+      const response = await superTest.req
         .post('/')
         .send(dataWithOverride)
         .set('Accept', '*/*')
@@ -94,7 +79,7 @@ describe('execute', () => {
     it('should return success for array', async () => {
       mockCryptoSuccess()
 
-      const response = await req
+      const response = await superTest.req
         .post('/')
         .send(dataWithArray)
         .set('Accept', '*/*')
@@ -118,7 +103,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoSuccess()
 
-      const response = await req
+      const response = await superTest.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -142,7 +127,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoSuccess()
 
-      const response = await req
+      const response = await superTest.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -165,7 +150,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockDominanceSuccess()
 
-      const response = await req
+      const response = await superTest.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -188,7 +173,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockDominanceSuccess()
 
-      const response = await req
+      const response = await superTest.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

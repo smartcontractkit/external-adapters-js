@@ -2101,10 +2101,9 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.0.3
-    "@types/node": 16.11.41
+    "@types/node": 16.11.38
     "@types/supertest": 2.0.12
     nock: 13.2.6
-    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
@@ -2688,8 +2687,11 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     hardhat: 2.9.9
     mock-socket: 9.1.5
+    nock: 13.2.6
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.3.5
   languageName: unknown
