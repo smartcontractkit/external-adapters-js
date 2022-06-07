@@ -3,11 +3,11 @@
 exports[`execute gasprice api should return success 1`] = `
 Object {
   "data": Object {
-    "result": 1500000000,
+    "result": 38200000000,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 1500000000,
+  "result": 38200000000,
   "statusCode": 200,
 }
 `;
