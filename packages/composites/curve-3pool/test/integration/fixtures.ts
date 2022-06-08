@@ -185,4 +185,70 @@ export function mockTiingoResponse() {
       result: 1.0,
       statusCode: 200,
     })
+
+  nock('http://localhost:3000')
+    .post('/', { id: '1', data: { base: 'DAI', quote: 'USD', endpoint: 'crypto' } })
+    .reply(200, {
+      jobRunID: '1',
+      providerStatusCode: 200,
+      data: {
+        sources: [],
+        payload: {
+          DAI: {
+            quote: {
+              USD: {
+                price: '1.0',
+              },
+            },
+          },
+        },
+        result: 1.01,
+      },
+      result: 1.01,
+      statusCode: 200,
+    })
+
+  nock('http://localhost:3000')
+    .post('/', { id: '1', data: { base: 'USDC', quote: 'USD', endpoint: 'crypto' } })
+    .reply(200, {
+      jobRunID: '1',
+      providerStatusCode: 200,
+      data: {
+        sources: [],
+        payload: {
+          USDC: {
+            quote: {
+              USD: {
+                price: '1.0',
+              },
+            },
+          },
+        },
+        result: 0.998,
+      },
+      result: 0.9998,
+      statusCode: 200,
+    })
+
+  nock('http://localhost:3000')
+    .post('/', { id: '1', data: { base: 'USDT', quote: 'USD', endpoint: 'crypto' } })
+    .reply(200, {
+      jobRunID: '1',
+      providerStatusCode: 200,
+      data: {
+        sources: [],
+        payload: {
+          USDT: {
+            quote: {
+              USD: {
+                price: '1.0',
+              },
+            },
+          },
+        },
+        result: 1.002,
+      },
+      result: 1.002,
+      statusCode: 200,
+    })
 }

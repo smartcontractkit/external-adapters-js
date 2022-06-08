@@ -44,4 +44,20 @@ describe('execute', () => {
       expect(resp).toMatchSnapshot()
     })
   })
+
+  describe('with varying stable prices', () => {
+    mockTiingoResponse()
+    mockEthereumCalls()
+    const data: AdapterRequest = {
+      id,
+      data: {
+        source: 'tiingo',
+      },
+    }
+
+    it('should return correct result', async () => {
+      const resp = await execute(data, {})
+      expect(resp).toMatchSnapshot()
+    })
+  })
 })

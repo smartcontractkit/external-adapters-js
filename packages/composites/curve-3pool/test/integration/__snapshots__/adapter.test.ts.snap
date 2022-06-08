@@ -12,15 +12,19 @@
 // padded coin balance: 337168503460222000000000000
 // int(1e18) * 337168503460222000000000000 // 1625179183297904961402885195
 // 207465433304419219
-// 
+//
 // Tether
 // padded coin balance: 981453312885486000000000000
 // int(1e18) * 981453312885486000000000000 // 1625179183297904961402885195
 // 603904678925228271
 //
 // LP token price
-// (210167590726914517 + 207465433304419219 + 603904678925228271) / 1e18
+// test case 1
+// (1 * 210167590726914517 + 1 * 207465433304419219 + 1 * 603904678925228271) / 1e18
 // 1.021537702956562
+// test case 2
+// (1.01 * 210167590726914517 + 0.998 * 207465433304419219 + 1.002 * 603904678925228271) / 1e18
+// 1.0244322573550728
 
 exports[`execute with request properly formatted should return success 1`] = `
 Object {
@@ -55,6 +59,43 @@ Object {
   "jobRunID": "1",
   "providerStatusCode": 200,
   "result": 1.021537702956562,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute with varying stable prices should return correct result 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "DAI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1.01,
+          },
+        },
+      },
+      "USDC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 0.998,
+          },
+        },
+      },
+      "USDT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 1.002,
+          },
+        },
+      },
+    },
+    "result": 1.0244322573550728,
+    "sources": Array [],
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1.0244322573550728,
   "statusCode": 200,
 }
 `;
