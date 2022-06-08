@@ -1,4 +1,4 @@
-# Chainlink External Adapter to Calculate Curve 3Pool LP Token Price
+# Chainlink External Adapter for Curve 3Pool LP Token Price
 
 The adapter calculates a price for the Curve 3Pool LP token. The price is defined as the liquidation value of an LP token.
 
@@ -75,35 +75,36 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ```json
 {
-  "jobRunID": "1",
+  "result": 1.0223841041572506,
+  "providerStatusCode": 200,
+  "maxAge": 30000
+  "statusCode": 200,
   "data": {
     "sources": [],
     "payload": {
       "DAI": {
         "quote": {
           "USD": {
-            "price": "1.00750541"
+            "price": 1.002
           }
         }
       },
       "USDC": {
         "quote": {
           "USD": {
-            "price": "0.99465161"
+            "price": 1.002
           }
         }
       },
       "USDT": {
         "quote": {
           "USD": {
-            "price": "1.00064981"
+            "price": 1
           }
         }
       }
     },
-    "result": 18469823.762145024
-  },
-  "result": 18469823.762145024,
-  "statusCode": 200
+    "result": 1.0223841041572506
+  }
 }
 ```
