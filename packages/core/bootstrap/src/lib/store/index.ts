@@ -1,4 +1,4 @@
-import { nanoid } from '@reduxjs/toolkit'
+import { createAction, nanoid } from '@reduxjs/toolkit'
 import {
   AnyAction,
   applyMiddleware,
@@ -29,6 +29,8 @@ export interface ActionBase {
   id: string
   createdAt: string
 }
+
+export const serverShutdown = createAction('SERVER/SHUTDOWN')
 
 export function configureStore(
   rootReducer: Reducer,
