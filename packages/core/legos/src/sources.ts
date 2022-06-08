@@ -21,6 +21,7 @@ import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
 import * as cache_gold from '@chainlink/cache.gold-adapter'
+import * as ccip_read from '@chainlink/ccip-read-adapter'
 import * as celsius_address_list from '@chainlink/celsius-address-list-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
@@ -44,7 +45,6 @@ import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as curve from '@chainlink/curve-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
-import * as ccip_read from '@chainlink/ccip-read-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
@@ -80,6 +80,7 @@ import * as kaiko from '@chainlink/kaiko-adapter'
 import * as layer2_sequencer_health from '@chainlink/layer2-sequencer-health-adapter'
 import * as lcx from '@chainlink/lcx-adapter'
 import * as lido from '@chainlink/lido-adapter'
+import * as lido_kusama from '@chainlink/lido-kusama-adapter'
 import * as linkpool from '@chainlink/linkpool-adapter'
 import * as lition from '@chainlink/lition-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
@@ -153,6 +154,7 @@ export default {
   bravenewcoin,
   btc_com,
   cache_gold,
+  ccip_read,
   celsius_address_list,
   cfbenchmarks,
   chain_reserve_wallet,
@@ -176,7 +178,6 @@ export default {
   curve,
   deribit,
   dns_query,
-  ccip_read,
   dwolla,
   dxfeed,
   dxfeed_secondary,
@@ -212,6 +213,7 @@ export default {
   layer2_sequencer_health,
   lcx,
   lido,
+  lido_kusama,
   linkpool,
   lition,
   lotus,
