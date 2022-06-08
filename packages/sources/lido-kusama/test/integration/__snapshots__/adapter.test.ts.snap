@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute stksm endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 6684919487,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 6684919487,
+  "statusCode": 200,
+}
+`;

@@ -1,31 +1,46 @@
 {
-  "name": "lido-dot-ksm-stksm-chainlink-adapter",
-  "version": "1.0.0",
-  "description": "Repository contains source code for chainlink external adapter for stKSM/stDOT token",
-  "main": "index.js",
-  "scripts": {
-    "start": "node app.js",
-    "test": "./node_modules/.bin/_mocha --timeout 0"
-  },
+  "name": "@chainlink/lido-kusama-adapter",
+  "version": "0.0.12",
+  "description": "Chainlink lido-kusama adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "lido-kusama",
+    "stksm"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mixbytes/lido-dot-ksm-stksm-chainlink-adapter.git"
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
   },
-  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mixbytes/lido-dot-ksm-stksm-chainlink-adapter/issues"
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
   },
-  "homepage": "https://github.com/mixbytes/lido-dot-ksm-stksm-chainlink-adapter#readme",
   "dependencies": {
-    "@chainlink/external-adapter": "^0.2.6",
-    "body-parser": "^1.20.0",
-    "ethers": "^5.6.8",
-    "express": "^4.18.1"
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
+    "ethers": "5.4.6",
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "chai": "^4.3.6",
-    "eslint": "^8.17.0",
-    "mocha": "^10.0.0"
+    "@chainlink/types": "workspace:*",
+    "@types/jest": "27.0.3",
+    "@types/node": "16.11.38",
+    "@types/supertest": "2.0.12",
+    "nock": "13.2.6",
+    "supertest": "6.2.3",
+    "typescript": "4.3.5"
   }
 }
