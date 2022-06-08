@@ -12,6 +12,7 @@ import { getClientIp, getEnv, toObjectWithNumbers } from './util'
 import { warmupShutdown } from './middleware/cache-warmer/actions'
 import { shutdown } from './middleware/error-backoff/actions'
 import { WSReset } from './middleware/ws/actions'
+import process from 'process'
 
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
@@ -30,8 +31,14 @@ export const initHandler =
       logger: false,
     })
     const name = adapterContext.name || ''
-    const envDefaultOverrides = adapterContext.envDefaultOverrides
-    const context: AdapterContext = {
+    const envDefaultOverrides: Record<string, string> | undefined =
+      adapterContext.envDefaultOverrides
+    for (const key in envDefaultOverrides) {
+      if (!process.env[key]) {
+        process.env[key] = envDefaultOverrides[key]
+      }
+    }
+    let context: AdapterContext = {
       name,
       envDefaultOverrides,
       cache: null,
@@ -58,14 +65,21 @@ export const initHandler =
     app.post<{
       Body: AdapterRequest
     }>(baseUrl, async (req, res) => {
-      const metricsMeta = METRICS_ENABLED
-        ? { metricsMeta: { requestOrigin: getClientIp(req) } }
-        : {}
+      const clientIp = getClientIp(req)
+      const metricsMeta = METRICS_ENABLED ? { metricsMeta: { requestOrigin: clientIp } } : {}
+
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
         ...metricsMeta,
       }
+
+      context = {
+        ...context,
+        ip: clientIp,
+        hostname: req.hostname,
+      }
+
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.code(status).send(result)
       })

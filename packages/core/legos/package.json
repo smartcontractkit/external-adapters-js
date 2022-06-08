@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.91",
+  "version": "1.0.93",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -52,6 +52,7 @@
     "@chainlink/bravenewcoin-adapter": "workspace:*",
     "@chainlink/btc.com-adapter": "workspace:*",
     "@chainlink/cache.gold-adapter": "workspace:*",
+    "@chainlink/ccip-read-adapter": "workspace:*",
     "@chainlink/celsius-address-list-adapter": "workspace:*",
     "@chainlink/cfbenchmarks-adapter": "workspace:*",
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
@@ -75,7 +76,6 @@
     "@chainlink/curve-adapter": "workspace:*",
     "@chainlink/deribit-adapter": "workspace:*",
     "@chainlink/dns-query-adapter": "workspace:*",
-    "@chainlink/durin-adapter": "workspace:*",
     "@chainlink/dwolla-adapter": "workspace:*",
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",

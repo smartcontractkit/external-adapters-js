@@ -61,6 +61,17 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "address", "name": "_vaultProxy", "type": "address" },
+      { "internalType": "address", "name": "_quoteAsset", "type": "address" }
+    ],
+    "name": "calcNetShareValueInAsset",
+    "outputs": [{ "internalType": "uint256", "name": "netShareValue_", "type": "uint256" }],
+    "stateMutability": "view",
+    "note": "THIS HAS BEEN MODIFIED TO BE A VIEW FUNCTION",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "getFeeManager",
     "outputs": [{ "internalType": "address", "name": "feeManager_", "type": "address" }],

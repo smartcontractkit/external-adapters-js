@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinbase-adapter",
-  "version": "1.2.38",
+  "version": "1.2.39",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

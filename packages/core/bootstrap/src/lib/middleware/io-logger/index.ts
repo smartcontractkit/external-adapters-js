@@ -5,6 +5,7 @@ import { getFeedId } from '../../metrics/util'
 export const withIOLogger: Middleware =
   async (execute, context) => async (input: AdapterRequest) => {
     Logger.debug('Input: ', { input })
+    Logger.debug(`Received request from IP ${context.ip} and Host ${context.hostname}`)
     try {
       const result = await execute(input, context)
       Logger.debug(`Output: [${result.statusCode}]: `, { output: result })
