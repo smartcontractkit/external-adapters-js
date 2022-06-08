@@ -111,6 +111,7 @@
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*",
     "@chainlink/lcx-adapter": "workspace:*",
     "@chainlink/lido-adapter": "workspace:*",
+    "@chainlink/lido-kusama-adapter": "workspace:*",
     "@chainlink/linkpool-adapter": "workspace:*",
     "@chainlink/lition-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",

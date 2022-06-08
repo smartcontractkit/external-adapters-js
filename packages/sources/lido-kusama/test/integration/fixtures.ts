@@ -1,18 +1,18 @@
 import nock from 'nock'
 
 export function mockStKsmSuccess(): void {
-  nock('http://localhost:8080', { encodedQueryParams: true })
+  nock('https://test-rpc-url', { encodedQueryParams: true })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
     .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1285' }), [
       'Content-Type',
       'application/json',
-      'Connection',
-      'close',
-      'Vary',
       'Accept-Encoding',
-      'Vary',
-      'Origin',
+      'gzip, deflate',
+      'accept',
+      '*/*',
+      'content-length',
+      '20',
     ])
     .post('/', {
       method: 'eth_call',
@@ -30,12 +30,12 @@ export function mockStKsmSuccess(): void {
       [
         'Content-Type',
         'application/json',
-        'Connection',
-        'close',
-        'Vary',
         'Accept-Encoding',
-        'Vary',
-        'Origin',
+        'gzip, deflate',
+        'accept',
+        '*/*',
+        'content-length',
+        '20',
       ],
     )
     .post('/', {
@@ -54,12 +54,12 @@ export function mockStKsmSuccess(): void {
       [
         'Content-Type',
         'application/json',
-        'Connection',
-        'close',
-        'Vary',
         'Accept-Encoding',
-        'Vary',
-        'Origin',
+        'gzip, deflate',
+        'accept',
+        '*/*',
+        'content-length',
+        '20',
       ],
     )
     .post('/', {
@@ -78,12 +78,12 @@ export function mockStKsmSuccess(): void {
       [
         'Content-Type',
         'application/json',
-        'Connection',
-        'close',
-        'Vary',
         'Accept-Encoding',
-        'Vary',
-        'Origin',
+        'gzip, deflate',
+        'accept',
+        '*/*',
+        'content-length',
+        '20',
       ],
     )
 }
