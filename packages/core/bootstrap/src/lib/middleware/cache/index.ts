@@ -173,7 +173,6 @@ export class AdapterCache {
       isFromWs: !!adapterRequest.debug?.ws,
       participantId: key,
       feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
-      requestOrigin: adapterRequest.metricsMeta?.requestOrigin || 'N/A',
     })
 
     const cachedAdapterResponse = this.options.requestCoalescing.enabled
@@ -276,7 +275,6 @@ export const withCache =
         isFromWs: !!adapterRequest.debug?.ws,
         participantId: key,
         feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
-        requestOrigin: adapterRequest.metricsMeta?.requestOrigin || 'N/A',
       })
 
       const tryDoDistributedCacheAction = async (
