@@ -18,7 +18,7 @@ import {
 import { webSocket } from 'rxjs/webSocket'
 import { withCache } from '../cache'
 import { censor, logger } from '../../modules'
-import { getFeedId, WARMER_FEED_ID } from '../../metrics/util'
+import { getFeedId } from '../../metrics/util'
 import {
   connectFailed,
   connectFulfilled,
@@ -785,7 +785,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
           ...input,
           data: { maxAge: wsConfig.subscriptionTTL, ...input.data },
           debug: { ws: true, ...input.debug },
-          metricsMeta: { feedId: getFeedId(input), requestOrigin: WARMER_FEED_ID },
+          metricsMeta: { feedId: getFeedId(input) },
         }
         await cache(wsResponse, context)
         logger.trace('WS: Saved result', { input, result: response.result })
