@@ -46,6 +46,10 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
       max-parallel: 35
+    environment: release
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
 
@@ -57,8 +61,7 @@ jobs:
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_PRIVATEECR_ACCESSKEY }}
-          aws-secret-access-key: ${{ secrets.AWS_PRIVATEECR_SECRETKEY }}
+          aws-role-to-assume: ${{ secrets.AWS_ARN_EA_PRIVATE }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Publish adapter to private ECR
         id: publish-adapter-versioned-private-ecr
@@ -98,10 +101,8 @@ jobs:
       - name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_PUBLICECR_ACCESSKEY }}
-          aws-secret-access-key: ${{ secrets.AWS_PUBLICECR_SECRETKEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_ARN_EA_PUBLIC }}
           role-duration-seconds: 1200
 
       - if: github.ref == 'refs/heads/master'
