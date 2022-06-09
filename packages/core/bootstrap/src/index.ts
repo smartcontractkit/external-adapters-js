@@ -34,6 +34,7 @@ import * as server from './lib/server'
 import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import { FastifyInstance } from 'fastify'
+import { RPCErrorMap } from './lib/errors'
 
 export * from './types'
 
@@ -142,6 +143,15 @@ export const executeSync: ExecuteSync = async <D extends AdapterData>(
   } catch (e) {
     const error = new AdapterError(e as Partial<AdapterError>)
     const feedID = metrics.util.getFeedId(data)
+
+    // Try to transform error message if error is thrown from ether.js
+    if (
+      RPCErrorMap[error?.code as keyof typeof RPCErrorMap] &&
+      error?.message?.includes('version')
+    ) {
+      error.message = RPCErrorMap[error.code as keyof typeof RPCErrorMap]
+    }
+
     return callback(
       error.statusCode || 500,
       Requester.errored(data.id, error, error.providerStatusCode || error.statusCode, feedID),
