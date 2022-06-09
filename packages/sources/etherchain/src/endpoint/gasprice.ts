@@ -8,7 +8,7 @@ export const inputParameters: InputParameters = {
     required: false,
     type: 'string',
     description: 'The desired speed',
-    options: ['safeLow', 'standard', 'fast', 'fastest'],
+    options: ['rapid', 'fast', 'standard', 'slow'],
     default: 'standard',
   },
 }
