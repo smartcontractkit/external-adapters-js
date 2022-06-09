@@ -3,7 +3,7 @@ import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import { mockRateResponseSuccess } from './fixtures'
+import { mockNftResponseSuccess, mockRateResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
 
 describe('execute', () => {
@@ -13,6 +13,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
+    process.env.NFT_API_ENDPOINT = process.env.NFT_API_ENDPOINT || 'http://fake-nft.endpoint'
+    process.env.NFT_API_AUTH_HEADER = process.env.NFT_API_AUTH_HEADER || 'fake-nft-auth-header'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -42,6 +44,32 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockRateResponseSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('nft-floor-price api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'nft-floor-price',
+        network: 'ethereum-mainnet',
+        contractAddress: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
+        start: '2022-05-12T00:00:00',
+        end: '2022-05-12T00:00:00',
+      },
+    }
+
+    it('should return success', async () => {
+      mockNftResponseSuccess()
 
       const response = await req
         .post('/')
