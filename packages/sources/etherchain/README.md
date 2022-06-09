@@ -28,9 +28,9 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Input Params
 
-| Required? | Name  | Aliases |    Description    |  Type  |                 Options                  |  Default   | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------------: | :----: | :--------------------------------------: | :--------: | :--------: | :------------: |
-|           | speed |         | The desired speed | string | `fast`, `fastest`, `safeLow`, `standard` | `standard` |            |                |
+| Required? | Name  | Aliases |    Description    |  Type  |               Options               |  Default   | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :---------------: | :----: | :---------------------------------: | :--------: | :--------: | :------------: |
+|           | speed |         | The desired speed | string | `rapid`, `fast`, `standard`, `slow` | `standard` |            |                |
 
 ### Example
 
