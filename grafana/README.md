@@ -8,6 +8,26 @@ The currently available dashboards are the following:
 A dashboard that provides detailed insight into a single external adapter at a time.
 See [here](./src/eaDetailed.jsonnet) to view the dashboard contents written in jsonnet via the [grafonnet](https://github.com/grafana/grafonnet-lib) library.
 
+# Adding a new Codified dashboard
+
+## Adding a new panel:
+
+Read the [Grafonnet Docs](https://grafana.github.io/grafonnet-lib/api-docs/) for more information, but there are quick an easy ways to add new panels.
+
+### For a graph panel, copy this template:
+
+```
+local panelName = graphPanel.new(
+  title='Panel Title',
+  datasource=cortexDataSource,
+  format='pecrent',
+).addTarget(
+  prometheus.target(
+    'promQL query'
+  )
+);
+```
+
 ## ea-overview
 
 A dashboard that provides a high level overview of all external adapters at a time.
@@ -17,9 +37,7 @@ See [here](./src/eaOverview.jsonnet) to view the dashboard contents written in j
 
 ## Requirements
 
-- grizzly https://github.com/grafana/grizzly
-- jb https://github.com/jsonnet-bundler/jsonnet-bundler
-- jsonnet https://github.com/google/go-jsonnet
+Tn
 
 ## Process
 

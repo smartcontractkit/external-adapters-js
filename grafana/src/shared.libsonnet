@@ -40,11 +40,23 @@ local createTemplates(multiService) =
     includeAll=true,
     refresh='load'
   );
+  local adapterTempl = template.new(
+    'adapter',
+    datasource=cortexDataSource,
+    query='http_requests_total{namespace="$namespace"}',
+    multi=true,
+    sort=1,
+    current='All',
+    regex='/app_name="(.*?)"/',
+    includeAll=true,
+    refresh='load'
+  );
 
   [
     namespaceTempl,
     serviceTempl,
     feedTempl,
+    adapterTempl,
   ];
 
 local addSideLegend(graphPanel) =
