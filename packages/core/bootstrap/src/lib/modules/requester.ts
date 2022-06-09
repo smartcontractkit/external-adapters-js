@@ -15,6 +15,7 @@ import { AdapterError } from './error'
 import { logger } from './logger'
 import objectPath from 'object-path'
 import { join } from 'path'
+import { Logger } from '../..'
 
 const getFalse = () => false
 
@@ -82,6 +83,7 @@ export class Requester {
         // Response error
         if (n === 1) {
           const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
+          Logger.error(message)
           const cause = response.data.error || 'customError'
           throw new AdapterError({
             statusCode: 200,
