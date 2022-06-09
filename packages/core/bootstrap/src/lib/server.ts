@@ -63,18 +63,14 @@ export const initHandler =
     app.post<{
       Body: AdapterRequest
     }>(baseUrl, async (req, res) => {
-      const clientIp = getClientIp(req)
-      const metricsMeta = METRICS_ENABLED ? { metricsMeta: { requestOrigin: clientIp } } : {}
-
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
-        ...metricsMeta,
       }
 
       context = {
         ...context,
-        ip: clientIp,
+        ip: getClientIp(req),
         hostname: req.hostname,
       }
 
