@@ -53,8 +53,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const params = {
     'collectionId.networkName': network,
     'collectionId.contractAddress': contractAddress,
-    startDay: new Date(start),
-    endDay: new Date(end),
+    startDay: start,
+    endDay: end,
   }
 
   const options = {

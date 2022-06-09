@@ -21,8 +21,8 @@ export const mockNftResponseSuccess = (): nock =>
     .query({
       'collectionId.networkName': 'ethereum-mainnet',
       'collectionId.contractAddress': '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
-      startDay: '2022-05-11T23:00:00.000Z',
-      endDay: '2022-05-11T23:00:00.000Z',
+      startDay: '2022-05-12T00:00:00',
+      endDay: '2022-05-12T00:00:00',
     })
     .reply(
       200,
