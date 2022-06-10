@@ -70,7 +70,7 @@ const inputParameters: InputParameters<TInputParameters> = {
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, _, config) => {
   const paramOptions = makeOptions(config)
-  const validator = new Validator<TInputParameters>(input, inputParameters, paramOptions)
+  const validator = new Validator(input, inputParameters, paramOptions)
 
   const jobRunID = validator.validated.id
   const source = validator.validated.data.source.toUpperCase()

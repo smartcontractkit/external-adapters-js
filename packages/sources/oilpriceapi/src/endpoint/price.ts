@@ -27,7 +27,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 export const customError = (data: Record<string, unknown>): boolean => data.data === null
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const url = validator.validated.data.url

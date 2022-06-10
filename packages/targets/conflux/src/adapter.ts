@@ -19,7 +19,7 @@ export const execute: ExecuteWithConfig<Config, TInputParameters> = async (
   context,
   config,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator<TInputParameters>(request, inputParams)
+  const validator = new Validator(request, inputParams)
 
   Requester.logConfig(config)
 

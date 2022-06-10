@@ -86,7 +86,7 @@ const handleBatchedRequest = (
 // NOTE: This endpoint has not been acceptance tested and will need to be once
 // a valid API Key is obtained.
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const from = validator.overrideSymbol(AdapterName, validator.validated.data.base)

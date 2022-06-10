@@ -42,7 +42,7 @@ export interface PostReply {
 }
 
 const executeImpl: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParams)
+  const validator = new Validator(request, inputParams)
 
   Requester.logConfig(config)
 

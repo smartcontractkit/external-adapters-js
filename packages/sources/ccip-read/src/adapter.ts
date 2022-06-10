@@ -18,7 +18,7 @@ const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const response = await endpoints.optimismGateway.execute(request, context, config)
   const handlerResponse = response.data.result as unknown as HandlerResponse

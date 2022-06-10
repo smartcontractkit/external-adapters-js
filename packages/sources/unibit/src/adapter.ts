@@ -9,7 +9,7 @@ export const inputParams: InputParameters<TInputParameters> = {}
 export type TInputParams = EndpointInputParams & TInputParameters
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParams)
+  const validator = new Validator(request, inputParams)
 
   Requester.logConfig(config)
 

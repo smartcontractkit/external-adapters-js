@@ -107,7 +107,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, customParams)
+  const validator = new Validator(request, customParams)
 
   const jobRunID = validator.validated.id
   const { date, playerID } = validator.validated.data

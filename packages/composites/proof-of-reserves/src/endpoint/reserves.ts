@@ -66,7 +66,7 @@ const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters, config.options)
+  const validator = new Validator(input, inputParameters, config.options)
 
   const jobRunID = validator.validated.id
   const protocol = validator.validated.data.protocol.toUpperCase()

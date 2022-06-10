@@ -9,7 +9,7 @@ export type TInputParameters = Record<string, never>
 export const inputParams: InputParameters<TInputParameters> = {}
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParams)
+  const validator = new Validator(request, inputParams)
 
   const jobRunID = validator.validated.id
   const endpoint = validator.validated.data.endpoint || ''

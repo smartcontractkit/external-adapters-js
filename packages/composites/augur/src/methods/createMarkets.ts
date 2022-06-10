@@ -41,7 +41,7 @@ export interface CreateFighterEvent {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator<TInputParameters>(input, createParams)
+  const validator = new Validator(input, createParams)
 
   const sport = validator.validated.data.sport.toLowerCase()
   const contractAddress = validator.validated.data.contractAddress

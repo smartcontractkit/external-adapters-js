@@ -63,7 +63,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
 
   const _config = TA.makeConfig()
   const _execute = TA.makeExecute(_config)

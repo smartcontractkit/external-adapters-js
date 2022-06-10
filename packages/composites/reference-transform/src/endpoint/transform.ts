@@ -45,7 +45,7 @@ const transform = (offchain: number, onchain: number, operator: string, dividend
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters, {
+  const validator = new Validator(request, inputParameters, {
     source: Object.keys(config.sources),
   })
 

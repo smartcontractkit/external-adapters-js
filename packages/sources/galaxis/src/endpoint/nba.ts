@@ -24,7 +24,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const date = await getDate(config, validator.validated.data.date)
   if (config.api?.url) config.api.url = await getURL(config, date)

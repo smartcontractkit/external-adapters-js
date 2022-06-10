@@ -35,7 +35,7 @@ type Params = {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const scanobjects = validator.validated.data.scanobjects.map((address: string) => {
     // Addresses must be formatted as addr(39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE)

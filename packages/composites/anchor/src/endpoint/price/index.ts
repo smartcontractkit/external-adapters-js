@@ -44,7 +44,7 @@ export type PriceExecute = (
 const supportedSymbols = [beth.FROM, bluna.FROM]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
 
   const { from, to, conversionFeedDecimals } = validator.validated.data
   const fromUpperCase = from.toUpperCase()

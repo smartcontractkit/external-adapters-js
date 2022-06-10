@@ -40,7 +40,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 
 // TODO: Run tests with valid pro tier + API Key
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const indicator = validator.validated.data.indicator

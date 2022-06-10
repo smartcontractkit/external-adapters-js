@@ -26,7 +26,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
   const { confirmations, contractAddress, batchSize } = validator.validated.data
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)

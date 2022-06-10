@@ -86,7 +86,7 @@ export async function execute(
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> {
-  const validator = new Validator<TInputParameters>(input, pokeParams)
+  const validator = new Validator(input, pokeParams)
 
   const jobRunID = input.id
 

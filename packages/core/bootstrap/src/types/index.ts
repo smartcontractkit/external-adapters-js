@@ -14,6 +14,8 @@ export interface AdapterContext {
   envDefaultOverrides?: EnvDefaultOverrides
   rateLimit?: import('../lib/config/provider-limits').Limits
   limits?: import('../lib/config/provider-limits/config').Config
+  ip?: string
+  host?: string
 }
 
 /* REQUESTS */
@@ -52,7 +54,6 @@ export type AdapterDebug = {
  */
 export type AdapterMetricsMeta = {
   feedId: string
-  requestOrigin: string
 }
 
 export type Bytes = ArrayLike<number>
@@ -147,6 +148,19 @@ export type SequenceResponseData<R> = {
   result: R[]
 }
 
+export type Telemetry = {
+  rateLimitEnabled: boolean
+  wsEnabled: boolean
+  cacheEnabled: boolean
+  cacheType?: string
+  cacheWarmingEnabled: boolean
+  cacheMaxAge?: string
+  metricEnabled: boolean
+  rateLimitApiTier?: string
+  requestCoalescingEnabled: boolean
+  dataProviderRequestTime?: number
+}
+
 export type AdapterBatchResponse = [string, AdapterRequest, number][]
 /**
  * Contained within the body of an api response
@@ -187,6 +201,7 @@ export type AdapterResponse<TData extends AdapterData = AdapterData> = {
   data: AdapterResponseData<TData> // Response data, holds "result" for Flux Monitor. Correct way.
   result: Value // Result for OCR
   maxAge?: number
+  telemetry?: Telemetry
   metricsMeta?: AdapterMetricsMeta
   debug?: AdapterDebug
   providerStatusCode?: number
@@ -211,6 +226,8 @@ export type AdapterErrorLog = {
   errorResponse?: string | Record<string, string>
   rawError?: string
   stack?: string
+  ip?: string
+  host?: string
 }
 
 export type AdapterErrorResponse = {

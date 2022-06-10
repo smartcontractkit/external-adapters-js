@@ -61,7 +61,7 @@ export interface Payload {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters, {}, { includes })
+  const validator = new Validator(input, inputParameters, {}, { includes })
 
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base

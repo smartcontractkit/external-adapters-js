@@ -23,7 +23,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
+  const validator = new Validator(request, inputParameters, {}, { overrides })
   const jobRunID = validator.validated.id
   const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()

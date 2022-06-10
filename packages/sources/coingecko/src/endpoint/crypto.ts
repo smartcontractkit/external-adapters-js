@@ -127,12 +127,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  const validator = new Validator<TInputParameters>(
-    request,
-    inputParameters,
-    {},
-    { overrides: internalOverrides },
-  )
+  const validator = new Validator(request, inputParameters, {}, { overrides: internalOverrides })
 
   const endpoint = validator.validated.data.endpoint || ''
   const jobRunID = validator.validated.id

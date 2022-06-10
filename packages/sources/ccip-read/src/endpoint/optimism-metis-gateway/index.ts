@@ -17,7 +17,7 @@ import { toInterface } from '../../utils'
 import { HandlerResponse } from '../../types'
 import { StateBatchHeader } from './types'
 
-export const supportedEndpoints = ['optimism-gateway']
+export const supportedEndpoints = ['optimism-metis-gateway']
 
 export interface ResponseSchema {
   data: {
@@ -25,7 +25,7 @@ export interface ResponseSchema {
   }
 }
 
-export const description = `The optimism global endpoint reads the latest proof from an Optimism as the L2 chain and returns the proof to the caller.
+export const description = `The optimism global endpoint reads the latest proof from Optimism/Metis as the L2 chain and returns the proof to the caller.
 Currently this endpoint has the same functionality as the server in this example https://github.com/smartcontractkit/ccip-read/tree/6d4deb917781f3becda39b9ebad6f21e037af1a6/examples/optimism-gateway.`
 
 export type TInputParameters = { to: string; data: string; abi: Record<string, Value>[] }
@@ -54,7 +54,7 @@ const RETURN_TYPE_FN = 'addrWithProof'
 const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   if (!config.addressManagerContract)
     throw new AdapterConfigError({ message: 'AddressManagerContract address not set' })
@@ -91,7 +91,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const ret = [
     node,
     {
-      stateRoot: stateBatchHeader.stateRoots[stateBatchHeader.stateRoots.length - 1],
+      stateRoot: stateBatchHeader.stateRoots[lastElemIdx],
       stateRootBatchHeader: stateBatchHeader.batch,
       stateRootProof: {
         index: lastElemIdx,

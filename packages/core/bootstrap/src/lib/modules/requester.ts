@@ -8,7 +8,15 @@ import type {
   BatchableProperty,
 } from '../../types'
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { deepType, getEnv, sleep, isArraylikeAccessor, isRecord, isObject } from '../util'
+import {
+  deepType,
+  getEnv,
+  parseBool,
+  sleep,
+  isRecord,
+  isObject,
+  isArraylikeAccessor,
+} from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import {
   AdapterConnectionError,
@@ -51,7 +59,13 @@ export class Requester {
       const url = join(config.baseURL || '', config.url || '')
       const record = recordDataProviderRequest()
       try {
+        const startTime = process.hrtime.bigint()
+
         response = await axios(config)
+
+        const endTime = process.hrtime.bigint()
+        const milliseconds = (endTime - startTime) / 1000000n
+        response.headers['ea-dp-request-duration'] = milliseconds.toString()
       } catch (e) {
         const error = e as AxiosError
         // Request error
@@ -280,6 +294,26 @@ export class Requester {
 
     if (response.status) {
       adapterResponse.providerStatusCode = response.status
+    }
+
+    if (parseBool(getEnv('TELEMETRY_DATA_ENABLED'))) {
+      adapterResponse.telemetry = {
+        rateLimitEnabled: parseBool(getEnv('RATE_LIMIT_ENABLED')),
+        wsEnabled: parseBool(getEnv('WS_ENABLED')),
+        cacheEnabled: parseBool(getEnv('CACHE_ENABLED')),
+        cacheType: getEnv('CACHE_TYPE'),
+        cacheWarmingEnabled: parseBool(getEnv('WARMUP_ENABLED')),
+        cacheMaxAge: getEnv('CACHE_MAX_AGE'),
+        metricEnabled: parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED')),
+        rateLimitApiTier: getEnv('RATE_LIMIT_API_TIER'),
+        requestCoalescingEnabled: parseBool(getEnv('REQUEST_COALESCING_ENABLED')),
+      }
+
+      if (response?.headers && response.headers['ea-dp-request-duration']) {
+        adapterResponse.telemetry.dataProviderRequestTime = Number(
+          response.headers['ea-dp-request-duration'],
+        )
+      }
     }
 
     return adapterResponse

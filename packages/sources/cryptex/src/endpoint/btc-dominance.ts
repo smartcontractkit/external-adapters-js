@@ -21,7 +21,7 @@ const calculateBtcDominance = (btcMcap: BigNumber, totalMcap: BigNumber): FixedN
   FixedNumber.from(btcMcap).divUnsafe(FixedNumber.from(totalMcap))
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
 
   const btcmcap = await getMarketCapValue(config.btcMcapAddress, config)

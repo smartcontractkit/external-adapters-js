@@ -25,7 +25,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters, {}, { overrides })
+  const validator = new Validator(input, inputParameters, {}, { overrides })
 
   const transformedInputData = {
     ...input,

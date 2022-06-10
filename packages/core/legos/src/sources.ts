@@ -44,7 +44,7 @@ import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as curve from '@chainlink/curve-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
-import * as durin from '@chainlink/durin-adapter'
+import * as ccip_read from '@chainlink/ccip-read-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
@@ -176,7 +176,7 @@ export default {
   curve,
   deribit,
   dns_query,
-  durin,
+  ccip_read,
   dwolla,
   dxfeed,
   dxfeed_secondary,

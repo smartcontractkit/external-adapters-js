@@ -151,7 +151,6 @@ export class AdapterCache {
       isFromWs: !!adapterRequest.debug?.ws,
       participantId: key,
       feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
-      requestOrigin: adapterRequest.metricsMeta?.requestOrigin || 'N/A',
     })
 
     const cachedAdapterResponse = this.options.requestCoalescing.enabled
@@ -257,7 +256,6 @@ export const withCache =
         isFromWs: !!adapterRequest.debug?.ws,
         participantId: key,
         feedId: adapterRequest.metricsMeta?.feedId || 'N/A',
-        requestOrigin: adapterRequest.metricsMeta?.requestOrigin || 'N/A',
       })
 
       const tryDoDistributedCacheAction = async (
@@ -303,9 +301,14 @@ export const withCache =
         const _cacheOnSuccess = async ({
           statusCode,
           data,
+          telemetry,
+          providerStatusCode,
           result,
           debug,
-        }: Pick<AdapterResponse, 'statusCode' | 'data' | 'result' | 'debug'>) => {
+        }: Pick<
+          AdapterResponse,
+          'statusCode' | 'data' | 'result' | 'debug' | 'telemetry' | 'providerStatusCode'
+        >) => {
           if (statusCode === 200) {
             const debugBatchablePropertyPath = debug
               ? { batchablePropertyPath: debug.batchablePropertyPath }
@@ -314,6 +317,8 @@ export const withCache =
               statusCode,
               data,
               result,
+              telemetry,
+              providerStatusCode,
               maxAge,
               debug: debugBatchablePropertyPath,
             }

@@ -1,5 +1,297 @@
 # @chainlink/ea
 
+## 1.0.94
+
+### Patch Changes
+
+- Updated dependencies [e79ff125d]
+- Updated dependencies [49aa167ba]
+  - @chainlink/etherchain-adapter@1.3.0
+  - @chainlink/1forge-adapter@1.4.39
+  - @chainlink/accuweather-adapter@1.1.40
+  - @chainlink/ada-balance-adapter@2.3.33
+  - @chainlink/alphachain-adapter@1.1.40
+  - @chainlink/alphavantage-adapter@1.1.40
+  - @chainlink/alpine-adapter@1.1.40
+  - @chainlink/amberdata-adapter@1.4.11
+  - @chainlink/anyblock-adapter@1.2.22
+  - @chainlink/ap-election-adapter@1.1.40
+  - @chainlink/armanino-adapter@1.0.13
+  - @chainlink/bea-adapter@1.1.40
+  - @chainlink/binance-adapter@1.2.40
+  - @chainlink/binance-dex-adapter@1.3.11
+  - @chainlink/bitex-adapter@1.3.40
+  - @chainlink/bitso-adapter@1.2.40
+  - @chainlink/blockchain.com-adapter@1.1.40
+  - @chainlink/blockchair-adapter@1.1.40
+  - @chainlink/blockcypher-adapter@1.2.40
+  - @chainlink/blocksize-capital-adapter@1.0.9
+  - @chainlink/blockstream-adapter@1.2.40
+  - @chainlink/bravenewcoin-adapter@1.2.20
+  - @chainlink/btc.com-adapter@1.2.40
+  - @chainlink/cache.gold-adapter@1.2.40
+  - @chainlink/ccip-read-adapter@2.0.1
+  - @chainlink/celsius-address-list-adapter@1.0.19
+  - @chainlink/cfbenchmarks-adapter@1.4.32
+  - @chainlink/chain-reserve-wallet-adapter@2.2.36
+  - @chainlink/coinapi-adapter@1.1.41
+  - @chainlink/coinbase-adapter@1.2.40
+  - @chainlink/coincodex-adapter@1.2.40
+  - @chainlink/coingecko-adapter@1.7.2
+  - @chainlink/coinlore-adapter@1.2.40
+  - @chainlink/coinmarketcap-adapter@1.4.1
+  - @chainlink/coinmetrics-adapter@1.2.41
+  - @chainlink/coinpaprika-adapter@1.8.11
+  - @chainlink/coinranking-adapter@1.1.40
+  - @chainlink/covid-tracker-adapter@1.2.40
+  - @chainlink/cryptex-adapter@1.0.3
+  - @chainlink/cryptoapis-adapter@1.1.40
+  - @chainlink/cryptoapis-v2-adapter@1.1.40
+  - @chainlink/cryptocompare-adapter@1.3.29
+  - @chainlink/cryptoid-adapter@1.2.40
+  - @chainlink/cryptomkt-adapter@1.2.40
+  - @chainlink/currencylayer-adapter@1.3.38
+  - @chainlink/curve-adapter@1.2.20
+  - @chainlink/deribit-adapter@1.1.40
+  - @chainlink/dns-query-adapter@1.4.2
+  - @chainlink/dwolla-adapter@1.1.40
+  - @chainlink/dxfeed-adapter@1.2.43
+  - @chainlink/dxfeed-secondary-adapter@1.1.55
+  - @chainlink/ens-adapter@1.1.2
+  - @chainlink/enzyme-adapter@1.2.1
+  - @chainlink/eodhistoricaldata-adapter@1.2.40
+  - @chainlink/eth-balance-adapter@1.2.11
+  - @chainlink/etherscan-adapter@1.2.40
+  - @chainlink/ethgasstation-adapter@1.3.29
+  - @chainlink/ethgaswatch-adapter@1.2.40
+  - @chainlink/expert-car-broker-adapter@1.2.40
+  - @chainlink/fcsapi-adapter@1.1.28
+  - @chainlink/finage-adapter@1.3.41
+  - @chainlink/finnhub-adapter@1.1.28
+  - @chainlink/fixer-adapter@1.3.38
+  - @chainlink/flightaware-adapter@1.1.40
+  - @chainlink/fmpcloud-adapter@1.2.40
+  - @chainlink/galaxis-adapter@2.6.8
+  - @chainlink/gemini-adapter@2.1.40
+  - @chainlink/genesis-volatility-adapter@1.2.40
+  - @chainlink/geodb-adapter@1.1.40
+  - @chainlink/google-bigquery-adapter@1.1.40
+  - @chainlink/gramchain-adapter@1.0.29
+  - @chainlink/graphql-adapter@1.1.40
+  - @chainlink/gsr-adapter@1.0.3
+  - @chainlink/iex-cloud-adapter@1.1.40
+  - @chainlink/intrinio-adapter@1.2.18
+  - @chainlink/ipfs-adapter@1.2.36
+  - @chainlink/jpegd-adapter@2.0.9
+  - @chainlink/json-rpc-adapter@1.2.28
+  - @chainlink/kaiko-adapter@1.3.12
+  - @chainlink/layer2-sequencer-health-adapter@1.4.1
+  - @chainlink/lcx-adapter@1.2.28
+  - @chainlink/lido-adapter@1.0.4
+  - @chainlink/linkpool-adapter@1.1.28
+  - @chainlink/lition-adapter@1.1.40
+  - @chainlink/lotus-adapter@2.1.40
+  - @chainlink/marketstack-adapter@1.2.40
+  - @chainlink/messari-adapter@1.1.40
+  - @chainlink/metalsapi-adapter@1.6.37
+  - @chainlink/mock-ea-adapter@2.0.28
+  - @chainlink/mycryptoapi-adapter@1.2.40
+  - @chainlink/ncfx-adapter@1.2.18
+  - @chainlink/nikkei-adapter@1.1.50
+  - @chainlink/nomics-adapter@1.2.11
+  - @chainlink/oilpriceapi-adapter@2.0.40
+  - @chainlink/onchain-gas-adapter@1.2.18
+  - @chainlink/openexchangerates-adapter@1.3.38
+  - @chainlink/orchid-bandwidth-adapter@1.1.40
+  - @chainlink/paxos-adapter@1.2.40
+  - @chainlink/paypal-adapter@1.1.40
+  - @chainlink/poa-adapter@1.2.40
+  - @chainlink/polygon-adapter@1.5.2
+  - @chainlink/por-address-list-adapter@1.0.3
+  - @chainlink/reduce-adapter@1.2.28
+  - @chainlink/renvm-address-set-adapter@1.3.33
+  - @chainlink/satoshitango-adapter@1.2.40
+  - @chainlink/snowflake-adapter@1.1.40
+  - @chainlink/sochain-adapter@1.2.40
+  - @chainlink/solana-view-function-adapter@2.1.26
+  - @chainlink/spectral-macro-score-adapter@1.1.40
+  - @chainlink/sportsdataio-adapter@1.1.54
+  - @chainlink/stasis-adapter@1.1.41
+  - @chainlink/synthetix-debt-pool-adapter@3.1.10
+  - @chainlink/taapi-adapter@1.1.40
+  - @chainlink/terra-view-function-adapter@1.2.23
+  - @chainlink/therundown-adapter@1.2.40
+  - @chainlink/tiingo-adapter@1.10.11
+  - @chainlink/tradermade-adapter@1.6.37
+  - @chainlink/tradingeconomics-adapter@1.1.40
+  - @chainlink/trueusd-adapter@1.2.11
+  - @chainlink/twelvedata-adapter@1.1.40
+  - @chainlink/unibit-adapter@1.3.35
+  - @chainlink/uniswap-v2-adapter@1.1.40
+  - @chainlink/uniswap-v3-adapter@1.1.40
+  - @chainlink/upvest-adapter@1.2.40
+  - @chainlink/uscpi-one-adapter@1.2.16
+  - @chainlink/view-function-adapter@1.1.40
+  - @chainlink/wbtc-address-set-adapter@1.3.42
+  - @chainlink/wootrade-adapter@1.1.40
+  - @chainlink/wrapped-adapter@2.1.40
+  - @chainlink/xbto-adapter@1.2.40
+
+## 1.0.93
+
+### Patch Changes
+
+- Updated dependencies [507086b52]
+- Updated dependencies [f805344df]
+- Updated dependencies [6316e52f1]
+- Updated dependencies [125badb0f]
+- Updated dependencies [edfa8aeaa]
+- Updated dependencies [d0214ba04]
+  - @chainlink/coinpaprika-adapter@1.8.10
+  - @chainlink/layer2-sequencer-health-adapter@1.4.0
+  - @chainlink/ccip-read-adapter@2.0.0
+  - @chainlink/enzyme-adapter@1.2.0
+  - @chainlink/coinmarketcap-adapter@1.4.0
+  - @chainlink/1forge-adapter@1.4.38
+  - @chainlink/accuweather-adapter@1.1.39
+  - @chainlink/ada-balance-adapter@2.3.32
+  - @chainlink/alphachain-adapter@1.1.39
+  - @chainlink/alphavantage-adapter@1.1.39
+  - @chainlink/alpine-adapter@1.1.39
+  - @chainlink/amberdata-adapter@1.4.10
+  - @chainlink/anyblock-adapter@1.2.21
+  - @chainlink/ap-election-adapter@1.1.39
+  - @chainlink/armanino-adapter@1.0.12
+  - @chainlink/bea-adapter@1.1.39
+  - @chainlink/binance-adapter@1.2.39
+  - @chainlink/binance-dex-adapter@1.3.10
+  - @chainlink/bitex-adapter@1.3.39
+  - @chainlink/bitso-adapter@1.2.39
+  - @chainlink/blockchain.com-adapter@1.1.39
+  - @chainlink/blockchair-adapter@1.1.39
+  - @chainlink/blockcypher-adapter@1.2.39
+  - @chainlink/blocksize-capital-adapter@1.0.8
+  - @chainlink/blockstream-adapter@1.2.39
+  - @chainlink/bravenewcoin-adapter@1.2.19
+  - @chainlink/btc.com-adapter@1.2.39
+  - @chainlink/cache.gold-adapter@1.2.39
+  - @chainlink/celsius-address-list-adapter@1.0.18
+  - @chainlink/cfbenchmarks-adapter@1.4.31
+  - @chainlink/chain-reserve-wallet-adapter@2.2.35
+  - @chainlink/coinapi-adapter@1.1.40
+  - @chainlink/coinbase-adapter@1.2.39
+  - @chainlink/coincodex-adapter@1.2.39
+  - @chainlink/coingecko-adapter@1.7.1
+  - @chainlink/coinlore-adapter@1.2.39
+  - @chainlink/coinmetrics-adapter@1.2.40
+  - @chainlink/coinranking-adapter@1.1.39
+  - @chainlink/covid-tracker-adapter@1.2.39
+  - @chainlink/cryptex-adapter@1.0.2
+  - @chainlink/cryptoapis-adapter@1.1.39
+  - @chainlink/cryptoapis-v2-adapter@1.1.39
+  - @chainlink/cryptocompare-adapter@1.3.28
+  - @chainlink/cryptoid-adapter@1.2.39
+  - @chainlink/cryptomkt-adapter@1.2.39
+  - @chainlink/currencylayer-adapter@1.3.37
+  - @chainlink/curve-adapter@1.2.19
+  - @chainlink/deribit-adapter@1.1.39
+  - @chainlink/dns-query-adapter@1.4.1
+  - @chainlink/dwolla-adapter@1.1.39
+  - @chainlink/dxfeed-adapter@1.2.42
+  - @chainlink/dxfeed-secondary-adapter@1.1.54
+  - @chainlink/ens-adapter@1.1.1
+  - @chainlink/eodhistoricaldata-adapter@1.2.39
+  - @chainlink/eth-balance-adapter@1.2.10
+  - @chainlink/etherchain-adapter@1.2.39
+  - @chainlink/etherscan-adapter@1.2.39
+  - @chainlink/ethgasstation-adapter@1.3.28
+  - @chainlink/ethgaswatch-adapter@1.2.39
+  - @chainlink/expert-car-broker-adapter@1.2.39
+  - @chainlink/fcsapi-adapter@1.1.27
+  - @chainlink/finage-adapter@1.3.40
+  - @chainlink/finnhub-adapter@1.1.27
+  - @chainlink/fixer-adapter@1.3.37
+  - @chainlink/flightaware-adapter@1.1.39
+  - @chainlink/fmpcloud-adapter@1.2.39
+  - @chainlink/galaxis-adapter@2.6.7
+  - @chainlink/gemini-adapter@2.1.39
+  - @chainlink/genesis-volatility-adapter@1.2.39
+  - @chainlink/geodb-adapter@1.1.39
+  - @chainlink/google-bigquery-adapter@1.1.39
+  - @chainlink/gramchain-adapter@1.0.28
+  - @chainlink/graphql-adapter@1.1.39
+  - @chainlink/gsr-adapter@1.0.2
+  - @chainlink/iex-cloud-adapter@1.1.39
+  - @chainlink/intrinio-adapter@1.2.17
+  - @chainlink/ipfs-adapter@1.2.35
+  - @chainlink/jpegd-adapter@2.0.8
+  - @chainlink/json-rpc-adapter@1.2.27
+  - @chainlink/kaiko-adapter@1.3.11
+  - @chainlink/lcx-adapter@1.2.27
+  - @chainlink/lido-adapter@1.0.3
+  - @chainlink/linkpool-adapter@1.1.27
+  - @chainlink/lition-adapter@1.1.39
+  - @chainlink/lotus-adapter@2.1.39
+  - @chainlink/marketstack-adapter@1.2.39
+  - @chainlink/messari-adapter@1.1.39
+  - @chainlink/metalsapi-adapter@1.6.36
+  - @chainlink/mock-ea-adapter@2.0.27
+  - @chainlink/mycryptoapi-adapter@1.2.39
+  - @chainlink/ncfx-adapter@1.2.17
+  - @chainlink/nikkei-adapter@1.1.49
+  - @chainlink/nomics-adapter@1.2.10
+  - @chainlink/oilpriceapi-adapter@2.0.39
+  - @chainlink/onchain-gas-adapter@1.2.17
+  - @chainlink/openexchangerates-adapter@1.3.37
+  - @chainlink/orchid-bandwidth-adapter@1.1.39
+  - @chainlink/paxos-adapter@1.2.39
+  - @chainlink/paypal-adapter@1.1.39
+  - @chainlink/poa-adapter@1.2.39
+  - @chainlink/polygon-adapter@1.5.1
+  - @chainlink/por-address-list-adapter@1.0.2
+  - @chainlink/reduce-adapter@1.2.27
+  - @chainlink/renvm-address-set-adapter@1.3.32
+  - @chainlink/satoshitango-adapter@1.2.39
+  - @chainlink/snowflake-adapter@1.1.39
+  - @chainlink/sochain-adapter@1.2.39
+  - @chainlink/solana-view-function-adapter@2.1.25
+  - @chainlink/spectral-macro-score-adapter@1.1.39
+  - @chainlink/sportsdataio-adapter@1.1.53
+  - @chainlink/stasis-adapter@1.1.40
+  - @chainlink/synthetix-debt-pool-adapter@3.1.9
+  - @chainlink/taapi-adapter@1.1.39
+  - @chainlink/terra-view-function-adapter@1.2.22
+  - @chainlink/therundown-adapter@1.2.39
+  - @chainlink/tiingo-adapter@1.10.10
+  - @chainlink/tradermade-adapter@1.6.36
+  - @chainlink/tradingeconomics-adapter@1.1.39
+  - @chainlink/trueusd-adapter@1.2.10
+  - @chainlink/twelvedata-adapter@1.1.39
+  - @chainlink/unibit-adapter@1.3.34
+  - @chainlink/uniswap-v2-adapter@1.1.39
+  - @chainlink/uniswap-v3-adapter@1.1.39
+  - @chainlink/upvest-adapter@1.2.39
+  - @chainlink/uscpi-one-adapter@1.2.15
+  - @chainlink/view-function-adapter@1.1.39
+  - @chainlink/wbtc-address-set-adapter@1.3.41
+  - @chainlink/wootrade-adapter@1.1.39
+  - @chainlink/wrapped-adapter@2.1.39
+  - @chainlink/xbto-adapter@1.2.39
+
+## 1.0.92
+
+### Patch Changes
+
+- Updated dependencies [9727d2eae]
+  - @chainlink/ens-adapter@1.1.0
+
+## 1.0.91
+
+### Patch Changes
+
+- @chainlink/renvm-address-set-adapter@1.3.31
+- @chainlink/wbtc-address-set-adapter@1.3.40
+
 ## 1.0.90
 
 ### Patch Changes
@@ -25,7 +317,7 @@
   - @chainlink/cryptoapis-v2-adapter@1.1.38
   - @chainlink/deribit-adapter@1.1.38
   - @chainlink/dns-query-adapter@1.4.0
-  - @chainlink/durin-adapter@1.1.38
+  - @chainlink/ccip-read-adapter@1.1.38
   - @chainlink/ens-adapter@1.0.4
   - @chainlink/eth-balance-adapter@1.2.9
   - @chainlink/galaxis-adapter@2.6.6
@@ -198,7 +490,7 @@
   - @chainlink/curve-adapter@1.2.17
   - @chainlink/deribit-adapter@1.1.37
   - @chainlink/dns-query-adapter@1.2.32
-  - @chainlink/durin-adapter@1.1.37
+  - @chainlink/ccip-read-adapter@1.1.37
   - @chainlink/dwolla-adapter@1.1.37
   - @chainlink/dxfeed-adapter@1.2.40
   - @chainlink/dxfeed-secondary-adapter@1.1.52
@@ -330,7 +622,7 @@
 - @chainlink/curve-adapter@1.2.16
 - @chainlink/deribit-adapter@1.1.36
 - @chainlink/dns-query-adapter@1.2.31
-- @chainlink/durin-adapter@1.1.36
+- @chainlink/ccip-read-adapter@1.1.36
 - @chainlink/dwolla-adapter@1.1.36
 - @chainlink/dxfeed-adapter@1.2.39
 - @chainlink/dxfeed-secondary-adapter@1.1.51
@@ -461,7 +753,7 @@
 - @chainlink/curve-adapter@1.2.15
 - @chainlink/deribit-adapter@1.1.35
 - @chainlink/dns-query-adapter@1.2.30
-- @chainlink/durin-adapter@1.1.35
+- @chainlink/ccip-read-adapter@1.1.35
 - @chainlink/dwolla-adapter@1.1.35
 - @chainlink/dxfeed-adapter@1.2.38
 - @chainlink/dxfeed-secondary-adapter@1.1.50
@@ -594,7 +886,7 @@
   - @chainlink/curve-adapter@1.2.14
   - @chainlink/deribit-adapter@1.1.34
   - @chainlink/dns-query-adapter@1.2.29
-  - @chainlink/durin-adapter@1.1.34
+  - @chainlink/ccip-read-adapter@1.1.34
   - @chainlink/dwolla-adapter@1.1.34
   - @chainlink/dxfeed-adapter@1.2.37
   - @chainlink/dxfeed-secondary-adapter@1.1.49
@@ -724,7 +1016,7 @@
 - @chainlink/curve-adapter@1.2.13
 - @chainlink/deribit-adapter@1.1.33
 - @chainlink/dns-query-adapter@1.2.28
-- @chainlink/durin-adapter@1.1.33
+- @chainlink/ccip-read-adapter@1.1.33
 - @chainlink/dwolla-adapter@1.1.33
 - @chainlink/dxfeed-adapter@1.2.36
 - @chainlink/dxfeed-secondary-adapter@1.1.48
@@ -856,7 +1148,7 @@
   - @chainlink/curve-adapter@1.2.12
   - @chainlink/deribit-adapter@1.1.32
   - @chainlink/dns-query-adapter@1.2.27
-  - @chainlink/durin-adapter@1.1.32
+  - @chainlink/ccip-read-adapter@1.1.32
   - @chainlink/dwolla-adapter@1.1.32
   - @chainlink/dxfeed-adapter@1.2.35
   - @chainlink/dxfeed-secondary-adapter@1.1.47
@@ -1003,7 +1295,7 @@
 - @chainlink/curve-adapter@1.2.11
 - @chainlink/deribit-adapter@1.1.31
 - @chainlink/dns-query-adapter@1.2.26
-- @chainlink/durin-adapter@1.1.31
+- @chainlink/ccip-read-adapter@1.1.31
 - @chainlink/dwolla-adapter@1.1.31
 - @chainlink/dxfeed-adapter@1.2.34
 - @chainlink/dxfeed-secondary-adapter@1.1.46
@@ -1148,7 +1440,7 @@
   - @chainlink/curve-adapter@1.2.10
   - @chainlink/deribit-adapter@1.1.30
   - @chainlink/dns-query-adapter@1.2.25
-  - @chainlink/durin-adapter@1.1.30
+  - @chainlink/ccip-read-adapter@1.1.30
   - @chainlink/dwolla-adapter@1.1.30
   - @chainlink/dxfeed-adapter@1.2.33
   - @chainlink/dxfeed-secondary-adapter@1.1.45
@@ -1316,7 +1608,7 @@
   - @chainlink/curve-adapter@1.2.9
   - @chainlink/deribit-adapter@1.1.29
   - @chainlink/dns-query-adapter@1.2.24
-  - @chainlink/durin-adapter@1.1.29
+  - @chainlink/ccip-read-adapter@1.1.29
   - @chainlink/dwolla-adapter@1.1.29
   - @chainlink/dxfeed-adapter@1.2.32
   - @chainlink/dxfeed-secondary-adapter@1.1.44
@@ -1454,7 +1746,7 @@
   - @chainlink/curve-adapter@1.2.8
   - @chainlink/deribit-adapter@1.1.28
   - @chainlink/dns-query-adapter@1.2.23
-  - @chainlink/durin-adapter@1.1.28
+  - @chainlink/ccip-read-adapter@1.1.28
   - @chainlink/dwolla-adapter@1.1.28
   - @chainlink/dxfeed-adapter@1.2.31
   - @chainlink/dxfeed-secondary-adapter@1.1.43
@@ -1580,7 +1872,7 @@
 - @chainlink/curve-adapter@1.2.7
 - @chainlink/deribit-adapter@1.1.27
 - @chainlink/dns-query-adapter@1.2.22
-- @chainlink/durin-adapter@1.1.27
+- @chainlink/ccip-read-adapter@1.1.27
 - @chainlink/dwolla-adapter@1.1.27
 - @chainlink/dxfeed-adapter@1.2.30
 - @chainlink/dxfeed-secondary-adapter@1.1.42
@@ -1707,7 +1999,7 @@
 - @chainlink/curve-adapter@1.2.6
 - @chainlink/deribit-adapter@1.1.26
 - @chainlink/dns-query-adapter@1.2.21
-- @chainlink/durin-adapter@1.1.26
+- @chainlink/ccip-read-adapter@1.1.26
 - @chainlink/dwolla-adapter@1.1.26
 - @chainlink/dxfeed-adapter@1.2.29
 - @chainlink/dxfeed-secondary-adapter@1.1.41
@@ -1834,7 +2126,7 @@
 - @chainlink/curve-adapter@1.2.5
 - @chainlink/deribit-adapter@1.1.25
 - @chainlink/dns-query-adapter@1.2.20
-- @chainlink/durin-adapter@1.1.25
+- @chainlink/ccip-read-adapter@1.1.25
 - @chainlink/dwolla-adapter@1.1.25
 - @chainlink/dxfeed-adapter@1.2.28
 - @chainlink/dxfeed-secondary-adapter@1.1.40
@@ -1967,7 +2259,7 @@
   - @chainlink/curve-adapter@1.2.4
   - @chainlink/deribit-adapter@1.1.24
   - @chainlink/dns-query-adapter@1.2.19
-  - @chainlink/durin-adapter@1.1.24
+  - @chainlink/ccip-read-adapter@1.1.24
   - @chainlink/dwolla-adapter@1.1.24
   - @chainlink/dxfeed-adapter@1.2.27
   - @chainlink/dxfeed-secondary-adapter@1.1.39
@@ -2110,7 +2402,7 @@
   - @chainlink/curve-adapter@1.2.3
   - @chainlink/deribit-adapter@1.1.23
   - @chainlink/dns-query-adapter@1.2.18
-  - @chainlink/durin-adapter@1.1.23
+  - @chainlink/ccip-read-adapter@1.1.23
   - @chainlink/dwolla-adapter@1.1.23
   - @chainlink/dxfeed-adapter@1.2.26
   - @chainlink/dxfeed-secondary-adapter@1.1.38
@@ -2259,7 +2551,7 @@
   - @chainlink/curve-adapter@1.2.2
   - @chainlink/deribit-adapter@1.1.22
   - @chainlink/dns-query-adapter@1.2.17
-  - @chainlink/durin-adapter@1.1.22
+  - @chainlink/ccip-read-adapter@1.1.22
   - @chainlink/dwolla-adapter@1.1.22
   - @chainlink/dxfeed-adapter@1.2.24
   - @chainlink/dxfeed-secondary-adapter@1.1.36
@@ -2402,7 +2694,7 @@
   - @chainlink/curve-adapter@1.2.1
   - @chainlink/deribit-adapter@1.1.21
   - @chainlink/dns-query-adapter@1.2.16
-  - @chainlink/durin-adapter@1.1.21
+  - @chainlink/ccip-read-adapter@1.1.21
   - @chainlink/dwolla-adapter@1.1.21
   - @chainlink/dxfeed-adapter@1.2.23
   - @chainlink/dxfeed-secondary-adapter@1.1.35
@@ -2546,7 +2838,7 @@
   - @chainlink/currencylayer-adapter@1.3.18
   - @chainlink/deribit-adapter@1.1.20
   - @chainlink/dns-query-adapter@1.2.15
-  - @chainlink/durin-adapter@1.1.20
+  - @chainlink/ccip-read-adapter@1.1.20
   - @chainlink/dwolla-adapter@1.1.20
   - @chainlink/dxfeed-adapter@1.2.22
   - @chainlink/dxfeed-secondary-adapter@1.1.34
@@ -2655,7 +2947,7 @@
 - @chainlink/curve-adapter@1.1.19
 - @chainlink/deribit-adapter@1.1.19
 - @chainlink/dns-query-adapter@1.2.14
-- @chainlink/durin-adapter@1.1.19
+- @chainlink/ccip-read-adapter@1.1.19
 - @chainlink/dwolla-adapter@1.1.19
 - @chainlink/dxfeed-adapter@1.2.21
 - @chainlink/dxfeed-secondary-adapter@1.1.33
@@ -2784,7 +3076,7 @@
   - @chainlink/curve-adapter@1.1.18
   - @chainlink/deribit-adapter@1.1.18
   - @chainlink/dns-query-adapter@1.2.13
-  - @chainlink/durin-adapter@1.1.18
+  - @chainlink/ccip-read-adapter@1.1.18
   - @chainlink/dwolla-adapter@1.1.18
   - @chainlink/dxfeed-adapter@1.2.20
   - @chainlink/dxfeed-secondary-adapter@1.1.32
@@ -2919,7 +3211,7 @@
   - @chainlink/curve-adapter@1.1.17
   - @chainlink/deribit-adapter@1.1.17
   - @chainlink/dns-query-adapter@1.2.12
-  - @chainlink/durin-adapter@1.1.17
+  - @chainlink/ccip-read-adapter@1.1.17
   - @chainlink/dwolla-adapter@1.1.17
   - @chainlink/dxfeed-adapter@1.2.19
   - @chainlink/dxfeed-secondary-adapter@1.1.31
@@ -3075,7 +3367,7 @@
   - @chainlink/curve-adapter@1.1.16
   - @chainlink/deribit-adapter@1.1.16
   - @chainlink/dns-query-adapter@1.2.11
-  - @chainlink/durin-adapter@1.1.16
+  - @chainlink/ccip-read-adapter@1.1.16
   - @chainlink/dwolla-adapter@1.1.16
   - @chainlink/dxfeed-adapter@1.2.18
   - @chainlink/dxfeed-secondary-adapter@1.1.30
@@ -3201,7 +3493,7 @@
   - @chainlink/curve-adapter@1.1.15
   - @chainlink/deribit-adapter@1.1.15
   - @chainlink/dns-query-adapter@1.2.10
-  - @chainlink/durin-adapter@1.1.15
+  - @chainlink/ccip-read-adapter@1.1.15
   - @chainlink/dwolla-adapter@1.1.15
   - @chainlink/dxfeed-adapter@1.2.17
   - @chainlink/dxfeed-secondary-adapter@1.1.29
@@ -3332,7 +3624,7 @@
   - @chainlink/curve-adapter@1.1.14
   - @chainlink/deribit-adapter@1.1.14
   - @chainlink/dns-query-adapter@1.2.9
-  - @chainlink/durin-adapter@1.1.14
+  - @chainlink/ccip-read-adapter@1.1.14
   - @chainlink/dwolla-adapter@1.1.14
   - @chainlink/dxfeed-adapter@1.2.16
   - @chainlink/dxfeed-secondary-adapter@1.1.28
@@ -3464,7 +3756,7 @@
 - @chainlink/curve-adapter@1.1.13
 - @chainlink/deribit-adapter@1.1.13
 - @chainlink/dns-query-adapter@1.2.8
-- @chainlink/durin-adapter@1.1.13
+- @chainlink/ccip-read-adapter@1.1.13
 - @chainlink/dwolla-adapter@1.1.13
 - @chainlink/dxfeed-adapter@1.2.15
 - @chainlink/dxfeed-secondary-adapter@1.1.27
@@ -3607,7 +3899,7 @@
   - @chainlink/curve-adapter@1.1.12
   - @chainlink/deribit-adapter@1.1.12
   - @chainlink/dns-query-adapter@1.2.7
-  - @chainlink/durin-adapter@1.1.12
+  - @chainlink/ccip-read-adapter@1.1.12
   - @chainlink/dwolla-adapter@1.1.12
   - @chainlink/dxfeed-adapter@1.2.14
   - @chainlink/dxfeed-secondary-adapter@1.1.26
@@ -3713,7 +4005,7 @@
   - @chainlink/cryptocompare-adapter@1.3.0
   - @chainlink/cryptomkt-adapter@1.2.11
   - @chainlink/currencylayer-adapter@1.3.9
-  - @chainlink/durin-adapter@1.1.11
+  - @chainlink/ccip-read-adapter@1.1.11
   - @chainlink/enzyme-adapter@1.1.11
   - @chainlink/eodhistoricaldata-adapter@1.2.11
   - @chainlink/eth-balance-adapter@1.1.11
@@ -3862,7 +4154,7 @@
   - @chainlink/curve-adapter@1.1.10
   - @chainlink/deribit-adapter@1.1.10
   - @chainlink/dns-query-adapter@1.2.5
-  - @chainlink/durin-adapter@1.1.10
+  - @chainlink/ccip-read-adapter@1.1.10
   - @chainlink/dwolla-adapter@1.1.10
   - @chainlink/dxfeed-adapter@1.2.11
   - @chainlink/dxfeed-secondary-adapter@1.1.23
@@ -3983,7 +4275,7 @@
 - @chainlink/curve-adapter@1.1.9
 - @chainlink/deribit-adapter@1.1.9
 - @chainlink/dns-query-adapter@1.2.4
-- @chainlink/durin-adapter@1.1.9
+- @chainlink/ccip-read-adapter@1.1.9
 - @chainlink/dwolla-adapter@1.1.9
 - @chainlink/dxfeed-adapter@1.2.10
 - @chainlink/dxfeed-secondary-adapter@1.1.22
@@ -4120,7 +4412,7 @@
 - @chainlink/curve-adapter@1.1.8
 - @chainlink/deribit-adapter@1.1.8
 - @chainlink/dns-query-adapter@1.2.3
-- @chainlink/durin-adapter@1.1.8
+- @chainlink/ccip-read-adapter@1.1.8
 - @chainlink/dwolla-adapter@1.1.8
 - @chainlink/dxfeed-adapter@1.2.9
 - @chainlink/dxfeed-secondary-adapter@1.1.21
@@ -4251,7 +4543,7 @@
 - @chainlink/curve-adapter@1.1.7
 - @chainlink/deribit-adapter@1.1.7
 - @chainlink/dns-query-adapter@1.2.2
-- @chainlink/durin-adapter@1.1.7
+- @chainlink/ccip-read-adapter@1.1.7
 - @chainlink/dwolla-adapter@1.1.7
 - @chainlink/dxfeed-adapter@1.2.8
 - @chainlink/dxfeed-secondary-adapter@1.1.20
@@ -4374,7 +4666,7 @@
   - @chainlink/curve-adapter@1.1.6
   - @chainlink/deribit-adapter@1.1.6
   - @chainlink/dns-query-adapter@1.2.1
-  - @chainlink/durin-adapter@1.1.6
+  - @chainlink/ccip-read-adapter@1.1.6
   - @chainlink/dxfeed-adapter@1.2.7
   - @chainlink/enzyme-adapter@1.1.6
   - @chainlink/eodhistoricaldata-adapter@1.2.6
@@ -4485,7 +4777,7 @@
   - @chainlink/coingecko-adapter@1.1.6
   - @chainlink/cryptoapis-v2-adapter@1.1.5
   - @chainlink/amberdata-adapter@1.3.1
-  - @chainlink/durin-adapter@1.1.5
+  - @chainlink/ccip-read-adapter@1.1.5
   - @chainlink/1forge-adapter@1.4.3
   - @chainlink/alphavantage-adapter@1.1.5
   - @chainlink/bea-adapter@1.1.5
@@ -4648,7 +4940,7 @@
   - @chainlink/curve-adapter@1.1.4
   - @chainlink/deribit-adapter@1.1.4
   - @chainlink/dns-query-adapter@1.1.4
-  - @chainlink/durin-adapter@1.1.4
+  - @chainlink/ccip-read-adapter@1.1.4
   - @chainlink/dwolla-adapter@1.1.4
   - @chainlink/dxfeed-adapter@1.2.5
   - @chainlink/dxfeed-secondary-adapter@1.1.17
@@ -4786,7 +5078,7 @@
   - @chainlink/currencylayer-adapter@1.3.1
   - @chainlink/deribit-adapter@1.1.3
   - @chainlink/dns-query-adapter@1.1.3
-  - @chainlink/durin-adapter@1.1.3
+  - @chainlink/ccip-read-adapter@1.1.3
   - @chainlink/dwolla-adapter@1.1.3
   - @chainlink/dxfeed-adapter@1.2.4
   - @chainlink/dxfeed-secondary-adapter@1.1.16
@@ -4905,7 +5197,7 @@
   - @chainlink/curve-adapter@1.1.2
   - @chainlink/deribit-adapter@1.1.2
   - @chainlink/dns-query-adapter@1.1.2
-  - @chainlink/durin-adapter@1.1.2
+  - @chainlink/ccip-read-adapter@1.1.2
   - @chainlink/dwolla-adapter@1.1.2
   - @chainlink/dxfeed-adapter@1.2.3
   - @chainlink/dxfeed-secondary-adapter@1.1.15
@@ -5022,7 +5314,7 @@
 - @chainlink/curve-adapter@1.1.1
 - @chainlink/deribit-adapter@1.1.1
 - @chainlink/dns-query-adapter@1.1.1
-- @chainlink/durin-adapter@1.1.1
+- @chainlink/ccip-read-adapter@1.1.1
 - @chainlink/dwolla-adapter@1.1.1
 - @chainlink/dxfeed-adapter@1.2.2
 - @chainlink/dxfeed-secondary-adapter@1.1.14
@@ -5158,7 +5450,7 @@
   - @chainlink/1forge-adapter@1.3.0
   - @chainlink/deribit-adapter@1.1.0
   - @chainlink/dns-query-adapter@1.1.0
-  - @chainlink/durin-adapter@1.1.0
+  - @chainlink/ccip-read-adapter@1.1.0
   - @chainlink/dwolla-adapter@1.1.0
   - @chainlink/dxfeed-adapter@1.2.0
   - @chainlink/enzyme-adapter@1.1.0
@@ -5317,7 +5609,7 @@
   - @chainlink/curve-adapter@1.0.14
   - @chainlink/deribit-adapter@1.0.14
   - @chainlink/dns-query-adapter@1.0.14
-  - @chainlink/durin-adapter@1.0.14
+  - @chainlink/ccip-read-adapter@1.0.14
   - @chainlink/dwolla-adapter@1.0.14
   - @chainlink/dxfeed-adapter@1.1.11
   - @chainlink/dxfeed-secondary-adapter@1.1.11
@@ -5560,7 +5852,7 @@
 - @chainlink/curve-adapter@1.0.13
 - @chainlink/deribit-adapter@1.0.13
 - @chainlink/dns-query-adapter@1.0.13
-- @chainlink/durin-adapter@1.0.13
+- @chainlink/ccip-read-adapter@1.0.13
 - @chainlink/dwolla-adapter@1.0.13
 - @chainlink/dxfeed-adapter@1.1.10
 - @chainlink/dxfeed-secondary-adapter@1.1.10
@@ -5689,7 +5981,7 @@
 - @chainlink/curve-adapter@1.0.12
 - @chainlink/deribit-adapter@1.0.12
 - @chainlink/dns-query-adapter@1.0.12
-- @chainlink/durin-adapter@1.0.12
+- @chainlink/ccip-read-adapter@1.0.12
 - @chainlink/dwolla-adapter@1.0.12
 - @chainlink/dxfeed-adapter@1.1.9
 - @chainlink/dxfeed-secondary-adapter@1.1.9
@@ -5811,7 +6103,7 @@
 - @chainlink/curve-adapter@1.0.11
 - @chainlink/deribit-adapter@1.0.11
 - @chainlink/dns-query-adapter@1.0.11
-- @chainlink/durin-adapter@1.0.11
+- @chainlink/ccip-read-adapter@1.0.11
 - @chainlink/dwolla-adapter@1.0.11
 - @chainlink/dxfeed-adapter@1.1.8
 - @chainlink/dxfeed-secondary-adapter@1.1.8
@@ -5933,7 +6225,7 @@
 - @chainlink/curve-adapter@1.0.10
 - @chainlink/deribit-adapter@1.0.10
 - @chainlink/dns-query-adapter@1.0.10
-- @chainlink/durin-adapter@1.0.10
+- @chainlink/ccip-read-adapter@1.0.10
 - @chainlink/dwolla-adapter@1.0.10
 - @chainlink/dxfeed-adapter@1.1.7
 - @chainlink/dxfeed-secondary-adapter@1.1.7
@@ -6055,7 +6347,7 @@
 - @chainlink/curve-adapter@1.0.9
 - @chainlink/deribit-adapter@1.0.9
 - @chainlink/dns-query-adapter@1.0.9
-- @chainlink/durin-adapter@1.0.9
+- @chainlink/ccip-read-adapter@1.0.9
 - @chainlink/dwolla-adapter@1.0.9
 - @chainlink/dxfeed-adapter@1.1.6
 - @chainlink/dxfeed-secondary-adapter@1.1.6
@@ -6180,7 +6472,7 @@
   - @chainlink/curve-adapter@1.0.8
   - @chainlink/deribit-adapter@1.0.8
   - @chainlink/dns-query-adapter@1.0.8
-  - @chainlink/durin-adapter@1.0.8
+  - @chainlink/ccip-read-adapter@1.0.8
   - @chainlink/dwolla-adapter@1.0.8
   - @chainlink/dxfeed-adapter@1.1.5
   - @chainlink/dxfeed-secondary-adapter@1.1.5
@@ -6303,7 +6595,7 @@
   - @chainlink/curve-adapter@1.0.7
   - @chainlink/deribit-adapter@1.0.7
   - @chainlink/dns-query-adapter@1.0.7
-  - @chainlink/durin-adapter@1.0.7
+  - @chainlink/ccip-read-adapter@1.0.7
   - @chainlink/dwolla-adapter@1.0.7
   - @chainlink/dxfeed-adapter@1.1.4
   - @chainlink/dxfeed-secondary-adapter@1.1.4
@@ -6427,7 +6719,7 @@
   - @chainlink/curve-adapter@1.0.6
   - @chainlink/deribit-adapter@1.0.6
   - @chainlink/dns-query-adapter@1.0.6
-  - @chainlink/durin-adapter@1.0.6
+  - @chainlink/ccip-read-adapter@1.0.6
   - @chainlink/dwolla-adapter@1.0.6
   - @chainlink/dxfeed-adapter@1.1.3
   - @chainlink/dxfeed-secondary-adapter@1.1.3
@@ -6545,7 +6837,7 @@
 - @chainlink/curve-adapter@1.0.6
 - @chainlink/deribit-adapter@1.0.6
 - @chainlink/dns-query-adapter@1.0.6
-- @chainlink/durin-adapter@1.0.6
+- @chainlink/ccip-read-adapter@1.0.6
 - @chainlink/dwolla-adapter@1.0.6
 - @chainlink/dxfeed-adapter@1.1.3
 - @chainlink/dxfeed-secondary-adapter@1.1.3
@@ -6666,7 +6958,7 @@
 - @chainlink/curve-adapter@1.0.5
 - @chainlink/deribit-adapter@1.0.5
 - @chainlink/dns-query-adapter@1.0.5
-- @chainlink/durin-adapter@1.0.5
+- @chainlink/ccip-read-adapter@1.0.5
 - @chainlink/dwolla-adapter@1.0.5
 - @chainlink/dxfeed-adapter@1.1.2
 - @chainlink/dxfeed-secondary-adapter@1.1.2
@@ -6879,7 +7171,7 @@
 - @chainlink/curve-adapter@1.0.4
 - @chainlink/deribit-adapter@1.0.4
 - @chainlink/dns-query-adapter@1.0.4
-- @chainlink/durin-adapter@1.0.4
+- @chainlink/ccip-read-adapter@1.0.4
 - @chainlink/dwolla-adapter@1.0.4
 - @chainlink/dxfeed-adapter@1.1.1
 - @chainlink/dxfeed-secondary-adapter@1.1.1
@@ -7007,7 +7299,7 @@
   - @chainlink/curve-adapter@1.0.3
   - @chainlink/deribit-adapter@1.0.3
   - @chainlink/dns-query-adapter@1.0.3
-  - @chainlink/durin-adapter@1.0.3
+  - @chainlink/ccip-read-adapter@1.0.3
   - @chainlink/dwolla-adapter@1.0.3
   - @chainlink/enzyme-adapter@1.0.3
   - @chainlink/eodhistoricaldata-adapter@1.0.3
@@ -7132,7 +7424,7 @@
   - @chainlink/curve-adapter@1.0.2
   - @chainlink/deribit-adapter@1.0.2
   - @chainlink/dns-query-adapter@1.0.2
-  - @chainlink/durin-adapter@1.0.2
+  - @chainlink/ccip-read-adapter@1.0.2
   - @chainlink/dwolla-adapter@1.0.2
   - @chainlink/dxfeed-adapter@1.0.2
   - @chainlink/dxfeed-secondary-adapter@1.0.2
@@ -7269,7 +7561,7 @@
 - @chainlink/curve-adapter@1.0.1
 - @chainlink/deribit-adapter@1.0.1
 - @chainlink/dns-query-adapter@1.0.1
-- @chainlink/durin-adapter@1.0.1
+- @chainlink/ccip-read-adapter@1.0.1
 - @chainlink/dwolla-adapter@1.0.1
 - @chainlink/dxfeed-adapter@1.0.1
 - @chainlink/dxfeed-secondary-adapter@1.0.1

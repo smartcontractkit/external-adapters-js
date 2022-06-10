@@ -39,7 +39,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const resultPath = validator.validated.data.resultPath || DEFAULT_FIELD
 

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/1forge-adapter",
-  "version": "1.4.37",
+  "version": "1.4.39",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.36",
+    "@types/node": "16.11.38",
     "@types/supertest": "2.0.12",
-    "nock": "13.2.4",
+    "nock": "13.2.6",
     "supertest": "6.2.3",
     "typescript": "4.7.3"
   }

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Etherchain
 
-![1.2.37](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json)
 
 Base URL https://www.etherchain.org
 
@@ -28,9 +28,9 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Input Params
 
-| Required? | Name  | Aliases |    Description    |  Type  |                 Options                  |  Default   | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :---------------: | :----: | :--------------------------------------: | :--------: | :--------: | :------------: |
-|           | speed |         | The desired speed | string | `fast`, `fastest`, `safeLow`, `standard` | `standard` |            |                |
+| Required? | Name  | Aliases |    Description    |  Type  |               Options               |  Default   | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :---------------: | :----: | :---------------------------------: | :--------: | :--------: | :------------: |
+|           | speed |         | The desired speed | string | `fast`, `rapid`, `slow`, `standard` | `standard` |            |                |
 
 ### Example
 
@@ -55,15 +55,18 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "safeLow": 1,
-    "standard": 1,
-    "fast": 1.5,
-    "fastest": 2,
-    "currentBaseFee": 126.6,
-    "recommendedBaseFee": 257,
-    "result": 1500000000
+    "code": 200,
+    "data": {
+      "rapid": 69000000000,
+      "fast": 38200000000,
+      "standard": 17122906179,
+      "slow": 15280244053,
+      "timestamp": 1654610878715,
+      "priceUSD": 1760.29
+    },
+    "result": 38200000000
   },
-  "result": 1500000000,
+  "result": 38200000000,
   "statusCode": 200,
   "providerStatusCode": 200
 }

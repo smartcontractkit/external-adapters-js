@@ -6,7 +6,7 @@ import {
   AdapterResponse,
 } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_ENDPOINT, SpectralAdapterConfig } from './config'
-import { MacroScoreAPI, TInputParameters } from './endpoint'
+import { MacroScoreAPI } from './endpoint'
 
 export const execute: ExecuteWithConfig<
   SpectralAdapterConfig,
@@ -16,7 +16,7 @@ export const execute: ExecuteWithConfig<
   _: AdapterContext,
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator<TInputParameters>(request, MacroScoreAPI.inputParameters)
+  const validator = new Validator(request, MacroScoreAPI.inputParameters)
 
   Requester.logConfig(config)
 

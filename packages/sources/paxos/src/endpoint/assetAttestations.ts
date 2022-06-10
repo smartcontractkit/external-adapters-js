@@ -24,7 +24,7 @@ const getAttestationURI = (asset: string) =>
   util.buildUrlPath('/asset-attestations/:asset', { asset: asset.toUpperCase() })
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
 
   const asset = validator.validated.data.asset
   const jobRunID = validator.validated.id

@@ -11,7 +11,7 @@ import type {
   Config,
   AdapterData,
 } from './types'
-import { combineReducers, Store } from 'redux'
+import { AnyAction, combineReducers, Reducer, Store } from 'redux'
 import {
   BurstLimit,
   Cache,
@@ -35,7 +35,7 @@ import {
 } from './lib/modules'
 import * as metrics from './lib/metrics'
 import * as server from './lib/server'
-import { configureStore } from './lib/store'
+import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import { FastifyInstance } from 'fastify'
 
@@ -44,7 +44,7 @@ export * from './types'
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 
-const rootReducer = combineReducers({
+const serverReducer = combineReducers({
   errorBackoff: ErrorBackoff.reducer.rootReducer,
   burstLimit: BurstLimit.reducer.rootReducer,
   cacheWarmer: CacheWarmer.reducer.rootReducer,
@@ -52,7 +52,14 @@ const rootReducer = combineReducers({
   ws: WebSocket.reducer.rootReducer,
 })
 
-export type RootState = ReturnType<typeof rootReducer>
+const rootReducer = (state: ReturnType<typeof serverReducer>, action: AnyAction) => {
+  if (serverShutdown.match(action)) {
+    return serverReducer(initialState, { type: undefined })
+  }
+  return serverReducer(state, action)
+}
+
+export type RootState = ReturnType<typeof serverReducer>
 
 export const initialState: RootState = {
   burstLimit: BurstLimit.reducer.initialState,
@@ -64,7 +71,7 @@ export const initialState: RootState = {
 
 // Initialize Redux store
 export const store = configureStore(
-  rootReducer,
+  rootReducer as Reducer<RootState>,
   { burstLimit: {}, cacheWarmer: {}, errorBackoff: {}, rateLimit: {}, ws: {} },
   [CacheWarmer.epics.epicMiddleware, WebSocket.epics.epicMiddleware],
 )

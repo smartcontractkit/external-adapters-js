@@ -90,7 +90,7 @@ export function getSynthIndexFor(network: string, base: string): SynthIndex | un
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
 
   const { base, network = config.defaultNetwork } = validator.validated.data
   const synthIndex = getSynthIndexFor(network, base)

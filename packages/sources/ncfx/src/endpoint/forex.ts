@@ -18,7 +18,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request) => {
-  new Validator<TInputParameters>(request, inputParameters)
+  new Validator(request, inputParameters)
   throw new AdapterConfigError({
     message:
       'The NCFX adapter does not support making HTTP requests. Make sure WS is enabled in the adapter configuration.',

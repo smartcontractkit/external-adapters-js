@@ -3,7 +3,7 @@ import { Config, FIXED_POINT_DECIMALS } from '../../config'
 import { Validator } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { callViewFunctionEA, throwErrorForInvalidResult } from '../../utils'
-import { TInputParameters, inputParameters } from '.'
+import { inputParameters } from '.'
 
 export const FROM = 'BLUNA'
 export const INTERMEDIARY_TOKEN = 'LUNA'
@@ -30,7 +30,7 @@ export const execute = async (
   config: Config,
   usdPerLuna: ethers.BigNumber,
 ): Promise<ethers.BigNumber> => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
   if (validator.error) throw validator.error
   const viewFunctionAdapterResponse = await callViewFunctionEA<ResponseSchema>(
     input,

@@ -36,7 +36,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   Logger.warn(
     `WARN: This EA will be deprecated, 'set-token-index' will be used for future reference.`,
   )
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const asset = validator.validated.data

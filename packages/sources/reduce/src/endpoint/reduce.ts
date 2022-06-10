@@ -48,7 +48,7 @@ const DEFAULT_DATA_PATH = 'result'
 
 // Export function to integrate with Chainlink node
 export const execute: Execute = async (request) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
 

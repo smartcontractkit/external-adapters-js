@@ -4,7 +4,6 @@ import { getEnv } from '../../util'
 interface CacheExecutionDurationParams {
   participantId: string
   feedId?: string
-  requestOrigin?: string
   isFromWs: boolean
 }
 
@@ -16,13 +15,11 @@ interface CacheMetricsMethods {
 export const beginObserveCacheMetrics = ({
   participantId,
   feedId,
-  requestOrigin,
   isFromWs,
 }: CacheExecutionDurationParams): CacheMetricsMethods => {
   const cacheType = getEnv('CACHE_TYPE') === 'redis' ? CacheTypes.Redis : CacheTypes.Local
   const base = {
     feed_id: feedId,
-    request_origin: requestOrigin,
     participant_id: participantId,
     experimental: 'true',
     cache_type: cacheType,
@@ -64,7 +61,6 @@ const baseLabels = [
   'cache_type',
   'is_from_ws',
   'experimental',
-  'request_origin',
 ] as const
 
 const cache_execution_duration_seconds = new client.Histogram({

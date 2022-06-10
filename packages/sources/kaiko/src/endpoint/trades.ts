@@ -91,12 +91,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(
-    request,
-    inputParameters,
-    {},
-    { includes, overrides },
-  )
+  const validator = new Validator(request, inputParameters, {}, { includes, overrides })
 
   Requester.logConfig(config)
 

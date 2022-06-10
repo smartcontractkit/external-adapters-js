@@ -76,7 +76,7 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<DefaultConfig> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const url = `/quotes`
   const from = validator.overrideSymbol(AdapterName, validator.validated.data.base)

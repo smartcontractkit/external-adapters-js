@@ -118,7 +118,7 @@ export const encodeLocationResult = (result: LocationResult): string => {
 }
 
 export const execute: ExecuteWithConfig<DefaultConfig> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const latitude = validator.validated.data.lat

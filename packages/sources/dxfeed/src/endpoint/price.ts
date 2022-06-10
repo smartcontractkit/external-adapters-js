@@ -30,7 +30,7 @@ const quoteEventSymbols: { [key: string]: boolean } = {
 }
 
 const getBase = (request: AdapterRequest) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
+  const validator = new Validator(request, inputParameters, {}, { overrides })
   if (validator.error) throw validator.error
   return validator.validated.data.base
 }
@@ -80,7 +80,7 @@ export interface ResponseSchema {
   }
 }
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters, {}, { overrides })
+  const validator = new Validator(request, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const base = validator.overrideSymbol(config.name || AdapterName, validator.validated.data.base)

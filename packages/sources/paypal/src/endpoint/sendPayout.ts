@@ -69,7 +69,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters, customParams)
+  const validator = new Validator(request, inputParameters, customParams)
 
   const jobRunID = validator.validated.id
   const value: string = validator.validated.data.amount

@@ -25,7 +25,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   _,
   config: Config,
 ) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters, {}, { overrides })
+  const validator = new Validator(input, inputParameters, {}, { overrides })
 
   const jobRunID = validator.validated.id
   const symbol = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()

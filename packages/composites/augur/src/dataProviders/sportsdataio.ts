@@ -304,7 +304,7 @@ const createParams: InputParameters<TInputParameters> = {
 }
 
 export const createTeam: Execute = async (input, context) => {
-  const validator = new Validator<TInputParameters>(input, createParams)
+  const validator = new Validator(input, createParams)
 
   const sport = validator.validated.data.sport.toLowerCase()
   if (!SPORTS_SUPPORTED.includes(sport)) {

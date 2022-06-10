@@ -20,7 +20,7 @@ export const getSymbols = async (): Promise<Array<{ symbol: string }>> => {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, _) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
   const jobRunID = validator.validated.id
   const allocations = await getSymbols()
   const _execute = TokenAllocation.makeExecute()

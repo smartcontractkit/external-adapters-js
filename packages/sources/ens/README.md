@@ -1,6 +1,6 @@
 # ENS Adapter
 
-![1.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
+![1.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
 
 ENS Adapter
 
@@ -94,6 +94,7 @@ Response:
 {
   "jobRunID": "1",
   "data": {
+    "registrant": "0x0000000000000000000000000000000000000000",
     "controller": "fake-registry-owner",
     "address": "0x0mockinputnonethtld.test",
     "result": "0x0mockinputnonethtld.test"
@@ -126,6 +127,7 @@ Response:
 {
   "jobRunID": "1",
   "data": {
+    "registrant": "0x0000000000000000000000000000000000000000",
     "controller": "fake-registry-owner",
     "address": "0x0subdomain.mockinputethtld.eth",
     "result": "0x0subdomain.mockinputethtld.eth"
@@ -158,6 +160,7 @@ Response:
 {
   "jobRunID": "1",
   "data": {
+    "registrant": "0x0000000000000000000000000000000000000000",
     "controller": "fake-registry-owner",
     "address": "0x0subdomain.mockinputnonethtld.test",
     "result": "0x0subdomain.mockinputnonethtld.test"

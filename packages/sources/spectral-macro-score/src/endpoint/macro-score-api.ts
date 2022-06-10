@@ -72,7 +72,7 @@ export const execute = async (
   request: AdapterRequest<IRequestInput>,
   config: SpectralAdapterConfig,
 ): Promise<AdapterResponse<AdapterData>> => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const tokenIdInt = validator.validated.data.tokenIdInt
   const tickSetId = validator.validated.data.tickSetId

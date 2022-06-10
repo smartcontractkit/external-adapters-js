@@ -1,5 +1,25 @@
 # @chainlink/bitcoin-json-rpc-adapter
 
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies [8866db3a1]
+- Updated dependencies [fb75088f2]
+  - @chainlink/ea-bootstrap@2.9.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/json-rpc-adapter@1.2.28
+
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [346fa7d45]
+- Updated dependencies [979dbe1d7]
+  - @chainlink/ea-bootstrap@2.8.0
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/json-rpc-adapter@1.2.27
+
 ## 1.1.14
 
 ### Patch Changes

@@ -23,6 +23,8 @@ describe('IO Logger', () => {
         statusCode: 200,
       },
     }
+
+    const context = { ip: 'localhost', hostname: 'hostname.com' }
     const execute = async () => response
 
     const mockLogger = {
@@ -44,6 +46,7 @@ describe('IO Logger', () => {
 
     expect(mockLogger.debug.mock.calls).toMatchObject([
       ['Input: ', { input: request }],
+      [`Received request from IP ${context.ip} and Host ${context.hostname}`],
       ['Output: [200]: ', { output: response }],
     ])
     expect(result).toBe(response)

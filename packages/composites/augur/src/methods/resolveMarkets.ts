@@ -44,7 +44,7 @@ const statusCompleted = [
 ]
 
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
-  const validator = new Validator<TInputParameters>(input, resolveParams)
+  const validator = new Validator(input, resolveParams)
 
   const sport = validator.validated.data.sport.toLowerCase()
   const contractAddress = validator.validated.data.contractAddress

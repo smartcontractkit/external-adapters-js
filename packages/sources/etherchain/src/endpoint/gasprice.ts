@@ -9,24 +9,29 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     type: 'string',
     description: 'The desired speed',
-    options: ['safeLow', 'standard', 'fast', 'fastest'],
+    options: ['rapid', 'fast', 'standard', 'slow'],
     default: 'standard',
   },
 }
 
 interface ResponseSchema {
-  safeLow: string
-  standard: string
-  fast: string
-  fastest: string
+  code: number
+  data: {
+    rapid: number
+    fast: number
+    standard: number
+    slow: number
+    timestamp: number
+    priceUSD: number
+  }
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed
-  const url = `/api/gasPriceOracle`
+  const url = `/api/gasnow`
 
   const options = {
     ...config.api,
@@ -34,7 +39,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, [speed]) * 1e9
+  const result = Requester.validateResultNumber(response.data, ['data', speed])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

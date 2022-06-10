@@ -73,7 +73,7 @@ const addDays = (date: Date, days: number): Date => {
 }
 
 export const create: Execute = async (input, context) => {
-  const validator = new Validator<TInputParameters>(input, createParams)
+  const validator = new Validator(input, createParams)
 
   const sport = validator.validated.data.sport.toUpperCase()
   const sportId = sportIdMapping[sport]

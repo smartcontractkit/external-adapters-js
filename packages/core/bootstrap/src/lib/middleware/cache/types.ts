@@ -12,7 +12,10 @@ export interface ICache {
   close(): void
 }
 export interface CacheEntry
-  extends Pick<AdapterResponse, 'statusCode' | 'data' | 'result' | 'debug'> {
+  extends Pick<
+    AdapterResponse,
+    'statusCode' | 'data' | 'result' | 'debug' | 'telemetry' | 'providerStatusCode'
+  > {
   maxAge: number
 }
 

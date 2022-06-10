@@ -17,7 +17,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
   const jobRunID = validator.validated.id
   const index = validator.validated.data.index.toLowerCase()
   const allocations = await deriveAllocations(index, input.id, context)

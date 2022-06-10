@@ -10,6 +10,7 @@ export const excludableAdapterRequestProperties: Record<string, true> = [
   'debug',
   'rateLimitMaxAge',
   'metricsMeta',
+  'result',
 ]
   .concat((process.env.CACHE_KEY_IGNORED_PROPS || '').split(',').filter((k) => k))
   .reduce((prev, next) => {

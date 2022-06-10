@@ -16,7 +16,7 @@ export const execute: ExecuteWithConfig<Config, TInputParameters> = async (
   context,
   config,
 ) => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
 
   const jobRunID = validator.validated.id
   const method = validator.validated.data.method

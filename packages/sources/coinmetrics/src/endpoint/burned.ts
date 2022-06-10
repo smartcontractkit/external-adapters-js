@@ -23,7 +23,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  new Validator<TInputParameters>(request, inputParameters)
+  new Validator(request, inputParameters)
 
   request.data.pageSize = 1
   request.data.isBurnedEndpointMode = true

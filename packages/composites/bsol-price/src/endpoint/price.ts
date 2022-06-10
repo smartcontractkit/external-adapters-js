@@ -25,7 +25,7 @@ export const execute = async (
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> => {
-  const validator = new Validator<TInputParameters>(input, inputParameters)
+  const validator = new Validator(input, inputParameters)
 
   const addresses = [config.solidoAddress, config.bSolAddress, config.stSolAddress]
   const jobRunID = validator.validated.id

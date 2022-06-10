@@ -56,7 +56,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<SnowflakeConfig> = async (request, _, config) => {
-  const validator = new Validator<TInputParameters>(request, inputParameters)
+  const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const state = validator.validated.data.state
