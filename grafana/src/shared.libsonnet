@@ -9,7 +9,8 @@ local layout = import './layout.libsonnet';
  */
 local prometheusNamespace = std.extVar('prometheusNamespace');
 local cortexDataSource = std.extVar('cortexDataSource');
-local instanceFilter = 'namespace="$namespace",service=~"$service.*"';
+local instanceFilter = 'namespace="$namespace",service=~"$service.*",app_name=~"$adapter.*"';
+local namespaceFilter = 'namespace="$namespace",app_name=~"$adapter.*"';
 local interval = '[$__rate_interval]';
 
 /**
@@ -99,6 +100,7 @@ local createDashboard(templates, grid) =
   constants: {
     cortexDataSource: cortexDataSource,
     instanceFilter: instanceFilter,
+    namespaceFilter: namespaceFilter,
     interval: interval,
   },
   createTemplates: createTemplates,
