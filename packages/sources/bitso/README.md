@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Bitso
 
-![1.2.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitso/package.json)
+![1.2.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitso/package.json)
 
 Base URL https://api.bitso.com/v3
 

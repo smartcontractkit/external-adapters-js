@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Nomics
 
-![1.2.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
 
 An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
 

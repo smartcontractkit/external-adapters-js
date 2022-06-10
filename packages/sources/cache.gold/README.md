@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Cache.gold
 
-![1.2.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cache.gold/package.json)
+![1.2.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cache.gold/package.json)
 
 Base URL https://contract.cache.gold/api
 

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmetrics
 
-![1.2.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json)
+![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json)
 
 ### Websocket support
 
@@ -56,7 +56,7 @@ Request:
   "debug": {
     "cacheKey": "XTlxaPrvbw+XqgAa5P+iBEPG3CY="
   },
-  "rateLimitMaxAge": 2666
+  "rateLimitMaxAge": 666
 }
 ```
 
@@ -112,7 +112,7 @@ Request:
   "debug": {
     "cacheKey": "0l65yC+9msDIdJG9kTwGuYMO7GY="
   },
-  "rateLimitMaxAge": 2000
+  "rateLimitMaxAge": 666
 }
 ```
 
@@ -258,7 +258,7 @@ Request:
   "debug": {
     "cacheKey": "3AkR3dG+M+8hhKKhp8VdyT8DVGQ="
   },
-  "rateLimitMaxAge": 1333
+  "rateLimitMaxAge": 666
 }
 ```
 
