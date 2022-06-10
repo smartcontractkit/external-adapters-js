@@ -4,18 +4,19 @@
 
 This adapter only supports WS connections. Make sure WS is enabled in your configuration in order to run this adapter.
 
-Base URL https://oracle.dev.gsr.io/v1
+Base URL https://oracle.prod.gsr.io/v1
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       | Description |  Type  | Options | Default |
-| :-------: | :-------------: | :---------: | :----: | :-----: | :-----: |
-|    ✅     |   WS_USER_ID    |             | string |         |         |
-|    ✅     |  WS_PUBLIC_KEY  |             | string |         |         |
-|    ✅     | WS_PRIVATE_KEY  |             | string |         |         |
-|    ✅     | WS_API_ENDPOINT |             | string |         |         |
+| Required? |      Name       |                                          Description                                           |  Type  | Options |              Default              |
+| :-------: | :-------------: | :--------------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------: |
+|           |  API_ENDPOINT   | The endpoint to fetch the GSR access token from (required to establish a websocket connection) | string |         |  `https://oracle.prod.gsr.io/v1`  |
+|           | WS_API_ENDPOINT |                            The websocket endpoint to pull data from                            | string |         | `wss://oracle.prod.gsr.io/oracle` |
+|    ✅     |   WS_USER_ID    |                                The user ID used to authenticate                                | string |         |                                   |
+|    ✅     |  WS_PUBLIC_KEY  |                              The public key used to authenticate                               | string |         |                                   |
+|    ✅     | WS_PRIVATE_KEY  |                              The private key used to authenticate                              | string |         |                                   |
 
 ---
 

@@ -3,8 +3,8 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'GSR'
 export const DEFAULT_ENDPOINT = 'price'
-export const DEFAULT_BASE_URL = 'https://oracle.dev.gsr.io/v1'
-export const DEFAULT_WS_API_ENDPOINT = 'wss://oracle.dev.gsr.io/oracle'
+export const DEFAULT_BASE_URL = 'https://oracle.prod.gsr.io/v1'
+export const DEFAULT_WS_API_ENDPOINT = 'wss://oracle.prod.gsr.io/oracle'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)

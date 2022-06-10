@@ -88,14 +88,12 @@ export const getAccessToken = async (
       token: tokenResponse.data.token,
       validUntil: new Date(tokenResponse.data.validUntil).getTime(),
     }
-  } catch (error) {
-    Logger.debug(
-      `Error: ${
-        existingToken
-          ? `failed to refresh token: ${existingToken.token}`
-          : `failed to get new token`
-      }, with error: ${error.message}`,
-    )
+  } catch (e) {
+    const message =
+      (existingToken ? 'failed to refresh token' : 'failed to get new token') +
+      (e.message ? `with message ${e.message}` : '')
+    const error = { ...e, message }
+    Logger.debug(message)
     throw error.response
       ? new AdapterDataProviderError(error)
       : error.request
