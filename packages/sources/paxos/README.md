@@ -1,6 +1,6 @@
 # Chainlink External Adapter for paxos
 
-![1.2.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/paxos/package.json)
+![1.2.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/paxos/package.json)
 
 Query Paxos asset attestations like: https://api.paxos.com/v1/asset-attestations/PAX
 

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Blockcypher
 
-![1.2.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blockcypher/package.json)
+![1.2.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/blockcypher/package.json)
 
 Queries BTC address balance from blockcypher.com
 

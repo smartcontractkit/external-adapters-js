@@ -1,5 +1,13 @@
 # @chainlink/ccip-read-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [8866db3a1]
+- Updated dependencies [fb75088f2]
+  - @chainlink/ea-bootstrap@2.9.0
+
 ## 2.0.0
 
 ### Major Changes
