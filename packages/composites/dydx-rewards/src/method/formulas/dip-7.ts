@@ -16,7 +16,7 @@ export const calcTraderRewards = (
   Object.keys(epochData.tradeFeesPaid).forEach((addr) => {
     const f = epochData.tradeFeesPaid[addr]
     const d = epochData.openInterest[addr] || 0
-    const g = epochData.averageActiveStakedDYDX[addr] || 0
+    const g = epochData?.averageActiveStakedDYDX?.[addr] || 0
     const score = new bn.BigNumber(f ** a)
       .times(d ** b)
       .times(bn.BigNumber.max(new bn.BigNumber(10), g).toNumber() ** c)

@@ -3,7 +3,8 @@ import { Server, SUCCESS_ARRAY_RESPONSE } from '../helpers/server'
 
 describe('HTTP', () => {
   const errorMessage = 'Request failed with status code 500'
-  const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
+  const customErrorMessage =
+    'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: {"result":"error","value":1}'
   const successUrl = 'http://localhost:18080'
   const successArrayUrl = 'http://localhost:18080/successArray'
   const errorUrl = 'http://localhost:18080/error'
@@ -140,7 +141,9 @@ describe('HTTP', () => {
         Requester.validateResultNumber(data, ['result'])
         expect(false).toBe(true)
       } catch (error) {
-        expect(error.message).toEqual('Invalid result received')
+        expect(error.message).toEqual(
+          'Invalid result received. This is likely an issue with the data provider or the input params/overrides.',
+        )
       }
     })
   })

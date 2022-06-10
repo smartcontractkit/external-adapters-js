@@ -16,6 +16,7 @@ import { MerkleTree } from 'merkletreejs'
 import * as bn from 'bignumber.js'
 import * as initial from './formulas/initial'
 import * as DIP7 from './formulas/dip-7'
+import * as APRIL2022 from './formulas/april-2022'
 
 export const NAME = 'poke'
 
@@ -196,10 +197,24 @@ export const calcTraderRewards = (
   traderScoreC?: number,
 ): void => {
   if (epochData.epoch < 5) {
-    initial.calcTraderRewards(epochData, addressRewards, traderRewardsAmount, traderScoreA)
-  } else {
+    initial.calcTraderRewards(
+      epochData as OracleRewardsData,
+      addressRewards,
+      traderRewardsAmount,
+      traderScoreA,
+    )
+  } else if (epochData.epoch < 10) {
     DIP7.calcTraderRewards(
-      epochData,
+      epochData as OracleRewardsData,
+      addressRewards,
+      traderRewardsAmount,
+      traderScoreA,
+      traderScoreB,
+      traderScoreC,
+    )
+  } else {
+    APRIL2022.calcTraderRewards(
+      epochData as OracleRewardsData,
       addressRewards,
       traderRewardsAmount,
       traderScoreA,
@@ -215,7 +230,10 @@ export const calcMarketMakerRewards = (
   marketMakerRewardsAmount: bn.BigNumber,
 ): void => initial.calcMarketMakerRewards(epochData, addressRewards, marketMakerRewardsAmount)
 
-const calcCumulativeRewards = (addressRewards: AddressRewards, previousRewards: AddressRewards) => {
+export const calcCumulativeRewards = (
+  addressRewards: AddressRewards,
+  previousRewards: AddressRewards,
+): void => {
   Object.keys(previousRewards).forEach((addr) => {
     addReward(addressRewards, addr, previousRewards[addr])
   })

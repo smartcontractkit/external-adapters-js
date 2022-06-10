@@ -149,7 +149,7 @@
       "path": "../../sources/dns-query"
     },
     {
-      "path": "../../sources/durin"
+      "path": "../../sources/ccip-read"
     },
     {
       "path": "../../sources/dwolla"

@@ -18,7 +18,7 @@ import {
 import { webSocket } from 'rxjs/webSocket'
 import { withCache } from '../cache'
 import { censor, logger } from '../../modules'
-import { getFeedId, WARMER_FEED_ID } from '../../metrics/util'
+import { getFeedId } from '../../metrics/util'
 import {
   connectFailed,
   connectFulfilled,
@@ -57,6 +57,7 @@ import { separateBatches } from './utils'
 import { getWSConfig } from './config'
 import { util } from '../../..'
 import { WebSocketClassProvider, WsMessageRecorder } from './recorder'
+import { serverShutdown } from '../../store'
 
 const recordWsMessages = util.parseBool(util.getEnv('RECORD'))
 
@@ -344,6 +345,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     connectionState?.connectionParams,
                   ),
                 )
+
+                // When onConnectChain is provided, this will check if we are in the process of opening the subscription.
+                // If we are, then do not continue as there will be further steps to take within onConnectChain before the subscription is established.
                 const shouldPassAlong =
                   (payload.filterMultiplex && payload.filterMultiplex(message)) ||
                   currentSubscriptionKey === subscriptionKey
@@ -366,6 +370,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     subscriptionError({
                       ...error,
                       wsHandler,
+                      type: 'isError',
                     }),
                   )
                   return false
@@ -417,7 +422,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                     filter(disconnectFulfilled.match),
                     filter((a) => a.payload.config.connectionInfo.key === connectionKey),
                   ),
-                  action$.pipe(filter(WSReset.match)),
+                  action$.pipe(
+                    filter((action) => WSReset.match(action) || serverShutdown.match(action)),
+                  ),
                 ),
               ),
               endWith(unsubscribeFulfilled(payload)),
@@ -463,7 +470,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                   filter(disconnectFulfilled.match),
                   filter((action) => action.payload.config.connectionInfo.key === connectionKey),
                 ),
-                action$.pipe(filter(WSReset.match)),
+                action$.pipe(
+                  filter((action) => WSReset.match(action) || serverShutdown.match(action)),
+                ),
               ),
             ),
           )
@@ -644,6 +653,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
               subscriptionError({
                 ...action,
                 reason: 'WS: unsubscribe -> subscribe (unresponsive channel)',
+                type: 'subscription timeout',
                 wsHandler,
               }),
               unsubscribeRequested(action),
@@ -701,7 +711,7 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }, any> = (
                 logger.debug('WS: Disconnected Fulfilled', connectionMeta(action.payload))
               }),
             ),
-            action$.pipe(filter(WSReset.match)),
+            action$.pipe(filter((action) => WSReset.match(action) || serverShutdown.match(action))),
           ),
         ),
       )
@@ -775,7 +785,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
           ...input,
           data: { maxAge: wsConfig.subscriptionTTL, ...input.data },
           debug: { ws: true, ...input.debug },
-          metricsMeta: { feedId: getFeedId(input), requestOrigin: WARMER_FEED_ID },
+          metricsMeta: { feedId: getFeedId(input) },
         }
         await cache(wsResponse, context)
         logger.trace('WS: Saved result', { input, result: response.result })
@@ -808,6 +818,7 @@ export const metricsEpic: Epic<AnyAction, AnyAction, any, any> = (action$, state
         feed_id: payload.input ? getFeedId({ ...payload.input }) : 'N/A',
         message: payload.reason,
         subscription_key: payload.subscriptionMsg ? getSubsId(payload.subscriptionMsg) : 'N/A',
+        type: payload.type,
       })
       const messageLabels = (payload: WSMessagePayload) => ({
         feed_id: getFeedId({

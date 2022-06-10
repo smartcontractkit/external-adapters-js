@@ -2,16 +2,15 @@ import { AdapterContext, Execute, Middleware, AdapterRequest } from '@chainlink/
 import Fastify, { FastifyInstance } from 'fastify'
 import { join } from 'path'
 import * as client from 'prom-client'
-import { executeSync, storeSlice, withMiddleware } from '../index'
+import { executeSync, store, withMiddleware } from '../index'
 import { defaultOptions } from './middleware/cache'
 import { loadTestPayload } from './config/test-payload-loader'
 import { logger } from './modules'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './middleware/rate-limit/config'
 import { getClientIp, getEnv, toObjectWithNumbers } from './util'
-import { warmupShutdown } from './middleware/cache-warmer/actions'
-import { shutdown } from './middleware/error-backoff/actions'
-import { WSReset } from './middleware/ws/actions'
+import process from 'process'
+import { serverShutdown } from './store'
 
 const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
@@ -30,8 +29,14 @@ export const initHandler =
       logger: false,
     })
     const name = adapterContext.name || ''
-    const envDefaultOverrides = adapterContext.envDefaultOverrides
-    const context: AdapterContext = {
+    const envDefaultOverrides: Record<string, string> | undefined =
+      adapterContext.envDefaultOverrides
+    for (const key in envDefaultOverrides) {
+      if (!process.env[key]) {
+        process.env[key] = envDefaultOverrides[key]
+      }
+    }
+    let context: AdapterContext = {
       name,
       envDefaultOverrides,
       cache: null,
@@ -58,14 +63,17 @@ export const initHandler =
     app.post<{
       Body: AdapterRequest
     }>(baseUrl, async (req, res) => {
-      const metricsMeta = METRICS_ENABLED
-        ? { metricsMeta: { requestOrigin: getClientIp(req) } }
-        : {}
       req.body.data = {
         ...(req.body.data || {}),
         ...toObjectWithNumbers(req.query),
-        ...metricsMeta,
       }
+
+      context = {
+        ...context,
+        ip: getClientIp(req),
+        hostname: req.hostname,
+      }
+
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
         res.code(status).send(result)
       })
@@ -118,9 +126,7 @@ export const initHandler =
     })
 
     app.addHook('onClose', async () => {
-      storeSlice('cacheWarmer').dispatch(warmupShutdown())
-      storeSlice('errorBackoff').dispatch(shutdown())
-      storeSlice('ws').dispatch(WSReset())
+      store.dispatch(serverShutdown())
       context.cache?.instance?.close()
     })
 

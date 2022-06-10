@@ -9,13 +9,22 @@ import {
 } from '@chainlink/types'
 import { reducer } from '../middleware/cache-warmer'
 import axios, { AxiosResponse } from 'axios'
-import { deepType, getEnv, sleep } from '../util'
+import { deepType, getEnv, parseBool, sleep } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
-import { AdapterError } from './error'
+import {
+  AdapterConnectionError,
+  AdapterCustomError,
+  AdapterDataProviderError,
+  AdapterError,
+  AdapterResponseEmptyError,
+  AdapterResponseInvalidError,
+  AdapterTimeoutError,
+} from './error'
 import { logger } from './logger'
 import objectPath from 'object-path'
 import { join } from 'path'
 import { Logger } from '../..'
+import { recordDataProviderRequest } from '../metrics'
 
 const getFalse = () => false
 
@@ -48,16 +57,25 @@ export class Requester {
 
       let response: AxiosResponse<T>
       const url = join(config.baseURL || '', config.url || '')
+      const record = recordDataProviderRequest()
       try {
+        const startTime = process.hrtime.bigint()
+
         response = await axios(config)
+
+        const endTime = process.hrtime.bigint()
+        const milliseconds = (endTime - startTime) / 1000000n
+        response.headers['ea-dp-request-duration'] = milliseconds.toString()
       } catch (error) {
         // Request error
         if (error.code === 'ECONNABORTED') {
+          const providerStatusCode: number | undefined = error?.response?.status ?? 504
+          record(config.method, providerStatusCode)
           // Axios timeout code
-          throw new AdapterError({
+          throw new AdapterTimeoutError({
             statusCode: 504,
-            name: 'Request Timeout error',
-            providerStatusCode: error?.response?.status ?? 504,
+            name: 'Data Provider Request Timeout error',
+            providerStatusCode,
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
@@ -66,9 +84,11 @@ export class Requester {
         }
 
         if (n === 1) {
-          throw new AdapterError({
+          const providerStatusCode: number | undefined = error?.response?.status ?? 0 // 0 -> connection error
+          record(config.method, providerStatusCode)
+          throw new AdapterConnectionError({
             statusCode: 200,
-            providerStatusCode: error?.response?.status ?? 0, // 0 -> connection error
+            providerStatusCode,
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
@@ -76,29 +96,44 @@ export class Requester {
           })
         }
 
-        return await _delayRetry(`Caught error. Retrying: ${JSON.stringify(error.message)}`)
+        return await _delayRetry(
+          `Caught error trying to fetch data from Data Provider. Retrying: ${JSON.stringify(
+            error.message,
+          )}`,
+        )
       }
 
       if (response.data.error || customError(response.data)) {
         // Response error
         if (n === 1) {
-          const message = `Could not retrieve valid data: ${JSON.stringify(response.data)}`
+          const message = `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: ${JSON.stringify(
+            response.data,
+          )}`
           Logger.error(message)
           const cause = response.data.error || 'customError'
-          throw new AdapterError({
+          const providerStatusCode: number | undefined =
+            response.data.error?.code ?? response.status
+          record(config.method, providerStatusCode)
+          const errorPayload = {
             statusCode: 200,
-            providerStatusCode: response.data.error?.code ?? response.status,
+            providerStatusCode,
             message,
             cause,
             url,
-          })
+          }
+          throw response.data.error
+            ? new AdapterDataProviderError(errorPayload)
+            : new AdapterCustomError(errorPayload)
         }
 
-        return await _delayRetry(`Error in response. Retrying: ${JSON.stringify(response.data)}`)
+        return await _delayRetry(
+          `Error in response from Data Provider. Retrying: ${JSON.stringify(response.data)}`,
+        )
       }
 
       // Success
       const { data, status, statusText } = response
+      record(config.method, status)
       logger.debug({
         message: 'Received response',
         data,
@@ -115,22 +150,31 @@ export class Requester {
     data: { [key: string]: any },
     path: ResultPath,
     options?: { inverse?: boolean },
+    missingDataErrorMsg = 'Data provider response empty',
+    missingResultsErrorMsg = 'Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
   ): number {
+    if (typeof data === 'undefined' || data === null || Object.keys(data).length === 0) {
+      logger.error(missingDataErrorMsg, { data, path })
+      throw new AdapterResponseEmptyError({
+        message: missingDataErrorMsg,
+        statusCode: 502,
+      })
+    }
     const result = this.getResult(data, path)
 
     if (typeof result === 'undefined' || result === null) {
-      const message = 'Result could not be found in path or is empty'
-      logger.error(message, { data, path })
-      throw new AdapterError({
-        message,
+      logger.error(missingResultsErrorMsg, { data, path })
+      throw new AdapterResponseInvalidError({
+        message: missingResultsErrorMsg,
         statusCode: 502,
       })
     }
 
     if (Number(result) === 0 || isNaN(Number(result))) {
-      const message = 'Invalid result received'
+      const message =
+        'Invalid result received. This is likely an issue with the data provider or the input params/overrides.'
       logger.error(message, { data, path })
-      throw new AdapterError({
+      throw new AdapterResponseInvalidError({
         message,
         statusCode: 400,
       })
@@ -219,6 +263,26 @@ export class Requester {
 
     if (response.status) {
       adapterResponse.providerStatusCode = response.status
+    }
+
+    if (parseBool(getEnv('TELEMETRY_DATA_ENABLED'))) {
+      adapterResponse.telemetry = {
+        rateLimitEnabled: parseBool(getEnv('RATE_LIMIT_ENABLED')),
+        wsEnabled: parseBool(getEnv('WS_ENABLED')),
+        cacheEnabled: parseBool(getEnv('CACHE_ENABLED')),
+        cacheType: getEnv('CACHE_TYPE'),
+        cacheWarmingEnabled: parseBool(getEnv('WARMUP_ENABLED')),
+        cacheMaxAge: getEnv('CACHE_MAX_AGE'),
+        metricEnabled: parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED')),
+        rateLimitApiTier: getEnv('RATE_LIMIT_API_TIER'),
+        requestCoalescingEnabled: parseBool(getEnv('REQUEST_COALESCING_ENABLED')),
+      }
+
+      if (response?.headers && response.headers['ea-dp-request-duration']) {
+        adapterResponse.telemetry.dataProviderRequestTime = Number(
+          response.headers['ea-dp-request-duration'],
+        )
+      }
     }
 
     return adapterResponse

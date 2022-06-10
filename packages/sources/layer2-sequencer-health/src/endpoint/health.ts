@@ -1,10 +1,9 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterResponseInvalidError, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
 import { ExtendedConfig, Networks } from '../config'
 import {
   requestBlockHeight,
   getSequencerHealth,
-  // getL1RollupStatus,
   NetworkHealthCheck,
   getStatusByTransaction,
 } from '../network'
@@ -36,9 +35,9 @@ export const makeNetworkStatusCheck = (
   return async (delta: number, deltaBlocks: number): Promise<boolean> => {
     const block = await requestBlockHeight(network)
     if (!_isValidBlock(block, deltaBlocks))
-      throw new Error(
-        `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
-      )
+      throw new AdapterResponseInvalidError({
+        message: `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
+      })
     if (!_isStaleBlock(block, delta)) {
       if (!_isPastBlock(block)) _updateLastSeenBlock(block)
       Logger.info(
@@ -60,6 +59,7 @@ export const makeNetworkStatusCheck = (
 const networks: Record<Networks, (delta: number, deltaBlocks: number) => Promise<boolean>> = {
   [Networks.Arbitrum]: makeNetworkStatusCheck(Networks.Arbitrum),
   [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
+  [Networks.Metis]: makeNetworkStatusCheck(Networks.Metis),
 }
 
 export const getL2NetworkStatus: NetworkHealthCheck = (
@@ -86,17 +86,19 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     return isHealthy ? 0 : 1
   }
 
-  const _respond = (isHealthy: boolean) =>
-    Requester.success(
+  const _respond = (isHealthy: boolean) => {
+    const result = _translateIntoFeedResponse(isHealthy)
+    return Requester.success(
       jobRunID,
       {
         data: {
-          isHealthy: _translateIntoFeedResponse(isHealthy),
-          result: _translateIntoFeedResponse(isHealthy),
+          isHealthy: result === 0,
+          result,
         },
       },
       config.verbose,
     )
+  }
 
   const _tryMethod =
     (fn: NetworkHealthCheck) =>
@@ -120,14 +122,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
 
   // #1 Option: Direct check on health endpoint
   // #2 Option: Check block height
-  // #3 Option: Check L1 Rollup Contract
   // If every method succeeds, the Network is considered healthy
   // If any method fails, an empty tx is sent. This determines the final state
-  const wrappedMethods = [
-    getSequencerHealth,
-    getL2NetworkStatus,
-    // , getL1RollupStatus // TODO
-  ].map(_tryMethod)
+  const wrappedMethods = [getSequencerHealth, getL2NetworkStatus].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config.delta, config.deltaBlocks)

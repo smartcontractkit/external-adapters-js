@@ -7,6 +7,8 @@ declare module '@chainlink/types' {
     cache?: Cache.CacheOptions
     envDefaultOverrides?: EnvDefaultOverrides
     rateLimit?: RateLimit.config.Config
+    ip?: string
+    hostname?: string
   }
 
   /* REQUESTS */
@@ -40,7 +42,6 @@ declare module '@chainlink/types' {
    */
   export interface AdapterMetricsMeta {
     feedId: string
-    requestOrigin: string
   }
 
   import { BigNumberish } from 'ethers'
@@ -73,6 +74,7 @@ declare module '@chainlink/types' {
     data: any // Response data, holds "result" for Flux Monitor. Correct way.
     result: any // Result for OCR
     maxAge?: number
+    telemetry?: Telemetry
     metricsMeta?: AdapterMetricsMeta
     debug?: AdapterDebug
     providerStatusCode?: number
@@ -97,6 +99,8 @@ declare module '@chainlink/types' {
     errorResponse?: any
     rawError?: any
     stack?: any
+    ip?: string
+    host?: string
   }
 
   export type AdapterErrorResponse = {
@@ -105,6 +109,19 @@ declare module '@chainlink/types' {
     statusCode: number
     providerStatusCode?: number
     error: ErrorBasic | ErrorFull
+  }
+
+  export type Telemetry = {
+    rateLimitEnabled: boolean
+    wsEnabled: boolean
+    cacheEnabled: boolean
+    cacheType?: string
+    cacheWarmingEnabled: boolean
+    cacheMaxAge?: string
+    metricEnabled: boolean
+    rateLimitApiTier?: string
+    requestCoalescingEnabled: boolean
+    dataProviderRequestTime?: number
   }
 
   export type AdapterBatchResponse = [string, AdapterRequest, number][]

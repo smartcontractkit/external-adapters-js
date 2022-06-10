@@ -1,5 +1,88 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- 686bdb5ce: fixed Filecoin address validation for actor addresses
+
+### Patch Changes
+
+- Updated dependencies [346fa7d45]
+- Updated dependencies [979dbe1d7]
+  - @chainlink/ea-bootstrap@2.8.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.15
+  - @chainlink/por-indexer-adapter@1.0.42
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.32
+  - @chainlink/amberdata-adapter@1.4.10
+  - @chainlink/blockchain.com-adapter@1.1.39
+  - @chainlink/blockchair-adapter@1.1.39
+  - @chainlink/blockcypher-adapter@1.2.39
+  - @chainlink/btc.com-adapter@1.2.39
+  - @chainlink/celsius-address-list-adapter@1.0.18
+  - @chainlink/chain-reserve-wallet-adapter@2.2.35
+  - @chainlink/cryptoapis-adapter@1.1.39
+  - @chainlink/eth-balance-adapter@1.2.10
+  - @chainlink/gemini-adapter@2.1.39
+  - @chainlink/lotus-adapter@2.1.39
+  - @chainlink/reduce-adapter@1.2.27
+  - @chainlink/renvm-address-set-adapter@1.3.32
+  - @chainlink/sochain-adapter@1.2.39
+  - @chainlink/wbtc-address-set-adapter@1.3.41
+  - @chainlink/wrapped-adapter@2.1.39
+
+## 1.7.0
+
+### Minor Changes
+
+- cd94fb61c: Removed Bitcoin address length check
+- cd94fb61c: Removed Bitcoin address length validation
+
+### Patch Changes
+
+- @chainlink/por-indexer-adapter@1.0.41
+- @chainlink/renvm-address-set-adapter@1.3.31
+- @chainlink/wbtc-address-set-adapter@1.3.40
+
+## 1.6.0
+
+### Minor Changes
+
+- 057735395: Fixed Bitcoin list protocol bug and added integration tests
+
+### Patch Changes
+
+- Updated dependencies [568e86deb]
+- Updated dependencies [e6f8af918]
+- Updated dependencies [d360ce8ef]
+- Updated dependencies [3000778b5]
+- Updated dependencies [6abc1eb98]
+- Updated dependencies [7313ac0a4]
+- Updated dependencies [b0f0cd681]
+- Updated dependencies [8e59df0fa]
+  - @chainlink/ea-bootstrap@2.7.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.14
+  - @chainlink/por-indexer-adapter@1.0.40
+  - @chainlink/ada-balance-adapter@2.3.31
+  - @chainlink/amberdata-adapter@1.4.9
+  - @chainlink/chain-reserve-wallet-adapter@2.2.34
+  - @chainlink/eth-balance-adapter@1.2.9
+  - @chainlink/lotus-adapter@2.1.38
+  - @chainlink/reduce-adapter@1.2.26
+  - @chainlink/renvm-address-set-adapter@1.3.30
+  - @chainlink/wbtc-address-set-adapter@1.3.39
+  - @chainlink/wrapped-adapter@2.1.38
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/blockchain.com-adapter@1.1.38
+  - @chainlink/blockchair-adapter@1.1.38
+  - @chainlink/blockcypher-adapter@1.2.38
+  - @chainlink/btc.com-adapter@1.2.38
+  - @chainlink/celsius-address-list-adapter@1.0.17
+  - @chainlink/cryptoapis-adapter@1.1.38
+  - @chainlink/gemini-adapter@2.1.38
+  - @chainlink/sochain-adapter@1.2.38
+
 ## 1.5.18
 
 ### Patch Changes

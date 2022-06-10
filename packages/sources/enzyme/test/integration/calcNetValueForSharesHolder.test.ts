@@ -5,6 +5,7 @@ import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
 import { ENV_ETHEREUM_RPC_URL } from '../../src/config'
 import { AddressInfo } from 'net'
+import { FastifyInstance } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
 

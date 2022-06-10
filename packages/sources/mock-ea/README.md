@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Mock data (Test only)
 
-![2.0.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mock-ea/package.json)
+![2.0.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mock-ea/package.json)
 
 The Mock EA is to only be used by the integration team for soak testing. It will return a value that deviates after a given interval.
 

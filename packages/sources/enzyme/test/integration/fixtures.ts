@@ -107,4 +107,34 @@ export function mockEthereumResponseSuccess() {
         'Origin',
       ],
     )
+    .post('/', {
+      method: 'eth_call',
+      params: [
+        {
+          to: '0x7c728cd0cfa92401e01a4849a01b57ee53f5b2b9',
+          data: '0xfaf6eeef00000000000000000000000027f23c710dd3d878fe9393d93465fed1302f2ebd000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+        },
+        'latest',
+      ],
+      id: 44,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      {
+        jsonrpc: '2.0',
+        id: 44,
+        result: '0x0000000000000000000000000000000000000000000000000de0b6b3a7640000',
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
 }

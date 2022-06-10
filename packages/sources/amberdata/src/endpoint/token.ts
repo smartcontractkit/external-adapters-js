@@ -1,4 +1,4 @@
-import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
 import includes from './../config/includes.json'
 
@@ -77,7 +77,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
   }
 
-  throw new AdapterError({
+  throw new AdapterInputError({
     jobRunID,
     message: `Could not retrieve valid data`,
     statusCode: 400,

@@ -1,4 +1,4 @@
-import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, CacheKey, AdapterInputError } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import {
   ExecuteWithConfig,
@@ -92,6 +92,7 @@ const presetIds: { [symbol: string]: number } = {
   YFI: 5864,
   BAL: 5728,
   STETH: 8085,
+  UST: 7129,
   '1INCH': 8104,
 }
 
@@ -185,7 +186,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const cid = validator.validated.data.cid || ''
   const convert = validator.validated.data.convert
   if (!config.apiKey && Array.isArray(convert))
-    throw new Error(' Free CMCPro API only supports a single symbol to convert')
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: ' Free CMCPro API only supports a single symbol to convert',
+    })
   const resultPath = validator.validated.data.resultPath
   const params: Record<string, string> = {
     convert: Array.isArray(convert)

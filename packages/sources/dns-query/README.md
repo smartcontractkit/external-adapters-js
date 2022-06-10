@@ -1,15 +1,23 @@
 # Chainlink External Adapter to query DNS
 
-DNS Query lets query DNS over HTTPS (DoH)
-
 ### Environment Variables
 
 The adapter takes the following environment variables:
 
 | Required? |       Name        |                         Description                          |        Options         | Defaults to |
 | :-------: | :---------------: | :----------------------------------------------------------: | :--------------------: | :---------: |
-|    ✅     |  `DNS_PROVIDER`   |                     DNS provider to use                      | `cloudflare`, `google` |             |
+|    ✅     |  `DNS_PROVIDER`   |  DNS provider to use. Use `google` for DNS Proof endpoint.   | `cloudflare`, `google` |             |
 |           | `CUSTOM_ENDPOINT` | DNS provider URL to override default URLs for `DNS_PROVIDER` |                        |
+
+### Input Parameters
+
+| Required? |   Name   |     Description     |                             Options                              | Defaults to |
+| :-------: | :------: | :-----------------: | :--------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | [dnsQuery](#dns-query-endpoint), [dnsProof](#dns-proof-endpoint) | `dnsQuery`  |
+
+## DNS Query Endpoint
+
+DNS Query lets query DNS over HTTPS (DoH)
 
 ### Input Params
 
@@ -68,5 +76,44 @@ The adapter takes the following environment variables:
   },
   "result": null,
   "statusCode": 200
+}
+```
+
+## DNS Proof Endpoint
+
+Check Google’s DNS service to determine if a given domain is owned by a given blockchain address.
+
+### Input Params
+
+| Required? |         Name          |                      Description                      | Options | Defaults to |
+| :-------: | :-------------------: | :---------------------------------------------------: | :-----: | :---------: |
+|    ✅     |  `name` or `domain`   |        The domain name to check ownership of.         |         |             |
+|    ✅     | `record` or `address` | The Ethereum address to check a given domain against. |         |             |
+
+Make sure to set the environment variable `DNS_PROVIDER` as `google` for this endpoint.
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "name": "www5.infernos.io",
+    "record": "0x4d3407ddfdeb3feb4e8a167484701aced7056826"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "result": true,
+  "providerStatusCode": 200,
+  "statusCode": 200,
+  "data": {
+    "result": true
+  }
 }
 ```

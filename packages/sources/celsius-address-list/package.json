@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/celsius-address-list-adapter",
-  "version": "1.0.16",
+  "version": "1.0.18",
   "description": "Chainlink Celsius Address List Adapter.",
   "keywords": [
     "Chainlink",
@@ -37,9 +37,9 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.36",
+    "@types/node": "16.11.38",
     "@types/supertest": "2.0.12",
-    "nock": "13.2.4",
+    "nock": "13.2.6",
     "supertest": "6.2.3",
     "typescript": "4.3.5"
   }
