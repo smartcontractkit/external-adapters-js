@@ -1,6 +1,6 @@
 # Chainlink External Adapter for the Bureau of Economic Analysis (BEA)
 
-![1.1.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bea/package.json)
+![1.1.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bea/package.json)
 
 Base URL https://apps.bea.gov/api
 

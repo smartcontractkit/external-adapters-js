@@ -1,8 +1,13 @@
-import { AdapterRequest, Middleware } from '@chainlink/types'
+import type {
+  AdapterContext,
+  AdapterRequest,
+  AdapterRequestWithRateLimit,
+  Middleware,
+} from '../../../types'
 import { Store } from 'redux'
 import { getHashOpts, hash } from '../../middleware/cache-key/util'
 import { successfulResponseObserved } from './actions'
-import { Config } from './config'
+import { Config } from '../../config/provider-limits/config'
 import * as metrics from './metrics'
 import {
   Heartbeat,
@@ -13,6 +18,7 @@ import {
   selectParticiantsHeartbeatsFor,
   selectTotalNumberOfHeartbeatsFor,
 } from './reducer'
+
 export * as actions from './actions'
 export * as reducer from './reducer'
 
@@ -66,12 +72,21 @@ export const makeId = (request: AdapterRequest): string => hash(request, getHash
 export const maxAgeFor = (throughput: number, interval: number): number =>
   throughput <= 0 ? interval : Math.floor(interval / throughput)
 
+/**
+  Prevents Adapters from hitting a data provider too often over long periods of time by adjusting the TTL of cached DP responses based on the observed throughput for a feed.
+  Manages **hourly** and **monthly** API limits.
+*/
 export const withRateLimit =
-  (store: Store<RootState>): Middleware =>
+  <
+    R extends AdapterRequestWithRateLimit = AdapterRequestWithRateLimit,
+    C extends AdapterContext = AdapterContext,
+  >(
+    store: Store<RootState>,
+  ): Middleware<R, C> =>
   async (execute, context) =>
   async (input) => {
-    const config = context.rateLimit ?? {}
-    if (!config.enabled) return await execute(input, context)
+    const config = context.limits
+    if (!config?.enabled) return await execute(input, context)
     let state = store.getState()
     const { heartbeats } = state
     const requestTypeId = input?.debug?.cacheKey ?? makeId(input)

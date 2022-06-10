@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { withDebug } from '../../src/lib/middleware/debugger'
 
 describe('Debugger', () => {
@@ -26,11 +26,13 @@ describe('Debugger', () => {
       },
       data: {
         number: 123.4,
+        statusCode: 200,
       },
     }
     const execute = async () => response
-    const middleware = await withDebug(execute, {})
-    const result = await middleware(request, {})
+    const middleware = await withDebug()
+    const wrappedExecute = await middleware(execute, {})
+    const result = await wrappedExecute(request, {})
     expect(result).toEqual({
       ...response,
       debug: undefined,
@@ -52,11 +54,13 @@ describe('Debugger', () => {
       },
       data: {
         number: 123.4,
+        statusCode: 200,
       },
     }
     const execute = async () => response
-    const middleware = await withDebug(execute, {})
-    const result = await middleware(request, {})
+    const middleware = await withDebug()
+    const wrappedExecute = await middleware(execute, {})
+    const result = await wrappedExecute(request, {})
     expect(result).toEqual(response)
   })
 })

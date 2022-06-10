@@ -1,8 +1,7 @@
 import { uuid } from '../util'
-import pino, { stdTimeFunctions } from 'pino'
+import pino from 'pino'
 import { wsRedactPaths } from '../middleware/ws/config'
 import { cloneDeep } from 'lodash'
-import * as process from 'process'
 
 export const paths = [...wsRedactPaths]
 
@@ -16,7 +15,7 @@ const sensitiveKeys = [
   /api[-._]?key/i,
 ]
 
-export const censor = (v: string) => {
+export const censor = (v: string): string => {
   try {
     const url = new URL(v)
     url.searchParams.forEach((_, name) => {
@@ -32,7 +31,7 @@ export const censor = (v: string) => {
 }
 
 export const logger = pino({
-  level: process.env.LOG_LEVEL || 'info',
+  level: process.env.LOG_LEVEL ?? 'info',
   prettyPrint: process.env.NODE_ENV === 'development',
   prettifier: require('pino-pretty'),
   formatters: {
@@ -40,7 +39,6 @@ export const logger = pino({
       return { level: label }
     },
   },
-  timestamp: process.env.DEBUG === 'true' ? stdTimeFunctions.isoTime : stdTimeFunctions.epochTime,
   hooks: {
     logMethod(inputArgs, method) {
       // flipping the order of inputs (switching from winston to pino)

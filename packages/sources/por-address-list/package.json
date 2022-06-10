@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/por-address-list-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink por-address-list adapter.",
   "keywords": [
     "Chainlink",

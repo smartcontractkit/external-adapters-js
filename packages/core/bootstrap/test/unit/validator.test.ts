@@ -1,16 +1,10 @@
-import { InputParameters } from '@chainlink/types'
+import type { InputParameters, AdapterRequest } from '../../src/types'
 import { Validator } from '../../src/lib/modules/validator'
 
 describe('Validator', () => {
   describe('with no input parameter configuration', () => {
-    it('does not error if no input and no input parameters', () => {
-      const validator = new Validator()
-      expect(validator.validated.id).toEqual('1')
-      expect(validator.error).not.toBeDefined()
-    })
-
     it('does not error when input is empty', () => {
-      const validator = new Validator({})
+      const validator = new Validator({} as AdapterRequest, {})
       expect(validator.validated.id).toEqual('1')
       expect(validator.error).not.toBeDefined()
     })
@@ -18,7 +12,7 @@ describe('Validator', () => {
     it('does not error if input data is excluded', () => {
       const input = { id: '1' }
 
-      const validator = new Validator(input)
+      const validator = new Validator(input as AdapterRequest, {})
       expect(validator.validated.id).toEqual(input.id)
       expect(validator.error).not.toBeDefined()
     })
@@ -45,20 +39,21 @@ describe('Validator', () => {
   })
 
   describe('with required params', () => {
+    type TParams = { keys: string; test: string }
     const params = {
       keys: ['one', 'two'],
-      endpoint: true,
+      test: true,
     }
 
     it('errors if no input is provided', () => {
       try {
         expect.hasAssertions()
         const input = {}
-        new Validator(input, params, {})
+        new Validator(input as AdapterRequest, params, {})
       } catch (error) {
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
-        expect(error?.message).toEqual('Required parameter not supplied: endpoint')
+        expect(error?.message).toEqual('Required input parameter not supplied: keys')
         expect(error?.cause).toEqual(undefined)
       }
     })
@@ -69,14 +64,14 @@ describe('Validator', () => {
         const input = {
           id: '1',
           data: {
-            endpoint: '',
+            test: '',
           },
         }
         new Validator(input, params, {})
       } catch (error) {
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
-        expect(error?.message).toEqual('Required parameter not supplied: endpoint')
+        expect(error?.message).toEqual('Required input parameter not supplied: keys')
         expect(error?.cause).toEqual(undefined)
       }
     })
@@ -87,14 +82,14 @@ describe('Validator', () => {
         const input = {
           id: '1',
           data: {
-            endpoint: 'test',
+            test: 'test',
           },
         }
         new Validator(input, params, {})
       } catch (error) {
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
-        expect(error?.message).toEqual('None of aliases used for required key keys')
+        expect(error?.message).toEqual('Required input parameter not supplied: keys')
         expect(error?.cause).toEqual(undefined)
       }
     })
@@ -108,11 +103,11 @@ describe('Validator', () => {
             one: 'test',
           },
         }
-        new Validator(input, params, {})
+        new Validator<TParams>(input, params, {})
       } catch (error) {
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
-        expect(error?.message).toEqual('Required parameter not supplied: endpoint')
+        expect(error?.message).toEqual('Required parameter not supplied: test')
         expect(error?.cause).toEqual(undefined)
       }
     })
@@ -121,13 +116,13 @@ describe('Validator', () => {
       const input = {
         id: '1',
         data: {
-          endpoint: 'test',
+          test: 'test',
           one: 'test',
         },
       }
-      const validator = new Validator(input, params)
+      const validator = new Validator<TParams>(input, params)
       expect(validator.validated.id).toEqual(input.id)
-      expect(validator.validated.data.endpoint).toEqual(input.data.endpoint)
+      expect(validator.validated.data.test).toEqual(input.data.test)
       expect(validator.validated.data.keys).toEqual(input.data.one)
       expect(validator.error).not.toBeDefined()
     })
@@ -465,11 +460,11 @@ describe('Validator', () => {
     const input = {
       id: '1',
       data: {
-        endpoint: 'test',
+        test: 'test',
         one: 'test',
       },
     }
-    const validator = new Validator(input)
+    const validator = new Validator(input, {})
     expect(validator.validated.id).toEqual(input.id)
     expect(validator.error).not.toBeDefined()
   })
@@ -479,7 +474,7 @@ describe('Validator', () => {
       id: '1',
       data: {},
     }
-    const validator = new Validator(input)
+    const validator = new Validator(input, {})
     expect(validator.validated.overrides?.size).toEqual(0)
   })
 
@@ -494,7 +489,7 @@ describe('Validator', () => {
         },
       },
     }
-    const validator = new Validator(input)
+    const validator = new Validator(input, {})
     expect(validator.validated.overrides.get('coingecko').get('uni')).toEqual('uniswap')
   })
 
@@ -509,22 +504,22 @@ describe('Validator', () => {
           },
         },
       }
-      new Validator(input, {}, {})
+      new Validator(input as unknown as AdapterRequest, {}, {})
     } catch (error) {
       expect(error?.jobRunID).toEqual('1')
       expect(error?.statusCode).toEqual(400)
-      expect(error?.message).toEqual('Parameter supplied with wrong format: "override"')
+      expect(error?.message).toEqual('Input parameter supplied with wrong format: "overrides"')
       expect(error?.cause).toEqual(undefined)
     }
   })
 
   describe('overrideSymbol', () => {
-    it('errors if base was not provided', () => {
-      const validator = new Validator()
-      expect(() => validator.overrideSymbol('coingecko')).toThrowError()
+    it('throws error if there no matched overrides adapter name', () => {
+      const validator = new Validator({ id: '1', data: {} }, {})
+      expect(() => validator.overrideSymbol('coingecko', 'not found')).toThrowError
     })
 
-    it('returns symbol as is if there are no overrides, using input', () => {
+    it('returns symbol as is if there no matched override', () => {
       const params: InputParameters = {
         base: {
           required: true,
@@ -537,13 +532,13 @@ describe('Validator', () => {
           base: 'btc',
         },
       }
-      const validator = new Validator(input, params)
-      const base = validator.overrideSymbol('coingecko')
-      expect(base).toBe('btc')
-    })
+      const overrides = {
+        coingecko: {
+          test: 'test-overriden',
+        },
+      }
 
-    it('returns symbol as is if there are no overrides, using provided symbol argument', () => {
-      const validator = new Validator()
+      const validator = new Validator(input, params, {}, { overrides })
       const base = validator.overrideSymbol('coingecko', 'btc')
       expect(base).toBe('btc')
     })
@@ -559,7 +554,7 @@ describe('Validator', () => {
           },
         },
       }
-      const validator = new Validator(input)
+      const validator = new Validator(input, {})
       const base = validator.overrideSymbol('coingecko', 'uni')
       expect(base).toBe('uniswap')
     })
@@ -575,7 +570,7 @@ describe('Validator', () => {
           },
         },
       }
-      const validator = new Validator(input)
+      const validator = new Validator(input, {})
       const base = validator.overrideSymbol('coingecko', ['btc', 'uni'])
       expect(base).toEqual(['btc', 'uniswap'])
     })
@@ -583,7 +578,7 @@ describe('Validator', () => {
 
   describe('overrideToken', () => {
     it('return ethereum address', () => {
-      const validator = new Validator()
+      const validator = new Validator({ id: '1', data: {} }, {})
       const result = validator.overrideToken('ETH')
       expect(result).toBe('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE')
     })
@@ -591,13 +586,13 @@ describe('Validator', () => {
 
   describe('overrideIncludes', () => {
     it('returns undefined when provided with invalid include', () => {
-      const validator = new Validator()
+      const validator = new Validator({ id: '1', data: {} }, {})
       const include = validator.overrideIncludes('ETH', 'BTC')
       expect(include).toBeUndefined()
     })
 
     it('returns valid include', () => {
-      const validator = new Validator()
+      const validator = new Validator({ id: '1', data: {} }, {})
       const include = validator.overrideIncludes('BTC', 'ETH')
       expect(include).toMatchSnapshot()
     })
@@ -663,7 +658,7 @@ describe('Validator', () => {
   //TODO update test
   // describe('overrideReverseLookup', () => {
   //   it('returns ????', () => {
-  //     const validator = new Validator()
+  //     const validator = new Validator({},{})
   //     const symbol = validator.overrideReverseLookup('coingecko', 'overrides', 'btc')
   //     expect(symbol).toBe('btc')
   //   })

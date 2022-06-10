@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '../../../types'
 import { pick, omit } from 'lodash'
 import objectHash from 'object-hash'
 

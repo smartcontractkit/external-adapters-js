@@ -1,6 +1,6 @@
 # Cryptex Adapter
 
-![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptex/package.json)
+![1.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptex/package.json)
 
 Cryptex adapter, providing BTC dominance over the total crypto market
 

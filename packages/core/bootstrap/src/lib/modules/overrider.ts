@@ -1,4 +1,7 @@
-import type { CoinsResponse } from '@chainlink/types'
+import type {
+  CoinsResponse,
+  //  OverrideRecord
+} from '../../types'
 import { AdapterConfigError, AdapterInputError, AdapterOverriderError } from './error'
 import { logger } from './logger'
 

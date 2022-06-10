@@ -1,11 +1,12 @@
-import { logger } from '../../modules'
-import { AdapterRequest } from '@chainlink/types'
-import { CacheOptions, defaultOptions } from '.'
+import { logger } from '../../../modules'
+import type { AdapterRequestWithRateLimit } from '../../../../types'
+import { defaultOptions } from '..'
+import type { CacheOptions } from '../types'
 
 export const WARNING_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 
 export const getRateLimitMaxAge = (
-  adapterRequest: AdapterRequest,
+  adapterRequest: AdapterRequestWithRateLimit,
   options: CacheOptions = defaultOptions(),
 ): number | undefined => {
   if (!adapterRequest || !adapterRequest.rateLimitMaxAge) return
@@ -33,14 +34,16 @@ export const getRateLimitMaxAge = (
   return maxAge
 }
 
-export const getMaxAgeOverride = (adapterRequest: AdapterRequest): number | undefined => {
-  if (!adapterRequest || !adapterRequest.data) return
-  if (isNaN(parseInt(adapterRequest.data.maxAge))) return
-  return parseInt(adapterRequest.data.maxAge)
+export const getMaxAgeOverride = (
+  adapterRequest: AdapterRequestWithRateLimit,
+): number | undefined => {
+  if (!adapterRequest || !adapterRequest.data || !adapterRequest.data.maxAge) return
+  if (isNaN(adapterRequest.data.maxAge)) return
+  return adapterRequest.data.maxAge
 }
 
 export const getTTL = (
-  adapterRequest: AdapterRequest,
+  adapterRequest: AdapterRequestWithRateLimit,
   options: CacheOptions = defaultOptions(),
 ): number => {
   const TTL = getMaxAgeOverride(adapterRequest) || getRateLimitMaxAge(adapterRequest)

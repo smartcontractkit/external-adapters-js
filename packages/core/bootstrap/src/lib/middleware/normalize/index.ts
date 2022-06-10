@@ -1,25 +1,67 @@
-import type { Middleware, AdapterRequest, Config, APIEndpoint } from '@chainlink/types'
-import { baseInputParameters, Validator } from '../../modules'
+import type {
+  Middleware,
+  AdapterRequest,
+  Config,
+  APIEndpoint,
+  AdapterContext,
+  AdapterData,
+  InputParameters,
+} from '../../../types'
+import { Validator } from '../../modules'
 
-export const withNormalizedInput: <C extends Config>(
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
-) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
-  const normalizedInput = endpointSelector ? normalizeInput(input, endpointSelector(input)) : input
-  return execute(normalizedInput, context)
-}
+/**
+  Changes input parameters keys to a standard alias.
 
-export function normalizeInput<C extends Config>(
-  request: AdapterRequest,
-  apiEndpoint: APIEndpoint<C>,
-): AdapterRequest {
+  e.g. given the following input parameter definition
+
+    export const inputParameters: InputParameters = {
+
+        base: {
+
+            aliases: ['from', 'coin'],
+
+            description: 'The symbol of the currency to query',
+
+            required: true,
+
+            type: 'string',
+        },
+
+    }
+
+    Incoming `from` or `coin` keys would be renamed to `base`.
+*/
+
+export const withNormalizedInput: <
+  C extends Config = Config,
+  D extends AdapterData = AdapterData,
+  Ctx extends AdapterContext = AdapterContext,
+>(
+  endpointSelector?: (request: AdapterRequest<D>) => APIEndpoint<C, D>,
+) => Middleware<AdapterRequest<D>, Ctx> =
+  (endpointSelector) => async (execute, context) => async (input) => {
+    const normalizedInput = endpointSelector
+      ? normalizeInput(input, endpointSelector(input))
+      : input
+    return execute(normalizedInput, context)
+  }
+
+export function normalizeInput<C extends Config, D extends AdapterData>(
+  request: AdapterRequest<D>,
+  apiEndpoint: APIEndpoint<C, D>,
+): AdapterRequest<D> {
   const input = { ...request }
 
   // if endpoint does not match, an override occurred and we must adjust it
-  if (!apiEndpoint.supportedEndpoints.includes(input.data.endpoint))
+  if (input.data.endpoint && !apiEndpoint.supportedEndpoints.includes(input.data.endpoint))
     input.data.endpoint = apiEndpoint.supportedEndpoints[0]
 
-  const fullParameters = { ...baseInputParameters, ...apiEndpoint.inputParameters }
-  const validator = new Validator(request, fullParameters, {}, { shouldThrowError: false })
+  const validator = new Validator(
+    request,
+    apiEndpoint.inputParameters ?? ({} as InputParameters<D>),
+    {},
+    { shouldThrowError: false },
+  )
 
   // remove undefined values
   const data = JSON.parse(JSON.stringify(validator.validated.data))

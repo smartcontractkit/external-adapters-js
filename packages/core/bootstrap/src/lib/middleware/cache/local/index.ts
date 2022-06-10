@@ -1,6 +1,7 @@
 import LRU from 'lru-cache'
-import { getEnv, parseBool } from '../../util'
-import { CacheEntry } from './types'
+import type { LRUInterface } from './types'
+import { getEnv, parseBool } from '../../../util'
+import type { ICache, CacheEntry } from '../types'
 
 export interface LocalOptions {
   type: 'local'
@@ -16,7 +17,7 @@ export const defaultOptions = (): LocalOptions =>
     updateAgeOnGet: parseBool(getEnv('CACHE_UPDATE_AGE_ON_GET')),
   } as const)
 // Options without sensitive data
-export const redactOptions = (opts: any) => opts
+export const redactOptions = (opts: CacheOptions): CacheOptions => opts
 
 type CacheOptions = Omit<
   LRU.Options<string, CacheEntry | boolean>,
@@ -24,9 +25,9 @@ type CacheOptions = Omit<
 > &
   ReturnType<typeof defaultOptions>
 
-export class LocalLRUCache {
+export class LocalLRUCache implements ICache {
   options: CacheOptions
-  client: LRU<string, CacheEntry | boolean>
+  client: LRUInterface<string, CacheEntry | boolean>
   static cacheInstance: LocalLRUCache
 
   static getInstance(options: CacheOptions): LocalLRUCache {
@@ -38,46 +39,36 @@ export class LocalLRUCache {
 
   constructor(options: CacheOptions) {
     this.options = options
-    this.client = new LRU(options)
+    this.client = new LRU(options) as LRUInterface<string, CacheEntry | boolean>
   }
 
-  setResponse(key: string, value: any, maxAge: number) {
-    return this.client.set(key, value, maxAge)
+  setResponse(key: string, value: boolean | CacheEntry, maxAge: number): boolean {
+    this.client.set(key, value, { ttl: maxAge })
+    return true
   }
 
-  setFlightMarker(key: string, maxAge: number) {
-    return this.client.set(key, true, maxAge)
+  setFlightMarker(key: string, maxAge: number): boolean {
+    this.client.set(key, true, { ttl: maxAge })
+    return true
   }
 
   async getResponse(key: string): Promise<CacheEntry | undefined> {
-    return this.client.get(key) as CacheEntry | undefined
+    return this.client.get(key)
   }
 
   async getFlightMarker(key: string): Promise<boolean> {
     return this.client.get(key) as boolean
   }
 
-  del(key: string) {
-    return this.client.del(key)
+  del(key: string): void {
+    this.client.delete(key)
   }
 
-  ttl(key: string) {
-    // Get LRU internal 'cache' symbol
-    const _isCacheSymbol = (sym: symbol) => sym.toString().includes('cache')
-    const cacheSymbol = Object.getOwnPropertySymbols(this.client).find(_isCacheSymbol)
-    if (!cacheSymbol) return 0
-
-    // Get raw LRU entry
-    const cacheMap: Map<any, any> = (this.client as any)[cacheSymbol]
-    const hit = cacheMap.get(key)
-    if (!hit) return 0
-
-    // Return ttl >= 0
-    const ttl = hit.value?.now + (hit.value?.maxAge || 0) - Date.now()
-    return ttl < 0 ? 0 : ttl
+  ttl(key: string): number {
+    return this.client.getRemainingTTL(key)
   }
 
-  close() {
+  close(): void {
     // noop
   }
 }

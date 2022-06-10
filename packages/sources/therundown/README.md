@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TheRundown
 
-![1.2.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/therundown/package.json)
+![1.2.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/therundown/package.json)
 
 Base URL https://therundown-therundown-v1.p.rapidapi.com/
 

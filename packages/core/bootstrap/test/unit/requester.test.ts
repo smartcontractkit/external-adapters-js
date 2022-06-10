@@ -1,39 +1,36 @@
+import { BatchedResultT } from '../../src/types'
 import { Requester } from '../../src/lib/modules/requester'
-import { Server, SUCCESS_ARRAY_RESPONSE } from '../helpers/server'
+import {
+  Server,
+  SUCCESS_JSON_RESPONSE,
+  SUCCESS_ARRAY_RESPONSE,
+  SUCCESS_BATCHLIKE_RESPONSE,
+  ERROR_CUSTOM_RESPONSE,
+} from '../helpers/server'
 
 describe('HTTP', () => {
   const errorMessage = 'Request failed with status code 500'
-  const customErrorMessage =
-    'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: {"result":"error","value":1}'
-  const successUrl = 'http://localhost:18080'
-  const successArrayUrl = 'http://localhost:18080/successArray'
-  const errorUrl = 'http://localhost:18080/error'
-  const errorTwiceUrl = 'http://localhost:18080/errorsTwice'
-  const customErrorUrl = 'http://localhost:18080/customError'
-  const options = {
+  const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
+  const baseOptions = {
     timeout: 100,
     url: '',
   }
-  const customError = (data: { [key: string]: any }) => {
+  const customError = (data: typeof ERROR_CUSTOM_RESPONSE) => {
     return data.result !== 'success'
   }
 
   const server = new Server()
 
-  beforeAll(() => {
-    server.start()
-  })
-
-  beforeEach(() => {
+  afterEach(() => {
     server.reset()
     expect(server.errorCount).toEqual(0)
   })
 
   describe('Requester.request', () => {
     it('returns an error from an endpoint', async () => {
-      options.url = errorUrl
+      const options = { ...baseOptions, url: server.getURL('error') }
       try {
-        await Requester.request(options, 1, 0)
+        await Requester.request(options, null, 1, 0)
         expect(false).toBe(true)
       } catch (error) {
         expect(server.errorCount).toEqual(1)
@@ -42,9 +39,9 @@ describe('HTTP', () => {
     })
 
     it('accepts custom retry amounts', async () => {
-      options.url = errorUrl
+      const options = { ...baseOptions, url: server.getURL('error') }
       try {
-        await Requester.request(options, 9, 0)
+        await Requester.request(options, null, 9, 0)
         expect(false).toBe(true)
       } catch (error) {
         expect(server.errorCount).toEqual(9)
@@ -53,15 +50,15 @@ describe('HTTP', () => {
     })
 
     it('retries errored statuses', async () => {
-      options.url = errorTwiceUrl
-      const { data } = await Requester.request(options, 3, 0)
+      const options = { ...baseOptions, url: server.getURL('errorsTwice') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 3, 0)
       expect(server.errorCount).toEqual(2)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
     })
 
     it('retries custom errors', async () => {
-      options.url = customErrorUrl
+      const options = { ...baseOptions, url: server.getURL('customError') }
       try {
         await Requester.request(options, customError, 3, 0)
         expect(false).toBe(true)
@@ -72,15 +69,15 @@ describe('HTTP', () => {
     })
 
     it('returns the result from an endpoint', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
     })
 
     it('accepts optional customError param', async () => {
-      options.url = successUrl
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
       const { data } = await Requester.request(options, customError)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
@@ -88,7 +85,7 @@ describe('HTTP', () => {
     })
 
     it('accepts optional retries param with customError', async () => {
-      options.url = successUrl
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
       const { data } = await Requester.request(options, customError, 1)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
@@ -96,24 +93,29 @@ describe('HTTP', () => {
     })
 
     it('accepts optional retries param without customError', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options, 1)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
     })
 
     it('accepts optional delay param with customError', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options, customError, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof ERROR_CUSTOM_RESPONSE>(
+        options,
+        customError,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
     })
 
     it('accepts optional delay param without customError', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -122,8 +124,8 @@ describe('HTTP', () => {
 
   describe('Requester.validateResultNumber', () => {
     it('returns the desired value', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -132,8 +134,8 @@ describe('HTTP', () => {
     })
 
     it('errors if the value is not a number', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -150,8 +152,8 @@ describe('HTTP', () => {
 
   describe('Requester.getResult', () => {
     it('returns the desired value', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -160,8 +162,8 @@ describe('HTTP', () => {
     })
 
     it('does not error if the value is not a number', async () => {
-      options.url = successUrl
-      const { data } = await Requester.request(options, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -170,8 +172,8 @@ describe('HTTP', () => {
     })
 
     it('returns undefined if the input is not data', async () => {
-      options.url = successUrl
-      const response = await Requester.request(options, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const response = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
       expect(server.errorCount).toEqual(0)
       expect(response.data.result).toEqual('success')
       expect(response.data.value).toEqual(1)
@@ -198,8 +200,8 @@ describe('HTTP', () => {
 
   describe('Requester.success', () => {
     it('returns a Chainlink result', async () => {
-      options.url = successUrl
-      const response = await Requester.request(options, 1, 0)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const response = await Requester.request(options, null, 1, 0)
       const result = Requester.success('1', response)
       expect(result.jobRunID).toEqual('1')
       expect(result.result).toEqual('success')
@@ -210,26 +212,29 @@ describe('HTTP', () => {
 
   describe('Requester.withResult', () => {
     it('Adds a single result from JSON response', async () => {
-      options.url = successUrl
-      const response = await Requester.request(options)
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const response = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options)
       const result = Requester.validateResultNumber(response.data, ['value'])
       const withResult = Requester.withResult(response, result)
       expect(withResult.data.result).toEqual(1)
     })
     it('Adds a single result from Array response', async () => {
-      options.url = successArrayUrl
-      const response = await Requester.request(options)
+      const options = { ...baseOptions, url: server.getURL('successArray') }
+      const response = await Requester.request<typeof SUCCESS_ARRAY_RESPONSE>(options)
       const result = Requester.validateResultNumber(response.data, [0])
       const withResult = Requester.withResult(response, result)
       expect(withResult.data.result).toEqual(1)
       expect(withResult.data.payload).toEqual(SUCCESS_ARRAY_RESPONSE)
     })
     it('Adds results', async () => {
-      options.url = successUrl
-      const response = await Requester.request(options)
-      const mockResults = { BTC: 50000, ETH: 3000 }
-      const withResult = Requester.withResult(response, undefined, mockResults)
-      expect(withResult.data.results).toEqual(mockResults)
+      const options = { ...baseOptions, url: server.getURL('successBatchlike') }
+      const response = await Requester.request<typeof SUCCESS_BATCHLIKE_RESPONSE>(options)
+      const results: BatchedResultT = response.data.value.map((v) => [
+        { id: '1', data: {} },
+        Requester.validateResultNumber(v),
+      ])
+      const withResult = Requester.withResult(response, undefined, results)
+      expect(withResult.data.results).toEqual(results)
     })
   })
 })

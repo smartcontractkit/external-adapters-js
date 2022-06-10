@@ -1,104 +1,151 @@
-import {
+import type {
   AdapterErrorResponse,
-  Override,
+  OverrideMap,
+  OverrideRecord,
   Includes,
   IncludePair,
   InputParameter,
   InputParameters,
-} from '@chainlink/types'
-import { merge } from 'lodash'
+  AdapterRequest,
+  AdapterData,
+  AdapterRequestData,
+  TBaseInputParameters,
+  NestableValue,
+} from '../../types'
+import { cloneDeep } from 'lodash'
 import { isArray, isObject } from '../util'
 import { AdapterError, AdapterInputError } from './error'
 import presetTokens from '../config/overrides/presetTokens.json'
 import { Requester } from './requester'
 import { baseInputParameters } from './selector'
 
+const DEFAULT_VALIDATOR_OPTIONS: ValidatorOptions = {
+  shouldThrowError: true,
+  includes: [],
+  overrides: {},
+}
 export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
 
-type InputType = {
-  id?: string
-  data?: any
+export interface ValidatedData {
+  overrides?: OverrideMap
+  tokenOverrides?: OverrideMap
+  includes?: Includes[]
 }
 export interface ValidatorOptions {
-  shouldThrowError?: boolean
-  includes?: any[]
-  overrides?: any
+  shouldThrowError: boolean
+  includes: Includes[]
+  overrides: OverrideRecord
 }
-export class Validator {
-  input: InputType
-  inputConfigs: InputParameters
-  inputOptions: Record<string, any[]>
+
+export type InputOptions<T> = {
+  [Property in keyof T]?: unknown[]
+}
+
+export class Validator<
+  TInputParameters extends AdapterData & { [key in keyof TBaseInputParameters]: never },
+> {
+  input: AdapterRequest
+  inputConfigs: InputParameters<Omit<TInputParameters, keyof TBaseInputParameters>> &
+    InputParameters<TBaseInputParameters>
+  inputOptions: InputOptions<TInputParameters & TBaseInputParameters>
   validatorOptions: ValidatorOptions
-  validated: any
+  validated: AdapterRequest<TInputParameters> & ValidatedData
   error: AdapterError | undefined
   errored: AdapterErrorResponse | undefined
+
   constructor(
-    input: InputType = { id: '1', data: {} },
-    inputConfigs = {},
-    inputOptions = {},
-    validatorOptions: ValidatorOptions = {},
+    input: AdapterRequest,
+    inputConfigs: InputParameters<TInputParameters>,
+    inputOptions: InputOptions<TInputParameters & TBaseInputParameters> = {},
+    validatorOptions: Partial<ValidatorOptions> = {},
   ) {
-    this.input = { ...input }
-    if (!this.input.id) this.input.id = '1' //TODO Please remove these once "no any" strict typing is enabled
+    this.input = cloneDeep(input)
+    if (!this.input.id) this.input.id = '1'
     if (!this.input.data) this.input.data = {}
-    this.inputConfigs = { ...baseInputParameters, ...inputConfigs }
-    this.inputOptions = { ...inputOptions }
+
+    this.inputConfigs = {
+      ...cloneDeep(inputConfigs),
+      ...cloneDeep(baseInputParameters),
+    } as InputParameters<Omit<TInputParameters, keyof TBaseInputParameters>> &
+      InputParameters<TBaseInputParameters>
+    this.inputOptions = cloneDeep(inputOptions)
     this.validatorOptions = {
-      shouldThrowError: true,
-      includes: [],
-      overrides: {},
-      ...validatorOptions,
+      ...DEFAULT_VALIDATOR_OPTIONS,
+      ...cloneDeep(validatorOptions),
     }
-    this.validated = { id: this.input.id, data: {} }
+    // Input Data
+    this.validated = {
+      id: this.input.id,
+      data: {} as AdapterRequestData<TInputParameters>,
+    }
     this.validateInput()
+    // Overrides
     this.validateOverrides('overrides', this.validatorOptions.overrides)
     this.validateOverrides('tokenOverrides', presetTokens)
     this.validateIncludeOverrides()
-    this.checkDuplicateInputParams(inputConfigs)
+    this.checkDuplicateInputParams(this.inputConfigs)
   }
 
-  validateInput(): void {
+  /**
+   * Fill Validator.validated data from input data
+   */
+  private validateInput(): void {
     try {
-      for (const key in this.inputConfigs) {
+      for (const property in this.inputConfigs) {
+        const key = property
         const options = this.inputOptions[key]
         const inputConfig = this.inputConfigs[key]
+
         if (Array.isArray(inputConfig)) {
-          // TODO move away from alias arrays in favor of InputParameter config type
+          // TODO remove alias arrays support once all adapters use InputParameter config type
           const usedKey = this.getUsedKey(key, inputConfig)
-          if (!usedKey) this.throwInvalid(`None of aliases used for required key ${key}`)
-          this.validateRequiredParam(this.input.data[usedKey as string], key, options)
-        } else if (typeof inputConfig === 'boolean') {
-          // TODO move away from required T/F in favor of InputParameter config type
-          inputConfig
-            ? this.validateRequiredParam(this.input.data[key], key, options)
-            : this.validateOptionalParam(this.input.data[key], key, options)
-        } else {
-          this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
+          if (!usedKey) return this.throwInvalid(`Required input parameter not supplied: ${key}`)
+          const value = this.input.data[usedKey]
+          this.validateRequiredParam(value, key, options)
+          continue
         }
+
+        if (typeof inputConfig === 'boolean') {
+          // TODO remove required T/F support once all adapters use InputParameter config type
+          const value = this.input.data[key]
+          inputConfig
+            ? this.validateRequiredParam(value, key, options)
+            : this.validateOptionalParam(value, key, options)
+          continue
+        }
+
+        this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
       }
     } catch (e) {
-      this.parseError(e)
+      const error = e as Error
+      this.parseError(error)
     }
   }
 
-  validateOverrides(path: 'overrides' | 'tokenOverrides', preset: Record<string, any>): void {
+  validateOverrides(path: 'overrides' | 'tokenOverrides', preset: OverrideRecord): void {
     try {
-      if (!this.input.data?.[path]) {
-        this.validated[path] = this.formatOverride(preset)
-        return
+      const presetMap = this.overrideObjectToMap(preset, path)
+      const inputOverrides = this.input.data?.[path]
+      if (inputOverrides) {
+        const inputMap = this.overrideObjectToMap(inputOverrides, path)
+        this.mergeMap(presetMap, inputMap)
       }
-      this.validated[path] = this.formatOverride(merge({ ...preset }, this.input.data[path]))
+      this.validated[path] = presetMap
     } catch (e) {
-      this.parseError(e)
+      const error = e as Error
+      this.parseError(error)
     }
   }
 
-  checkDuplicateInputParams(inputConfig: InputParameters): void {
+  checkDuplicateInputParams(
+    inputConfig: InputParameters<Omit<TInputParameters, keyof TBaseInputParameters>> &
+      InputParameters<TBaseInputParameters>,
+  ): void {
     let aliases: string[] = []
     for (const key in inputConfig) {
       const param = inputConfig[key]
       if (Array.isArray(param)) {
-        aliases = aliases.concat(param)
+        aliases = aliases.concat(param as string[])
       } else if (typeof inputConfig === 'boolean') {
         return
       } else {
@@ -120,7 +167,8 @@ export class Validator {
         ...(this.validatorOptions.includes || []),
       ])
     } catch (e) {
-      this.parseError(e)
+      const error = e as Error
+      this.parseError(error)
     }
   }
 
@@ -140,25 +188,30 @@ export class Validator {
     }
   }
 
-  overrideSymbol = (adapter: string, symbol?: string | string[]): string | string[] => {
-    const defaultSymbol = symbol || this.validated.data.base
-    if (!defaultSymbol) this.throwInvalid(`Required parameter not supplied: base`)
+  overrideSymbol = <T extends string | string[]>(adapter: string, symbol: T): T => {
+    if (!this.validated.overrides) return symbol
 
-    // TODO: Will never be reached, because the presetSymbols are used as default overrides
-    if (!this.validated.overrides) return defaultSymbol
+    const overrides = this.validated.overrides.get(adapter.toLowerCase())
+    if (!overrides) return symbol
 
-    if (!Array.isArray(defaultSymbol))
-      return (
-        this.validated.overrides.get(adapter.toLowerCase())?.get(defaultSymbol.toLowerCase()) ||
-        defaultSymbol
-      )
-    const multiple: string[] = []
-    for (const sym of defaultSymbol) {
-      const overrided = this.validated.overrides.get(adapter.toLowerCase())?.get(sym.toLowerCase())
-      if (!overrided) multiple.push(sym)
-      else multiple.push(overrided)
+    if (typeof symbol === 'string') {
+      const lowercaseSymbol = symbol.toLowerCase()
+      return (overrides.get(lowercaseSymbol) as T) || symbol
     }
-    return multiple
+
+    if (Array.isArray(symbol)) {
+      const multiple = []
+      for (const sym of symbol) {
+        if (typeof sym === 'string') {
+          if (!overrides) continue
+          const overrided = overrides.get(sym.toLowerCase())
+          multiple.push(overrided ?? sym)
+        }
+      }
+      if (multiple.length) return multiple as T
+    }
+
+    throw this.throwInvalid(`Symbol overrides can only be done on strings`)
   }
 
   overrideToken = (symbol: string, network = 'ethereum'): string | undefined => {
@@ -182,7 +235,11 @@ export class Validator {
     return pairs[0].includes[0]
   }
 
-  overrideReverseLookup = (adapter: string, type: OverrideType, symbol: string): string => {
+  overrideReverseLookup = (
+    adapter: string,
+    type: Exclude<OverrideType, 'includes'>,
+    symbol: string,
+  ): string => {
     const overrides: Map<string, string> | undefined = this.validated?.[type]?.get(
       adapter.toLowerCase(),
     )
@@ -194,26 +251,7 @@ export class Validator {
     return originalSymbol || symbol
   }
 
-  formatOverride = (param: any): Override => {
-    const _throwInvalid = () =>
-      this.throwInvalid(`Parameter supplied with wrong format: "override"`)
-
-    if (!isObject(param)) _throwInvalid()
-
-    const _isValid = Object.values(param).every(isObject)
-    if (!_isValid) _throwInvalid()
-
-    const _keyToLowerCase = (entry: [string, any]): [string, any] => {
-      return [entry[0].toLowerCase(), entry[1]]
-    }
-    return new Map(
-      Object.entries(param)
-        .map(_keyToLowerCase)
-        .map(([key, value]) => [key, new Map(Object.entries(value).map(_keyToLowerCase))]),
-    )
-  }
-
-  formatIncludeOverrides = (param: any): Override => {
+  formatIncludeOverrides = (param: Includes[]): Includes[] => {
     const _throwInvalid = () =>
       this.throwInvalid(`Parameter supplied with wrong format: "includes"`)
     if (!isArray(param)) _throwInvalid()
@@ -228,52 +266,59 @@ export class Validator {
     throw new AdapterInputError({ jobRunID: this.validated.id, statusCode: 400, message })
   }
 
-  validateObjectParam(key: string, shouldThrowError = true): void {
+  validateObjectParam(
+    key: keyof TInputParameters | keyof TBaseInputParameters,
+    shouldThrowError = true,
+  ): void {
     const inputConfig = this.inputConfigs[key] as InputParameter
     const usedKey = this.getUsedKey(key, inputConfig.aliases ?? [])
 
-    const param = usedKey
-      ? this.input.data[usedKey as string] ?? inputConfig.default
-      : inputConfig.default
+    const param = usedKey ? this.input.data[usedKey] ?? inputConfig.default : inputConfig.default
 
     if (shouldThrowError) {
       const paramIsDefined = !(param === undefined || param === null || param === '')
 
       if (inputConfig.required && !paramIsDefined)
-        this.throwInvalid(`Required parameter ${key} must be non-null and non-empty`)
+        return this.throwInvalid(`Required parameter ${String(key)} must be non-null and non-empty`)
 
       if (paramIsDefined) {
         if (inputConfig.type) {
           const primitiveTypes = ['boolean', 'number', 'bigint', 'string']
 
           if (![...primitiveTypes, 'array', 'object'].includes(inputConfig.type))
-            this.throwInvalid(`${key} parameter has unrecognized type ${inputConfig.type}`)
+            return this.throwInvalid(
+              `${String(key)} parameter has unrecognized type ${inputConfig.type}`,
+            )
 
           if (primitiveTypes.includes(inputConfig.type) && typeof param !== inputConfig.type)
-            this.throwInvalid(`${key} parameter must be of type ${inputConfig.type}`)
+            return this.throwInvalid(`${String(key)} parameter must be of type ${inputConfig.type}`)
 
           if (inputConfig.type === 'array' && (!Array.isArray(param) || param.length === 0))
-            this.throwInvalid(`${key} parameter must be a non-empty array`)
+            return this.throwInvalid(`${String(key)} parameter must be a non-empty array`)
 
           if (
             inputConfig.type === 'object' &&
             (!param ||
               Array.isArray(param) ||
               typeof param !== inputConfig.type ||
-              Object.keys(param).length === 0)
+              Object.keys(param as Record<string, unknown>).length === 0)
           )
-            this.throwInvalid(`${key} parameter must be an object with at least one property`)
+            return this.throwInvalid(
+              `${String(key)} parameter must be an object with at least one property`,
+            )
         }
 
         if (inputConfig.options) {
-          const tolcase = (o: any) => (typeof o === 'string' ? o.toLowerCase() : o)
+          const tolcase = (o: unknown) => (typeof o === 'string' ? o.toLowerCase() : o)
 
           const formattedOptions = inputConfig.options.map(tolcase)
           const formattedParam = tolcase(param)
 
           if (!formattedOptions.includes(formattedParam))
-            this.throwInvalid(
-              `${key} parameter '${formattedParam}' is not in the set of available options: ${formattedOptions.join(
+            return this.throwInvalid(
+              `${String(
+                key,
+              )} parameter '${formattedParam}' is not in the set of available options: ${formattedOptions.join(
                 ',',
               )}`,
             )
@@ -284,7 +329,8 @@ export class Validator {
             dependency,
             (this.inputConfigs[dependency] as InputParameter).aliases ?? [],
           )
-          if (!usedDependencyKey) this.throwInvalid(`${key} dependency ${dependency} not supplied`)
+          if (!usedDependencyKey)
+            return this.throwInvalid(`${String(key)} dependency ${dependency} not supplied`)
         }
 
         for (const exclusive of inputConfig.exclusive ?? []) {
@@ -293,43 +339,96 @@ export class Validator {
             (this.inputConfigs[exclusive] as InputParameter).aliases ?? [],
           )
           if (usedExclusiveKey)
-            this.throwInvalid(`${key} cannot be supplied concurrently with ${exclusive}`)
+            return this.throwInvalid(
+              `${String(key)} cannot be supplied concurrently with ${exclusive}`,
+            )
         }
       }
     }
 
-    this.validated.data[key] = param
+    this.validated.data[key] = param as AdapterRequestData<TInputParameters>[
+      | keyof TInputParameters
+      | keyof TBaseInputParameters]
   }
 
-  validateOptionalParam(param: any, key: string, options: any[]): void {
-    if (param && options) {
+  validateOptionalParam(
+    value: NestableValue,
+    key: keyof TInputParameters | keyof TBaseInputParameters,
+    options: unknown[] | undefined,
+  ): void {
+    if (value && options) {
       if (!Array.isArray(options))
-        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
-      if (!options.includes(param))
-        this.throwInvalid(`${param} is not a supported ${key} option. Must be one of ${options}`)
-    }
-    this.validated.data[key] = param
-  }
-
-  validateRequiredParam(param: any, key: string, options: any[]): void {
-    if (typeof param === 'undefined' || param === '')
-      this.throwInvalid(`Required parameter not supplied: ${key}`)
-    if (options) {
-      if (!Array.isArray(options))
-        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
-      if (!options.includes(param))
+        this.throwInvalid(`Parameter options for ${String(key)} must be of an Array type`)
+      if (!options.includes(value))
         this.throwInvalid(
-          `${param} is not a supported ${key} option. Must be one of ${options.join(' || ')}`,
+          `${value} is not a supported ${String(key)} option. Must be one of ${options}`,
         )
     }
-    this.validated.data[key] = param
+    this.validated.data[key] = value as AdapterRequestData<TInputParameters>[
+      | keyof TInputParameters
+      | keyof TBaseInputParameters]
   }
 
-  getUsedKey(key: string, keyArray: string[]): string | undefined {
+  validateRequiredParam(
+    value: NestableValue,
+    key: keyof TInputParameters | keyof TBaseInputParameters,
+    options: unknown[] | undefined,
+  ): void {
+    if (typeof value === 'undefined' || value === '')
+      this.throwInvalid(`Required parameter not supplied: ${String(key)}`)
+    if (options) {
+      if (!Array.isArray(options))
+        this.throwInvalid(`Parameter options for ${String(key)} must be of an Array type`)
+      if (!options.includes(value))
+        this.throwInvalid(
+          `${value} is not a supported ${String(key)} option. Must be one of ${options.join(
+            ' || ',
+          )}`,
+        )
+    }
+    this.validated.data[key] = value as AdapterRequestData<TInputParameters>[
+      | keyof TInputParameters
+      | keyof TBaseInputParameters]
+  }
+
+  getUsedKey(
+    key: keyof TInputParameters | keyof TBaseInputParameters | string,
+    keyArray: (keyof TInputParameters | keyof TBaseInputParameters | string)[],
+  ): string | undefined {
     const comparisonArray = [...keyArray]
     if (!comparisonArray.includes(key)) comparisonArray.push(key)
 
-    const inputParamKeys = Object.keys(this.input.data)
+    const inputParamKeys = Object.keys(this.input.data) as Array<
+      Extract<keyof TInputParameters & TBaseInputParameters, string>
+    >
     return inputParamKeys.find((k) => comparisonArray.includes(k))
+  }
+
+  overrideObjectToMap(override: OverrideRecord, type: 'overrides' | 'tokenOverrides'): OverrideMap {
+    return new Map(
+      Object.entries(
+        Object.fromEntries(
+          Object.entries(override).map(([key, value]) => {
+            if (!isObject(value))
+              this.throwInvalid(`Input parameter supplied with wrong format: "${type}"`)
+            return [
+              key.toLowerCase(),
+              new Map(Object.entries(value).map(([k, v]) => [k.toLowerCase(), v])),
+            ]
+          }),
+        ),
+      ),
+    )
+  }
+
+  mergeMap(mapOne: OverrideMap, mapTwo: OverrideMap): void {
+    return mapTwo.forEach((mapTwoValue, mapTwoKey) => {
+      const mapOneValue = mapOne.get(mapTwoKey)
+      if (mapOneValue) {
+        mapTwoValue.forEach((mapTwoValue2, mapTwoKey2) => {
+          mapOneValue.set(mapTwoKey2, mapTwoValue2)
+        })
+      } else mapOne.set(mapTwoKey, mapTwoValue)
+    })
   }
 }

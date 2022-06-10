@@ -1,7 +1,7 @@
 import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
 import { getEnv, parseBool } from '../../util'
-import { logger } from '../../modules'
-import { AdapterContext } from '@chainlink/types'
+import { AdapterError, logger } from '../../modules'
+import type { AdapterContext } from '../../../types'
 
 export interface Config {
   /**
@@ -38,7 +38,8 @@ export function get(
       const providerConfig = getRateLimit(rateLimitConfig.name, rateLimitConfig.limits, tier)
       capacity = Number(providerConfig.minute)
     } catch (e) {
-      logger.error(e.message)
+      const error = new AdapterError(e as Partial<AdapterError>)
+      logger.error(error.message)
     }
   }
   let burstCapacity1s = 0

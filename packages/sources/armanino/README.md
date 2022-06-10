@@ -1,6 +1,6 @@
 # Armanino Adapter
 
-![1.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/armanino/package.json)
+![1.0.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/armanino/package.json)
 
 Carbon credit reserves attested by Armanino
 
