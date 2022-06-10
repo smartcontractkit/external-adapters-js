@@ -10,12 +10,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |        Name         | Description |  Type  | Options |             Default              |
-| :-------: | :-----------------: | :---------: | :----: | :-----: | :------------------------------: |
-|           |    API_ENDPOINT     |             | string |         |    `https://api.coinbase.com`    |
-|           |   WS_API_ENDPOINT   |             | string |         | `wss://ws-feed.pro.coinbase.com` |
-|           |  NFT_API_ENDPOINT   |             | string |         |                                  |
-|           | NFT_API_AUTH_HEADER |             | string |         |                                  |
+| Required? |        Name         |                                   Description                                   |  Type  | Options |             Default              |
+| :-------: | :-----------------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :------------------------------: |
+|           |    API_ENDPOINT     |                                                                                 | string |         |    `https://api.coinbase.com`    |
+|           |   WS_API_ENDPOINT   |                                                                                 | string |         | `wss://ws-feed.pro.coinbase.com` |
+|           |  NFT_API_ENDPOINT   | The API endpoint for making NFT API requests (eg. https://nft-api.coinbase.com) | string |         |                                  |
+|           | NFT_API_AUTH_HEADER |         The CB-NFT-API-TOKEN header used to authorize NFT API requests          | string |         |                                  |
 
 ---
 
