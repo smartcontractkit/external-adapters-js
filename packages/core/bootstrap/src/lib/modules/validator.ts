@@ -117,7 +117,8 @@ export class Validator<
         this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
       }
     } catch (e) {
-      this.parseError(e)
+      const error = e as Error
+      this.parseError(error)
     }
   }
 
@@ -131,7 +132,8 @@ export class Validator<
       }
       this.validated[path] = presetMap
     } catch (e) {
-      this.parseError(e)
+      const error = e as Error
+      this.parseError(error)
     }
   }
 
@@ -165,7 +167,8 @@ export class Validator<
         ...(this.validatorOptions.includes || []),
       ])
     } catch (e) {
-      this.parseError(e)
+      const error = e as Error
+      this.parseError(error)
     }
   }
 
@@ -276,20 +279,22 @@ export class Validator<
       const paramIsDefined = !(param === undefined || param === null || param === '')
 
       if (inputConfig.required && !paramIsDefined)
-        return this.throwInvalid(`Required parameter ${key} must be non-null and non-empty`)
+        return this.throwInvalid(`Required parameter ${String(key)} must be non-null and non-empty`)
 
       if (paramIsDefined) {
         if (inputConfig.type) {
           const primitiveTypes = ['boolean', 'number', 'bigint', 'string']
 
           if (![...primitiveTypes, 'array', 'object'].includes(inputConfig.type))
-            return this.throwInvalid(`${key} parameter has unrecognized type ${inputConfig.type}`)
+            return this.throwInvalid(
+              `${String(key)} parameter has unrecognized type ${inputConfig.type}`,
+            )
 
           if (primitiveTypes.includes(inputConfig.type) && typeof param !== inputConfig.type)
-            return this.throwInvalid(`${key} parameter must be of type ${inputConfig.type}`)
+            return this.throwInvalid(`${String(key)} parameter must be of type ${inputConfig.type}`)
 
           if (inputConfig.type === 'array' && (!Array.isArray(param) || param.length === 0))
-            return this.throwInvalid(`${key} parameter must be a non-empty array`)
+            return this.throwInvalid(`${String(key)} parameter must be a non-empty array`)
 
           if (
             inputConfig.type === 'object' &&
@@ -299,7 +304,7 @@ export class Validator<
               Object.keys(param as Record<string, unknown>).length === 0)
           )
             return this.throwInvalid(
-              `${key} parameter must be an object with at least one property`,
+              `${String(key)} parameter must be an object with at least one property`,
             )
         }
 
@@ -311,7 +316,9 @@ export class Validator<
 
           if (!formattedOptions.includes(formattedParam))
             return this.throwInvalid(
-              `${key} parameter '${formattedParam}' is not in the set of available options: ${formattedOptions.join(
+              `${String(
+                key,
+              )} parameter '${formattedParam}' is not in the set of available options: ${formattedOptions.join(
                 ',',
               )}`,
             )
@@ -323,7 +330,7 @@ export class Validator<
             (this.inputConfigs[dependency] as InputParameter).aliases ?? [],
           )
           if (!usedDependencyKey)
-            return this.throwInvalid(`${key} dependency ${dependency} not supplied`)
+            return this.throwInvalid(`${String(key)} dependency ${dependency} not supplied`)
         }
 
         for (const exclusive of inputConfig.exclusive ?? []) {
@@ -332,7 +339,9 @@ export class Validator<
             (this.inputConfigs[exclusive] as InputParameter).aliases ?? [],
           )
           if (usedExclusiveKey)
-            return this.throwInvalid(`${key} cannot be supplied concurrently with ${exclusive}`)
+            return this.throwInvalid(
+              `${String(key)} cannot be supplied concurrently with ${exclusive}`,
+            )
         }
       }
     }
@@ -349,9 +358,11 @@ export class Validator<
   ): void {
     if (value && options) {
       if (!Array.isArray(options))
-        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
+        this.throwInvalid(`Parameter options for ${String(key)} must be of an Array type`)
       if (!options.includes(value))
-        this.throwInvalid(`${value} is not a supported ${key} option. Must be one of ${options}`)
+        this.throwInvalid(
+          `${value} is not a supported ${String(key)} option. Must be one of ${options}`,
+        )
     }
     this.validated.data[key] = value as AdapterRequestData<TInputParameters>[
       | keyof TInputParameters
@@ -364,13 +375,15 @@ export class Validator<
     options: unknown[] | undefined,
   ): void {
     if (typeof value === 'undefined' || value === '')
-      this.throwInvalid(`Required parameter not supplied: ${key}`)
+      this.throwInvalid(`Required parameter not supplied: ${String(key)}`)
     if (options) {
       if (!Array.isArray(options))
-        this.throwInvalid(`Parameter options for ${key} must be of an Array type`)
+        this.throwInvalid(`Parameter options for ${String(key)} must be of an Array type`)
       if (!options.includes(value))
         this.throwInvalid(
-          `${value} is not a supported ${key} option. Must be one of ${options.join(' || ')}`,
+          `${value} is not a supported ${String(key)} option. Must be one of ${options.join(
+            ' || ',
+          )}`,
         )
     }
     this.validated.data[key] = value as AdapterRequestData<TInputParameters>[

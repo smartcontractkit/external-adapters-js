@@ -4,7 +4,7 @@ import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootst
 export const supportedEndpoints = ['series']
 
 export const endpointResultPaths = {
-  series: 'value',
+  series: '0.value',
 }
 
 export interface ResponseSchema {
@@ -81,7 +81,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       return obj['year'] === year && obj['periodName'] === month
     })
   }
-  const result = Requester.validateResultNumber(filter[0], resultPath)
+  const result = Requester.validateResultNumber(filter, resultPath)
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 

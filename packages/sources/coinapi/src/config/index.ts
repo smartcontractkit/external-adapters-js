@@ -17,6 +17,6 @@ export const makeConfig = (prefix?: string): DefaultConfig => {
     },
   }
   config.defaultEndpoint = DEFAULT_ENDPOINT
-  config.ws.baseWsURL = config.ws.baseWsURL ?? DEFAULT_WS_API_ENDPOINT
+  config.ws.baseWsURL = config.ws.baseWsURL || DEFAULT_WS_API_ENDPOINT
   return config
 }

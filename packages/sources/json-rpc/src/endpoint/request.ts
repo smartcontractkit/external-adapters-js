@@ -5,7 +5,7 @@ import { DEFAULT_BASE_URL, ExtendedConfig } from '../config'
 export const supportedEndpoints = ['request']
 
 export type TInputParameters = {
-  url: string
+  url?: string
   method: string
   params: string[] | Record<string, unknown>
   requestId: string | number

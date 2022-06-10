@@ -68,7 +68,7 @@ export const makeWSHandler = (config?: DefaultConfig): MakeWSHandler => {
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
       subsFromMessage: (message: any) => {
-        if (!message.data || message.data.indexOf('update') === -1) return ''
+        if (!message.data || message.data.indexOf('update') === -1) return
         const { data } = parseResponse(message.data)
         return getSubscription(data.s)
       },

@@ -347,14 +347,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
               },
               (message) => {
                 const connectionState = state.ws.connections.all[payload.connectionInfo.key]
-                const currentSubscriptionKey = getSubsId(
-                  wsHandler.subsFromMessage(
-                    message,
-                    payload.subscriptionMsg,
-                    payload.input,
-                    connectionState?.connectionParams,
-                  ),
+                const subMessage = wsHandler.subsFromMessage(
+                  message,
+                  payload.subscriptionMsg,
+                  payload.input,
+                  connectionState?.connectionParams,
                 )
+                const currentSubscriptionKey = subMessage ? getSubsId(subMessage) : null
 
                 // When onConnectChain is provided, this will check if we are in the process of opening the subscription.
                 // If we are, then do not continue as there will be further steps to take within onConnectChain before the subscription is established.
@@ -797,7 +796,8 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
         await cache(wsResponse, context)
         logger.trace('WS: Saved result', { input, result: response.result })
       } catch (e) {
-        logger.error(`WS: Cache error: ${e.message}`)
+        const error = e as Error
+        logger.error(`WS: Cache error: ${error.message}`)
       }
       return action
     }),

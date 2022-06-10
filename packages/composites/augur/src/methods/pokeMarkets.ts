@@ -157,8 +157,9 @@ async function createAndResolveMarkets(
     await contract.createAndResolveMarkets(roundIds, nextWeek, { nonce })
     Logger.log(`Augur: createAndResolveMarkets -- success`)
   } catch (e) {
+    const error = e as Error
     Logger.log(`Augur: createAndResolveMarkets -- failure`)
-    Logger.error(e)
+    Logger.error(error)
   }
 }
 

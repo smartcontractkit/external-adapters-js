@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterInputError, AdapterError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import * as paypal from '@paypal/payouts-sdk'
 
@@ -54,6 +54,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const response = await (config.api as any).client.execute(paypal_req)
     return Requester.success(jobRunID, { data: response, status: response.statusCode })
   } catch (e) {
-    throw Requester.errored(jobRunID, e, e.statusCode)
+    const error = e as AdapterError
+    throw Requester.errored(jobRunID, error, error.statusCode)
   }
 }

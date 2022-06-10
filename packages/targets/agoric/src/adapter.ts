@@ -82,6 +82,7 @@ const tryExecuteLogError =
     try {
       return await execute(request, context, config)
     } catch (e) {
+      const error = e as Error
       const queryId = request.data?.request_id
       const rest = { queryId }
 
@@ -91,7 +92,7 @@ const tryExecuteLogError =
           method: 'POST',
           data: {
             type: 'oracleServer/error',
-            data: { error: `${(e && e.message) || e}`, ...(queryId && rest) },
+            data: { error: `${(error && error.message) || error}`, ...(queryId && rest) },
           },
         },
         undefined,
@@ -106,8 +107,8 @@ const tryExecuteLogError =
       throw new AdapterError({
         jobRunID: request.id,
         statusCode: 500,
-        message: `${(e && e.message) || e}`,
-        cause: e,
+        message: `${(error && error.message) || error}`,
+        cause: error,
       })
     }
   }

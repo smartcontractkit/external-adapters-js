@@ -52,7 +52,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     const requestData = {
       id: jobRunID,
       data: {
-        url: jsonRpcConfig.RPC_URL || '',
+        url: jsonRpcConfig.RPC_URL,
         method: methodName,
         params: [address],
         requestId: requestId + 1,

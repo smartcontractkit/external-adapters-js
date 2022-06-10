@@ -4,6 +4,7 @@ import * as util from './util'
 import type { Middleware, AdapterRequest, AdapterMetricsMeta, AdapterContext } from '../../types'
 import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer'
 import { HttpRequestType, requestDurationBuckets } from './constants'
+import { AdapterError } from '../modules'
 
 export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
 
@@ -76,8 +77,11 @@ export const withMetrics =
             : HttpRequestType.DATA_PROVIDER_HIT,
       })
       return { ...result, metricsMeta: { ...result.metricsMeta, ...metricsMeta } }
-    } catch (error) {
-      const providerStatusCode: number | undefined = error.cause?.response?.status
+    } catch (e) {
+      const error = new AdapterError(e as Partial<AdapterError>)
+      const providerStatusCode: number | undefined = (
+        error.cause as unknown as { response: { status: number } }
+      )?.response?.status
       record({
         statusCode: providerStatusCode ? 200 : 500,
         providerStatusCode,

@@ -76,7 +76,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let cid: IPFSPath = ''
   switch (type) {
     case 'raw':
-      cid = await putFile(serialize(data as Record<string, unknown>, codec), client, options)
+      cid = await putFile(
+        serialize(data as string | Record<string, unknown>, codec),
+        client,
+        options,
+      )
       break
     case 'dag':
       cid = await putDag(data as Record<string, unknown>, client, { ...options, format, hashAlg })

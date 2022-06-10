@@ -1,6 +1,4 @@
 {
-  "bravenewcoin": {
-    "http": {},
-    "ws": {}
-  }
+  "http": {},
+  "ws": {}
 }

@@ -147,7 +147,8 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
       putsE2: puts[e2],
       exchangeRate,
     }
-  } catch (error) {
+  } catch (e) {
+    const error = e as any
     Logger.error(error)
     Logger.error(error.stack)
     throw error.response

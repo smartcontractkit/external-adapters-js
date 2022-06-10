@@ -206,14 +206,14 @@ const handleBatchedRequest = (
       const adapterRequest = {
         ...request,
         data: {
-          ...request.data,
+          ...(request.data as TInputParameters),
           quote: quote.toUpperCase(),
         },
       }
       if (isRequestedCoinIds(requestedCoins)) {
-        ;(adapterRequest.data as any).base = coinid
+        adapterRequest.data.base = coinid
       } else {
-        ;(adapterRequest.data as any).base = idsToSymbols[coinid].toUpperCase()
+        adapterRequest.data.base = idsToSymbols[coinid].toUpperCase()
       }
       payload.push([
         CacheKey.getCacheKey(adapterRequest, Object.keys(inputParameters)),

@@ -23,7 +23,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const resultPath = (validator.validated.data.resultPath || '').toString()
-  const url = '/trusttoken/TrueUSD'
+  const url = '/chainlink/TrueUSD'
 
   if (!['totalTrust', 'totalToken'].includes(resultPath)) {
     throw new AdapterInputError({

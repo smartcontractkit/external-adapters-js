@@ -36,7 +36,7 @@ export interface ActionBase {
 
 export function configureStore<State>(
   rootReducer: Reducer<State>,
-  preloadedState: PreloadedState<State> = {},
+  preloadedState: PreloadedState<State>,
   middleware: Middleware<unknown, State, Dispatch<AnyAction>>[] = [],
 ): Store {
   const middlewareEnhancer = applyMiddleware(...middleware)

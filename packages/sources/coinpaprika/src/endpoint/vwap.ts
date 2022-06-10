@@ -69,7 +69,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     }
   }
   const url = util.buildUrlPath('v1/tickers/:coin/historical', { coin: coin.toLowerCase() })
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = validator.validated.data.resultPath as string
   const hours = validator.validated.data.hours
 
   const endDate = new Date()
@@ -88,7 +88,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data[0], resultPath)
+  const result = Requester.validateResultNumber(response.data, [0, resultPath])
 
   const returnResponse = {
     ...response,

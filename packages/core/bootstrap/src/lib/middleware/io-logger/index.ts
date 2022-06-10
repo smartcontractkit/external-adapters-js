@@ -1,5 +1,5 @@
 import type { Middleware, AdapterErrorLog, AdapterRequest, AdapterContext } from '../../../types'
-import { logger as Logger } from '../../modules'
+import { AdapterError, logger as Logger } from '../../modules'
 import { getFeedId } from '../../metrics/util'
 
 /**
@@ -15,7 +15,8 @@ export const withIOLogger: <R extends AdapterRequest, C extends AdapterContext>(
     const result = await execute(input, context)
     Logger.debug(`Output: [${result.statusCode}]: `, { output: result })
     return result
-  } catch (error) {
+  } catch (e) {
+    const error = new AdapterError(e as Partial<AdapterError>)
     const feedID = getFeedId(input)
     const errorLog: AdapterErrorLog = {
       message: error.toString(),
@@ -23,7 +24,7 @@ export const withIOLogger: <R extends AdapterRequest, C extends AdapterContext>(
       params: input.data,
       feedID,
       url: error.url,
-      errorResponse: error.errorResponse,
+      errorResponse: error.errorResponse as string | Record<string, string> | undefined,
     }
 
     if (Logger.level === 'debug') {
@@ -31,7 +32,7 @@ export const withIOLogger: <R extends AdapterRequest, C extends AdapterContext>(
     }
 
     if (Logger.level === 'trace') {
-      errorLog.rawError = error.cause
+      errorLog.rawError = error.cause as string | undefined
       errorLog.stack = undefined
     }
 

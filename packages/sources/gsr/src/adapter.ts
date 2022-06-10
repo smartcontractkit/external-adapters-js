@@ -99,7 +99,8 @@ export const getAccessToken = async (
       token: tokenResponse.data.token,
       validUntil: new Date(tokenResponse.data.validUntil).getTime(),
     }
-  } catch (error) {
+  } catch (e) {
+    const error = e as any
     Logger.debug(
       `Error: ${
         existingToken

@@ -1,5 +1,5 @@
 import type { AdapterRequest } from '../../types'
-import { logger, Validator } from '../modules'
+import { AdapterError, logger, Validator } from '../modules'
 import { excludableAdapterRequestProperties } from '../middleware/cache-key/util'
 import * as crypto from 'crypto'
 
@@ -107,7 +107,8 @@ export const getFeedId = <R extends AdapterRequest>(input: R): string => {
     return rawFeedId.length > MAX_FEED_ID_LENGTH
       ? crypto.createHash('md5').update(rawFeedId).digest('hex')
       : rawFeedId
-  } catch (error) {
+  } catch (e) {
+    const error = new AdapterError(e as Partial<AdapterError>)
     logger.error('Unable to get feed name', {
       input,
       error: error.toString(),

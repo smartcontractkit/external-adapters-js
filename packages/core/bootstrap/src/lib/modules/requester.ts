@@ -7,7 +7,7 @@ import type {
   ResultPath,
   BatchableProperty,
 } from '../../types'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { deepType, getEnv, sleep, isArraylikeAccessor, isRecord, isObject } from '../util'
 import { getDefaultConfig, logConfig } from '../config'
 import {
@@ -52,7 +52,8 @@ export class Requester {
       const record = recordDataProviderRequest()
       try {
         response = await axios(config)
-      } catch (error) {
+      } catch (e) {
+        const error = e as AxiosError
         // Request error
         if (error.code === 'ECONNABORTED') {
           const providerStatusCode: number | undefined = error?.response?.status ?? 504
@@ -95,7 +96,7 @@ export class Requester {
           const message = `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: ${JSON.stringify(
             response.data,
           )}`
-          const cause = (response.data as T & { error: unknown }).error || 'customError'
+          const cause = (response.data as T & { error: Error | undefined }).error
           const providerStatusCode: number | undefined =
             (response.data as T & { error: { code: number } }).error?.code ?? response.status
           record(config.method, providerStatusCode)
@@ -106,7 +107,7 @@ export class Requester {
             cause,
             url,
           }
-          throw (response.data as T & { error: unknown }).error
+          throw (response.data as T & { error: Error | undefined }).error
             ? new AdapterDataProviderError(errorPayload)
             : new AdapterCustomError(errorPayload)
         }

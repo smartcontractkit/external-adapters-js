@@ -136,8 +136,9 @@ const createTeam = async (
       nonce++
       succeeded++
     } catch (e) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 
@@ -203,8 +204,9 @@ const createFighter = async (
       nonce++
       succeeded++
     } catch (e) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 

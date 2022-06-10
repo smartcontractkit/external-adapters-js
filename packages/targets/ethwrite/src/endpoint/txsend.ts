@@ -87,9 +87,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       status: 200,
     })
   } catch (e) {
+    const error = e as Error
     throw new AdapterError({
       jobRunID,
-      message: e,
+      message: error?.message,
       statusCode: 400,
     })
   }

@@ -94,7 +94,7 @@ export const execute: ExecuteWithConfig<DefaultConfig> = async (request, context
 
   const locationResponse: AdapterResponse = await executeLocation(request, context, config)
 
-  const locationResult: LocationResult = locationResponse.data.result as unknown as LocationResult
+  const locationResult = locationResponse.data.result as unknown as LocationResult
   // No location found for the given coordiantes
   if (locationResult.locationFound === false) {
     const result: LocationCurrentConditionsResult | LocationCurrentConditionsResultEncoded =
@@ -117,7 +117,7 @@ export const execute: ExecuteWithConfig<DefaultConfig> = async (request, context
     context,
     config,
   )
-  const currentConditionsResult: CurrentConditionsResult = currentConditionsResponse.data
+  const currentConditionsResult = currentConditionsResponse.data
     .result as unknown as CurrentConditionsResult
   const endpointResult: LocationCurrentConditionsResult = {
     ...locationResult,

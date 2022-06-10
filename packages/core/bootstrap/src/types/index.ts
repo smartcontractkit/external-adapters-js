@@ -424,7 +424,7 @@ export interface WSHandler<MessageT = UnknownWSMessage> {
     subscriptionMsg: MessageT,
     input: AdapterRequest,
     connectionParams?: MessageT,
-  ) => MessageT
+  ) => MessageT | undefined
   /** Allows for connection info to be set programmatically based on the input request **/
   /** This is useful for data providers that only allow subscriptions based on URL params **/
   programmaticConnectionInfo?: (input: AdapterRequest) =>

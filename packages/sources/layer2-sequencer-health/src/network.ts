@@ -93,7 +93,7 @@ export const getStatusByTransaction = async (
       to: wallet.address,
     },
   }
-  const _getErrorMessage = (e: Record<string, unknown>): string => {
+  const _getErrorMessage = (e: Error): string => {
     const paths = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
@@ -111,12 +111,15 @@ export const getStatusByTransaction = async (
     Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
   } catch (e) {
-    if (sequencerOnlineErrors[network].includes(_getErrorMessage(e))) {
-      Logger.debug(`Transaction submission failed with an expected error ${_getErrorMessage(e)}.`)
+    const error = e as Error
+    if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
+      Logger.debug(
+        `Transaction submission failed with an expected error ${_getErrorMessage(error)}.`,
+      )
       return true
     }
     Logger.error(
-      `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${e.message}`,
+      `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
     )
     return false
   }

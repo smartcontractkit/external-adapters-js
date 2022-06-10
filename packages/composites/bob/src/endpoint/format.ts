@@ -68,7 +68,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
       data: {
         ...(request.data as JSONRPC.types.request.TInputParameters),
         method: 'eth_getBlockByHash',
-        params: [block.hash, 'false'],
+        params: [block.hash, false] as string[],
       },
     },
     context,

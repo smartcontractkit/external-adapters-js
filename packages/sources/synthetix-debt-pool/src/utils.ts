@@ -117,13 +117,14 @@ export const getLatestBlockByChain = async (
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
       } catch (e) {
+        const error = e as any
         const errorPayload = {
           jobRunID,
-          message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${e}`,
+          message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${error}`,
         }
-        throw e.response
+        throw error.response
           ? new AdapterDataProviderError(errorPayload)
-          : e.request
+          : error.request
           ? new AdapterConnectionError(errorPayload)
           : new AdapterError(errorPayload)
       }

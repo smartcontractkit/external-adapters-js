@@ -111,8 +111,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
           return false
         }
       } catch (e) {
+        const error = e as Error
         Logger.error(
-          `Method ${fn.name} failed: ${e.message}. Network ${network} considered unhealthy`,
+          `Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
         )
         return false
       }

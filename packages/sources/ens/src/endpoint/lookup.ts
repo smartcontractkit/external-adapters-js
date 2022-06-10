@@ -58,16 +58,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const labelHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(splitName[0]))
     const tokenId = ethers.BigNumber.from(labelHash).toString()
     const namehash = ethers.utils.namehash(name)
-    const [registrant, controller, address] = await Promise.all<
-      string | undefined,
-      string,
-      string | null
-    >([
+    const [registrant, controller, address] = await Promise.all([
       isEthTLD && !isSubdomain
-        ? await contracts.Registrar.ownerOf(tokenId)
-        : new Promise((resolve) => resolve(undefined)),
+        ? ((await contracts.Registrar.ownerOf(tokenId)) as string)
+        : new Promise<undefined>((resolve) => resolve(undefined)),
       await contracts.Registry.owner(namehash),
-      await networkProvider.resolveName(name),
+      (await networkProvider.resolveName(name)) as string | null,
     ])
 
     response.data = {
@@ -75,7 +71,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       controller,
       address: address ?? undefined,
     }
-  } catch (error) {
+  } catch (e) {
+    const error = e as any
     const errorPayload = {
       jobRunID,
       message: `Failed to fetch on-chain data.  Error Message: ${error}`,

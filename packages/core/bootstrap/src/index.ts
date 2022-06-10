@@ -25,7 +25,14 @@ import {
   StatusCode,
   WebSocket,
 } from './lib/middleware'
-import { logger as Logger, Requester, Validator, Builder, Overrider } from './lib/modules'
+import {
+  logger as Logger,
+  Requester,
+  Validator,
+  Builder,
+  Overrider,
+  AdapterError,
+} from './lib/modules'
 import * as metrics from './lib/metrics'
 import * as server from './lib/server'
 import { configureStore } from './lib/store'
@@ -129,16 +136,12 @@ export const executeSync: ExecuteSync = async <D extends AdapterData>(
   try {
     const result = await execute(data, context)
     return callback(result.statusCode, result)
-  } catch (error) {
+  } catch (e) {
+    const error = new AdapterError(e as Partial<AdapterError>)
     const feedID = metrics.util.getFeedId(data)
     return callback(
       error.statusCode || 500,
-      Requester.errored(
-        data.id,
-        error,
-        error.providerResponseStatusCode || error.statusCode,
-        feedID,
-      ),
+      Requester.errored(data.id, error, error.providerStatusCode || error.statusCode, feedID),
     )
   }
 }

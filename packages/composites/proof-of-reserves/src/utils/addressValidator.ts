@@ -83,7 +83,8 @@ export const validateAddresses = (
 const getValidEvmAddress = (id: string, address: string): string | undefined => {
   try {
     return utils.getAddress(address)
-  } catch (error) {
+  } catch (e) {
+    const error = e as Error
     Logger.warn(
       error,
       `JobId ${id}: The address "${address}" is invalid or has an invalid checksum and has been removed from the request.`,

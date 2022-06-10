@@ -17,19 +17,19 @@ import * as Tiingo from '@chainlink/tiingo-adapter'
 
 // TODO types
 export const adapters: AdapterImplementation[] = [
-  Amberdata as any,
-  CFBenchmarks as any,
-  CoinApi as any,
-  CoinGecko as any,
-  CoinMarketCap as any,
-  CoinMetrics as any,
-  CoinPaprika as any,
-  CryptoCompare as any,
-  Finage as any,
-  Kaiko as any,
-  NCFX as any,
-  Nomics as any,
-  Tiingo as any,
+  Amberdata as unknown as AdapterImplementation,
+  CFBenchmarks as unknown as AdapterImplementation,
+  CoinApi as unknown as AdapterImplementation,
+  CoinGecko as unknown as AdapterImplementation,
+  CoinMarketCap as unknown as AdapterImplementation,
+  CoinMetrics as unknown as AdapterImplementation,
+  CoinPaprika as unknown as AdapterImplementation,
+  CryptoCompare as unknown as AdapterImplementation,
+  Finage as unknown as AdapterImplementation,
+  Kaiko as unknown as AdapterImplementation,
+  NCFX as unknown as AdapterImplementation,
+  Nomics as unknown as AdapterImplementation,
+  Tiingo as unknown as AdapterImplementation,
 ]
 
 export type Source = typeof adapters[number]['NAME']

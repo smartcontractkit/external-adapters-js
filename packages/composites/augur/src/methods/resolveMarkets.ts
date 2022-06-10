@@ -98,7 +98,8 @@ const resolveTeam = async (
       // TODO: makeExecute return types
       events.push(response.result as unknown as ResolveTeam)
     } catch (e) {
-      Logger.error(e)
+      const error = e as Error
+      Logger.error(error)
     }
   }
 
@@ -135,8 +136,9 @@ const resolveTeam = async (
       nonce++
       succeeded++
     } catch (e) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 
@@ -191,7 +193,8 @@ const resolveFights = async (
       // TODO: makeExecute return types
       events.push(response.result as unknown as ResolveFight)
     } catch (e) {
-      Logger.error(e)
+      const error = e as Error
+      Logger.error(error)
     }
   }
 
@@ -224,8 +227,9 @@ const resolveFights = async (
       nonce++
       succeeded++
     } catch (e) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 

@@ -74,12 +74,13 @@ const scanWithRetries = async (
     try {
       return await _execute(requestData, context)
     } catch (e) {
-      if (e.cause?.response?.data?.error?.code === -8) {
+      const error = e as Error
+      if ((error.cause as any)?.response?.data?.error?.code === -8) {
         Logger.debug('scan is already in progress, waiting 1s...')
         Logger.debug(`time left to wait: ${deadline - Date.now()}ms`)
         await util.sleep(1000)
         continue
-      } else if (e.message === `timeout of ${config.api?.timeout}ms exceeded`) {
+      } else if (error.message === `timeout of ${config.api?.timeout}ms exceeded`) {
         // Highly experimental:
         // If a timeout error was hit, we try to abort the scan that we initiated
         // However there is a race condition where:
@@ -94,7 +95,8 @@ const scanWithRetries = async (
         try {
           await _execute(requestData, context)
         } catch (e) {
-          Logger.error(`failed to abort scan in progress: ${e.message}`)
+          const error = e as Error
+          Logger.error(`failed to abort scan in progress: ${error.message}`)
         }
       }
 

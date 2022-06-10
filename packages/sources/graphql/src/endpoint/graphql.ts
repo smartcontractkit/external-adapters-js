@@ -60,13 +60,14 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     response.data.result = responseData
     return Requester.success(jobRunID, response, config.verbose)
   } catch (e) {
+    const error = e as any
     const errorPayload = {
       jobRunID,
       message: `GraphQL request to ${graphqlEndpoint} failed with error ${e}`,
     }
-    throw e.response
+    throw error.response
       ? new AdapterDataProviderError(errorPayload)
-      : e.request
+      : error.request
       ? new AdapterConnectionError(errorPayload)
       : new AdapterError(errorPayload)
   }

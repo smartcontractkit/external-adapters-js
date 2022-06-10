@@ -8,7 +8,7 @@ export class AdapterError extends Error {
   statusCode: number
   name: string
   message: string
-  cause: unknown
+  cause: Error | undefined
   url?: string
   errorResponse: unknown
   feedID?: string

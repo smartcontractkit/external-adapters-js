@@ -79,13 +79,15 @@ export const getDebtIssued = async (
         const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
         return [network, blockNumber, issuedSynths]
       } catch (e) {
+        const error = e as any
+
         const errorPayload = {
           jobRunID,
-          message: `Failed to fetch debt data from chain ${network}.  Error Message: ${e}`,
+          message: `Failed to fetch debt data from chain ${network}.  Error Message: ${error}`,
         }
-        throw e.response
+        throw error.response
           ? new AdapterDataProviderError(errorPayload)
-          : e.request
+          : error.request
           ? new AdapterConnectionError(errorPayload)
           : new AdapterError(errorPayload)
       }
