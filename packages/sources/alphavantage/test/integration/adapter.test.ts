@@ -5,32 +5,22 @@ import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import { mockResponseSuccess } from './fixtures'
 import { AddressInfo } from 'net'
+import { setupExternalAdapterTest, SuiteContext, EnvVariables } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
 
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
+  const envVariables: EnvVariables = {
+    API_KEY: process.env.API_KEY || 'fake-api-key',
+    CACHE_ENABLED: 'false',
+  }
 
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('forex rate api', () => {
     const data: AdapterRequest = {
@@ -44,7 +34,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
