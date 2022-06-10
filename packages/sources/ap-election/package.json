@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ap-election-adapter",
-  "version": "1.1.39",
+  "version": "1.1.40",
   "description": "Chainlink ap-election adapter.",
   "keywords": [
     "Chainlink",
