@@ -1,5 +1,15 @@
 # @chainlink/ea-bootstrap
 
+## 2.9.0
+
+### Minor Changes
+
+- 8866db3a1: Removed request_origin label from metrics & tests. Added 'result' to excluded properties in cache key & feed ID generation.
+
+### Patch Changes
+
+- fb75088f2: clean all redux state after server shutdown
+
 ## 2.8.0
 
 ### Minor Changes
