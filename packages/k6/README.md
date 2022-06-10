@@ -168,7 +168,7 @@ Then, remember to set the source URL for each EA you want to run in the `[adapte
 E.g.:
 
 ```bash
-export coingecko_SOURCE_URL="https://api.coingecko.com/api/v3"
+export coingecko_DATA_SOURCE_URL="https://api.coingecko.com/api/v3"
 ```
 
 > **Note**

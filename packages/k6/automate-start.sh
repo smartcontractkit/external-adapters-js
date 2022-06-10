@@ -22,7 +22,7 @@ do
   version=$(echo "$var" | cut -d : -f 2)
 
   # Run the mock API
-  printf -v envDpSourceUrl "%s_SOURCE_URL" "$adapter"
+  printf -v envDpSourceUrl "%s_DATA_SOURCE_URL" "$adapter"
   cd "$MOCK_API_DIR" && env SOURCE_URL="${!envDpSourceUrl}" PORT="$mockApiListenPort" yarn start &
 
   # Run the EA
