@@ -1,4 +1,4 @@
-import { RedisUnixSocketOptions } from '@node-redis/client/dist/lib/client/socket'
+import { RedisTlsSocketOptions } from '@node-redis/client/dist/lib/client/socket'
 import { defaultOptions, redactOptions, RedisCache } from '../../src/lib/middleware/cache/redis'
 import { CacheEntry } from '../../src/lib/middleware/cache/types'
 import { logger } from '../../src/lib/modules'
@@ -39,7 +39,7 @@ describe('Redis cache', () => {
     const redacted = redactOptions(options)
 
     delete redacted.socket.reconnectStrategy
-    delete (redacted.socket as RedisUnixSocketOptions).path
+    delete (redacted.socket as RedisTlsSocketOptions).path
 
     const expected = JSON.parse(JSON.stringify(options))
     expected.url = 'redis://*****@'
@@ -85,6 +85,7 @@ describe('Redis cache', () => {
       statusCode: 200,
       data: {
         number: 1234,
+        statusCode: 200,
       },
       result: 1234,
       maxAge,

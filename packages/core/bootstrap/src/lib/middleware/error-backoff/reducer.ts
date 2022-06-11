@@ -101,3 +101,6 @@ export const rootReducer = combineReducers({
   requests: requestReducer,
 })
 export type ErrorBackoffState = ReturnType<typeof rootReducer>
+export const initialState: ErrorBackoffState = {
+  requests: initialRequestsState,
+}

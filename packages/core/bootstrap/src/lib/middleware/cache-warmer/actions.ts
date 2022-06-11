@@ -1,20 +1,31 @@
-import { AdapterRequest, AdapterResponse, Execute } from '@chainlink/types'
-import { BatchableProperty } from './reducer'
-import { createAction } from '@reduxjs/toolkit'
+import type {
+  AdapterRequest,
+  AdapterResponse,
+  BatchableProperty,
+  Execute,
+  AdapterData,
+} from '../../../types'
+import { ActionCreatorWithPayload, createAction } from '@reduxjs/toolkit'
 
-export interface WarmupExecutePayload extends AdapterRequest {
+export interface WarmupExecutePayload<D extends AdapterData = AdapterData>
+  extends AdapterRequest<D> {
   /**
    * The Execute function of the adapter. Used when polling for new data.
    */
-  executeFn: Execute
+  executeFn: Execute<AdapterRequest<D>>
   /**
    * The response returned from requesting data from a provider
    */
   result: AdapterResponse
 }
 export const warmupExecute = createAction<WarmupExecutePayload>('WARMUP/EXECUTE')
+export const makeWarmupExecute = <D extends AdapterData = AdapterData>(): ActionCreatorWithPayload<
+  WarmupExecutePayload<D>,
+  string
+> => createAction<WarmupExecutePayload<D>>('WARMUP/EXECUTE')
 
-export interface WarmupSubscribedPayload extends WarmupExecutePayload {
+export interface WarmupSubscribedPayload<D extends AdapterData = AdapterData>
+  extends WarmupExecutePayload<D> {
   /**
    * Override the key to used when storing the subscription
    * Batch warmers will use a key without the data property

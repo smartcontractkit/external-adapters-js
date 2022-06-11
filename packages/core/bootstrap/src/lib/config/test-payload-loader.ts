@@ -1,28 +1,28 @@
 import Ajv, { JSONSchemaType } from 'ajv'
 import { logger } from '../modules'
 import path from 'path'
-import { AdapterRequestData } from '@chainlink/types'
+import type { AdapterRequestData, AdapterData } from '../../types'
 
 /**
  * The test payload read in from filesystem
  */
-export interface Payload {
-  requests: AdapterRequestData[]
+export interface Payload<D extends AdapterData> {
+  requests: Array<AdapterRequestData<D>>
 }
 
 /**
  * Test payload with discriminated union so we can tell when we should just do
  * a simple liveness check rather than a sample request
  */
-type TestPayload = (Payload & { isDefault: false }) | { isDefault: true }
+type TestPayload<D extends AdapterData> = (Payload<D> & { isDefault: false }) | { isDefault: true }
 
 /**
  * Load in a JSON file containing a test payload for the current adapter,
  * used in healthchecks to make sample requests
  */
-export function loadTestPayload(): TestPayload {
+export function loadTestPayload<D extends AdapterData>(): TestPayload<D> {
   const ajv = new Ajv()
-  const schema: JSONSchemaType<Payload> = {
+  const schema: JSONSchemaType<Payload<any>> = {
     type: 'object',
     required: ['requests'],
     properties: {
@@ -71,7 +71,7 @@ function resolveDynamicPayload(): string | null {
   }
 }
 
-function resolveStaticPayload(): Payload | null {
+function resolveStaticPayload<D extends AdapterData>(): Payload<D> | null {
   try {
     // Absolute path for JSON file
     return require(path.join(process.cwd(), 'test-payload.json'))

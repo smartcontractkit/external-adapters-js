@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import * as metrics from '../../../src/lib/metrics'
 import * as client from 'prom-client'
 
@@ -59,7 +59,7 @@ describe('withMetrics middleware', () => {
   it(`Records metrics successfully (with cache hit)`, async () => {
     const spy = jest.spyOn(client.Counter.prototype, 'labels')
     const mockResponse = {
-      data: { result: 1, maxAge: 123 },
+      data: { result: 1, maxAge: 123, statusCode: 200 },
       jobRunID: '1',
       result: 1,
       statusCode: 200,

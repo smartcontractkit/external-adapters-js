@@ -1,17 +1,17 @@
-import {
+import type {
   AdapterContext,
   AdapterRequest,
   AdapterResponse,
   MakeWSHandler,
   Middleware,
-} from '@chainlink/types'
-import { Store } from 'redux'
+} from '../../../types'
+import type { Store } from 'redux'
 import { connectRequested, subscribeRequested, WSSubscriptionPayload } from './actions'
 import { getWSConfig } from './config'
-import { RootState } from './reducer'
+import type { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
-import { getEnv, sleep } from '../../util'
+import { getEnv } from '../../util'
 import { AdapterTimeoutError } from '../../modules/error'
 
 export * as actions from './actions'
@@ -22,11 +22,15 @@ export * as reducer from './reducer'
 export * as types from './types'
 
 import { WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
+import { util } from '../../..'
 
 export const withWebSockets =
-  (store: Store<RootState>, makeWsHandler?: MakeWSHandler): Middleware =>
+  <R extends AdapterRequest, C extends AdapterContext>(
+    store: Store<RootState>,
+    makeWsHandler?: MakeWSHandler,
+  ): Middleware<R, C> =>
   async (execute, context) =>
-  async (input: AdapterRequest) => {
+  async (input) => {
     const wsConfig = getWSConfig(input.data.endpoint, context)
     if (!makeWsHandler || !wsConfig.enabled) return await execute(input, context) // ignore middleware if conditions are met
     if (input.id === WARMUP_REQUEST_ID || input.id === WARMUP_BATCH_REQUEST_ID)
@@ -103,7 +107,7 @@ const awaitResult = async (
       const cachedAdapterResponse = await localAdapterCache.getResultForRequest(input)
       if (cachedAdapterResponse) return cachedAdapterResponse
     }
-    await sleep(pollInterval)
+    await util.sleep(pollInterval)
   }
 
   throw new AdapterTimeoutError({

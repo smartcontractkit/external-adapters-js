@@ -1,14 +1,14 @@
-import { AdapterContext, AdapterRequest, Execute } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, AdapterResponse, Execute } from '../../../src/types'
 import { createStore, combineReducers, Store } from 'redux'
-import { useFakeTimers } from 'sinon'
+import { useFakeTimers, SinonFakeTimers } from 'sinon'
 import { withMiddleware } from '../../../src/index'
 import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
 import * as cacheWarmer from '../../../src/lib/middleware/cache-warmer'
 import * as rateLimit from '../../../src/lib/middleware/rate-limit'
-import { get } from '../../../src/lib/middleware/rate-limit/config'
+import { get } from '../../../src/lib/config/provider-limits/config'
 
-export const newStore = () => {
+export const newStore = (): ReturnType<typeof createStore> => {
   const initState = { cacheWarmer: {}, rateLimit: {} }
   const rootReducer = combineReducers({
     cacheWarmer: cacheWarmer.reducer.rootReducer,
@@ -18,14 +18,18 @@ export const newStore = () => {
   return store
 }
 
-export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
+export const makeExecuteWithWarmer = async (
+  execute: Execute,
+  store: Store,
+): Promise<(request: AdapterRequest) => Promise<AdapterResponse>> => {
   const options = defaultOptions()
   const context: AdapterContext = {
     cache: {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     },
-    rateLimit: get(),
+    rateLimit: { http: {}, ws: {} },
+    limits: get(undefined, {}),
   }
   const executeWithMiddleware = await withMiddleware(execute, context, [
     withCache(),
@@ -33,30 +37,32 @@ export const makeExecuteWithWarmer = async (execute: Execute, store: Store) => {
       getState: () => store.getState().rateLimit,
       dispatch: (a) => store.dispatch(a),
     } as Store),
-    withDebug,
+    withDebug(),
   ])
-  return async (data: AdapterRequest) => {
-    const result = await executeWithMiddleware(data, context)
+  return async (request: AdapterRequest) => {
+    const response = await executeWithMiddleware(request, context)
     store.dispatch(
       cacheWarmer.actions.warmupSubscribed({
-        id: data.id,
         executeFn: executeWithMiddleware,
-        data,
-      } as cacheWarmer.actions.WarmupSubscribedPayload),
+        ...response,
+        id: response.jobRunID, // TODO: check this
+        result: response,
+      }),
     )
-    return result
+    return response
   }
 }
 
 export const dataProviderMock = (cost = 1): { execute: Execute } => {
   return {
-    execute: async (request): Promise<any> => {
+    execute: async (request) => {
       return {
         jobRunID: request.id,
         data: {
           result: '',
           cost,
           rateLimitMaxAge: request.data?.rateLimitMaxAge,
+          statusCode: 200,
         },
         result: '',
         statusCode: 200,
@@ -65,7 +71,11 @@ export const dataProviderMock = (cost = 1): { execute: Execute } => {
   }
 }
 
-export const getRLTokenSpentPerMinute = (hearbeats: rateLimit.reducer.Heartbeats) => {
+export const getRLTokenSpentPerMinute = (
+  hearbeats: rateLimit.reducer.Heartbeats,
+): {
+  [key: number]: number
+} => {
   const allResponses = Object.keys(hearbeats.participants).flatMap(
     (id) => hearbeats.participants[id][rateLimit.reducer.IntervalNames.HOUR],
   )
@@ -86,7 +96,7 @@ export const getRLTokenSpentPerMinute = (hearbeats: rateLimit.reducer.Heartbeats
   return rlPerMin
 }
 
-export function setupClock() {
+export function setupClock(): readonly [SinonFakeTimers, () => void] {
   const clock = useFakeTimers()
   return [
     clock,

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '.'
-import {
+import type {
   AdapterRequest,
   Config,
   APIEndpoint,
@@ -7,17 +7,18 @@ import {
   InputParameters,
   AdapterContext,
   MakeResultPath,
+  TBaseInputParameters,
+  AdapterData,
   UpstreamEndpointsGroup,
-} from '@chainlink/types'
+} from '../../types'
 import { logger } from '../modules'
 import { cloneDeep } from 'lodash'
 import { AdapterConfigError, AdapterInputError, AdapterOverriderError } from './error'
 
-export const baseInputParameters: InputParameters = {
+export const baseInputParameters: InputParameters<TBaseInputParameters> = {
   endpoint: {
     description: 'The External Adapter "endpoint" name to use.',
     required: false,
-    type: 'string',
   },
 
   resultPath: {
@@ -34,7 +35,7 @@ export const baseInputParameters: InputParameters = {
   tokenOverrides: {
     description: 'Override the mapping of token symbols to smart contract address',
     required: false,
-    // type: 'string', TODO: Once complex types are supported this could be { [network: string]: { [token: string]: string } }
+    type: 'string', // TODO: Once complex types are supported this could be { [network: string]: { [token: string]: string } }
   },
   includes: {
     description:
@@ -45,10 +46,10 @@ export const baseInputParameters: InputParameters = {
 }
 export const baseInputParameterKeys = Object.keys(baseInputParameters)
 
-const findSupportedEndpoint = <C extends Config>(
-  apiEndpoints: Record<string, APIEndpoint<C>>,
+const findSupportedEndpoint = <C extends Config, D extends AdapterData>(
+  apiEndpoints: Record<string, APIEndpoint<C, D>>,
   endpoint: string,
-): APIEndpoint<C> | null => {
+): APIEndpoint<C, D> | null => {
   for (const apiEndpoint of Object.values(apiEndpoints)) {
     // Iterate through supported endpoints of a given Chainlink endpoint
     for (const supportedChainlinkEndpoint of apiEndpoint.supportedEndpoints) {
@@ -60,13 +61,13 @@ const findSupportedEndpoint = <C extends Config>(
   return null
 }
 
-const selectEndpoint = <C extends Config>(
+const selectEndpoint = <C extends Config, D extends AdapterData>(
   request: AdapterRequest,
   config: C,
-  apiEndpoints: Record<string, APIEndpoint<C>>,
+  apiEndpoints: Record<string, APIEndpoint<C, D>>,
   customParams?: InputParameters,
-): APIEndpoint<C> => {
-  const params = customParams || baseInputParameters
+): APIEndpoint<C, D> => {
+  const params = customParams ?? {}
   const validator = new Validator(request, params, {}, { shouldThrowError: false })
 
   const jobRunID = validator.validated.id
@@ -96,14 +97,13 @@ const selectEndpoint = <C extends Config>(
   if (apiEndpoint.endpointOverride) {
     const overridenEndpoint = apiEndpoint.endpointOverride(request)
     if (overridenEndpoint) apiEndpoint = findSupportedEndpoint(apiEndpoints, overridenEndpoint)
-    if (request?.data?.endpoint) request.data.endpoint = overridenEndpoint
-
     if (!apiEndpoint)
       throw new AdapterOverriderError({
         jobRunID,
         message: `Overriden Endpoint ${overridenEndpoint} not supported.`,
         statusCode: 500,
       })
+    if (request?.data?.endpoint && overridenEndpoint) request.data.endpoint = overridenEndpoint
   }
 
   // Allow adapter endpoints to dynamically query different endpoint resultPaths
@@ -160,7 +160,7 @@ const selectCompositeEndpoint = <ConfigDownstream extends Config, ConfigUpstream
   let additionalInputParameters = {}
 
   for (const [inputPropertyName, adapterMap, upstreamEndpointName] of upstreamEndpointsGroups) {
-    const keyFromRequest = request.data[inputPropertyName]
+    const keyFromRequest = request.data[inputPropertyName] as string
     const upstreamAPIEndpoints = adapterMap[keyFromRequest?.toUpperCase()]
 
     if (!upstreamAPIEndpoints) {
@@ -207,16 +207,16 @@ const selectCompositeEndpoint = <ConfigDownstream extends Config, ConfigUpstream
   return downstreamEndpoint
 }
 
-const buildSelector = <C extends Config>(
-  request: AdapterRequest,
+const buildSelector = <C extends Config, D extends AdapterData>(
+  request: AdapterRequest<D>,
   context: AdapterContext,
   config: C,
-  apiEndpoints: Record<string, APIEndpoint<C>>,
+  apiEndpoints: Record<string, APIEndpoint<C, D>>,
   customParams?: InputParameters,
 ): Promise<AdapterResponse> => {
   Requester.logConfig(config)
 
-  const apiEndpoint = selectEndpoint<C>(request, config, apiEndpoints, customParams)
+  const apiEndpoint = selectEndpoint<C, D>(request, config, apiEndpoints, customParams)
 
   if (typeof apiEndpoint.execute === 'function') {
     return apiEndpoint.execute(request, context, config)

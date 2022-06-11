@@ -90,18 +90,16 @@ const getProviderLimits = (
 }
 
 const parseLimits = (limits: Limits): Limits => {
-  const _mapObject = (fn: any) => (o: any) => Object.fromEntries(Object.entries(o).map(fn))
-  const _formatProtocol = _mapObject((entry: any[]) => {
-    const [tierName, rest] = entry
-    return [tierName.toLowerCase(), { ...(rest as any) }]
-  })
-  const _formatProvider = (limits: Limits) => {
-    const http = _formatProtocol(limits.http)
-    const ws = _formatProtocol(limits?.ws)
-    return { http, ws }
-  }
-
-  return _formatProvider(limits)
+  const lowercase = (o: Limits['ws'] | Limits['http']) =>
+    Object.fromEntries(
+      Object.entries(o).map((entry) => {
+        const [tierName, rest] = entry
+        return [tierName.toLowerCase(), { ...rest }]
+      }),
+    )
+  const http = lowercase(limits.http)
+  const ws = lowercase(limits?.ws)
+  return { http, ws }
 }
 
 const calculateWSLimits = (providerLimit: WSTier): WSTier => {
