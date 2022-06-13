@@ -10,6 +10,7 @@ local layout = import './layout.libsonnet';
 local prometheusNamespace = std.extVar('prometheusNamespace');
 local cortexDataSource = std.extVar('cortexDataSource');
 local instanceFilter = 'namespace="$namespace",service=~"$service.*"';
+local namespaceFilter = 'namespace="$namespace",app_name=~"$adapter.*"';
 local interval = '[$__rate_interval]';
 
 /**
@@ -40,11 +41,23 @@ local createTemplates(multiService) =
     includeAll=true,
     refresh='load'
   );
+  local adapterTempl = template.new(
+    'adapter',
+    datasource=cortexDataSource,
+    query='http_requests_total{namespace="$namespace"}',
+    multi=true,
+    sort=1,
+    current='All',
+    regex='/app_name="(.*?)"/',
+    includeAll=true,
+    refresh='load'
+  );
 
   [
     namespaceTempl,
     serviceTempl,
     feedTempl,
+    adapterTempl,
   ];
 
 local addSideLegend(graphPanel) =
@@ -87,6 +100,7 @@ local createDashboard(templates, grid) =
   constants: {
     cortexDataSource: cortexDataSource,
     instanceFilter: instanceFilter,
+    namespaceFilter: namespaceFilter,
     interval: interval,
   },
   createTemplates: createTemplates,

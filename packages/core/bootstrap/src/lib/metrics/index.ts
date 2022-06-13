@@ -16,8 +16,6 @@ export const setupMetrics = (name: string): void => {
 }
 const DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE = 200
 export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
-  // If no requestOrigin comes through, then this is a cache warmer request
-  requestOrigin: input.data.metricsMeta?.requestOrigin || util.WARMER_FEED_ID,
   feedId: util.getFeedId(input),
 })
 
@@ -44,7 +42,6 @@ export const withMetrics: Middleware =
         is_cache_warming: String(input.id === WARMUP_REQUEST_ID),
         method: 'POST',
         feed_id: metricsMeta.feedId,
-        request_origin: metricsMeta.requestOrigin,
       }
       const end = httpRequestDurationSeconds.startTimer()
 
@@ -95,7 +92,6 @@ export const httpRequestsTotal = new client.Counter({
     'is_cache_warming',
     'feed_id',
     'provider_status_code',
-    'request_origin',
   ] as const,
 })
 

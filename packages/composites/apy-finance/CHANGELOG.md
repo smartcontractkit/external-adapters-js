@@ -1,5 +1,15 @@
 # @chainlink/apy-finance-adapter
 
+## 1.0.74
+
+### Patch Changes
+
+- Updated dependencies [8866db3a1]
+- Updated dependencies [fb75088f2]
+  - @chainlink/ea-bootstrap@2.9.0
+  - @chainlink/token-allocation-adapter@1.3.24
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.73
 
 ### Patch Changes

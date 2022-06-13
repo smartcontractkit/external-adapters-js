@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/mock-ea-adapter",
-  "version": "2.0.27",
+  "version": "2.0.28",
   "description": "Chainlink mock-ea adapter.",
   "keywords": [
     "Chainlink",
@@ -36,9 +36,9 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.36",
+    "@types/node": "16.11.38",
     "@types/supertest": "2.0.12",
-    "nock": "13.2.4",
+    "nock": "13.2.6",
     "typescript": "4.3.5"
   }
 }
