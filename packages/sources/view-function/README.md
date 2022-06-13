@@ -1,6 +1,6 @@
 # Chainlink External Adapter for View-Function
 
-![1.1.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json)
+![1.1.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json)
 
 External adapter for executing contract function and returning the result
 

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptex-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink cryptex adapter.",
   "keywords": [
     "Chainlink",

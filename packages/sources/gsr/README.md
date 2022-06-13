@@ -1,6 +1,6 @@
 # GSR Adapter
 
-![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gsr/package.json)
+![1.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gsr/package.json)
 
 This adapter only supports WS connections. Make sure WS is enabled in your configuration in order to run this adapter.
 

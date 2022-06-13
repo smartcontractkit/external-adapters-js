@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-adapter",
-  "version": "1.3.23",
+  "version": "1.3.24",
   "description": "Chainlink token allocation adapter",
   "keywords": [
     "Chainlink",
