@@ -23,7 +23,6 @@ import {
 import { logger } from './logger'
 import objectPath from 'object-path'
 import { join } from 'path'
-import { Logger } from '../..'
 import { recordDataProviderRequest } from '../metrics'
 
 const getFalse = () => false
@@ -109,7 +108,7 @@ export class Requester {
           const message = `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: ${JSON.stringify(
             response.data,
           )}`
-          Logger.error(message)
+          logger.error(message)
           const cause = response.data.error || 'customError'
           const providerStatusCode: number | undefined =
             response.data.error?.code ?? response.status

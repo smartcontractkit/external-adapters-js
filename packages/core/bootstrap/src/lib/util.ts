@@ -3,7 +3,6 @@ import { Decimal } from 'decimal.js'
 import { FastifyRequest } from 'fastify'
 import { flatMap, values } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { Logger } from '..'
 import { CacheEntry } from './middleware/cache/types'
 import { AdapterConfigError, RequiredEnvError } from './modules/error'
 import { logger } from './modules/logger'
@@ -180,7 +179,7 @@ export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
   if (!val) {
     const error = new RequiredEnvError(getEnvName(name, prefix))
-    Logger.error(error.message)
+    logger.error(error.message)
     throw error
   }
   return val
