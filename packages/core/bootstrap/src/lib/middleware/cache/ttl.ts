@@ -23,9 +23,9 @@ export const getRateLimitMaxAge = (
     logger.warn(
       `${
         feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-      } Cache: Calculated TTL exceeds maximum TTL, using maximum of ${
+      } Cache: Incoming requests exceed what's supported by the configured Data Provider rate limit. Defaulting to the max cache age value of ${
         options.cacheImplOptions.maxAge / 1000 / 60
-      } minutes`,
+      } minutes. WARNING: This may cause you to exceed your Data Provider rate limits and report stale data!`,
       adapterRequest,
     )
     return options.cacheImplOptions.maxAge
