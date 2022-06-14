@@ -35,6 +35,8 @@ import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import { FastifyInstance } from 'fastify'
 
+export * from './types'
+
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 

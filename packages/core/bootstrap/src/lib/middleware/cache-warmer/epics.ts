@@ -42,17 +42,18 @@ import {
   WARMUP_POLL_OFFSET,
 } from './config'
 import { concatenateBatchResults, getSubscriptionKey, splitIntoBatches } from './util'
-import { getTTL, getMaxAgeOverride } from '../cache/ttl'
+import { getTTL, getMaxAgeOverride } from '../cache/utils'
 import * as metrics from './metrics'
 import { getFeedId } from '../../metrics/util'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { serverShutdown } from '../../store'
+import { RootState } from '../../..'
 
 export interface EpicDependencies {
   config: Config
 }
 
-export const executeHandler: Epic<AnyAction, AnyAction, AnyAction> = (action$, state$) => {
+export const executeHandler: Epic<AnyAction, AnyAction, RootState> = (action$, state$) => {
   const warmupExecute$ = action$.pipe(filter(warmupExecute.match))
   const [batchExecute$, execute$] = partition(
     warmupExecute$,
@@ -151,7 +152,7 @@ export const executeHandler: Epic<AnyAction, AnyAction, AnyAction> = (action$, s
   return merge(subscribeBatch$, subscribeIndividual$)
 }
 
-export const warmupSubscriber: Epic<AnyAction, AnyAction, AnyAction, EpicDependencies> = (
+export const warmupSubscriber: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
   action$,
   state$,
   { config },
@@ -222,7 +223,7 @@ export const warmupSubscriber: Epic<AnyAction, AnyAction, AnyAction, EpicDepende
 /**
  * Handle warmup response request events
  */
-export const warmupRequestHandler: Epic<AnyAction, AnyAction, AnyAction> = (action$, state$) =>
+export const warmupRequestHandler: Epic<AnyAction, AnyAction, RootState> = (action$, state$) =>
   action$.pipe(
     // this pipeline will execute when we have a request to warm up an adapter
     filter(warmupRequested.match),
@@ -295,7 +296,7 @@ export const warmupRequestHandler: Epic<AnyAction, AnyAction, AnyAction> = (acti
   )
 
 // we can combine this into one of the above epics if we have performance issues later on
-export const warmupUnsubscriber: Epic<AnyAction, AnyAction, AnyAction, EpicDependencies> = (
+export const warmupUnsubscriber: Epic<AnyAction, AnyAction, RootState, EpicDependencies> = (
   action$,
   state$,
   { config },
@@ -400,7 +401,7 @@ export const rootEpic = combineEpics(
 export const epicMiddleware = createEpicMiddleware<
   AnyAction,
   AnyAction,
-  AnyAction,
+  RootState,
   EpicDependencies
 >({
   dependencies: { config: get() },
