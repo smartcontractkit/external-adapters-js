@@ -41,3 +41,67 @@ jb install
 ```sh
 ./scripts/deploy.sh
 ```
+
+---
+
+# Adding a new Codified dashboard
+
+1. Create a new `jsonnet` file in `grafana/src`.
+2. Import the required depencencies for your dashboard. You can get an idea of what this looks like from the other `jsonnet` dashboards.
+3. Create panels.
+
+---
+
+## Adding a new panel:
+
+Read the [Grafonnet Docs](https://grafana.github.io/grafonnet-lib/api-docs/) for more information, but there are quick an easy ways to add new panels.
+
+### Here is an example of a panel, which has a few parameters that determine what it looks like in the dashboard.
+
+```
+local panelName = graphPanel.new(
+  title='Panel Title',
+  datasource=cortexDataSource,
+  format='pecrent',
+).addTarget(
+  prometheus.target(
+    'promQL query'
+  )
+);
+```
+
+The `promQL query` is a query that interacts with the Prometheus/Grafana cloud database. If you are turning an already existing dashboard into a codified one, you can simply copy the promQL from that panel directly into the `jsonnet` file.
+
+Most dashboards have pieces of promQL queries repeated throughout. For easy customizability and readability, the existing dashboards save these repeated strings as variables, and reuse them throughout. They are defined as constants in `grafana/src/shared.libsonnet`
+
+---
+
+## Defining the grid:
+
+The layout of the panels is defined as a grid, which is an array of objects defining the size and order of one or more panels.
+
+```
+grid = [
+  {
+    panels: [
+        panelName { size:: 1 },
+        panelName2 { size:: 1 },
+    ],
+    height: 14,
+  }
+];
+```
+
+This grid array would create a dashboard with 2 panels size by side with a height of 14.
+
+---
+
+## Launching the dashboard
+
+After defining the grid, add the following line to the bottom of the code to build the dashboard.
+
+```
+shared.helpers.createDashboard(templates, grid)
+```
+
+A template is a placeholder for a value and can be used to filter all the panels in a given dashboard. Templates are configured in `shared.libsonnet`. (More on templates [here](https://grafana.com/docs/grafana/latest/variables/))
