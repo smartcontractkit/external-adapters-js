@@ -1,5 +1,5 @@
 import Ajv, { JSONSchemaType } from 'ajv'
-import { logger } from '../modules'
+import { logger } from '../modules/logger'
 import path from 'path'
 import type { AdapterRequestData, AdapterData } from '../../types'
 

@@ -6,23 +6,24 @@ import type {
   Execute,
   Middleware,
 } from '../../../types'
-import { AdapterError, logger } from '../../modules'
+import { logger } from '../../modules/logger'
+import { AdapterError } from '../../modules/error'
 import { Store } from 'redux'
 import { reducer } from '../burst-limit'
 import { withBurstLimit } from '../burst-limit'
 import { exponentialBackOffMs, getEnv, getWithCoalescing, parseBool, uuid, sleep } from '../../util'
-import { getMaxAgeOverride, getTTL } from './utils/ttl'
+import { getMaxAgeOverride, getTTL } from './ttl'
 import * as local from './local'
 import * as redis from './redis'
 import * as metrics from './metrics'
-import * as types from './types'
+import { CacheOptions, CacheImplOptions, CacheEntry, Cache } from './types'
 
 const DEFAULT_CACHE_KEY_GROUP = uuid()
 
 export const defaultOptions = (
   shouldUseLocal?: boolean,
   adapterContext?: AdapterContext,
-): types.CacheOptions => {
+): CacheOptions => {
   return {
     enabled: parseBool(getEnv('CACHE_ENABLED', undefined, adapterContext)),
     cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
@@ -45,14 +46,14 @@ export const defaultOptions = (
   }
 }
 
-const defaultCacheImplOptions = (): types.CacheImplOptions => {
+const defaultCacheImplOptions = (): CacheImplOptions => {
   const type = getEnv('CACHE_TYPE')
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
   return options
 }
 
 const defaultCacheBuilder = () => {
-  return async (options: types.CacheImplOptions) => {
+  return async (options: CacheImplOptions) => {
     switch (options.type) {
       case 'redis': {
         return await redis.RedisCache.build(options as redis.RedisOptions)
@@ -65,7 +66,7 @@ const defaultCacheBuilder = () => {
 }
 
 // Options without sensitive data
-export const redactOptions = (options: types.CacheOptions): types.CacheOptions => ({
+export const redactOptions = (options: CacheOptions): CacheOptions => ({
   ...options,
   cacheImplOptions:
     options.cacheImplOptions.type === 'redis'
@@ -74,8 +75,8 @@ export const redactOptions = (options: types.CacheOptions): types.CacheOptions =
 })
 
 export class AdapterCache {
-  private readonly options: types.CacheOptions
-  private cache: types.Cache
+  private readonly options: CacheOptions
+  private cache: Cache
 
   constructor(context: AdapterContext) {
     if (!context?.cache?.instance) throw Error(`cache not initiated`)
@@ -92,7 +93,7 @@ export class AdapterCache {
     return `${this.options.key.group}:${key}`
   }
 
-  public get instance(): types.Cache {
+  public get instance(): Cache {
     return this.cache
   }
 
@@ -112,7 +113,7 @@ export class AdapterCache {
     logger.debug(`Request coalescing: DEL ${key}`)
   }
 
-  public getWithCoalescing(key: string): Promise<undefined | types.CacheEntry> {
+  public getWithCoalescing(key: string): Promise<undefined | CacheEntry> {
     return getWithCoalescing({
       get: async (retryCount: number) => {
         const entry = await this.cache.getResponse(key)
@@ -313,7 +314,7 @@ export const withCache =
             const debugBatchablePropertyPath = debug
               ? { batchablePropertyPath: debug.batchablePropertyPath }
               : {}
-            const entry: types.CacheEntry = {
+            const entry: CacheEntry = {
               statusCode,
               data,
               result,
@@ -364,4 +365,4 @@ export const withCache =
     }
   }
 
-export default { Cache: AdapterCache, withCache, types }
+export * from './types'

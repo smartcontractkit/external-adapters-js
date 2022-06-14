@@ -1,4 +1,4 @@
-import { AdapterRequest, APIEndpoint, Config, Execute } from '@chainlink/types'
+import { AdapterRequest, APIEndpoint, Config, Execute } from '../../src/types'
 import { withCacheKey } from '../../src/lib/middleware/cache-key'
 
 describe('Cache key middleware', () => {

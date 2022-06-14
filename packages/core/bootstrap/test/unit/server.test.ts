@@ -1,4 +1,4 @@
-import { AdapterResponse, Execute } from '@chainlink/types'
+import { AdapterResponse, Execute } from '../../src/types'
 import axios from 'axios'
 import { expose } from '../../src'
 

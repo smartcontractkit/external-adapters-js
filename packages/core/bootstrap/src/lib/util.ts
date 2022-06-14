@@ -4,7 +4,7 @@ import type { CacheEntry } from './middleware/cache/types'
 import { Decimal } from 'decimal.js'
 import { flatMap, values, List } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { logger } from './modules'
+import { logger } from './modules/logger'
 import { AdapterConfigError, RequiredEnvError } from './modules/error'
 
 export const isString = (value: unknown): boolean =>

@@ -7,7 +7,7 @@ import type {
   AdapterData,
   AdapterContext,
 } from '../../../types'
-import { Validator } from '../../modules'
+import { Validator } from '../../modules/validator'
 import { getHashOpts, hash, excludableInternalAdapterRequestProperties } from './util'
 import crypto from 'crypto'
 import { baseInputParameterKeys, baseInputParameters } from '../../modules/selector'

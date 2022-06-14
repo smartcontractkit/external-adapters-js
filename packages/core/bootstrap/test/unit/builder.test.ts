@@ -6,7 +6,7 @@ import {
   ExecuteWithConfig,
   Config,
   AdapterRequest,
-} from '@chainlink/ea-bootstrap'
+} from '../../src/types'
 
 describe('Selector', () => {
   const execute: ExecuteWithConfig<Config> = async () => {

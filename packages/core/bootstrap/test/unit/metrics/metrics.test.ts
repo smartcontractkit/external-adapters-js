@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Execute } from '../../../src/types'
 import * as metrics from '../../../src/lib/metrics'
 import * as client from 'prom-client'
 

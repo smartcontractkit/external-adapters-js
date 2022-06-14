@@ -6,7 +6,7 @@ import type {
   Value,
 } from '../../../types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
-import { logger } from '../../modules'
+import { logger } from '../../modules/logger'
 import * as actions from './actions'
 import { getSubscriptionKey } from './util'
 import { merge, uniq } from 'lodash'

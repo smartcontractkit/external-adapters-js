@@ -6,8 +6,8 @@ import type {
   Middleware,
 } from '../../../types'
 import type { Store } from 'redux'
-import { withMiddleware } from '../../../index'
-import { logger } from '../../modules'
+import { withMiddleware } from '../../..'
+import { logger } from '../../modules/logger'
 import * as util from '../../util'
 import { getWSConfig } from '../ws/config'
 import { getSubsId, RootState as WSState } from '../ws/reducer'

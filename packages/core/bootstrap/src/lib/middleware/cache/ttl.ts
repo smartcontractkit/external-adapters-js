@@ -1,7 +1,7 @@
-import { logger } from '../../../modules'
-import type { AdapterRequestWithRateLimit } from '../../../../types'
-import { defaultOptions } from '..'
-import type { CacheOptions } from '../types'
+import { logger } from '../../modules/logger'
+import type { AdapterRequestWithRateLimit } from '../../../types'
+import { defaultOptions } from '.'
+import type { CacheOptions } from './types'
 
 export const WARNING_MAX_AGE = 1000 * 60 * 2 // 2 minutes
 

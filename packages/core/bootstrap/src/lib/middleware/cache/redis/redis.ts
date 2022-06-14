@@ -6,7 +6,7 @@ import {
   RedisClientType,
   RedisClientOptions,
 } from '@node-redis/client'
-import { logger } from '../../../modules'
+import { logger } from '../../../modules/logger'
 import type { ICache, CacheEntry } from '../types'
 import * as metrics from './metrics'
 import { getEnv } from '../../../util'

@@ -7,7 +7,7 @@ import type {
   AdapterData,
   InputParameters,
 } from '../../../types'
-import { Validator } from '../../modules'
+import { Validator } from '../../modules/validator'
 
 /**
   Changes input parameters keys to a standard alias.

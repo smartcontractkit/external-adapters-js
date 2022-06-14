@@ -1,6 +1,6 @@
 import { separateBatches } from '../../src/lib/middleware/ws/utils'
 import { WebSocketClassProvider, WsMessageRecorder } from '../../src/lib/middleware/ws/recorder'
-import { AdapterRequest, AdapterResponse, MakeWSHandler } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, MakeWSHandler } from '../../src/types'
 
 // Need to import the index to avoid bad initialization
 import '../../src'

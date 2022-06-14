@@ -1,4 +1,4 @@
-import { AdapterContext, AdapterRequest, Middleware } from '../../../types'
+import type { AdapterContext, AdapterRequest, Middleware } from '../../../types'
 import { Store } from 'redux'
 import {
   ErrorBackoffState,
@@ -8,7 +8,8 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { AdapterBackoffError, logger } from '../../modules'
+import { logger } from '../../modules/logger'
+import { AdapterBackoffError } from '../../modules/error'
 import { makeId } from '../rate-limit'
 import { getEnv } from '../../util'
 

@@ -1,6 +1,7 @@
 import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
 import { getEnv, parseBool } from '../../util'
-import { AdapterError, logger } from '../../modules'
+import { logger } from '../../modules/logger'
+import { AdapterError } from '../../modules/error'
 import type { AdapterContext } from '../../../types'
 
 export interface Config {

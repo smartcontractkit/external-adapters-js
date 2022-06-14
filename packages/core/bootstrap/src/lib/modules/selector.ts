@@ -1,4 +1,3 @@
-import { Requester, Validator } from '.'
 import type {
   AdapterRequest,
   Config,
@@ -11,7 +10,9 @@ import type {
   AdapterData,
   UpstreamEndpointsGroup,
 } from '../../types'
-import { logger } from '../modules'
+import { logger } from '../modules/logger'
+import { Validator } from '../modules/validator'
+import { Requester } from '../modules/requester'
 import { cloneDeep } from 'lodash'
 import { AdapterConfigError, AdapterInputError, AdapterOverriderError } from './error'
 

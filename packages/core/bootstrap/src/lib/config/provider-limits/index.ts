@@ -1,4 +1,5 @@
-import { AdapterConfigError, logger } from '../../modules'
+import { logger } from '../../modules/logger'
+import { AdapterConfigError } from '../../modules/error'
 
 export const DEFAULT_MINUTE_RATE_LIMIT = 60
 export const BURST_UNDEFINED_QUOTA_MULTIPLE = 2

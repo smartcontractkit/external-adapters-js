@@ -4,7 +4,7 @@ import * as util from './util'
 import type { Middleware, AdapterRequest, AdapterMetricsMeta, AdapterContext } from '../../types'
 import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer'
 import { HttpRequestType, requestDurationBuckets } from './constants'
-import { AdapterError } from '../modules'
+import { AdapterError } from '../modules/error'
 
 export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
 

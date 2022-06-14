@@ -22,7 +22,7 @@ export * as reducer from './reducer'
 export * as types from './types'
 
 import { WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { util } from '../../..'
+import { sleep } from '../../util'
 
 export const withWebSockets =
   <R extends AdapterRequest, C extends AdapterContext>(
@@ -107,7 +107,7 @@ const awaitResult = async (
       const cachedAdapterResponse = await localAdapterCache.getResultForRequest(input)
       if (cachedAdapterResponse) return cachedAdapterResponse
     }
-    await util.sleep(pollInterval)
+    await sleep(pollInterval)
   }
 
   throw new AdapterTimeoutError({

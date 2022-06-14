@@ -8,7 +8,8 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { AdapterBurstLimitError, logger } from '../../modules'
+import { logger } from '../../modules/logger'
+import { AdapterBurstLimitError } from '../../modules/error'
 import { sleep } from '../../util'
 
 export * as actions from './actions'

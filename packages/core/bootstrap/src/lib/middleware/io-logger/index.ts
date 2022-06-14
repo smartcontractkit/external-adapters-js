@@ -1,5 +1,6 @@
 import type { Middleware, AdapterErrorLog, AdapterRequest, AdapterContext } from '../../../types'
-import { AdapterError, logger as Logger } from '../../modules'
+import { logger as Logger } from '../../modules/logger'
+import { AdapterError } from '../../modules/error'
 import { getFeedId } from '../../metrics/util'
 
 /**

@@ -12,34 +12,28 @@ import type {
   AdapterData,
 } from './types'
 import { AnyAction, combineReducers, Reducer, Store } from 'redux'
-import {
-  BurstLimit,
-  Cache,
-  CacheKey,
-  CacheWarmer,
-  Debug,
-  ErrorBackoff,
-  IoLogger,
-  Normalize,
-  RateLimit,
-  StatusCode,
-  WebSocket,
-} from './lib/middleware'
-import {
-  logger as Logger,
-  Requester,
-  Validator,
-  Builder,
-  Overrider,
-  AdapterError,
-} from './lib/modules'
+import * as BurstLimit from './lib/middleware/burst-limit'
+import * as Cache from './lib/middleware/cache'
+import * as CacheKey from './lib/middleware/cache-key'
+import * as CacheWarmer from './lib/middleware/cache-warmer'
+import * as Debug from './lib/middleware/debugger'
+import * as ErrorBackoff from './lib/middleware/error-backoff'
+import * as IoLogger from './lib/middleware/io-logger'
+import * as Normalize from './lib/middleware/normalize'
+import * as RateLimit from './lib/middleware/rate-limit'
+import * as StatusCode from './lib/middleware/status-code'
+import * as WebSocket from './lib/middleware/ws'
+import { logger as Logger } from './lib/modules/logger'
+import { Requester } from './lib/modules/requester'
+import { Validator } from './lib/modules/validator'
+import { Builder } from './lib/modules/selector'
+import { Overrider } from './lib/modules/overrider'
+import { AdapterError } from './lib/modules/error'
 import * as metrics from './lib/metrics'
 import * as server from './lib/server'
 import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import { FastifyInstance } from 'fastify'
-
-export * from './types'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
@@ -166,6 +160,8 @@ export const expose = <C extends Config, D extends AdapterData>(
   }
 }
 
+// Export types
+export * from './types'
 // Export all error types
 export * from './lib/modules/error'
 

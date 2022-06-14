@@ -1,5 +1,7 @@
 import type { AdapterRequest } from '../../types'
-import { AdapterError, logger, Validator } from '../modules'
+import { AdapterError } from '../modules/error'
+import { Validator } from '../modules/validator'
+import { logger } from '../modules/logger'
 import { excludableAdapterRequestProperties } from '../middleware/cache-key/util'
 import * as crypto from 'crypto'
 

@@ -17,7 +17,7 @@ import {
 } from 'rxjs/operators'
 import { webSocket } from 'rxjs/webSocket'
 import { withCache } from '../cache'
-import { censor, logger } from '../../modules'
+import { censor, logger } from '../../modules/logger'
 import { getFeedId } from '../../metrics/util'
 import {
   connectFailed,
