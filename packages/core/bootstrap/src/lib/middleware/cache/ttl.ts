@@ -23,7 +23,7 @@ export const getRateLimitMaxAge = (
     logger.warn(
       `${
         feedId && feedId[0] !== '{' ? `[${feedId}]` : ''
-      } Cache: Incoming requests exceed the data provider's rate limit. Defaulting to the max cache age value of ${
+      } Cache: Incoming requests exceed the configured data provider rate limit capacity. Defaulting to the max cache age value of ${
         options.cacheImplOptions.maxAge / 1000 / 60
       } minutes. WARNING: This may cause you to exceed your Data Provider rate limits and report stale data!`,
       adapterRequest,
