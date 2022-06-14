@@ -113,10 +113,8 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
       {},
       { shouldThrowError: false },
     )
-    if (validator.error) return
-    const base = validator.validated.data.base.toUpperCase()
-    const quote = validator.validated.data.quote.toUpperCase()
-    return `${base}.${quote}`
+    const { base = '', quote = '' } = validator.validated.data
+    return base && quote && [`${base.toUpperCase()}.${quote.toUpperCase()}`]
   }
 
   const refreshToken = async (config: Config) => {
@@ -146,8 +144,8 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
         protocol: { headers: { ...config.api.headers, 'x-auth-token': token?.token || '' } },
       },
       noHttp: true,
-      subscribe: (input) => ({ action: 'subscribe', symbols: [getPair(input)] }),
-      unsubscribe: (input) => ({ action: 'unsubscribe', symbols: [getPair(input)] }),
+      subscribe: (input) => ({ action: 'subscribe', symbols: getPair(input) }),
+      unsubscribe: (input) => ({ action: 'unsubscribe', symbols: getPair(input) }),
       subsFromMessage: (message, subscriptionMessage) => {
         if (message.type !== 'ticker') return
         if (!subscriptionMessage.symbols.includes(message.data.symbol)) return
