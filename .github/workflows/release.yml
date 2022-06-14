@@ -61,7 +61,7 @@ jobs:
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-role-to-assume: ${{ secrets.AWS_ARN_EA_PRIVATE }}
+          aws-role-to-assume: ${{ secrets.AWS_PRIVATE_ECR_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Publish adapter to private ECR
         id: publish-adapter-versioned-private-ecr
@@ -102,7 +102,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_ARN_EA_PUBLIC }}
+          role-to-assume: ${{ secrets.AWS_PUBLIC_ECR_ARN }}
           role-duration-seconds: 1200
 
       - if: github.ref == 'refs/heads/master'
