@@ -5,6 +5,8 @@ import {
   InputParameters,
   Requester,
   Validator,
+  AdapterDataProviderError,
+  util
 } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 
@@ -73,7 +75,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const walletProviderContract = new ethers.Contract(contractAddress, ADDRESS_MANAGER_ABI, provider)
-  const addresses: string[] = await walletProviderContract.walletAddresses(networkChainId)
+  let addresses: string[]
+  try {
+    addresses = await walletProviderContract.walletAddresses(networkChainId)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const response: Address[] = addresses.map((address) => ({ address, chainId, network }))
   const result: ResponseWithResult = {

@@ -537,3 +537,16 @@ export const registerUnhandledRejectionHandler = (): void => {
 
 export const getClientIp = (req: FastifyRequest): string =>
   req.ip ? req.ip : req.ips?.length ? req.ips[req.ips.length - 1] : 'unknown'
+
+export const RPCErrorMap = {
+  NETWORK_ERROR: `The provided RPC network could not be connected.`,
+  TIMEOUT: 'Request to the RPC has timed out',
+}
+
+export const mapRPCErrorMessage = (errorCode: string, errorMessage: string): string => {
+  // Try to transform error message if error is thrown from ether.js
+  if (RPCErrorMap[errorCode as keyof typeof RPCErrorMap] && errorMessage.includes('version')) {
+    return RPCErrorMap[errorCode as keyof typeof RPCErrorMap]
+  }
+  return errorMessage
+}

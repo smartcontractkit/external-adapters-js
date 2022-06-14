@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterDataProviderError, util, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_NETWORK, ETH } from '../config'
 import stagingAbi from '../abi/stagingContract.json'
@@ -35,7 +35,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
 
   const stagingContract = new ethers.Contract(stagingAddress, stagingAbi, provider)
-  const result = (await stagingContract.lastBlock()).toString()
+  let result
+  try {
+    result = (await stagingContract.lastBlock()).toString()
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const endpointResponse = {
     jobRunID,

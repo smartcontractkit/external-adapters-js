@@ -2,10 +2,12 @@ import { ADDRESS_MANAGER_ABI, STATE_COMMITMENT_CHAIN_ABI } from './abis'
 
 import {
   AdapterConfigError,
+  AdapterDataProviderError,
   AdapterError,
   AdapterResponseInvalidError,
   Requester,
   Validator,
+  util
   Value,
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
@@ -78,8 +80,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const lastElemIdx = elements.length - 1
   const treeProof = getMerkleTreeProof(elements, lastElemIdx)
   const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl)
-  const l2Proof: { accountProof: string; storageProof: Record<string, unknown>[] } =
-    await getProofFromL2Resolver(
+  let l2Proof: { accountProof: string; storageProof: Record<string, unknown>[] }
+  try {
+    l2Proof = await getProofFromL2Resolver(
       node,
       address,
       optimismGatewayStubABI,
@@ -87,6 +90,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       l1Provider,
       l2Provider,
     )
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'optimism',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const ret = [
     node,
@@ -135,42 +145,51 @@ const getLatestStateBatchHeader = async (
   l1Provider: ethers.providers.JsonRpcProvider,
   addressManager: ethers.Contract,
 ): Promise<StateBatchHeader> => {
-  const stateCommitmentChain = await loadContractFromManager(
-    STATE_COMMITMENT_CHAIN_ABI,
-    'StateCommitmentChain',
-    addressManager,
-    l1Provider,
-  )
-  for (
-    let endBlock = await l1Provider.getBlockNumber();
-    endBlock > 0;
-    endBlock = Math.max(endBlock - 100, 0)
-  ) {
-    const startBlock = Math.max(endBlock - 100, 1)
-    const events: ethers.Event[] = await stateCommitmentChain.queryFilter(
-      stateCommitmentChain.filters.StateBatchAppended(),
-      startBlock,
-      endBlock,
+  try {
+    const stateCommitmentChain = await loadContractFromManager(
+      STATE_COMMITMENT_CHAIN_ABI,
+      'StateCommitmentChain',
+      addressManager,
+      l1Provider,
     )
-    if (events.length > 0) {
-      const event = events[events.length - 1]
-      const tx = await l1Provider.getTransaction(event.transactionHash)
-      const [stateRoots] = stateCommitmentChain.interface.decodeFunctionData(
-        'appendStateBatch',
-        tx.data,
+    for (
+      let endBlock = await l1Provider.getBlockNumber();
+      endBlock > 0;
+      endBlock = Math.max(endBlock - 100, 0)
+    ) {
+      const startBlock = Math.max(endBlock - 100, 1)
+      const events: ethers.Event[] = await stateCommitmentChain.queryFilter(
+        stateCommitmentChain.filters.StateBatchAppended(),
+        startBlock,
+        endBlock,
       )
-      return {
-        batch: {
-          batchIndex: event.args?._batchIndex,
-          batchRoot: event.args?._batchRoot,
-          batchSize: event.args?._batchSize,
-          prevTotalElements: event.args?._prevTotalElements,
-          extraData: event.args?._extraData,
-        },
-        stateRoots,
+      if (events.length > 0) {
+        const event = events[events.length - 1]
+        const tx = await l1Provider.getTransaction(event.transactionHash)
+        const [stateRoots] = stateCommitmentChain.interface.decodeFunctionData(
+          'appendStateBatch',
+          tx.data,
+        )
+        return {
+          batch: {
+            batchIndex: event.args?._batchIndex,
+            batchRoot: event.args?._batchRoot,
+            batchSize: event.args?._batchSize,
+            prevTotalElements: event.args?._prevTotalElements,
+            extraData: event.args?._extraData,
+          },
+          stateRoots,
+        }
       }
     }
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'optimism',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
   }
+
   throw new AdapterResponseInvalidError({ message: 'No state root batches found' })
 }
 
