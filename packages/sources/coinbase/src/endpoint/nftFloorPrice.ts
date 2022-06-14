@@ -49,10 +49,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const start = validator.validated.data.start
   const end = validator.validated.data.end
 
-  const url = `${config.adapterSpecificParams?.nftBaseURL}/api/nft/v1/GetFloorPriceEstimate`
+  const baseURL = `${config.adapterSpecificParams?.nftBaseURL}/api/nft/v1/GetFloorPriceEstimate`
   const params = {
-    'collectionId.networkName': network,
-    'collectionId.contractAddress': contractAddress,
+    networkName: network,
+    contractAddress: contractAddress,
     startDay: start,
     endDay: end,
   }
@@ -63,7 +63,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       ...config.api.headers,
       'CB-NFT-API-TOKEN': config.adapterSpecificParams?.nftApiAuthHeader,
     },
-    url,
+    baseURL,
     params,
   }
 

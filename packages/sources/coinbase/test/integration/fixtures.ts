@@ -19,10 +19,10 @@ export const mockNftResponseSuccess = (): nock =>
   nock('http://fake-nft.endpoint')
     .get('/api/nft/v1/GetFloorPriceEstimate')
     .query({
-      'collectionId.networkName': 'ethereum-mainnet',
-      'collectionId.contractAddress': '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
-      startDay: '2022-05-12T00:00:00',
-      endDay: '2022-05-12T00:00:00',
+      networkName: 'ethereum-mainnet',
+      contractAddress: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
+      startDay: '2022-05-25T12:00:00.000Z',
+      endDay: '2022-05-25T12:00:00.000Z',
     })
     .reply(
       200,
