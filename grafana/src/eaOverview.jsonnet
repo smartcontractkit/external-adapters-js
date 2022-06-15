@@ -233,33 +233,6 @@ local cacheEntryGetsPerSecond = addSideLegend(graphPanel.new(
   )
 ));
 
-
-// local cacheValues = addSideLegend(graphPanel.new(
-//   title='$feed Cache values',
-//   format='none',
-//   datasource=cortexDataSource,
-//   repeat='feed',
-// ).addSeriesOverride(
-//   {
-//     alias: '/.*Median.*/',
-//     color: 'rgb(255, 255, 255)',
-//     fill: 0,
-//     linewidth: 2,
-//     zindex: 3,
-//   }
-// ).addTargets(
-//   [
-//     prometheus.target(
-//       'quantile(0.5, cache_data_get_values{feed_id=~"$feed.*",namespace="$namespace"}) by (feed_id)',
-//       legendFormat='Median',
-//     ),
-//     prometheus.target(
-//       'cache_data_get_values{feed_id=~"$feed.*",' + masterFilter + '}',
-//       legendFormat='{{service}}',
-//     ),
-//   ]
-// ));
-
 local grid = [
   {
     panels: [
@@ -314,10 +287,6 @@ local grid = [
     ],
     height: 10,
   },
-  // {
-  //   panels: [cacheValues { size:: 1 }],
-  //   height: 5,
-  // },
 ];
 
 shared.helpers.createDashboard(templates, grid)
