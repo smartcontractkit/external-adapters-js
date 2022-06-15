@@ -1,6 +1,7 @@
 import { FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
+import * as process from 'process'
 import nock from 'nock'
 
 export type SuiteContext = {
@@ -8,18 +9,21 @@ export type SuiteContext = {
   server: () => Promise<FastifyInstance>
 }
 
-export type envVariables = { [key: string]: string }
+export type EnvVariables = { [key: string]: string }
+
+export type TestOptions = { cleanNock: boolean }
 
 export const setupExternalAdapterTest = (
   envVariables: NodeJS.ProcessEnv,
   context: SuiteContext,
+  options: TestOptions = { cleanNock: true },
 ) => {
   let fastify: FastifyInstance
-  let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env = { ...process.env, ...envVariables }
+    for (const key in envVariables) {
+      process.env[key] = envVariables[key]
+    }
 
     if (process.env.RECORD) {
       nock.recorder.rec()
@@ -29,14 +33,16 @@ export const setupExternalAdapterTest = (
   })
 
   afterAll((done) => {
-    process.env = oldEnv
     if (process.env.RECORD) {
       nock.recorder.play()
     }
 
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
+    if (options.cleanNock) {
+      nock.restore()
+      nock.cleanAll()
+      nock.enableNetConnect()
+    }
+
     fastify.close(done)
   })
 }
