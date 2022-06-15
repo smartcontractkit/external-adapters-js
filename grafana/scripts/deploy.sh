@@ -26,6 +26,9 @@ EA_DATA_SOURCE="${EA_DATA_SOURCE:-Prometheus}"
 # The value of the "namespace" label, automatically applied when scraped from servicemonitors in prometheus-operator
 EA_PROMETHEUS_NAMESPACE="${EA_PROMETHEUS_NAMESPACE:-adapters}"
 
+# Filter by app_name or service
+FILTER_TYPE="${FILTER_TYPE:-app}"
+
 pushd >/dev/null "$(git rev-parse --show-toplevel)/grafana" || exit 1
 mkdir -p generated
 jsonnet \
@@ -33,6 +36,7 @@ jsonnet \
   --ext-str dashboardUid="$(echo "$EA_DETAILED_DASHBOARD_TITLE" | sha1sum | awk '{ print $1 }')" \
   --ext-str cortexDataSource="$EA_DATA_SOURCE" \
   --ext-str prometheusNamespace="$EA_PROMETHEUS_NAMESPACE" \
+  --ext-str filterType="$FILTER_TYPE" \
   -o ./generated/eaDetailed.json \
   -J ./vendor \
   ./src/eaDetailed.jsonnet
@@ -42,6 +46,7 @@ jsonnet \
   --ext-str dashboardUid="$(echo "$EA_OVERVIEW_DASHBOARD_TITLE" | sha1sum | awk '{ print $1 }')" \
   --ext-str cortexDataSource="$EA_DATA_SOURCE" \
   --ext-str prometheusNamespace="$EA_PROMETHEUS_NAMESPACE" \
+  --ext-str filterType="$FILTER_TYPE" \
   -o ./generated/eaOverview.json \
   -J ./vendor \
   ./src/eaOverview.jsonnet
@@ -51,6 +56,7 @@ jsonnet \
   --ext-str dashboardUid="$(echo "$EA_RELEASE_DASHBOARD_TITLE" | sha1sum | awk '{ print $1 }')" \
   --ext-str cortexDataSource="$EA_DATA_SOURCE" \
   --ext-str prometheusNamespace="$EA_PROMETHEUS_NAMESPACE" \
+  --ext-str filterType="$FILTER_TYPE" \
   -o ./generated/eaRelease.json \
   -J ./vendor \
   ./src/eaRelease.jsonnet
