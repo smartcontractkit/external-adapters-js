@@ -4,6 +4,7 @@ import {
   AdapterResponse,
   Validator,
   BigNumber as TBN,
+  InputParameters,
 } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as solanaViewFunction from '@chainlink/solana-view-function-adapter'
@@ -17,8 +18,13 @@ export const supportedEndpoints = ['price']
 
 const LAMBERT_DECIMALS = 9
 
-export type TInputParameters = TA.types.TInputParameters
-export const inputParameters = TA.types.inputParameters
+export type TInputParameters = TA.types.TInputParameters & {
+  allocations?: TA.types.TokenAllocations
+}
+export const inputParameters: InputParameters<TInputParameters> = {
+  ...TA.types.inputParameters,
+  allocations: false,
+}
 
 export const execute = async (
   input: AdapterRequest,

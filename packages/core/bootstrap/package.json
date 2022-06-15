@@ -16,7 +16,7 @@
     "dev:metrics": "docker-compose up -d"
   },
   "dependencies": {
-    "@node-redis/client": "1.0.5",
+    "@node-redis/client": "1.0.6",
     "@reduxjs/toolkit": "^1.6.1",
     "ajv": "^8.6.2",
     "axios": "^0.24.0",
@@ -24,7 +24,7 @@
     "fast-redact": "^3.0.1",
     "fastify": "^3.27.1",
     "lodash": "^4.17.21",
-    "lru-cache": "^7.10.1",
+    "lru-cache": "^6.0.0",
     "object-hash": "^2.2.0",
     "object-path": "^0.11.5",
     "pino": "^6.13.0",
@@ -59,7 +59,7 @@
     "@types/uuid": "8.3.4",
     "@types/ws": "7.4.7",
     "mock-socket": "9.1.4",
-    "sinon": "12.0.1",
-    "typescript": "4.7.3"
+    "sinon": "14.0.0",
+    "typescript": "4.3.5"
   }
 }

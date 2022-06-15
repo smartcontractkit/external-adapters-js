@@ -4,6 +4,7 @@ exports[`accounts successful calls return success when fetching the account info
 Object {
   "data": Object {
     "result": 104.91215737050713,
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": 104.91215737050713,

@@ -1,4 +1,4 @@
-import { BatchedResultT } from '../../src/types'
+import { AdapterBatchResponse } from '../../src/types'
 import { Requester } from '../../src/lib/modules/requester'
 import {
   Server,
@@ -10,7 +10,8 @@ import {
 
 describe('HTTP', () => {
   const errorMessage = 'Request failed with status code 500'
-  const customErrorMessage = 'Could not retrieve valid data: {"result":"error","value":1}'
+  const customErrorMessage =
+    'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: {"result":"error","value":1}'
   const baseOptions = {
     timeout: 100,
     url: '',
@@ -21,9 +22,15 @@ describe('HTTP', () => {
 
   const server = new Server()
 
+  beforeAll(() => {
+    server.start()
+  })
   afterEach(() => {
     server.reset()
     expect(server.errorCount).toEqual(0)
+  })
+  afterAll(() => {
+    server.stop()
   })
 
   describe('Requester.request', () => {
@@ -229,7 +236,8 @@ describe('HTTP', () => {
     it('Adds results', async () => {
       const options = { ...baseOptions, url: server.getURL('successBatchlike') }
       const response = await Requester.request<typeof SUCCESS_BATCHLIKE_RESPONSE>(options)
-      const results: BatchedResultT = response.data.value.map((v) => [
+      const results: AdapterBatchResponse = response.data.value.map((v) => [
+        'somekey',
         { id: '1', data: {} },
         Requester.validateResultNumber(v),
       ])

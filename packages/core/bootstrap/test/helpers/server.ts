@@ -69,7 +69,7 @@ export class Server {
     })
 
     app.get(`/${SUCCESS_JSON_PATH}`, (_, res) => {
-      res.status(200).json(SUCCESS_JSON_RESPONSE)
+      res.status(200).send(SUCCESS_JSON_RESPONSE)
     })
 
     app.get(`/${SUCCESS_ARRAY_PATH}`, (_, res) => {
@@ -95,7 +95,7 @@ export class Server {
 
     app.get(`/${ERROR_TWICE_PATH}`, (_, res) => {
       if (this.errorCount >= 2) {
-        res.status(200).json(SUCCESS_JSON_RESPONSE)
+        res.status(200).send(SUCCESS_JSON_RESPONSE)
       } else {
         this.errorCount += 1
         res.status(500).send(ERROR_RESPONSE)
@@ -104,7 +104,7 @@ export class Server {
 
     app.get(`/${ERROR_CUSTOM_PATH}`, (_, res) => {
       this.errorCount++
-      res.status(200).json(ERROR_CUSTOM_RESPONSE)
+      res.status(200).send(ERROR_CUSTOM_RESPONSE)
     })
 
     app.listen(this.port, '::')

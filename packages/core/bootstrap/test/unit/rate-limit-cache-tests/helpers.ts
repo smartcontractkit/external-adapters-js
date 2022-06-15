@@ -43,11 +43,10 @@ export const makeExecuteWithWarmer = async (
     const response = await executeWithMiddleware(request, context)
     store.dispatch(
       cacheWarmer.actions.warmupSubscribed({
+        id: request.id,
         executeFn: executeWithMiddleware,
-        ...response,
-        id: response.jobRunID, // TODO: check this
-        result: response,
-      }),
+        data: request,
+      } as unknown as cacheWarmer.actions.WarmupSubscribedPayload),
     )
     return response
   }

@@ -13,7 +13,7 @@ describe('Selector', () => {
     return {
       jobRunID: '1',
       statusCode: 200,
-      data: { result: 1 },
+      data: { result: 1, statusCode: 200 },
       result: 1,
     }
   }

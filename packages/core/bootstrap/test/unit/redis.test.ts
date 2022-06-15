@@ -1,16 +1,16 @@
 import { RedisTlsSocketOptions } from '@node-redis/client/dist/lib/client/socket'
 import { defaultOptions, redactOptions, RedisCache } from '../../src/lib/middleware/cache/redis'
 import { CacheEntry } from '../../src/lib/middleware/cache/types'
-import { logger } from '../../src/lib/modules'
+import { logger } from '../../src/lib/modules/logger'
 import { mockCreateRedisClient } from '../helpers/redis'
 import { TimeoutError } from 'promise-timeout'
 
 // These will be hoisted to the top
-jest.mock('redis', () => ({
+jest.mock('@node-redis/client', () => ({
   createClient: () => mockCreateRedisClient(),
 }))
 
-jest.mock('../../src/lib/modules', () => ({
+jest.mock('../../src/lib/modules/logger', () => ({
   logger: {
     info: jest.fn(),
     error: jest.fn(),

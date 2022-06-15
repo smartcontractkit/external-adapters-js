@@ -1,23 +1,8 @@
-import type {
-  AdapterErrorResponse,
-  BatchedResult,
-  AdapterResponse,
-  AxiosRequestConfig,
-  AdapterBatchResponse,
-  ResultPath,
-  BatchableProperty,
-} from '../../types'
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import {
-  deepType,
-  getEnv,
-  parseBool,
-  sleep,
-  isRecord,
-  isObject,
-  isArraylikeAccessor,
-} from '../util'
-import { getDefaultConfig, logConfig } from '../config'
+import objectPath from 'object-path'
+import { join } from 'path'
+
+import { deepType, getEnv, parseBool, sleep, isObject, isArraylikeAccessor } from '../util'
 import {
   AdapterConnectionError,
   AdapterCustomError,
@@ -28,9 +13,18 @@ import {
   AdapterTimeoutError,
 } from './error'
 import { logger } from './logger'
-import objectPath from 'object-path'
-import { join } from 'path'
+import { getDefaultConfig, logConfig } from '../config'
 import { recordDataProviderRequest } from '../metrics'
+
+import type {
+  AdapterErrorResponse,
+  BatchedResult,
+  AdapterResponse,
+  AxiosRequestConfig,
+  AdapterBatchResponse,
+  ResultPath,
+  BatchableProperty,
+} from '../../types'
 
 type CustomError<T = unknown> = (data: T) => boolean
 const defaultCustomError = () => false
@@ -196,11 +190,8 @@ export class Requester {
     )
       return this.getResultFromArraylike(data, path)
 
-    if (isRecord(data)) return this.getResultFromObject(data, path)
-
-    const message = 'Invalid validateResultNumber usage'
-    logger.error(message, { data, path })
-    throw new AdapterError({ message })
+    // object-path handles accessing arrays, just need to coerce the type
+    return this.getResultFromObject(data as Record<string, T[keyof T]>, path)
   }
 
   static getResultFromObject<T extends Record<string, T[keyof T]>>(

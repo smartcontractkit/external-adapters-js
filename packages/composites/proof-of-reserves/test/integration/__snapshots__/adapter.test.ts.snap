@@ -4,6 +4,7 @@ exports[`execute Bitcoin list protocol should return success 1`] = `
 Object {
   "data": Object {
     "result": "75100045155",
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": "75100045155",

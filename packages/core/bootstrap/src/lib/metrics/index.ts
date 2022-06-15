@@ -1,8 +1,8 @@
 import * as client from 'prom-client'
 import { getEnv, parseBool } from '../util'
-import * as util from './util'
+import { getFeedId } from './util'
 import type { Middleware, AdapterRequest, AdapterMetricsMeta, AdapterContext } from '../../types'
-import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer'
+import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer/config'
 import { HttpRequestType, requestDurationBuckets } from './constants'
 import { AdapterError } from '../modules/error'
 
@@ -17,7 +17,7 @@ export const setupMetrics = (name: string): void => {
 }
 const DEFAULT_SUCCESSFUL_PROVIDER_STATUS_CODE = 200
 export const getMetricsMeta = (input: AdapterRequest): AdapterMetricsMeta => ({
-  feedId: util.getFeedId(input),
+  feedId: getFeedId(input),
 })
 
 export const recordDataProviderRequest = METRICS_ENABLED

@@ -64,7 +64,12 @@ const scanWithRetries = async (
 ) => {
   const requestData = {
     ...request,
-    data: { ...(request.data as JSONRPC.types.request.TInputParameters), method: NAME, params },
+    data: {
+      ...(request.data as JSONRPC.types.request.TInputParameters),
+      method: NAME,
+      params,
+      endpoint: 'request',
+    },
   }
 
   const deadline = Date.now() + (config.api?.timeout ?? 0)
@@ -74,8 +79,8 @@ const scanWithRetries = async (
     try {
       return await _execute(requestData, context)
     } catch (e) {
-      const error = e as Error
-      if ((error.cause as any)?.response?.data?.error?.code === -8) {
+      const error = e as any
+      if (error.cause?.response?.data?.error?.code === -8) {
         Logger.debug('scan is already in progress, waiting 1s...')
         Logger.debug(`time left to wait: ${deadline - Date.now()}ms`)
         await util.sleep(1000)

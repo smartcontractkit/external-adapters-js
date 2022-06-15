@@ -1,5 +1,6 @@
 import { AdapterContext } from '@chainlink/ea-bootstrap'
 import { FastifyRequest } from 'fastify'
+import { RequiredEnvError } from '../../src/lib/modules/error'
 import {
   getEnv,
   buildUrlPath,
@@ -8,7 +9,6 @@ import {
   getRandomRequiredEnv,
   toObjectWithNumbers,
   getRequiredEnv,
-  RequiredEnvError,
   formatArray,
   groupBy,
   isDebugLogLevel,

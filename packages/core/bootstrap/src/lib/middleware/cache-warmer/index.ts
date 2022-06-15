@@ -6,7 +6,7 @@ import type {
   Middleware,
 } from '../../../types'
 import type { Store } from 'redux'
-import { withMiddleware } from '../../..'
+import { withMiddleware } from '../../../index'
 import { logger } from '../../modules/logger'
 import * as util from '../../util'
 import { getWSConfig } from '../ws/config'
@@ -14,7 +14,7 @@ import { getSubsId, RootState as WSState } from '../ws/reducer'
 import * as actions from './actions'
 import { CacheWarmerState } from './reducer'
 
-export { WARMUP_REQUEST_ID } from './config'
+export * as config from './config'
 export * as actions from './actions'
 export * as epics from './epics'
 export * as reducer from './reducer'

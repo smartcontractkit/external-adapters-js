@@ -103,7 +103,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const startTime = validator.validated.data.startTime
   const endTime = validator.validated.data.endTime
 
-  const params = {
+  const params: {
+    assets: string
+    metrics: string
+    frequency: string
+    page_size: number
+    api_key: string
+    start_time: string
+    end_time: string
+    next_page_token?: string
+  } = {
     assets: (asset as string).toLowerCase(),
     metrics: METRICS,
     frequency,
@@ -111,7 +120,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     api_key: config.apiKey as string,
     start_time: startTime,
     end_time: endTime,
-    next_page_token: '',
   }
   const options = { ...config.api, params, url: URL }
 

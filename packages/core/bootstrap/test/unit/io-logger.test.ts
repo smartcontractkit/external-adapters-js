@@ -1,4 +1,4 @@
-import * as modules from '../../src/lib/modules'
+import { AdapterContext } from '../../src/types'
 
 describe('IO Logger', () => {
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('IO Logger', () => {
       },
     }
 
-    const context = { ip: 'localhost', hostname: 'hostname.com' }
+    const context: AdapterContext = { ip: 'localhost', host: 'hostname.com' }
     const execute = async () => response
 
     const mockLogger = {
@@ -33,20 +33,19 @@ describe('IO Logger', () => {
       error: jest.fn(),
     }
 
-    jest.doMock('../../src/lib/modules', () => ({
-      ...modules,
+    jest.doMock('../../src/lib/modules/logger', () => ({
       logger: mockLogger,
     }))
 
     const { withIOLogger } = await import('../../src/lib/middleware/io-logger')
 
     const middleware = await withIOLogger()
-    const wrappedExecute = await middleware(execute, {})
-    const result = await wrappedExecute(request, {})
+    const wrappedExecute = await middleware(execute, context)
+    const result = await wrappedExecute(request, context)
 
     expect(mockLogger.debug.mock.calls).toMatchObject([
       ['Input: ', { input: request }],
-      [`Received request from IP ${context.ip} and Host ${context.hostname}`],
+      [`Received request from IP ${context.ip} and Host ${context.host}`],
       ['Output: [200]: ', { output: response }],
     ])
     expect(result).toBe(response)
@@ -60,16 +59,6 @@ describe('IO Logger', () => {
         to: 'eth',
       },
     }
-    const response = {
-      id: '1',
-      result: 123.4,
-      jobRunID: '1',
-      statusCode: 200,
-      data: {
-        number: 123.4,
-        statusCode: 200,
-      },
-    }
     const execute = async () => {
       throw new Error('errorasd')
     }
@@ -80,8 +69,7 @@ describe('IO Logger', () => {
       error: jest.fn(),
     }
 
-    jest.doMock('../../src/lib/modules', () => ({
-      ...modules,
+    jest.doMock('../../src/lib/modules/logger', () => ({
       logger: mockLogger,
     }))
 
@@ -112,16 +100,6 @@ describe('IO Logger', () => {
         to: 'eth',
       },
     }
-    const response = {
-      id: '1',
-      result: 123.4,
-      jobRunID: '1',
-      statusCode: 200,
-      data: {
-        number: 123.4,
-        statusCode: 200,
-      },
-    }
     const execute = async () => {
       const error = new Error('errorasd')
       ;(error as unknown as { cause: string }).cause = 'errorcause'
@@ -134,8 +112,7 @@ describe('IO Logger', () => {
       error: jest.fn(),
     }
 
-    jest.doMock('../../src/lib/modules', () => ({
-      ...modules,
+    jest.doMock('../../src/lib/modules/logger', () => ({
       logger: mockLogger,
     }))
 

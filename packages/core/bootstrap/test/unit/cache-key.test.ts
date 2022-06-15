@@ -28,6 +28,7 @@ describe('Cache key middleware', () => {
       statusCode: 200,
       data: {
         number: 123.4,
+        statusCode: 200,
       },
     }
 

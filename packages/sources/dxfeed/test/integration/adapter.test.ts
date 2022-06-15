@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 import * as process from 'process'
@@ -48,7 +48,7 @@ describe('dxfeed', () => {
     const priceRequest: AdapterRequest = {
       id: '1',
       data: {
-        base: 'TSLA:BFX',
+        base: 'TSLA',
       },
     }
 

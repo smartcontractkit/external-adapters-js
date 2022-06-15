@@ -166,6 +166,7 @@ export class AdapterCache {
       else {
         logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
         const ttl = await this.cache.ttl(key)
+
         // TODO: isnt this a bug? cachedAdapterResponse.maxAge will be different
         // if the above conditional gets executed!
         const staleness = (cachedAdapterResponse.maxAge - ttl) / 1000

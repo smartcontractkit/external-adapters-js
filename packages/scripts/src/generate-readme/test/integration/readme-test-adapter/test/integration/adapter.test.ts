@@ -1,6 +1,5 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
-import http from 'http'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'

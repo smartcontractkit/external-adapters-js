@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -330,7 +330,6 @@ describe('execute', () => {
 })
 
 describe('execute with api key', () => {
-  const id = '1'
   let fastify: FastifyInstance
   let req: SuperTest<Test>
 

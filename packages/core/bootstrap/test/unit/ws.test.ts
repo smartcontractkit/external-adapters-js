@@ -86,6 +86,7 @@ describe('WebSockets', () => {
     statusCode: 200,
     data: {
       number: 123.4,
+      statusCode: 200,
     },
   }
 
@@ -235,6 +236,6 @@ describe('WebSockets', () => {
       ])
       await flowFulfilled
       await disconnectedPromise
-    })
+    }, 10000)
   })
 })

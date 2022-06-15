@@ -324,37 +324,32 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
                   wsHandler.shouldModifyPayload(clonedPayload) &&
                   wsHandler.modifySubscriptionPayload
                 const connectionState = state.ws.connections.all[payload.connectionInfo.key]
-                if (shouldModifyPayload && wsHandler.modifySubscriptionPayload) {
-                  const subscriptionParams =
-                    state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams
-                  const connectionParams = connectionState.connectionParams
-                  if (!subscriptionParams || !connectionParams) return clonedPayload
-                  return wsHandler.modifySubscriptionPayload(
-                    clonedPayload,
-                    subscriptionParams,
-                    connectionParams,
-                    connectionState.requestId,
-                  )
-                }
-                return clonedPayload
+                const subMsg =
+                  shouldModifyPayload && wsHandler.modifySubscriptionPayload
+                    ? wsHandler.modifySubscriptionPayload(
+                        clonedPayload,
+                        state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams ?? {},
+                        connectionState.connectionParams ?? {},
+                        connectionState.requestId,
+                      )
+                    : clonedPayload
+                return subMsg
               },
-              () => {
-                const subscription = state.ws.subscriptions.all[subscriptionKey]
-                if (!subscription) return
-                const subscriptionParams = subscription.subscriptionParams
-                if (!subscriptionParams) return
-
-                wsHandler.unsubscribe(payload.input, subscriptionParams)
-              },
+              () =>
+                wsHandler.unsubscribe(
+                  payload.input,
+                  state.ws.subscriptions.all[subscriptionKey]?.subscriptionParams ?? {},
+                ),
               (message) => {
                 const connectionState = state.ws.connections.all[payload.connectionInfo.key]
-                const subMessage = wsHandler.subsFromMessage(
-                  message,
-                  payload.subscriptionMsg,
-                  payload.input,
-                  connectionState?.connectionParams,
+                const currentSubscriptionKey = getSubsId(
+                  wsHandler.subsFromMessage(
+                    message,
+                    payload.subscriptionMsg,
+                    payload.input,
+                    connectionState?.connectionParams,
+                  ) ?? {},
                 )
-                const currentSubscriptionKey = subMessage ? getSubsId(subMessage) : null
 
                 // When onConnectChain is provided, this will check if we are in the process of opening the subscription.
                 // If we are, then do not continue as there will be further steps to take within onConnectChain before the subscription is established.
@@ -465,10 +460,10 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
           return timer(interval, interval).pipe(
             tap(() => logger.debug('Sending heartbeat message')),
             mergeMap(() => {
-              if (wsHandler.heartbeatMessage && connectionState.connectionParams) {
+              if (wsHandler.heartbeatMessage) {
                 const heartbeatPayload = wsHandler.heartbeatMessage(
                   connectionState.requestId,
-                  connectionState.connectionParams,
+                  connectionState.connectionParams ?? {},
                 )
                 wsSubject.next(heartbeatPayload)
               }
@@ -518,13 +513,13 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
           const subscriptionMsg = onConnectChainFinished
             ? wsHandler.subscribe(input)
             : wsHandler.onConnectChain[onConnectIdx].payload
-          if (!subscriptionMsg) return EMPTY
+
           const subscriptionPayload: WSSubscriptionPayload = {
             connectionInfo: {
               key: config.connectionInfo.key,
               url: wsHandler.connection.url,
             },
-            subscriptionMsg,
+            subscriptionMsg: subscriptionMsg ?? {},
             input,
             context,
             messageToSave:
@@ -584,11 +579,11 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
           const { connectionInfo, message } = action.payload
           const key = connectionInfo.key
           const { requestId, connectionParams } = state.ws.connections.all[key]
-          if (wsHandler.heartbeatReplyMessage && connectionParams) {
+          if (wsHandler.heartbeatReplyMessage) {
             const heartbeatMessage = wsHandler.heartbeatReplyMessage(
               message,
               requestId,
-              connectionParams,
+              connectionParams ?? {},
             )
             logger.debug('Responding with heartbeat payload', heartbeatMessage)
             wsSubject.next(heartbeatMessage)
@@ -652,10 +647,9 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
             }
 
             const subscriptionMsg = wsHandler.subscribe(input)
-            if (!subscriptionMsg) return EMPTY
             const action = {
               input,
-              subscriptionMsg,
+              subscriptionMsg: subscriptionMsg ?? {},
               connectionInfo: { key: connectionKey, url },
               context,
             }

@@ -1,4 +1,4 @@
-import { censor } from '../../src/lib/modules'
+import { censor } from '../../src/lib/modules/logger'
 
 describe('Logger', () => {
   describe('censor', () => {

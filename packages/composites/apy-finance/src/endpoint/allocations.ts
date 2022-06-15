@@ -15,7 +15,7 @@ export const inputParameters: InputParameters<TInputParameters> = {}
 const getAllocations = async (registry: ethers.Contract): Promise<types.TokenAllocations> => {
   const allocationIds = await registry.getAssetAllocationIds()
   const [components, balances, decimals] = await Promise.all([
-    Promise.all<string[]>(allocationIds.map((id: string) => registry.symbolOf(id))),
+    Promise.all<string>(allocationIds.map((id: string) => registry.symbolOf(id))),
     Promise.all<BigNumberish[]>(allocationIds.map((id: string) => registry.balanceOf(id))),
     Promise.all<number[]>(allocationIds.map((id: string) => registry.decimalsOf(id))),
   ])

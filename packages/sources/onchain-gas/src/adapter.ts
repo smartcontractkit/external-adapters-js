@@ -50,7 +50,7 @@ export const makeWSHandler = (
         url: defaultConfig.api?.baseURL,
       },
       toSaveFromFirstMessage: (message: Message) => {
-        if (message.method !== 'eth_subscription' || !message.params) return ''
+        if (message.method !== 'eth_subscription' || !message.params) return
         return {
           subscriptionId: message.params.subscription,
         }

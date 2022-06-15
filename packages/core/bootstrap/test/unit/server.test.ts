@@ -39,6 +39,7 @@ const executeResponse: AdapterResponse = {
   statusCode: 200,
   data: {
     number: 123.4,
+    statusCode: 200,
   },
 }
 const execute: Execute = jest.fn(async () => executeResponse)

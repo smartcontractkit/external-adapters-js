@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -55,7 +55,6 @@ describe('execute', () => {
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200)
       expect(response.body).toMatchSnapshot()
     })
   })

@@ -19,7 +19,12 @@ describe('burst limit', () => {
   })
 
   it('successfully delays burst of request per second', async () => {
-    const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
+    const mockResponse = {
+      data: { result: 1, statusCode: 200 },
+      jobRunID: '1',
+      result: 1,
+      statusCode: 200,
+    }
     const execute: Execute = async () => {
       return mockResponse
     }
@@ -33,9 +38,11 @@ describe('burst limit', () => {
     }
 
     const context: AdapterContext = {
-      rateLimit: {
+      limits: {
         enabled: true,
         burstCapacity1s: 5,
+        burstCapacity1m: 0,
+        totalCapacity: 0,
       },
     }
 
@@ -72,7 +79,12 @@ describe('burst limit', () => {
 
   it('successfully blocks burst of request per minute', async () => {
     const burstCapacity = 5
-    const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
+    const mockResponse = {
+      data: { result: 1, statusCode: 200 },
+      jobRunID: '1',
+      result: 1,
+      statusCode: 200,
+    }
     const execute: Execute = async () => {
       return mockResponse
     }
@@ -86,9 +98,11 @@ describe('burst limit', () => {
     }
 
     const context: AdapterContext = {
-      rateLimit: {
+      limits: {
         enabled: true,
+        burstCapacity1s: 0,
         burstCapacity1m: burstCapacity,
+        totalCapacity: 0,
       },
     }
 

@@ -22,7 +22,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 502, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })

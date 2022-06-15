@@ -129,7 +129,7 @@ const handleBatchedRequest = (
 export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters, {}, { overrides: internalOverrides })
 
-  const endpoint = validator.validated.data.endpoint || ''
+  const endpoint = validator.validated.data.endpoint || 'crypto'
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote

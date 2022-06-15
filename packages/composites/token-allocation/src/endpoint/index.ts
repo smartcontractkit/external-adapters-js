@@ -81,7 +81,7 @@ const toValidAllocations = (allocations: unknown[]): TokenAllocations => {
     return balance as number | string
   }
   return allocations.map((t: unknown) => {
-    if (util.isObject(t))
+    if (!util.isObject(t))
       throw new AdapterError({ message: `Invalid allocations`, statusCode: 400 })
     const aObj = t as Record<string, unknown>
 

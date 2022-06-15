@@ -2,7 +2,7 @@ import { createStore } from 'redux'
 import { stub, SinonStub } from 'sinon'
 import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
-import { logger } from '../../../src/lib/modules'
+import { logger } from '../../../src/lib/modules/logger'
 import * as rateLimit from '../../../src/lib/middleware/rate-limit'
 import { get } from '../../../src/lib/config/provider-limits/config'
 import { dataProviderMock, getRLTokenSpentPerMinute, setupClock } from './helpers'
@@ -36,11 +36,7 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
-    context.rateLimit = get(undefined, context)
-  })
-
-  afterEach(async () => {
-    context.cache.instance.client.reset()
+    context.limits = get(undefined, context)
   })
 
   afterAll(() => {

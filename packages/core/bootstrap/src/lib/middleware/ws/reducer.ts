@@ -212,8 +212,7 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     })
 
     builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
-      const subscriptionMsg = action.payload.subscriptionMsg
-      if (!subscriptionMsg) return
+      const subscriptionMsg = action.payload.subscriptionMsg ?? {}
       const key = getSubsId(subscriptionMsg)
       if (state.all[key]) {
         state.all[key].shouldNotRetry = action.payload.shouldNotRetrySubscription

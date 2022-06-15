@@ -1,5 +1,10 @@
-import { AdapterRequest, AdapterResponse, APIEndpoint, Config } from '../../src/types'
-import { DeepPartial } from 'redux'
+import {
+  AdapterBatchResponse,
+  AdapterRequest,
+  AdapterResponse,
+  APIEndpoint,
+  Config,
+} from '../../src/types'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { Subject } from 'rxjs'
 import { RunHelpers } from 'rxjs/internal/testing/TestScheduler'
@@ -14,8 +19,11 @@ import {
   warmupSubscriber,
   warmupUnsubscriber,
 } from '../../src/lib/middleware/cache-warmer/epics'
-import { subscriptionsReducer } from '../../src/lib/middleware/cache-warmer/reducer'
-import { RootState, SubscriptionState } from '../../src/lib/middleware/cache-warmer/reducer'
+import {
+  CacheWarmerState,
+  subscriptionsReducer,
+} from '../../src/lib/middleware/cache-warmer/reducer'
+import { SubscriptionState } from '../../src/lib/middleware/cache-warmer/reducer'
 import { getCacheKey } from '../../src/lib/middleware/cache-key'
 
 let scheduler: TestScheduler
@@ -26,11 +34,9 @@ beforeEach(() => {
   })
 })
 
-function stateStream(initialWarmerState: {
-  cacheWarmer: CacheWarmerState
-}): StateObservable<RootState> {
-  return new StateObservable<RootState>(new Subject(), {
-    ...initialState,
+function stateStream(initialWarmerState: { cacheWarmer: CacheWarmerState }): StateObservable<any> {
+  return new StateObservable<any>(new Subject(), {
+    // ...initialState,
     ...initialWarmerState,
   })
 }
@@ -46,57 +52,6 @@ function actionStream(
 }
 
 let epicDependencies: EpicDependencies
-
-const batchKeyParent = 'a227f4e12a0b5b5558b871a53c92dbc9255a390b'
-const batchableAdapterRequest1: AdapterRequest = {
-  id: '0',
-  data: { key1: 'foo', key2: 'bar' },
-}
-const batchedAdapterRequest1: AdapterRequest = {
-  id: '0',
-  data: { key1: ['foo'], key2: 'bar' },
-}
-const batchedAdapterRequest2 = {
-  id: '0',
-  key1: ['foo', 'foo2', 'foo3', 'foo4'],
-  key2: 'bar',
-}
-const batchableAdapterResponse1: AdapterResponse = {
-  jobRunID: '1',
-  statusCode: 200,
-  data: {
-    statusCode: 200,
-    result: 1,
-  },
-  result: 1,
-  debug: { batchablePropertyPath: [{ name: 'key1' }] },
-}
-const batchKeyChild1 = '500fb5c94385c85a5998d5870b463cf5041d4403'
-
-const batchableAdapterRequest2: AdapterRequest = { id: '0', data: { key1: ['baz'], key2: 'bar' } }
-const childAdapterRequest2: AdapterRequest = {
-  id: '2',
-  data: { key1: 'baz', key2: 'bar' },
-}
-const batchableAdapterResponse2: AdapterResponse = {
-  jobRunID: '2',
-  statusCode: 200,
-  data: {
-    statusCode: 200,
-    results: [
-      [
-        {
-          id: '2',
-          data: { key1: 'baz', key2: 'bar' },
-        },
-        2,
-      ],
-    ],
-  },
-  result: 2,
-  debug: { batchablePropertyPath: [{ name: 'key1' }] },
-}
-const batchKeyChild2 = 'e4d4ae76e0deb22ff3a4802acfe4f081ca54825d'
 
 const mockTime = 1487076708000
 const adapterResult: AdapterResponse = {
@@ -152,6 +107,7 @@ describe('side effect tests', () => {
     statusCode: 200,
     data: {
       result: 1,
+      statusCode: 200,
     },
     result: 1,
     debug: { batchablePropertyPath: [{ name: 'key1' }] },
@@ -175,7 +131,8 @@ describe('side effect tests', () => {
     jobRunID: '2',
     statusCode: 200,
     data: {
-      results: [[childAdapterKey2, { data: adapterRequestData2 }, 2]],
+      statusCode: 200,
+      results: [[childAdapterKey2, childAdapterRequest2, 2]],
     },
     result: 2,
     debug: { batchablePropertyPath: [{ name: 'key1' }] },
@@ -615,7 +572,7 @@ describe('side effect tests', () => {
             result: 1,
             data: {
               statusCode: 200,
-              results: [[{}, 1]] as BatchedResultT,
+              results: [{}, 1] as AdapterBatchResponse,
             },
           }),
           origin: adapterRequest2.data,
@@ -698,7 +655,7 @@ describe('side effect tests', () => {
               result: 'external adapter return value',
               data: {
                 statusCode: 200,
-                results: [{}, 1] as BatchedResultT,
+                results: [{}, 1] as AdapterBatchResponse,
               },
             }
           },
@@ -754,7 +711,7 @@ describe('side effect tests', () => {
               result: 'external adapter return value',
               data: {
                 statusCode: 200,
-                results: [{}, 1] as BatchedResultT,
+                results: [{}, 1] as AdapterBatchResponse,
               },
             }
           },

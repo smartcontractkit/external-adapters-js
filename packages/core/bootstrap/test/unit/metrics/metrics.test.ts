@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '../../../src/types'
+import { AdapterRequest, AdapterResponse, Execute } from '../../../src/types'
 import * as metrics from '../../../src/lib/metrics'
 import * as client from 'prom-client'
 
@@ -23,9 +23,15 @@ describe('withMetrics middleware', () => {
 
   it(`Records metrics successfully (with data provider hit)`, async () => {
     const spy = jest.spyOn(client.Counter.prototype, 'labels')
-    const mockResponse = { data: { result: 1 }, jobRunID: '1', result: 1, statusCode: 200 }
+    const mockResponse = {
+      data: { result: 1, statusCode: 200 },
+      jobRunID: '1',
+      result: 1,
+      statusCode: 200,
+    }
     const execute: Execute = async () => mockResponse
-    const middleware = await metrics.withMetrics(execute, {})
+    const middleware = await metrics.withMetrics()
+    const wrappedExecute = await middleware(execute, {})
 
     const request: AdapterRequest = {
       id: '1',
@@ -51,7 +57,7 @@ describe('withMetrics middleware', () => {
       type: 'dataProviderHit',
     }
 
-    const res = await middleware(request, {})
+    const res = await wrappedExecute(request, {})
     expect(res).toEqual(expectedOutput)
     expect(spy).toBeCalledWith(expectedLabels)
   })
@@ -64,8 +70,10 @@ describe('withMetrics middleware', () => {
       result: 1,
       statusCode: 200,
     }
+
     const execute: Execute = async () => mockResponse
-    const middleware = await metrics.withMetrics(execute, {})
+    const middleware = await metrics.withMetrics()
+    const wrappedExecute = await middleware(execute, {})
 
     const request: AdapterRequest = {
       id: '1',
@@ -91,7 +99,7 @@ describe('withMetrics middleware', () => {
       type: 'cacheHit',
     }
 
-    const res = await middleware(request, {})
+    const res = await wrappedExecute(request, {})
     expect(res).toEqual(expectedOutput)
     expect(spy).toBeCalledWith(expectedLabels)
   })
@@ -99,8 +107,10 @@ describe('withMetrics middleware', () => {
   it(`Records error metrics (with adapter error)`, async () => {
     const spy = jest.spyOn(client.Counter.prototype, 'labels')
     const mockResponse = { jobRunID: '1', result: 1, statusCode: 500 }
-    const execute: Execute = async () => mockResponse as any
-    const middleware = await metrics.withMetrics(execute, {})
+
+    const execute: Execute = async () => mockResponse as AdapterResponse
+    const middleware = await metrics.withMetrics()
+    const wrappedExecute = await middleware(execute, {})
 
     const request: AdapterRequest = {
       id: '1',
@@ -120,7 +130,7 @@ describe('withMetrics middleware', () => {
     }
 
     try {
-      await middleware(request, {})
+      await wrappedExecute(request, {})
     } catch (error) {
       expect(error.message).toEqual("Cannot read properties of undefined (reading 'maxAge')")
       expect(spy).toBeCalledWith(expectedLabels)

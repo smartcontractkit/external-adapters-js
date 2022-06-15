@@ -2,8 +2,8 @@ import { createStore } from 'redux'
 import { stub, SinonStub } from 'sinon'
 import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
-import { logger } from '../../../src/lib/modules'
-import { RateLimit } from '../../../src/lib/middleware'
+import { logger } from '../../../src/lib/modules/logger'
+import * as RateLimit from '../../../src/lib/middleware/rate-limit'
 import { get } from '../../../src/lib/config/provider-limits/config'
 import { dataProviderMock, getRLTokenSpentPerMinute, setupClock } from './helpers'
 import { withMiddleware } from '../../../src/index'
@@ -36,11 +36,15 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
-    context.rateLimit = get(undefined, context)
+    context.limits = get(undefined, context)
   })
 
   afterEach(async () => {
-    context.cache.instance.client.reset()
+    const options = defaultOptions()
+    context.cache = {
+      ...defaultOptions(),
+      instance: await options.cacheBuilder(options.cacheImplOptions),
+    }
   })
 
   afterAll(() => {
@@ -79,7 +83,6 @@ describe('Rate Limit/Cache - Integration', () => {
 
     const state = store.getState()
     const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
-
     expect(rlPerMinute[0]).toBeGreaterThan(capacity)
     expect(rlPerMinute[1]).toBeLessThanOrEqual(capacity)
     expect(rlPerMinute[2]).toBeLessThanOrEqual(capacity)

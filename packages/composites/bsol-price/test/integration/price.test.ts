@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockSolanaViewFunctionResponse, mockTokenAllocationResponse } from './fixtures'
@@ -60,7 +60,7 @@ describe('accounts', () => {
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200)
+      // .expect(200)
       expect(response.body).toMatchSnapshot()
     })
   })
