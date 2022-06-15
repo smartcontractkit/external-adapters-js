@@ -26,7 +26,9 @@ EA_DATA_SOURCE="${EA_DATA_SOURCE:-Prometheus}"
 # The value of the "namespace" label, automatically applied when scraped from servicemonitors in prometheus-operator
 EA_PROMETHEUS_NAMESPACE="${EA_PROMETHEUS_NAMESPACE:-adapters}"
 
-# Filter by app_name or service
+# Filter by app_name or service. By supplying the input 'app' as the environment variable here, the dashbaords will filter on the
+# parameter 'app_name' which is always available in the prometheus database and corresponds to adapters' names. 
+# If you want to use the k8s 'service' parameter to filter adapters input `service` into this env variable. 
 FILTER_TYPE="${FILTER_TYPE:-app}"
 
 pushd >/dev/null "$(git rev-parse --show-toplevel)/grafana" || exit 1

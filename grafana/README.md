@@ -56,19 +56,7 @@ jb install
 
 Read the [Grafonnet Docs](https://grafana.github.io/grafonnet-lib/api-docs/) for more information, but there are quick an easy ways to add new panels.
 
-### Here is an example of a panel, which has a few parameters that determine what it looks like in the dashboard.
-
-```
-local panelName = graphPanel.new(
-  title='Panel Title',
-  datasource=cortexDataSource,
-  format='pecrent',
-).addTarget(
-  prometheus.target(
-    'promQL query'
-  )
-);
-```
+[Here](./src/eaRelease.jsonnet#L24) is an example of a panel, which has a few parameters that determine what it looks like in the dashboard. Also, see an example of a simple text panel [here](./src/eaRelease.jsonnet#L20)
 
 The `promQL query` is a query that interacts with the Prometheus/Grafana cloud database. If you are turning an already existing dashboard into a codified one, you can simply copy the promQL from that panel directly into the `jsonnet` file.
 
@@ -79,29 +67,12 @@ Most dashboards have pieces of promQL queries repeated throughout. For easy cust
 ## Defining the grid:
 
 The layout of the panels is defined as a grid, which is an array of objects defining the size and order of one or more panels.
-
-```
-grid = [
-  {
-    panels: [
-        panelName { size:: 1 },
-        panelName2 { size:: 1 },
-    ],
-    height: 14,
-  }
-];
-```
-
-This grid array would create a dashboard with 2 panels size by side with a height of 14.
+See an example of a grid [here](./src/eaRelease.jsonnet#L197)
 
 ---
 
 ## Launching the dashboard
 
-After defining the grid, add the following line to the bottom of the code to build the dashboard.
-
-```
-shared.helpers.createDashboard(templates, grid)
-```
+After defining the grid, add the [following line](./src/eaRelease.jsonnet#L274) to the bottom of the code to build the dashboard.
 
 A template is a placeholder for a value and can be used to filter all the panels in a given dashboard. Templates are configured in `shared.libsonnet`. (More on templates [here](https://grafana.com/docs/grafana/latest/variables/))

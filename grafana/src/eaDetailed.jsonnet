@@ -10,7 +10,7 @@ local shared = import './shared.libsonnet';
 local addSideLegend = shared.helpers.addSideLegend;
 
 local cortexDataSource = shared.constants.cortexDataSource;
-local masterFilter = shared.constants.masterFilter;
+local eaSelector = shared.constants.eaSelector;
 local interval = shared.constants.interval;
 
 local templates = shared.createTemplates(multiService=false);
@@ -24,7 +24,7 @@ local cpuUsagePanel = graphPanel.new(
   format='percent'
 ).addTarget(
   prometheus.target(
-    'sum(rate(process_cpu_seconds_total{' + masterFilter + '}' + interval + ')) * 100',
+    'sum(rate(process_cpu_seconds_total{' + eaSelector + '}' + interval + ')) * 100',
     legendFormat='cpu'
   )
 );
@@ -36,7 +36,7 @@ local redisConnectionsOpen = graphPanel.new(
   format='conn',
 ).addTarget(
   prometheus.target(
-    'redis_connections_open{' + masterFilter + '}',
+    'redis_connections_open{' + eaSelector + '}',
     legendFormat='connections open'
   )
 );
@@ -48,7 +48,7 @@ local redisRetriesCount = addSideLegend(graphPanel.new(
   format='retries',
 ).addTarget(
   prometheus.target(
-    'sum(redis_retries_count{' + masterFilter + '})',
+    'sum(redis_retries_count{' + eaSelector + '})',
     legendFormat='retries'
   )
 ));
@@ -61,7 +61,7 @@ local redisCommandsSentCount = addSideLegend(graphPanel.new(
   format='sent',
 ).addTarget(
   prometheus.target(
-    'rate(redis_commands_sent_count{' + masterFilter + '}' + interval + ') * 60 ',
+    'rate(redis_commands_sent_count{' + eaSelector + '}' + interval + ') * 60 ',
     legendFormat='{{status}} {{function_name}}'
   )
 ));
@@ -74,12 +74,12 @@ local heapUsedPanel = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'nodejs_heap_size_used_bytes{' + masterFilter + '} / 1000 / 1000',
+    'nodejs_heap_size_used_bytes{' + eaSelector + '} / 1000 / 1000',
     legendFormat='MB'
   )
 );
 
-local httpsRequestsPerMinuteQuery = 'rate(http_requests_total{' + masterFilter + '}' + interval + ') * 60 ';
+local httpsRequestsPerMinuteQuery = 'rate(http_requests_total{' + eaSelector + '}' + interval + ') * 60 ';
 local httpsRequestsPerMinuteSumQuery = 'sum(' + httpsRequestsPerMinuteQuery + ')';
 
 
@@ -152,7 +152,7 @@ local httpRequestDurationAverageSeconds = graphPanel.new(
   sort='decreasing',
 ).addTarget(
   prometheus.target(
-    'rate(http_request_duration_seconds_sum{' + masterFilter + '}' + interval + ')/rate(http_request_duration_seconds_count{' + masterFilter + '}' + interval + ')',
+    'rate(http_request_duration_seconds_sum{' + eaSelector + '}' + interval + ')/rate(http_request_duration_seconds_count{' + eaSelector + '}' + interval + ')',
     legendFormat='{{service}}',
   )
 );
@@ -165,7 +165,7 @@ local httpRequestDurationSecondsHeatmap = heatmapPanel.new(
   yAxis_logBase=2,
 ).addTarget(
   prometheus.target(
-    'sum(increase(http_request_duration_seconds_bucket{' + masterFilter + '}[$__interval])) by (le)',
+    'sum(increase(http_request_duration_seconds_bucket{' + eaSelector + '}[$__interval])) by (le)',
     legendFormat='{{le}}',
     format='heatmap',
   )
@@ -178,7 +178,7 @@ local wsConnectionActiveGraph = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'ws_connection_active{' + masterFilter + '}',
+    'ws_connection_active{' + eaSelector + '}',
     legendFormat='{{service}} | Key:{{key}}',
   ),
 );
@@ -190,7 +190,7 @@ local wsConnectionErrorsGraph = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'ws_connection_errors{' + masterFilter + '}',
+    'ws_connection_errors{' + eaSelector + '}',
     legendFormat='{{service}} | Key:{{key}}',
   ),
 );
@@ -202,7 +202,7 @@ local wsConnectionRetriesGraph = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'ws_connection_retries{' + masterFilter + '}',
+    'ws_connection_retries{' + eaSelector + '}',
 
     legendFormat='{{service}} | Key:{{key}}',
   )
@@ -216,7 +216,7 @@ local wsActiveSubscriptions = addSideLegend(graphPanel.new(
   datasource=cortexDataSource
 ).addTarget(
   prometheus.target(
-    'ws_subscription_active{' + masterFilter + '}',
+    'ws_subscription_active{' + eaSelector + '}',
     legendFormat='{{service}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} Feed: {{feed_id}}'
   )
 ));
@@ -229,7 +229,7 @@ local wsMessagesPerSecondGraph = addSideLegend(graphPanel.new(
   stack=true,
 ).addTarget(
   prometheus.target(
-    'rate(ws_message_total{' + masterFilter + '}' + interval + ')',
+    'rate(ws_message_total{' + eaSelector + '}' + interval + ')',
     legendFormat='{{service}} | Feed: {{feed_id}}'
   )
 ));
@@ -241,7 +241,7 @@ local cacheFeedValues = statPanel.new(
   unit='short'
 ).addTarget(
   prometheus.target(
-    'cache_data_get_values{' + masterFilter + '}',
+    'cache_data_get_values{' + eaSelector + '}',
     legendFormat='{{feed_id}}',
   )
 );
@@ -275,7 +275,7 @@ local cacheMaxAgeSeconds = barGaugePanel.new(
   unit='s'
 ).addTarget(
   prometheus.target(
-    'sort_desc(cache_data_max_age{' + masterFilter + '}/1000) != 0',
+    'sort_desc(cache_data_max_age{' + eaSelector + '}/1000) != 0',
     instant=true,
     legendFormat='{{feed_id}}',
   )
@@ -287,7 +287,7 @@ local cacheStalenessSeconds = barGaugePanel.new(
   unit='s'
 ).addTarget(
   prometheus.target(
-    'sort_desc(cache_data_staleness_seconds{' + masterFilter + '}) != 0',
+    'sort_desc(cache_data_staleness_seconds{' + eaSelector + '}) != 0',
     instant=true,
     legendFormat='{{feed_id}}',
   )
@@ -301,7 +301,7 @@ local cacheEntrySetsPerSecond = addSideLegend(graphPanel.new(
   datasource=cortexDataSource
 ).addTarget(
   prometheus.target(
-    'rate(cache_data_set_count{' + masterFilter + '}' + interval + ')',
+    'rate(cache_data_set_count{' + eaSelector + '}' + interval + ')',
     legendFormat='{{feed_id}}',
   )
 ));
@@ -315,7 +315,7 @@ local cacheEntryGetsPerSecond = addSideLegend(graphPanel.new(
   format='get/s',
 ).addTarget(
   prometheus.target(
-    'rate(cache_data_get_count{' + masterFilter + '}' + interval + ')',
+    'rate(cache_data_get_count{' + eaSelector + '}' + interval + ')',
     legendFormat='{{feed_id}}',
   )
 ));

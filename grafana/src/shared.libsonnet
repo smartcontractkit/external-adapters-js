@@ -12,7 +12,7 @@ local cortexDataSource = std.extVar('cortexDataSource');
 local instanceFilter = 'namespace="$namespace",service=~"$service.*"';
 local appFilter = 'namespace="$namespace",app_name=~"$adapter.*"';
 local filterType = std.extVar('filterType');
-local masterFilter = if filterType == "app" then appFilter else instanceFilter;
+local eaSelector = if filterType == "app" then appFilter else instanceFilter;
 local interval = '[$__rate_interval]';
 
 /**
@@ -54,11 +54,11 @@ local createTemplates(multiService) =
     includeAll=true,
     refresh='load'
   );
-  local masterTempl = if filterType == "app" then adapterTempl else serviceTempl;
+  local eaTempl = if filterType == "app" then adapterTempl else serviceTempl;
   [
     namespaceTempl,
     feedTempl,
-    masterTempl,
+    eaTempl,
   ];
 
 local addSideLegend(graphPanel) =
@@ -100,7 +100,7 @@ local createDashboard(templates, grid) =
   },
   constants: {
     cortexDataSource: cortexDataSource,
-    masterFilter: masterFilter,
+    eaSelector: eaSelector,
     interval: interval,
   },
   createTemplates: createTemplates,

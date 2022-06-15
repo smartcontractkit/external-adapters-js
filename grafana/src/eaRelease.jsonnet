@@ -9,7 +9,7 @@ local shared = import './shared.libsonnet';
 local addSideLegend = shared.helpers.addSideLegend;
 
 local cortexDataSource = shared.constants.cortexDataSource;
-local masterFilter = shared.constants.masterFilter;
+local eaSelector = shared.constants.eaSelector;
 local interval = shared.constants.interval;
 
 local templates = shared.createTemplates(multiService=true);
@@ -27,7 +27,7 @@ local ErrorRate5xxPanel = graphPanel.new(
   format='percent',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum by(app_name) (rate(http_requests_total{' + masterFilter + ',status_code=~"^5.."}' + interval + ')) / sum by(app_name) (rate(http_requests_total{app_name!="",' + masterFilter + '}' + interval + ')) * 100)'
+    'topk(10, sum by(app_name) (rate(http_requests_total{' + eaSelector + ',status_code=~"^5.."}' + interval + ')) / sum by(app_name) (rate(http_requests_total{app_name!="",' + eaSelector + '}' + interval + ')) * 100)'
   )
 );
 
@@ -37,7 +37,7 @@ local ErrorRate4xxPanel = graphPanel.new(
   format='percent',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum by(app_name) (rate(http_requests_total{' + masterFilter + ',status_code=~"^4.."}' + interval + ')) / sum by(app_name) (rate(http_requests_total{app_name!="",' + masterFilter + '}' + interval + ')) * 100)'
+    'topk(10, sum by(app_name) (rate(http_requests_total{' + eaSelector + ',status_code=~"^4.."}' + interval + ')) / sum by(app_name) (rate(http_requests_total{app_name!="",' + eaSelector + '}' + interval + ')) * 100)'
   )
 );
 
@@ -47,7 +47,7 @@ local Bot10CacheHitTotalReqCount = graphPanel.new(
   format='percent',
 ).addTarget(
   prometheus.target(
-    'bottomk(10, (sum(rate(http_requests_total{' + masterFilter + ' ,type=\"cacheHit\"}' + interval + ')) by (app_name) / sum(rate(http_requests_total{' + masterFilter + ' }' + interval + ')) by (app_name))) * 100'
+    'bottomk(10, (sum(rate(http_requests_total{' + eaSelector + ' ,type=\"cacheHit\"}' + interval + ')) by (app_name) / sum(rate(http_requests_total{' + eaSelector + ' }' + interval + ')) by (app_name))) * 100'
   )
 );
 
@@ -57,7 +57,7 @@ local Top10RequestDuration = graphPanel.new(
   format='s',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(rate(http_request_duration_seconds_sum{' + masterFilter + ' }' + interval + ')/rate(http_request_duration_seconds_count{' + masterFilter + ' }' + interval + ')) by (app_name))'
+    'topk(10, sum(rate(http_request_duration_seconds_sum{' + eaSelector + ' }' + interval + ')/rate(http_request_duration_seconds_count{' + eaSelector + ' }' + interval + ')) by (app_name))'
   )
 );
 
@@ -71,7 +71,7 @@ local Provider5xxErrorRate = graphPanel.new(
   format='req/s',
 ).addTarget(
   prometheus.target(
-    'sum(rate(http_requests_total{' + masterFilter + ' ,provider_status_code=~"^5.."}' + interval + ')) by (app_name, provider_status_code)'
+    'sum(rate(http_requests_total{' + eaSelector + ' ,provider_status_code=~"^5.."}' + interval + ')) by (app_name, provider_status_code)'
   )
 );
 local Provider4xxErrorRate = graphPanel.new(
@@ -80,7 +80,7 @@ local Provider4xxErrorRate = graphPanel.new(
   format='req/s',
 ).addTarget(
   prometheus.target(
-    'sum(rate(http_requests_total{' + masterFilter + ' ,provider_status_code=~"^4.."}' + interval + ')) by (app_name, provider_status_code)'
+    'sum(rate(http_requests_total{' + eaSelector + ' ,provider_status_code=~"^4.."}' + interval + ')) by (app_name, provider_status_code)'
   )
 );
 local InfraResources = textPanel.new(
@@ -91,7 +91,7 @@ local Top10CpuUsage = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(rate(process_cpu_seconds_total{' + masterFilter + ' }[5m])) by (app_name) * 100)'
+    'topk(10, sum(rate(process_cpu_seconds_total{' + eaSelector + ' }[5m])) by (app_name) * 100)'
   )
 );
 
@@ -100,7 +100,7 @@ local Top10CpuUsage = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(rate(process_cpu_seconds_total{' + masterFilter + ' }[5m])) by (app_name) * 100)'
+    'topk(10, sum(rate(process_cpu_seconds_total{' + eaSelector + ' }[5m])) by (app_name) * 100)'
   )
 );
 
@@ -110,7 +110,7 @@ local Top10NodeHeapUsage = graphPanel.new(
   format='MB',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum (nodejs_heap_size_used_bytes{' + masterFilter + ' ,app_name!=\"REFERENCE_TRANSFORM\"} / 1000 / 1000) by (app_name))'
+    'topk(10, sum (nodejs_heap_size_used_bytes{' + eaSelector + ' ,app_name!=\"REFERENCE_TRANSFORM\"} / 1000 / 1000) by (app_name))'
   )
 );
 
@@ -119,7 +119,7 @@ local AvgCpuUsage = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'avg(rate(process_cpu_seconds_total{' + masterFilter + ' }[5m])) * 100'
+    'avg(rate(process_cpu_seconds_total{' + eaSelector + ' }[5m])) * 100'
   )
 );
 
@@ -129,7 +129,7 @@ local AvgNodeHeapUsage = graphPanel.new(
   format='MB',
 ).addTarget(
   prometheus.target(
-    'avg(nodejs_heap_size_used_bytes{' + masterFilter + ',app_name!=\"REFERENCE_TRANSFORM\"} / 1000 / 1000)'
+    'avg(nodejs_heap_size_used_bytes{' + eaSelector + ',app_name!=\"REFERENCE_TRANSFORM\"} / 1000 / 1000)'
   )
 );
 
@@ -142,7 +142,7 @@ local Top10WebsocketSubscriptions = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(ws_connection_active{' + masterFilter + '}) by (app_name))'
+    'topk(10, sum(ws_connection_active{' + eaSelector + '}) by (app_name))'
   )
 );
 
@@ -152,7 +152,7 @@ local Top10WebsocketSubscriptionsPerSecond = graphPanel.new(
   format='ops/s',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(rate(ws_subscription_active{' + masterFilter + '}' + interval + ')) by (app_name))'
+    'topk(10, sum(rate(ws_subscription_active{' + eaSelector + '}' + interval + ')) by (app_name))'
   )
 );
 
@@ -162,7 +162,7 @@ local Top10WebsocketMessages = graphPanel.new(
   format='req/s',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(ws_connection_active{' + masterFilter + '}) by (app_name))'
+    'topk(10, sum(ws_connection_active{' + eaSelector + '}) by (app_name))'
   )
 );
 
@@ -172,7 +172,7 @@ local Top10WebsocketErrors = graphPanel.new(
   format='req/s',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(rate(ws_subscription_errors{' + masterFilter + '}' + interval + ')) by (app_name))'
+    'topk(10, sum(rate(ws_subscription_errors{' + eaSelector + '}' + interval + ')) by (app_name))'
   )
 );
 
@@ -181,7 +181,7 @@ local Top10CacheWarmerSubscriptions = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(cache_warmer_get_count{' + masterFilter + '}) by (app_name))'
+    'topk(10, sum(cache_warmer_get_count{' + eaSelector + '}) by (app_name))'
   )
 );
 
@@ -190,7 +190,7 @@ local CacheWarmerErrorRate = graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'sum(rate(http_requests_total{' + masterFilter + ',is_cache_warming=\"true\",provider_status_code!=\"undefined\",provider_status_code!=\"200\"}' + interval + ')) by (app_name) / sum(rate(http_requests_total{' + masterFilter + ',is_cache_warming=\"true\"}' + interval + ')) by (app_name) * 100'
+    'sum(rate(http_requests_total{' + eaSelector + ',is_cache_warming=\"true\",provider_status_code!=\"undefined\",provider_status_code!=\"200\"}' + interval + ')) by (app_name) / sum(rate(http_requests_total{' + eaSelector + ',is_cache_warming=\"true\"}' + interval + ')) by (app_name) * 100'
   )
 );
 
