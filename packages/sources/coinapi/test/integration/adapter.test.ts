@@ -1,39 +1,20 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
 import { mockAssetEndpoint, mockCryptoEndpoint } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('coinapi', () => {
-  let fastify: FastifyInstance
-  const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    API_KEY: 'mock-api-key',
+  }
 
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.rec()
-    } else {
-      process.env.API_KEY = 'mock-api-key'
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    process.env = oldEnv
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('crypto endpoint', () => {
     describe('when sending well-formed request', () => {
@@ -47,7 +28,7 @@ describe('coinapi', () => {
           },
         }
         mockCryptoEndpoint()
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(cryptoRequest)
           .set('Accept', '*/*')
@@ -70,7 +51,7 @@ describe('coinapi', () => {
           },
         }
         mockAssetEndpoint()
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(assetRequest)
           .set('Accept', '*/*')

@@ -1,42 +1,22 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { mockCryptoEndpointSuccess } from './cryptoFixtures'
 import { mockVwapEndpointSuccess } from './vwapFixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('bravenewcoin', () => {
-  let fastify: FastifyInstance
-  const oldEnv: NodeJS.ProcessEnv = JSON.parse(JSON.stringify(process.env))
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'test-api-key',
+    CLIENT_ID: process.env.CLIENT_ID || 'test-client-id',
+    CACHE_ENABLED: 'false',
+  }
 
-    process.env.API_KEY = process.env.API_KEY || 'test-api-key'
-    process.env.CLIENT_ID = process.env.CLIENT_ID || 'test-client-id'
-
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.rec()
-    }
-  })
-
-  afterAll((done) => {
-    process.env = oldEnv
-
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('when making a request to bravenewcoin to crypto endpoint', () => {
     const cryptoRequest: AdapterRequest = {
@@ -51,7 +31,7 @@ describe('bravenewcoin', () => {
     describe('when sending well-formed request', () => {
       it('should reply with success', async () => {
         mockCryptoEndpointSuccess()
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(cryptoRequest)
           .set('Accept', '*/*')
@@ -75,7 +55,7 @@ describe('bravenewcoin', () => {
     describe('when sending well-formed request', () => {
       it('should reply with success', async () => {
         mockVwapEndpointSuccess()
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(vwapRequest)
           .set('Accept', '*/*')

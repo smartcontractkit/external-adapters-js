@@ -3,7 +3,6 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import * as circuitbreakerAllocationAdapter from '../../src/index'
 import { dataProviderConfig, mockDataProviderResponses } from './fixtures'
 import nock from 'nock'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
 
