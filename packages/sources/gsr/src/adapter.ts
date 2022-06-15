@@ -88,14 +88,12 @@ export const getAccessToken = async (
       token: tokenResponse.data.token,
       validUntil: new Date(tokenResponse.data.validUntil).getTime(),
     }
-  } catch (error) {
-    Logger.debug(
-      `Error: ${
-        existingToken
-          ? `failed to refresh token: ${existingToken.token}`
-          : `failed to get new token`
-      }, with error: ${error.message}`,
-    )
+  } catch (e) {
+    const message =
+      (existingToken ? 'failed to refresh token' : 'failed to get new token') +
+      (e.message ? `with message ${e.message}` : '')
+    const error = { ...e, message }
+    Logger.debug(message)
     throw error.response
       ? new AdapterDataProviderError(error)
       : error.request
@@ -113,10 +111,8 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
       {},
       { shouldThrowError: false },
     )
-    if (validator.error) return
-    const base = validator.validated.data.base.toUpperCase()
-    const quote = validator.validated.data.quote.toUpperCase()
-    return `${base}.${quote}`
+    const { base = '', quote = '' } = validator.validated.data
+    return base && quote && [`${base.toUpperCase()}.${quote.toUpperCase()}`]
   }
 
   const refreshToken = async (config: Config) => {
@@ -146,8 +142,8 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler => {
         protocol: { headers: { ...config.api.headers, 'x-auth-token': token?.token || '' } },
       },
       noHttp: true,
-      subscribe: (input) => ({ action: 'subscribe', symbols: [getPair(input)] }),
-      unsubscribe: (input) => ({ action: 'unsubscribe', symbols: [getPair(input)] }),
+      subscribe: (input) => ({ action: 'subscribe', symbols: getPair(input) }),
+      unsubscribe: (input) => ({ action: 'unsubscribe', symbols: getPair(input) }),
       subsFromMessage: (message, subscriptionMessage) => {
         if (message.type !== 'ticker') return
         if (!subscriptionMessage.symbols.includes(message.data.symbol)) return
