@@ -1,6 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters, AdapterResponse } from '@chainlink/types'
-import { LIDO_ADDRESS, WITHDRAWAL_ADDRESS, KSM_AGGREGATOR_PROXY, OUTPUT_DECIMALS } from '../config'
+import {
+  LIDO_ADDRESS,
+  WITHDRAWAL_ADDRESS,
+  KSM_AGGREGATOR_PROXY,
+  OUTPUT_DECIMALS,
+  KSM_DECIMALS,
+} from '../config'
 import lidoAbi from '../abi/Lido.json'
 import ledgerAbi from '../abi/Ledger.json'
 import withdrawalAbi from '../abi/Withdrawal.json'
@@ -42,7 +48,7 @@ export const execute: ExecuteWithConfig<Config> = async (
     ksmAggregator.decimals(),
   ])
 
-  let freeBalanceSum = ethers.utils.parseUnits('0', 12)
+  let freeBalanceSum = ethers.utils.parseUnits('0', KSM_DECIMALS)
 
   for (let ledgerAddress of values[0]) {
     const ledgerContract = new ethers.Contract(ledgerAddress, ledgerAbi, provider)
