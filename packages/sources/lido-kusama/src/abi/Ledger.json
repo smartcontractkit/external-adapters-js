@@ -1,0 +1,442 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount",
+        "type": "uint128"
+      }
+    ],
+    "name": "DownwardComplete",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "balance",
+        "type": "uint128"
+      }
+    ],
+    "name": "Rewards",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "balance",
+        "type": "uint128"
+      }
+    ],
+    "name": "Slash",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amount",
+        "type": "uint128"
+      }
+    ],
+    "name": "UpwardComplete",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "LIDO",
+    "outputs": [
+      {
+        "internalType": "contract ILido",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MAX_UNLOCKING_CHUNKS",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MINIMUM_BALANCE",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "MIN_NOMINATOR_BALANCE",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "activeBalance",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "cachedTotalBalance",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "controllerAccount",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_stashAccount",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_controllerAccount",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "_vKSM",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_controller",
+        "type": "address"
+      },
+      {
+        "internalType": "uint128",
+        "name": "_minNominatorBalance",
+        "type": "uint128"
+      },
+      {
+        "internalType": "address",
+        "name": "_lido",
+        "type": "address"
+      },
+      {
+        "internalType": "uint128",
+        "name": "_minimumBalance",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxUnlockingChunks",
+        "type": "uint256"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isEmpty",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "ledgerStake",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lockedBalance",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "_validators",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "nominate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pendingBonds",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint64",
+        "name": "_eraId",
+        "type": "uint64"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "stashAccount",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "controllerAccount",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "enum Types.LedgerStatus",
+            "name": "stakeStatus",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint128",
+            "name": "activeBalance",
+            "type": "uint128"
+          },
+          {
+            "internalType": "uint128",
+            "name": "totalBalance",
+            "type": "uint128"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint128",
+                "name": "balance",
+                "type": "uint128"
+              },
+              {
+                "internalType": "uint64",
+                "name": "era",
+                "type": "uint64"
+              }
+            ],
+            "internalType": "struct Types.UnlockingChunk[]",
+            "name": "unlocking",
+            "type": "tuple[]"
+          },
+          {
+            "internalType": "uint32[]",
+            "name": "claimedRewards",
+            "type": "uint32[]"
+          },
+          {
+            "internalType": "uint128",
+            "name": "stashBalance",
+            "type": "uint128"
+          },
+          {
+            "internalType": "uint32",
+            "name": "slashingSpans",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct Types.OracleData",
+        "name": "_report",
+        "type": "tuple"
+      }
+    ],
+    "name": "pushData",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "refreshAllowances",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "_minNominatorBalance",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "_minimumBalance",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxUnlockingChunks",
+        "type": "uint256"
+      }
+    ],
+    "name": "setRelaySpecs",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "stashAccount",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "status",
+    "outputs": [
+      {
+        "internalType": "enum Types.LedgerStatus",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalBalance",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "transferDownwardBalance",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "transferUpwardBalance",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
