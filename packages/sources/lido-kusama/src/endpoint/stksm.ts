@@ -3,12 +3,14 @@ import { Config, ExecuteWithConfig, InputParameters, AdapterResponse } from '@ch
 import {
   LIDO_ADDRESS,
   WITHDRAWAL_ADDRESS,
+  XCKSM_ADDRESS,
   KSM_AGGREGATOR_PROXY,
   OUTPUT_DECIMALS,
   KSM_DECIMALS,
 } from '../config'
 import lidoAbi from '../abi/Lido.json'
 import ledgerAbi from '../abi/Ledger.json'
+import xcKsmAbi from '../abi/xcKSM.json'
 import withdrawalAbi from '../abi/Withdrawal.json'
 import ksmAggregatorAbi from '../abi/KsmAggregator.json'
 import { ethers } from 'ethers'
@@ -39,6 +41,8 @@ export const execute: ExecuteWithConfig<Config> = async (
 
   const withdrawal = new ethers.Contract(WITHDRAWAL_ADDRESS, withdrawalAbi, provider)
 
+  const xcKsm = new ethers.Contract(XCKSM_ADDRESS, xcKsmAbi, provider)
+
   const ksmAggregator = new ethers.Contract(KSM_AGGREGATOR_PROXY, ksmAggregatorAbi, provider)
 
   const values = await Promise.all([
@@ -62,9 +66,14 @@ export const execute: ExecuteWithConfig<Config> = async (
   }
 
   const bufferedDeposits = await lido.bufferedDeposits()
-  const bufferedRedeems = await lido.bufferedRedeems()
   const losses = await withdrawal.totalBalanceForLosses()
-  const totalKsm = bufferedDeposits.add(freeBalanceSum).sub(bufferedRedeems).sub(losses)
+  const withdrawalXcKsmBalance = await xcKsm.balanceOf(WITHDRAWAL_ADDRESS)
+  const pendingForClaiming = await withdrawal.pendingForClaiming()
+  const totalKsm = bufferedDeposits
+    .add(freeBalanceSum)
+    .add(withdrawalXcKsmBalance)
+    .sub(losses)
+    .sub(pendingForClaiming)
 
   const totalStKsm = values[1]
   const ksmUsd = values[2].answer
