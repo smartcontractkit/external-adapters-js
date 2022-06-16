@@ -14,7 +14,7 @@ import xcKsmAbi from '../abi/xcKSM.json'
 import withdrawalAbi from '../abi/Withdrawal.json'
 import ksmAggregatorAbi from '../abi/KsmAggregator.json'
 import { ethers } from 'ethers'
-import { ApiPromise, Keyring, WsProvider } from '@polkadot/api'
+import { ApiPromise, HttpProvider, Keyring } from '@polkadot/api'
 
 export const supportedEndpoints = ['stksm']
 
@@ -31,8 +31,8 @@ export const execute: ExecuteWithConfig<Config> = async (
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(config.api.baseURL)
 
-  const wsProvider = new WsProvider(config.api.relayURL)
-  const api = await ApiPromise.create({ provider: wsProvider })
+  const polkadotProvider = new HttpProvider(config.api.relayURL)
+  const api = await ApiPromise.create({ provider: polkadotProvider })
 
   const keyring = new Keyring()
   keyring.setSS58Format(2)
