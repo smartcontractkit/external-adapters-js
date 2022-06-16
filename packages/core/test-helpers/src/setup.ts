@@ -7,16 +7,17 @@ import nock from 'nock'
 export type SuiteContext = {
   req: SuperTest<Test>
   server: () => Promise<FastifyInstance>
+  fastify?: FastifyInstance
 }
 
 export type EnvVariables = { [key: string]: string }
 
-export type TestOptions = { cleanNock: boolean }
+export type TestOptions = { cleanNock: boolean; fastify: boolean }
 
 export const setupExternalAdapterTest = (
   envVariables: NodeJS.ProcessEnv,
   context: SuiteContext,
-  options: TestOptions = { cleanNock: true },
+  options: TestOptions = { cleanNock: true, fastify: false },
 ) => {
   let fastify: FastifyInstance
 
@@ -30,6 +31,11 @@ export const setupExternalAdapterTest = (
     }
     fastify = await context.server()
     context.req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+
+    // Only for edge cases when someone needs to use the fastify instance outside this function
+    if (options.fastify) {
+      context.fastify = fastify
+    }
   })
 
   afterAll((done) => {

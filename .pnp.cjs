@@ -5814,6 +5814,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/implied-price-adapter", "workspace:packages/composites/implied-price"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.0.3"],\
             ["@types/node", "npm:16.11.41"],\
             ["@types/supertest", "npm:2.0.12"],\
