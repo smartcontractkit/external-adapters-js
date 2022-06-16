@@ -63,6 +63,29 @@ describe('amberdata', () => {
     })
   })
 
+  describe('when making a request to crypto endpoint with an override from config/overrides.json', () => {
+    const cryptoRequest: AdapterRequest = {
+      id: '1',
+      data: {
+        endpoint: 'crypto',
+        base: 'LUNA',
+        quote: 'USD',
+      },
+    }
+
+    it('should reply with success', async () => {
+      //mockCryptoEndpoint()
+      const response = await req
+        .post('/')
+        .send(cryptoRequest)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
   describe('when making a request to marketcap endpoint', () => {
     const marketCapRequest: AdapterRequest = {
       id: '1',
