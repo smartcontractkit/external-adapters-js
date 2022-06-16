@@ -4842,6 +4842,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.0.3"],\
             ["@types/node", "npm:16.11.38"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.6"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
