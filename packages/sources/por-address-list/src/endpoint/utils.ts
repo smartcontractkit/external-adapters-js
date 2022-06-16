@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { AdapterDataProviderError, util } from '../../../../core/bootstrap'
+import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 
 export const fetchAddressList = async (
   addressManager: ethers.Contract,

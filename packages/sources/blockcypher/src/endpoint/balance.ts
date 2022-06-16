@@ -2,7 +2,7 @@ import { balance } from '@chainlink/ea-factories'
 import { AdapterData, Config, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
 import bcypher from 'blockcypher'
 import { ChainType, CoinType, isChainType, isCoinType } from '../config'
-import { AdapterError } from '../../../../core/bootstrap'
+import { AdapterError } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['balance']
 

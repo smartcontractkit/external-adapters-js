@@ -3,7 +3,7 @@ import { PriceExecute } from '.'
 import { Config } from '../../config'
 import { throwErrorForInvalidResult } from '../../utils'
 import { anchorVaultAbi, curvePoolAbi } from './abi'
-import { AdapterDataProviderError, util } from '../../../../../core/bootstrap'
+import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN = 'ETH'
