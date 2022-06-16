@@ -1,5 +1,15 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.9.1
+
+### Patch Changes
+
+- Updated dependencies [172ae7f0c]
+  - @chainlink/amberdata-adapter@1.5.0
+  - @chainlink/por-indexer-adapter@1.0.45
+  - @chainlink/renvm-address-set-adapter@1.3.35
+  - @chainlink/wbtc-address-set-adapter@1.3.44
+
 ## 1.9.0
 
 ### Minor Changes

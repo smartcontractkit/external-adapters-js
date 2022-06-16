@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.0.96
+
+### Patch Changes
+
+- Updated dependencies [172ae7f0c]
+  - @chainlink/amberdata-adapter@1.5.0
+  - @chainlink/renvm-address-set-adapter@1.3.35
+  - @chainlink/wbtc-address-set-adapter@1.3.44
+
 ## 1.0.95
 
 ### Patch Changes
