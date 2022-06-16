@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/conflux-adapter",
-  "version": "1.0.55",
+  "version": "1.0.56",
   "description": "Chainlink conflux adapter.",
   "keywords": [
     "Chainlink",
