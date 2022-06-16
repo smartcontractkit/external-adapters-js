@@ -46,6 +46,10 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
       max-parallel: 35
+    environment: release
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
 
@@ -56,10 +60,6 @@ jobs:
       #
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
-        environment: release-private
-        permissions:
-          id-token: write
-          contents: read
         with:
           aws-role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
@@ -100,10 +100,6 @@ jobs:
       #
       - name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
-        environment: release-public
-        permissions:
-          id-token: write
-          contents: read
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
