@@ -100,14 +100,13 @@ export const getAccessToken = async (
       validUntil: new Date(tokenResponse.data.validUntil).getTime(),
     }
   } catch (e) {
-    const error = e as any
-    Logger.debug(
-      `Error: ${
-        existingToken
-          ? `failed to refresh token: ${existingToken.token}`
-          : `failed to get new token`
-      }, with error: ${error.message}`,
-    )
+    const err = e as any
+
+    const message =
+      (existingToken ? 'failed to refresh token' : 'failed to get new token') +
+      (err.message ? `with message ${err.message}` : '')
+    const error = { ...err, message }
+    Logger.debug(message)
     throw error.response
       ? new AdapterDataProviderError(error)
       : error.request
@@ -126,10 +125,8 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
       {},
       { shouldThrowError: false },
     )
-    if (validator.error) return
-    const base = validator.validated.data.base.toUpperCase()
-    const quote = validator.validated.data.quote.toUpperCase()
-    return `${base}.${quote}`
+    const { base = '', quote = '' } = validator.validated.data
+    return base && quote && [`${base.toUpperCase()}.${quote.toUpperCase()}`]
   }
 
   const refreshToken = async (config: Config) => {
@@ -159,11 +156,8 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
         protocol: { headers: { ...config.api?.headers, 'x-auth-token': token?.token || '' } },
       },
       noHttp: true,
-      subscribe: (input: AdapterRequest) => ({ action: 'subscribe', symbols: [getPair(input)] }),
-      unsubscribe: (input: AdapterRequest) => ({
-        action: 'unsubscribe',
-        symbols: [getPair(input)],
-      }),
+      subscribe: (input: AdapterRequest) => ({ action: 'subscribe', symbols: getPair(input) }),
+      unsubscribe: (input: AdapterRequest) => ({ action: 'unsubscribe', symbols: getPair(input) }),
       subsFromMessage: (message: any, subscriptionMessage: any) => {
         if (message.type !== 'ticker') return
         if (!subscriptionMessage.symbols.includes(message.data.symbol)) return

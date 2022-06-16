@@ -189,7 +189,11 @@ export const getEnv = (name: string, prefix = '', context?: AdapterContext): str
  */
 export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
-  if (!val) throw new RequiredEnvError(getEnvName(name, prefix))
+  if (!val) {
+    const error = new RequiredEnvError(getEnvName(name, prefix))
+    logger.error(error.message)
+    throw error
+  }
   return val
 }
 

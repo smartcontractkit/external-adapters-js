@@ -167,6 +167,7 @@ const getValidFilecoinAddress = (id: string, address: string): string | undefine
     )
     return
   }
+  if (address[1] === '0' && isBase10(address.slice(2))) return address
   if (isBase32(address.slice(2))) return address
   return
 }
@@ -191,6 +192,8 @@ export const filterDuplicates = (id: string, addresses: AddressObject[]): Addres
 const isBase58 = (value: string): boolean => /^[A-HJ-NP-Za-km-z1-9]*$/.test(value)
 
 const isBase32 = (value: string): boolean => /^[a-z2-7]*$/.test(value)
+
+const isBase10 = (value: string): boolean => /^[0-9]*$/.test(value)
 
 const isBech32 = (value: string): boolean => {
   for (const char of value) {

@@ -107,4 +107,52 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
   })
+
+  describe('Filecoin Gemini protocol', () => {
+    const data: AdapterRequest = {
+      id: '1',
+      data: {
+        indexer: 'lotus',
+        protocol: 'gemini',
+      },
+    }
+
+    it('should return success', async () => {
+      mockGeminiFilecoinAddressList()
+      mockLotusSuccess()
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('Filecoin list protocol w/ miner format address', () => {
+    mockLotusSuccess()
+    const data: AdapterRequest = {
+      id: '1',
+      data: {
+        indexer: 'lotus',
+        protocol: 'list',
+        addresses: ['f01850382'],
+        confirmations: 5,
+      },
+    }
+
+    it('should return success', async () => {
+      //mockLotusSuccess()
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 })
