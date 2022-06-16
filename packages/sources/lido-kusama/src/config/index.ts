@@ -14,9 +14,7 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL ||=
     util.getEnv('MOONRIVER_RPC_URL') || 'https://rpc.moonriver.moonbeam.network/'
-  config.api.relayURL ||=
-    util.getEnv('KUSAMA_RPC_URL') ||
-    'https://kusama.api.onfinality.io/rpc?apikey=ddd5d1a1-51cf-4593-99f2-caf9466deb8b'
+  config.api.relayURL ||= util.getEnv('KUSAMA_RPC_URL') || ''
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }
