@@ -3095,7 +3095,7 @@ __metadata:
     "@chainlink/types": "workspace:*"
     "@types/jest": 27.0.3
     "@types/node": 16.11.41
-    hardhat: 2.9.7
+    hardhat: 2.9.9
     mock-socket: 9.1.5
     tslib: ^2.3.1
     typescript: 4.3.5
@@ -16867,9 +16867,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"hardhat@npm:2.9.7":
-  version: 2.9.7
-  resolution: "hardhat@npm:2.9.7"
+"hardhat@npm:2.9.9":
+  version: 2.9.9
+  resolution: "hardhat@npm:2.9.9"
   dependencies:
     "@ethereumjs/block": ^3.6.2
     "@ethereumjs/blockchain": ^5.5.2
@@ -16916,14 +16916,20 @@ fsevents@^1.2.7:
     stacktrace-parser: ^0.1.10
     true-case-path: ^2.2.1
     tsort: 0.0.1
-    undici: ^4.14.1
+    undici: ^5.4.0
     uuid: ^8.3.2
     ws: ^7.4.6
   peerDependencies:
-    chai: ^4.2.0
+    ts-node: "*"
+    typescript: "*"
+  peerDependenciesMeta:
+    ts-node:
+      optional: true
+    typescript:
+      optional: true
   bin:
     hardhat: internal/cli/cli.js
-  checksum: 7435cdeb375a07078c89d43b4f28702c68203524be85510985838d7d2becba43613b271cf3d6b1739dbe3528d3a9921f95b22a166337d52dc9622bfd219b6253
+  checksum: 1d30f4b5e56de82608e0fc8436b8338d5f6eb79125229236d65e32f4f0da39e9649c3a7138e743c62bb2fa1b00eac91e67cdb1775cd934fb8daedb1ede6eea01
   languageName: node
   linkType: hard
 
@@ -28377,10 +28383,10 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"undici@npm:^4.14.1":
-  version: 4.16.0
-  resolution: "undici@npm:4.16.0"
-  checksum: 5e88c2b3381085e25ed1d1a308610ac7ee985f478ac705af7a8e03213536e10f73ef8dd8d85e6ed38948d1883fa0ae935e04357c317b0f5d3d3c0211d0c8c393
+"undici@npm:^5.4.0":
+  version: 5.5.1
+  resolution: "undici@npm:5.5.1"
+  checksum: c041c9093df7ec683479a9555581206a7c7bebfc1ed6e8669920e55618461fc4ce08938e2fbf8ef7d692c2813c44392b5ed25c58396ee4a72ffd1f1f953712c9
   languageName: node
   linkType: hard
 

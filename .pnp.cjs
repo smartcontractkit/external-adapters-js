@@ -5661,7 +5661,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:27.0.3"],
             ["@types/node", "npm:16.11.41"],
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.7"],
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.9"],
             ["mock-socket", "npm:9.1.5"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"]
@@ -20830,17 +20830,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["hardhat", [
-        ["npm:2.9.7", {
-          "packageLocation": "./.yarn/cache/hardhat-npm-2.9.7-33643f8e78-7435cdeb37.zip/node_modules/hardhat/",
+        ["npm:2.9.9", {
+          "packageLocation": "./.yarn/cache/hardhat-npm-2.9.9-fcf86cba5b-1d30f4b5e5.zip/node_modules/hardhat/",
           "packageDependencies": [
-            ["hardhat", "npm:2.9.7"]
+            ["hardhat", "npm:2.9.9"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.7", {
-          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-5f38168537/0/cache/hardhat-npm-2.9.7-33643f8e78-7435cdeb37.zip/node_modules/hardhat/",
+        ["virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.9", {
+          "packageLocation": "./.yarn/__virtual__/hardhat-virtual-b72d8cd87d/0/cache/hardhat-npm-2.9.9-fcf86cba5b-1d30f4b5e5.zip/node_modules/hardhat/",
           "packageDependencies": [
-            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.7"],
+            ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.9.9"],
             ["@ethereumjs/block", "npm:3.6.2"],
             ["@ethereumjs/blockchain", "npm:5.5.2"],
             ["@ethereumjs/common", "npm:2.6.4"],
@@ -20851,13 +20851,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sentry/node", "npm:5.30.0"],
             ["@solidity-parser/parser", "npm:0.14.1"],
             ["@types/bn.js", "npm:5.1.0"],
-            ["@types/chai", null],
             ["@types/lru-cache", "npm:5.1.1"],
+            ["@types/ts-node", null],
+            ["@types/typescript", null],
             ["abort-controller", "npm:3.0.0"],
             ["adm-zip", "npm:0.4.16"],
             ["aggregate-error", "npm:3.1.0"],
             ["ansi-escapes", "npm:4.3.2"],
-            ["chai", null],
             ["chalk", "npm:2.4.2"],
             ["chokidar", "npm:3.5.2"],
             ["ci-info", "npm:2.0.0"],
@@ -20887,14 +20887,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["source-map-support", "npm:0.5.19"],
             ["stacktrace-parser", "npm:0.1.10"],
             ["true-case-path", "npm:2.2.1"],
+            ["ts-node", null],
             ["tsort", "npm:0.0.1"],
-            ["undici", "npm:4.16.0"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=493e53"],
+            ["undici", "npm:5.5.1"],
             ["uuid", "npm:8.3.2"],
             ["ws", "virtual:7254fd8ce77b68d889a3bdd3adbb30714345e4eabc20dd8acb030d6e3eee243c63ff0ce6a1521e60e11dc5384028500cf1f4f630567b5957b27a769fdfe8d8c4#npm:7.5.3"]
           ],
           "packagePeers": [
-            "@types/chai",
-            "chai"
+            "@types/ts-node",
+            "@types/typescript",
+            "ts-node",
+            "typescript"
           ],
           "linkType": "HARD",
         }]
@@ -33528,10 +33532,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["undici", [
-        ["npm:4.16.0", {
-          "packageLocation": "./.yarn/cache/undici-npm-4.16.0-a1101de800-5e88c2b338.zip/node_modules/undici/",
+        ["npm:5.5.1", {
+          "packageLocation": "./.yarn/cache/undici-npm-5.5.1-11e7e9979e-c041c9093d.zip/node_modules/undici/",
           "packageDependencies": [
-            ["undici", "npm:4.16.0"]
+            ["undici", "npm:5.5.1"]
           ],
           "linkType": "HARD",
         }]
