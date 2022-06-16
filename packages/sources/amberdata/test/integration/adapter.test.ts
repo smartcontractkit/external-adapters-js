@@ -74,7 +74,7 @@ describe('amberdata', () => {
     }
 
     it('should reply with success', async () => {
-      //mockCryptoEndpoint()
+      mockCryptoEndpoint()
       const response = await req
         .post('/')
         .send(cryptoRequest)

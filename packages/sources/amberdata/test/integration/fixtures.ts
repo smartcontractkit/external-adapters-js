@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export function mockCryptoEndpoint() {
+export function mockCryptoEndpoint(): void {
   nock('https://web3api.io:443', { encodedQueryParams: true })
     .get('/api/v2/market/spot/prices/pairs/eth_btc/latest')
     .query({ includeCrossRates: 'true' })
@@ -14,6 +14,60 @@ export function mockCryptoEndpoint() {
           timestamp: 1635171720000,
           pair: 'eth_btc',
           price: '0.06567038',
+          volume: '19.40889537',
+        },
+      },
+      [
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '161',
+        'Connection',
+        'close',
+        'Date',
+        'Mon, 25 Oct 2021 14:24:47 GMT',
+        'x-amzn-RequestId',
+        '6b5118c2-b915-4291-ad66-6079ab06443a',
+        'Access-Control-Allow-Origin',
+        '*',
+        'X-Response-Time',
+        '382.339ms',
+        'x-amzn-Remapped-Content-Length',
+        '161',
+        'x-amzn-Remapped-Connection',
+        'keep-alive',
+        'Set-Cookie',
+        'AWSALB=hG1mDBRonU0WtlkzWLKvseizX+l04AEGfhNx+azUUjQmc6qGKjItwQtUsbkhaZ9k+HeC72nL3Qao52rQNCyrsMMFvEE1XnQl+5f2XtjL0ISSJxCTA5wBW1O3UDP4; Expires=Mon, 01 Nov 2021 14:24:47 GMT; Path=/',
+        'Set-Cookie',
+        'AWSALBCORS=hG1mDBRonU0WtlkzWLKvseizX+l04AEGfhNx+azUUjQmc6qGKjItwQtUsbkhaZ9k+HeC72nL3Qao52rQNCyrsMMFvEE1XnQl+5f2XtjL0ISSJxCTA5wBW1O3UDP4; Expires=Mon, 01 Nov 2021 14:24:47 GMT; Path=/; SameSite=None; Secure',
+        'x-amz-apigw-id',
+        'HxKndH0xIAMFVRA=',
+        'ETag',
+        'W/"a1-b7CgNqXOtvdSh07+yR3ZEVL3SZ0"',
+        'x-amzn-Remapped-Date',
+        'Mon, 25 Oct 2021 14:24:47 GMT',
+        'X-Cache',
+        'Miss from cloudfront',
+        'Via',
+        '1.1 51ff0f115ee456a7012153e8567523be.cloudfront.net (CloudFront)',
+        'X-Amz-Cf-Pop',
+        'HIO50-C2',
+        'X-Amz-Cf-Id',
+        'uAMcTBf-QkP2cgnCqXvPuO0qz4I4Hd2YNQRNHewP_PqkpMi14ZItqQ==',
+      ],
+    )
+    .get('/api/v2/market/spot/prices/pairs/lunc_usd/latest')
+    .query({ includeCrossRates: 'true' })
+    .reply(
+      200,
+      {
+        status: 200,
+        title: 'OK',
+        description: 'Successful request',
+        payload: {
+          timestamp: 1635171720000,
+          pair: 'lunc_usd',
+          price: '0.0000586300395535625',
           volume: '19.40889537',
         },
       },
