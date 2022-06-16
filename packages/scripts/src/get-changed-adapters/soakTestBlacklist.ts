@@ -1,69 +1,49 @@
 export const SoakTestBlacklist: string[] = [
   'accuweather',
-  'ada-balance',
+  'ada-balance', // TODO: RPC URL needed to be set anywhere?
   'agoric',
   'alphachain',
   'alpine',
-  'anchor',
-  'anyblock',
+  'anchor', // TODO: RPC URL needed to be set anywhere?
   'ap-election',
-  'apy-finance',
+  'apy-finance', // TODO: Needs RPC URL and registry address
   'augur',
   'bea',
-  'binance-dex',
-  'binance',
-  'bitcoin-json-rpc',
-  'bitex',
-  'bitso',
-  'blockchain.com',
-  'blockchair',
+  'bitcoin-json-rpc', // TODO: RPC URL needed to be set anywhere?
   'blockcypher',
-  'blockstream',
-  'bob',
-  'bsol-price',
+  'bob', // TODO: RPC URL needed to be set anywhere?
+  'bsol-price', // TODO: Needs RPC URL and addresses
   'btc.com',
-  'cache.gold',
-  'celsius-address-list',
-  'chain-reserve-wallet',
-  'circuit-breaker',
+  'celsius-address-list', // TODO: RPC URL needed to be set anywhere?
+  'chain-reserve-wallet', // TODO: RPC URL needed to be set anywhere?
+  'circuit-breaker', // TODO: Source adapter URLs set anywhere?
   'coinapi',
-  'coinbase',
-  'coincodex',
-  'coinlore',
   'conflux',
   'covid-tracker',
-  'crypto-volatility-index',
+  'crypto-volatility-index', // TODO: Requires a lot of work?
   'cryptoapis',
-  'cryptomkt',
-  'curve',
-  'defi-dozen',
+  'curve', // TODO: RPC URL needed to be set anywhere?
+  'defi-dozen', // TODO: Source adapter URLs set anywhere?
   'defi-pulse',
-  'deribit',
-  'dns-query',
-  'dns-record-check',
-  'durin',
+  'dns-query', // TODO: Needs env var set
+  'dns-record-check', // TODO: Same as above
+  'durin', // TODO: RPC URL needed to be set anywhere?
   'dwolla',
-  'dxdao',
+  'dxdao', // TODO: RPC URL needed to be set anywhere?
   'dydx-rewards',
   'dydx-stark',
-  'enzyme',
-  'eth-balance',
-  'etherchain',
+  'enzyme', // TODO: RPC URL needed to be set anywhere?
+  'eth-balance', // TODO: RPC URL needed to be set anywhere?
   'etherscan',
   'ethgasstation',
-  'ethgaswatch',
   'ethwrite',
   'expert-car-broker',
   'finnhub',
   'flightaware',
   'fmpcloud',
-  'gemini',
   'genesis-volatility',
-  'geodb',
   'google-bigquery',
   'google-weather',
-  'gramchain',
-  'graphql',
   'harmony',
   'historical-average',
   'ipfs',
@@ -72,55 +52,40 @@ export const SoakTestBlacklist: string[] = [
   'layer2-sequencer-health',
   'lcx',
   'linkpool',
-  'lition',
   'lotus',
   'market-closure',
   'marketstack',
-  'medianizer',
-  'messari',
-  'mock-ea',
-  'mycryptoapi',
+  'medianizer', // TODO: Source URLs
   'ncfx',
-  'nftx',
+  'nftx', // TODO: RPC URL needed to be set anywhere?
   'nikkei',
   'oilpriceapi',
-  'onchain-gas',
-  'orchid-bandwidth',
-  'outlier-detection',
-  'paxos',
+  'onchain-gas', // TODO: RPC URL needed to be set anywhere?
+  'outlier-detection', // TODO: Source URLs
   'paypal',
-  'poa',
   'por-indexer',
-  'proof-of-reserves',
+  'proof-of-reserves', // TODO: Source URLs
   'reduce',
-  'renvm-address-set',
   'satoshitango',
-  'savax-price',
-  'set-token-index',
+  'savax-price', // TODO: RPC URL needed to be set anywhere?
+  'set-token-index', // TODO: RPC URL needed to be set anywhere? Source URLs
   'snowflake',
-  'sochain',
-  'solana-view-function',
+  'solana-view-function', // TODO: RPC URL needed to be set anywhere?
   'spectral-macro-score',
   'sportsdataio',
-  'stasis',
   'synth-index',
-  'synthetix-debt-pool',
+  'synthetix-debt-pool', // TODO: RPC URL needed to be set anywhere?
   'taapi',
-  'terra-view-function',
-  'the-graph',
+  'terra-view-function', // TODO: RPC URL needed to be set anywhere?
+  'the-graph', // TODO: RPC URL needed to be set anywhere?
   'therundown',
   'token-allocation',
-  'trueusd',
   'twelvedata',
   'unibit',
-  'uniswap-v2',
-  'uniswap-v3',
-  'upvest',
-  'uscpi-one',
-  'vesper',
-  'view-function',
-  'wbtc-address-set',
-  'wootrade',
-  'wrapped',
-  'xsushi-price',
+  'uniswap-v2', // TODO: RPC URL needed to be set anywhere?
+  'uniswap-v3', // TODO: RPC URL needed to be set anywhere? Test payload
+  'vesper', // TODO: RPC URL needed to be set anywhere?
+  'view-function', // TODO: RPC URL needed to be set anywhere?
+  'wbtc-address-set', // TODO: Env vars need to be set
+  'xsushi-price', // TODO: RPC URL needed to be set anywhere?
 ]
