@@ -1,5 +1,15 @@
 # @chainlink/ea-bootstrap
 
+## 2.10.0
+
+### Minor Changes
+
+- fdc7405f2: add extra logging for EA failures
+
+### Patch Changes
+
+- 45a63d02d: Clarified "TTL exceeds maximum TTL" log warning message
+
 ## 2.9.0
 
 ### Minor Changes

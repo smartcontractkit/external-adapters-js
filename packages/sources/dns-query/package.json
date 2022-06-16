@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dns-query-adapter",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Chainlink DNS query adapter",
   "keywords": [
     "Chainlink",
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.38",
+    "@types/node": "16.11.41",
     "@types/supertest": "2.0.11",
     "typescript": "4.3.5"
   }

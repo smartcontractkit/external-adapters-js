@@ -1,5 +1,14 @@
 # @chainlink/trueusd-adapter
 
+## 1.2.12
+
+### Patch Changes
+
+- Updated dependencies [fdc7405f2]
+- Updated dependencies [45a63d02d]
+  - @chainlink/ea-bootstrap@2.10.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.2.11
 
 ### Patch Changes
