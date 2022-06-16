@@ -1,10 +1,15 @@
 import * as process from 'process'
 process.env.ETH_BALANCE_ADAPTER_URL = 'https://eth-balance-adapter.com'
 process.env.POR_INDEXER_ADAPTER_URL = 'https://por-indexer-adapter.com'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockPoRindexerSuccess, mockEthBalanceSuccess } from './fixtures'
+import {
+  mockPoRindexerSuccess,
+  mockEthBalanceSuccess,
+  mockGeminiFilecoinAddressList,
+  mockLotusSuccess,
+} from './fixtures'
 import * as nock from 'nock'
 import { AddressInfo } from 'net'
 
@@ -37,7 +42,6 @@ afterEach(() => {
 })
 
 describe('execute', () => {
-  const id = '1'
   let fastify: FastifyInstance
   let req: SuperTest<Test>
 
