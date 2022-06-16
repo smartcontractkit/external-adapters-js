@@ -10,7 +10,9 @@ local layout = import './layout.libsonnet';
 local prometheusNamespace = std.extVar('prometheusNamespace');
 local cortexDataSource = std.extVar('cortexDataSource');
 local instanceFilter = 'namespace="$namespace",service=~"$service.*"';
-local namespaceFilter = 'namespace="$namespace",app_name=~"$adapter.*"';
+local appFilter = 'namespace="$namespace",app_name=~"$adapter.*"';
+local filterType = std.extVar('filterType');
+local eaSelector = if filterType == "app" then appFilter else instanceFilter;
 local interval = '[$__rate_interval]';
 
 /**
@@ -52,12 +54,11 @@ local createTemplates(multiService) =
     includeAll=true,
     refresh='load'
   );
-
+  local eaTempl = if filterType == "app" then adapterTempl else serviceTempl;
   [
     namespaceTempl,
-    serviceTempl,
     feedTempl,
-    adapterTempl,
+    eaTempl,
   ];
 
 local addSideLegend(graphPanel) =
@@ -99,8 +100,7 @@ local createDashboard(templates, grid) =
   },
   constants: {
     cortexDataSource: cortexDataSource,
-    instanceFilter: instanceFilter,
-    namespaceFilter: namespaceFilter,
+    eaSelector: eaSelector,
     interval: interval,
   },
   createTemplates: createTemplates,

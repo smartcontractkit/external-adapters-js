@@ -250,6 +250,17 @@ describe('Validates Filecoin addresses', () => {
     expect(validateAddresses('1', 'filecoin', validAddresses)).toEqual(validAddresses)
   })
 
+  it('Validates valid miner format address', () => {
+    const minerAddress = [
+      {
+        address: 'f01850382',
+        network: 'filecoin',
+        chainId: 'mainnet',
+      },
+    ]
+    expect(validateAddresses('1', 'filecoin', minerAddress)).toEqual(minerAddress)
+  })
+
   it('Does not validate invalid address', () => {
     const invalidAddresses = [
       {
