@@ -62,7 +62,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
       - name: Publish adapter to private ECR
         id: publish-adapter-versioned-private-ecr
         uses: ./.github/actions/release/publish-artifacts
@@ -73,9 +73,9 @@ jobs:
           branch: null
           latest: null
 
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
           aws-ecr-private: 'true' # Use of string intentional for evaluation
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
@@ -87,9 +87,9 @@ jobs:
           branch: null
           latest: true
 
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
           aws-ecr-private: 'true' # Use of string intentional for evaluation
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
@@ -102,7 +102,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PUBLIC }}
           role-duration-seconds: 1200
 
       - if: github.ref == 'refs/heads/master'
