@@ -25,6 +25,7 @@ import {
 } from '../../src/lib/middleware/cache-warmer/reducer'
 import { SubscriptionState } from '../../src/lib/middleware/cache-warmer/reducer'
 import { getCacheKey } from '../../src/lib/middleware/cache-key'
+import { initialState } from '../../src'
 
 let scheduler: TestScheduler
 
@@ -36,7 +37,7 @@ beforeEach(() => {
 
 function stateStream(initialWarmerState: { cacheWarmer: CacheWarmerState }): StateObservable<any> {
   return new StateObservable<any>(new Subject(), {
-    // ...initialState,
+    ...initialState,
     ...initialWarmerState,
   })
 }

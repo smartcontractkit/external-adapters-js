@@ -380,17 +380,6 @@ describe('utils', () => {
     })
   })
 
-  describe('registerUnhandledRejectionHandler', () => {
-    it('successfully ignores unhandled rejections', async () => {
-      const failing = () => process.emit('unhandledRejection' as 'disconnect')
-
-      registerUnhandledRejectionHandler()
-      registerUnhandledRejectionHandler() // Test calling it twice will warn but continue
-
-      expect(failing).not.toThrow()
-    })
-  })
-
   describe(`clientIp`, () => {
     it(`getClientIp retrieves ip address`, () => {
       const ip = '1.2.3.4'
