@@ -28,7 +28,7 @@
     "@types/jest": "27.0.3",
     "@types/node": "16.11.38",
     "hardhat": "2.9.7",
-    "mock-socket": "9.1.4",
+    "mock-socket": "9.1.5",
     "typescript": "4.3.5"
   },
   "dependencies": {
