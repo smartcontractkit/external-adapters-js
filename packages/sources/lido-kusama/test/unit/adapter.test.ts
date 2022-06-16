@@ -16,6 +16,6 @@ describe('execute', () => {
         const errorResp = Requester.errored(jobID, error)
         assertError(400, errorResp, jobID)
       }
-    })
+    }, 60000)
   })
 })

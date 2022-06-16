@@ -1,13 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute stksm endpoint should return success 1`] = `
+exports[`execute stksm endpoint parachain should return success 1`] = `
 Object {
   "data": Object {
-    "result": 6660156608,
+    "result": 5108491827,
+  },
+  "jobRunID": "1",
+  "maxAge": 30000,
+  "providerStatusCode": 200,
+  "result": 5108491827,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute stksm endpoint relaychain should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 5108491827,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 6660156608,
+  "result": 5108491827,
   "statusCode": 200,
 }
 `;
