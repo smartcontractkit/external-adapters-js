@@ -6,7 +6,6 @@ import addressProviderABI from '../abis/address_provider.json'
 import registryExchangesABI from '../abis/registry_exchanges.json'
 import erc20ABI from '../abis/ERC20.json'
 import { Decimal } from 'decimal.js'
-import { sleep } from '../../../../core/bootstrap/dist/lib/util'
 
 export const supportedEndpoints = ['crypto']
 

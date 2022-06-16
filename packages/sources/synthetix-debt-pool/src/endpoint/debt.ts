@@ -83,7 +83,8 @@ export const getDebtIssued = async (
 
         const errorPayload = {
           jobRunID,
-          message: `Failed to fetch debt data from chain ${network}.  Error Message: ${error}`,
+          network,
+          message: `Failed to fetch debt data from chain ${network}.  Error Message: ${e}`,
         }
         throw error.response
           ? new AdapterDataProviderError(errorPayload)

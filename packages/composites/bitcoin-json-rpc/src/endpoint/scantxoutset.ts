@@ -5,7 +5,7 @@ import type {
   AdapterContext,
   InputParameters,
 } from '@chainlink/ea-bootstrap'
-import { Validator, Requester, Logger, util, AdapterTimeoutError } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, Logger, util, AdapterTimeoutError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 
 export const NAME = 'scantxoutset'
@@ -105,7 +105,11 @@ const scanWithRetries = async (
         }
       }
 
-      throw e
+      throw new AdapterDataProviderError({
+        network: 'bitcoin',
+        message: util.mapRPCErrorMessage(e?.code, e?.message),
+        cause: e,
+      })
     }
   }
 

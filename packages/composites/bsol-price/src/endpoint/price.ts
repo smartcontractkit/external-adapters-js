@@ -10,7 +10,7 @@ import { Config } from '../config'
 import * as solanaViewFunction from '@chainlink/solana-view-function-adapter'
 import BN from 'bn.js'
 import * as solanaWeb3 from '@solana/web3.js'
-import { AdapterConfigError } from '@chainlink/ea-bootstrap'
+import { AdapterConfigError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
 import BigNumber from 'bignumber.js'
 
@@ -35,8 +35,15 @@ export const execute = async (
 
   const addresses = [config.solidoAddress, config.bSolAddress, config.stSolAddress]
   const jobRunID = validator.validated.id
-  const accountsInfo = await getAccountsInformation(jobRunID, context, addresses)
-  const bSOLUSDPrice = await getBSolUSDPrice(jobRunID, config, input, context, accountsInfo)
+  let accountsInfo
+  let bSOLUSDPrice
+  try {
+    accountsInfo = await getAccountsInformation(jobRunID, context, addresses)
+    bSOLUSDPrice = await getBSolUSDPrice(jobRunID, config, input, context, accountsInfo)
+  } catch (e) {
+    throw new AdapterDataProviderError({ network: 'solana', cause: e })
+  }
+
   return {
     jobRunID: input.id,
     statusCode: 200,

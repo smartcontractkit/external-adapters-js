@@ -1,4 +1,4 @@
-import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { InputParameters, Logger, Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Execute,
@@ -81,7 +81,16 @@ const resolveTeam = async (
     throw Error(`Unknown data provider for sport ${sport}`)
   }
 
-  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  let eventIDs: ethers.BigNumber[]
+  try {
+    eventIDs = await contract.listResolvableEvents()
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const events: ResolveTeam[] = []
   for (const eventId of eventIDs) {
     try {
@@ -174,7 +183,16 @@ const resolveFights = async (
   }
 
   Logger.debug('Augur: Getting list of potentially resolvable events')
-  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  let eventIDs: ethers.BigNumber[]
+  try {
+    eventIDs = await contract.listResolvableEvents()
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   Logger.debug(`Augur: Found ${eventIDs.length} potentially resolvable events`)
   const events: ResolveFight[] = []
   for (const eventId of eventIDs) {

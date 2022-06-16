@@ -2,7 +2,11 @@ import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-b
 import { Config, FLOATING_POINT_DECIMALS } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { ethers } from 'ethers'
-import { AdapterResponseInvalidError } from '@chainlink/ea-bootstrap'
+import {
+  AdapterDataProviderError,
+  AdapterResponseInvalidError,
+  util,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
 
@@ -13,9 +17,28 @@ export const execute = async (
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> => {
-  const usdPerAvax = await getAvaxPrice(input, context)
+  let usdPerAvax
+  try {
+    usdPerAvax = await getAvaxPrice(input, context)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'avalanche',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   validateNonZeroValue(input.id, usdPerAvax, 'Avax Price')
-  const avaxPooledShares = await getPooledAvaxShares(config)
+  let avaxPooledShares
+  try {
+    avaxPooledShares = await getPooledAvaxShares(config)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'avalanche',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
+
   validateNonZeroValue(input.id, avaxPooledShares, 'Avax Pool Shares')
   const result = usdPerAvax
     .mul(avaxPooledShares)

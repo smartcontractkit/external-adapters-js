@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Requester, Validator, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { ExtendedConfig } from '@chainlink/json-rpc-adapter/src/config'
@@ -65,9 +65,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     }
   }
 
-  const balances = await Promise.all(
-    addresses.map((addr, index) => _getBalance(addr.address, index)),
-  )
+  let balances
+  try {
+    balances = await Promise.all(addresses.map((addr, index) => _getBalance(addr.address, index)))
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'filecoin',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const response = {
     statusText: 'OK',
     status: 200,

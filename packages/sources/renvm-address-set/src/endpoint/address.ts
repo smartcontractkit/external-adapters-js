@@ -1,4 +1,4 @@
-import { AdapterError, AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterDataProviderError, AdapterError, AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Account, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import RenJS from '@renproject/ren'
 import { btc } from '../coins'
@@ -102,7 +102,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     return btc.p2pkh(out, bitcoinNetwork).address
   }
 
-  const address = await _getAddress()
+  let address
+  try {
+    address = await _getAddress()
+  } catch (e) {
+    throw new AdapterDataProviderError({ network: config.network, cause: e })
+  }
+
   if (!address) {
     throw Error(`Address must be non-empty`)
   }

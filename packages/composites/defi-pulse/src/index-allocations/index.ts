@@ -1,14 +1,14 @@
-import { ethers } from 'ethers'
+import { BigNumberish, ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
 import { getSymbol } from '../symbols'
-
+import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 /*
   NOTICE!
 
   The current implementation is fetching data directly from SetToken contracts (https://etherscan.io/address/0x78733fa5e70e3ab61dc49d93921b289e4b667093#code)
   Note that this implementation won't work in other networks unless we deploy a copy of the contract.
 
-  The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly. 
+  The correct implementation should use SetProtocol.js typed library instead to fetch data directly from the SetToken contract directly.
   The ChainlinkAdapter.getAllocations(ISetToken _setToken) should be reimplemented in JS in order to use it.
 */
 
@@ -34,7 +34,17 @@ export const getAllocations = async (
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
   const index = new ethers.Contract(contractAddress, ABI, provider)
 
-  const [addresses, balances] = await index.getAllocations(setAddress)
+  let addresses
+  let balances: BigNumberish[]
+  try {
+    ;[addresses, balances] = await index.getAllocations(setAddress)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   // Token balances are coming already normalized as 18 decimals token
   return await Promise.all(

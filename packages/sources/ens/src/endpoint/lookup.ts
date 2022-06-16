@@ -5,6 +5,7 @@ import {
   AdapterInputError,
   AdapterDataProviderError,
   AdapterConnectionError,
+  util
 } from '@chainlink/ea-bootstrap'
 import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
@@ -42,8 +43,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
 
   const networkProvider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
-  const contracts = await initializeENS(networkProvider)
-
+  let contracts
+  try {
+    contracts = await initializeENS(networkProvider)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const response = {
     data: {} as Record<string, string | undefined>,
     status: 200,

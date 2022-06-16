@@ -1,6 +1,6 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { Validator, Requester } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
 
@@ -60,25 +60,34 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const chainId = validator.validated.data.chainId
   const blockNumber = validator.validated.data.blockNumber
 
-  const block = await provider.getBlock(blockNumber)
-  const _execute = JSONRPC.makeExecute(config)
-  const response = await _execute(
-    {
-      ...request,
-      data: {
-        ...(request.data as JSONRPC.types.request.TInputParameters),
-        method: 'eth_getBlockByHash',
-        params: [block.hash, false] as string[],
+  try {
+    const block = await provider.getBlock(blockNumber)
+    const _execute = JSONRPC.makeExecute(config)
+    const response = await _execute(
+      {
+        ...request,
+        data: {
+          ...(request.data as JSONRPC.types.request.TInputParameters),
+          method: 'eth_getBlockByHash',
+          params: [block.hash, false] as string[],
+        },
       },
-    },
-    context,
-  )
-  const coder = new ethers.utils.AbiCoder()
-  const responseData = response.data.result as unknown as ResponseSchema
-  const encodedResult = coder.encode(
-    ['uint8', 'bytes32', 'bytes32'],
-    [chainId, responseData.hash, responseData.receiptsRoot],
-  )
-  const result = encodedResult.slice(2)
-  return Requester.success(jobRunID, { data: { responseData, result } }, config.verbose)
+      context,
+    )
+    const coder = new ethers.utils.AbiCoder()
+    const responseData = response.data.result as unknown as ResponseSchema
+    const encodedResult = coder.encode(
+      ['uint8', 'bytes32', 'bytes32'],
+      [chainId, responseData.hash, responseData.receiptsRoot],
+    )
+    const result = encodedResult.slice(2)
+    return Requester.success(jobRunID, { data: { responseData, result } }, config.verbose)
+  }catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
+
 }

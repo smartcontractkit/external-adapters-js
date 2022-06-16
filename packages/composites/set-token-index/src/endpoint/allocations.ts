@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { makeMiddleware, Requester, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
+import { makeMiddleware, Requester, Validator, withMiddleware, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
@@ -82,21 +82,29 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const index = new ethers.Contract(contractAddress, ABI, provider)
 
-  const [addresses, balances] = await index.getAllocations(setAddress)
+  try {
+    const [addresses, balances] = await index.getAllocations(setAddress)
 
-  // Token balances are coming already normalized as 18 decimals token
-  const allocations = await Promise.all(
-    addresses.map(async (address: string, i: number) => {
-      const token = await getToken(context, jobRunID, address)
-      return {
-        balance: balances[i].toString(),
-        ...token,
-      }
-    }),
-  )
-  const response = {
-    data: allocations,
+    // Token balances are coming already normalized as 18 decimals token
+    const allocations = await Promise.all(
+      addresses.map(async (address: string, i: number) => {
+        const token = await getToken(context, jobRunID, address)
+        return {
+          balance: balances[i].toString(),
+          ...token,
+        }
+      }),
+    )
+    const response = {
+      data: allocations,
+    }
+
+    return Requester.success(jobRunID, response, true)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: config.network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
   }
-
-  return Requester.success(jobRunID, response, true)
 }

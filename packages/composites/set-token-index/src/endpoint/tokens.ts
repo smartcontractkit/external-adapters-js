@@ -1,5 +1,5 @@
 import { ethers, utils } from 'ethers'
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 
@@ -101,14 +101,22 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.id
   const address = validator.validated.data.address
 
-  if (!cachedDirectory) {
-    cachedDirectory = await getDirectory(config.network)
-  }
-  const token = cachedDirectory[address] || (await getOnChainErc20Token(config.rpcUrl, address))
+  try {
+    if (!cachedDirectory) {
+      cachedDirectory = await getDirectory(config.network)
+    }
+    const token = cachedDirectory[address] || (await getOnChainErc20Token(config.rpcUrl, address))
 
-  const response = {
-    data: token,
-  }
+    const response = {
+      data: token,
+    }
 
-  return Requester.success(jobRunID, response, true)
+    return Requester.success(jobRunID, response, true)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: config.network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 }

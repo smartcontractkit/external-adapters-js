@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName, Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
@@ -89,7 +89,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
   const resultPath = validator.validated.data.resultPath
 
-  const [_amountIn, output] = await getBestRate(from, to, amount, config)
+  let output
+  try {
+    ;[, output] = await getBestRate(from, to, amount, config)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: config.network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
+
   const outputAmount = new Decimal(output.toString()).div(new Decimal(10).pow(toDecimals))
   const rate = outputAmount.div(inputAmount)
 
@@ -147,10 +157,17 @@ const getTokenDetails = async (
     validator.overrideToken(symbol, config.network) ||
     symbol
   ).toString()
-  const decimals = Number(
-    (validator.validated.data as any)[`${direction}Decimals`] ||
-      (await getDecimals(address, config)),
-  )
+  let decimals
+  try {
+    decimals =
+      (validator.validated.data as any)[`${direction}Decimals`] || (await getDecimals(address, config))
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: config.network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   return { address, decimals }
 }

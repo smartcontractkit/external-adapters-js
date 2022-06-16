@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { ethers, BigNumber } from 'ethers'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
-import { Logger, AdapterInputError } from '@chainlink/ea-bootstrap'
+import { Logger, AdapterInputError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 
@@ -109,8 +109,18 @@ export const getKeyPair = async (
   starkMessage: string,
 ): starkwareCrypto.KeyPair => {
   // 1. Generate Ethereum signature on a constant message
-  const wallet = new ethers.Wallet(privateKey)
-  const flatSig = await wallet.signMessage(starkMessage)
+  let wallet
+  let flatSig
+  try {
+    wallet = new ethers.Wallet(privateKey)
+    flatSig = await wallet.signMessage(starkMessage)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   // 2. Perform Keccak256 on the signature to get one 256-bit word
   const hash = ethers.utils.keccak256(flatSig)

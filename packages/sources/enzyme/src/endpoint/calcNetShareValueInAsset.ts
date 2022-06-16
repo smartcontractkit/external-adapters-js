@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { BigNumber, ethers } from 'ethers'
@@ -38,12 +38,21 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const vaultProxyAddress = validator.validated.data.vaultProxy
   const quoteAsset = validator.validated.data.quoteAsset
 
-  const netShareValue = await calcNetShareValueInAsset(
-    calculatorContractAddress,
-    vaultProxyAddress,
-    quoteAsset,
-    config,
-  )
+  let netShareValue
+  try {
+    netShareValue = await calcNetShareValueInAsset(
+      calculatorContractAddress,
+      vaultProxyAddress,
+      quoteAsset,
+      config,
+    )
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const response = {
     status: 200,

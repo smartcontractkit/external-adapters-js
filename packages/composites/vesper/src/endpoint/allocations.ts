@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterDataProviderError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['allocations']
 
@@ -113,9 +113,19 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
 
   const controller = new ethers.Contract(controllerAddress, controllerABI, provider)
-  const pool = (await controller.pools()) as string
 
-  const values = await getPoolValue(pool, provider)
+  let pool
+  let values
+  try {
+    pool = (await controller.pools()) as string
+    values = await getPoolValue(pool, provider)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const tokens: {
     [token: string]: { symbol: string; decimals: number; balance: ethers.BigNumber }

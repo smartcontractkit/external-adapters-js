@@ -1,6 +1,12 @@
 import type { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
-import { makeMiddleware, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
+import {
+  AdapterDataProviderError,
+  makeMiddleware,
+  util,
+  Validator,
+  withMiddleware,
+} from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
 
@@ -45,5 +51,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, context) => {
   const allocations = await getAllocations(context, jobRunID)
 
   const _execute = TA.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
+  try {
+    return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 }

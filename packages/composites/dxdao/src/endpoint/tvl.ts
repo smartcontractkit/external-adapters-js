@@ -1,4 +1,4 @@
-import { Validator, Logger } from '@chainlink/ea-bootstrap'
+import { Validator, Logger, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import type { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
@@ -52,11 +52,16 @@ export const getTokenAllocations = async (
 
   const wethContractAddress = config.wethContractAddress
   const { pairContractAddress } = validator.validated.data
-  const tvlInWei = await getTvlAtAddressInWei(
-    pairContractAddress,
-    wethContractAddress,
-    config.RPC_URL,
-  )
+  let tvlInWei
+  try {
+    tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress, config.RPC_URL)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   return [
     {
       symbol: 'ETH', // Instead of querying the WETH price, get ETH price
@@ -86,5 +91,13 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const jobRunID = validator.validated.id
   const allocations = await getTokenAllocations(request, config)
   const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)
+  try {
+    return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 }

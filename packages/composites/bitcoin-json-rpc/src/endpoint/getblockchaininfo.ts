@@ -1,6 +1,6 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
 import type { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
-import { Validator, Requester } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 
 export const NAME = 'getblockchaininfo'
@@ -44,13 +44,23 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const resultPath = validator.validated.data.resultPath?.toString() || DEFAULT_FIELD
 
   const _execute = JSONRPC.makeExecute(config)
-  const response = await _execute(
-    {
-      ...request,
-      data: { ...validator.validated.data, method: NAME, endpoint: 'request' },
-    },
-    context,
-  )
+  let response
+  try {
+    response = await _execute(
+      {
+        ...request,
+        data: { ...validator.validated.data, method: NAME, endpoint: 'request' },
+      },
+      context,
+    )
+  }catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'bitcoin',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
+
 
   response.data.result = Requester.validateResultNumber(response.data, ['result', resultPath])
   return Requester.success(jobRunID, response)

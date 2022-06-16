@@ -3,6 +3,7 @@ import { PriceExecute } from '.'
 import { Config } from '../../config'
 import { throwErrorForInvalidResult } from '../../utils'
 import { anchorVaultAbi, curvePoolAbi } from './abi'
+import { AdapterDataProviderError, util } from '../../../../../core/bootstrap'
 
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN = 'ETH'
@@ -20,8 +21,19 @@ export const INTERMEDIARY_TOKEN = 'ETH'
 export const execute: PriceExecute = async (input, _, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  const ethPerStETH = await getEthStETHExchangeRate(input.id, config, provider)
-  const bEthPerStETH = await getBEthStETHExchangeRate(input.id, config, provider)
+  let ethPerStETH
+  let bEthPerStETH
+  try {
+    ethPerStETH = await getEthStETHExchangeRate(input.id, config, provider)
+    bEthPerStETH = await getBEthStETHExchangeRate(input.id, config, provider)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
+
   return usdPerEth.mul(ethPerStETH).div(bEthPerStETH)
 }
 

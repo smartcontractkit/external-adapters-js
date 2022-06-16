@@ -1,4 +1,5 @@
-import { Validator, Requester, AdapterInputError } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, AdapterInputError, AdapterDataProviderError,
+  util, } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 
@@ -69,9 +70,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     targetBlockTag = lastBlockNumber - minConfirmations
   }
 
-  const balances = await Promise.all(
-    addresses.map((addr) => getBalance(addr.address, targetBlockTag, config)),
-  )
+  let balances
+  try {
+    balances = await Promise.all(
+      addresses.map((addr) => getBalance(addr.address, targetBlockTag, config)),
+    )
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const response = {
     jobRunID,

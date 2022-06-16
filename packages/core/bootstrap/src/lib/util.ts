@@ -545,7 +545,12 @@ export const RPCErrorMap = {
 
 export const mapRPCErrorMessage = (errorCode: string, errorMessage: string): string => {
   // Try to transform error message if error is thrown from ether.js
-  if (RPCErrorMap[errorCode as keyof typeof RPCErrorMap] && errorMessage.includes('version')) {
+  if (
+    errorCode &&
+    errorMessage &&
+    RPCErrorMap[errorCode as keyof typeof RPCErrorMap] &&
+    errorMessage.includes('version')
+  ) {
     return RPCErrorMap[errorCode as keyof typeof RPCErrorMap]
   }
   return errorMessage

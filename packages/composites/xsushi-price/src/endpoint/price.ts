@@ -1,7 +1,9 @@
 import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import {
+  AdapterDataProviderError,
   AdapterInputError,
   makeMiddleware,
+  util,
   Validator,
   withMiddleware,
 } from '@chainlink/ea-bootstrap'
@@ -86,5 +88,13 @@ export const execute: ExecuteWithConfig<Config> = async (input, context) => {
     },
   ]
 
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
+  try {
+    return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 }

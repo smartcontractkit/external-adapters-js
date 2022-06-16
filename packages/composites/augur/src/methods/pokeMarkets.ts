@@ -1,4 +1,4 @@
-import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { InputParameters, Logger, Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
@@ -164,15 +164,23 @@ async function createAndResolveMarkets(
 }
 
 async function pokeMarkets(contract: ethers.Contract, context: AdapterContext, config: Config) {
-  const resolutionTime: BigNumber = await contract.nextResolutionTime()
-  const nextResolutionTime = await getNextWeekResolutionTimestamp(contract)
-  if (nextResolutionTime > 0) {
-    const roundIds = await fetchResolutionRoundIds(
-      resolutionTime.toNumber(),
-      contract,
-      context,
-      config,
-    )
-    await createAndResolveMarkets(roundIds, nextResolutionTime, contract, context, config)
+  try {
+    const resolutionTime: BigNumber = await contract.nextResolutionTime()
+    const nextResolutionTime = await getNextWeekResolutionTimestamp(contract)
+    if (nextResolutionTime > 0) {
+      const roundIds = await fetchResolutionRoundIds(
+        resolutionTime.toNumber(),
+        contract,
+        context,
+        config,
+      )
+      await createAndResolveMarkets(roundIds, nextResolutionTime, contract, context, config)
+    }
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
   }
 }

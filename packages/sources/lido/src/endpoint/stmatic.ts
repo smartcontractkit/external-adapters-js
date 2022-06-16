@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import type {
   Config,
   ExecuteWithConfig,
@@ -30,7 +30,16 @@ export const execute: ExecuteWithConfig<Config> = async (
 
   const polygonPrice = new ethers.Contract(MATIC_AGGREGATOR_PROXY, maticAggregatorAbi, provider)
 
-  const values = await Promise.all([rateProvider.getRate(), polygonPrice.latestAnswer()])
+  let values
+  try {
+    values = await Promise.all([rateProvider.getRate(), polygonPrice.latestAnswer()])
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'polygon',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const rate = values[0].div(ethers.utils.parseUnits('1', 10))
   const MaticUSD = values[1]

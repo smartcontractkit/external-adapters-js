@@ -1,5 +1,5 @@
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { Validator, Requester } from '@chainlink/ea-bootstrap'
+import { Validator, Requester, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import * as SA from '@chainlink/uniswap-v2-adapter'
 import { Config } from '../config'
 import { ethers } from 'ethers'
@@ -30,7 +30,16 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const vaultAddress = validator.validated.data.vaultAddress
   const vault = new ethers.Contract(vaultAddress, vaultABI, config.provider)
 
-  const feeExpanded = await vault.randomRedeemFee()
+  let feeExpanded
+  try {
+    feeExpanded = await vault.randomRedeemFee()
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const power = new Decimal(1e18)
   const fee = new Decimal(feeExpanded.toString()).dividedBy(power)
 

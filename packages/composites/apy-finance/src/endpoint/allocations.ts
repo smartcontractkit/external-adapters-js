@@ -3,7 +3,7 @@ import registryAbi from '../abi/IRegistry.json'
 import assetAllocationAbi from '../abi/IAssetAllocation.json'
 import { types } from '@chainlink/token-allocation-adapter'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { BigNumberish } from 'ethers'
 
@@ -34,14 +34,32 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const registry = new ethers.Contract(config.registryAddr, registryAbi, provider)
-  const chainlinkRegistryAddress = await registry.chainlinkRegistryAddress()
+  let chainlinkRegistryAddress
+  try {
+    chainlinkRegistryAddress = await registry.chainlinkRegistryAddress()
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const chainlinkRegistry = new ethers.Contract(
     chainlinkRegistryAddress,
     assetAllocationAbi,
     provider,
   )
 
-  const allocations = await getAllocations(chainlinkRegistry)
+  let allocations
+  try {
+    allocations = await getAllocations(chainlinkRegistry)
+  } catch (e) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const response = {
     data: allocations,
   }

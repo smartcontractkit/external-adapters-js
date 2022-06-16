@@ -2,6 +2,7 @@ import { balance } from '@chainlink/ea-factories'
 import { AdapterData, Config, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
 import bcypher from 'blockcypher'
 import { ChainType, CoinType, isChainType, isCoinType } from '../config'
+import { AdapterError } from '../../../../core/bootstrap'
 
 export const supportedEndpoints = ['balance']
 
@@ -32,21 +33,25 @@ const getChainId = (coin: CoinType, chain: ChainType): string => {
 }
 
 const getBalance: balance.GetBalance = async (account, config) => {
-  const chainId = getChainId(account.coin as CoinType, account.chain as ChainType)
-  const api = new bcypher(account.coin, chainId, config.apiKey)
-  const params = { confirmations: config.confirmations }
-  const _getAddrBal = (): Promise<AddressBalance> =>
-    new Promise((resolve, reject) => {
-      api.getAddrBal(account.address, params, (error: Error, body: AddressBalance) =>
-        error ? reject(error) : resolve(body),
-      )
-    })
+  try {
+    const chainId = getChainId(account.coin as CoinType, account.chain as ChainType)
+    const api = new bcypher(account.coin, chainId, config.apiKey)
+    const params = { confirmations: config.confirmations }
+    const _getAddrBal = (): Promise<AddressBalance> =>
+      new Promise((resolve, reject) => {
+        api.getAddrBal(account.address, params, (error: Error, body: AddressBalance) =>
+          error ? reject(error) : resolve(body),
+        )
+      })
 
-  const response = await _getAddrBal()
+    const response = await _getAddrBal()
 
-  return {
-    payload: response,
-    result: [{ ...account, balance: String(response.balance) }],
+    return {
+      payload: response,
+      result: [{ ...account, balance: String(response.balance) }],
+    }
+  } catch (e) {
+    throw new AdapterError({ network: 'bitcoin', cause: e })
   }
 }
 
