@@ -1,5 +1,11 @@
 # @chainlink/amberdata-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- 172ae7f0c: Added hardcoded overrides for UST->USTC and LUNA->LUNC
+
 ## 1.4.12
 
 ### Patch Changes
