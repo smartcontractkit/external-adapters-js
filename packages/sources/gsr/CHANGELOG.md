@@ -1,5 +1,15 @@
 # @chainlink/example-source-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- bcdf763bd: Updated limits.json to fix undefined error on startup. Updated request data validation to prevent edge case of EA crashing if the first request is empty. Updated GSR schema, README, defaults, error message.
+- Updated dependencies [fdc7405f2]
+- Updated dependencies [45a63d02d]
+  - @chainlink/ea-bootstrap@2.10.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.0.3
 
 ### Patch Changes
