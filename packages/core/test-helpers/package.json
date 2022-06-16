@@ -27,7 +27,7 @@
     "@chainlink/types": "workspace:*",
     "@types/jest": "27.0.3",
     "@types/node": "16.11.41",
-    "hardhat": "2.9.7",
+    "hardhat": "2.9.9",
     "mock-socket": "9.1.5",
     "typescript": "4.3.5"
   },
