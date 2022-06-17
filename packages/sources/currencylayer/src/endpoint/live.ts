@@ -75,6 +75,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `live`
   const currencies = Array.isArray(to) ? to.join() : to
 
+  console.log('hit', currencies)
+
   const params = {
     access_key: config.apiKey,
     source: from,

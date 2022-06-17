@@ -3,7 +3,7 @@ import { Config } from '@chainlink/types'
 
 export const NAME = 'FIXER'
 
-export const DEFAULT_ENDPOINT = 'convert'
+export const DEFAULT_ENDPOINT = 'latest'
 export const DEFAULT_BASE_URL = 'https://data.fixer.io'
 
 export const makeConfig = (prefix?: string): Config => {

@@ -38,7 +38,6 @@ export const inputParameters: InputParameters = {
     required: true,
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
-    type: 'string',
   },
 }
 
@@ -66,12 +65,6 @@ const handleBatchedRequest = (
       individualRequest,
       result,
     ])
-
-    payload.push([
-      CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
-      individualRequest,
-      result,
-    ])
   }
 
   return Requester.success(
@@ -93,6 +86,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = `latest`
 
   const symbols = Array.isArray(to) ? to.join() : to
+
+  console.log('hit', symbols)
 
   const params = {
     access_key: config.apiKey,
