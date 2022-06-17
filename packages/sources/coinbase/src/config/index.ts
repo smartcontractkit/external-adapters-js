@@ -17,7 +17,7 @@ export interface Config extends BaseConfig {
 export const makeConfig = (prefix?: string): Config => {
   const baseConfig = Requester.getDefaultConfig(prefix)
   const nftBaseURL = util.getEnv('NFT_API_ENDPOINT', prefix)
-  const nftApiAuthHeader = String(util.getEnv('NFT_API_AUTH_HEADER', prefix))
+  const nftApiAuthHeader = util.getEnv('NFT_API_AUTH_HEADER', prefix)
 
   baseConfig.api.baseURL = baseConfig.api.baseURL || DEFAULT_API_ENDPOINT
 
