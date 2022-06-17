@@ -1,5 +1,5 @@
-import { Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_NETWORK, ETH } from '../config'
 import vaultAbi from '../abi/vault.json'
 import { ethers } from 'ethers'
@@ -10,7 +10,9 @@ export const supportedEndpoints = ['tvl']
 
 export const description = 'This gets the tvl of a vault on Ethereum.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { vaultAddress: string; network: string }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   vaultAddress: {
     required: true,
     description: 'The address of the vault contract',
@@ -37,10 +39,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const vault = new ethers.Contract(vaultAddress, vaultAbi, provider)
   const result = (await vault.totalAssets()).toString()
 
-  return {
+  const endpointResponse = {
     jobRunID,
     result,
     data: { result },
     statusCode: 200,
   }
+
+  return Requester.success(jobRunID, endpointResponse, config.verbose)
 }

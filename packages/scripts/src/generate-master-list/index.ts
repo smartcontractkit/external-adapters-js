@@ -52,7 +52,8 @@ export async function main(): Promise<void | string> {
 
     console.log(`Master adapter lists generated.`)
     process.exit(0)
-  } catch (error) {
+  } catch (e) {
+    const error = e as Error
     console.error({ error: error.message, stack: error.stack })
     process.exit(1)
   }

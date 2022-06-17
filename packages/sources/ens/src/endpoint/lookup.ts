@@ -5,9 +5,8 @@ import {
   AdapterInputError,
   AdapterDataProviderError,
   AdapterConnectionError,
-  Logger,
 } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { initializeENS } from '../utils'
 
@@ -18,15 +17,14 @@ export const endpointResultPaths = {
   lookup: 'address',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { ensName: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   ensName: {
     description: 'The ENS name to look up',
     required: true,
     type: 'string',
   },
 }
-
-const ZERO_ADDRESS = '0x' + '00'.repeat(20)
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
@@ -60,42 +58,33 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const labelHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(splitName[0]))
     const tokenId = ethers.BigNumber.from(labelHash).toString()
     const namehash = ethers.utils.namehash(name)
-    const [registrant, controller, address] = await Promise.all<
-      string | undefined,
-      string,
-      string | null
-    >([
+    const [registrant, controller, address] = await Promise.all([
       isEthTLD && !isSubdomain
-        ? await contracts.Registrar.ownerOf(tokenId)
-        : new Promise((resolve) => resolve(ZERO_ADDRESS)),
+        ? ((await contracts.Registrar.ownerOf(tokenId)) as string)
+        : new Promise<undefined>((resolve) => resolve(undefined)),
       await contracts.Registry.owner(namehash),
-      await networkProvider.resolveName(name),
+      (await networkProvider.resolveName(name)) as string | null,
     ])
 
     response.data = {
       registrant,
       controller,
-      address: address ?? ZERO_ADDRESS,
+      address: address ?? undefined,
     }
-  } catch (error) {
+  } catch (e) {
+    const error = e as any
     const errorPayload = {
       jobRunID,
       message: `Failed to fetch on-chain data.  Error Message: ${error}`,
     }
-    const errorResp = error.response
+    throw error.response
       ? new AdapterDataProviderError(errorPayload)
       : error.request
       ? new AdapterConnectionError(errorPayload)
       : new AdapterError(errorPayload)
-    Logger.error(errorResp)
-    response.data = {
-      registrant: ZERO_ADDRESS,
-      controller: ZERO_ADDRESS,
-      address: ZERO_ADDRESS,
-    }
   }
 
-  const result = response.data[resultPath]
+  const result = response.data[resultPath as string]
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

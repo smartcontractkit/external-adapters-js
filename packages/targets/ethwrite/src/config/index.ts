@@ -8,7 +8,7 @@ export type Config = {
   rpcUrl: string
   network?: string
   privateKey: string
-  api: unknown
+  api: any
 }
 
 export const DEFAULT_ENDPOINT = 'txsend'

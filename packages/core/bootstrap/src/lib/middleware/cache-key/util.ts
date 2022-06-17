@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '../../../types'
 import { pick, omit } from 'lodash'
 import objectHash from 'object-hash'
 
@@ -31,7 +31,7 @@ export const excludableInternalAdapterRequestProperties = [
   'includes',
 ]
 
-export const getKeyData = (data: AdapterRequest) =>
+export const getKeyData = (data: AdapterRequest): Partial<AdapterRequest> =>
   omit(
     pick(data, includableAdapterRequestProperties),
     excludableInternalAdapterRequestProperties.map((property) => `data.${property}`),

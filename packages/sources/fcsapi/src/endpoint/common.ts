@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
@@ -39,7 +39,8 @@ const commonKeys: Record<string, Record<string, string>> = {
   FTSE: { id: '529', endpoint: 'stock/indices_latest' },
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['asset', 'from'],
     required: true,

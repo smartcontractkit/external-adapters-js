@@ -1,5 +1,4 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Requester, util, Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'CELSIUS_ADDRESS_LIST'
 

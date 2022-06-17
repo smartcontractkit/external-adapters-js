@@ -16,7 +16,7 @@ import {
 import { lastValueFrom } from 'rxjs'
 const { red, blue } = chalk
 
-const logInfo = (msg: string) => console.log(blue.bold(msg))
+const logInfo = (msg: string) => blue.bold(msg)
 
 const throwError = (msg: string): never => {
   process.exitCode = 1

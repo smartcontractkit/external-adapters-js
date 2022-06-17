@@ -1,6 +1,6 @@
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
 import { Config } from '../../src/config'
 import { PriceAdapter } from '../../src/dataProvider'

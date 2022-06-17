@@ -1,5 +1,5 @@
 import { Validator, Requester, AdapterInputError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 
 export const supportedEndpoints = ['balance']
@@ -7,7 +7,8 @@ export const supportedEndpoints = ['balance']
 export const description =
   'The balance endpoint will fetch the balance of each address in the query.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { addresses: Address[]; minConfirmations: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     aliases: ['result'],
     required: true,
@@ -30,8 +31,12 @@ interface AddressWithBalance {
   balance: string
 }
 
-interface Address {
+type Address = {
   address: string
+}
+
+interface ResponseWithResult extends Partial<AxiosResponse> {
+  result: AddressWithBalance[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -74,13 +79,17 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     statusText: 'OK',
     headers: {},
     config: {},
-    data: balances,
   }
 
-  return Requester.success(
-    jobRunID,
-    Requester.withResult(response, balances as AxiosResponse<AddressWithBalance[]>),
-  )
+  const result: ResponseWithResult = {
+    ...response,
+    result: balances,
+    data: {
+      result: balances,
+    },
+  }
+
+  return Requester.success(jobRunID, result)
 }
 
 const getBalance = async (

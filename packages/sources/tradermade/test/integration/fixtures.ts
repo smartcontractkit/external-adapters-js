@@ -190,6 +190,6 @@ export const mockSubscribeResponse = {
 }
 
 export const mockUnsubscribeResponse = {
-  request: null,
+  request: undefined,
   response: '',
 }

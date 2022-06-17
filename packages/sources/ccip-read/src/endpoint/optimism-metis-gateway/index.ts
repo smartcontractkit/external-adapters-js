@@ -4,9 +4,11 @@ import {
   AdapterConfigError,
   AdapterError,
   AdapterResponseInvalidError,
+  Requester,
   Validator,
+  Value,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config } from '../../config'
 import { RLP } from 'ethers/lib/utils'
@@ -26,7 +28,8 @@ export interface ResponseSchema {
 export const description = `The optimism global endpoint reads the latest proof from Optimism/Metis as the L2 chain and returns the proof to the caller.
 Currently this endpoint has the same functionality as the server in this example https://github.com/smartcontractkit/ccip-read/tree/6d4deb917781f3becda39b9ebad6f21e037af1a6/examples/optimism-gateway.`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { to: string; data: string; abi: Record<string, Value>[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   to: {
     required: true,
     description: 'The **L1** address of the original called L1 contract.',
@@ -58,7 +61,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (!config.l2RpcUrl) throw new AdapterConfigError({ message: 'L2 RPC URL not set' })
 
   const jobRunID = validator.validated.id
-  const { to: address, data, abi: optimismGatewayStubABI } = validator.validated.data
+  const { to: address, data, abi: optimismGatewayStubABI = [] } = validator.validated.data
   const l1Provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const addressManager = new ethers.Contract(
     config.addressManagerContract,
@@ -102,7 +105,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     returnType: toInterface(optimismGatewayStubABI).getFunction(RETURN_TYPE_FN),
     response: ret,
   }
-  return {
+  const res = {
     jobRunID,
     result,
     statusCode: 200,
@@ -110,6 +113,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       result,
     },
   }
+  return Requester.success(jobRunID, res, config.verbose)
 }
 
 const loadContractFromManager = async (

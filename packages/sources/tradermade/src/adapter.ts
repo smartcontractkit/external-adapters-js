@@ -5,20 +5,31 @@ import {
   AdapterRequest,
   ExecuteFactory,
   APIEndpoint,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
 import overrides from './config/symbols.json'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
@@ -30,10 +41,14 @@ interface Message {
   mid: number
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
+export const makeWSHandler = (
+  config?: Config,
+): MakeWSHandler<
+  Message | any // TODO: full WS message types
+> => {
   const getSubscription = (pair?: string) => {
     const defaultConfig = config || makeConfig()
-    if (!pair) return
+    if (!pair) return ''
     const sub = {
       userKey: defaultConfig.wsApiKey,
       symbol: pair,
@@ -56,14 +71,16 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
-      shouldNotServeInputUsingWS: (input: AdapterRequest) =>
-        endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) === -1,
+      shouldNotServeInputUsingWS: (input: AdapterRequest) => {
+        if (!input.data.endpoint) return true
+        return endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) === -1
+      },
       subscribe: (input: AdapterRequest) => getSubscription(getPair(input)),
-      unsubscribe: () => null, // Tradermade does not support unsubscribing.
+      unsubscribe: () => undefined, // Tradermade does not support unsubscribing.
       subsFromMessage: (message: Message) => {
-        if (!message.symbol) return undefined
+        if (!message.symbol) return ''
         return getSubscription(message.symbol)
       },
       isError: () => false, // No error

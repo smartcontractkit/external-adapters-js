@@ -1,10 +1,10 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['series']
 
 export const endpointResultPaths = {
-  series: 'value',
+  series: '0.value',
 }
 
 export interface ResponseSchema {
@@ -30,7 +30,8 @@ export interface DataSchema {
   footnotes: []
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { serie: string; year: string; month: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   serie: {
     required: false,
     description: 'The US CPI Data serieID (`CUSR0000SA0`, `LNS14000000`, etc)',
@@ -80,10 +81,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       return obj['year'] === year && obj['periodName'] === month
     })
   }
-  const result = Requester.validateResultNumber(filter, [0, resultPath])
+  const result = Requester.validateResultNumber(filter, resultPath)
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
 
-const capitalizeFirstLetter = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
+const capitalizeFirstLetter = (string: string) => string.charAt(0).toUpperCase() + string.slice(1)

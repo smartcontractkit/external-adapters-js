@@ -1,5 +1,5 @@
 import { AdapterResponseInvalidError, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, Networks } from '../config'
 import {
   requestBlockHeight,
@@ -70,7 +70,8 @@ export const getL2NetworkStatus: NetworkHealthCheck = (
   return networks[network](delta, deltaBlocks)
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { network: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: true,
   },
@@ -112,8 +113,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
           return false
         }
       } catch (e) {
+        const error = e as Error
         Logger.error(
-          `Method ${fn.name} failed: ${e.message}. Network ${network} considered unhealthy`,
+          `Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
         )
         return false
       }

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['vwap']
 
@@ -8,7 +8,12 @@ const customError = (data: ResponseSchema) => !data.vwap
 export const description =
   'Endpoint to calculate the volume weighted average price (VWAP) for a price pair.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  base: string
+  quote: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',

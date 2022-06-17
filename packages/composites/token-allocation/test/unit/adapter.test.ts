@@ -1,12 +1,12 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
-import {
+import type {
   AdapterRequest,
   APIEndpoint,
   ExecuteFactory,
   ExecuteWithConfig,
   Config,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { makeExecute, priceTotalValue } from '../../src/endpoint'
 import { makeEndpointSelector } from '../../src/adapter'

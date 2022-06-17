@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
-import type { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {

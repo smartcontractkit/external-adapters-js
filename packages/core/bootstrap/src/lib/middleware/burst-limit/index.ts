@@ -1,4 +1,4 @@
-import { Middleware } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, Middleware } from '../../../types'
 import { Store } from 'redux'
 import {
   BurstLimitState,
@@ -8,7 +8,8 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { AdapterBurstLimitError, logger } from '../../modules'
+import { logger } from '../../modules/logger'
+import { AdapterBurstLimitError } from '../../modules/error'
 import { sleep } from '../../util'
 
 export * as actions from './actions'
@@ -38,12 +39,17 @@ const availableSecondLimitCapacity = async (
   return false
 }
 
+/**
+  Prevents Adapters from requesting a data provider more times than their **second** and **minute** API limits allow.
+*/
 export const withBurstLimit =
-  (store?: Store<BurstLimitState>): Middleware =>
+  <R extends AdapterRequest, C extends AdapterContext>(
+    store?: Store<BurstLimitState>,
+  ): Middleware<R, C> =>
   async (execute, context) =>
   async (input) => {
-    const config = context.rateLimit ?? {}
-    if (!store || !config.enabled || (!config.burstCapacity1m && !config.burstCapacity1s))
+    const config = context.limits
+    if (!store || !config?.enabled || (!config.burstCapacity1m && !config.burstCapacity1s))
       return await execute(input, context)
 
     const state = store.getState()

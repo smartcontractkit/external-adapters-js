@@ -1,4 +1,4 @@
-import { RequestConfig, Config } from '@chainlink/types'
+import { AxiosRequestConfig, Config } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Requester, util } from '@chainlink/ea-bootstrap'
 
@@ -20,7 +20,7 @@ export const ENV_TRADER_SCORE_C = 'TRADER_SCORE_C'
 
 export interface ExtendedConfig extends Config {
   wallet: ethers.Wallet
-  api: RequestConfig
+  api: AxiosRequestConfig
 
   treasuryClaimAddress: string
   traderRewardsAmount: string

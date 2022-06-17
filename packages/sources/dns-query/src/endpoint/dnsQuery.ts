@@ -1,10 +1,11 @@
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { DNSQueryResponse } from './../types'
 
 export const supportedEndpoints = ['dnsQuery']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { name: string; type: string; do: string; cd: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   name: {
     required: true,
     description: 'Query Name, eg. "example.com"',

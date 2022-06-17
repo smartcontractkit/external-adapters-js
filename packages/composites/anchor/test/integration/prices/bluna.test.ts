@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
@@ -19,7 +19,7 @@ jest.mock('@chainlink/terra-view-function-adapter', () => {
   return {
     ...jest.requireActual('@chainlink/terra-view-function-adapter'),
     makeExecute: jest.fn().mockReturnValue(
-      jest.fn().mockImplementation((input: AdapterRequest) => {
+      jest.fn().mockImplementation((input) => {
         const { address, query } = input.data
         if (query === 'latest_round_data') {
           switch (address) {

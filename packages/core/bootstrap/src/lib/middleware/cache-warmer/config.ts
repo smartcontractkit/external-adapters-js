@@ -1,7 +1,7 @@
 import objectHash from 'object-hash'
 import { getHashOpts } from '../../middleware/cache-key/util'
 import { getEnv } from '../../util'
-import { logger } from '../../modules'
+import { logger } from '../../modules/logger'
 
 export const WARMUP_REQUEST_ID = '9001'
 export const WARMUP_BATCH_REQUEST_ID = '9002'

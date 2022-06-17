@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const description = 'Get the current gas price on Ethereum'
 
@@ -18,7 +18,8 @@ export interface ResponseSchema {
 
 const customError = (data: ResponseSchema) => !data.success
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { speed: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   speed: {
     required: false,
     description: 'The desired speed',

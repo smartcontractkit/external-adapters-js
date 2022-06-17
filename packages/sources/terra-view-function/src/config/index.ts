@@ -1,11 +1,11 @@
 import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BaseConfig } from '@chainlink/types'
+import { Config as BaseConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'TERRA_VIEW_FUNCTION'
 
 export const DEFAULT_ENDPOINT = 'view'
 
-export const SUPPORTED_CHAIN_IDS = ['columbus-5', 'bombay-12', 'localterra'] as const
+export const SUPPORTED_CHAIN_IDS = ['columbus-5', 'bombay-12', 'localterra']
 export type ChainId = typeof SUPPORTED_CHAIN_IDS[number]
 
 export const ENV_DEFAULT_CHAIN_ID = 'DEFAULT_CHAIN_ID'

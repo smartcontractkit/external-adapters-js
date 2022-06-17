@@ -6,21 +6,33 @@ import {
   ExecuteWithConfig,
   MakeWSHandler,
   APIEndpoint,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import { crypto } from './endpoint'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
+
 interface Message {
   type: string
   trade_id: number
@@ -33,9 +45,14 @@ interface Message {
   best_bid: string
   best_ask: string
 }
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+
+export const makeWSHandler = (
+  config?: Config,
+): MakeWSHandler<
+  Message | any // TODO: full WS message types
+> => {
   const getSubscription = (productId?: string, subscribe = true) => {
-    if (!productId) return
+    if (!productId) return ''
     return {
       type: subscribe ? 'subscribe' : 'unsubscribe',
       channels: ['ticker'],
@@ -44,7 +61,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
   }
   const getProductId = (input: AdapterRequest) => {
     const validator = new Validator(input, crypto.inputParameters, {}, { shouldThrowError: false })
-    if (validator.error) return
+    if (validator.error) return ''
     const symbol = validator.validated.data.symbol.toUpperCase()
     const convert = validator.validated.data.convert.toUpperCase()
     return `${symbol}-${convert}`
@@ -53,7 +70,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
       subscribe: (input) => getSubscription(getProductId(input)),
       unsubscribe: (input) => getSubscription(getProductId(input), false),

@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://lightnode-testnet.herokuapp.com')
     .post('/', { method: 'ren_queryShards', params: {}, id: /^\d+$/, jsonrpc: '2.0' })
     .reply(

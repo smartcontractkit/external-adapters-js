@@ -1,51 +1,70 @@
-import type { Middleware, AdapterRequest, Config, APIEndpoint } from '@chainlink/types'
-import { Validator } from '../../modules'
-import { getHashOpts, hash, excludableInternalAdapterRequestProperties } from './util'
 import crypto from 'crypto'
+import objectHash from 'object-hash'
+
+import { Validator } from '../../modules/validator'
+import { getHashOpts, hash, excludableInternalAdapterRequestProperties } from './util'
 import { baseInputParameterKeys, baseInputParameters } from '../../modules/selector'
 import { isObject } from '../../util'
-import objectHash from 'object-hash'
-import { BatchableProperty } from '../cache-warmer/reducer'
 import { separateBatches } from '../ws/utils'
+
+import type {
+  Middleware,
+  AdapterRequest,
+  Config,
+  APIEndpoint,
+  BatchableProperty,
+  AdapterData,
+  AdapterContext,
+} from '../../../types'
 
 const baseInputParametersCachable = Object.keys(baseInputParameters).filter(
   (inputParam) => !excludableInternalAdapterRequestProperties.includes(inputParam),
 )
 
-export const withCacheKey: <C extends Config>(
-  endpointSelector?: (request: AdapterRequest) => APIEndpoint<C>,
-) => Middleware = (endpointSelector) => async (execute, context) => async (input: AdapterRequest) => {
-  const endpoint = endpointSelector?.(input)
+export const withCacheKey: <
+  C extends Config = Config,
+  D extends AdapterData = AdapterData,
+  Ctx extends AdapterContext = AdapterContext,
+>(
+  endpointSelector?: (request: AdapterRequest<D>) => APIEndpoint<C, D>,
+) => Middleware<AdapterRequest<D>, Ctx> =
+  (endpointSelector) => async (execute, context) => async (input) => {
+    const endpoint = endpointSelector?.(input)
 
-  if (!(endpoint && endpoint.inputParameters)) {
-    // Fallback to legacy object hash cache key
-    const cacheKey = hash(input, getHashOpts())
-    const inputWithCacheKey = { ...input, debug: { ...input.debug, cacheKey } }
+    if (!(endpoint && endpoint.inputParameters)) {
+      // Fallback to legacy object hash cache key
+      const cacheKey = hash(input, getHashOpts())
+      const inputWithCacheKey = { ...input, debug: { ...input.debug, cacheKey } }
+      return execute(inputWithCacheKey, context)
+    }
+
+    const inputParameterKeys = Object.keys(endpoint.inputParameters ?? {}).concat(
+      baseInputParametersCachable,
+    )
+    const validator = new Validator(
+      input,
+      endpoint.inputParameters,
+      {},
+      { shouldThrowError: false },
+    )
+
+    const cacheKey = getCacheKey(validator.validated, inputParameterKeys)
+
+    const batchCacheKey = endpoint.batchablePropertyPath
+      ? getCacheKey(validator.validated, inputParameterKeys, endpoint.batchablePropertyPath)
+      : undefined
+
+    const batchChildrenCacheKeys = batchCacheKey ? getBatchChildKeys(input, endpoint) : undefined
+
+    const inputWithCacheKey = {
+      ...input,
+      debug: { ...input.debug, cacheKey, batchCacheKey, batchChildrenCacheKeys },
+    }
     return execute(inputWithCacheKey, context)
   }
 
-  const inputParameterKeys = Object.keys(endpoint.inputParameters ?? {}).concat(
-    baseInputParametersCachable,
-  )
-  const validator = new Validator(input, endpoint.inputParameters, {}, { shouldThrowError: false })
-
-  const cacheKey = getCacheKey(validator.validated, inputParameterKeys)
-
-  const batchCacheKey = endpoint.batchablePropertyPath
-    ? getCacheKey(validator.validated, inputParameterKeys, endpoint.batchablePropertyPath)
-    : undefined
-
-  const batchChildrenCacheKeys = batchCacheKey ? getBatchChildKeys(input, endpoint) : undefined
-
-  const inputWithCacheKey = {
-    ...input,
-    debug: { ...input.debug, cacheKey, batchCacheKey, batchChildrenCacheKeys },
-  }
-  return execute(inputWithCacheKey, context)
-}
-
 export function getCacheKey(
-  validatedData: Validator['validated'],
+  validatedData: Validator<AdapterData>['validated'],
   inputParameterKeys: string[],
   batchablePropertyPath?: BatchableProperty[],
 ): string {
@@ -75,9 +94,9 @@ export function getCacheKey(
   return shasum.digest('base64')
 }
 
-export function getBatchChildKeys<C extends Config>(
+export function getBatchChildKeys<C extends Config = Config, D extends AdapterData = AdapterData>(
   input: AdapterRequest,
-  endpoint: APIEndpoint<C>,
+  endpoint: APIEndpoint<C, D>,
 ): [string, AdapterRequest][] {
   const children: AdapterRequest[] = []
   separateBatches(input, async (data) => {
@@ -85,15 +104,9 @@ export function getBatchChildKeys<C extends Config>(
   })
 
   return children.map((child) => {
-    const inputParameterKeys = Object.keys(endpoint.inputParameters ?? {}).concat(
-      baseInputParametersCachable,
-    )
-    const validator = new Validator(
-      child,
-      endpoint.inputParameters,
-      {},
-      { shouldThrowError: false },
-    )
+    const inputParameters = endpoint.inputParameters ?? {}
+    const inputParameterKeys = Object.keys(inputParameters).concat(baseInputParametersCachable)
+    const validator = new Validator(child, inputParameters, {}, { shouldThrowError: false })
     return [getCacheKey(validator.validated, inputParameterKeys), child]
   })
 }

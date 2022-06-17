@@ -1,5 +1,5 @@
 import { Requester, Validator, util, AdapterInputError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['us']
 
@@ -7,7 +7,8 @@ export const endpointResultPaths = {
   us: 'death',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { date: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   date: {
     description: 'The date to query formatted by `[YEAR][MONTH][DAY]` (e.g. `20201012`)',
   },
@@ -69,7 +70,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const date = validator.validated.data.date
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   if (!validDate(date))
     throw new AdapterInputError({
       jobRunID,

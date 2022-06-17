@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 
@@ -101,10 +101,13 @@ const getPoolValue = async (poolAddress: string, provider: ethers.providers.Prov
   return Promise.all(getValues)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, {})
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
-  const jobRunID = validator.validated.jobRunID
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
+  const validator = new Validator(input, inputParameters)
+
+  const jobRunID = validator.validated.id
   const controllerAddress = config.controllerAddress
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)

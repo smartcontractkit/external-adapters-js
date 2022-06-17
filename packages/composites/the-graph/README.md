@@ -25,8 +25,8 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 |           |              `theGraphQuote`               |                  The symbol of the quote currency. This will override `quoteCoinTicker` if supplied                  |                  |              |
 |           |             `intermedaryToken`             |               An intermediary token to use if the base and quote coin pair does not exist in the DEX.                |                  |     WETH     |
 |    ✅     |                   `dex`                    |                                              The DEX to query data from                                              |     UNISWAP      |              |
-|           |            `referenceContract`             | The smart contract address of a price feed. This is used if the price from fetched from the DEX needs to be modified |                  |              |
-|           |         `referenceContractDivisor`         |                  How much the value from the referenceContract needs to be multiplied or divided by                  |                  |              |
+|    ✅     |            `referenceContract`             | The smart contract address of a price feed. This is used if the price from fetched from the DEX needs to be modified |                  |              |
+|    ✅     |         `referenceContractDivisor`         |                  How much the value from the referenceContract needs to be multiplied or divided by                  |                  |              |
 |           |         `referenceModifierAction`          |               Whether to multiply or divide the DEX result by the result from the `referenceContract`                | multiply, divide |   multiply   |
 |           |                 `network`                  |                                            The blockchain network to use.                                            |                  | `'ETHEREUM'` |
 

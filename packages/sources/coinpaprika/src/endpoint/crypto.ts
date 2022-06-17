@@ -1,5 +1,4 @@
-import { Requester, Validator, Overrider, CacheKey } from '@chainlink/ea-bootstrap'
-import { OverrideObj } from '@chainlink/ea-bootstrap/src/lib/modules'
+import { Requester, Validator, Overrider, CacheKey, OverrideRecord } from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Config,
@@ -8,7 +7,7 @@ import type {
   AxiosResponse,
   AdapterBatchResponse,
   AdapterContext,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import { getCoin, getCoinIds } from '../util'
 import internalOverrides from '../config/overrides.json'
@@ -61,7 +60,12 @@ export const description = `The \`marketcap\` endpoint fetches market cap of ass
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  base: string | string[]
+  quote: string
+  coinid?: string | string[]
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',
@@ -95,7 +99,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   let coinid: string | string[] | undefined = validator.validated.data.coinid
 
   const requestedQuotes = validator.validated.data.quote
-  const resultPath = validator.validated.data.resultPath || endpointResultPaths.crypto
+  const resultPath = (validator.validated.data.resultPath as string) || endpointResultPaths.crypto
 
   const quotes = Array.isArray(requestedQuotes)
     ? requestedQuotes.map((quote) => quote.toUpperCase()).join(',')
@@ -113,7 +117,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
       const requestedCoins = await getConvertedCoins(
         jobRunID,
         base,
-        request.data.overrides,
+        request.data.overrides || {},
         context,
       )
       return handleBatchedRequest(jobRunID, request, response, requestedCoins, resultPath)
@@ -126,7 +130,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   if (coinid) {
     coin = coinid
   } else {
-    const requestedCoin = await getConvertedCoins(jobRunID, base, request.data.overrides, context)
+    const requestedCoin = await getConvertedCoins(
+      jobRunID,
+      base,
+      request.data.overrides ?? {},
+      context,
+    )
     coin = Object.values(requestedCoin)[0]
   }
 
@@ -151,7 +160,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 const getConvertedCoins = async (
   jobRunID: string,
   base: string | string[],
-  inputOverrides: OverrideObj,
+  inputOverrides: OverrideRecord,
   context: AdapterContext,
 ): Promise<RequestedCoins> => {
   const overrider = new Overrider(internalOverrides, inputOverrides, AdapterName, jobRunID)
@@ -197,7 +206,7 @@ const handleBatchedRequest = (
       const adapterRequest = {
         ...request,
         data: {
-          ...request.data,
+          ...(request.data as TInputParameters),
           quote: quote.toUpperCase(),
         },
       }

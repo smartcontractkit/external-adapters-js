@@ -1,4 +1,4 @@
-import { AdapterRequest, APIEndpoint, Config, Execute } from '@chainlink/types'
+import { AdapterRequest, APIEndpoint, Config, Execute } from '../../src/types'
 import { withCacheKey } from '../../src/lib/middleware/cache-key'
 
 describe('Cache key middleware', () => {
@@ -28,6 +28,7 @@ describe('Cache key middleware', () => {
       statusCode: 200,
       data: {
         number: 123.4,
+        statusCode: 200,
       },
     }
 

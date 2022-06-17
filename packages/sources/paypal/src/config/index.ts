@@ -1,5 +1,5 @@
-import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { AdapterConfigError, DefaultConfig, Requester, util } from '@chainlink/ea-bootstrap'
+import { Config } from '@chainlink/ea-bootstrap'
 import * as paypal from '@paypal/payouts-sdk'
 
 export const NAME = 'PAYPAL'
@@ -30,8 +30,8 @@ export const makeConfig = (prefix = ''): Config => {
     }
   }
   const client = new paypal.core.PayPalHttpClient(environment)
-  const config = Requester.getDefaultConfig(prefix)
-  config.api = { ...config.api, client }
+  const config: DefaultConfig = Requester.getDefaultConfig(prefix)
+  config.api = { ...config.api, client } as any
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

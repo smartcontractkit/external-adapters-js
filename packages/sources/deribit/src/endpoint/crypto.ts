@@ -1,14 +1,24 @@
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { AdapterResponseInvalidError, Requester, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['crypto']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { currency: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   currency: {
     aliases: ['base', 'from', 'coin', 'symbol'],
     description: 'The symbol of the currency to query',
     required: true,
   },
+}
+
+export interface ResponseSchema {
+  jsonrpc: string
+  result: number[][]
+  usIn: number
+  usOut: number
+  usDiff: number
+  testnet: boolean
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -24,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     url: 'get_historical_volatility',
   }
 
-  const response = await Requester.request(requestConfig)
+  const response: AxiosResponse = await Requester.request<ResponseSchema>(requestConfig)
   const result: number[][] = response.data['result']
   const resultSorted = result.sort((a, b) => {
     if (a.length < 1 || b.length < 1) return 1
@@ -37,6 +47,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     throw new AdapterResponseInvalidError({ jobRunID, message: 'no derbit value' })
   }
 
-  response.data.result = Requester.validateResultNumber(resultSorted, [0, 1])
+  response.data.result = Requester.validateResultNumber(resultSorted[0], [1])
   return Requester.success(jobRunID, response)
 }

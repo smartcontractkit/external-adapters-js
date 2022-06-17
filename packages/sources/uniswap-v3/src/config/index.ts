@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BaseConfig, ConfigFactory } from '@chainlink/types'
+import { Config as BaseConfig, ConfigFactory } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 
 export const NAME = 'UNISWAP_V3'

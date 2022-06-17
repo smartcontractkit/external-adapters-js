@@ -1,12 +1,14 @@
-import { AdapterRequest } from '@chainlink/types'
-import { AddressInfo } from 'net'
-import nock from 'nock'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
+import process from 'process'
+import nock from 'nock'
 import { server as startServer } from '../../src'
+import { AddressInfo } from 'net'
 import { mockVwapSuccess } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
+
   let fastify: FastifyInstance
   let req: SuperTest<Test>
 
@@ -33,6 +35,8 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        block: 10000000,
+        api_key: 'test-key',
         endpoint: 'vwap',
         from: 'AMPL',
         to: 'USD',

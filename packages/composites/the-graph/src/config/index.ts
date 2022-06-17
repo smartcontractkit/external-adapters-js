@@ -1,4 +1,4 @@
-import { Config as DefaultConfig } from '@chainlink/types'
+import { Config as DefaultConfig } from '@chainlink/ea-bootstrap'
 import { DexSubgraph } from '../types'
 import { uniswapSubgraph } from '../endpoint/prices/dex'
 import { Requester, util } from '@chainlink/ea-bootstrap'

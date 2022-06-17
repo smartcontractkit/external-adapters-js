@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_API_ENDPOINT = 'http://localhost:8000/api/oracle'
 export const NAME = 'AGORIC'

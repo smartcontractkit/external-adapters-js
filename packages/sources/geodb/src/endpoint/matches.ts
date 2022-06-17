@@ -1,12 +1,19 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['matches']
 
 export const description =
   'Counts the number of matches within the circle specified by a radius and coordinates during the selected time period.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  lat: string
+  lng: string
+  radius: string
+  start: string
+  end: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   lat: {
     required: true,
     description: 'latitude coordinate',

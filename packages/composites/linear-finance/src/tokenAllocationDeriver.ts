@@ -1,6 +1,6 @@
 import { types } from '@chainlink/token-allocation-adapter'
 import { makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 import { endpointSelector, makeExecute } from './adapter'
 
 export const deriveAllocations = async (
@@ -23,7 +23,8 @@ export const deriveAllocations = async (
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
-          .then((value) => resolve(value.data.allocations))
+          // TODO: makeExecute response type
+          .then((value) => resolve(value.data.allocations as any))
           .catch(reject)
       })
       .catch(reject)

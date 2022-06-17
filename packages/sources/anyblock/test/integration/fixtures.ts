@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockVwapSuccess = (): nock =>
+export const mockVwapSuccess = (): nock.Scope =>
   nock('https://api.anyblock.tools:443', {
     encodedQueryParams: true,
     reqheaders: {

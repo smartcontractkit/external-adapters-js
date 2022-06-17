@@ -64,7 +64,8 @@ Request:
         }
       ]
     ]
-  }
+  },
+  "providerStatusCode": 200
 }
 ```
 

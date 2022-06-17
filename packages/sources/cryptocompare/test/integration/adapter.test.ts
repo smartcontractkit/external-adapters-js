@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -201,7 +201,6 @@ describe('websocket', () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
-          endpoint: 'crypto',
           base: 'ETH',
           quote: 'BTC',
         },

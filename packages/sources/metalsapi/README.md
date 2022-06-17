@@ -8,10 +8,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |            Default            |
-| :-------: | :----------: | :---------: | :----: | :-----: | :---------------------------: |
-|    ✅     |   API_KEY    |             | string |         |                               |
-|           | API_ENDPOINT |             | string |         | `https://metals-api.com/api/` |
+| Required? |     Name     | Description |  Type  | Options |           Default           |
+| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------: |
+|    ✅     |   API_KEY    |             | string |         |                             |
+|           | API_ENDPOINT |             | string |         | `https://some_endpoint.com` |
 
 ---
 
