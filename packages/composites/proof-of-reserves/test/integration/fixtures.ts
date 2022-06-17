@@ -93,6 +93,7 @@ export const mockLotusSuccess = (): nock.Scope => {
       statusCode: 200,
       data: {
         result: '127530375584000000000000',
+        statusCode: 200,
       },
     })
 }
