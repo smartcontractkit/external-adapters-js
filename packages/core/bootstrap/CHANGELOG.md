@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.11.0
+
+### Minor Changes
+
+- fe96b484a: @chainlink/ea-bootstrap type coverage
+
 ## 2.10.0
 
 ### Minor Changes

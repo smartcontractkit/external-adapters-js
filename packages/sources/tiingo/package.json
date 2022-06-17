@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tiingo-adapter",
-  "version": "1.10.12",
+  "version": "1.11.0",
   "description": "Chainlink tiingo adapter.",
   "keywords": [
     "Chainlink",
