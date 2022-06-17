@@ -1,4 +1,4 @@
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 import { Requester } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'IPFS'

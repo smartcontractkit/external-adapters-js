@@ -4,7 +4,7 @@ import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import {
   getAddressResolver,
@@ -24,7 +24,7 @@ interface CurrentDebtResults {
   totalDebtShares: ethers.BigNumber
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) =>
+export const execute: ExecuteWithConfig<Config, InputParameters> = async (request, _, config) =>
   await getDataFromAcrossChains(request, config, getDebtRatio)
 
 /**
@@ -74,13 +74,14 @@ const getDebtRatio = async (
           totalDebtShares: chainTotalDebtShare,
         }
       } catch (e) {
+        const error = e as any
         const errorPayload = {
           jobRunID,
-          message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${e.message}`,
+          message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${error.message}`,
         }
-        throw e.response
+        throw error.response
           ? new AdapterDataProviderError(errorPayload)
-          : e.request
+          : error.request
           ? new AdapterConnectionError(errorPayload)
           : new AdapterError(errorPayload)
       }

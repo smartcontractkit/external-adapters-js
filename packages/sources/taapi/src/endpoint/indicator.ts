@@ -1,10 +1,17 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['indicator']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  indicator: string
+  base: string
+  quote: string
+  exchange: string
+  interval: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   indicator: {
     required: true,
     description: 'The TA indicator to query',
@@ -58,7 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     params,
   }
 
-  const response = await Requester.request(options)
+  const response: AxiosResponse = await Requester.request(options)
   response.data.result = Requester.validateResultNumber(response.data, ['value'])
   return Requester.success(jobRunID, response)
 }

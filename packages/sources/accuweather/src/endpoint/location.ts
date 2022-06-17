@@ -4,7 +4,12 @@ import {
   Requester,
   Validator,
 } from '@chainlink/ea-bootstrap'
-import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import {
+  AxiosResponse,
+  DefaultConfig,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { utils } from 'ethers'
 
 export interface Location {
@@ -37,7 +42,9 @@ ISO 3166 alpha-2 codes encoded as \`bytes2\`. See [list of ISO-3166 country code
 
 See [Solidity Types](#solidity-types)`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { lat: number | string; lon: number | string; encodeResult: boolean }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   lat: {
     aliases: ['latitude'],
     description: 'The latitude (WGS84 standard). Must be `-90` to `90`.',
@@ -110,7 +117,7 @@ export const encodeLocationResult = (result: LocationResult): string => {
   return utils.defaultAbiCoder.encode(dataTypes, dataValues)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<DefaultConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id

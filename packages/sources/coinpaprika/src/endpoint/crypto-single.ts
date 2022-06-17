@@ -1,5 +1,10 @@
 import { Requester, util, Validator, Overrider } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, AdapterRequest, InputParameters } from '@chainlink/types'
+import type {
+  ExecuteWithConfig,
+  Config,
+  AdapterRequest,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds } from '../util'
 import internalOverrides from '../config/overrides.json'
@@ -12,14 +17,15 @@ const buildPath =
     const validator = new Validator(request, inputParameters)
 
     const quote = validator.validated.data.quote
-    return `quotes.${quote.toUpperCase()}.${path}`
+    return `quotes.${quote?.toString().toUpperCase()}.${path}`
   }
 
 export const endpointResultPaths = {
   'crypto-single': buildPath('price'),
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string; coinid: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     description: 'The symbol of the currency to query',

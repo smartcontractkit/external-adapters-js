@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   APIEndpoint,
@@ -6,19 +6,30 @@ import {
   ExecuteFactory,
   ExecuteWithConfig,
   MakeWSHandler,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { DEFAULT_WS_API_ENDPOINT, makeConfig } from './config'
 import * as endpoints from './endpoint'
 import overrides from './config/symbols.json'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
@@ -75,11 +86,17 @@ type EndpointGetters = {
   }
 }
 
-const customParams = {
-  base: ['base', 'from', 'coin', 'ticker'],
+export type TInputParameters = { base: string }
+export const customParams: InputParameters<TInputParameters> = {
+  base: {
+    aliases: ['from', 'coin', 'ticker'],
+    required: true,
+    description: 'The symbol of the currency to query',
+  },
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
+export const makeWSHandler = (config?: Config): MakeWSHandler<any> => {
+  // TODO: WS message types
   const getBaseTicker = (input: AdapterRequest): string | undefined => {
     const validator = new Validator(input, customParams, {}, { shouldThrowError: false, overrides })
     if (validator.error) return
@@ -162,7 +179,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler | undefined => {
     return {
       connection: {
         getUrl: async (input) =>
-          getWSUrl(defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
+          getWSUrl(defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT, input),
       },
       shouldNotServeInputUsingWS: (input) => {
         const route = getEndpointRoute(input)

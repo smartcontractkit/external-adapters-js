@@ -1,4 +1,5 @@
 import {
+  AdapterError,
   AdapterConfigError,
   AdapterInputError,
   Requester,
@@ -9,31 +10,57 @@ import {
   ExecuteWithConfig,
   ExecuteFactory,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { getPriceProvider } from './dataProvider'
 import { Config, makeConfig } from './config'
 import { Decimal } from 'decimal.js'
 
 Decimal.set({ precision: 100 })
 
-const inputParameters: InputParameters = {
-  from: ['base', 'from', 'coin'],
-  to: ['quote', 'to', 'market'],
-  source: false,
-  fromDate: false,
-  toDate: false,
-  days: false,
-  interval: false,
+export type TInputParameters = {
+  from: string
+  to: string
+  source?: string
+  fromDate?: string
+  toDate?: string
+  days?: string
+  interval?: string
 }
 
-export const execute: ExecuteWithConfig<Config> = async (
+const inputParameters: InputParameters<TInputParameters> = {
+  from: {
+    required: true,
+    aliases: ['base', 'coin'],
+  },
+  to: {
+    required: true,
+    aliases: ['quote', 'market'],
+  },
+  source: {
+    required: false,
+  },
+  fromDate: {
+    required: false,
+  },
+  toDate: {
+    required: false,
+  },
+  days: {
+    required: false,
+  },
+  interval: {
+    required: false,
+  },
+}
+
+export const execute: ExecuteWithConfig<Config, TInputParameters> = async (
   input,
   _,
   config,
 ): Promise<AdapterResponse> => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
   const from = validator.validated.data.from
   const to = validator.validated.data.to
@@ -54,11 +81,18 @@ export const execute: ExecuteWithConfig<Config> = async (
   const fromDateInput = validator.validated.data.fromDate
   const toDateInput = validator.validated.data.toDate
   const days = validator.validated.data.days
-  const interval = validator.validated.data.interval
+  const interval = validator.validated.data.interval as string
+  // TODO: non-nullable default types
 
   const { fromDate, toDate } = getFromToDates(fromDateInput, toDateInput, days)
 
-  const provider = getPriceProvider(source, jobRunID, config.sources[source].api)
+  const apiOptions = config.sources[source].api
+  if (!apiOptions)
+    throw new AdapterError({
+      statusCode: 400,
+      message: `${source} configuration not found`,
+    })
+  const provider = getPriceProvider(source, jobRunID, apiOptions)
   const providerResponse = await provider(from, to, fromDate, toDate, interval)
   const result = providerResponse
     .reduce((sum, elem) => sum.add(elem.price), new Decimal(0))
@@ -143,6 +177,6 @@ export const getFromToDates = (
   })
 }
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

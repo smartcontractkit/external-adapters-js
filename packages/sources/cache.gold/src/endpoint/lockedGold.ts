@@ -1,12 +1,13 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['lockedGold']
 
 export const description =
   'Query the total gold grams locked in [cache.gold](https://contract.cache.gold/api/lockedGold).'
 
-export const inputParameters: InputParameters = {}
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
 export interface ResponseSchema {
   grams_locked: string

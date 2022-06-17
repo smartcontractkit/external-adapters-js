@@ -1,7 +1,7 @@
 import { utils } from 'ethers'
-import { Logger, util } from '@chainlink/ea-bootstrap'
-import type { AdapterResponse } from '@chainlink/types'
-import type { Validator } from '@chainlink/ea-bootstrap'
+import { Logger, util, Validator } from '@chainlink/ea-bootstrap'
+import type { AdapterResponse } from '@chainlink/ea-bootstrap'
+import { TInputParameters } from '../endpoint/reserves'
 
 type AddressObject = {
   address: string
@@ -18,18 +18,21 @@ const indexerToNetwork: Record<string, string> = {
 
 export const getValidAddresses = (
   protocolOutput: AdapterResponse,
-  validator: Validator,
+  validator: Validator<TInputParameters>,
 ): AdapterResponse => {
   const validatedInput = { ...protocolOutput }
   if (!util.parseBool(validator.validated.data.disableAddressValidation)) {
     validatedInput.result = validateAddresses(
       validator.validated.id,
       validator.validated.data.indexer,
-      validatedInput.result,
-    )
+      validatedInput.result as any,
+    ) as any
   }
   if (!util.parseBool(validator.validated.data.disableDuplicateAddressFiltering)) {
-    validatedInput.result = filterDuplicates(validator.validated.id, validatedInput.result)
+    validatedInput.result = filterDuplicates(
+      validator.validated.id,
+      validatedInput.result as any,
+    ) as any
   }
   validatedInput.data.result = validatedInput.result
   return validatedInput
@@ -80,7 +83,8 @@ export const validateAddresses = (
 const getValidEvmAddress = (id: string, address: string): string | undefined => {
   try {
     return utils.getAddress(address)
-  } catch (error) {
+  } catch (e) {
+    const error = e as Error
     Logger.warn(
       error,
       `JobId ${id}: The address "${address}" is invalid or has an invalid checksum and has been removed from the request.`,
@@ -95,7 +99,7 @@ const getValidBtcAddress = (id: string, address: string): string | undefined => 
     // Legacy (P2PKH) and Nested SegWit (P2SH) Bitcoin addresses start with 1 and are case-sensitive
     case '1':
     case '3':
-      if (isBase58(address)) return address
+      if (address.length === 34 && isBase58(address)) return address
       Logger.warn(
         { warning: 'Invalid address detected' },
         `JobId ${id}: The address "${address}" is not a valid Bitcoin address and has been removed.`,
@@ -104,7 +108,8 @@ const getValidBtcAddress = (id: string, address: string): string | undefined => 
     case 'b':
     case 'B':
       address = address.toLowerCase()
-      if (address.slice(0, 3) === 'bc1' && isBech32(address.slice(3))) return address
+      if (address.slice(0, 3) === 'bc1' && address.length === 42 && isBech32(address.slice(3)))
+        return address
       Logger.warn(
         { warning: 'Invalid address detected' },
         `JobId ${id}: The address "${address}" is not a valid Bitcoin address and has been removed.`,

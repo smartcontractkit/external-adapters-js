@@ -1,5 +1,5 @@
 import { util } from '@chainlink/ea-bootstrap'
-import { RequestConfig } from '@chainlink/types'
+import { AxiosRequestConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'GOOGLE_BIGQUERY'
 
@@ -10,7 +10,7 @@ export type Config = {
   autoRetry: boolean
   maxRetries: number
   location?: string
-  api: RequestConfig
+  api: AxiosRequestConfig
 }
 
 export const makeConfig = (prefix?: string): Config => ({

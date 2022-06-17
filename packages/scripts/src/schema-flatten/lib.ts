@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { writeFileSync } from 'fs'
-import * as Parser from 'json-schema-ref-parser'
+import $RefParser from '@apidevtools/json-schema-ref-parser'
 import * as path from 'path'
 import { snakeCase } from 'snake-case'
 import { getWorkspacePackages } from '../workspace'
 import { collisionPackageTypeMap, forceRenameMap, getCollisionIgnoreMapFrom } from './config'
 
-export async function writeAllFlattenedSchemas() {
+export async function writeAllFlattenedSchemas(): Promise<void> {
   const data = await flattenAllSchemas()
   data.forEach(({ location, schema }) => {
     writeFileSync(location, JSON.stringify(schema))
@@ -15,7 +14,7 @@ export async function writeAllFlattenedSchemas() {
 
 export interface FlattenedSchema {
   location: string
-  schema: any
+  schema: Record<string, unknown>
 }
 
 /**
@@ -42,8 +41,7 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
         if (!environment) {
           return
         }
-
-        const schema = await Parser.default.dereference(environment.$id, {
+        const schema = await new $RefParser().dereference(environment.$id, {
           resolve,
         })
 
@@ -61,7 +59,8 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
             location,
           }
         } catch (e) {
-          throw Error(`Errors incurred while processing package:${location}: ${e.message}`)
+          const error = e as Error
+          throw Error(`Errors incurred while processing package:${location}: ${error.message}`)
         }
       }),
   )
@@ -90,7 +89,7 @@ function createChainlinkLabsResolver() {
     return prev
   }, {})
 
-  const resolver: Parser.ResolverOptions = {
+  const resolver: $RefParser.ResolverOptions = {
     order: 1,
     canRead: /^https:\/\/external-adapters.chainlinklabs.com/i,
     read: (file, callback) => {

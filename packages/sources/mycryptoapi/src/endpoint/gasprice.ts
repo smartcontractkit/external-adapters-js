@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['gasprice']
 
@@ -11,7 +11,8 @@ export interface ResponseSchema {
   blockNum: number
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { speed: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   speed: {
     required: false,
     description: 'The desired speed',

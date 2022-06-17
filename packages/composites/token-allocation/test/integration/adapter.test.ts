@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import * as tokenAllocationAdapter from '../../src/index'
 import { dataProviderConfig, mockDataProviderResponses } from './fixtures'
 import nock from 'nock'

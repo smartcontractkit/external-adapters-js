@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const DEFAULT_NETWORK = 'ETHEREUM'
 export const NAME = 'CRYPTO_VOLATILITY_INDEX'

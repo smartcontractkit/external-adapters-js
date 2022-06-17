@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as ChainlinkConfig } from '@chainlink/types'
+import { Config as ChainlinkConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'SPORTSDATAIO'
 
@@ -30,7 +30,10 @@ export const makeConfig = (prefix?: string): Config => {
     nbaKey: util.getEnv(ENV_NBA_API_KEY, prefix),
     mlbKey: util.getEnv(ENV_MLB_API_KEY, prefix),
   }
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
+  config.api = {
+    ...config.api,
+    baseURL: config.api?.baseURL || DEFAULT_BASE_URL,
+  }
 
   return config
 }

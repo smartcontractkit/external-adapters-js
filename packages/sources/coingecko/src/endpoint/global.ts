@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['globalmarketcap', 'dominance']
 
@@ -8,14 +8,13 @@ export const endpointResultPaths = {
   dominance: 'market_cap_percentage',
 }
 
-const customError = (data: ResponseSchema) => {
-  return Object.keys(data).length === 0
-}
+const customError = (data: ResponseSchema) => Object.keys(data).length === 0
 
 export const description =
   'Query the global market cap from [Coingecko](https://api.coingecko.com/api/v3/global)'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { market: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   market: {
     aliases: ['quote', 'to', 'coin'],
     description:
@@ -45,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const market = validator.validated.data.market.toLowerCase()
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = validator.validated.data.resultPath || ''
 
   const url = '/global'
 
@@ -58,7 +57,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, ['data', resultPath, market])
+
+  const result = Requester.validateResultNumber(response.data, [
+    'data',
+    resultPath.toString(),
+    market,
+  ])
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

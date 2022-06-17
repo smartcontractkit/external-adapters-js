@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockCRPCCallResponseSuccess = (): nock =>
+export const mockCRPCCallResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8545', {
     encodedQueryParams: true,
   })

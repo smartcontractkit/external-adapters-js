@@ -1,12 +1,12 @@
 import { Requester, Validator, CacheKey } from '@chainlink/ea-bootstrap'
-import {
+import type {
   ExecuteWithConfig,
   Config,
   InputParameters,
   AdapterRequest,
   AxiosResponse,
   AdapterBatchResponse,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['latest']
@@ -15,7 +15,8 @@ export const batchablePropertyPath = [{ name: 'quote' }]
 export const description =
   'Returns a batched price comparison from one currency to a list of other currencies.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'coin'],
@@ -76,7 +77,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName)
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const to = validator.validated.data.quote
   const url = `latest`
 

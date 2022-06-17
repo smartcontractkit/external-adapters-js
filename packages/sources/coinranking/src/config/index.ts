@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'COINRANKING'
 
@@ -14,7 +14,7 @@ export const makeConfig = (prefix?: string): Config => {
   }
   config.defaultEndpoint = DEFAULT_ENDPOINT
   if (config.apiKey) {
-    config.api.headers['x-access-token'] = config.apiKey
+    config.api.headers = { ...config.api.headers, 'x-access-token': config.apiKey }
   }
 
   return config

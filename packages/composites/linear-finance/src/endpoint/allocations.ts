@@ -1,12 +1,16 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 import moment from 'moment-timezone'
 import { XBCI, XLCI } from '../config'
 
 export const supportedEndpoints = ['allocations']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  index: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   index: {
     type: 'string',
     required: true,
@@ -61,6 +65,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     data: {
       allocations,
       result: allocations.length,
+      statusCode: 200,
     },
     statusCode: 200,
   }

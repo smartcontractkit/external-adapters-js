@@ -1,5 +1,15 @@
 # @chainlink/coingecko-adapter
 
+## 1.7.3
+
+### Patch Changes
+
+- e8a2a49e7: Changed grt to GRT in coingecko overrides
+- Updated dependencies [fdc7405f2]
+- Updated dependencies [45a63d02d]
+  - @chainlink/ea-bootstrap@2.10.0
+  - @chainlink/ea-test-helpers@1.2.0
+
 ## 1.7.2
 
 ### Patch Changes

@@ -1,9 +1,12 @@
 import nock from 'nock'
 
-export const mockCoinmarketcapAdapter = (): nock =>
-  nock('http://localhost:8081')
+export const mockCoinmarketcapAdapter = (): nock.Scope =>
+  nock('http://localhost:8081', {
+    encodedQueryParams: true,
+  })
     .persist()
     .post('/', {
+      id: '1',
       data: {
         endpoint: 'historical',
         base: 'ETH',

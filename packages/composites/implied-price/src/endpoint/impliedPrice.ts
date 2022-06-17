@@ -1,19 +1,28 @@
 import { AdapterResponseInvalidError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import {
+import type {
   AdapterRequest,
   ExecuteWithConfig,
   Config,
   InputParameters,
-  RequestConfig,
-} from '@chainlink/types'
+  AxiosRequestConfig,
+} from '@chainlink/ea-bootstrap'
 import { AxiosResponse } from 'axios'
 import Decimal from 'decimal.js'
 
 export const supportedEndpoints = ['impliedPrice']
 
-export type SourceRequestOptions = { [source: string]: RequestConfig }
+export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  dividendSources: string | string[]
+  dividendMinAnswers?: number
+  dividendInput?: AdapterRequest
+  divisorSources: string | string[]
+  divisorMinAnswers?: number
+  divisorInput?: AdapterRequest
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   dividendSources: {
     required: true,
     description:
@@ -29,7 +38,7 @@ const inputParameters: InputParameters = {
     required: false,
     type: 'object',
     description: 'The payload to send to the dividend sources',
-    default: {},
+    default: {} as AdapterRequest,
   },
   divisorSources: {
     required: true,
@@ -46,7 +55,7 @@ const inputParameters: InputParameters = {
     required: false,
     type: 'object',
     description: 'The payload to send to the divisor sources',
-    default: {},
+    default: {} as AdapterRequest,
   },
 }
 
@@ -56,10 +65,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.id
   const dividendSources = parseSources(validator.validated.data.dividendSources)
   const divisorSources = parseSources(validator.validated.data.divisorSources)
-  const dividendMinAnswers = validator.validated.data.dividendMinAnswers
-  const divisorMinAnswers = validator.validated.data.divisorMinAnswers
-  const dividendInput = validator.validated.data.dividendInput
-  const divisorInput = validator.validated.data.divisorInput
+  const dividendMinAnswers = validator.validated.data.dividendMinAnswers as number
+  const divisorMinAnswers = validator.validated.data.divisorMinAnswers as number
+  const dividendInput = validator.validated.data.dividendInput as AdapterRequest
+  const divisorInput = validator.validated.data.divisorInput as AdapterRequest
+  // TODO: non-nullable default types
 
   const dividendUrls = dividendSources.map((source) => util.getRequiredURL(source.toUpperCase()))
   const dividendResult = await getExecuteMedian(

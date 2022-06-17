@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['getgrambalances']
 
@@ -21,7 +21,12 @@ export type ResponseSchema = {
   Valuation: number
 }[]
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  custodianID: string
+  metalCode: string
+  utilizationLockCode: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   custodianID: {
     required: false,
     type: 'string',

@@ -1,12 +1,13 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['globalmarketcap']
 
 export const description = 'https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { market: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   market: {
     aliases: ['quote', 'to'],
     description: 'The symbol of the currency to query',

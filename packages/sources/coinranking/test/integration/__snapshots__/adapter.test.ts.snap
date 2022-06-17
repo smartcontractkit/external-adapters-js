@@ -17,7 +17,7 @@ Object {
   "error": Object {
     "feedID": "NON-EXISTING/USD",
     "message": "Unable to find coin: non-existing",
-    "name": "AdapterError",
+    "name": "Error",
   },
   "jobRunID": "1",
   "status": "errored",

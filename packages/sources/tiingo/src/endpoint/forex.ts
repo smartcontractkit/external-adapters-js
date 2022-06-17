@@ -1,5 +1,5 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
 
@@ -13,10 +13,18 @@ export const endpointResultPaths = {
 
 export const description = 'https://api.tiingo.com/documentation/forex'
 
-export const inputParameters: InputParameters = {
-  base: ['base', 'asset', 'from', 'market'],
-  quote: ['quote', 'to'],
-  resultPath: false,
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
+  base: {
+    aliases: ['asset', 'from', 'market'],
+    required: true,
+    description: 'The asset to query',
+  },
+  quote: {
+    aliases: ['to'],
+    required: true,
+    description: 'The quote to convert to',
+  },
 }
 
 interface ResponseSchema {
@@ -36,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const base = validator.overrideSymbol(NAME, validator.validated.data.base)
   const quote = validator.validated.data.quote
   const ticker = `${base}${quote}`.toLowerCase()
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const url = util.buildUrlPath('/tiingo/fx/:ticker/top', { ticker })
 
   const reqConfig = {

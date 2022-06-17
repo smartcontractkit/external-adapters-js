@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -46,7 +46,7 @@ describe('execute', () => {
     fastify.close(done)
   })
 
-  describe('forex  api', () => {
+  describe('forex api', () => {
     it('should return success for single base/quote pair', async () => {
       const data: AdapterRequest = {
         id,

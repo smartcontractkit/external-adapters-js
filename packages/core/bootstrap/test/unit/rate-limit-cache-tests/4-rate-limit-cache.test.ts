@@ -1,20 +1,20 @@
 import { createStore } from 'redux'
-import { stub } from 'sinon'
+import { stub, SinonStub } from 'sinon'
 import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
-import { logger } from '../../../src/lib/modules'
-import * as rateLimit from '../../../src/lib/middleware/rate-limit'
-import { get } from '../../../src/lib/middleware/rate-limit/config'
+import { logger } from '../../../src/lib/modules/logger'
+import * as RateLimit from '../../../src/lib/middleware/rate-limit'
+import { get } from '../../../src/lib/config/provider-limits/config'
 import { dataProviderMock, getRLTokenSpentPerMinute, setupClock } from './helpers'
 import { withMiddleware } from '../../../src/index'
-import { AdapterContext } from '@chainlink/types'
+import type { AdapterContext } from '../../../src/types'
 
 describe('Rate Limit/Cache - Integration', () => {
   let oldEnv: NodeJS.ProcessEnv
   const context: AdapterContext = {}
   const capacity = 50
-  let logWarnStub: any
-  let logErrorStub: any
+  let logWarnStub: SinonStub
+  let logErrorStub: SinonStub
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -36,11 +36,15 @@ describe('Rate Limit/Cache - Integration', () => {
       ...defaultOptions(),
       instance: await options.cacheBuilder(options.cacheImplOptions),
     }
-    context.rateLimit = get(undefined, context)
+    context.limits = get(undefined, context)
   })
 
   afterEach(async () => {
-    context.cache.instance.client.reset()
+    const options = defaultOptions()
+    context.cache = {
+      ...defaultOptions(),
+      instance: await options.cacheBuilder(options.cacheImplOptions),
+    }
   })
 
   afterAll(() => {
@@ -51,12 +55,12 @@ describe('Rate Limit/Cache - Integration', () => {
 
   it('Burst feeds requests stay under capacity', async () => {
     const [clock, restoreClock] = setupClock()
-    const store = createStore(rateLimit.reducer.rootReducer, {})
+    const store = createStore(RateLimit.reducer.rootReducer, {})
     const dataProvider = dataProviderMock()
     const executeWithMiddleware = await withMiddleware(dataProvider.execute, context, [
       withCache(),
-      rateLimit.withRateLimit(store),
-      withDebug,
+      RateLimit.withRateLimit(store),
+      withDebug(),
     ])
 
     const timeBetweenRequests = 500
@@ -79,7 +83,6 @@ describe('Rate Limit/Cache - Integration', () => {
 
     const state = store.getState()
     const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
-
     expect(rlPerMinute[0]).toBeGreaterThan(capacity)
     expect(rlPerMinute[1]).toBeLessThanOrEqual(capacity)
     expect(rlPerMinute[2]).toBeLessThanOrEqual(capacity)

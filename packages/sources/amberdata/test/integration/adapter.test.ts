@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
@@ -47,6 +47,29 @@ describe('amberdata', () => {
         endpoint: 'crypto',
         base: 'ETH',
         quote: 'BTC',
+      },
+    }
+
+    it('should reply with success', async () => {
+      mockCryptoEndpoint()
+      const response = await req
+        .post('/')
+        .send(cryptoRequest)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('when making a request to crypto endpoint with an override from config/overrides.json', () => {
+    const cryptoRequest: AdapterRequest = {
+      id: '1',
+      data: {
+        endpoint: 'crypto',
+        base: 'LUNA',
+        quote: 'USD',
       },
     }
 

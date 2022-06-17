@@ -1,9 +1,10 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['feed']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { product: string; feedId: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   product: {
     required: true,
     description: 'The product to query',

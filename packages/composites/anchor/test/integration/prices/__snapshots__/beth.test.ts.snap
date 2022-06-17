@@ -31,7 +31,7 @@ Object {
   "error": Object {
     "feedID": "BETH/ETH",
     "message": "Call to ETH-USD Terra feed has reverted",
-    "name": "AdapterError",
+    "name": "Error",
   },
   "jobRunID": "1",
   "status": "errored",
@@ -57,7 +57,7 @@ Object {
   "error": Object {
     "feedID": "BETH/ETH",
     "message": "Call to Curve pool to fetch stETH/ETH rate reverted",
-    "name": "AdapterError",
+    "name": "Error",
   },
   "jobRunID": "1",
   "status": "errored",
@@ -69,6 +69,7 @@ exports[`price-beth successful calls return success when fetching the USD/BEth p
 Object {
   "data": Object {
     "result": "271217959548",
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": "271217959548",
@@ -80,6 +81,7 @@ exports[`price-beth successful calls returns success when fetching the ETH/BEth 
 Object {
   "data": Object {
     "result": "103514409",
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": "103514409",

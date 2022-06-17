@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['collections']
 
@@ -9,7 +9,8 @@ export interface ResponseSchema {
   value: number
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { collection: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   collection: {
     type: 'string',
     required: true,

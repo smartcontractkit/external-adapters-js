@@ -1,11 +1,12 @@
 import { balance } from '@chainlink/ea-factories'
-import { Config, ExecuteFactory } from '@chainlink/types'
+import { AdapterData, Config, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
 import bcypher from 'blockcypher'
 import { ChainType, CoinType, isChainType, isCoinType } from '../config'
 
 export const supportedEndpoints = ['balance']
 
-export const inputParameters = balance.inputParameters
+export type TInputParameters = AdapterData
+export const inputParameters: InputParameters<TInputParameters> = balance.inputParameters
 
 // blockcypher response type for addr balance query
 type AddressBalance = {

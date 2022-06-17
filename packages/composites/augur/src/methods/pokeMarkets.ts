@@ -1,5 +1,5 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/types'
+import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
 
@@ -73,7 +73,11 @@ interface RoundDataForCoin {
   roundId: BigNumberish
 }
 
-const pokeParams = {
+export type TInputParameters = {
+  contractAddress: string
+}
+
+const pokeParams: InputParameters<TInputParameters> = {
   contractAddress: true,
 }
 
@@ -153,8 +157,9 @@ async function createAndResolveMarkets(
     await contract.createAndResolveMarkets(roundIds, nextWeek, { nonce })
     Logger.log(`Augur: createAndResolveMarkets -- success`)
   } catch (e) {
+    const error = e as Error
     Logger.log(`Augur: createAndResolveMarkets -- failure`)
-    Logger.error(e)
+    Logger.error(error)
   }
 }
 

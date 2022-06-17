@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BaseConfig } from '@chainlink/types'
+import { Config as BaseConfig } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'CFBENCHMARKS'
 
@@ -27,14 +27,14 @@ export const makeConfig = (prefix?: string): Config => {
 
   config.api.baseURL =
     config.api.baseURL || (config.useSecondary ? SECONDARY_API_ENDPOINT : DEFAULT_API_ENDPOINT)
-  config.api.baseWsURL =
-    config.api.baseWsURL ||
+  config.ws.baseWsURL =
+    config.ws.baseWsURL ||
     (config.useSecondary ? SECONDARY_WS_API_ENDPOINT : DEFAULT_WS_API_ENDPOINT)
 
   const username = util.getRequiredEnv(ENV_API_USERNAME, prefix)
   const password = util.getRequiredEnv(ENV_API_PASSWORD, prefix)
   const encodedCreds = Buffer.from(`${username}:${password}`).toString('base64')
-  config.api.headers[AUTHORIZATION_HEADER] = `Basic ${encodedCreds}`
+  config.api.headers = { ...config.api.headers, Authorization: `Basic ${encodedCreds}` }
 
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

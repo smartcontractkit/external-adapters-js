@@ -1,5 +1,11 @@
 import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
-import { Config, Execute, AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/types'
+import {
+  Config,
+  Execute,
+  AdapterRequest,
+  AdapterResponse,
+  AdapterContext,
+} from '@chainlink/ea-bootstrap'
 
 export const makeRequestFactory =
   (config: Config, prefix: string): Execute =>

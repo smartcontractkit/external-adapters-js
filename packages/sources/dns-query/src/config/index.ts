@@ -1,5 +1,5 @@
 import { AdapterConfigError, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export enum DNSProviders {
   Cloudflare = 'cloudflare',

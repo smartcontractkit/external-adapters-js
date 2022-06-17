@@ -1,5 +1,5 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['marketcap', 'token']
@@ -10,7 +10,9 @@ const customError = (data: ResponseSchema) => {
 
 export const description = 'Gets the asset USD Market Cap from Amberdata.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'coin'],
@@ -73,7 +75,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     (asset: { symbol: string }) => asset.symbol.toUpperCase() === coin.toUpperCase(),
   )
   if (coinData) {
-    const result = Requester.validateResultNumber(coinData, [resultPath])
+    const result = Requester.validateResultNumber(coinData, resultPath)
     return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
   }
 

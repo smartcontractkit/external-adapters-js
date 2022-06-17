@@ -1,5 +1,5 @@
 import * as reduce from '@chainlink/reduce-adapter'
-import { AdapterContext, AdapterResponse } from '@chainlink/types'
+import { AdapterContext, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { callAdapter } from '.'
 import { Indexer } from './balance'
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
@@ -16,6 +16,7 @@ const returnParsedUnits = (jobRunID: string, result: string, units: number) => {
     statusCode: 200,
     data: {
       result: convertedResult,
+      statusCode: 200,
     },
   }
 }
@@ -31,10 +32,12 @@ export const runReduceAdapter = async (
   switch (indexer) {
     case bitcoinJsonRpc.NAME:
     case bitcoinPorIndexer.NAME:
-      return returnParsedUnits(input.jobRunID, input.data.result, 8)
+      // TODO: type makeExecute response
+      return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
     case lotus.NAME:
     case adaBalance.NAME:
-      return returnParsedUnits(input.jobRunID, input.data.result, 0)
+      // TODO: type makeExecute response
+      return returnParsedUnits(input.jobRunID, input.data.result as string, 0)
   }
 
   const next = {
@@ -47,5 +50,6 @@ export const runReduceAdapter = async (
       valuePath: 'balance',
     },
   }
-  return callAdapter(reduce.makeExecute(), context, next, '_onReduce')
+  // TODO: type makeExecute return
+  return callAdapter(reduce.makeExecute() as any, context, next, '_onReduce')
 }

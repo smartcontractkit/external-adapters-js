@@ -6,7 +6,12 @@ import {
   util,
   Validator,
 } from '@chainlink/ea-bootstrap'
-import { AxiosResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type {
+  AxiosResponse,
+  DefaultConfig,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import { utils } from 'ethers'
 
 export interface UnitCondition {
@@ -109,7 +114,9 @@ See [Solidity Types](#solidity-types)`
 
 export const supportedEndpoints = ['current-conditions']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { locationKey: number; units: string; encodeResult: boolean }
+
+export const inputParameters: InputParameters<TInputParameters> = {
   locationKey: {
     required: true,
     description:
@@ -268,7 +275,7 @@ export const encodeCurrentConditionsResult = (result: CurrentConditionsResult): 
   return utils.defaultAbiCoder.encode(dataTypes, dataValues)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<DefaultConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
@@ -285,7 +292,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const options = { ...config.api, params, url }
-
   const response = await Requester.request<Array<CurrentConditions>>(options)
 
   const currentConditionsList = response.data
@@ -300,7 +306,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   let currentConditionsResult: CurrentConditionsResult
   try {
-    currentConditionsResult = getCurrentConditionsResult(units, currentConditionsList)
+    currentConditionsResult = getCurrentConditionsResult(units as Unit, currentConditionsList)
   } catch (error) {
     throw new AdapterError({
       jobRunID,

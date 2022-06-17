@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinbase
 
-![1.2.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
 
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
@@ -10,10 +10,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       | Description |  Type  | Options |             Default              |
-| :-------: | :-------------: | :---------: | :----: | :-----: | :------------------------------: |
-|           |  API_ENDPOINT   |             | string |         |    `https://api.coinbase.com`    |
-|           | WS_API_ENDPOINT |             | string |         | `wss://ws-feed.pro.coinbase.com` |
+| Required? |        Name         |                                   Description                                   |  Type  | Options |             Default              |
+| :-------: | :-----------------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :------------------------------: |
+|           |    API_ENDPOINT     |                                                                                 | string |         |    `https://api.coinbase.com`    |
+|           |   WS_API_ENDPOINT   |                                                                                 | string |         | `wss://ws-feed.pro.coinbase.com` |
+|           |  NFT_API_ENDPOINT   | The API endpoint for making NFT API requests (eg. https://nft-api.coinbase.com) | string |         |                                  |
+|           | NFT_API_AUTH_HEADER |         The CB-NFT-API-TOKEN header used to authorize NFT API requests          | string |         |                                  |
 
 ---
 
@@ -21,9 +23,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                        Options                        | Default  |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [price](#crypto-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                 Options                                                                 | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [nft-floor-price](#nftfloorprice-endpoint), [nft-floor](#nftfloorprice-endpoint), [price](#crypto-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -71,6 +73,65 @@ Response:
     "result": 57854.29
   },
   "result": 57854.29,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## NftFloorPrice Endpoint
+
+Supported names for this endpoint are: `nft-floor`, `nft-floor-price`.
+
+### Input Params
+
+| Required? |      Name       | Aliases |                            Description                            |  Type  |                Options                |      Default       | Depends On | Not Valid With |
+| :-------: | :-------------: | :-----: | :---------------------------------------------------------------: | :----: | :-----------------------------------: | :----------------: | :--------: | :------------: |
+|           |     network     |         |              The blockchain network to get data from              | string | `ethereum-mainnet`, `polygon-mainnet` | `ethereum-mainnet` |            |                |
+|    ✅     | contractAddress |         |                     The NFT contract address                      | string |                                       |                    |            |                |
+|    ✅     |      start      |         | The beginning of the time window (inclusive, yyyy-mm-dd hh:mm:ss) | string |                                       |                    |            |                |
+|    ✅     |       end       |         |    The end of the time window (inclusive, yyyy-mm-dd hh:mm:ss)    | string |                                       |                    |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "nft-floor-price",
+    "network": "ethereum-mainnet",
+    "contractAddress": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+    "start": "2022-05-25T12:00:00.000Z",
+    "end": "2022-05-25T12:00:00.000Z"
+  },
+  "debug": {
+    "cacheKey": "BmlGY5Kks21C8iVAMfF69gxGtf4="
+  },
+  "rateLimitMaxAge": 740
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "floorPriceDailyValue": [
+      {
+        "date": "2022-05-11T00:00:00Z",
+        "multiplier": 1,
+        "priceStdDev": 0.12498363928979012,
+        "logFloorPrice": 4.569591987976991,
+        "adjustedFloorPrice": 85.16651572690085
+      }
+    ],
+    "result": 85.16651572690085
+  },
+  "result": 85.16651572690085,
   "statusCode": 200,
   "providerStatusCode": 200
 }

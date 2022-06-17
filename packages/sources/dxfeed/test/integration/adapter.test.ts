@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 import * as process from 'process'
@@ -61,6 +61,7 @@ describe('dxfeed', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+
       expect(response.body).toMatchSnapshot()
     })
   })
