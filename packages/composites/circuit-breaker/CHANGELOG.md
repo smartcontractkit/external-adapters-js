@@ -1,5 +1,27 @@
 # @chainlink/circuit-breaker-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- fe96b484a: Replace @chainlink/types exports with @chainlink/ea-bootstrap exports
+
+### Patch Changes
+
+- Updated dependencies [fe96b484a]
+  - @chainlink/ea-bootstrap@2.11.0
+
+## 1.1.0
+
+### Minor Changes
+
+- fe96b484a: Replace @chainlink/types exports with @chainlink/ea-bootstrap exports
+
+### Patch Changes
+
+- Updated dependencies [fe96b484a]
+  - @chainlink/ea-bootstrap@2.11.0
+
 ## 1.0.57
 
 ### Patch Changes

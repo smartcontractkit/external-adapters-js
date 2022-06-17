@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.0.96",
+  "version": "1.2.0",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",

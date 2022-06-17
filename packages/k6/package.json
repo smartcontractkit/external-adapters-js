@@ -1,6 +1,6 @@
 {
   "name": "k6",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "devDependencies": {
     "@types/babel__core": "7.1.19",
     "@types/babel__preset-env": "7.9.2",
