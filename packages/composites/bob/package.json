@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bob-adapter",
-  "version": "1.0.57",
+  "version": "1.0.58",
   "description": "",
   "author": "Silas Lenihan (silas@smartcontract.com)",
   "license": "MIT",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.38",
+    "@types/node": "16.11.41",
     "typescript": "4.3.5"
   }
 }

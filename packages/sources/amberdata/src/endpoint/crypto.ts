@@ -8,6 +8,7 @@ import type {
 } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import includes from './../config/includes.json'
+import overrides from './../config/overrides.json'
 
 export const supportedEndpoints = ['crypto', 'price']
 
@@ -65,7 +66,7 @@ export interface ResponseSchema {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters, {}, { includes })
+  const validator = new Validator(input, inputParameters, {}, { includes, overrides })
 
   const jobRunID = validator.validated.id
   const { url, params, inverse } = getOptions(validator)

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Amberdata
 
-![1.4.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
 
 Base URL wss://ws.web3api.io
 
@@ -199,6 +199,50 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "crypto",
+    "base": "LUNA",
+    "quote": "USD"
+  },
+  "debug": {
+    "cacheKey": "6wt5RjdkYLFWTgbwPBVQiLa4UE8="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": 200,
+    "title": "OK",
+    "description": "Successful request",
+    "payload": {
+      "timestamp": 1635171720000,
+      "pair": "lunc_usd",
+      "price": "0.0000586300395535625",
+      "volume": "19.40889537"
+    },
+    "result": 0.0000586300395535625
+  },
+  "result": 0.0000586300395535625,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 

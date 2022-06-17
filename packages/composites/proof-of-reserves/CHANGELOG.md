@@ -1,5 +1,47 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.9.1
+
+### Patch Changes
+
+- Updated dependencies [172ae7f0c]
+  - @chainlink/amberdata-adapter@1.5.0
+  - @chainlink/por-indexer-adapter@1.0.45
+  - @chainlink/renvm-address-set-adapter@1.3.35
+  - @chainlink/wbtc-address-set-adapter@1.3.44
+
+## 1.9.0
+
+### Minor Changes
+
+- a98b95a11: Added miner address support
+
+### Patch Changes
+
+- Updated dependencies [fdc7405f2]
+- Updated dependencies [45a63d02d]
+  - @chainlink/ea-bootstrap@2.10.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.1.17
+  - @chainlink/por-indexer-adapter@1.0.44
+  - @chainlink/ea-test-helpers@1.2.0
+  - @chainlink/ada-balance-adapter@2.3.34
+  - @chainlink/amberdata-adapter@1.4.12
+  - @chainlink/blockchain.com-adapter@1.1.41
+  - @chainlink/blockchair-adapter@1.1.41
+  - @chainlink/blockcypher-adapter@1.2.41
+  - @chainlink/btc.com-adapter@1.2.41
+  - @chainlink/celsius-address-list-adapter@1.0.20
+  - @chainlink/chain-reserve-wallet-adapter@2.2.37
+  - @chainlink/cryptoapis-adapter@1.1.41
+  - @chainlink/eth-balance-adapter@1.2.12
+  - @chainlink/gemini-adapter@2.1.41
+  - @chainlink/lotus-adapter@2.1.41
+  - @chainlink/reduce-adapter@1.2.29
+  - @chainlink/renvm-address-set-adapter@1.3.34
+  - @chainlink/sochain-adapter@1.2.41
+  - @chainlink/wbtc-address-set-adapter@1.3.43
+  - @chainlink/wrapped-adapter@2.1.41
+
 ## 1.8.1
 
 ### Patch Changes

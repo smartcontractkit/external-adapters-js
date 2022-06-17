@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nftx-adapter",
-  "version": "2.0.22",
+  "version": "2.0.23",
   "description": "Chainlink nftx adapter.",
   "keywords": [
     "Chainlink",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
-    "@types/node": "16.11.38",
+    "@types/node": "16.11.41",
     "@types/supertest": "2.0.12",
     "nock": "13.2.6",
     "supertest": "6.2.3",
