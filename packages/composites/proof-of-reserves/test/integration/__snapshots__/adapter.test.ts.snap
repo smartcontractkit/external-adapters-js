@@ -28,6 +28,7 @@ exports[`execute Filecoin Gemini protocol should return success 1`] = `
 Object {
   "data": Object {
     "result": "127530375584000000000000",
+    "statusCode": 200,
   },
   "result": "127530375584000000000000",
   "statusCode": 200,
@@ -38,6 +39,7 @@ exports[`execute Filecoin list protocol w/ miner format address should return su
 Object {
   "data": Object {
     "result": "127530375584000000000000",
+    "statusCode": 200,
   },
   "result": "127530375584000000000000",
   "statusCode": 200,
