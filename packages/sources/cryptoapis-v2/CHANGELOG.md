@@ -1,5 +1,19 @@
 # @chainlink/cryptoapis-v2-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- fe96b484a: Replace @chainlink/types exports with @chainlink/ea-bootstrap exports
+
+### Patch Changes
+
+- Updated dependencies [fe96b484a]
+- Updated dependencies [fe96b484a]
+  - @chainlink/ea-factories@1.2.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/ea-bootstrap@2.11.0
+
 ## 1.1.41
 
 ### Patch Changes
