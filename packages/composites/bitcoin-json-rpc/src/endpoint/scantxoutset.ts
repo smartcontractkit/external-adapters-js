@@ -5,7 +5,14 @@ import type {
   AdapterContext,
   InputParameters,
 } from '@chainlink/ea-bootstrap'
-import { Validator, Requester, Logger, util, AdapterTimeoutError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
+import {
+  Validator,
+  Requester,
+  Logger,
+  util,
+  AdapterTimeoutError,
+  AdapterDataProviderError,
+} from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 
 export const NAME = 'scantxoutset'

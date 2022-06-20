@@ -1,4 +1,9 @@
-import { AdapterConfigError, Requester, AdapterDataProviderError, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConfigError,
+  Requester,
+  AdapterDataProviderError,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import * as solanaWeb3 from '@solana/web3.js'
@@ -30,16 +35,16 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       config.commitment as solanaWeb3.Commitment,
     )
 
-  const accountPublicKeys = validator.validated.data.addresses.map(
-    (address: string) => new solanaWeb3.PublicKey(address),
-  )
-  const accountInformation = await solanaConnection.getMultipleAccountsInfo(accountPublicKeys, {
-    encoding: 'jsonParsed',
-  } as any)
+    const accountPublicKeys = validator.validated.data.addresses.map(
+      (address: string) => new solanaWeb3.PublicKey(address),
+    )
+    const accountInformation = await solanaConnection.getMultipleAccountsInfo(accountPublicKeys, {
+      encoding: 'jsonParsed',
+    } as any)
     // TODO: type doesn't fit dependency)
 
     const result = accountInformation.length
-    const res =  {
+    const res = {
       jobRunID,
       data: {
         accountInformation,

@@ -1,5 +1,11 @@
 import { ethers, utils } from 'ethers'
-import { Logger, Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import {
+  Logger,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 

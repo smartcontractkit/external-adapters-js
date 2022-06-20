@@ -1,5 +1,12 @@
 import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { makeMiddleware, Requester, Validator, withMiddleware, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import {
+  makeMiddleware,
+  Requester,
+  Validator,
+  withMiddleware,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import { Config } from '../config'
 import xsushiABI from '../abi/xsushi.json'

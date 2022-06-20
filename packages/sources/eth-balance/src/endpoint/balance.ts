@@ -1,5 +1,10 @@
-import { Validator, Requester, AdapterInputError, AdapterDataProviderError,
-  util, } from '@chainlink/ea-bootstrap'
+import {
+  Validator,
+  Requester,
+  AdapterInputError,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 

@@ -173,10 +173,9 @@ const getTokenDetails = async (
 
   let decimals
   try {
-    decimals =
-      Number(
-        validator.validated.data[`${direction}Decimals`] || (await getDecimals(address, config)),
-      )
+    decimals = Number(
+      validator.validated.data[`${direction}Decimals`] || (await getDecimals(address, config)),
+    )
   } catch (e) {
     throw new AdapterDataProviderError({
       network: config.network,

@@ -1,4 +1,10 @@
-import { AdapterDataProviderError, AdapterError, AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterDataProviderError,
+  AdapterError,
+  AdapterInputError,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { Account, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import RenJS from '@renproject/ren'
 import { btc } from '../coins'

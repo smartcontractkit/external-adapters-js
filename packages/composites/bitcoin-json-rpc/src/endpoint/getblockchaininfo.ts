@@ -53,14 +53,13 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
       },
       context,
     )
-  }catch (e) {
+  } catch (e) {
     throw new AdapterDataProviderError({
       network: 'bitcoin',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
       cause: e,
     })
   }
-
 
   response.data.result = Requester.validateResultNumber(response.data, ['result', resultPath])
   return Requester.success(jobRunID, response)

@@ -82,12 +82,11 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
     )
     const result = encodedResult.slice(2)
     return Requester.success(jobRunID, { data: { responseData, result } }, config.verbose)
-  }catch (e) {
+  } catch (e) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
       cause: e,
     })
   }
-
 }

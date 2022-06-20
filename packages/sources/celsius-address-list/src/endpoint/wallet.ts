@@ -6,7 +6,7 @@ import {
   Requester,
   Validator,
   AdapterDataProviderError,
-  util
+  util,
 } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 

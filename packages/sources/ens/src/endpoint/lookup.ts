@@ -5,7 +5,7 @@ import {
   AdapterInputError,
   AdapterDataProviderError,
   AdapterConnectionError,
-  util
+  util,
 } from '@chainlink/ea-bootstrap'
 import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'

@@ -1,4 +1,11 @@
-import { InputParameters, Logger, Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import {
+  InputParameters,
+  Logger,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Execute,
