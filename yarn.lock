@@ -3405,7 +3405,7 @@ __metadata:
     nock: 13.2.7
     supertest: ^6.2.2
     tslib: ^2.3.1
-    typescript: 4.3.5
+    typescript: 4.7.4
   languageName: unknown
   linkType: soft
 
@@ -15994,7 +15994,7 @@ __metadata:
 "headless@https://github.com/paulkernfeld/node-headless/tarball/master":
   version: 1.1.0
   resolution: "headless@https://github.com/paulkernfeld/node-headless.git#commit=934461a83035fcef665ebd76d82d47674301c4ae"
-  checksum: d83c8973dd787cb8a07a9783cd6916a25cc78d14c76439d19d27d7b2374ad8efc28adc7e1c715a20fd8c4dde24b60df932a0f2c15164bf715deb941401b81ed6
+  checksum: 6260ab851bf03f78c56e1ab1815d59adc608b69dfaedeefa95e11c6d89a18a18dc3b747c6ac1922f05ce2851b91a5bed9ba46604918c45274bb888312d4ef3d8
   languageName: node
   linkType: hard
 
@@ -26484,16 +26484,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:4.3.5":
-  version: 4.3.5
-  resolution: "typescript@npm:4.3.5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: bab033b5e2b0790dd35b77fd005df976ef80b8d84fd2c6e63cc31808151875beae9216e5a315fe7068e8499905c3c354248fe83272cdfc13b7705635f0c66c97
-  languageName: node
-  linkType: hard
-
 "typescript@npm:4.7.4":
   version: 4.7.4
   resolution: "typescript@npm:4.7.4"
@@ -26501,16 +26491,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 5750181b1cd7e6482c4195825547e70f944114fb47e58e4aa7553e62f11b3f3173766aef9c281783edfd881f7b8299cf35e3ca8caebe73d8464528c907a164df
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@4.3.5#~builtin<compat/typescript>":
-  version: 4.3.5
-  resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=7ad353"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 365df18cf979c971ef9543b2acaa8694377a803f98e1804c41d0ede0b09d7046cb0cd98f2eaf3884b0fe923c01a60af1f653841bd8805c9715d5479c09a4ebe4
   languageName: node
   linkType: hard
 

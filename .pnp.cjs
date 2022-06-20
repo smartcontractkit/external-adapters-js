@@ -5880,7 +5880,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -19995,7 +19995,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["headless", [\
         ["https://github.com/paulkernfeld/node-headless.git#commit=934461a83035fcef665ebd76d82d47674301c4ae", {\
-          "packageLocation": "./.yarn/cache/headless-https-91b75e4854-d83c8973dd.zip/node_modules/headless/",\
+          "packageLocation": "./.yarn/cache/headless-https-91b75e4854-6260ab851b.zip/node_modules/headless/",\
           "packageDependencies": [\
             ["headless", "https://github.com/paulkernfeld/node-headless.git#commit=934461a83035fcef665ebd76d82d47674301c4ae"]\
           ],\
@@ -31643,13 +31643,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["typescript", [\
-        ["patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=7ad353", {\
-          "packageLocation": "./.yarn/cache/typescript-patch-dd6b7c0390-365df18cf9.zip/node_modules/typescript/",\
-          "packageDependencies": [\
-            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=7ad353"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353", {\
           "packageLocation": "./.yarn/cache/typescript-patch-e8b9857d0c-9096d8f6c1.zip/node_modules/typescript/",\
           "packageDependencies": [\
