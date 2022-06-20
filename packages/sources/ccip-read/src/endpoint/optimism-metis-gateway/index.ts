@@ -7,7 +7,7 @@ import {
   AdapterResponseInvalidError,
   Requester,
   Validator,
-  util
+  util,
   Value,
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'

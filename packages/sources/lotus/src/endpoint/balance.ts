@@ -1,5 +1,11 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { AdapterInputError, Requester, Validator, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
+import {
+  AdapterInputError,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { ExtendedConfig } from '@chainlink/json-rpc-adapter/src/config'

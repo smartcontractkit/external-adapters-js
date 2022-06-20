@@ -1,4 +1,10 @@
-import { AdapterInputError, Requester, Validator, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
+import {
+  AdapterInputError,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 

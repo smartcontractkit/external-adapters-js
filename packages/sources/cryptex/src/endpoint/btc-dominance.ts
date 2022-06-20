@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import type { ExecuteWithConfig, InputParameters, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber, FixedNumber, ethers } from 'ethers'
 import EACAggregatorProxyAbi from '../abis/EACAggregatorProxy.json'
 import { LatestRoundResponse } from '../types'
