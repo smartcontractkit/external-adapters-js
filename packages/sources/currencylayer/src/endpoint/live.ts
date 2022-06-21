@@ -17,7 +17,7 @@ const customError = (data: ResponseSchema) => !data.success
 export const description =
   'Returns a batched price comparison from one currency to a list of other currencies.'
 
-export type TInputParameters = { base: string; quote: string; amount: number }
+export type TInputParameters = { base: string; quote: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
@@ -30,12 +30,6 @@ export const inputParameters: InputParameters<TInputParameters> = {
     description: 'The symbol of the currency to convert to',
     required: true,
     type: 'string',
-  },
-  amount: {
-    description: 'An amount of the currency',
-    required: false,
-    type: 'number',
-    default: 1,
   },
 }
 
