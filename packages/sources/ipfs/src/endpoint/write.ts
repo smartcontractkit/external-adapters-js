@@ -1,5 +1,10 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  NestableValue,
+} from '@chainlink/ea-bootstrap'
 import { create, IPFSHTTPClient } from 'ipfs-http-client'
 import { serialize } from '../codec'
 import { IPFSPath } from './read'
@@ -8,7 +13,15 @@ export const supportedEndpoints = ['write']
 
 export const description = 'Write data to IPFS'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  data: string | NestableValue
+  codec: string
+  cidVersion: number
+  type: string
+  format: string
+  hashAlg: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   data: {
     required: true,
     description: 'The data to write',
@@ -57,16 +70,20 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const format = validator.validated.data.format
   const hashAlg = validator.validated.data.hashAlg
 
-  const client = create({ url: config.api.baseURL })
+  const client = create({ url: config.api?.baseURL })
   const options = { cidVersion }
 
   let cid: IPFSPath = ''
   switch (type) {
     case 'raw':
-      cid = await putFile(serialize(data, codec), client, options)
+      cid = await putFile(
+        serialize(data as string | Record<string, unknown>, codec),
+        client,
+        options,
+      )
       break
     case 'dag':
-      cid = await putDag(data, client, { ...options, format, hashAlg })
+      cid = await putDag(data as Record<string, unknown>, client, { ...options, format, hashAlg })
       break
     default:
       throw new AdapterInputError({ message: 'Unknown type' })

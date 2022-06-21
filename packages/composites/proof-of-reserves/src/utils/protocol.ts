@@ -1,4 +1,9 @@
-import { AdapterImplementation, Config, AdapterResponse, AdapterContext } from '@chainlink/types'
+import {
+  AdapterImplementation,
+  Config,
+  AdapterResponse,
+  AdapterContext,
+} from '@chainlink/ea-bootstrap'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { makeRequestFactory, callAdapter } from '.'
 
@@ -12,13 +17,14 @@ import * as wrapped from '@chainlink/wrapped-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
+// TODO: consistent package exports
 export const adapters: AdapterImplementation[] = [
-  wBTC,
-  renVM,
-  Gemini,
-  celsiusAddressList,
-  chainReserveWallets,
-  wrapped,
+  wBTC as unknown as AdapterImplementation,
+  renVM as unknown as AdapterImplementation,
+  Gemini as unknown as AdapterImplementation,
+  celsiusAddressList as unknown as AdapterImplementation,
+  chainReserveWallets as unknown as AdapterImplementation,
+  wrapped as unknown as AdapterImplementation,
 ]
 
 export type Protocol = typeof adapters[number]['NAME']

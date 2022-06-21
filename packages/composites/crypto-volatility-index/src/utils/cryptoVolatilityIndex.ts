@@ -5,23 +5,12 @@ import { SigmaCalculator } from './sigmaCalculator'
 import { Decimal } from 'decimal.js'
 import moment from 'moment'
 import { dominanceByCurrency, getDominanceAdapter } from './dominanceDataProvider'
-import { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainlink/ea-bootstrap'
 import { DEFAULT_NETWORK } from '../config'
-
-interface InputData {
-  contract: string
-  multiply: number
-  heartbeatMinutes: number
-  isAdaptive: boolean
-  cryptoCurrencies: string[]
-  deviationThreshold: number
-  lambdaMin: number
-  lambdaK: number
-  network: string
-}
+import { TInputParameters } from '../endpoint/volatilityIndex'
 
 export const calculate = async (
-  validated: { data: InputData; id: string },
+  validated: { data: AdapterRequestData<TInputParameters>; id: string },
   requestParams: AdapterRequestData,
   context: AdapterContext,
 ): Promise<number> => {
@@ -137,7 +126,8 @@ const getDominanceByCurrency = async (
     },
   }
   const dominanceData = await dominanceAdapter(input, context)
-  return dominanceByCurrency(dominanceData.data, quote)
+  // TODO: makeExecute return types
+  return dominanceByCurrency(dominanceData.data as any, quote)
 }
 
 const applySmoothing = async (

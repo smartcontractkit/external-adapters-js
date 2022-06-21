@@ -1,5 +1,39 @@
 # @chainlink/por-indexer-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- fe96b484a: Replace @chainlink/types exports with @chainlink/ea-bootstrap exports
+
+### Patch Changes
+
+- Updated dependencies [fe96b484a]
+- Updated dependencies [fe96b484a]
+  - @chainlink/proof-of-reserves-adapter@1.11.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/ea-bootstrap@2.11.0
+
+## 1.1.0
+
+### Minor Changes
+
+- fe96b484a: Replace @chainlink/types exports with @chainlink/ea-bootstrap exports
+
+### Patch Changes
+
+- Updated dependencies [fe96b484a]
+- Updated dependencies [fe96b484a]
+  - @chainlink/proof-of-reserves-adapter@1.10.0
+  - @chainlink/ea-test-helpers@1.3.0
+  - @chainlink/ea-bootstrap@2.11.0
+
+## 1.0.45
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.9.1
+
 ## 1.0.44
 
 ### Patch Changes

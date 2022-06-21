@@ -1,6 +1,6 @@
 import { ethers, utils } from 'ethers'
 import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 
 export const supportedEndpoints = ['tokens']
@@ -85,7 +85,11 @@ export const getToken = async (
   return cachedDirectory[address] || (await getOnChainErc20Token(rpcUrl, address))
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  address: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
   address: {
     required: true,
   },
@@ -94,7 +98,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const address = validator.validated.data.address
 
   if (!cachedDirectory) {

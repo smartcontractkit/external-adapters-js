@@ -1,5 +1,5 @@
 import { Requester, Validator, AdapterInputError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const description =
   "Queries JPEG'd API for the value of a floor Cryptopunk at the requested block."
@@ -12,7 +12,8 @@ export interface ResponseSchema {
   value: number
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { block: number | string }
+export const inputParameters: InputParameters<TInputParameters> = {
   block: {
     required: false,
     description: 'The block number for which information is being queried',

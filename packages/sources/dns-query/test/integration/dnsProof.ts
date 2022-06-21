@@ -1,5 +1,5 @@
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
-import type { AdapterRequest } from '@chainlink/types'
+import type { AdapterRequest } from '@chainlink/ea-bootstrap'
 import type { SuiteContext } from './adapter.test'
 import {
   mockDnsProofResponseError,

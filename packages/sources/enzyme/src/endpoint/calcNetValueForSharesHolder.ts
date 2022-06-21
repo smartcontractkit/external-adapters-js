@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import FundValueCalculatorABI from '../abis/FundValueCalculator.json'
@@ -9,7 +9,12 @@ export const supportedEndpoints = ['calcNetValueForSharesHolder']
 export const description =
   'Endpoint to call the `calcNetValueForSharesHolder` function on the contract.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  calculatorContract: string
+  vaultProxy: string
+  sharesHolder: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   calculatorContract: {
     required: true,
     type: 'string',

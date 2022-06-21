@@ -1,10 +1,11 @@
 import { AdapterInputError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { DEFAULT_BASE_URL } from '../config'
 
 export const supportedEndpoints = ['assetAttestation']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { asset: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   asset: {
     required: true,
     description: 'The symbol of the currency to query',

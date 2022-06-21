@@ -1,6 +1,6 @@
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '../../../types'
 import { getEnv, parseBool } from '../../util'
-import { WSConfig } from './types'
+import type { WSConfig } from './types'
 
 /** Load WSConfig from environment variables */
 export const getWSConfig = (endpoint?: string, context?: AdapterContext): WSConfig => ({

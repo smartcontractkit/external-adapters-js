@@ -1,5 +1,5 @@
 import { AdapterError, AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Account, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Account, Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import RenJS from '@renproject/ren'
 import { btc } from '../coins'
 import { DEFAULT_NETWORK, DEFAULT_TOKEN_OR_CONTRACT } from '../config'
@@ -13,10 +13,12 @@ import {
   resolveInToken,
 } from '../ren'
 import { PorInputAddress } from '@chainlink/proof-of-reserves-adapter/src/utils/PorInputAddress'
+import { RenNetworkString } from '@renproject/interfaces'
 
 export const supportedEndpoints = ['address']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { network: string; chainId: string; tokenOrContract: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: false,
     description:
@@ -91,7 +93,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const _getAddress = async (): Promise<string | undefined> => {
     if (!config.api) return undefined
-    const { renVM } = new RenJS(chainId, {
+    const { renVM } = new RenJS(chainId as RenNetworkString, {
       // use v1 legacy version
       useV2TransactionFormat: false,
     })

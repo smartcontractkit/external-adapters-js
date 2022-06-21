@@ -1,10 +1,10 @@
-import { AdapterRequest } from '@chainlink/types'
 import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
 import nock from 'nock'
 import { server as startServer } from '../../../src'
 import { mockGamesResponse } from './fixtures'
 import { AddressInfo } from 'net'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
 

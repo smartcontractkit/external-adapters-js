@@ -3,7 +3,7 @@ import { useFakeTimers } from 'sinon'
 import * as network from '../../src/network'
 import * as health from '../../src/endpoint/health'
 import { makeExecute } from '../../src/adapter'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 describe('adapter', () => {
   describe('L2 Network health check', () => {

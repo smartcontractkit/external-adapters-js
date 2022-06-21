@@ -1,5 +1,5 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as DefaultConfig } from '@chainlink/types'
+import { DefaultConfig } from '@chainlink/ea-bootstrap'
 import { adapters as BalanceAdapters, Indexer } from '../utils/balance'
 import { adapters as ProtocolAdapters, LIST_ADAPTER, Protocol } from '../utils/protocol'
 

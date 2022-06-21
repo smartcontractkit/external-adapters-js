@@ -1,5 +1,5 @@
 import { Requester, util, Validator, Overrider } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 import { getCoinIds } from '../util'
 import internalOverrides from '../config/overrides.json'
@@ -7,11 +7,12 @@ import internalOverrides from '../config/overrides.json'
 export const supportedEndpoints = ['vwap', 'crypto-vwap']
 
 export const endpointResultPaths = {
-  vwap: '0.price',
-  'crypto-vwap': '0.price',
+  vwap: 'price',
+  'crypto-vwap': 'price',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; hours: number; coinid: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
@@ -68,7 +69,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     }
   }
   const url = util.buildUrlPath('v1/tickers/:coin/historical', { coin: coin.toLowerCase() })
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = validator.validated.data.resultPath as string
   const hours = validator.validated.data.hours
 
   const endDate = new Date()
@@ -87,7 +88,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, resultPath)
+  const result = Requester.validateResultNumber(response.data, [0, resultPath])
 
   const returnResponse = {
     ...response,

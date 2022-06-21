@@ -1,1 +1,3 @@
-export * as weather from './weather'
+import * as weather from './weather'
+
+export type TInputParameters = weather.TInputParameters

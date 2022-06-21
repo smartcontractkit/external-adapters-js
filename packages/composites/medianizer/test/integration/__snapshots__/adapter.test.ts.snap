@@ -5,7 +5,7 @@ Object {
   "error": Object {
     "feedID": "ETH/USD",
     "message": "Not returning median: got 1 answers, requiring min. 2 answers",
-    "name": "AdapterError",
+    "name": "Error",
   },
   "jobRunID": "1",
   "status": "errored",

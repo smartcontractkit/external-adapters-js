@@ -1,10 +1,10 @@
-import {
+import type {
   AdapterImplementation,
   AdapterResponse,
   Config,
   Account,
   AdapterContext,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { makeRequestFactory, callAdapter } from '.'
 
 // balance adapters
@@ -21,19 +21,20 @@ import * as lotus from '@chainlink/lotus-adapter'
 import * as ethBalance from '@chainlink/eth-balance-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
 
+// TODO: type
 export const adapters: AdapterImplementation[] = [
-  amberdata,
-  bitcoinJsonRpc,
-  porIndexer,
-  blockchainCom,
-  blockcypher,
-  blockchair,
-  btcCom,
-  cryptoapis,
-  sochain,
-  lotus,
-  ethBalance,
-  adaBalance,
+  amberdata as unknown as AdapterImplementation,
+  bitcoinJsonRpc as unknown as AdapterImplementation,
+  porIndexer as unknown as AdapterImplementation,
+  blockchainCom as unknown as AdapterImplementation,
+  blockcypher as unknown as AdapterImplementation,
+  blockchair as unknown as AdapterImplementation,
+  btcCom as unknown as AdapterImplementation,
+  cryptoapis as unknown as AdapterImplementation,
+  sochain as unknown as AdapterImplementation,
+  lotus as unknown as AdapterImplementation,
+  ethBalance as unknown as AdapterImplementation,
+  adaBalance as unknown as AdapterImplementation,
 ]
 
 export type Indexer = typeof adapters[number]['NAME']
@@ -73,7 +74,8 @@ function buildLocalBitcoinNodeRequest(input: AdapterResponse) {
   return {
     id: input.jobRunID,
     data: {
-      scanobjects: input.data.result.map((result: Account) => result.address),
+      // TODO: validate and type coerce
+      scanobjects: (input.data.result as any).map((result: Account) => result.address),
       endpoint: 'scantxoutset',
     },
   }

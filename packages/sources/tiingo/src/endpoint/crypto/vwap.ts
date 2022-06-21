@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../../config'
 import { ResponseSchema } from './prices'
 
@@ -10,7 +10,8 @@ export const endpointResultPaths = {
   'crypto-vwap': 'fxClose',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string | string[]; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
@@ -21,7 +22,6 @@ export const inputParameters: InputParameters = {
     type: 'string',
     required: true,
   },
-  resultPath: false,
 }
 
 // When an invalid symbol is given the response body is empty
@@ -31,11 +31,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  let base = validator.overrideSymbol(AdapterName)
+  let base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   if (Array.isArray(base)) base = base[0]
 
   const quote = validator.validated.data.quote.toLowerCase()
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const url = '/tiingo/crypto/prices'
 
   const options = {

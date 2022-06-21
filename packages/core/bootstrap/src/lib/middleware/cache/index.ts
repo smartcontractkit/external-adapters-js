@@ -1,44 +1,24 @@
-import {
+import type {
   AdapterContext,
+  AdapterData,
   AdapterRequest,
   AdapterResponse,
   Execute,
   Middleware,
-} from '@chainlink/types'
-import { logger } from '../../modules'
+} from '../../../types'
+import { logger } from '../../modules/logger'
+import { AdapterError } from '../../modules/error'
 import { Store } from 'redux'
 import { reducer } from '../burst-limit'
 import { withBurstLimit } from '../burst-limit'
 import { exponentialBackOffMs, getEnv, getWithCoalescing, parseBool, uuid, sleep } from '../../util'
-import { getMaxAgeOverride, getTTL } from './ttl'
+import { getMaxAgeOverride, getTTL } from './utils/ttl'
 import * as local from './local'
-import { LocalOptions } from './local'
-import * as metrics from './metrics'
 import * as redis from './redis'
-import { CacheEntry } from './types'
+import * as metrics from './metrics'
+import { CacheOptions, CacheImplOptions, CacheEntry, Cache } from './types'
 
 const DEFAULT_CACHE_KEY_GROUP = uuid()
-
-export type Cache = redis.RedisCache | local.LocalLRUCache
-
-export interface CacheOptions {
-  instance?: Cache
-  enabled: boolean
-  cacheImplOptions: local.LocalOptions | redis.RedisOptions
-  cacheBuilder: (options: CacheImplOptions) => Promise<redis.RedisCache | local.LocalLRUCache>
-  key: {
-    group: string
-  }
-  requestCoalescing: {
-    enabled: boolean
-    interval: number
-    intervalMax: number
-    intervalCoefficient: number
-    entropyMax: number
-    maxRetries: number
-  }
-  minimumAge: number
-}
 
 export const defaultOptions = (
   shouldUseLocal?: boolean,
@@ -66,7 +46,6 @@ export const defaultOptions = (
   }
 }
 
-export type CacheImplOptions = LocalOptions | redis.RedisOptions
 const defaultCacheImplOptions = (): CacheImplOptions => {
   const type = getEnv('CACHE_TYPE')
   const options = type === 'redis' ? redis.defaultOptions() : local.defaultOptions()
@@ -187,6 +166,7 @@ export class AdapterCache {
       else {
         logger.trace(`Cache: GET ${key}`, cachedAdapterResponse)
         const ttl = await this.cache.ttl(key)
+
         // TODO: isnt this a bug? cachedAdapterResponse.maxAge will be different
         // if the above conditional gets executed!
         const staleness = (cachedAdapterResponse.maxAge - ttl) / 1000
@@ -215,11 +195,11 @@ export class AdapterCache {
   }
 }
 
-const handleFailedCacheRead = async (
-  adapterRequest: AdapterRequest,
-  context: AdapterContext,
+const handleFailedCacheRead = async <R extends AdapterRequest, C extends AdapterContext>(
+  adapterRequest: R,
+  context: C,
   error: Error,
-  execute: Execute,
+  execute: Execute<R, C>,
   adapterCache: AdapterCache,
 ): Promise<AdapterResponse | undefined> => {
   const type = getEnv('CACHE_TYPE')
@@ -245,6 +225,7 @@ export const buildDefaultLocalAdapterCache = async (
   return new AdapterCache({
     ...context,
     cache: {
+      ...options,
       ...context.cache,
       instance: options.instance,
     },
@@ -252,10 +233,12 @@ export const buildDefaultLocalAdapterCache = async (
 }
 
 export const withCache =
-  (rateLimit?: Store<reducer.BurstLimitState>): Middleware =>
-  async (execute, context: AdapterContext) => {
+  <D extends AdapterData = AdapterData, C extends AdapterContext = AdapterContext>(
+    rateLimit?: Store<reducer.BurstLimitState>,
+  ): Middleware<AdapterRequest<D>, C> =>
+  async (execute, context) => {
     // If disabled noop
-    if (!context?.cache?.instance) return (data: AdapterRequest) => execute(data, context)
+    if (!context?.cache?.instance) return (data) => execute(data, context)
 
     const adapterCache = new AdapterCache(context)
     const localAdapterCache = await buildDefaultLocalAdapterCache(context)
@@ -282,7 +265,8 @@ export const withCache =
       ): Promise<AdapterResponse | void | undefined> => {
         try {
           return await fn()
-        } catch (error) {
+        } catch (e) {
+          const error = new AdapterError(e as Partial<AdapterError>)
           const response = await handleFailedCacheRead(
             adapterRequest,
             context,
@@ -310,7 +294,7 @@ export const withCache =
       )
       if (inFlightMarkerResponse) return inFlightMarkerResponse
 
-      const burstRateLimit = withBurstLimit(rateLimit)
+      const burstRateLimit = withBurstLimit<AdapterRequest<D>, C>(rateLimit)
       const executeWithBackoff = await burstRateLimit(execute, context)
       const result = await executeWithBackoff(adapterRequest, context)
 
@@ -347,9 +331,7 @@ export const withCache =
 
             // Individually cache batch requests
             if (data?.results) {
-              for (const batchParticipant of Object.values<[string, AdapterRequest, number]>(
-                data.results,
-              )) {
+              for (const batchParticipant of Object.values(data.results)) {
                 const [key, , result] = batchParticipant
                 const childKey = adapterCacheToUse.getKey(key)
                 const debugBatchablePropertyPath = debug
@@ -357,7 +339,7 @@ export const withCache =
                   : {}
                 const entryBatchParticipant = {
                   statusCode,
-                  data: { result },
+                  data: { result, statusCode: 200 },
                   result,
                   maxAge,
                   debug: debugBatchablePropertyPath,
@@ -383,3 +365,5 @@ export const withCache =
       }
     }
   }
+
+export * from './types'

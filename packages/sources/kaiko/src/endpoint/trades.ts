@@ -5,7 +5,7 @@ import type {
   Includes,
   IncludePair,
   InputParameters,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import {
   DEFAULT_INTERVAL,
   DEFAULT_SORT,
@@ -19,7 +19,14 @@ export const supportedEndpoints = ['trades', 'price']
 
 const customError = (data: ResponseSchema) => data.result === 'error'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  base: string
+  quote: string
+  interval: string
+  millisecondsAgo: number
+  sort: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
     required: true,
@@ -131,12 +138,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 }
 
 const getOptions = (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
 ): {
   url: string
   inverse?: boolean
 } => {
-  const base = validator.overrideSymbol(AdapterName) as string
+  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const quote = validator.validated.data.quote
   const includes = validator.validated.includes || []
 
@@ -149,7 +156,7 @@ const getOptions = (
 }
 
 const getIncludesOptions = (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   from: string,
   to: string,
   includes: string[] | Includes[],
@@ -163,7 +170,7 @@ const getIncludesOptions = (
 }
 
 const getIncludes = (
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   from: string,
   to: string,
   includes: string[] | Includes[],

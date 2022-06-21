@@ -1,12 +1,22 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
+import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import type {
+  ExecuteWithConfig,
+  Execute,
+  AdapterContext,
+  BigNumber as TBigNumber,
+} from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS, NFL_ABI } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 import mmaABI from '../abis/mma.json'
 
-const resolveParams = {
+export type TInputParameters = {
+  contractAddress: string
+  sport: string
+}
+
+const resolveParams: InputParameters<TInputParameters> = {
   contractAddress: true,
   sport: true,
 }
@@ -80,14 +90,16 @@ const resolveTeam = async (
           id: jobRunID,
           data: {
             sport,
-            eventId,
+            eventId: eventId as TBigNumber,
           },
         },
         context,
       )
-      events.push(response.result as ResolveTeam)
+      // TODO: makeExecute return types
+      events.push(response.result as unknown as ResolveTeam)
     } catch (e) {
-      Logger.error(e)
+      const error = e as Error
+      Logger.error(error)
     }
   }
 
@@ -124,8 +136,9 @@ const resolveTeam = async (
       nonce++
       succeeded++
     } catch (e) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 
@@ -171,14 +184,17 @@ const resolveFights = async (
           id: jobRunID,
           data: {
             sport,
-            eventId,
+            eventId: eventId as TBigNumber,
+            // TODO: BigNumber type
           },
         },
         context,
       )
-      events.push(response.result as ResolveFight)
+      // TODO: makeExecute return types
+      events.push(response.result as unknown as ResolveFight)
     } catch (e) {
-      Logger.error(e)
+      const error = e as Error
+      Logger.error(error)
     }
   }
 
@@ -211,8 +227,9 @@ const resolveFights = async (
       nonce++
       succeeded++
     } catch (e) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 

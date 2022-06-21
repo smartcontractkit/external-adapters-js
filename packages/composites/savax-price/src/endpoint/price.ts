@@ -1,10 +1,12 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { Config, FLOATING_POINT_DECIMALS } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { ethers } from 'ethers'
 import { AdapterResponseInvalidError } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
+
+export type TInputParameters = TA.types.TInputParameters
 
 export const execute = async (
   input: AdapterRequest,
@@ -25,6 +27,7 @@ export const execute = async (
     result,
     data: {
       result,
+      statusCode: 200,
     },
   }
 }
@@ -56,7 +59,8 @@ export const getAvaxPrice = async (
     },
   ]
   const resp = await _execute({ id: input.id, data: { ...input.data, allocations } }, context)
-  return ethers.utils.parseUnits(resp.data.result.toString(), FLOATING_POINT_DECIMALS)
+  // TODO: makeExecute return types
+  return ethers.utils.parseUnits((resp.data.result as any).toString(), FLOATING_POINT_DECIMALS)
 }
 
 export const sAvaxABI = [

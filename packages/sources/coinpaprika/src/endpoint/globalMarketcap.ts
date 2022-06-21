@@ -1,12 +1,13 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['globalmarketcap']
 
 export const description =
   'Returns the global market capitilization from the [global endpoint](https://api.coinpaprika.com/v1/global)'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { market: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   market: {
     aliases: ['to', 'quote'],
     description: 'The symbol of the currency to convert to',

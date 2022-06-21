@@ -1,5 +1,7 @@
-import { AdapterRequest } from '@chainlink/types'
-import { logger, Validator } from '../modules'
+import type { AdapterRequest } from '../../types'
+import { AdapterError } from '../modules/error'
+import { Validator } from '../modules/validator'
+import { logger } from '../modules/logger'
 import { excludableAdapterRequestProperties } from '../middleware/cache-key/util'
 import * as crypto from 'crypto'
 
@@ -40,7 +42,7 @@ function buildSymbolString(data: string | string[]): string {
  * @param input The adapter input request
  * @returns {string}
  */
-export const getFeedId = (input: AdapterRequest): string => {
+export const getFeedId = <R extends AdapterRequest>(input: R): string => {
   try {
     const commonFeedParams = {
       base: ['base', 'from', 'coin', 'symbol', 'asset'],
@@ -80,8 +82,20 @@ export const getFeedId = (input: AdapterRequest): string => {
        * With batched requests, the base can either be an array of bases, or a single base.
        * The same type constraints apply to the quote param.
        */
-      if (base) {
-        return `${buildSymbolString(base)}` + (quote ? `/${buildSymbolString(quote)}` : '')
+      if (
+        base &&
+        (typeof base === 'string' ||
+          (Array.isArray(base) &&
+            (base as Array<unknown>).every((entry) => typeof entry === 'string'))) &&
+        (typeof quote === 'undefined' ||
+          typeof quote === 'string' ||
+          (Array.isArray(quote) &&
+            (quote as Array<unknown>).every((entry) => typeof entry === 'string')))
+      ) {
+        return (
+          `${buildSymbolString(base as string | string[])}` +
+          (quote ? `/${buildSymbolString(quote as string | string[])}` : '')
+        )
       }
     }
 
@@ -95,7 +109,8 @@ export const getFeedId = (input: AdapterRequest): string => {
     return rawFeedId.length > MAX_FEED_ID_LENGTH
       ? crypto.createHash('md5').update(rawFeedId).digest('hex')
       : rawFeedId
-  } catch (error) {
+  } catch (e) {
+    const error = new AdapterError(e as Partial<AdapterError>)
     logger.error('Unable to get feed name', {
       input,
       error: error.toString(),

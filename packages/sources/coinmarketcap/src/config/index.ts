@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'COINMARKETCAP'
 
@@ -10,7 +10,7 @@ export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)
   config.api.baseURL = config.api.baseURL || DEFAULT_API_ENDPOINT
   config.api.headers = {
-    'X-CMC_PRO_API_KEY': config.apiKey,
+    'X-CMC_PRO_API_KEY': config.apiKey || '',
   }
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config

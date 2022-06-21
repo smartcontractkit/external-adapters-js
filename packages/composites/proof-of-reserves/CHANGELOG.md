@@ -1,5 +1,79 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.11.0
+
+### Minor Changes
+
+- fe96b484a: Replace @chainlink/types exports with @chainlink/ea-bootstrap exports
+
+### Patch Changes
+
+- Updated dependencies [fe96b484a]
+- Updated dependencies [fe96b484a]
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.0
+  - @chainlink/por-indexer-adapter@1.2.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/ada-balance-adapter@2.5.0
+  - @chainlink/amberdata-adapter@1.7.0
+  - @chainlink/blockchain.com-adapter@1.3.0
+  - @chainlink/blockchair-adapter@1.3.0
+  - @chainlink/blockcypher-adapter@1.4.0
+  - @chainlink/btc.com-adapter@1.3.0
+  - @chainlink/chain-reserve-wallet-adapter@2.3.0
+  - @chainlink/cryptoapis-adapter@1.2.0
+  - @chainlink/eth-balance-adapter@1.3.0
+  - @chainlink/gemini-adapter@2.2.0
+  - @chainlink/lotus-adapter@2.2.0
+  - @chainlink/reduce-adapter@1.3.0
+  - @chainlink/renvm-address-set-adapter@1.4.0
+  - @chainlink/sochain-adapter@1.3.0
+  - @chainlink/wbtc-address-set-adapter@1.4.0
+  - @chainlink/wrapped-adapter@2.2.0
+  - @chainlink/ea-bootstrap@2.11.0
+  - @chainlink/celsius-address-list-adapter@1.0.21
+
+## 1.10.0
+
+### Minor Changes
+
+- fe96b484a: Replace @chainlink/types exports with @chainlink/ea-bootstrap exports
+
+### Patch Changes
+
+- Updated dependencies [fe96b484a]
+- Updated dependencies [fe96b484a]
+  - @chainlink/bitcoin-json-rpc-adapter@1.2.0
+  - @chainlink/por-indexer-adapter@1.1.0
+  - @chainlink/ea-test-helpers@1.3.0
+  - @chainlink/ada-balance-adapter@2.4.0
+  - @chainlink/amberdata-adapter@1.6.0
+  - @chainlink/blockchain.com-adapter@1.2.0
+  - @chainlink/blockchair-adapter@1.2.0
+  - @chainlink/blockcypher-adapter@1.3.0
+  - @chainlink/btc.com-adapter@1.3.0
+  - @chainlink/chain-reserve-wallet-adapter@2.3.0
+  - @chainlink/cryptoapis-adapter@1.2.0
+  - @chainlink/eth-balance-adapter@1.3.0
+  - @chainlink/gemini-adapter@2.2.0
+  - @chainlink/lotus-adapter@2.2.0
+  - @chainlink/reduce-adapter@1.3.0
+  - @chainlink/renvm-address-set-adapter@1.4.0
+  - @chainlink/sochain-adapter@1.3.0
+  - @chainlink/wbtc-address-set-adapter@1.4.0
+  - @chainlink/wrapped-adapter@2.2.0
+  - @chainlink/ea-bootstrap@2.11.0
+  - @chainlink/celsius-address-list-adapter@1.0.21
+
+## 1.9.1
+
+### Patch Changes
+
+- Updated dependencies [172ae7f0c]
+  - @chainlink/amberdata-adapter@1.5.0
+  - @chainlink/por-indexer-adapter@1.0.45
+  - @chainlink/renvm-address-set-adapter@1.3.35
+  - @chainlink/wbtc-address-set-adapter@1.3.44
+
 ## 1.9.0
 
 ### Minor Changes

@@ -6,18 +6,29 @@ import {
   MakeWSHandler,
   AdapterRequest,
   APIEndpoint,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
 import * as endpoints from './endpoint'
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  return Builder.buildSelector(request, context, config, endpoints)
+export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
+  request,
+  context,
+  config,
+) => {
+  return Builder.buildSelector<Config, endpoints.TInputParameters>(
+    request,
+    context,
+    config,
+    endpoints,
+  )
 }
 
-export const endpointSelector = (request: AdapterRequest): APIEndpoint =>
-  Builder.selectEndpoint(request, makeConfig(), endpoints)
+export const endpointSelector = (
+  request: AdapterRequest,
+): APIEndpoint<Config, endpoints.TInputParameters> =>
+  Builder.selectEndpoint<Config, endpoints.TInputParameters>(request, makeConfig(), endpoints)
 
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
@@ -34,9 +45,14 @@ interface Message {
   type?: string
 }
 
-export const makeWSHandler = (config?: Config): MakeWSHandler => {
+export const makeWSHandler = (
+  config?: Config,
+): MakeWSHandler<
+  Message | any
+  // TODO :WS message types
+> => {
   const getSubscription = (symbol?: string, subscribe = true) => {
-    if (!symbol) return
+    if (!symbol) return ''
     return {
       method: subscribe ? 'SUBSCRIBE' : 'UNSUBSCRIBE',
       params: [`${symbol}@miniTicker`],
@@ -59,12 +75,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler => {
     const defaultConfig = config || makeConfig()
     return {
       connection: {
-        url: defaultConfig.api.baseWsURL || DEFAULT_WS_API_ENDPOINT,
+        url: defaultConfig.ws?.baseWsURL || DEFAULT_WS_API_ENDPOINT,
       },
       subscribe: (input) => getSubscription(getSymbol(input)),
       unsubscribe: (input) => getSubscription(getSymbol(input), false),
       subsFromMessage: (message: Message) => {
-        if (!message.s) return undefined
+        if (!message.s) return ''
         return getSubscription(`${message.s.toLowerCase()}`)
       },
       isError: (message: Message) => message.type === 'error',

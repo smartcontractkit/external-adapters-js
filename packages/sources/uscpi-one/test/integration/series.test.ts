@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
 import nock from 'nock'
@@ -31,7 +31,6 @@ afterAll(() => {
 })
 
 describe('execute', () => {
-  const id = '1'
   let fastify: FastifyInstance
   let req: SuperTest<Test>
 

@@ -1,9 +1,15 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['nft-floor', 'nft-floor-price']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  network?: string
+  contractAddress: string
+  start: string
+  end: string
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   network: {
     required: false,
     description: 'The blockchain network to get data from',
@@ -60,13 +66,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const options = {
     ...config.api,
     headers: {
-      ...config.api.headers,
-      'CB-NFT-API-TOKEN': config.adapterSpecificParams?.nftApiAuthHeader,
+      ...(config.api?.headers || {}),
     },
     baseURL,
     params,
   }
-
+  if (config.adapterSpecificParams?.nftApiAuthHeader)
+    options.headers['CB-NFT-API-TOKEN'] = String(config.adapterSpecificParams?.nftApiAuthHeader)
   const response = await Requester.request<ResponseSchema>(options)
   const result = Requester.validateResultNumber(response.data, [
     'floorPriceDailyValue',

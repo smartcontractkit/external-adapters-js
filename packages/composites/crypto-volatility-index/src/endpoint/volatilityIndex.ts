@@ -1,11 +1,24 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { calculate } from '../utils/cryptoVolatilityIndex'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['volatilityIndex']
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  contract: string
+  multiply?: number
+  heartbeatMinutes?: number
+  isAdaptive?: boolean
+  cryptoCurrencies?: string[]
+  deviationThreshold?: number
+  lambdaMin?: number
+  lambdaK?: number
+  network?: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   contract: {
+    required: true,
     aliases: ['contractAddress'],
   },
   multiply: {
@@ -39,7 +52,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, context) => {
 
   const jobRunID = validator.validated.id
 
-  const result = await calculate(validator.validated, request.data, context)
+  const result = await calculate(
+    { data: validator.validated.data, id: jobRunID },
+    request.data,
+    context,
+  )
   const response = { data: { result }, status: 200 }
   return Requester.success(jobRunID, response)
 }

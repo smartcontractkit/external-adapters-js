@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { execute as liveExecute } from './live'
 import { Validator } from '@chainlink/ea-bootstrap'
 import overrides from '../config/symbols.json'
@@ -10,7 +10,8 @@ import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['forex']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'symbol'],
     required: true,

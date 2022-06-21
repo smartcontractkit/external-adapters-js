@@ -1,11 +1,12 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { utils } from 'ethers'
 
 export const supportedEndpoints = ['function']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { signature: string; address: string; inputParams: string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   signature: {
     aliases: ['function'],
     required: true,

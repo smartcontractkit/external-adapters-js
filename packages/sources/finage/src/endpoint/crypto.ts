@@ -1,4 +1,4 @@
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import { NAME } from '../config'
 import overrides from '../config/symbols.json'
@@ -6,7 +6,8 @@ import { ResponseSchema } from './forex'
 
 export const supportedEndpoints = ['crypto']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'symbol'],
@@ -24,7 +25,7 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters, {}, { overrides })
   const jobRunID = validator.validated.id
-  const from = (validator.overrideSymbol(NAME) as string).toUpperCase()
+  const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
 
   const url = util.buildUrlPath('/last/crypto/:from:to', { from, to })

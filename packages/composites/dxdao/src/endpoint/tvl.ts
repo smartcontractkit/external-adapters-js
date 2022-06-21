@@ -1,5 +1,5 @@
 import { Validator, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { ExtendedConfig } from '../config'
@@ -10,7 +10,11 @@ export const supportedEndpoints = [NAME]
 export const description =
   'This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed on the XDai chain. The TVL is returned in USD.'
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  pairContractAddress: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   pairContractAddress: {
     required: true,
     type: 'string',
@@ -79,7 +83,7 @@ const getTvlAtAddressInWei = async (
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const allocations = await getTokenAllocations(request, config)
   const _execute = TokenAllocation.makeExecute()
   return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)

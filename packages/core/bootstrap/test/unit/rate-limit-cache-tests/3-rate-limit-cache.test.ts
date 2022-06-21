@@ -1,5 +1,5 @@
-import { stub } from 'sinon'
-import { logger } from '../../../src/lib/modules'
+import { stub, SinonStub } from 'sinon'
+import { logger } from '../../../src/lib/modules/logger'
 import {
   dataProviderMock,
   getRLTokenSpentPerMinute,
@@ -12,8 +12,8 @@ describe('Rate Limit/Cache - Integration', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const capacity = 50
-  let logWarnStub: any
-  let logErrorStub: any
+  let logWarnStub: SinonStub
+  let logErrorStub: SinonStub
 
   beforeAll(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))

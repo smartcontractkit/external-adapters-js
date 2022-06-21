@@ -15,6 +15,7 @@ Object {
       "0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f",
       "0xa0ee7a142d267c1f36714e4a8f75612f20a79720",
     ],
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": Array [

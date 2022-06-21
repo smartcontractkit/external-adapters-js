@@ -4,7 +4,7 @@ exports[`execute fetch mlb game by game id should return a 400 if gameID is miss
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"date\\":\\"2017-JUL-31\\",\\"sport\\":\\"mlb\\",\\"endpoint\\":\\"score\\"}}",
-    "message": "Required parameter not supplied: gameID",
+    "message": "Required parameter gameID must be non-null and non-empty",
     "name": "AdapterError",
   },
   "jobRunID": "1",
@@ -40,7 +40,7 @@ exports[`execute fetch mlb schedule by date should return a 400 if date is missi
 Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"sport\\":\\"mlb\\",\\"endpoint\\":\\"schedule\\"}}",
-    "message": "Required parameter not supplied: date",
+    "message": "Required parameter date must be non-null and non-empty",
     "name": "AdapterError",
   },
   "jobRunID": "1",

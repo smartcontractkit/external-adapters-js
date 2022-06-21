@@ -1,5 +1,6 @@
-import { AdapterContext } from '@chainlink/types'
+import { AdapterContext } from '@chainlink/ea-bootstrap'
 import { FastifyRequest } from 'fastify'
+import { RequiredEnvError } from '../../src/lib/modules/error'
 import {
   getEnv,
   buildUrlPath,
@@ -8,7 +9,6 @@ import {
   getRandomRequiredEnv,
   toObjectWithNumbers,
   getRequiredEnv,
-  RequiredEnvError,
   formatArray,
   groupBy,
   isDebugLogLevel,
@@ -377,17 +377,6 @@ describe('utils', () => {
       expect(() => getRequiredEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toThrow(
         RequiredEnvError,
       )
-    })
-  })
-
-  describe('registerUnhandledRejectionHandler', () => {
-    it('successfully ignores unhandled rejections', async () => {
-      const failing = () => process.emit('unhandledRejection' as 'disconnect')
-
-      registerUnhandledRejectionHandler()
-      registerUnhandledRejectionHandler() // Test calling it twice will warn but continue
-
-      expect(failing).not.toThrow()
     })
   })
 

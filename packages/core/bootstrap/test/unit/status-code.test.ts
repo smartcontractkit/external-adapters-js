@@ -13,8 +13,9 @@ describe('Status code middleware', () => {
       },
     }
     const execute = async () => response
-    const middleware = await withStatusCode(execute, {})
-    const result = await middleware(response, {})
+    const middleware = withStatusCode()
+    const wrappedExecute = await middleware(execute, {})
+    const result = await wrappedExecute({ id: '1', data: {} }, {})
 
     expect(result).toEqual({
       id: '1',

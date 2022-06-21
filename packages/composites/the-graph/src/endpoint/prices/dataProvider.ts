@@ -1,15 +1,15 @@
 import * as graphqlAdapter from '@chainlink/graphql-adapter'
 import { GraphqlAdapterRequest } from '../../types'
-import { AdapterResponse, AdapterRequest } from '@chainlink/types'
+import { AdapterResponse, AdapterRequest, AdapterData } from '@chainlink/ea-bootstrap'
 
-export const fetchFromGraphqlAdapter = async (
+export const fetchFromGraphqlAdapter = async <Response extends AdapterData>(
   jobRunID: string,
   data: GraphqlAdapterRequest,
-): Promise<AdapterResponse> => {
+): Promise<AdapterResponse<Response>> => {
   const graphqlExecute = graphqlAdapter.makeExecute()
-  const request: AdapterRequest = {
+  const request: AdapterRequest<GraphqlAdapterRequest> = {
     data,
     id: jobRunID,
   }
-  return await graphqlExecute(request, {})
+  return (await graphqlExecute(request, {})) as AdapterResponse<Response>
 }

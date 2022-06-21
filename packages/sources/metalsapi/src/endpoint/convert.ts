@@ -1,12 +1,13 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['convert', 'forex']
 
 const customError = (data: ResponseSchema) => !data.success
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; quote: string; amount: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['from', 'coin'],
@@ -39,7 +40,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const from = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
   const to = validator.validated.data.quote.toUpperCase()
   const amount = validator.validated.data.amount
   const url = `convert`

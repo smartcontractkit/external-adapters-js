@@ -7,13 +7,14 @@ import {
   AdapterConnectionError,
   AdapterConfigError,
 } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/types'
+import { AdapterRequest, AdapterResponse, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { SupportedChains, Config } from './config'
 import { AdapterError } from '@chainlink/ea-bootstrap'
 import { READ_PROXY_ABI, ADDRESS_RESOLVER_ABI } from './endpoint/abi'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { chainSources: string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   chainSources: {
     required: false,
     description: `Array of chains to pull debt from. Options for array elements are "mainnet", "mainnet-ovm", "kovan", "kovan-ovm"`,
@@ -116,13 +117,14 @@ export const getLatestBlockByChain = async (
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
       } catch (e) {
+        const error = e as any
         const errorPayload = {
           jobRunID,
-          message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${e}`,
+          message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${error}`,
         }
-        throw e.response
+        throw error.response
           ? new AdapterDataProviderError(errorPayload)
-          : e.request
+          : error.request
           ? new AdapterConnectionError(errorPayload)
           : new AdapterError(errorPayload)
       }

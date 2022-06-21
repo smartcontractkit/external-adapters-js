@@ -1,4 +1,4 @@
-import { AdapterErrorResponse } from '@chainlink/types'
+import type { AdapterErrorResponse } from '../../types'
 import { HttpRequestType } from '../metrics/constants'
 import { getEnv } from '../util'
 
@@ -8,9 +8,9 @@ export class AdapterError extends Error {
   statusCode: number
   name: string
   message: string
-  cause: any
+  cause: Error | undefined
   url?: string
-  errorResponse: any
+  errorResponse: unknown
   feedID?: string
   providerStatusCode?: number
   metricsLabel: HttpRequestType

@@ -1,5 +1,5 @@
 import { assertSuccess, serverErrors, validationErrors } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
 
 describe('execute', () => {
