@@ -87,8 +87,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const symbols = Array.isArray(to) ? to.join() : to
 
-  console.log('hit', symbols)
-
   const params = {
     access_key: config.apiKey,
     base: from,
