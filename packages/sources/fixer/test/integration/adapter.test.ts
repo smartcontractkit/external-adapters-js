@@ -36,6 +36,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'convert',
         base: 'EUR',
         quote: 'USD',
       },
@@ -59,6 +60,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'convert',
         base: 'NON-EXISTING',
         quote: 'USD',
       },
@@ -83,7 +85,6 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        endpoint: 'latest',
         base: 'EUR',
         quote: 'USD',
       },
