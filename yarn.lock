@@ -15987,7 +15987,7 @@ __metadata:
 "headless@https://github.com/paulkernfeld/node-headless/tarball/master":
   version: 1.1.0
   resolution: "headless@https://github.com/paulkernfeld/node-headless.git#commit=934461a83035fcef665ebd76d82d47674301c4ae"
-  checksum: 6260ab851bf03f78c56e1ab1815d59adc608b69dfaedeefa95e11c6d89a18a18dc3b747c6ac1922f05ce2851b91a5bed9ba46604918c45274bb888312d4ef3d8
+  checksum: d83c8973dd787cb8a07a9783cd6916a25cc78d14c76439d19d27d7b2374ad8efc28adc7e1c715a20fd8c4dde24b60df932a0f2c15164bf715deb941401b81ed6
   languageName: node
   linkType: hard
 

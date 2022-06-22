@@ -19988,7 +19988,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["headless", [\
         ["https://github.com/paulkernfeld/node-headless.git#commit=934461a83035fcef665ebd76d82d47674301c4ae", {\
-          "packageLocation": "./.yarn/cache/headless-https-91b75e4854-6260ab851b.zip/node_modules/headless/",\
+          "packageLocation": "./.yarn/cache/headless-https-91b75e4854-d83c8973dd.zip/node_modules/headless/",\
           "packageDependencies": [\
             ["headless", "https://github.com/paulkernfeld/node-headless.git#commit=934461a83035fcef665ebd76d82d47674301c4ae"]\
           ],\
