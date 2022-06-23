@@ -29,7 +29,6 @@ export const inputParameters: InputParameters<TInputParameters> = {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
-    type: 'string',
   },
 }
 
