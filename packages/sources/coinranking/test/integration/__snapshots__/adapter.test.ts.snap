@@ -16,8 +16,8 @@ exports[`execute crypto api with invalid base should return failure 1`] = `
 Object {
   "error": Object {
     "feedID": "NON-EXISTING/USD",
-    "message": "Unable to find coin: non-existing",
-    "name": "Error",
+    "message": "Unable to find coin: non-existing in DP response. This could be an issue with overrides, input params or the DP",
+    "name": "AdapterError",
   },
   "jobRunID": "1",
   "status": "errored",
