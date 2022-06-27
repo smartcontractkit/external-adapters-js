@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
-    "@types/jest": "27.0.3",
+    "@types/jest": "27.5.2",
     "@types/node": "16.11.41",
     "@types/supertest": "2.0.12",
     "hardhat": "2.9.9",
