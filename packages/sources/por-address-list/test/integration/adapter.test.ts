@@ -1,11 +1,7 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import http from 'http'
-import { AddressInfo } from 'net'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { ethers } from 'ethers'
-import { FastifyInstance } from '@chainlink/ea-bootstrap'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const mockExpectedAddresses = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -47,34 +43,16 @@ jest.mock('ethers', () => {
 
 describe('execute', () => {
   const id = '1'
-  let fastifyInstance: FastifyInstance
-  let req: SuperTest<Test>
-  let oldEnv: NodeJS.ProcessEnv
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
+  const envVariables = {
+    RPC_URL: process.env.RPC_URL || 'http://localhost:8545',
+  }
 
-    process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastifyInstance = await startServer()
-    req = request(`localhost:${(fastifyInstance.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    process.env = oldEnv
-
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastifyInstance.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('addresses', () => {
     const data: AdapterRequest = {
@@ -85,7 +63,7 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

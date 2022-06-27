@@ -1,47 +1,20 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockCoinmarketcapAdapter } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.COINMARKETCAP_ADAPTER_URL =
-    process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8081'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    fastify.close(done)
-  })
-
+  const envVariables = {
+    COINMARKETCAP_ADAPTER_URL: process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8081',
+  }
+  setupExternalAdapterTest(envVariables, context)
   describe('with to/from dates', () => {
     const data: AdapterRequest = {
       id,
@@ -58,7 +31,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCoinmarketcapAdapter()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -85,7 +58,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCoinmarketcapAdapter()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -112,7 +85,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCoinmarketcapAdapter()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
