@@ -1,14 +1,12 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
-import { AddressInfo } from 'net'
 import {
   mockCoinpaprikaAdapterResponseSuccess,
   mockCoinpaprikaAdapterResponseZeroValue,
 } from './fixtures'
 import { BigNumber } from 'ethers'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const TEST_SAVAX_CONTRACT_ADDRESS_WORKING = 'working-address'
 const TEST_SAVAX_CONTRACT_ADDRESS_ERROR = 'error-address'
@@ -42,43 +40,21 @@ jest.mock('ethers', () => {
   }
 })
 
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.AVALANCHE_RPC_URL = process.env.AVALANCHE_RPC_URL || 'http://localhost:1000'
-  process.env.COINPAPRIKA_ADAPTER_URL =
-    process.env.COINPAPRIKA_ADAPTER_URL || 'http://localhost:8081'
-  process.env.API_VERBOSE = true as unknown as string
-  process.env.CACHE_ENABLED = false as unknown as string
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
-
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    AVALANCHE_RPC_URL: process.env.AVALANCHE_RPC_URL || 'http://localhost:1000',
+    COINPAPRIKA_ADAPTER_URL: process.env.COINPAPRIKA_ADAPTER_URL || 'http://localhost:8081',
+    API_VERBOSE: true as unknown as string,
+    CACHE_ENABLED: false as unknown as string,
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('sAvax price successul responses', () => {
     mockCoinpaprikaAdapterResponseSuccess()
@@ -99,7 +75,7 @@ describe('execute', () => {
     }
 
     it('should return the price of sAVAX correctly', async () => {
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -127,7 +103,7 @@ describe('execute', () => {
           source: 'coinpaprika',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -145,7 +121,7 @@ describe('execute', () => {
           source: 'coinpaprika',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

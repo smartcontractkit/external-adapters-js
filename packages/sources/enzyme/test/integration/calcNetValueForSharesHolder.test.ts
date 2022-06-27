@@ -1,49 +1,24 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
 import { ENV_ETHEREUM_RPC_URL } from '../../src/config'
-import { AddressInfo } from 'net'
-import { FastifyInstance } from '@chainlink/ea-bootstrap'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
-let oldEnv: NodeJS.ProcessEnv
+const context = {
+  req: null,
+  server: startServer,
+}
 
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.CACHE_ENABLED = 'false'
-  process.env[ENV_ETHEREUM_RPC_URL] = process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8545/'
-  process.env.API_VERBOSE = 'true'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
+const envVariables = {
+  CACHE_ENABLED: 'false',
+  [ENV_ETHEREUM_RPC_URL]: process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8545/',
+  API_VERBOSE: 'true',
+}
 
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+setupExternalAdapterTest(envVariables, context)
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
-
-  afterAll((done) => {
-    fastify.close(done)
-  })
 
   describe('with calculatorContract/vaultProxy/sharesHolder', () => {
     const data: AdapterRequest = {
@@ -59,7 +34,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockEthereumResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
