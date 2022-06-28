@@ -1,9 +1,8 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import { util } from '@chainlink/ea-bootstrap'
 import { AddressInfo } from 'net'
 import {
   mockFirstHeartbeatMsg,
@@ -20,31 +19,21 @@ import {
   mockWebSocketFlow,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('dxfeed secondary', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
-    process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_USERNAME: process.env.API_USERNAME || 'fake-api-username',
+    API_PASSWORD: process.env.API_PASSWORD || 'fake-api-password',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('price endpoint', () => {
     const priceRequest: AdapterRequest = {
@@ -57,7 +46,7 @@ describe('dxfeed secondary', () => {
     it('should return success', async () => {
       mockPriceResponse()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(priceRequest)
         .set('Accept', '*/*')

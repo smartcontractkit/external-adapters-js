@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'

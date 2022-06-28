@@ -1,49 +1,24 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockLCDResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
 import { TInputParameters } from '../../src/endpoint/view'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.CACHE_ENABLED = 'false'
-  process.env.COLUMBUS_5_RPC_URL = process.env.COLUMBUS_5_RPC_URL || 'http://localhost:1234/'
-  process.env.API_VERBOSE = 'true'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    COLUMBUS_5_RPC_URL: process.env.COLUMBUS_5_RPC_URL || 'http://localhost:1234/',
+    API_VERBOSE: 'true',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('with address/query', () => {
     const data: AdapterRequest<TInputParameters> = {
@@ -57,7 +32,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockLCDResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
