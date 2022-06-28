@@ -109,7 +109,7 @@ export const getFeedId = <R extends AdapterRequest>(input: R): string => {
     return rawFeedId.length > MAX_FEED_ID_LENGTH
       ? crypto.createHash('md5').update(rawFeedId).digest('hex')
       : rawFeedId
-  } catch (e) {
+  } catch (e: any) {
     const error = new AdapterError(e as Partial<AdapterError>)
     logger.error('Unable to get feed name', {
       input,

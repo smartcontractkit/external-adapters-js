@@ -83,7 +83,7 @@ export const validateAddresses = (
 const getValidEvmAddress = (id: string, address: string): string | undefined => {
   try {
     return utils.getAddress(address)
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     Logger.warn(
       error,

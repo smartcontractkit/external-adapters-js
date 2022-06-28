@@ -58,7 +58,7 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
             ),
             location,
           }
-        } catch (e) {
+        } catch (e: any) {
           const error = e as Error
           throw Error(`Errors incurred while processing package:${location}: ${error.message}`)
         }
