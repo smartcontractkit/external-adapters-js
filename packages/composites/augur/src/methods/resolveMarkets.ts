@@ -91,7 +91,7 @@ const resolveTeam = async (
   let eventIDs: ethers.BigNumber[]
   try {
     eventIDs = await contract.listResolvableEvents()
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -113,7 +113,7 @@ const resolveTeam = async (
       )
       // TODO: makeExecute return types
       events.push(response.result as unknown as ResolveTeam)
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       Logger.error(error)
     }
@@ -151,7 +151,7 @@ const resolveTeam = async (
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       failed++
       Logger.error(error)
@@ -193,7 +193,7 @@ const resolveFights = async (
   let eventIDs: ethers.BigNumber[]
   try {
     eventIDs = await contract.listResolvableEvents()
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -217,7 +217,7 @@ const resolveFights = async (
       )
       // TODO: makeExecute return types
       events.push(response.result as unknown as ResolveFight)
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       Logger.error(error)
     }
@@ -251,7 +251,7 @@ const resolveFights = async (
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       failed++
       Logger.error(error)

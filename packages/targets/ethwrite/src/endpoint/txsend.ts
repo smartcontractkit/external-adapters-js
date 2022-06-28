@@ -86,7 +86,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       data: tx,
       status: 200,
     })
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterError({
       jobRunID,
       network: 'ethereum',

@@ -74,7 +74,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   let balances
   try {
     balances = await Promise.all(addresses.map((addr, index) => _getBalance(addr.address, index)))
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'filecoin',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

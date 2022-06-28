@@ -53,7 +53,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
       },
       context,
     )
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'bitcoin',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

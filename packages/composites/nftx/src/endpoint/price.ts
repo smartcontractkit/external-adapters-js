@@ -33,7 +33,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   let feeExpanded
   try {
     feeExpanded = await vault.randomRedeemFee()
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

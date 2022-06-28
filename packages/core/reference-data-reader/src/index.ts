@@ -40,7 +40,7 @@ export const getRpcLatestAnswer: ReferenceDataPrice = async (
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
     const aggregator = AggregatorV2V3Interface__factory.connect(contractAddress, provider)
     return (await aggregator.latestAnswer()).div(multiply).toNumber()
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),

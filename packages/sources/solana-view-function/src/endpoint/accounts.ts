@@ -54,7 +54,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       statusCode: 200,
     }
     return Requester.success(jobRunID, res, true)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({ network: 'solana', cause: e })
   }
 }

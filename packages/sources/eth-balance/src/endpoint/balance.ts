@@ -80,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     balances = await Promise.all(
       addresses.map((addr) => getBalance(addr.address, targetBlockTag, config)),
     )
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

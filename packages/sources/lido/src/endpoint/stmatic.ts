@@ -33,7 +33,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   let values
   try {
     values = await Promise.all([rateProvider.getRate(), polygonPrice.latestAnswer()])
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'polygon',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

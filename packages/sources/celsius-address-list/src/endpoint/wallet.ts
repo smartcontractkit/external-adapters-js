@@ -78,7 +78,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let addresses: string[]
   try {
     addresses = await walletProviderContract.walletAddresses(networkChainId)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),

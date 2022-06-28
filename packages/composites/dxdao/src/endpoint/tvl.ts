@@ -55,7 +55,7 @@ export const getTokenAllocations = async (
   let tvlInWei
   try {
     tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress, config.RPC_URL)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -93,7 +93,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const _execute = TokenAllocation.makeExecute()
   try {
     return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

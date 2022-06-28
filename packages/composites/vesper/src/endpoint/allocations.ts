@@ -119,7 +119,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   try {
     pool = (await controller.pools()) as string
     values = await getPoolValue(pool, provider)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

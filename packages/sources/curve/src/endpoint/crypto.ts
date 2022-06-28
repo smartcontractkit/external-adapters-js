@@ -90,7 +90,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let output
   try {
     ;[pool, output] = await getBestRate(from, to, amount, config)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: config.network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -161,7 +161,7 @@ const getTokenDetails = async (
     decimals =
       validator.validated.data[`${direction}Decimals`] ||
       (await getDecimals(address.toString(), config))
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: config.network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),

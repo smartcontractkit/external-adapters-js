@@ -45,7 +45,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       sharesHolderAddress,
       config,
     )
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

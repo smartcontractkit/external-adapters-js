@@ -90,7 +90,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context) => {
 
   try {
     return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

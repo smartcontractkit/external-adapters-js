@@ -56,7 +56,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   try {
     balance = await sushi.balanceOf(xsushiAddress)
     supply = await xsushi.totalSupply()
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'network',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

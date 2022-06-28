@@ -29,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let nav
   try {
     ;[, nav] = await calcNav(calculatorContractAddress, vaultProxyAddress, config)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

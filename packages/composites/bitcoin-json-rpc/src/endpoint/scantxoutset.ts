@@ -85,7 +85,7 @@ const scanWithRetries = async (
   while (Date.now() + 1000 <= deadline) {
     try {
       return await _execute(requestData, context)
-    } catch (e) {
+    } catch (e: any) {
       const error = e as any
       if (error.cause?.response?.data?.error?.code === -8) {
         Logger.debug('scan is already in progress, waiting 1s...')
@@ -106,7 +106,7 @@ const scanWithRetries = async (
         Logger.debug('timeout reached, aborting scan in progress')
         try {
           await _execute(requestData, context)
-        } catch (e) {
+        } catch (e: any) {
           const error = e as Error
           Logger.error(`failed to abort scan in progress: ${error.message}`)
         }

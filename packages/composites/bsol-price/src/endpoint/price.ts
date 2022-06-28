@@ -40,7 +40,7 @@ export const execute = async (
   try {
     accountsInfo = await getAccountsInformation(jobRunID, context, addresses)
     bSOLUSDPrice = await getBSolUSDPrice(jobRunID, config, input, context, accountsInfo)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({ network: 'solana', cause: e })
   }
 

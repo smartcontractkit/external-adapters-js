@@ -163,7 +163,7 @@ async function createAndResolveMarkets(
   try {
     await contract.createAndResolveMarkets(roundIds, nextWeek, { nonce })
     Logger.log(`Augur: createAndResolveMarkets -- success`)
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     Logger.log(`Augur: createAndResolveMarkets -- failure`)
     Logger.error(error)
@@ -183,7 +183,7 @@ async function pokeMarkets(contract: ethers.Contract, context: AdapterContext, c
       )
       await createAndResolveMarkets(roundIds, nextResolutionTime, contract, context, config)
     }
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

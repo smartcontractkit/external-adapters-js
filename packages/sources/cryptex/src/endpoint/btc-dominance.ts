@@ -29,7 +29,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   try {
     btcmcap = await getMarketCapValue(config.btcMcapAddress, config)
     totalmcap = await getMarketCapValue(config.totalMcapAddress, config)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

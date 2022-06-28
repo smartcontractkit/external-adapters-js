@@ -37,7 +37,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   let chainlinkRegistryAddress
   try {
     chainlinkRegistryAddress = await registry.chainlinkRegistryAddress()
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -53,7 +53,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   let allocations
   try {
     allocations = await getAllocations(chainlinkRegistry)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

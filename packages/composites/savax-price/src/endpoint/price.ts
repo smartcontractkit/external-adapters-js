@@ -20,7 +20,7 @@ export const execute = async (
   let usdPerAvax
   try {
     usdPerAvax = await getAvaxPrice(input, context)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'avalanche',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -31,7 +31,7 @@ export const execute = async (
   let avaxPooledShares
   try {
     avaxPooledShares = await getPooledAvaxShares(config)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'avalanche',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

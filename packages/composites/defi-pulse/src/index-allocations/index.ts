@@ -38,7 +38,7 @@ export const getAllocations = async (
   let balances: BigNumberish[]
   try {
     ;[addresses, balances] = await index.getAllocations(setAddress)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),

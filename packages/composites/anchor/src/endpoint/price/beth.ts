@@ -26,7 +26,7 @@ export const execute: PriceExecute = async (input, _, config, usdPerEth) => {
   try {
     ethPerStETH = await getEthStETHExchangeRate(input.id, config, provider)
     bEthPerStETH = await getBEthStETHExchangeRate(input.id, config, provider)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

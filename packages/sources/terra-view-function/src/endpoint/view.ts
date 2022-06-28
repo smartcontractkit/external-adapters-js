@@ -85,7 +85,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     }
 
     return Requester.success(jobRunID, output, config.verbose)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({ network: 'terra', cause: e })
   }
 }

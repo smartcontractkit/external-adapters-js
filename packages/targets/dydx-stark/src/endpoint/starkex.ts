@@ -114,7 +114,7 @@ export const getKeyPair = async (
   try {
     wallet = new ethers.Wallet(privateKey)
     flatSig = await wallet.signMessage(starkMessage)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

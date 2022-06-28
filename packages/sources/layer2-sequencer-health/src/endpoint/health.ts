@@ -119,7 +119,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
           )
           return false
         }
-      } catch (e) {
+      } catch (e: any) {
         const error = e as Error
         Logger.error(
           `Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
@@ -142,7 +142,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       let isHealthyByTransaction
       try {
         isHealthyByTransaction = await getStatusByTransaction(network, config.timeoutLimit)
-      } catch (e) {
+      } catch (e: any) {
         throw new AdapterDataProviderError({
           network,
           message: util.mapRPCErrorMessage(e?.code, e?.message),

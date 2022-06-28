@@ -90,7 +90,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       l1Provider,
       l2Provider,
     )
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'optimism',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -182,7 +182,7 @@ const getLatestStateBatchHeader = async (
         }
       }
     }
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'optimism',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

@@ -25,7 +25,7 @@ export const fetchAddressList = async (
       startIdx = endIdx.add(1)
     }
     return addresses
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),

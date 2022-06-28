@@ -38,7 +38,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let result
   try {
     result = (await stagingContract.lastBlock()).toString()
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),

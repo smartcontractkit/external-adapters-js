@@ -73,7 +73,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const _execute = TA.makeExecute()
   try {
     return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: config.network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),

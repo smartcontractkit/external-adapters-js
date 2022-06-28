@@ -46,7 +46,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let contracts
   try {
     contracts = await initializeENS(networkProvider)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
@@ -80,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       controller,
       address: address ?? undefined,
     }
-  } catch (e) {
+  } catch (e: any) {
     const error = e as any
     const errorPayload = {
       jobRunID,

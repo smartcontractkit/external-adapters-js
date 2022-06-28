@@ -107,7 +107,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     }
 
     return Requester.success(jobRunID, response, true)
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterDataProviderError({
       network: config.network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),

@@ -265,7 +265,7 @@ export const withCache =
       ): Promise<AdapterResponse | void | undefined> => {
         try {
           return await fn()
-        } catch (e) {
+        } catch (e: any) {
           const error = new AdapterError(e as Partial<AdapterError>)
           const response = await handleFailedCacheRead(
             adapterRequest,
