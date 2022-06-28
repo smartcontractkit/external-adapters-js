@@ -72,7 +72,7 @@ const toValidAllocations = (allocations: unknown[]): TokenAllocations => {
     let BNbalance
     try {
       BNbalance = BigNumber.from((balance as any).toString())
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       throw new AdapterError({ message: `Invalid balance: ${error.message}`, statusCode: 400 })
     }

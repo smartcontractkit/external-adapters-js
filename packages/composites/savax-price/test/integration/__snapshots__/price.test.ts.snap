@@ -5,7 +5,8 @@ Object {
   "error": Object {
     "feedID": "{\\"data\\":{\\"source\\":\\"coinpaprika\\"}}",
     "message": "ERROR: No price value found for AVAX/USD from the coinpaprika adapter.",
-    "name": "Error",
+    "name": "AdapterError",
+    "network": "avalanche",
   },
   "jobRunID": "1",
   "status": "errored",
