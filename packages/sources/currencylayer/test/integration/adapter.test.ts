@@ -34,7 +34,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
