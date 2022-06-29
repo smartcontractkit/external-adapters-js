@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber, FixedNumber, ethers } from 'ethers'
 import EACAggregatorProxyAbi from '../abis/EACAggregatorProxy.json'
@@ -24,8 +24,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
 
-  const btcmcap = await getMarketCapValue(config.btcMcapAddress, config)
-  const totalmcap = await getMarketCapValue(config.totalMcapAddress, config)
+  let btcmcap
+  let totalmcap
+  try {
+    btcmcap = await getMarketCapValue(config.btcMcapAddress, config)
+    totalmcap = await getMarketCapValue(config.totalMcapAddress, config)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
+
   const btcDominance = calculateBtcDominance(btcmcap, totalmcap).toString()
 
   const response = {

@@ -25,7 +25,7 @@ export const getCheckImpl = (type: CheckProvider | undefined): Check => {
       return async (input) => {
         try {
           return await th(input)
-        } catch (e) {
+        } catch (e: any) {
           return await schedule(input)
         }
       }

@@ -1,4 +1,4 @@
-import { Requester, Validator, AdapterError, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, AdapterError, InputParameters, util } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config } from '../config'
@@ -86,11 +86,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       data: tx,
       status: 200,
     })
-  } catch (e) {
-    const error = e as Error
+  } catch (e: any) {
     throw new AdapterError({
       jobRunID,
-      message: error?.message,
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
       statusCode: 400,
     })
   }

@@ -135,7 +135,7 @@ const createTeam = async (
       Logger.debug(`Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       failed++
       Logger.error(error)
@@ -203,7 +203,7 @@ const createFighter = async (
       Logger.debug(`Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       failed++
       Logger.error(error)
