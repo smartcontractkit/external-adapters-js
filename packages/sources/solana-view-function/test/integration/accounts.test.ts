@@ -1,9 +1,8 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockAccountsInfo } from './fixtures'
-import request, { SuperTest, Test } from 'supertest'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 jest.mock('@solana/web3.js', () => ({
   ...jest.requireActual('@solana/web3.js'),
@@ -14,23 +13,17 @@ jest.mock('@solana/web3.js', () => ({
   },
 }))
 
-let oldEnv: NodeJS.ProcessEnv
-
 describe('accounts', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.RPC_URL = 'https://api.devnet.solana.com'
-  })
+  const envVariables = {
+    RPC_URL: 'https://api.devnet.solana.com',
+  }
 
-  afterAll((done) => {
-    process.env = oldEnv
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('successful calls', () => {
     const jobID = '1'
@@ -46,7 +39,7 @@ describe('accounts', () => {
           ],
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -67,7 +60,7 @@ describe('accounts', () => {
           addresses: [],
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -85,7 +78,7 @@ describe('accounts', () => {
           addresses: ['EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ'],
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

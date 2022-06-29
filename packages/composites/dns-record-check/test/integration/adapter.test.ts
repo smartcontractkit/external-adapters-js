@@ -1,35 +1,21 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import { mockRecordCheckResponse } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('dns record check', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    process.env.DNS_PROVIDER = process.env.DNS_PROVIDER || 'google'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    DNS_PROVIDER: process.env.DNS_PROVIDER || 'google',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('record check endpoint', () => {
     const recordCheckRequest: AdapterRequest = {
@@ -43,7 +29,7 @@ describe('dns record check', () => {
     it('should return success', async () => {
       mockRecordCheckResponse()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(recordCheckRequest)
         .set('Accept', '*/*')

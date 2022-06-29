@@ -1,10 +1,4 @@
-import * as process from 'process'
-process.env.ETH_BALANCE_ADAPTER_URL = 'https://eth-balance-adapter.com'
-process.env.POR_INDEXER_ADAPTER_URL = 'https://por-indexer-adapter.com'
-process.env.GEMINI_ADAPTER_URL = 'https://gemini-adapter.com'
-process.env.LOTUS_ADAPTER_URL = 'https://lotus-adapter.com'
-import type { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import {
   mockPoRindexerSuccess,
@@ -12,50 +6,23 @@ import {
   mockGeminiFilecoinAddressList,
   mockLotusSuccess,
 } from './fixtures'
-import * as nock from 'nock'
-import { AddressInfo } from 'net'
-
-beforeAll(() => {
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeEach(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-})
-
-afterEach(() => {
-  for (const envVar in oldEnv) {
-    process.env[envVar] = oldEnv[envVar]
-  }
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    ETH_BALANCE_ADAPTER_URL: 'https://eth-balance-adapter.com',
+    POR_INDEXER_ADAPTER_URL: 'https://por-indexer-adapter.com',
+    GEMINI_ADAPTER_URL: 'https://gemini-adapter.com',
+    LOTUS_ADAPTER_URL: 'https://lotus-adapter.com',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('Bitcoin list protocol', () => {
     const data: AdapterRequest = {
@@ -76,7 +43,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockPoRindexerSuccess()
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -103,7 +70,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockEthBalanceSuccess()
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -126,7 +93,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockGeminiFilecoinAddressList()
       mockLotusSuccess()
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -151,7 +118,7 @@ describe('execute', () => {
 
     it('should return success', async () => {
       //mockLotusSuccess()
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
