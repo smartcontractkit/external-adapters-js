@@ -92,7 +92,7 @@ local httpRequestsPerMinutePanel = addSideLegend(graphPanel.new(
 ).addTarget(
   prometheus.target(
     httpsRequestsPerMinuteQuery,
-    legendFormat='{{service}} {{feed_id}} {{status_code}} {{type}} CacheWarmer:{{is_cache_warming}}'
+    legendFormat='{{app_name}} {{feed_id}} {{status_code}} {{type}} CacheWarmer:{{is_cache_warming}}'
   )
 ));
 
@@ -153,7 +153,7 @@ local httpRequestDurationAverageSeconds = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'rate(http_request_duration_seconds_sum{' + eaSelector + '}' + interval + ')/rate(http_request_duration_seconds_count{' + eaSelector + '}' + interval + ')',
-    legendFormat='{{service}}',
+    legendFormat='{{app_name}}',
   )
 );
 local httpRequestDurationSecondsHeatmap = heatmapPanel.new(
@@ -179,7 +179,7 @@ local wsConnectionActiveGraph = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_connection_active{' + eaSelector + '}',
-    legendFormat='{{service}} | Key:{{key}}',
+    legendFormat='{{app_name}} | Key:{{key}}',
   ),
 );
 
@@ -191,7 +191,7 @@ local wsConnectionErrorsGraph = graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_connection_errors{' + eaSelector + '}',
-    legendFormat='{{service}} | Key:{{key}}',
+    legendFormat='{{app_name}} | Key:{{key}}',
   ),
 );
 
@@ -204,7 +204,7 @@ local wsConnectionRetriesGraph = graphPanel.new(
   prometheus.target(
     'ws_connection_retries{' + eaSelector + '}',
 
-    legendFormat='{{service}} | Key:{{key}}',
+    legendFormat='{{app_name}} | Key:{{key}}',
   )
 );
 
@@ -217,7 +217,7 @@ local wsActiveSubscriptions = addSideLegend(graphPanel.new(
 ).addTarget(
   prometheus.target(
     'ws_subscription_active{' + eaSelector + '}',
-    legendFormat='{{service}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} Feed: {{feed_id}}'
+    legendFormat='{{app_name}} | ConnKey: {{ connection_key }} ConnUrl: {{ connection_url }} Feed: {{feed_id}}'
   )
 ));
 
@@ -230,7 +230,7 @@ local wsMessagesPerSecondGraph = addSideLegend(graphPanel.new(
 ).addTarget(
   prometheus.target(
     'rate(ws_message_total{' + eaSelector + '}' + interval + ')',
-    legendFormat='{{service}} | Feed: {{feed_id}}'
+    legendFormat='{{app_name}} | Feed: {{feed_id}}'
   )
 ));
 
