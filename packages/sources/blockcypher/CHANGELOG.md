@@ -1,5 +1,16 @@
 # @chainlink/blockcypher-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- 816b3d307: catch onchain errors and set 'network'
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/ea-factories@1.2.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.4.0
 
 ### Minor Changes
