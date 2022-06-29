@@ -13,6 +13,7 @@ export class AdapterError extends Error {
   errorResponse: unknown
   feedID?: string
   providerStatusCode?: number
+  network?: string
   metricsLabel: HttpRequestType
 
   constructor({
@@ -27,6 +28,7 @@ export class AdapterError extends Error {
     feedID,
     providerStatusCode,
     metricsLabel = HttpRequestType.ADAPTER_ERROR,
+    network,
   }: Partial<AdapterError>) {
     super(message)
 
@@ -45,6 +47,7 @@ export class AdapterError extends Error {
     this.errorResponse = errorResponse
     this.providerStatusCode = providerStatusCode
     this.metricsLabel = metricsLabel
+    this.network = network
   }
 
   toJSONResponse(): AdapterErrorResponse {
@@ -55,6 +58,7 @@ export class AdapterError extends Error {
       url: this.url,
       errorResponse: this.errorResponse,
       feedID: this.feedID,
+      network: this.network,
     }
     const errorFull = { ...errorBasic, stack: this.stack, cause: this.cause }
     return {

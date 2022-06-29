@@ -26,7 +26,7 @@ function buildErrors(label: string, code: number, requests: any[], execute: Exec
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest, mockContext)
-        } catch (e) {
+        } catch (e: any) {
           const error = e as Error
           const id = req.testData.id ?? '1'
           const errorResp = Requester.errored(id, error)

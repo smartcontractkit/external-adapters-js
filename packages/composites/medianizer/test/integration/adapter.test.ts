@@ -1,49 +1,29 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
 import {
   mockSuccessfulResponsesWithCommaSeparatedSources,
   mockSuccessfulResponsesWithoutCommaSeparatedSources,
   mockSuccessfulResponsesWithSingleSource,
 } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const setupEnvironment = (adapters: string[]) => {
+  const env = {}
   for (const a of adapters) {
-    process.env[
-      `${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`
-    ] = `https://adapters.main.stage.cldev.sh/${a}`
+    env[`${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`] = `https://adapters.main.stage.cldev.sh/${a}`
   }
+  return env
 }
 
 describe('medianizer', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-  })
-
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-    process.env = oldEnv
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  const envVariables = setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
+  setupExternalAdapterTest(envVariables, context)
 
   describe('successful calls', () => {
     const jobID = '1'
@@ -59,7 +39,7 @@ describe('medianizer', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -80,7 +60,7 @@ describe('medianizer', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -105,7 +85,7 @@ describe('medianizer', () => {
           minAnswers: 2,
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -122,7 +102,7 @@ describe('medianizer', () => {
     it('returns a validation error if the request data is empty', async () => {
       const data: AdapterRequest = { id: jobID, data: {} }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -142,7 +122,7 @@ describe('medianizer', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

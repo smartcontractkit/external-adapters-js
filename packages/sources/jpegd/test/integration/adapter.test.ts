@@ -1,36 +1,20 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import process from 'process'
-import nock from 'nock'
-import http from 'http'
 import { server as startServer } from '../../src'
 import { mockPunksValueResponseSuccess, mockCollectionsValueResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.API_KEY = 'test-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_KEY: 'test-key',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('punk valuation api', () => {
     const punkData: AdapterRequest = {
@@ -44,7 +28,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockPunksValueResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(punkData)
         .set('Accept', '*/*')
@@ -67,7 +51,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCollectionsValueResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(collectionData)
         .set('Accept', '*/*')

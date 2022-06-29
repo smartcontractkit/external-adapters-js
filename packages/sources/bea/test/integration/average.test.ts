@@ -1,43 +1,22 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import { mockDataProviderResponses } from './fixtures'
-import * as nock from 'nock'
-import { AddressInfo } from 'net'
-
-beforeAll(() => {
-  process.env.CACHE_ENABLED = 'false'
-  process.env.API_KEY = process.env.API_KEY || 'fake_api'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    API_KEY: process.env.API_KEY || 'fake_api',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('get average price', () => {
     const data: AdapterRequest = {
@@ -48,7 +27,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockDataProviderResponses()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
