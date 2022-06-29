@@ -1,5 +1,14 @@
 # @chainlink/ccip-read-adapter
 
+## 2.1.1
+
+### Patch Changes
+
+- 816b3d307: catch onchain errors and set 'network'
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+
 ## 2.1.0
 
 ### Minor Changes
