@@ -116,20 +116,25 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
             (originalValue as Array<unknown>).every((v) => {
               typeof v === 'string'
             })
-          )
+          ) {
+            logger.debug(batchWarmer)
             throw new Error(
-              "Batch Warmer's Batchable key does not have the expected type as an array of strings",
+              `Batch Warmer's Batchable key does not have the expected type as an array of strings.  Name: '${name}' Key '${originalValue}'`,
             )
+          }
+
           const uniqueBatchableValue = new Set(originalValue as Array<string>)
           const incomingValue =
             childRequestData[name] ||
             (typeof childRequestData.data === 'object' &&
               (childRequestData.data as Record<string, Value>)[name])
-          if (typeof incomingValue !== 'string')
+          if (typeof incomingValue !== 'string') {
             throw new Error(
-              "Incoming child's batchable key does not have the expected type of string",
+              `Incoming child's batchable key does not have the expected type of string.  Key '${incomingValue}'`,
             )
-          uniqueBatchableValue.add(incomingValue)
+          }
+
+          uniqueBatchableValue.add(incomingValue as string)
           batchWarmer.origin[name] = [
             ...uniqueBatchableValue,
           ] as typeof batchWarmer['origin']['name']
