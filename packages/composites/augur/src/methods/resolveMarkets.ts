@@ -1,4 +1,11 @@
-import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  InputParameters,
+  Logger,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Execute,
@@ -81,7 +88,16 @@ const resolveTeam = async (
     throw Error(`Unknown data provider for sport ${sport}`)
   }
 
-  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  let eventIDs: ethers.BigNumber[]
+  try {
+    eventIDs = await contract.listResolvableEvents()
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const events: ResolveTeam[] = []
   for (const eventId of eventIDs) {
     try {
@@ -97,7 +113,7 @@ const resolveTeam = async (
       )
       // TODO: makeExecute return types
       events.push(response.result as unknown as ResolveTeam)
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       Logger.error(error)
     }
@@ -135,7 +151,7 @@ const resolveTeam = async (
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       failed++
       Logger.error(error)
@@ -174,7 +190,16 @@ const resolveFights = async (
   }
 
   Logger.debug('Augur: Getting list of potentially resolvable events')
-  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  let eventIDs: ethers.BigNumber[]
+  try {
+    eventIDs = await contract.listResolvableEvents()
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   Logger.debug(`Augur: Found ${eventIDs.length} potentially resolvable events`)
   const events: ResolveFight[] = []
   for (const eventId of eventIDs) {
@@ -192,7 +217,7 @@ const resolveFights = async (
       )
       // TODO: makeExecute return types
       events.push(response.result as unknown as ResolveFight)
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       Logger.error(error)
     }
@@ -226,7 +251,7 @@ const resolveFights = async (
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       failed++
       Logger.error(error)

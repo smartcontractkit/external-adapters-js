@@ -81,7 +81,7 @@ const tryExecuteLogError =
   async (request, context, config) => {
     try {
       return await execute(request, context, config)
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       const queryId = request.data?.request_id
       const rest = { queryId }

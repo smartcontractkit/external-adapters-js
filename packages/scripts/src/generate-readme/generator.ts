@@ -221,7 +221,7 @@ export class ReadmeGenerator {
             else if ('output' in parsed && ioPairs[ioPairs.length - 1].length === 1)
               ioPairs[ioPairs.length - 1].push(parsed.output)
             return ioPairs
-          } catch (e) {
+          } catch (e: any) {
             return ioPairs
           }
         }, [])

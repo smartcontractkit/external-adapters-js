@@ -73,7 +73,7 @@ const getDebtRatio = async (
           totalDebtIssued: issuedSynths,
           totalDebtShares: chainTotalDebtShare,
         }
-      } catch (e) {
+      } catch (e: any) {
         const error = e as any
         const errorPayload = {
           jobRunID,

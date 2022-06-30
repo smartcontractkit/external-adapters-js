@@ -60,7 +60,7 @@ export class Requester {
         const endTime = process.hrtime.bigint()
         const milliseconds = (endTime - startTime) / 1000000n
         response.headers['ea-dp-request-duration'] = milliseconds.toString()
-      } catch (e) {
+      } catch (e: any) {
         const error = e as AxiosError
         // Request error
         if (error.code === 'ECONNABORTED') {

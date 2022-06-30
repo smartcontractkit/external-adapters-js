@@ -2642,8 +2642,11 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     hardhat: 2.9.9
     mock-socket: 9.1.5
+    nock: 13.2.6
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3296,6 +3299,7 @@ __metadata:
   resolution: "@chainlink/implied-price-adapter@workspace:packages/composites/implied-price"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
@@ -21048,6 +21052,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nock@npm:13.2.6, nock@npm:^13.2.4":
+  version: 13.2.6
+  resolution: "nock@npm:13.2.6"
+  dependencies:
+    debug: ^4.1.0
+    json-stringify-safe: ^5.0.1
+    lodash: ^4.17.21
+    propagate: ^2.0.0
+  checksum: d135a8036b2feb41c0696c585682f7252f6cd3232ff686efe54a39f979f063fcc178636dfdf27aba07f653091e2812014db41ed6f5f250fdd2ee2948035a4203
+  languageName: node
+  linkType: hard
+
 "nock@npm:13.2.7":
   version: 13.2.7
   resolution: "nock@npm:13.2.7"
@@ -21057,18 +21073,6 @@ __metadata:
     lodash: ^4.17.21
     propagate: ^2.0.0
   checksum: 0d7d3163ca973393d43a0334aafe59677ca6e7eea133338166be9bd06e577667da2dd2d5148046022b9e9dd4339f5ae5d0ef0274abc1462c4e896f8729c24b40
-  languageName: node
-  linkType: hard
-
-"nock@npm:^13.2.4":
-  version: 13.2.6
-  resolution: "nock@npm:13.2.6"
-  dependencies:
-    debug: ^4.1.0
-    json-stringify-safe: ^5.0.1
-    lodash: ^4.17.21
-    propagate: ^2.0.0
-  checksum: d135a8036b2feb41c0696c585682f7252f6cd3232ff686efe54a39f979f063fcc178636dfdf27aba07f653091e2812014db41ed6f5f250fdd2ee2948035a4203
   languageName: node
   linkType: hard
 

@@ -1,5 +1,15 @@
 # @chainlink/vesper-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 816b3d307: catch onchain errors and set 'network'
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/token-allocation-adapter@1.5.1
+
 ## 1.2.0
 
 ### Minor Changes

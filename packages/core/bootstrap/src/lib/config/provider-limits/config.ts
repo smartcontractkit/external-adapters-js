@@ -38,7 +38,7 @@ export function get(
     try {
       const providerConfig = getRateLimit(rateLimitConfig.name, rateLimitConfig.limits, tier)
       capacity = Number(providerConfig.minute)
-    } catch (e) {
+    } catch (e: any) {
       const error = new AdapterError(e as Partial<AdapterError>)
       logger.error(error.message)
     }

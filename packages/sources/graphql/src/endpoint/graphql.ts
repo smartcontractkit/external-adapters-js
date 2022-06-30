@@ -59,7 +59,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const responseData = JSON.parse(JSON.stringify(response.data))
     response.data.result = responseData
     return Requester.success(jobRunID, response, config.verbose)
-  } catch (e) {
+  } catch (e: any) {
     const error = e as any
     const errorPayload = {
       jobRunID,

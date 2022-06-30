@@ -1,13 +1,9 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import process from 'process'
-import nock from 'nock'
 import { generateKeyPair } from 'crypto'
 import { server as startServer } from '../../src'
 import { mockSnowflakeResponse } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 async function generatePrivateKey(): Promise<string> {
   return new Promise((resolve) => {
@@ -32,49 +28,28 @@ async function generatePrivateKey(): Promise<string> {
 }
 
 beforeAll(async () => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.CACHE_ENABLED = 'false'
-
-  process.env.ACCOUNT = process.env.ACCOUNT ?? 'test_account'
-  process.env.DB_USERNAME = process.env.DB_USERNAME ?? 'test_db_username'
-  process.env.DATABASE = process.env.DATABASE ?? 'test_database'
-  process.env.SCHEMA = process.env.SCHEMA ?? 'test_schema'
-  process.env.CLOUD_REGION = process.env.CLOUD_REGION ?? 'test_region'
-  process.env.CLOUD_PROVIDER = process.env.CLOUD_PROVIDER ?? 'test_provider'
   process.env.PRIVATE_KEY = process.env.PRIVATE_KEY ?? (await generatePrivateKey())
-
-  process.env.API_VERBOSE = true as unknown as string
-
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
 })
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    ACCOUNT: process.env.ACCOUNT ?? 'test_account',
+    DB_USERNAME: process.env.DB_USERNAME ?? 'test_db_username',
+    DATABASE: process.env.DATABASE ?? 'test_database',
+    SCHEMA: process.env.SCHEMA ?? 'test_schema',
+    CLOUD_REGION: process.env.CLOUD_REGION ?? 'test_region',
+    CLOUD_PROVIDER: process.env.CLOUD_PROVIDER ?? 'test_provider',
+    API_VERBOSE: true as unknown as string,
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('basic', () => {
     const data: AdapterRequest = {
@@ -88,7 +63,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockSnowflakeResponse()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
