@@ -1,47 +1,22 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:8545'
-  process.env.ROUTER_CONTRACT =
-    process.env.ROUTER_CONTRACT || '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    ETHEREUM_RPC_URL: process.env.ETHEREUM_RPC_URL || 'http://localhost:8545',
+    ROUTER_CONTRACT: process.env.ROUTER_CONTRACT || '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('with vault address', () => {
     const data: AdapterRequest = {
@@ -52,7 +27,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockEthereumResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

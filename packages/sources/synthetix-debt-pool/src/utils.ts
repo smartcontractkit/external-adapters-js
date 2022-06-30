@@ -116,7 +116,7 @@ export const getLatestBlockByChain = async (
       try {
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
-      } catch (e) {
+      } catch (e: any) {
         const error = e as any
         const errorPayload = {
           jobRunID,

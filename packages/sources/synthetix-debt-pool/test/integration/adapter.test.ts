@@ -1,9 +1,8 @@
 import { server as startServer } from '../../src/index'
 import { BigNumber } from 'ethers'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import { AddressInfo } from 'net'
 import { ethers } from 'ethers'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const mockChainConfig = {
   ethereum: {
@@ -133,34 +132,22 @@ jest.mock('ethers', () => {
   }
 })
 
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.RPC_URL = mockChainConfig.ethereum.rpcUrl
-  process.env.OPTIMISM_RPC_URL = mockChainConfig.optimism.rpcUrl
-  process.env.ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS =
-    mockChainConfig.ethereum.addressProviderProxyContractAddress
-  process.env.OPTIMISM_ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS =
-    mockChainConfig.optimism.addressProviderProxyContractAddress
-})
-
-afterAll(() => {
-  process.env = oldEnv
-})
-
 describe('synthetix-debt-pool', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    RPC_URL: mockChainConfig.ethereum.rpcUrl,
+    OPTIMISM_RPC_URL: mockChainConfig.optimism.rpcUrl,
+    ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS:
+      mockChainConfig.ethereum.addressProviderProxyContractAddress,
+    OPTIMISM_ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS:
+      mockChainConfig.optimism.addressProviderProxyContractAddress,
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('debt', () => {
     it('successfully fetches the current debt size of the synthetix debt cache across "mainnet" and "mainnet-ovm" if chainSources is missing', async () => {
@@ -168,7 +155,7 @@ describe('synthetix-debt-pool', () => {
         id: 1,
         data: {},
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -186,7 +173,7 @@ describe('synthetix-debt-pool', () => {
           chainSources: ['mainnet'],
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -206,7 +193,7 @@ describe('synthetix-debt-pool', () => {
           chainSources: ['kovan'],
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -226,7 +213,7 @@ describe('synthetix-debt-pool', () => {
           endpoint: 'debt-ratio',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -245,7 +232,7 @@ describe('synthetix-debt-pool', () => {
           endpoint: 'debt-ratio',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -266,7 +253,7 @@ describe('synthetix-debt-pool', () => {
           endpoint: 'debt-ratio',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(request)
         .set('Accept', '*/*')

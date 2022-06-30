@@ -116,7 +116,7 @@ export class Validator<
 
         this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
       }
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       this.parseError(error)
     }
@@ -131,7 +131,7 @@ export class Validator<
         this.mergeMap(presetMap, inputMap)
       }
       this.validated[path] = presetMap
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       this.parseError(error)
     }
@@ -166,7 +166,7 @@ export class Validator<
         ...(Array.isArray(this.input.data?.includes) ? this.input.data.includes : []),
         ...(this.validatorOptions.includes || []),
       ])
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       this.parseError(error)
     }

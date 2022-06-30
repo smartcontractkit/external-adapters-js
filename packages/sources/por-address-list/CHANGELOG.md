@@ -1,5 +1,15 @@
 # @chainlink/por-address-list-source-adapter
 
+## 1.0.6
+
+### Patch Changes
+
+- 816b3d307: catch onchain errors and set 'network'
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.0.5
 
 ### Patch Changes

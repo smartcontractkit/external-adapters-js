@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/implied-price-adapter",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Chainlink implied-price adapter.",
   "keywords": [
     "Chainlink",
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
     "axios": "^0.26.1",
     "decimal.js": "^10.3.1",
     "tslib": "^2.3.1"

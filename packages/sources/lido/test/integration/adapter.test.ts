@@ -1,41 +1,20 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockStmaticSuccess } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.POLYGON_RPC_URL = process.env.POLYGON_RPC_URL || 'https://test-rpc-url/'
-  if (process.env.RECORD) nock.recorder.rec()
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) nock.recorder.play()
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    POLYGON_RPC_URL: process.env.POLYGON_RPC_URL || 'https://test-rpc-url/',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
-
+  setupExternalAdapterTest(envVariables, context)
   describe('stmatic endpoint', () => {
     const data: AdapterRequest = {
       id: '1',
@@ -45,7 +24,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockStmaticSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

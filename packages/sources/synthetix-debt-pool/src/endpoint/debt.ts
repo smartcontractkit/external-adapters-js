@@ -78,12 +78,13 @@ export const getDebtIssued = async (
         const synthTransferSent = await synthetixBridge.synthTransferSent({ blockTag: blockNumber })
         const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
         return [network, blockNumber, issuedSynths]
-      } catch (e) {
+      } catch (e: any) {
         const error = e as any
 
         const errorPayload = {
           jobRunID,
-          message: `Failed to fetch debt data from chain ${network}.  Error Message: ${error}`,
+          network,
+          message: `Failed to fetch debt data from chain ${network}.  Error Message: ${e}`,
         }
         throw error.response
           ? new AdapterDataProviderError(errorPayload)

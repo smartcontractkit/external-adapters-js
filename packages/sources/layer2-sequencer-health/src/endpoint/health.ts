@@ -1,4 +1,11 @@
-import { AdapterResponseInvalidError, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterResponseInvalidError,
+  Logger,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, Networks } from '../config'
 import {
@@ -112,7 +119,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
           )
           return false
         }
-      } catch (e) {
+      } catch (e: any) {
         const error = e as Error
         Logger.error(
           `Method ${fn.name} failed: ${error.message}. Network ${network} considered unhealthy`,
@@ -132,7 +139,16 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     const isHealthy = await method(network, config.delta, config.deltaBlocks)
     if (!isHealthy) {
       Logger.info(`Checking unhealthy network ${network} with transaction submission`)
-      const isHealthyByTransaction = await getStatusByTransaction(network, config.timeoutLimit)
+      let isHealthyByTransaction
+      try {
+        isHealthyByTransaction = await getStatusByTransaction(network, config.timeoutLimit)
+      } catch (e: any) {
+        throw new AdapterDataProviderError({
+          network,
+          message: util.mapRPCErrorMessage(e?.code, e?.message),
+          cause: e,
+        })
+      }
       if (isHealthyByTransaction) {
         Logger.info(
           `Transaction submission check succeeded. Network ${network} can be considered healthy`,

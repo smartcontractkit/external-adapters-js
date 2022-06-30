@@ -1,5 +1,14 @@
 # @chainlink/galaxis-adapter
 
+## 2.6.11
+
+### Patch Changes
+
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 2.6.10
 
 ### Patch Changes
