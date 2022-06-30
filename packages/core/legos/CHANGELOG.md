@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.3.3
+
+### Patch Changes
+
+- @chainlink/renvm-address-set-adapter@1.4.4
+- @chainlink/wbtc-address-set-adapter@1.4.4
+
 ## 1.3.2
 
 ### Patch Changes
