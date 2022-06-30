@@ -1,5 +1,26 @@
 # @chainlink/anchor-adapter
 
+## 3.4.2
+
+### Patch Changes
+
+- Updated dependencies [bff852d48]
+  - @chainlink/ea-bootstrap@2.13.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 816b3d307: catch onchain errors and set 'network'
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/terra-view-function-adapter@1.3.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 3.4.0
 
 ### Minor Changes

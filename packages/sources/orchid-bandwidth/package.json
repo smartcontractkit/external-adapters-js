@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/orchid-bandwidth-adapter",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "Chainlink Orchid bandwidth adapter.",
   "keywords": [
     "Chainlink",

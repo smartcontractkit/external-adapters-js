@@ -1,5 +1,21 @@
 # @chainlink/ea-bootstrap
 
+## 2.13.0
+
+### Minor Changes
+
+- bff852d48: add better logging when batch warmer errors out
+
+## 2.12.0
+
+### Minor Changes
+
+- 6054a7b69: add better logging when batch warmer errors out
+
+### Patch Changes
+
+- 816b3d307: transform ether.js RPC errors
+
 ## 2.11.0
 
 ### Minor Changes
