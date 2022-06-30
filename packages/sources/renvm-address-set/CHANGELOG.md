@@ -1,5 +1,12 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.4.4
+
+### Patch Changes
+
+- Updated dependencies [0d279426f]
+  - @chainlink/proof-of-reserves-adapter@1.12.0
+
 ## 1.4.3
 
 ### Patch Changes
