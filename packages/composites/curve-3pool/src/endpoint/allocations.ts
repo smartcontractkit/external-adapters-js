@@ -2,7 +2,7 @@ import { BigNumber, ethers } from 'ethers'
 import stableSwap3PoolAbi from '../abi/StableSwap3Pool.json'
 import lpTokenAbi from '../abi/LpToken.json'
 import { types } from '@chainlink/token-allocation-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import type { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { BigNumberish } from 'ethers'
@@ -42,7 +42,7 @@ const getAllocations = async (
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, {})
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const pool = new ethers.Contract(POOL_ADDRESS, stableSwap3PoolAbi, provider)
