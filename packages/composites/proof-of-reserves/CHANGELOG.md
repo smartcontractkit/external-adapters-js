@@ -1,5 +1,32 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.11.3
+
+### Patch Changes
+
+- Updated dependencies [0d3eda653]
+  - @chainlink/ea-bootstrap@2.14.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.3
+  - @chainlink/por-indexer-adapter@1.2.3
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/ada-balance-adapter@2.5.3
+  - @chainlink/amberdata-adapter@1.7.3
+  - @chainlink/blockchain.com-adapter@1.3.3
+  - @chainlink/blockchair-adapter@1.3.3
+  - @chainlink/blockcypher-adapter@1.4.3
+  - @chainlink/btc.com-adapter@1.3.3
+  - @chainlink/celsius-address-list-adapter@1.0.24
+  - @chainlink/chain-reserve-wallet-adapter@2.3.3
+  - @chainlink/cryptoapis-adapter@1.2.3
+  - @chainlink/eth-balance-adapter@1.3.3
+  - @chainlink/gemini-adapter@2.2.3
+  - @chainlink/lotus-adapter@2.2.3
+  - @chainlink/reduce-adapter@1.3.3
+  - @chainlink/renvm-address-set-adapter@1.4.3
+  - @chainlink/sochain-adapter@1.3.3
+  - @chainlink/wbtc-address-set-adapter@1.4.3
+  - @chainlink/wrapped-adapter@2.2.3
+
 ## 1.11.2
 
 ### Patch Changes
