@@ -117,9 +117,9 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
               typeof v === 'string'
             })
           ) {
-            logger.debug(batchWarmer)
+            logger.debug(`Redux Payload`, payload)
             throw new Error(
-              `Batch Warmer's Batchable key does not have the expected type as an array of strings.  Name: '${name}' Key '${originalValue}'`,
+              `Batch Warmer's Batchable key does not have the expected type as an array of strings.  Parent: '${payload.parent}' Name: '${name}' Key '${originalValue}'`,
             )
           }
 
