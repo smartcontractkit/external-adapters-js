@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.13.0
+
+### Minor Changes
+
+- bff852d48: add better logging when batch warmer errors out
+
 ## 2.12.0
 
 ### Minor Changes

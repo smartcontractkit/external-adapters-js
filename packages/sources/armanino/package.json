@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/armanino-adapter",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Chainlink armanino adapter.",
   "keywords": [
     "Chainlink",
