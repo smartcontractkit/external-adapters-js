@@ -1,5 +1,13 @@
 # @chainlink/cryptex-adapter
 
+## 1.0.9
+
+### Patch Changes
+
+- Updated dependencies [2e9b730ba]
+  - @chainlink/ea-bootstrap@2.14.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.0.8
 
 ### Patch Changes

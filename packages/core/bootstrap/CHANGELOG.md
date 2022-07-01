@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.14.1
+
+### Patch Changes
+
+- 2e9b730ba: Revert cache warmer type safety throws
+
 ## 2.14.0
 
 ### Minor Changes
