@@ -1,9 +1,9 @@
 import type {
+  AdapterData,
   AdapterRequest,
   AdapterRequestData,
   BatchableProperty,
   Execute,
-  Value,
 } from '../../../types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../../modules/logger'
@@ -110,33 +110,20 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       if (childRequestData) {
         // Join and deduplicate request data
         for (const { name } of payload.batchablePropertyPath) {
-          const originalValue = batchWarmer.origin[name]
-          if (
-            !Array.isArray(originalValue) ||
-            (originalValue as Array<unknown>).every((v) => {
-              typeof v === 'string'
+          const uniqueBatchableValue = new Set(batchWarmer.origin[name] as readonly unknown[])
+          const singleBatchablevalue =
+            childRequestData[name] ??
+            (childRequestData.data as AdapterRequestData<AdapterData>)?.[name]
+          if (singleBatchablevalue) uniqueBatchableValue.add(singleBatchablevalue)
+          else
+            logger.error(`[subscriptionsReducer] name=${name} not found in childRequestData`, {
+              childKey,
+              childRequestData,
+              name,
             })
-          ) {
-            logger.error(
-              `Batch Warmer's Batchable key does not have the expected type as an array of strings.  Parent: '${payload.parent}' Name: '${name}' Key '${originalValue}'`,
-            )
-          }
-
-          const uniqueBatchableValue = new Set(originalValue as Array<string>)
-          const incomingValue =
-            childRequestData[name] ||
-            (typeof childRequestData.data === 'object' &&
-              (childRequestData.data as Record<string, Value>)[name])
-          if (typeof incomingValue !== 'string') {
-            throw new Error(
-              `Incoming child's batchable key does not have the expected type of string.  Key '${incomingValue}'`,
-            )
-          }
-
-          uniqueBatchableValue.add(incomingValue as string)
           batchWarmer.origin[name] = [
             ...uniqueBatchableValue,
-          ] as typeof batchWarmer['origin']['name']
+          ] as typeof batchWarmer.origin[keyof typeof batchWarmer.origin]
         }
 
         // Join overrides
