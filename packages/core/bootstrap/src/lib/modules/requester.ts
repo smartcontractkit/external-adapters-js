@@ -2,7 +2,15 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import objectPath from 'object-path'
 import { join } from 'path'
 
-import { deepType, getEnv, parseBool, sleep, isObject, isArraylikeAccessor } from '../util'
+import {
+  deepType,
+  getEnv,
+  getEnvWithFallback,
+  parseBool,
+  sleep,
+  isObject,
+  isArraylikeAccessor,
+} from '../util'
 import {
   AdapterConnectionError,
   AdapterCustomError,
@@ -295,7 +303,9 @@ export class Requester {
         cacheType: getEnv('CACHE_TYPE'),
         cacheWarmingEnabled: parseBool(getEnv('WARMUP_ENABLED')),
         cacheMaxAge: getEnv('CACHE_MAX_AGE'),
-        metricEnabled: parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED')),
+        metricEnabled: parseBool(
+          getEnvWithFallback('METRICS_ENABLED', ['EXPERIMENTAL_METRICS_ENABLED']),
+        ),
         rateLimitApiTier: getEnv('RATE_LIMIT_API_TIER'),
         requestCoalescingEnabled: parseBool(getEnv('REQUEST_COALESCING_ENABLED')),
       }
