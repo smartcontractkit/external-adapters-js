@@ -1,5 +1,11 @@
 # @chainlink/coinbase-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 5a69fc4b7: Added nft-floor-price endpoint to coinbase adapter
+
 ## 1.2.40
 
 ### Patch Changes

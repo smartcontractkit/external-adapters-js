@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.0.95
+
+### Patch Changes
+
+- Updated dependencies [5a69fc4b7]
+  - @chainlink/coinbase-adapter@1.3.0
+
 ## 1.0.94
 
 ### Patch Changes
