@@ -1,6 +1,6 @@
 import { isMarketClosed as schedule } from './schedule'
 import { isMarketClosed as th } from './tradinghours'
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 // We check for something and get yes/no answer
 export type Check = (input: AdapterRequest) => Promise<boolean>
@@ -25,7 +25,7 @@ export const getCheckImpl = (type: CheckProvider | undefined): Check => {
       return async (input) => {
         try {
           return await th(input)
-        } catch (e) {
+        } catch (e: any) {
           return await schedule(input)
         }
       }

@@ -1,5 +1,13 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterResponse, Config, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import {
+  AxiosResponse,
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 
 const networks = ['bitcoin']
@@ -14,7 +22,8 @@ export const supportedEndpoints = ['wallet']
 export const description =
   'This endpoint returns a list of custodial chain addresses from an Ethereum smart contract.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { chainId: string; contractAddress: string; network: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   chainId: {
     description: 'The name of the target custodial chain',
     options: chainIds,
@@ -44,6 +53,18 @@ const ADDRESS_MANAGER_ABI = [
   },
 ]
 
+export type Address = {
+  address: string
+  network: string
+  chainId: string
+}
+
+interface ResponseWithResult extends Partial<AxiosResponse> {
+  jobRunID: string
+  statusCode: number
+  result: Address[]
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
@@ -54,10 +75,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const walletProviderContract = new ethers.Contract(contractAddress, ADDRESS_MANAGER_ABI, provider)
-  const addresses: string[] = await walletProviderContract.walletAddresses(networkChainId)
+  let addresses: string[]
+  try {
+    addresses = await walletProviderContract.walletAddresses(networkChainId)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
-  const response = addresses.map((address) => ({ address, chainId, network }))
-  const result: AdapterResponse = {
+  const response: Address[] = addresses.map((address) => ({ address, chainId, network }))
+  const result: ResponseWithResult = {
     jobRunID,
     result: response,
     data: { result: response },

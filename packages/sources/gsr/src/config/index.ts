@@ -1,10 +1,10 @@
 import { Requester, util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import type { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'GSR'
 export const DEFAULT_ENDPOINT = 'price'
-export const DEFAULT_BASE_URL = 'https://oracle.dev.gsr.io/v1'
-export const DEFAULT_WS_API_ENDPOINT = 'wss://oracle.dev.gsr.io/oracle'
+export const DEFAULT_BASE_URL = 'https://oracle.prod.gsr.io/v1'
+export const DEFAULT_WS_API_ENDPOINT = 'wss://oracle.prod.gsr.io/oracle'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
@@ -15,11 +15,11 @@ export const makeConfig = (prefix?: string): Config => {
   config.api = {
     ...config.api,
     baseURL: config.api.baseURL || DEFAULT_BASE_URL,
-    baseWsURL: WS_URL,
     headers: {
       'x-auth-userid': userId,
     },
   }
+  config.ws.baseWsURL = WS_URL
   config.adapterSpecificParams = {
     userId,
     publicKey,

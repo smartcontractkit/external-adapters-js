@@ -1,9 +1,8 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
-
-import { ethers } from 'ethers'
+import ethers from 'ethers'
 import { AddressInfo } from 'net'
 import { mockBooleanOnlyGalaxisApiResp, mockNonBooleanOnlyGalaxisApiResp } from './fixtures'
 import { Interface } from 'ethers/lib/utils'
@@ -36,8 +35,8 @@ jest.mock('ethers', () => {
     ethers: {
       ...actualModule.ethers,
       providers: {
-        JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-          return {}
+        JsonRpcProvider: function (): ethers.providers.JsonRpcProvider {
+          return {} as ethers.providers.JsonRpcProvider
         },
       },
       Contract: function (address: string) {
@@ -119,17 +118,17 @@ describe('nba', () => {
     }
   })
 
+  afterEach(() => {
+    delete process.env.API_ENDPOINT
+    nock.cleanAll()
+  })
+
   afterAll((done) => {
     process.env = oldEnv
     fastify.close(done)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
-  })
-
-  afterEach(() => {
-    delete process.env.API_ENDPOINT
-    nock.cleanAll()
   })
 
   describe('successful call for successful calls', () => {

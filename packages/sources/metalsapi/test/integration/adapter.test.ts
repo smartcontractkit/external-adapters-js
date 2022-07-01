@@ -1,40 +1,25 @@
-import { AdapterRequest } from '@chainlink/types'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import {
   mockResponseSuccessConvertEndpoint,
   mockResponseSuccessLatestEndpoint,
   mockResponseSuccessLatestBtcEndpoint,
 } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'fake-api-key',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
+  setupExternalAdapterTest(envVariables, context)
   describe('convert api', () => {
     const data: AdapterRequest = {
       id,
@@ -48,7 +33,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccessConvertEndpoint()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -71,7 +56,7 @@ describe('execute', () => {
       }
       mockResponseSuccessLatestEndpoint()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -92,7 +77,7 @@ describe('execute', () => {
       }
       mockResponseSuccessLatestBtcEndpoint()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -113,7 +98,7 @@ describe('execute', () => {
       }
       mockResponseSuccessLatestEndpoint()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

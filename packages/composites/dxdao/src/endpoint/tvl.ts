@@ -1,5 +1,5 @@
-import { Validator, Logger } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Validator, Logger, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import type { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
 import { ExtendedConfig } from '../config'
@@ -10,7 +10,11 @@ export const supportedEndpoints = [NAME]
 export const description =
   'This endpoint fetches the TVL(Total Value Locked) inside a pair that is deployed on the XDai chain. The TVL is returned in USD.'
 
-const inputParameters: InputParameters = {
+export type TInputParameters = {
+  pairContractAddress: string
+}
+
+const inputParameters: InputParameters<TInputParameters> = {
   pairContractAddress: {
     required: true,
     type: 'string',
@@ -48,11 +52,16 @@ export const getTokenAllocations = async (
 
   const wethContractAddress = config.wethContractAddress
   const { pairContractAddress } = validator.validated.data
-  const tvlInWei = await getTvlAtAddressInWei(
-    pairContractAddress,
-    wethContractAddress,
-    config.RPC_URL,
-  )
+  let tvlInWei
+  try {
+    tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress, config.RPC_URL)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   return [
     {
       symbol: 'ETH', // Instead of querying the WETH price, get ETH price
@@ -79,8 +88,16 @@ const getTvlAtAddressInWei = async (
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
   const validator = new Validator(request, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const allocations = await getTokenAllocations(request, config)
   const _execute = TokenAllocation.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)
+  try {
+    return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 }

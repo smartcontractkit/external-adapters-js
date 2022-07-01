@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
@@ -9,7 +9,8 @@ export const commonKeys: Record<string, string> = {
   wti: 'WTI_USD',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string; url: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['type', 'asset', 'from', 'market'],
     description: 'The type of oil to get the price from',
@@ -23,9 +24,7 @@ export const inputParameters: InputParameters = {
   },
 }
 
-export const customError = (data: Record<string, unknown>) => {
-  return data.data === null
-}
+export const customError = (data: Record<string, unknown>): boolean => data.data === null
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)

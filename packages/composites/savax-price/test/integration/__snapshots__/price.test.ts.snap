@@ -6,6 +6,7 @@ Object {
     "feedID": "{\\"data\\":{\\"source\\":\\"coinpaprika\\"}}",
     "message": "ERROR: No price value found for AVAX/USD from the coinpaprika adapter.",
     "name": "AdapterError",
+    "network": "avalanche",
   },
   "jobRunID": "1",
   "status": "errored",
@@ -30,6 +31,7 @@ exports[`execute sAvax price successul responses should return the price of sAVA
 Object {
   "data": Object {
     "result": "79328233833934023829",
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": "79328233833934023829",

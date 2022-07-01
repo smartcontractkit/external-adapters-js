@@ -1,5 +1,12 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/types'
+import {
+  InputParameters,
+  Logger,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
 import { DateTime } from 'luxon'
 
@@ -73,7 +80,11 @@ interface RoundDataForCoin {
   roundId: BigNumberish
 }
 
-const pokeParams = {
+export type TInputParameters = {
+  contractAddress: string
+}
+
+const pokeParams: InputParameters<TInputParameters> = {
   contractAddress: true,
 }
 
@@ -152,22 +163,31 @@ async function createAndResolveMarkets(
   try {
     await contract.createAndResolveMarkets(roundIds, nextWeek, { nonce })
     Logger.log(`Augur: createAndResolveMarkets -- success`)
-  } catch (e) {
+  } catch (e: any) {
+    const error = e as Error
     Logger.log(`Augur: createAndResolveMarkets -- failure`)
-    Logger.error(e)
+    Logger.error(error)
   }
 }
 
 async function pokeMarkets(contract: ethers.Contract, context: AdapterContext, config: Config) {
-  const resolutionTime: BigNumber = await contract.nextResolutionTime()
-  const nextResolutionTime = await getNextWeekResolutionTimestamp(contract)
-  if (nextResolutionTime > 0) {
-    const roundIds = await fetchResolutionRoundIds(
-      resolutionTime.toNumber(),
-      contract,
-      context,
-      config,
-    )
-    await createAndResolveMarkets(roundIds, nextResolutionTime, contract, context, config)
+  try {
+    const resolutionTime: BigNumber = await contract.nextResolutionTime()
+    const nextResolutionTime = await getNextWeekResolutionTimestamp(contract)
+    if (nextResolutionTime > 0) {
+      const roundIds = await fetchResolutionRoundIds(
+        resolutionTime.toNumber(),
+        contract,
+        context,
+        config,
+      )
+      await createAndResolveMarkets(roundIds, nextResolutionTime, contract, context, config)
+    }
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
   }
 }

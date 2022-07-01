@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 
-import { Config, ExecuteWithConfig, ExecuteFactory } from '@chainlink/types'
+import { Config, ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
 import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
 
 import { makeConfig } from './config'
@@ -13,10 +13,20 @@ export interface Action {
   data: unknown
 }
 
-const inputParams = {
-  request_id: ['request_id'],
-  result: ['result'],
-  payment: ['payment'],
+export type TInputParameters = { request_id: string; result: string; payment: string }
+export const inputParams: InputParameters<TInputParameters> = {
+  request_id: {
+    type: 'string',
+    required: true,
+  },
+  result: {
+    type: 'string',
+    required: true,
+  },
+  payment: {
+    type: 'string',
+    required: true,
+  },
 }
 
 // Convert the payment in $LINK into Agoric's pegged $LINK token.
@@ -71,7 +81,8 @@ const tryExecuteLogError =
   async (request, context, config) => {
     try {
       return await execute(request, context, config)
-    } catch (e) {
+    } catch (e: any) {
+      const error = e as Error
       const queryId = request.data?.request_id
       const rest = { queryId }
 
@@ -81,7 +92,7 @@ const tryExecuteLogError =
           method: 'POST',
           data: {
             type: 'oracleServer/error',
-            data: { error: `${(e && e.message) || e}`, ...(queryId && rest) },
+            data: { error: `${(error && error.message) || error}`, ...(queryId && rest) },
           },
         },
         undefined,
@@ -96,13 +107,13 @@ const tryExecuteLogError =
       throw new AdapterError({
         jobRunID: request.id,
         statusCode: 500,
-        message: `${(e && e.message) || e}`,
-        cause: e,
+        message: `${(error && error.message) || error}`,
+        cause: error,
       })
     }
   }
 
 export const execute = tryExecuteLogError(executeImpl)
-export const makeExecute: ExecuteFactory<Config> = (config) => {
+export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config) => {
   return async (request, context) => execute(request, context, config || makeConfig())
 }

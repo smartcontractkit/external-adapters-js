@@ -1,8 +1,8 @@
 import { ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterDataProviderError, Requester, util, Validator } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['allocations']
 
@@ -101,18 +101,31 @@ const getPoolValue = async (poolAddress: string, provider: ethers.providers.Prov
   return Promise.all(getValues)
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, {})
+export type TInputParameters = Record<string, never>
+export const inputParameters: InputParameters<TInputParameters> = {}
 
-  const jobRunID = validator.validated.jobRunID
+export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
+  const validator = new Validator(input, inputParameters)
+
+  const jobRunID = validator.validated.id
   const controllerAddress = config.controllerAddress
 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
 
   const controller = new ethers.Contract(controllerAddress, controllerABI, provider)
-  const pool = (await controller.pools()) as string
 
-  const values = await getPoolValue(pool, provider)
+  let pool
+  let values
+  try {
+    pool = (await controller.pools()) as string
+    values = await getPoolValue(pool, provider)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const tokens: {
     [token: string]: { symbol: string; decimals: number; balance: ethers.BigNumber }

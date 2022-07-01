@@ -1,5 +1,5 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['assets', 'dominance']
 
@@ -8,7 +8,8 @@ export const endpointResultPaths = {
   assets: 'marketcap.marketcap_dominance_percent',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
     aliases: ['market', 'to', 'quote'],
@@ -54,7 +55,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base.toLowerCase()
-  const resultPath = validator.validated.data.resultPath
+  const resultPath = (validator.validated.data.resultPath || '').toString()
   const url = util.buildUrlPath('assets/:base/metrics', { base })
 
   const options = {

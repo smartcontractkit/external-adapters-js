@@ -1,10 +1,16 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import {
+  ExecuteWithConfig,
+  Config,
+  InputParameters,
+  AxiosRequestConfig,
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['futures']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { market: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   market: {
     aliases: ['from', 'future'],
     required: true,
@@ -25,10 +31,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const url = util.buildUrlPath('/futures/:market/sip62', { market: market.toUpperCase() })
 
   const headers = {
-    'x-api-key': util.getRandomRequiredEnv('API_KEY'),
+    'x-api-key': util.getRandomRequiredEnv('API_KEY') || '',
   }
 
-  const options = {
+  const options: AxiosRequestConfig = {
     ...config.api,
     url,
     headers,

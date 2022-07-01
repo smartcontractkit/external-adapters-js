@@ -1,50 +1,24 @@
-import { AdapterRequest } from '@chainlink/types'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../../src'
 import { mockGamesResponse } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const MOCK_KEY = 'mock-key'
 
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.MLB_API_KEY = process.env.MLB_API_KEY || MOCK_KEY
-  process.env.API_VERBOSE = 'true'
-
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
-
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    MLB_API_KEY: process.env.MLB_API_KEY || MOCK_KEY,
+    API_VERBOSE: 'true',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
-
+  setupExternalAdapterTest(envVariables, context)
   describe('fetch mlb schedule by date', () => {
     mockGamesResponse(MOCK_KEY)
 
@@ -58,7 +32,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -77,7 +51,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -102,7 +76,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -122,7 +96,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

@@ -1,38 +1,28 @@
-import { AdapterRequest } from '@chainlink/types'
-import { AddressInfo } from 'net'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
+import { AddressInfo } from 'net'
 import { mockVwapSuccess } from './fixtures'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'test_api_token',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('vwap api', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        block: 10000000,
+        api_key: 'test-key',
         endpoint: 'vwap',
         from: 'AMPL',
         to: 'USD',
@@ -41,9 +31,8 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockVwapSuccess()
-      process.env.API_KEY = process.env.API_KEY || 'test_api_token'
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

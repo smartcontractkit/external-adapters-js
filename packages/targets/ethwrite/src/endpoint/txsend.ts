@@ -1,5 +1,5 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig } from '@chainlink/types'
+import { Requester, Validator, AdapterError, InputParameters, util } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config } from '../config'
 
@@ -17,13 +17,38 @@ const encode = (type: string, value: string | number) => {
   }
   return retVal.slice(2)
 }
-
-const customParams = {
-  exAddr: true,
-  funcId: false,
-  dataType: false,
-  result: false,
-  dataToSend: false,
+export type TInputParameters = {
+  exAddr: string
+  funcId: string
+  dataType: string
+  result: string | number
+  dataToSend: string | number
+}
+export const customParams: InputParameters<TInputParameters> = {
+  exAddr: {
+    description: 'The address for sending the transaction to',
+    type: 'string',
+    required: true,
+  },
+  funcId: {
+    description: 'The setter function to call',
+    type: 'string',
+    required: false,
+  },
+  dataType: {
+    description:
+      'Pass this only in case you need to encode the data(normally should be already encoded)',
+    type: 'string',
+    required: false,
+  },
+  result: {
+    description: 'The result of the previous adapter',
+    required: false,
+  },
+  dataToSend: {
+    description: 'If specified, this value will be sent instead of `result`',
+    required: false,
+  },
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -61,10 +86,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       data: tx,
       status: 200,
     })
-  } catch (e) {
+  } catch (e: any) {
     throw new AdapterError({
       jobRunID,
-      message: e,
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
       statusCode: 400,
     })
   }

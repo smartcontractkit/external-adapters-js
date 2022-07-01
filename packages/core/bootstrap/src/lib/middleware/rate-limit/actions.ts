@@ -1,4 +1,4 @@
-import { AdapterRequest, AdapterResponse } from '@chainlink/types'
+import type { AdapterRequest, AdapterResponse } from '../../../types'
 import { createAction } from '@reduxjs/toolkit'
 import { ActionBase, toActionPayload } from '../../store'
 

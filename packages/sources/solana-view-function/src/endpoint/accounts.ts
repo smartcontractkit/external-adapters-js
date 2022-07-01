@@ -1,11 +1,17 @@
-import { AdapterConfigError, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import {
+  AdapterConfigError,
+  Requester,
+  AdapterDataProviderError,
+  Validator,
+} from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import * as solanaWeb3 from '@solana/web3.js'
 
 export const supportedEndpoints = ['accounts']
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { addresses: string[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     required: true,
     description: 'An array of the addresses to query information from',
@@ -23,26 +29,32 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       message: 'Solana RPC URL not set',
     })
 
-  const solanaConnection = new solanaWeb3.Connection(
-    config.rpcUrl,
-    config.commitment as solanaWeb3.Commitment,
-  )
+  try {
+    const solanaConnection = new solanaWeb3.Connection(
+      config.rpcUrl,
+      config.commitment as solanaWeb3.Commitment,
+    )
 
-  const accountPublicKeys = validator.validated.data.addresses.map(
-    (address: string) => new solanaWeb3.PublicKey(address),
-  )
-  const accountInformation = await solanaConnection.getMultipleAccountsInfo(accountPublicKeys, {
-    encoding: 'jsonParsed',
-  })
+    const accountPublicKeys = validator.validated.data.addresses.map(
+      (address: string) => new solanaWeb3.PublicKey(address),
+    )
+    const accountInformation = await solanaConnection.getMultipleAccountsInfo(accountPublicKeys, {
+      encoding: 'jsonParsed',
+    } as any)
+    // TODO: type doesn't fit dependency)
 
-  const result = accountInformation.length
-  return {
-    jobRunID,
-    data: {
-      accountInformation,
+    const result = accountInformation.length
+    const res = {
+      jobRunID,
+      data: {
+        accountInformation,
+        result,
+      },
       result,
-    },
-    result,
-    statusCode: 200,
+      statusCode: 200,
+    }
+    return Requester.success(jobRunID, res, true)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({ network: 'solana', cause: e })
   }
 }

@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName, Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import uniswapRouterV2ABI from '../abis/uniswap_v2_router_02.json'
@@ -24,7 +24,16 @@ export interface ResponseSchema {
   rate: number
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = {
+  from: string
+  fromAddress?: string
+  fromDecimals?: number
+  to: string
+  toAddress?: string
+  toDecimals?: number
+  amount?: number
+}
+export const inputParameters: InputParameters<TInputParameters> = {
   from: {
     aliases: ['base', 'coin'],
     required: true,
@@ -80,7 +89,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const amount = BigNumber.from(inputAmount).mul(BigNumber.from(10).pow(fromDecimals))
   const resultPath = validator.validated.data.resultPath
 
-  const [_amountIn, output] = await getBestRate(from, to, amount, config)
+  let output
+  try {
+    ;[, output] = await getBestRate(from, to, amount, config)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: config.network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const outputAmount = new Decimal(output.toString()).div(new Decimal(10).pow(toDecimals))
   const rate = outputAmount.div(inputAmount)
@@ -102,7 +120,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     config: {},
     data: data,
   }
-  const result = Requester.validateResultNumber(response.data, [resultPath])
+  const result = Requester.validateResultNumber(response.data, resultPath)
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
@@ -126,20 +144,31 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
  * @param config Configuration to extract token decimals from
  */
 const getTokenDetails = async (
-  validator: Validator,
-  direction: string,
+  validator: Validator<TInputParameters>,
+  direction: 'from' | 'to',
   config: Config,
 ): Promise<{ address: string; decimals: number }> => {
   const symbol = validator.overrideSymbol(
     AdapterName,
-    validator.validated.data[direction],
-  ) as string
-  const address =
-    validator.validated.data[`${direction}Address`] ||
+    validator.validated.data[direction].toString(),
+  )
+  const address = (
+    (validator.validated.data as any)[`${direction}Address`] ||
     validator.overrideToken(symbol, config.network) ||
     symbol
-  const decimals =
-    validator.validated.data[`${direction}Decimals`] || (await getDecimals(address, config))
+  ).toString()
+  let decimals
+  try {
+    decimals =
+      (validator.validated.data as any)[`${direction}Decimals`] ||
+      (await getDecimals(address, config))
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: config.network,
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   return { address, decimals }
 }

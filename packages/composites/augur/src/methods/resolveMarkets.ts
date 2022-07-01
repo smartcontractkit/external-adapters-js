@@ -1,12 +1,29 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Execute, AdapterContext } from '@chainlink/types'
+import {
+  InputParameters,
+  Logger,
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+} from '@chainlink/ea-bootstrap'
+import type {
+  ExecuteWithConfig,
+  Execute,
+  AdapterContext,
+  BigNumber as TBigNumber,
+} from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { TEAM_ABI, TEAM_SPORTS, FIGHTER_SPORTS, NFL_ABI } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 import mmaABI from '../abis/mma.json'
 
-const resolveParams = {
+export type TInputParameters = {
+  contractAddress: string
+  sport: string
+}
+
+const resolveParams: InputParameters<TInputParameters> = {
   contractAddress: true,
   sport: true,
 }
@@ -71,7 +88,16 @@ const resolveTeam = async (
     throw Error(`Unknown data provider for sport ${sport}`)
   }
 
-  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  let eventIDs: ethers.BigNumber[]
+  try {
+    eventIDs = await contract.listResolvableEvents()
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   const events: ResolveTeam[] = []
   for (const eventId of eventIDs) {
     try {
@@ -80,14 +106,16 @@ const resolveTeam = async (
           id: jobRunID,
           data: {
             sport,
-            eventId,
+            eventId: eventId as TBigNumber,
           },
         },
         context,
       )
-      events.push(response.result as ResolveTeam)
-    } catch (e) {
-      Logger.error(e)
+      // TODO: makeExecute return types
+      events.push(response.result as unknown as ResolveTeam)
+    } catch (e: any) {
+      const error = e as Error
+      Logger.error(error)
     }
   }
 
@@ -123,9 +151,10 @@ const resolveTeam = async (
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 
@@ -161,7 +190,16 @@ const resolveFights = async (
   }
 
   Logger.debug('Augur: Getting list of potentially resolvable events')
-  const eventIDs: ethers.BigNumber[] = await contract.listResolvableEvents()
+  let eventIDs: ethers.BigNumber[]
+  try {
+    eventIDs = await contract.listResolvableEvents()
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   Logger.debug(`Augur: Found ${eventIDs.length} potentially resolvable events`)
   const events: ResolveFight[] = []
   for (const eventId of eventIDs) {
@@ -171,14 +209,17 @@ const resolveFights = async (
           id: jobRunID,
           data: {
             sport,
-            eventId,
+            eventId: eventId as TBigNumber,
+            // TODO: BigNumber type
           },
         },
         context,
       )
-      events.push(response.result as ResolveFight)
-    } catch (e) {
-      Logger.error(e)
+      // TODO: makeExecute return types
+      events.push(response.result as unknown as ResolveFight)
+    } catch (e: any) {
+      const error = e as Error
+      Logger.error(error)
     }
   }
 
@@ -210,9 +251,10 @@ const resolveFights = async (
       Logger.info(`Augur: Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 

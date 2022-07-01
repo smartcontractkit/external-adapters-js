@@ -209,6 +209,7 @@ export const mockCoinmetricsResponseSuccess2 = (): nock.Scope =>
       start_time: '2021-08-05',
       end_time: '2021-08-07',
       api_key: 'test_api_key',
+
       next_page_token: '0.MjAyMS0wOC0wNlQwMDowMDowMFo',
     })
     .reply(200, {

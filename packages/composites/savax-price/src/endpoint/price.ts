@@ -1,19 +1,44 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/types'
+import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { Config, FLOATING_POINT_DECIMALS } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { ethers } from 'ethers'
-import { AdapterResponseInvalidError } from '@chainlink/ea-bootstrap'
+import {
+  AdapterDataProviderError,
+  AdapterResponseInvalidError,
+  util,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['price']
+
+export type TInputParameters = TA.types.TInputParameters
 
 export const execute = async (
   input: AdapterRequest,
   context: AdapterContext,
   config: Config,
 ): Promise<AdapterResponse> => {
-  const usdPerAvax = await getAvaxPrice(input, context)
+  let usdPerAvax
+  try {
+    usdPerAvax = await getAvaxPrice(input, context)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'avalanche',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
   validateNonZeroValue(input.id, usdPerAvax, 'Avax Price')
-  const avaxPooledShares = await getPooledAvaxShares(config)
+  let avaxPooledShares
+  try {
+    avaxPooledShares = await getPooledAvaxShares(config)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'avalanche',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
+
   validateNonZeroValue(input.id, avaxPooledShares, 'Avax Pool Shares')
   const result = usdPerAvax
     .mul(avaxPooledShares)
@@ -25,6 +50,7 @@ export const execute = async (
     result,
     data: {
       result,
+      statusCode: 200,
     },
   }
 }
@@ -56,7 +82,8 @@ export const getAvaxPrice = async (
     },
   ]
   const resp = await _execute({ id: input.id, data: { ...input.data, allocations } }, context)
-  return ethers.utils.parseUnits(resp.data.result.toString(), FLOATING_POINT_DECIMALS)
+  // TODO: makeExecute return types
+  return ethers.utils.parseUnits((resp.data.result as any).toString(), FLOATING_POINT_DECIMALS)
 }
 
 export const sAvaxABI = [

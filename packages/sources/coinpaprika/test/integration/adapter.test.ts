@@ -1,31 +1,24 @@
-import { AdapterRequest } from '@chainlink/types'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import { mockCryptoResponseSuccess, mockPROCryptoResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-    fastify.close(done)
-  })
+  const testOptions = {
+    cleanNock: false,
+  }
+
+  setupExternalAdapterTest(envVariables, context, testOptions)
 
   describe('crypto-single api', () => {
     describe('Successful request without override', () => {
@@ -39,7 +32,7 @@ describe('execute', () => {
             from: 'ETH',
           },
         }
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -66,7 +59,7 @@ describe('execute', () => {
             },
           },
         }
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -88,7 +81,7 @@ describe('execute', () => {
             from: 'BTC',
           },
         }
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -110,7 +103,7 @@ describe('execute', () => {
           quote: 'USD',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -130,7 +123,7 @@ describe('execute', () => {
           quote: 'USD',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -156,7 +149,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -176,7 +169,7 @@ describe('execute', () => {
           coinid: 'eth-ethereum',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -200,7 +193,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -223,7 +216,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -246,7 +239,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -270,7 +263,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -292,7 +285,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(vwapData)
         .set('Accept', '*/*')
@@ -317,7 +310,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(dataWithOverride)
         .set('Accept', '*/*')
@@ -330,30 +323,17 @@ describe('execute', () => {
 })
 
 describe('execute with api key', () => {
-  const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.API_KEY = 'fake-api-key'
-    process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_KEY: 'fake-api-key',
+    CACHE_ENABLED: 'false',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('crypto api pro', () => {
     const data: AdapterRequest = {
@@ -367,7 +347,7 @@ describe('execute with api key', () => {
     it('should return success', async () => {
       mockPROCryptoResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

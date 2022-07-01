@@ -76,13 +76,14 @@ const getCurrencyData = async (currency: string) => {
   return Requester.validateResultNumber(response.data, path)
 }
 
-const getInstrumentData = async (currency: string) => {
+const getInstrumentData = async (currency: string): Promise<Array<InstrumentData>> => {
   const config = {
     url: instrumentEndpoint,
     params: { currency },
   }
-  const response = await Requester.request(config)
-  return response.data.result
+  const response = await Requester.request<any>(config)
+  // TODO: response type
+  return response.data.result as Array<InstrumentData>
 }
 
 const olderThanHour = (
@@ -105,11 +106,13 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   }
 
   try {
-    const response = await Requester.request(config)
+    const response = await Requester.request<any>(config)
     const result = response.data.result
+    // TODO: response type
+
     const calls: Record<number, Array<OptionData>> = {}
     const puts: Record<number, Array<OptionData>> = {}
-    const instruments: Array<InstrumentData> = await getInstrumentData(currency)
+    const instruments = await getInstrumentData(currency)
     const hourAgo = moment().utc().subtract(1, 'hours').unix() * 1000
 
     result.map(convertToOptionData).forEach((optionData: OptionData) => {
@@ -144,7 +147,8 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
       putsE2: puts[e2],
       exchangeRate,
     }
-  } catch (error) {
+  } catch (e: any) {
+    const error = e as any
     Logger.error(error)
     Logger.error(error.stack)
     throw error.response

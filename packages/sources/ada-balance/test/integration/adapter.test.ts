@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import * as adaBalance from '../../src/'
 import '@cardano-ogmios/client'
 import '../../src/endpoint/ogmios'

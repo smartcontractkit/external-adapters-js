@@ -2,11 +2,15 @@ import { ADDRESS_MANAGER_ABI, STATE_COMMITMENT_CHAIN_ABI } from './abis'
 
 import {
   AdapterConfigError,
+  AdapterDataProviderError,
   AdapterError,
   AdapterResponseInvalidError,
+  Requester,
   Validator,
+  util,
+  Value,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Config } from '../../config'
 import { RLP } from 'ethers/lib/utils'
@@ -26,7 +30,8 @@ export interface ResponseSchema {
 export const description = `The optimism global endpoint reads the latest proof from Optimism/Metis as the L2 chain and returns the proof to the caller.
 Currently this endpoint has the same functionality as the server in this example https://github.com/smartcontractkit/ccip-read/tree/6d4deb917781f3becda39b9ebad6f21e037af1a6/examples/optimism-gateway.`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { to: string; data: string; abi: Record<string, Value>[] }
+export const inputParameters: InputParameters<TInputParameters> = {
   to: {
     required: true,
     description: 'The **L1** address of the original called L1 contract.',
@@ -58,7 +63,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (!config.l2RpcUrl) throw new AdapterConfigError({ message: 'L2 RPC URL not set' })
 
   const jobRunID = validator.validated.id
-  const { to: address, data, abi: optimismGatewayStubABI } = validator.validated.data
+  const { to: address, data, abi: optimismGatewayStubABI = [] } = validator.validated.data
   const l1Provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const addressManager = new ethers.Contract(
     config.addressManagerContract,
@@ -75,8 +80,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const lastElemIdx = elements.length - 1
   const treeProof = getMerkleTreeProof(elements, lastElemIdx)
   const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl)
-  const l2Proof: { accountProof: string; storageProof: Record<string, unknown>[] } =
-    await getProofFromL2Resolver(
+  let l2Proof: { accountProof: string; storageProof: Record<string, unknown>[] }
+  try {
+    l2Proof = await getProofFromL2Resolver(
       node,
       address,
       optimismGatewayStubABI,
@@ -84,6 +90,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       l1Provider,
       l2Provider,
     )
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'optimism',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const ret = [
     node,
@@ -102,7 +115,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     returnType: toInterface(optimismGatewayStubABI).getFunction(RETURN_TYPE_FN),
     response: ret,
   }
-  return {
+  const res = {
     jobRunID,
     result,
     statusCode: 200,
@@ -110,6 +123,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       result,
     },
   }
+  return Requester.success(jobRunID, res, config.verbose)
 }
 
 const loadContractFromManager = async (
@@ -131,42 +145,51 @@ const getLatestStateBatchHeader = async (
   l1Provider: ethers.providers.JsonRpcProvider,
   addressManager: ethers.Contract,
 ): Promise<StateBatchHeader> => {
-  const stateCommitmentChain = await loadContractFromManager(
-    STATE_COMMITMENT_CHAIN_ABI,
-    'StateCommitmentChain',
-    addressManager,
-    l1Provider,
-  )
-  for (
-    let endBlock = await l1Provider.getBlockNumber();
-    endBlock > 0;
-    endBlock = Math.max(endBlock - 100, 0)
-  ) {
-    const startBlock = Math.max(endBlock - 100, 1)
-    const events: ethers.Event[] = await stateCommitmentChain.queryFilter(
-      stateCommitmentChain.filters.StateBatchAppended(),
-      startBlock,
-      endBlock,
+  try {
+    const stateCommitmentChain = await loadContractFromManager(
+      STATE_COMMITMENT_CHAIN_ABI,
+      'StateCommitmentChain',
+      addressManager,
+      l1Provider,
     )
-    if (events.length > 0) {
-      const event = events[events.length - 1]
-      const tx = await l1Provider.getTransaction(event.transactionHash)
-      const [stateRoots] = stateCommitmentChain.interface.decodeFunctionData(
-        'appendStateBatch',
-        tx.data,
+    for (
+      let endBlock = await l1Provider.getBlockNumber();
+      endBlock > 0;
+      endBlock = Math.max(endBlock - 100, 0)
+    ) {
+      const startBlock = Math.max(endBlock - 100, 1)
+      const events: ethers.Event[] = await stateCommitmentChain.queryFilter(
+        stateCommitmentChain.filters.StateBatchAppended(),
+        startBlock,
+        endBlock,
       )
-      return {
-        batch: {
-          batchIndex: event.args?._batchIndex,
-          batchRoot: event.args?._batchRoot,
-          batchSize: event.args?._batchSize,
-          prevTotalElements: event.args?._prevTotalElements,
-          extraData: event.args?._extraData,
-        },
-        stateRoots,
+      if (events.length > 0) {
+        const event = events[events.length - 1]
+        const tx = await l1Provider.getTransaction(event.transactionHash)
+        const [stateRoots] = stateCommitmentChain.interface.decodeFunctionData(
+          'appendStateBatch',
+          tx.data,
+        )
+        return {
+          batch: {
+            batchIndex: event.args?._batchIndex,
+            batchRoot: event.args?._batchRoot,
+            batchSize: event.args?._batchSize,
+            prevTotalElements: event.args?._prevTotalElements,
+            extraData: event.args?._extraData,
+          },
+          stateRoots,
+        }
       }
     }
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'optimism',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
   }
+
   throw new AdapterResponseInvalidError({ message: 'No state root batches found' })
 }
 

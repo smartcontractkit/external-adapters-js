@@ -1,37 +1,20 @@
-import { AdapterRequest } from '@chainlink/types'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import process from 'process'
 import { server as startServer } from '../../src'
-import nock from 'nock'
 import { mockResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.RPC_URL = process.env.RPC_URL || 'https://test-rpc-url:8545'
+  const envVariables = {
+    RPC_URL: process.env.RPC_URL || 'https://test-rpc-url:8545',
+  }
 
-    if (process.env.RECORD) nock.recorder.rec()
-
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    process.env = oldEnv
-
-    if (process.env.RECORD) nock.recorder.play()
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('wallet endpoint', () => {
     const data: AdapterRequest = {
@@ -46,7 +29,7 @@ describe('execute', () => {
     it('returns success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

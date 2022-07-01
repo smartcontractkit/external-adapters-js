@@ -1,5 +1,5 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
 import FundValueCalculatorABI from '../abis/FundValueCalculator.json'
@@ -8,7 +8,8 @@ export const supportedEndpoints = ['calcNav']
 
 export const description = 'Endpoint to call the `calcNav` function on the contract.'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { calculatorContract: string; vaultProxy: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   calculatorContract: {
     required: true,
     type: 'string',
@@ -25,8 +26,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const calculatorContractAddress = validator.validated.data.calculatorContract
   const vaultProxyAddress = validator.validated.data.vaultProxy
-
-  const [, nav] = await calcNav(calculatorContractAddress, vaultProxyAddress, config)
+  let nav
+  try {
+    ;[, nav] = await calcNav(calculatorContractAddress, vaultProxyAddress, config)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 
   const response = {
     status: 200,

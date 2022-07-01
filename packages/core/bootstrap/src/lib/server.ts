@@ -1,14 +1,22 @@
-import { AdapterContext, Execute, Middleware, AdapterRequest } from '@chainlink/types'
+import type {
+  AdapterContext,
+  Execute,
+  Middleware,
+  AdapterRequest,
+  AdapterData,
+  EnvDefaultOverrides,
+} from '../types'
 import Fastify, { FastifyInstance } from 'fastify'
 import { join } from 'path'
 import * as client from 'prom-client'
 import { executeSync, store, withMiddleware } from '../index'
 import { defaultOptions } from './middleware/cache'
 import { loadTestPayload } from './config/test-payload-loader'
-import { logger } from './modules'
+import { logger } from './modules/logger'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
-import { get as getRateLimitConfig } from './middleware/rate-limit/config'
+import { get as getRateLimitConfig } from './config/provider-limits/config'
 import { getClientIp, getEnv, toObjectWithNumbers } from './util'
+import { Limits } from './config/provider-limits'
 import process from 'process'
 import { serverShutdown } from './store'
 
@@ -22,27 +30,32 @@ export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
 export const CONTENT_TYPE_TEXT_PLAIN = 'text/plain'
 
 export const initHandler =
-  (adapterContext: AdapterContext, execute: Execute, middleware: Middleware[]) =>
+  <D extends AdapterData>(
+    adapterContext: AdapterContext,
+    execute: Execute<AdapterRequest<D>>,
+    middleware: Middleware<AdapterRequest<D>>[],
+  ) =>
   async (): Promise<FastifyInstance> => {
     const app = Fastify({
       trustProxy: true,
       logger: false,
     })
     const name = adapterContext.name || ''
-    const envDefaultOverrides: Record<string, string> | undefined =
-      adapterContext.envDefaultOverrides
+    const envDefaultOverrides = adapterContext.envDefaultOverrides || {}
     for (const key in envDefaultOverrides) {
-      if (!process.env[key]) {
-        process.env[key] = envDefaultOverrides[key]
+      if (!process.env[key] && envDefaultOverrides[key as keyof EnvDefaultOverrides]) {
+        process.env[key] = envDefaultOverrides[key as keyof EnvDefaultOverrides]
       }
     }
+    const rateLimit: Limits = adapterContext.rateLimit || { http: {}, ws: {} }
     let context: AdapterContext = {
       name,
+      cache: undefined,
       envDefaultOverrides,
-      cache: null,
-      rateLimit: getRateLimitConfig(
+      rateLimit,
+      limits: getRateLimitConfig(
         {
-          limits: adapterContext.rateLimit || { http: {}, ws: {} },
+          limits: rateLimit,
           name,
         },
         adapterContext,
@@ -58,20 +71,20 @@ export const initHandler =
       setupMetricsServer(name)
     }
 
-    const executeWithMiddleware = await withMiddleware(execute, context, middleware)
+    const executeWithMiddleware = await withMiddleware<D>(execute, context, middleware)
 
     app.post<{
-      Body: AdapterRequest
+      Body: AdapterRequest<D>
     }>(baseUrl, async (req, res) => {
       req.body.data = {
         ...(req.body.data || {}),
-        ...toObjectWithNumbers(req.query),
+        ...toObjectWithNumbers(req.query as Record<string, unknown>),
       }
 
       context = {
         ...context,
         ip: getClientIp(req),
-        hostname: req.hostname,
+        host: req.hostname,
       }
 
       return executeSync(req.body, executeWithMiddleware, context, (status, result) => {
@@ -93,7 +106,7 @@ export const initHandler =
       res.status(200).send({ message: 'OK', version })
     })
 
-    const testPayload = loadTestPayload()
+    const testPayload = loadTestPayload<D>()
     app.get(join(baseUrl, 'smoke'), async (_, res) => {
       if (testPayload.isDefault) {
         return res.status(200).send('OK')
@@ -103,7 +116,7 @@ export const initHandler =
 
       for (const index in testPayload.requests) {
         try {
-          await executeSync(
+          await executeSync<D>(
             { data: testPayload.requests[index], id: index },
             executeWithMiddleware,
             context,
@@ -111,7 +124,7 @@ export const initHandler =
               if (status === 400) errors.push(result)
             },
           )
-        } catch (e) {
+        } catch (e: any) {
           errors.push(e)
         }
       }

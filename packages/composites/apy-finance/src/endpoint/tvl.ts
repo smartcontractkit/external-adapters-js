@@ -1,6 +1,12 @@
-import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import type { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
-import { makeMiddleware, Validator, withMiddleware } from '@chainlink/ea-bootstrap'
+import {
+  AdapterDataProviderError,
+  makeMiddleware,
+  util,
+  Validator,
+  withMiddleware,
+} from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { makeExecute } from '../adapter'
 
@@ -24,14 +30,16 @@ export function getAllocations(
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
-          .then((value) => resolve(value.data))
+          // NOTE: coercing type because allocations doesn't fit normal responses
+          .then((value) => resolve(value.data as unknown as TA.types.TokenAllocations))
           .catch(reject)
       })
       .catch((error) => reject(error))
   })
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { source?: string; quote?: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   source: false,
   quote: false,
 }
@@ -39,9 +47,17 @@ export const inputParameters: InputParameters = {
 export const execute: ExecuteWithConfig<Config> = async (input, context) => {
   const validator = new Validator(input, inputParameters)
 
-  const jobRunID = validator.validated.jobRunID
+  const jobRunID = validator.validated.id
   const allocations = await getAllocations(context, jobRunID)
 
   const _execute = TA.makeExecute()
-  return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
+  try {
+    return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
+  } catch (e: any) {
+    throw new AdapterDataProviderError({
+      network: 'ethereum',
+      message: util.mapRPCErrorMessage(e?.code, e?.message),
+      cause: e,
+    })
+  }
 }

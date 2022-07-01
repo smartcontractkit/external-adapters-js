@@ -6,14 +6,14 @@ import {
   ExecuteWithConfig,
   Config,
   AdapterRequest,
-} from '@chainlink/types'
+} from '../../src/types'
 
 describe('Selector', () => {
   const execute: ExecuteWithConfig<Config> = async () => {
     return {
       jobRunID: '1',
       statusCode: 200,
-      data: { result: 1 },
+      data: { result: 1, statusCode: 200 },
       result: 1,
     }
   }

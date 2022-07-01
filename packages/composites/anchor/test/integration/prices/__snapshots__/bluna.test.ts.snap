@@ -5,7 +5,7 @@ Object {
   "error": Object {
     "feedID": "BLUNA/USD",
     "message": "Call to Terra bLUNA/USD feed reverted",
-    "name": "AdapterError",
+    "name": "Error",
   },
   "jobRunID": "1",
   "status": "errored",
@@ -44,7 +44,7 @@ Object {
   "error": Object {
     "feedID": "BLUNA/USD",
     "message": "Call to Terra bLuna HUB contract reverted",
-    "name": "AdapterError",
+    "name": "Error",
   },
   "jobRunID": "1",
   "status": "errored",
@@ -56,6 +56,7 @@ exports[`price-bluna successful calls return success when fetching the USD/BLuna
 Object {
   "data": Object {
     "result": "262011742574",
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": "262011742574",
@@ -67,6 +68,7 @@ exports[`price-bluna successful calls returns success when fetching the ETH/BLun
 Object {
   "data": Object {
     "result": "100000718",
+    "statusCode": 200,
   },
   "jobRunID": "1",
   "result": "100000718",

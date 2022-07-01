@@ -16,7 +16,7 @@ import {
 import { lastValueFrom } from 'rxjs'
 const { red, blue } = chalk
 
-const logInfo = (msg: string) => console.log(blue.bold(msg))
+const logInfo = (msg: string) => blue.bold(msg)
 
 const throwError = (msg: string): never => {
   process.exitCode = 1
@@ -223,7 +223,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
             latestInput = null // Ensure we don't use the same input twice
           }
           return { latestInput, integrationTests }
-        } catch (e) {
+        } catch (e: any) {
           return { latestInput, integrationTests }
         }
       },

@@ -1,5 +1,5 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 // Should also be supported for "EOD"
@@ -37,7 +37,8 @@ export const description = `This historical endpoint provides the closing price 
 
 **NOTE: each request sent to this endpoint has a cost of 10 credits**`
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { base: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'market', 'symbol'],
     required: true,
@@ -50,7 +51,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const symbol = (validator.overrideSymbol(AdapterName) as string).toUpperCase()
+  const symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
 
   const url = 'historical'
   const params = {

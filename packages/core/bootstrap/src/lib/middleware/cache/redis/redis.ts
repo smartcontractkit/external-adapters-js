@@ -1,10 +1,13 @@
 import { timeout, TimeoutError } from 'promise-timeout'
-import { createClient } from 'redis'
-// TODO https://app.shortcut.com/chainlinklabs/story/23811/update-redis-client-types-and-imports
-import { RedisClientOptions } from '@node-redis/client/dist/lib/client' //TODO add RedisClientType here
-import { RedisModules, RedisScripts } from '@node-redis/client/dist/lib/commands'
-import { logger } from '../../../modules'
-import { CacheEntry } from '../types'
+import {
+  createClient,
+  RedisModules,
+  RedisScripts,
+  RedisClientType,
+  RedisClientOptions,
+} from '@node-redis/client'
+import { logger } from '../../../modules/logger'
+import type { ICache, CacheEntry } from '../types'
 import * as metrics from './metrics'
 import { getEnv } from '../../../util'
 
@@ -45,10 +48,9 @@ export const redactOptions = (opts: RedisOptions): RedisOptions => {
   return opts
 }
 
-export class RedisCache {
+export class RedisCache implements ICache {
   options: RedisOptions
-  client: any //TODO https://app.shortcut.com/chainlinklabs/story/23811/update-redis-client-types-and-imports
-
+  client: RedisClientType<RedisModules, RedisScripts>
   constructor(options: RedisOptions) {
     logger.info('Creating new redis client instance...')
 
@@ -66,14 +68,14 @@ export class RedisCache {
     this.client = client
   }
 
-  static async build(options: RedisOptions) {
+  static async build(options: RedisOptions): Promise<RedisCache> {
     metrics.redis_connections_open.inc()
     const cache = new RedisCache(options)
     await cache.client.connect()
     return cache
   }
 
-  async setResponse(key: string, value: CacheEntry, maxAge: number) {
+  async setResponse(key: string, value: CacheEntry, maxAge: number): Promise<string | null> {
     const entry = JSON.stringify(value)
     return await this.contextualTimeout(
       this.client.set(key, entry, { PX: maxAge }),
@@ -86,7 +88,7 @@ export class RedisCache {
     )
   }
 
-  async setFlightMarker(key: string, maxAge: number) {
+  async setFlightMarker(key: string, maxAge: number): Promise<string | null> {
     return this.contextualTimeout(this.client.set(key, 'true', { PX: maxAge }), 'setFlightMarker', {
       key,
       maxAge,
@@ -94,19 +96,20 @@ export class RedisCache {
   }
 
   async getResponse(key: string): Promise<CacheEntry | undefined> {
-    const entry: string = await this.contextualTimeout(this.client.get(key), 'getResponse', { key })
+    const entry = await this.contextualTimeout(this.client.get(key), 'getResponse', { key })
+    if (!entry) return
     return JSON.parse(entry)
   }
 
   async getFlightMarker(key: string): Promise<boolean> {
-    const entry: string = await this.contextualTimeout(this.client.get(key), 'getFlightMarker', {
+    const entry = await this.contextualTimeout(this.client.get(key), 'getFlightMarker', {
       key,
     })
-
-    return JSON.parse(entry)
+    if (!entry) return false
+    return !!JSON.parse(entry)
   }
 
-  async del(key: string) {
+  async del(key: string): Promise<number> {
     return this.contextualTimeout(this.client.del(key), 'del', { key })
   }
 
@@ -137,14 +140,18 @@ export class RedisCache {
     }
   }
 
-  async contextualTimeout(promise: Promise<any>, fnName: string, context: Record<string, any>) {
+  async contextualTimeout<ReturnType>(
+    promise: Promise<ReturnType>,
+    fnName: string,
+    context: Record<string, unknown>,
+  ): Promise<ReturnType> {
     try {
       const result = await timeout(promise, this.options.timeout)
       metrics.redis_commands_sent_count
         .labels({ status: metrics.CMD_SENT_STATUS.SUCCESS, function_name: fnName })
         .inc()
       return result
-    } catch (e) {
+    } catch (e: any) {
       if (e instanceof TimeoutError) {
         logger.error(
           `[Redis] Method timed out, consider increasing CACHE_REDIS_TIMEOUT (from ${this.options.timeout} ms) or increasing your resource allocation`,

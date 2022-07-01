@@ -1,9 +1,8 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockSolanaViewFunctionResponse, mockTokenAllocationResponse } from './fixtures'
-import request, { SuperTest, Test } from 'supertest'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import '@chainlink/solana-view-function-adapter'
 import '@chainlink/token-allocation-adapter'
 
@@ -17,32 +16,26 @@ jest.mock('@chainlink/token-allocation-adapter', () => ({
   makeExecute: jest.fn().mockReturnValue(() => mockTokenAllocationResponse),
 }))
 
-let oldEnv: NodeJS.ProcessEnv
+const SOLIDO_ADDRESS = 'EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ'
+const STSOL_ADDRESS = 'BSGfVnE6q6KemspkugEERU8x7WbQwSKwvHT1cZZ4ACVN'
+const BSOL_ADDRESS = '3FMBoeddUhtqxepzkrxPrMUV3CL4bZM5QmMoLJfEpirz'
+const SOLIDO_CONTRACT_VERSION = '0'
 
 describe('accounts', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  const SOLIDO_ADDRESS = 'EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ'
-  const STSOL_ADDRESS = 'BSGfVnE6q6KemspkugEERU8x7WbQwSKwvHT1cZZ4ACVN'
-  const BSOL_ADDRESS = '3FMBoeddUhtqxepzkrxPrMUV3CL4bZM5QmMoLJfEpirz'
-  const SOLIDO_CONTRACT_VERSION = '0'
+  const envVariables = {
+    RPC_URL: 'https://api.devnet.solana.com',
+    SOLIDO_ADDRESS: SOLIDO_ADDRESS,
+    STSOL_ADDRESS: STSOL_ADDRESS,
+    BSOL_ADDRESS: BSOL_ADDRESS,
+    SOLIDO_CONTRACT_VERSION: SOLIDO_CONTRACT_VERSION,
+  }
 
-  beforeEach(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.RPC_URL = 'https://api.devnet.solana.com'
-    process.env.SOLIDO_ADDRESS = SOLIDO_ADDRESS
-    process.env.STSOL_ADDRESS = STSOL_ADDRESS
-    process.env.BSOL_ADDRESS = BSOL_ADDRESS
-    process.env.SOLIDO_CONTRACT_VERSION = SOLIDO_CONTRACT_VERSION
-  })
-
-  afterAll((done) => {
-    process.env = oldEnv
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('successful calls', () => {
     const jobID = '1'
@@ -54,7 +47,7 @@ describe('accounts', () => {
           source: 'tiingo',
         },
       }
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

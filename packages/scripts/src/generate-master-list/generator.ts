@@ -50,7 +50,8 @@ const getConfigDefaults = async (adapterPath: string, verbose = false) => {
     if (config.DEFAULT_ENDPOINT) defaultEndpoint = wrapCode(config.DEFAULT_ENDPOINT)
 
     return { defaultBaseUrl, defaultEndpoint }
-  } catch (error) {
+  } catch (e: any) {
+    const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return { defaultBaseUrl, defaultEndpoint }
   }
@@ -79,7 +80,8 @@ const getEndpoints = async (adapterPath: string, verbose = false) => {
     batchableEndpoints = allBatchableEndpoints.length ? codeList(allBatchableEndpoints) : ''
 
     return { endpointsText, batchableEndpoints }
-  } catch (error) {
+  } catch (e: any) {
+    const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return { endpointsText, batchableEndpoints }
   }
@@ -98,7 +100,8 @@ const getEnvVars = (adapterPath: string, verbose = false) => {
     const formatted = codeList(withCheckbox)
 
     return formatted
-  } catch (error) {
+  } catch (e: any) {
+    const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return 'Unknown'
   }
@@ -127,7 +130,8 @@ const getPackage = (adapterPath: string, verbose = false) => {
     }
 
     return { dependencies, version }
-  } catch (error) {
+  } catch (e: any) {
+    const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return { dependencies, version }
   }
@@ -150,7 +154,8 @@ const getWSSupport = async (adapterPath: string, verbose = false) => {
     const adapterFile = await require(localPathToRoot + adapterPath + '/src/adapter.ts')
 
     return adapterFile.makeWSHandler ? '✅' : ''
-  } catch (error) {
+  } catch (e: any) {
+    const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return 'Unknown'
   }
@@ -360,8 +365,9 @@ export const generateMasterList = async (
     if (output?.length && output.includes('airtable')) {
       await generateAirtableMasterList(allAdaptersTable)
     }
-  } catch (error) {
+  } catch (e: any) {
+    const error = e as Error
     console.error({ error: error.message, stack: error.stack })
-    throw Error(error)
+    throw error
   }
 }

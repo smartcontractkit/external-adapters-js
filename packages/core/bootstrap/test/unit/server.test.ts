@@ -1,4 +1,4 @@
-import { AdapterResponse, Execute } from '@chainlink/types'
+import { AdapterResponse, Execute } from '../../src/types'
 import axios from 'axios'
 import { expose } from '../../src'
 
@@ -39,6 +39,7 @@ const executeResponse: AdapterResponse = {
   statusCode: 200,
   data: {
     number: 123.4,
+    statusCode: 200,
   },
 }
 const execute: Execute = jest.fn(async () => executeResponse)

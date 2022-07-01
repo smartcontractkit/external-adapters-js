@@ -1,12 +1,17 @@
-import { Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/types'
+import { InputParameters, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, AdapterRequest, AdapterContext } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { FIGHTER_SPORTS, NFL_ABI, TEAM_ABI, TEAM_SPORTS } from './index'
 import { ethers } from 'ethers'
 import { theRundown, sportsdataio } from '../dataProviders'
 import mmaABI from '../abis/mma.json'
 
-const createParams = {
+export type TInputParameters = {
+  sport: string
+  contractAddress: string
+}
+
+const createParams: InputParameters<TInputParameters> = {
   sport: true,
   contractAddress: true,
 }
@@ -79,10 +84,12 @@ const createTeam = async (
   Logger.debug(`Augur: Choosing data source for sport ${sport}`)
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
     Logger.debug(`Augur: Chose TheRundown as the data source`)
-    events = (await theRundown.create(req, context)).result
+    // TODO: makeExecute return types
+    events = (await theRundown.create(req, context)).result as unknown as CreateTeamEvent[]
   } else if (sportsdataio.SPORTS_SUPPORTED.includes(sport)) {
     Logger.debug(`Augur: Chose SportsDataIO as the data source`)
-    events = (await sportsdataio.createTeam(req, context)).result
+    // TODO: makeExecute return types
+    events = (await sportsdataio.createTeam(req, context)).result as unknown as CreateTeamEvent[]
   } else {
     throw Error(`Unknown data provider for sport ${sport}`)
   }
@@ -128,9 +135,10 @@ const createTeam = async (
       Logger.debug(`Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 
@@ -163,9 +171,11 @@ const createFighter = async (
   let events: CreateFighterEvent[] = []
   if (theRundown.SPORTS_SUPPORTED.includes(sport)) {
     // Note: currently no fighter sports implemented here
-    events = (await theRundown.create(req, context)).result
+    events = (await theRundown.create(req, context)).result as unknown as CreateFighterEvent[]
   } else if (sportsdataio.SPORTS_SUPPORTED.includes(sport)) {
-    events = (await sportsdataio.createFighter(req, context)).result
+    // TODO: makeExecute return types
+    events = (await sportsdataio.createFighter(req, context))
+      .result as unknown as CreateFighterEvent[]
   } else {
     throw Error(`Unknown data provider for sport ${sport}`)
   }
@@ -193,9 +203,10 @@ const createFighter = async (
       Logger.debug(`Created tx: ${tx.hash}`)
       nonce++
       succeeded++
-    } catch (e) {
+    } catch (e: any) {
+      const error = e as Error
       failed++
-      Logger.error(e)
+      Logger.error(error)
     }
   }
 

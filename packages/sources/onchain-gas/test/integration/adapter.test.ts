@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -28,7 +28,6 @@ describe('websocket', () => {
 
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '100'
 
     fastify = await startServer()
     req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
@@ -71,11 +70,11 @@ describe('websocket', () => {
         jobRunID: '1',
         result: 89435338670,
         statusCode: 200,
-        maxAge: 30000,
+        maxAge: 120000,
         data: { result: 89435338670 },
       })
 
       await flowFulfilled
-    }, 30000)
+    })
   })
 })

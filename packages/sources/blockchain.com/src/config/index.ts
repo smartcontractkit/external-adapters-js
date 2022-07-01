@@ -1,5 +1,5 @@
-import { util } from '@chainlink/ea-bootstrap'
-import { Config } from '@chainlink/types'
+import { Requester } from '@chainlink/ea-bootstrap'
+import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'BLOCKCHAIN_COM'
 
@@ -33,23 +33,14 @@ export const getBaseURL = (chain: ChainType): string => {
   }
 }
 
-export const makeConfig = (prefix = ''): Config => ({
-  apiKey: util.getEnv(ENV_API_KEY, prefix),
-  returnRejectedPromiseOnError: true,
-  api: {
-    withCredentials: true,
-    timeout: parseInt(util.getEnv(ENV_API_TIMEOUT, prefix) as string) || DEFAULT_TIMEOUT,
-    headers: {
-      common: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        Pragma: 'no-cache',
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    },
-    params: {
-      key: util.getEnv(ENV_API_KEY, prefix),
-    },
-  },
-  defaultEndpoint: DEFAULT_ENDPOINT,
-})
+export const makeConfig = (prefix?: string): Config => {
+  const config = Requester.getDefaultConfig(prefix)
+  if (config.apiKey)
+    config.api.params = {
+      ...config.api.params,
+      key: config.apiKey,
+    }
+  config.defaultEndpoint = DEFAULT_ENDPOINT
+  config.returnRejectedPromiseOnError = true
+  return config
+}

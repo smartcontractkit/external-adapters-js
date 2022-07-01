@@ -1,4 +1,4 @@
-import { AdapterErrorResponse } from '@chainlink/types'
+import type { AdapterErrorResponse } from '../../types'
 import { HttpRequestType } from '../metrics/constants'
 import { getEnv } from '../util'
 
@@ -8,11 +8,12 @@ export class AdapterError extends Error {
   statusCode: number
   name: string
   message: string
-  cause: any
+  cause: Error | undefined
   url?: string
-  errorResponse: any
+  errorResponse: unknown
   feedID?: string
   providerStatusCode?: number
+  network?: string
   metricsLabel: HttpRequestType
 
   constructor({
@@ -26,6 +27,7 @@ export class AdapterError extends Error {
     errorResponse,
     feedID,
     providerStatusCode,
+    network,
   }: Partial<AdapterError>) {
     super(message)
 
@@ -43,6 +45,7 @@ export class AdapterError extends Error {
     }
     this.errorResponse = errorResponse
     this.providerStatusCode = providerStatusCode
+    this.network = network
     this.metricsLabel = HttpRequestType.ADAPTER_ERROR
   }
 
@@ -54,6 +57,7 @@ export class AdapterError extends Error {
       url: this.url,
       errorResponse: this.errorResponse,
       feedID: this.feedID,
+      network: this.network,
     }
     const errorFull = { ...errorBasic, stack: this.stack, cause: this.cause }
     return {

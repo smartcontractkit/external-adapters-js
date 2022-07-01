@@ -7,10 +7,9 @@ import nock from 'nock'
 let oldEnv: NodeJS.ProcessEnv
 
 describe('execute', () => {
-  let execute: Execute
+  const execute = circuitbreakerAllocationAdapter.makeExecute()
 
   beforeAll(async () => {
-    execute = await circuitbreakerAllocationAdapter.makeExecute()
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -78,7 +77,7 @@ describe('execute', () => {
 
     request.forEach((req) => {
       it(`${req.name}`, async () => {
-        const resp = await execute(req.input)
+        const resp = await execute(req.input, {})
         expect(resp).toMatchSnapshot()
       })
     })
@@ -204,15 +203,15 @@ describe('execute', () => {
           },
         },
       },
-      { name: 'allocations not supplied', testData: { id: jobID, data: {} } },
-      { name: 'base not supplied', testData: { id: jobID, data: { quote: 'ARS' } } },
-      { name: 'quote not supplied', testData: { id: jobID, data: { base: 'BTC' } } },
+      { name: 'allocations not supplied', input: { id: jobID, data: {} } },
+      { name: 'base not supplied', input: { id: jobID, data: { quote: 'ARS' } } },
+      { name: 'quote not supplied', input: { id: jobID, data: { base: 'BTC' } } },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.input, {})
+          await execute(req.input as any, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)

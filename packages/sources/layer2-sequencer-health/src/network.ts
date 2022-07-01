@@ -1,4 +1,4 @@
-import { Logger, Requester } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
 import { BigNumber, ethers } from 'ethers'
 import { AdapterResponseEmptyError } from '@chainlink/ea-bootstrap'
@@ -9,6 +9,10 @@ const NO_ISSUE_MSG =
 
 export interface NetworkHealthCheck {
   (network: Networks, delta: number, deltaBlocks: number): Promise<undefined | boolean>
+}
+
+export interface ResponseSchema {
+  result: number
 }
 
 export const getSequencerHealth: NetworkHealthCheck = async (
@@ -31,7 +35,7 @@ export const getSequencerHealth: NetworkHealthCheck = async (
 }
 
 export const requestBlockHeight = async (network: Networks): Promise<number> => {
-  const request = {
+  const request: AxiosRequestConfig = {
     method: 'POST',
     url: RPC_ENDPOINTS[network],
     headers: {
@@ -44,8 +48,8 @@ export const requestBlockHeight = async (network: Networks): Promise<number> => 
       id: 1,
     },
   }
-  const response = await Requester.request(request)
-  const hexBlock = response?.data?.result
+  const response = await Requester.request<ResponseSchema>(request)
+  const hexBlock = response.data.result
   if (!hexBlock) {
     throw new AdapterResponseEmptyError({
       message: `Block number not found on network: ${network}`,
@@ -96,7 +100,7 @@ export const getStatusByTransaction = async (
       to: wallet.address,
     },
   }
-  const _getErrorMessage = (e: Record<string, unknown>): string => {
+  const _getErrorMessage = (e: Error): string => {
     const paths = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
@@ -114,13 +118,16 @@ export const getStatusByTransaction = async (
     })
     Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
-  } catch (e) {
-    if (sequencerOnlineErrors[network].includes(_getErrorMessage(e))) {
-      Logger.debug(`Transaction submission failed with an expected error ${_getErrorMessage(e)}.`)
+  } catch (e: any) {
+    const error = e as Error
+    if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
+      Logger.debug(
+        `Transaction submission failed with an expected error ${_getErrorMessage(error)}.`,
+      )
       return true
     }
     Logger.error(
-      `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${e.message}`,
+      `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
     )
     return false
   }

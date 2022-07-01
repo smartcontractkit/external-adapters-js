@@ -1,5 +1,5 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config, NAME } from '../config'
 
 export const supportedEndpoints = ['values', 'crypto', 'price']
@@ -8,7 +8,8 @@ const idFromBaseQuoteSymbol: { [baseQuote: string]: string } = {
   'BTC/USD': 'BRTI',
 }
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { index: string; base: string; quote: string }
+export const inputParameters: InputParameters<TInputParameters> = {
   index: {
     description: 'The ID of the index',
     type: 'string',
@@ -46,7 +47,7 @@ const getIdFromBaseQuoteSymbols = (config: Config, base: string, quote: string) 
 
 export const getIdFromInputs = (
   config: Config,
-  validator: Validator,
+  validator: Validator<TInputParameters>,
   shouldThrowError = true,
 ): string | undefined => {
   if (
@@ -108,6 +109,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     return 0
   })
 
-  const result = Requester.validateResultNumber(values, [0, 'value'])
+  const result = Requester.validateResultNumber(values[0], 'value')
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

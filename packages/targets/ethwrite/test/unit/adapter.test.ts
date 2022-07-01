@@ -5,7 +5,7 @@ import {
   startChain,
   TESTING_PRIVATE_KEY,
 } from '@chainlink/ea-test-helpers'
-import { AdapterRequest, AdapterRequestMeta, AdapterResponse } from '@chainlink/types'
+import { AdapterRequest, AdapterRequestMeta, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { makeExecute } from '../../src/adapter'
 import { abi, deploy } from '../helpers'

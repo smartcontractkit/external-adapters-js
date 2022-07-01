@@ -1,7 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
-import { AddressInfo } from 'net'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src/index'
 import {
   mockCoinMarketCapErrorTooManyRequests,
@@ -13,35 +10,20 @@ import {
   mockSuccessfulGlobalMetricsResponse,
 } from './globalMetricsFixtures'
 import { mockSuccessfulHistoricalCapResponse } from './historicalFixtures'
-
-let oldEnv: NodeJS.ProcessEnv
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('coinmarketcap', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.CACHE_ENABLED = 'false'
-    process.env.API_KEY = process.env.API_KEY || 'mock-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    API_KEY: process.env.API_KEY || 'mock-api-key',
+  }
 
-  afterAll((done) => {
-    process.env = oldEnv
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('when making a request to coinmarket cap to globalmarketcap endpoint', () => {
     const globalMarketCap: AdapterRequest = {
@@ -55,7 +37,7 @@ describe('coinmarketcap', () => {
     describe('coinmarketcap replies with success', () => {
       it('should reply with success', async () => {
         mockSuccessfulGlobalMetricsResponse('USD')
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(globalMarketCap)
           .set('Accept', '*/*')
@@ -70,7 +52,7 @@ describe('coinmarketcap', () => {
       it('should reply with failure', async () => {
         mockFailedGlobalMetricsResponse('USD')
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(globalMarketCap)
           .set('Accept', '*/*')
@@ -95,7 +77,7 @@ describe('coinmarketcap', () => {
     describe('coinmarketcap replies with success', () => {
       it('should reply with success', async () => {
         mockSuccessfulGlobalMetricsResponse()
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(dominanceData)
           .set('Accept', '*/*')
@@ -110,7 +92,7 @@ describe('coinmarketcap', () => {
       it('should reply with failure', async () => {
         mockFailedGlobalMetricsResponse()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(dominanceData)
           .set('Accept', '*/*')
@@ -137,7 +119,7 @@ describe('coinmarketcap', () => {
       it('should reply with success', async () => {
         mockSuccessfulCoinMarketCapResponse()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -162,7 +144,7 @@ describe('coinmarketcap', () => {
       it('should reply with success', async () => {
         mockSuccessfulCoinMarketCapResponse(cid)
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(dataWithCid)
           .set('Accept', '*/*')
@@ -187,7 +169,7 @@ describe('coinmarketcap', () => {
       it('should reply with success', async () => {
         mockSuccessfulCoinMarketCapResponseWithSlug(slug)
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(dataWithSlug)
           .set('Accept', '*/*')
@@ -212,7 +194,7 @@ describe('coinmarketcap', () => {
       it('should reply with success', async () => {
         mockSuccessfulCoinMarketCapResponse('1')
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(dataWithSlug)
           .set('Accept', '*/*')
@@ -227,7 +209,7 @@ describe('coinmarketcap', () => {
       it('should reply with failure', async () => {
         mockCoinMarketCapErrorTooManyRequests()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -255,7 +237,7 @@ describe('coinmarketcap', () => {
       it('should reply with success', async () => {
         mockSuccessfulHistoricalCapResponse()
 
-        const response = await req
+        const response = await context.req
           .post('/')
           .send(data)
           .set('Accept', '*/*')

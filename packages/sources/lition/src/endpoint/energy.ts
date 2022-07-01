@@ -1,11 +1,12 @@
 import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/types'
+import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['energy']
 
 export const description = 'Returns the price in Euros per MWh'
 
-export const inputParameters: InputParameters = {
+export type TInputParameters = { source: string; date: string; hour: number }
+export const inputParameters: InputParameters<TInputParameters> = {
   source: {
     required: true,
     options: ['1', '2', '3'],

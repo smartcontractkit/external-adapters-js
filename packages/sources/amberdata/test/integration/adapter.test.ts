@@ -1,7 +1,4 @@
-import { AdapterRequest } from '@chainlink/types'
-import { util } from '@chainlink/ea-bootstrap'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src/index'
 import {
   mockCryptoEndpoint,
@@ -9,36 +6,20 @@ import {
   mockMarketCapEndpoint,
   mockVolumeEndpoint,
 } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('amberdata', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.CACHE_ENABLED = 'false'
-    process.env.API_KEY = process.env.API_KEY || 'mock-api-key'
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'mock-api-key',
+    CACHE_ENABLED: 'false',
+  }
 
-  afterAll((done) => {
-    process.env = oldEnv
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('when making a request to crypto endpoint', () => {
     const cryptoRequest: AdapterRequest = {
@@ -52,7 +33,30 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockCryptoEndpoint()
-      const response = await req
+      const response = await context.req
+        .post('/')
+        .send(cryptoRequest)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('when making a request to crypto endpoint with an override from config/overrides.json', () => {
+    const cryptoRequest: AdapterRequest = {
+      id: '1',
+      data: {
+        endpoint: 'crypto',
+        base: 'LUNA',
+        quote: 'USD',
+      },
+    }
+
+    it('should reply with success', async () => {
+      mockCryptoEndpoint()
+      const response = await context.req
         .post('/')
         .send(cryptoRequest)
         .set('Accept', '*/*')
@@ -74,7 +78,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockMarketCapEndpoint()
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(marketCapRequest)
         .set('Accept', '*/*')
@@ -97,7 +101,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockVolumeEndpoint()
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(volumeRequest)
         .set('Accept', '*/*')
@@ -123,7 +127,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockBalanceEndpoint()
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(balanceRequest)
         .set('Accept', '*/*')

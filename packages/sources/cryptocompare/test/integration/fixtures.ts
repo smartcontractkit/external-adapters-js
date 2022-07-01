@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockPriceResponseSuccess = (): nock =>
+export const mockPriceResponseSuccess = (): nock.Scope =>
   nock('https://min-api.cryptocompare.com/', {
     encodedQueryParams: true,
     reqheaders: {
@@ -140,7 +140,7 @@ export const mockPriceResponseSuccess = (): nock =>
       'Origin',
     ])
 
-export const mockPriceResponseFailure = (): nock =>
+export const mockPriceResponseFailure = (): nock.Scope =>
   nock('https://min-api.cryptocompare.com/', {
     encodedQueryParams: true,
     reqheaders: {

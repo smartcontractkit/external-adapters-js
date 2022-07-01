@@ -1,12 +1,12 @@
 import { Requester, Validator, util, CacheKey } from '@chainlink/ea-bootstrap'
 import {
   ExecuteWithConfig,
-  Config,
+  DefaultConfig,
   InputParameters,
   AdapterRequest,
   AxiosResponse,
   AdapterBatchResponse,
-} from '@chainlink/types'
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 export const supportedEndpoints = ['quotes', 'forex', 'price']
@@ -18,10 +18,21 @@ export const description = `Returns a batched price comparison from a list curre
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`quotes\` endpoint instead.**`
 
-export const inputParameters: InputParameters = {
-  base: ['base', 'from'],
-  quote: ['quote', 'to'],
-  quantity: false,
+export type TInputParameters = { base: string; quote: string }
+
+export const inputParameters: InputParameters<TInputParameters> = {
+  base: {
+    aliases: ['from'],
+    description: 'The symbol of the currency to query',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to'],
+    description: ' The symbol of the currency to convert to',
+    required: true,
+    type: 'string',
+  },
 }
 
 export interface ResponseSchema {
@@ -35,7 +46,7 @@ export interface ResponseSchema {
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,
-  response: AxiosResponse<ResponseSchema>,
+  response: AxiosResponse<ResponseSchema[]>,
   resultPath: string,
 ) => {
   const payload: AdapterBatchResponse = []
@@ -64,11 +75,11 @@ const handleBatchedRequest = (
   )
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
+export const execute: ExecuteWithConfig<DefaultConfig> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const url = `/quotes`
-  const from = validator.overrideSymbol(AdapterName)
+  const from = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const to = validator.validated.data.quote
   const pairArray = []
 
@@ -79,7 +90,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
   const pairs = pairArray.toString()
   const params = {
-    ...config.api.params,
+    ...config.api?.params,
     pairs,
   }
 

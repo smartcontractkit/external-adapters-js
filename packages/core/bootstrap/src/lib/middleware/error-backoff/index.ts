@@ -1,4 +1,4 @@
-import { Middleware } from '@chainlink/types'
+import type { AdapterContext, AdapterRequest, Middleware } from '../../../types'
 import { Store } from 'redux'
 import {
   ErrorBackoffState,
@@ -8,7 +8,8 @@ import {
 } from './reducer'
 import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
-import { AdapterBackoffError, logger } from '../../modules'
+import { logger } from '../../modules/logger'
+import { AdapterBackoffError } from '../../modules/error'
 import { makeId } from '../rate-limit'
 import { getEnv } from '../../util'
 
@@ -16,7 +17,9 @@ export * as actions from './actions'
 export * as reducer from './reducer'
 
 export const withErrorBackoff =
-  (store?: Store<ErrorBackoffState>): Middleware =>
+  <R extends AdapterRequest, C extends AdapterContext>(
+    store?: Store<ErrorBackoffState>,
+  ): Middleware<R, C> =>
   async (execute, context) =>
   async (input) => {
     if (!store) return await execute(input, context)

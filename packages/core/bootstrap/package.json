@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-bootstrap",
-  "version": "2.9.0",
+  "version": "2.14.1",
   "description": "Bootstrap an external adapter with this package",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,6 +16,7 @@
     "dev:metrics": "docker-compose up -d"
   },
   "dependencies": {
+    "@node-redis/client": "1.0.6",
     "@reduxjs/toolkit": "^1.6.1",
     "ajv": "^8.6.2",
     "axios": "^0.24.0",
@@ -41,13 +42,12 @@
     "ws": "^7.4.4"
   },
   "devDependencies": {
-    "@chainlink/types": "workspace:*",
     "@node-redis/client": "1.0.6",
     "@types/fast-redact": "3.0.1",
-    "@types/jest": "27.0.3",
+    "@types/jest": "27.5.2",
     "@types/lodash": "4.14.182",
     "@types/lru-cache": "5.1.1",
-    "@types/node": "16.11.38",
+    "@types/node": "16.11.41",
     "@types/object-hash": "2.1.1",
     "@types/object-path": "0.11.1",
     "@types/pino": "6.3.12",
@@ -58,8 +58,8 @@
     "@types/sinon": "10.0.11",
     "@types/uuid": "8.3.4",
     "@types/ws": "7.4.7",
-    "mock-socket": "9.1.4",
-    "sinon": "12.0.1",
-    "typescript": "4.3.5"
+    "mock-socket": "9.1.5",
+    "sinon": "14.0.0",
+    "typescript": "4.7.4"
   }
 }

@@ -1,6 +1,6 @@
 # README Test Adapter
 
-![1.2.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json)
+![1.2.26](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json)
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
@@ -58,13 +58,13 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "dataPath": "addresses",
     "addresses": [
       {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1"
       }
-    ]
+    ],
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "lTBXOJ+YWu4hSLnRtApWBUhCu40="
@@ -142,11 +142,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "marketcap",
-    "resultPath": "marketcap",
     "base": "BTC",
     "quote": "USD",
-    "coinid": 1
+    "coinid": 1,
+    "resultPath": "marketcap",
+    "endpoint": "marketcap"
   },
   "debug": {
     "cacheKey": "2iiCdAuTmfjH0bS2z1yv/Ly6Pb0="
@@ -178,11 +178,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "mc",
-    "resultPath": "marketcap",
     "base": "BTC",
     "quote": "USD",
-    "coinid": 2
+    "coinid": 2,
+    "resultPath": "marketcap",
+    "endpoint": "mc"
   },
   "debug": {
     "cacheKey": "oiEGtIbbJAJxXb37guRFigIef64="
@@ -230,11 +230,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
-    "resultPath": "price",
     "base": "BTC",
     "quote": "USD",
-    "amount": 1
+    "amount": 1,
+    "resultPath": "price",
+    "endpoint": "price"
   },
   "debug": {
     "cacheKey": "q4gXYcTK9jHJrUUzwltWBL7NAUI="
@@ -266,11 +266,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "convert",
-    "resultPath": "price",
     "base": "BTC",
     "quote": "USD",
-    "amount": 10
+    "amount": 10,
+    "resultPath": "price",
+    "endpoint": "convert"
   },
   "debug": {
     "cacheKey": "mTCSl1wfCZoVuG6Epaf7HkJgDwk="

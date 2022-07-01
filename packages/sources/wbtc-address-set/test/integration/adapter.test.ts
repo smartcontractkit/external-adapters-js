@@ -1,37 +1,23 @@
-import { AdapterRequest } from '@chainlink/types'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import { mockAddressesResponseSuccess, mockMembersResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    process.env.MEMBERS_ENDPOINT = process.env.MEMBERS_ENDPOINT || 'http://localhost:8081'
-    process.env.ADDRESSES_ENDPOINT = process.env.ADDRESSES_ENDPOINT || 'http://localhost:8082'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    MEMBERS_ENDPOINT: process.env.MEMBERS_ENDPOINT || 'http://localhost:8081',
+    ADDRESSES_ENDPOINT: process.env.ADDRESSES_ENDPOINT || 'http://localhost:8082',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('members api', () => {
     const data: AdapterRequest = {
@@ -44,7 +30,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockMembersResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -64,7 +50,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockAddressesResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
