@@ -1,5 +1,17 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.12.0
+
+### Minor Changes
+
+- 0d279426f: Removed length checks from BTC validation
+
+### Patch Changes
+
+- @chainlink/por-indexer-adapter@1.2.4
+- @chainlink/renvm-address-set-adapter@1.4.4
+- @chainlink/wbtc-address-set-adapter@1.4.4
+
 ## 1.11.3
 
 ### Patch Changes
