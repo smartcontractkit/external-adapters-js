@@ -1,5 +1,11 @@
 # @chainlink/dydx-rewards-adapter
 
+## 1.4.5
+
+### Patch Changes
+
+- e266e22ee: Update dYdX rewards with June 2020 formula
+
 ## 1.4.4
 
 ### Patch Changes
