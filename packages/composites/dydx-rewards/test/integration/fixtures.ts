@@ -2,6 +2,7 @@ import nock from 'nock'
 import expectedTestData1 from '../mock-data/expected-test-data-1.json'
 import expectedTestData2 from '../mock-data/expected-test-data-2.json'
 import expectedTestData3 from '../mock-data/expected-test-data-3.json'
+import expectedTestData4 from '../mock-data/expected-test-data-4.json'
 import mockRewards from '../mock-data/rewards.json'
 
 const fileUploadMatches = (expected) => (body) => {
@@ -611,6 +612,38 @@ export function mockIpfsResponseSuccess(): void {
         '1',
         'Date',
         'Fri, 14 Jan 2022 10:27:25 GMT',
+        'Transfer-Encoding',
+        'chunked',
+      ],
+    )
+    .post('/api/v0/add', fileUploadMatches(JSON.stringify(expectedTestData4)))
+    .query({ 'stream-channels': 'true', 'cid-version': '1', progress: 'false' })
+    .reply(
+      200,
+      {
+        Name: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Hash: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Size: '807',
+      },
+      [
+        'Access-Control-Allow-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Access-Control-Expose-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Connection',
+        'close',
+        'Content-Type',
+        'application/json',
+        'Server',
+        'go-ipfs/0.9.1',
+        'Trailer',
+        'X-Stream-Error',
+        'Vary',
+        'Origin',
+        'X-Chunked-Output',
+        '1',
+        'Date',
+        'Mon, 13 Sep 2021 15:25:10 GMT',
         'Transfer-Encoding',
         'chunked',
       ],

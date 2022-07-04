@@ -1,5 +1,39 @@
 # @chainlink/chain-reserve-wallet-adapter
 
+## 2.3.4
+
+### Patch Changes
+
+- Updated dependencies [2e9b730ba]
+  - @chainlink/ea-bootstrap@2.14.1
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 2.3.3
+
+### Patch Changes
+
+- Updated dependencies [0d3eda653]
+  - @chainlink/ea-bootstrap@2.14.0
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 2.3.2
+
+### Patch Changes
+
+- Updated dependencies [bff852d48]
+  - @chainlink/ea-bootstrap@2.13.0
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 2.3.1
+
+### Patch Changes
+
+- 816b3d307: catch onchain errors and set 'network'
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 2.3.0
 
 ### Minor Changes

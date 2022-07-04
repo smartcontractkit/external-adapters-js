@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/jpegd-adapter",
-  "version": "2.1.0",
+  "version": "2.1.4",
   "description": "Chainlink jpegd adapter.",
   "keywords": [
     "Chainlink",
