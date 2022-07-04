@@ -22,6 +22,7 @@ import * as bn from 'bignumber.js'
 import * as initial from './formulas/initial'
 import * as DIP7 from './formulas/dip-7'
 import * as APRIL2022 from './formulas/april-2022'
+import * as JUNE2022 from './formulas/june-2022'
 
 export const NAME = 'poke'
 
@@ -233,8 +234,17 @@ export const calcTraderRewards = (
       traderScoreB,
       traderScoreC,
     )
-  } else {
+  } else if (epochData.epoch < 11) {
     APRIL2022.calcTraderRewards(
+      epochData as OracleRewardsData,
+      addressRewards,
+      traderRewardsAmount,
+      traderScoreA,
+      traderScoreB,
+      traderScoreC,
+    )
+  } else {
+    JUNE2022.calcTraderRewards(
       epochData as OracleRewardsData,
       addressRewards,
       traderRewardsAmount,

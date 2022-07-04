@@ -1,5 +1,30 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.4.5
+
+### Patch Changes
+
+- Updated dependencies [2e9b730ba]
+  - @chainlink/ea-bootstrap@2.14.1
+  - @chainlink/proof-of-reserves-adapter@1.12.1
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.4.4
+
+### Patch Changes
+
+- Updated dependencies [0d279426f]
+  - @chainlink/proof-of-reserves-adapter@1.12.0
+
+## 1.4.3
+
+### Patch Changes
+
+- Updated dependencies [0d3eda653]
+  - @chainlink/ea-bootstrap@2.14.0
+  - @chainlink/proof-of-reserves-adapter@1.11.3
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.4.2
 
 ### Patch Changes

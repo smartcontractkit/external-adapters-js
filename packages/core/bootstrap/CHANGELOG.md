@@ -1,5 +1,17 @@
 # @chainlink/ea-bootstrap
 
+## 2.14.1
+
+### Patch Changes
+
+- 2e9b730ba: Revert cache warmer type safety throws
+
+## 2.14.0
+
+### Minor Changes
+
+- 0d3eda653: avoid throwing hard error in batch warmer when joining a child warmer instead of a batch warmer
+
 ## 2.13.0
 
 ### Minor Changes

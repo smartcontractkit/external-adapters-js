@@ -1,5 +1,21 @@
 # @chainlink/armanino-adapter
 
+## 1.0.19
+
+### Patch Changes
+
+- Updated dependencies [2e9b730ba]
+  - @chainlink/ea-bootstrap@2.14.1
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies [0d3eda653]
+  - @chainlink/ea-bootstrap@2.14.0
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.0.17
 
 ### Patch Changes
