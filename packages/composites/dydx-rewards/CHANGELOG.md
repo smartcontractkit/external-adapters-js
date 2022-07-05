@@ -1,5 +1,19 @@
 # @chainlink/dydx-rewards-adapter
 
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies [8161e1e18]
+  - @chainlink/ea-bootstrap@2.15.0
+  - @chainlink/ipfs-adapter@1.3.5
+
+## 1.4.5
+
+### Patch Changes
+
+- e266e22ee: Update dYdX rewards with June 2020 formula
+
 ## 1.4.4
 
 ### Patch Changes
