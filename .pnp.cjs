@@ -53,6 +53,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/crypto-volatility-index"\
       },\
       {\
+        "name": "@chainlink/curve-3pool-adapter",\
+        "reference": "workspace:packages/composites/curve-3pool"\
+      },\
+      {\
         "name": "@chainlink/defi-dozen-adapter",\
         "reference": "workspace:packages/composites/defi-dozen"\
       },\
@@ -786,6 +790,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],\
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],\
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
+      ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
       ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
       ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
@@ -4531,6 +4536,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/curve-3pool-adapter", [\
+        ["workspace:packages/composites/curve-3pool", {\
+          "packageLocation": "./packages/composites/curve-3pool/",\
+          "packageDependencies": [\
+            ["@chainlink/curve-3pool-adapter", "workspace:packages/composites/curve-3pool"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.41"],\
+            ["ethers", "npm:5.4.7"],\
+            ["nock", "npm:13.2.7"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
