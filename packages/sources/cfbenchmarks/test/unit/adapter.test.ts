@@ -32,7 +32,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest, {})
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(id, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, id)
