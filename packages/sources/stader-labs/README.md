@@ -18,9 +18,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [maticx](#maticx-endpoint) | `maticx` |
+| Required? |   Name   |     Description     |  Type  |                       Options                        | Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [maticx](#maticx-endpoint), [sftmx](#sftmx-endpoint) | `maticx` |
 
 ## Maticx Endpoint
 
@@ -39,9 +39,11 @@ Request:
 ```json
 {
   "id": "1",
-  "data": {},
+  "data": {
+    "endpoint": "maticx"
+  },
   "debug": {
-    "cacheKey": "2jmj7l5rSw0yVb/vlWAYkK/YBwk="
+    "cacheKey": "Q3XCND2iB5CU/2lKGBCT16/dPq0="
   }
 }
 ```
@@ -52,9 +54,51 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": 53425095
+    "result": 47732197
   },
-  "result": 53425095,
+  "result": 47732197,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## Sftmx Endpoint
+
+sFTMx token price in USD.
+
+`sftmx` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "sftmx"
+  },
+  "debug": {
+    "cacheKey": "xJ+iPjUW3lBOVvhun6x6eoNkNhY="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 26263763
+  },
+  "result": 26263763,
   "statusCode": 200,
   "providerStatusCode": 200
 }

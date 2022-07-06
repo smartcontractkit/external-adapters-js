@@ -5,14 +5,14 @@ import type {
   InputParameters,
   AdapterResponse,
 } from '@chainlink/ea-bootstrap'
-import { MATIC_AGGREGATOR_PROXY, MATICX_RATE_PROVIDER } from '../config'
-import rateProviderAbi from '../abi/MaticXRateProvider.json'
-import maticAggregatorAbi from '../abi/MaticAggregator.json'
+import { FANTOM_AGGREGATOR_PROXY, SFTMX_RATE_PROVIDER } from '../config'
+import rateProviderAbi from '../abi/sFTMxRateProvider.json'
+import fantomAggregatorAbi from '../abi/FantomAggregator.json'
 import { ethers } from 'ethers'
 
-export const supportedEndpoints = ['maticx']
+export const supportedEndpoints = ['sftmx']
 
-export const description = 'MaticX token price in USD.'
+export const description = 'sFTMx token price in USD.'
 
 export type TInputParameters = Record<string, never>
 export const inputParameters: InputParameters<TInputParameters> = {}
@@ -25,25 +25,25 @@ export const execute: ExecuteWithConfig<Config> = async (
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(
-    config.adapterSpecificParams?.polygonRpcUrl.toString(),
+    config.adapterSpecificParams?.fantomRpcUrl.toString(),
   )
 
-  const rateProvider = new ethers.Contract(MATICX_RATE_PROVIDER, rateProviderAbi, provider)
-  const polygonPrice = new ethers.Contract(MATIC_AGGREGATOR_PROXY, maticAggregatorAbi, provider)
+  const rateProvider = new ethers.Contract(SFTMX_RATE_PROVIDER, rateProviderAbi, provider)
+  const fantomPrice = new ethers.Contract(FANTOM_AGGREGATOR_PROXY, fantomAggregatorAbi, provider)
 
   let values
   try {
-    values = await Promise.all([rateProvider.getRate(), polygonPrice.latestAnswer()])
+    values = await Promise.all([rateProvider.getExchangeRate(), fantomPrice.latestAnswer()])
   } catch (e: any) {
     throw new AdapterDataProviderError({
-      network: 'polygon',
+      network: 'fantom',
       message: util.mapRPCErrorMessage(e?.code, e?.message),
       cause: e,
     })
   }
 
-  const [rate, maticUSD] = values
-  const result = maticUSD.mul(rate).div(ethers.utils.parseUnits('1', 18)).toNumber()
+  const [rate, fantomUSD] = values
+  const result = fantomUSD.mul(rate).div(ethers.utils.parseUnits('1', 18)).toNumber()
 
   const response = {
     status: 200,
