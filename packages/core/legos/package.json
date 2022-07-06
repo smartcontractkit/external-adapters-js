@@ -139,6 +139,7 @@
     "@chainlink/solana-view-function-adapter": "workspace:*",
     "@chainlink/spectral-macro-score-adapter": "workspace:*",
     "@chainlink/sportsdataio-adapter": "workspace:*",
+    "@chainlink/stader-labs-adapter": "workspace:*",
     "@chainlink/stasis-adapter": "workspace:*",
     "@chainlink/synthetix-debt-pool-adapter": "workspace:*",
     "@chainlink/taapi-adapter": "workspace:*",

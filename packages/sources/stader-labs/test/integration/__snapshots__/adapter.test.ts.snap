@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute MaticX endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 47732197,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 47732197,
+  "statusCode": 200,
+}
+`;
