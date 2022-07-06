@@ -789,7 +789,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     .query({ include: 'scores' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         meta: {
           delta_last_id: '11ec-569a-b9a53737-8102-3bb48f0cb234',
         },

@@ -32,7 +32,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     .get('/prices/latest?by_code=WTI_USD')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: 'success',
         data: {
           price: 71.47,

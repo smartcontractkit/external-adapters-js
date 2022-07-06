@@ -8,7 +8,7 @@ export const mockResponseSuccessConvertEndpoint = (): nock.Scope =>
     .query({ api_key: 'fake-api-key', from: 'USD', to: 'EUR', quantity: 1 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         value: '0.862701',
         text: '1 USD is worth 0.862701 EUR',
         timestamp: 1636478097478,
@@ -33,7 +33,7 @@ export const mockResponseSuccessQuotesEnpoint = (): nock.Scope =>
     .query({ api_key: 'fake-api-key', pairs: 'USD/EUR' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           p: 0.8828,
           a: 0.8828,

@@ -19,7 +19,7 @@ export const mockDataProviderResponses = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         BEAAPI: {
           Results: {
             Data: [

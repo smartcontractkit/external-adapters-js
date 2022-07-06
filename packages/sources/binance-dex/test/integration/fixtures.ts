@@ -8,7 +8,7 @@ export const mockRateResponseSuccess = (): nock.Scope =>
     .query({ symbol: 'BUSD-BD1_USDT-6D8' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           symbol: 'BUSD-BD1_USDT-6D8',
           baseAssetName: 'BUSD-BD1',
@@ -53,7 +53,7 @@ export const mockRateResponseFailure = (): nock.Scope =>
   })
     .get('/api/v1/ticker/24hr')
     .query({ symbol: 'NON_EXISTING' })
-    .reply(400, (_, request) => ({ code: 400, message: 'Symbol is not valid' }), [
+    .reply(400, () => ({ code: 400, message: 'Symbol is not valid' }), [
       'Content-Type',
       'application/json',
       'Connection',
