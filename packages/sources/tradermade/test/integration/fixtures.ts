@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockForexSingleSuccess = () =>
+export const mockForexSingleSuccess = (): nock.Scope =>
   nock('https://marketdata.tradermade.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockForexSingleSuccess = () =>
     .query({ api_key: 'fake-api-key', currency: 'ETHUSD' })
     .reply(
       200,
-      (_, request) => {
+      () => {
         return {
           endpoint: 'live',
           quotes: [
@@ -36,7 +36,7 @@ export const mockForexSingleSuccess = () =>
       ],
     )
 
-export const mockForexBatchedSuccess = () =>
+export const mockForexBatchedSuccess = (): nock.Scope =>
   nock('https://marketdata.tradermade.com', {
     encodedQueryParams: true,
   })
@@ -44,7 +44,7 @@ export const mockForexBatchedSuccess = () =>
     .query({ api_key: 'fake-api-key', currency: 'ETHUSD,ETHJPY,BTCUSD,BTCJPY' })
     .reply(
       200,
-      (_, request) => {
+      () => {
         return {
           endpoint: 'live',
           quotes: [
@@ -93,7 +93,7 @@ export const mockForexBatchedSuccess = () =>
       ],
     )
 
-export const mockLiveSuccess = () =>
+export const mockLiveSuccess = (): nock.Scope =>
   nock('https://marketdata.tradermade.com', {
     encodedQueryParams: true,
   })
@@ -101,7 +101,7 @@ export const mockLiveSuccess = () =>
     .query({ api_key: 'fake-api-key', currency: 'AAPL' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         endpoint: 'live',
         quotes: [
           {
@@ -126,7 +126,7 @@ export const mockLiveSuccess = () =>
       ],
     )
 
-export const mockResponseFailure = () =>
+export const mockResponseFailure = (): nock.Scope =>
   nock('https://marketdata.tradermade.com', {
     encodedQueryParams: true,
   })
@@ -134,7 +134,7 @@ export const mockResponseFailure = () =>
     .query({ api_key: 'fake-api-key', currency: 'NON-EXISTING' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         endpoint: 'live',
         quotes: [
           {

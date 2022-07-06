@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockGetBlockByNumber = () =>
+export const mockGetBlockByNumber = (): nock.Scope =>
   nock('http://localhost:8545')
     .persist()
     .post('/', {

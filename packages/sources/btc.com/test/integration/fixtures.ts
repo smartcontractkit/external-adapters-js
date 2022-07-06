@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockBalanceResponse() {
-  nock('https://chain.api.btc.com:443', { encodedQueryParams: true })
+export function mockBalanceResponse(): nock.Scope {
+  return nock('https://chain.api.btc.com:443', { encodedQueryParams: true })
     .get('/v3/address/3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1')
     .reply(
       200,
@@ -57,8 +57,8 @@ export function mockBalanceResponse() {
     )
 }
 
-export function mockBlockResponse() {
-  nock('https://chain.api.btc.com:443', { encodedQueryParams: true })
+export function mockBlockResponse(): nock.Scope {
+  return nock('https://chain.api.btc.com:443', { encodedQueryParams: true })
     .get('/v3/block/latest')
     .reply(
       200,

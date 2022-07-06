@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockCryptoResponseSuccess = (): nock =>
+export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.nomics.com/v1', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockCryptoResponseSuccess = (): nock =>
     .query({ ids: 'BTC', convert: 'EUR', key: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: 'BTC',
           currency: 'BTC',
@@ -93,7 +93,7 @@ export const mockCryptoResponseSuccess = (): nock =>
       ],
     )
 
-export const mockGlobalMarketResponseSuccess = (): nock =>
+export const mockGlobalMarketResponseSuccess = (): nock.Scope =>
   nock('https://api.nomics.com/v1', {
     encodedQueryParams: true,
   })
@@ -101,7 +101,7 @@ export const mockGlobalMarketResponseSuccess = (): nock =>
     .query({ key: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         num_currencies: '24172',
         num_currencies_active: '12010',
         num_currencies_inactive: '10304',
@@ -402,7 +402,7 @@ export const mockGlobalMarketResponseSuccess = (): nock =>
       ],
     )
 
-export const mockFilteredResponseSuccess = (): nock =>
+export const mockFilteredResponseSuccess = (): nock.Scope =>
   nock('https://api.nomics.com/v1', {
     encodedQueryParams: true,
   })
@@ -410,7 +410,7 @@ export const mockFilteredResponseSuccess = (): nock =>
     .query({ currency: 'LINK', key: 'fake-api-key', exchanges: 'binance,coinbase' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         currency: 'LINK',
         price: 77.77,
       }),

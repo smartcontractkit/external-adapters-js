@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://btc.cryptoid.info', {
     encodedQueryParams: true,
   })

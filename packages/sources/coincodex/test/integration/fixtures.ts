@@ -1,11 +1,11 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://coincodex.com/api/coincodex')
     .get('/get_coin/eth')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         symbol: 'ETH',
         coin_name: 'Ethereum',
         shortname: 'ethereum',

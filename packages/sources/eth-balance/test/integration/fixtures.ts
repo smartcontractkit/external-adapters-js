@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockETHBalanceResponseSuccess = (): nock =>
+export const mockETHBalanceResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8545', {
     encodedQueryParams: true,
   })
@@ -57,7 +57,7 @@ export const mockETHBalanceResponseSuccess = (): nock =>
       ],
     )
 
-export const mockETHBalanceAtBlockResponseSuccess = (): nock =>
+export const mockETHBalanceAtBlockResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8545', {
     encodedQueryParams: true,
   })

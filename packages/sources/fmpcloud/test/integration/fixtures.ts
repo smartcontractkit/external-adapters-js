@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://fmpcloud.io', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ apikey: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           symbol: 'AUDUSD',
           name: 'AUD/USD',

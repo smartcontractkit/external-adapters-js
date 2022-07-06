@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccessConvertEndpoint = (): nock =>
+export const mockResponseSuccessConvertEndpoint = (): nock.Scope =>
   nock('https://api.1forge.com', {
     encodedQueryParams: true,
   })
@@ -25,7 +25,7 @@ export const mockResponseSuccessConvertEndpoint = (): nock =>
       ],
     )
 
-export const mockResponseSuccessQuotesEnpoint = (): nock =>
+export const mockResponseSuccessQuotesEnpoint = (): nock.Scope =>
   nock('https://api.1forge.com', {
     encodedQueryParams: true,
   })

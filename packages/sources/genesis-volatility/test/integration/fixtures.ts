@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://app.pinkswantrading.com', {
     encodedQueryParams: true,
     reqheaders: {
@@ -14,7 +14,7 @@ export const mockResponseSuccess = (): nock =>
     })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         data: {
           ChainlinkIv: [
             {

@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://sochain.com')
     .get('/api/v2/get_address_balance/BTC/3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz/3')
     .reply(

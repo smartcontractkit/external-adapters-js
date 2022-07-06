@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccessConvertEndpoint = (): nock =>
+export const mockResponseSuccessConvertEndpoint = (): nock.Scope =>
   nock('https://metals-api.com/api/', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccessConvertEndpoint = (): nock =>
     .query({ access_key: 'fake-api-key', from: 'XAU', to: 'USD', amount: 1 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         success: true,
         query: { from: 'XAU', to: 'USD', amount: 1 },
         info: { timestamp: 1637949420, rate: 1785.0181286441143 },
@@ -29,7 +29,7 @@ export const mockResponseSuccessConvertEndpoint = (): nock =>
       ],
     )
 
-export const mockResponseSuccessLatestEndpoint = (): nock =>
+export const mockResponseSuccessLatestEndpoint = (): nock.Scope =>
   nock('https://metals-api.com:443', { encodedQueryParams: true })
     .get('/api/latest')
     .query({

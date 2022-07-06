@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockRateResponseSuccess = (): nock =>
+export const mockRateResponseSuccess = (): nock.Scope =>
   nock('https://dex-asiapacific.binance.org', {
     encodedQueryParams: true,
   })
@@ -47,7 +47,7 @@ export const mockRateResponseSuccess = (): nock =>
       ],
     )
 
-export const mockRateResponseFailure = (): nock =>
+export const mockRateResponseFailure = (): nock.Scope =>
   nock('https://dex-asiapacific.binance.org', {
     encodedQueryParams: true,
   })

@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.oilpriceapi.com/v1', {
     encodedQueryParams: true,
   })
     .get('/prices/latest?by_code=BRENT_CRUDE_USD')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: 'success',
         data: {
           price: 70.71,

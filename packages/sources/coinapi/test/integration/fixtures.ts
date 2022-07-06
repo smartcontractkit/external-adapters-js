@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockCryptoEndpoint() {
-  nock('https://rest.coinapi.io:443', { encodedQueryParams: true })
+export function mockCryptoEndpoint(): nock.Scope {
+  return nock('https://rest.coinapi.io:443', { encodedQueryParams: true })
     .get('/v1/exchangerate/ETH/BTC')
     .query({ apikey: 'mock-api-key' })
     .reply(
@@ -171,8 +171,8 @@ export function mockCryptoEndpoint() {
     )
 }
 
-export function mockAssetEndpoint() {
-  nock('https://rest.coinapi.io:443', { encodedQueryParams: true })
+export function mockAssetEndpoint(): nock.Scope {
+  return nock('https://rest.coinapi.io:443', { encodedQueryParams: true })
     .get('/v1/assets')
     .query({ apikey: 'mock-api-key', filter_asset_id: 'ETH' })
     .reply(

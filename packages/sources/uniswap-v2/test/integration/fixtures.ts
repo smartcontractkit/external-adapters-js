@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export function mockEthereumResponseSuccess() {
+export function mockEthereumResponseSuccess(): void {
   nock('http://localhost:8545')
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
