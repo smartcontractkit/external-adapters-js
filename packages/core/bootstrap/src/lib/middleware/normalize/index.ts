@@ -53,7 +53,7 @@ export function normalizeInput<C extends Config, D extends AdapterData>(
   const input = { ...request }
 
   // if endpoint does not match, an override occurred and we must adjust it
-  if (input.data.endpoint && !apiEndpoint.supportedEndpoints.includes(input.data.endpoint))
+  if (!input.data.endpoint || !apiEndpoint.supportedEndpoints.includes(input.data.endpoint))
     input.data.endpoint = apiEndpoint.supportedEndpoints[0]
 
   const validator = new Validator(
