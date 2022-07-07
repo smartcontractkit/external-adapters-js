@@ -50,7 +50,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockGetBlockByNumber()
         flowFulfilled = mockWebSocketFlow(mockedWsServer, [mockWSResponse])

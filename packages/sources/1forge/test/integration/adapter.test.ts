@@ -26,7 +26,7 @@ import { EnvVariables, SuiteContext } from '@chainlink/ea-test-helpers/dist/setu
 describe('execute', () => {
   const id = '1'
   const context: SuiteContext = {
-    req: null as SuperTest<Test>,
+    req: null,
     server: startServer,
   }
 
@@ -127,7 +127,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockResponseSuccessQuotesEnpoint() // For the first response
 
