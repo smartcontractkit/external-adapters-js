@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
+import { assertError, setEnvVariables } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
 import { TInputParameters } from '../../src/endpoint'
@@ -16,7 +16,7 @@ describe('execute', () => {
   })
 
   afterAll(() => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
   })
 
   describe('validation error', () => {
