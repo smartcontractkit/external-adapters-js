@@ -13,7 +13,7 @@ describe('execute', () => {
     it('get stmatic price', async () => {
       try {
         await execute(request.testData as AdapterRequest)
-      } catch (error) {
+      } catch (error: any) {
         const errorResp = Requester.errored(jobID, error)
         assertError(400, errorResp, jobID)
       }

@@ -33,7 +33,7 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest<TInputParameters>, {})
-        } catch (error) {
+        } catch (error: any) {
           const errorResp = Requester.errored(id, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, id)
         }

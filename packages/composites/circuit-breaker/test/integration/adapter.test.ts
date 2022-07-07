@@ -126,7 +126,7 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.input, {})
-        } catch (error) {
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError(
             { expected: expectedProviderStatusCodes[i], actual: errorResp.providerStatusCode },
@@ -212,7 +212,7 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.input as any, {})
-        } catch (error) {
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

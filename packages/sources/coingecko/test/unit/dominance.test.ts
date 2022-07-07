@@ -26,7 +26,7 @@ describe('dominane endpoint', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest<TInputParameters>, {})
-        } catch (error) {
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

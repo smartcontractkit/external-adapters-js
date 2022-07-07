@@ -18,7 +18,7 @@ describe('validation error', () => {
     }
     try {
       await execute(testData as AdapterRequest)
-    } catch (error) {
+    } catch (error: any) {
       const errorResp = Requester.errored(testData.id, error)
       assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, testData.id)
     }
