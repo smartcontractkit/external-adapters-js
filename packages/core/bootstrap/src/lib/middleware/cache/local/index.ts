@@ -1,28 +1,23 @@
 import LRU from 'lru-cache'
 import type { LRUInterface } from './types'
-import { getEnv, parseBool } from '../../../util'
+import { getEnv } from '../../../util'
 import type { ICache, CacheEntry } from '../types'
 
 export interface LocalOptions {
   type: 'local'
   max: number
   maxAge: number
-  updateAgeOnGet: boolean
 }
 export const defaultOptions = (): LocalOptions =>
   ({
     type: 'local',
     max: Number(getEnv('CACHE_MAX_ITEMS')),
     maxAge: Number(getEnv('CACHE_MAX_AGE')),
-    updateAgeOnGet: parseBool(getEnv('CACHE_UPDATE_AGE_ON_GET')),
   } as const)
 // Options without sensitive data
 export const redactOptions = (opts: CacheOptions): CacheOptions => opts
 
-type CacheOptions = Omit<
-  LRU.Options<string, CacheEntry | boolean>,
-  'max' | 'maxAge' | 'updateAgeOnGet'
-> &
+type CacheOptions = Omit<LRU.Options<string, CacheEntry | boolean>, 'max' | 'maxAge'> &
   ReturnType<typeof defaultOptions>
 
 export class LocalLRUCache implements ICache {
