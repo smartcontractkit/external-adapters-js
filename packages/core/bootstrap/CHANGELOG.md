@@ -1,5 +1,17 @@
 # @chainlink/ea-bootstrap
 
+## 2.15.1
+
+### Patch Changes
+
+- 03071f0d0: Fix: On WS correctly shut down non-warmer Cache Warmers
+
+## 2.15.0
+
+### Minor Changes
+
+- 8161e1e18: fix broken endpoint override when endpoint missing from request
+
 ## 2.14.1
 
 ### Patch Changes

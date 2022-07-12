@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/celsius-address-list-adapter",
-  "version": "1.0.25",
+  "version": "1.0.27",
   "description": "Chainlink Celsius Address List Adapter.",
   "keywords": [
     "Chainlink",

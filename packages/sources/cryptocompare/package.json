@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptocompare-adapter",
-  "version": "1.4.4",
+  "version": "1.4.6",
   "description": "Chainlink cryptocompare adapter.",
   "keywords": [
     "Chainlink",

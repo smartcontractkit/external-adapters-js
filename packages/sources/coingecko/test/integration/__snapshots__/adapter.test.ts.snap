@@ -23,10 +23,11 @@ Object {
     },
     "results": Array [
       Array [
-        "qfrE4nXFrzJ5yG3Ns3tKwtpwgWc=",
+        "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U=",
         Object {
           "data": Object {
             "base": "ETH",
+            "endpoint": "crypto",
             "overrides": Object {
               "coingecko": Object {
                 "OHM": "olympus",
@@ -36,13 +37,14 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "batchCacheKey": "2jmj7l5rSw0yVb/vlWAYkK/YBwk=",
+            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "5CAMVvSJ6sOpYbsiUrY0jS/1Y/k=",
+                "+vG10HG97219/Jxd3VpKh16FAp8=",
                 Object {
                   "data": Object {
                     "base": "OHM",
+                    "endpoint": "crypto",
                     "overrides": Object {
                       "coingecko": Object {
                         "OHM": "olympus",
@@ -55,17 +57,18 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "TUVCh9+9Y5iIYQDnvdU7VAM5vp0=",
+            "cacheKey": "9WBEZj76qrWF1PzXDGmLubmB6BY=",
           },
           "id": "1",
         },
         3015.64,
       ],
       Array [
-        "5CAMVvSJ6sOpYbsiUrY0jS/1Y/k=",
+        "+vG10HG97219/Jxd3VpKh16FAp8=",
         Object {
           "data": Object {
             "base": "OHM",
+            "endpoint": "crypto",
             "overrides": Object {
               "coingecko": Object {
                 "OHM": "olympus",
@@ -75,13 +78,14 @@ Object {
             "resultPath": "usd",
           },
           "debug": Object {
-            "batchCacheKey": "2jmj7l5rSw0yVb/vlWAYkK/YBwk=",
+            "batchCacheKey": "6G4SrlsKUEN/0QigWvu9oEaSELA=",
             "batchChildrenCacheKeys": Array [
               Array [
-                "5CAMVvSJ6sOpYbsiUrY0jS/1Y/k=",
+                "+vG10HG97219/Jxd3VpKh16FAp8=",
                 Object {
                   "data": Object {
                     "base": "OHM",
+                    "endpoint": "crypto",
                     "overrides": Object {
                       "coingecko": Object {
                         "OHM": "olympus",
@@ -94,7 +98,7 @@ Object {
                 },
               ],
             ],
-            "cacheKey": "TUVCh9+9Y5iIYQDnvdU7VAM5vp0=",
+            "cacheKey": "9WBEZj76qrWF1PzXDGmLubmB6BY=",
           },
           "id": "1",
         },
