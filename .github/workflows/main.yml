@@ -62,7 +62,7 @@ jobs:
   #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-basic-checks:
-    name: Run linters
+    name: Run linters and type checks for tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
@@ -74,6 +74,7 @@ jobs:
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
+      - run: yarn setup-tests
       - run: yarn format:check
 
   run-docmentation-check:
