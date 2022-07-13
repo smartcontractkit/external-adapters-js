@@ -113,4 +113,6 @@ runs:
       with:
         name: ${{ inputs.adapter-name }}-shasum
         path: ${{ inputs.adapter-name }}.shasum
-        retention: 1
+        retention-days: 1
+        if-no-files-found: error
+
