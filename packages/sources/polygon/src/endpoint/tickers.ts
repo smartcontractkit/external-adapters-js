@@ -16,7 +16,7 @@ export const description = `Convert a currency or currencies into another curren
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`tickers\` endpoint instead.**`
 
-export type TInputParameters = { base: string | string[]; quote: string | string }
+export type TInputParameters = { base: string | string[]; quote: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from'],

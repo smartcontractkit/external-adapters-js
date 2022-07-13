@@ -15,7 +15,7 @@ export const batchablePropertyPath = [{ name: 'quote' }]
 export const description =
   'Returns a batched price comparison from one currency to a list of other currencies.'
 
-export type TInputParameters = { base: string; quote: string }
+export type TInputParameters = { base: string; quote: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,

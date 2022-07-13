@@ -16,7 +16,7 @@ export const batchablePropertyPath = [{ name: 'base' }]
 export const description = `https://finage.co.uk/docs/api/stock-last-quote
 The result will be calculated as the midpoint between the ask and the bid.`
 
-export type TInputParameters = { base: string }
+export type TInputParameters = { base: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
