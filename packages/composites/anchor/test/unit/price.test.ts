@@ -110,7 +110,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'empty from',
-        testData: { id: jobID, data: { to: 'ETH' } },
+        testData: { id: jobID, data: { to: 'ETH', from: '' } },
       },
       {
         name: 'empty to',
@@ -121,7 +121,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)

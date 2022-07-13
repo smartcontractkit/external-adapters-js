@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://eodhistoricaldata.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ fmt: 'json', api_token: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         code: 'FTSE.INDX',
         timestamp: 1637858100,
         gmtoffset: 0,

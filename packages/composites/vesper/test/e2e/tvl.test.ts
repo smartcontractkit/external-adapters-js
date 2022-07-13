@@ -22,7 +22,7 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest, {})
-        } catch (error) {
+        } catch (error: any) {
           // TODO: integration tests
         }
       })

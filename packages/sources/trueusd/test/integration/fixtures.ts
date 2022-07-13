@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.real-time-attest.trustexplorer.io', {
     encodedQueryParams: true,
   })
     .get('/chainlink/TrueUSD')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         accountName: 'TrueUSD',
         totalTrust: 1385192938.49,
         totalToken: 1373465520.7227664,

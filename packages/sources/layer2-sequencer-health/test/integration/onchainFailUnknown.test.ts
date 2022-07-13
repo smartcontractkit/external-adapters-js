@@ -6,6 +6,7 @@ import * as nock from 'nock'
 import { mockResponseFailureHealth, mockResponseFailureBlock } from './fixtures'
 import { AddressInfo } from 'net'
 import { ethers } from 'ethers'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
 
 jest.mock('ethers', () => {
   const originalModule = jest.requireActual('ethers')
@@ -42,7 +43,7 @@ describe('execute', () => {
   })
 
   afterAll(() => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()

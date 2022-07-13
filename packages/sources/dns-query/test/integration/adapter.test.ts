@@ -5,6 +5,8 @@ import request from 'supertest'
 import type { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { dnsProofTests } from './dnsProof'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
+import { FastifyInstance } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -24,7 +26,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
   if (process.env.RECORD) {
     nock.recorder.play()
   }

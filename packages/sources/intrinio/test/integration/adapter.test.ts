@@ -15,9 +15,10 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
+  setupExternalAdapterTest,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
@@ -82,7 +83,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -101,7 +102,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockAuthResponse()
         mockRateResponseSuccess()

@@ -1,8 +1,8 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
-export function mockResponseSuccess(): void {
-  nock('https://test-rpc-url:8545', { encodedQueryParams: true })
+export function mockResponseSuccess(): nock.Scope {
+  return nock('https://test-rpc-url:8545', { encodedQueryParams: true })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
     .reply(

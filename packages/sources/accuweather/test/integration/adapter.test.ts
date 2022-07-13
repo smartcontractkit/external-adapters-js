@@ -7,6 +7,8 @@ import { locationCurrentConditionsTests } from './location-current-conditions'
 import { server as startServer } from '../../src'
 import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
+import { FastifyInstance } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -27,7 +29,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
   if (process.env.RECORD) {
     nock.recorder.play()
   }

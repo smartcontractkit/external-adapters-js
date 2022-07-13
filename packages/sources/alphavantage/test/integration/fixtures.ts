@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://www.alphavantage.co', {
     encodedQueryParams: true,
   })
@@ -17,7 +17,7 @@ export const mockResponseSuccess = (): nock =>
     })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         'Realtime Currency Exchange Rate': {
           '1. From_Currency Code': 'GBP',
           '2. From_Currency Name': 'British Pound Sterling',

@@ -16,19 +16,21 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import { EnvVariables, SuiteContext } from '@chainlink/ea-test-helpers/dist/setup'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
 
-  const envVariables = {
+  const envVariables: EnvVariables = {
     API_KEY: process.env.API_KEY || 'fake-api-key',
   }
 
@@ -105,7 +107,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -125,7 +127,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockResponseSuccessQuotesEnpoint() // For the first response
 

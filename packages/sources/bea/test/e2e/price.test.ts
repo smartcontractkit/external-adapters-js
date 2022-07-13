@@ -1,6 +1,7 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
@@ -20,6 +21,7 @@ describe('execute', () => {
         testData: {
           data: {
             series: 'DPCERG',
+            last: 0,
           },
         },
       },

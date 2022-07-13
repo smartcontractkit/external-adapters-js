@@ -8,7 +8,7 @@ export const mockConvertResponse = (): nock.Scope =>
     .query({ access_key: 'fake-api-key', from: 'EUR', to: 'USD', amount: 1 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         success: true,
         query: { from: 'USD', to: 'EUR', amount: 1 },
         info: { timestamp: 1636390923, rate: 0.862805 },
@@ -35,7 +35,7 @@ export const mockResponseFailure = (): nock.Scope =>
     .query({ access_key: 'fake-api-key', from: 'NON-EXISTING', to: 'USD', amount: 1 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         success: false,
         error: {
           code: 402,

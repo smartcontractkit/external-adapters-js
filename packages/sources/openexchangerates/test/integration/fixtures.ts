@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockRateResponseSuccess = (): nock =>
+export const mockRateResponseSuccess = (): nock.Scope =>
   nock('https://openexchangerates.org/api', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockRateResponseSuccess = (): nock =>
     .query({ app_id: 'fake-api-key', base: 'ETH' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         disclaimer: 'Usage subject to terms: https://openexchangerates.org/terms',
         license: 'https://openexchangerates.org/license',
         timestamp: 1636113600,
@@ -198,7 +198,7 @@ export const mockRateResponseSuccess = (): nock =>
       ],
     )
 
-export const mockResponseFailure = (): nock =>
+export const mockResponseFailure = (): nock.Scope =>
   nock('https://openexchangerates.org/api', {
     encodedQueryParams: true,
   })
@@ -206,7 +206,7 @@ export const mockResponseFailure = (): nock =>
     .query({ app_id: 'fake-api-key', base: 'NON-EXISTING' })
     .reply(
       400,
-      (_, request) => ({
+      () => ({
         error: true,
         status: 400,
         message: 'invalid_base',

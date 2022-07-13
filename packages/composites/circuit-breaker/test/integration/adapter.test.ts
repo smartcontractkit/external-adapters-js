@@ -127,7 +127,7 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.input, {})
-        } catch (error) {
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError(
             { expected: expectedProviderStatusCodes, actual: errorResp.providerStatusCode },

@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tradingeconomics.com/markets', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ c: 'fake-api-key:fake-api-secret' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           Symbol: 'EURUSD:CUR',
           Ticker: 'EUR',

@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockEthereumResponseSuccess() {
-  nock('http://localhost:8545')
+export function mockEthereumResponseSuccess(): nock.Scope {
+  return nock('http://localhost:8545')
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
     .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }), [

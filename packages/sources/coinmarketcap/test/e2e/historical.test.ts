@@ -13,7 +13,10 @@ describe('execute', () => {
     const requests = [
       {
         name: 'historical',
-        testData: { id: jobID, data: { endpoint: 'historical', from: 'btc', to: 'USD' } },
+        testData: {
+          id: jobID,
+          data: { endpoint: 'historical', from: 'btc', to: 'USD', market: '' },
+        },
       },
     ]
 

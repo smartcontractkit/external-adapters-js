@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockWootradeResponseSuccess = (): nock =>
+export const mockWootradeResponseSuccess = (): nock.Scope =>
   nock('https://api.woo.network', { encodedQueryParams: true })
     .persist()
     .get('/v1/public/market_trades/?symbol=SPOT_ETH_USDT&limit=1')

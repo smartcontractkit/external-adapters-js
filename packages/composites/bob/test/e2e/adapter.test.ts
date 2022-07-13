@@ -35,14 +35,14 @@ describe('execute', () => {
     const requests = [
       {
         name: 'chain ID not existing',
-        testData: { id: jobID, data: { blockNumber: 'no_op' } },
+        testData: { id: jobID, data: { blockNumber: 0 } },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
