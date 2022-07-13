@@ -115,4 +115,3 @@ runs:
         path: ${{ inputs.adapter-name }}.shasum
         retention-days: 1
         if-no-files-found: error
-
