@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 698e5670f: Turn off default HTTP failover behavior
+
 ## 1.2.6
 
 ### Patch Changes
