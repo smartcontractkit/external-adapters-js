@@ -73,6 +73,7 @@ export const makeWSHandler = (
           defaultConfig.client.secret || '',
         ),
       },
+      noHttp: true, // Turned on due to negotiated plans having limited HTTP credits
       subscribe: (input) => {
         const validator = new Validator(
           input,
