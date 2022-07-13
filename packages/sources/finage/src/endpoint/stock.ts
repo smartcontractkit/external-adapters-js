@@ -41,7 +41,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const base = validator.validated.data.base
   const symbol = Array.isArray(base)
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
-    : validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
+    : validator.overrideSymbol(NAME, base).toUpperCase()
 
   const url = getStockURL(base, symbol)
   const params = {
