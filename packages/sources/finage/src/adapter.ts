@@ -3,6 +3,7 @@ import {
   APIEndpoint,
   ExecuteFactory,
   ExecuteWithConfig,
+  Logger,
   MakeWSHandler,
 } from '@chainlink/ea-bootstrap'
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
@@ -57,6 +58,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
         { shouldThrowError: false, overrides },
       )
       if (validator.error) return
+      if (Array.isArray(validator.validated.data.base)) {
+        Logger.debug(
+          `[WS]: ${validator.validated.data.base} supplied as base. Only non-array tickers can be used for WS`,
+        )
+        return
+      }
       return validator.validated.data.base.toUpperCase()
     }
     const isStock = (input: AdapterRequest): boolean =>

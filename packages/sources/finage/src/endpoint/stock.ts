@@ -16,7 +16,7 @@ export const batchablePropertyPath = [{ name: 'base' }]
 export const description = `https://finage.co.uk/docs/api/stock-last-quote
 The result will be calculated as the midpoint between the ask and the bid.`
 
-export type TInputParameters = { base: string }
+export type TInputParameters = { base: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
@@ -41,7 +41,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const base = validator.validated.data.base
   const symbol = Array.isArray(base)
     ? base.map((symbol) => symbol.toUpperCase()).join(',')
-    : validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
+    : validator.overrideSymbol(NAME, base).toUpperCase()
 
   const url = getStockURL(base, symbol)
   const params = {
