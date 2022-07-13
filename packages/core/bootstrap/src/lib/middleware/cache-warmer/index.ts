@@ -47,7 +47,9 @@ export const withCacheWarmer =
       // If WS is available, and there is an active subscription, warmer should not be active
       let batchMemberHasActiveWSSubscription = false
 
-      const keysToCheck = input.debug?.batchChildrenCacheKeys || []
+      const keysToCheck = input.debug?.batchChildrenCacheKeys || [
+        [input.debug?.cacheKey || '', input],
+      ]
 
       for (const [key, childRequest] of keysToCheck) {
         // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed'      const wsHandler = await ws.makeWSHandler()
