@@ -96,7 +96,7 @@ export const description = `The \`crypto\` endpoint fetches the price of a reque
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export type TInputParameters = { base: string; quote: string }
+export type TInputParameters = { base: string | string[]; quote: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'ids'],

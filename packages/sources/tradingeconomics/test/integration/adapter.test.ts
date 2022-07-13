@@ -33,6 +33,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'price',
         base: 'EURUSD:CUR',
       },
     }
@@ -89,6 +90,7 @@ describe('websocket', () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
+          endpoint: 'price',
           base: 'EURUSD:CUR',
         },
       }

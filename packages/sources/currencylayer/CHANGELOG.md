@@ -1,5 +1,11 @@
 # @chainlink/currencylayer-adapter
 
+## 1.4.7
+
+### Patch Changes
+
+- 99a5aad35: Fix validation of batchable property path
+
 ## 1.4.6
 
 ### Patch Changes
