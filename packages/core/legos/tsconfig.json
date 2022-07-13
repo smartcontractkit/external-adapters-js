@@ -80,6 +80,9 @@
       "path": "../../sources/cache.gold"
     },
     {
+      "path": "../../sources/ccip-read"
+    },
+    {
       "path": "../../sources/celsius-address-list"
     },
     {
@@ -149,9 +152,6 @@
       "path": "../../sources/dns-query"
     },
     {
-      "path": "../../sources/ccip-read"
-    },
-    {
       "path": "../../sources/dwolla"
     },
     {
@@ -159,6 +159,9 @@
     },
     {
       "path": "../../sources/dxfeed-secondary"
+    },
+    {
+      "path": "../../sources/elwood"
     },
     {
       "path": "../../sources/ens"
