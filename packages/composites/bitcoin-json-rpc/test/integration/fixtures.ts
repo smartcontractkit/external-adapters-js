@@ -11,7 +11,7 @@ export const mockCRPCCallResponseSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         result: {
           chain: 'main',
           blocks: 729721,

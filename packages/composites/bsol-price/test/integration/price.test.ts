@@ -1,10 +1,11 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockSolanaViewFunctionResponse, mockTokenAllocationResponse } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import '@chainlink/solana-view-function-adapter'
 import '@chainlink/token-allocation-adapter'
+import { SuiteContext } from '@chainlink/ea-test-helpers/dist/setup'
 
 jest.mock('@chainlink/solana-view-function-adapter', () => ({
   ...jest.requireActual('@chainlink/solana-view-function-adapter'),
@@ -22,7 +23,7 @@ const BSOL_ADDRESS = '3FMBoeddUhtqxepzkrxPrMUV3CL4bZM5QmMoLJfEpirz'
 const SOLIDO_CONTRACT_VERSION = '0'
 
 describe('accounts', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -35,7 +36,7 @@ describe('accounts', () => {
     SOLIDO_CONTRACT_VERSION: SOLIDO_CONTRACT_VERSION,
   }
 
-  setupExternalAdapterTest(envVariables, context)
+  setupExternalAdapterTest(envVariables, context as SuiteContext)
 
   describe('successful calls', () => {
     const jobID = '1'
@@ -47,6 +48,7 @@ describe('accounts', () => {
           source: 'tiingo',
         },
       }
+      if (!context.req) return
       const response = await context.req
         .post('/')
         .send(data)

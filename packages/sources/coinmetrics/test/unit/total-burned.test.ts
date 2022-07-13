@@ -4,6 +4,7 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import { makeExecute } from '../../src/adapter'
 import { AssetMetrics, calculateBurnedTKN } from '../../src/endpoint/total-burned'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('validation error', () => {
   process.env.API_KEY = process.env.API_KEY || 'test_api_key'
@@ -18,8 +19,8 @@ describe('validation error', () => {
       },
     }
     try {
-      await execute(testData as AdapterRequest)
-    } catch (error) {
+      await execute(testData as AdapterRequest<TInputParameters>, {})
+    } catch (error: any) {
       const errorResp = Requester.errored(testData.id, error)
       assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, testData.id)
     }

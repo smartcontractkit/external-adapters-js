@@ -6,6 +6,8 @@ import { execute as bethExecute } from '../../src/endpoint/price/beth'
 import { execute as blunaExecute } from '../../src/endpoint/price/bluna'
 import { ethers } from 'ethers'
 import { callViewFunctionEA } from '../../src/utils'
+import { Config } from '../../src/config'
+import { TInputParameters } from '../../src/endpoint'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -56,7 +58,7 @@ describe('execute', () => {
       anchorVaultContractAddress: '',
       terraBLunaHubContractAddress: '',
       feedAddresses: {},
-    }
+    } as Config
 
     it('beth execute responds with correct precision', async () => {
       const bEthStEthString = '1' + '0'.repeat(150)
@@ -119,8 +121,8 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest, {})
-        } catch (error) {
+          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

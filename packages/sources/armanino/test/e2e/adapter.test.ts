@@ -1,4 +1,4 @@
-import type { AdapterRequest } from '@chainlink/ea-bootstrap'
+import type { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'

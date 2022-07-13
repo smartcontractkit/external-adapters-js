@@ -2,6 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 /**
  * Running these tests requires a connection to a Bitcoin client.
@@ -24,7 +25,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
+        const data = await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
       })
     })
@@ -41,8 +42,8 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
-        } catch (error) {
+          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

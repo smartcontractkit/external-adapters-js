@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, BigNumber } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import type {
   AdapterRequest,
@@ -7,7 +7,7 @@ import type {
   ExecuteWithConfig,
   Config,
 } from '@chainlink/ea-bootstrap'
-import { BigNumber } from 'ethers'
+import * as ethers from 'ethers'
 import { makeExecute, priceTotalValue } from '../../src/endpoint'
 import { makeEndpointSelector } from '../../src/adapter'
 import { makeConfig, adapters } from '../../src/config'
@@ -49,7 +49,7 @@ describe('execute', () => {
       },
       {
         symbol: 'DAI',
-        balance: BigNumber.from('1000000000000000000'),
+        balance: ethers.BigNumber.from('1000000000000000000') as BigNumber,
         decimals: 18,
       },
     ]

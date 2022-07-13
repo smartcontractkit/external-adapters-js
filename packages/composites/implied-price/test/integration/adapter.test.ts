@@ -5,7 +5,7 @@ import { mockSuccessfulResponseCoingecko, mockSuccessfulResponseCoinpaprika } fr
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const setupEnvironment = (adapters: string[]) => {
-  const env = {}
+  const env = {} as { [key: string]: string }
   for (const a of adapters) {
     env[`${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`] = `https://external.adapter.com/${a}`
   }

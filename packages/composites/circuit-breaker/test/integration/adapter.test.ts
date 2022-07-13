@@ -1,8 +1,9 @@
 import { assertError } from '@chainlink/ea-test-helpers'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Requester } from '@chainlink/ea-bootstrap'
 import * as circuitbreakerAllocationAdapter from '../../src/index'
 import { dataProviderConfig, mockDataProviderResponses } from './fixtures'
 import nock from 'nock'
+import { TInputParameters } from '../../src/endpoint'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -120,16 +121,16 @@ describe('execute', () => {
       },
     ]
 
-    const expectedProviderStatusCodes = [0, 500]
+    const expectedProviderStatusCodes = 0
 
-    request.forEach((req, i) => {
+    request.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.input, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError(
-            { expected: expectedProviderStatusCodes[i], actual: errorResp.providerStatusCode },
+            { expected: expectedProviderStatusCodes, actual: errorResp.providerStatusCode },
             errorResp,
             jobID,
           )
@@ -211,8 +212,8 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.input as any, {})
-        } catch (error) {
+          await execute(req.input as unknown as AdapterRequest<TInputParameters>, {})
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

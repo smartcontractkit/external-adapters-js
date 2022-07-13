@@ -4,6 +4,7 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
 import { ENV_ETHEREUM_RPC_URL } from '../../src/config'
 import * as process from 'process'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
@@ -23,8 +24,8 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest, {})
-        } catch (error) {
+          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }

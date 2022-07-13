@@ -1,6 +1,5 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
-import { AddressInfo } from 'net'
 import { mockVwapSuccess } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 

@@ -6,13 +6,13 @@ jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
   ethers: {
     providers: {
-      JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-        return {}
+      JsonRpcProvider: function (): ethers.providers.JsonRpcProvider {
+        return {} as ethers.providers.JsonRpcProvider
       },
     },
     Contract: function () {
       return {
-        walletAddresses: (____: string) => {
+        walletAddresses: () => {
           return [
             'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
           ]

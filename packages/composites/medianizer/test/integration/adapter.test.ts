@@ -1,4 +1,4 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import {
@@ -9,7 +9,7 @@ import {
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const setupEnvironment = (adapters: string[]) => {
-  const env = {}
+  const env = {} as { [key: string]: string }
   for (const a of adapters) {
     env[`${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`] = `https://adapters.main.stage.cldev.sh/${a}`
   }
