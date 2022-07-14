@@ -1,16 +1,15 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import { mockResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
 
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -34,7 +33,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

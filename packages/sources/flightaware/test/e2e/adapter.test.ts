@@ -35,7 +35,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest<TInputParameters>)
+        const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).not.toBeFalsy()
         expect(data.data.result).not.toBeFalsy()
@@ -60,7 +60,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest<TInputParameters>)
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)

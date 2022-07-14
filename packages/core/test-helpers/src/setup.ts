@@ -12,7 +12,7 @@ export type SuiteContext = {
 
 export type EnvVariables = { [key: string]: string }
 
-export type TestOptions = { cleanNock: boolean; fastify: boolean }
+export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
 export const setupExternalAdapterTest = (
   envVariables: NodeJS.ProcessEnv,

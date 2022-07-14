@@ -22,7 +22,7 @@ describe('price endpoint', () => {
         name: 'base not supplied',
         testData: {
           id: jobID,
-          data: { quote: 'USD' },
+          data: { base: '', quote: 'USD' },
         },
       },
       {

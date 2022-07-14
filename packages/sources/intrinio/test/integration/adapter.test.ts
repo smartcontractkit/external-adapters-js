@@ -18,17 +18,19 @@ import {
   setEnvVariables,
   setupExternalAdapterTest,
 } from '@chainlink/ea-test-helpers'
+import type { SuiteContext, TestOptions } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
 
-  const options = {
+  const options: TestOptions = {
     cleanNock: false,
+    fastify: false,
   }
   const envVariables = {
     API_KEY: process.env.API_KEY || 'fake-api-key',
@@ -47,7 +49,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockRateResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

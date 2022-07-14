@@ -13,14 +13,14 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'symbol not supplied',
-        testData: { id: jobID, data: { to: 'USD' } },
+        testData: { id: jobID, data: { base: '', quote: 'USD' } },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await makeExecute()(req.testData as AdapterRequest)
+          await makeExecute()(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)

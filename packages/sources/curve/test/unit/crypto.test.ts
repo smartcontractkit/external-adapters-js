@@ -17,7 +17,17 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        testData: {
+          id: jobID,
+          data: {
+            from: '',
+            fromAddress: '',
+            fromDecimals: 18,
+            to: '',
+            toAddress: '',
+            toDecimals: 18,
+          },
+        },
       },
       {
         name: 'quote not supplied',

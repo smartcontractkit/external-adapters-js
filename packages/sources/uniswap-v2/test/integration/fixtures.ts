@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
 export function mockEthereumResponseSuccess(): void {
@@ -26,7 +27,7 @@ export function mockEthereumResponseSuccess(): void {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000006',
@@ -54,7 +55,7 @@ export function mockEthereumResponseSuccess(): void {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000006',
@@ -88,7 +89,7 @@ export function mockEthereumResponseSuccess(): void {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -123,7 +124,7 @@ export function mockEthereumResponseSuccess(): void {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:

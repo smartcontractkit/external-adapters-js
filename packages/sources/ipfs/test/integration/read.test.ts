@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess, setEnvVariables } from '@chainlink/ea-test-helpers'
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { execute } from '../../src/endpoint/read'
 import { makeConfig } from '../../src'
 import nock from 'nock'

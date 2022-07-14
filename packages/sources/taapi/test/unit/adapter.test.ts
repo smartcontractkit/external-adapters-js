@@ -31,6 +31,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
+            base: '',
             indicator: 'RSI',
             quote: 'USDT',
             exchange: 'binance',

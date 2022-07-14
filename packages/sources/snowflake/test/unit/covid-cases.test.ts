@@ -22,7 +22,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'state not supplied',
-        testData: { id: jobID, data: { county: 'Autauga' } },
+        testData: { id: jobID, data: { state: '', county: 'Autauga' } },
       },
       {
         name: 'county not supplied',

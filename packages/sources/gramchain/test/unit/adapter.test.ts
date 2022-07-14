@@ -15,7 +15,10 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'block not set to number',
-        testData: { id: jobID, data: { block: null } },
+        testData: {
+          id: jobID,
+          data: { custodianID: '', metalCode: '', utilizationLockCode: '', block: null },
+        },
       },
     ]
 

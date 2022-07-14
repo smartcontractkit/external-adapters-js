@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
@@ -11,7 +12,11 @@ export const mockResponseSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x2fe84e3113d7b' }),
+      (_, request: AdapterRequest) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x2fe84e3113d7b',
+      }),
       [
         'Content-Type',
         'application/json',

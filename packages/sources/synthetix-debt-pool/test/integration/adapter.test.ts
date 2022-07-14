@@ -1,8 +1,9 @@
 import { server as startServer } from '../../src/index'
 import { BigNumber } from 'ethers'
-import process from 'process'
 import { ethers } from 'ethers'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const mockChainConfig = {
   ethereum: {
@@ -40,6 +41,8 @@ const mockEthereumAddressProviderContract = {
         return mockChainConfig.ethereum.synthetixDebtShareAddress
       case ethers.utils.formatBytes32String('SynthetixBridgeToOptimism'):
         return mockChainConfig.optimism.synthetixBridgeAddress
+      default:
+        break
     }
   }),
 }
@@ -53,6 +56,8 @@ const mockOptimismAddressProviderContract = {
         return mockChainConfig.optimism.synthetixDebtShareAddress
       case ethers.utils.formatBytes32String('SynthetixBridgeToBase'):
         return mockChainConfig.optimism.synthetixBridgeAddress
+      default:
+        break
     }
   }),
 }
@@ -99,6 +104,8 @@ jest.mock('ethers', () => {
               return mockEthereumProvider
             case mockChainConfig.optimism.rpcUrl:
               return mockOptimismProvider
+            default:
+              break
           }
         }),
       },
@@ -133,7 +140,7 @@ jest.mock('ethers', () => {
 })
 
 describe('synthetix-debt-pool', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -155,7 +162,7 @@ describe('synthetix-debt-pool', () => {
         id: 1,
         data: {},
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -173,7 +180,7 @@ describe('synthetix-debt-pool', () => {
           chainSources: ['mainnet'],
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -193,7 +200,7 @@ describe('synthetix-debt-pool', () => {
           chainSources: ['kovan'],
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -213,7 +220,7 @@ describe('synthetix-debt-pool', () => {
           endpoint: 'debt-ratio',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -232,7 +239,7 @@ describe('synthetix-debt-pool', () => {
           endpoint: 'debt-ratio',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(request)
         .set('Accept', '*/*')
@@ -253,7 +260,7 @@ describe('synthetix-debt-pool', () => {
           endpoint: 'debt-ratio',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(request)
         .set('Accept', '*/*')

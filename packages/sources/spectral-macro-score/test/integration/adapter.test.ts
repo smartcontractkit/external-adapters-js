@@ -1,5 +1,5 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import nock from 'nock'
 import sinon from 'sinon'
@@ -7,6 +7,7 @@ import * as NFC from '../../src/abi/NFC'
 import { makeExecute } from '../../src/adapter'
 import * as config from '../../src/config'
 import { mockMacroScoreAPIResponseSuccess } from '../mocks/macro-score-api.mock'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
@@ -76,7 +77,10 @@ describe('execute', () => {
         `${req.name}`,
         async () => {
           mockContractCall()
-          const adapterResponse = await execute(req.testData as AdapterRequest, null)
+          const adapterResponse = await execute(
+            req.testData as AdapterRequest<TInputParameters>,
+            {},
+          )
           assertSuccess(
             { expected: 200, actual: adapterResponse.statusCode },
             adapterResponse,

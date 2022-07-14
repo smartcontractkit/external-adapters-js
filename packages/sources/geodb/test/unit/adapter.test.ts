@@ -17,6 +17,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
+            lat: '',
             lng: '11.9202',
             radius: '500000',
             start: '2021-01-01 00:00:00',

@@ -1,8 +1,7 @@
 import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { makeExecute } from '../../src/adapter'
-import { TInputParameters } from '../../src/endpoint'
+import { makeExecute, TInputParameters } from '../../src/adapter'
 
 describe('execute', () => {
   const jobID = '1'
@@ -14,7 +13,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        testData: { id: jobID, data: { base: '', quote: 'USD', sport: '' } },
       },
       {
         name: 'quote not supplied',

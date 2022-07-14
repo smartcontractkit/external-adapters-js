@@ -8,12 +8,14 @@ import {
   mockStatusLevelResponse,
 } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const MOCK_KEY = 'mock-key'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -40,7 +42,7 @@ describe('execute', () => {
     mockResponseWithNoRaces(MOCK_KEY)
 
     it('should return error', async () => {
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -66,7 +68,7 @@ describe('execute', () => {
     mockResponseWithMultipleRaces(MOCK_KEY)
 
     it('should return error', async () => {
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -91,7 +93,7 @@ describe('execute', () => {
     mockResponseWithNationalAndState(MOCK_KEY)
 
     it('should return success', async () => {
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -117,7 +119,7 @@ describe('execute', () => {
     mockStatusLevelResponse(MOCK_KEY)
 
     it('should return success', async () => {
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

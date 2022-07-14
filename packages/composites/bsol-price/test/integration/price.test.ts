@@ -5,7 +5,8 @@ import { mockSolanaViewFunctionResponse, mockTokenAllocationResponse } from './f
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import '@chainlink/solana-view-function-adapter'
 import '@chainlink/token-allocation-adapter'
-import { SuiteContext } from '@chainlink/ea-test-helpers/dist/setup'
+import type { SuiteContext, EnvVariables } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 jest.mock('@chainlink/solana-view-function-adapter', () => ({
   ...jest.requireActual('@chainlink/solana-view-function-adapter'),
@@ -28,7 +29,7 @@ describe('accounts', () => {
     server: startServer,
   }
 
-  const envVariables = {
+  const envVariables: EnvVariables = {
     RPC_URL: 'https://api.devnet.solana.com',
     SOLIDO_ADDRESS: SOLIDO_ADDRESS,
     STSOL_ADDRESS: STSOL_ADDRESS,
@@ -49,7 +50,7 @@ describe('accounts', () => {
         },
       }
       if (!context.req) return
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

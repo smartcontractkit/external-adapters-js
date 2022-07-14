@@ -16,9 +16,11 @@ describe('execute', () => {
           data: {
             date: '2021-06-08',
             statePostal: 'VA',
-            level: 'state',
             officeID: 'A',
+            raceID: '',
             raceType: 'D',
+            level: 'state',
+            resultsType: '',
           },
         },
       },

@@ -3,6 +3,8 @@ import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import { mockSuccessfulResponseCoingecko, mockSuccessfulResponseCoinpaprika } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const setupEnvironment = (adapters: string[]) => {
   const env = {} as { [key: string]: string }
@@ -13,7 +15,7 @@ const setupEnvironment = (adapters: string[]) => {
 }
 
 describe('impliedPrice', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -41,7 +43,7 @@ describe('impliedPrice', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -70,7 +72,7 @@ describe('impliedPrice', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -102,7 +104,7 @@ describe('impliedPrice', () => {
           },
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -119,7 +121,7 @@ describe('impliedPrice', () => {
     it('returns a validation error if the request data is empty', async () => {
       const data: AdapterRequest = { id: jobID, data: {} }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -146,7 +148,7 @@ describe('impliedPrice', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

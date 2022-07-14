@@ -14,7 +14,19 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { quote: 'USD' } },
+        testData: {
+          id: jobID,
+          data: {
+            base: '',
+            quote: 'USD',
+            method: '',
+            transfer_id: '',
+            amount: '',
+            currency: '',
+            destination: '',
+            source: '',
+          },
+        },
       },
       {
         name: 'quote not supplied',

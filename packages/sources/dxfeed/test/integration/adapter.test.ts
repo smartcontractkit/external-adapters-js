@@ -21,9 +21,10 @@ import {
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('dxfeed', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -45,7 +46,7 @@ describe('dxfeed', () => {
 
     it('should reply with success', async () => {
       mockPriceEndpoint()
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(priceRequest)
         .set('Accept', '*/*')

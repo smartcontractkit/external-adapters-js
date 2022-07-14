@@ -28,10 +28,13 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
+            date: '',
             statePostal: 'VA',
             level: 'state',
             officeID: 'A',
             raceType: 'D',
+            raceID: '',
+            resultsType: '',
           },
         },
       },
@@ -44,6 +47,7 @@ describe('execute', () => {
             level: 'state',
             officeID: 'A',
             raceType: 'D',
+            statePostal: '',
           },
         },
       },

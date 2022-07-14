@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
 export const mockGetBlockByNumber = (): nock.Scope =>
@@ -11,7 +12,7 @@ export const mockGetBlockByNumber = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: {

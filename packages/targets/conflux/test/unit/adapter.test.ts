@@ -2,6 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 const TestOracleAddress = '0x8688ebA9Bf38cBb1Fa27A8C3Fda11414D6057887'
 const FunctionSelector = '0x4ab0d190'
@@ -32,7 +33,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)

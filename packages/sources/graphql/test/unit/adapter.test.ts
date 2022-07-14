@@ -14,7 +14,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'graphqlEndpoint not supplied',
-        testData: { id: jobID, data: { query: 'test' } },
+        testData: { id: jobID, data: { graphqlEndpoint: '', query: 'test' } },
       },
       {
         name: 'query not supplied',

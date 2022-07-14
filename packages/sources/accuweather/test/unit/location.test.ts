@@ -25,6 +25,7 @@ describe('validation error', () => {
         data: {
           endpoint: 'location',
           lon: -7.77,
+          lat: '',
         },
       },
     },

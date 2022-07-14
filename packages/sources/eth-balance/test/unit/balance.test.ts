@@ -28,7 +28,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: 'asd',
+            minConfirmations: 'asd',
           },
         },
       },
@@ -38,7 +38,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: 12.3,
+            minConfirmations: 12.3,
           },
         },
       },
@@ -48,7 +48,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: -1,
+            minConfirmations: -1,
           },
         },
       },
@@ -58,7 +58,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: 65,
+            minConfirmations: 65,
           },
         },
       },

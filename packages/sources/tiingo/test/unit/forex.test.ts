@@ -2,6 +2,7 @@ import { Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   process.env.API_KEY = process.env.API_KEY ?? 'test_API_key'
@@ -14,7 +15,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: { endpoint } } },
       {
         name: 'base not supplied',
-        testData: { id: jobID, data: { endpoint, quote: 'USD' } },
+        testData: { id: jobID, data: { endpoint, base: '', quote: 'USD' } },
       },
       {
         name: 'quote not supplied',

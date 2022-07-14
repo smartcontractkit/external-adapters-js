@@ -49,6 +49,7 @@ describe('execute', () => {
       {
         name: 'id not supplied',
         testData: {
+          id: '',
           data: {
             geoJson: geoJsonPolygon,
             dateFrom: '2021-04-01',

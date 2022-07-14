@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-const fileUploadMatches = (expected) => (body) => {
+const fileUploadMatches = (expected: string) => (body: string) => {
   const lines = body.split('\r\n')
   return lines.length === 7 && lines[4] === expected
 }

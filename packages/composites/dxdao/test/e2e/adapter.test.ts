@@ -17,17 +17,14 @@ describe('execute', () => {
         testData: {
           data: {
             pairContractAddress: '0x1bDe964eCd52429004CbC5812C07C28bEC9147e9',
-            source: 'tiingo',
           },
         },
       },
       {
         name: 'pair contract address supplied with id',
         testData: {
-          jobID: 1,
           data: {
             pairContractAddress: '0x1bDe964eCd52429004CbC5812C07C28bEC9147e9',
-            source: 'tiingo',
           },
         },
       },
@@ -48,10 +45,8 @@ describe('execute', () => {
       {
         name: 'invalid pairContractAddress',
         testData: {
-          jobID: 1,
           data: {
             pairContractAddress: 'invalid-address',
-            source: '',
           },
         },
       },

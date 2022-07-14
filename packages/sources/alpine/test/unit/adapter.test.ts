@@ -9,7 +9,12 @@ describe('execute', () => {
   const execute = makeExecute()
 
   describe('validation error', () => {
-    const requests = [{ name: 'chain not supplied', testData: { id: jobID, data: { foo: 'bar' } } }]
+    const requests = [
+      {
+        name: 'chain not supplied',
+        testData: { id: jobID, data: { network: '', vaultAddress: '', foo: 'bar' } },
+      },
+    ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {

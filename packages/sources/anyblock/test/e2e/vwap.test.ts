@@ -13,7 +13,12 @@ describe('execute', () => {
         name: 'vwap: Offshift (XTF) price',
         testData: {
           id: jobID,
-          data: { address: '0x2B9e92A5B6e69Db9fEdC47a4C656C9395e8a26d2', debug: true },
+          data: {
+            base: '',
+            quote: '',
+            address: '0x2B9e92A5B6e69Db9fEdC47a4C656C9395e8a26d2',
+            debug: true,
+          },
         },
       },
     ]

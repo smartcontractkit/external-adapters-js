@@ -13,8 +13,8 @@ import { FastifyInstance } from '@chainlink/ea-bootstrap'
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  fastify: FastifyInstance
-  req: SuperTest<Test>
+  fastify: FastifyInstance | null
+  req: SuperTest<Test> | null
 }
 
 beforeAll(() => {
@@ -40,7 +40,7 @@ afterAll(() => {
 
 describe('execute', () => {
   const context: SuiteContext = {
-    server: null,
+    fastify: null,
     req: null,
   }
 
@@ -50,7 +50,7 @@ describe('execute', () => {
   })
 
   afterEach((done) => {
-    context.fastify.close(done)
+    ;(context.fastify as FastifyInstance).close(done)
   })
 
   describe('location endpoint', () => locationTests(context))

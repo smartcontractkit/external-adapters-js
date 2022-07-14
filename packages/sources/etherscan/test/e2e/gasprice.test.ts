@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { makeExecute } from '../../src/adapter'
 import { TInputParameters } from '../../src/endpoint'
@@ -34,7 +35,7 @@ describe('execute', () => {
     ]
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest<TInputParameters>)
+        const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.data.result).toBeGreaterThan(0)
       })

@@ -14,7 +14,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'asset not supplied',
-        testData: { id: jobID, data: { notAsset: 'USD' } },
+        testData: { id: jobID, data: { asset: '' } },
       },
     ]
 

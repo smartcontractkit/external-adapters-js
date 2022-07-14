@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Execute, Requester } from '@chainlink/ea-bootstrap'
 import { makeExecute, makeConfig } from '../../src/index'
 
 /**
@@ -205,7 +205,7 @@ const getOriginalGatewayResponse = async () => {
 }
 
 describe('e2e Optimism Gateway', () => {
-  let execute
+  let execute: Execute
 
   beforeAll(async () => {
     process.env.RPC_URL = 'http://localhost:9545'
@@ -223,7 +223,7 @@ describe('e2e Optimism Gateway', () => {
         abi: OPTIMISM_RESOLVER_STUB_ABI,
       },
     }
-    const response = await execute(requestParams, {}, makeConfig())
+    const response = await execute(requestParams, {})
     expect(response.result).toBe(expectedResponse)
   })
 })

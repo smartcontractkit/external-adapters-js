@@ -21,7 +21,7 @@ import {
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import { EnvVariables, SuiteContext } from '@chainlink/ea-test-helpers/dist/setup'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
@@ -30,7 +30,7 @@ describe('execute', () => {
     server: startServer,
   }
 
-  const envVariables: EnvVariables = {
+  const envVariables = {
     API_KEY: process.env.API_KEY || 'fake-api-key',
   }
 
@@ -49,7 +49,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccessConvertEndpoint()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -73,7 +73,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccessQuotesEnpoint()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

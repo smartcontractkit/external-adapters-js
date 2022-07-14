@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
 export const mockContractCallResponseSuccess = (): nock.Scope =>
@@ -6,16 +7,20 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
   })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0xdac17f958d2ee523a2206206994597c13d831ec7', data: '0x95d89b41' }, 'latest'],
@@ -24,7 +29,7 @@ export const mockContractCallResponseSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
