@@ -1,5 +1,11 @@
 # @chainlink/1forge-adapter
 
+## 1.6.7
+
+### Patch Changes
+
+- 99a5aad35: Fix validation of batchable property path
+
 ## 1.6.6
 
 ### Patch Changes

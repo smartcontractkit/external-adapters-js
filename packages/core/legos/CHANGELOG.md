@@ -1,5 +1,15 @@
 # @chainlink/ea
 
+## 1.3.7
+
+### Patch Changes
+
+- Updated dependencies [698e5670f]
+- Updated dependencies [99a5aad35]
+  - @chainlink/tradingeconomics-adapter@2.0.0
+  - @chainlink/1forge-adapter@1.6.7
+  - @chainlink/currencylayer-adapter@1.4.7
+
 ## 1.3.6
 
 ### Patch Changes
