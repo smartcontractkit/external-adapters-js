@@ -80,6 +80,9 @@
       "path": "../../sources/cache.gold"
     },
     {
+      "path": "../../sources/ccip-read"
+    },
+    {
       "path": "../../sources/celsius-address-list"
     },
     {
@@ -147,9 +150,6 @@
     },
     {
       "path": "../../sources/dns-query"
-    },
-    {
-      "path": "../../sources/ccip-read"
     },
     {
       "path": "../../sources/dwolla"
@@ -339,6 +339,9 @@
     },
     {
       "path": "../../sources/sportsdataio"
+    },
+    {
+      "path": "../../sources/stader-labs"
     },
     {
       "path": "../../sources/stasis"
