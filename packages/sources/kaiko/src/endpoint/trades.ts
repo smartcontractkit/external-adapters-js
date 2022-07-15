@@ -2,7 +2,6 @@ import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import type {
   Config,
   ExecuteWithConfig,
-  Includes,
   IncludePair,
   InputParameters,
 } from '@chainlink/ea-bootstrap'
@@ -26,6 +25,7 @@ export type TInputParameters = {
   millisecondsAgo: number
   sort: string
 }
+
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
@@ -56,11 +56,28 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
-const getUrl = (from: string, to: string) =>
-  util.buildUrlPath('/spot_exchange_rate/:from/:to', {
+export type TOptions = {
+  url: string
+  inverse?: boolean
+}
+
+const getUrl = (from: string, to: string) => ({
+  url: util.buildUrlPath('/spot_exchange_rate/:from/:to', {
     from: from.toLowerCase(),
     to: to.toLowerCase(),
-  })
+  }),
+})
+
+const getIncludesOptions = (
+  //@ts-expect-error no-unused-vars
+  validator: Validator<TInputParameters>,
+  include: IncludePair,
+) => {
+  return {
+    ...getUrl(include.from, include.to),
+    inverse: include.inverse,
+  }
+}
 
 export interface ResponseSchema {
   query: {
@@ -104,7 +121,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     return date
   }
 
-  const { url, inverse } = getOptions(validator)
+  const { url, inverse } = util.getCryptoOptions<TOptions, TInputParameters>(
+    AdapterName,
+    validator,
+    getIncludesOptions,
+    getUrl,
+  )
 
   const interval = validator.validated.data.interval || DEFAULT_INTERVAL
   const start_time = calculateStartTime(
@@ -135,56 +157,4 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   )
 
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
-
-const getOptions = (
-  validator: Validator<TInputParameters>,
-): {
-  url: string
-  inverse?: boolean
-} => {
-  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
-  const quote = validator.validated.data.quote
-  const includes = validator.validated.includes || []
-
-  const includeOptions = getIncludesOptions(validator, base, quote, includes)
-  return (
-    includeOptions ?? {
-      url: getUrl(base, quote),
-    }
-  )
-}
-
-const getIncludesOptions = (
-  validator: Validator<TInputParameters>,
-  from: string,
-  to: string,
-  includes: string[] | Includes[],
-) => {
-  const include = getIncludes(validator, from, to, includes)
-  if (!include) return undefined
-  return {
-    url: getUrl(include.from, include.to),
-    inverse: include.inverse,
-  }
-}
-
-const getIncludes = (
-  validator: Validator<TInputParameters>,
-  from: string,
-  to: string,
-  includes: string[] | Includes[],
-): IncludePair | undefined => {
-  if (includes.length === 0) return undefined
-
-  const presetIncludes = validator.overrideIncludes(from, to)
-  if (presetIncludes && typeof includes[0] === 'string') return presetIncludes
-  else if (typeof includes[0] === 'string') {
-    return {
-      from,
-      to: includes[0],
-      inverse: false,
-    }
-  }
-  return presetIncludes
 }

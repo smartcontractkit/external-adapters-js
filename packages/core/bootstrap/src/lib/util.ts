@@ -1,4 +1,11 @@
-import type { AdapterContext, AdapterImplementation, EnvDefaults } from '../types'
+import type {
+  AdapterContext,
+  AdapterImplementation,
+  BaseCryptoInputParameters,
+  EnvDefaults,
+  IncludePair,
+} from '../types'
+import type { Validator } from './modules/validator'
 import { FastifyRequest } from 'fastify'
 import type { CacheEntry } from './middleware/cache/types'
 import { Decimal } from 'decimal.js'
@@ -554,4 +561,32 @@ export const mapRPCErrorMessage = (errorCode: string, errorMessage: string): str
     return RPCErrorMap[errorCode as keyof typeof RPCErrorMap]
   }
   return errorMessage
+}
+
+/**
+ * Get request options for base/quote inputs for adapters with `includes.json`. The `includes.json` contains an array
+ * of base/quote pairs with related replacement inputs to be used in their place (usually for the purpose of fetching prices through
+ * the inverse pair).
+ * @param adapterName NAME of adapter to override base symbol from overrides object
+ * @param validator Validator object containing base/quote input params to check against `includes.json`
+ * @param getIncludesOptions Method to derive request options for base/quote after validator has replaced inputs from `includes.json` if applicable
+ * @param defaultGetOptions Method to derive default request options when `getIncludesOptions` fails (ex. if `includes.json` does not include given base/quote pair)
+ * @returns object of request options to use for given base/quote pair from validator
+ */
+export const getCryptoOptions = <TOptions, TInputParameters extends BaseCryptoInputParameters>(
+  adapterName: string,
+  validator: Validator<TInputParameters>,
+  getIncludesOptions: (
+    validator: Validator<TInputParameters>,
+    include: IncludePair,
+  ) => TOptions | undefined,
+  defaultGetOptions: (base: string, quote: string) => TOptions,
+): TOptions => {
+  const base = validator.overrideSymbol(adapterName, validator.validated.data.base)
+  const quote = validator.validated.data.quote //TODO determine if overrides should extend to `quote` param as well
+
+  const baseIncludesOptions = validator.overrideIncludes(base, quote)
+  const includeOptions = baseIncludesOptions && getIncludesOptions(validator, baseIncludesOptions)
+
+  return includeOptions ?? defaultGetOptions(base, quote)
 }

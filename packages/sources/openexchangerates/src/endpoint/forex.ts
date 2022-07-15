@@ -8,6 +8,7 @@ import type {
   AdapterBatchResponse,
 } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
+import includes from '../config/includes.json'
 
 export const supportedEndpoints = ['forex', 'price']
 export const batchablePropertyPath = [{ name: 'quote' }]
@@ -27,6 +28,12 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: true,
     description: 'The symbol of the currency to convert to',
   },
+}
+
+export type TOptions = {
+  base: string
+  to: string
+  inverse?: boolean
 }
 
 export interface ResponseSchema {
@@ -74,12 +81,19 @@ const handleBatchedRequest = (
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters)
+  const validator = new Validator(request, inputParameters, {}, { includes })
 
   const jobRunID = validator.validated.id
   const url = 'latest.json'
   const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
   const to = validator.validated.data.quote
+
+  const { base, to, inverse } = util.getCryptoOptions<TOptions, TInputParameters>(
+    AdapterName,
+    validator,
+    getIncludesOptions,
+    symbolOptions,
+  )
 
   const params = {
     base,

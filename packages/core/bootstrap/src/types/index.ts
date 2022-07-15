@@ -505,5 +505,10 @@ export interface CoinsResponse {
   name: string
 }
 
+export type BaseCryptoInputParameters = {
+  base: string
+  quote: string
+}
+
 import objectPath from 'object-path'
 export { objectPath }
