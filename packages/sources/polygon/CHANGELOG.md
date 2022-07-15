@@ -1,5 +1,13 @@
 # @chainlink/polygon-adapter
 
+## 1.6.7
+
+### Patch Changes
+
+- Updated dependencies [afaf0017e]
+  - @chainlink/ea-bootstrap@2.16.0
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.6.6
 
 ### Patch Changes
