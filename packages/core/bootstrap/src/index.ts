@@ -139,9 +139,10 @@ export const executeSync: ExecuteSync = async <D extends AdapterData>(
   try {
     const result = await execute(data, context)
     return callback(result.statusCode, result)
-  } catch (e) {
+  } catch (e: any) {
     const error = new AdapterError(e as Partial<AdapterError>)
     const feedID = metrics.util.getFeedId(data)
+
     return callback(
       error.statusCode || 500,
       Requester.errored(data.id, error, error.providerStatusCode || error.statusCode, feedID),

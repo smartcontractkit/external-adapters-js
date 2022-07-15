@@ -1,11 +1,8 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import { mockResponseFailureHealth, mockResponseFailureBlock } from './fixtures'
-import { AddressInfo } from 'net'
 import { ethers } from 'ethers'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 const mockMessages = {
   'https://arb1.arbitrum.io/rpc': 'gas price too low',
@@ -33,38 +30,16 @@ jest.mock('ethers', () => {
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-  let oldEnv: NodeJS.ProcessEnv
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+  }
 
-    process.env.CACHE_ENABLED = 'false'
-
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-  })
-
-  afterAll(() => {
-    process.env = oldEnv
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-  })
-
-  beforeEach(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterEach((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('arbitrum network', () => {
     const data: AdapterRequest = {
@@ -78,7 +53,7 @@ describe('execute', () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -102,7 +77,7 @@ describe('execute', () => {
       mockResponseFailureHealth()
       mockResponseFailureBlock()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

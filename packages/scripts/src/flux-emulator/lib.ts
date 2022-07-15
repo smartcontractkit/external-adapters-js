@@ -223,7 +223,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
             latestInput = null // Ensure we don't use the same input twice
           }
           return { latestInput, integrationTests }
-        } catch (e) {
+        } catch (e: any) {
           return { latestInput, integrationTests }
         }
       },

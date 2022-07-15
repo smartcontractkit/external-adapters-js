@@ -7,8 +7,19 @@ export const supportedEndpoints = ['trueusd']
 
 export const description = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
 
-export type TInputParameters = Record<string, never>
-export const inputParameters: InputParameters<TInputParameters> = {}
+export type TInputParameters = {
+  field?: string
+}
+
+export const inputParameters: InputParameters<TInputParameters> = {
+  field: {
+    required: false,
+    default: 'totalTrust',
+    description:
+      'The object-path string to parse a single `result` value. When not provided the entire response will be provided.',
+    type: 'string',
+  },
+}
 
 interface ResponseSchema {
   accountName: string
@@ -22,7 +33,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const resultPath = (validator.validated.data.resultPath || '').toString()
+  const field = validator.validated.data.field
+  const resultPath = (validator.validated.data.resultPath || field || '').toString()
   const url = '/chainlink/TrueUSD'
 
   if (!['totalTrust', 'totalToken'].includes(resultPath)) {

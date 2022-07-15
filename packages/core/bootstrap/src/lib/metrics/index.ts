@@ -1,12 +1,14 @@
 import * as client from 'prom-client'
-import { getEnv, parseBool } from '../util'
+import { getEnv, getEnvWithFallback, parseBool } from '../util'
 import { getFeedId } from './util'
 import type { Middleware, AdapterRequest, AdapterMetricsMeta, AdapterContext } from '../../types'
 import { WARMUP_REQUEST_ID } from '../middleware/cache-warmer/config'
 import { HttpRequestType, requestDurationBuckets } from './constants'
 import { AdapterError } from '../modules/error'
 
-export const METRICS_ENABLED = parseBool(getEnv('EXPERIMENTAL_METRICS_ENABLED'))
+export const METRICS_ENABLED = parseBool(
+  getEnvWithFallback('METRICS_ENABLED', ['EXPERIMENTAL_METRICS_ENABLED']),
+)
 
 export const setupMetrics = (name: string): void => {
   client.collectDefaultMetrics()
@@ -73,7 +75,7 @@ export const withMetrics =
             : HttpRequestType.DATA_PROVIDER_HIT,
       })
       return { ...result, metricsMeta: { ...result.metricsMeta, ...metricsMeta } }
-    } catch (e) {
+    } catch (e: any) {
       const error = new AdapterError(e as Partial<AdapterError>)
       const providerStatusCode: number | undefined = (
         error.cause as unknown as { response: { status: number } }

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-bootstrap",
-  "version": "2.11.0",
+  "version": "2.15.1",
   "description": "Bootstrap an external adapter with this package",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -44,7 +44,7 @@
   "devDependencies": {
     "@node-redis/client": "1.0.6",
     "@types/fast-redact": "3.0.1",
-    "@types/jest": "27.0.3",
+    "@types/jest": "27.5.2",
     "@types/lodash": "4.14.182",
     "@types/lru-cache": "5.1.1",
     "@types/node": "16.11.41",
@@ -60,6 +60,6 @@
     "@types/ws": "7.4.7",
     "mock-socket": "9.1.5",
     "sinon": "14.0.0",
-    "typescript": "4.3.5"
+    "typescript": "4.7.4"
   }
 }

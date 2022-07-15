@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -13,39 +13,27 @@ import {
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
-import { util } from '@chainlink/ea-bootstrap'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    // process.env.CACHE_ENABLED = 'false'
-    process.env.API_CLIENT_KEY = process.env.API_CLIENT_KEY || 'fake-api-key'
-    process.env.API_CLIENT_SECRET = process.env.API_CLIENT_SECRET || 'fake-api-secret'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_CLIENT_KEY: process.env.API_CLIENT_KEY || 'fake-api-key',
+    API_CLIENT_SECRET: process.env.API_CLIENT_SECRET || 'fake-api-secret',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('symbol api', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'price',
         base: 'EURUSD:CUR',
       },
     }
@@ -53,7 +41,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -102,6 +90,7 @@ describe('websocket', () => {
       const data: AdapterRequest = {
         id: jobID,
         data: {
+          endpoint: 'price',
           base: 'EURUSD:CUR',
         },
       }

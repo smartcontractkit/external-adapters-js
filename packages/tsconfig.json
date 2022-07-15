@@ -27,6 +27,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/curve-3pool"
+    },
+    {
       "path": "./composites/defi-dozen"
     },
     {
@@ -94,9 +97,6 @@
     },
     {
       "path": "./composites/xsushi-price"
-    },
-    {
-      "path": "./core/bootstrap"
     },
     {
       "path": "./core/factories"
@@ -189,6 +189,9 @@
       "path": "./sources/cache.gold"
     },
     {
+      "path": "./sources/ccip-read"
+    },
+    {
       "path": "./sources/celsius-address-list"
     },
     {
@@ -256,9 +259,6 @@
     },
     {
       "path": "./sources/dns-query"
-    },
-    {
-      "path": "./sources/ccip-read"
     },
     {
       "path": "./sources/dwolla"
@@ -448,6 +448,9 @@
     },
     {
       "path": "./sources/sportsdataio"
+    },
+    {
+      "path": "./sources/stader-labs"
     },
     {
       "path": "./sources/stasis"

@@ -89,7 +89,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   let price
   try {
     price = await getQuotePrice(inputParams, dexSubgraph)
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(`Failed to get price. Reason "${e}"`)
   }
   return Requester.success(

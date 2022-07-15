@@ -1,42 +1,22 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import { mockCRPCCallResponseSuccess } from './fixtures'
-import * as nock from 'nock'
-import { AddressInfo } from 'net'
-
-beforeAll(() => {
-  process.env.CACHE_ENABLED = 'false'
-  process.env.RPC_URL = 'http://localhost:8545'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    RPC_URL: 'http://localhost:8545',
+  }
+
+  setupExternalAdapterTest(envVariables, context)
 
   describe('difficulty endpoint', () => {
     const data: AdapterRequest = {
@@ -49,7 +29,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCRPCCallResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -70,7 +50,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCRPCCallResponseSuccess()
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

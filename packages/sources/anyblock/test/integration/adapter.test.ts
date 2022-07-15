@@ -1,35 +1,21 @@
 import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { AddressInfo } from 'net'
 import { mockVwapSuccess } from './fixtures'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
+  const context = {
+    req: null,
+    server: startServer,
+  }
 
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'test_api_token',
+  }
 
-  beforeAll(async () => {
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('vwap api', () => {
     const data: AdapterRequest = {
@@ -45,9 +31,8 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockVwapSuccess()
-      process.env.API_KEY = process.env.API_KEY || 'test_api_token'
 
-      const response = await req
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')

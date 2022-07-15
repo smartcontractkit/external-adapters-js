@@ -9,7 +9,7 @@ export type Config = config & {
 }
 
 export const NAME = 'TRADINGECONOMICS'
-export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_ENDPOINT = 'price-ws'
 
 export const DEFAULT_API_ENDPOINT = 'https://api.tradingeconomics.com/markets'
 export const DEFAULT_WS_API_ENDPOINT = 'wss://stream.tradingeconomics.com/'

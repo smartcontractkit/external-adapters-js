@@ -22,8 +22,8 @@ local cpuUsagePanel = addSideLegend(graphPanel.new(
   format='percent',
 ).addTarget(
   prometheus.target(
-    'sum(rate(process_cpu_seconds_total{' + eaSelector + '}' + interval + ') * 100) by (service)',
-    legendFormat='{{service}}'
+    'sum(rate(process_cpu_seconds_total{' + eaSelector + '}' + interval + ') * 100) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 ));
 
@@ -34,8 +34,8 @@ local redisConnectionsOpen = addSideLegend(graphPanel.new(
   format='conn',
 ).addTarget(
   prometheus.target(
-    'sum(redis_connections_open{' + eaSelector + '}) by (service)',
-    legendFormat='{{service}}'
+    'sum(redis_connections_open{' + eaSelector + '}) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 ));
 
@@ -46,8 +46,8 @@ local redisRetriesCount = addSideLegend(graphPanel.new(
   format='retries',
 ).addTarget(
   prometheus.target(
-    'sum(redis_retries_count{' + eaSelector + '}) by (service)',
-    legendFormat='{{service}}'
+    'sum(redis_retries_count{' + eaSelector + '}) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 ));
 
@@ -59,8 +59,8 @@ local redisCommandsSentCount = addSideLegend(graphPanel.new(
   format='sent',
 ).addTarget(
   prometheus.target(
-    'sum(rate(redis_commands_sent_count{' + eaSelector + '}' + interval + ') * 60) by (service)',
-    legendFormat='{{service}}'
+    'sum(rate(redis_commands_sent_count{' + eaSelector + '}' + interval + ') * 60) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 ));
 
@@ -71,8 +71,8 @@ local heapUsedPanel = addSideLegend(graphPanel.new(
   datasource=cortexDataSource
 ).addTarget(
   prometheus.target(
-    'sum(nodejs_heap_size_used_bytes{' + eaSelector + '} / 1000 / 1000) by (service)',
-    legendFormat='{{service}}'
+    'sum(nodejs_heap_size_used_bytes{' + eaSelector + '} / 1000 / 1000) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 ));
 
@@ -91,8 +91,8 @@ local httpRequestsPerMinutePerFeedPanel = addSideLegend(graphPanel.new(
   legend_avg=true,
 ).addTarget(
   prometheus.target(
-    'sum(rate(http_requests_total{feed_id=~"$feed.*",' + eaSelector + '}' + interval + ') * 60) by (feed_id, service)',
-    legendFormat='{{service}} | {{feed_id}}'
+    'sum(rate(http_requests_total{feed_id=~"$feed.*",' + eaSelector + '}' + interval + ') * 60) by (feed_id, app_name)',
+    legendFormat='{{app_name}} | {{feed_id}}'
   )
 ));
 
@@ -103,8 +103,8 @@ local httpRequestsPerMinutePerTypePanel = addSideLegend(graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (type, service)',
-    legendFormat='{{service}} | {{type}}'
+    httpsRequestsPerMinuteSumQuery + 'by (type, app_name)',
+    legendFormat='{{app_name}} | {{type}}'
   )
 ));
 local httpRequestsPerMinutePerStatusPanel = addSideLegend(graphPanel.new(
@@ -115,8 +115,8 @@ local httpRequestsPerMinutePerStatusPanel = addSideLegend(graphPanel.new(
   format='req/m',
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (status_code, service)',
-    legendFormat='{{service}} | {{status_code}}'
+    httpsRequestsPerMinuteSumQuery + 'by (status_code, app_name)',
+    legendFormat='{{app_name}} | {{status_code}}'
   )
 ));
 
@@ -127,8 +127,8 @@ local httpRequestsPerMinutePerCacheTypePanel = addSideLegend(graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    httpsRequestsPerMinuteSumQuery + 'by (is_cache_warming, service)',
-    legendFormat='{{service}} | CacheWarmer:{{is_cache_warming}}'
+    httpsRequestsPerMinuteSumQuery + 'by (is_cache_warming, app_name)',
+    legendFormat='{{app_name}} | CacheWarmer:{{is_cache_warming}}'
   )
 ));
 local httpRequestDurationAverageSeconds = addSideLegend(graphPanel.new(
@@ -138,8 +138,8 @@ local httpRequestDurationAverageSeconds = addSideLegend(graphPanel.new(
   sort='decreasing',
 ).addTarget(
   prometheus.target(
-    'sum(rate(http_request_duration_seconds_sum{' + eaSelector + '}' + interval + ') / rate(http_request_duration_seconds_count{' + eaSelector + '}' + interval + ')) by (service)',
-    legendFormat='{{service}}',
+    'sum(rate(http_request_duration_seconds_sum{' + eaSelector + '}' + interval + ') / rate(http_request_duration_seconds_count{' + eaSelector + '}' + interval + ')) by (app_name)',
+    legendFormat='{{app_name}}',
   )
 ));
 
@@ -150,8 +150,8 @@ local wsConnectionActiveGraph = addSideLegend(graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'sum(ws_connection_active{' + eaSelector + '}) by (service)',
-    legendFormat='{{service}}',
+    'sum(ws_connection_active{' + eaSelector + '}) by (app_name)',
+    legendFormat='{{app_name}}',
   ),
 ));
 
@@ -162,8 +162,8 @@ local wsConnectionErrorsGraph = addSideLegend(graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'sum(ws_connection_errors{' + eaSelector + '}) by (service)',
-    legendFormat='{{service}}',
+    'sum(ws_connection_errors{' + eaSelector + '}) by (app_name)',
+    legendFormat='{{app_name}}',
   ),
 ));
 
@@ -174,8 +174,8 @@ local wsConnectionRetriesGraph = addSideLegend(graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'sum(ws_connection_retries{' + eaSelector + '}) by (service)',
-    legendFormat='{{service}}',
+    'sum(ws_connection_retries{' + eaSelector + '}) by (app_name)',
+    legendFormat='{{app_name}}',
   )
 ));
 
@@ -187,8 +187,8 @@ local wsActiveSubscriptions = addSideLegend(graphPanel.new(
   datasource=cortexDataSource
 ).addTarget(
   prometheus.target(
-    'sum(ws_subscription_active{' + eaSelector + '}) by (service)',
-    legendFormat='{{service}}'
+    'sum(ws_subscription_active{' + eaSelector + '}) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 ));
 
@@ -200,8 +200,8 @@ local wsMessagesPerSecondGraph = addSideLegend(graphPanel.new(
   stack=true,
 ).addTarget(
   prometheus.target(
-    'sum(rate(ws_message_total{' + eaSelector + '}' + interval + ')) by (service)',
-    legendFormat='{{service}}'
+    'sum(rate(ws_message_total{' + eaSelector + '}' + interval + ')) by (app_name)',
+    legendFormat='{{app_name}}'
   )
 ));
 
@@ -214,8 +214,8 @@ local cacheEntrySetsPerSecond = addSideLegend(graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'sum(rate(cache_data_set_count{' + eaSelector + '}' + interval + ')) by (service)',
-    legendFormat='{{service}}',
+    'sum(rate(cache_data_set_count{' + eaSelector + '}' + interval + ')) by (app_name)',
+    legendFormat='{{app_name}}',
   )
 ));
 
@@ -228,8 +228,8 @@ local cacheEntryGetsPerSecond = addSideLegend(graphPanel.new(
   datasource=cortexDataSource,
 ).addTarget(
   prometheus.target(
-    'sum(rate(cache_data_get_count{' + eaSelector + '}' + interval + ')) by (service)',
-    legendFormat='{{service}}',
+    'sum(rate(cache_data_get_count{' + eaSelector + '}' + interval + ')) by (app_name)',
+    legendFormat='{{app_name}}',
   )
 ));
 

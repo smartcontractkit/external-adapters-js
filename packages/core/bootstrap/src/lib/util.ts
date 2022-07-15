@@ -353,6 +353,22 @@ export const getURL = (prefix: string, required = false): string | undefined =>
 export const getRequiredURL = (prefix: string): string =>
   getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
 
+export const getEnvWithFallback = (
+  primary: string,
+  fallbacks: string[],
+  prefix = '',
+): string | undefined => {
+  // Attempt primary
+  const val = getEnv(primary, prefix)
+  if (val) return val
+
+  // Attempt fallbacks
+  for (const fallback of fallbacks) {
+    const val = getEnv(fallback, prefix)
+    if (val) return val
+  }
+  return
+}
 /**
  * Get variable from environment then check for a fallback if it is not set then throw if neither are set
  * @param primary The name of environment variable to look for first
@@ -366,17 +382,11 @@ export const getRequiredEnvWithFallback = (
   fallbacks: string[],
   prefix = '',
 ): string => {
-  // Attempt primary
-  const val = getEnv(primary, prefix)
-  if (val) return val
-
-  // Attempt fallbacks
-  for (const fallback of fallbacks) {
-    const val = getEnv(fallback, prefix)
-    if (val) return val
+  const env = getEnvWithFallback(primary, fallbacks, prefix)
+  if (!env) {
+    throw new RequiredEnvError(getEnvName(primary, prefix))
   }
-
-  throw new RequiredEnvError(getEnvName(primary, prefix))
+  return env
 }
 
 export function isArraylikeAccessor(x: unknown[]): x is [number] {
@@ -537,3 +547,21 @@ export const registerUnhandledRejectionHandler = (): void => {
 
 export const getClientIp = (req: FastifyRequest): string =>
   req.ip ? req.ip : req.ips?.length ? req.ips[req.ips.length - 1] : 'unknown'
+
+export const RPCErrorMap = {
+  NETWORK_ERROR: `The provided RPC network could not be connected.`,
+  TIMEOUT: 'Request to the RPC has timed out',
+}
+
+export const mapRPCErrorMessage = (errorCode: string, errorMessage: string): string => {
+  // Try to transform error message if error is thrown from ether.js
+  if (
+    errorCode &&
+    errorMessage &&
+    RPCErrorMap[errorCode as keyof typeof RPCErrorMap] &&
+    errorMessage.includes('version')
+  ) {
+    return RPCErrorMap[errorCode as keyof typeof RPCErrorMap]
+  }
+  return errorMessage
+}

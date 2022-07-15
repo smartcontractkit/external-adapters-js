@@ -42,7 +42,7 @@ export interface ResponseSchema {
 }
 
 export type TInputParameters = {
-  base: string
+  base: string | string[]
 }
 
 export const inputParameters: InputParameters<TInputParameters> = {
