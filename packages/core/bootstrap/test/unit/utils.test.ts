@@ -16,6 +16,7 @@ import {
   deepType,
   getURL,
   getRequiredEnvWithFallback,
+  getEnvWithFallback,
   registerUnhandledRejectionHandler,
   getClientIp,
 } from '../../src/lib/util'
@@ -377,6 +378,21 @@ describe('utils', () => {
       expect(() => getRequiredEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toThrow(
         RequiredEnvError,
       )
+    })
+  })
+
+  describe('getEnvWithFallback', () => {
+    it('returns primary env var', () => {
+      process.env.TEST_VAR = 'zxcvbnm'
+      process.env.FALLBACK1 = 'fallback1'
+      expect(getEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toBe('zxcvbnm')
+    })
+    it('returns fallback env var', () => {
+      process.env.FALLBACK2 = 'fallback2'
+      expect(getEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toBe('fallback2')
+    })
+    it('throws error when neither primary nor fallbacks are present', () => {
+      expect(() => getEnvWithFallback('TEST_VAR', ['FALLBACK1', 'FALLBACK2'])).toBeUndefined
     })
   })
 
