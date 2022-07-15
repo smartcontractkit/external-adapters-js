@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   DefaultConfig,
   ExecuteWithConfig,
@@ -49,6 +49,18 @@ export const makeWSHandler = (config?: DefaultConfig): MakeWSHandler => {
       { shouldThrowError: false },
     )
     if (validator.error) return
+    if (Array.isArray(validator.validated.data.quote)) {
+      Logger.debug(
+        `[WS]: ${validator.validated.data.quote} supplied as quote. Only non-array tickers can be used for WS`,
+      )
+      return
+    }
+    if (Array.isArray(validator.validated.data.base)) {
+      Logger.debug(
+        `[WS]: ${validator.validated.data.base} supplied as base. Only non-array tickers can be used for WS`,
+      )
+      return
+    }
     const symbol = validator.validated.data.base.toUpperCase()
     const convert = validator.validated.data.quote.toUpperCase()
     return `${symbol}/${convert}`

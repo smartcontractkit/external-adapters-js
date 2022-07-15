@@ -1,5 +1,19 @@
 # @chainlink/currencylayer-adapter
 
+## 1.4.7
+
+### Patch Changes
+
+- 99a5aad35: Fix validation of batchable property path
+
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies [03071f0d0]
+  - @chainlink/ea-bootstrap@2.15.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.4.5
 
 ### Patch Changes
