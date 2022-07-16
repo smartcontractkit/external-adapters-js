@@ -121,12 +121,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     return date
   }
 
-  const { url, inverse } = util.getCryptoOptions<TOptions, TInputParameters>(
+  const { url, inverse } = util.getPairOptions<TOptions, TInputParameters>(
     AdapterName,
     validator,
     getIncludesOptions,
     getUrl,
-  )
+  ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
 
   const interval = validator.validated.data.interval || DEFAULT_INTERVAL
   const start_time = calculateStartTime(

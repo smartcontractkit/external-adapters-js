@@ -4,4 +4,4 @@
 '@chainlink/kaiko-adapter': minor
 ---
 
-Refactor getIncludesOptions to be a generic util method in bootstrap
+Refactor getIncludesOptions to be a generic util.getPairOptions method in bootstrap

@@ -95,12 +95,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters, {}, { includes, overrides })
 
   const jobRunID = validator.validated.id
-  const { url, params, inverse } = util.getCryptoOptions<TOptions, TInputParameters>(
+  const { url, params, inverse } = util.getPairOptions<TOptions, TInputParameters>(
     AdapterName,
     validator,
     getIncludesOptions,
     symbolOptions,
-  )
+  ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
   const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(reqConfig, customError)

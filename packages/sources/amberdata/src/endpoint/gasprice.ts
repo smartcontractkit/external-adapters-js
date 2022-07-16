@@ -1,6 +1,5 @@
 import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['gasprice']
 

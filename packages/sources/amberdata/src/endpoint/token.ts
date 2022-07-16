@@ -1,6 +1,5 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['marketcap', 'token']
 
