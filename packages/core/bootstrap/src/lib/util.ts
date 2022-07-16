@@ -583,8 +583,8 @@ export const getPairOptions = <TOptions, TInputParameters extends BasePairInputP
   ) => TOptions | undefined,
   defaultGetOptions: (base: string, quote: string) => TOptions,
 ): TOptions | PairOptionsMap<TOptions> => {
-  const validatedBase = validator.overrideSymbol(adapterName, validator.validated.data.base)
-  const validatedQuote = validator.overrideSymbol(adapterName, validator.validated.data.quote)
+  const validatedBase = validator.validated.data.base
+  const validatedQuote = validator.validated.data.quote
 
   const includesOptionsMap: PairOptionsMap<TOptions> = {}
 
@@ -592,12 +592,19 @@ export const getPairOptions = <TOptions, TInputParameters extends BasePairInputP
   const quotes = Array.isArray(validatedQuote) ? validatedQuote : [validatedQuote]
 
   for (const base of bases) {
+    const overrideBase = validator.overrideSymbol(adapterName, base)
+
     includesOptionsMap[base] = includesOptionsMap[base] ?? {}
+
     for (const quote of quotes) {
-      const baseIncludesOptions = validator.overrideIncludes(base, quote)
+      const overrideQuote = validator.overrideSymbol(adapterName, quote)
+
+      const baseIncludesOptions = validator.overrideIncludes(overrideBase, overrideQuote)
       const includeOptions =
         baseIncludesOptions && getIncludesOptions(validator, baseIncludesOptions)
-      includesOptionsMap[base][quote] = includeOptions ?? defaultGetOptions(base, quote)
+
+      includesOptionsMap[base][quote] =
+        includeOptions ?? defaultGetOptions(overrideBase, overrideQuote)
     }
   }
 
