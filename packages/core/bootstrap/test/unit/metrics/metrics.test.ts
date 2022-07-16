@@ -131,7 +131,7 @@ describe('withMetrics middleware', () => {
 
     try {
       await wrappedExecute(request, {})
-    } catch (error) {
+    } catch (error: any) {
       expect(error.message).toEqual("Cannot read properties of undefined (reading 'maxAge')")
       expect(spy).toBeCalledWith(expectedLabels)
     }

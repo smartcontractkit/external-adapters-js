@@ -16,12 +16,11 @@ import {
   deepType,
   getURL,
   getRequiredEnvWithFallback,
-  registerUnhandledRejectionHandler,
   getClientIp,
 } from '../../src/lib/util'
 
 describe('utils', () => {
-  let oldEnv
+  let oldEnv: NodeJS.ProcessEnv
 
   beforeEach(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))

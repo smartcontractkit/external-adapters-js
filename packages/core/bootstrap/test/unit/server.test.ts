@@ -20,7 +20,7 @@ jest.mock('../../src/lib/config/test-payload-loader', () => ({
 }))
 
 // Mock fastify to spy on the listen function, so we can close hanging servers
-const spies = []
+const spies: jest.SpyInstance[] = []
 jest.mock('fastify', () => {
   const original = jest.requireActual('fastify')
 

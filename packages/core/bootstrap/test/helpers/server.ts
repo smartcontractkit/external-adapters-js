@@ -54,11 +54,12 @@ type Endpoint =
   | typeof ERROR_CUSTOM_PATH
 
 export class Server {
-  app: FastifyInstance
+  app: FastifyInstance | null
   port: number
   errorCount: number
 
   constructor() {
+    this.app = null
     this.port = DEFAULT_PORT
     this.errorCount = 0
   }
@@ -112,7 +113,7 @@ export class Server {
   }
 
   stop(callback?: (err?: Error | undefined) => void): void {
-    if (this.app) this.app.close(callback)
+    if (this.app) this.app.close(callback as () => void)
   }
 
   reset(): void {

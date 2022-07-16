@@ -37,9 +37,9 @@ describe('HTTP', () => {
     it('returns an error from an endpoint', async () => {
       const options = { ...baseOptions, url: server.getURL('error') }
       try {
-        await Requester.request(options, null, 1, 0)
+        await Requester.request(options, undefined, 1, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(server.errorCount).toEqual(1)
         expect(error.message).toEqual(errorMessage)
       }
@@ -48,9 +48,9 @@ describe('HTTP', () => {
     it('accepts custom retry amounts', async () => {
       const options = { ...baseOptions, url: server.getURL('error') }
       try {
-        await Requester.request(options, null, 9, 0)
+        await Requester.request(options, undefined, 9, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(server.errorCount).toEqual(9)
         expect(error.message).toEqual(errorMessage)
       }
@@ -58,7 +58,12 @@ describe('HTTP', () => {
 
     it('retries errored statuses', async () => {
       const options = { ...baseOptions, url: server.getURL('errorsTwice') }
-      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 3, 0)
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        3,
+        0,
+      )
       expect(server.errorCount).toEqual(2)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -69,7 +74,7 @@ describe('HTTP', () => {
       try {
         await Requester.request(options, customError, 3, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(server.errorCount).toEqual(3)
         expect(error.message).toEqual(customErrorMessage)
       }
@@ -101,7 +106,7 @@ describe('HTTP', () => {
 
     it('accepts optional retries param without customError', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1)
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, undefined, 1)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -122,7 +127,12 @@ describe('HTTP', () => {
 
     it('accepts optional delay param without customError', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -132,7 +142,12 @@ describe('HTTP', () => {
   describe('Requester.validateResultNumber', () => {
     it('returns the desired value', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -142,14 +157,19 @@ describe('HTTP', () => {
 
     it('errors if the value is not a number', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
       try {
         Requester.validateResultNumber(data, ['result'])
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual(
           'Invalid result received. This is likely an issue with the data provider or the input params/overrides.',
         )
@@ -160,7 +180,12 @@ describe('HTTP', () => {
   describe('Requester.getResult', () => {
     it('returns the desired value', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -170,7 +195,12 @@ describe('HTTP', () => {
 
     it('does not error if the value is not a number', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
@@ -180,7 +210,12 @@ describe('HTTP', () => {
 
     it('returns undefined if the input is not data', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const response = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, null, 1, 0)
+      const response = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
       expect(server.errorCount).toEqual(0)
       expect(response.data.result).toEqual('success')
       expect(response.data.value).toEqual(1)
@@ -208,7 +243,7 @@ describe('HTTP', () => {
   describe('Requester.success', () => {
     it('returns a Chainlink result', async () => {
       const options = { ...baseOptions, url: server.getURL('successJSON') }
-      const response = await Requester.request(options, null, 1, 0)
+      const response = await Requester.request(options, undefined, 1, 0)
       const result = Requester.success('1', response)
       expect(result.jobRunID).toEqual('1')
       expect(result.result).toEqual('success')
