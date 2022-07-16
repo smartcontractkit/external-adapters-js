@@ -1,5 +1,19 @@
 # @chainlink/tradingeconomics-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [afaf0017e]
+  - @chainlink/ea-bootstrap@2.16.0
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 2.0.0
+
+### Major Changes
+
+- 698e5670f: Turn off default HTTP failover behavior
+
 ## 1.2.6
 
 ### Patch Changes

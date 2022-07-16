@@ -633,6 +633,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/sportsdataio"\
       },\
       {\
+        "name": "@chainlink/stader-labs-adapter",\
+        "reference": "workspace:packages/sources/stader-labs"\
+      },\
+      {\
         "name": "@chainlink/stasis-adapter",\
         "reference": "workspace:packages/sources/stasis"\
       },\
@@ -889,6 +893,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
       ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],\
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
+      ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],\
       ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
@@ -4899,6 +4904,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],\
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
+            ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
             ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],\
             ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],\
@@ -6554,6 +6560,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/stader-labs-adapter", [\
+        ["workspace:packages/sources/stader-labs", {\
+          "packageLocation": "./packages/sources/stader-labs/",\
+          "packageDependencies": [\
+            ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["ethers", "npm:5.6.9"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/stasis-adapter", [\
         ["workspace:packages/sources/stasis", {\
           "packageLocation": "./packages/sources/stasis/",\
@@ -7591,6 +7616,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/strings", "npm:5.6.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:5.6.4", {\
+          "packageLocation": "./.yarn/cache/@ethersproject-abi-npm-5.6.4-8b86ffab11-b5e70fa13a.zip/node_modules/@ethersproject/abi/",\
+          "packageDependencies": [\
+            ["@ethersproject/abi", "npm:5.6.4"],\
+            ["@ethersproject/address", "npm:5.6.1"],\
+            ["@ethersproject/bignumber", "npm:5.6.2"],\
+            ["@ethersproject/bytes", "npm:5.6.1"],\
+            ["@ethersproject/constants", "npm:5.6.1"],\
+            ["@ethersproject/hash", "npm:5.6.1"],\
+            ["@ethersproject/keccak256", "npm:5.6.1"],\
+            ["@ethersproject/logger", "npm:5.6.0"],\
+            ["@ethersproject/properties", "npm:5.6.0"],\
+            ["@ethersproject/strings", "npm:5.6.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@ethersproject/abstract-provider", [\
@@ -8321,6 +8362,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@ethersproject-networks-npm-5.6.3-bbefb09d46-94d2981eee.zip/node_modules/@ethersproject/networks/",\
           "packageDependencies": [\
             ["@ethersproject/networks", "npm:5.6.3"],\
+            ["@ethersproject/logger", "npm:5.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.6.4", {\
+          "packageLocation": "./.yarn/cache/@ethersproject-networks-npm-5.6.4-e80ea9b740-d41c07497d.zip/node_modules/@ethersproject/networks/",\
+          "packageDependencies": [\
+            ["@ethersproject/networks", "npm:5.6.4"],\
             ["@ethersproject/logger", "npm:5.6.0"]\
           ],\
           "linkType": "HARD"\
@@ -17879,6 +17928,43 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/keccak256", "npm:5.6.1"],\
             ["@ethersproject/logger", "npm:5.6.0"],\
             ["@ethersproject/networks", "npm:5.6.3"],\
+            ["@ethersproject/pbkdf2", "npm:5.6.1"],\
+            ["@ethersproject/properties", "npm:5.6.0"],\
+            ["@ethersproject/providers", "npm:5.6.8"],\
+            ["@ethersproject/random", "npm:5.6.1"],\
+            ["@ethersproject/rlp", "npm:5.6.1"],\
+            ["@ethersproject/sha2", "npm:5.6.1"],\
+            ["@ethersproject/signing-key", "npm:5.6.2"],\
+            ["@ethersproject/solidity", "npm:5.6.1"],\
+            ["@ethersproject/strings", "npm:5.6.1"],\
+            ["@ethersproject/transactions", "npm:5.6.2"],\
+            ["@ethersproject/units", "npm:5.6.1"],\
+            ["@ethersproject/wallet", "npm:5.6.2"],\
+            ["@ethersproject/web", "npm:5.6.1"],\
+            ["@ethersproject/wordlists", "npm:5.6.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.6.9", {\
+          "packageLocation": "./.yarn/cache/ethers-npm-5.6.9-6f35d9adb3-e4a029ad55.zip/node_modules/ethers/",\
+          "packageDependencies": [\
+            ["ethers", "npm:5.6.9"],\
+            ["@ethersproject/abi", "npm:5.6.4"],\
+            ["@ethersproject/abstract-provider", "npm:5.6.1"],\
+            ["@ethersproject/abstract-signer", "npm:5.6.2"],\
+            ["@ethersproject/address", "npm:5.6.1"],\
+            ["@ethersproject/base64", "npm:5.6.1"],\
+            ["@ethersproject/basex", "npm:5.6.1"],\
+            ["@ethersproject/bignumber", "npm:5.6.2"],\
+            ["@ethersproject/bytes", "npm:5.6.1"],\
+            ["@ethersproject/constants", "npm:5.6.1"],\
+            ["@ethersproject/contracts", "npm:5.6.2"],\
+            ["@ethersproject/hash", "npm:5.6.1"],\
+            ["@ethersproject/hdnode", "npm:5.6.2"],\
+            ["@ethersproject/json-wallets", "npm:5.6.1"],\
+            ["@ethersproject/keccak256", "npm:5.6.1"],\
+            ["@ethersproject/logger", "npm:5.6.0"],\
+            ["@ethersproject/networks", "npm:5.6.4"],\
             ["@ethersproject/pbkdf2", "npm:5.6.1"],\
             ["@ethersproject/properties", "npm:5.6.0"],\
             ["@ethersproject/providers", "npm:5.6.8"],\

@@ -23,7 +23,7 @@ export const batchablePropertyPath = [{ name: 'quote' }]
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `forex` endpoint instead.**'
 
-export type TInputParameters = { base: string; quote: string }
+export type TInputParameters = { base: string; quote: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin'],
