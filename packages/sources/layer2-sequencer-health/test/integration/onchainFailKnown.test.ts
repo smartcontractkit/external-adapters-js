@@ -21,7 +21,7 @@ jest.mock('ethers', () => {
       Wallet: class MockWallet extends originalModule.Wallet {
         sendTransaction(): Promise<ethers.providers.TransactionResponse> {
           return new Promise((_, reject) => {
-            const message = mockMessages[this.provider.connection.url]
+            const message = mockMessages[this.provider.connection.url as keyof typeof mockMessages]
             reject({ error: { message } })
           })
         }
