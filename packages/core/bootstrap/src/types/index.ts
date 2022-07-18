@@ -506,5 +506,14 @@ export interface CoinsResponse {
   name: string
 }
 
+export type BasePairInputParameters = {
+  base: string | string[]
+  quote: string | string[]
+}
+
+export type PairOptionsMap<TOptions> = {
+  [base: string]: { [quote: string]: TOptions }
+}
+
 import objectPath from 'object-path'
 export { objectPath }
