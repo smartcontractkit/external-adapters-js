@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.16.0
+
+### Minor Changes
+
+- afaf0017e: Add Stader Labs Adapter to Core Legos
+
 ## 2.15.1
 
 ### Patch Changes

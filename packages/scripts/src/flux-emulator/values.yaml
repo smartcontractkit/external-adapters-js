@@ -17,7 +17,7 @@ adapter:
 
 envVars:
   LOG_LEVEL: info
-  EXPERIMENTAL_METRICS_ENABLED: false
+  METRICS_ENABLED: false
   CACHE_ENABLED: false
 
 service:
