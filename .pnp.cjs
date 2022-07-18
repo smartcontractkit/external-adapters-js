@@ -3837,6 +3837,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
@@ -4075,6 +4076,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
@@ -4449,6 +4451,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
@@ -5469,6 +5472,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
