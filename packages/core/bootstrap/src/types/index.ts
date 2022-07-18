@@ -220,6 +220,7 @@ export type ErrorFull = ErrorBasic & {
 export type AdapterErrorLog = {
   jobRunID: string
   params: AdapterData
+  type: string
   message: string
   feedID: string
   url?: string
