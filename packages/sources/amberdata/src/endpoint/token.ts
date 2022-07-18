@@ -1,6 +1,5 @@
 import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['marketcap', 'token']
 
@@ -61,7 +60,7 @@ export interface Payload {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
-  const validator = new Validator(input, inputParameters, {}, { includes })
+  const validator = new Validator(input, inputParameters, {})
 
   const jobRunID = validator.validated.id
   const coin = validator.validated.data.base
@@ -81,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   throw new AdapterInputError({
     jobRunID,
-    message: `Could not retrieve valid data`,
+    message: `Could not retrieve valid data from DP response. Please check input params`,
     statusCode: 400,
   })
 }

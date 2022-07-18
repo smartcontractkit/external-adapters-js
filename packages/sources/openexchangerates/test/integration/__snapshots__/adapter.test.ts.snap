@@ -12,6 +12,135 @@ Object {
 }
 `;
 
+exports[`execute forex rate api with batched inverse pairs should return success 1`] = `
+Object {
+  "data": Object {
+    "payload": Array [
+      Array [
+        "6MTwz0U4zRS5wirZoCOcf8pExyA=",
+        Object {
+          "data": Object {
+            "base": "IRD",
+            "endpoint": "forex",
+            "quote": "USD",
+          },
+          "debug": Object {
+            "batchCacheKey": "ln+jL2i3nak4ux8ROej1HdQuuG0=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "6MTwz0U4zRS5wirZoCOcf8pExyA=",
+                Object {
+                  "data": Object {
+                    "base": "IRD",
+                    "endpoint": "forex",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "YmoB+ENG0KY9EiqsD8Q6HCsBZ00=",
+          },
+          "id": "1",
+        },
+        4.273504273504273,
+      ],
+      Array [
+        "zAYgjwe4AXgelqHOeGkeozWMSGE=",
+        Object {
+          "data": Object {
+            "base": "IRD",
+            "endpoint": "forex",
+            "quote": "ETH",
+          },
+          "debug": Object {
+            "batchCacheKey": "ln+jL2i3nak4ux8ROej1HdQuuG0=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "6MTwz0U4zRS5wirZoCOcf8pExyA=",
+                Object {
+                  "data": Object {
+                    "base": "IRD",
+                    "endpoint": "forex",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "YmoB+ENG0KY9EiqsD8Q6HCsBZ00=",
+          },
+          "id": "1",
+        },
+        123,
+      ],
+    ],
+    "results": Array [
+      Array [
+        "6MTwz0U4zRS5wirZoCOcf8pExyA=",
+        Object {
+          "data": Object {
+            "base": "IRD",
+            "endpoint": "forex",
+            "quote": "USD",
+          },
+          "debug": Object {
+            "batchCacheKey": "ln+jL2i3nak4ux8ROej1HdQuuG0=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "6MTwz0U4zRS5wirZoCOcf8pExyA=",
+                Object {
+                  "data": Object {
+                    "base": "IRD",
+                    "endpoint": "forex",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "YmoB+ENG0KY9EiqsD8Q6HCsBZ00=",
+          },
+          "id": "1",
+        },
+        4.273504273504273,
+      ],
+      Array [
+        "zAYgjwe4AXgelqHOeGkeozWMSGE=",
+        Object {
+          "data": Object {
+            "base": "IRD",
+            "endpoint": "forex",
+            "quote": "ETH",
+          },
+          "debug": Object {
+            "batchCacheKey": "ln+jL2i3nak4ux8ROej1HdQuuG0=",
+            "batchChildrenCacheKeys": Array [
+              Array [
+                "6MTwz0U4zRS5wirZoCOcf8pExyA=",
+                Object {
+                  "data": Object {
+                    "base": "IRD",
+                    "endpoint": "forex",
+                    "quote": "USD",
+                  },
+                  "id": "1",
+                },
+              ],
+            ],
+            "cacheKey": "YmoB+ENG0KY9EiqsD8Q6HCsBZ00=",
+          },
+          "id": "1",
+        },
+        123,
+      ],
+    ],
+  },
+  "jobRunID": "1",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute forex rate api with invalid base should return failure 1`] = `
 Object {
   "error": Object {

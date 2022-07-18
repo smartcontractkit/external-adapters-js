@@ -4,6 +4,7 @@ export const mockRateResponseSuccess = (): nock =>
   nock('https://openexchangerates.org/api', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/latest.json')
     .query({ app_id: 'fake-api-key', base: 'ETH' })
     .reply(
@@ -184,6 +185,62 @@ export const mockRateResponseSuccess = (): nock =>
           ZAR: 68480.186979,
           ZMW: 77935.986063,
           ZWL: 1443790.126282,
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+
+export const mockInverseRateResponseSuccess = (): nock =>
+  nock('https://openexchangerates.org/api', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/latest.json')
+    .query({ app_id: 'fake-api-key', base: 'IRD' })
+    .reply(
+      200,
+      () => ({
+        disclaimer: 'Usage subject to terms: https://openexchangerates.org/terms',
+        license: 'https://openexchangerates.org/license',
+        timestamp: 1636113600,
+        base: 'IRD',
+        rates: {
+          ETH: 123,
+          USD: 0.123,
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .get('/latest.json')
+    .query({ app_id: 'fake-api-key', base: 'USD' })
+    .reply(
+      200,
+      () => ({
+        disclaimer: 'Usage subject to terms: https://openexchangerates.org/terms',
+        license: 'https://openexchangerates.org/license',
+        timestamp: 1636113600,
+        base: 'ETH',
+        rates: {
+          IRD: 0.234,
+          ETH: 234,
         },
       }),
       [

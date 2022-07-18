@@ -1,0 +1,13 @@
+[
+  {
+    "from": "IRD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "IRD",
+        "inverse": true
+      }
+    ]
+  }
+]

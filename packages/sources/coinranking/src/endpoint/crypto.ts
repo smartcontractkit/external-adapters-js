@@ -1,4 +1,4 @@
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, Config, InputParameters, AdapterError } from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
@@ -140,7 +140,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     return false
   })
   if (!coindata) {
-    throw new Error(`Unable to find coin: ${coinUuid || symbol}`)
+    throw new AdapterError({
+      message: `Unable to find coin: ${
+        coinUuid || symbol
+      } in DP response. This could be an issue with overrides, input params or the DP`,
+    })
   }
 
   const result = Requester.validateResultNumber(coindata, resultPath)

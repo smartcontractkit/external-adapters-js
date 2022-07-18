@@ -89,7 +89,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context,
   // TODO: non-nullable default types
 
   if (!gjv.valid(geoJson)) {
-    throw new Error('Provided GeoJSON data is not valid')
+    throw new AdapterInputError({ message: 'Provided GeoJSON data is not valid' })
   }
 
   // TODO: geojson type
