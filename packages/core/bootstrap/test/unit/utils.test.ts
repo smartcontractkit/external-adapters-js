@@ -404,7 +404,9 @@ describe('utils', () => {
 
     it(`getClientIp returns 'unknown'`, () => {
       const values = [{}, { ip: null }, { ips: [] }]
-      values.forEach((val) => expect(getClientIp(val as FastifyRequest)).toEqual('unknown'))
+      values.forEach((val) =>
+        expect(getClientIp(val as unknown as FastifyRequest)).toEqual('unknown'),
+      )
     })
   })
 })

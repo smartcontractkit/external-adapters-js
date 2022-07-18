@@ -490,7 +490,7 @@ describe('Validator', () => {
       },
     }
     const validator = new Validator(input, {})
-    expect(validator.validated.overrides.get('coingecko').get('uni')).toEqual('uniswap')
+    expect(validator.validated.overrides?.get('coingecko')?.get('uni')).toEqual('uniswap')
   })
 
   it('errors if overrides is not properly formatted', () => {
