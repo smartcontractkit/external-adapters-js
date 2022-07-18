@@ -1,5 +1,17 @@
 # @chainlink/ea-bootstrap
 
+## 2.16.0
+
+### Minor Changes
+
+- afaf0017e: Add Stader Labs Adapter to Core Legos
+
+## 2.15.1
+
+### Patch Changes
+
+- 03071f0d0: Fix: On WS correctly shut down non-warmer Cache Warmers
+
 ## 2.15.0
 
 ### Minor Changes

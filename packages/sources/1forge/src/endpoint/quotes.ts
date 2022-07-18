@@ -18,20 +18,18 @@ export const description = `Returns a batched price comparison from a list curre
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`quotes\` endpoint instead.**`
 
-export type TInputParameters = { base: string; quote: string }
+export type TInputParameters = { base: string | string[]; quote: string | string[] }
 
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from'],
     description: 'The symbol of the currency to query',
     required: true,
-    type: 'string',
   },
   quote: {
     aliases: ['to'],
     description: ' The symbol of the currency to convert to',
     required: true,
-    type: 'string',
   },
 }
 
