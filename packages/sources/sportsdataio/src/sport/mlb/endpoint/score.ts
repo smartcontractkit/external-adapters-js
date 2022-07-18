@@ -1,4 +1,4 @@
-import { InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config } from '../../../config'
 import { ethers } from 'ethers'
@@ -31,7 +31,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const game = games.find((game) => game.GameID === gameID)
 
   if (!game) {
-    throw new Error(`Cannot find game with ID ${gameID} on date ${date}`)
+    throw new AdapterError({
+      message: `Cannot find game with ID ${gameID} on date ${date} in DP response. This could be an issue with input params or the DP`,
+    })
   }
   const encodedGame = encodeGame(game)
   const respData = {

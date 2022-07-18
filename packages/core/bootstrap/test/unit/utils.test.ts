@@ -1,4 +1,11 @@
-import { AdapterContext } from '@chainlink/ea-bootstrap'
+import {
+  AdapterContext,
+  AdapterRequest,
+  IncludePair,
+  Includes,
+  InputParameters,
+  OverrideRecord,
+} from '@chainlink/ea-bootstrap'
 import { FastifyRequest } from 'fastify'
 import { RequiredEnvError } from '../../src/lib/modules/error'
 import {
@@ -18,7 +25,9 @@ import {
   getRequiredEnvWithFallback,
   getEnvWithFallback,
   getClientIp,
+  getPairOptions,
 } from '../../src/lib/util'
+import { Validator } from '../../src/lib/modules/validator'
 
 describe('utils', () => {
   let oldEnv: NodeJS.ProcessEnv
@@ -407,6 +416,151 @@ describe('utils', () => {
       values.forEach((val) =>
         expect(getClientIp(val as unknown as FastifyRequest)).toEqual('unknown'),
       )
+    })
+  })
+
+  describe('getPairOptions', () => {
+    type TInputParameters = { base: string; quote: string }
+
+    const inputParameters: InputParameters<TInputParameters> = {
+      base: { required: true },
+      quote: { required: true },
+    }
+
+    type TOptions = {
+      base: string
+      quote: string
+      inverse?: boolean
+    }
+
+    const getIncludesOptions = (
+      validator: Validator<TInputParameters>,
+      include: IncludePair,
+    ): TOptions => ({
+      base: include.from,
+      quote: include.to,
+      inverse: include.inverse,
+    })
+
+    const defaultGetOptions = (base: string, quote: string): TOptions => ({ base, quote })
+
+    const includes: Includes[] = [
+      {
+        from: 'LINK',
+        to: 'USD',
+        includes: [
+          {
+            from: 'USD',
+            to: 'LINK',
+            inverse: true,
+          },
+        ],
+      },
+    ]
+
+    const overrides: OverrideRecord = {
+      TEST_ADAPTER_NAME: {
+        LINK_ALIAS: 'LINK',
+        USD_ALIAS: 'USD',
+      },
+    }
+
+    it('returns the includesOptions for a single base/quote pair', () => {
+      const request: AdapterRequest = { id: '1', data: { base: 'LINK', quote: 'USD' } }
+
+      const validator = new Validator<TInputParameters>(request, inputParameters)
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({ base: 'LINK', quote: 'USD' })
+    })
+
+    it('returns the includesOptions for a single base/quote pair in `includes`', () => {
+      const request: AdapterRequest = { id: '1', data: { base: 'LINK', quote: 'USD' } }
+
+      const validator = new Validator<TInputParameters>(request, inputParameters, {}, { includes })
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({ base: 'USD', quote: 'LINK', inverse: true })
+    })
+
+    it('returns the includesOptions for a single base/quote pair in `includes` with overrides', () => {
+      const request: AdapterRequest = { id: '1', data: { base: 'LINK_ALIAS', quote: 'USD_ALIAS' } }
+
+      const validator = new Validator<TInputParameters>(
+        request,
+        inputParameters,
+        {},
+        { includes, overrides },
+      )
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({ base: 'USD', quote: 'LINK', inverse: true })
+    })
+
+    it('returns the includesOptions for batched base and quote pairs (with overrides and inverses)', () => {
+      const request: AdapterRequest = {
+        id: '1',
+        data: {
+          base: ['LINK_ALIAS', 'ETH'],
+          quote: ['USD_ALIAS', 'EUR'],
+        },
+      }
+
+      const validator = new Validator<TInputParameters>(
+        request,
+        inputParameters,
+        {},
+        { includes, overrides },
+      )
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({
+        LINK_ALIAS: {
+          USD_ALIAS: {
+            base: 'USD',
+            quote: 'LINK',
+            inverse: true,
+          },
+          EUR: {
+            base: 'LINK',
+            quote: 'EUR',
+          },
+        },
+        ETH: {
+          USD_ALIAS: {
+            base: 'ETH',
+            quote: 'USD',
+          },
+          EUR: {
+            base: 'ETH',
+            quote: 'EUR',
+          },
+        },
+      })
     })
   })
 })

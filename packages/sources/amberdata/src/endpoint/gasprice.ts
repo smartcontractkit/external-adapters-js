@@ -1,6 +1,5 @@
 import { AxiosRequestConfig, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
-import includes from './../config/includes.json'
 
 export const supportedEndpoints = ['gasprice']
 
@@ -44,7 +43,7 @@ export interface GasInfo {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const validator = new Validator(request, inputParameters, {}, { includes })
+  const validator = new Validator(request, inputParameters, {})
 
   const jobRunID = validator.validated.id
   const speed = validator.validated.data.speed || 'average'

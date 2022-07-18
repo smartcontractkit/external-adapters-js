@@ -1,7 +1,11 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import { mockRateResponseSuccess, mockResponseFailure } from './fixtures'
+import {
+  mockRateResponseSuccess,
+  mockInverseRateResponseSuccess,
+  mockResponseFailure,
+} from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
@@ -33,6 +37,29 @@ describe('execute', () => {
       mockRateResponseSuccess()
 
       const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('forex rate api with batched inverse pairs', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        base: 'IRD',
+        quote: ['USD', 'ETH'],
+      },
+    }
+
+    it('should return success', async () => {
+      mockInverseRateResponseSuccess()
+
+      const response = await context.req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
