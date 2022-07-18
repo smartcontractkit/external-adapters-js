@@ -21,6 +21,7 @@ export const withIOLogger: <R extends AdapterRequest, C extends AdapterContext>(
     const error = new AdapterError(e as Partial<AdapterError>)
     const feedID = getFeedId(input)
     const errorLog: AdapterErrorLog = {
+      type: error.metricsLabel,
       message: error.toString(),
       jobRunID: input.id,
       params: input.data,

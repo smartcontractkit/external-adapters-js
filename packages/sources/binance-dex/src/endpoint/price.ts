@@ -72,15 +72,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema[]>(options, customError)
 
-  console.log('RES', response.data)
-
   const lastUpdate = response.data[0].closeTime
   const curTime = new Date()
   // If data is older than 10 minutes, discard it
   if (lastUpdate < curTime.setMinutes(curTime.getMinutes() - 10))
     throw new AdapterDataProviderError({
       jobRunID,
-      message: `Data is too old`,
+      message: `Data returned from DP is too old`,
       statusCode: 500,
     })
 

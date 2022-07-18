@@ -13,7 +13,7 @@ import { Decimal } from 'decimal.js'
 import { flatMap, values, List } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { logger } from './modules/logger'
-import { AdapterConfigError, RequiredEnvError } from './modules/error'
+import { AdapterConfigError, AdapterError, RequiredEnvError } from './modules/error'
 
 export const isString = (value: unknown): boolean =>
   typeof value === 'string' || value instanceof String
@@ -153,12 +153,19 @@ export const getWithCoalescing = async ({
   return await _self(retries)
 }
 
+export const logError = (error: AdapterError): AdapterError => {
+  logger.error({ feedId: error.feedID, type: error.metricsLabel, message: error.message })
+  return error
+}
+
 const getEnvName = (name: string, prefix = '') => {
   const envName = prefix ? `${prefix}_${name}` : name
   if (!isEnvNameValid(envName))
-    throw new AdapterConfigError({
-      message: `Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`,
-    })
+    throw logError(
+      new AdapterConfigError({
+        message: `Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`,
+      }),
+    )
   return envName
 }
 
@@ -198,9 +205,7 @@ export const getEnv = (name: string, prefix = '', context?: AdapterContext): str
 export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
   if (!val) {
-    const error = new RequiredEnvError(getEnvName(name, prefix))
-    logger.error(error.message)
-    throw error
+    throw logError(new RequiredEnvError(getEnvName(name, prefix)))
   }
   return val
 }
@@ -392,8 +397,9 @@ export const getRequiredEnvWithFallback = (
 ): string => {
   const env = getEnvWithFallback(primary, fallbacks, prefix)
   if (!env) {
-    throw new RequiredEnvError(getEnvName(primary, prefix))
+    throw logError(new RequiredEnvError(getEnvName(primary, prefix)))
   }
+
   return env
 }
 

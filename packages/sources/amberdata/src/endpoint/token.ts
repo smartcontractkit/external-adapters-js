@@ -80,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   throw new AdapterInputError({
     jobRunID,
-    message: `Could not retrieve valid data`,
+    message: `Could not retrieve valid data from DP response. Please check input params`,
     statusCode: 400,
   })
 }

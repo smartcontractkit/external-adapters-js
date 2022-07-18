@@ -4,6 +4,7 @@
  * with the new v2 package
  */
 
+import { AdapterError } from '@chainlink/ea-bootstrap'
 import { RenNetwork, RenNetworks } from '@renproject/interfaces'
 
 export enum RenContract {
@@ -103,7 +104,9 @@ export const getTokenName = (
     case 'BCH':
       return RenTokens.BCH
     case Asset.ETH:
-      throw new Error(`Unexpected token ${tokenOrContract}`)
+      throw new AdapterError({
+        message: `Could not get token name. Unexpected token ${tokenOrContract}`,
+      })
     default:
       return getTokenName(parseRenContract(tokenOrContract).asset)
   }
@@ -121,6 +124,6 @@ export const getTokenNetwork = (token: Asset | ('BTC' | 'ZEC' | 'BCH')): string 
     case 'BCH':
       return 'bitcoincash'
     default:
-      throw new Error(`Unexpected token ${token}`)
+      throw new AdapterError({ message: `Could not get token network. Unexpected token ${token}` })
   }
 }

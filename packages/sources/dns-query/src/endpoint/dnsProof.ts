@@ -1,4 +1,9 @@
-import { Requester, Validator, AdapterError } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  AdapterInputError,
+  AdapterResponseInvalidError,
+} from '@chainlink/ea-bootstrap'
 import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { Answer, DNSProofResponseSchema } from '../types'
@@ -32,7 +37,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const record = validator.validated.data.record.toLowerCase()
 
   if (!ethers.utils.isAddress(record)) {
-    throw new AdapterError({
+    throw new AdapterInputError({
       statusCode: 400,
       message: `The given address: ${record} is not an ethereum address.`,
     })
@@ -47,7 +52,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const answers = response.data.Answer
 
   if (!Array.isArray(answers)) {
-    throw new AdapterError({
+    throw new AdapterResponseInvalidError({
       jobRunID,
       statusCode: 200,
       message: `Unexpected response from API. Response: ${answers} was not an array.`,
