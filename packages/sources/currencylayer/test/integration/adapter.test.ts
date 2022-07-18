@@ -22,10 +22,34 @@ describe('execute', () => {
 
   setupExternalAdapterTest(envVariables, context)
 
+  describe('live api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        base: 'BTC',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockResponseSuccess()
+
+      const response = await context.req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
   describe('convert rate api', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'convert',
         base: 'BTC',
         quote: 'USD',
       },

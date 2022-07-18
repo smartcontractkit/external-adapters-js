@@ -1,4 +1,11 @@
-import { Requester, Validator, Overrider, CacheKey, OverrideRecord } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  Overrider,
+  CacheKey,
+  OverrideRecord,
+  AdapterError,
+} from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Config,
@@ -141,7 +148,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
 
   const coinData = getCoin(response.data, undefined, coin)
   if (!coinData) {
-    throw new Error(`unable to find coin: ${coin}`)
+    throw new AdapterError({
+      message: `Unable to find coin: ${coin} in DP response. This could be an issue with input params or the DP`,
+    })
   }
 
   const result = Requester.validateResultNumber(coinData, [
@@ -199,7 +208,9 @@ const handleBatchedRequest = (
   requestedIds.forEach((coinid) => {
     const coin = getCoin(responseData, undefined, coinid)
     if (!coin) {
-      throw new Error(`unable to find coin: ${coinid}`)
+      throw new AdapterError({
+        message: `Unable to find coinid: ${coinid} in DP response. This could be an issue with input params or the DP`,
+      })
     }
 
     for (const quote in coin.quotes) {

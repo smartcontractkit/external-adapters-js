@@ -2,7 +2,6 @@ import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Config,
-  Includes,
   IncludePair,
   InputParameters,
 } from '@chainlink/ea-bootstrap'
@@ -32,6 +31,27 @@ const tokenOptions = (from: string, to: string) => ({
   params: {},
 })
 
+const getIncludesOptions = (
+  validator: Validator<TInputParameters>,
+  include: IncludePair,
+): TOptions | undefined => {
+  if (include?.tokens) {
+    const fromAddress = validator.overrideToken(include.from)
+    const toAddress = validator.overrideToken(include.to)
+
+    if (!fromAddress || !toAddress) return undefined
+    return {
+      ...tokenOptions(fromAddress, toAddress),
+      inverse: include.inverse,
+    }
+  }
+
+  return {
+    ...symbolOptions(include?.from, include?.to),
+    inverse: include?.inverse,
+  }
+}
+
 export const description = `Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
@@ -53,6 +73,12 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
+export type TOptions = {
+  url: string
+  params: Record<string, unknown>
+  inverse?: boolean
+}
+
 export interface ResponseSchema {
   status: number
   title: string
@@ -69,7 +95,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const validator = new Validator(input, inputParameters, {}, { includes, overrides })
 
   const jobRunID = validator.validated.id
-  const { url, params, inverse } = getOptions(validator)
+  const { url, params, inverse } = util.getPairOptions<TOptions, TInputParameters>(
+    AdapterName,
+    validator,
+    getIncludesOptions,
+    symbolOptions,
+  ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
   const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(reqConfig, customError)
@@ -77,65 +108,4 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     inverse,
   })
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
-}
-
-const getOptions = (
-  validator: Validator<TInputParameters>,
-): {
-  url: string
-  params: Record<string, unknown>
-  inverse?: boolean
-} => {
-  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
-  const quote = validator.validated.data.quote
-  const includes = validator.validated.includes || []
-
-  const includeOptions = getIncludesOptions(validator, base, quote, includes)
-  return includeOptions ?? symbolOptions(base, quote)
-}
-
-const getIncludesOptions = (
-  validator: Validator<TInputParameters>,
-  from: string,
-  to: string,
-  includes: string[] | Includes[],
-) => {
-  const include = getIncludes(validator, from, to, includes)
-  if (!include) return undefined
-  if (include.tokens) {
-    const fromAddress = validator.overrideToken(include.from)
-    const toAddress = validator.overrideToken(include.to)
-
-    if (!fromAddress || !toAddress) return undefined
-    return {
-      ...tokenOptions(fromAddress, toAddress),
-      inverse: include.inverse,
-    }
-  }
-
-  return {
-    ...symbolOptions(include.from, include.to),
-    inverse: include.inverse,
-  }
-}
-
-const getIncludes = (
-  validator: Validator<TInputParameters>,
-  from: string,
-  to: string,
-  includes: string[] | Includes[],
-): IncludePair | undefined => {
-  if (includes.length === 0) return undefined
-
-  const presetIncludes = validator.overrideIncludes(from, to)
-  if (presetIncludes && typeof includes[0] === 'string') return presetIncludes
-  else if (typeof includes[0] === 'string') {
-    return {
-      from,
-      to: includes[0],
-      inverse: false,
-      tokens: true,
-    }
-  }
-  return presetIncludes
 }
