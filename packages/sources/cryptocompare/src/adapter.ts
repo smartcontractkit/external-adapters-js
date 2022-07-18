@@ -1,4 +1,4 @@
-import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { Builder, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   Config,
@@ -76,6 +76,12 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       const endpoint = validator.validated.data.endpoint?.toLowerCase()
       if (endpoint == 'marketcap') return false
       const base = validator.overrideSymbol(NAME, validator.validated.data.base)
+      if (Array.isArray(validator.validated.data.quote)) {
+        Logger.debug(
+          `[WS]: ${validator.validated.data.quote} supplied as quote. Only non-array tickers can be used for WS`,
+        )
+        return false
+      }
       const quote = validator.validated.data.quote.toUpperCase()
       return `${base}~${quote}`
     }

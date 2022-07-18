@@ -358,6 +358,22 @@ export const getURL = (prefix: string, required = false): string | undefined =>
 export const getRequiredURL = (prefix: string): string =>
   getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
 
+export const getEnvWithFallback = (
+  primary: string,
+  fallbacks: string[],
+  prefix = '',
+): string | undefined => {
+  // Attempt primary
+  const val = getEnv(primary, prefix)
+  if (val) return val
+
+  // Attempt fallbacks
+  for (const fallback of fallbacks) {
+    const val = getEnv(fallback, prefix)
+    if (val) return val
+  }
+  return
+}
 /**
  * Get variable from environment then check for a fallback if it is not set then throw if neither are set
  * @param primary The name of environment variable to look for first
@@ -371,17 +387,12 @@ export const getRequiredEnvWithFallback = (
   fallbacks: string[],
   prefix = '',
 ): string => {
-  // Attempt primary
-  const val = getEnv(primary, prefix)
-  if (val) return val
-
-  // Attempt fallbacks
-  for (const fallback of fallbacks) {
-    const val = getEnv(fallback, prefix)
-    if (val) return val
+  const env = getEnvWithFallback(primary, fallbacks, prefix)
+  if (!env) {
+    throw logError(new RequiredEnvError(getEnvName(primary, prefix)))
   }
 
-  throw logError(new RequiredEnvError(getEnvName(primary, prefix)))
+  return env
 }
 
 export function isArraylikeAccessor(x: unknown[]): x is [number] {

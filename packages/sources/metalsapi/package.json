@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/metalsapi-adapter",
-  "version": "1.7.5",
+  "version": "1.7.7",
   "description": "Chainlink metalsapi adapter.",
   "keywords": [
     "Chainlink",
