@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Execute, Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
@@ -6,7 +6,7 @@ import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute()
+  const execute = makeExecute() as Execute
 
   process.env.API_KEY = process.env.API_KEY || 'test_api_key'
 

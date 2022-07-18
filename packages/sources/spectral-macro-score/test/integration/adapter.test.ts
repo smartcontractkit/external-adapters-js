@@ -1,5 +1,5 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import nock from 'nock'
 import sinon from 'sinon'
@@ -11,7 +11,7 @@ import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute()
+  const execute = makeExecute() as Execute
 
   beforeAll(() => {
     if (process.env.RECORD) {

@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Execute, Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
@@ -11,7 +11,7 @@ const DataPrefixExample =
 
 describe('execute', () => {
   const jobID = 'fd26a90e0aa84040bc6b4d6f5036a23a'
-  const execute = makeExecute({ rpcUrl: '', privateKey: '', networkId: 1, api: {} })
+  const execute = makeExecute({ rpcUrl: '', privateKey: '', networkId: 1, api: {} }) as Execute
 
   describe('validation error', () => {
     const requests = [

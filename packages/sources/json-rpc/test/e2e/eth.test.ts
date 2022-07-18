@@ -222,7 +222,7 @@ describe('Ethereum client @integration', () => {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
+      const resp = await execute(req as unknown as AdapterRequest<TInputParameters>, {}, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })

@@ -19,6 +19,8 @@ describe('execute', () => {
           data: {
             address: contractAddr,
             functionSelector: uint256FuncId,
+            dataPrefix: '',
+            dataToSend: '',
             result: '0x000000000000000000000000000000000000000000000000000000000000002a',
           },
         },
