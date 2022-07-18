@@ -1,7 +1,7 @@
 import { getCoin, getSymbolToId } from '../../src/util'
 import { ResponseSchema } from '../../src/endpoint/crypto'
 import { makeConfig } from '../../src/config'
-import { AxiosRequestHeaders, Config } from '@chainlink/ea-bootstrap'
+import { Config, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
 
 describe('config tests', () => {
   beforeEach(() => {
@@ -12,12 +12,12 @@ describe('config tests', () => {
   describe('makeConfig', () => {
     it('does not use an API key if none is set', () => {
       const config = makeConfig() as Config
-      expect((config.api as AxiosRequestHeaders).headers['Authorization']).toBeUndefined()
+      expect((config.api as AxiosRequestConfig).headers?.['Authorization']).toBeUndefined()
     })
 
     it('does not start the adapter in test mode if the IS_IN_TEST_MODE env var is not set', () => {
       const config = makeConfig()
-      const testModeHeader = (config.api as AxiosRequestHeaders).headers[
+      const testModeHeader = (config.api as AxiosRequestConfig).headers?.[
         'COINPAPRIKA-API-KEY-VERIFY'
       ]
       expect(testModeHeader).toBeUndefined()
@@ -26,14 +26,14 @@ describe('config tests', () => {
     it('uses an API key if one is set', () => {
       process.env.API_KEY = 'test-key'
       const config = makeConfig()
-      const authHeader = (config.api as AxiosRequestHeaders).headers['Authorization']
+      const authHeader = (config.api as AxiosRequestConfig).headers?.['Authorization']
       expect(authHeader).toEqual(process.env.API_KEY)
     })
 
     it('starts the adapter in test mode if the IS_IN_TEST_MODE env var is set', () => {
       process.env.IS_TEST_MODE = 'true'
       const config = makeConfig()
-      const testModeHeader = (config.api as AxiosRequestHeaders).headers[
+      const testModeHeader = (config.api as AxiosRequestConfig).headers?.[
         'COINPAPRIKA-API-KEY-VERIFY'
       ]
       expect(testModeHeader).toBe('true')
@@ -42,7 +42,7 @@ describe('config tests', () => {
     it('does not start the adapter in test mode if the IS_IN_TEST_MODE env var is set to false', () => {
       process.env.IS_TEST_MODE = 'false'
       const config = makeConfig()
-      const testModeHeader = (config.api as AxiosRequestHeaders).headers[
+      const testModeHeader = (config.api as AxiosRequestConfig).headers?.[
         'COINPAPRIKA-API-KEY-VERIFY'
       ]
       expect(testModeHeader).toBeUndefined()

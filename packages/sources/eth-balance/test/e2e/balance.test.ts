@@ -1,5 +1,5 @@
 import { assertSuccess, serverErrors, validationErrors } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterData, AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
 import { TInputParameters } from '../../src/endpoint'
 
@@ -40,8 +40,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(data.result.length).toBeGreaterThan(0)
-        expect(data.data.result.length).toBeGreaterThan(0)
+        expect(data.result?.toString().length).toBeGreaterThan(0)
+        expect(data.result?.toString().length).toBeGreaterThan(0)
       })
     })
   })
@@ -61,7 +61,7 @@ describe('execute', () => {
           },
         },
       ],
-      execute,
+      execute as Execute<AdapterRequest<AdapterData>>,
     )
 
     serverErrors(
@@ -81,7 +81,7 @@ describe('execute', () => {
           },
         },
       ],
-      execute,
+      execute as Execute<AdapterRequest<AdapterData>>,
     )
   })
 })

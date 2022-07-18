@@ -58,7 +58,7 @@ const mockNetworkProvider = {
       case mockFailInput.mockInputNoTLD:
         return toMockOutput(mockFailInput.mockInputNoTLD)
       default:
-        break
+        throw 'Unknown provider'
     }
   }),
 }
@@ -84,8 +84,7 @@ jest.mock('ethers', () => {
           case mockVariables.resolverContractAddress:
             return mockResolverContract
           default:
-            console.log('Mock address not found: ', address)
-            break
+            throw `Mock address not found: ${address}`
         }
       }),
     },

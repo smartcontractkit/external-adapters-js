@@ -48,7 +48,8 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest<TInputParameters>, {})
+          // @ts-expect-error  need to pass wrong typed data to make sure test is failing
+          await execute(req.testData, {})
         } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)

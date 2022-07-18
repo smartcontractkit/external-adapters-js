@@ -86,8 +86,12 @@ describe('execute', () => {
             adapterResponse,
             jobID,
           )
-          expect(parseInt(adapterResponse.data?.result)).not.toBeNull()
-          expect(parseInt(adapterResponse.data.result)).toBeGreaterThan(0)
+          expect(
+            adapterResponse?.data?.result && parseInt(adapterResponse?.data?.result?.toString()),
+          ).not.toBeNull()
+          expect(
+            adapterResponse?.data?.result && parseInt(adapterResponse?.data?.result?.toString()),
+          ).toBeGreaterThan(0)
         },
         config.DEFAULT_TIMEOUT,
       )

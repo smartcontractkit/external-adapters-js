@@ -6,7 +6,7 @@ export const mockResponseSuccess = (): nock.Scope =>
   })
     .get('/btc/api.dws')
     .query({ q: 'getdifficulty' })
-    .reply(200, 22674148233453.1, [
+    .reply(200, () => 22674148233453.1, [
       'Content-Type',
       'application/json',
       'Connection',

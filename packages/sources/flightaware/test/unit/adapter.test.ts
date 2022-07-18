@@ -16,11 +16,11 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'flight not supplied',
-        testData: { id: jobID, data: { departure: 1631817600 } },
+        testData: { id: jobID, data: { departure: 1631817600, flight: '' } },
       },
       {
         name: 'departure not supplied',
-        testData: { id: jobID, data: { flight: 'NAX105' } },
+        testData: { id: jobID, data: { flight: 'NAX105', departure: null } },
       },
     ]
 

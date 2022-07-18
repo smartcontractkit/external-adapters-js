@@ -145,7 +145,7 @@ describe('execute', () => {
         try {
           const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
           assertSuccess({ expected: req.status, actual: data.statusCode }, data, jobID)
-        } catch (error) {
+        } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
           assertError({ expected: req.status, actual: errorResp.statusCode }, errorResp, jobID)
         }

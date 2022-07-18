@@ -42,7 +42,7 @@ const mockEthereumAddressProviderContract = {
       case ethers.utils.formatBytes32String('SynthetixBridgeToOptimism'):
         return mockChainConfig.optimism.synthetixBridgeAddress
       default:
-        break
+        throw new Error(`Invalid contract name ${contractName}`)
     }
   }),
 }
@@ -57,7 +57,7 @@ const mockOptimismAddressProviderContract = {
       case ethers.utils.formatBytes32String('SynthetixBridgeToBase'):
         return mockChainConfig.optimism.synthetixBridgeAddress
       default:
-        break
+        throw new Error(`Invalid contract name ${contractName}`)
     }
   }),
 }
@@ -105,7 +105,7 @@ jest.mock('ethers', () => {
             case mockChainConfig.optimism.rpcUrl:
               return mockOptimismProvider
             default:
-              break
+              throw new Error(`Invalid RPC URL ${rpcURL}`)
           }
         }),
       },
@@ -132,7 +132,7 @@ jest.mock('ethers', () => {
           case mockChainConfig.optimism.synthetixBridgeAddress:
             return mockOptimismSynthetixBridgeContract
           default:
-            break
+            throw new Error(`Invalid address ${address}`)
         }
       }),
     },

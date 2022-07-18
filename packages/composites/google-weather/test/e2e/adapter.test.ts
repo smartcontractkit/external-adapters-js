@@ -51,7 +51,7 @@ describe('execute', () => {
         testData: {
           id: '',
           data: {
-            geoJson: geoJsonPolygon,
+            geoJson: JSON.stringify(geoJsonPolygon),
             dateFrom: '2021-04-01',
             dateTo: '2021-05-01',
             method: 'AVG',
@@ -64,7 +64,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPolygon,
+            geoJson: JSON.stringify(geoJsonPolygon),
             dateFrom: '2021-04-01',
             dateTo: '2021-05-01',
             method: 'AVG',
@@ -77,7 +77,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPoint,
+            geoJson: JSON.stringify(geoJsonPoint),
             dateFrom: '2021-04-01',
             dateTo: '2021-05-01',
             method: 'AVG',
@@ -90,7 +90,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPolygon,
+            geoJson: JSON.stringify(geoJsonPolygon),
             dateFrom: '2021-04-01',
             dateTo: '2021-05-01',
             method: 'SUM',
@@ -103,7 +103,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPoint,
+            geoJson: JSON.stringify(geoJsonPoint),
             dateFrom: '2021-04-01T11:04:49Z',
             dateTo: '2021-04-20T11:04:49Z',
             method: 'AVG',
@@ -116,7 +116,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPoint,
+            geoJson: JSON.stringify(geoJsonPoint),
             dateFrom: '2021-04-01T11:04:49Z',
             dateTo: '2021-04-20T11:04:49Z',
             method: 'AVG',
@@ -146,6 +146,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
+            geoJson: '',
             dateFrom: '2021-04-01',
             dateTo: '2021-05-01',
             method: 'SUM',
@@ -158,7 +159,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPoint,
+            geoJson: JSON.stringify(geoJsonPoint),
             dateTo: '2021-05-01',
             method: 'SUM',
             column: 'thunder',
@@ -170,7 +171,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPoint,
+            geoJson: JSON.stringify(geoJsonPoint),
             dateFrom: '2021-04-01',
             method: 'SUM',
             column: 'thunder',
@@ -182,7 +183,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPoint,
+            geoJson: JSON.stringify(geoJsonPoint),
             dateFrom: '2021-04-01',
             dateTo: '2021-05-01',
             column: 'thunder',
@@ -194,7 +195,7 @@ describe('execute', () => {
         testData: {
           id: jobID,
           data: {
-            geoJson: geoJsonPoint,
+            geoJson: JSON.stringify(geoJsonPoint),
             dateFrom: '2021-04-01',
             dateTo: '2021-05-01',
             method: 'SUM',

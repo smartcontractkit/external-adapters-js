@@ -50,7 +50,7 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
-        expect(Object.keys(data.result).length).toBeGreaterThan(0)
+        expect(data.result && Object.keys(data.result).length).toBeGreaterThan(0)
       })
     })
   })

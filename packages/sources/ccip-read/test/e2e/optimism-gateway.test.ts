@@ -1,5 +1,6 @@
-import { Execute, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Execute, Requester } from '@chainlink/ea-bootstrap'
 import { makeExecute, makeConfig } from '../../src/index'
+import type { TInputParameters } from '../../src/adapter'
 
 /**
  * This test illustrates that the adapter returns the same output as the server that was originally defined in the example (Link below).  It does this
@@ -196,7 +197,7 @@ const getOriginalGatewayResponse = async () => {
     params: [API_CALL_PARAMS],
     id: 1,
   }
-  const gatewayServerResp = await Requester.request({
+  const gatewayServerResp = await Requester.request<any>({
     method: 'post',
     url: process.env.GATEWAY_SERVER_URL || 'http://localhost:8081/query',
     data: body,
@@ -216,14 +217,16 @@ describe('e2e Optimism Gateway', () => {
 
   it('returns the correct response', async () => {
     const expectedResponse = await getOriginalGatewayResponse()
+    const jobID = '1'
     const requestParams = {
       jobRunId: '1',
+      id: jobID,
       data: {
         ...API_CALL_PARAMS,
         abi: OPTIMISM_RESOLVER_STUB_ABI,
       },
     }
-    const response = await execute(requestParams, {})
+    const response = await execute(requestParams as AdapterRequest<TInputParameters>, {})
     expect(response.result).toBe(expectedResponse)
   })
 })
