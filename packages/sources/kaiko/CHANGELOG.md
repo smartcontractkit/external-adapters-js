@@ -1,5 +1,18 @@
 # @chainlink/kaiko-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- d63612a03: Refactor getIncludesOptions to be a generic util.getPairOptions method in bootstrap
+
+### Patch Changes
+
+- Updated dependencies [d63612a03]
+- Updated dependencies [110f3ab5c]
+  - @chainlink/ea-bootstrap@2.17.0
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.4.7
 
 ### Patch Changes
