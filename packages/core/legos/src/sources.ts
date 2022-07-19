@@ -108,7 +108,6 @@ import * as sochain from '@chainlink/sochain-adapter'
 import * as solana_view_function from '@chainlink/solana-view-function-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
-import * as stader_labs from '@chainlink/stader-labs-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
@@ -241,7 +240,6 @@ export default {
   solana_view_function,
   spectral_macro_score,
   sportsdataio,
-  stader_labs,
   stasis,
   synthetix_debt_pool,
   taapi,

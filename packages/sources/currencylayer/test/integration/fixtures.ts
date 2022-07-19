@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     .query({ access_key: 'fake-api-key', source: 'BTC', currencies: 'USD' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         success: true,
         terms: 'https://currencylayer.com/terms',
         privacy: 'https://currencylayer.com/privacy',

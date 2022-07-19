@@ -17,7 +17,6 @@ describe('Cache key middleware', () => {
         tokenOverrides: {
           eth: { test: 'test' },
         },
-        includes: {},
         endpoint: 'random',
         batchPropString: 'batchString',
         batchPropArray: ['str1', 'str2'],

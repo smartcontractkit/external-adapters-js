@@ -32,7 +32,7 @@ const expectRequestToBe =
   (field: string, expected: number): Execute<AdapterRequestWithRateLimit, AdapterContext> =>
   (input) => {
     return new Promise((resolve) => {
-      expect(input[field]).toBe(expected)
+      expect(input[field as keyof AdapterRequestWithRateLimit]).toBe(expected)
       resolve({
         jobRunID: input.id,
         data: {

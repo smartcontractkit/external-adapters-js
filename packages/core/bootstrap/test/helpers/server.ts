@@ -125,6 +125,6 @@ export class Server {
   }
 
   getExpectedResponse(endpoint: Endpoint): typeof responseLookup[keyof typeof responseLookup] {
-    return responseLookup[endpoint]
+    return responseLookup[endpoint as keyof typeof responseLookup]
   }
 }

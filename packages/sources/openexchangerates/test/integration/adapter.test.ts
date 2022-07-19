@@ -59,7 +59,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockInverseRateResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
