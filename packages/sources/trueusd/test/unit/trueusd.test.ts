@@ -13,12 +13,28 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'empty field',
-        testData: { id: jobID, data: { field: '' } },
+        name: 'empty result path',
+        testData: { id: jobID, data: { resultPath: '' } },
       },
+    ]
+
+    requests.forEach((req) => {
+      it(`${req.name}`, async () => {
+        try {
+          await execute(req.testData as AdapterRequest, {})
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error)
+          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+        }
+      })
+    })
+  })
+
+  describe('interal error', () => {
+    const requests = [
       {
-        name: 'bad field',
-        testData: { id: jobID, data: { field: 'asd' } },
+        name: 'bad result path',
+        testData: { id: jobID, data: { resultPath: 'asd' } },
       },
     ]
 
@@ -28,7 +44,7 @@ describe('execute', () => {
           await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error: any) {
           const errorResp = Requester.errored(jobID, error)
-          assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
+          assertError({ expected: 502, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
     })
