@@ -47,7 +47,6 @@ describe('Cache key middleware', () => {
                   batchPropString: 'batchString',
                   endpoint: 'random',
                   from: 'btc',
-                  includes: {},
                   maxAge: 444,
                   number: 123.4,
                   overrides: {
