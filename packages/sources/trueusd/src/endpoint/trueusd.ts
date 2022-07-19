@@ -5,14 +5,25 @@ export const NAME = 'trueusd'
 
 export const supportedEndpoints = ['trueusd']
 
+export const endpointResultPaths = {
+  trueusd: 'totalTrust',
+}
+
 export const description = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
 
 export type TInputParameters = {
-  field?: string
+  field?: string // Deprecated - kept for backwards compatability
+  chain?: string
 }
 
 export const inputParameters: InputParameters<TInputParameters> = {
+  chain: {
+    required: false,
+    description: 'Filter data to a single blockchain',
+    type: 'string',
+  },
   field: {
+    // Deprecated - kept for backwards compatability
     required: false,
     default: 'totalTrust',
     description:
@@ -26,7 +37,21 @@ interface ResponseSchema {
   totalTrust: number
   totalToken: number
   updatedAt: string
-  token: { tokenName: string; principle: number }[]
+  updatedTms: string
+  token: {
+    tokenName: string
+    principle: number
+    totalTokenbyChain: number
+    totalTrustbyChain: number
+    bankBalances: {
+      'Prime Trust': number
+      Silvergate: number
+      'Signature Bank': number
+      'First Digital Trust': number
+      'Customers Bank': number
+      Other: number
+    }[]
+  }[]
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
@@ -34,20 +59,31 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const field = validator.validated.data.field
+  const chain = validator.validated.data.chain
   const resultPath = (validator.validated.data.resultPath || field || '').toString()
   const url = '/chainlink/TrueUSD'
-
-  if (!['totalTrust', 'totalToken'].includes(resultPath)) {
-    throw new AdapterInputError({
-      jobRunID,
-      message: 'Parameter "resultPath" should be one of ["totalTrust", "totalToken"]',
-      statusCode: 400,
-    })
-  }
 
   const options = { ...config.api, url }
 
   const response = await Requester.request<ResponseSchema>(options)
+
+  if (chain) {
+    const chainData = response.data.token.find(({ tokenName }) => tokenName.includes(chain))
+    if (!chainData) {
+      const options = response.data.token.map(({ tokenName }) => tokenName).join(', ')
+      throw new AdapterInputError({
+        jobRunID,
+        message: `The given "chain" parameter of ${chain} is not found. Available options are one of: ${options}`,
+        statusCode: 400,
+      })
+    }
+
+    const resultPathOverride = // If 'resultPath' is default, then override to default for chain data
+      resultPath === endpointResultPaths.trueusd ? 'totalTrustbyChain' : resultPath
+
+    const result = Requester.validateResultNumber(chainData, [resultPathOverride])
+    return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  }
 
   const result = Requester.validateResultNumber(response.data, [resultPath])
 

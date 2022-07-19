@@ -55,4 +55,45 @@ describe('execute', () => {
       .expect(200)
     expect(response.body).toMatchSnapshot()
   })
+
+  it('should return success when given a chain', async () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        chain: 'AVA',
+      },
+    }
+
+    mockResponseSuccess()
+
+    const response = await context.req
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body).toMatchSnapshot()
+  })
+
+  it('should return success when given a chain and resultPath', async () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        chain: 'AVA',
+        resultPath: 'totalTokenbyChain',
+      },
+    }
+
+    mockResponseSuccess()
+
+    const response = await context.req
+      .post('/')
+      .send(data)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(response.body).toMatchSnapshot()
+  })
 })
