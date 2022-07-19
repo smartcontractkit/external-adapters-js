@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.real-time-attest.trustexplorer.io', {
     encodedQueryParams: true,
   })
@@ -9,14 +9,71 @@ export const mockResponseSuccess = (): nock =>
       200,
       (_, request) => ({
         accountName: 'TrueUSD',
-        totalTrust: 1385192938.49,
-        totalToken: 1373465520.7227664,
-        updatedAt: '2022-04-05T16:45:04.973Z',
+        totalTrust: 140,
+        totalToken: 137.87276643,
+        updatedAt: '2022-04-08T14:39:13.724Z',
+        updatedTms: 1649428753724,
         token: [
-          { principle: 5316985.88276643, tokenName: 'TUSDB (BNB)' },
-          { principle: 254336540.22, tokenName: 'TUSD (TRON)' },
-          { principle: 1109418823.8999999, tokenName: 'TUSD (ETH)' },
-          { principle: 4393170.72, tokenName: 'TUSD (AVA)' },
+          {
+            tokenName: 'TUSDB (BNB)',
+            totalTokenbyChain: 76.39276643,
+            totalTrustbyChain: 77,
+            bankBalances: [
+              {
+                'Prime Trust': 1,
+                Silvergate: 2,
+                'Signature Bank': 3,
+                'First Digital Trust': 4,
+                'Customers Bank': 5,
+                Other: 6,
+              },
+            ],
+          },
+          {
+            tokenName: 'TUSD (TRON)',
+            totalTokenbyChain: 20.22,
+            totalTrustbyChain: 21,
+            bankBalances: [
+              {
+                'Prime Trust': 1,
+                Silvergate: 2,
+                'Signature Bank': 3,
+                'First Digital Trust': 4,
+                'Customers Bank': 5,
+                Other: 6,
+              },
+            ],
+          },
+          {
+            tokenName: 'TUSD (ETH)',
+            totalTokenbyChain: 20.54,
+            totalTrustbyChain: 21,
+            bankBalances: [
+              {
+                'Prime Trust': 1,
+                Silvergate: 2,
+                'Signature Bank': 3,
+                'First Digital Trust': 4,
+                'Customers Bank': 5,
+                Other: 6,
+              },
+            ],
+          },
+          {
+            tokenName: 'TUSD (AVA)',
+            totalTokenbyChain: 20.72,
+            totalTrustbyChain: 21,
+            bankBalances: [
+              {
+                'Prime Trust': 1,
+                Silvergate: 2,
+                'Signature Bank': 3,
+                'First Digital Trust': 4,
+                'Customers Bank': 5,
+                Other: 6,
+              },
+            ],
+          },
         ],
       }),
       [
