@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 2.17.0
+
+### Minor Changes
+
+- d63612a03: Refactor getIncludesOptions to be a generic util.getPairOptions method in bootstrap
+- 110f3ab5c: Added logError method, for logging for errors outside of iologger in bootstrap. Updated iologger to log error type. Added WS adapter timeout log. Updated error messages for source & composite adapters
+
 ## 2.16.0
 
 ### Minor Changes
