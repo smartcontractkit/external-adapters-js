@@ -61,7 +61,7 @@ jobs:
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
       - name: Publish adapter to private ECR
         id: publish-adapter-versioned-private-ecr
