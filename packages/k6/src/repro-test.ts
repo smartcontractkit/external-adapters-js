@@ -5,14 +5,14 @@ import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
 
 // load the test iterations from the environment or default to 100
-let iterations = 100
+let iterations = 20000
 if (__ENV.LOAD_TEST_ITERATIONS) {
   iterations = parseInt(__ENV.LOAD_TEST_ITERATIONS)
 }
 
 // set the k6 running options
 export const options = {
-  vus: 1,
+  vus: 4,
   iterations,
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
@@ -41,7 +41,7 @@ function buildRequests() {
   }
 
   const adapterName = __ENV.LOAD_TEST_ADAPTER_NAME
-  const adapterUrl = `http://${adapterName}-adapter:8080`
+  const adapterUrl = `http://host.docker.internal:8080`
 
   for (const payload of payloadData) {
     batchRequests[`${adapterName}-${payload.name}`] = {
