@@ -23,8 +23,8 @@ describe('coinapi', () => {
           id: '1',
           data: {
             endpoint: 'crypto',
-            base: 'ETH',
-            quote: 'BTC',
+            base: 'BTC',
+            quote: 'EUR',
           },
         }
         mockCryptoEndpoint()
