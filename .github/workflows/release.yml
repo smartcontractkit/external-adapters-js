@@ -46,6 +46,10 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
       max-parallel: 35
+    environment: release
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
 
@@ -57,9 +61,8 @@ jobs:
       - name: Configure AWS Credentials for SDLC Private ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_PRIVATEECR_ACCESSKEY }}
-          aws-secret-access-key: ${{ secrets.AWS_PRIVATEECR_SECRETKEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
       - name: Publish adapter to private ECR
         id: publish-adapter-versioned-private-ecr
         uses: ./.github/actions/release/publish-artifacts
@@ -70,9 +73,9 @@ jobs:
           branch: null
           latest: null
 
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
           aws-ecr-private: 'true' # Use of string intentional for evaluation
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
@@ -84,9 +87,9 @@ jobs:
           branch: null
           latest: true
 
-          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
+          image-prefix: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com/adapters/
           adapter-name: ${{ matrix.adapter.name }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
           aws-ecr-private: 'true' # Use of string intentional for evaluation
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
@@ -98,10 +101,8 @@ jobs:
       - name: Configure AWS Credentials for SDLC Public ECR
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_PUBLICECR_ACCESSKEY }}
-          aws-secret-access-key: ${{ secrets.AWS_PUBLICECR_SECRETKEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_PUBLICECR_ROLE_ARN }}
+          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PUBLIC }}
           role-duration-seconds: 1200
 
       - if: github.ref == 'refs/heads/master'
