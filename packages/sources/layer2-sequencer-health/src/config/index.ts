@@ -19,16 +19,29 @@ export enum Networks {
   Arbitrum = 'arbitrum',
   Optimism = 'optimism',
   Metis = 'metis',
+  Starkware = 'starkware',
 }
+
+export type EVMNetworks = Exclude<Networks, Networks.Starkware>
 
 const DEFAULT_ARBITRUM_RPC_ENDPOINT = 'https://arb1.arbitrum.io/rpc'
 const DEFAULT_OPTIMISM_RPC_ENDPOINT = 'https://mainnet.optimism.io'
 const DEFAULT_METIS_RPC_ENDPOINT = 'https://andromeda.metis.io/?owner=1088'
 
-export const RPC_ENDPOINTS = {
+export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Arbitrum]: util.getEnv('ARBITRUM_RPC_ENDPOINT') || DEFAULT_ARBITRUM_RPC_ENDPOINT,
   [Networks.Optimism]: util.getEnv('OPTIMISM_RPC_ENDPOINT') || DEFAULT_OPTIMISM_RPC_ENDPOINT,
   [Networks.Metis]: util.getEnv('METIS_RPC_ENDPOINT') || DEFAULT_METIS_RPC_ENDPOINT,
+}
+
+const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'
+
+export const SEQUENCER_ENDPOINTS: Record<Networks, string | undefined> = {
+  [Networks.Arbitrum]: undefined,
+  [Networks.Optimism]: undefined,
+  [Networks.Metis]: undefined,
+  [Networks.Starkware]:
+    util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
 }
 
 const DEFAULT_OPTIMISM_HEALTH_ENDPOINT = 'https://mainnet-sequencer.optimism.io/health'
@@ -45,6 +58,10 @@ export const HEALTH_ENDPOINTS = {
   [Networks.Metis]: {
     endpoint: util.getEnv('METIS_HEALTH_ENDPOINT') || DEFAULT_METIS_HEALTH_ENDPOINT,
     responsePath: ['healthy'],
+  },
+  [Networks.Starkware]: {
+    endpoint: util.getEnv('STARKWARE_HEALTH_ENDPOINT'),
+    responsePath: [],
   },
 }
 

@@ -1,5 +1,5 @@
 import { Logger, Requester, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
-import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
+import { HEALTH_ENDPOINTS, Networks, EVMNetworks, RPC_ENDPOINTS } from './config'
 import { BigNumber, ethers } from 'ethers'
 import { AdapterResponseEmptyError } from '@chainlink/ea-bootstrap'
 
@@ -18,7 +18,7 @@ export interface ResponseSchema {
 export const getSequencerHealth: NetworkHealthCheck = async (
   network: Networks,
 ): Promise<undefined | boolean> => {
-  if (!HEALTH_ENDPOINTS[network].endpoint) {
+  if (!HEALTH_ENDPOINTS[network]?.endpoint) {
     Logger.info(`Health endpoint not available for network: ${network}`)
     return
   }
@@ -34,7 +34,7 @@ export const getSequencerHealth: NetworkHealthCheck = async (
   return isHealthy
 }
 
-export const requestBlockHeight = async (network: Networks): Promise<number> => {
+export const requestBlockHeight = async (network: EVMNetworks): Promise<number> => {
   const request: AxiosRequestConfig = {
     method: 'POST',
     url: RPC_ENDPOINTS[network],
@@ -63,8 +63,8 @@ export const getL1RollupStatus: NetworkHealthCheck = async (): Promise<boolean> 
   return true
 }
 
-export const getStatusByTransaction = async (
-  network: Networks,
+export const sendEVMDummyTransaction = async (
+  network: EVMNetworks,
   timeout: number,
 ): Promise<boolean> => {
   const rpcEndpoint = RPC_ENDPOINTS[network]
@@ -72,14 +72,14 @@ export const getStatusByTransaction = async (
   const wallet = new ethers.Wallet(DEFAULT_PRIVATE_KEY, provider)
 
   // These errors come from the Sequencer when submitting an empty transaction
-  const sequencerOnlineErrors: Record<Networks, string[]> = {
+  const sequencerOnlineErrors: Record<EVMNetworks, string[]> = {
     [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
     // TODO: Optimism error needs to be confirmed by their team
     [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
     [Networks.Metis]: ['cannot accept 0 gas price transaction'],
   }
 
-  const networkTx: Record<Networks, ethers.providers.TransactionRequest> = {
+  const networkTx: Record<EVMNetworks, ethers.providers.TransactionRequest> = {
     // Arbitrum zero gas price will be auto adjusted by the network to the minimum
     [Networks.Arbitrum]: {
       value: 0,
@@ -118,7 +118,7 @@ export const getStatusByTransaction = async (
     })
     Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
-  } catch (e: any) {
+  } catch (e) {
     const error = e as Error
     if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
       Logger.debug(
@@ -131,6 +131,27 @@ export const getStatusByTransaction = async (
     )
     return false
   }
+}
+
+const skipSendingDummyTxn = async (network: Networks): Promise<boolean> => {
+  Logger.info(`Skipping sending dummy transaction to check for ${network} sequencer health.`)
+  return false // Sequencer is unhealthy if we get to this point
+}
+
+export const getStatusByTransaction = async (
+  network: Networks,
+  timeout: number,
+): Promise<boolean> => {
+  const sendDummyTxnFns = {
+    [Networks.Arbitrum]: sendEVMDummyTransaction,
+    [Networks.Optimism]: sendEVMDummyTransaction,
+    [Networks.Metis]: sendEVMDummyTransaction,
+    [Networks.Starkware]: skipSendingDummyTxn,
+  }
+  if (network !== Networks.Starkware) {
+    return await sendDummyTxnFns[network](network, timeout)
+  }
+  return sendDummyTxnFns[network](network)
 }
 
 export function race({

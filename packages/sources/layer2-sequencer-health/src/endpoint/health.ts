@@ -7,18 +7,19 @@ import {
   util,
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { ExtendedConfig, Networks } from '../config'
+import { EVMNetworks, ExtendedConfig, Networks } from '../config'
 import {
   requestBlockHeight,
   getSequencerHealth,
   NetworkHealthCheck,
   getStatusByTransaction,
 } from '../network'
+import { checkStarkwareSequencerPendingTransactions } from '../starkware'
 
-export const supportedEndpoints = ['health']
+export const supportedEndpoints = ['health', 'health-evm']
 
 export const makeNetworkStatusCheck = (
-  network: Networks,
+  network: EVMNetworks,
 ): ((delta: number, deltaBlocks: number) => Promise<boolean>) => {
   let lastSeenBlock: { block: number; timestamp: number } = {
     block: 0,
@@ -67,6 +68,7 @@ const networks: Record<Networks, (delta: number, deltaBlocks: number) => Promise
   [Networks.Arbitrum]: makeNetworkStatusCheck(Networks.Arbitrum),
   [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
   [Networks.Metis]: makeNetworkStatusCheck(Networks.Metis),
+  [Networks.Starkware]: checkStarkwareSequencerPendingTransactions(),
 }
 
 export const getL2NetworkStatus: NetworkHealthCheck = (
