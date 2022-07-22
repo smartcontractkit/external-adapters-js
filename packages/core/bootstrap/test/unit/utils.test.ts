@@ -5,7 +5,6 @@ import {
   Includes,
   InputParameters,
   OverrideRecord,
-  TBaseInputParameters,
 } from '@chainlink/ea-bootstrap'
 import { FastifyRequest } from 'fastify'
 import { RequiredEnvError } from '../../src/lib/modules/error'
