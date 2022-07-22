@@ -52,6 +52,13 @@ const getIncludesOptions = (
   }
 }
 
+const customOverrideIncludes = (base: string, _: string, includes: string[]) => ({
+  from: base,
+  to: includes[0],
+  inverse: false,
+  tokens: true,
+})
+
 export const description = `Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price-pair-latest) from Amberdata.
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
@@ -100,6 +107,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     validator,
     getIncludesOptions,
     symbolOptions,
+    customOverrideIncludes,
   ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
   const reqConfig = { ...config.api, params, url }
 

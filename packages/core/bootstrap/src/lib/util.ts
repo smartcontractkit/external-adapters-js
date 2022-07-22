@@ -588,6 +588,7 @@ export const mapRPCErrorMessage = (errorCode: string, errorMessage: string): str
  * @param validator Validator object containing base/quote input params to check against `includes.json`
  * @param getIncludesOptions Method to derive request options for base/quote after validator has replaced inputs from `includes.json` if applicable
  * @param defaultGetOptions Method to derive default request options when `getIncludesOptions` fails (ex. if `includes.json` does not include given base/quote pair)
+ * @param customOverrideIncludes Method to replace inputs for request if `includes` from request is of type (string[]) but the base/quote are not in the preset `includes` passed to the validator
  * @returns object of request options to use for given base/quote pair from validator
  */
 export const getPairOptions = <TOptions, TInputParameters extends BasePairInputParameters>(
@@ -598,9 +599,11 @@ export const getPairOptions = <TOptions, TInputParameters extends BasePairInputP
     include: IncludePair,
   ) => TOptions | undefined,
   defaultGetOptions: (base: string, quote: string) => TOptions,
+  customOverrideIncludes?: (base: string, quote: string, includes: string[]) => IncludePair,
 ): TOptions | PairOptionsMap<TOptions> => {
   const validatedBase = validator.validated.data.base
   const validatedQuote = validator.validated.data.quote
+  const includes = validator.validated.includes || []
 
   const includesOptionsMap: PairOptionsMap<TOptions> = {}
 
@@ -615,9 +618,19 @@ export const getPairOptions = <TOptions, TInputParameters extends BasePairInputP
     for (const quote of quotes) {
       const overrideQuote = validator.overrideSymbol(adapterName, quote)
 
-      const baseIncludesOptions = validator.overrideIncludes(overrideBase, overrideQuote)
-      const includeOptions =
-        baseIncludesOptions && getIncludesOptions(validator, baseIncludesOptions)
+      let baseIncludes = validator.overrideIncludes(overrideBase, overrideQuote)
+
+      if (!baseIncludes && typeof includes[0] === 'string') {
+        const defaultOverrideIncludes = (base: string, _: string, includes: string[]) => ({
+          from: base,
+          to: includes[0],
+          inverse: false,
+        })
+        const getOverrideIncludes = customOverrideIncludes ?? defaultOverrideIncludes
+        baseIncludes = getOverrideIncludes(base, quote, includes as string[])
+      }
+
+      const includeOptions = baseIncludes && getIncludesOptions(validator, baseIncludes)
 
       includesOptionsMap[base][quote] =
         includeOptions ?? defaultGetOptions(overrideBase, overrideQuote)
