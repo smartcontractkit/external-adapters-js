@@ -167,7 +167,7 @@ export class Validator<
         ...this.validatorOptions.includes,
       ]
       if (!includesArray.every((val) => isObject(val) || typeof val === 'string')) {
-        this.throwInvalid(`'includes' array is not of type Includes[]`)
+        this.throwInvalid(`'includes' array is not of type Includes[] | string[]`)
       }
 
       this.validated.includes = includesArray
