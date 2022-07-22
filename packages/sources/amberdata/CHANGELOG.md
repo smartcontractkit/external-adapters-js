@@ -1,5 +1,15 @@
 # @chainlink/amberdata-adapter
 
+## 1.8.1
+
+### Patch Changes
+
+- cf38319c3: Support includes param in request as string[]
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/ea-factories@1.2.9
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.8.0
 
 ### Minor Changes
