@@ -5,6 +5,7 @@ import {
   Includes,
   InputParameters,
   OverrideRecord,
+  TBaseInputParameters,
 } from '@chainlink/ea-bootstrap'
 import { FastifyRequest } from 'fastify'
 import { RequiredEnvError } from '../../src/lib/modules/error'
@@ -559,6 +560,50 @@ describe('utils', () => {
           },
         },
       })
+    })
+
+    it('returns the includesOptions for a single base/quote pair with includes string[] param', () => {
+      const request: AdapterRequest = {
+        id: '1',
+        data: {
+          base: 'LINK',
+          quote: 'USD',
+          includes: ['USDT'],
+        },
+      }
+
+      const validator = new Validator<TInputParameters>(request, inputParameters)
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({ base: 'LINK', quote: 'USDT' })
+    })
+
+    it('does not utilize includes string[] param when base/quote are in includesOptions', () => {
+      const request: AdapterRequest = {
+        id: '1',
+        data: {
+          base: 'LINK',
+          quote: 'USD',
+          includes: ['USDT'],
+        },
+      }
+
+      const validator = new Validator<TInputParameters>(request, inputParameters, {}, { includes })
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({ base: 'USD', quote: 'LINK', inverse: true })
     })
   })
 })

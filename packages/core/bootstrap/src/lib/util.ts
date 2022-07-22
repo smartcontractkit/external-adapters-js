@@ -624,7 +624,6 @@ export const getPairOptions = <TOptions, TInputParameters extends BasePairInputP
         const defaultOverrideIncludes = (base: string, _: string, includes: string[]) => ({
           from: base,
           to: includes[0],
-          inverse: false,
         })
         const getOverrideIncludes = customOverrideIncludes ?? defaultOverrideIncludes
         baseIncludes = getOverrideIncludes(base, quote, includes as string[])
