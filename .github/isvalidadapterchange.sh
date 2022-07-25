@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# ========== check branch ==========
+# Skip changeset check if on master
+
+branch=$(git branch --show-current)
+
+if [[ "$branch" == "master" ]]; then
+    exit 0;
+fi
+
 # echo "========== check paths of modified files =========="
 filename=$(date +%s)
 git diff --name-only HEAD^ HEAD > $filename.txt
