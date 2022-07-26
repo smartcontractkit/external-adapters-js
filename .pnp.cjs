@@ -3621,8 +3621,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
             ["fastify", "npm:3.29.0"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -4362,8 +4365,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
             ["js-conflux-sdk", "npm:1.7.3"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -4780,9 +4786,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.3.1"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.7"],\
             ["object-path", "npm:0.11.8"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -5229,7 +5238,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -5590,7 +5602,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/utils", "npm:0.1.56"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.4.7"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
