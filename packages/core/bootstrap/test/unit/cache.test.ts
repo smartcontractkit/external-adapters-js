@@ -1,4 +1,11 @@
-import type { AdapterContext, AdapterRequestData, Execute } from '../../src/types'
+import type {
+  AdapterContext,
+  AdapterData,
+  AdapterRequest,
+  AdapterRequestData,
+  AdapterResponse,
+  Execute,
+} from '../../src/types'
 import { useFakeTimers } from 'sinon'
 import { CacheOptions, defaultOptions, withCache } from '../../src/lib/middleware/cache'
 import { LocalLRUCache } from '../../src/lib/middleware/cache/local'
@@ -6,7 +13,16 @@ import { LocalLRUCache } from '../../src/lib/middleware/cache/local'
 const mockCacheKey = 'mockCacheKey'
 const mockBatchCacheKey = 'mockBatchCacheKey'
 
-const callAndExpect = async (fn: any, n: number, result: any) => {
+type Fn = {
+  (input: AdapterRequest<AdapterData>, context: AdapterContext): Promise<
+    AdapterResponse<AdapterData>
+  >
+  (arg0: { debug: { cacheKey: string; batchCacheKey: string } }):
+    | AdapterRequest<AdapterData>
+    | PromiseLike<AdapterRequest<AdapterData>>
+}
+
+const callAndExpect = async (fn: Fn, n: number, result: number) => {
   while (n--) {
     const { data } = await fn({
       debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
@@ -121,7 +137,7 @@ describe('cache', () => {
     it(`invalidates cache - after configured ttl of 35s`, async () => {
       ;(context.cache as CacheOptions).minimumAge = 1000 * 35
 
-      const counter = await withCache()(counterFrom(0), context)
+      const counter = (await withCache()(counterFrom(0), context)) as Fn
       await callAndExpect(counter, 3, 0)
 
       await clock.tickAsync(1000 * 30 + 1)

@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AdapterResponse, Execute, Requester } from '@chainlink/ea-bootstrap'
 import { makeExecute, makeConfig } from '../../src/index'
 import type { TInputParameters } from '../../src/adapter'
 
@@ -197,12 +197,13 @@ const getOriginalGatewayResponse = async () => {
     params: [API_CALL_PARAMS],
     id: 1,
   }
-  const gatewayServerResp = await Requester.request<any>({
+  const gatewayServerResp = await Requester.request({
     method: 'post',
     url: process.env.GATEWAY_SERVER_URL || 'http://localhost:8081/query',
     data: body,
   })
-  return gatewayServerResp.data.result
+
+  return gatewayServerResp.data as AdapterResponse
 }
 
 describe('e2e Optimism Gateway', () => {
@@ -216,7 +217,7 @@ describe('e2e Optimism Gateway', () => {
   })
 
   it('returns the correct response', async () => {
-    const expectedResponse = await getOriginalGatewayResponse()
+    const expectedResponse: AdapterResponse = await getOriginalGatewayResponse()
     const jobID = '1'
     const requestParams = {
       jobRunId: '1',
@@ -227,6 +228,6 @@ describe('e2e Optimism Gateway', () => {
       },
     }
     const response = await execute(requestParams as AdapterRequest<TInputParameters>, {})
-    expect(response.result).toBe(expectedResponse)
+    expect(response.result).toBe(expectedResponse.result)
   })
 })
