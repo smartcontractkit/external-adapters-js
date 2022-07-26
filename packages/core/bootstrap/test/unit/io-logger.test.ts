@@ -4,6 +4,7 @@ describe('IO Logger', () => {
   beforeEach(() => {
     jest.resetModules()
   })
+  const context: AdapterContext = { ip: 'localhost', host: 'hostname.com' }
 
   it('logs info message and continues on successful execution', async () => {
     const request = {
@@ -24,7 +25,6 @@ describe('IO Logger', () => {
       },
     }
 
-    const context: AdapterContext = { ip: 'localhost', host: 'hostname.com' }
     const execute = async () => response
 
     const mockLogger = {
@@ -44,8 +44,7 @@ describe('IO Logger', () => {
     const result = await wrappedExecute(request, context)
 
     expect(mockLogger.debug.mock.calls).toMatchObject([
-      ['Input: ', { input: request }],
-      [`Received request from IP ${context.ip} and Host ${context.host}`],
+      ['Input: ', { input: request, IP: `${context.ip}`, Host: `${context.host}` }],
       ['Output: [200]: ', { output: response }],
     ])
     expect(result).toBe(response)
@@ -76,11 +75,15 @@ describe('IO Logger', () => {
     const { withIOLogger } = await import('../../src/lib/middleware/io-logger')
 
     const middleware = await withIOLogger()
-    const wrappedExecute = await middleware(execute, {})
+    const wrappedExecute = await middleware(execute, context)
 
     await expect(async () => await wrappedExecute(request, {})).rejects.toThrowError('errorasd')
 
-    expect(mockLogger.debug).toHaveBeenCalledWith('Input: ', { input: request })
+    expect(mockLogger.debug).toHaveBeenCalledWith('Input: ', {
+      input: request,
+      IP: `${context.ip}`,
+      Host: `${context.host}`,
+    })
     expect(mockLogger.error.mock.calls[0]).toMatchObject([
       {
         message: 'Error: errorasd',
@@ -119,11 +122,15 @@ describe('IO Logger', () => {
     const { withIOLogger } = await import('../../src/lib/middleware/io-logger')
 
     const middleware = await withIOLogger()
-    const wrappedExecute = await middleware(execute, {})
+    const wrappedExecute = await middleware(execute, context)
 
     await expect(async () => await wrappedExecute(request, {})).rejects.toThrowError('errorasd')
 
-    expect(mockLogger.debug).toHaveBeenCalledWith('Input: ', { input: request })
+    expect(mockLogger.debug).toHaveBeenCalledWith('Input: ', {
+      input: request,
+      IP: `${context.ip}`,
+      Host: `${context.host}`,
+    })
     expect(mockLogger.error.mock.calls[0]).toMatchObject([
       {
         message: 'Error: errorasd',
