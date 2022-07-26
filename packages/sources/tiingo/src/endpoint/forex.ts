@@ -12,7 +12,8 @@ export const endpointResultPaths = {
   commodities: 'midPrice',
 }
 
-export const description = 'https://api.tiingo.com/documentation/forex'
+export const description =
+  'https://api.tiingo.com/documentation/forex This endpoint has the ability to leverage inverses in the scenario a specific pair exists but not its inverse on the Tiingo forex API.'
 
 export type TInputParameters = { base: string; quote: string }
 export const inputParameters: InputParameters<TInputParameters> = {
@@ -47,11 +48,7 @@ const getUrl = (from: string, to: string) => ({
   url: util.buildUrlPath('/tiingo/fx/:ticker/top', { ticker: `${from}${to}`.toLowerCase() }),
 })
 
-const getIncludesOptions = (
-  //@ts-expect-error no-unused-vars
-  validator: Validator<TInputParameters>,
-  include: IncludePair,
-) => {
+const getIncludesOptions = (_: Validator<TInputParameters>, include: IncludePair) => {
   return {
     ...getUrl(include.from, include.to),
     inverse: include.inverse,

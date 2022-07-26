@@ -230,8 +230,6 @@ Aliases: `fx`, `commodities`
 
 https://api.tiingo.com/documentation/forex
 
-This endpoint has the ability to leverage inverses in the scenario a specific pair exists but not its inverse on the Tiingo forex API.
-
 ### Input Params
 
 | Required? |                Name                 |        Description        | Options | Defaults to |
