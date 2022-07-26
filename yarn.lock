@@ -1502,8 +1502,11 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     ethers: ^5.4.6
     fastify: ^3.27.1
+    nock: 13.2.7
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2161,8 +2164,11 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     ethers: ^5.4.6
     js-conflux-sdk: ^1.5.11
+    nock: 13.2.7
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2539,9 +2545,12 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
+    nock: 13.2.7
     object-path: ^0.11.5
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2958,7 +2967,10 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     ethers: ^5.4.6
+    nock: 13.2.7
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3279,7 +3291,10 @@ __metadata:
     "@harmony-js/utils": ^0.1.56
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     ethers: 5.4.7
+    nock: 13.2.7
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
