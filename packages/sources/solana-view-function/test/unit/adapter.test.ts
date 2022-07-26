@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { makeExecute } from '../../src/adapter'
 import { makeConfig } from '../../src/config'
@@ -48,8 +48,8 @@ describe('execute', () => {
         try {
           // @ts-expect-error  need to pass wrong typed data to make sure test is failing
           await execute(req.testData, {})
-        } catch (error: any) {
-          const errorResp = Requester.errored(jobID, error)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

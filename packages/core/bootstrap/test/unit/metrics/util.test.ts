@@ -1,6 +1,5 @@
-import type { AdapterRequest } from '../../../src/types'
+import type { AdapterData, AdapterRequest } from '../../../src/types'
 import * as util from '../../../src/lib/metrics/util'
-import { AdapterData } from '../../../dist'
 
 describe('Bootstrap/Metrics Utils', () => {
   describe('Get Feed ID', () => {

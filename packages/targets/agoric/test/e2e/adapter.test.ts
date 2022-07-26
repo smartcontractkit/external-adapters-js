@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import Fastify, { FastifyInstance } from 'fastify'
@@ -145,8 +145,8 @@ describe('execute', () => {
         try {
           const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
           assertSuccess({ expected: req.status, actual: data.statusCode }, data, jobID)
-        } catch (error: any) {
-          const errorResp = Requester.errored(jobID, error)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: req.status, actual: errorResp.statusCode }, errorResp, jobID)
         }
         expect(sends).toEqual(req.sends)

@@ -1,6 +1,5 @@
-import { AdapterRequest, APIEndpoint, Config, Execute } from '../../src/types'
+import { AdapterData, AdapterRequest, APIEndpoint, Config, Execute } from '../../src/types'
 import { withCacheKey } from '../../src/lib/middleware/cache-key'
-import { AdapterData } from '../../dist'
 
 describe('Cache key middleware', () => {
   it('adds a deterministic cache key to the debug object', async () => {

@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess, startChain, hardhatConfig } from '@chainlink/ea-test-helpers'
 import { AdapterRequest, AdapterRequestMeta, AdapterResponse } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
@@ -166,8 +166,8 @@ describe('execute', () => {
             ...req.testData,
             data: { ...req.testData.data, exAddr: address },
           } as AdapterRequest)
-        } catch (error: any) {
-          const errorResp = Requester.errored(jobID, error)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

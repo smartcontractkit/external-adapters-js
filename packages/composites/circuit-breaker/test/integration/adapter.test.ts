@@ -1,5 +1,5 @@
 import { assertError } from '@chainlink/ea-test-helpers'
-import { AdapterRequest, Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, AdapterRequest, Requester } from '@chainlink/ea-bootstrap'
 import * as circuitbreakerAllocationAdapter from '../../src/index'
 import { dataProviderConfig, mockDataProviderResponses } from './fixtures'
 import nock from 'nock'
@@ -127,8 +127,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.input, {})
-        } catch (error: any) {
-          const errorResp = Requester.errored(jobID, error)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError(
             { expected: expectedProviderStatusCodes, actual: errorResp.providerStatusCode },
             errorResp,
@@ -213,8 +213,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.input as unknown as AdapterRequest<TInputParameters>, {})
-        } catch (error: any) {
-          const errorResp = Requester.errored(jobID, error)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

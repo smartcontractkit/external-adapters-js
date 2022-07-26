@@ -1,4 +1,4 @@
-import { Requester, BigNumber } from '@chainlink/ea-bootstrap'
+import { Requester, BigNumber, AdapterError } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import type { AdapterRequest } from '@chainlink/ea-bootstrap'
 import * as ethers from 'ethers'
@@ -25,8 +25,8 @@ describe('execute', () => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest, {})
-        } catch (error: any) {
-          const errorResp = Requester.errored(jobID, error)
+        } catch (error) {
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

@@ -39,7 +39,7 @@ describe('HTTP', () => {
       try {
         await Requester.request(options, undefined, 1, 0)
         expect(false).toBe(true)
-      } catch (error: any) {
+      } catch (error) {
         expect(server.errorCount).toEqual(1)
         expect(error.message).toEqual(errorMessage)
       }
@@ -50,7 +50,7 @@ describe('HTTP', () => {
       try {
         await Requester.request(options, undefined, 9, 0)
         expect(false).toBe(true)
-      } catch (error: any) {
+      } catch (error) {
         expect(server.errorCount).toEqual(9)
         expect(error.message).toEqual(errorMessage)
       }
@@ -74,7 +74,7 @@ describe('HTTP', () => {
       try {
         await Requester.request(options, customError, 3, 0)
         expect(false).toBe(true)
-      } catch (error: any) {
+      } catch (error) {
         expect(server.errorCount).toEqual(3)
         expect(error.message).toEqual(customErrorMessage)
       }
@@ -169,7 +169,7 @@ describe('HTTP', () => {
       try {
         Requester.validateResultNumber(data, ['result'])
         expect(false).toBe(true)
-      } catch (error: any) {
+      } catch (error) {
         expect(error.message).toEqual(
           'Invalid result received. This is likely an issue with the data provider or the input params/overrides.',
         )
