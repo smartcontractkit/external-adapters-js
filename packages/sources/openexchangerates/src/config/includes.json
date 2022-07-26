@@ -9,5 +9,16 @@
         "inverse": true
       }
     ]
+  },
+  {
+    "from": "COP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "COP",
+        "inverse": true
+      }
+    ]
   }
 ]
