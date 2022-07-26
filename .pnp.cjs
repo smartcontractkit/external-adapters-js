@@ -3621,8 +3621,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
             ["fastify", "npm:3.29.0"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -4364,8 +4367,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
             ["js-conflux-sdk", "npm:1.7.3"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -4783,9 +4789,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.3.1"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.7"],\
             ["object-path", "npm:0.11.8"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -5232,7 +5241,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -5594,7 +5606,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/utils", "npm:0.1.56"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.41"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.4.7"],\
+            ["nock", "npm:13.2.7"],\
+            ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
@@ -9593,7 +9608,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/network", "npm:0.1.56"],\
             ["@harmony-js/staking", "npm:0.1.56"],\
             ["@harmony-js/transaction", "npm:0.1.56"],\
-            ["@harmony-js/utils", "npm:0.1.56"]\
+            ["@harmony-js/utils", "npm:0.1.56"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -9606,7 +9622,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/network", "npm:0.1.56"],\
             ["@harmony-js/staking", "npm:0.1.56"],\
             ["@harmony-js/transaction", "npm:0.1.56"],\
-            ["@harmony-js/utils", "npm:0.1.56"]\
+            ["@harmony-js/utils", "npm:0.1.56"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9620,7 +9637,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/crypto", "npm:0.1.56"],\
             ["@harmony-js/network", "npm:0.1.56"],\
             ["@harmony-js/transaction", "npm:0.1.56"],\
-            ["@harmony-js/utils", "npm:0.1.56"]\
+            ["@harmony-js/utils", "npm:0.1.56"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9636,7 +9654,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/network", "npm:0.1.56"],\
             ["@harmony-js/staking", "npm:0.1.56"],\
             ["@harmony-js/transaction", "npm:0.1.56"],\
-            ["@harmony-js/utils", "npm:0.1.56"]\
+            ["@harmony-js/utils", "npm:0.1.56"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -9650,7 +9669,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/network", "npm:0.1.56"],\
             ["@harmony-js/staking", "npm:0.1.56"],\
             ["@harmony-js/transaction", "npm:0.1.56"],\
-            ["@harmony-js/utils", "npm:0.1.56"]\
+            ["@harmony-js/utils", "npm:0.1.56"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9670,6 +9690,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["js-sha3", "npm:0.8.0"],\
             ["pbkdf2", "npm:3.1.2"],\
             ["scrypt-shim", "https://github.com/web3-js/scrypt-shim.git#commit=aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"],\
+            ["tslib", "npm:2.4.0"],\
             ["uuid", "npm:3.4.0"]\
           ],\
           "linkType": "HARD"\
@@ -9683,6 +9704,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/utils", "npm:0.1.56"],\
             ["cross-fetch", "npm:3.1.5"],\
             ["mitt", "npm:1.2.0"],\
+            ["tslib", "npm:2.4.0"],\
             ["websocket", "npm:1.0.34"]\
           ],\
           "linkType": "HARD"\
@@ -9697,7 +9719,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/network", "npm:0.1.56"],\
             ["@harmony-js/transaction", "npm:0.1.56"],\
             ["@harmony-js/utils", "npm:0.1.56"],\
-            ["text-encoding", "npm:0.7.0"]\
+            ["text-encoding", "npm:0.7.0"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9709,7 +9732,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@harmony-js/transaction", "npm:0.1.56"],\
             ["@harmony-js/crypto", "npm:0.1.56"],\
             ["@harmony-js/network", "npm:0.1.56"],\
-            ["@harmony-js/utils", "npm:0.1.56"]\
+            ["@harmony-js/utils", "npm:0.1.56"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9720,7 +9744,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@harmony-js/utils", "npm:0.1.56"],\
             ["@types/bn.js", "npm:4.11.6"],\
-            ["bn.js", "npm:4.12.0"]\
+            ["bn.js", "npm:4.12.0"],\
+            ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
