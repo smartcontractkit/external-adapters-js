@@ -1,4 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import { Achievement } from '../types'
@@ -57,14 +57,15 @@ const getDate = async (config: ExtendedConfig, paramsDate?: string): Promise<str
   }
   const recordedDate = await config.ecRegistry.LastDate()
   if (isDateNotSet(recordedDate)) {
-    throw new Error('Date not set')
+    throw new AdapterError({ message: `Ethers contract 'last date' date not set` })
   }
   const currentDate = ethers.utils.parseBytes32String(recordedDate)
   return moment(currentDate).add(1, 'day').format('YYYY-MM-DD')
 }
 
 const getURL = async (config: ExtendedConfig, date: string): Promise<string> => {
-  if (isDateNotSet(date)) throw Error('No date set')
+  if (isDateNotSet(date))
+    throw new AdapterError({ message: 'No date found when attempting to get URL' })
   const year = date.split('-')[0]
   return `${config.api?.baseURL}/${year}/nightly_achievements_${date}.json` // YYYY-MM-DD
 }

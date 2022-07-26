@@ -30,7 +30,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.id
 
   if (!asset)
-    throw new AdapterInputError({ jobRunID, statusCode: 400, message: 'asset must be provided' })
+    throw new AdapterInputError({
+      jobRunID,
+      statusCode: 400,
+      message: `'asset' input param must be provided`,
+    })
 
   const url = getAttestationURI(asset)
   const reqConfig = { ...config.api, baseURL: DEFAULT_BASE_URL, url }

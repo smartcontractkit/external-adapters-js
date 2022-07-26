@@ -1,5 +1,28 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/proof-of-reserves-adapter@1.12.6
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.5.0
+
+### Minor Changes
+
+- 110f3ab5c: Added logError method, for logging for errors outside of iologger in bootstrap. Updated iologger to log error type. Added WS adapter timeout log. Updated error messages for source & composite adapters
+
+### Patch Changes
+
+- Updated dependencies [d63612a03]
+- Updated dependencies [110f3ab5c]
+  - @chainlink/ea-bootstrap@2.17.0
+  - @chainlink/proof-of-reserves-adapter@1.12.5
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.4.8
 
 ### Patch Changes

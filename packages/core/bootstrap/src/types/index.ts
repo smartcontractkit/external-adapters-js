@@ -118,7 +118,7 @@ export type TBaseInputParameters = {
   resultPath?: ResultPath
   overrides?: OverrideRecord
   tokenOverrides?: { [network: string]: { [token: string]: string } }
-  includes?: Includes[]
+  includes?: Includes[] | string[]
   maxAge?: number
   cost?: number
   error?: { code: number }
@@ -220,6 +220,7 @@ export type ErrorFull = ErrorBasic & {
 export type AdapterErrorLog = {
   jobRunID: string
   params: AdapterData
+  type: string
   message: string
   feedID: string
   url?: string
@@ -503,6 +504,15 @@ export interface CoinsResponse {
   id: string
   symbol: string
   name: string
+}
+
+export type BasePairInputParameters = {
+  base: string | string[]
+  quote: string | string[]
+}
+
+export type PairOptionsMap<TOptions> = {
+  [base: string]: { [quote: string]: TOptions }
 }
 
 import objectPath from 'object-path'

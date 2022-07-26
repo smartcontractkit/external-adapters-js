@@ -11,7 +11,7 @@ import { getWSConfig } from './config'
 import type { RootState } from './reducer'
 import { AdapterCache, buildDefaultLocalAdapterCache } from '../cache'
 import { separateBatches } from './utils'
-import { getEnv } from '../../util'
+import { getEnv, logError } from '../../util'
 import { AdapterTimeoutError } from '../../modules/error'
 
 export * as actions from './actions'
@@ -23,6 +23,7 @@ export * as types from './types'
 
 import { WARMUP_REQUEST_ID, WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
 import { sleep } from '../../util'
+import { getFeedId } from '../../metrics/util'
 
 export const withWebSockets =
   <R extends AdapterRequest, C extends AdapterContext>(
@@ -110,9 +111,12 @@ const awaitResult = async (
     await sleep(pollInterval)
   }
 
-  throw new AdapterTimeoutError({
-    jobRunID: input.id,
-    statusCode: 500,
-    message: 'timed out waiting for result to be cached',
-  })
+  throw logError(
+    new AdapterTimeoutError({
+      jobRunID: input.id,
+      feedID: getFeedId(input),
+      statusCode: 500,
+      message: 'timed out waiting for result to be cached',
+    }),
+  )
 }

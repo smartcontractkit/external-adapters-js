@@ -80,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     config,
   )
   if (dividendResult.isZero()) {
-    throw new Error('Dividend result is zero')
+    throw new AdapterResponseInvalidError({ message: 'Dividend result is zero' })
   }
 
   const divisorUrls = divisorSources.map((source) => util.getRequiredURL(source.toUpperCase()))
@@ -92,7 +92,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     config,
   )
   if (divisorResult.isZero()) {
-    throw new Error('Divisor result is zero')
+    throw new AdapterResponseInvalidError({ message: 'Divisor result is zero' })
   }
 
   const result = dividendResult.div(divisorResult)

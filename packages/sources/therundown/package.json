@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/therundown-adapter",
-  "version": "1.3.7",
+  "version": "1.3.9",
   "description": "Chainlink therundown adapter.",
   "keywords": [
     "Chainlink",
