@@ -97,8 +97,7 @@ const handleBatchedRequest = (
 }
 
 const getIncludesOptions = (
-  //@ts-expect-error validator is unused var
-  validator: Validator<TInputParameters>,
+  _: Validator<TInputParameters>,
   include: IncludePair,
 ): TOptions | undefined => ({
   base: include.from,

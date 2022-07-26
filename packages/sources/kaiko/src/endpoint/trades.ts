@@ -68,11 +68,7 @@ const getUrl = (from: string, to: string) => ({
   }),
 })
 
-const getIncludesOptions = (
-  //@ts-expect-error no-unused-vars
-  validator: Validator<TInputParameters>,
-  include: IncludePair,
-) => {
+const getIncludesOptions = (_: Validator<TInputParameters>, include: IncludePair) => {
   return {
     ...getUrl(include.from, include.to),
     inverse: include.inverse,
