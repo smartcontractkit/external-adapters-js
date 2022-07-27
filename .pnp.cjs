@@ -5765,6 +5765,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.6.8"],\
             ["nock", "npm:13.2.7"],\
             ["sinon", "npm:12.0.1"],\
+            ["starknet", "npm:3.18.2"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
@@ -10235,11 +10236,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@noble/hashes", [\
+        ["npm:1.1.2", {\
+          "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.1.2-dbc15bb44d-3c2a8cb7c2.zip/node_modules/@noble/hashes/",\
+          "packageDependencies": [\
+            ["@noble/hashes", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@noble/secp256k1", [\
         ["npm:1.6.0", {\
           "packageLocation": "./.yarn/cache/@noble-secp256k1-npm-1.6.0-c2cdfd1c41-e99df3b776.zip/node_modules/@noble/secp256k1/",\
           "packageDependencies": [\
             ["@noble/secp256k1", "npm:1.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/cache/@noble-secp256k1-npm-1.6.3-d06f711103-16eb324253.zip/node_modules/@noble/secp256k1/",\
+          "packageDependencies": [\
+            ["@noble/secp256k1", "npm:1.6.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -10662,6 +10679,38 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["immutable", "npm:4.1.0"],\
             ["keccak", "npm:3.0.2"],\
             ["web3-utils", "npm:1.7.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@scure/base", [\
+        ["npm:1.1.1", {\
+          "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.1-67ec4c3f95-b4fc810b49.zip/node_modules/@scure/base/",\
+          "packageDependencies": [\
+            ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@scure/bip32", [\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/@scure-bip32-npm-1.1.0-99716ab8b2-e6102ab903.zip/node_modules/@scure/bip32/",\
+          "packageDependencies": [\
+            ["@scure/bip32", "npm:1.1.0"],\
+            ["@noble/hashes", "npm:1.1.2"],\
+            ["@noble/secp256k1", "npm:1.6.3"],\
+            ["@scure/base", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@scure/bip39", [\
+        ["npm:1.1.0", {\
+          "packageLocation": "./.yarn/cache/@scure-bip39-npm-1.1.0-b324fc574e-c4361406f0.zip/node_modules/@scure/bip39/",\
+          "packageDependencies": [\
+            ["@scure/bip39", "npm:1.1.0"],\
+            ["@noble/hashes", "npm:1.1.2"],\
+            ["@scure/base", "npm:1.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17720,6 +17769,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["scrypt-js", "npm:3.0.1"],\
             ["secp256k1", "npm:4.0.3"],\
             ["setimmediate", "npm:1.0.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.1.2", {\
+          "packageLocation": "./.yarn/cache/ethereum-cryptography-npm-1.1.2-c16cfd7e8a-0ef55f141a.zip/node_modules/ethereum-cryptography/",\
+          "packageDependencies": [\
+            ["ethereum-cryptography", "npm:1.1.2"],\
+            ["@noble/hashes", "npm:1.1.2"],\
+            ["@noble/secp256k1", "npm:1.6.3"],\
+            ["@scure/bip32", "npm:1.1.0"],\
+            ["@scure/bip39", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -27036,6 +27096,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pako", "npm:1.0.11"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.0.4", {\
+          "packageLocation": "./.yarn/cache/pako-npm-2.0.4-1d4e28f3ac-82b9b0b99d.zip/node_modules/pako/",\
+          "packageDependencies": [\
+            ["pako", "npm:2.0.4"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["param-case", [\
@@ -30119,6 +30186,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["starknet", [\
+        ["npm:3.18.2", {\
+          "packageLocation": "./.yarn/cache/starknet-npm-3.18.2-268d5cda4c-3d85274d6b.zip/node_modules/starknet/",\
+          "packageDependencies": [\
+            ["starknet", "npm:3.18.2"],\
+            ["@ethersproject/bytes", "npm:5.6.1"],\
+            ["bn.js", "npm:5.2.1"],\
+            ["cross-fetch", "npm:3.1.5"],\
+            ["elliptic", "npm:6.5.4"],\
+            ["ethereum-cryptography", "npm:1.1.2"],\
+            ["hash.js", "npm:1.1.7"],\
+            ["json-bigint", "npm:1.0.0"],\
+            ["minimalistic-assert", "npm:1.0.1"],\
+            ["pako", "npm:2.0.4"],\
+            ["ts-custom-error", "npm:3.2.0"],\
+            ["url-join", "npm:4.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["static-extend", [\
         ["npm:0.1.2", {\
           "packageLocation": "./.yarn/cache/static-extend-npm-0.1.2-2720ee6882-8657485b83.zip/node_modules/static-extend/",\
@@ -31915,6 +32002,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/urix-npm-0.1.0-bd5e55a13a-4c076ecfbf.zip/node_modules/urix/",\
           "packageDependencies": [\
             ["urix", "npm:0.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["url-join", [\
+        ["npm:4.0.1", {\
+          "packageLocation": "./.yarn/cache/url-join-npm-4.0.1-e1f4415722-f74e868bf2.zip/node_modules/url-join/",\
+          "packageDependencies": [\
+            ["url-join", "npm:4.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\

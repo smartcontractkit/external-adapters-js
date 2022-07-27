@@ -2,10 +2,20 @@ import { Logger, Requester, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, EVMNetworks, RPC_ENDPOINTS } from './config'
 import { BigNumber, ethers } from 'ethers'
 import { AdapterResponseEmptyError } from '@chainlink/ea-bootstrap'
+import { ec, Contract } from 'starknet'
 
 const DEFAULT_PRIVATE_KEY = '0x0000000000000000000000000000000000000000000000000000000000000001'
 const NO_ISSUE_MSG =
   'This is an error that the EA uses to determine whether or not the L2 Sequencer is healthy.  It does not mean that there is an issue with the EA.'
+
+// These errors come from the Sequencer when submitting an empty transaction
+const sequencerOnlineErrors: Record<Networks, string[]> = {
+  [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
+  // TODO: Optimism error needs to be confirmed by their team
+  [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
+  [Networks.Metis]: ['cannot accept 0 gas price transaction'],
+  [Networks.Starkware]: ['max_fee must be bigger than 0.\n0 >= 0'],
+}
 
 export interface NetworkHealthCheck {
   (network: Networks, delta: number, deltaBlocks: number): Promise<undefined | boolean>
@@ -71,14 +81,6 @@ export const sendEVMDummyTransaction = async (
   const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
   const wallet = new ethers.Wallet(DEFAULT_PRIVATE_KEY, provider)
 
-  // These errors come from the Sequencer when submitting an empty transaction
-  const sequencerOnlineErrors: Record<EVMNetworks, string[]> = {
-    [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
-    // TODO: Optimism error needs to be confirmed by their team
-    [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
-    [Networks.Metis]: ['cannot accept 0 gas price transaction'],
-  }
-
   const networkTx: Record<EVMNetworks, ethers.providers.TransactionRequest> = {
     // Arbitrum zero gas price will be auto adjusted by the network to the minimum
     [Networks.Arbitrum]: {
@@ -100,24 +102,76 @@ export const sendEVMDummyTransaction = async (
       to: wallet.address,
     },
   }
+  const receipt = await race<ethers.providers.TransactionResponse>({
+    timeout,
+    promise: wallet.sendTransaction(networkTx[network]),
+    error: `Transaction receipt not received in ${timeout} milliseconds`,
+  })
+  Logger.info(`Transaction receipt received with hash ${receipt.hash} for EVM network: ${network}`)
+  return (await receipt.wait()).confirmations > 0
+}
+
+const sendDummyStarkwareTransaction = async (timeout: number): Promise<boolean> => {
+  const starkKeyPair = ec.genKeyPair(DEFAULT_PRIVATE_KEY)
+  const starkKeyPub = ec.getStarkKey(starkKeyPair)
+  const argentContract = new Contract(
+    [
+      {
+        inputs: [
+          {
+            name: 'signer',
+            type: 'felt',
+          },
+          {
+            name: 'guardian',
+            type: 'felt',
+          },
+        ],
+        name: 'initialize',
+        outputs: [],
+        type: 'function',
+      },
+    ],
+    '0xd175dcf2fcf9d858d8d686826d56db7aeb29c3490110b4cfe0d8442944b828',
+  )
+
+  const receipt = await race({
+    timeout,
+    promise: argentContract.initialize(starkKeyPub, '0', {
+      maxFee: '0',
+    }),
+    error: `Transaction receipt not received in ${timeout} milliseconds`,
+  })
+  console.log(receipt)
+  return true
+}
+
+export const getStatusByTransaction = async (
+  network: Networks,
+  timeout: number,
+): Promise<boolean> => {
+  const sendDummyTxnFns = {
+    [Networks.Arbitrum]: sendEVMDummyTransaction,
+    [Networks.Optimism]: sendEVMDummyTransaction,
+    [Networks.Metis]: sendEVMDummyTransaction,
+    [Networks.Starkware]: sendDummyStarkwareTransaction,
+  }
   const _getErrorMessage = (e: Error): string => {
     const paths = {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
+      [Networks.Starkware]: ['message'],
     }
     return (Requester.getResult(e, paths[network]) as string) || ''
   }
 
   try {
     Logger.info(`Submitting empty transaction for network: ${network}`)
-    const receipt = await race({
-      timeout,
-      promise: wallet.sendTransaction(networkTx[network]),
-      error: `Transaction receipt not received in ${timeout} milliseconds`,
-    })
-    Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
-    return (await receipt.wait()).confirmations > 0
+    if (network !== Networks.Starkware) {
+      return await sendDummyTxnFns[network](network, timeout)
+    }
+    return await sendDummyTxnFns[network](timeout)
   } catch (e) {
     const error = e as Error
     if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
@@ -133,42 +187,21 @@ export const sendEVMDummyTransaction = async (
   }
 }
 
-const skipSendingDummyTxn = async (network: Networks): Promise<boolean> => {
-  Logger.info(`Skipping sending dummy transaction to check for ${network} sequencer health.`)
-  return false // Sequencer is unhealthy if we get to this point
-}
-
-export const getStatusByTransaction = async (
-  network: Networks,
-  timeout: number,
-): Promise<boolean> => {
-  const sendDummyTxnFns = {
-    [Networks.Arbitrum]: sendEVMDummyTransaction,
-    [Networks.Optimism]: sendEVMDummyTransaction,
-    [Networks.Metis]: sendEVMDummyTransaction,
-    [Networks.Starkware]: skipSendingDummyTxn,
-  }
-  if (network !== Networks.Starkware) {
-    return await sendDummyTxnFns[network](network, timeout)
-  }
-  return sendDummyTxnFns[network](network)
-}
-
-export function race({
+export function race<T>({
   promise,
   timeout,
   error,
 }: {
-  promise: Promise<ethers.providers.TransactionResponse>
+  promise: Promise<T>
   timeout: number
   error: string
-}): Promise<ethers.providers.TransactionResponse> {
+}): Promise<T> {
   let timer: NodeJS.Timeout
 
   return Promise.race([
     new Promise((_, reject) => {
       timer = setTimeout(reject, timeout, error)
-    }) as Promise<ethers.providers.TransactionResponse>,
+    }) as Promise<T>,
     promise.then((value) => {
       clearTimeout(timer)
       return value
