@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.finage.co.uk', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ apikey: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         symbol: 'AAPL',
         ask: 26.32,
         bid: 25.8,
@@ -31,7 +31,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ apikey: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         symbol: 'ETH',
         totalResults: 1,
         results: [{ o: 26.79, h: 26.85, l: 26.02, c: 26.3, v: 367009, t: 1628884800000 }],
@@ -68,13 +68,13 @@ export const mockResponseSuccess = (): nock =>
       'close',
     ])
 
-export const mockResponseFailure = (): nock =>
+export const mockResponseFailure = (): nock.Scope =>
   nock('https://api.finage.co.uk', {
     encodedQueryParams: true,
   })
     .get('/last/stock/NON-EXISTING')
     .query({ apikey: 'fake-api-key' })
-    .reply(400, (_, request) => ({ error: 'Please check the symbol and try again.' }), [
+    .reply(400, () => ({ error: 'Please check the symbol and try again.' }), [
       'Content-Type',
       'application/json',
       'Connection',

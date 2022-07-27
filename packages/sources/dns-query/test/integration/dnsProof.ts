@@ -6,6 +6,7 @@ import {
   mockDnsProofResponseSuccessMalformed,
   mockDnsProofResponseSuccess,
 } from './fixtures'
+import { SuperTest, Test } from 'supertest'
 
 export function dnsProofTests(context: SuiteContext): void {
   const id = '1'
@@ -23,7 +24,7 @@ export function dnsProofTests(context: SuiteContext): void {
         }
         mockDnsProofResponseError()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -49,7 +50,7 @@ export function dnsProofTests(context: SuiteContext): void {
 
         mockDnsProofResponseSuccessMalformed()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -75,7 +76,7 @@ export function dnsProofTests(context: SuiteContext): void {
       }
       mockDnsProofResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

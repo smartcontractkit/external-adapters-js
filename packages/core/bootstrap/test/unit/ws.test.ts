@@ -28,7 +28,7 @@ describe('WebSockets', () => {
           quote: ['USD', 'EUR'],
         },
       }
-      const splitRequests = []
+      const splitRequests: AdapterRequest[] = []
       await separateBatches(request, async (res) => {
         splitRequests.push(res)
       })
@@ -110,10 +110,10 @@ describe('WebSockets', () => {
 
       // Mock store, add disconnect reducer to finish tests
       const epicMiddleware = createEpicMiddleware()
-      let disconnectResolve
+      let disconnectResolve: (value: true | PromiseLike<true>) => void
       disconnectedPromise = new Promise((resolve) => (disconnectResolve = resolve))
       const disconnectReducer = createReducer({}, (builder) => {
-        builder.addCase(ws.actions.disconnectFulfilled, (state, action) => {
+        builder.addCase(ws.actions.disconnectFulfilled, () => {
           disconnectResolve(true)
         })
       })
@@ -139,7 +139,7 @@ describe('WebSockets', () => {
 
     it('ignores ws if no ws handler is present', async () => {
       const execute = async () => response
-      const middleware = await ws.withWebSockets(slice, null)(execute, {})
+      const middleware = await ws.withWebSockets(slice, undefined)(execute, {})
       const result = await middleware(request, {})
       expect(result).toBe(response)
     })
@@ -155,7 +155,7 @@ describe('WebSockets', () => {
         toResponse: () => response,
         filter: () => true,
         isError: () => false,
-        subsFromMessage: () => null,
+        subsFromMessage: () => undefined,
       })
       const execute = async () => response
       const middleware = await ws.withWebSockets(slice, makeHandler)(execute, {})
@@ -180,7 +180,7 @@ describe('WebSockets', () => {
         toResponse: () => response,
         filter: () => true,
         isError: () => false,
-        subsFromMessage: () => null,
+        subsFromMessage: () => undefined,
       })
       const execute = async () => response
       const middleware = await ws.withWebSockets(slice, makeHandler)(execute, {})

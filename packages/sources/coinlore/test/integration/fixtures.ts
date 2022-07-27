@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.coinlore.net/api', {
     encodedQueryParams: true,
   })
     .get('/global')
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           coins_count: 6441,
           active_markets: 17685,

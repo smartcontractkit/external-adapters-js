@@ -7,9 +7,11 @@ import {
   mockVolumeEndpoint,
 } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('amberdata', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -33,7 +35,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockCryptoEndpoint()
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(cryptoRequest)
         .set('Accept', '*/*')
@@ -56,7 +58,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockCryptoEndpoint()
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(cryptoRequest)
         .set('Accept', '*/*')
@@ -78,7 +80,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockMarketCapEndpoint()
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(marketCapRequest)
         .set('Accept', '*/*')
@@ -101,7 +103,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockVolumeEndpoint()
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(volumeRequest)
         .set('Accept', '*/*')
@@ -127,7 +129,7 @@ describe('amberdata', () => {
 
     it('should reply with success', async () => {
       mockBalanceEndpoint()
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(balanceRequest)
         .set('Accept', '*/*')

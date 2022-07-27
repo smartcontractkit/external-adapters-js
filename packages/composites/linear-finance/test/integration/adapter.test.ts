@@ -7,6 +7,8 @@ import {
   mockXLCIResponseSuccess,
 } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 import 'moment-timezone'
 
 const time = '2021-01-02T00:00:00'
@@ -23,7 +25,7 @@ jest.mock('moment-timezone', () => {
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -49,7 +51,7 @@ describe('execute', () => {
       mockAdapterResponseSuccess()
       mockXBCIResponseSuccess(time)
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -74,7 +76,7 @@ describe('execute', () => {
       mockAdapterResponseSuccess()
       mockXLCIResponseSuccess(time)
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

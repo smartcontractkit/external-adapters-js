@@ -2,6 +2,8 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import { ethers } from 'ethers'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const mockExpectedAddresses = [
   '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
@@ -25,7 +27,7 @@ jest.mock('ethers', () => {
     ethers: {
       ...actualModule.ethers,
       providers: {
-        JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
+        JsonRpcProvider: function () {
           return {
             getBlockNumber: jest.fn().mockReturnValue(1000),
           }
@@ -43,7 +45,7 @@ jest.mock('ethers', () => {
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -63,7 +65,7 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

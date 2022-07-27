@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export const mockSuccessfulResponseCoingecko = (): nock => {
-  nock('https://external.adapter.com')
+export const mockSuccessfulResponseCoingecko = (): nock.Scope => {
+  return nock('https://external.adapter.com')
     .post('/coingecko', {
       id: '1',
       data: { from: 'ETH', to: 'USD' },
@@ -74,7 +74,7 @@ export const mockSuccessfulResponseCoingecko = (): nock => {
     )
 }
 
-export const mockSuccessfulResponseCoinpaprika = (): nock =>
+export const mockSuccessfulResponseCoinpaprika = (): nock.Scope =>
   nock('https://external.adapter.com')
     .post('/coinpaprika', {
       id: '1',

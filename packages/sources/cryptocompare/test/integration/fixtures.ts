@@ -11,7 +11,7 @@ export const mockPriceResponseSuccess = (): nock.Scope =>
     .query({ fsyms: 'ETH', tsyms: 'BTC' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         RAW: {
           ETH: {
             BTC: {
@@ -149,7 +149,7 @@ export const mockPriceResponseFailure = (): nock.Scope =>
   })
     .get('/data/pricemultifull')
     .query({ fsyms: 'ETH', tsyms: 'XXX' })
-    .reply(500, (_, request) => 'Invalid base or quote', [
+    .reply(500, () => 'Invalid base or quote', [
       'Content-Type',
       'application/json',
       'Connection',

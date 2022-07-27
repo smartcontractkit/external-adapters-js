@@ -15,7 +15,7 @@ import nock from 'nock'
 import { mockIpfsRetroactiveRewardsData, mockEthNode, mockIpfsResponseSuccess } from './fixtures'
 import { makeExecute } from '../../src'
 import { calcRetroactiveRewards } from '../../src/method/formulas/initial'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import { TInputParameters } from '../../src/endpoint'
 
 let oldEnv: NodeJS.ProcessEnv
@@ -46,7 +46,7 @@ afterAll(() => {
 
 describe('calculating rewards', () => {
   const jobRunID = '1'
-  const ipfs = IPFS_Adapter.makeExecute()
+  const ipfs = IPFS_Adapter.makeExecute() as Execute
   const treasuryClaimAddress = '0x95EaBB0248D013b9F59c5D5256CE11b0a8140B54'
 
   it('should calculate the correct rewards for epoch 0', async () => {

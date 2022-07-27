@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.currencylayer.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ access_key: 'fake-api-key', source: 'BTC', currencies: 'USD' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         success: true,
         terms: 'https://currencylayer.com/terms',
         privacy: 'https://currencylayer.com/privacy',
@@ -31,7 +31,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ access_key: 'fake-api-key', from: 'BTC', to: 'USD', amount: 1 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         success: true,
         terms: 'https://currencylayer.com/terms',
         privacy: 'https://currencylayer.com/privacy',

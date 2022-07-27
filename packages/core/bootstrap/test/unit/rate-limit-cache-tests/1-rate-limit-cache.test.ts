@@ -1,4 +1,4 @@
-import { createStore } from 'redux'
+import { createStore, EmptyObject } from 'redux'
 import { stub, SinonStub, SinonFakeTimers, useFakeTimers } from 'sinon'
 import { withDebug } from '../../../src/lib/middleware/debugger'
 import { defaultOptions, withCache } from '../../../src/lib/middleware/cache'
@@ -13,6 +13,7 @@ import {
 } from './helpers'
 import { withMiddleware } from '../../../src/index'
 import type { AdapterContext } from '../../../src/types'
+import { Heartbeats } from '../../../src/lib/middleware/rate-limit/reducer'
 
 describe('Rate Limit/Cache - Integration', () => {
   let oldEnv: NodeJS.ProcessEnv
@@ -131,7 +132,7 @@ describe('Rate Limit/Cache - Integration', () => {
       clock.tick(timeBetweenRequests)
     }
 
-    const state = store.getState()
+    const state = store.getState() as EmptyObject & { heartbeats: Heartbeats }
     const rlPerMinute = getRLTokenSpentPerMinute(state.heartbeats)
 
     expect(rlPerMinute[0]).toBeGreaterThan(capacity)
@@ -150,7 +151,8 @@ describe('Rate Limit/Cache - Integration', () => {
       clock.tick(1000)
     }
 
-    const state = store.getState()
+    // as EmptyObject & { heartbeats: Heartbeats }
+    const state = store.getState() as EmptyObject & { rateLimit: { heartbeats: Heartbeats } }
     const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
     expect(rlPerMinute[0]).toBeLessThan(capacity)
@@ -198,7 +200,7 @@ describe('Rate Limit/Cache - Integration', () => {
       clock.tick(timeBetweenRequests)
     }
 
-    const state = store.getState()
+    const state = store.getState() as EmptyObject & { rateLimit: { heartbeats: Heartbeats } }
     const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
     Object.values(rlPerMinute).forEach((req) => {

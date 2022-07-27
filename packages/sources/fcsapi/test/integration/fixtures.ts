@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://fcsapi.com/api-v3', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ access_key: 'fake-api-key', id: '529' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: true,
         code: 200,
         msg: 'Successfully',

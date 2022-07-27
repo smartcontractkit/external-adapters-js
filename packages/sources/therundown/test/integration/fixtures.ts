@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://therundown-therundown-v1.p.rapidapi.com', {
     encodedQueryParams: true,
     reqheaders: {
@@ -12,7 +12,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ include: 'scores' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         event_id: '5527455bb80a5e9884153786aeb5f2b2',
         event_uuid: '11ea-fb62-b7f6e800-8bef-8a4dcc350d17',
         sport_id: 2,
@@ -789,7 +789,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ include: 'scores' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         meta: {
           delta_last_id: '11ec-569a-b9a53737-8102-3bb48f0cb234',
         },

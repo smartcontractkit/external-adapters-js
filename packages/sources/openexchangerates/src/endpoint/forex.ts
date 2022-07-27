@@ -1,17 +1,11 @@
-import {
-  Requester,
-  Validator,
-  CacheKey,
-  util,
-  IncludePair,
-  PairOptionsMap,
-} from '@chainlink/ea-bootstrap'
+import { Requester, Validator, CacheKey, util, IncludePair } from '@chainlink/ea-bootstrap'
 import type {
   ExecuteWithConfig,
   Config,
   InputParameters,
   AdapterRequest,
   AxiosResponse,
+  PairOptionsMap,
   AdapterBatchResponse,
 } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'

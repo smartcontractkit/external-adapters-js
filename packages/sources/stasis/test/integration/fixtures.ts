@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://stasis.net', {
     encodedQueryParams: true,
   })
     .get('/transparency/eurs-statement')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         accounts: {
           nexpay: { amount: '2742801.19' },
           xnt: { amount: '85162500.00' },

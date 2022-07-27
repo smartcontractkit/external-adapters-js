@@ -1697,6 +1697,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     nock: 13.2.7
     supertest: 6.2.3
     tslib: ^2.3.1
@@ -1909,6 +1910,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     nock: 13.2.7
     supertest: 6.2.3
     tslib: ^2.3.1
@@ -2250,6 +2252,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
     supertest: 6.2.3
@@ -3184,6 +3187,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     nock: 13.2.7
     supertest: 6.2.3
     tslib: ^2.3.1
@@ -3709,6 +3713,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
     nock: 13.2.7
     supertest: 6.2.3
     tslib: ^2.3.1

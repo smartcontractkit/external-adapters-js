@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockLCDResponseSuccess = () =>
+export const mockLCDResponseSuccess = (): nock.Scope =>
   nock('http://localhost:1234', { encodedQueryParams: true })
     .get('/terra/wasm/v1beta1/contracts/terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy/store')
     .query({

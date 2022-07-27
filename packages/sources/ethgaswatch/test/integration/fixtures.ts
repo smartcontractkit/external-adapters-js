@@ -1,11 +1,11 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://ethgas.watch')
     .get('/api/gas')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         slow: { gwei: 141, usd: 13.42 },
         normal: { gwei: 148, usd: 14.09 },
         fast: { gwei: 170, usd: 16.18 },

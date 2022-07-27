@@ -1,14 +1,14 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.exchange.cryptomkt.com/api/3', {
     encodedQueryParams: true,
   })
     .get('/public/ticker/BTCARS')
-    .query((query) => true)
+    .query(() => true)
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         ask: '12395990',
         bid: '12339900',
         last: '12396935',
