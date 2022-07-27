@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinranking
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinranking/package.json)
+![1.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinranking/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -43,10 +43,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "crypto",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U="
@@ -183,10 +183,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "marketcap",
-    "resultPath": "marketCap",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "marketcap",
+    "resultPath": "marketCap"
   },
   "debug": {
     "cacheKey": "cOti0SCayIgnF4rXp8x6AQBDfiE="

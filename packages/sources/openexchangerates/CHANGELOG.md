@@ -1,5 +1,11 @@
 # @chainlink/openexchangerates-adapter
 
+## 1.5.3
+
+### Patch Changes
+
+- 838ef3ddb: Update openexchangerates inverse pairs
+
 ## 1.5.2
 
 ### Patch Changes

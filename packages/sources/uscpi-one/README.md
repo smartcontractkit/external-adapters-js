@@ -1,6 +1,6 @@
 # Chainlink External Adapter for US Consumer Price Index (USCPI)
 
-![1.2.17](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uscpi-one/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uscpi-one/package.json)
 
 Base URL https://api.bls.gov/publicAPI/v2
 
@@ -43,11 +43,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "series",
-    "resultPath": "value",
     "serie": "CUSR0000SA0",
     "year": "2021",
-    "month": "July"
+    "month": "July",
+    "endpoint": "series",
+    "resultPath": "0.value"
   },
   "debug": {
     "cacheKey": "ey1z3WXQrD3wNtEwaVpk6x1U1eM="
@@ -112,11 +112,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "series",
-    "resultPath": "value",
     "serie": "CUSR0000SA0",
     "year": "2021",
-    "month": "July"
+    "month": "July",
+    "endpoint": "series",
+    "resultPath": "0.value"
   },
   "debug": {
     "cacheKey": "ey1z3WXQrD3wNtEwaVpk6x1U1eM="
