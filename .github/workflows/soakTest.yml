@@ -3,8 +3,10 @@ name: Soak test
 on:
   push:
     branches:
-      - 'feature/soak-testing-composites-3'
       # TODO: Make it only run on releases
+      - 'feature/soak-testing-composites-3'
+      - 'release/*'
+  workflow_dispatch:
 
 env:
   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
