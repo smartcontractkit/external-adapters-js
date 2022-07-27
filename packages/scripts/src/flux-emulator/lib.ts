@@ -10,6 +10,7 @@ import {
   ReferenceContractConfig,
   removeAdapterFromFeed,
   setFluxConfig,
+  adapterExistsInConfig,
 } from './ReferenceContractConfig'
 import { lastValueFrom } from 'rxjs'
 const { red, blue } = chalk
@@ -142,11 +143,6 @@ export const stop = async (inputs: Inputs): Promise<void> => {
   await setFluxConfig(newConfig, inputs.configServerSet)
 }
 
-type IntegrationTestReducer = {
-  latestInput?: null | { data: Record<string, unknown> }
-  integrationTests: Record<string, unknown>[]
-}
-
 /**
  * Writes a json file for k6 to use as a payload based. Pulls the config from
  * weiwatchers to determine which adapter can hit which services and with which
@@ -229,7 +225,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
   logInfo('Writing k6 payload to a file')
   // write the payloads to a file in the k6 folder for the docker container to pick up
-  fs.writeFileSync('./packages/k6/src/http.json', JSON.stringify(payloads))
+  fs.writeFileSync('./packages/k6/src/config/http.json', JSON.stringify(payloads))
 }
 
 /**

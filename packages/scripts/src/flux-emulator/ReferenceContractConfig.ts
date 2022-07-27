@@ -13,7 +13,7 @@ export class ReferenceContractConfig {
   name: string
   contractVersion: number
   address: string
-  data: Record<string, any>
+  data: Record<string, unknown>
   nodes: FeedNode[]
   precision: number
   deviationThreshold: number
@@ -91,11 +91,7 @@ export class FeedNode {
 
 export interface ConfigPayload {
   name: string
-<<<<<<< HEAD
-  data: Record<string, unknown>
-=======
   data: Record<string, any>
->>>>>>> Enable integration test and test-payloads for k6
 }
 
 export interface K6Payload {
@@ -327,4 +323,25 @@ export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Pa
     payloads.push(payload)
   }
   return payloads
+}
+
+/**
+ * Return whether the adapter exists in the config or now
+ * @param {string} adapterName The name of the adapter to look for
+ * @param {ReferenceContractConfig[]} masterConfig The configuration to look for the adapter in
+ * @returns {boolean} True if the adapter exists in the config
+ */
+export const adapterExistsInConfig = (
+  adapterName: string,
+  masterConfig: ReferenceContractConfig[],
+): boolean => {
+  for (const config of masterConfig) {
+    for (const node of config.nodes) {
+      if (node.dataProviders.includes(adapterName)) {
+        // we found the adapter
+        return true
+      }
+    }
+  }
+  return false
 }
