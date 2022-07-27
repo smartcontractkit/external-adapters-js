@@ -1,5 +1,12 @@
 # @chainlink/ada-balance-adapter
 
+## 2.5.10
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.5.9
 
 ### Patch Changes

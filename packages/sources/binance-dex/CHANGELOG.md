@@ -1,5 +1,12 @@
 # @chainlink/binance-dex-adapter
 
+## 1.6.2
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.6.1
 
 ### Patch Changes

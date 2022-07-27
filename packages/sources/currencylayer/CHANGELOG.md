@@ -1,5 +1,12 @@
 # @chainlink/currencylayer-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.0.1
 
 ### Patch Changes

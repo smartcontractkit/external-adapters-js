@@ -1,5 +1,12 @@
 # @chainlink/coingecko-adapter
 
+## 1.9.2
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.9.1
 
 ### Patch Changes
