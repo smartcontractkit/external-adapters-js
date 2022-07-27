@@ -5624,6 +5624,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["class-validator", "npm:0.13.2"],\
             ["command-line-args", "npm:5.2.1"],\
             ["command-line-usage", "npm:6.1.3"],\
+            ["json-schema-ref-parser", "npm:9.0.9"],\
             ["mockserver-client", "npm:5.11.2"],\
             ["rxjs", "npm:7.4.0"],\
             ["shelljs", "npm:0.8.5"],\
@@ -24024,6 +24025,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/json-schema-npm-0.4.0-e776313070-66389434c3.zip/node_modules/json-schema/",\
           "packageDependencies": [\
             ["json-schema", "npm:0.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["json-schema-ref-parser", [\
+        ["npm:9.0.9", {\
+          "packageLocation": "./.yarn/cache/json-schema-ref-parser-npm-9.0.9-1203e379cb-e05166a84c.zip/node_modules/json-schema-ref-parser/",\
+          "packageDependencies": [\
+            ["json-schema-ref-parser", "npm:9.0.9"],\
+            ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"]\
           ],\
           "linkType": "HARD"\
         }]\
