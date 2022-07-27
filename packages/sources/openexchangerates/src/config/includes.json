@@ -1,11 +1,33 @@
 [
   {
-    "from": "IRD",
+    "from": "IDR",
     "to": "USD",
     "includes": [
       {
         "from": "USD",
-        "to": "IRD",
+        "to": "IDR",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "COP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "COP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KRW",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "KRW",
         "inverse": true
       }
     ]
