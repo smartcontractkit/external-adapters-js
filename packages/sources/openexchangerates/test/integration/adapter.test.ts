@@ -51,7 +51,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        base: 'IRD',
+        base: 'IDR',
         quote: ['USD', 'ETH'],
       },
     }

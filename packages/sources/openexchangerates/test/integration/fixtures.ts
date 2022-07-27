@@ -205,14 +205,14 @@ export const mockInverseRateResponseSuccess = (): nock.Scope =>
   })
     .persist()
     .get('/latest.json')
-    .query({ app_id: 'fake-api-key', base: 'IRD' })
+    .query({ app_id: 'fake-api-key', base: 'IDR' })
     .reply(
       200,
       () => ({
         disclaimer: 'Usage subject to terms: https://openexchangerates.org/terms',
         license: 'https://openexchangerates.org/license',
         timestamp: 1636113600,
-        base: 'IRD',
+        base: 'IDR',
         rates: {
           ETH: 123,
           USD: 0.123,
@@ -239,7 +239,7 @@ export const mockInverseRateResponseSuccess = (): nock.Scope =>
         timestamp: 1636113600,
         base: 'ETH',
         rates: {
-          IRD: 0.234,
+          IDR: 0.234,
           ETH: 234,
         },
       }),
