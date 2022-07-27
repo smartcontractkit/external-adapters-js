@@ -1,5 +1,13 @@
 # @chainlink/etherscan-adapter
 
+## 1.3.10
+
+### Patch Changes
+
+- 5e15671ca: Updated ResponseSchema to include missing fields from the API
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.3.9
 
 ### Patch Changes

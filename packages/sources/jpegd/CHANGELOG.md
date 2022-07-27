@@ -1,5 +1,12 @@
 # @chainlink/jpegd-adapter
 
+## 2.1.10
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.1.9
 
 ### Patch Changes
