@@ -1,6 +1,6 @@
 # Chainlink Open Exchange Rates External Adapter
 
-![1.3.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/openexchangerates/package.json)
+![1.5.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/openexchangerates/package.json)
 
 Base URL https://openexchangerates.org/api/
 
@@ -44,9 +44,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "forex",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "forex"
   },
   "debug": {
     "cacheKey": "QjGCaijj/AZfhRuMfhhiXZgSxOY=",
@@ -57,15 +57,14 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "forex",
             "base": "ETH",
-            "quote": "USD"
+            "quote": "USD",
+            "endpoint": "forex"
           }
         }
       ]
     ]
-  },
-  "providerStatusCode": 200
+  }
 }
 ```
 
@@ -265,6 +264,179 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "IDR",
+    "quote": ["USD", "ETH"],
+    "endpoint": "forex"
+  },
+  "debug": {
+    "cacheKey": "fT3vXbB0+F9KJ1ittv7ujNsWiFk=",
+    "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
+    "batchChildrenCacheKeys": [
+      [
+        "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
+        {
+          "id": "1",
+          "data": {
+            "base": "IDR",
+            "quote": "USD",
+            "endpoint": "forex"
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "payload": [
+      [
+        "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
+        {
+          "id": "1",
+          "data": {
+            "base": "IDR",
+            "quote": "USD",
+            "endpoint": "forex"
+          },
+          "debug": {
+            "cacheKey": "fT3vXbB0+F9KJ1ittv7ujNsWiFk=",
+            "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
+            "batchChildrenCacheKeys": [
+              [
+                "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
+                {
+                  "id": "1",
+                  "data": {
+                    "base": "IDR",
+                    "quote": "USD",
+                    "endpoint": "forex"
+                  }
+                }
+              ]
+            ]
+          }
+        },
+        4.273504273504273
+      ],
+      [
+        "ZVw0N5MuKAj6k0mm+/DY3WcxiEM=",
+        {
+          "id": "1",
+          "data": {
+            "base": "IDR",
+            "quote": "ETH",
+            "endpoint": "forex"
+          },
+          "debug": {
+            "cacheKey": "fT3vXbB0+F9KJ1ittv7ujNsWiFk=",
+            "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
+            "batchChildrenCacheKeys": [
+              [
+                "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
+                {
+                  "id": "1",
+                  "data": {
+                    "base": "IDR",
+                    "quote": "USD",
+                    "endpoint": "forex"
+                  }
+                }
+              ]
+            ]
+          }
+        },
+        123
+      ]
+    ],
+    "results": [
+      [
+        "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
+        {
+          "id": "1",
+          "data": {
+            "base": "IDR",
+            "quote": "USD",
+            "endpoint": "forex"
+          },
+          "debug": {
+            "cacheKey": "fT3vXbB0+F9KJ1ittv7ujNsWiFk=",
+            "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
+            "batchChildrenCacheKeys": [
+              [
+                "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
+                {
+                  "id": "1",
+                  "data": {
+                    "base": "IDR",
+                    "quote": "USD",
+                    "endpoint": "forex"
+                  }
+                }
+              ]
+            ]
+          }
+        },
+        4.273504273504273
+      ],
+      [
+        "ZVw0N5MuKAj6k0mm+/DY3WcxiEM=",
+        {
+          "id": "1",
+          "data": {
+            "base": "IDR",
+            "quote": "ETH",
+            "endpoint": "forex"
+          },
+          "debug": {
+            "cacheKey": "fT3vXbB0+F9KJ1ittv7ujNsWiFk=",
+            "batchCacheKey": "m2HAOfXdU87X07yRMx8FL6T7UoE=",
+            "batchChildrenCacheKeys": [
+              [
+                "4vauVcvJDv8WRtXQ3LiJ7XPr2QM=",
+                {
+                  "id": "1",
+                  "data": {
+                    "base": "IDR",
+                    "quote": "USD",
+                    "endpoint": "forex"
+                  }
+                }
+              ]
+            ]
+          }
+        },
+        123
+      ]
+    ]
+  },
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "quote"
+      }
+    ]
+  }
+}
+```
+
+</details>
 
 ---
 

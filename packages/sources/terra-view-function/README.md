@@ -1,6 +1,6 @@
 # Chainlink External Adapter for querying Terra view functions
 
-![1.2.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/terra-view-function/package.json)
 
 This external adapter allows querying contracts on the Terra blockchain. A list of public endpoints can be found [here](https://docs.terra.money/Reference/endpoints.html). Please only use these for testing, not in production, as they are not secure.
 
@@ -33,13 +33,12 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Input Params
 
-| Required? |    Name    |  Aliases   |                                                           Description                                                            |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :--------: | :------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  address   | `contract` |                                                       The address to query                                                       | string |         |         |            |                |
-|    ✅     |   query    |            |                                                         The query object                                                         |        |         |         |            |                |
-|           |   params   |            |                                          Optional params object to include in the query                                          |        |         |         |            |                |
-|           |  chainId   |            | Which chain ID to connect to. Default is `DEFAULT_CHAIN_ID` environment variable (`columbus-5`, `bombay-12`, `localterra`, etc.) | string |         |         |            |                |
-|           | resultPath |            |         The object-path string to parse a single `result` value. When not provided the entire response will be provided.         | string |         |         |            |                |
+| Required? |  Name   |  Aliases   |                                                           Description                                                            |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :--------: | :------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | address | `contract` |                                                       The address to query                                                       | string |         |         |            |                |
+|    ✅     |  query  |            |                                                         The query object                                                         |        |         |         |            |                |
+|           | params  |            |                                          Optional params object to include in the query                                          |        |         |         |            |                |
+|           | chainId |            | Which chain ID to connect to. Default is `DEFAULT_CHAIN_ID` environment variable (`columbus-5`, `bombay-12`, `localterra`, etc.) | string |         |         |            |                |
 
 ### Example
 
@@ -49,13 +48,13 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "view",
     "address": "terra1dw5ex5g802vgrek3nzppwt29tfzlpa38ep97qy",
     "query": {
       "aggregator_query": {
         "get_latest_round_data": {}
       }
-    }
+    },
+    "endpoint": "view"
   },
   "debug": {
     "cacheKey": "yeD/bgLqBlPxq5DdKNylNKinKXQ="

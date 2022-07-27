@@ -1,6 +1,6 @@
 # Chainlink CoinApi External Adapter
 
-![1.1.42](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json)
 
 Base URL https://rest.coinapi.io/v1/
 
@@ -35,7 +35,7 @@ Supported names for this endpoint are: `crypto`, `price`.
 | Required? | Name  |    Aliases     |                          Description                           |  Type  | Options | Default | Depends On | Not Valid With |
 | :-------: | :---: | :------------: | :------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     | base  | `coin`, `from` | The symbol of the currency to query [crypto](#Crypto-Endpoint) | string |         |         |            |                |
-|    ✅     | quote | `market`, `to` |            The symbol of the currency to convert to            | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |            The symbol of the currency to convert to            |        |         |         |            |                |
 
 ### Example
 
@@ -45,9 +45,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "BTC",
-    "quote": "EUR"
+    "quote": "EUR",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "Q8XOjOIavMitS4H7vXDU0zCQDPI=",
@@ -58,9 +58,9 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
             "base": "BTC",
-            "quote": "EUR"
+            "quote": "EUR",
+            "endpoint": "crypto"
           }
         }
       ]
@@ -74,22 +74,27 @@ Response:
 ```json
 {
   "jobRunID": "1",
-  "result": 22698.096870743717,
+  "data": {
+    "asset_id_base": "BTC",
+    "rates": [
+      {
+        "time": "2021-10-20T21:34:13.0000000Z",
+        "asset_id_quote": "EUR",
+        "rate": 22978.232093447674
+      }
+    ],
+    "result": 22978.232093447674
+  },
+  "result": 22978.232093447674,
+  "statusCode": 200,
   "debug": {
-    "staleness": 0,
-    "performance": 0.19441375,
-    "providerCost": 1,
     "batchablePropertyPath": [
       {
         "name": "quote"
       }
     ]
   },
-  "providerStatusCode": 200,
-  "statusCode": 200,
-  "data": {
-    "result": 22698.096870743717
-  }
+  "providerStatusCode": 200
 }
 ```
 
@@ -113,9 +118,9 @@ Request:
 {
   "id": "1",
   "data": {
+    "base": "ETH",
     "endpoint": "assets",
-    "resultPath": "price_usd",
-    "base": "ETH"
+    "resultPath": "price_usd"
   },
   "debug": {
     "cacheKey": "6hRLa7hFnxY6tCCa+2JjnKoexZ0=",
@@ -126,9 +131,9 @@ Request:
         {
           "id": "1",
           "data": {
+            "base": "ETH",
             "endpoint": "assets",
-            "resultPath": "price_usd",
-            "base": "ETH"
+            "resultPath": "price_usd"
           }
         }
       ]
