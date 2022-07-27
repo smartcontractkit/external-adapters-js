@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmetrics
 
-![1.2.42](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json)
 
 ### Websocket support
 
@@ -49,9 +49,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "price"
   },
   "debug": {
     "cacheKey": "XTlxaPrvbw+XqgAa5P+iBEPG3CY="
@@ -106,8 +106,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "burned",
-    "asset": "eth"
+    "asset": "eth",
+    "endpoint": "burned"
   },
   "debug": {
     "cacheKey": "0l65yC+9msDIdJG9kTwGuYMO7GY="
@@ -167,12 +167,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "total-burned",
     "asset": "eth",
     "frequency": "1d",
     "pageSize": 10000,
     "startTime": "2021-09-20",
-    "endTime": "2021-09-25"
+    "endTime": "2021-09-25",
+    "endpoint": "total-burned"
   },
   "debug": {
     "cacheKey": "kX/YnNossBD0tbjiRHbpGhW6s+4="
@@ -248,12 +248,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "total-burned",
     "asset": "eth",
     "frequency": "1d",
     "pageSize": 2,
     "startTime": "2021-08-05",
-    "endTime": "2021-08-07"
+    "endTime": "2021-08-07",
+    "endpoint": "total-burned"
   },
   "debug": {
     "cacheKey": "3AkR3dG+M+8hhKKhp8VdyT8DVGQ="

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Etherchain
 
-![1.3.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json)
+![1.4.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json)
 
 Base URL https://www.etherchain.org
 
@@ -40,8 +40,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "speed": "fast",
+    "endpoint": "gasprice"
   },
   "debug": {
     "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="

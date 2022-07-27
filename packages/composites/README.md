@@ -62,6 +62,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [bsol-price](./bsol-price/README.md)
 - [circuit-breaker](./circuit-breaker/README.md)
 - [crypto-volatility-index](./crypto-volatility-index/README.md)
+- [curve-3pool](./curve-3pool/README.md)
 - [defi-dozen](./defi-dozen/README.md)
 - [defi-pulse](./defi-pulse/README.md)
 - [dns-record-check](./dns-record-check/README.md)

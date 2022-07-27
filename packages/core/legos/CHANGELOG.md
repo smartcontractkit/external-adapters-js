@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.3.12
+
+### Patch Changes
+
+- Updated dependencies [838ef3ddb]
+  - @chainlink/openexchangerates-adapter@1.5.3
+
 ## 1.3.11
 
 ### Patch Changes
