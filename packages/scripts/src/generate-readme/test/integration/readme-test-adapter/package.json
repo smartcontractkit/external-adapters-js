@@ -9,6 +9,6 @@
   "devDependencies": {
     "@types/supertest": "2.0.12",
     "nock": "13.2.7",
-    "supertest": "6.2.3"
+    "supertest": "6.2.4"
   }
 }
