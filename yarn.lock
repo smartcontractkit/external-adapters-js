@@ -1454,7 +1454,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1471,7 +1471,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.5.0
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1506,7 +1506,7 @@ __metadata:
     ethers: ^5.4.6
     fastify: ^3.27.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1535,7 +1535,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1566,7 +1566,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1584,7 +1584,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.5.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1600,7 +1600,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1617,7 +1617,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1649,7 +1649,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1683,7 +1683,7 @@ __metadata:
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1699,7 +1699,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1715,7 +1715,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1732,7 +1732,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1748,7 +1748,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1765,7 +1765,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1811,7 +1811,7 @@ __metadata:
     "@types/supertest": 2.0.12
     blockcypher: ^0.3.0
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1826,7 +1826,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1842,7 +1842,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1873,7 +1873,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1895,7 +1895,7 @@ __metadata:
     bignumber.js: ^9.0.0
     bn.js: ^5.2.0
     ethers: ^5.5.1
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1912,7 +1912,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1928,7 +1928,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1962,7 +1962,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: 5.4.7
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1978,7 +1978,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2023,7 +2023,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2039,7 +2039,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2055,7 +2055,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2071,7 +2071,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2087,7 +2087,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2103,7 +2103,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2120,7 +2120,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2136,7 +2136,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2152,7 +2152,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2170,7 +2170,7 @@ __metadata:
     ethers: ^5.4.6
     js-conflux-sdk: ^1.5.11
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2201,7 +2201,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2218,7 +2218,7 @@ __metadata:
     "@types/supertest": 2.0.11
     ethers: ^5.6.5
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2255,7 +2255,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2286,7 +2286,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2302,7 +2302,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2318,7 +2318,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2334,7 +2334,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2368,7 +2368,7 @@ __metadata:
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
   languageName: unknown
@@ -2385,7 +2385,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2416,7 +2416,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2450,7 +2450,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2495,7 +2495,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2512,7 +2512,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2532,7 +2532,7 @@ __metadata:
     ipfs: ^0.60.0
     merkletreejs: ^0.2.18
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
     web3: ^1.3.6
@@ -2553,7 +2553,7 @@ __metadata:
     ethers: ^5.4.6
     nock: 13.2.7
     object-path: ^0.11.5
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2682,7 +2682,7 @@ __metadata:
     hardhat: 2.9.9
     mock-socket: 9.1.5
     nock: 13.2.6
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2841,7 +2841,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: 5.5.4
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2858,7 +2858,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2874,7 +2874,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2892,7 +2892,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2908,7 +2908,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2924,7 +2924,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
   languageName: unknown
@@ -2940,7 +2940,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2956,7 +2956,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
   languageName: unknown
@@ -2973,7 +2973,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3001,7 +3001,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3017,7 +3017,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3061,7 +3061,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3077,7 +3077,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3093,7 +3093,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3109,7 +3109,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3138,7 +3138,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3157,7 +3157,7 @@ __metadata:
     ethers: ^5.5.1
     moment: ^2.29.2
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3173,7 +3173,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3189,7 +3189,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3249,7 +3249,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3278,7 +3278,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.11
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3298,7 +3298,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: 5.4.7
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3316,7 +3316,7 @@ __metadata:
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3332,7 +3332,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3350,7 +3350,7 @@ __metadata:
     axios: ^0.26.1
     decimal.js: ^10.3.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3368,7 +3368,7 @@ __metadata:
     axios: ^0.24.0
     intrinio-realtime: ^2.3.0
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3421,7 +3421,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3437,7 +3437,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3455,7 +3455,7 @@ __metadata:
     ethers: ^5.4.6
     nock: 13.2.7
     sinon: 12.0.1
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3471,7 +3471,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3488,7 +3488,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3510,7 +3510,7 @@ __metadata:
     moment: ^2.29.1
     moment-timezone: ^0.5.34
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3554,7 +3554,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.7
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3587,7 +3587,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3604,7 +3604,7 @@ __metadata:
     "@types/supertest": 2.0.12
     axios: ^0.24.0
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3633,7 +3633,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3665,7 +3665,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
   languageName: unknown
@@ -3680,7 +3680,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3699,7 +3699,7 @@ __metadata:
     decimal.js: ^10.3.1
     ethers: ^5.5.4
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3715,7 +3715,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3731,7 +3731,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3757,7 +3757,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3773,7 +3773,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3789,7 +3789,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3805,7 +3805,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3839,7 +3839,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3870,7 +3870,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3886,7 +3886,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3903,7 +3903,7 @@ __metadata:
     "@types/supertest": 2.0.11
     ethers: ^5.5.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3955,7 +3955,7 @@ __metadata:
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3969,7 +3969,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: 2.3.1
   languageName: unknown
   linkType: soft
@@ -3985,7 +3985,7 @@ __metadata:
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     object-path: ^0.11.5
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4020,7 +4020,7 @@ __metadata:
     "@types/supertest": 2.0.12
     bitcoinjs-lib: ^5.2.0
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4036,7 +4036,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4054,7 +4054,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.5.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4072,7 +4072,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4090,7 +4090,7 @@ __metadata:
     "@types/supertest": 2.0.12
     jsonwebtoken: ^8.5.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4108,7 +4108,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4124,7 +4124,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4160,7 +4160,7 @@ __metadata:
     ethers: ^5.4.6
     luxon: ^2.0.2
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4177,7 +4177,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.6.9
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4193,7 +4193,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4211,7 +4211,7 @@ __metadata:
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     synthetix: 2.45.3
     tslib: ^2.3.1
     type-fest: ^2.0.0
@@ -4229,7 +4229,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     ethers: ^5.6.5
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4245,7 +4245,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4262,7 +4262,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4293,7 +4293,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4309,7 +4309,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4354,7 +4354,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4370,7 +4370,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4386,7 +4386,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4402,7 +4402,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4418,7 +4418,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4436,7 +4436,7 @@ __metadata:
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
   languageName: unknown
@@ -4454,7 +4454,7 @@ __metadata:
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
   languageName: unknown
@@ -4470,7 +4470,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.1.0
     typescript: 4.7.4
   languageName: unknown
@@ -4486,7 +4486,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4517,7 +4517,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4534,7 +4534,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4550,7 +4550,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4566,7 +4566,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4582,7 +4582,7 @@ __metadata:
     "@types/node": 16.11.41
     "@types/supertest": 2.0.12
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4600,7 +4600,7 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.5.1
     nock: 13.2.7
-    supertest: 6.2.3
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -25693,6 +25693,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"superagent@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "superagent@npm:8.0.0"
+  dependencies:
+    component-emitter: ^1.3.0
+    cookiejar: ^2.1.3
+    debug: ^4.3.4
+    fast-safe-stringify: ^2.1.1
+    form-data: ^4.0.0
+    formidable: ^2.0.1
+    methods: ^1.1.2
+    mime: 2.6.0
+    qs: ^6.10.3
+    readable-stream: ^3.6.0
+    semver: ^7.3.7
+  checksum: 14343e59327eafd85fa230acb876017079d5efcecc72a56566abc0f965220bb460af2e070dddecd9e2856410b2d2b318d81d9cc1d342aa5922da93c29a295dd7
+  languageName: node
+  linkType: hard
+
 "superstruct@npm:^0.14.2":
   version: 0.14.2
   resolution: "superstruct@npm:0.14.2"
@@ -25700,7 +25719,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supertest@npm:6.2.3, supertest@npm:^6.2.2":
+"supertest@npm:6.2.4":
+  version: 6.2.4
+  resolution: "supertest@npm:6.2.4"
+  dependencies:
+    methods: ^1.1.2
+    superagent: ^8.0.0
+  checksum: f2ddc4f3ba467a5c4036dd4aad41351e4b60eb13c39ecf5233ccd2ebb425504073b2b7036c973a70c7047f5c6bc1b9fef096b7bbff114d357cbe80654441db23
+  languageName: node
+  linkType: hard
+
+"supertest@npm:^6.2.2":
   version: 6.2.3
   resolution: "supertest@npm:6.2.3"
   dependencies:
