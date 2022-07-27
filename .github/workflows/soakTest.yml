@@ -1,11 +1,10 @@
 name: Soak test
 
 on:
-  pull_request: ~
-  #TODO remove the following 3 lines
   push:
     branches:
-      - 'feature/soak-testing-composites'
+      - 'feature/soak-testing-composites-3'
+      # TODO: Make it only run on releases
 
 env:
   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
@@ -21,6 +20,12 @@ jobs:
       checks: write
       pull-requests: write
     steps:
+      - uses: actions/checkout@v2
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          # Can be "open", "closed", or "all".  Defaults to "open".
+          state: all
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -109,9 +114,7 @@ jobs:
         id: k6-payloads
         working-directory: ./external-adapters-js
         env:
-          # PR_NUMBER: ${{ steps.findPr.outputs.pr }}
-          #TODO remove next line
-          PR_NUMBER: soak-testing-composites
+          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k6
         run: |
@@ -141,9 +144,7 @@ jobs:
         id: build-adapters
         env:
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
-          # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
-          # TODO remove next line
-          IMAGE_TAG: prsoak-testing-composites
+          IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
         run: |
           GITHUB_WORKSPACE= IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
@@ -174,12 +175,8 @@ jobs:
       - name: Deploy adapters
         working-directory: ./external-adapters-js
         env:
-          # PR_NUMBER: ${{ steps.findPr.outputs.pr }}
-          #TODO remove next line
-          PR_NUMBER: soak-testing-composites
-          # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
-          # TODO remove next line
-          IMAGE_TAG: prsoak-testing-composites
+          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.build-adapters.outputs.BUILD_ADAPTERS }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
@@ -201,12 +198,8 @@ jobs:
       - name: Deploy k6
         working-directory: ./external-adapters-js/packages/k6
         env:
-          # PR_NUMBER: ${{ steps.findPr.outputs.pr }}
-          #TODO remove next line
-          PR_NUMBER: soak-testing-composites
-          # IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
-          # TODO remove next line
-          IMAGE_TAG: prsoak-testing-composites
+          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
         run: |
           if [ -n "$TEST_ADAPTERS" ]; then

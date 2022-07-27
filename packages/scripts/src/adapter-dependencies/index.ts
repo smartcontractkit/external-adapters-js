@@ -52,7 +52,11 @@ export async function main(): Promise<void | string> {
 
     process.exit(0)
   } catch (error) {
-    console.error({ error: error.message, stack: error.stack })
+    if (error instanceof Error) {
+      console.error({ error: error.message, stack: error.stack })
+    } else {
+      console.error(error)
+    }
     process.exit(1)
   }
 }
