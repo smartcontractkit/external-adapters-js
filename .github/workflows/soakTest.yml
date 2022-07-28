@@ -89,10 +89,8 @@ jobs:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
         run: |
           CHANGED_FILES_NAME=./changedFiles.txt
-          # gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
-          # TEST_ADAPTERS="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
-          TEST_ADAPTERS="coinpaprika"
-          # TODO remove above line
+          gh pr view ${PR_NUMBER} --json files --jq '.files.[].path' > ${CHANGED_FILES_NAME}
+          TEST_ADAPTERS="$(yarn get-changed-adapters "${CHANGED_FILES_NAME}")"
 
           echo "::set-output name=TEST_ADAPTERS::${TEST_ADAPTERS}"
 
