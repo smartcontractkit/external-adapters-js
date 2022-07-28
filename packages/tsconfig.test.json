@@ -453,6 +453,9 @@
       "path": "./sources/sportsdataio/tsconfig.test.json"
     },
     {
+      "path": "./sources/stader-labs/tsconfig.test.json"
+    },
+    {
       "path": "./sources/stasis/tsconfig.test.json"
     },
     {
