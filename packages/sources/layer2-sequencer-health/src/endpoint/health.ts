@@ -20,7 +20,7 @@ export const supportedEndpoints = ['health', 'health-evm']
 
 export const makeNetworkStatusCheck = (
   network: EVMNetworks,
-): ((delta: number, deltaBlocks: number) => Promise<boolean>) => {
+): ((config: ExtendedConfig) => Promise<boolean>) => {
   let lastSeenBlock: { block: number; timestamp: number } = {
     block: 0,
     timestamp: 0,
@@ -40,7 +40,8 @@ export const makeNetworkStatusCheck = (
     }
   }
 
-  return async (delta: number, deltaBlocks: number): Promise<boolean> => {
+  return async (config: ExtendedConfig): Promise<boolean> => {
+    const { delta, deltaBlocks } = config
     const block = await requestBlockHeight(network)
     if (!_isValidBlock(block, deltaBlocks))
       throw new AdapterResponseInvalidError({
@@ -64,7 +65,7 @@ export const makeNetworkStatusCheck = (
   }
 }
 
-const networks: Record<Networks, (delta: number, deltaBlocks: number) => Promise<boolean>> = {
+const networks: Record<Networks, (config: ExtendedConfig) => Promise<boolean>> = {
   [Networks.Arbitrum]: makeNetworkStatusCheck(Networks.Arbitrum),
   [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
   [Networks.Metis]: makeNetworkStatusCheck(Networks.Metis),
@@ -73,10 +74,9 @@ const networks: Record<Networks, (delta: number, deltaBlocks: number) => Promise
 
 export const getL2NetworkStatus: NetworkHealthCheck = (
   network: Networks,
-  delta: number,
-  deltaBlocks: number,
+  config: ExtendedConfig,
 ) => {
-  return networks[network](delta, deltaBlocks)
+  return networks[network](config)
 }
 
 export type TInputParameters = { network: string }
@@ -112,9 +112,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
 
   const _tryMethod =
     (fn: NetworkHealthCheck) =>
-    async (network: Networks, delta: number, deltaBlocks: number): Promise<boolean> => {
+    async (network: Networks, config: ExtendedConfig): Promise<boolean> => {
       try {
-        const isHealthy = await fn(network, delta, deltaBlocks)
+        const isHealthy = await fn(network, config)
         if (isHealthy === false) {
           Logger.warn(
             `Method ${fn.name} reported an unhealthy response. Network ${network} considered unhealthy`,
@@ -138,12 +138,12 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const wrappedMethods = [getSequencerHealth, getL2NetworkStatus].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
-    const isHealthy = await method(network, config.delta, config.deltaBlocks)
+    const isHealthy = await method(network, config)
     if (!isHealthy) {
       Logger.info(`Checking unhealthy network ${network} with transaction submission`)
       let isHealthyByTransaction
       try {
-        isHealthyByTransaction = await getStatusByTransaction(network, config.timeoutLimit)
+        isHealthyByTransaction = await getStatusByTransaction(network, config)
       } catch (e: any) {
         throw new AdapterDataProviderError({
           network,

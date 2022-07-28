@@ -1,10 +1,16 @@
 import { Logger, Requester, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
-import { HEALTH_ENDPOINTS, Networks, EVMNetworks, RPC_ENDPOINTS } from './config'
+import {
+  HEALTH_ENDPOINTS,
+  Networks,
+  EVMNetworks,
+  RPC_ENDPOINTS,
+  DEFAULT_PRIVATE_KEY,
+  ExtendedConfig,
+} from './config'
 import { BigNumber, ethers } from 'ethers'
 import { AdapterResponseEmptyError } from '@chainlink/ea-bootstrap'
-import { ec, Contract } from 'starknet'
+import { sendDummyStarkwareTransaction } from './starkware'
 
-const DEFAULT_PRIVATE_KEY = '0x0000000000000000000000000000000000000000000000000000000000000001'
 const NO_ISSUE_MSG =
   'This is an error that the EA uses to determine whether or not the L2 Sequencer is healthy.  It does not mean that there is an issue with the EA.'
 
@@ -18,7 +24,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
 }
 
 export interface NetworkHealthCheck {
-  (network: Networks, delta: number, deltaBlocks: number): Promise<undefined | boolean>
+  (network: Networks, config: ExtendedConfig): Promise<undefined | boolean>
 }
 
 export interface ResponseSchema {
@@ -111,44 +117,9 @@ export const sendEVMDummyTransaction = async (
   return (await receipt.wait()).confirmations > 0
 }
 
-const sendDummyStarkwareTransaction = async (timeout: number): Promise<boolean> => {
-  const starkKeyPair = ec.genKeyPair(DEFAULT_PRIVATE_KEY)
-  const starkKeyPub = ec.getStarkKey(starkKeyPair)
-  const argentContract = new Contract(
-    [
-      {
-        inputs: [
-          {
-            name: 'signer',
-            type: 'felt',
-          },
-          {
-            name: 'guardian',
-            type: 'felt',
-          },
-        ],
-        name: 'initialize',
-        outputs: [],
-        type: 'function',
-      },
-    ],
-    '0xd175dcf2fcf9d858d8d686826d56db7aeb29c3490110b4cfe0d8442944b828',
-  )
-
-  const receipt = await race({
-    timeout,
-    promise: argentContract.initialize(starkKeyPub, '0', {
-      maxFee: '0',
-    }),
-    error: `Transaction receipt not received in ${timeout} milliseconds`,
-  })
-  console.log(receipt)
-  return true
-}
-
 export const getStatusByTransaction = async (
   network: Networks,
-  timeout: number,
+  config: ExtendedConfig,
 ): Promise<boolean> => {
   const sendDummyTxnFns = {
     [Networks.Arbitrum]: sendEVMDummyTransaction,
@@ -169,9 +140,9 @@ export const getStatusByTransaction = async (
   try {
     Logger.info(`Submitting empty transaction for network: ${network}`)
     if (network !== Networks.Starkware) {
-      return await sendDummyTxnFns[network](network, timeout)
+      return await sendDummyTxnFns[network](network, config.timeoutLimit)
     }
-    return await sendDummyTxnFns[network](timeout)
+    return await sendDummyTxnFns[network](config)
   } catch (e) {
     const error = e as Error
     if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {

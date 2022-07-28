@@ -3,6 +3,8 @@ import { AdapterContext, Config } from '@chainlink/ea-bootstrap'
 import { envDefaultOverrides } from './envDefaultOverrides'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
+export const DEFAULT_PRIVATE_KEY =
+  '0x0000000000000000000000000000000000000000000000000000000000000001'
 
 export const adapterContext: AdapterContext = { name: NAME, envDefaultOverrides }
 
@@ -34,16 +36,6 @@ export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Metis]: util.getEnv('METIS_RPC_ENDPOINT') || DEFAULT_METIS_RPC_ENDPOINT,
 }
 
-const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'
-
-export const SEQUENCER_ENDPOINTS: Record<Networks, string | undefined> = {
-  [Networks.Arbitrum]: undefined,
-  [Networks.Optimism]: undefined,
-  [Networks.Metis]: undefined,
-  [Networks.Starkware]:
-    util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
-}
-
 const DEFAULT_OPTIMISM_HEALTH_ENDPOINT = 'https://mainnet-sequencer.optimism.io/health'
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://tokenapi.metis.io/andromeda/health'
 export const HEALTH_ENDPOINTS = {
@@ -69,7 +61,19 @@ export interface ExtendedConfig extends Config {
   delta: number
   deltaBlocks: number
   timeoutLimit: number
+  starkwareConfig: {
+    sequencerUrl: string
+    feederGatewayUrl: string
+    gatewayUrl: string
+    argentAccountAddr: string
+  }
 }
+
+const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'
+const DEFAULT_STARKWARE_FEEDER_GATEWAY_URL = 'feeder_gateway'
+const DEFAULT_STARKWARE_GATEWAY_URL = 'gateway'
+const DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR =
+  '0xd175dcf2fcf9d858d8d686826d56db7aeb29c3490110b4cfe0d8442944b828'
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
   const isCacheEnabled = util.parseBool(util.getEnv('CACHE_ENABLED', undefined, adapterContext))
@@ -81,5 +85,14 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
   config.defaultEndpoint = DEFAULT_ENDPOINT
-  return { ...config, delta, deltaBlocks, timeoutLimit }
+  const starkwareConfig: ExtendedConfig['starkwareConfig'] = {
+    sequencerUrl:
+      util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
+    feederGatewayUrl:
+      util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL,
+    gatewayUrl: util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL,
+    argentAccountAddr:
+      util.getEnv('STARKWARE_ARGENT_ACCOUNT_ADDR') || DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR,
+  }
+  return { ...config, delta, deltaBlocks, timeoutLimit, starkwareConfig }
 }

@@ -1,5 +1,7 @@
 import { Logger, Requester } from '@chainlink/ea-bootstrap'
-import { Networks, SEQUENCER_ENDPOINTS } from './config'
+import { DEFAULT_PRIVATE_KEY, ExtendedConfig, Networks } from './config'
+import { ec, Account, AddTransactionResponse, Provider, ProviderInterface } from 'starknet'
+import { race } from './network'
 
 export interface StarkwareBlockResponse {
   parent_block_hash: string
@@ -20,6 +22,41 @@ interface PendingBlockState {
   lastStatus: boolean
 }
 
+export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Promise<boolean> => {
+  const starkKeyPair = ec.genKeyPair(DEFAULT_PRIVATE_KEY)
+  const starkKeyPub = ec.getStarkKey(starkKeyPair)
+
+  ProviderInterface
+
+  const provider = new Provider({
+    baseUrl: config.starkwareConfig.sequencerUrl,
+    feederGatewayUrl: config.starkwareConfig.feederGatewayUrl,
+    gatewayUrl: config.starkwareConfig.gatewayUrl,
+  })
+
+  const account = new Account(provider, config.starkwareConfig.argentAccountAddr, starkKeyPair)
+
+  const receipt = await race<AddTransactionResponse>({
+    timeout: config.timeoutLimit,
+    promise: account.execute(
+      {
+        contractAddress: config.starkwareConfig.argentAccountAddr,
+        entrypoint: 'initialize',
+        calldata: [starkKeyPub, '0'],
+      },
+      undefined,
+      { maxFee: '0' },
+    ),
+    error: `Transaction receipt not received in ${config.timeoutLimit} milliseconds`,
+  })
+  Logger.info(
+    `Transaction receipt received with hash ${receipt.transaction_hash} for EVM network: ${Networks.Starkware}`,
+  )
+  await provider.waitForTransaction(receipt.transaction_hash)
+  const tx = await provider.getTransaction(receipt.transaction_hash)
+  return tx.status !== 'REJECTED'
+}
+
 /**
  * The Starkware sequencer is made up of two internal components.  The first is the gateway which is used to query the Sequencer state
  * and the batcher which adds transactions to the pending block and processes the pending block to add it into the L2 chain.  The
@@ -33,8 +70,7 @@ interface PendingBlockState {
  * @returns true if Sequencer is healthy
  */
 export const checkStarkwareSequencerPendingTransactions = (): ((
-  delta: number,
-  deltaBlocks: number,
+  config: ExtendedConfig,
 ) => Promise<boolean>) => {
   let lastSeenPendingBlock: PendingBlockState = {
     parentBlockHash: '',
@@ -42,8 +78,8 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
     lastUpdated: 0,
     lastStatus: true,
   }
-  return async (delta: number): Promise<boolean> => {
-    const sequencerEndpoint = SEQUENCER_ENDPOINTS[Networks.Starkware]
+  return async (config: ExtendedConfig): Promise<boolean> => {
+    const delta = config.delta
     const currentTime = Date.now()
     if (
       lastSeenPendingBlock.lastUpdated > 0 &&
@@ -57,7 +93,7 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
     let pendingBlockParams: StarkwareBlockResponse
     try {
       const { data } = await Requester.request<StarkwareBlockResponse>({
-        url: `${sequencerEndpoint}/feeder_gateway/get_block?blockNumber=pending`,
+        url: `${config.starkwareConfig.sequencerUrl}/${config.starkwareConfig.feederGatewayUrl}/get_block?blockNumber=pending`,
       })
       pendingBlockParams = data
     } catch (e: any) {
