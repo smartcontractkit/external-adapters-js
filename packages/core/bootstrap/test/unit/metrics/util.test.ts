@@ -1,4 +1,4 @@
-import type { AdapterRequest } from '../../../src/types'
+import type { AdapterData, AdapterRequest } from '../../../src/types'
 import * as util from '../../../src/lib/metrics/util'
 
 describe('Bootstrap/Metrics Utils', () => {
@@ -148,7 +148,7 @@ describe('Bootstrap/Metrics Utils', () => {
     it(`Returns 'undefined' when an error is caught`, () => {
       const input: AdapterRequest = {
         id: '1',
-        data: undefined,
+        data: undefined as unknown as AdapterData,
       }
       const feedName = util.getFeedId(input)
       expect(feedName).toBe('undefined')

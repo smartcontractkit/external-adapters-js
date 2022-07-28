@@ -11,6 +11,8 @@ export interface ResponseSchema {
     SafeGasPrice: number
     ProposeGasPrice: number
     FastGasPrice: number
+    suggestBaseFee: number
+    gasUsedRatio: string
   }
 }
 
@@ -70,5 +72,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     Logger.warn(response.data.message)
   }
   const result = Requester.validateResultNumber(response.data, ['result', speed])
+
+  // Response schema contains the "result" key which gets overwritten by AdapterResponse's result
+  // Verbose does not work as expected since the DP payload is altered
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }

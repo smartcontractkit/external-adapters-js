@@ -1,12 +1,12 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://ethgasstation.info')
     .get('/api/ethgasAPI.json')
     .query({ 'api-key': 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         fast: 1840,
         fastest: 1840,
         safeLow: 1090,

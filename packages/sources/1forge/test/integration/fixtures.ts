@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccessConvertEndpoint = (): nock =>
+export const mockResponseSuccessConvertEndpoint = (): nock.Scope =>
   nock('https://api.1forge.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccessConvertEndpoint = (): nock =>
     .query({ api_key: 'fake-api-key', from: 'USD', to: 'EUR', quantity: 1 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         value: '0.862701',
         text: '1 USD is worth 0.862701 EUR',
         timestamp: 1636478097478,
@@ -25,7 +25,7 @@ export const mockResponseSuccessConvertEndpoint = (): nock =>
       ],
     )
 
-export const mockResponseSuccessQuotesEnpoint = (): nock =>
+export const mockResponseSuccessQuotesEnpoint = (): nock.Scope =>
   nock('https://api.1forge.com', {
     encodedQueryParams: true,
   })
@@ -33,7 +33,7 @@ export const mockResponseSuccessQuotesEnpoint = (): nock =>
     .query({ api_key: 'fake-api-key', pairs: 'USD/EUR' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           p: 0.8828,
           a: 0.8828,

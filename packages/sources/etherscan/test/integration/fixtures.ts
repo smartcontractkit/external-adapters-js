@@ -1,12 +1,12 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.etherscan.io')
     .get('/api')
     .query({ module: 'gastracker', action: 'gasoracle', apikey: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: '1',
         message: 'OK',
         result: {

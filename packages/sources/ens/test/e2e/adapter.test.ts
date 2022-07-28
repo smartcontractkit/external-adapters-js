@@ -1,5 +1,6 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const execute = makeExecute()
@@ -9,7 +10,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const response = await execute(req.testData as AdapterRequest, {})
+        const response = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         expect(response.statusCode).toEqual(200)
       })
     })

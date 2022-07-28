@@ -15,11 +15,11 @@ Object {
 exports[`coinapi crypto endpoint when sending well-formed request should reply with success 1`] = `
 Object {
   "data": Object {
-    "result": 0.06262119731705901,
+    "result": 22978.232093447674,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 0.06262119731705901,
+  "result": 22978.232093447674,
   "statusCode": 200,
 }
 `;

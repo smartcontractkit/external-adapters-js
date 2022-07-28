@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockCryptoResponseSuccess = (): nock =>
+export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.coinranking.com/v2', {
     encodedQueryParams: true,
     reqheaders: {
@@ -11,7 +11,7 @@ export const mockCryptoResponseSuccess = (): nock =>
     .query({ 'symbols[]': 'ETH' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: 'success',
         data: {
           stats: {
@@ -130,7 +130,7 @@ export const mockCryptoResponseSuccess = (): nock =>
       ],
     )
 
-export const mockReferenceCurrenciesSuccess = (): nock =>
+export const mockReferenceCurrenciesSuccess = (): nock.Scope =>
   nock('https://api.coinranking.com/v2', {
     encodedQueryParams: true,
     reqheaders: {
@@ -140,7 +140,7 @@ export const mockReferenceCurrenciesSuccess = (): nock =>
     .get('/reference-currencies')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: 'success',
         data: {
           stats: { total: 12643 },
@@ -320,7 +320,7 @@ export const mockReferenceCurrenciesSuccess = (): nock =>
       ],
     )
 
-export const mockCryptoResponseFailure = (): nock =>
+export const mockCryptoResponseFailure = (): nock.Scope =>
   nock('https://api.coinranking.com/v2', {
     encodedQueryParams: true,
     reqheaders: {
@@ -331,7 +331,7 @@ export const mockCryptoResponseFailure = (): nock =>
     .query({ 'symbols[]': 'non-existing' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: 'success',
         data: {
           stats: {

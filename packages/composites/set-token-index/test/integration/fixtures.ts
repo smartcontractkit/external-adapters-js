@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
 export const dataProviderConfig = {
@@ -9,7 +10,7 @@ export const dataProviderConfig = {
 
 export const symbols = ['LINK', 'RENFIL', 'GRT', 'BAT', 'LPT', 'OCEAN', 'NMR']
 
-export const mockDataProviderResponses = (): nock => {
+export const mockDataProviderResponses = (): void => {
   for (const symbol of symbols) {
     nock(dataProviderConfig.coinmarketcap.providerUrl)
       .post('/', { id: '1', data: { base: symbol, quote: 'USD', endpoint: 'crypto' } })
@@ -46,16 +47,20 @@ export const mockDataProviderResponses = (): nock => {
   })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_call',
       params: [
@@ -70,7 +75,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -90,7 +95,7 @@ export const mockDataProviderResponses = (): nock => {
     .post('/', { method: 'net_version', params: [], id: /^\d+$/, jsonrpc: '2.0' })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         id: request['id'],
         jsonrpc: '2.0',
         result: '3',
@@ -114,7 +119,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -139,7 +144,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -163,7 +168,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -187,7 +192,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -211,7 +216,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -235,7 +240,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -259,7 +264,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -283,7 +288,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -308,7 +313,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -333,7 +338,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -358,7 +363,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -383,7 +388,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -408,7 +413,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -433,7 +438,7 @@ export const mockDataProviderResponses = (): nock => {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:

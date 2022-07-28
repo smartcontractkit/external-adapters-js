@@ -1,6 +1,6 @@
 # Chainlink External Adapters to query address balance from SoChain
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/sochain/package.json)
 
 Base URL https://sochain.com
 
@@ -50,7 +50,6 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "dataPath": "addresses",
     "confirmations": 3,
     "addresses": [
@@ -62,7 +61,8 @@ Request:
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
         "coin": "btc"
       }
-    ]
+    ],
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "AExDilGMUjYLkzTZ2d0iA6PbB40="

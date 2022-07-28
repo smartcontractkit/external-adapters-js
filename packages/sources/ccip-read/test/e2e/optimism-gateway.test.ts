@@ -1,5 +1,6 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AdapterResponse, Execute, Requester } from '@chainlink/ea-bootstrap'
 import { makeExecute, makeConfig } from '../../src/index'
+import type { TInputParameters } from '../../src/adapter'
 
 /**
  * This test illustrates that the adapter returns the same output as the server that was originally defined in the example (Link below).  It does this
@@ -201,11 +202,12 @@ const getOriginalGatewayResponse = async () => {
     url: process.env.GATEWAY_SERVER_URL || 'http://localhost:8081/query',
     data: body,
   })
-  return gatewayServerResp.data.result
+
+  return gatewayServerResp.data as AdapterResponse
 }
 
 describe('e2e Optimism Gateway', () => {
-  let execute
+  let execute: Execute
 
   beforeAll(async () => {
     process.env.RPC_URL = 'http://localhost:9545'
@@ -215,15 +217,17 @@ describe('e2e Optimism Gateway', () => {
   })
 
   it('returns the correct response', async () => {
-    const expectedResponse = await getOriginalGatewayResponse()
+    const expectedResponse: AdapterResponse = await getOriginalGatewayResponse()
+    const jobID = '1'
     const requestParams = {
       jobRunId: '1',
+      id: jobID,
       data: {
         ...API_CALL_PARAMS,
         abi: OPTIMISM_RESOLVER_STUB_ABI,
       },
     }
-    const response = await execute(requestParams, {}, makeConfig())
-    expect(response.result).toBe(expectedResponse)
+    const response = await execute(requestParams as AdapterRequest<TInputParameters>, {})
+    expect(response.result).toBe(expectedResponse.result)
   })
 })

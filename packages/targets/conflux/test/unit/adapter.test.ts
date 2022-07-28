@@ -1,6 +1,5 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Execute, Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
 
 const TestOracleAddress = '0x8688ebA9Bf38cBb1Fa27A8C3Fda11414D6057887'
@@ -10,7 +9,7 @@ const DataPrefixExample =
 
 describe('execute', () => {
   const jobID = 'fd26a90e0aa84040bc6b4d6f5036a23a'
-  const execute = makeExecute({ rpcUrl: '', privateKey: '', networkId: 1, api: {} })
+  const execute = makeExecute({ rpcUrl: '', privateKey: '', networkId: 1, api: {} }) as Execute
 
   describe('validation error', () => {
     const requests = [
@@ -32,9 +31,10 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          // @ts-expect-error  need to pass wrong typed data to make sure test is failing
+          await execute(req.testData, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

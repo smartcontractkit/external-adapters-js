@@ -1,4 +1,4 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import {
@@ -7,9 +7,11 @@ import {
   mockSuccessfulResponsesWithSingleSource,
 } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const setupEnvironment = (adapters: string[]) => {
-  const env = {}
+  const env = {} as { [key: string]: string }
   for (const a of adapters) {
     env[`${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`] = `https://adapters.main.stage.cldev.sh/${a}`
   }
@@ -17,7 +19,7 @@ const setupEnvironment = (adapters: string[]) => {
 }
 
 describe('medianizer', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -39,7 +41,7 @@ describe('medianizer', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -60,7 +62,7 @@ describe('medianizer', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -85,7 +87,7 @@ describe('medianizer', () => {
           minAnswers: 2,
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -102,7 +104,7 @@ describe('medianizer', () => {
     it('returns a validation error if the request data is empty', async () => {
       const data: AdapterRequest = { id: jobID, data: {} }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -122,7 +124,7 @@ describe('medianizer', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

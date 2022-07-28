@@ -1,6 +1,6 @@
 # Chainlink OilpriceAPI External Adapter
 
-![2.0.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/oilpriceapi/package.json)
+![2.1.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/oilpriceapi/package.json)
 
 Base URL https://api.oilpriceapi.com/v1/
 
@@ -41,9 +41,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
     "base": "bz",
-    "url": "prices/latest"
+    "url": "prices/latest",
+    "endpoint": "price"
   },
   "debug": {
     "cacheKey": "RPRR3Z04AWc/TGtHftP/S/2ByRc="
@@ -75,9 +75,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
     "base": "wti",
-    "url": "prices/latest"
+    "url": "prices/latest",
+    "endpoint": "price"
   },
   "debug": {
     "cacheKey": "l95L0aoLWaAHs3sTSB6amSkhM1w="

@@ -2,10 +2,12 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import { mockCryptoResponseSuccess, mockPROCryptoResponseSuccess } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext, TestOptions } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -14,8 +16,9 @@ describe('execute', () => {
     CACHE_ENABLED: 'false',
   }
 
-  const testOptions = {
+  const testOptions: TestOptions = {
     cleanNock: false,
+    fastify: false,
   }
 
   setupExternalAdapterTest(envVariables, context, testOptions)
@@ -32,7 +35,7 @@ describe('execute', () => {
             from: 'ETH',
           },
         }
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -59,7 +62,7 @@ describe('execute', () => {
             },
           },
         }
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -81,7 +84,7 @@ describe('execute', () => {
             from: 'BTC',
           },
         }
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -103,7 +106,7 @@ describe('execute', () => {
           quote: 'USD',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -123,7 +126,7 @@ describe('execute', () => {
           quote: 'USD',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -149,7 +152,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -169,7 +172,7 @@ describe('execute', () => {
           coinid: 'eth-ethereum',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -193,7 +196,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -216,7 +219,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -239,7 +242,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -263,7 +266,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -285,7 +288,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(vwapData)
         .set('Accept', '*/*')
@@ -310,7 +313,7 @@ describe('execute', () => {
         },
       }
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(dataWithOverride)
         .set('Accept', '*/*')
@@ -323,7 +326,7 @@ describe('execute', () => {
 })
 
 describe('execute with api key', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -347,7 +350,7 @@ describe('execute with api key', () => {
     it('should return success', async () => {
       mockPROCryptoResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

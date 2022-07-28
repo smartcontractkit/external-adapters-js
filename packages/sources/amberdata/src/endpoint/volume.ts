@@ -63,6 +63,13 @@ const getIncludesOptions = (
   }
 }
 
+const customOverrideIncludes = (base: string, _: string, includes: string[]) => ({
+  from: base,
+  to: includes[0],
+  inverse: false,
+  tokens: true,
+})
+
 export const description =
   'Gets the [24h-volume for historical of a pair](https://docs.amberdata.io/reference#spot-price-pair-historical) from Amberdata.'
 
@@ -113,6 +120,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     validator,
     getIncludesOptions,
     symbolOptions,
+    customOverrideIncludes,
   ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
   const reqConfig = { ...config.api, params, url }
 

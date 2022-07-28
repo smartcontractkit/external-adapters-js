@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://fpiw7f0axc.execute-api.us-east-1.amazonaws.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .basicAuth({ user: '', pass: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         index: 83.86309,
         duration: 36.02185,
         '1st_sym': 'BRNF2',
@@ -39,7 +39,7 @@ export const mockResponseSuccess = (): nock =>
     .basicAuth({ user: '', pass: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         index: 82.5261,
         duration: 35.83218,
         '1st_sym': 'CLZ1',

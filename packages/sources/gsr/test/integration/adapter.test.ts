@@ -8,6 +8,7 @@ import {
   mockWebSocketProvider,
   mockWebSocketServer,
   MockWsServer,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
@@ -43,7 +44,7 @@ describe('websocket', () => {
 
   afterAll((done) => {
     spy.mockRestore()
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     fastify.close(done)
   })
 
@@ -58,7 +59,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         flowFulfilled = mockWebSocketFlow(mockedWsServer, [
           mockSubscribeResponse,
