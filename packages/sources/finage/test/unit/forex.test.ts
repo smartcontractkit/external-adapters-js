@@ -13,6 +13,9 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: { endpoint: 'forex' } } },
       { name: 'missing quote', testData: { data: { endpoint: 'forex', base: 'GBP' } } },
       { name: 'missing base', testData: { data: { endpoint: 'forex', quote: 'USD' } } },
+      { name: 'empty data', testData: { data: { endpoint: 'commodities' } } },
+      { name: 'missing quote', testData: { data: { endpoint: 'commodities', base: 'WTI' } } },
+      { name: 'missing base', testData: { data: { endpoint: 'commodities', quote: 'USD' } } },
     ]
 
     requests.forEach((req) => {

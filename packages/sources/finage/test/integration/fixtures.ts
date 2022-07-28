@@ -67,12 +67,44 @@ export const mockResponseSuccess = (): nock =>
       'Connection',
       'close',
     ])
+    .get('/last/trade/forex/WTIUSD')
+    .query({ apikey: 'fake-api-key' })
+    .reply(
+      200,
+      {
+        symbol: 'WTIUSD',
+        price: 98.91,
+        timestamp: 1659017220,
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
 
 export const mockResponseFailure = (): nock =>
   nock('https://api.finage.co.uk', {
     encodedQueryParams: true,
   })
     .get('/last/stock/NON-EXISTING')
+    .query({ apikey: 'fake-api-key' })
+    .reply(400, (_, request) => ({ error: 'Please check the symbol and try again.' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .get('/last/trade/forex/NONEXISTINGUSD')
     .query({ apikey: 'fake-api-key' })
     .reply(400, (_, request) => ({ error: 'Please check the symbol and try again.' }), [
       'Content-Type',
