@@ -1,9 +1,10 @@
-import type { AdapterRequest } from '@chainlink/ea-bootstrap'
+import type { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import { AddressInfo } from 'net'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   let fastify: FastifyInstance
@@ -22,7 +23,7 @@ describe('execute', () => {
     req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
 
     if (process.env.RECORD) {
       nock.recorder.play()

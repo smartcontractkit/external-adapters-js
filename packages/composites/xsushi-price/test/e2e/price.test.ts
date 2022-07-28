@@ -1,7 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
@@ -11,17 +12,17 @@ describe('execute', () => {
     const requests = [
       {
         name: 'id not supplied',
-        testData: { data: { base: 'xSUSHI', quote: 'USD' } },
+        testData: { data: { from: 'xSUSHI', quote: 'USD' } },
       },
       {
         name: 'base/quote',
-        testData: { id: jobID, data: { base: 'xSUSHI', quote: 'USD' } },
+        testData: { id: jobID, data: { from: 'xSUSHI', quote: 'USD' } },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest, {})
+        const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toBeGreaterThan(0)
         expect(data.data.result).toBeGreaterThan(0)
@@ -33,7 +34,7 @@ describe('execute', () => {
     const requests = [
       {
         name: 'base not xSUSHI',
-        testData: { id: jobID, data: { base: 'ETH', quote: 'USDT' } },
+        testData: { id: jobID, data: { from: 'ETH', quote: 'USDT' } },
       },
       {
         name: 'unknown quote',
@@ -44,9 +45,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest, {})
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

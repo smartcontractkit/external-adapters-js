@@ -45,8 +45,8 @@ jest.mock('ethers', () => {
     ethers: {
       ...actualModule.ethers,
       providers: {
-        JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-          return {}
+        JsonRpcProvider: function (): ethers.providers.JsonRpcProvider {
+          return {} as ethers.providers.JsonRpcProvider
         },
       },
       Contract: function (address: string) {

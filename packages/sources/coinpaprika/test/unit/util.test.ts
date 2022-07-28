@@ -1,6 +1,7 @@
 import { getCoin, getSymbolToId } from '../../src/util'
 import { ResponseSchema } from '../../src/endpoint/crypto'
 import { makeConfig } from '../../src/config'
+import { Config, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
 
 describe('config tests', () => {
   beforeEach(() => {
@@ -10,34 +11,40 @@ describe('config tests', () => {
 
   describe('makeConfig', () => {
     it('does not use an API key if none is set', () => {
-      const config = makeConfig()
-      expect(config.api.headers['Authorization']).toBeUndefined()
+      const config = makeConfig() as Config
+      expect((config.api as AxiosRequestConfig).headers?.['Authorization']).toBeUndefined()
     })
 
     it('does not start the adapter in test mode if the IS_IN_TEST_MODE env var is not set', () => {
       const config = makeConfig()
-      const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
+      const testModeHeader = (config.api as AxiosRequestConfig).headers?.[
+        'COINPAPRIKA-API-KEY-VERIFY'
+      ]
       expect(testModeHeader).toBeUndefined()
     })
 
     it('uses an API key if one is set', () => {
       process.env.API_KEY = 'test-key'
       const config = makeConfig()
-      const authHeader = config.api.headers['Authorization']
+      const authHeader = (config.api as AxiosRequestConfig).headers?.['Authorization']
       expect(authHeader).toEqual(process.env.API_KEY)
     })
 
     it('starts the adapter in test mode if the IS_IN_TEST_MODE env var is set', () => {
       process.env.IS_TEST_MODE = 'true'
       const config = makeConfig()
-      const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
+      const testModeHeader = (config.api as AxiosRequestConfig).headers?.[
+        'COINPAPRIKA-API-KEY-VERIFY'
+      ]
       expect(testModeHeader).toBe('true')
     })
 
     it('does not start the adapter in test mode if the IS_IN_TEST_MODE env var is set to false', () => {
       process.env.IS_TEST_MODE = 'false'
       const config = makeConfig()
-      const testModeHeader = config.api.headers['COINPAPRIKA-API-KEY-VERIFY']
+      const testModeHeader = (config.api as AxiosRequestConfig).headers?.[
+        'COINPAPRIKA-API-KEY-VERIFY'
+      ]
       expect(testModeHeader).toBeUndefined()
     })
   })
@@ -75,12 +82,12 @@ describe('utils tests', () => {
     ]
 
     it('returns a coin from a symbol', () => {
-      const coin = getCoin(mockCoinList, 'SOME')
+      const coin = getCoin(mockCoinList, 'SOME') as ResponseSchema
       expect(coin.id).toEqual('some_coin')
     })
 
     it('returns a coin from a coin id', () => {
-      const coin = getCoin(mockCoinList, undefined, 'some_coin')
+      const coin = getCoin(mockCoinList, undefined, 'some_coin') as ResponseSchema
       expect(coin.id).toEqual('some_coin')
     })
 

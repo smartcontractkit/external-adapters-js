@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockMembersResponseSuccess = (): nock =>
+export const mockMembersResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8081', {
     encodedQueryParams: true,
   })
     .get('/')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         result: [
           {
             id: '5e5ec5d8a221fb000946fd4ab2d71522',
@@ -58,14 +58,14 @@ export const mockMembersResponseSuccess = (): nock =>
       ],
     )
 
-export const mockAddressesResponseSuccess = (): nock =>
+export const mockAddressesResponseSuccess = (): nock.Scope =>
   nock('http://localhost:8082', {
     encodedQueryParams: true,
   })
     .get('/')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         result: [
           {
             id: '601c5e4b11b1d4001e37091aa2618ee9',

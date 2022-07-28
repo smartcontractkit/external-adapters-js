@@ -5,20 +5,20 @@ import * as process from 'process'
 import nock from 'nock'
 
 export type SuiteContext = {
-  req: SuperTest<Test>
+  req: SuperTest<Test> | null
   server: () => Promise<FastifyInstance>
   fastify?: FastifyInstance
 }
 
 export type EnvVariables = { [key: string]: string }
 
-export type TestOptions = { cleanNock: boolean; fastify: boolean }
+export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
 export const setupExternalAdapterTest = (
   envVariables: NodeJS.ProcessEnv,
   context: SuiteContext,
   options: TestOptions = { cleanNock: true, fastify: false },
-) => {
+): void => {
   let fastify: FastifyInstance
 
   beforeAll(async () => {

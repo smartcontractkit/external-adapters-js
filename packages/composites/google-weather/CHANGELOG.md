@@ -1,5 +1,11 @@
 # @chainlink/google-weather-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- @chainlink/google-bigquery-adapter@1.2.10
+
 ## 1.3.1
 
 ### Patch Changes

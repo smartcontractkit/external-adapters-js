@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockRateResponseSuccess = (): nock =>
+export const mockRateResponseSuccess = (): nock.Scope =>
   nock('https://dex-asiapacific.binance.org', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockRateResponseSuccess = (): nock =>
     .query({ symbol: 'BUSD-BD1_USDT-6D8' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           symbol: 'BUSD-BD1_USDT-6D8',
           baseAssetName: 'BUSD-BD1',
@@ -47,13 +47,13 @@ export const mockRateResponseSuccess = (): nock =>
       ],
     )
 
-export const mockRateResponseFailure = (): nock =>
+export const mockRateResponseFailure = (): nock.Scope =>
   nock('https://dex-asiapacific.binance.org', {
     encodedQueryParams: true,
   })
     .get('/api/v1/ticker/24hr')
     .query({ symbol: 'NON_EXISTING' })
-    .reply(400, (_, request) => ({ code: 400, message: 'Symbol is not valid' }), [
+    .reply(400, () => ({ code: 400, message: 'Symbol is not valid' }), [
       'Content-Type',
       'application/json',
       'Connection',

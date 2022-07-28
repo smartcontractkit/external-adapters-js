@@ -1,8 +1,10 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import '@solana/web3.js'
 import { mockAccountsInfo } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 jest.mock('@solana/web3.js', () => ({
   ...jest.requireActual('@solana/web3.js'),
@@ -14,7 +16,7 @@ jest.mock('@solana/web3.js', () => ({
 }))
 
 describe('accounts', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -39,7 +41,7 @@ describe('accounts', () => {
           ],
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -60,7 +62,7 @@ describe('accounts', () => {
           addresses: [],
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -78,7 +80,7 @@ describe('accounts', () => {
           addresses: ['EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ'],
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

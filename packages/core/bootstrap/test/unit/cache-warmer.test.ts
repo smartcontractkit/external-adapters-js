@@ -1,9 +1,13 @@
 import {
   AdapterBatchResponse,
+  AdapterData,
+  AdapterDebug,
   AdapterRequest,
   AdapterResponse,
   APIEndpoint,
+  BatchableProperty,
   Config,
+  InputParameters,
 } from '../../src/types'
 import { ActionsObservable, StateObservable } from 'redux-observable'
 import { Subject } from 'rxjs'
@@ -81,7 +85,7 @@ describe('side effect tests', () => {
         type: 'string',
       },
     },
-    execute: null,
+    execute: undefined,
     batchablePropertyPath: [
       {
         name: 'key1',
@@ -126,7 +130,7 @@ describe('side effect tests', () => {
   }
   const childAdapterKey2 = getCacheKey(
     batchableAdapterRequest2,
-    Object.keys(apiEndpoint.inputParameters),
+    Object.keys(apiEndpoint.inputParameters as InputParameters<AdapterData>),
   )
   const batchableAdapterResponse2: AdapterResponse = {
     jobRunID: '2',
@@ -167,7 +171,8 @@ describe('side effect tests', () => {
               ...batchableAdapterRequest1,
               parent: batchKeyParent,
               result: batchableAdapterResponse1,
-              batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
+              batchablePropertyPath: (batchableAdapterResponse1.debug as AdapterDebug)
+                .batchablePropertyPath,
             }),
             b: actions.warmupSubscribed({
               executeFn: executeStub,
@@ -175,7 +180,8 @@ describe('side effect tests', () => {
               childLastSeenById: { [batchKeyChild1]: mockTime },
               key: batchKeyParent,
               result: batchableAdapterResponse1,
-              batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
+              batchablePropertyPath: (batchableAdapterResponse1.debug as AdapterDebug)
+                .batchablePropertyPath,
             }),
           })
         })
@@ -208,7 +214,8 @@ describe('side effect tests', () => {
                   ...childAdapterRequest2,
                   parent: batchKeyParent,
                   result: batchableAdapterResponse2,
-                  batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
+                  batchablePropertyPath: (batchableAdapterResponse2.debug as AdapterDebug)
+                    .batchablePropertyPath,
                 },
               ],
             }),
@@ -218,7 +225,8 @@ describe('side effect tests', () => {
               childLastSeenById: { [batchKeyChild2]: mockTime },
               key: batchKeyParent,
               result: batchableAdapterResponse2,
-              batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
+              batchablePropertyPath: (batchableAdapterResponse2.debug as AdapterDebug)
+                .batchablePropertyPath,
             }),
           })
         })
@@ -259,10 +267,12 @@ describe('side effect tests', () => {
               ...batchableAdapterRequest1,
               parent: batchKeyParent,
               result: batchableAdapterResponse1,
-              batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
+              batchablePropertyPath: (batchableAdapterResponse1.debug as AdapterDebug)
+                .batchablePropertyPath,
             }),
             b: actions.warmupJoinGroup({
-              batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
+              batchablePropertyPath: (batchableAdapterResponse1.debug as AdapterDebug)
+                .batchablePropertyPath as BatchableProperty[],
               childLastSeenById: { [batchKeyChild1]: mockTime },
               parent: batchKeyParent,
             }),
@@ -306,12 +316,14 @@ describe('side effect tests', () => {
                   key: childAdapterKey2,
                   parent: batchKeyParent,
                   result: batchableAdapterResponse2,
-                  batchablePropertyPath: batchableAdapterResponse2.debug.batchablePropertyPath,
+                  batchablePropertyPath: (batchableAdapterResponse2.debug as AdapterDebug)
+                    .batchablePropertyPath,
                 },
               ],
             }),
             b: actions.warmupJoinGroup({
-              batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
+              batchablePropertyPath: (batchableAdapterResponse1.debug as AdapterDebug)
+                .batchablePropertyPath as BatchableProperty[],
               childLastSeenById: { [batchKeyChild2]: mockTime },
               parent: batchKeyParent,
             }),
@@ -350,7 +362,8 @@ describe('side effect tests', () => {
             },
           },
           actions.warmupJoinGroup({
-            batchablePropertyPath: batchableAdapterResponse1.debug.batchablePropertyPath,
+            batchablePropertyPath: (batchableAdapterResponse1.debug as AdapterDebug)
+              .batchablePropertyPath as BatchableProperty[],
             childLastSeenById: { [batchKeyChild2]: mockTime },
             parent: batchKeyParent,
           }),
@@ -794,7 +807,7 @@ describe('side effect tests', () => {
             },
             subscriptions: {
               [key2]: {
-                executeFn: async () => null,
+                executeFn: async () => ({} as AdapterResponse<AdapterData>),
                 origin: adapterRequest2.data,
                 startedAt: Date.now(),
                 isDuplicate: false,
@@ -867,7 +880,7 @@ describe('side effect tests', () => {
             },
             subscriptions: {
               [key2]: {
-                executeFn: async () => null,
+                executeFn: async () => ({} as AdapterResponse<AdapterData>),
                 origin: adapterRequest2.data,
                 startedAt: Date.now(),
                 isDuplicate: false,

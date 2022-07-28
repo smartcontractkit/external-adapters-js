@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Nomics
 
-![1.2.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
 
 An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
 
@@ -375,10 +375,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
     "base": "BTC",
-    "quote": "EUR"
+    "quote": "EUR",
+    "endpoint": "crypto",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "Q8XOjOIavMitS4H7vXDU0zCQDPI=",
@@ -389,10 +389,10 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
-            "resultPath": "price",
             "base": "BTC",
-            "quote": "EUR"
+            "quote": "EUR",
+            "endpoint": "crypto",
+            "resultPath": "price"
           }
         }
       ]
@@ -517,10 +517,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "filtered",
-    "resultPath": "price",
     "base": "LINK",
-    "exchanges": "binance,coinbase"
+    "exchanges": "binance,coinbase",
+    "endpoint": "filtered",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "Mj9Knk3fJxnNi1zzodWBDZfZ090="

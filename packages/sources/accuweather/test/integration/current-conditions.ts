@@ -9,6 +9,7 @@ import {
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
 import { SuiteContext } from './adapter.test'
+import { SuperTest, Test } from 'supertest'
 
 export function currentConditionsTests(context: SuiteContext): void {
   const id = '1'
@@ -28,7 +29,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseError(locationKey)
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -52,7 +53,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseSuccessMalformed1(locationKey)
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -74,7 +75,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseSuccessMalformed2(locationKey)
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -96,7 +97,7 @@ export function currentConditionsTests(context: SuiteContext): void {
         }
         mockAWCurrentConditionsResponseSuccessMalformed3(locationKey)
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -121,7 +122,7 @@ export function currentConditionsTests(context: SuiteContext): void {
       }
       mockAWCurrentConditionsResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -145,7 +146,7 @@ export function currentConditionsTests(context: SuiteContext): void {
       }
       mockAWCurrentConditionsResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

@@ -1,5 +1,12 @@
 # @chainlink/covid-tracker-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.4.1
 
 ### Patch Changes

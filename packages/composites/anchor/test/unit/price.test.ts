@@ -1,4 +1,4 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
@@ -6,6 +6,8 @@ import { execute as bethExecute } from '../../src/endpoint/price/beth'
 import { execute as blunaExecute } from '../../src/endpoint/price/bluna'
 import { ethers } from 'ethers'
 import { callViewFunctionEA } from '../../src/utils'
+import { Config } from '../../src/config'
+import { TInputParameters } from '../../src/endpoint'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -56,7 +58,7 @@ describe('execute', () => {
       anchorVaultContractAddress: '',
       terraBLunaHubContractAddress: '',
       feedAddresses: {},
-    }
+    } as Config
 
     it('beth execute responds with correct precision', async () => {
       const bEthStEthString = '1' + '0'.repeat(150)
@@ -108,7 +110,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'empty from',
-        testData: { id: jobID, data: { to: 'ETH' } },
+        testData: { id: jobID, data: { to: 'ETH', from: '' } },
       },
       {
         name: 'empty to',
@@ -119,9 +121,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest, {})
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

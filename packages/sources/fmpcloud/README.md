@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Fmp Cloud
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fmpcloud/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fmpcloud/package.json)
 
 Base URL https://fmpcloud.io
 
@@ -43,8 +43,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "quote",
-    "base": "AUD"
+    "base": "AUD",
+    "endpoint": "quote"
   },
   "debug": {
     "cacheKey": "dLSVCsbn8V6tc3epL5j5NxGI7+M="

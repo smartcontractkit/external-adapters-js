@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.unibit.ai/v2/stock', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ accessKey: 'fake-api-key', tickers: 'VXX' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         meta_data: {
           api_name: 'historical_stock_price_v2',
           num_total_data_points: 1,

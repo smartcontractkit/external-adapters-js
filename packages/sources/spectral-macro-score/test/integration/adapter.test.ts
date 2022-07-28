@@ -1,5 +1,5 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import nock from 'nock'
 import sinon from 'sinon'
@@ -7,10 +7,11 @@ import * as NFC from '../../src/abi/NFC'
 import { makeExecute } from '../../src/adapter'
 import * as config from '../../src/config'
 import { mockMacroScoreAPIResponseSuccess } from '../mocks/macro-score-api.mock'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
-  const execute = makeExecute()
+  const execute = makeExecute() as Execute
 
   beforeAll(() => {
     if (process.env.RECORD) {
@@ -76,14 +77,21 @@ describe('execute', () => {
         `${req.name}`,
         async () => {
           mockContractCall()
-          const adapterResponse = await execute(req.testData as AdapterRequest, null)
+          const adapterResponse = await execute(
+            req.testData as AdapterRequest<TInputParameters>,
+            {},
+          )
           assertSuccess(
             { expected: 200, actual: adapterResponse.statusCode },
             adapterResponse,
             jobID,
           )
-          expect(parseInt(adapterResponse.data?.result)).not.toBeNull()
-          expect(parseInt(adapterResponse.data.result)).toBeGreaterThan(0)
+          expect(
+            adapterResponse?.data?.result && parseInt(adapterResponse?.data?.result?.toString()),
+          ).not.toBeNull()
+          expect(
+            adapterResponse?.data?.result && parseInt(adapterResponse?.data?.result?.toString()),
+          ).toBeGreaterThan(0)
         },
         config.DEFAULT_TIMEOUT,
       )

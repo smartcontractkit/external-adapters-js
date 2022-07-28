@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.bitso.com/v3', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ book: 'btc_ars' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         success: true,
         payload: {
           high: '13504981.32',
@@ -35,7 +35,7 @@ export const mockResponseSuccess = (): nock =>
       ],
     )
 
-export const mockResponseFailure = (): nock =>
+export const mockResponseFailure = (): nock.Scope =>
   nock('https://api.bitso.com/v3', {
     encodedQueryParams: true,
   })
@@ -43,7 +43,7 @@ export const mockResponseFailure = (): nock =>
     .query({ book: 'non_existing' })
     .reply(
       400,
-      (_, request) => ({
+      () => ({
         success: false,
         error: { code: '0301', message: 'Unknown OrderBook non_existing' },
       }),

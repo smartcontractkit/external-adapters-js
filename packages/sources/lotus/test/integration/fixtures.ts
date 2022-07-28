@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockLotusResponseSuccess = (): nock =>
+export const mockLotusResponseSuccess = (): nock.Scope =>
   nock('http://127.0.0.1:1234', {
     encodedQueryParams: true,
     reqheaders: {

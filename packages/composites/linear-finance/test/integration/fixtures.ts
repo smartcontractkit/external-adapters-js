@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
 export const adapterConfig = {
@@ -7,7 +8,7 @@ export const adapterConfig = {
   },
 }
 
-export const mockXBCIResponseSuccess = (time: string): nock =>
+export const mockXBCIResponseSuccess = (time: string): nock.Scope =>
   nock('https://pro-api.xangle.io')
     .get(`/v1/index/xangle-bluechip?reference_timestamp=${time}`)
     .reply(
@@ -362,7 +363,7 @@ export const mockXBCIResponseSuccess = (time: string): nock =>
       ],
     )
 
-export const mockXLCIResponseSuccess = (time: string): nock =>
+export const mockXLCIResponseSuccess = (time: string): nock.Scope =>
   nock('https://pro-api.xangle.io')
     .get(`/v1/index/xangle-largecap?reference_timestamp=${time}`)
     .reply(
@@ -733,13 +734,13 @@ export const mockXLCIResponseSuccess = (time: string): nock =>
       ],
     )
 
-export const mockAdapterResponseSuccess = (): nock =>
+export const mockAdapterResponseSuccess = (): nock.Scope =>
   nock(adapterConfig.coinmarketcap.adapterUrl)
     .persist()
     .post('/', { id: /^\d+$/, data: { base: /^\w+$/, quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jobRunID: request['id'],
         data: {
           result: 100.0,
