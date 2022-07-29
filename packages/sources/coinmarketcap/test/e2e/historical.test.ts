@@ -1,4 +1,4 @@
-import { AdapterError, AdapterResponse, Requester, Value } from '@chainlink/ea-bootstrap'
+import { AdapterError, AdapterResponse, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
