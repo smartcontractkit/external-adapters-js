@@ -66,7 +66,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     validator,
     getIncludesOptions,
     getUrl,
-  ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
+  )
 
   const reqConfig = {
     ...config.api,

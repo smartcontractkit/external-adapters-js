@@ -122,7 +122,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     validator,
     getIncludesOptions,
     getUrl,
-  ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
+  )
 
   const interval = validator.validated.data.interval || DEFAULT_INTERVAL
   const start_time = calculateStartTime(

@@ -107,7 +107,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const url = 'latest.json'
 
-  const pairOptions = util.getPairOptions<TOptions, TInputParameters>(
+  const pairOptions = util.getBatchedPairOptions<TOptions, TInputParameters>(
     AdapterName,
     validator,
     getIncludesOptions,
