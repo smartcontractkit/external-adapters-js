@@ -6,6 +6,11 @@ import {
   ExecuteWithConfig,
   Config,
   AdapterRequest,
+  AdapterData,
+  InputParameters,
+  ResultPath,
+  Execute,
+  AdapterResponse,
 } from '../../src/types'
 
 describe('Selector', () => {
@@ -18,7 +23,7 @@ describe('Selector', () => {
     }
   }
   const makeExecute: ExecuteFactory<Config> = (config) => async (request, context) =>
-    execute(request, context, config)
+    execute(request, context, config as Config)
 
   describe(`selectCompositeEndpoint`, () => {
     const request = {
@@ -62,7 +67,9 @@ describe('Selector', () => {
         false,
       )
       expect(mergedDownstreamEndpoint.inputParameters).toHaveProperty('inputParam2')
-      expect(mergedDownstreamEndpoint.inputParameters['inputParam2']).toBeTruthy()
+      expect(
+        (mergedDownstreamEndpoint.inputParameters as InputParameters<AdapterData>)['inputParam2'],
+      ).toBeTruthy()
     })
 
     it(`ignores required input parameters when ignoreRequired is true`, () => {
@@ -76,7 +83,9 @@ describe('Selector', () => {
         true,
       )
       expect(mergedDownstreamEndpoint.inputParameters).toHaveProperty('inputParam2')
-      expect(mergedDownstreamEndpoint.inputParameters['inputparam2']).toBeFalsy()
+      expect(
+        (mergedDownstreamEndpoint.inputParameters as InputParameters<AdapterData>)['inputparam2'],
+      ).toBeFalsy()
     })
   })
 
@@ -84,9 +93,9 @@ describe('Selector', () => {
     it('endpoint not found when no default endpoint is configured and param is not present', () => {
       const config: Config = {}
       const apiEndpoints: Record<string, APIEndpoint<Config>> = {}
-      const request = {
+      const request: AdapterRequest<AdapterData> = {
         id: '1',
-        data: null,
+        data: {},
       }
       expect(() => Builder.selectEndpoint(request, config, apiEndpoints)).toThrowError(
         'Endpoint not supplied and no default found',
@@ -151,7 +160,7 @@ describe('Selector', () => {
           supportedEndpoints: ['test', 'qwer'],
           endpointResultPaths: {
             test: 'replaced.string',
-            qwer: (request: AdapterRequest) => request.data.stuff,
+            qwer: (request: AdapterRequest) => request.data.stuff as ResultPath,
           },
         },
       }
@@ -182,11 +191,12 @@ describe('Selector', () => {
 
   describe('buildSelector', () => {
     it('returns execute result', async () => {
-      const result = {
+      const result: AdapterResponse<AdapterData> = {
         result: 123.4,
         jobRunID: '1',
         statusCode: 200,
         data: {
+          statusCode: 200,
           number: 123.4,
         },
       }
@@ -212,11 +222,12 @@ describe('Selector', () => {
     })
 
     it('returns makeExecute result', async () => {
-      const result = {
+      const result: AdapterResponse<AdapterData> = {
         result: 123.4,
         jobRunID: '1',
         statusCode: 200,
         data: {
+          statusCode: 200,
           number: 123.4,
         },
       }
@@ -227,7 +238,7 @@ describe('Selector', () => {
       }
       const apiEndpoints: Record<string, APIEndpoint<Config>> = {
         test: {
-          makeExecute: () => async () => result,
+          makeExecute: (): Execute => async () => result,
           supportedEndpoints: ['test'],
         },
       }
@@ -242,14 +253,6 @@ describe('Selector', () => {
     })
 
     it('throws exception when no handler is defined', async () => {
-      const result = {
-        result: 123.4,
-        jobRunID: '1',
-        statusCode: 200,
-        data: {
-          number: 123.4,
-        },
-      }
       const config: Config = {
         api: {
           baseURL: 'http://test.com',

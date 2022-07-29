@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CoinPaprika
 
-![1.8.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json)
+![1.10.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json)
 
 _Note: the `-single` endpoints have the same functionality as their original endpoint, except they will only fetch data for the single asset being queried._
 
@@ -52,11 +52,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
     "base": "AAAA",
     "quote": "USD",
-    "coinid": "eth-ethereum"
+    "coinid": "eth-ethereum",
+    "endpoint": "crypto",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "/ZZUFW3JdvMNj7qmqWBfjk3M4YU=",
@@ -67,11 +67,11 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
-            "resultPath": "price",
             "base": "AAAA",
             "quote": "USD",
-            "coinid": "eth-ethereum"
+            "coinid": "eth-ethereum",
+            "endpoint": "crypto",
+            "resultPath": "price"
           }
         }
       ]
@@ -224,15 +224,15 @@ Request:
 {
   "id": "1",
   "data": {
+    "base": "AMPL",
+    "quote": "USD",
     "endpoint": "crypto-single",
     "resultPath": "quotes.USD.price",
     "overrides": {
       "coinpaprika": {
         "AMPL": "eth-ethereum"
       }
-    },
-    "base": "AMPL",
-    "quote": "USD"
+    }
   },
   "debug": {
     "cacheKey": "/mWFiJX9XlPfrers69lNKY9syOU="
@@ -308,8 +308,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "dominance",
-    "market": "BTC"
+    "market": "BTC",
+    "endpoint": "dominance"
   },
   "debug": {
     "cacheKey": "68fvKmTaemya72URaHbma8IMB7s="
@@ -366,8 +366,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "globalmarketcap",
-    "market": "USD"
+    "market": "USD",
+    "endpoint": "globalmarketcap"
   },
   "debug": {
     "cacheKey": "1+HiIBSsojqbfCOU78q7iZbzdWA="
@@ -420,12 +420,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -487,12 +488,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -551,12 +553,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -615,12 +618,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -679,12 +683,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -743,12 +748,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -807,12 +813,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -871,12 +878,13 @@ Request:
 {
   "data": {
     "endpoint": "coins",
-    "maxAge": 3600000
+    "maxAge": 3600000,
+    "market": ""
   },
   "method": "post",
   "id": "1",
   "debug": {
-    "cacheKey": "16607850245678131884eaa9434d0887e296f93d"
+    "cacheKey": "d9e5d2b2ba68a638fe75b76bff2e1331f5b2dea9"
   }
 }
 ```
@@ -953,15 +961,15 @@ Request:
 {
   "id": "1",
   "data": {
+    "base": "AAAA",
+    "hours": 24,
     "endpoint": "vwap",
-    "resultPath": "0.price",
+    "resultPath": "price",
     "overrides": {
       "coinpaprika": {
         "AAAA": "ampl-ampleforth"
       }
-    },
-    "base": "AAAA",
-    "hours": 24
+    }
   },
   "debug": {
     "cacheKey": "sMT7ytI4rR7UAXxF4mi7tq5rHIc="

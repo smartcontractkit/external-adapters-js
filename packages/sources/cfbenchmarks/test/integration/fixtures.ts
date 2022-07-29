@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://www.cfbenchmarks.com/api', {
     reqheaders: {
       Authorization: 'Basic ZmFrZS1hcGktdXNlcm5hbWU6ZmFrZS1hcGktcGFzc3dvcmQ=',
@@ -9,7 +9,7 @@ export const mockResponseSuccess = (): nock =>
     .get('/v1/values?id=BRTI')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         serverTime: '2022-02-18T16:53:55.772Z',
         payload: [
           { value: '39829.42', time: 1645199636000 },

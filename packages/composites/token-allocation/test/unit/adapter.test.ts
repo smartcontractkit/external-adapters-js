@@ -1,15 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, BigNumber, AdapterError } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
-import type {
-  AdapterRequest,
-  APIEndpoint,
-  ExecuteFactory,
-  ExecuteWithConfig,
-  Config,
-} from '@chainlink/ea-bootstrap'
-import { BigNumber } from 'ethers'
+import type { AdapterRequest } from '@chainlink/ea-bootstrap'
+import * as ethers from 'ethers'
 import { makeExecute, priceTotalValue } from '../../src/endpoint'
-import { makeEndpointSelector } from '../../src/adapter'
 import { makeConfig, adapters } from '../../src/config'
 import { TokenAllocations } from '../../src/types'
 
@@ -33,7 +26,7 @@ describe('execute', () => {
         try {
           await execute(req.testData as AdapterRequest, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })
@@ -49,7 +42,7 @@ describe('execute', () => {
       },
       {
         symbol: 'DAI',
-        balance: BigNumber.from('1000000000000000000'),
+        balance: ethers.BigNumber.from('1000000000000000000') as BigNumber,
         decimals: 18,
       },
     ]
@@ -103,49 +96,5 @@ describe('execute', () => {
 describe('source adapters', () => {
   it(`all contain endpoints`, () => {
     adapters.forEach((adapter) => expect(adapter.endpoints).toBeTruthy())
-  })
-})
-
-describe('makeEndpointSelector', () => {
-  const execute: ExecuteWithConfig<Config> = async () => {
-    return {
-      jobRunID: '1',
-      statusCode: 200,
-      data: { result: 1 },
-      result: 1,
-    }
-  }
-
-  const makeExecute: ExecuteFactory<Config> = (config) => async (request, context) =>
-    execute(request, context, config)
-
-  const request = {
-    id: '1',
-    data: {
-      endpoint: 'testDownstreamEndpoint',
-      source: adapters[0].NAME,
-    },
-  }
-
-  const downstreamConfig = {
-    defaultEndpoint: 'testDownstreamEndpoint',
-  }
-  const downstreamConfigFactory = () => downstreamConfig
-
-  const mockAPIEndpoint: APIEndpoint = {
-    supportedEndpoints: ['testDownstreamEndpoint'],
-    makeExecute,
-    inputParameters: {
-      inputParam1: true,
-    },
-  }
-  const downstreamEndpoints = { someCompositeEndpoint: mockAPIEndpoint }
-
-  it(`correctly merges downstream input parameters`, () => {
-    const endpointSelector = makeEndpointSelector(downstreamConfigFactory, downstreamEndpoints)
-    const endpoint = endpointSelector(request)
-    for (const inputParameter in adapters[0].inputParameters) {
-      expect(endpoint.inputParameters).toHaveProperty(inputParameter)
-    }
   })
 })

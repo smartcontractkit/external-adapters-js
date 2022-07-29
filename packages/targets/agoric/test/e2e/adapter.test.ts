@@ -1,8 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import Fastify, { FastifyInstance } from 'fastify'
-import { Action, makeExecute } from '../../src/adapter'
+import { Action, makeExecute, TInputParameters } from '../../src/adapter'
 import { makeConfig } from '../../src/config'
 
 describe('execute', () => {
@@ -104,7 +104,7 @@ describe('execute', () => {
   describe('POST to localhost @integration', () => {
     let reqIndex: number
     let sends: Action[] = []
-    let fastify: FastifyInstance
+    let server: FastifyInstance
 
     const port = 18082
     process.env.AG_SOLO_ORACLE_URL = `http://localhost:${port}/api/oracle`
@@ -143,10 +143,10 @@ describe('execute', () => {
         sends = []
 
         try {
-          const data = await execute(req.testData as AdapterRequest)
+          const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
           assertSuccess({ expected: req.status, actual: data.statusCode }, data, jobID)
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: req.status, actual: errorResp.statusCode }, errorResp, jobID)
         }
         expect(sends).toEqual(req.sends)

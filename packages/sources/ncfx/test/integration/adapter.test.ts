@@ -8,6 +8,7 @@ import {
   mockWebSocketProvider,
   mockWebSocketServer,
   MockWsServer,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
@@ -38,7 +39,7 @@ describe('price-beth', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     fastify.close(done)
   })
 

@@ -1,6 +1,8 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const mockSuccessInput = {
   mockInputEthTLD: 'mockInputEthTLD.eth'.toLowerCase(),
@@ -56,7 +58,7 @@ const mockNetworkProvider = {
       case mockFailInput.mockInputNoTLD:
         return toMockOutput(mockFailInput.mockInputNoTLD)
       default:
-        break
+        throw 'Unknown provider'
     }
   }),
 }
@@ -82,8 +84,7 @@ jest.mock('ethers', () => {
           case mockVariables.resolverContractAddress:
             return mockResolverContract
           default:
-            console.log('Mock address not found: ', address)
-            break
+            throw `Mock address not found: ${address}`
         }
       }),
     },
@@ -93,7 +94,7 @@ jest.mock('ethers', () => {
 describe('execute', () => {
   const id = '1'
 
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -115,7 +116,7 @@ describe('execute', () => {
             ensName,
           },
         }
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -133,7 +134,7 @@ describe('execute', () => {
           ensName: mockFailInput.mockInputNoTLD,
         },
       }
-      await context.req
+      await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

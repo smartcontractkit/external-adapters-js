@@ -1,7 +1,8 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
+import { AdapterError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { assertError, setEnvVariables } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 import { makeConfig } from '../../src/config'
 import { getIdFromInputs, inputParameters } from '../../src/endpoint/values'
 
@@ -15,7 +16,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
 })
 
 describe('execute', () => {
@@ -31,9 +32,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest, {})
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
-          const errorResp = Requester.errored(id, error)
+          const errorResp = Requester.errored(id, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, id)
         }
       })

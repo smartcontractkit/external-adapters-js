@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://blockstream.info/api', {
     encodedQueryParams: true,
   })
     .get('/blocks')
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: '000000000000000000060c1f01e709357e0aca37d4a6940ce9cf67dfa6c6ff4f',
           height: 712285,

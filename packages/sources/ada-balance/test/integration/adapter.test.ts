@@ -4,6 +4,7 @@ import '@cardano-ogmios/client'
 import '../../src/endpoint/ogmios'
 import { InteractionContext } from '@cardano-ogmios/client'
 import 'ws'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
 
 const TEST_HTTP_ENDPOINT = 'http://test-ogmios-url.com'
 const TEST_WS_ENDPOINT = 'wss://test-ogmios-url.com'
@@ -63,7 +64,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
 })
 
 describe('execute', () => {
@@ -71,7 +72,7 @@ describe('execute', () => {
   const id = '1'
 
   beforeAll(() => {
-    execute = adaBalance.makeExecute()
+    execute = adaBalance.makeExecute() as Execute
   })
 
   describe('fetch wallet balance', () => {

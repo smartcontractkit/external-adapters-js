@@ -1,11 +1,11 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://gas.mycryptoapi.com')
     .get('/')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         safeLow: 122,
         standard: 134,
         fast: 148,

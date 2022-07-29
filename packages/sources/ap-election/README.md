@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AP Election
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ap-election/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ap-election/package.json)
 
 The AP Election adapter fetches the latest election results provided by the Associated Press API and returns the winner of a given election.
 
@@ -53,12 +53,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "election",
     "date": "2020-11-08",
     "statePostal": "US",
     "officeID": "P",
     "raceType": "G",
-    "resultsType": "l"
+    "resultsType": "l",
+    "endpoint": "election"
   },
   "debug": {
     "cacheKey": "oSruSOaCPx2z6jWowhciPfG0/sY="
@@ -182,12 +182,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "election",
     "date": "2021-06-08",
     "statePostal": "CA",
     "officeID": "A",
     "raceType": "D",
-    "resultsType": "l"
+    "resultsType": "l",
+    "endpoint": "election"
   },
   "debug": {
     "cacheKey": "KEpqOGL74kmCf79VniiKr+JxAzY="

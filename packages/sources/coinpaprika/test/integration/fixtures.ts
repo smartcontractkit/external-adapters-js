@@ -8,7 +8,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
     .query({ quotes: 'USD' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: 'eth-ethereum',
           name: 'Ethereum',
@@ -123,7 +123,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
     .get(`/v1/global`)
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         market_cap_usd: 2559344984924,
         volume_24h_usd: 217605673763,
         bitcoin_dominance_percentage: 44.68,
@@ -322,7 +322,7 @@ export const mockPROCryptoResponseSuccess = (): nock.Scope =>
     .query({ quotes: 'USD' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: 'eth-ethereum',
           name: 'Ethereum',
@@ -425,7 +425,7 @@ export const mockCryptoSingleResponseSuccess = (): nock.Scope =>
     .query({ quotes: 'USD' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: 'eth-ethereum',
           name: 'Ethereum',
@@ -475,7 +475,7 @@ export const mockCryptoSingleResponseSuccess = (): nock.Scope =>
     .query({ quotes: 'USD' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: 'aaaa-token',
           name: 'AAAA token',
@@ -525,7 +525,7 @@ export const mockCryptoSingleResponseSuccess = (): nock.Scope =>
     .query({ quotes: 'USD' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: 'real-bbbb',
           name: 'Realbbbb',

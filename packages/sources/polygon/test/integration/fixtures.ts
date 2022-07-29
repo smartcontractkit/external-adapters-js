@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccessConversionEndpoint = (): nock =>
+export const mockResponseSuccessConversionEndpoint = (): nock.Scope =>
   nock('https://api.polygon.io', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccessConversionEndpoint = (): nock =>
     .query({ apikey: 'fake-api-key', amount: 1, precision: 6 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         converted: 0.7536,
         from: 'USD',
         initialAmount: 1,
@@ -30,7 +30,7 @@ export const mockResponseSuccessConversionEndpoint = (): nock =>
       ],
     )
 
-export const mockEmptyResponseSuccessTickersEndpoint = (): nock =>
+export const mockEmptyResponseSuccessTickersEndpoint = (): nock.Scope =>
   nock('https://api.polygon.io', {
     encodedQueryParams: true,
   })
@@ -41,7 +41,7 @@ export const mockEmptyResponseSuccessTickersEndpoint = (): nock =>
       tickers: [],
     }))
 
-export const mockResponseSuccessTickersEndpoint = (): nock =>
+export const mockResponseSuccessTickersEndpoint = (): nock.Scope =>
   nock('https://api.polygon.io', {
     encodedQueryParams: true,
   })
@@ -49,7 +49,7 @@ export const mockResponseSuccessTickersEndpoint = (): nock =>
     .query({ apikey: 'fake-api-key', tickers: 'C:USDGBP' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: 'OK',
         tickers: [
           {

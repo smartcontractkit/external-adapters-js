@@ -1,4 +1,4 @@
-import { AdapterRequest, APIEndpoint, Config, Execute } from '@chainlink/ea-bootstrap'
+import { AdapterData, AdapterRequest, APIEndpoint, Config, Execute } from '@chainlink/ea-bootstrap'
 import { withNormalizedInput } from '../../src/lib/middleware/normalize'
 
 describe('Normalize middleware', () => {
@@ -11,12 +11,12 @@ describe('Normalize middleware', () => {
         from: 'btc',
         to: 'eth',
         overrides: {
-          btc: 'bitcoin',
+          btc: { bitcoin: 'bitcoin' },
         },
         tokenOverrides: {
-          eth: 'test',
+          eth: { test: 'test' },
         },
-        includes: {},
+        includes: [],
         endpoint: 'random',
         batchPropString: 'batchString',
         batchPropArray: ['str1', 'str2'],
@@ -31,7 +31,7 @@ describe('Normalize middleware', () => {
       },
     }
 
-    const endpointExecute = async (r) => {
+    const endpointExecute = async (r: AdapterRequest<AdapterData>) => {
       expect(r).toEqual({
         ...request,
         data: {
@@ -60,7 +60,7 @@ describe('Normalize middleware', () => {
           type: 'array',
         },
       },
-      execute: endpointExecute,
+      execute: endpointExecute as unknown as Execute,
       batchablePropertyPath: [
         {
           name: 'batchPropString',

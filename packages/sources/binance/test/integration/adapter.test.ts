@@ -15,14 +15,16 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -43,7 +45,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockRateResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -66,7 +68,7 @@ describe('execute', () => {
     it('should return failure', async () => {
       mockRateResponseFailure()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -99,7 +101,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -118,7 +120,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockRateResponseSuccess() // For the first response
 

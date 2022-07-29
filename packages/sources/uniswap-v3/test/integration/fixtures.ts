@@ -1,19 +1,24 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
-export function mockEthereumResponseSuccess() {
+export function mockEthereumResponseSuccess(): void {
   nock('http://localhost:8545')
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1' }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', data: '0x313ce567' }, 'latest'],
@@ -22,7 +27,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000006',
@@ -46,7 +51,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000006',
@@ -76,7 +81,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000000000000000f3eec',
@@ -106,7 +111,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000000000000000f39f9',
@@ -136,7 +141,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000000000000000000f334a',
@@ -166,7 +171,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000004970c66cfcaf850a9f',
@@ -196,7 +201,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000004ed3c3c874d8232563',
@@ -226,7 +231,7 @@ export function mockEthereumResponseSuccess() {
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x00000000000000000000000000000000000000000000004d18c7bf9b52a42fb5',

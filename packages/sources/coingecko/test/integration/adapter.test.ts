@@ -1,12 +1,14 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src'
 import { mockCryptoSuccess, mockDominanceSuccess } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
 
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -29,7 +31,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -55,7 +57,7 @@ describe('execute', () => {
     it('should return success for override', async () => {
       mockCryptoSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(dataWithOverride)
         .set('Accept', '*/*')
@@ -81,7 +83,7 @@ describe('execute', () => {
     it('should return success for array', async () => {
       mockCryptoSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(dataWithArray)
         .set('Accept', '*/*')
@@ -105,7 +107,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -129,7 +131,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -152,7 +154,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockDominanceSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -175,7 +177,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockDominanceSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

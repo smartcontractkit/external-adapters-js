@@ -15,19 +15,22 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
+  setupExternalAdapterTest,
 } from '@chainlink/ea-test-helpers'
+import type { SuiteContext, TestOptions } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
 
-  const options = {
+  const options: TestOptions = {
     cleanNock: false,
+    fastify: false,
   }
   const envVariables = {
     API_KEY: process.env.API_KEY || 'fake-api-key',
@@ -46,7 +49,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockRateResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -82,7 +85,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -101,7 +104,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockAuthResponse()
         mockRateResponseSuccess()

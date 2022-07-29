@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockRateResponseSuccess = (): nock =>
+export const mockRateResponseSuccess = (): nock.Scope =>
   nock('https://rp.lcx.com/v1', {
     encodedQueryParams: true,
     reqheaders: {
@@ -11,7 +11,7 @@ export const mockRateResponseSuccess = (): nock =>
     .query({ coin: 'BTC', currency: 'USD' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         status: 'SUCCESS',
         message: 'Reference Price for BTC',
         data: { Price: 58620.71 },
