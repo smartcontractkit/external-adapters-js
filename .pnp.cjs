@@ -6358,6 +6358,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/readme-test-adapter", "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
+            ["@types/jest", "npm:27.5.2"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
