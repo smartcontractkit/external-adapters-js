@@ -172,6 +172,15 @@ jobs:
 
           echo "::set-output name=BUILD_ADAPTERS::${BUILD_ADAPTERS}"
 
+      - name: Check AWS CLI version
+        run: aws --version
+
+      - name: Check kubectl version
+        run: kubectl version
+
+      - name: Check helm version
+        run: helm version
+
       - name: Deploy adapters
         working-directory: ./external-adapters-js
         env:
