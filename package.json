@@ -16,6 +16,7 @@
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "setup": "tsc -b ./packages/tsconfig.json",
+    "setup-tests": "tsc -b ./packages/tsconfig.test.json",
     "test": "jest",
     "test:unit": "jest unit",
     "test:integration": "EA_PORT=0 jest integration",
