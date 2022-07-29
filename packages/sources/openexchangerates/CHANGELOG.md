@@ -1,5 +1,12 @@
 # @chainlink/openexchangerates-adapter
 
+## 1.5.2
+
+### Patch Changes
+
+- 53af181dc: Update openexchangerates inverse pairs
+- 9a6e2744a: Add COP/USD to inverse includes list
+
 ## 1.5.1
 
 ### Patch Changes
