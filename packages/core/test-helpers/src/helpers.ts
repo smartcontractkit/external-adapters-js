@@ -56,3 +56,9 @@ export function validationErrors(requests: any[], execute: Execute) {
 export function serverErrors(requests: any[], execute: Execute) {
   buildErrors('error calls @integration', 500, requests, execute)
 }
+
+export function setEnvVariables(envVariables: NodeJS.ProcessEnv): void {
+  for (const key in envVariables) {
+    process.env[key] = envVariables[key]
+  }
+}

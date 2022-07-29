@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.17.1
+
+### Patch Changes
+
+- cf38319c3: Support includes param in request as string[]
+
 ## 2.17.0
 
 ### Minor Changes

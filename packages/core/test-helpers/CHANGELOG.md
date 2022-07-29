@@ -1,5 +1,11 @@
 # @chainlink/ea-test-helpers
 
+## 1.4.1
+
+### Patch Changes
+
+- a54b4216b: Type refactoring
+
 ## 1.4.0
 
 ### Minor Changes

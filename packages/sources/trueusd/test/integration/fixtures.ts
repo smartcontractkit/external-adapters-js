@@ -7,7 +7,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     .get('/chainlink/TrueUSD')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         accountName: 'TrueUSD',
         totalTrust: 140,
         totalToken: 137.87276643,

@@ -4,6 +4,7 @@ import type {
   AdapterRequestData,
   BatchableProperty,
   Execute,
+  Includes,
 } from '../../../types'
 import { combineReducers, createReducer } from '@reduxjs/toolkit'
 import { logger } from '../../modules/logger'
@@ -141,7 +142,7 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
           batchWarmer.origin.includes = uniq([
             ...(batchWarmer.origin.includes || []),
             ...(childRequestData.includes || []),
-          ])
+          ]) as Includes[] | string[]
       }
     }
   })
@@ -186,7 +187,9 @@ export const subscriptionsReducer = createReducer<SubscriptionState>({}, (builde
       if (childOriginData.tokenOverrides)
         acc.tokenOverrides = merge(acc.tokenOverrides || {}, childOriginData.tokenOverrides)
       if (childOriginData.includes)
-        acc.includes = uniq([...(acc.includes || []), ...childOriginData.includes])
+        acc.includes = uniq([...(acc.includes || []), ...childOriginData.includes]) as
+          | Includes[]
+          | string[]
       return acc
     }, {})
 

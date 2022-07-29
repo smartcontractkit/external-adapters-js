@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wrapped
 
-![2.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wrapped/package.json)
+![2.2.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wrapped/package.json)
 
 Base URL http://chainlink.wrappedeng.com
 
@@ -42,9 +42,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "deposits",
     "symbol": "ETH",
-    "chainId": "mainnet"
+    "chainId": "mainnet",
+    "endpoint": "deposits"
   },
   "debug": {
     "cacheKey": "AfHCAiARodF3nQSKihXh2LjDMl0="

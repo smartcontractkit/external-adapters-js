@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('http://api.marketstack.com/v1', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ access_key: 'fake-api-key', symbols: 'AAPL', interval: '1min', limit: 1 })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         pagination: { limit: 1, offset: 0, count: 1, total: 252 },
         data: [
           {

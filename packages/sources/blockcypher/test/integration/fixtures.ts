@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.blockcypher.com/v1', {
     encodedQueryParams: true,
   })
@@ -9,7 +9,7 @@ export const mockResponseSuccess = (): nock =>
     )
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         address: '3ANaBZ6odMrzdg9xifgRNxAUFUxnReesws',
         total_received: 2111956338035,
         total_sent: 2111956337488,

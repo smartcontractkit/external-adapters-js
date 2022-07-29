@@ -7,10 +7,12 @@ import {
   mockResponseFailure,
 } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -34,7 +36,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockRateResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -49,7 +51,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        base: 'IRD',
+        base: 'IDR',
         quote: ['USD', 'ETH'],
       },
     }
@@ -57,7 +59,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockInverseRateResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -80,7 +82,7 @@ describe('execute', () => {
     it('should return failure', async () => {
       mockResponseFailure()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

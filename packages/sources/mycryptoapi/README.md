@@ -1,6 +1,6 @@
 # Chainlink External Adapter for MyCryptoApi
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mycryptoapi/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mycryptoapi/package.json)
 
 Base URL https://gas.mycryptoapi.com/
 
@@ -38,8 +38,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "speed": "fast",
+    "endpoint": "gasprice"
   },
   "debug": {
     "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="

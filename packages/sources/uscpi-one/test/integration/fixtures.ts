@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockUSCPIResponseSuccess = (): nock =>
+export const mockUSCPIResponseSuccess = (): nock.Scope =>
   nock('https://api.bls.gov/publicAPI/v2', { encodedQueryParams: true })
     .persist()
     .get('/timeseries/data/CUSR0000SA0')
@@ -58,7 +58,7 @@ export const mockUSCPIResponseSuccess = (): nock =>
       ],
     )
 
-export const mockAuthenticatedSuccess = (): nock =>
+export const mockAuthenticatedSuccess = (): nock.Scope =>
   nock('https://api.bls.gov/publicAPI/v2', { encodedQueryParams: true })
     .get(`/timeseries/data/CUSR0000SA0?registrationkey=testkey`)
     .reply(

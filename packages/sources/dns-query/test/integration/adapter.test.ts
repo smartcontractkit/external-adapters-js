@@ -5,12 +5,14 @@ import request from 'supertest'
 import type { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { dnsProofTests } from './dnsProof'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
+import { FastifyInstance } from '@chainlink/ea-bootstrap'
 
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  fastify: FastifyInstance
-  req: SuperTest<Test>
+  fastify: FastifyInstance | null
+  req: SuperTest<Test> | null
 }
 
 beforeAll(() => {
@@ -24,7 +26,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
   if (process.env.RECORD) {
     nock.recorder.play()
   }
@@ -35,7 +37,7 @@ afterAll(() => {
 
 describe('execute', () => {
   const context: SuiteContext = {
-    server: null,
+    fastify: null,
     req: null,
   }
 
@@ -45,7 +47,7 @@ describe('execute', () => {
   })
 
   afterEach((done) => {
-    context.fastify.close(done)
+    ;(context.fastify as FastifyInstance).close(done)
   })
 
   describe('dnsProof endpoint', () => dnsProofTests(context))

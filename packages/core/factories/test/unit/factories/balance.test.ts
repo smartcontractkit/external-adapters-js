@@ -13,7 +13,7 @@ const accountWithBalance = {
   balance: '1234.1234',
 }
 
-const makeTestEndpoint = (result) =>
+const makeTestEndpoint = (result: Account[]) =>
   balance.make({
     getBalance: async () => ({
       result,
@@ -124,7 +124,7 @@ describe('balance execute factory tests', () => {
 
   it('returns expected response for unsupported coin-network pair', async () => {
     const endpoint = balance.make({
-      getBalance: async (input) => ({
+      getBalance: async () => ({
         result: [accountWithBalance],
       }),
       isSupported: () => false,

@@ -1,4 +1,6 @@
+import { EmptyObject } from 'redux'
 import { stub, SinonStub } from 'sinon'
+import { Heartbeats } from '../../../src/lib/middleware/rate-limit/reducer'
 import { logger } from '../../../src/lib/modules/logger'
 import {
   dataProviderMock,
@@ -59,7 +61,7 @@ describe('Rate Limit/Cache - Integration', () => {
       clock.tick(timeBetweenRequests)
     }
 
-    const state = store.getState()
+    const state = store.getState() as EmptyObject & { rateLimit: { heartbeats: Heartbeats } }
     const rlPerMinute = getRLTokenSpentPerMinute(state.rateLimit.heartbeats)
 
     expect(rlPerMinute[0]).toBeGreaterThan(capacity)

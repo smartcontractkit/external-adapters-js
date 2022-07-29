@@ -1,5 +1,13 @@
 # @chainlink/readme-test-adapter
 
+## 1.2.35
+
+### Patch Changes
+
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/ea-factories@1.2.9
+
 ## 1.2.34
 
 ### Patch Changes

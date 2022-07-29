@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AccuWeather
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/accuweather/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/accuweather/package.json)
 
 [AccuWeather](https://www.accuweather.com/)
 
@@ -118,10 +118,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "current-conditions",
     "locationKey": 2097720,
     "units": "metric",
-    "encodeResult": true
+    "encodeResult": true,
+    "endpoint": "current-conditions"
   },
   "debug": {
     "cacheKey": "z4rGh+66lDS2V1UIzsfX6ZBcYSM="
@@ -530,10 +530,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "current-conditions",
     "locationKey": 2097720,
     "units": "metric",
-    "encodeResult": false
+    "encodeResult": false,
+    "endpoint": "current-conditions"
   },
   "debug": {
     "cacheKey": "TUDuSR92POdVDacfK5z+RimwJzU="
@@ -998,11 +998,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location-current-conditions",
     "lat": 0,
     "lon": 0,
     "units": "metric",
-    "encodeResult": true
+    "encodeResult": true,
+    "endpoint": "location-current-conditions"
   },
   "debug": {
     "cacheKey": "xcuAvzNDNq0PfrcBp0ptfZMLgzQ="
@@ -1034,11 +1034,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location-current-conditions",
     "lat": 0,
     "lon": 0,
     "units": "metric",
-    "encodeResult": false
+    "encodeResult": false,
+    "endpoint": "location-current-conditions"
   },
   "debug": {
     "cacheKey": "ADPJ3u+jGPKuvSfsLlSSTITQZeE="
@@ -1101,11 +1101,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location-current-conditions",
     "lat": "40.78136100040876",
     "lon": "-77.89687509335249",
     "units": "metric",
-    "encodeResult": true
+    "encodeResult": true,
+    "endpoint": "location-current-conditions"
   },
   "debug": {
     "cacheKey": "7uQOcGZqTrD+NvijbQHDYFdWGk8="
@@ -1591,11 +1591,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location-current-conditions",
     "lat": "40.78136100040876",
     "lon": "-77.89687509335249",
     "units": "metric",
-    "encodeResult": false
+    "encodeResult": false,
+    "endpoint": "location-current-conditions"
   },
   "debug": {
     "cacheKey": "xOXFR/BQRASOBKiu/URXHLhSvHc="
@@ -2137,10 +2137,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location",
     "lat": 0,
     "lon": 0,
-    "encodeResult": true
+    "encodeResult": true,
+    "endpoint": "location"
   },
   "debug": {
     "cacheKey": "KmJFuZYlDK9vqVkoSudfdqtt400="
@@ -2172,10 +2172,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location",
     "lat": 0,
     "lon": 0,
-    "encodeResult": false
+    "encodeResult": false,
+    "endpoint": "location"
   },
   "debug": {
     "cacheKey": "jUl9AlhnwseNE32QT6vc4SP/X9M="
@@ -2214,10 +2214,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location",
     "lat": "40.78136100040876",
     "lon": "-77.89687509335249",
-    "encodeResult": true
+    "encodeResult": true,
+    "endpoint": "location"
   },
   "debug": {
     "cacheKey": "Sek20ZkkZSn2/PM3bMPBtQi7K20="
@@ -2323,10 +2323,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "location",
     "lat": "40.78136100040876",
     "lon": "-77.89687509335249",
-    "encodeResult": false
+    "encodeResult": false,
+    "endpoint": "location"
   },
   "debug": {
     "cacheKey": "k5UOHiu6zrngyq7s/5ovZPfJXsg="

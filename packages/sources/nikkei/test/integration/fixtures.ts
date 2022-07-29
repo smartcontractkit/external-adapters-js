@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://indexes.nikkei.co.jp/en/nkave', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ idx: 'nk225' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         price: '28,860.62',
         diff: '\u003c!--daily_changing--\u003e+405.02 (+1.42%)\u0026nbsp;\u0026nbsp;\u003cspan class="icon-arrow-dark-circle-right-up zoom-icon" aria-hidden="true"\u003e\u003c/span\u003e',
         diff_xs:

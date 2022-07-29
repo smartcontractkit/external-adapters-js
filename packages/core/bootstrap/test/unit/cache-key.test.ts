@@ -1,4 +1,4 @@
-import { AdapterRequest, APIEndpoint, Config, Execute } from '../../src/types'
+import { AdapterData, AdapterRequest, APIEndpoint, Config, Execute } from '../../src/types'
 import { withCacheKey } from '../../src/lib/middleware/cache-key'
 
 describe('Cache key middleware', () => {
@@ -11,12 +11,11 @@ describe('Cache key middleware', () => {
         from: 'btc',
         to: 'eth',
         overrides: {
-          btc: 'bitcoin',
+          btc: { bitcoin: 'bitcoin' },
         },
         tokenOverrides: {
-          eth: 'test',
+          eth: { test: 'test' },
         },
-        includes: {},
         endpoint: 'random',
         batchPropString: 'batchString',
         batchPropArray: ['str1', 'str2'],
@@ -32,7 +31,7 @@ describe('Cache key middleware', () => {
       },
     }
 
-    const endpointExecute = async (r) => {
+    const endpointExecute = async (r: AdapterRequest<AdapterData>) => {
       expect(r).toEqual({
         ...request,
         debug: {
@@ -47,15 +46,14 @@ describe('Cache key middleware', () => {
                   batchPropString: 'batchString',
                   endpoint: 'random',
                   from: 'btc',
-                  includes: {},
                   maxAge: 444,
                   number: 123.4,
                   overrides: {
-                    btc: 'bitcoin',
+                    btc: { bitcoin: 'bitcoin' },
                   },
                   to: 'eth',
                   tokenOverrides: {
-                    eth: 'test',
+                    eth: { test: 'test' },
                   },
                 },
                 id: '1',

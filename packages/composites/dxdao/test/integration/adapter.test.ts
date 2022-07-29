@@ -8,13 +8,13 @@ jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
   ethers: {
     providers: {
-      JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-        return {}
+      JsonRpcProvider: function (): ethers.providers.JsonRpcProvider {
+        return {} as ethers.providers.JsonRpcBatchProvider
       },
     },
     Contract: function () {
       return {
-        balanceOf: (____: string) => {
+        balanceOf: () => {
           return mockBigNum
         },
       }
@@ -64,7 +64,7 @@ describe('execute', () => {
   const id = '1'
 
   beforeAll(async () => {
-    execute = await dxdaoAdapter.makeExecute()
+    execute = (await dxdaoAdapter.makeExecute()) as Execute
   })
 
   describe('with source and pair contract addresses correctly provided', () => {
