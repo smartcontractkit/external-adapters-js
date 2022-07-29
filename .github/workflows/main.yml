@@ -62,7 +62,7 @@ jobs:
   #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
 
   run-basic-checks:
-    name: Run linters and type checks for tests
+    name: Run linters
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v2
