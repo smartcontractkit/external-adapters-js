@@ -106,7 +106,7 @@ export const mockResponseFailure = (): nock.Scope =>
     ])
     .get('/last/trade/forex/NONEXISTINGUSD')
     .query({ apikey: 'fake-api-key' })
-    .reply(400, (_, request) => ({ error: 'Please check the symbol and try again.' }), [
+    .reply(400, () => ({ error: 'Please check the symbol and try again.' }), [
       'Content-Type',
       'application/json',
       'Connection',
