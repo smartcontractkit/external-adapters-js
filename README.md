@@ -249,7 +249,7 @@ Best practice is to try to always keep it up to date!
 
 ### Why do the versions jump up sometimes?
 
-Sometimes when looking at the releases for an EA you might see it jumped a version number. For example, the previous release might be 1.2.3 and then the next release is 1.2.5. The reason being is that each week we publish a new release and communicate the new versions in the node operator channel `#announcements_ea-release`. Whenever we make a change it includes a [changeset](https://github.com/changesets/changesets), which uses versioning semantics above (major, minor, and patch). Sometimes over the course of a given week, more than one changes are included in an adapter, so more than one changeset gets ingested into the release, thus causing the release number to jump. So if a version went from 1.2.3 to 1.2.5, that means two patches were pushed that week.
+Sometimes when looking at the releases for an EA you might see it jumped a version number. For example, the previous release might be 1.2.3 and then the next release is 1.2.5. The reason being is that each week we publish a new release. Whenever we make a change it includes a [changeset](https://github.com/changesets/changesets), which uses versioning semantics above (major, minor, and patch). Sometimes over the course of a given week, more than one changes are included in an adapter, so more than one changeset gets ingested into the release, thus causing the release number to jump. So if a version went from 1.2.3 to 1.2.5, that means two patches were pushed that week.
 
 ## Advanced Features
 
