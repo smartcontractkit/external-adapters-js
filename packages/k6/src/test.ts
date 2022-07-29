@@ -29,7 +29,7 @@ export const errorRate = new Rate('errors')
 // TODO get adapters to test
 let payloadData = []
 if (__ENV.PAYLOAD_GENERATED) {
-  const payloadPath = __ENV.PAYLOAD_PATH || '../src/http.json'
+  const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
   payloadData = new SharedArray('payloadData', function () {
     const f = JSON.parse(open(payloadPath))
     return f
