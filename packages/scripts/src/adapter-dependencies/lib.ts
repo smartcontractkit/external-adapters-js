@@ -3,13 +3,46 @@ import * as shell from 'shelljs'
 import { getJsonFile, saveText } from '../shared/docGenUtils'
 import { Schema } from '../shared/docGenTypes'
 
-/**
- * Dependency Overrides define which dependent adapters are required for a given
- * composite adapter. If a composite adapter does not have overrides,
- * then the dependencies are parsed from the schemas/env.json.
- */
-const dependencyOverrides: { [adapter: string]: string[] } = {
-  'reference-transform': ['coingecko'],
+const canAccessFile = (path: string): boolean => shell.test('-f', path)
+
+const directories = ['composites', 'core', 'sources', 'targets']
+
+const loadSchemaFile = (adapterName: string): Schema | undefined => {
+  if (adapterName === 'ea-bootstrap') adapterName = 'bootstrap'
+
+  for (const directory of directories) {
+    const path = `./packages/${directory}/${adapterName}/schemas/env.json`
+    if (!canAccessFile(path)) continue
+
+    return getJsonFile(path) as Schema
+  }
+
+  return undefined
+}
+
+const followRefsAndGetRequired = (schema: Schema, easFollowed: string[] = []): string[] => {
+  const required: string[] = []
+  if (!schema.allOf) return required
+
+  for (const dep of schema.allOf) {
+    if ('anyOf' in dep) {
+      required.push(...dep.anyOf.flatMap((any) => any.required))
+    }
+    if ('$ref' in dep) {
+      if (!dep.$ref.startsWith('https://external-adapters.chainlinklabs.com/schemas/')) continue
+
+      const adapterName = (dep.$ref.split('/').pop() || '').split('-adapter.json')[0]
+      if (easFollowed.includes(adapterName)) continue
+      easFollowed.push(adapterName)
+
+      const refSchema = loadSchemaFile(adapterName)
+      if (!refSchema) continue
+
+      required.push(...followRefsAndGetRequired(refSchema, easFollowed))
+    }
+  }
+
+  return required
 }
 
 export const saveAdapterDependencies = (
@@ -18,33 +51,22 @@ export const saveAdapterDependencies = (
 ): void => {
   const dependencies: string[] = []
   for (const adapter of adapters) {
-    if (dependencyOverrides[adapter]) {
-      for (const dep of dependencyOverrides[adapter]) {
-        if (!dependencies.includes(dep)) dependencies.push(dep)
-      }
-      continue
-    }
-
     const schemaPath = `./packages/composites/${adapter}/schemas/env.json`
 
     if (!shell.test('-f', schemaPath)) continue
 
-    const { allOf = [] } = getJsonFile(schemaPath) as Schema
+    const schema = getJsonFile(schemaPath) as Schema
 
-    for (const dep of allOf) {
-      if (!('anyOf' in dep)) continue
+    const required = followRefsAndGetRequired(schema)
 
-      for (const { required } of dep.anyOf) {
-        for (const req of required) {
-          if (!req.includes('_ADAPTER_URL')) continue
+    for (const req of required) {
+      if (!req.includes('_ADAPTER_URL')) continue
 
-          let adapterName = req.split('_ADAPTER_URL')[0]
+      let adapterName = req.split('_ADAPTER_URL')[0]
 
-          adapterName = adapterName.toLowerCase().replace('_', '-').replace('-com$', '.com')
+      adapterName = adapterName.toLowerCase().replace('_', '-').replace('-com$', '.com')
 
-          if (!dependencies.includes(adapterName)) dependencies.push(adapterName)
-        }
-      }
+      if (!dependencies.includes(adapterName)) dependencies.push(adapterName)
     }
   }
 

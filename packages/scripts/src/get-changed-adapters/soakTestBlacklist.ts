@@ -6,7 +6,7 @@ export const SoakTestBlacklist: string[] = [
   'alpine',
   'anchor', // TODO: RPC URL
   'ap-election',
-  'apy-finance', // TODO: Needs registry address
+  'apy-finance', // TODO: Needs registry address, source adapters
   'augur',
   'bea',
   'bitcoin-json-rpc', // TODO: RPC URL
