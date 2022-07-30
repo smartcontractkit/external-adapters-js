@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- Exported `price-ws` endpoint
+
 ## 2.0.3
 
 ### Patch Changes
