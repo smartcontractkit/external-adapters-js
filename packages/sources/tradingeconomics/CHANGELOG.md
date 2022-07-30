@@ -1,10 +1,11 @@
 # @chainlink/tradingeconomics-adapter
 
-## 2.1.0
+## 2.0.4
 
-### Minor Changes
+### Patch Changes
 
-- Exported `price-ws` endpoint
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
 
 ## 2.0.3
 
