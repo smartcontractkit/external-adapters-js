@@ -5,11 +5,11 @@ import moment from 'moment-timezone'
 
 const endpointConfig: { [index: string]: { url: string; symbolKey: 'symbol' | 'slug' } } = {
   xlci: {
-    url: '/v1/index/xangle-largecap',
+    url: '/v1/index/xangle-largecap', //TODO remove support? https://pro-api.xangle.io/#section/Version-History
     symbolKey: 'symbol',
   },
   xbci: {
-    url: '/v1/index/xangle-bluechip',
+    url: '/v1/index/xangle-bluechip', //TODO remove support? https://pro-api.xangle.io/#section/Version-History
     symbolKey: 'symbol',
   },
   x30: {
