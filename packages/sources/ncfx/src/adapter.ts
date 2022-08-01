@@ -32,7 +32,7 @@ export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-interface Message {
+interface CryptoMessage {
   timestamp: string
   ccy?: string
   type?: string
@@ -43,6 +43,12 @@ interface Message {
   offer?: number
   mid?: number
 }
+
+interface ForexMessage {
+  [pair: string]: { price: number; timestamp: string }
+}
+
+type Message = CryptoMessage | ForexMessage
 
 export const makeWSHandler = (
   config?: Config,
@@ -71,8 +77,6 @@ export const makeWSHandler = (
 
   const isForexEndpoint = (endpoint: string | undefined) =>
     !!endpoint && endpoints.forex.supportedEndpoints.indexOf(endpoint) !== -1
-  const getPairFieldFromNCFXResponse = (endpoint: string | undefined) =>
-    isForexEndpoint(endpoint) ? 'ccy' : 'currencyPair'
 
   return () => {
     const defaultConfig = config || makeConfig()
@@ -81,54 +85,62 @@ export const makeWSHandler = (
         getUrl: async (input: any) => {
           const endpoint = input.data.endpoint
           if (isForexEndpoint(endpoint)) {
-            return `${defaultConfig.adapterSpecificParams?.forexDefaultBaseWSUrl}/spotdata`
+            return `${defaultConfig.adapterSpecificParams?.forexDefaultBaseWSUrl}`
           }
           return `${defaultConfig.ws?.baseWsURL}/cryptodata`
         },
+        protocol: {
+          headers: {
+            ...defaultConfig.api?.headers,
+            ncfxauth: defaultConfig.adapterSpecificParams?.forexEncodedCreds,
+          },
+        },
       },
       noHttp: true,
-      subscribe: (input) => getSubscription('subscribe', getPair(input)),
-      unsubscribe: (input) => getSubscription('unsubscribe', getPair(input)),
-      subsFromMessage: (message: Message, subscriptionMsg: any, input) => {
+      subscribe: (input: AdapterRequest) =>
+        isForexEndpoint(input.data.endpoint)
+          ? 'ncfx_forex'
+          : getSubscription('subscribe', getPair(input)),
+      unsubscribe: (input: AdapterRequest) =>
+        isForexEndpoint(input.data.endpoint) ? '' : getSubscription('unsubscribe', getPair(input)),
+      subsFromMessage: (message: Message, subscriptionMsg: any, input: AdapterRequest) => {
+        // console.log('subs', { message })
+        if (isForexEndpoint(input.data.endpoint)) return 'ncfx_forex'
+
         if (Array.isArray(message) && message.length > 0) {
-          const pairField = getPairFieldFromNCFXResponse(input.data.endpoint)
-          const pairMessage = message.find((m) => m[pairField] === subscriptionMsg.ccy)
+          const pairMessage = message.find((m) => m.currencyPair === subscriptionMsg.ccy)
           if (!pairMessage) return ''
           return getSubscription('subscribe', `${pairMessage.currencyPair || pairMessage.ccy}`)
         }
+
         return getSubscription('subscribe', `${message}`)
       },
       isError: (message: Message) => Number(message.type) > 400 && Number(message.type) < 900,
-      filter: (message: Message) => {
-        return Array.isArray(message) && message.length > 0
-      },
+      filter: (message: Message) =>
+        (Array.isArray(message) && message.length > 0) || Object.keys(message).length > 0,
       toResponse: (message: any, input: any) => {
         const pair = getPair(input)
-        const pairMessage = message.find(
-          (m: Message) => m[getPairFieldFromNCFXResponse(input.data.endpoint)] === pair,
-        )
+        const pairMessage = Array.isArray(message)
+          ? message.find((m: Message) => m.currencyPair === pair)
+          : message[pair]
+
         if (!pairMessage) {
           throw new Error(`${pair} not found in message`)
         }
         const endpoint = input.data.endpoint
-        const resultField = isForexEndpoint(endpoint) ? 'rate' : 'mid'
+        const resultField = isForexEndpoint(endpoint) ? 'price' : 'mid'
         const result = Requester.validateResultNumber(pairMessage, [resultField])
         return Requester.success('1', { data: { ...pairMessage, result } }, defaultConfig.verbose)
       },
-      onConnect: (input: any) => {
+      onConnect: (input: AdapterRequest) => {
         const endpoint = input.data.endpoint
-        const username = isForexEndpoint(endpoint)
-          ? (defaultConfig.adapterSpecificParams?.forexWSUsername as string)
-          : (defaultConfig.api?.auth?.username as string)
-        const password = isForexEndpoint(endpoint)
-          ? (defaultConfig.adapterSpecificParams?.forexWSPassword as string)
-          : (defaultConfig.api?.auth?.password as string)
+        if (isForexEndpoint(endpoint)) return ''
         return {
           request: 'login',
-          username,
-          password,
+          username: defaultConfig.api?.auth?.username,
+          password: defaultConfig.api?.auth?.password,
         }
       },
-    }
+    } as any // TODO: connection type mismatch
   }
 }
