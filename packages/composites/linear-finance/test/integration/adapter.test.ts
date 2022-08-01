@@ -5,6 +5,7 @@ import {
   mockAdapterResponseSuccess,
   mockXBCIResponseSuccess,
   mockXLCIResponseSuccess,
+  mockX30ResponseSuccess,
 } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
@@ -15,12 +16,10 @@ const time = '2021-01-02T00:00:00'
 
 jest.mock('moment-timezone', () => {
   const mockFormatFn = jest.fn().mockReturnValue(time)
-  const mockTzFn = jest.fn().mockReturnValue({
-    format: mockFormatFn,
-  })
-  return jest.fn().mockReturnValue({
-    tz: mockTzFn,
-  })
+  const mockSubtractFn = jest.fn().mockReturnValue({ format: mockFormatFn })
+  const mockTzFn = jest.fn().mockReturnValue({ subtract: mockSubtractFn })
+  const mockMoment = jest.fn().mockReturnValue({ tz: mockTzFn })
+  return mockMoment
 })
 
 describe('execute', () => {
@@ -75,6 +74,30 @@ describe('execute', () => {
     it('should return success', async () => {
       mockAdapterResponseSuccess()
       mockXLCIResponseSuccess(time)
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('x30 api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        index: 'x30',
+        quote: 'USD',
+        source: 'coinmarketcap',
+      },
+    }
+
+    it('should return success', async () => {
+      mockAdapterResponseSuccess()
+      mockX30ResponseSuccess(time)
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')

@@ -91,8 +91,7 @@ const handleBatchedRequest = (
 }
 
 const getIncludesOptions = (
-  //@ts-expect-error validator is unused var
-  validator: Validator<TInputParameters>,
+  _: Validator<TInputParameters>,
   include: IncludePair,
 ): TOptions | undefined => ({
   base: include.from,
@@ -108,7 +107,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const url = 'latest.json'
 
-  const pairOptions = util.getPairOptions<TOptions, TInputParameters>(
+  const pairOptions = util.getBatchedPairOptions<TOptions, TInputParameters>(
     AdapterName,
     validator,
     getIncludesOptions,

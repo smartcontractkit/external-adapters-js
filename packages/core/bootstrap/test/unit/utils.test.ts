@@ -26,6 +26,7 @@ import {
   getEnvWithFallback,
   getClientIp,
   getPairOptions,
+  getBatchedPairOptions,
 } from '../../src/lib/util'
 import { Validator } from '../../src/lib/modules/validator'
 
@@ -531,7 +532,7 @@ describe('utils', () => {
         { includes, overrides },
       )
 
-      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+      const pairOptions = getBatchedPairOptions<TOptions, TInputParameters>(
         'TEST_ADAPTER_NAME',
         validator,
         getIncludesOptions,

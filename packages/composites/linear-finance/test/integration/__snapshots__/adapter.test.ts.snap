@@ -1,5 +1,230 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute x30 api should return success 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "ADA": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "ALGO": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "ATOM": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "AVAX": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "BCH": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "BNB": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "BTC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "BUSD": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "CRO": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "DAI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "DOGE": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "DOT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "ETC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "ETH": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "FTX": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "LEO": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "LINK": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "LTC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "MATIC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "NEAR": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "SHIB": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "SOL": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "TRX": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "UNISWAP": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "USDC": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "USDTERC20": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "XCN": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "XLM": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "XMR": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+      "XRP": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 100,
+          },
+        },
+      },
+    },
+    "result": 63605349.41204809,
+    "sources": Array [],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 63605349.41204809,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute xbci api should return success 1`] = `
 Object {
   "data": Object {
