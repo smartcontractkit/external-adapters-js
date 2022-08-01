@@ -1,4 +1,4 @@
-import { AdapterRequest, Execute } from '@chainlink/types'
+import { AdapterData, AdapterRequest, AdapterRequestData, Execute } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 import * as apyFinanceAdapter from '../../src/index'
 import { mockEthereumCalls, mockTiingoResponse } from './fixtures'
@@ -32,7 +32,7 @@ describe('execute', () => {
   describe('with request properly formatted', () => {
     mockTiingoResponse()
     mockEthereumCalls()
-    const data: AdapterRequest = {
+    const data: AdapterRequestData = {
       id,
       data: {
         source: 'tiingo',
@@ -40,7 +40,7 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      const resp = await execute(data, {})
+      const resp = await execute(data as AdapterRequest<AdapterData>, {})
       expect(resp).toMatchSnapshot()
     })
   })
@@ -48,7 +48,7 @@ describe('execute', () => {
   describe('with varying stable prices', () => {
     mockTiingoResponse()
     mockEthereumCalls()
-    const data: AdapterRequest = {
+    const data: AdapterRequestData = {
       id,
       data: {
         source: 'tiingo',
@@ -56,7 +56,7 @@ describe('execute', () => {
     }
 
     it('should return correct result', async () => {
-      const resp = await execute(data, {})
+      const resp = await execute(data as AdapterRequest<AdapterData>, {})
       expect(resp).toMatchSnapshot()
     })
   })

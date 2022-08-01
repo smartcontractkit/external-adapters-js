@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CurrencyLayer
 
-![1.3.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/currencylayer/package.json)
+![2.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/currencylayer/package.json)
 
 Base URL https://api.currencylayer.com
 
@@ -19,9 +19,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                Options                                                 |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#live-endpoint), [live](#live-endpoint), [price](#live-endpoint) | `convert` |
+| Required? |   Name   |     Description     |  Type  |                                                Options                                                 | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#live-endpoint), [live](#live-endpoint), [price](#live-endpoint) | `live`  |
 
 ## Convert Endpoint
 
@@ -43,10 +43,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "convert",
     "base": "BTC",
     "quote": "USD",
-    "amount": 1
+    "amount": 1,
+    "endpoint": "convert"
   },
   "debug": {
     "cacheKey": "fE+e01CMPOlT/0yVAcTGT32JAlQ="
@@ -90,15 +90,74 @@ Supported names for this endpoint are: `forex`, `live`, `price`.
 
 ### Input Params
 
-| Required? |  Name  |         Aliases         | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :---------------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `base`, `coin`, `from`  |             |      |         |         |            |                |
-|    ✅     | quote  | `market`, `quote`, `to` |             |      |         |         |            |                |
-|           | amount |                         |             |      |         |         |            |                |
+| Required? |  Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |  base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
+|    ✅     | quote  | `market`, `to` | The symbol of the currency to convert to |        |         |         |            |                |
+|           | amount |                |        An amount of the currency         | number |         |   `1`   |            |                |
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "BTC",
+    "quote": "USD",
+    "amount": 1,
+    "endpoint": "live"
+  },
+  "debug": {
+    "cacheKey": "K9RcNs7mmrcDzcLMwNlw++Rup8E=",
+    "batchCacheKey": "JNljA7RWhMv9GbJ3cUT6sqqNk/E=",
+    "batchChildrenCacheKeys": [
+      [
+        "K9RcNs7mmrcDzcLMwNlw++Rup8E=",
+        {
+          "id": "1",
+          "data": {
+            "base": "BTC",
+            "quote": "USD",
+            "amount": 1,
+            "endpoint": "live"
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "success": true,
+    "terms": "https://currencylayer.com/terms",
+    "privacy": "https://currencylayer.com/privacy",
+    "timestamp": 1655821744,
+    "source": "BTC",
+    "quotes": {
+      "BTCUSD": 21479.7756
+    },
+    "result": 21479.7756
+  },
+  "result": 21479.7756,
+  "statusCode": 200,
+  "debug": {
+    "batchablePropertyPath": [
+      {
+        "name": "quote"
+      }
+    ]
+  },
+  "providerStatusCode": 200
+}
+```
 
 ---
 

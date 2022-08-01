@@ -70,7 +70,7 @@ describe('execute', () => {
   const id = '1'
 
   beforeAll(async () => {
-    execute = await cryptoVolatilityAdapter.makeExecute()
+    execute = (await cryptoVolatilityAdapter.makeExecute()) as Execute
   })
 
   describe('with isAdaptive true', () => {
@@ -95,7 +95,7 @@ describe('execute', () => {
     mockInstrumentsETH()
 
     it('should return success', async () => {
-      const resp = await execute(data)
+      const resp = await execute(data, {})
       expect(resp).toMatchSnapshot()
     })
   })
@@ -121,7 +121,7 @@ describe('execute', () => {
     mockInstrumentsETH()
 
     it('should return success', async () => {
-      const resp = await execute(data)
+      const resp = await execute(data, {})
       expect(resp).toMatchSnapshot()
     })
   })

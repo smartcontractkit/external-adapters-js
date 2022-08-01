@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoCompare
 
-![1.3.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json)
+![1.4.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json)
 
 Base URL wss://streamer.cryptocompare.com/v2
 
@@ -43,10 +43,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "PRICE",
     "base": "ETH",
-    "quote": "BTC"
+    "quote": "BTC",
+    "endpoint": "crypto",
+    "resultPath": "PRICE"
   },
   "debug": {
     "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0=",
@@ -57,10 +57,10 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
-            "resultPath": "PRICE",
             "base": "ETH",
-            "quote": "BTC"
+            "quote": "BTC",
+            "endpoint": "crypto",
+            "resultPath": "PRICE"
           }
         }
       ]
@@ -208,10 +208,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "marketcap",
-    "resultPath": "MKTCAP",
     "base": "ETH",
-    "quote": "BTC"
+    "quote": "BTC",
+    "endpoint": "marketcap",
+    "resultPath": "MKTCAP"
   },
   "debug": {
     "cacheKey": "KbqgFjuDtvts/CAPorCDKS6azZ0=",
@@ -222,10 +222,10 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "marketcap",
-            "resultPath": "MKTCAP",
             "base": "ETH",
-            "quote": "BTC"
+            "quote": "BTC",
+            "endpoint": "marketcap",
+            "resultPath": "MKTCAP"
           }
         }
       ]
@@ -370,10 +370,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "volume",
-    "resultPath": "VOLUME24HOURTO",
     "base": "ETH",
-    "quote": "BTC"
+    "quote": "BTC",
+    "endpoint": "volume",
+    "resultPath": "VOLUME24HOURTO"
   },
   "debug": {
     "cacheKey": "b8cVkUXVyDdOe/are/9XZjUuFsw=",
@@ -384,10 +384,10 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "volume",
-            "resultPath": "VOLUME24HOURTO",
             "base": "ETH",
-            "quote": "BTC"
+            "quote": "BTC",
+            "endpoint": "volume",
+            "resultPath": "VOLUME24HOURTO"
           }
         }
       ]
@@ -550,10 +550,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "vwap",
     "base": "AMPL",
     "quote": "USD",
-    "hours": 24
+    "hours": 24,
+    "endpoint": "vwap"
   },
   "debug": {
     "cacheKey": "ktiYBaPq7+GA3M0Ss87tRIW2Nsw="

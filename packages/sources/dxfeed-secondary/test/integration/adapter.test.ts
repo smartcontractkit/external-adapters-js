@@ -17,13 +17,15 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('dxfeed secondary', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -46,7 +48,7 @@ describe('dxfeed secondary', () => {
     it('should return success', async () => {
       mockPriceResponse()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(priceRequest)
         .set('Accept', '*/*')
@@ -82,7 +84,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -100,7 +102,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockPriceResponse() // For the first response
 

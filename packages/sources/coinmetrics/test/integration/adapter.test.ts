@@ -11,6 +11,7 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
@@ -24,8 +25,8 @@ import { util } from '@chainlink/ea-bootstrap'
 let oldEnv: NodeJS.ProcessEnv
 
 export interface SuiteContext {
-  fastify: FastifyInstance
-  req: SuperTest<Test>
+  fastify: FastifyInstance | null
+  req: SuperTest<Test> | null
 }
 
 beforeAll(() => {
@@ -38,7 +39,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
   if (process.env.RECORD) {
     nock.recorder.play()
   }
@@ -49,7 +50,7 @@ afterAll(() => {
 
 describe('execute', () => {
   const context: SuiteContext = {
-    server: null,
+    fastify: null,
     req: null,
   }
 
@@ -59,7 +60,7 @@ describe('execute', () => {
   })
 
   afterEach((done) => {
-    context.fastify.close(done)
+    ;(context.fastify as FastifyInstance).close(done)
   })
 
   describe('total-burned endpoint', () => totalBurnedTests(context))
@@ -89,7 +90,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -108,7 +109,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockCoinmetricsResponseSuccess4() // For the first response
 

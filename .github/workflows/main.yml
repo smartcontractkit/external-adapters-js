@@ -74,6 +74,7 @@ jobs:
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
+      - run: yarn setup-tests
       - run: yarn format:check
 
   run-docmentation-check:
@@ -96,20 +97,6 @@ jobs:
         run: yarn generate:master-list -v
       - name: Test README Generation
         run: yarn generate:readme -a -v
-
-  # Changeset check
-  adapter-change-has-changeset:
-    name: Adapter changes accompanied by a changeset
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-
-      - name: Check whether adapter change also has a changeset
-        id: adapter_change_has_changeset
-        run: ./.github/isvalidadapterchange.sh
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:

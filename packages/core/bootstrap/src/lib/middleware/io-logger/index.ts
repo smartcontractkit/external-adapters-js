@@ -11,8 +11,7 @@ export const withIOLogger: <R extends AdapterRequest, C extends AdapterContext>(
   R,
   C
 > = () => async (execute, context) => async (input) => {
-  Logger.debug('Input: ', { input })
-  Logger.debug(`Received request from IP ${context.ip} and Host ${context.host}`)
+  Logger.debug('Input: ', { input, IP: `${context.ip}`, Host: `${context.host}` })
   try {
     const result = await execute(input, context)
     Logger.debug(`Output: [${result.statusCode}]: `, { output: result })

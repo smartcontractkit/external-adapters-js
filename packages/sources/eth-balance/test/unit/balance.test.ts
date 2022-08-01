@@ -1,7 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
@@ -27,7 +28,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: 'asd',
+            minConfirmations: 'asd',
           },
         },
       },
@@ -37,7 +38,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: 12.3,
+            minConfirmations: 12.3,
           },
         },
       },
@@ -47,7 +48,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: -1,
+            minConfirmations: -1,
           },
         },
       },
@@ -57,7 +58,7 @@ describe('execute', () => {
           id: jobID,
           data: {
             addresses: [{ address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d' }],
-            confirmations: 65,
+            minConfirmations: 65,
           },
         },
       },
@@ -66,9 +67,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

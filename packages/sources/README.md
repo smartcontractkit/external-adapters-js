@@ -114,6 +114,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [solana-view-function](./solana-view-function/README.md)
 - [spectral-macro-score](./spectral-macro-score/README.md)
 - [sportsdataio](./sportsdataio/README.md)
+- [stader-labs](./stader-labs/README.md)
 - [stasis](./stasis/README.md)
 - [synthetix-debt-pool](./synthetix-debt-pool/README.md)
 - [taapi](./taapi/README.md)

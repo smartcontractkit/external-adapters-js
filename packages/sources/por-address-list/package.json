@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/por-address-list-adapter",
-  "version": "1.0.12",
+  "version": "1.0.15",
   "description": "Chainlink por-address-list adapter.",
   "keywords": [
     "Chainlink",
@@ -35,10 +35,10 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.41",
+    "@types/node": "16.11.45",
     "@types/supertest": "2.0.11",
-    "nock": "13.2.7",
-    "supertest": "6.2.3",
+    "nock": "13.2.9",
+    "supertest": "6.2.4",
     "typescript": "4.7.4"
   }
 }

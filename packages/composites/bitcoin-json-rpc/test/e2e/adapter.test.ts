@@ -1,7 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '@chainlink/json-rpc-adapter/dist/endpoint'
 
 /**
  * Running these tests requires a connection to a Bitcoin client.
@@ -58,7 +59,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
+        const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
       })
     })
@@ -75,9 +76,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

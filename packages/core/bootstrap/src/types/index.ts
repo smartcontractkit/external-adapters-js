@@ -118,7 +118,7 @@ export type TBaseInputParameters = {
   resultPath?: ResultPath
   overrides?: OverrideRecord
   tokenOverrides?: { [network: string]: { [token: string]: string } }
-  includes?: Includes[]
+  includes?: Includes[] | string[]
   maxAge?: number
   cost?: number
   error?: { code: number }
