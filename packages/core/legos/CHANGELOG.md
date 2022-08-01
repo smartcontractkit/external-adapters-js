@@ -1,5 +1,22 @@
 # @chainlink/ea
 
+## 1.3.14
+
+### Patch Changes
+
+- Updated dependencies [04ea6e448]
+- Updated dependencies [04ea6e448]
+- Updated dependencies [9bb44dd46]
+- Updated dependencies [d6a3fa54c]
+  - @chainlink/tiingo-adapter@1.12.0
+  - @chainlink/kaiko-adapter@1.5.3
+  - @chainlink/openexchangerates-adapter@1.5.4
+  - @chainlink/amberdata-adapter@1.8.3
+  - @chainlink/finage-adapter@1.5.0
+  - @chainlink/ncfx-adapter@2.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.3
+  - @chainlink/wbtc-address-set-adapter@1.4.12
+
 ## 1.3.13
 
 ### Patch Changes

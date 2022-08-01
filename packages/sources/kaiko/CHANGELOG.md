@@ -1,5 +1,11 @@
 # @chainlink/kaiko-adapter
 
+## 1.5.3
+
+### Patch Changes
+
+- 04ea6e448: Updated with better approach to ignore unused var linting and to avoid type coercion
+
 ## 1.5.2
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @chainlink/token-allocation-adapter
 
+## 1.5.11
+
+### Patch Changes
+
+- Updated dependencies [04ea6e448]
+- Updated dependencies [04ea6e448]
+- Updated dependencies [9bb44dd46]
+- Updated dependencies [d6a3fa54c]
+  - @chainlink/tiingo-adapter@1.12.0
+  - @chainlink/kaiko-adapter@1.5.3
+  - @chainlink/amberdata-adapter@1.8.3
+  - @chainlink/finage-adapter@1.5.0
+  - @chainlink/ncfx-adapter@2.0.0
+
 ## 1.5.10
 
 ### Patch Changes
