@@ -1,5 +1,15 @@
 # @chainlink/linear-finance-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- 997305c5f: Add x30 endpoint to linear finance
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.5.11
+
 ## 2.2.10
 
 ### Patch Changes

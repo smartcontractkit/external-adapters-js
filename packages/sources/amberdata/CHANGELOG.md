@@ -1,5 +1,11 @@
 # @chainlink/amberdata-adapter
 
+## 1.8.3
+
+### Patch Changes
+
+- 04ea6e448: Updated with better approach to ignore unused var linting and to avoid type coercion
+
 ## 1.8.2
 
 ### Patch Changes
