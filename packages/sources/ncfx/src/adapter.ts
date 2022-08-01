@@ -65,8 +65,7 @@ interface Pair {
 }
 
 const getIncludesOptions = (
-  //@ts-expect-error no-unused-vars
-  validator: Validator<TInputParameters>,
+  _validator: Validator<TInputParameters>,
   include: IncludePair,
 ): TOptions | undefined => {
   return {
@@ -106,11 +105,7 @@ const getPair = (input: AdapterRequest): Pair => {
   }
 }
 
-export const makeWSHandler = (
-  config?: Config,
-): MakeWSHandler<
-  Message | any // TODO: WS message types
-> => {
+export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> => {
   const getSubscription = (request: 'subscribe' | 'unsubscribe', pair?: string) => {
     if (!pair) return ''
     return { request, ccy: pair }
@@ -159,11 +154,11 @@ export const makeWSHandler = (
       isError: (message: Message) => Number(message.type) > 400 && Number(message.type) < 900,
       filter: (message: Message) =>
         (Array.isArray(message) && message.length > 0) || Object.keys(message).length > 0,
-      toResponse: (message: any, input: any) => {
+      toResponse: (message: Message, input: AdapterRequest) => {
         const { pair, inverse } = getPair(input)
         const pairMessage = Array.isArray(message)
           ? message.find((m: Message) => m.currencyPair === pair)
-          : message[pair]
+          : (message as ForexMessage)[pair]
 
         if (!pairMessage) {
           throw new Error(`${pair} not found in message`)
@@ -182,6 +177,6 @@ export const makeWSHandler = (
           password: defaultConfig.api?.auth?.password,
         }
       },
-    } as any // TODO: connection type mismatch
+    } as any
   }
 }
