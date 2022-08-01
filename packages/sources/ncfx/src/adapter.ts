@@ -104,9 +104,7 @@ export const makeWSHandler = (
       unsubscribe: (input: AdapterRequest) =>
         isForexEndpoint(input.data.endpoint) ? '' : getSubscription('unsubscribe', getPair(input)),
       subsFromMessage: (message: Message, subscriptionMsg: any, input: AdapterRequest) => {
-        // console.log('subs', { message })
         if (isForexEndpoint(input.data.endpoint)) return 'ncfx_forex'
-
         if (Array.isArray(message) && message.length > 0) {
           const pairMessage = message.find((m) => m.currencyPair === subscriptionMsg.ccy)
           if (!pairMessage) return ''
