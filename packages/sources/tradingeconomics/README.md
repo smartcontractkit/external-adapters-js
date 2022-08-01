@@ -22,9 +22,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |         Options          |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price-ws` |
+| Required? |   Name   |     Description     |  Type  |                         Options                          |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [price-ws](#price_ws-endpoint), [price](#price-endpoint) | `price-ws` |
 
 ## Price Endpoint
 
@@ -67,6 +67,22 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+---
+
+## Price_ws Endpoint
+
+`price-ws` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name |     Aliases     |           Description            |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-------------: | :------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `from` | The symbol of the asset to query | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
 
 ---
 

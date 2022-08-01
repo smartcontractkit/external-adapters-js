@@ -734,6 +734,220 @@ export const mockXLCIResponseSuccess = (time: string): nock.Scope =>
       ],
     )
 
+export const mockX30ResponseSuccess = (time: string): nock.Scope =>
+  nock('https://pro-api.xangle.io')
+    .get(`/v1/index/x30?reference_timestamp=${time}`)
+    .reply(
+      200,
+      {
+        data: {
+          index_value: {
+            value: 709.5442445249,
+            timestamp: time,
+          },
+          portfolio: [
+            {
+              project_id: '5cd51e79293878abac111834',
+              slug: 'BTC',
+              weight: 0.25,
+              unit: 0.007332172585116917,
+            },
+            {
+              project_id: '5cde464e602c16381e881010',
+              slug: 'ETH',
+              weight: 0.15,
+              unit: 0.08153215682910221,
+            },
+            {
+              project_id: '5ce25a5c1d9aee16e45cc19d',
+              slug: 'USDTERC20',
+              weight: 0.13230346442490862,
+              unit: 76.86109060103622,
+            },
+            {
+              project_id: '5cde4a2f46c3b269c3881018',
+              slug: 'USDC',
+              weight: 0.11134767210310423,
+              unit: 64.57942397753091,
+            },
+            {
+              project_id: '5c20863920e3f28b6ff005c2',
+              slug: 'BNB',
+              weight: 0.07142672512793838,
+              unit: 0.18895771889324645,
+            },
+            {
+              project_id: '5cde4a6646c3b269c388101b',
+              slug: 'XRP',
+              weight: 0.03195704362286971,
+              unit: 55.946664538038846,
+            },
+            {
+              project_id: '5ce25aed926c654a0e5cc19e',
+              slug: 'ADA',
+              weight: 0.03088366412602523,
+              unit: 39.045614854501906,
+            },
+            {
+              project_id: '5dcb6de8058493bcfa436925',
+              slug: 'BUSD',
+              weight: 0.03504606486387304,
+              unit: 20.307110045150043,
+            },
+            {
+              project_id: '5d36e3807b1ea5f4d2920dd2',
+              slug: 'SOL',
+              weight: 0.022971551356738906,
+              unit: 0.3968315403268822,
+            },
+            {
+              project_id: '5ce25d41926c654a0e5cc1b0',
+              slug: 'DOGE',
+              weight: 0.017486340054708147,
+              unit: 153.53766226218042,
+            },
+            {
+              project_id: '5ec7549292bcca4799285f3d',
+              slug: 'DOT',
+              weight: 0.013866062943640772,
+              unit: 1.1429090660414436,
+            },
+            {
+              project_id: '5ce25b12926c654a0e5cc1a1',
+              slug: 'TRX',
+              weight: 0.011948979587778309,
+              unit: 107.03835585733292,
+            },
+            {
+              project_id: '5e8ae968b5e24b60b12ef790',
+              slug: 'DAI',
+              weight: 0.013531137479102756,
+              unit: 7.850262609612188,
+            },
+            {
+              project_id: '5d419982e567f24024cf7c03',
+              slug: 'AVAX',
+              weight: 0.009536494851404403,
+              unit: 0.32677829280211856,
+            },
+            {
+              project_id: '6015bacfbc00d9b345674680',
+              slug: 'SHIB',
+              weight: 0.01129639987692173,
+              unit: 635421.7729696333,
+            },
+            {
+              project_id: '5dcb61b242186066234356a0',
+              slug: 'LEO',
+              weight: 0.010969336107745184,
+              unit: 1.1039952004382108,
+            },
+            {
+              project_id: '5ce27392bb14412e6952191d',
+              slug: 'MATIC',
+              weight: 0.007580304837626223,
+              unit: 9.266140526214455,
+            },
+            {
+              project_id: '5cde4770602c16381e88101f',
+              slug: 'LTC',
+              weight: 0.007556010852541629,
+              unit: 0.08172563369778944,
+            },
+            {
+              project_id: '5ca54e5420e3f21f51d4dd5d',
+              slug: 'CRO',
+              weight: 0.005780394389387739,
+              unit: 29.236464298941495,
+            },
+            {
+              project_id: '5e1409c90e26736cd9a2db03',
+              slug: 'FTX',
+              weight: 0.006622397667006702,
+              unit: 0.1566366192342636,
+            },
+            {
+              project_id: '5f62afdf8bbfe1a468ac3c1a',
+              slug: 'UNISWAP',
+              weight: 0.007286043917763042,
+              unit: 0.8496027100326361,
+            },
+            {
+              project_id: '5ee0a65522c5baf903346e4f',
+              slug: 'NEAR',
+              weight: 0.004811163892556063,
+              unit: 0.8377416059771093,
+            },
+            {
+              project_id: '5ca478fc20e3f21b6c44b93a',
+              slug: 'LINK',
+              weight: 0.005826145050118639,
+              unit: 0.5405670035629196,
+            },
+            {
+              project_id: '5cde4346602c16381e88100d',
+              slug: 'BCH',
+              weight: 0.003914572232607027,
+              unit: 0.02210978205508893,
+            },
+            {
+              project_id: '5cde4a53602c16381e881046',
+              slug: 'XLM',
+              weight: 0.005589085988680881,
+              unit: 28.969201053604277,
+            },
+            {
+              project_id: '5ce25bc11d9aee16e45cc1a0',
+              slug: 'XMR',
+              weight: 0.004079978671675593,
+              unit: 0.02099497679686294,
+            },
+            {
+              project_id: '5cde463146c3b269c388100f',
+              slug: 'ETC',
+              weight: 0.004032574147078329,
+              unit: 0.15689517657217922,
+            },
+            {
+              project_id: '62314333719dd66e5ef3dda5',
+              slug: 'XCN',
+              weight: 0.0037003942654481197,
+              unit: 24.850094577925812,
+            },
+            {
+              project_id: '5d897fa3003a5f1b04fa7e77',
+              slug: 'ALGO',
+              weight: 0.004343541388008238,
+              unit: 7.987044422241039,
+            },
+            {
+              project_id: '5ce25ce41d9aee16e45cc1a3',
+              slug: 'ATOM',
+              weight: 0.004306456172742031,
+              unit: 0.3314115673843405,
+            },
+          ],
+        },
+        status: {
+          timestamp: '2022-02-11T07:01:17.655120',
+          error_code: 0,
+          error_message: null,
+          credit: 1,
+          current_credit: 1999977,
+        },
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+
 export const mockAdapterResponseSuccess = (): nock.Scope =>
   nock(adapterConfig.coinmarketcap.adapterUrl)
     .persist()
