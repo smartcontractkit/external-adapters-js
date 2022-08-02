@@ -1,19 +1,7 @@
-import { Logger, Requester } from '@chainlink/ea-bootstrap'
+import { Logger } from '@chainlink/ea-bootstrap'
 import { DEFAULT_PRIVATE_KEY, ExtendedConfig, Networks } from './config'
-import { ec, Account, AddTransactionResponse, Provider, ProviderInterface } from 'starknet'
+import { ec, Account, AddTransactionResponse, GetBlockResponse } from 'starknet'
 import { race } from './network'
-
-export interface StarkwareBlockResponse {
-  parent_block_hash: string
-  status: string
-  gas_price: string
-  transactions: {
-    contract_address: string
-    entry_point_selector: string
-    entry_point_type: string
-    calldata: string[]
-  }[]
-}
 
 interface PendingBlockState {
   parentBlockHash: string
@@ -25,15 +13,7 @@ interface PendingBlockState {
 export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Promise<boolean> => {
   const starkKeyPair = ec.genKeyPair(DEFAULT_PRIVATE_KEY)
   const starkKeyPub = ec.getStarkKey(starkKeyPair)
-
-  ProviderInterface
-
-  const provider = new Provider({
-    baseUrl: config.starkwareConfig.sequencerUrl,
-    feederGatewayUrl: config.starkwareConfig.feederGatewayUrl,
-    gatewayUrl: config.starkwareConfig.gatewayUrl,
-  })
-
+  const provider = config.starkwareConfig.provider
   const account = new Account(provider, config.starkwareConfig.argentAccountAddr, starkKeyPair)
 
   const receipt = await race<AddTransactionResponse>({
@@ -58,7 +38,7 @@ export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Pro
 }
 
 /**
- * The Starkware sequencer is made up of two internal components.  The first is the gateway which is used to query the Sequencer state
+ * The centralized Starkware sequencer is made up of two internal components.  The first is the gateway which is used to query the Sequencer state
  * and the batcher which adds transactions to the pending block and processes the pending block to add it into the L2 chain.  The
  * Sequencer is considered unhealthy if either of the components are down.
  *
@@ -90,12 +70,9 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
       )
       return lastSeenPendingBlock.lastStatus
     }
-    let pendingBlockParams: StarkwareBlockResponse
+    let pendingBlockParams: GetBlockResponse
     try {
-      const { data } = await Requester.request<StarkwareBlockResponse>({
-        url: `${config.starkwareConfig.sequencerUrl}/${config.starkwareConfig.feederGatewayUrl}/get_block?blockNumber=pending`,
-      })
-      pendingBlockParams = data
+      pendingBlockParams = await config.starkwareConfig.provider.getBlock('pending')
     } catch (e: any) {
       if (e.providerStatusCode === 504) {
         Logger.warn(
@@ -109,7 +86,7 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
     const isBatcherHealthy = checkBatcherHealthy(lastSeenPendingBlock, pendingBlockParams)
     lastSeenPendingBlock = {
       parentBlockHash: pendingBlockParams.parent_block_hash,
-      txnCount: pendingBlockParams.transactions.length,
+      txnCount: Object.keys(pendingBlockParams.transactions).length,
       lastUpdated: currentTime,
       lastStatus: isBatcherHealthy,
     }
@@ -119,7 +96,7 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
 
 const checkBatcherHealthy = (
   lastSeenPendingBlock: PendingBlockState,
-  pendingBlockParams: StarkwareBlockResponse,
+  pendingBlockParams: GetBlockResponse,
 ): boolean => {
   if (lastSeenPendingBlock.parentBlockHash !== pendingBlockParams.parent_block_hash) {
     Logger.info(
@@ -130,7 +107,8 @@ const checkBatcherHealthy = (
   Logger.info(
     `Pending Starkware block still has parent hash of ${pendingBlockParams.parent_block_hash}.  Checking to see if it is still processing transactions...`,
   )
-  const hasNewTxns = pendingBlockParams.transactions.length > lastSeenPendingBlock.txnCount
+  const hasNewTxns =
+    Object.keys(pendingBlockParams.transactions).length > lastSeenPendingBlock.txnCount
   if (hasNewTxns) {
     Logger.info(`Found new transactions in pending block.  Sequencer: HEALTHY`)
   } else {

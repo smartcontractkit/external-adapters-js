@@ -1,6 +1,7 @@
 import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
 import { AdapterContext, Config } from '@chainlink/ea-bootstrap'
 import { envDefaultOverrides } from './envDefaultOverrides'
+import { Provider } from 'starknet'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
 export const DEFAULT_PRIVATE_KEY =
@@ -62,9 +63,7 @@ export interface ExtendedConfig extends Config {
   deltaBlocks: number
   timeoutLimit: number
   starkwareConfig: {
-    sequencerUrl: string
-    feederGatewayUrl: string
-    gatewayUrl: string
+    provider: Provider
     argentAccountAddr: string
   }
 }
@@ -86,11 +85,12 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
   config.defaultEndpoint = DEFAULT_ENDPOINT
   const starkwareConfig: ExtendedConfig['starkwareConfig'] = {
-    sequencerUrl:
-      util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
-    feederGatewayUrl:
-      util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL,
-    gatewayUrl: util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL,
+    provider: new Provider({
+      baseUrl: util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
+      feederGatewayUrl:
+        util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL,
+      gatewayUrl: util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL,
+    }),
     argentAccountAddr:
       util.getEnv('STARKWARE_ARGENT_ACCOUNT_ADDR') || DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR,
   }
