@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- c0677de13: Add inverse pairs to WS
+
 ## 2.0.5
 
 ### Patch Changes
