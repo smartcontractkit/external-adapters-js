@@ -85,7 +85,7 @@ describe('websocket', () => {
     fastify.close(done)
   })
 
-  describe('price endpoint', () => {
+  describe('price with `includes` override', () => {
     const jobID = '1'
 
     it('should return success', async () => {
@@ -93,7 +93,8 @@ describe('websocket', () => {
         id: jobID,
         data: {
           endpoint: 'price',
-          base: 'EURUSD:CUR',
+          base: 'CAD',
+          quote: 'USD',
         },
       }
 
@@ -126,10 +127,10 @@ describe('websocket', () => {
 
       expect(response.body).toEqual({
         jobRunID: '1',
-        result: 1.13676,
+        result: 0.776530152665828,
         statusCode: 200,
         maxAge: 30000,
-        data: { result: 1.13676 },
+        data: { result: 0.776530152665828 },
       })
 
       await flowFulfilled
