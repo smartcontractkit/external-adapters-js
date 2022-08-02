@@ -113,7 +113,7 @@ export const makeWSHandler = (
       isError: (message: Message) => Number(message.type) > 400 && Number(message.type) < 900,
       filter: (message: Message): boolean => !!message.topic && message.topic !== 'keepalive',
       toResponse: (wsResponse: Message): AdapterResponse => {
-        const base = baseFromIncludes[wsResponse.s] ?? wsResponse.s
+        const base = baseFromIncludes[wsResponse?.s] ?? wsResponse?.s
         const validator = new Validator<endpoints.TInputParameters>(
           { id: 'tradingeconomics-ws-to-repsonse', data: { base, quote: 'USD' } },
           inputParameters,
