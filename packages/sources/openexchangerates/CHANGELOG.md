@@ -11,6 +11,7 @@
 ### Patch Changes
 
 - 838ef3ddb: Update openexchangerates inverse pairs
+- 9a6e2744a: Add COP/USD to inverse includes list
 
 ## 1.5.2
 
