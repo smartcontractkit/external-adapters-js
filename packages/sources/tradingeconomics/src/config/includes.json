@@ -1,0 +1,13 @@
+[
+  {
+    "from": "CAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDCAD:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  }
+]
