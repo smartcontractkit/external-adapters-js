@@ -1,5 +1,14 @@
 # @chainlink/btc.com-adapter
 
+## 1.3.11
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-factories@1.2.10
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.3.10
 
 ### Patch Changes
