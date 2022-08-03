@@ -1,5 +1,13 @@
 # @chainlink/ada-balance-adapter
 
+## 2.5.11
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.5.10
 
 ### Patch Changes
