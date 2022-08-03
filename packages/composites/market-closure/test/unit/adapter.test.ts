@@ -4,6 +4,7 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
 import { Config } from '../../src/config'
 import { PriceAdapter } from '../../src/dataProvider'
+import { TInputParameters } from '../../src/adapter'
 
 const result = 123
 
@@ -28,7 +29,7 @@ const adapter = (type: string): PriceAdapter => {
     }
   }
 
-  return async (input: AdapterRequest) => {
+  const value = async (input: AdapterRequest) => {
     return {
       jobRunID: input.id,
       statusCode: 200,
@@ -36,6 +37,8 @@ const adapter = (type: string): PriceAdapter => {
       result,
     }
   }
+
+  return value as unknown as PriceAdapter
 }
 
 const makeMockConfig = (): Config => {
@@ -84,7 +87,7 @@ describe('executeWithAdapters', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         const execute = makeExecute(makeMockConfig())
-        const data = await execute(req.input as AdapterRequest)
+        const data = await execute(req.input as unknown as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 200, actual: data.statusCode }, data, jobID)
         expect(data.result).toEqual(result)
         expect(data.data.result).toEqual(result)

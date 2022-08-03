@@ -10,13 +10,19 @@ import overrides from '../config/symbols.json'
 
 export const supportedEndpoints = ['price']
 
-export type TInputParameters = { base: string }
+export type TInputParameters = { base: string; quote: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'asset'],
     required: true,
     description: 'The symbol of the asset to query',
     type: 'string',
+  },
+  quote: {
+    aliases: ['to', 'term'],
+    description: 'The quote symbol of the asset to query',
+    type: 'string',
+    default: 'USD',
   },
 }
 

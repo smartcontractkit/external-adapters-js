@@ -1,8 +1,9 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError } from '@chainlink/ea-test-helpers'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
+import { assertError, setEnvVariables } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
 import process from 'process'
+import { TInputParameters } from '../../src/endpoint'
 
 let oldEnv: NodeJS.ProcessEnv
 
@@ -12,7 +13,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
 })
 
 describe('execute', () => {
@@ -25,7 +26,7 @@ describe('execute', () => {
       { name: 'empty data', testData: { data: {} } },
       {
         name: 'address not supplied',
-        testData: { id: jobID, data: { query: {} } },
+        testData: { id: jobID, data: { address: '', query: {} } },
       },
       {
         name: 'query not supplied',
@@ -36,9 +37,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest, {})
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

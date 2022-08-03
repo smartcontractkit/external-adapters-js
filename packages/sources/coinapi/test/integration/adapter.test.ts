@@ -2,9 +2,11 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../src/index'
 import { mockAssetEndpoint, mockCryptoEndpoint } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('coinapi', () => {
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -28,7 +30,7 @@ describe('coinapi', () => {
           },
         }
         mockCryptoEndpoint()
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(cryptoRequest)
           .set('Accept', '*/*')
@@ -51,7 +53,7 @@ describe('coinapi', () => {
           },
         }
         mockAssetEndpoint()
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(assetRequest)
           .set('Accept', '*/*')

@@ -8,7 +8,8 @@ This repository contains the source code for Chainlink external adapters. If you
 2. [How to Run](#How-to-Run)
 3. [Testing](#Testing)
 4. [Deployment](#Deployment)
-5. [Advanced Features](#Advanced-Features)
+5. [EA Versioning](#External-Adapters-Versioning)
+6. [Advanced Features](#Advanced-Features)
 
 ## Getting Started
 
@@ -233,6 +234,22 @@ It can be helpful to pass a text file to the container to handle giving multiple
 ```sh
 docker run -p 8080:8080 --env-file=[[path to your env file]] public.ecr.aws/chainlink/adapters/1forge-adapter:latest
 ```
+
+## External Adapters Versioning
+
+For a full rundown on how versioning works, see [semver](https://semver.org/).
+
+What you need to know is that we make releases with the following versioning scheme: _major.minor.patch_.
+
+- A _patch_ version change usually has small changes/bug fixes. Upgrading/downgrading the _patch_ version number should never break compatibility.
+- A _minor_ version change usually adds functionality. Upgrading should never break compatibility, but you might not be able to downgrade the _minor_ version.
+- A _major_ version change usually introduces a breaking change. Both upgrading and downgrading the _major_ version number might require additional work. **Proceed with caution!**
+
+Best practice is to try to always keep it up to date!
+
+### Why do the versions jump up sometimes?
+
+Sometimes when looking at the releases for an EA you might see it jumped a version number. For example, the previous release might be 1.2.3 and then the next release is 1.2.5. The reason being is that each week we publish a new release. Whenever we make a change it includes a [changeset](https://github.com/changesets/changesets), which uses versioning semantics above (major, minor, and patch). Sometimes over the course of a given week, more than one changes are included in an adapter, so more than one changeset gets ingested into the release, thus causing the release number to jump. So if a version went from 1.2.3 to 1.2.5, that means two patches were pushed that week.
 
 ## Advanced Features
 

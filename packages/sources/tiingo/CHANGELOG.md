@@ -1,5 +1,18 @@
 ## v1.1.0
 
+## 1.12.0
+
+### Minor Changes
+
+- 04ea6e448: Added inverse capabilities for forex currency pairs
+
+## 1.11.10
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.11.9
 
 ### Patch Changes

@@ -3,17 +3,19 @@ import process from 'process'
 import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext, EnvVariables } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
 
-  const envVariables = {
+  const envVariables: EnvVariables = {
     ETHEREUM_RPC_URL: process.env.ETHEREUM_RPC_URL || 'http://localhost:8545',
-    API_VERBOSE: true,
+    API_VERBOSE: 'true',
   }
 
   setupExternalAdapterTest(envVariables, context)
@@ -30,7 +32,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockEthereumResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -56,7 +58,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockEthereumResponseSuccess()
 
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

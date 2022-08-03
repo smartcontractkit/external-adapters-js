@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.satoshitango.com/v3', {
     encodedQueryParams: true,
   })
     .get('/ticker/ARS')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         data: {
           ticker: {
             BTC: {

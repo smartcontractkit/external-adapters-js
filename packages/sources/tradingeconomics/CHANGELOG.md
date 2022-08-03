@@ -1,5 +1,17 @@
 # @chainlink/tradingeconomics-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- c0677de13: Add inverse pairs to WS
+
+## 2.0.5
+
+### Patch Changes
+
+- 42fcd34e3: Export price_ws from tradingeconomics
+
 ## 2.0.4
 
 ### Patch Changes

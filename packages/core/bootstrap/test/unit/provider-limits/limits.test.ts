@@ -64,7 +64,7 @@ describe('Provider Limits', () => {
 
     it('Providers in limits JSON has HTTP plan defined', async () => {
       if (Object.keys(limits.http).length > 0) {
-        Object.values(limits.http).forEach((plan: any) => {
+        Object.values(limits.http).forEach((plan) => {
           const hasSomeRateLimit = ['rateLimit1s', 'rateLimit1m', 'rateLimit1h'].some((rate) =>
             Object.keys(plan).includes(rate),
           )
@@ -75,7 +75,7 @@ describe('Provider Limits', () => {
 
     it('Providers in limits JSON has WS plan defined', async () => {
       if (Object.keys(limits.ws).length > 0) {
-        Object.values(limits.ws).forEach((plan: any) => {
+        Object.values(limits.ws).forEach((plan) => {
           expect(plan).toHaveProperty('connections')
           expect(plan).toHaveProperty('subscriptions')
 

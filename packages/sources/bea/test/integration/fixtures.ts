@@ -2,7 +2,7 @@ import nock from 'nock'
 
 const year = new Date().getFullYear()
 
-export const mockDataProviderResponses = (): nock =>
+export const mockDataProviderResponses = (): nock.Scope =>
   nock('https://apps.bea.gov/api/', {
     encodedQueryParams: true,
   })
@@ -19,7 +19,7 @@ export const mockDataProviderResponses = (): nock =>
     })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         BEAAPI: {
           Results: {
             Data: [

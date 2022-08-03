@@ -1,11 +1,11 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.covidtracking.com/v1')
     .get('/us/current.json')
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           date: 20210307,
           states: 56,

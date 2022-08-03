@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Bitex
 
-![1.3.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json)
+![1.5.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json)
 
 Base URL https://bitex.la/api
 
@@ -44,9 +44,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "ARS"
+    "quote": "ARS",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "mLZ9U6HS/OYR+sGPWycJB43/AaA="

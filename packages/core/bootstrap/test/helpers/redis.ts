@@ -15,7 +15,13 @@ export class RedisMock {
       ttl: number
     }
   } = {}
-  eventHandlers: { [event in Event]?: () => void } = {}
+  eventHandlers: { [event in Event]: () => void } = {} as {
+    error: () => void
+    end: () => void
+    connect: () => void
+    ready: () => void
+    reconnecting: () => void
+  }
 
   on(event: Event, handler: () => void): void {
     this.eventHandlers[event] = handler

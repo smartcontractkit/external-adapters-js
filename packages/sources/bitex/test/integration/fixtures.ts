@@ -1,13 +1,13 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://bitex.la/api', {
     encodedQueryParams: true,
   })
     .get('/tickers/ETH_ARS')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         data: {
           id: 'eth_ars',
           type: 'tickers',
@@ -36,14 +36,14 @@ export const mockResponseSuccess = (): nock =>
       ],
     )
 
-export const mockResponseFailure = (): nock =>
+export const mockResponseFailure = (): nock.Scope =>
   nock('https://bitex.la/api', {
     encodedQueryParams: true,
   })
     .get('/tickers/NON_EXISTING')
     .reply(
       404,
-      (_, request) => ({
+      () => ({
         errors: [{ code: 'not_found', detail: 'Orderbook with code NONEXISTING not found' }],
       }),
       [

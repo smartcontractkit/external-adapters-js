@@ -1,6 +1,6 @@
 # Chainlink External Adapters for BTC.com
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/btc.com/package.json)
+![1.3.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/btc.com/package.json)
 
 Base URL https://chain.api.btc.com
 
@@ -52,14 +52,14 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "dataPath": "addresses",
     "addresses": [
       {
         "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
         "coin": "btc"
       }
-    ]
+    ],
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "Cb2Iad6Ved2MBSrLzAhVjL4uDSY="

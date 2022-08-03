@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance DEX
 
-![1.3.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json)
+![1.6.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance-dex/package.json)
 
 The following `base` and `quote` pair must be taken from [this list](https://dex.binance.org/api/v1/markets)
 
@@ -41,9 +41,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
     "base": "BUSD-BD1",
-    "quote": "USDT-6D8"
+    "quote": "USDT-6D8",
+    "endpoint": "price"
   },
   "debug": {
     "cacheKey": "bwMQT+kLIUlCU6nr03vb2DSjlYc="
@@ -102,14 +102,14 @@ Request:
 {
   "id": "1",
   "data": {
+    "base": "overridablevalue",
+    "quote": "USDT-6D8",
     "endpoint": "price",
     "overrides": {
       "binance_dex": {
         "overridablevalue": "BUSD-BD1"
       }
-    },
-    "base": "overridablevalue",
-    "quote": "USDT-6D8"
+    }
   },
   "debug": {
     "cacheKey": "7ox5Q7U2PnYBLLJ/xmMOV/qJJPs="

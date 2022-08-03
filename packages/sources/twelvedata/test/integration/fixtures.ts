@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.twelvedata.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ apikey: 'fake-api-key', symbol: 'VXX' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         symbol: 'VXX',
         exchange: 'CBOE',
         currency: 'USD',
@@ -28,7 +28,7 @@ export const mockResponseSuccess = (): nock =>
     )
     .get('/price')
     .query({ apikey: 'fake-api-key', symbol: 'VXX' })
-    .reply(200, (_, request) => ({ price: '20.86750' }), [
+    .reply(200, () => ({ price: '20.86750' }), [
       'Content-Type',
       'application/json',
       'Connection',

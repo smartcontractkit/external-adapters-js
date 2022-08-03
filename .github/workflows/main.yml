@@ -74,6 +74,7 @@ jobs:
       - run: yarn install
       - run: yarn setup
       - run: yarn lint
+      - run: yarn setup-tests
       - run: yarn format:check
 
   run-docmentation-check:

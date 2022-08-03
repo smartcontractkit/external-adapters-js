@@ -43,7 +43,7 @@ jobs:
         run: |
           yarn generate:master-list -v
           yarn generate:readme -a -v
-          git add *
+          git add .
           yarn lint-staged
           git commit --amend --no-edit
           git push --force

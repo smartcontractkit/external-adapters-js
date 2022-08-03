@@ -7,6 +7,7 @@ import { AddressInfo } from 'net'
 import { mockBooleanOnlyGalaxisApiResp, mockNonBooleanOnlyGalaxisApiResp } from './fixtures'
 import { Interface } from 'ethers/lib/utils'
 import { BATCH_WRITER_ABI, EC_REGISTRY_ABI, TRAIT_IMPLEMENTER_ABI } from '../../src/abis'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
 
 const fakeBooleanOnlyEndpoint = 'http://galaxis.com/achievements'
 const fakeNonBooleanOnlyEndpoint = 'http://galaxis-fake-non-boolean.com/achievements'
@@ -124,7 +125,7 @@ describe('nba', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     fastify.close(done)
     nock.restore()
     nock.cleanAll()

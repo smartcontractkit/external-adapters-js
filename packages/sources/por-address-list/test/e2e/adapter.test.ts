@@ -1,6 +1,7 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
@@ -16,6 +17,7 @@ describe('execute', () => {
           data: {
             contractAddress: '0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B',
             batchSize: 3,
+            confirmations: 0,
           },
         },
       },
@@ -52,7 +54,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const adapterResponse = await execute(req.testData as AdapterRequest)
+        const adapterResponse = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess(adapterResponse.statusCode, adapterResponse, jobID)
       })
     })

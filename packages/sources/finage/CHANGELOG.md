@@ -1,5 +1,18 @@
 ## v1.1.0
 
+## 1.5.0
+
+### Minor Changes
+
+- 9bb44dd46: Added commodities endpoint to Finage EA
+
+## 1.4.10
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.4.9
 
 ### Patch Changes

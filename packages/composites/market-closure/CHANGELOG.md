@@ -1,5 +1,14 @@
 # @chainlink/market-closure-adapter
 
+## 1.2.10
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.10
+  - @chainlink/finnhub-adapter@1.2.10
+
 ## 1.2.9
 
 ### Patch Changes
