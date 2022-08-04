@@ -1,6 +1,6 @@
 import { Logger } from '@chainlink/ea-bootstrap'
 import { DEFAULT_PRIVATE_KEY, ExtendedConfig, Networks } from './config'
-import { ec, Account, AddTransactionResponse, GetBlockResponse } from 'starknet'
+import { ec, Account, InvokeFunctionResponse, GetBlockResponse } from 'starknet'
 import { race } from './network'
 
 interface PendingBlockState {
@@ -16,7 +16,7 @@ export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Pro
   const provider = config.starkwareConfig.provider
   const account = new Account(provider, config.starkwareConfig.argentAccountAddr, starkKeyPair)
 
-  const receipt = await race<AddTransactionResponse>({
+  const receipt = await race<InvokeFunctionResponse>({
     timeout: config.timeoutLimit,
     promise: account.execute(
       {
@@ -33,8 +33,8 @@ export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Pro
     `Transaction receipt received with hash ${receipt.transaction_hash} for EVM network: ${Networks.Starkware}`,
   )
   await provider.waitForTransaction(receipt.transaction_hash)
-  const tx = await provider.getTransaction(receipt.transaction_hash)
-  return tx.status !== 'REJECTED'
+  await provider.getTransaction(receipt.transaction_hash)
+  return true
 }
 
 /**
@@ -85,7 +85,7 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
     }
     const isBatcherHealthy = checkBatcherHealthy(lastSeenPendingBlock, pendingBlockParams)
     lastSeenPendingBlock = {
-      parentBlockHash: pendingBlockParams.parent_block_hash,
+      parentBlockHash: pendingBlockParams.parent_hash,
       txnCount: Object.keys(pendingBlockParams.transactions).length,
       lastUpdated: currentTime,
       lastStatus: isBatcherHealthy,
@@ -98,14 +98,14 @@ const checkBatcherHealthy = (
   lastSeenPendingBlock: PendingBlockState,
   pendingBlockParams: GetBlockResponse,
 ): boolean => {
-  if (lastSeenPendingBlock.parentBlockHash !== pendingBlockParams.parent_block_hash) {
+  if (lastSeenPendingBlock.parentBlockHash !== pendingBlockParams.parent_hash) {
     Logger.info(
-      `New pending Starkware block found with parent hash ${pendingBlockParams.parent_block_hash}.  Sequencer: HEALTHY`,
+      `New pending Starkware block found with parent hash ${pendingBlockParams.parent_hash}.  Sequencer: HEALTHY`,
     )
     return true
   }
   Logger.info(
-    `Pending Starkware block still has parent hash of ${pendingBlockParams.parent_block_hash}.  Checking to see if it is still processing transactions...`,
+    `Pending Starkware block still has parent hash of ${pendingBlockParams.parent_hash}.  Checking to see if it is still processing transactions...`,
   )
   const hasNewTxns =
     Object.keys(pendingBlockParams.transactions).length > lastSeenPendingBlock.txnCount

@@ -1,7 +1,7 @@
 import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
 import { AdapterContext, Config } from '@chainlink/ea-bootstrap'
 import { envDefaultOverrides } from './envDefaultOverrides'
-import { Provider } from 'starknet'
+import { SequencerProvider } from 'starknet'
 
 export const NAME = 'L2_SEQUENCER_HEALTH'
 export const DEFAULT_PRIVATE_KEY =
@@ -63,7 +63,7 @@ export interface ExtendedConfig extends Config {
   deltaBlocks: number
   timeoutLimit: number
   starkwareConfig: {
-    provider: Provider
+    provider: SequencerProvider
     argentAccountAddr: string
   }
 }
@@ -84,15 +84,24 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
   config.defaultEndpoint = DEFAULT_ENDPOINT
-  const starkwareConfig: ExtendedConfig['starkwareConfig'] = {
-    provider: new Provider({
-      baseUrl: util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
-      feederGatewayUrl:
-        util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL,
-      gatewayUrl: util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL,
+  const starkwareConfig = instantiateStarkwareConfig()
+
+  return { ...config, delta, deltaBlocks, timeoutLimit, starkwareConfig }
+}
+
+const instantiateStarkwareConfig = (): ExtendedConfig['starkwareConfig'] => {
+  const baseUrl =
+    util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT
+  const feederGatewayUrl =
+    util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL
+  const gatewayUrl = util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL
+  return {
+    provider: new SequencerProvider({
+      baseUrl: DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
+      feederGatewayUrl: `${baseUrl}/${feederGatewayUrl}`,
+      gatewayUrl: `${baseUrl}/${gatewayUrl}`,
     }),
     argentAccountAddr:
       util.getEnv('STARKWARE_ARGENT_ACCOUNT_ADDR') || DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR,
   }
-  return { ...config, delta, deltaBlocks, timeoutLimit, starkwareConfig }
 }

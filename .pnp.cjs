@@ -5765,7 +5765,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.6.8"],\
             ["nock", "npm:13.2.7"],\
             ["sinon", "npm:12.0.1"],\
-            ["starknet", "npm:3.18.2"],\
+            ["starknet", "npm:4.1.0"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
@@ -22038,6 +22038,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["isomorphic-fetch", [\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/isomorphic-fetch-npm-3.0.0-bce711adff-e5ab79a56c.zip/node_modules/isomorphic-fetch/",\
+          "packageDependencies": [\
+            ["isomorphic-fetch", "npm:3.0.0"],\
+            ["node-fetch", "virtual:9c0f76151f4c3b88a21fa97c32511955817ad3ef934e8c1532c5676b8cd77a1a75316118d89ec7aaf5249ebda8a4fd664be036dc2ebf4229bc67ef6fa2de5971#npm:2.6.7"],\
+            ["whatwg-fetch", "npm:3.6.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["isomorphic-ws", [\
         ["npm:4.0.1", {\
           "packageLocation": "./.yarn/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
@@ -30187,16 +30198,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["starknet", [\
-        ["npm:3.18.2", {\
-          "packageLocation": "./.yarn/cache/starknet-npm-3.18.2-268d5cda4c-3d85274d6b.zip/node_modules/starknet/",\
+        ["npm:4.1.0", {\
+          "packageLocation": "./.yarn/cache/starknet-npm-4.1.0-3090439c5d-3fd4bcf28d.zip/node_modules/starknet/",\
           "packageDependencies": [\
-            ["starknet", "npm:3.18.2"],\
+            ["starknet", "npm:4.1.0"],\
             ["@ethersproject/bytes", "npm:5.6.1"],\
             ["bn.js", "npm:5.2.1"],\
-            ["cross-fetch", "npm:3.1.5"],\
             ["elliptic", "npm:6.5.4"],\
             ["ethereum-cryptography", "npm:1.1.2"],\
             ["hash.js", "npm:1.1.7"],\
+            ["isomorphic-fetch", "npm:3.0.0"],\
             ["json-bigint", "npm:1.0.0"],\
             ["minimalistic-assert", "npm:1.0.1"],\
             ["pako", "npm:2.0.4"],\
@@ -33072,6 +33083,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["whatwg-encoding", "npm:1.0.5"],\
             ["iconv-lite", "npm:0.4.24"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["whatwg-fetch", [\
+        ["npm:3.6.2", {\
+          "packageLocation": "./.yarn/cache/whatwg-fetch-npm-3.6.2-4bdf324792-ee976b7249.zip/node_modules/whatwg-fetch/",\
+          "packageDependencies": [\
+            ["whatwg-fetch", "npm:3.6.2"]\
           ],\
           "linkType": "HARD"\
         }]\
