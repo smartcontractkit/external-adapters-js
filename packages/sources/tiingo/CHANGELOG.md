@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.12.0
+
+### Minor Changes
+
+- 04ea6e448: Added inverse capabilities for forex currency pairs
+
 ## 1.11.10
 
 ### Patch Changes

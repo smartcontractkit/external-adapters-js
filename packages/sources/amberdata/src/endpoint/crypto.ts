@@ -108,7 +108,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     getIncludesOptions,
     symbolOptions,
     customOverrideIncludes,
-  ) as TOptions // If base and quote cannot be batched, getPairOptions will return TOptions
+  )
   const reqConfig = { ...config.api, params, url }
 
   const response = await Requester.request<ResponseSchema>(reqConfig, customError)

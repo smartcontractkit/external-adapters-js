@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- d6a3fa54c: Updated NCFX adapter to use new forex endpoint & authorization method
+
 ## 1.3.10
 
 ### Patch Changes

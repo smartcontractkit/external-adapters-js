@@ -1,10 +1,17 @@
 # @chainlink/openexchangerates-adapter
 
+## 1.5.4
+
+### Patch Changes
+
+- 04ea6e448: Updated with better approach to ignore unused var linting and to avoid type coercion
+
 ## 1.5.3
 
 ### Patch Changes
 
 - 838ef3ddb: Update openexchangerates inverse pairs
+- 9a6e2744a: Add COP/USD to inverse includes list
 
 ## 1.5.2
 
