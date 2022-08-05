@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.18.0
+
+### Minor Changes
+
+- 48730a71c: Fixed websocket metric value going negative
+
 ## 2.17.1
 
 ### Patch Changes

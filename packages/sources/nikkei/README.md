@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Nikkei
 
-![1.2.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nikkei/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nikkei/package.json)
 
 Base URL https://indexes.nikkei.co.jp/en/nkave/
 
