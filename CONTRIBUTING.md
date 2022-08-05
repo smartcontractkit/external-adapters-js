@@ -33,6 +33,8 @@ $ yarn new source my-new-adapter
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
 
+Follow the checklist outlined in [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) for the remaining development steps.
+
 _Note - at the moment, adding a new adapter will also add the following lines to `tsconfig.json`:_
 
 ```
