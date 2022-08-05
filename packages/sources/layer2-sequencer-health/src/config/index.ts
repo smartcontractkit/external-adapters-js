@@ -68,12 +68,6 @@ export interface ExtendedConfig extends Config {
   }
 }
 
-const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'
-const DEFAULT_STARKWARE_FEEDER_GATEWAY_URL = 'feeder_gateway'
-const DEFAULT_STARKWARE_GATEWAY_URL = 'gateway'
-const DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR =
-  '0xd175dcf2fcf9d858d8d686826d56db7aeb29c3490110b4cfe0d8442944b828'
-
 export const makeConfig = (prefix?: string): ExtendedConfig => {
   const isCacheEnabled = util.parseBool(util.getEnv('CACHE_ENABLED', undefined, adapterContext))
   if (isCacheEnabled) {
@@ -89,19 +83,26 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   return { ...config, delta, deltaBlocks, timeoutLimit, starkwareConfig }
 }
 
+const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'
+const DEFAULT_STARKWARE_FEEDER_GATEWAY_URL = 'feeder_gateway'
+const DEFAULT_STARKWARE_GATEWAY_URL = 'gateway'
+const DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR =
+  '0x163995f6cbc4e9e3908ce6161a0bef4459847b42077be419e257c7f837a224a'
+
 const instantiateStarkwareConfig = (): ExtendedConfig['starkwareConfig'] => {
   const baseUrl =
     util.getEnv('STARKWARE_SEQUENCER_ENDPOINT') || DEFAULT_STARKWARE_SEQUENCER_ENDPOINT
   const feederGatewayUrl =
     util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL
   const gatewayUrl = util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL
+  const argentAccountAddr =
+    util.getEnv('STARKWARE_ARGENT_ACCOUNT_ADDR') || DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR
   return {
     provider: new SequencerProvider({
       baseUrl: DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
       feederGatewayUrl: `${baseUrl}/${feederGatewayUrl}`,
       gatewayUrl: `${baseUrl}/${gatewayUrl}`,
     }),
-    argentAccountAddr:
-      util.getEnv('STARKWARE_ARGENT_ACCOUNT_ADDR') || DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR,
+    argentAccountAddr: argentAccountAddr,
   }
 }

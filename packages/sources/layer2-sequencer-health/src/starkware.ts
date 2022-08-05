@@ -3,11 +3,11 @@ import { DEFAULT_PRIVATE_KEY, ExtendedConfig, Networks } from './config'
 import { ec, Account, InvokeFunctionResponse, GetBlockResponse } from 'starknet'
 import { race } from './network'
 
-interface PendingBlockState {
+interface StarwareState {
   parentBlockHash: string
   txnCount: number
   lastUpdated: number
-  lastStatus: boolean
+  isSequencerHealthy: boolean
 }
 
 export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Promise<boolean> => {
@@ -30,10 +30,9 @@ export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Pro
     error: `Transaction receipt not received in ${config.timeoutLimit} milliseconds`,
   })
   Logger.info(
-    `Transaction receipt received with hash ${receipt.transaction_hash} for EVM network: ${Networks.Starkware}`,
+    `Transaction receipt received with hash ${receipt.transaction_hash} for network: ${Networks.Starkware}`,
   )
-  await provider.waitForTransaction(receipt.transaction_hash)
-  await provider.getTransaction(receipt.transaction_hash)
+
   return true
 }
 
@@ -52,53 +51,71 @@ export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Pro
 export const checkStarkwareSequencerPendingTransactions = (): ((
   config: ExtendedConfig,
 ) => Promise<boolean>) => {
-  let lastSeenPendingBlock: PendingBlockState = {
+  let recordedStarkwareState: StarwareState = {
     parentBlockHash: '',
     txnCount: 0,
     lastUpdated: 0,
-    lastStatus: true,
+    isSequencerHealthy: true,
   }
   return async (config: ExtendedConfig): Promise<boolean> => {
     const delta = config.delta
     const currentTime = Date.now()
     if (
-      lastSeenPendingBlock.lastUpdated > 0 &&
-      currentTime - lastSeenPendingBlock.lastUpdated < delta
+      recordedStarkwareState.lastUpdated > 0 &&
+      currentTime - recordedStarkwareState.lastUpdated < delta
     ) {
       Logger.debug(
         `Skipping check for Starkware Sequencer health as it has been less than ${delta} seconds since last check`,
       )
-      return lastSeenPendingBlock.lastStatus
+      return recordedStarkwareState.isSequencerHealthy
     }
-    let pendingBlockParams: GetBlockResponse
-    try {
-      pendingBlockParams = await config.starkwareConfig.provider.getBlock('pending')
-    } catch (e: any) {
-      if (e.providerStatusCode === 504) {
-        Logger.warn(
-          `Request to fetch pending block timed out.  Status Code: ${e.providerStatusCode}.  Sequencer: UNHEALTHY`,
-        )
-        lastSeenPendingBlock.lastStatus = false
-        return false
-      }
-      throw e
+    const { hasErrored, pendingBlockParams } = await getPendingBlockFromGateway(config)
+    if (hasErrored) {
+      recordedStarkwareState.isSequencerHealthy = false
+      recordedStarkwareState.lastUpdated = currentTime
+      return false
     }
-    const isBatcherHealthy = checkBatcherHealthy(lastSeenPendingBlock, pendingBlockParams)
-    lastSeenPendingBlock = {
+    const isBatcherHealthy = checkBatcherHealthy(recordedStarkwareState, pendingBlockParams)
+    recordedStarkwareState = {
       parentBlockHash: pendingBlockParams.parent_hash,
       txnCount: Object.keys(pendingBlockParams.transactions).length,
       lastUpdated: currentTime,
-      lastStatus: isBatcherHealthy,
+      isSequencerHealthy: isBatcherHealthy,
     }
     return isBatcherHealthy
   }
 }
 
+const getPendingBlockFromGateway = async (
+  config: ExtendedConfig,
+): Promise<{
+  hasErrored?: boolean
+  pendingBlockParams: GetBlockResponse
+}> => {
+  let pendingBlockParams: GetBlockResponse
+  let hasErrored = false
+  try {
+    pendingBlockParams = await config.starkwareConfig.provider.getBlock('pending')
+  } catch (e: any) {
+    if (e.providerStatusCode === 504) {
+      Logger.warn(
+        `Request to fetch pending block timed out.  Status Code: ${e.providerStatusCode}.  Sequencer: UNHEALTHY`,
+      )
+      hasErrored = true
+    }
+    throw e
+  }
+  return {
+    hasErrored,
+    pendingBlockParams,
+  }
+}
+
 const checkBatcherHealthy = (
-  lastSeenPendingBlock: PendingBlockState,
+  recordedStarkwareState: StarwareState,
   pendingBlockParams: GetBlockResponse,
 ): boolean => {
-  if (lastSeenPendingBlock.parentBlockHash !== pendingBlockParams.parent_hash) {
+  if (recordedStarkwareState.parentBlockHash !== pendingBlockParams.parent_hash) {
     Logger.info(
       `New pending Starkware block found with parent hash ${pendingBlockParams.parent_hash}.  Sequencer: HEALTHY`,
     )
@@ -108,7 +125,7 @@ const checkBatcherHealthy = (
     `Pending Starkware block still has parent hash of ${pendingBlockParams.parent_hash}.  Checking to see if it is still processing transactions...`,
   )
   const hasNewTxns =
-    Object.keys(pendingBlockParams.transactions).length > lastSeenPendingBlock.txnCount
+    Object.keys(pendingBlockParams.transactions).length > recordedStarkwareState.txnCount
   if (hasNewTxns) {
     Logger.info(`Found new transactions in pending block.  Sequencer: HEALTHY`)
   } else {
