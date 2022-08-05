@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/example-source-adapter": "workspace:*",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

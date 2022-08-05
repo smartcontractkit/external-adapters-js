@@ -5257,6 +5257,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/example-composite-adapter", "workspace:packages/examples/composite"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/example-source-adapter", "workspace:packages/examples/source"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.45"],\
             ["tslib", "npm:2.4.0"],\
