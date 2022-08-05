@@ -10,7 +10,7 @@ import {
 const changedFilesExample = [
   'packages/sources/xbto/package.json',
   'packages/sources/coinpaprika/src/index.ts',
-  'packages/sources/coingecko/test/integration/__snapshots__/adapter.test.ts.snap',
+  'packages/sources/coingecko/test/integration/__snapshots__/example.test.ts.snap',
 ]
 
 jest.mock('fs', () => {

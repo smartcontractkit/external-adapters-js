@@ -33,15 +33,7 @@ $ yarn new source my-new-adapter
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
 
-_Note - at the moment, adding a new adapter will also add the following lines to `tsconfig.json`:_
-
-```
-  {
-    "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
-  },
-```
-
-_Make sure to remove these lines after they are added. A long term solution to this will be implemented later._
+Additional details about the `new` script, including what files it creates and what must be changed afterwards, can be found in the [scripts directory README](packages/scripts/README.md#new-ea-generatorsrcnew).
 
 ## Input
 

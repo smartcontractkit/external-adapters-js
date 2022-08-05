@@ -80,3 +80,103 @@ Generate README for any adapter outside the source directory (only works for 1 a
 ```bash
 yarn generate:readme -t <path-to-adapter>
 ```
+
+# [New EA Generator](./src/new)
+
+This script is used to initialize a new V2 external adapter by updating the monorepo's configuration and then creating all required files for a new `source` or `composite` adapter under `packages/$ADAPTER_NAME`
+
+## Usage
+
+To use this script, run `yarn new source|composite adapter-name` at the root of the monorepo.
+
+## Behavior
+
+At a high level, this generator copies template files from [packages/examples](../examples/) and does a few replacements on text anchors.
+
+After the generator has been run, several of the files it creates will require manual changes and verification. Further details are bleow.
+
+### Files created by the generator
+
+Please use the following legend for this section:
+
+| Color                                                                                      | Meaning                                                            |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| <span style="color:green">Green</span>                                                     | Boilerplate that shouldn't require changes                         |
+| <span style="color:yellow">Yellow</span>                                                   | Example content that can be leveraged or deleted                   |
+| <span style="color:red">Red</span>                                                         | Content that requires manual verification and/or changes           |
+| <span style="color:magenta">(source)</span> or <span style="color:cyan">(composite)</span> | A file that's exclusive to either `source` or `composite` adapters |
+
+- dist/
+- schemas/
+  - <span style="color:red">env.json</span>
+- src/
+  - config/
+    - <span style="color:yellow">includes.json</span> <span style="color:magenta">(source)</span>
+    - <span style="color:red">index.ts</span>
+    - <span style="color:yellow">limits.json</span> <span style="color:magenta">(source)</span>
+    - <span style="color:yellow">symbols.json</span> <span style="color:magenta">(source)</span>
+  - endpoint/
+    - <span style="color:yellow">example.ts</span>
+    - <span style="color:red">index.ts</span>
+  - <span style="color:green">adapter.ts</span>
+  - <span style="color:green">index.ts</span>
+  - <span style="color:yellow">dataProvider.ts</span> <span style="color:cyan">(composite)</span>
+  - <span style="color:yellow">types.ts</span>
+  - test/
+    - e2e/ <span style="color:magenta">(source)</span>
+      - <span style="color:yellow">example.test.ts</span> <span style="color:magenta">(source)</span>
+      - <span style="color:green">README.md</span> <span style="color:magenta">(source)</span>
+    - integration/
+      - \_\_snapshots\_\_/
+      - <span style="color:yellow">example.test.ts</span>
+      - <span style="color:red">fixtures.test.ts</span>
+      - <span style="color:green">README.md</span>
+    - unit/
+      - <span style="color:yellow">example.test.ts</span>
+      - <span style="color:green">README.md</span>
+  - <span style="color:red">CHANGELOG.md</span>
+  - <span style="color:red">package.json</span>
+  - <span style="color:yellow">README.md</span>
+  - <span style="color:red">test-payload.json</span>
+  - <span style="color:green">tsconfig.json</span>
+  - <span style="color:green">tsconfig.test.json</span>
+
+### Required post-generation changes
+
+Below are the files that require manual changes once the generator has been run
+
+- schemas/
+  - <span style="color:red">env.json</span>: Top level configuration file for the EA. Has a title, description, and parameter fields that need to be verified, and will likely need to be changed.
+- src/
+  - config/
+    - <span style="color:yellow">includes.json</span> <span style="color:magenta">(source)</span>: Complex transformation rules for symbols
+    - <span style="color:red">index.ts</span>: [EA configuration](../core/bootstrap/remotedev.sh#configuration) used by the EA, including defauls to use in the absence of environment variables.
+    - <span style="color:yellow">limits.json</span> <span style="color:magenta">(source)</span>: Configuration for [rate limiting](../core/bootstrap/README.md#rate-limiting)
+    - <span style="color:yellow">symbols.json</span> <span style="color:magenta">(source)</span>: Simple transformations for currency symbols (ex: BTC -> WBTC)
+  - endpoint/ (source)
+    - <span style="color:red">index.ts</span>: The index for all endpoints in the `source` EA. Must be updated to reflect the EA's endpoints when implemented
+    - <span style="color:yellow">example.ts</span>: The generator provides sample code for an `/example` endpoint. This code is mostly present for use as an example.
+  - <span style="color:yellow">types.ts</span>: Central type definitions for the EA
+  - test/
+    - e2e/ <span style="color:magenta">(source)</span>
+      - <span style="color:yellow">example.test.ts</span> <span style="color:magenta">(source)</span>: An example end-to-end test that can be used as a template for real tests
+  - integration/
+    - <span style="color:yellow">example.test.ts</span>: An example integration test that can be used as a template for real tests
+    - <span style="color:red">fixtures.test.ts</span>: Mocks that must be updated to reflect the EA's actual endpoints
+  - unit/
+    - <span style="color:yellow">example.test.ts</span> (source): An example unit test that can be used as a template for real tests
+      =An item that can be deleted if unused
+  - <span style="color:red">CHANGELOG.md</span>: Should be updated with v1.0.0 information prior to submitting a pull request
+  - <span style="color:yellow">README.md</span>: Should not be changed if creating a `source` adapter because [READMEs are generated](src/generate-readme). **Must be updated if creating a `composite` adapter.**
+  - <span style="color:red">package.json</span>: Should verify title, description, and version.
+  - <span style="color:red">test-payload.json</span>: Payload used by the [liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command) to verify that the EA process is healthy. Should be updated to reflect the `InputParameters` of the default endpoint.
+
+### Additional changes made by the generator
+
+The generator will update several files in the monorepo to inform the monorepo of the newly created adapter. Below are all the files that are changed when the generator is run:
+
+- packages/core/legos/
+  - package.json <span style="color:magenta">(source)</span>: Adds the adapter to `dependencies`
+  - tsconfig.json <span style="color:magenta">(source)</span>: Adds the adapter to `references`
+  - tsconfig.test.json <span style="color:magenta">(source)</span>: Adds the adapter to `references`
+  - sources.ts <span style="color:magenta">(source)</span>: Adds the adapter to the default export

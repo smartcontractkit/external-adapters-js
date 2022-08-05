@@ -1,12 +1,14 @@
 {
-  "name": "@chainlink/example-source-adapter",
-  "version": "0.2.12",
-  "description": "Chainlink example source adapter.",
+
+  "name": "@chainlink/{{ADAPTER_NAME_FULL}}",
+  "version": "0.0.0",
+  "description": "Chainlink {{ADAPTER_NAME_CAPITALIZE}}.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
-    "oracle"
+    "oracle",
+    "{{ADAPTER_NAME}}"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

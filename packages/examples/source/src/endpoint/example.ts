@@ -1,22 +1,25 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
 // This should be filled in with a lowercase name corresponding to the API endpoint.
 // The supportedEndpoints list must be present for README generation.
 export const supportedEndpoints = ['example']
 
+//endpointResultPaths should have keys for all endpoints in supportedEndpoints, with a value of the path containing the data you need from the response (resultPath)
 export const endpointResultPaths = {
   example: 'price',
 }
 
 export interface ResponseSchema {
   Response?: string // for errors
-  data: {
-    // Some data
-  }
+  data: {}
 }
-
 const customError = (data: ResponseSchema) => data.Response === 'Error'
 
 // The description string is used to explain how the endpoint works, and is used for part of the endpoint's README section

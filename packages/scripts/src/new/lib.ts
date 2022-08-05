@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import chalk from 'chalk'
+import { green, red, blue, gray } from 'chalk'
 import * as path from 'path'
 import * as shell from 'shelljs'
 import { getWorkspacePackages, WorkspacePackage } from '../workspace'
-const { red, blue } = chalk
 const { log } = console
 
 const ADAPTER_TYPES = ['composite', 'source']
 
 interface Inputs {
   type: string
-  n: string
+  adapterName: string
 }
 
 function writeJson(data: any) {
@@ -30,38 +29,55 @@ function writeJson(data: any) {
 }
 
 function checks(): Inputs {
-  const type: string = process.argv[2]
+  const type = process.argv[2]
   if (!type) throw red.bold('Missing first argument: type')
   if (!ADAPTER_TYPES.includes(type))
     throw red.bold(`Type must be one of: ${ADAPTER_TYPES.join(', ')}`)
 
-  const n: string = process.argv[3]
-  if (!n) throw red.bold('Missing second argument: name')
+  let adapterName: string = process.argv[3]
+  if (!adapterName) throw red.bold('Missing second argument: name')
 
-  // check if jq is installed (jq used later to modify json files)
-  const jq: string = shell.exec('command -v jq').toString()
-  if (!jq) throw red.bold('jq is not installed')
+  const adapterDir = `packages/${type}s/${adapterName}`
+  if (shell.ls(adapterDir)) {
+    throw red.bold(`Cannot overwrite existing adapter: ${adapterDir}`)
+  }
 
-  return { type, n }
+  //We will use the -adapter suffix when needed, so we remove it from the dev specified name if present so we don't end up with example-adapter-adapter in the code
+  if (adapterName.endsWith('-adapter')) {
+    adapterName = adapterName.replace('-adapter', '')
+  }
+
+  return { type, adapterName }
 }
 
-function copyFiles(type: string, n: string) {
+function copyFiles(type: string, adapterName: string) {
+  const adapterDir = `packages/${type}s/${adapterName}`
   // copying files
-  shell.mkdir(`packages/${type}s/${n}`)
-  shell.cp('-R', `packages/examples/${type}/*`, `packages/${type}s/${n}`)
+  shell.mkdir(`packages/${type}s/${adapterName}`)
+  shell.cp('-R', `packages/examples/${type}/*`, adapterDir)
+  shell.rm('-rf', `${adapterDir}/dist`)
 
-  // editing adapter package.json
-  shell
-    .cat(`packages/${type}s/${n}/package.json`)
-    .exec(
-      `jq '.name = "@chainlink/${n}-adapter" | .description = "Chainlink ${n} adapter." | .keywords += ["${n}"]'`,
-    )
-    .exec(`tee packages/${type}s/${n}/package.json`)
-    .to(`packages/${type}s/${n}/package.json`)
-
-  // changing README to use the adapter name instead of example
-  const nCap: string = n[0].toUpperCase() + n.slice(1)
-  shell.sed('-i', 'Example', nCap, `packages/${type}s/${n}/README.md`)
+  //Replace anchors in files with variations
+  const adapterNameFull = adapterName + '-adapter' //ex: "adapter-name-adapter", fills {{ADAPTER_NAME_FULL}}. Used in code in several places
+  const adapterNameCapitalize = adapterName
+    .split('-')
+    .map((e) => e[0].toUpperCase() + e.slice(1))
+    .join(' ') //ex: "Adapter Name", fills {{ADAPTER_NAME_CAPITALIZE}}. Used for titles, descriptions, and readmes
+  const adapterNameAllCaps = adapterName.toUpperCase().replace('-', '_') //ex: "ADAPTER_NAME", fills {{ADAPTER_NAME_ALLCAPS}}. Only used in config/index.ts
+  log(gray('Replacing placeholders with the adapter name...'))
+  shell.ls(`${adapterDir}/**/*`).forEach((file: string) => {
+    log(gray(`Replacing placeholders in ${file}`))
+    shell.sed('-i', '{{ADAPTER_NAME}}', adapterName, file)
+    shell.sed('-i', '{{ADAPTER_NAME_FULL}}', adapterNameFull, file)
+    shell.sed('-i', '{{ADAPTER_NAME_FULL2}}', adapterNameFull, file) //Edge anchor to avoid a naming collision in examples/(composite|source)/package.json
+    shell.sed('-i', '{{ADAPTER_NAME_CAPITALIZE}}', adapterNameCapitalize, file)
+  })
+  shell.sed(
+    '-i',
+    '{{ADAPTER_NAME_ALLCAPS}}',
+    adapterNameAllCaps,
+    `${adapterDir}/src/config/index.ts`,
+  )
 }
 
 function tsconfGenerate(
@@ -86,20 +102,6 @@ async function generate(type: string) {
   let currentWorkspace: WorkspacePackage[] = getWorkspacePackages(['scripts', 'core']) //using this alphabetizes everything
   currentWorkspace = currentWorkspace.filter((w) => w.name !== '@chainlink/ea-bootstrap') //filter out package
   const adapterList = currentWorkspace.filter((w) => w.type === `${type}s`)
-
-  // add to packages/tsconfig.json
-  const tsconfigPath = 'packages/tsconfig.json'
-  const tsconfig = JSON.parse(JSON.stringify(require(path.relative(__dirname, tsconfigPath))))
-  tsconfig.references = tsconfGenerate(currentWorkspace, tsconfigPath, 1)
-  writeData = { ...writeData, [tsconfigPath]: tsconfig }
-
-  // add to packages/tsconfig.test.json
-  const tsconfigTestPath = 'packages/tsconfig.test.json'
-  const tsconfigTest = JSON.parse(
-    JSON.stringify(require(path.relative(__dirname, tsconfigTestPath))),
-  )
-  tsconfigTest.references = tsconfGenerate(currentWorkspace, tsconfigTestPath, 1, true)
-  writeData = { ...writeData, [tsconfigTestPath]: tsconfigTest }
 
   // add to ea legos package for source adapters
   if (type === 'source') {
@@ -155,14 +157,16 @@ async function generate(type: string) {
 
 export async function main() {
   log(blue.bold('Running input checks'))
-  const inputs: Inputs = checks()
+  const { type, adapterName } = checks()
 
-  log(blue.bold(`Copying example ${inputs.type} adapter to ${inputs.type}/${inputs.n}`))
-  copyFiles(inputs.type, inputs.n)
+  log(blue.bold(`Copying example ${type} adapter to ${type}/${adapterName}`))
+  copyFiles(type, adapterName)
 
   log(blue.bold('Regenerating tsconfig and lego files'))
-  const data = await generate(inputs.type)
+  const data = await generate(type)
 
   log(blue.bold('Resolving workspace and running prettier'))
   writeJson(data)
+
+  log(green.bold(`Successfully generated ${adapterName} from the new adapter template`))
 }

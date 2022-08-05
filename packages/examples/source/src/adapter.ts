@@ -1,10 +1,10 @@
-import { Builder } from '@chainlink/ea-bootstrap'
 import {
-  Config,
-  ExecuteWithConfig,
-  ExecuteFactory,
   AdapterRequest,
   APIEndpoint,
+  Builder,
+  Config,
+  ExecuteFactory,
+  ExecuteWithConfig,
 } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint' // The endpoints must be exported as shown in endpoint/index.ts for README generation.

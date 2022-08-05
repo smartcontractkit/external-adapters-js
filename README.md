@@ -1,6 +1,6 @@
 # Chainlink External Adapters (TypeScript)
 
-This repository contains the source code for Chainlink external adapters. If you would like to contribute, please see the [Contributing](./CONTRIBUTING.md) page for more details.
+This repository contains the source code for Chainlink external adapters. If you would like to contribute, please see the [Contributing](./CONTRIBUTING.md) page for more details, including instructions on how to bootstrap and configure a new external adapter.
 
 ## Table of Contents
 

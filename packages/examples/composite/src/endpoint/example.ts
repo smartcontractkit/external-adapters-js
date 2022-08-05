@@ -1,62 +1,73 @@
-import { ExecuteWithConfig, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { Config, NAME as AdapterName } from '../config'
-import { getExampleEAResult } from '../dataProvider'
+import {
+  Requester,
+  util,
+  Validator,
+  Logger,
+  Config,
+  AdapterResponse,
+  AdapterRequest,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['example']
 
-export const endpointResultPaths = {
-  price: 'price',
+export type TInputParameters = {
+  primarySource: string
+  secondarySource: string
 }
 
-export interface ResponseSchema {
-  Response?: string // for errors
-  data: {
-    // Some data
-  }
-}
-
-const customError = (data: ResponseSchema) => data.Response === 'Error'
-
-// The inputParameters object must be present for README generation.
-export type TInputParameters = { base: string; quote: string }
-export const inputParameters: InputParameters<TInputParameters> = {
+const inputParameters: InputParameters<TInputParameters> = {
   // See InputParameters type for more config options
-  base: {
-    aliases: ['from', 'coin'],
-    description: 'Base asset to convert',
+  primarySource: {
     required: true,
+    description: 'First source adapters to query',
   },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'Quote asset to convert to',
+  secondarySource: {
     required: true,
+    description: 'Second source adapter to query',
   },
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base)
-  const quote = validator.overrideSymbol(AdapterName, validator.validated.data.quote)
-  const url = `example`
-  const resultPath = validator.validated.data.resultPath
+  const primarySource = validator.validated.data.primarySource
+  const secondarySource = validator.validated.data.secondarySource
+  const sources = secondarySource ? [primarySource, secondarySource] : [primarySource]
+  const urls = sources.map((source) => util.getRequiredURL(source.toUpperCase()))
+  return getResults(jobRunID, sources, urls, request, config)
+}
 
-  // Retrieve data from another external adapter
-  const exampleResult = await getExampleEAResult(jobRunID, base, quote, context)
-
-  // Perform logic to transform results if needed
-  // ...
-
-  const params = {
-    data: exampleResult,
-    api_key: config.apiKey,
+const getResults = async (
+  jobRunID: string,
+  sources: string[],
+  urls: string[],
+  request: AdapterRequest,
+  config: Config,
+): Promise<AdapterResponse> => {
+  try {
+    Logger.info(`Trying to get result from ${sources[0]}`)
+    return Requester.success(
+      jobRunID,
+      await Requester.request({
+        ...config.api,
+        method: 'post',
+        url: urls[0],
+        data: request,
+      }),
+    )
+  } catch (e: any) {
+    Logger.info(`Could not get result from ${sources[0]}, trying to get result from ${sources[1]}`)
+    return Requester.success(
+      jobRunID,
+      await Requester.request({
+        ...config.api,
+        method: 'post',
+        url: urls[1],
+        data: request,
+      }),
+    )
   }
-
-  const options = { ...config.api, params, url }
-
-  const response = await Requester.request<ResponseSchema>(options, customError)
-  const result = Requester.validateResultNumber(response.data, resultPath)
-
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
