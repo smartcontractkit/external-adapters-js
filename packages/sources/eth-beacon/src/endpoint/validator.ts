@@ -5,7 +5,7 @@ import { StateId, ValidatorStatus } from '../types'
 export const supportedEndpoints = ['validator']
 
 export const endpointResultPaths = {
-  validator: 'data.validator.effective_balance',
+  validator: 'data.balance',
 }
 
 export interface ResponseSchema {
@@ -34,7 +34,6 @@ export type TInputParameters = { stateId: StateId; validatorId: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   stateId: {
     description: 'State identifier',
-    options: [''],
     required: true,
   },
   validatorId: {
