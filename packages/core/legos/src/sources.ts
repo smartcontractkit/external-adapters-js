@@ -54,6 +54,7 @@ import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as eth_balance from '@chainlink/eth-balance-adapter'
+import * as eth_beacon from '@chainlink/eth-beacon-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
@@ -190,6 +191,7 @@ export default {
   enzyme,
   eodhistoricaldata,
   eth_balance,
+  eth_beacon,
   etherchain,
   etherscan,
   ethgasstation,

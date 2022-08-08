@@ -85,6 +85,7 @@
     "@chainlink/enzyme-adapter": "workspace:*",
     "@chainlink/eodhistoricaldata-adapter": "workspace:*",
     "@chainlink/eth-balance-adapter": "workspace:*",
+    "@chainlink/eth-beacon-adapter": "workspace:*",
     "@chainlink/etherchain-adapter": "workspace:*",
     "@chainlink/etherscan-adapter": "workspace:*",
     "@chainlink/ethgasstation-adapter": "workspace:*",
