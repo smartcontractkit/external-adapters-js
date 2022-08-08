@@ -282,6 +282,9 @@
       "path": "./sources/eth-balance"
     },
     {
+      "path": "./sources/eth-beacon"
+    },
+    {
       "path": "./sources/etherchain"
     },
     {

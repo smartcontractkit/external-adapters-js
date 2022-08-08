@@ -409,6 +409,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/eth-balance"\
       },\
       {\
+        "name": "@chainlink/eth-beacon-adapter",\
+        "reference": "workspace:packages/sources/eth-beacon"\
+      },\
+      {\
         "name": "@chainlink/etherchain-adapter",\
         "reference": "workspace:packages/sources/etherchain"\
       },\
@@ -817,6 +821,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
       ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
+      ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
       ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],\
       ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
       ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
@@ -4860,6 +4865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],\
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
+            ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
             ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],\
             ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],\
             ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],\
@@ -5152,6 +5158,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.47"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/eth-beacon-adapter", [\
+        ["workspace:packages/sources/eth-beacon", {\
+          "packageLocation": "./packages/sources/eth-beacon/",\
+          "packageDependencies": [\
+            ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.47"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\

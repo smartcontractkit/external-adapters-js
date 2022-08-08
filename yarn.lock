@@ -2746,6 +2746,7 @@ __metadata:
     "@chainlink/enzyme-adapter": "workspace:*"
     "@chainlink/eodhistoricaldata-adapter": "workspace:*"
     "@chainlink/eth-balance-adapter": "workspace:*"
+    "@chainlink/eth-beacon-adapter": "workspace:*"
     "@chainlink/etherchain-adapter": "workspace:*"
     "@chainlink/etherscan-adapter": "workspace:*"
     "@chainlink/ethgasstation-adapter": "workspace:*"
@@ -2891,6 +2892,22 @@ __metadata:
     "@types/node": 16.11.47
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/eth-beacon-adapter@workspace:*, @chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.47
+    "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1

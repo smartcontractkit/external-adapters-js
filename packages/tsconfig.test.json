@@ -285,6 +285,9 @@
       "path": "./sources/eth-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/eth-beacon/tsconfig.test.json"
+    },
+    {
       "path": "./sources/etherchain/tsconfig.test.json"
     },
     {
