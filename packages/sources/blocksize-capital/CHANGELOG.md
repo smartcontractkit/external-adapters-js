@@ -1,5 +1,13 @@
 # @chainlink/blocksize-capital-adapter
 
+## 1.0.22
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.0.21
 
 ### Patch Changes

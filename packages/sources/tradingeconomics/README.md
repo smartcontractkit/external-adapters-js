@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tradingeconomics
 
-![2.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json)
+![2.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json)
 
 This adapter uses the Tradingeconomics WS stream
 
@@ -32,9 +32,10 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Input Params
 
-| Required? | Name |     Aliases     |           Description            |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-------------: | :------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `from` | The symbol of the asset to query | string |         |         |            |                |
+| Required? | Name  |     Aliases     |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-------------: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `asset`, `from` |    The symbol of the asset to query    | string |         |         |            |                |
+|           | quote |  `term`, `to`   | The quote symbol of the asset to query | string |         |  `USD`  |            |                |
 
 ### Example
 
@@ -45,10 +46,11 @@ Request:
   "id": "1",
   "data": {
     "base": "EURUSD:CUR",
+    "quote": "USD",
     "endpoint": "price"
   },
   "debug": {
-    "cacheKey": "1CbLEKoATl+/z1X7pi4LVsQRqBs="
+    "cacheKey": "G72mWx8TQqfLPgLuCIW2YPsN/9s="
   },
   "rateLimitMaxAge": 7999
 }
@@ -76,9 +78,10 @@ Response:
 
 ### Input Params
 
-| Required? | Name |     Aliases     |           Description            |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-------------: | :------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `from` | The symbol of the asset to query | string |         |         |            |                |
+| Required? | Name  |     Aliases     |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-------------: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `asset`, `from` |    The symbol of the asset to query    | string |         |         |            |                |
+|           | quote |  `term`, `to`   | The quote symbol of the asset to query | string |         |  `USD`  |            |                |
 
 ### Example
 
