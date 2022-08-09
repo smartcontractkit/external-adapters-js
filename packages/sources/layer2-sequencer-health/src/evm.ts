@@ -68,10 +68,10 @@ export const checkOptimisticRollupBlockHeight = (
   }
 
   return async (config: ExtendedConfig): Promise<boolean> => {
-    const { delta, deltaBlocks } = config
-    const block = await retry({
+    const { delta, deltaBlocks, retryConfig } = config
+    const block = await retry<number>({
       promise: async () => await requestBlockHeight(network),
-      numRetries: config.numRetries,
+      retryConfig,
     })
     if (!_isValidBlock(block, deltaBlocks))
       throw new AdapterResponseInvalidError({

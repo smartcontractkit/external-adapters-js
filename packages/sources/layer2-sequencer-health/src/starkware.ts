@@ -94,7 +94,7 @@ const getPendingBlockFromGateway = async (
   try {
     pendingBlockParams = await retry<GetBlockResponse>({
       promise: async () => config.starkwareConfig.provider.getBlock('pending'),
-      numRetries: config.numRetries,
+      retryConfig: config.retryConfig,
     })
   } catch (e: any) {
     if (e.providerStatusCode === 504) {
