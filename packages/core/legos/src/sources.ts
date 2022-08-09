@@ -64,6 +64,7 @@ import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
+import * as galaxy from '@chainlink/galaxy-adapter'
 import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -197,6 +198,7 @@ export default {
   flightaware,
   fmpcloud,
   galaxis,
+  galaxy,
   gemini,
   genesis_adapter,
   geodb,

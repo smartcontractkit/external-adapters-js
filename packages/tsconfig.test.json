@@ -321,6 +321,9 @@
       "path": "./sources/galaxis/tsconfig.test.json"
     },
     {
+      "path": "./sources/galaxy/tsconfig.test.json"
+    },
+    {
       "path": "./sources/gemini/tsconfig.test.json"
     },
     {
