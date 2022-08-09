@@ -1,6 +1,49 @@
-import { AdapterResponseInvalidError, Logger } from '@chainlink/ea-bootstrap'
-import { EVMNetworks, ExtendedConfig } from './config'
-import { requestBlockHeight } from './network'
+import {
+  AdapterResponseEmptyError,
+  AdapterResponseInvalidError,
+  AxiosRequestConfig,
+  Logger,
+  Requester,
+} from '@chainlink/ea-bootstrap'
+import { BigNumber, ethers } from 'ethers'
+import { DEFAULT_PRIVATE_KEY, EVMNetworks, ExtendedConfig, Networks, RPC_ENDPOINTS } from './config'
+import { race, ResponseSchema } from './network'
+
+export const sendEVMDummyTransaction = async (
+  network: EVMNetworks,
+  timeout: number,
+): Promise<void> => {
+  const rpcEndpoint = RPC_ENDPOINTS[network]
+  const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
+  const wallet = new ethers.Wallet(DEFAULT_PRIVATE_KEY, provider)
+
+  const networkTx: Record<EVMNetworks, ethers.providers.TransactionRequest> = {
+    // Arbitrum zero gas price will be auto adjusted by the network to the minimum
+    [Networks.Arbitrum]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 1,
+      to: wallet.address,
+    },
+    [Networks.Optimism]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
+    [Networks.Metis]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
+  }
+  await race<ethers.providers.TransactionResponse>({
+    timeout,
+    promise: wallet.sendTransaction(networkTx[network]),
+    error: `Transaction receipt not received in ${timeout} milliseconds`,
+  })
+}
 
 export const checkOptimisticRollupBlockHeight = (
   network: EVMNetworks,
@@ -47,4 +90,28 @@ export const checkOptimisticRollupBlockHeight = (
     )
     return false
   }
+}
+
+export const requestBlockHeight = async (network: EVMNetworks): Promise<number> => {
+  const request: AxiosRequestConfig = {
+    method: 'POST',
+    url: RPC_ENDPOINTS[network],
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      jsonrpc: '2.0',
+      method: 'eth_blockNumber',
+      params: [],
+      id: 1,
+    },
+  }
+  const response = await Requester.request<ResponseSchema>(request)
+  const hexBlock = response.data.result
+  if (!hexBlock) {
+    throw new AdapterResponseEmptyError({
+      message: `Block number not found on network: ${network}`,
+    })
+  }
+  return BigNumber.from(hexBlock).toNumber()
 }
