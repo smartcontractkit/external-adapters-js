@@ -1,5 +1,5 @@
 import { Logger } from '@chainlink/ea-bootstrap'
-import { DEFAULT_PRIVATE_KEY, ExtendedConfig, Networks } from './config'
+import { DEFAULT_PRIVATE_KEY, ExtendedConfig } from './config'
 import { ec, Account, InvokeFunctionResponse, GetBlockResponse } from 'starknet'
 import { race } from './network'
 
@@ -13,13 +13,13 @@ export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Pro
   const starkKeyPair = ec.genKeyPair(DEFAULT_PRIVATE_KEY)
   const starkKeyPub = ec.getStarkKey(starkKeyPair)
   const provider = config.starkwareConfig.provider
-  const account = new Account(provider, config.starkwareConfig.argentAccountAddr, starkKeyPair)
+  const account = new Account(provider, config.starkwareConfig.dummyAccountAddress, starkKeyPair)
 
   await race<InvokeFunctionResponse>({
     timeout: config.timeoutLimit,
     promise: account.execute(
       {
-        contractAddress: config.starkwareConfig.argentAccountAddr,
+        contractAddress: config.starkwareConfig.dummyAccountAddress,
         entrypoint: 'initialize',
         calldata: [starkKeyPub, '0'],
       },

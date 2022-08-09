@@ -13,7 +13,10 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   // TODO: Optimism error needs to be confirmed by their team
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
-  [Networks.Starkware]: ['max_fee must be bigger than 0.\n0 >= 0'],
+  [Networks.Starkware]: [
+    'StarknetErrorCode.UNINITIALIZED_CONTRACT',
+    'StarknetErrorCode.OUT_OF_RANGE_FEE',
+  ],
 }
 
 export interface NetworkHealthCheck {
@@ -73,7 +76,7 @@ const isExpectedErrorMessage = (network: Networks, e: Error) => {
       [Networks.Arbitrum]: ['error', 'message'],
       [Networks.Optimism]: ['error', 'message'],
       [Networks.Metis]: ['error', 'message'],
-      [Networks.Starkware]: ['message'],
+      [Networks.Starkware]: ['errorCode'],
     }
     return (Requester.getResult(e, paths[network]) as string) || ''
   }

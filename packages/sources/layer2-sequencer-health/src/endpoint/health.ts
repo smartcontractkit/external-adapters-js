@@ -13,9 +13,7 @@ import { checkStarkwareSequencerPendingTransactions } from '../starkware'
 
 export const supportedEndpoints = ['health']
 
-export const makeNetworkStatusCheck = (
-  network: Networks,
-): ((config: ExtendedConfig) => Promise<boolean>) => {
+export const checkBlocks = (network: Networks): ((config: ExtendedConfig) => Promise<boolean>) => {
   switch (network) {
     case Networks.Starkware:
       return checkStarkwareSequencerPendingTransactions()
@@ -25,13 +23,13 @@ export const makeNetworkStatusCheck = (
 }
 
 const networks: Record<Networks, (config: ExtendedConfig) => Promise<boolean>> = {
-  [Networks.Arbitrum]: makeNetworkStatusCheck(Networks.Arbitrum),
-  [Networks.Optimism]: makeNetworkStatusCheck(Networks.Optimism),
-  [Networks.Metis]: makeNetworkStatusCheck(Networks.Metis),
-  [Networks.Starkware]: makeNetworkStatusCheck(Networks.Starkware),
+  [Networks.Arbitrum]: checkBlocks(Networks.Arbitrum),
+  [Networks.Optimism]: checkBlocks(Networks.Optimism),
+  [Networks.Metis]: checkBlocks(Networks.Metis),
+  [Networks.Starkware]: checkBlocks(Networks.Starkware),
 }
 
-export const getL2NetworkStatus: NetworkHealthCheck = (
+export const checkIsNetworkProgressing: NetworkHealthCheck = (
   network: Networks,
   config: ExtendedConfig,
 ) => {
@@ -94,7 +92,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   // #2 Option: Check block height
   // If every method succeeds, the Network is considered healthy
   // If any method fails, an empty tx is sent. This determines the final state
-  const wrappedMethods = [getSequencerHealth, getL2NetworkStatus].map(_tryMethod)
+  const wrappedMethods = [getSequencerHealth, checkIsNetworkProgressing].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config)

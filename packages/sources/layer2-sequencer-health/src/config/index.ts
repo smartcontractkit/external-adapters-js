@@ -64,7 +64,7 @@ export interface ExtendedConfig extends Config {
   timeoutLimit: number
   starkwareConfig: {
     provider: SequencerProvider
-    argentAccountAddr: string
+    dummyAccountAddress: string
   }
 }
 
@@ -86,8 +86,8 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
 const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'
 const DEFAULT_STARKWARE_FEEDER_GATEWAY_URL = 'feeder_gateway'
 const DEFAULT_STARKWARE_GATEWAY_URL = 'gateway'
-const DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR =
-  '0x163995f6cbc4e9e3908ce6161a0bef4459847b42077be419e257c7f837a224a'
+const DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS =
+  '0x00000000000000000000000000000000000000000000000000000000000001'
 
 const instantiateStarkwareConfig = (): ExtendedConfig['starkwareConfig'] => {
   const baseUrl =
@@ -95,14 +95,15 @@ const instantiateStarkwareConfig = (): ExtendedConfig['starkwareConfig'] => {
   const feederGatewayUrl =
     util.getEnv('STARKWARE_FEEDER_GATEWAY_URL') || DEFAULT_STARKWARE_FEEDER_GATEWAY_URL
   const gatewayUrl = util.getEnv('STARKWARE_GATEWAY_URL') || DEFAULT_STARKWARE_GATEWAY_URL
-  const argentAccountAddr =
-    util.getEnv('STARKWARE_ARGENT_ACCOUNT_ADDR') || DEFAULT_STARKWARE_ARGENT_ACCOUNT_ADDR
+  const dummyAccountAddress =
+    util.getEnv('DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS') ||
+    DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS
   return {
     provider: new SequencerProvider({
       baseUrl: DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
       feederGatewayUrl: `${baseUrl}/${feederGatewayUrl}`,
       gatewayUrl: `${baseUrl}/${gatewayUrl}`,
     }),
-    argentAccountAddr: argentAccountAddr,
+    dummyAccountAddress,
   }
 }
