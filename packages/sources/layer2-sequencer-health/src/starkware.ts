@@ -1,7 +1,7 @@
 import { Logger } from '@chainlink/ea-bootstrap'
 import { DEFAULT_PRIVATE_KEY, ExtendedConfig } from './config'
 import { ec, Account, InvokeFunctionResponse, GetBlockResponse } from 'starknet'
-import { race } from './network'
+import { race, retry } from './network'
 
 interface StarwareState {
   lastBlockResponse: GetBlockResponse | null
@@ -92,7 +92,10 @@ const getPendingBlockFromGateway = async (
   let pendingBlockParams: GetBlockResponse
   let hasErrored = false
   try {
-    pendingBlockParams = await config.starkwareConfig.provider.getBlock('pending')
+    pendingBlockParams = await retry<GetBlockResponse>({
+      promise: async () => config.starkwareConfig.provider.getBlock('pending'),
+      numRetries: config.numRetries,
+    })
   } catch (e: any) {
     if (e.providerStatusCode === 504) {
       Logger.warn(

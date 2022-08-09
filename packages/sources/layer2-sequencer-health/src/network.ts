@@ -3,6 +3,7 @@ import { HEALTH_ENDPOINTS, Networks, ExtendedConfig } from './config'
 
 import { sendDummyStarkwareTransaction } from './starkware'
 import { sendEVMDummyTransaction } from './evm'
+import { sleep } from '@chainlink/ea-bootstrap/src/lib/util'
 
 const NO_ISSUE_MSG =
   'This is an error that the EA uses to determine whether or not the L2 Sequencer is healthy.  It does not mean that there is an issue with the EA.'
@@ -89,6 +90,27 @@ const isExpectedErrorMessage = (network: Networks, e: Error) => {
     `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
   )
   return false
+}
+
+export async function retry<T>({
+  promise,
+  retryConfig,
+}: {
+  promise: () => Promise<T>
+  retryConfig: ExtendedConfig['retryConfig']
+}): Promise<T> {
+  let numTries = 0
+  let error
+  while (numTries < retryConfig.numRetries) {
+    try {
+      return await promise()
+    } catch (e) {
+      error = e
+      numTries++
+      await sleep(retryConfig.retryInterval)
+    }
+  }
+  throw error
 }
 
 export function race<T>({

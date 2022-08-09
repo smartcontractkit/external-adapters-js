@@ -17,6 +17,10 @@ export const DEFAULT_DELTA_TIME = 2 * 60 * 1000
 export const DEFAULT_DELTA_BLOCKS = 6
 // milliseconds to consider a timeout transaction (10 secs)
 export const DEFAULT_TIMEOUT_LIMIT = 5 * 1000
+// number of times to retry checking that blockchain is progressing
+export const DEFAULT_NUM_RETRIES = 2
+// number of milliseconds until next retry
+export const DEFAULT_RETRY_INTERVAL = 10 * 1000
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -62,6 +66,10 @@ export interface ExtendedConfig extends Config {
   delta: number
   deltaBlocks: number
   timeoutLimit: number
+  retryConfig: {
+    numRetries: number
+    retryInterval: number
+  }
   starkwareConfig: {
     provider: SequencerProvider
     dummyAccountAddress: string
@@ -77,10 +85,16 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
   const delta = Number(util.getEnv('DELTA', prefix)) || DEFAULT_DELTA_TIME
   const deltaBlocks = Number(util.getEnv('DELTA_BLOCKS', prefix)) || DEFAULT_DELTA_BLOCKS
   const timeoutLimit = Number(util.getEnv('NETWORK_TIMEOUT_LIMIT', prefix)) || DEFAULT_TIMEOUT_LIMIT
+  const numRetries = Number(util.getEnv('NUM_RETRIES')) || DEFAULT_NUM_RETRIES
+  const retryInterval = Number(util.getEnv('RETRY_INTERVAL')) || DEFAULT_RETRY_INTERVAL
   config.defaultEndpoint = DEFAULT_ENDPOINT
   const starkwareConfig = instantiateStarkwareConfig()
+  const retryConfig = {
+    numRetries,
+    retryInterval,
+  }
 
-  return { ...config, delta, deltaBlocks, timeoutLimit, starkwareConfig }
+  return { ...config, delta, deltaBlocks, timeoutLimit, retryConfig, starkwareConfig }
 }
 
 const DEFAULT_STARKWARE_SEQUENCER_ENDPOINT = 'https://alpha-mainnet.starknet.io'

@@ -7,7 +7,7 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
 import { DEFAULT_PRIVATE_KEY, EVMNetworks, ExtendedConfig, Networks, RPC_ENDPOINTS } from './config'
-import { race, ResponseSchema } from './network'
+import { race, ResponseSchema, retry } from './network'
 
 export const sendEVMDummyTransaction = async (
   network: EVMNetworks,
@@ -69,7 +69,10 @@ export const checkOptimisticRollupBlockHeight = (
 
   return async (config: ExtendedConfig): Promise<boolean> => {
     const { delta, deltaBlocks } = config
-    const block = await requestBlockHeight(network)
+    const block = await retry({
+      promise: async () => await requestBlockHeight(network),
+      numRetries: config.numRetries,
+    })
     if (!_isValidBlock(block, deltaBlocks))
       throw new AdapterResponseInvalidError({
         message: `Block found #${block} is previous to last seen #${lastSeenBlock.block} with more than ${deltaBlocks} difference`,
