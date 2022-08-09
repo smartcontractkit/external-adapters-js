@@ -2,12 +2,13 @@ import { check, sleep } from 'k6'
 import { SharedArray } from 'k6/data'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
+import { Payload } from './config/types'
 
-// TODO set from env var
+// For future use
 const GROUP_COUNT = 1
 
-// load the test duration from the environment or default to 2 minutes
-let testDuration = '2m'
+// load the test duration from the environment or default to 12 hours
+let testDuration = '12h'
 if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }
@@ -22,12 +23,10 @@ export const options = {
   },
 }
 
-let currIteration = 0
 export const errorRate = new Rate('errors')
 
 // load the test data, if data was generated then load it from the generated file
-// TODO get adapters to test
-let payloadData = []
+let payloadData: Payload[] = []
 if (__ENV.PAYLOAD_GENERATED) {
   const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
   payloadData = new SharedArray('payloadData', function () {
@@ -66,30 +65,20 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
         }
       })
     // load the adapters from the list and if we are running in CI override it
-    // TODO set adapters to test
-    // TODO set secondsPerCall for set of adapters to test
-    let adapters: { name: string; secondsPerCall: number }[] = []
-    if (__ENV.CI_ADAPTER_NAME && __ENV.CI_SECONDS_PER_CALL) {
-      adapters = [
-        {
-          name: __ENV.CI_ADAPTER_NAME,
-          secondsPerCall: parseInt(__ENV.CI_SECONDS_PER_CALL),
-        },
-      ]
+    let adapters: string[] = []
+    if (__ENV.CI_ADAPTER_NAME) {
+      adapters = [__ENV.CI_ADAPTER_NAME]
     }
-    const adaptersToMap = adapters
-      .filter((a) => currIteration % a.secondsPerCall === 0)
-      .map((a) => a.name)
     const adaptersPerLoadTestGroup = loadTestGroup.map(
-      (u, i) =>
+      (url, i) =>
         [
           i,
           Object.fromEntries(
-            adaptersToMap.map((a) => {
+            adapters.map((adapter) => {
               if (__ENV.QA_RELEASE_TAG) {
-                return [a, `${u}qa-ea-${a}-${__ENV.QA_RELEASE_TAG}`] as const
+                return [adapter, `${url}qa-ea-${adapter}-${__ENV.QA_RELEASE_TAG}`] as const
               }
-              return [a, `${u}${a}`] as const
+              return [adapter, `${url}${adapter}`] as const
             }),
           ),
         ] as const,
@@ -109,36 +98,12 @@ function buildRequests() {
   const urls = getLoadTestGroupsUrls()
   for (const [loadTestGroup, adaptersByAdapterName] of Object.entries(urls)) {
     for (const [adapterName, url] of Object.entries(adaptersByAdapterName)) {
-      if (__ENV.WS_ENABLED) {
-        for (const payload of payloadData) {
-          //TODO why is coinapi special?
-          if (adapterName === 'coinapi') {
-            const body = JSON.parse(payload.data)
-            body.data.endpoint = 'assets'
-            batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
-              method: payload.method,
-              url,
-              body,
-              params,
-            }
-          } else {
-            batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
-              method: payload.method,
-              url,
-              body: payload.data,
-              params,
-            }
-          }
-        }
-      } else {
-        //TODO replace httpPayloadsByAdapters with ones generated from flux:configure
-        for (const payload of httpPayloadsByAdapter[adapterName as AdapterNames]) {
-          batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
-            method: payload.method,
-            url,
-            body: payload.data,
-            params,
-          }
+      for (const payload of payloadData) {
+        batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
+          method: payload.method,
+          url,
+          body: payload.data,
+          params,
         }
       }
     }
@@ -150,7 +115,6 @@ function buildRequests() {
 const batchRequests = buildRequests()
 
 export default (): void => {
-  currIteration++
   const responses = http.batch(batchRequests)
   for (const [name, response] of Object.entries(responses)) {
     const result = check(response, {

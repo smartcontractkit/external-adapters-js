@@ -17,10 +17,9 @@ To test using docker against ephemeral adapters you can follow the below:
    ```bash
    yarn qa:flux:configure k6payload ${adapter} empty
    ```
-4. If you want to specify the adapter and calls per second outside of hard coding changes you can edit these two variables in the .env file:
+4. If you want to specify the adapter instead of hard coding changes you can edit these two variables in the .env file:
    ```bash
    CI_ADAPTER_NAME=coingecko
-   CI_SECONDS_PER_CALL=10
    ```
 5. If you want to change the test duration or test file you can edit the associated variables in the .env file:
    ```bash
