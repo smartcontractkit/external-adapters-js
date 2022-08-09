@@ -3917,7 +3917,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 14.18.21
+    "@types/node": 14.18.23
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -9028,10 +9028,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.21, @types/node@npm:>=8.0.0 <15":
-  version: 14.18.21
-  resolution: "@types/node@npm:14.18.21"
-  checksum: 4ed35b76609647a4e36a194702e31cdda9ed42174ddaf7937bc5498984e98a99e8a42ea895ea17dd9c5ec18080112c29ab670c34f90eb9f7a4703b85b31e34fa
+"@types/node@npm:14.18.23":
+  version: 14.18.23
+  resolution: "@types/node@npm:14.18.23"
+  checksum: 119d5ab18426694ade0d3feefbdb42afc5a47b9144e523293f1554f9d34b41c7f21eafc9d0f1295db5700d134aa74e7fd37556e9438f6d64dbeddf791527e1e4
   languageName: node
   linkType: hard
 
@@ -9046,6 +9046,13 @@ __metadata:
   version: 17.0.14
   resolution: "@types/node@npm:17.0.14"
   checksum: cc059ce29686bad5890685f45741826a1a7d1d27382464f6d5fa00b72ba239f6f5b8245a7fa5a56c23ce928030dc76b165a4ab0b86dc078f05b44597d8fe1a46
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:>=8.0.0 <15":
+  version: 14.18.21
+  resolution: "@types/node@npm:14.18.21"
+  checksum: 4ed35b76609647a4e36a194702e31cdda9ed42174ddaf7937bc5498984e98a99e8a42ea895ea17dd9c5ec18080112c29ab670c34f90eb9f7a4703b85b31e34fa
   languageName: node
   linkType: hard
 

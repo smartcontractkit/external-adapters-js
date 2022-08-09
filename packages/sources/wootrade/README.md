@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Wootrade
 
-![1.2.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wootrade/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wootrade/package.json)
 
 Adapter using the public Wootrade market API for both HTTP(s) and WS.
 

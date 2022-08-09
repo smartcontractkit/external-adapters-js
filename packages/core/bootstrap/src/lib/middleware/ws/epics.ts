@@ -244,13 +244,17 @@ export const connectEpic: Epic<AnyAction, AnyAction, { ws: RootState }> = (actio
 
           if (recordWsMessages) WsMessageRecorder.print()
 
-          return from([
-            ...activeSubs.map(toUnsubscribed),
-            disconnectFulfilled({
-              config,
-              wsHandler,
-            }),
-          ])
+          if (state.ws.connections.all[config.connectionInfo.key]?.active) {
+            return from([
+              ...activeSubs.map(toUnsubscribed),
+              disconnectFulfilled({
+                config,
+                wsHandler,
+              }),
+            ])
+          } else {
+            return from([...activeSubs.map(toUnsubscribed)])
+          }
         }),
       )
 
