@@ -10,7 +10,7 @@ const NO_ISSUE_MSG =
 
 // These errors come from the Sequencer when submitting an empty transaction
 const sequencerOnlineErrors: Record<Networks, string[]> = {
-  [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
+  [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address', 'intrinsic gas too low'],
   // TODO: Optimism error needs to be confirmed by their team
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],

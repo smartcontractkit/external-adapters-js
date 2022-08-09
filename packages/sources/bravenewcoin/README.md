@@ -1,6 +1,6 @@
 # Chainlink External Adapter for BraveNewCoin
 
-![1.2.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bravenewcoin/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bravenewcoin/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -44,9 +44,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "BTC"
+    "quote": "BTC",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0="
@@ -92,8 +92,8 @@ Request:
 {
   "id": "2",
   "data": {
-    "endpoint": "vwap",
-    "symbol": "ETH"
+    "symbol": "ETH",
+    "endpoint": "vwap"
   },
   "debug": {
     "cacheKey": "YqvNVLXR2frUT84tqjjAR+vz/BU="

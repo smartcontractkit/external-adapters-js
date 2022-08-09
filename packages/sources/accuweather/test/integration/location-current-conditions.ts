@@ -9,6 +9,7 @@ import {
 } from './fixtures'
 import { Unit } from '../../src/endpoint/current-conditions'
 import { SuiteContext } from './adapter.test'
+import { SuperTest, Test } from 'supertest'
 
 export function locationCurrentConditionsTests(context: SuiteContext): void {
   const id = '1'
@@ -27,7 +28,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         }
         mockAWLocationResponseError()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -53,7 +54,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         mockAWLocationResponseSuccessLocationFound()
         mockAWCurrentConditionsResponseError(2097720)
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -80,7 +81,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationNotFound()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -105,7 +106,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationNotFound()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -132,7 +133,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         mockAWLocationResponseSuccessLocationFound()
         mockAWCurrentConditionsResponseSuccess()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -158,7 +159,7 @@ export function locationCurrentConditionsTests(context: SuiteContext): void {
         mockAWLocationResponseSuccessLocationFound()
         mockAWCurrentConditionsResponseSuccess()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')

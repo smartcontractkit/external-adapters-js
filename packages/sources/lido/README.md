@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Lido
 
-![1.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json)
+![1.0.17](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json)
 
 By default fetches the value of stMATIC/USD
 

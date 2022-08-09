@@ -1,5 +1,43 @@
 # @chainlink/openexchangerates-adapter
 
+## 1.5.5
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.4
+
+### Patch Changes
+
+- 04ea6e448: Updated with better approach to ignore unused var linting and to avoid type coercion
+
+## 1.5.3
+
+### Patch Changes
+
+- 838ef3ddb: Update openexchangerates inverse pairs
+- 9a6e2744a: Add COP/USD to inverse includes list
+
+## 1.5.2
+
+### Patch Changes
+
+- a54b4216b: Refactor module exports
+- f3fd3ac15: Add COP/USD to inverse includes list
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.5.0
 
 ### Minor Changes

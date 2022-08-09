@@ -1,6 +1,6 @@
 # ENS Adapter
 
-![1.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
+![1.1.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
 
 ENS Adapter
 
@@ -42,9 +42,9 @@ Request:
 {
   "id": "1",
   "data": {
+    "ensName": "mockinputethtld.eth",
     "endpoint": "lookup",
-    "resultPath": "address",
-    "ensName": "mockinputethtld.eth"
+    "resultPath": "address"
   },
   "debug": {
     "cacheKey": "JSErNmN8G275BpWeOunk+wT/938="
@@ -78,9 +78,9 @@ Request:
 {
   "id": "1",
   "data": {
+    "ensName": "mockinputnonethtld.test",
     "endpoint": "lookup",
-    "resultPath": "address",
-    "ensName": "mockinputnonethtld.test"
+    "resultPath": "address"
   },
   "debug": {
     "cacheKey": "v7iYX6aZnnAHPZbnu9UDSLvRrgw="
@@ -94,7 +94,6 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "registrant": "0x0000000000000000000000000000000000000000",
     "controller": "fake-registry-owner",
     "address": "0x0mockinputnonethtld.test",
     "result": "0x0mockinputnonethtld.test"
@@ -111,9 +110,9 @@ Request:
 {
   "id": "1",
   "data": {
+    "ensName": "subdomain.mockinputethtld.eth",
     "endpoint": "lookup",
-    "resultPath": "address",
-    "ensName": "subdomain.mockinputethtld.eth"
+    "resultPath": "address"
   },
   "debug": {
     "cacheKey": "ykDmNZC347HfwpLF5sh41ZVPHBQ="
@@ -127,7 +126,6 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "registrant": "0x0000000000000000000000000000000000000000",
     "controller": "fake-registry-owner",
     "address": "0x0subdomain.mockinputethtld.eth",
     "result": "0x0subdomain.mockinputethtld.eth"
@@ -144,9 +142,9 @@ Request:
 {
   "id": "1",
   "data": {
+    "ensName": "subdomain.mockinputnonethtld.test",
     "endpoint": "lookup",
-    "resultPath": "address",
-    "ensName": "subdomain.mockinputnonethtld.test"
+    "resultPath": "address"
   },
   "debug": {
     "cacheKey": "D5d+Lo5QhukVF6maB6ySrhTLy7E="
@@ -160,7 +158,6 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "registrant": "0x0000000000000000000000000000000000000000",
     "controller": "fake-registry-owner",
     "address": "0x0subdomain.mockinputnonethtld.test",
     "result": "0x0subdomain.mockinputnonethtld.test"

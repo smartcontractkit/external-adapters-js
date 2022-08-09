@@ -1,6 +1,6 @@
 # Chainlink External Adapter for cryptoID
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoid/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoid/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -26,10 +26,9 @@ Supported names for this endpoint are: `difficulty`, `height`.
 
 ### Input Params
 
-| Required? |    Name    | Aliases |         Description         |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :-------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | blockchain | `coin`  |    The blockchain name.     | string |         |         |            |                |
-|           |  endpoint  |         | Name of the endpoint to use | string |         |         |            |                |
+| Required? |    Name    | Aliases |     Description      |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | blockchain | `coin`  | The blockchain name. | string |         |         |            |                |
 
 ### Example
 

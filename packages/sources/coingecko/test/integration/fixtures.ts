@@ -11,7 +11,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
       include_market_cap: false,
       include_24hr_vol: false,
     })
-    .reply(200, (_, request) => ({ olympus: { usd: 100.0 } }), [
+    .reply(200, () => ({ olympus: { usd: 100.0 } }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -28,7 +28,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
       include_market_cap: false,
       include_24hr_vol: false,
     })
-    .reply(200, (_, request) => ({ ethereum: { usd: 4226.71 } }), [
+    .reply(200, () => ({ ethereum: { usd: 4226.71 } }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -45,20 +45,16 @@ export const mockCryptoSuccess = (): nock.Scope =>
       include_market_cap: true,
       include_24hr_vol: false,
     })
-    .reply(
-      200,
-      (_, request) => ({ ethereum: { usd: 4208.38, usd_market_cap: 499351414399.08246 } }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
+    .reply(200, () => ({ ethereum: { usd: 4208.38, usd_market_cap: 499351414399.08246 } }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
     .get('/simple/price')
     .query({
       ids: 'ethereum',
@@ -66,7 +62,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
       include_market_cap: false,
       include_24hr_vol: true,
     })
-    .reply(200, (_, request) => ({ ethereum: { usd: 4220.49, usd_24h_vol: 17345604238.153397 } }), [
+    .reply(200, () => ({ ethereum: { usd: 4220.49, usd_24h_vol: 17345604238.153397 } }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -85,7 +81,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         ethereum: {
           usd: 3015.64,
         },
@@ -109,7 +105,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
     .query(() => true)
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           id: 'ethereum',
           symbol: 'eth',
@@ -135,7 +131,7 @@ export const mockDominanceSuccess = (): nock.Scope =>
     .get('/global')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         data: {
           active_cryptocurrencies: 10029,
           upcoming_icos: 0,

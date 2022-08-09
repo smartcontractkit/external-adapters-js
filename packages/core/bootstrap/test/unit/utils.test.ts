@@ -26,11 +26,12 @@ import {
   getEnvWithFallback,
   getClientIp,
   getPairOptions,
+  getBatchedPairOptions,
 } from '../../src/lib/util'
 import { Validator } from '../../src/lib/modules/validator'
 
 describe('utils', () => {
-  let oldEnv
+  let oldEnv: NodeJS.ProcessEnv
 
   beforeEach(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -413,7 +414,9 @@ describe('utils', () => {
 
     it(`getClientIp returns 'unknown'`, () => {
       const values = [{}, { ip: null }, { ips: [] }]
-      values.forEach((val) => expect(getClientIp(val as FastifyRequest)).toEqual('unknown'))
+      values.forEach((val) =>
+        expect(getClientIp(val as unknown as FastifyRequest)).toEqual('unknown'),
+      )
     })
   })
 
@@ -432,7 +435,7 @@ describe('utils', () => {
     }
 
     const getIncludesOptions = (
-      validator: Validator<TInputParameters>,
+      _: Validator<TInputParameters>,
       include: IncludePair,
     ): TOptions => ({
       base: include.from,
@@ -529,7 +532,7 @@ describe('utils', () => {
         { includes, overrides },
       )
 
-      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+      const pairOptions = getBatchedPairOptions<TOptions, TInputParameters>(
         'TEST_ADAPTER_NAME',
         validator,
         getIncludesOptions,
@@ -559,6 +562,50 @@ describe('utils', () => {
           },
         },
       })
+    })
+
+    it('returns the includesOptions for a single base/quote pair with includes string[] param', () => {
+      const request: AdapterRequest = {
+        id: '1',
+        data: {
+          base: 'LINK',
+          quote: 'USD',
+          includes: ['USDT'],
+        },
+      }
+
+      const validator = new Validator<TInputParameters>(request, inputParameters)
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({ base: 'LINK', quote: 'USDT' })
+    })
+
+    it('does not utilize includes string[] param when base/quote are in includesOptions', () => {
+      const request: AdapterRequest = {
+        id: '1',
+        data: {
+          base: 'LINK',
+          quote: 'USD',
+          includes: ['USDT'],
+        },
+      }
+
+      const validator = new Validator<TInputParameters>(request, inputParameters, {}, { includes })
+
+      const pairOptions = getPairOptions<TOptions, TInputParameters>(
+        'TEST_ADAPTER_NAME',
+        validator,
+        getIncludesOptions,
+        defaultGetOptions,
+      )
+
+      expect(pairOptions).toEqual({ base: 'USD', quote: 'LINK', inverse: true })
     })
   })
 })

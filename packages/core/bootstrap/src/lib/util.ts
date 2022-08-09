@@ -580,16 +580,9 @@ export const mapRPCErrorMessage = (errorCode: string, errorMessage: string): str
   return errorMessage
 }
 
-/**
- * Get request options for base/quote inputs for adapters with `includes.json`. The `includes.json` contains an array
- * of base/quote pairs with related replacement inputs to be used in their place (usually for the purpose of fetching prices through
- * the inverse pair).
- * @param adapterName NAME of adapter to override base symbol from overrides object
- * @param validator Validator object containing base/quote input params to check against `includes.json`
- * @param getIncludesOptions Method to derive request options for base/quote after validator has replaced inputs from `includes.json` if applicable
- * @param defaultGetOptions Method to derive default request options when `getIncludesOptions` fails (ex. if `includes.json` does not include given base/quote pair)
- * @returns object of request options to use for given base/quote pair from validator
- */
+// Utilizes the getPairOptionsMap method to build the TOptions map for an adapter
+// This method is used for non-batched requests which would only return a single TOptions
+// Non-batched requests will only have a single base and single quote
 export const getPairOptions = <TOptions, TInputParameters extends BasePairInputParameters>(
   adapterName: string,
   validator: Validator<TInputParameters>,
@@ -598,9 +591,70 @@ export const getPairOptions = <TOptions, TInputParameters extends BasePairInputP
     include: IncludePair,
   ) => TOptions | undefined,
   defaultGetOptions: (base: string, quote: string) => TOptions,
+  customOverrideIncludes?: (base: string, quote: string, includes: string[]) => IncludePair,
+): TOptions => {
+  const validatedBase = validator.validated.data.base as string
+  const validatedQuote = validator.validated.data.quote as string
+  const includesOptionsMap = getPairOptionsMap<TOptions, TInputParameters>(
+    adapterName,
+    validator,
+    getIncludesOptions,
+    defaultGetOptions,
+    customOverrideIncludes,
+  )
+  return includesOptionsMap[validatedBase][validatedQuote]
+}
+
+// Utilizes the getPairOptionsMap method to build the TOptions map for an adapter
+// This method is used for batch requests which could return just a single TOptions or a PairOptionsMap (if multiple bases or quotes are passed)
+export const getBatchedPairOptions = <TOptions, TInputParameters extends BasePairInputParameters>(
+  adapterName: string,
+  validator: Validator<TInputParameters>,
+  getIncludesOptions: (
+    validator: Validator<TInputParameters>,
+    include: IncludePair,
+  ) => TOptions | undefined,
+  defaultGetOptions: (base: string, quote: string) => TOptions,
+  customOverrideIncludes?: (base: string, quote: string, includes: string[]) => IncludePair,
 ): TOptions | PairOptionsMap<TOptions> => {
   const validatedBase = validator.validated.data.base
   const validatedQuote = validator.validated.data.quote
+  const includesOptionsMap = getPairOptionsMap<TOptions, TInputParameters>(
+    adapterName,
+    validator,
+    getIncludesOptions,
+    defaultGetOptions,
+    customOverrideIncludes,
+  )
+  return Array.isArray(validatedBase) || Array.isArray(validatedQuote)
+    ? includesOptionsMap
+    : includesOptionsMap[validatedBase][validatedQuote]
+}
+
+/**
+ * Get request options for base/quote inputs for adapters with `includes.json`. The `includes.json` contains an array
+ * of base/quote pairs with related replacement inputs to be used in their place (usually for the purpose of fetching prices through
+ * the inverse pair).
+ * @param adapterName NAME of adapter to override base symbol from overrides object
+ * @param validator Validator object containing base/quote input params to check against `includes.json`
+ * @param getIncludesOptions Method to derive request options for base/quote after validator has replaced inputs from `includes.json` if applicable
+ * @param defaultGetOptions Method to derive default request options when `getIncludesOptions` fails (ex. if `includes.json` does not include given base/quote pair)
+ * @param customOverrideIncludes Method to replace inputs for request if `includes` from request is of type (string[]) but the base/quote are not in the preset `includes` passed to the validator
+ * @returns object of request options to use for given base/quote pair from validator
+ */
+export const getPairOptionsMap = <TOptions, TInputParameters extends BasePairInputParameters>(
+  adapterName: string,
+  validator: Validator<TInputParameters>,
+  getIncludesOptions: (
+    validator: Validator<TInputParameters>,
+    include: IncludePair,
+  ) => TOptions | undefined,
+  defaultGetOptions: (base: string, quote: string) => TOptions,
+  customOverrideIncludes?: (base: string, quote: string, includes: string[]) => IncludePair,
+): PairOptionsMap<TOptions> => {
+  const validatedBase = validator.validated.data.base
+  const validatedQuote = validator.validated.data.quote
+  const includes = validator.validated.includes || []
 
   const includesOptionsMap: PairOptionsMap<TOptions> = {}
 
@@ -615,16 +669,23 @@ export const getPairOptions = <TOptions, TInputParameters extends BasePairInputP
     for (const quote of quotes) {
       const overrideQuote = validator.overrideSymbol(adapterName, quote)
 
-      const baseIncludesOptions = validator.overrideIncludes(overrideBase, overrideQuote)
-      const includeOptions =
-        baseIncludesOptions && getIncludesOptions(validator, baseIncludesOptions)
+      let baseIncludes = validator.overrideIncludes(overrideBase, overrideQuote)
+
+      if (!baseIncludes && typeof includes[0] === 'string') {
+        const defaultOverrideIncludes = (base: string, _: string, includes: string[]) => ({
+          from: base,
+          to: includes[0],
+        })
+        const getOverrideIncludes = customOverrideIncludes ?? defaultOverrideIncludes
+        baseIncludes = getOverrideIncludes(base, quote, includes as string[])
+      }
+
+      const includeOptions = baseIncludes && getIncludesOptions(validator, baseIncludes)
 
       includesOptionsMap[base][quote] =
         includeOptions ?? defaultGetOptions(overrideBase, overrideQuote)
     }
   }
 
-  return Array.isArray(validatedBase) || Array.isArray(validatedQuote)
-    ? includesOptionsMap
-    : includesOptionsMap[validatedBase][validatedQuote]
+  return includesOptionsMap
 }

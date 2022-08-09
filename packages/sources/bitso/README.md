@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Bitso
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitso/package.json)
+![1.4.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitso/package.json)
 
 Base URL https://api.bitso.com/v3
 
@@ -43,9 +43,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "ticker",
     "base": "BTC",
-    "quote": "ARS"
+    "quote": "ARS",
+    "endpoint": "ticker"
   },
   "debug": {
     "cacheKey": "hSR6+zXoUHi/vgQ+myhslIXWkKQ="

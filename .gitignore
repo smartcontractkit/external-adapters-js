@@ -2,6 +2,7 @@
 packages/**/*.zip
 dist
 **/tsconfig.tsbuildinfo
+**/tsconfig.test.tsbuildinfo
 .DS_Store
 
 # Yarn 2

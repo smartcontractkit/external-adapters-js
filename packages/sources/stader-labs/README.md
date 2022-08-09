@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Stader Labs
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json)
+![1.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json)
 
 By default fetches the value of MaticX/USD
 
@@ -55,9 +55,9 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": 92858945
+    "result": 47732197
   },
-  "result": 92858945,
+  "result": 47732197,
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -97,9 +97,9 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": 29382327
+    "result": 26263763
   },
-  "result": 29382327,
+  "result": 26263763,
   "statusCode": 200,
   "providerStatusCode": 200
 }

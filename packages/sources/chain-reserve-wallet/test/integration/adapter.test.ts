@@ -1,18 +1,19 @@
 import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src'
 import { ethers } from 'ethers'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
 
 jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
   ethers: {
     providers: {
-      JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-        return {}
+      JsonRpcProvider: function (): ethers.providers.JsonRpcProvider {
+        return {} as ethers.providers.JsonRpcProvider
       },
     },
     Contract: function () {
       return {
-        walletAddresses: (____: string) => {
+        walletAddresses: () => {
           return [
             'addr_test1qz87tn9yat3xfutzds43tnj8qw457hk3v46w4028rtnx56v89wjwnrwcvlfm2atvcnnclh3x7thwrl7pgnffaw24mgws0dga4m',
           ]
@@ -30,11 +31,11 @@ describe('chain-reserve-wallet', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.RPC_URL = process.env.RPC_URL || 'test-endpoint'
-    execute = makeExecute()
+    execute = makeExecute() as Execute
   })
 
   afterAll(() => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
   })
 
   describe('when making a request to fetch the contract addresses', () => {

@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://cloud.iexapis.com/stable', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ token: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         symbol: 'ETHUSD',
         primaryExchange: '',
         sector: 'cryptocurrency',
@@ -36,7 +36,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ token: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         avgTotalVolume: 142295,
         calculationPrice: 'close',
         change: 4.7,

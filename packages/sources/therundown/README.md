@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TheRundown
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/therundown/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/therundown/package.json)
 
 Base URL https://therundown-therundown-v1.p.rapidapi.com/
 
@@ -43,8 +43,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "total-score",
-    "matchId": "5527455bb80a5e9884153786aeb5f2b2"
+    "matchId": "5527455bb80a5e9884153786aeb5f2b2",
+    "endpoint": "total-score"
   },
   "debug": {
     "cacheKey": "ryGC9W88xHG0R1Sa+pavq5CMmeU="
@@ -582,9 +582,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "events",
     "sportId": 2,
-    "date": "2020-09-20T17:00:00Z"
+    "date": "2020-09-20T17:00:00Z",
+    "endpoint": "events"
   },
   "debug": {
     "cacheKey": "MKMCnYblR+gdTWjNZN/REeM1+Mo="
@@ -1120,8 +1120,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "event",
-    "eventId": "5527455bb80a5e9884153786aeb5f2b2"
+    "eventId": "5527455bb80a5e9884153786aeb5f2b2",
+    "endpoint": "event"
   },
   "debug": {
     "cacheKey": "87PwMXhXfS/lNxqJnqHJhgKzx1U="

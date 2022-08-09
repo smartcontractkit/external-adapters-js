@@ -8,7 +8,7 @@ export type TInputParameters = {
   url?: string
   method: string
   params: string[] | Record<string, unknown>
-  requestId: string | number
+  requestId?: string | number
 }
 export const inputParameters: InputParameters<TInputParameters> = {
   url: {

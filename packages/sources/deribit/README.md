@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Deribit
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deribit/package.json)
 
 Base URL https://www.deribit.com/api/v2/public/
 
@@ -40,8 +40,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "currency": "ETH"
+    "currency": "ETH",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "hJ7N538OT46zUTHH59trC5Qbouw="

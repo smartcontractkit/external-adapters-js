@@ -1,6 +1,6 @@
 # PoR Address List Adapter
 
-![1.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json)
+![1.0.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json)
 
 This EA fetches the list of custodial addresses that hold the funds for a PoR feed
 
@@ -44,10 +44,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "address",
     "confirmations": 0,
     "contractAddress": "0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B",
-    "batchSize": 10
+    "batchSize": 10,
+    "endpoint": "address"
   },
   "debug": {
     "cacheKey": "GHqDYxXFsZqEeEQD3HZVuhqa8lY="
@@ -84,7 +84,8 @@ Response:
       "0x14dc79964da2c08b23698b3d3cc7ca32193d9955",
       "0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f",
       "0xa0ee7a142d267c1f36714e4a8f75612f20a79720"
-    ]
+    ],
+    "statusCode": 200
   },
   "statusCode": 200
 }

@@ -61,7 +61,12 @@ export const makeWSHandler =
         )
         if (validator.error) return
         const base = validator.overrideSymbol(NAME, validator.validated.data.base).toLowerCase()
-        const quote = validator.validated.data.quote.toLowerCase()
+
+        // Casting quote to string for WS handler
+        // Used as string[] only for batching
+        const quote = validator
+          .overrideSymbol(NAME, <string>validator.validated.data.quote)
+          .toLowerCase()
         return getSubscription([base, quote])
       },
       unsubscribe: () => undefined,

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Upvest
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/upvest/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/upvest/package.json)
 
 Base URL https://fees.upvest.co
 
@@ -42,8 +42,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "speed": "fast",
+    "endpoint": "gasprice"
   },
   "debug": {
     "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="

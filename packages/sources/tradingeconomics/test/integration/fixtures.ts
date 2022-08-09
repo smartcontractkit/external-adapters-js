@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tradingeconomics.com/markets', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ c: 'fake-api-key:fake-api-secret' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           Symbol: 'EURUSD:CUR',
           Ticker: 'EUR',
@@ -61,25 +61,25 @@ export const mockResponseSuccess = (): nock =>
 export const mockSubscribeRequest = {
   request: {
     topic: 'subscribe',
-    to: 'EURUSD:CUR',
+    to: 'USDCAD:CUR',
   },
   response: [
     {
-      s: 'EURUSD:CUR',
-      i: 'EURUSD',
-      pch: 0,
-      nch: -0.00004,
-      bid: 1.13676,
-      ask: 1.13676,
-      price: 1.13676,
-      dt: 1645166298573,
+      s: 'USDCAD:CUR',
+      i: 'USDCAD',
+      pch: 0.26,
+      nch: 0.00328,
+      bid: 1.28778,
+      ask: 1.28778,
+      price: 1.28778,
+      dt: 1659472542655,
       state: 'open',
       type: 'currency',
-      dhigh: 1.13712,
-      dlow: 1.13583,
-      o: 1.13594,
-      prev: 1.1368,
-      topic: 'EURUSD',
+      dhigh: 1.2887,
+      dlow: 1.2831,
+      o: 1.28707,
+      prev: 1.2845,
+      topic: 'USDCAD',
     },
   ],
 }

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Binance
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance/package.json)
+![1.4.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/binance/package.json)
 
 Adapter using the public Binance market API for both HTTP(s) and WS.
 
@@ -46,9 +46,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "BTC"
+    "quote": "BTC",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0="

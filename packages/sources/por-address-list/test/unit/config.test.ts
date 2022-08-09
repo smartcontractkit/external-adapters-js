@@ -1,3 +1,4 @@
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
 import * as adapter from '../../src'
 
 describe('config', () => {
@@ -8,7 +9,7 @@ describe('config', () => {
   })
 
   afterEach(() => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
   })
 
   it('has expected root exports', () => {

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for TrueUSD
 
-![1.2.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json)
+![1.5.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/trueusd/package.json)
 
 Base URL https://api.real-time-attest.trustexplorer.io
 
@@ -24,9 +24,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ## Trueusd Endpoint
 
-https://api.real-time-attest.trustexplorer.io/chainlink/TrueUSD
-
-`trueusd` is the only supported name for this endpoint.
+https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD
 
 `trueusd` is the only supported name for this endpoint.
 
@@ -34,6 +32,7 @@ https://api.real-time-attest.trustexplorer.io/chainlink/TrueUSD
 
 | Required? | Name  | Aliases |                                                   Description                                                    |  Type  | Options |   Default    | Depends On | Not Valid With |
 | :-------: | :---: | :-----: | :--------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------: | :--------: | :------------: |
+|           | chain |         |                                        Filter data to a single blockchain                                        | string |         |              |            |                |
 |           | field |         | The object-path string to parse a single `result` value. When not provided the entire response will be provided. | string |         | `totalTrust` |            |                |
 
 ### Example
@@ -44,8 +43,9 @@ Request:
 {
   "id": "1",
   "data": {
+    "field": "totalTrust",
     "endpoint": "trueusd",
-    "field": "totalTrust"
+    "resultPath": "totalTrust"
   },
   "debug": {
     "cacheKey": "kQAHeHapBfNqwyQZWhSsSGx6zIA="
@@ -60,30 +60,75 @@ Response:
   "jobRunID": "1",
   "data": {
     "accountName": "TrueUSD",
-    "totalTrust": 1385192938.49,
-    "totalToken": 1373465520.7227664,
-    "updatedAt": "2022-04-05T16:45:04.973Z",
+    "totalTrust": 140,
+    "totalToken": 137.87276643,
+    "updatedAt": "2022-04-08T14:39:13.724Z",
+    "updatedTms": 1649428753724,
     "token": [
       {
-        "principle": 5316985.88276643,
-        "tokenName": "TUSDB (BNB)"
+        "tokenName": "TUSDB (BNB)",
+        "totalTokenbyChain": 76.39276643,
+        "totalTrustbyChain": 77,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       },
       {
-        "principle": 254336540.22,
-        "tokenName": "TUSD (TRON)"
+        "tokenName": "TUSD (TRON)",
+        "totalTokenbyChain": 20.22,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       },
       {
-        "principle": 1109418823.8999999,
-        "tokenName": "TUSD (ETH)"
+        "tokenName": "TUSD (ETH)",
+        "totalTokenbyChain": 20.54,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       },
       {
-        "principle": 4393170.72,
-        "tokenName": "TUSD (AVA)"
+        "tokenName": "TUSD (AVA)",
+        "totalTokenbyChain": 20.72,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       }
     ],
-    "result": 1385192938.49
+    "result": 140
   },
-  "result": 1385192938.49,
+  "result": 140,
   "statusCode": 200,
   "providerStatusCode": 200
 }
@@ -98,11 +143,12 @@ Request:
 {
   "id": "1",
   "data": {
+    "field": "totalTrust",
     "endpoint": "trueusd",
-    "field": "totalToken"
+    "resultPath": "totalToken"
   },
   "debug": {
-    "cacheKey": "6Mf4n28MSikPZvECj9Vl7v+OXxM="
+    "cacheKey": "kQAHeHapBfNqwyQZWhSsSGx6zIA="
   }
 }
 ```
@@ -114,30 +160,271 @@ Response:
   "jobRunID": "1",
   "data": {
     "accountName": "TrueUSD",
-    "totalTrust": 1385192938.49,
-    "totalToken": 1373465520.7227664,
-    "updatedAt": "2022-04-05T16:45:04.973Z",
+    "totalTrust": 140,
+    "totalToken": 137.87276643,
+    "updatedAt": "2022-04-08T14:39:13.724Z",
+    "updatedTms": 1649428753724,
     "token": [
       {
-        "principle": 5316985.88276643,
-        "tokenName": "TUSDB (BNB)"
+        "tokenName": "TUSDB (BNB)",
+        "totalTokenbyChain": 76.39276643,
+        "totalTrustbyChain": 77,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       },
       {
-        "principle": 254336540.22,
-        "tokenName": "TUSD (TRON)"
+        "tokenName": "TUSD (TRON)",
+        "totalTokenbyChain": 20.22,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       },
       {
-        "principle": 1109418823.8999999,
-        "tokenName": "TUSD (ETH)"
+        "tokenName": "TUSD (ETH)",
+        "totalTokenbyChain": 20.54,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       },
       {
-        "principle": 4393170.72,
-        "tokenName": "TUSD (AVA)"
+        "tokenName": "TUSD (AVA)",
+        "totalTokenbyChain": 20.72,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
       }
     ],
-    "result": 1373465520.7227664
+    "result": 137.87276643
   },
-  "result": 1373465520.7227664,
+  "result": 137.87276643,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "chain": "AVA",
+    "field": "totalTrust",
+    "endpoint": "trueusd",
+    "resultPath": "totalTrust"
+  },
+  "debug": {
+    "cacheKey": "6WLGWNlp3Yz32n40twAcGx8Cjx8="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "accountName": "TrueUSD",
+    "totalTrust": 140,
+    "totalToken": 137.87276643,
+    "updatedAt": "2022-04-08T14:39:13.724Z",
+    "updatedTms": 1649428753724,
+    "token": [
+      {
+        "tokenName": "TUSDB (BNB)",
+        "totalTokenbyChain": 76.39276643,
+        "totalTrustbyChain": 77,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      },
+      {
+        "tokenName": "TUSD (TRON)",
+        "totalTokenbyChain": 20.22,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      },
+      {
+        "tokenName": "TUSD (ETH)",
+        "totalTokenbyChain": 20.54,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      },
+      {
+        "tokenName": "TUSD (AVA)",
+        "totalTokenbyChain": 20.72,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      }
+    ],
+    "result": 21
+  },
+  "result": 21,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "chain": "AVA",
+    "field": "totalTrust",
+    "endpoint": "trueusd",
+    "resultPath": "totalTokenbyChain"
+  },
+  "debug": {
+    "cacheKey": "6WLGWNlp3Yz32n40twAcGx8Cjx8="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "accountName": "TrueUSD",
+    "totalTrust": 140,
+    "totalToken": 137.87276643,
+    "updatedAt": "2022-04-08T14:39:13.724Z",
+    "updatedTms": 1649428753724,
+    "token": [
+      {
+        "tokenName": "TUSDB (BNB)",
+        "totalTokenbyChain": 76.39276643,
+        "totalTrustbyChain": 77,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      },
+      {
+        "tokenName": "TUSD (TRON)",
+        "totalTokenbyChain": 20.22,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      },
+      {
+        "tokenName": "TUSD (ETH)",
+        "totalTokenbyChain": 20.54,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      },
+      {
+        "tokenName": "TUSD (AVA)",
+        "totalTokenbyChain": 20.72,
+        "totalTrustbyChain": 21,
+        "bankBalances": [
+          {
+            "Prime Trust": 1,
+            "Silvergate": 2,
+            "Signature Bank": 3,
+            "First Digital Trust": 4,
+            "Customers Bank": 5,
+            "Other": 6
+          }
+        ]
+      }
+    ],
+    "result": 20.72
+  },
+  "result": 20.72,
   "statusCode": 200,
   "providerStatusCode": 200
 }

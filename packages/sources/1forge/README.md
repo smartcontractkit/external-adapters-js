@@ -1,6 +1,6 @@
 # Chainlink External Adapter for 1Forge
 
-![1.4.40](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json)
+![1.6.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json)
 
 Base URL https://api.1forge.com/
 
@@ -35,11 +35,10 @@ Supported names for this endpoint are: `forex`, `price`, `quotes`.
 
 ### Input Params
 
-| Required? |   Name   |    Aliases     | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :------: | :------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base   | `base`, `from` |             |      |         |         |            |                |
-|    ✅     |  quote   | `quote`, `to`  |             |      |         |         |            |                |
-|           | quantity |                |             |      |         |         |            |                |
+| Required? | Name  | Aliases |               Description                | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :--------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `from`  |   The symbol of the currency to query    |      |         |         |            |                |
+|    ✅     | quote |  `to`   | The symbol of the currency to convert to |      |         |         |            |                |
 
 ### Example
 
@@ -49,9 +48,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "quotes",
     "base": "USD",
-    "quote": "EUR"
+    "quote": "EUR",
+    "endpoint": "quotes"
   },
   "debug": {
     "cacheKey": "7bgmviEbqyIiUCIfawMxKPrtU7Y=",
@@ -62,9 +61,9 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "quotes",
             "base": "USD",
-            "quote": "EUR"
+            "quote": "EUR",
+            "endpoint": "quotes"
           }
         }
       ]
@@ -131,10 +130,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "convert",
     "base": "USD",
     "quote": "EUR",
-    "quantity": 1
+    "quantity": 1,
+    "endpoint": "convert"
   },
   "debug": {
     "cacheKey": "EbMPGiWl2oE1AmSzqMaVAMCtj3I="

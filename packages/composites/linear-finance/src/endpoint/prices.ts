@@ -11,7 +11,7 @@ export type TInputParameters = {
 export const inputParameters: InputParameters<TInputParameters> = {
   index: {
     required: true,
-    options: ['xbci', 'xlci'],
+    options: ['xbci', 'xlci', 'x30'],
     description: 'The index to query',
   },
 }

@@ -1,11 +1,11 @@
 import nock from 'nock'
 
-const fileUploadMatches = (expected) => (body) => {
+const fileUploadMatches = (expected: string) => (body: string) => {
   const lines = body.split('\r\n')
   return lines.length === 7 && lines[4] === expected
 }
 
-export const mockIpfsSuccessfulResponse = (): nock =>
+export const mockIpfsSuccessfulResponse = (): nock.Scope =>
   nock('http://127.0.0.1:5001', { encodedQueryParams: true })
     .persist()
     .post('/api/v0/add', fileUploadMatches('some simple text'))
@@ -89,7 +89,7 @@ export const mockIpfsSuccessfulResponse = (): nock =>
       'chunked',
     ])
 
-export const mockIpfsErrorResponse = (): nock =>
+export const mockIpfsErrorResponse = (): nock.Scope =>
   nock('http://127.0.0.1:5001', { encodedQueryParams: true })
     .persist()
     .post('/api/v0/cat')

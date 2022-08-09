@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockUSCPIResponseSuccess = (): nock =>
+export const mockUSCPIResponseSuccess = (): nock.Scope =>
   nock('https://fees.upvest.co', { encodedQueryParams: true })
     .persist()
     .get('/estimate_eth_fees')

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EthGasStation
 
-![1.3.30](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgasstation/package.json)
+![1.4.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgasstation/package.json)
 
 Base URL https://ethgasstation.info/
 
@@ -41,8 +41,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "speed": "fast",
+    "endpoint": "gasprice"
   },
   "debug": {
     "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="

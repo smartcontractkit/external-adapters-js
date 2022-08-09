@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockPriceResponse() {
-  nock('https://tools.dxfeed.com:443', { encodedQueryParams: true })
+export function mockPriceResponse(): nock.Scope {
+  return nock('https://tools.dxfeed.com:443', { encodedQueryParams: true })
     .get('/webservice/rest/events.json')
     .query({ events: 'Trade', symbols: 'UKX.IND%3ATEI' })
     .reply(

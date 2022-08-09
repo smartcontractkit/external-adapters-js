@@ -8,6 +8,7 @@ import {
   mockAWLocationResponseSuccessMalformed1,
   mockAWLocationResponseSuccessMalformed2,
 } from './fixtures'
+import { SuperTest, Test } from 'supertest'
 
 export function locationTests(context: SuiteContext): void {
   const id = '1'
@@ -25,7 +26,7 @@ export function locationTests(context: SuiteContext): void {
         }
         mockAWLocationResponseError()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -49,7 +50,7 @@ export function locationTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessMalformed1()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -71,7 +72,7 @@ export function locationTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessMalformed2()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -97,7 +98,7 @@ export function locationTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationNotFound()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -121,7 +122,7 @@ export function locationTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationNotFound()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -146,7 +147,7 @@ export function locationTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationFound()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -170,7 +171,7 @@ export function locationTests(context: SuiteContext): void {
         }
         mockAWLocationResponseSuccessLocationFound()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')

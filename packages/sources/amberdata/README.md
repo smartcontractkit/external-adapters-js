@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Amberdata
 
-![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
+![1.8.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
 
 Base URL wss://ws.web3api.io
 
@@ -24,7 +24,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 | :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
 |           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [crypto](#crypto-endpoint), [gasprice](#gasprice-endpoint), [marketcap](#token-endpoint), [price](#crypto-endpoint), [token](#token-endpoint), [volume](#volume-endpoint) |         |
 
----
+## Balance Endpoint
 
 `balance` is the only supported name for this endpoint.
 
@@ -52,7 +52,6 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "dataPath": "addresses",
     "addresses": [
       {
@@ -61,7 +60,8 @@ Request:
       {
         "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF"
       }
-    ]
+    ],
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "vCmH76Knp2AjvjUGa4OTDci2XsE="
@@ -150,8 +150,6 @@ Gets the [latest spot VWAP price](https://docs.amberdata.io/reference#spot-price
 
 Supported names for this endpoint are: `crypto`, `price`.
 
-Supported names for this endpoint are: `marketcap`, `token`.
-
 ### Input Params
 
 | Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
@@ -167,9 +165,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "BTC"
+    "quote": "BTC",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0="
@@ -209,9 +207,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "LUNA",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "6wt5RjdkYLFWTgbwPBVQiLa4UE8="
@@ -266,8 +264,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "marketcap",
-    "base": "ETH"
+    "base": "ETH",
+    "endpoint": "marketcap"
   },
   "debug": {
     "cacheKey": "WoWL21wG8PjLNnVF3S48gXtlKS0="
@@ -821,9 +819,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "volume",
     "base": "LINK",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "volume"
   },
   "debug": {
     "cacheKey": "d+mryffHVHFglQb9/p/ZBZsow6c="

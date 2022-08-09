@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockDnsProofResponseError = (): nock =>
+export const mockDnsProofResponseError = (): nock.Scope =>
   nock('https://dns.google', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockDnsProofResponseError = (): nock =>
     .query({ name: 'www5.infernos.io', type: 'TXT' })
     .reply(500, {})
 
-export const mockDnsProofResponseSuccessMalformed = (): nock =>
+export const mockDnsProofResponseSuccessMalformed = (): nock.Scope =>
   nock('https://dns.google', {
     encodedQueryParams: true,
   })
@@ -31,7 +31,7 @@ export const mockDnsProofResponseSuccessMalformed = (): nock =>
       Comment: 'Response from 2a06:98c1:50::ac40:2075.',
     })
 
-export const mockDnsProofResponseSuccess = (): nock =>
+export const mockDnsProofResponseSuccess = (): nock.Scope =>
   nock('https://dns.google', {
     encodedQueryParams: true,
   })

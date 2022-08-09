@@ -1,6 +1,15 @@
 import nock from 'nock'
 
-export const dataProviderConfig = {
+export type TokenAllocationTest = {
+  [key: string]: {
+    providerUrlEnvVar: string
+    providerUrl: string
+    shouldSendBatchedRequest: boolean
+    additional: Record<string, string> | undefined
+  }
+}
+
+export const dataProviderConfig: TokenAllocationTest = {
   amberdata: {
     providerUrlEnvVar: 'AMBERDATA_ADAPTER_URL',
     providerUrl: 'http://localhost:3000',

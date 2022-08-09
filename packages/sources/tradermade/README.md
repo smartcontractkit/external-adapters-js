@@ -2,7 +2,7 @@
 
 This adapter only has Websocket support for the forex endpoint.
 
-![1.6.38](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json)
+![1.7.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradermade/package.json)
 
 Base URL wss://marketdata.tradermade.com/feedadv
 
@@ -45,8 +45,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "live",
-    "base": "AAPL"
+    "base": "AAPL",
+    "endpoint": "live"
   },
   "debug": {
     "cacheKey": "HHpABsvAKoDprbxdQVUIgj+YoK0="
@@ -101,9 +101,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "forex",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "forex"
   },
   "debug": {
     "cacheKey": "QjGCaijj/AZfhRuMfhhiXZgSxOY="

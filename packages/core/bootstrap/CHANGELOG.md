@@ -1,5 +1,17 @@
 # @chainlink/ea-bootstrap
 
+## 2.18.0
+
+### Minor Changes
+
+- 48730a71c: Fixed websocket metric value going negative
+
+## 2.17.1
+
+### Patch Changes
+
+- cf38319c3: Support includes param in request as string[]
+
 ## 2.17.0
 
 ### Minor Changes

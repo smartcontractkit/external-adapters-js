@@ -1,5 +1,32 @@
 # @chainlink/coinapi-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.3.0
+
+### Minor Changes
+
+- 5100f2a6f: Enhanced Coinapi EA to use batching on quotes that are not USD
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.9
+
+### Patch Changes
+
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.2.8
 
 ### Patch Changes

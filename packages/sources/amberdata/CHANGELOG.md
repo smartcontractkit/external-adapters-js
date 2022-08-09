@@ -1,5 +1,37 @@
 # @chainlink/amberdata-adapter
 
+## 1.8.4
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-factories@1.2.10
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.8.3
+
+### Patch Changes
+
+- 04ea6e448: Updated with better approach to ignore unused var linting and to avoid type coercion
+
+## 1.8.2
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.8.1
+
+### Patch Changes
+
+- cf38319c3: Support includes param in request as string[]
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/ea-factories@1.2.9
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.8.0
 
 ### Minor Changes

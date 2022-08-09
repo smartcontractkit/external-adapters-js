@@ -1,6 +1,6 @@
 # Chainlink External Adapter for IEX Cloud
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/iex-cloud/package.json)
 
 Base URL https://cloud.iexapis.com/stable
 
@@ -41,8 +41,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "stock",
-    "base": "USD"
+    "base": "USD",
+    "endpoint": "stock"
   },
   "debug": {
     "cacheKey": "vUFTdjiClK4fJKdPdN1wirkMJdk="
@@ -141,9 +141,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "ETH",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "QNtSfU2ZYHGMNgEwRtz4Tw9qb/U="
@@ -196,8 +196,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "eod",
-    "base": "USD"
+    "base": "USD",
+    "endpoint": "eod"
   },
   "debug": {
     "cacheKey": "ltjBvntfHXGAo/NFw8mBiRHcbMU="

@@ -1,4 +1,7 @@
-import { RedisTlsSocketOptions } from '@node-redis/client/dist/lib/client/socket'
+import {
+  RedisSocketOptions,
+  RedisTlsSocketOptions,
+} from '@node-redis/client/dist/lib/client/socket'
 import { defaultOptions, redactOptions, RedisCache } from '../../src/lib/middleware/cache/redis'
 import { CacheEntry } from '../../src/lib/middleware/cache/types'
 import { logger } from '../../src/lib/modules/logger'
@@ -38,7 +41,7 @@ describe('Redis cache', () => {
     const options = defaultOptions()
     const redacted = redactOptions(options)
 
-    delete redacted.socket.reconnectStrategy
+    delete (redacted.socket as RedisSocketOptions).reconnectStrategy
     delete (redacted.socket as RedisTlsSocketOptions).path
 
     const expected = JSON.parse(JSON.stringify(options))
@@ -49,7 +52,7 @@ describe('Redis cache', () => {
   })
 
   it('successfully connects to mock instance and logs on event', async () => {
-    let mockConnectionReady
+    let mockConnectionReady: (value: unknown) => void
     const promise = new Promise((resolve) => (mockConnectionReady = resolve))
     ;(logger.info as jest.Mock).mockImplementation((msg: string) => {
       if (msg.includes('Ready to serve')) mockConnectionReady('OK')
@@ -61,7 +64,9 @@ describe('Redis cache', () => {
 
   it('reconnect strategy returns time to reconnect', () => {
     process.env.CACHE_REDIS_MAX_RECONNECT_COOLDOWN = '150'
-    const reconnectStrategy = defaultOptions().socket.reconnectStrategy
+    const reconnectStrategy = (defaultOptions().socket as RedisSocketOptions).reconnectStrategy as (
+      retries: number,
+    ) => number
 
     expect(reconnectStrategy(0)).toBe(0)
     expect(reconnectStrategy(1)).toBe(100)

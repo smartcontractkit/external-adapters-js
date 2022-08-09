@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinbase
 
-![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
+![1.4.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
 
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
@@ -48,9 +48,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "symbol": "BTC",
-    "convert": "USD"
+    "convert": "USD",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI="
@@ -101,11 +101,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "nft-floor-price",
     "network": "ethereum-mainnet",
     "contractAddress": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "start": "2022-05-25T12:00:00.000Z",
-    "end": "2022-05-25T12:00:00.000Z"
+    "end": "2022-05-25T12:00:00.000Z",
+    "endpoint": "nft-floor-price"
   },
   "debug": {
     "cacheKey": "BmlGY5Kks21C8iVAMfF69gxGtf4="

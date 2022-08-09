@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tradingeconomics
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json)
+![2.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json)
 
 This adapter uses the Tradingeconomics WS stream
 
@@ -22,9 +22,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                         Options                          |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [price-ws](#price_ws-endpoint), [price](#price-endpoint) | `price-ws` |
 
 ## Price Endpoint
 
@@ -32,9 +32,10 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Input Params
 
-| Required? | Name |     Aliases     |           Description            |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-------------: | :------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `from` | The symbol of the asset to query | string |         |         |            |                |
+| Required? | Name  |     Aliases     |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-------------: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `asset`, `from` |    The symbol of the asset to query    | string |         |         |            |                |
+|           | quote |  `term`, `to`   | The quote symbol of the asset to query | string |         |  `USD`  |            |                |
 
 ### Example
 
@@ -44,11 +45,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
-    "base": "EURUSD:CUR"
+    "base": "EURUSD:CUR",
+    "quote": "USD",
+    "endpoint": "price"
   },
   "debug": {
-    "cacheKey": "1CbLEKoATl+/z1X7pi4LVsQRqBs="
+    "cacheKey": "G72mWx8TQqfLPgLuCIW2YPsN/9s="
   },
   "rateLimitMaxAge": 7999
 }
@@ -67,6 +69,23 @@ Response:
   "providerStatusCode": 200
 }
 ```
+
+---
+
+## Price_ws Endpoint
+
+`price-ws` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name  |     Aliases     |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-------------: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `asset`, `from` |    The symbol of the asset to query    | string |         |         |            |                |
+|           | quote |  `term`, `to`   | The quote symbol of the asset to query | string |         |  `USD`  |            |                |
+
+### Example
+
+There are no examples for this endpoint.
 
 ---
 

@@ -7,6 +7,8 @@ import {
 } from './fixtures'
 import { BigNumber } from 'ethers'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const TEST_SAVAX_CONTRACT_ADDRESS_WORKING = 'working-address'
 const TEST_SAVAX_CONTRACT_ADDRESS_ERROR = 'error-address'
@@ -42,7 +44,7 @@ jest.mock('ethers', () => {
 
 describe('execute', () => {
   const id = '1'
-  const context = {
+  const context: SuiteContext = {
     req: null,
     server: startServer,
   }
@@ -75,7 +77,7 @@ describe('execute', () => {
     }
 
     it('should return the price of sAVAX correctly', async () => {
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -103,7 +105,7 @@ describe('execute', () => {
           source: 'coinpaprika',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -121,7 +123,7 @@ describe('execute', () => {
           source: 'coinpaprika',
         },
       }
-      const response = await context.req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
