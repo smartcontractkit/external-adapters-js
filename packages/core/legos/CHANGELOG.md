@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.17
+
+### Patch Changes
+
+- Updated dependencies [230bac51f]
+- Updated dependencies [33c515d0d]
+  - @chainlink/trueusd-adapter@1.6.0
+  - @chainlink/layer2-sequencer-health-adapter@1.6.0
+
 ## 1.3.16
 
 ### Patch Changes
