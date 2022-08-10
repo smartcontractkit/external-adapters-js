@@ -9,7 +9,8 @@ export const endpointResultPaths = {
   trueusd: 'totalTrust',
 }
 
-export const description = 'https://core-api.real-time-attest.trustexplorer.io/trusttoken/TrueUSD'
+export const description =
+  'https://api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD'
 
 export type TInputParameters = {
   field?: string // Deprecated - kept for backwards compatability
@@ -37,20 +38,14 @@ interface ResponseSchema {
   totalTrust: number
   totalToken: number
   updatedAt: string
-  updatedTms: string
   token: {
     tokenName: string
     principle: number
-    totalTokenbyChain: number
-    totalTrustbyChain: number
+    totalTokenByChain: number
+    totalTrustByChain: number
     bankBalances: {
-      'Prime Trust': number
-      Silvergate: number
-      'Signature Bank': number
-      'First Digital Trust': number
-      'Customers Bank': number
-      Other: number
-    }[]
+      [name: string]: number
+    }
   }[]
 }
 
@@ -61,7 +56,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const field = validator.validated.data.field
   const chain = validator.validated.data.chain
   const resultPath = (validator.validated.data.resultPath || field || '').toString()
-  const url = '/chainlink/TrueUSD'
+  const url = '/chainlink/proof-of-reserves/TrueUSD'
 
   const options = { ...config.api, url }
 
@@ -79,8 +74,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     }
 
     const resultPathOverride = // If 'resultPath' is default, then override to default for chain data
-      resultPath === endpointResultPaths.trueusd ? 'totalTrustbyChain' : resultPath
-
+      resultPath === endpointResultPaths.trueusd ? 'totalTrustByChain' : resultPath
     const result = Requester.validateResultNumber(chainData, [resultPathOverride])
     return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
   }
