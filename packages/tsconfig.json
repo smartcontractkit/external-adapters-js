@@ -120,6 +120,9 @@
       "path": "./scripts"
     },
     {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
+    },
+    {
       "path": "./sources/1forge"
     },
     {
@@ -424,6 +427,9 @@
     },
     {
       "path": "./sources/por-address-list"
+    },
+    {
+      "path": "./sources/pound-token"
     },
     {
       "path": "./sources/reduce"

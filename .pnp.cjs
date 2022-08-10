@@ -601,6 +601,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/por-address-list"\
       },\
       {\
+        "name": "@chainlink/pound-token-adapter",\
+        "reference": "workspace:packages/sources/pound-token"\
+      },\
+      {\
         "name": "@chainlink/reduce-adapter",\
         "reference": "workspace:packages/sources/reduce"\
       },\
@@ -880,6 +884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
       ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
       ["@chainlink/por-indexer-adapter", ["workspace:packages/composites/por-indexer"]],\
+      ["@chainlink/pound-token-adapter", ["workspace:packages/sources/pound-token"]],\
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
       ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
       ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],\
@@ -5441,6 +5446,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
+            ["@chainlink/pound-token-adapter", "workspace:packages/sources/pound-token"],\
             ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
@@ -6842,6 +6848,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["decimal.js", "npm:10.3.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/pound-token-adapter", [\
+        ["workspace:packages/sources/pound-token", {\
+          "packageLocation": "./packages/sources/pound-token/",\
+          "packageDependencies": [\
+            ["@chainlink/pound-token-adapter", "workspace:packages/sources/pound-token"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.47"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
         }]\

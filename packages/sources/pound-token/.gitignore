@@ -1,0 +1,12 @@
+# YOU SHOULD NOT BE SEEING THIS IN THE PULL REQUEST, have it here so I can work with secrets locally
+.env
+.key
+*.key
+*.pem
+test.*
+test2*
+request.body.json
+webhook.toml
+*.sha512
+*.body.json
+gen-sig.sh
