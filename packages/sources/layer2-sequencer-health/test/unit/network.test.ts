@@ -39,7 +39,9 @@ describe('network', () => {
       })
     })
 
-    // TO_BE_IMPLEMENTED
-    describe('when fetching EVM Sequencer status', () => {})
+    /**
+     * TO_BE_IMPLEMENTED
+     *  describe('when fetching EVM Sequencer status', () => {})
+     *  */
   })
 })

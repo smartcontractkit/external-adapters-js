@@ -95,26 +95,16 @@ const isExpectedErrorMessage = (network: Networks, e: Error) => {
   return false
 }
 
-export const checkBlocks = (network: Networks): ((config: ExtendedConfig) => Promise<boolean>) => {
-  switch (network) {
-    case Networks.Starkware:
-      return checkStarkwareSequencerPendingTransactions()
-    default:
-      return checkOptimisticRollupBlockHeight(network)
-  }
-}
-
 export const checkIsNetworkProgressing: NetworkHealthCheck = (
   network: Networks,
   config: ExtendedConfig,
 ) => {
-  const networks: Record<Networks, (config: ExtendedConfig) => Promise<boolean>> = {
-    [Networks.Arbitrum]: checkBlocks(Networks.Arbitrum),
-    [Networks.Optimism]: checkBlocks(Networks.Optimism),
-    [Networks.Metis]: checkBlocks(Networks.Metis),
-    [Networks.Starkware]: checkBlocks(Networks.Starkware),
+  switch (network) {
+    case Networks.Starkware:
+      return checkStarkwareSequencerPendingTransactions()(config)
+    default:
+      return checkOptimisticRollupBlockHeight(network)(config)
   }
-  return networks[network](config)
 }
 
 export async function retry<T>({

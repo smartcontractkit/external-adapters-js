@@ -68,7 +68,7 @@ describe('adapter', () => {
 
     it('If direct sequencer check succeeds and L2 network check fails, the network is unhealthy', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(network, 'checkIsNetworkProgressing').mockReturnValue(false)
+      jest.spyOn(network, 'checkIsNetworkProgressing').mockReturnValue(Promise.resolve(false))
 
       await execute(
         {

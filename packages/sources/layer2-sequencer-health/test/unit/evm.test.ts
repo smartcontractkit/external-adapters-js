@@ -3,7 +3,7 @@ import { useFakeTimers } from 'sinon'
 import * as evm from '../../src/evm'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { makeConfig } from '../../src/config'
-import { AxiosResponse } from 'axios'
+import { AxiosResponse } from '@chainlink/ea-bootstrap'
 
 const getMockAxiosResponse = (response: unknown): AxiosResponse => ({
   status: 204,
