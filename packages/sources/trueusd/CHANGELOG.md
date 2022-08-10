@@ -1,5 +1,19 @@
 # @chainlink/trueusd-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- 230bac51f: Update TrueUSD API endpoint & correction to ResponseSchema
+
+## 1.5.3
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.5.2
 
 ### Patch Changes
