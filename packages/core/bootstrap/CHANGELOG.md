@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.18.1
+
+### Patch Changes
+
+- Skip rate limit warning for batch warmer requests
+
 ## 2.18.0
 
 ### Minor Changes

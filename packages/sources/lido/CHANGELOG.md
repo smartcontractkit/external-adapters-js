@@ -1,5 +1,13 @@
 # @chainlink/lido-adapter
 
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.0.17
 
 ### Patch Changes

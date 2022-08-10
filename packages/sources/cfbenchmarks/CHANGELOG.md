@@ -1,5 +1,13 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 1.5.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.5.11
 
 ### Patch Changes
