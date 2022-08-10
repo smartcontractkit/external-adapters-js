@@ -4,7 +4,14 @@ import * as evm from '../../src/evm'
 import { Requester } from '@chainlink/ea-bootstrap'
 import { makeConfig } from '../../src/config'
 import { AxiosResponse } from 'axios'
-import { getMockAxiosResponse } from './helpers'
+
+const getMockAxiosResponse = (response: unknown): AxiosResponse => ({
+  status: 204,
+  statusText: 'success',
+  headers: {},
+  config: {},
+  data: response,
+})
 
 describe('evm', () => {
   describe('L2 Network health check', () => {
@@ -24,9 +31,7 @@ describe('evm', () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise<AxiosResponse>.resolve(
           getMockAxiosResponse({
-            data: {
-              result: '0x1',
-            },
+            result: '0x1',
           }),
         ),
       )
@@ -51,9 +56,7 @@ describe('evm', () => {
         jest.spyOn(Requester, 'request').mockReturnValue(
           Promise<AxiosResponse>.resolve(
             getMockAxiosResponse({
-              data: {
-                result: '0x1',
-              },
+              result: i.toString(16),
             }),
           ),
         )
@@ -73,9 +76,7 @@ describe('evm', () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise<AxiosResponse>.resolve(
           getMockAxiosResponse({
-            data: {
-              result: '0xa',
-            },
+            result: '0xa',
           }),
         ),
       )
@@ -85,9 +86,7 @@ describe('evm', () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise<AxiosResponse>.resolve(
           getMockAxiosResponse({
-            data: {
-              result: '0x6',
-            },
+            result: '0x6',
           }),
         ),
       )
@@ -96,9 +95,7 @@ describe('evm', () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise<AxiosResponse>.resolve(
           getMockAxiosResponse({
-            data: {
-              result: '0x5',
-            },
+            result: '0x5',
           }),
         ),
       )
@@ -107,9 +104,7 @@ describe('evm', () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise<AxiosResponse>.resolve(
           getMockAxiosResponse({
-            data: {
-              result: '0x4',
-            },
+            result: '0x4',
           }),
         ),
       )
@@ -118,9 +113,7 @@ describe('evm', () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise<AxiosResponse>.resolve(
           getMockAxiosResponse({
-            data: {
-              result: '0x3',
-            },
+            result: '0x3',
           }),
         ),
       )

@@ -7,34 +7,14 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, Networks } from '../config'
-import { checkOptimisticRollupBlockHeight } from '../evm'
-import { getSequencerHealth, NetworkHealthCheck, getStatusByTransaction } from '../network'
-import { checkStarkwareSequencerPendingTransactions } from '../starkware'
+import {
+  getSequencerHealth,
+  NetworkHealthCheck,
+  getStatusByTransaction,
+  checkIsNetworkProgressing,
+} from '../network'
 
 export const supportedEndpoints = ['health']
-
-export const checkBlocks = (network: Networks): ((config: ExtendedConfig) => Promise<boolean>) => {
-  switch (network) {
-    case Networks.Starkware:
-      return checkStarkwareSequencerPendingTransactions()
-    default:
-      return checkOptimisticRollupBlockHeight(network)
-  }
-}
-
-const networks: Record<Networks, (config: ExtendedConfig) => Promise<boolean>> = {
-  [Networks.Arbitrum]: checkBlocks(Networks.Arbitrum),
-  [Networks.Optimism]: checkBlocks(Networks.Optimism),
-  [Networks.Metis]: checkBlocks(Networks.Metis),
-  [Networks.Starkware]: checkBlocks(Networks.Starkware),
-}
-
-export const checkIsNetworkProgressing: NetworkHealthCheck = (
-  network: Networks,
-  config: ExtendedConfig,
-) => {
-  return networks[network](config)
-}
 
 export type TInputParameters = { network: string }
 export const inputParameters: InputParameters<TInputParameters> = {

@@ -3,8 +3,7 @@ import { useFakeTimers } from 'sinon'
 import * as network from '../../src/network'
 import { makeExecute } from '../../src/adapter'
 import { TInputParameters } from '../../src/endpoint'
-import { AdapterRequest, AxiosResponse, Requester } from '@chainlink/ea-bootstrap'
-import { getMockAxiosResponse } from './helpers'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 describe('adapter', () => {
   describe('Adapter health check', () => {
@@ -53,15 +52,7 @@ describe('adapter', () => {
 
     it('If direct sequencer check succeeds and L2 network check succeeds, the network is healthy', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
-          getMockAxiosResponse({
-            data: {
-              result: '0x1',
-            },
-          }),
-        ),
-      )
+      jest.spyOn(network, 'checkIsNetworkProgressing').mockReturnValue(Promise.resolve(true))
 
       const response = await execute(
         {
@@ -77,15 +68,7 @@ describe('adapter', () => {
 
     it('If direct sequencer check succeeds and L2 network check fails, the network is unhealthy', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
-          getMockAxiosResponse({
-            data: {
-              result: '0x1',
-            },
-          }),
-        ),
-      )
+      jest.spyOn(network, 'checkIsNetworkProgressing').mockReturnValue(false)
 
       await execute(
         {
@@ -112,7 +95,9 @@ describe('adapter', () => {
 
     it('If direct sequencer check succeeds and L2 network check throws, the network is unhealthy', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(network, 'retry').mockRejectedValue(new Error('Some RPC call error'))
+      jest
+        .spyOn(network, 'checkIsNetworkProgressing')
+        .mockRejectedValue(new Error('Some RPC call error'))
 
       const response = await execute(
         {
@@ -128,8 +113,8 @@ describe('adapter', () => {
 
     it('Empty transaction check has the final word on unhealthy method responses', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(false))
+      jest.spyOn(network, 'checkIsNetworkProgressing').mockReturnValue(Promise.resolve(false))
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(Requester, 'request').mockRejectedValue(new Error('Some RPC call error'))
 
       const response = await execute(
         {

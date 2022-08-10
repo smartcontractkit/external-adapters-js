@@ -1,8 +1,11 @@
 import { Logger, Requester } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, ExtendedConfig } from './config'
 
-import { sendDummyStarkwareTransaction } from './starkware'
-import { sendEVMDummyTransaction } from './evm'
+import {
+  checkStarkwareSequencerPendingTransactions,
+  sendDummyStarkwareTransaction,
+} from './starkware'
+import { checkOptimisticRollupBlockHeight, sendEVMDummyTransaction } from './evm'
 import { sleep } from '@chainlink/ea-bootstrap/src/lib/util'
 
 const NO_ISSUE_MSG =
@@ -90,6 +93,28 @@ const isExpectedErrorMessage = (network: Networks, e: Error) => {
     `Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
   )
   return false
+}
+
+export const checkBlocks = (network: Networks): ((config: ExtendedConfig) => Promise<boolean>) => {
+  switch (network) {
+    case Networks.Starkware:
+      return checkStarkwareSequencerPendingTransactions()
+    default:
+      return checkOptimisticRollupBlockHeight(network)
+  }
+}
+
+export const checkIsNetworkProgressing: NetworkHealthCheck = (
+  network: Networks,
+  config: ExtendedConfig,
+) => {
+  const networks: Record<Networks, (config: ExtendedConfig) => Promise<boolean>> = {
+    [Networks.Arbitrum]: checkBlocks(Networks.Arbitrum),
+    [Networks.Optimism]: checkBlocks(Networks.Optimism),
+    [Networks.Metis]: checkBlocks(Networks.Metis),
+    [Networks.Starkware]: checkBlocks(Networks.Starkware),
+  }
+  return networks[network](config)
 }
 
 export async function retry<T>({
