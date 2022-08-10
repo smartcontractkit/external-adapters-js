@@ -43,7 +43,7 @@ export class LocalLRUCache implements ICache {
   }
 
   setResponse(key: string, value: any, maxAge: number) {
-    return this.client.set(key, value, maxAge)
+    return Promise.resolve(this.client.set(key, value, maxAge))
   }
 
   setFlightMarker(key: string, maxAge: number) {

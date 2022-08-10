@@ -75,17 +75,9 @@ export class RedisCache implements ICache {
     return cache
   }
 
-  async setResponse(key: string, value: CacheEntry, maxAge: number): Promise<string | null> {
+  setResponse(key: string, value: CacheEntry, maxAge: number): Promise<string | null> {
     const entry = JSON.stringify(value)
-    return await this.contextualTimeout(
-      this.client.set(key, entry, { PX: maxAge }),
-      'setResponse',
-      {
-        key,
-        value,
-        maxAge,
-      },
-    )
+    return this.client.set(key, entry, { PX: maxAge })
   }
 
   async setFlightMarker(key: string, maxAge: number): Promise<string | null> {

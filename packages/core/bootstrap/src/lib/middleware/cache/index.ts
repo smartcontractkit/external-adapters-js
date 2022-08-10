@@ -329,9 +329,11 @@ export const withCache =
             observe.cacheSet({ statusCode, maxAge })
             logger.trace(`Cache: SET ${key}`, entry)
 
-            // Individually cache batch requests
-            if (data?.results) {
-              for (const batchParticipant of Object.values(data.results)) {
+            //Cache batch requests
+            if (data?.results?.length) {
+              const pipelineQue: Promise<string | null | boolean>[] = []
+
+              data.results.forEach((batchParticipant) => {
                 const [key, , result] = batchParticipant
                 const childKey = adapterCacheToUse.getKey(key)
                 const debugBatchablePropertyPath = debug
@@ -344,9 +346,14 @@ export const withCache =
                   maxAge,
                   debug: debugBatchablePropertyPath,
                 }
-                await cacheToUse.setResponse(childKey, entryBatchParticipant, maxAge)
-                logger.trace(`Cache Split Batch: SET ${childKey}`, entryBatchParticipant)
-              }
+                const cacheResponsePromise = cacheToUse.setResponse(
+                  childKey,
+                  entryBatchParticipant,
+                  maxAge,
+                )
+                pipelineQue.push(cacheResponsePromise)
+              })
+              await Promise.all(pipelineQue)
             }
           }
           // Notify pending requests by removing the in-flight mark
