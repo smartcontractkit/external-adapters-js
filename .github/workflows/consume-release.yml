@@ -6,13 +6,40 @@ on:
   workflow_run:
     workflows: [Release]
     types: [completed]
+    branches: [develop]
 
 jobs:
-  on-success:
-    environment: InfraK8s
-    runs-on: ubuntu-latest
+  get-images:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: InfraK8s
     steps:
-      - run: gh workflow run --repo smartcontractkit/infra-k8s updater.yaml -F image-updater-head-branch=image-updater/adapters -F pr-delay=60
+      - id: get-artifacts
+        name: 'Get artifacts from release workflow'
+        uses: actions/github-script@v6
+        env:
+          AWS_PRIVATE_ECR_PATH: ${{ secrets.AWS_PRIVATE_ECR_PATH }}
+        with:
+          result-encoding: string
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            const adapterImages = allArtifacts.data.artifacts.map((artifact) => {
+              const basePath = process.env.AWS_PRIVATE_ECR_PATH + '/adapters/'
+              return basePath + artifact.name.replace('-shasum', '')
+            });
+            return adapterImages.join(' ');
+    outputs:
+      published-adapters: ${{ steps.get-artifacts.outputs.result }}
+  image-dispatch:
+    runs-on: ubuntu-latest
+    environment: InfraK8s
+    needs: get-images
+    steps:
+      - name: 'Trigger Image Dispatcher'
+        run: gh workflow run --repo smartcontractkit/infra-k8s image-dispatcher.yaml -F imageRepos="${{needs.get-images.outputs.published-adapters}}" -F gitRepo=external-adapter-js
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_K8s_PAT }}
