@@ -2,100 +2,48 @@
 
 exports[`execute should return success for token 1`] = `
 Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"resultPath\\":\\"totalToken\\",\\"endpoint\\":\\"trueusd\\"}}",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json\\",
-    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
-    \\"pragma\\": \\"no-cache\\",
-    \\"content-type\\": \\"application/json\\",
-    \\"user-agent\\": \\"axios/0.24.0\\"
-  }
-}",
-    "name": "AdapterError",
-    "url": "https:/api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD",
+  "data": Object {
+    "result": 1213602213.6176918,
   },
   "jobRunID": "1",
-  "providerStatusCode": 0,
-  "status": "errored",
+  "providerStatusCode": 200,
+  "result": 1213602213.6176918,
   "statusCode": 200,
 }
 `;
 
 exports[`execute should return success for trust 1`] = `
 Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"resultPath\\":\\"totalTrust\\",\\"endpoint\\":\\"trueusd\\"}}",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json\\",
-    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
-    \\"pragma\\": \\"no-cache\\",
-    \\"content-type\\": \\"application/json\\",
-    \\"user-agent\\": \\"axios/0.24.0\\"
-  }
-}",
-    "name": "AdapterError",
-    "url": "https:/api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD",
+  "data": Object {
+    "result": 1217813909.066,
   },
   "jobRunID": "1",
-  "providerStatusCode": 0,
-  "status": "errored",
+  "providerStatusCode": 200,
+  "result": 1217813909.066,
   "statusCode": 200,
 }
 `;
 
 exports[`execute should return success when given a chain 1`] = `
 Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"chain\\":\\"AVA\\",\\"resultPath\\":\\"totalTrust\\",\\"endpoint\\":\\"trueusd\\"}}",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json\\",
-    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
-    \\"pragma\\": \\"no-cache\\",
-    \\"content-type\\": \\"application/json\\",
-    \\"user-agent\\": \\"axios/0.24.0\\"
-  }
-}",
-    "name": "AdapterError",
-    "url": "https:/api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD",
+  "data": Object {
+    "result": 1795,
   },
   "jobRunID": "1",
-  "providerStatusCode": 0,
-  "status": "errored",
+  "providerStatusCode": 200,
+  "result": 1795,
   "statusCode": 200,
 }
 `;
 
 exports[`execute should return success when given a chain and resultPath 1`] = `
 Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"chain\\":\\"AVA\\",\\"resultPath\\":\\"totalTokenbyChain\\",\\"endpoint\\":\\"trueusd\\"}}",
-    "message": "Nock: No match for request {
-  \\"method\\": \\"GET\\",
-  \\"url\\": \\"https://api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD\\",
-  \\"headers\\": {
-    \\"accept\\": \\"application/json\\",
-    \\"cache-control\\": \\"no-cache, no-store, must-revalidate\\",
-    \\"pragma\\": \\"no-cache\\",
-    \\"content-type\\": \\"application/json\\",
-    \\"user-agent\\": \\"axios/0.24.0\\"
-  }
-}",
-    "name": "AdapterError",
-    "url": "https:/api.real-time-attest.trustexplorer.io/chainlink/proof-of-reserves/TrueUSD",
+  "data": Object {
+    "result": 3791570.06,
   },
   "jobRunID": "1",
-  "providerStatusCode": 0,
-  "status": "errored",
+  "providerStatusCode": 200,
+  "result": 3791570.06,
   "statusCode": 200,
 }
 `;

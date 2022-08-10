@@ -4,7 +4,7 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.real-time-attest.trustexplorer.io', {
     encodedQueryParams: true,
   })
-    .get('/chainlink/TrueUSD')
+    .get('/chainlink/proof-of-reserves/TrueUSD')
     .reply(
       200,
       () => ({
