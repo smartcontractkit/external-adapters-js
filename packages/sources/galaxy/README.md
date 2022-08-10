@@ -1,6 +1,6 @@
-# Example Source Adapter
+# Galaxy Source Adapter
 
-![0.2.10](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy/package.json)
+![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy/package.json)
 
 This adapter only supports WS connections. Make sure WS is enabled in your configuration in order to run this adapter.
 
