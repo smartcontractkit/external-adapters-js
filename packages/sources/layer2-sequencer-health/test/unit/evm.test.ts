@@ -6,7 +6,7 @@ import { makeConfig } from '../../src/config'
 import { AxiosResponse } from 'axios'
 import { getMockAxiosResponse } from './helpers'
 
-describe('adapter', () => {
+describe('evm', () => {
   describe('L2 Network health check', () => {
     let clock: any
     let config: ExtendedConfig

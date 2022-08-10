@@ -62,8 +62,8 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
       )
       return recordedStarkwareState.isSequencerHealthy
     }
-    const { hasErrored, pendingBlockParams } = await getPendingBlockFromGateway(config)
-    if (hasErrored) {
+    const { pendingBlockResponse } = await getPendingBlockFromGateway(config)
+    if (!pendingBlockResponse) {
       recordedStarkwareState.isSequencerHealthy = false
       recordedStarkwareState.lastUpdated = currentTime
       return false
@@ -71,11 +71,11 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
 
     const isBatcherHealthy = checkBatcherHealthy(
       recordedStarkwareState.lastBlockResponse,
-      pendingBlockParams,
+      pendingBlockResponse,
     )
 
     recordedStarkwareState = {
-      lastBlockResponse: pendingBlockParams,
+      lastBlockResponse: pendingBlockResponse,
       lastUpdated: currentTime,
       isSequencerHealthy: isBatcherHealthy,
     }
@@ -86,13 +86,11 @@ export const checkStarkwareSequencerPendingTransactions = (): ((
 const getPendingBlockFromGateway = async (
   config: ExtendedConfig,
 ): Promise<{
-  hasErrored?: boolean
-  pendingBlockParams: GetBlockResponse
+  pendingBlockResponse: GetBlockResponse | null
 }> => {
-  let pendingBlockParams: GetBlockResponse
-  let hasErrored = false
+  let pendingBlockResponse = null
   try {
-    pendingBlockParams = await retry<GetBlockResponse>({
+    pendingBlockResponse = await retry<GetBlockResponse>({
       promise: async () => config.starkwareConfig.provider.getBlock('pending'),
       retryConfig: config.retryConfig,
     })
@@ -101,13 +99,12 @@ const getPendingBlockFromGateway = async (
       Logger.warn(
         `Request to fetch pending block timed out.  Status Code: ${e.providerStatusCode}.  Sequencer: UNHEALTHY`,
       )
-      hasErrored = true
+    } else {
+      throw e
     }
-    throw e
   }
   return {
-    hasErrored,
-    pendingBlockParams,
+    pendingBlockResponse,
   }
 }
 
