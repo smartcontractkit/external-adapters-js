@@ -82,8 +82,8 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        chain: 'AVA',
-        resultPath: 'totalTokenbyChain',
+        chain: 'TUSD (AVAX)',
+        resultPath: 'totalTokenByChain',
       },
     }
 
@@ -95,7 +95,6 @@ describe('execute', () => {
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200)
     expect(response.body).toMatchSnapshot()
   })
 })
