@@ -1,77 +1,12 @@
-import { DEFAULT_DELTA_TIME, Networks } from '../../src/config'
+import { DEFAULT_DELTA_TIME } from '../../src/config'
 import { useFakeTimers } from 'sinon'
 import * as network from '../../src/network'
-import * as health from '../../src/endpoint/health'
 import { makeExecute } from '../../src/adapter'
 import { TInputParameters } from '../../src/endpoint'
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, AxiosResponse, Requester } from '@chainlink/ea-bootstrap'
+import { getMockAxiosResponse } from './helpers'
 
 describe('adapter', () => {
-  describe('L2 Network health check', () => {
-    let clock: any
-    beforeEach(() => {
-      clock = useFakeTimers()
-    })
-
-    afterEach(() => {
-      clock.restore()
-    })
-
-    it('Stale blocks are unhealthy after Delta seconds', async () => {
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(1))
-      const getNetworkStatus = health.makeNetworkStatusCheck(Networks.Arbitrum)
-      const deltaBlocks = 0
-      // 2 minutes delta
-      const delta = 120 * 1000
-      const timeBetweenCalls = 10 * 1000
-      // During first two minutes of the block is not considered stale
-      for (let i = 0; i < delta / timeBetweenCalls; i++) {
-        expect(await getNetworkStatus(delta, deltaBlocks)).toBe(true)
-        clock.tick(timeBetweenCalls)
-      }
-      // After delta time passed, is considered stale
-      expect(await getNetworkStatus(delta, deltaBlocks)).toBe(false)
-    })
-
-    it('Blocks are healthy after Delta seconds if blocks change', async () => {
-      const getNetworkStatus = health.makeNetworkStatusCheck(Networks.Arbitrum)
-      const deltaBlocks = 0
-      // 2 minutes delta
-      const delta = 120 * 1000
-      const timeBetweenCalls = 10 * 1000
-      // If blocks change, is not considered stale
-      for (let i = 0; i < delta / timeBetweenCalls; i++) {
-        jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(i))
-        expect(await getNetworkStatus(delta, deltaBlocks)).toBe(true)
-        clock.tick(timeBetweenCalls)
-      }
-      // After delta time passed the current block should be considered healthy
-      expect(await getNetworkStatus(delta, deltaBlocks)).toBe(true)
-      clock.tick(timeBetweenCalls)
-      expect(await getNetworkStatus(delta, deltaBlocks)).toBe(true)
-    })
-
-    it('Blocks are healthy if current is previous to the last seen within a delta difference', async () => {
-      const getNetworkStatus = health.makeNetworkStatusCheck(Networks.Arbitrum)
-
-      const deltaBlocks = 5
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(10))
-      expect(await getNetworkStatus(30, deltaBlocks)).toBe(true)
-
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(6))
-      expect(await getNetworkStatus(30, deltaBlocks)).toBe(true)
-
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(5))
-      expect(await getNetworkStatus(30, deltaBlocks)).toBe(true)
-
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(4))
-      await expect(getNetworkStatus(30, deltaBlocks)).rejects.toThrow()
-
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(3))
-      await expect(getNetworkStatus(30, deltaBlocks)).rejects.toThrow()
-    })
-  })
-
   describe('Adapter health check', () => {
     const execute = makeExecute()
     let clock: any
@@ -118,7 +53,15 @@ describe('adapter', () => {
 
     it('If direct sequencer check succeeds and L2 network check succeeds, the network is healthy', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(1))
+      jest.spyOn(Requester, 'request').mockReturnValue(
+        Promise<AxiosResponse>.resolve(
+          getMockAxiosResponse({
+            data: {
+              result: '0x1',
+            },
+          }),
+        ),
+      )
 
       const response = await execute(
         {
@@ -134,7 +77,15 @@ describe('adapter', () => {
 
     it('If direct sequencer check succeeds and L2 network check fails, the network is unhealthy', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(network, 'requestBlockHeight').mockReturnValue(Promise.resolve(1))
+      jest.spyOn(Requester, 'request').mockReturnValue(
+        Promise<AxiosResponse>.resolve(
+          getMockAxiosResponse({
+            data: {
+              result: '0x1',
+            },
+          }),
+        ),
+      )
 
       await execute(
         {
@@ -161,9 +112,7 @@ describe('adapter', () => {
 
     it('If direct sequencer check succeeds and L2 network check throws, the network is unhealthy', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(true))
-      jest
-        .spyOn(network, 'requestBlockHeight')
-        .mockReturnValue(Promise.reject(new Error('Some RPC call error')))
+      jest.spyOn(network, 'retry').mockRejectedValue(new Error('Some RPC call error'))
 
       const response = await execute(
         {
@@ -180,7 +129,7 @@ describe('adapter', () => {
     it('Empty transaction check has the final word on unhealthy method responses', async () => {
       jest.spyOn(network, 'getSequencerHealth').mockReturnValue(Promise.resolve(false))
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(true))
-      jest.spyOn(network, 'requestBlockHeight').mockRejectedValue(new Error('Some RPC call error'))
+      jest.spyOn(Requester, 'request').mockRejectedValue(new Error('Some RPC call error'))
 
       const response = await execute(
         {
