@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- 33c515d0d: add updated gas too low error message when checking for Arbitrum Nitro health
+
 ## 1.5.11
 
 ### Patch Changes
