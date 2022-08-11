@@ -1,5 +1,11 @@
 # @chainlink/example-composite-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 763ae3a7f: Updated example composite adapter with an example of an endpoint and the use of another EA
+
 ## 1.2.10
 
 ### Patch Changes
