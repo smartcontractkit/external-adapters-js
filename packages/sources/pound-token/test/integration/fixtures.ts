@@ -1,17 +1,47 @@
 import nock from 'nock'
-import { makeConfig } from '../../src'
 import { DEFAULT_BASE_URL } from '../../src/config'
 
-const config = makeConfig()
+const id = '1'
 
 export const mockAccountSuccess = (): nock.Scope =>
-  nock(config?.api?.baseURL || DEFAULT_BASE_URL, {
+  nock(DEFAULT_BASE_URL, {
     encodedQueryParams: true,
   })
     .get('/accounts')
     .query({
-      ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
-      signingAlgorithm: 'rsa-sha512',
+      id,
+      data: {
+        ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
+      },
+    })
+    .reply(
+      200,
+      () => ({
+        success: true,
+        result: 5000,
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+
+export const mockAccountNotFound = (): nock.Scope =>
+  nock(DEFAULT_BASE_URL, {
+    encodedQueryParams: true,
+  })
+    .get('/accounts')
+    .query({
+      id,
+      data: {
+        ibanIDs: ['LI0000000000000000000', 'LI6808811000000045345'],
+      },
     })
     .reply(
       200,

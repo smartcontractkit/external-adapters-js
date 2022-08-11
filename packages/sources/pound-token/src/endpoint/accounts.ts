@@ -5,6 +5,7 @@ import { Account } from '../types'
 import * as https from 'https'
 import crypto from 'crypto'
 import { setToken } from '../config'
+import { AdapterInputError } from '@chainlink/ea-bootstrap/dist'
 
 // This should be filled in with a lowercase name corresponding to the API endpoint.
 // The supportedEndpoints list must be present for README generation.
@@ -93,7 +94,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   Logger.trace('Validating IbanIDs')
   const validatedIbanIds = [...new Set(ibanIDs)].map((v) => {
     if (!v.match(ibanPattern)) {
-      throw new Error(`Invalid iban provided: ${v}`)
+      throw new AdapterInputError({
+        jobRunID: validator.validated.id,
+        statusCode: 400,
+        message: `Invalid iban provided: ${v}`,
+      })
     }
     return v
   })
@@ -142,7 +147,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   //If we couldn't find all the accounts the user specified, it's an error
   if (keys.length > 0) {
-    throw new Error(`Could not find data for the following accounts ${keys}`)
+    throw new AdapterInputError({
+      jobRunID: validator.validated.id,
+      statusCode: 404,
+      message: `Could not find data for the following accounts ${keys}`,
+    })
   }
   Logger.debug(`Finished fetching account balances, sum: ${sum}`)
   return Requester.success(jobRunID, { data: { result: sum } }, config.verbose)

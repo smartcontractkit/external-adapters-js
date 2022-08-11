@@ -3,7 +3,7 @@ import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockAccountSuccess } from './fixtures'
+import { mockAccountNotFound, mockAccountSuccess } from './fixtures'
 import {} from '../../src/endpoint'
 import type { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
 // import type { Config } from '../../src/config'
@@ -40,7 +40,7 @@ describe('execute', () => {
   })
 
   describe('accounts', () => {
-    it('should succeed', async () => {
+    it('successful request', async () => {
       const data: AdapterRequest<AccountInputParameters> = {
         id,
         data: {
@@ -59,55 +59,22 @@ describe('execute', () => {
         .expect(200)
       expect(response.body).toMatchSnapshot()
     })
-
-    it('no ibanIDs is error', async () => {
-      const data: AdapterRequest = {
-        id,
-        data: {},
-      }
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(400)
-      expect(response.body).toMatchSnapshot()
-    })
-    it('empty ibanIDs is error', async () => {
-      const data: AdapterRequest<AccountInputParameters> = {
+    it('account not found', async () => {
+      const data = {
         id,
         data: {
-          ibanIDs: [],
+          ibanIDs: ['LI0000000000000000000', 'LI6808811000000045345'],
         },
       }
-
+      mockAccountNotFound()
       const response = await req
         .post('/')
         .send(data)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(400)
-      expect(response.body).toMatchSnapshot()
-    })
+        .expect(404)
 
-    it('account not found is error', async () => {
-      const data: AdapterRequest<AccountInputParameters> = {
-        id,
-        data: {
-          ibanIDs: ['ZZ00000000000000000000'],
-        },
-      }
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(400)
       expect(response.body).toMatchSnapshot()
     })
   })
