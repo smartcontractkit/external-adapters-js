@@ -37,8 +37,8 @@
     "get-release-notes": "ts-node-transpile-only ./packages/scripts/src/get-release-notes"
   },
   "dependencies": {
-    "@babel/core": "7.18.5",
-    "@babel/preset-env": "7.18.2",
+    "@babel/core": "7.18.10",
+    "@babel/preset-env": "7.18.10",
     "@babel/preset-typescript": "7.17.12",
     "@changesets/cli": "2.18.1",
     "@types/jest": "27.5.2",
