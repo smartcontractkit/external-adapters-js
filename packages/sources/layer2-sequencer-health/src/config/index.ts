@@ -20,7 +20,7 @@ export const DEFAULT_TIMEOUT_LIMIT = 5 * 1000
 // number of times to retry checking that blockchain is progressing
 export const DEFAULT_NUM_RETRIES = 2
 // number of milliseconds until next retry
-export const DEFAULT_RETRY_INTERVAL = 5 * 1000
+export const DEFAULT_RETRY_INTERVAL = 5 * 100
 
 export enum Networks {
   Arbitrum = 'arbitrum',

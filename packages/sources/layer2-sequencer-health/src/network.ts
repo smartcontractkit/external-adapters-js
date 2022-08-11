@@ -1,4 +1,4 @@
-import { Logger, Requester } from '@chainlink/ea-bootstrap'
+import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
 import { HEALTH_ENDPOINTS, Networks, ExtendedConfig } from './config'
 
 import {
@@ -6,7 +6,6 @@ import {
   sendDummyStarkwareTransaction,
 } from './starkware'
 import { checkOptimisticRollupBlockHeight, sendEVMDummyTransaction } from './evm'
-import { sleep } from '@chainlink/ea-bootstrap/src/lib/util'
 
 const NO_ISSUE_MSG =
   'This is an error that the EA uses to determine whether or not the L2 Sequencer is healthy.  It does not mean that there is an issue with the EA.'
@@ -31,7 +30,7 @@ export interface ResponseSchema {
   result: number
 }
 
-export const getSequencerHealth: NetworkHealthCheck = async (
+export const checkSequencerHealth: NetworkHealthCheck = async (
   network: Networks,
 ): Promise<undefined | boolean> => {
   if (!HEALTH_ENDPOINTS[network]?.endpoint) {
@@ -95,7 +94,7 @@ const isExpectedErrorMessage = (network: Networks, e: Error) => {
   return false
 }
 
-export const checkIsNetworkProgressing: NetworkHealthCheck = (
+export const checkNetworkProgress: NetworkHealthCheck = (
   network: Networks,
   config: ExtendedConfig,
 ) => {
@@ -122,7 +121,7 @@ export async function retry<T>({
     } catch (e) {
       error = e
       numTries++
-      await sleep(retryConfig.retryInterval)
+      await util.sleep(retryConfig.retryInterval)
     }
   }
   throw error

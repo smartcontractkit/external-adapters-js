@@ -8,10 +8,10 @@ import {
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, Networks } from '../config'
 import {
-  getSequencerHealth,
+  checkSequencerHealth,
   NetworkHealthCheck,
   getStatusByTransaction,
-  checkIsNetworkProgressing,
+  checkNetworkProgress,
 } from '../network'
 
 export const supportedEndpoints = ['health']
@@ -72,7 +72,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   // #2 Option: Check block height
   // If every method succeeds, the Network is considered healthy
   // If any method fails, an empty tx is sent. This determines the final state
-  const wrappedMethods = [getSequencerHealth, checkIsNetworkProgressing].map(_tryMethod)
+  const wrappedMethods = [checkSequencerHealth, checkNetworkProgress].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]
     const isHealthy = await method(network, config)
