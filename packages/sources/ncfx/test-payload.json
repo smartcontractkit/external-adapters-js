@@ -1,6 +1,6 @@
 {
-    "request": {
+    "requests": [{
         "base": "ETH",
         "quote": "USD"
-    }
+    }]
 }
