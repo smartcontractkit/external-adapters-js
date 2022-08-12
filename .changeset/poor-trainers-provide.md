@@ -2,4 +2,4 @@
 '@chainlink/ea': major
 ---
 
-Add new pound-token adapter
+Add new bank-frick-adapter
