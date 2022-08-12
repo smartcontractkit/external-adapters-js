@@ -1,20 +1,17 @@
 import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BootstrapConfig } from '@chainlink/ea-bootstrap'
-import { SigningAlgorithm } from '../types'
 
-export const NAME = 'POUND_TOKEN'
+export const NAME = 'BANK_FRICK'
 export const DEFAULT_BASE_URL = 'https://olbsandbox.bankfrick.li/webapi/v2'
 export const DEFAULT_ENDPOINT = 'accounts'
 export const DEFAULT_PAGESIZE = 500
 export const PAGE_SIZE_MAX = 500
 export const PAGE_SIZE_MIN = 1
-export const DEFAULT_SIGNING_ALGORITHM: SigningAlgorithm = 'rsa-sha512'
 
 export type Config = BootstrapConfig & {
   pageSize: number
   privateKey: string
   password: string
-  signingAlgorithm: SigningAlgorithm
   token: string //Set as a global variable on the first run.
   allowInsecure?: boolean //Sandbox's cert setup is difficult, so allow skipping verification in dev only.
 }
@@ -67,8 +64,6 @@ export const makeConfig = (prefix?: string): Config => {
       ...baseConfig.api,
       baseURL: baseConfig.api.baseURL || DEFAULT_BASE_URL,
     },
-    signingAlgorithm:
-      (util.getEnv('SIGNING_ALGORITHM') as SigningAlgorithm) || DEFAULT_SIGNING_ALGORITHM,
     defaultEndpoint: DEFAULT_ENDPOINT,
     token,
     pageSize,

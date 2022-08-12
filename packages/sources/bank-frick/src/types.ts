@@ -9,5 +9,5 @@ export interface Account {
   available: number //The available amount of the account as defined in the online banking
 }
 
-//These are the options from the docs:
+//These are the options from the docs
 export type SigningAlgorithm = 'rsa-sha256' | 'rsa-sha384' | 'rsa-sha512'

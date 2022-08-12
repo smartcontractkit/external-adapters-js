@@ -3,11 +3,17 @@ import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockAccountNotFound, mockAccountSuccess } from './fixtures'
+import { mockAccountSuccess, mockAuthorizeSuccess } from './fixtures'
 import {} from '../../src/endpoint'
 import type { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
-// import type { Config } from '../../src/config'
-// import { makeConfig } from '../../src'
+import * as crypto from 'crypto'
+import { generateJWT } from '../../dist/endpoint/accounts'
+import { makeConfig } from '../../dist/config'
+
+jest.mock('crypto', () => ({
+  ...jest.requireActual('crypto'),
+  sign: jest.fn(() => 'SIGNATURE'),
+}))
 
 describe('execute', () => {
   const id = '1'
@@ -22,6 +28,9 @@ describe('execute', () => {
     process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
     process.env.PASSWORD = 'SOME_PASSWORD'
     process.env.CACHE_ENABLED = 'false'
+    process.env.ALLOW_INSECURE = 'true'
+    process.env.NODE_ENV = 'development'
+
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -30,6 +39,7 @@ describe('execute', () => {
   })
 
   afterAll((done) => {
+    jest.clearAllMocks()
     process.env = oldEnv
 
     if (process.env.RECORD) {
@@ -43,6 +53,13 @@ describe('execute', () => {
   })
 
   describe('accounts', () => {
+    it('successful authorization', async () => {
+      const config = makeConfig()
+      mockAuthorizeSuccess()
+      const token = await generateJWT(config)
+      expect(token).toEqual('SOME_TOKEN')
+    })
+
     it('successful request', async () => {
       const data: AdapterRequest<AccountInputParameters> = {
         id,
@@ -50,7 +67,7 @@ describe('execute', () => {
           ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
         },
       }
-
+      mockAuthorizeSuccess()
       mockAccountSuccess()
 
       const response = await req
@@ -62,14 +79,15 @@ describe('execute', () => {
         .expect(200)
       expect(response.body).toMatchSnapshot()
     })
+
     it('account not found', async () => {
       const data = {
         id,
         data: {
-          ibanIDs: ['LI0000000000000000000', 'LI6808811000000045345'],
+          ibanIDs: ['LI0000000000000000000'],
         },
       }
-      mockAccountNotFound()
+      mockAccountSuccess() //We are able to find accounts, BUT, the one we want isn't there
       const response = await req
         .post('/')
         .send(data)

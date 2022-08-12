@@ -2011,6 +2011,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/bank-frick-adapter@workspace:*, @chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.47
+    "@types/supertest": 2.0.12
+    decimal.js-light: ^2.5.1
+    nock: 13.2.9
+    supertest: 6.2.4
+    ts-node-dev: ^2.0.0
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/bea-adapter@workspace:*, @chainlink/bea-adapter@workspace:packages/sources/bea":
   version: 0.0.0-use.local
   resolution: "@chainlink/bea-adapter@workspace:packages/sources/bea"
@@ -3041,6 +3059,7 @@ __metadata:
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
     "@chainlink/armanino-adapter": "workspace:*"
+    "@chainlink/bank-frick-adapter": "workspace:*"
     "@chainlink/bea-adapter": "workspace:*"
     "@chainlink/binance-adapter": "workspace:*"
     "@chainlink/binance-dex-adapter": "workspace:*"
@@ -3133,7 +3152,6 @@ __metadata:
     "@chainlink/poa-adapter": "workspace:*"
     "@chainlink/polygon-adapter": "workspace:*"
     "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/pound-token-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
@@ -4260,23 +4278,6 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 14.18.23
     decimal.js: ^10.3.1
-    tslib: ^2.3.1
-    typescript: 4.7.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/pound-token-adapter@workspace:*, @chainlink/pound-token-adapter@workspace:packages/sources/pound-token":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/pound-token-adapter@workspace:packages/sources/pound-token"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.47
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    ts-node-dev: ^2.0.0
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -13177,6 +13178,13 @@ __metadata:
   version: 4.0.0
   resolution: "decamelize@npm:4.0.0"
   checksum: b7d09b82652c39eead4d6678bb578e3bebd848add894b76d0f6b395bc45b2d692fb88d977e7cfb93c4ed6c119b05a1347cef261174916c2e75c0a8ca57da1809
+  languageName: node
+  linkType: hard
+
+"decimal.js-light@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "decimal.js-light@npm:2.5.1"
+  checksum: f5a2c7eac1c4541c8ab8a5c8abea64fc1761cefc7794bd5f8afd57a8a78d1b51785e0c4e4f85f4895a043eaa90ddca1edc3981d1263eb6ddce60f32bf5fe66c9
   languageName: node
   linkType: hard
 

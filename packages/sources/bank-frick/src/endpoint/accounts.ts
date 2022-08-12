@@ -1,9 +1,9 @@
 import { AxiosRequestConfig, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import type { Config } from '../config'
-import { Account } from '../types'
+import { Account, SigningAlgorithm } from '../types'
 import * as https from 'https'
-import crypto from 'crypto'
+import * as crypto from 'crypto'
 import { setToken } from '../config'
 import { AdapterInputError } from '@chainlink/ea-bootstrap/dist'
 import { Decimal } from 'decimal.js-light'
@@ -11,8 +11,6 @@ import { Decimal } from 'decimal.js-light'
 // This should be filled in with a lowercase name corresponding to the API endpoint.
 // The supportedEndpoints list must be present for README generation.
 export const supportedEndpoints = ['accounts']
-export const batchablePropertyPath = [{ name: 'ibanIds' }]
-
 export const endpointResultPaths = {
   accounts: 'accounts',
 }
@@ -43,7 +41,7 @@ export const description =
   'This endpoint returns the sum of all balances for accounts specified by the user.'
 
 // The inputParameters object must be present for README generation.
-export type TInputParameters = { ibanIDs: string[] }
+export type TInputParameters = { ibanIDs: string[]; signingAlgorithm?: SigningAlgorithm }
 export const inputParameters: InputParameters<TInputParameters> = {
   // See InputParameters type for more config options
   ibanIDs: {
@@ -51,22 +49,28 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: true,
     type: 'array',
   },
+  signingAlgorithm: {
+    description:
+      'What signing algorithm is used to sign and verify authorization data, one of rsa-sha256, rsa-sha384, or rsa-sha512',
+    required: false,
+    type: 'string',
+    default: 'rsa-sha512',
+  },
 }
 
-export const generateJWT = async (config: Config): Promise<string> => {
+export const generateJWT = async (
+  config: Config,
+  signingAlgorithm: SigningAlgorithm = 'rsa-sha512',
+): Promise<string> => {
   Logger.info("Generating a new JWT because we don't have one in config.token")
-  const { apiKey, password, privateKey, signingAlgorithm } = config
+  const { apiKey, password, privateKey } = config
 
   const body = {
     key: apiKey,
     password: password,
   }
 
-  const signature = crypto.sign(
-    config.signingAlgorithm,
-    Buffer.from(JSON.stringify(body)),
-    privateKey,
-  )
+  const signature = crypto.sign(signingAlgorithm, Buffer.from(JSON.stringify(body)), privateKey)
   const options: AxiosRequestConfig = {
     ...config.api,
     method: 'POST',
@@ -83,6 +87,7 @@ export const generateJWT = async (config: Config): Promise<string> => {
   Logger.debug('Signature: ', signature)
   const response = await Requester.request<TokenResponseSchema>(options, customTokenResponseError)
   setToken(response.data.token) //Sets token at config level for future runs
+
   return response.data.token
 }
 
@@ -91,18 +96,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
   const url = `accounts`
 
-  const { ibanIDs } = validator.validated.data
+  const { ibanIDs, signingAlgorithm } = validator.validated.data
 
-  // Strip duplicates with a set, then validate that all input iban numbers are good
-  // This is redundant in function, because a duped or invalid iban would result in an error AFTER the api call.
-  // This bit of validation instead prevents the API from being called on invalid input
-  Logger.trace('Validating IbanIDs')
+  // Strip duplicates with a set, then validate that all input IBANs are good which avoids an API call on bad input.
+  Logger.trace('Validating ibanIDs...')
   const validatedIbanIds = [...new Set(ibanIDs)].map((v) => {
     if (!v.match(ibanPattern)) {
       throw new AdapterInputError({
         jobRunID: validator.validated.id,
         statusCode: 400,
-        message: `Invalid iban provided: ${v}`,
+        message: `Invalid IBAN provided: ${v}`,
       })
     }
     return v
@@ -110,7 +113,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const headers = {
     // Authorization: `Bearer ${generateJWT(config, signingAlgorithm)}`
-    Authorization: `Bearer ${config.token || (await generateJWT(config))}`,
+    Authorization: `Bearer ${config.token || (await generateJWT(config, signingAlgorithm))}`,
   }
 
   const options: AxiosRequestConfig = {
