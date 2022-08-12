@@ -3,7 +3,7 @@ import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockAccountSuccess, mockAuthorizeSuccess } from './fixtures'
+import { mockAccountNotFound, mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
 import {} from '../../src/endpoint'
 import type { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
 import { generateJWT } from '../../dist/endpoint/accounts'
@@ -67,7 +67,7 @@ describe('execute', () => {
         },
       }
       mockAuthorizeSuccess()
-      mockAccountSuccess()
+      mockAccountsSuccess()
 
       const response = await req
         .post('/')
@@ -86,7 +86,7 @@ describe('execute', () => {
           ibanIDs: ['LI0000000000000000000'],
         },
       }
-      mockAccountSuccess() //We are able to find accounts, BUT, the one we want isn't there
+      mockAccountsSuccess() //We are able to find accounts, BUT, the one we want isn't there
       const response = await req
         .post('/')
         .send(data)
@@ -94,8 +94,10 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(404)
-
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        //We care that the error is there, but don't want to match on content since the stack and message can change between runs
+        error: expect.any(Object),
+      })
     })
   })
 })

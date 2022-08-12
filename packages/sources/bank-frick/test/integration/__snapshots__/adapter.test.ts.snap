@@ -2,14 +2,7 @@
 
 exports[`execute accounts account not found 1`] = `
 Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"ibanIDs\\":[\\"LI0000000000000000000\\"],\\"resultPath\\":\\"accounts\\",\\"endpoint\\":\\"accounts\\"}}",
-    "message": "Could not find data for the following accounts LI0000000000000000000",
-    "name": "AdapterError",
-    "stack": "AdapterError: Could not find data for the following accounts LI0000000000000000000
-    at executeSync (/Users/chainlink/projects/external-adapters-js/packages/core/bootstrap/src/index.ts:143:19)
-    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
-  },
+  "error": Any<Object>,
   "jobRunID": "1",
   "status": "errored",
   "statusCode": 404,
