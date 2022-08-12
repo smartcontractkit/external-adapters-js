@@ -6,7 +6,6 @@ import { server as startServer } from '../../src'
 import { mockAccountSuccess, mockAuthorizeSuccess } from './fixtures'
 import {} from '../../src/endpoint'
 import type { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
-import * as crypto from 'crypto'
 import { generateJWT } from '../../dist/endpoint/accounts'
 import { makeConfig } from '../../dist/config'
 
