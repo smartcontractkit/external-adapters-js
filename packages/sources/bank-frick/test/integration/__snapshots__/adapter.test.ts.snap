@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute accounts successful request 1`] = `
+Object {
+  "error": Object {
+    "feedID": "{\\"data\\":{\\"ibanIDs\\":[\\"LI6808811000000012345\\",\\"LI6808811000000045345\\"],\\"resultPath\\":\\"accounts\\",\\"endpoint\\":\\"accounts\\"}}",
+    "message": "Nock: No match for request {
+  \\"method\\": \\"POST\\",
+  \\"url\\": \\"https://olbsandbox.bankfrick.li/webapi/v2/authorize\\",
+  \\"headers\\": {
+    \\"accept\\": \\"application/json, text/plain, */*\\",
+    \\"content-type\\": \\"application/json\\",
+    \\"signature\\": \\"3r8RGAOI3YP55S5OFGBZYD3do3WqFK8BEGfNA9L5UU7X/EOFhQfwgpniwfnNp6woZIKvOuKNrUJPdnG4pvBChSm1fsCOOta+DGMrgoB0I1cONhSjU08Hs/Hz8lVz/q8KmaF7ZJkru7bCTLV12CQm8OKlo6w7tpCrwHt2oOnVr+Cvlon1UejKVKMUkAAYh6MGljrSJuuxp3RWS1HPDvuYKIDoZVMNV+4t6xFoZrW5VUiv8h4iIqJh5dxc9byBlr83Y67s0fZQQibzq+VTLFTRnwyth+U9Bm9+JnDuRffSgi//U9HXXOlVrjy5Yj9ymn/2CK8klYBJs3YZZOYEzsFWqqTRpg2H7tyCkWSb+j+4Lu+pkjhsjHZFUP+8tKbxSeuVdpnYH1Tp5lxjSJuDHHZm2S/+c9VOCHDh7Ldoa7cPhBr0ClUl5m8qrWX2wCFuDQrTzwUa6ck2m5vwjWeHdY9ve3i0GZPKMpZjZxKv9iGYSUwslG/PGRDoGYe+bGyXH+siF7se2+5IIsnSBpHtfvv68oXcPiDFg+0iG9Mjxm0UQKWGLFKKV8co6CVhvWbP66B8JUzagw4fd+huCFuBD9L6m2eSKF4n2vrIoyeorq8IRISyKdkFanKko/Z+yPr59vy0tA7x8vY7hzeWDKzXj0GIlooq89B25jYLiWQku2gU988=\\",
+    \\"algorithm\\": \\"rsa-sha512\\",
+    \\"user-agent\\": \\"axios/0.24.0\\",
+    \\"content-length\\": 57
+  },
+  \\"body\\": \\"{\\\\\\"key\\\\\\":\\\\\\"pN4Fq2SPmKVyh74C68853KWjf\\\\\\",\\\\\\"password\\\\\\":\\\\\\"TKJ5tDz6\\\\\\"}\\"
+}",
+    "name": "AdapterError",
+    "url": "https:/olbsandbox.bankfrick.li/webapi/v2/authorize",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 0,
+  "status": "errored",
+  "statusCode": 200,
+}
+`;

@@ -15,7 +15,8 @@ export type Config = BootstrapConfig & {
   privateKey: string
   password: string
   signingAlgorithm: SigningAlgorithm
-  token: string
+  token: string //Set as a global variable on the first run.
+  allowInsecure?: boolean //Sandbox's cert setup is difficult, so allow skipping verification in dev only.
 }
 
 //Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
@@ -48,6 +49,18 @@ export const makeConfig = (prefix?: string): Config => {
     }
   }
 
+  let allowInsecure = false
+  if (process.env.ALLOW_INSECURE === 'true') {
+    if (process.env.NODE_ENV !== 'development') {
+      Logger.warn(
+        "ALLOW_INSECURE is true, but NODE_ENV isn't set to development. Ignoring the variable and setting ALLOW_INSECURE to false",
+      )
+    } else {
+      Logger.debug('ALLOW_INSECURE is true. Will skip certificate verification for requests')
+      allowInsecure = true
+    }
+  }
+
   return {
     ...baseConfig,
     api: {
@@ -59,6 +72,7 @@ export const makeConfig = (prefix?: string): Config => {
     defaultEndpoint: DEFAULT_ENDPOINT,
     token,
     pageSize,
+    allowInsecure,
     apiKey: util.getRequiredEnv('API_KEY', prefix),
     privateKey: util.getRequiredEnv('PRIVATE_KEY', prefix), //Combined with the password, used to create jwt
     password: util.getRequiredEnv('PASSWORD', prefix), //Combined with private key, used to create jwt

@@ -8,6 +8,7 @@ import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
 import * as armanino from '@chainlink/armanino-adapter'
+import * as bank_frick from '@chainlink/bank-frick-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
@@ -100,7 +101,6 @@ import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
-import * as pound_token from '@chainlink/pound-token-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
@@ -142,6 +142,7 @@ export default {
   anyblock,
   ap_election,
   armanino,
+  bank_frick,
   bea,
   binance,
   binance_dex,
@@ -234,7 +235,6 @@ export default {
   poa,
   polygon,
   por_address_list,
-  pound_token,
   reduce,
   renvm_adapter_address,
   satoshitango,

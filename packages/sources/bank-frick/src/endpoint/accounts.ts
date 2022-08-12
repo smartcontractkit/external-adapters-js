@@ -6,6 +6,7 @@ import * as https from 'https'
 import crypto from 'crypto'
 import { setToken } from '../config'
 import { AdapterInputError } from '@chainlink/ea-bootstrap/dist'
+import { Decimal } from 'decimal.js-light'
 
 // This should be filled in with a lowercase name corresponding to the API endpoint.
 // The supportedEndpoints list must be present for README generation.
@@ -16,6 +17,7 @@ export const endpointResultPaths = {
   accounts: 'accounts',
 }
 
+//The ResponseSchema here can be placed in types.ts as "Accounts" if we add new endpoints
 export interface ResponseSchema {
   errors?: string[]
   date: Date
@@ -28,12 +30,13 @@ export interface TokenResponseSchema {
   errors?: string[]
   token: string
 }
-//Sandbox uses invalid ibans, so this is a VERY shallow pattern
-const ibanPattern = /^[A-Z]{2}[A-Z\d]{14,30}$/ //https://stackoverflow.com/questions/44656264/iban-regex-design
+
+//Sandbox uses invalid ibans, so this is a VERY shallow pattern that only checks for a country code
+//See //https://stackoverflow.com/questions/44656264/iban-regex-design for the full pattern
+const ibanPattern = /^[A-Z]{2}[A-Z\d]{14,30}$/
 const customError = (data: ResponseSchema) => Array.isArray(data.errors) && data.errors.length > 0
 const customTokenResponseError = (data: TokenResponseSchema) =>
   Array.isArray(data.errors) && data.errors.length > 0
-// const authCustomError = (data: TokenResponseSchema) => data.Response === 'Error'
 
 // The description string is used to explain how the endpoint works, and is used for part of the endpoint's README section
 export const description =
@@ -72,8 +75,10 @@ export const generateJWT = async (config: Config): Promise<string> => {
       Signature: signature.toString('base64'),
       algorithm: signingAlgorithm,
     },
-    httpsAgent: new https.Agent({ rejectUnauthorized: false }), //TODO Not acceptable for production
     data: body,
+  }
+  if (config.allowInsecure) {
+    options.httpsAgent = new https.Agent({ rejectUnauthorized: false })
   }
   Logger.debug('Signature: ', signature)
   const response = await Requester.request<TokenResponseSchema>(options, customTokenResponseError)
@@ -112,10 +117,15 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ...config.api,
     headers,
     url,
-    httpsAgent: new https.Agent({ rejectUnauthorized: false }), //TODO Not acceptable for production
   }
+
+  if (config.allowInsecure) {
+    //Bypasses cert issues with the sandbox, only available when NODE_ENV is development
+    options.httpsAgent = new https.Agent({ rejectUnauthorized: false })
+  }
+
   let position = 0 //What record we're on
-  let sum = 0 //Return value if all queried accounts found
+  let sum = new Decimal(0) //Return value if all queried accounts found
   const keys = validatedIbanIds //Stack of keys that we need to find, used to
 
   //Iterate through all accounts to find ones with IBAN's matching the ones specified in the input params
@@ -133,7 +143,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       const index = keys.indexOf(v.iban)
       if (index > -1) {
         keys.splice(index, 1)
-        sum += v.balance
+        sum = sum.plus(new Decimal(v.balance))
         Logger.debug(`Found account: ${v.account} (iban: ${v.iban}) with balance of ${v.balance}`)
         Logger.trace(
           `Running sum: ${sum}, number of ibans left to find: ${keys.length}/${validatedIbanIds}`,

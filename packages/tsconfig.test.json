@@ -153,6 +153,9 @@
       "path": "./sources/armanino/tsconfig.test.json"
     },
     {
+      "path": "./sources/bank-frick/tsconfig.test.json"
+    },
+    {
       "path": "./sources/bea/tsconfig.test.json"
     },
     {
@@ -427,9 +430,6 @@
     },
     {
       "path": "./sources/por-address-list/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/pound-token/tsconfig.test.json"
     },
     {
       "path": "./sources/reduce/tsconfig.test.json"

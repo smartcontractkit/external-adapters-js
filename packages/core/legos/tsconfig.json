@@ -41,6 +41,9 @@
       "path": "../../sources/armanino"
     },
     {
+      "path": "../../sources/bank-frick"
+    },
+    {
       "path": "../../sources/bea"
     },
     {
@@ -315,9 +318,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../sources/pound-token"
     },
     {
       "path": "../../sources/reduce"

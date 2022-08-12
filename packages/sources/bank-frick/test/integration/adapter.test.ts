@@ -21,7 +21,6 @@ describe('execute', () => {
     process.env.API_KEY = 'SOME_API_KEY'
     process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
     process.env.PASSWORD = 'SOME_PASSWORD'
-
     process.env.CACHE_ENABLED = 'false'
     if (process.env.RECORD) {
       nock.recorder.rec()

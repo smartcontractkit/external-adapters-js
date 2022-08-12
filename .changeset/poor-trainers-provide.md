@@ -1,5 +1,5 @@
 ---
-'@chainlink/pound-token-adapter': major
+'@chainlink/ea': major
 ---
 
-The whole adapter
+Add new pound-token adapter

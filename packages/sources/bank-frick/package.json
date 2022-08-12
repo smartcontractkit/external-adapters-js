@@ -1,12 +1,13 @@
 {
-  "name": "@chainlink/pound-token-adapter",
-  "version": "1.0.0",
-  "description": "Chainlink pound-token adapter.",
+  "name": "@chainlink/bank-frick-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink bank-frick adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
+    "bank-frick",
     "pound-token"
   ],
   "main": "dist/index.js",
@@ -31,6 +32,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
+    "decimal.js-light": "^2.5.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

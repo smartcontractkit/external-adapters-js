@@ -9,14 +9,5 @@ export interface Account {
   available: number //The available amount of the account as defined in the online banking
 }
 
-export interface Accounts {
-  date: string //The balance date (today)
-  moreResults: boolean //Attribute indicates that more results are available on the server
-  resultSetSize: number //Number of results in the returned result set
-  accounts: Account[] //The list of accounts
-}
 //These are the options from the docs:
 export type SigningAlgorithm = 'rsa-sha256' | 'rsa-sha384' | 'rsa-sha512'
-
-// /v2/accounts
-//
