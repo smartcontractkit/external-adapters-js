@@ -37,8 +37,8 @@
     "get-release-notes": "ts-node-transpile-only ./packages/scripts/src/get-release-notes"
   },
   "dependencies": {
-    "@babel/core": "7.18.5",
-    "@babel/preset-env": "7.18.2",
+    "@babel/core": "7.18.10",
+    "@babel/preset-env": "7.18.10",
     "@babel/preset-typescript": "7.17.12",
     "@changesets/cli": "2.18.1",
     "@types/jest": "27.5.2",
@@ -59,7 +59,7 @@
     "lint-staged": "11.2.6",
     "prettier": "2.7.1",
     "source-map-support": "0.5.21",
-    "ts-node": "10.8.1",
+    "ts-node": "10.8.2",
     "typescript": "4.7.4"
   },
   "prettier": {
@@ -73,5 +73,5 @@
   "lint-staged": {
     "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
   },
-  "packageManager": "yarn@3.2.1"
+  "packageManager": "yarn@3.2.2"
 }
