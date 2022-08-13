@@ -5,7 +5,7 @@
 ### Patch Changes
 
 - Updated dependencies [33989190a]
-  - @chainlink/ea@2.0.0
+  - @chainlink/ea@1.3.18
 
 ## 1.2.18
 
