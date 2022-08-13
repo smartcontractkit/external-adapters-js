@@ -964,11 +964,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@actions/core", [\
-        ["npm:1.9.0", {\
-          "packageLocation": "./.yarn/cache/@actions-core-npm-1.9.0-39abc3e88d-801dde1da9.zip/node_modules/@actions/core/",\
+        ["npm:1.9.1", {\
+          "packageLocation": "./.yarn/cache/@actions-core-npm-1.9.1-108e26d1ac-8f9823bed2.zip/node_modules/@actions/core/",\
           "packageDependencies": [\
-            ["@actions/core", "npm:1.9.0"],\
-            ["@actions/http-client", "npm:2.0.1"]\
+            ["@actions/core", "npm:1.9.1"],\
+            ["@actions/http-client", "npm:2.0.1"],\
+            ["uuid", "npm:8.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -5598,7 +5599,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/scripts/",\
           "packageDependencies": [\
             ["@chainlink/ea-scripts", "workspace:packages/scripts"],\
-            ["@actions/core", "npm:1.9.0"],\
+            ["@actions/core", "npm:1.9.1"],\
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
@@ -6036,7 +6037,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
           ],\
           "linkType": "SOFT"\
         }]\
