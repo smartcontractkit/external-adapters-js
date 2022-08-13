@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- 18a79758a: Updated ncfx forex subscription handling
+
 ## 2.0.1
 
 ### Patch Changes

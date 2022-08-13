@@ -1,5 +1,17 @@
 # @chainlink/ea
 
+## 1.3.18
+
+### Patch Changes
+
+- 33989190a: Add new bank-frick-adapter
+- Updated dependencies [bbb0b9469]
+- Updated dependencies [b84118244]
+- Updated dependencies [18a79758a]
+  - @chainlink/synthetix-debt-pool-adapter@3.3.0
+  - @chainlink/galaxy-adapter@1.0.0
+  - @chainlink/ncfx-adapter@2.1.0
+
 ## 1.3.17
 
 ### Patch Changes
