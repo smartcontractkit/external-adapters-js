@@ -153,6 +153,9 @@
       "path": "./sources/armanino/tsconfig.test.json"
     },
     {
+      "path": "./sources/bank-frick/tsconfig.test.json"
+    },
+    {
       "path": "./sources/bea/tsconfig.test.json"
     },
     {
