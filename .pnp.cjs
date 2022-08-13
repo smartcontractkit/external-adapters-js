@@ -461,6 +461,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/galaxis"\
       },\
       {\
+        "name": "@chainlink/galaxy-adapter",\
+        "reference": "workspace:packages/sources/galaxy"\
+      },\
+      {\
         "name": "@chainlink/gemini-adapter",\
         "reference": "workspace:packages/sources/gemini"\
       },\
@@ -838,6 +842,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
       ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
+      ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
       ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
@@ -5431,6 +5436,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],\
             ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
+            ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],\
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],\
@@ -6013,6 +6019,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/galaxy-adapter", [\
+        ["workspace:packages/sources/galaxy", {\
+          "packageLocation": "./packages/sources/galaxy/",\
+          "packageDependencies": [\
+            ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.47"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
         }]\

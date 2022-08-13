@@ -1,0 +1,1 @@
+# @chainlink/galaxy-source-adapter
