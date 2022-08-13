@@ -1,5 +1,11 @@
 # @chainlink/synthetix-debt-pool-adapter
 
+## 3.3.0
+
+### Minor Changes
+
+- bbb0b9469: add support for goerli and optimism goerli
+
 ## 3.2.11
 
 ### Patch Changes
