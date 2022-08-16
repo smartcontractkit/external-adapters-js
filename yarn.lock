@@ -2923,7 +2923,7 @@ __metadata:
   dependencies:
     "@node-redis/client": 1.0.6
     "@reduxjs/toolkit": ^1.6.1
-    "@types/fast-redact": 3.0.1
+    "@types/fast-redact": 3.0.2
     "@types/jest": 27.5.2
     "@types/lodash": 4.14.182
     "@types/lru-cache": 5.1.1
@@ -9212,10 +9212,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fast-redact@npm:3.0.1":
-  version: 3.0.1
-  resolution: "@types/fast-redact@npm:3.0.1"
-  checksum: 0c5d8dbddfeec833e7d801d134a6a263c9cb69d6008ad59a56216a2715de53bd70369572f6b9829c9d1be66061116c5455208a0abbec438a225d7bb1d42d0dd5
+"@types/fast-redact@npm:3.0.2":
+  version: 3.0.2
+  resolution: "@types/fast-redact@npm:3.0.2"
+  checksum: d53f271ef024aebe292d0fad7863554ba3d7ad930faa7c53d3cc5b7c059639b579de5775f9944b6be7cb4ae878da8a78df1b8f9c1de9b803026c176dd067ceb0
   languageName: node
   linkType: hard
 
