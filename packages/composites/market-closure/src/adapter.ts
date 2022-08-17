@@ -36,7 +36,7 @@ export const execute = async (input: AdapterRequest, config: Config): Promise<Ad
     return Requester.success(jobRunID, { data: { result }, status: 200 })
   }
 
-  return (await config.getPriceAdapter(source)(input)) as any
+  return (await config.getPriceAdapter(source)(input)) as unknown as AdapterResponse
 }
 
 export const makeExecute = (config?: Config): Execute => {

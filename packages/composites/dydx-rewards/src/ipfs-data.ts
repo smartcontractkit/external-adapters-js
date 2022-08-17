@@ -1,4 +1,4 @@
-import { Execute, AdapterContext } from '@chainlink/ea-bootstrap'
+import { Execute, AdapterContext, AdapterRequest } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
 import { types } from '@chainlink/ipfs-adapter'
 
@@ -62,7 +62,7 @@ export const getDataForCID = async <T>(
   context: AdapterContext,
 ): Promise<T> => {
   const params = { id: jobRunID, data: { endpoint: 'read', cid, codec: 'json' } }
-  const response = await ipfs(params as any, context)
+  const response = await ipfs(params as AdapterRequest, context)
   return response.result as unknown as T
   // TODO: makeExecute return types
 }
@@ -93,7 +93,7 @@ export const storeJsonTree = async (
   context: AdapterContext,
 ): Promise<string> => {
   const params = { id: jobRunID, data: { endpoint: 'write', data, codec: 'json', cidVersion: 1 } }
-  const response = await ipfs(params as any, context)
+  const response = await ipfs(params as unknown as AdapterRequest, context)
   return response.result as unknown as string
   // TODO: makeExecute return types
 }

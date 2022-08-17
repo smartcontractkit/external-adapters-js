@@ -5,6 +5,7 @@ import { adapters as protocolAdapters, runProtocolAdapter } from '../utils/proto
 import { runReduceAdapter } from '../utils/reduce'
 import { getValidAddresses } from '../utils/addressValidator'
 import { Config } from '../config'
+import type { AddressData } from '../utils/protocol'
 
 export const supportedEndpoints = ['reserves']
 
@@ -79,7 +80,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     jobRunID,
     context,
     protocol,
-    input.data as any,
+    input.data as AddressData,
     config,
   )
   const validatedAddresses = getValidAddresses(protocolOutput, validator)

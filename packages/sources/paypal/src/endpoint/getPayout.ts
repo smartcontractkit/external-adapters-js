@@ -1,6 +1,20 @@
-import { Requester, Validator, AdapterInputError, AdapterError } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  AdapterInputError,
+  AdapterError,
+  AdapterResponse,
+} from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import * as paypal from '@paypal/payouts-sdk'
+
+export type ConfigApi = {
+  client: {
+    execute: (
+      paypal_req: paypal.payouts.PayoutsGetRequest | paypal.payouts.PayoutsItemGetRequest,
+    ) => Promise<AdapterResponse>
+  }
+}
 
 export const supportedEndpoints = ['getpayout', 'read']
 
@@ -51,9 +65,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   try {
-    const response = await (config.api as any).client.execute(paypal_req)
+    const response = await (config.api as ConfigApi).client.execute(paypal_req)
     return Requester.success(jobRunID, { data: response, status: response.statusCode })
-  } catch (e: any) {
+  } catch (e) {
     const error = e as AdapterError
     throw Requester.errored(jobRunID, error, error.statusCode)
   }

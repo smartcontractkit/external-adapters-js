@@ -1,4 +1,10 @@
-import { Validator, Logger, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import {
+  Validator,
+  Logger,
+  AdapterDataProviderError,
+  util,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import type { AdapterRequest, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import * as TokenAllocation from '@chainlink/token-allocation-adapter'
@@ -55,11 +61,12 @@ export const getTokenAllocations = async (
   let tvlInWei
   try {
     tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress, config.RPC_URL)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
   return [
@@ -93,11 +100,12 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
   const _execute = TokenAllocation.makeExecute()
   try {
     return await _execute({ id: jobRunID, data: { ...request.data, allocations } }, context)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

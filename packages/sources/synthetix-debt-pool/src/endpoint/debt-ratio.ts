@@ -7,6 +7,7 @@ import {
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber } from 'ethers'
 import {
+  CustomError,
   getAddressResolver,
   getContractAddress,
   getDataFromAcrossChains,
@@ -23,7 +24,6 @@ interface CurrentDebtResults {
   totalDebtIssued: ethers.BigNumber
   totalDebtShares: ethers.BigNumber
 }
-
 export const execute: ExecuteWithConfig<Config, InputParameters> = async (request, _, config) =>
   await getDataFromAcrossChains(request, config, getDebtRatio)
 
@@ -73,8 +73,8 @@ const getDebtRatio = async (
           totalDebtIssued: issuedSynths,
           totalDebtShares: chainTotalDebtShare,
         }
-      } catch (e: any) {
-        const error = e as any
+      } catch (e) {
+        const error = e as CustomError
         const errorPayload = {
           jobRunID,
           message: `Failed to fetch debt ratio from chain ${network}. Error Message: ${error.message}`,

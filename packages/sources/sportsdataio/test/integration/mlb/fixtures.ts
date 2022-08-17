@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export const mockGamesResponse = (key: string) => {
-  nock('https://fly.sportsdata.io:443', { encodedQueryParams: true })
+export const mockGamesResponse = (key: string): nock.Scope => {
+  return nock('https://fly.sportsdata.io:443', { encodedQueryParams: true })
     .get('/v3/mlb/scores/json/GamesByDate/2017-JUL-31')
     .query({ key })
     .reply(

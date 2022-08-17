@@ -5,6 +5,7 @@ import {
   Validator,
   AdapterDataProviderError,
   util,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
@@ -118,11 +119,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     }
 
     return Requester.success(jobRunID, response, true)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: config.network,
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

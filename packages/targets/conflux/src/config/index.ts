@@ -6,7 +6,7 @@ export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 export const NAME = 'CONFLUX'
 
 export type Config = {
-  api: any
+  api: Record<string, unknown>
   rpcUrl: string
   networkId: number
   privateKey: string

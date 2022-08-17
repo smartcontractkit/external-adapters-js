@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockBalanceResponse() {
-  nock('https://api.cryptoapis.io:443', { encodedQueryParams: true })
+export function mockBalanceResponse(): nock.Scope {
+  return nock('https://api.cryptoapis.io:443', { encodedQueryParams: true })
     .get('/v1/bc/btc/testnet/address/n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF')
     .reply(
       200,
@@ -48,8 +48,8 @@ export function mockBalanceResponse() {
     )
 }
 
-export function mockBcInfoResponse() {
-  nock('https://api.cryptoapis.io:443', { encodedQueryParams: true })
+export function mockBcInfoResponse(): nock.Scope {
+  return nock('https://api.cryptoapis.io:443', { encodedQueryParams: true })
     .get('/v1/bc/btc/mainnet/info')
     .reply(
       200,
@@ -98,8 +98,8 @@ export function mockBcInfoResponse() {
     )
 }
 
-export function mockCryptoResponse() {
-  nock('https://api.cryptoapis.io:443', { encodedQueryParams: true })
+export function mockCryptoResponse(): nock.Scope {
+  return nock('https://api.cryptoapis.io:443', { encodedQueryParams: true })
     .get('/v1/exchange-rates/BTC/USD')
     .reply(
       200,

@@ -3,7 +3,7 @@ import { PriceExecute } from '.'
 import { Config } from '../../config'
 import { throwErrorForInvalidResult } from '../../utils'
 import { anchorVaultAbi, curvePoolAbi } from './abi'
-import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import { AdapterDataProviderError, RPCCustomError, util } from '@chainlink/ea-bootstrap'
 
 export const FROM = 'BETH'
 export const INTERMEDIARY_TOKEN = 'ETH'
@@ -21,16 +21,17 @@ export const INTERMEDIARY_TOKEN = 'ETH'
 export const execute: PriceExecute = async (input, _, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
-  let ethPerStETH
-  let bEthPerStETH
+  let ethPerStETH: ethers.BigNumber
+  let bEthPerStETH: ethers.BigNumber
   try {
     ethPerStETH = await getEthStETHExchangeRate(input.id, config, provider)
     bEthPerStETH = await getBEthStETHExchangeRate(input.id, config, provider)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

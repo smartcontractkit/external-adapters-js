@@ -9,6 +9,11 @@ import type { AdapterContext, AdapterRequest, AdapterRequestData } from '@chainl
 import { DEFAULT_NETWORK } from '../config'
 import { TInputParameters } from '../endpoint/volatilityIndex'
 
+type DominanceData = {
+  result: number
+  payload: Record<string, { quote: Record<string, { marketCap: number }> }>
+}
+
 export const calculate = async (
   validated: { data: AdapterRequestData<TInputParameters>; id: string },
   requestParams: AdapterRequestData,
@@ -127,7 +132,7 @@ const getDominanceByCurrency = async (
   }
   const dominanceData = await dominanceAdapter(input, context)
   // TODO: makeExecute return types
-  return dominanceByCurrency(dominanceData.data as any, quote)
+  return dominanceByCurrency(dominanceData.data as unknown as DominanceData, quote)
 }
 
 const applySmoothing = async (

@@ -1,4 +1,11 @@
-import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  AdapterContext,
+  AdapterRequest,
+  Execute,
+  ExecuteWithConfig,
+  InputParameters,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import {
   makeMiddleware,
   Requester,
@@ -17,7 +24,7 @@ export const supportedEndpoints = ['ratio']
 export const description = 'Gets the ratio between SUSHI and xSUSHI tokens (with 18 decimals).'
 
 export function getSushiAddress(context: AdapterContext, id: string): Promise<string> {
-  const execute = makeExecute()
+  const execute = makeExecute() as Execute
   const options = {
     data: {
       endpoint: 'sushi',
@@ -31,8 +38,8 @@ export function getSushiAddress(context: AdapterContext, id: string): Promise<st
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         // TODO: makeExecute return types
-        executeWithMiddleware(options as any, context)
-          .then((value) => resolve(value.data as any))
+        executeWithMiddleware(options as unknown as AdapterRequest<TInputParameters>, context)
+          .then((value) => resolve(value.data as unknown as string | PromiseLike<string>))
           .catch(reject)
       })
       .catch((error) => reject(error))
@@ -56,11 +63,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   try {
     balance = await sushi.balanceOf(xsushiAddress)
     supply = await xsushi.totalSupply()
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'network',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

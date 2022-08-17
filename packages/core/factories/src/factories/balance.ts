@@ -4,6 +4,7 @@ import {
   AdapterConfigError,
   util,
   Validator,
+  AdapterResponse,
 } from '@chainlink/ea-bootstrap'
 import {
   Account,
@@ -46,7 +47,7 @@ type BatchBalanceConfig = BaseBalanceConfig & {
 // Splits types & re-unions to achieve "only one of either getBalance or getBalances" type
 export type BalanceConfig = SingleBalanceConfig | BatchBalanceConfig
 
-const requireArray = (jobRunID: string, dataPath: string, data: any) => {
+const requireArray = (jobRunID: string, dataPath: string, data: Record<string, unknown>) => {
   const inputData = <Account[]>objectPath.get(data, dataPath)
 
   // Check if input data is valid
@@ -124,11 +125,16 @@ export const make: ExecuteFactory<BalanceConfig, AdapterData> = (config) => asyn
   )
 
   const data: SequenceResponseData<Account> = {
-    responses: responses.map((r: any) => r.payload),
+    responses: responses.map((r: BalancesResponse) => r.payload),
     result: accounts.map((a) => responseLookup[`${a.address}-${a.coin}-${a.chain}`] || a),
   }
 
   if (!config.verbose) delete data.responses
 
-  return { jobRunID, statusCode: 200, data, result: data.result } as any
+  return {
+    jobRunID,
+    statusCode: 200,
+    data,
+    result: data.result,
+  } as unknown as AdapterResponse<AdapterData>
 }

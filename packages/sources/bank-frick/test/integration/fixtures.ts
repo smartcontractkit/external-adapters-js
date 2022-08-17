@@ -1,7 +1,7 @@
 import nock from 'nock'
 import { DEFAULT_BASE_URL } from '../../src/config'
 
-export const mockAccountsSuccess = () =>
+export const mockAccountsSuccess = (): nock.Scope =>
   nock(DEFAULT_BASE_URL, {
     encodedQueryParams: true,
   })
@@ -40,7 +40,7 @@ export const mockAccountsSuccess = () =>
       ],
     )
 
-export const mockAuthorizeSuccess = () =>
+export const mockAuthorizeSuccess = (): nock.Scope =>
   nock(DEFAULT_BASE_URL, {
     encodedQueryParams: true,
   })

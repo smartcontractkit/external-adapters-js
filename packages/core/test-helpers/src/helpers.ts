@@ -3,7 +3,7 @@ import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 
 const mockContext = {}
 
-export function assertError(statusCode: any, data: any, expectedJobId: any) {
+export function assertError(statusCode: any, data: any, expectedJobId: any): void {
   expect(statusCode.actual).toEqual(statusCode.expected)
   expect(data.jobRunID).toEqual(expectedJobId)
   expect(data.status).toEqual('errored')
@@ -12,7 +12,7 @@ export function assertError(statusCode: any, data: any, expectedJobId: any) {
   expect(data.error.message).toBeTruthy()
 }
 
-export function assertSuccess(statusCode: any, data: any, expectedJobId: any) {
+export function assertSuccess(statusCode: any, data: any, expectedJobId: any): void {
   expect(statusCode.actual).toEqual(statusCode.expected)
   expect(data.jobRunID).toEqual(expectedJobId)
   expect(data.error).toBeFalsy()
@@ -20,13 +20,13 @@ export function assertSuccess(statusCode: any, data: any, expectedJobId: any) {
   expect(data.result).toEqual(data.data.result)
 }
 
-function buildErrors(label: string, code: number, requests: any[], execute: Execute) {
+function buildErrors(label: string, code: number, requests: any[], execute: Execute): void {
   describe(label, () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
           await execute(req.testData as AdapterRequest, mockContext)
-        } catch (e: any) {
+        } catch (e) {
           const error = e as Error
           const id = req.testData.id ?? '1'
           const errorResp = Requester.errored(id, error)
@@ -37,7 +37,7 @@ function buildErrors(label: string, code: number, requests: any[], execute: Exec
   })
 }
 
-export function successes(requests: any[], execute: Execute, assertions?: any) {
+export function successes(requests: any[], execute: Execute, assertions?: any): void {
   describe('successful calls @integration', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
@@ -50,10 +50,10 @@ export function successes(requests: any[], execute: Execute, assertions?: any) {
   })
 }
 
-export function validationErrors(requests: any[], execute: Execute) {
+export function validationErrors(requests: any[], execute: Execute): void {
   buildErrors('validation error', 400, requests, execute)
 }
-export function serverErrors(requests: any[], execute: Execute) {
+export function serverErrors(requests: any[], execute: Execute): void {
   buildErrors('error calls @integration', 500, requests, execute)
 }
 

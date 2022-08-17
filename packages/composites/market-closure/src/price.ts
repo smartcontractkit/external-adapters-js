@@ -22,9 +22,9 @@ export const getImpl = (type?: PriceDataProvider): Execute => {
   switch (type) {
     case PriceDataProvider.Finnhub:
       // TODO: makeExecute return types
-      return finnhub.makeExecute() as any
+      return finnhub.makeExecute() as Execute
     case PriceDataProvider.FCS_API:
-      return fcsapi.makeExecute() as any
+      return fcsapi.makeExecute() as Execute
     default:
       throw Error(`Unknown price data provider adapter type: ${type}`)
   }

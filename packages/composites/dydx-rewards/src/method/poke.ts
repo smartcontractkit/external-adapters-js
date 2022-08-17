@@ -122,7 +122,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context,
 
   const requesterContract = new ethers.Contract(callbackAddress, OracleRequester, config.wallet)
 
-  const ipfs = IPFS.makeExecute(IPFS.makeConfig(IPFS.NAME)) as any
+  const ipfs = IPFS.makeExecute(IPFS.makeConfig(IPFS.NAME)) as Execute
   // TODO: makeExecute return types
 
   const rewardsInput: Input = {

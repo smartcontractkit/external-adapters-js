@@ -11,6 +11,12 @@ import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootst
 
 export const supportedEndpoints = ['graphql']
 
+export type CustomError = {
+  response: Record<string, unknown>
+  request: Record<string, unknown>
+  message: string
+}
+
 export type TInputParameters = {
   graphqlEndpoint: string
   headers?: AxiosRequestHeaders
@@ -59,8 +65,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     const responseData = JSON.parse(JSON.stringify(response.data))
     response.data.result = responseData
     return Requester.success(jobRunID, response, config.verbose)
-  } catch (e: any) {
-    const error = e as any
+  } catch (e) {
+    const error = e as CustomError
     const errorPayload = {
       jobRunID,
       message: `GraphQL request to ${graphqlEndpoint} failed with error ${e}`,

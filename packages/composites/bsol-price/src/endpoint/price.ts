@@ -5,6 +5,8 @@ import {
   Validator,
   BigNumber as TBN,
   InputParameters,
+  Value,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import * as solanaViewFunction from '@chainlink/solana-view-function-adapter'
@@ -40,8 +42,9 @@ export const execute = async (
   try {
     accountsInfo = await getAccountsInformation(jobRunID, context, addresses)
     bSOLUSDPrice = await getBSolUSDPrice(jobRunID, config, input, context, accountsInfo)
-  } catch (e: any) {
-    throw new AdapterDataProviderError({ network: 'solana', cause: e })
+  } catch (e) {
+    const error = e as RPCCustomError
+    throw new AdapterDataProviderError({ network: 'solana', cause: error })
   }
 
   return {
@@ -163,6 +166,6 @@ export const getStSolPerUSD = async (
     context,
   )
   // TODO: makeExecute return types
-  const usdPerSol = new BigNumber(usdSolResp.data.result as any)
+  const usdPerSol = new BigNumber(usdSolResp.data.result as keyof Value)
   return stSolPerSol.dividedBy(usdPerSol)
 }

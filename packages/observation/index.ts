@@ -21,7 +21,7 @@ const getResultFromAdapter = async (i: number): Promise<AdapterResult> => {
       prodResult: prodResp.data.result,
       timestamp: Date.now(),
     }
-  } catch (e: any) {
+  } catch (e) {
     console.log(e)
     console.log('Retrying request ', i)
     return await getResultFromAdapter(i)

@@ -1,4 +1,10 @@
-import { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  AdapterContext,
+  AdapterRequest,
+  ExecuteWithConfig,
+  InputParameters,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import {
   AdapterDataProviderError,
   AdapterInputError,
@@ -28,8 +34,8 @@ export function getRatio(context: AdapterContext, id: string): Promise<string> {
     withMiddleware(execute, context, middleware)
       .then((executeWithMiddleware) => {
         // TODO: makeExecute return types
-        executeWithMiddleware(options as any, context)
-          .then((value) => resolve(value.data as any))
+        executeWithMiddleware(options as unknown as AdapterRequest<TInputParameters>, context)
+          .then((value) => resolve(value.data as unknown as string | PromiseLike<string>))
           .catch(reject)
       })
       .catch((error) => reject(error))
@@ -90,11 +96,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, context) => {
 
   try {
     return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

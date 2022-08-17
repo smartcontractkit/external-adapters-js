@@ -2,7 +2,7 @@ import LRU from 'lru-cache'
 
 // Extended from https://github.com/isaacs/node-lru-cache/blob/main/index.js#L169
 
-interface CacheItem {
+export interface CacheItem {
   value: {
     now: number
     maxAge: number

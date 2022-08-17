@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockCoinpaprikaAdapterResponseSuccess() {
-  nock('http://localhost:8081')
+export function mockCoinpaprikaAdapterResponseSuccess(): nock.Scope {
+  return nock('http://localhost:8081')
     .post('/', { id: '1', data: { base: ['AVAX'], quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
@@ -50,8 +50,8 @@ export function mockCoinpaprikaAdapterResponseSuccess() {
     )
 }
 
-export function mockCoinpaprikaAdapterResponseZeroValue() {
-  nock('http://localhost:8081')
+export function mockCoinpaprikaAdapterResponseZeroValue(): nock.Scope {
+  return nock('http://localhost:8081')
     .post('/', { id: '1', data: { base: ['AVAX'], quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,

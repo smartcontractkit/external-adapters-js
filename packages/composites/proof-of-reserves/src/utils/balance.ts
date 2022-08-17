@@ -4,6 +4,7 @@ import type {
   Config,
   Account,
   AdapterContext,
+  Value,
 } from '@chainlink/ea-bootstrap'
 import { makeRequestFactory, callAdapter } from '.'
 
@@ -75,7 +76,9 @@ function buildLocalBitcoinNodeRequest(input: AdapterResponse) {
     id: input.jobRunID,
     data: {
       // TODO: validate and type coerce
-      scanobjects: (input.data.result as any).map((result: Account) => result.address),
+      scanobjects: (input.data.result as (Value & Account)[]).map(
+        (result: Account): string => result.address,
+      ),
       endpoint: 'scantxoutset',
     },
   }

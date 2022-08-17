@@ -29,7 +29,7 @@ export const adapters: AdapterImplementation[] = [
 
 export type Protocol = typeof adapters[number]['NAME']
 
-type AddressData = { token: string; chainId: string; network: string } | AddressList
+export type AddressData = { token: string; chainId: string; network: string } | AddressList
 
 type AddressList =
   | { addresses: string[]; chainId: string; network: string }

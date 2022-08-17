@@ -4,14 +4,16 @@ import { AdapterRequest, AdapterRequestMeta, AdapterResponse } from '@chainlink/
 import { ethers } from 'ethers'
 import { makeExecute } from '../../src/adapter'
 import { abi, deploy } from '../helpers'
+import type { JsonRpcServerHardhat } from '@chainlink/ea-test-helpers'
+
 jest.setTimeout(100000)
-let chain: any
+let chain: JsonRpcServerHardhat
 let rpcUrl: string | ethers.utils.ConnectionInfo
 let address: string
 let provider: ethers.providers.Provider | ethers.Signer
 let contract: ethers.Contract
 let execute: {
-  (arg0: { id: string; data: Record<string, unknown>; meta: AdapterRequestMeta }): any
+  (arg0: { id: string; data: Record<string, unknown>; meta: AdapterRequestMeta }): AdapterRequest
   (input: AdapterRequest): Promise<AdapterResponse>
 }
 
@@ -23,7 +25,11 @@ describe('execute', () => {
     provider = new ethers.providers.JsonRpcProvider(rpcUrl)
     contract = new ethers.Contract(address, abi, provider)
     execute = makeExecute({ rpcUrl, privateKey: hardhatConfig.TESTING_PRIVATE_KEY, api: {} }) as {
-      (arg0: { id: string; data: Record<string, unknown>; meta: AdapterRequestMeta }): any
+      (arg0: {
+        id: string
+        data: Record<string, unknown>
+        meta: AdapterRequestMeta
+      }): AdapterRequest
       (input: AdapterRequest): Promise<AdapterResponse>
     }
   })

@@ -20,6 +20,12 @@ import { makeConfig } from './config'
 import * as endpoints from './endpoint'
 import { AccessTokenResponse, Pair, TickerMessage } from './types'
 
+type CustomError = {
+  response: Record<string, unknown>
+  request: Record<string, unknown>
+  message: string
+}
+
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
   context,
@@ -55,8 +61,8 @@ export const getAccessToken = async (config: Config): Promise<string> => {
     if (!tokenResponse.data.token)
       throw new AdapterDataProviderError({ message: tokenResponse.data.message || 'Login failed' })
     return tokenResponse.data.token
-  } catch (e: any) {
-    const err = e as any
+  } catch (e) {
+    const err = e as CustomError
     const message = `Login failed ${err.message ? `with message '${err.message}'` : ''}`
     const error = { ...err, message }
     Logger.debug(message)

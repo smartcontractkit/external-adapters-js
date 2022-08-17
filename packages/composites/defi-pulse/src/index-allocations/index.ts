@@ -1,7 +1,7 @@
 import { BigNumberish, ethers } from 'ethers'
 import { types } from '@chainlink/token-allocation-adapter'
 import { getSymbol } from '../symbols'
-import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import { AdapterDataProviderError, RPCCustomError, util } from '@chainlink/ea-bootstrap'
 /*
   NOTICE!
 
@@ -38,11 +38,12 @@ export const getAllocations = async (
   let balances: BigNumberish[]
   try {
     ;[addresses, balances] = await index.getAllocations(setAddress)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network,
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

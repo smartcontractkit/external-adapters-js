@@ -11,6 +11,7 @@ import {
   inputParameters as commonInputParameters,
   getSynthetixBridgeName,
   getAddressResolver,
+  CustomError,
 } from '../utils'
 import { Config } from '../config'
 import { getContractAddress } from '../utils'
@@ -78,8 +79,8 @@ export const getDebtIssued = async (
         const synthTransferSent = await synthetixBridge.synthTransferSent({ blockTag: blockNumber })
         const issuedSynths = debtIssued.add(synthTransferSent.sub(synthTransferReceived))
         return [network, blockNumber, issuedSynths]
-      } catch (e: any) {
-        const error = e as any
+      } catch (e) {
+        const error = e as CustomError
 
         const errorPayload = {
           jobRunID,

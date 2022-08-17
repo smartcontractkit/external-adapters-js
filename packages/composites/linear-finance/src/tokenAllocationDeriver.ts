@@ -2,6 +2,7 @@ import { types } from '@chainlink/token-allocation-adapter'
 import { makeMiddleware, withMiddleware } from '@chainlink/ea-bootstrap'
 import { AdapterContext } from '@chainlink/ea-bootstrap'
 import { endpointSelector, makeExecute } from './adapter'
+import { TokenAllocations } from '@chainlink/token-allocation-adapter/src/types'
 
 export const deriveAllocations = async (
   index: string,
@@ -24,7 +25,9 @@ export const deriveAllocations = async (
       .then((executeWithMiddleware) => {
         executeWithMiddleware(options, context)
           // TODO: makeExecute response type
-          .then((value) => resolve(value.data.allocations as any))
+          .then((value) =>
+            resolve(value.data.allocations as TokenAllocations | PromiseLike<TokenAllocations>),
+          )
           .catch(reject)
       })
       .catch(reject)

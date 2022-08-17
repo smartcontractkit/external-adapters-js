@@ -50,8 +50,9 @@ const getBalance: balance.GetBalance = async (account, config) => {
       payload: response,
       result: [{ ...account, balance: String(response.balance) }],
     }
-  } catch (e: any) {
-    throw new AdapterError({ network: 'bitcoin', cause: e })
+  } catch (e) {
+    const error = e as Error
+    throw new AdapterError({ network: 'bitcoin', cause: error })
   }
 }
 

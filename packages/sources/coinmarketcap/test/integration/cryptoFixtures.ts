@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockSuccessfulCoinMarketCapResponse(cid = '1') {
-  nock('https://pro-api.coinmarketcap.com')
+export function mockSuccessfulCoinMarketCapResponse(cid = '1'): nock.Scope {
+  return nock('https://pro-api.coinmarketcap.com')
     .get(`/v1/cryptocurrency/quotes/latest?convert=USD&id=${cid}`)
     .reply(
       200,
@@ -62,8 +62,8 @@ export function mockSuccessfulCoinMarketCapResponse(cid = '1') {
     )
 }
 
-export function mockCoinMarketCapErrorTooManyRequests(cid = '1') {
-  nock('https://pro-api.coinmarketcap.com')
+export function mockCoinMarketCapErrorTooManyRequests(cid = '1'): nock.Scope {
+  return nock('https://pro-api.coinmarketcap.com')
     .get(`/v1/cryptocurrency/quotes/latest?convert=USD&id=${cid}`)
     .reply(
       429,
@@ -94,8 +94,8 @@ export function mockCoinMarketCapErrorTooManyRequests(cid = '1') {
     )
 }
 
-export function mockSuccessfulCoinMarketCapResponseWithSlug(slug = 'BTC') {
-  nock('https://pro-api.coinmarketcap.com')
+export function mockSuccessfulCoinMarketCapResponseWithSlug(slug = 'BTC'): nock.Scope {
+  return nock('https://pro-api.coinmarketcap.com')
     .get(`/v1/cryptocurrency/quotes/latest?convert=USD&slug=${slug}`)
     .reply(
       200,

@@ -1,6 +1,24 @@
 import { Execute } from '@chainlink/ea-bootstrap'
 import { serverErrors, successes, validationErrors } from '../helpers'
 
+type TestAdapter = {
+  name: string
+  testData: {
+    id: number
+    data: {
+      endpoint: string
+      result: []
+    }
+  }
+}
+
+type TestAdapterResponse = {
+  data: {
+    result: []
+  }
+  result: []
+}
+
 function base(execute: Execute) {
   describe('it should behave like a balance adapter', () => {
     const jobID = '1'
@@ -132,7 +150,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support bitcoin mainnet', () => {
       const jobID = '1'
 
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -209,7 +227,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
     describe('it should support bitcoin testnet', () => {
       const jobID = '1'
 
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -244,7 +262,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_mainnet: (execute) => {
     describe('it should support ethereum mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -279,7 +297,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_testnet: (execute) => {
     describe('it should support ethereum testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -314,7 +332,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_cash_mainnet: (execute) => {
     describe('it should support bitcoin cash mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -349,7 +367,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_cash_testnet: (execute) => {
     describe('it should support bitcoin cash testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -384,7 +402,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_sv_mainnet: (execute) => {
     describe('it should support bitcoin sv mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -419,7 +437,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   bitcoin_sv_testnet: (execute) => {
     describe('it should support bitcoin sv testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -454,7 +472,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   litecoin_mainnet: (execute) => {
     describe('it should support litecoin mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -489,7 +507,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   litecoin_testnet: (execute) => {
     describe('it should support litecoin testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -524,7 +542,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zcash_mainnet: (execute) => {
     describe('it should support zcash mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -559,7 +577,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zcash_testnet: (execute) => {
     describe('it should support zcash testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -594,7 +612,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   doge_mainnet: (execute) => {
     describe('it should support doge mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -629,7 +647,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   doge_testnet: (execute) => {
     describe('it should support doge testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -664,7 +682,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zilliqa_mainnet: (execute) => {
     describe('it should support zilliqa mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -699,7 +717,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   zilliqa_testnet: (execute) => {
     describe('it should support zilliqa testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -734,7 +752,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   dash_mainnet: (execute) => {
     describe('it should support dash mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -769,7 +787,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   dash_testnet: (execute) => {
     describe('it should support dash testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -804,7 +822,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_classic_mainnet: (execute) => {
     describe('it should support ethereum_classic mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -839,7 +857,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   ethereum_classic_testnet: (execute) => {
     describe('it should support ethereum_classic testnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -874,7 +892,7 @@ const extensions: { [network: string]: (execute: Execute) => void } = {
 
   groestlcoin_mainnet: (execute) => {
     describe('it should support groestlcoin mainnet', () => {
-      const assertions = (request: any, response: any) => {
+      const assertions = (request: TestAdapter, response: TestAdapterResponse) => {
         const numAddr = request?.testData?.data?.result.length
         expect(Number(response.data.result.length)).toBeGreaterThan(0)
         expect(Number(response.result.length)).toBeGreaterThan(0)
@@ -931,7 +949,7 @@ type Network =
   | 'dash_testnet'
   | 'groestlcoin_mainnet'
 
-export function shouldBehaveLikeBalanceAdapter(execute: Execute, networks: Network[]) {
+export function shouldBehaveLikeBalanceAdapter(execute: Execute, networks: Network[]): void {
   base(execute)
 
   for (const network of networks) {

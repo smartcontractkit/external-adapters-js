@@ -22,6 +22,12 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
+export type CustomError = {
+  response: Record<string, unknown>
+  request: Record<string, unknown>
+  message: string
+}
+
 type GetDebtData = (
   jobRunID: string,
   config: Config,
@@ -124,8 +130,8 @@ export const getLatestBlockByChain = async (
       try {
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
-      } catch (e: any) {
-        const error = e as any
+      } catch (e) {
+        const error = e as CustomError
         const errorPayload = {
           jobRunID,
           message: `Failed to fetch latest block data from chain ${network}.  Error Message: ${error}`,

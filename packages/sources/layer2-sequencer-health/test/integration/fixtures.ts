@@ -5,7 +5,7 @@ export const mockResponseSuccessHealth = (): void => {
   nock('https://mainnet-sequencer.optimism.io/health')
     .get('')
     .query(() => true)
-    .reply(200, (_) => ({ healthy: 'true' }), [
+    .reply(200, () => ({ healthy: 'true' }), [
       'Content-Type',
       'application/json',
       'Connection',

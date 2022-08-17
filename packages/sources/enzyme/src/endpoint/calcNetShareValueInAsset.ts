@@ -1,4 +1,10 @@
-import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { BigNumber, ethers } from 'ethers'
@@ -46,11 +52,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       quoteAsset,
       config,
     )
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

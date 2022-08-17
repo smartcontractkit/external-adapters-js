@@ -111,8 +111,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let address
   try {
     address = await _getAddress()
-  } catch (e: any) {
-    throw new AdapterDataProviderError({ network: config.network, cause: e })
+  } catch (e) {
+    const error = e as Error
+    throw new AdapterDataProviderError({ network: config.network, cause: error })
   }
 
   if (!address) {

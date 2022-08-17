@@ -5,6 +5,7 @@ import {
   Validator,
   AdapterDataProviderError,
   util,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import { AdapterRequest, AdapterResponse, AdapterContext } from '@chainlink/ea-bootstrap'
 import { ethers, BigNumber, BigNumberish } from 'ethers'
@@ -163,7 +164,7 @@ async function createAndResolveMarkets(
   try {
     await contract.createAndResolveMarkets(roundIds, nextWeek, { nonce })
     Logger.log(`Augur: createAndResolveMarkets -- success`)
-  } catch (e: any) {
+  } catch (e) {
     const error = e as Error
     Logger.log(`Augur: createAndResolveMarkets -- failure`)
     Logger.error(error)
@@ -183,11 +184,12 @@ async function pokeMarkets(contract: ethers.Contract, context: AdapterContext, c
       )
       await createAndResolveMarkets(roundIds, nextResolutionTime, contract, context, config)
     }
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

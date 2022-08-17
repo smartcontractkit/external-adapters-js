@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockBalanceResponse() {
-  nock('https://test.api.endpoint.link', { encodedQueryParams: true })
+export function mockBalanceResponse(): nock.Scope {
+  return nock('https://test.api.endpoint.link', { encodedQueryParams: true })
     .get('/address/3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1')
     .reply(
       200,
@@ -22,8 +22,8 @@ export function mockBalanceResponse() {
     )
 }
 
-export function mockMarketcapResponse() {
-  nock('https://test.api.endpoint.link')
+export function mockMarketcapResponse(): nock.Scope {
+  return nock('https://test.api.endpoint.link')
     .get('/marketcap?base=BTC&quote=USD&api_key=mock-api-key')
     .reply(200, { marketcap: 1000000000 }, [
       'X-Powered-By',
@@ -41,8 +41,8 @@ export function mockMarketcapResponse() {
     ])
 }
 
-export function mockPriceResponse() {
-  nock('https://test.api.endpoint.link')
+export function mockPriceResponse(): nock.Scope {
+  return nock('https://test.api.endpoint.link')
     .get('/price?base=BTC&quote=USD&api_key=mock-api-key')
     .reply(200, { price: 123456 }, [
       'X-Powered-By',

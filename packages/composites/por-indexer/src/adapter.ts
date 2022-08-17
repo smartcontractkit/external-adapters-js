@@ -1,4 +1,9 @@
-import { ExecuteWithConfig, ExecuteFactory, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  ExecuteWithConfig,
+  ExecuteFactory,
+  InputParameters,
+  AdapterData,
+} from '@chainlink/ea-bootstrap'
 import {
   AdapterConfigError,
   AdapterInputError,
@@ -13,6 +18,14 @@ import Decimal from 'decimal.js'
 const inputParameters: InputParameters = {
   addresses: true,
   minConfirmations: false,
+}
+
+type ResponseSchema = {
+  data: {
+    data: {
+      totalReserves: Decimal.Value
+    }
+  }
 }
 
 const getPorId = (network: string, chainId: string) => `${network}_${chainId}`.toUpperCase()
@@ -42,7 +55,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
   }
 
   // Fire off requests to each PoR indexer
-  const responsePromises = []
+  const responsePromises = [] as AdapterData[]
   for (const [porId, addresses] of porServiceRequests.entries()) {
     const indexerEndpointEnvName = `${porId}_POR_INDEXER_URL` as keyof typeof config
     const indexerUrl = config[indexerEndpointEnvName]
@@ -66,14 +79,14 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _conte
         },
       },
     })
-    responsePromises.push(response)
+    responsePromises.push(response as unknown as AdapterData)
   }
 
   // Sum up the total reserves from each PoR indexer
   const responses = await Promise.all(responsePromises)
   const summedTotalReserves = responses
     .map((response) => {
-      const totalReserves = new Decimal((response.data as any).data.totalReserves)
+      const totalReserves = new Decimal((response as ResponseSchema).data.data.totalReserves)
       // TODO: makeExecute response type
       if (!totalReserves.isFinite() || totalReserves.isNaN()) {
         throw new AdapterResponseInvalidError({

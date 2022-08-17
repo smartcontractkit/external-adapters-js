@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters, RPCCustomError } from '@chainlink/ea-bootstrap'
 import { Validator, Requester, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
@@ -82,11 +82,12 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
     )
     const result = encodedResult.slice(2)
     return Requester.success(jobRunID, { data: { responseData, result } }, config.verbose)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

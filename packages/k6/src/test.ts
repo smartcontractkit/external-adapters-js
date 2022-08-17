@@ -60,7 +60,7 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
   } else {
     const loadTestGroup = Array(GROUP_COUNT)
       .fill(null)
-      .map((_) => {
+      .map(() => {
         // are we testing in QA or staging
         if (__ENV.QA_RELEASE_TAG) {
           return `https://adapters.main.sdlc.cldev.sh/`

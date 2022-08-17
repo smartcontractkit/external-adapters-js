@@ -40,7 +40,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     )
     const accountInformation = await solanaConnection.getMultipleAccountsInfo(accountPublicKeys, {
       encoding: 'jsonParsed',
-    } as any)
+    } as unknown as solanaWeb3.Commitment)
     // TODO: type doesn't fit dependency)
 
     const result = accountInformation.length
@@ -54,7 +54,8 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
       statusCode: 200,
     }
     return Requester.success(jobRunID, res, true)
-  } catch (e: any) {
-    throw new AdapterDataProviderError({ network: 'solana', cause: e })
+  } catch (e) {
+    const error = e as Error
+    throw new AdapterDataProviderError({ network: 'solana', cause: error })
   }
 }

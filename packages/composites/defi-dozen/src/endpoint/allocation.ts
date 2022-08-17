@@ -19,7 +19,7 @@ export const getSymbols = async (): Promise<Array<{ symbol: string }>> => {
   return symbols.default
 }
 
-export const execute: ExecuteWithConfig<Config> = async (input, context, _) => {
+export const execute: ExecuteWithConfig<Config> = async (input, context) => {
   const validator = new Validator(input, inputParameters)
   const jobRunID = validator.validated.id
   const allocations = await getSymbols()

@@ -1,4 +1,4 @@
-import { Builder } from '@chainlink/ea-bootstrap'
+import { AdapterData, APIEndpoint, Builder } from '@chainlink/ea-bootstrap'
 import * as TA from '@chainlink/token-allocation-adapter'
 import type { ExecuteWithConfig, ExecuteFactory } from '@chainlink/ea-bootstrap'
 import { makeConfig, Config } from './config'
@@ -17,7 +17,11 @@ export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = as
   )
 }
 
-export const endpointSelector = TA.makeEndpointSelector(makeConfig, endpoints as any, 'price')
+export const endpointSelector = TA.makeEndpointSelector(
+  makeConfig,
+  endpoints as Record<string, APIEndpoint<Config, AdapterData>>,
+  'price',
+)
 // TODO: composite endpoint types
 
 export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (config) => {

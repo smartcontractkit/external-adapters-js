@@ -4,7 +4,7 @@ import * as client from 'prom-client'
 
 // This is a workaround to mock METRICS_ENABLED, which is usually defined before jest is able to mock it's value
 jest.mock('../../../src/lib/util', () => ({
-  ...(jest.requireActual('../../../src/lib/util') as any),
+  ...jest.requireActual('../../../src/lib/util'),
   parseBool: () => true,
 }))
 

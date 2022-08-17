@@ -4,6 +4,7 @@ import {
   AdapterInputError,
   AdapterDataProviderError,
   util,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
@@ -80,11 +81,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     balances = await Promise.all(
       addresses.map((addr) => getBalance(addr.address, targetBlockTag, config)),
     )
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

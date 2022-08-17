@@ -54,7 +54,7 @@ const getResults = async (
         data: request,
       }),
     )
-  } catch (e: any) {
+  } catch (e) {
     Logger.info(`Could not get result from ${sources[0]}, trying to get result from ${sources[1]}`)
     return Requester.success(
       jobRunID,

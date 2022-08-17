@@ -73,7 +73,7 @@ const deserializer = (message: MessageEvent<UnknownWSMessage>) => {
       })
     }
     return parsed
-  } catch (e: any) {
+  } catch (e) {
     const stringMessage = String(message)
     // If message looked like a JSON payload, write a message to the logs
     if (stringMessage.length > 1 && ['{', '['].includes(stringMessage.substr(0, 1))) {
@@ -798,7 +798,7 @@ export const writeMessageToCacheEpic: Epic<AnyAction, AnyAction, { ws: RootState
         }
         await cache(wsResponse, context)
         logger.trace('WS: Saved result', { input, result: response.result })
-      } catch (e: any) {
+      } catch (e) {
         const error = e as Error
         logger.error(`WS: Cache error: ${error.message}`)
       }

@@ -5,6 +5,7 @@ import {
   Validator,
   AdapterDataProviderError,
   util,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { BigNumber } from 'ethers'
@@ -74,11 +75,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   let balances
   try {
     balances = await Promise.all(addresses.map((addr, index) => _getBalance(addr.address, index)))
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'filecoin',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
   const response = {

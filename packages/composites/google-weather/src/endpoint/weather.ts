@@ -1,4 +1,4 @@
-import { AdapterInputError, Requester, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterInputError, Execute, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 import convert from 'convert-units'
@@ -34,6 +34,13 @@ export type TInputParameters = {
   method: 'AVG' | 'SUM' | 'MIN' | 'MAX'
   column: string
   units?: string
+}
+
+export type ToQuery = {
+  query: string
+  params: {
+    [key: string]: string | number
+  }
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -94,7 +101,7 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context,
 
   // TODO: geojson type
   const queryBuilder = new QueryBuilder(
-    geoJson as any,
+    geoJson as unknown as GeoJSON,
     dateFrom,
     dateTo,
     method,
@@ -102,9 +109,12 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (input, context,
     config.dataset,
   )
 
-  const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig())
+  const bigQuery = BigQuery.makeExecute(BigQuery.makeConfig()) as Execute
   // TODO: big query type
-  const response = await bigQuery({ id: jobRunID, data: queryBuilder.toQuery() as any }, context)
+  const response = await bigQuery(
+    { id: jobRunID, data: queryBuilder.toQuery() as ToQuery },
+    context,
+  )
   const imperialValue = Requester.validateResultNumber(response.result, [0, 'result'])
   const result = convertUnits(column, imperialValue, units)
   return Requester.success(jobRunID, { data: { result } })

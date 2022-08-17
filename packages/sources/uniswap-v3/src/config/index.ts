@@ -31,9 +31,9 @@ export const makeConfig: ConfigFactory<Config> = (prefix: string | undefined) =>
   let parsedFeeTiers = DEFAULT_FEE_TIERS.split(',').map((f) => parseInt(f))
   if (util.getEnv(ENV_FEE_TIERS, prefix)) {
     parsedFeeTiers = util
-      .getEnv(ENV_FEE_TIERS, prefix)!
-      .split(',')
-      .map((f) => parseInt(f))
+      .getEnv(ENV_FEE_TIERS, prefix)
+      ?.split(',')
+      .map((f) => parseInt(f)) as number[]
   }
 
   return {

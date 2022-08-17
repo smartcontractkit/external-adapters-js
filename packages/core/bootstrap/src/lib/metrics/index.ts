@@ -75,7 +75,7 @@ export const withMetrics =
             : HttpRequestType.DATA_PROVIDER_HIT,
       })
       return { ...result, metricsMeta: { ...result.metricsMeta, ...metricsMeta } }
-    } catch (e: any) {
+    } catch (e) {
       const error = new AdapterError(e as Partial<AdapterError>)
       const providerStatusCode: number | undefined = (
         error.cause as unknown as { response: { status: number } }

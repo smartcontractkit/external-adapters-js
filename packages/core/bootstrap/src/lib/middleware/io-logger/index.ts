@@ -16,7 +16,7 @@ export const withIOLogger: <R extends AdapterRequest, C extends AdapterContext>(
     const result = await execute(input, context)
     Logger.debug(`Output: [${result.statusCode}]: `, { output: result })
     return result
-  } catch (e: any) {
+  } catch (e) {
     const error = new AdapterError(e as Partial<AdapterError>)
     const feedID = getFeedId(input)
     const errorLog: AdapterErrorLog = {

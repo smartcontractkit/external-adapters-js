@@ -1,4 +1,10 @@
-import { AdapterDataProviderError, util, Requester, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AdapterDataProviderError,
+  util,
+  Requester,
+  Validator,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName, Config } from '../config'
 import { ethers, BigNumber } from 'ethers'
@@ -90,11 +96,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let output
   try {
     ;[pool, output] = await getBestRate(from, to, amount, config)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: config.network,
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 
@@ -161,11 +168,12 @@ const getTokenDetails = async (
     decimals =
       validator.validated.data[`${direction}Decimals`] ||
       (await getDecimals(address.toString(), config))
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: config.network,
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

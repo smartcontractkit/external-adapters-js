@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockRecordCheckResponse() {
-  nock('https://dns.google:443', { encodedQueryParams: true })
+export function mockRecordCheckResponse(): nock.Scope {
+  return nock('https://dns.google:443', { encodedQueryParams: true })
     .get('/resolve')
     .query({ name: 'example.com', type: 'TXT' })
     .reply(

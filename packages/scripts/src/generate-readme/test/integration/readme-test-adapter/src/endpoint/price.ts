@@ -14,9 +14,10 @@ export interface ResponseSchema {
   data: {
     price: number
   }
+  Response: string
 }
 
-const customError = (data: any) => data.Response === 'Error'
+const customError = (data: ResponseSchema) => data.Response === 'Error'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -53,7 +54,10 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.error) throw validator.error
 
   const jobRunID = validator.validated.id
-  const base = validator.overrideSymbol(AdapterName, validator.validated.data.base as any)
+  const base = validator.overrideSymbol(
+    AdapterName,
+    validator.validated.data.base as unknown as string,
+  )
   const quote = validator.validated.data.quote
   const url = `price`
   const resultPath = validator.validated.data.resultPath

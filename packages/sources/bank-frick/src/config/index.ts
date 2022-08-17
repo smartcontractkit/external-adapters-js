@@ -18,7 +18,7 @@ export type Config = BootstrapConfig & {
 
 //Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
 let token: string
-export const setToken = (newToken: string) => (token = newToken)
+export const setToken = (newToken: string): string => (token = newToken)
 
 export const makeConfig = (prefix?: string): Config => {
   const baseConfig = Requester.getDefaultConfig(prefix)

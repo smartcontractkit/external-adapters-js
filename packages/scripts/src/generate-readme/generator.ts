@@ -221,7 +221,7 @@ export class ReadmeGenerator {
             else if ('output' in parsed && ioPairs[ioPairs.length - 1].length === 1)
               ioPairs[ioPairs.length - 1].push(parsed.output)
             return ioPairs
-          } catch (e: any) {
+          } catch (e) {
             return ioPairs
           }
         }, [])
@@ -238,7 +238,7 @@ export class ReadmeGenerator {
 
       // Build final text for examples
       for (const [endpointName, endpointDetails] of Object.entries(this.endpointDetails)) {
-        const ioExamples = []
+        const ioExamples: string[] = []
 
         for (const endpoint of endpointDetails.supportedEndpoints) {
           for (const ioPair of endpointIO[endpoint] ?? []) {
@@ -315,8 +315,10 @@ export class ReadmeGenerator {
                 aliases = codeList(attributes.aliases)
                 description = attributes.description ?? ''
                 type = attributes.type ?? ''
-                options = codeList(attributes.options)
-                defaultText = attributes.default ? wrapCode(attributes.default) : ''
+                options = codeList(attributes.options as (string | number)[])
+                defaultText = attributes.default
+                  ? wrapCode(attributes.default as string | number)
+                  : ''
                 dependsOn = codeList(attributes.dependsOn)
                 exclusive = codeList(attributes.exclusive)
               }

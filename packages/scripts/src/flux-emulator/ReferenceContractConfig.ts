@@ -43,7 +43,7 @@ export class ReferenceContractConfig {
     this.data = input.data as Record<string, unknown>
 
     if (!Array.isArray(input?.nodes)) throw ValidationError('nodes')
-    this.nodes = input.nodes.map((node: unknown) => new FeedNode(node))
+    this.nodes = input.nodes.map((node: FeedNode) => new FeedNode(node))
 
     if (typeof input?.precision !== 'number') throw ValidationError('precision')
     this.precision = input.precision
@@ -66,7 +66,7 @@ export class FeedNode {
   name: string
   address: string
   dataProviders: string[]
-  constructor(input: any) {
+  constructor(input: FeedNode) {
     const ValidationError = (param: string) => {
       Error(`Feed node "${param}" param is missing or incorrect type`)
     }

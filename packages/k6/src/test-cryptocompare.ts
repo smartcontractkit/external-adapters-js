@@ -57,7 +57,7 @@ const requests: Parameters<typeof http.batch>[0] = payloads.flatMap((p) =>
   createBatchRequestsFor(p.data),
 )
 
-export default () => {
+export default (): void => {
   const responses = http.batch(requests)
 
   for (const [name, response] of Object.entries(responses)) {

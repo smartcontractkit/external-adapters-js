@@ -95,7 +95,7 @@ export const create: Execute = async (input, context) => {
   }
   const theRundownExec = TheRundown.makeExecute(TheRundown.makeConfig(TheRundown.NAME))
 
-  const events = []
+  const events: TheRundownEvent[] = []
   Logger.debug(`Augur theRundown: Fetching data from therundown for ${sport} (${sportId})`)
   for (let i = 0; i < daysInAdvance; i++) {
     params.data.date = addDays(params.data.date, 1)
@@ -107,9 +107,9 @@ export const create: Execute = async (input, context) => {
         date: Date.toString(),
       },
     }
-    const response = (await theRundownExec(input, context)) as any
+    const response = await theRundownExec(input, context)
     // TODO: makeExecute return types
-    events.push(...(response.result as TheRundownEvent[]))
+    events.push(...(response.result as unknown as TheRundownEvent[]))
   }
 
   Logger.debug(`Augur theRundown: Got ${events.length} events from data provider`)

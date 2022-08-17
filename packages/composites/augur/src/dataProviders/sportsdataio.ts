@@ -318,7 +318,7 @@ export const createTeam: Execute = async (input, context) => {
 
   const sportsdataioExec = Sportsdataio.makeExecute(
     Sportsdataio.makeConfig(Sportsdataio.NAME),
-  ) as any
+  ) as Execute
   // TODO: makeExecute return types
 
   const schedule = (await getSchedule(input.id, sport, sportsdataioExec, context)).filter(
@@ -473,7 +473,7 @@ export const createFighter: Execute = async (input, context) => {
 
   const sportsdataioExec = Sportsdataio.makeExecute(
     Sportsdataio.makeConfig(Sportsdataio.NAME),
-  ) as any
+  ) as Execute
   // TODO: makeExecute return types
 
   const fights: Fight[] = []
@@ -592,7 +592,7 @@ export const resolveTeam: Execute = async (input, context) => {
   const sport = validator.validated.data.sport
   const sportsdataioExec = Sportsdataio.makeExecute(
     Sportsdataio.makeConfig(Sportsdataio.NAME),
-  ) as any
+  ) as Execute
   // TODO: makeExecute return types
 
   const event = await findEventScore(input.id, sport, eventId, sportsdataioExec, context)
@@ -644,7 +644,7 @@ export const resolveFight: Execute = async (input, context) => {
   const sport = validator.validated.data.sport
   const sportsdataioExec = Sportsdataio.makeExecute(
     Sportsdataio.makeConfig(Sportsdataio.NAME),
-  ) as any
+  ) as Execute
   // TODO: makeExecute return types
 
   Logger.debug(`Getting fight ${input.id} for sport ${sport}, which has fightId ${fightId}`)

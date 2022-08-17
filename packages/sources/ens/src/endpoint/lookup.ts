@@ -6,6 +6,7 @@ import {
   AdapterDataProviderError,
   AdapterConnectionError,
   util,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
@@ -27,6 +28,11 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
+type CustomError = {
+  response: Record<string, unknown>
+  request: Record<string, unknown>
+}
+
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
@@ -46,11 +52,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let contracts
   try {
     contracts = await initializeENS(networkProvider)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
   const response = {
@@ -80,8 +87,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       controller,
       address: address ?? undefined,
     }
-  } catch (e: any) {
-    const error = e as any
+  } catch (e) {
+    const error = e as CustomError
     const errorPayload = {
       jobRunID,
       message: `Failed to fetch on-chain data.  Error Message: ${error}`,

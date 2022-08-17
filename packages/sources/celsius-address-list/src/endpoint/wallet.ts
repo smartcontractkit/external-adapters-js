@@ -7,6 +7,7 @@ import {
   Validator,
   AdapterDataProviderError,
   util,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 
@@ -78,11 +79,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   let addresses: string[]
   try {
     addresses = await walletProviderContract.walletAddresses(networkChainId)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network,
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

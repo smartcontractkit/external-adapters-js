@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export function mockCryptoEndpointSuccess() {
+export function mockCryptoEndpointSuccess(): void {
   nock('https://bravenewcoin.p.rapidapi.com:443', { encodedQueryParams: true })
     .post('/oauth/token', {
       audience: 'https://api.bravenewcoin.com',

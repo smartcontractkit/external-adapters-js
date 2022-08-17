@@ -1,5 +1,5 @@
 import LRU from 'lru-cache'
-import type { LRUInterface } from './types'
+import type { CacheItem, LRUInterface } from './types'
 import { getEnv, parseBool } from '../../../util'
 import type { ICache, CacheEntry } from '../types'
 
@@ -42,11 +42,11 @@ export class LocalLRUCache implements ICache {
     this.client = new LRU(options) as LRUInterface<string, CacheEntry | boolean>
   }
 
-  setResponse(key: string, value: any, maxAge: number) {
+  setResponse(key: string, value: boolean | CacheEntry, maxAge: number): boolean {
     return this.client.set(key, value, maxAge)
   }
 
-  setFlightMarker(key: string, maxAge: number) {
+  setFlightMarker(key: string, maxAge: number): boolean {
     return this.client.set(key, true, maxAge)
   }
 
@@ -58,18 +58,19 @@ export class LocalLRUCache implements ICache {
     return this.client.get(key) as boolean
   }
 
-  del(key: string) {
+  del(key: string): void {
     return this.client.del(key)
   }
 
-  ttl(key: string) {
+  ttl(key: string): number {
     // Get LRU internal 'cache' symbol
     const _isCacheSymbol = (sym: symbol) => sym.toString().includes('cache')
     const cacheSymbol = Object.getOwnPropertySymbols(this.client).find(_isCacheSymbol)
     if (!cacheSymbol) return 0
 
     // Get raw LRU entry
-    const cacheMap: Map<any, any> = (this.client as any)[cacheSymbol]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const cacheMap: Map<string, CacheItem> = (this.client as any)[cacheSymbol]
     const hit = cacheMap.get(key)
     if (!hit) return 0
 
@@ -78,7 +79,7 @@ export class LocalLRUCache implements ICache {
     return ttl < 0 ? 0 : ttl
   }
 
-  close() {
+  close(): void {
     // noop
   }
 }

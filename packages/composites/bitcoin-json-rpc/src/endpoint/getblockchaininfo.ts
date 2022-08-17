@@ -1,5 +1,5 @@
 import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import type { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, RPCCustomError } from '@chainlink/ea-bootstrap'
 import { Validator, Requester, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 
@@ -53,11 +53,12 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, contex
       },
       context,
     )
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'bitcoin',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

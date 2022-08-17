@@ -91,7 +91,7 @@ export const mockResponseSuccessLatestEndpoint = (): nock.Scope =>
       ],
     )
 
-export const mockResponseSuccessLatestBtcEndpoint = () =>
+export const mockResponseSuccessLatestBtcEndpoint = (): nock.Scope =>
   nock('https://metals-api.com:443', { encodedQueryParams: true })
     .get('/api/latest')
     .query({ access_key: 'fake-api-key', base: 'BTC', symbols: 'USD,XAU' })

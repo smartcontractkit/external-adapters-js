@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockSuccessfulHistoricalCapResponse() {
-  nock('https://pro-api.coinmarketcap.com')
+export function mockSuccessfulHistoricalCapResponse(): nock.Scope {
+  return nock('https://pro-api.coinmarketcap.com')
     .get(
       `/v1/cryptocurrency/quotes/historical?symbol=ETH&time_start=2021-07-23T14&convert=BTC&count=10&interval=5m`,
     )

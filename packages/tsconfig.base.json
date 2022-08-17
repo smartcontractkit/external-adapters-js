@@ -35,6 +35,7 @@
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
     "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
 
-    "resolveJsonModule": true /* Allows importing modules with a ‘.json’ extension */
+    "resolveJsonModule": true /* Allows importing modules with a ‘.json’ extension */,
+    "noImplicitAny": true
   }
 }

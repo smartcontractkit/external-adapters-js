@@ -118,7 +118,7 @@ export const getStatusByTransaction = async (
     })
     Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
-  } catch (e: any) {
+  } catch (e) {
     const error = e as Error
     if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
       Logger.debug(

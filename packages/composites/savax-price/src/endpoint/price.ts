@@ -1,4 +1,9 @@
-import { AdapterContext, AdapterRequest, AdapterResponse } from '@chainlink/ea-bootstrap'
+import {
+  AdapterContext,
+  AdapterRequest,
+  AdapterResponse,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import { Config, FLOATING_POINT_DECIMALS } from '../config'
 import * as TA from '@chainlink/token-allocation-adapter'
 import { ethers } from 'ethers'
@@ -20,22 +25,24 @@ export const execute = async (
   let usdPerAvax
   try {
     usdPerAvax = await getAvaxPrice(input, context)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'avalanche',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
   validateNonZeroValue(input.id, usdPerAvax, 'Avax Price')
   let avaxPooledShares
   try {
     avaxPooledShares = await getPooledAvaxShares(config)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'avalanche',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 
@@ -83,7 +90,7 @@ export const getAvaxPrice = async (
   ]
   const resp = await _execute({ id: input.id, data: { ...input.data, allocations } }, context)
   // TODO: makeExecute return types
-  return ethers.utils.parseUnits((resp.data.result as any).toString(), FLOATING_POINT_DECIMALS)
+  return ethers.utils.parseUnits((resp?.data?.result ?? NaN).toString(), FLOATING_POINT_DECIMALS)
 }
 
 export const sAvaxABI = [

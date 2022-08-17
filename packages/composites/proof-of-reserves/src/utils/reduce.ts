@@ -1,5 +1,5 @@
 import * as reduce from '@chainlink/reduce-adapter'
-import { AdapterContext, AdapterResponse } from '@chainlink/ea-bootstrap'
+import { AdapterContext, AdapterResponse, Execute } from '@chainlink/ea-bootstrap'
 import { callAdapter } from '.'
 import { Indexer } from './balance'
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
@@ -51,5 +51,5 @@ export const runReduceAdapter = async (
     },
   }
   // TODO: type makeExecute return
-  return callAdapter(reduce.makeExecute() as any, context, next, '_onReduce')
+  return callAdapter(reduce.makeExecute() as Execute, context, next, '_onReduce')
 }

@@ -44,6 +44,25 @@ export type InstrumentData = {
   creation_timestamp: number
 }
 
+export type CustomError = {
+  stack: string
+  response: string
+  request: string
+}
+
+export interface ResponseSchema {
+  status: number
+  title: string
+  description: string
+  payload: {
+    timestamp: number
+    pair: string
+    price: string
+    volume: string
+  }
+  result: InstrumentData[]
+}
+
 export const getDerivativesData = async (
   cryptoCurrencies: Array<string>,
 ): Promise<Record<string, CurrencyDerivativesData>> => {
@@ -81,7 +100,7 @@ const getInstrumentData = async (currency: string): Promise<Array<InstrumentData
     url: instrumentEndpoint,
     params: { currency },
   }
-  const response = await Requester.request<any>(config)
+  const response = await Requester.request<ResponseSchema>(config)
   // TODO: response type
   return response.data.result as Array<InstrumentData>
 }
@@ -106,8 +125,8 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
   }
 
   try {
-    const response = await Requester.request<any>(config)
-    const result = response.data.result
+    const response = await Requester.request<ResponseSchema>(config)
+    const result = response.data.result as unknown as DeribitOptionDataResponse[]
     // TODO: response type
 
     const calls: Record<number, Array<OptionData>> = {}
@@ -147,8 +166,8 @@ const getOptionsData = async (currency: string, exchangeRate: Decimal) => {
       putsE2: puts[e2],
       exchangeRate,
     }
-  } catch (e: any) {
-    const error = e as any
+  } catch (e) {
+    const error = e as CustomError
     Logger.error(error)
     Logger.error(error.stack)
     throw error.response

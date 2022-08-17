@@ -1,4 +1,9 @@
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  AdapterResponse,
+  ExecuteWithConfig,
+  InputParameters,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import { Validator, Requester, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 import * as SA from '@chainlink/uniswap-v2-adapter'
 import { Config } from '../config'
@@ -33,11 +38,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   let feeExpanded
   try {
     feeExpanded = await vault.randomRedeemFee()
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
   const power = new Decimal(1e18)
@@ -51,8 +57,11 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     from: 'WETH',
     to: vaultAddress,
   }
-  const priceResponse = await _execute({ id: jobRunID, data: pricePayload }, context)
-  const priceInverse = new Decimal(priceResponse.result as any) // WETH per token
+  const priceResponse = (await _execute(
+    { id: jobRunID, data: pricePayload },
+    context,
+  )) as AdapterResponse
+  const priceInverse = new Decimal(priceResponse.result as Decimal.Value) // WETH per token
   const price = new Decimal(1).div(priceInverse)
   const priceWithFee = new Decimal(1).plus(fee).mul(price)
 

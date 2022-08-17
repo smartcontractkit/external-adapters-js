@@ -21,6 +21,12 @@ import * as endpoints from './endpoint'
 import crypto from 'crypto'
 import { AccessToken, AccessTokenResponse, TickerMessage } from './types'
 
+export type CustomError = {
+  response: Record<string, unknown>
+  request: Record<string, unknown>
+  message: string
+}
+
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
   context,
@@ -99,8 +105,8 @@ export const getAccessToken = async (
       token: tokenResponse.data.token,
       validUntil: new Date(tokenResponse.data.validUntil).getTime(),
     }
-  } catch (e: any) {
-    const err = e as any
+  } catch (e) {
+    const err = e as CustomError
 
     const message =
       (existingToken ? 'failed to refresh token' : 'failed to get new token') +

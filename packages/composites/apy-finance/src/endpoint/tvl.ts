@@ -1,4 +1,9 @@
-import type { AdapterContext, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import type {
+  AdapterContext,
+  ExecuteWithConfig,
+  InputParameters,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import {
   AdapterDataProviderError,
@@ -53,11 +58,12 @@ export const execute: ExecuteWithConfig<Config> = async (input, context) => {
   const _execute = TA.makeExecute()
   try {
     return await _execute({ id: jobRunID, data: { ...input.data, allocations } }, context)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

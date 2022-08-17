@@ -4,6 +4,7 @@ import type {
   AdapterRequest,
   AdapterContext,
   InputParameters,
+  RPCCustomError,
 } from '@chainlink/ea-bootstrap'
 import {
   Validator,
@@ -39,6 +40,19 @@ export const inputParameters: InputParameters<TInputParameters> = {
 type Params = {
   action: string
   scanobjects: string[]
+}
+
+type CustomError = {
+  cause: {
+    response: {
+      data: {
+        error: {
+          code: number
+        }
+      }
+    }
+  }
+  message: string
 }
 
 export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
@@ -85,8 +99,8 @@ const scanWithRetries = async (
   while (Date.now() + 1000 <= deadline) {
     try {
       return await _execute(requestData, context)
-    } catch (e: any) {
-      const error = e as any
+    } catch (e) {
+      const error = e as CustomError & RPCCustomError
       if (error.cause?.response?.data?.error?.code === -8) {
         Logger.debug('scan is already in progress, waiting 1s...')
         Logger.debug(`time left to wait: ${deadline - Date.now()}ms`)
@@ -106,7 +120,7 @@ const scanWithRetries = async (
         Logger.debug('timeout reached, aborting scan in progress')
         try {
           await _execute(requestData, context)
-        } catch (e: any) {
+        } catch (e) {
           const error = e as Error
           Logger.error(`failed to abort scan in progress: ${error.message}`)
         }
@@ -114,8 +128,8 @@ const scanWithRetries = async (
 
       throw new AdapterDataProviderError({
         network: 'bitcoin',
-        message: util.mapRPCErrorMessage(e?.code, e?.message),
-        cause: e,
+        message: util.mapRPCErrorMessage(error?.code, error?.message),
+        cause: error,
       })
     }
   }

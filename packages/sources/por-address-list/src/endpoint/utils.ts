@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import { AdapterDataProviderError, RPCCustomError, util } from '@chainlink/ea-bootstrap'
 
 export const fetchAddressList = async (
   addressManager: ethers.Contract,
@@ -25,11 +25,12 @@ export const fetchAddressList = async (
       startIdx = endIdx.add(1)
     }
     return addresses
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

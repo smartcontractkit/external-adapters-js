@@ -1,4 +1,10 @@
-import { ExecuteWithConfig, InputParameters, Config } from '@chainlink/ea-bootstrap'
+import {
+  ExecuteWithConfig,
+  InputParameters,
+  Config,
+  AdapterRequest,
+  Value,
+} from '@chainlink/ea-bootstrap'
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import * as DNS from '@chainlink/dns-query-adapter'
 import { DNSQueryResponse, DNSAnswer } from '@chainlink/dns-query-adapter/dist/types'
@@ -8,8 +14,8 @@ export const supportedEndpoints = ['dnsQuery']
 export type TInputParameters = {
   name: string
   type: string
-  do?: boolean | 'false'
-  cd?: boolean | 'false'
+  do: string
+  cd: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -43,8 +49,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const dnsExecute = DNS.makeExecute(config)
   // TODO: makeExecute return types
 
-  const dnsResponse = await dnsExecute(request as any, context)
-  const dnsData: DNSQueryResponse = { ...(dnsResponse.result as any) }
+  const dnsResponse = await dnsExecute(request as AdapterRequest<TInputParameters>, context)
+  const dnsData = { ...(dnsResponse.result as Value[]) } as unknown as DNSQueryResponse
   const foundRecord = dnsData.Answer.find((ans: DNSAnswer) => ans.name.includes(name))
 
   return Requester.success(

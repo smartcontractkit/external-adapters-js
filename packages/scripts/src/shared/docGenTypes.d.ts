@@ -39,7 +39,7 @@ type IOPair = {
   output: JsonObject
 }
 
-export type JsonObject = { [key: string]: any }
+export type JsonObject = { [key: string]: Record<string, unknown> }
 
 export type MappedAdapters = {
   [name: string]: {

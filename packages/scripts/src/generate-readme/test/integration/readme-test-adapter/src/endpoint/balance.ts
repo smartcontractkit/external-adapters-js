@@ -1,4 +1,4 @@
-import { DataResponse, Requester, Value } from '@chainlink/ea-bootstrap'
+import { AxiosRequestConfig, DataResponse, Requester, Value } from '@chainlink/ea-bootstrap'
 import { balance } from '@chainlink/ea-factories'
 import { Config, ExecuteFactory } from '@chainlink/ea-bootstrap'
 
@@ -9,7 +9,7 @@ export const description = 'Balance endpoint for test adapter'
 export const inputParameters = balance.inputParameters
 
 const getBalance: balance.GetBalance = async (account, config) => {
-  const reqConfig: any = {
+  const reqConfig: AxiosRequestConfig<unknown> = {
     ...config.api,
     url: `/address/${account.address}`,
     headers: {

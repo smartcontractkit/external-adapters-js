@@ -13,6 +13,7 @@ interface Inputs {
   n: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function writeJson(data: any) {
   const files = Object.keys(data)
 
@@ -153,7 +154,7 @@ async function generate(type: string) {
   return writeData
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   log(blue.bold('Running input checks'))
   const inputs: Inputs = checks()
 

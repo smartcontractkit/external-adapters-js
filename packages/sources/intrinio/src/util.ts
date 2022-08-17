@@ -166,7 +166,7 @@ export class IntrinioRealtime extends EventEmitter {
     }
   }
 
-  _refreshToken() {
+  _refreshToken(): Promise<void> {
     Logger.debug('Requesting auth token...')
 
     return new Promise<void>((fulfill, reject) => {

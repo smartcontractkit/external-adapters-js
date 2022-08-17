@@ -8,7 +8,7 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 describe('adapter', () => {
   describe('L2 Network health check', () => {
-    let clock: any
+    let clock: sinon.SinonFakeTimers
     beforeEach(() => {
       clock = useFakeTimers()
     })
@@ -74,7 +74,7 @@ describe('adapter', () => {
 
   describe('Adapter health check', () => {
     const execute = makeExecute()
-    let clock: any
+    let clock: sinon.SinonFakeTimers
     beforeEach(() => {
       clock = useFakeTimers()
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(false))

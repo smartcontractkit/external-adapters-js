@@ -41,7 +41,10 @@ export const makeRequestOptions = (prefix: string, url: string): AxiosRequestCon
   }
 }
 
-export const makeOptions = ({ sources, checks }: ExtendedConfig) => {
+export const makeOptions = ({
+  sources,
+  checks,
+}: ExtendedConfig): { source: string[] | string[][]; check: string[] | string[][] } => {
   return {
     source: util.permutator(
       Object.keys(sources).map((value) => value.toLowerCase()),

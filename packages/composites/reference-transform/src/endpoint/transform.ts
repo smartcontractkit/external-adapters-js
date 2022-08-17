@@ -5,6 +5,7 @@ import {
   InputParameters,
   AdapterInputError,
   AdapterResponseInvalidError,
+  AdapterResponse,
 } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig } from '@chainlink/ea-bootstrap'
 import { Config, DEFAULT_NETWORK } from '../config'
@@ -85,8 +86,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
 
   const options = config.sources[source]
-  const response = (await Requester.request({ ...options, data: request })).data as any
-  response.data.result = transform(response.result, price, operator, dividend)
+  const response = (await Requester.request({ ...options, data: request })).data as AdapterResponse
+  response.data.result = transform(response.result as number, price, operator, dividend)
 
   Logger.debug('New result: ' + response.data.result)
 

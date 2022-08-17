@@ -135,7 +135,7 @@ export const estimateCallsGasCost = async (
     Logger.info(
       `Successfully estimated gas ${gasCostEstimate.toString()} for processing achievementID ${achievementID} and eventID ${eventID}`,
     )
-  } catch (e: any) {
+  } catch (e) {
     hasHitLimit = true
   }
   return {

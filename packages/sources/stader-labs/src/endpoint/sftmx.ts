@@ -1,4 +1,10 @@
-import { Requester, Validator, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
+import {
+  Requester,
+  Validator,
+  AdapterDataProviderError,
+  util,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import type {
   Config,
   ExecuteWithConfig,
@@ -34,11 +40,12 @@ export const execute: ExecuteWithConfig<Config> = async (
   let values
   try {
     values = await Promise.all([rateProvider.getExchangeRate(), fantomPrice.latestAnswer()])
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'fantom',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 

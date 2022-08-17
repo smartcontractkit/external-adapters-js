@@ -112,6 +112,7 @@ const getAddressBalances = async (
   )
   const utxo = await StateQuery.utxo(interactionContext, addresses)
   const balanceAsBigNum = utxo.reduce(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (total, [_, out]) => total.add(BigNumber.from(out.value.coins)),
     BigNumber.from(0),
   )

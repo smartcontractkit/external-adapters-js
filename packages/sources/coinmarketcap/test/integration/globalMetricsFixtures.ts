@@ -1,9 +1,9 @@
 import nock from 'nock'
 
-export function mockSuccessfulGlobalMetricsResponse(market?: string) {
+export function mockSuccessfulGlobalMetricsResponse(market?: string): nock.Scope {
   let getPath = '/v1/global-metrics/quotes/latest'
   if (market) getPath += `?convert=${market}`
-  nock('https://pro-api.coinmarketcap.com')
+  return nock('https://pro-api.coinmarketcap.com')
     .get(getPath)
     .reply(
       200,
@@ -77,10 +77,10 @@ export function mockSuccessfulGlobalMetricsResponse(market?: string) {
     )
 }
 
-export function mockFailedGlobalMetricsResponse(market?: string) {
+export function mockFailedGlobalMetricsResponse(market?: string): nock.Scope {
   let getPath = '/v1/global-metrics/quotes/latest'
   if (market) getPath += `?convert=${market}`
-  nock('https://pro-api.coinmarketcap.com')
+  return nock('https://pro-api.coinmarketcap.com')
     .get(getPath)
     .reply(
       429,
@@ -111,8 +111,8 @@ export function mockFailedGlobalMetricsResponse(market?: string) {
     )
 }
 
-export function mockSuccessfulCoinMarketCapResponseWithSlug(slug = 'BTC') {
-  nock('https://pro-api.coinmarketcap.com')
+export function mockSuccessfulCoinMarketCapResponseWithSlug(slug = 'BTC'): nock.Scope {
+  return nock('https://pro-api.coinmarketcap.com')
     .get(`/v1/cryptocurrency/quotes/latest?convert=USD&slug=${slug}`)
     .reply(
       200,

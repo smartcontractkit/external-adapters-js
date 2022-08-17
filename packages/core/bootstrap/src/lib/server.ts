@@ -124,7 +124,7 @@ export const initHandler =
               if (status === 400) errors.push(result)
             },
           )
-        } catch (e: any) {
+        } catch (e) {
           errors.push(e)
         }
       }

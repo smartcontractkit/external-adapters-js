@@ -217,6 +217,11 @@ export type ErrorFull = ErrorBasic & {
   cause: string
 }
 
+export type RPCCustomError = ErrorFull &
+  ErrorBasic & {
+    code: string
+  }
+
 export type AdapterErrorLog = {
   jobRunID: string
   params: AdapterData

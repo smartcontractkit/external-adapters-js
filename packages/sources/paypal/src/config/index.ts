@@ -1,4 +1,10 @@
-import { AdapterConfigError, DefaultConfig, Requester, util } from '@chainlink/ea-bootstrap'
+import {
+  AdapterConfigError,
+  AxiosRequestConfig,
+  DefaultConfig,
+  Requester,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/ea-bootstrap'
 import * as paypal from '@paypal/payouts-sdk'
 
@@ -31,7 +37,7 @@ export const makeConfig = (prefix = ''): Config => {
   }
   const client = new paypal.core.PayPalHttpClient(environment)
   const config: DefaultConfig = Requester.getDefaultConfig(prefix)
-  config.api = { ...config.api, client } as any
+  config.api = { ...config.api, client } as AxiosRequestConfig
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

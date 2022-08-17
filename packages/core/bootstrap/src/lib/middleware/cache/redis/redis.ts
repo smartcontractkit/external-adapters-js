@@ -151,7 +151,7 @@ export class RedisCache implements ICache {
         .labels({ status: metrics.CMD_SENT_STATUS.SUCCESS, function_name: fnName })
         .inc()
       return result
-    } catch (e: any) {
+    } catch (e) {
       if (e instanceof TimeoutError) {
         logger.error(
           `[Redis] Method timed out, consider increasing CACHE_REDIS_TIMEOUT (from ${this.options.timeout} ms) or increasing your resource allocation`,

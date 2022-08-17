@@ -1,13 +1,20 @@
 type MergePropertiesArgs = [
   string,
-  Record<string, any>,
-  Record<string, any>,
+  Record<string, unknown>,
+  Record<string, unknown>,
   Record<string, true>,
   Record<string, true>,
   Record<string, true>,
   string,
 ]
-type ExpectedMergePropertiesOutput = any
+type ExpectedMergePropertiesOutput =
+  | { ENABLE_CACHE: { type: string; originalKey: string } }
+  | { ENABLE_CACHE: { type: string } }
+  | {
+      ENABLE_CACHE: { type: string }
+      COLLIDE_ME_ENABLE_CACHE: { type: string; originalKey: string }
+    }
+  | { ONEFORGE_ENABLE_CACHE: { type: string; originalKey: string } }
 export const mergePropertiesTable: [MergePropertiesArgs, ExpectedMergePropertiesOutput][] = [
   [
     [
@@ -75,7 +82,7 @@ export const mergePropertiesTable: [MergePropertiesArgs, ExpectedMergeProperties
       {}, //collisionPackageTypeList
       'collideMe', // collisionNamespace
     ],
-    {},
+    {} as ExpectedMergePropertiesOutput,
   ],
   [
     [

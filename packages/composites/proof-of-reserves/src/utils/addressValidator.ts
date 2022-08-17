@@ -1,5 +1,5 @@
 import { utils } from 'ethers'
-import { Logger, util, Validator } from '@chainlink/ea-bootstrap'
+import { Logger, util, Validator, Value } from '@chainlink/ea-bootstrap'
 import type { AdapterResponse } from '@chainlink/ea-bootstrap'
 import { TInputParameters } from '../endpoint/reserves'
 
@@ -31,8 +31,8 @@ export const getValidAddresses = (
   if (!util.parseBool(validator.validated.data.disableDuplicateAddressFiltering)) {
     validatedInput.result = filterDuplicates(
       validator.validated.id,
-      validatedInput.result as any,
-    ) as any
+      validatedInput.result as unknown as AddressObject[],
+    ) as unknown as Value
   }
   validatedInput.data.result = validatedInput.result
   return validatedInput
@@ -83,7 +83,7 @@ export const validateAddresses = (
 const getValidEvmAddress = (id: string, address: string): string | undefined => {
   try {
     return utils.getAddress(address)
-  } catch (e: any) {
+  } catch (e) {
     const error = e as Error
     Logger.warn(
       error,

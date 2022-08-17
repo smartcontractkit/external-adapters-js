@@ -1,5 +1,11 @@
 import { ethers } from 'ethers'
-import { util, Logger, AdapterConfigError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
+import {
+  util,
+  Logger,
+  AdapterConfigError,
+  AdapterDataProviderError,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import { AggregatorV2V3Interface__factory } from '@chainlink/contracts/ethers/v0.6/factories/AggregatorV2V3Interface__factory'
 import { BigNumber } from 'ethers/utils'
 
@@ -40,11 +46,12 @@ export const getRpcLatestAnswer: ReferenceDataPrice = async (
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
     const aggregator = AggregatorV2V3Interface__factory.connect(contractAddress, provider)
     return (await aggregator.latestAnswer()).div(multiply).toNumber()
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network,
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 }

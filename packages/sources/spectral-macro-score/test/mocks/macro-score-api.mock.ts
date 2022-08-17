@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export function mockMacroScoreAPIResponseSuccess() {
-  nock('https://xzff24vr3m.execute-api.us-east-2.amazonaws.com:443', {
+export function mockMacroScoreAPIResponseSuccess(): nock.Scope {
+  return nock('https://xzff24vr3m.execute-api.us-east-2.amazonaws.com:443', {
     encodedQueryParams: true,
   })
     .persist()

@@ -49,7 +49,7 @@ export function loadTestPayload<D extends AdapterData>(): TestPayload<D> {
     }
 
     return { ...payload, isDefault: false }
-  } catch (e: any) {
+  } catch (e) {
     logger.warn(`Could not load payload: ${(e as Error).message}`)
     logger.warn('Falling back to default empty payload')
     return { isDefault: true }

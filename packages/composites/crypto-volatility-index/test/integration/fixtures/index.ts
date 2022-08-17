@@ -2,8 +2,8 @@ import nock from 'nock'
 import * as bookSummary from './bookSummary'
 import * as instruments from './instruments'
 
-export function mockTokenAllocationResponseETH() {
-  nock('http://localhost:3000')
+export function mockTokenAllocationResponseETH(): nock.Scope {
+  return nock('http://localhost:3000')
     .post('/', { id: '1', data: { base: 'ETH', quote: 'USD', endpoint: 'marketcap' } })
     .reply(
       200,
@@ -49,8 +49,8 @@ export function mockTokenAllocationResponseETH() {
     )
 }
 
-export function mockTokenAllocationResponseBTC() {
-  nock('http://localhost:3000')
+export function mockTokenAllocationResponseBTC(): nock.Scope {
+  return nock('http://localhost:3000')
     .post('/', { id: '1', data: { base: 'BTC', quote: 'USD', endpoint: 'marketcap' } })
     .reply(
       200,
@@ -96,8 +96,8 @@ export function mockTokenAllocationResponseBTC() {
     )
 }
 
-export function mockCurrencyEndpointETH() {
-  nock('https://www.deribit.com')
+export function mockCurrencyEndpointETH(): nock.Scope {
+  return nock('https://www.deribit.com')
     .get('/api/v2/public/get_index?currency=ETH')
     .reply(
       200,
@@ -129,8 +129,8 @@ export function mockCurrencyEndpointETH() {
     )
 }
 
-export function mockCurrencyEndpointBTC() {
-  nock('https://www.deribit.com')
+export function mockCurrencyEndpointBTC(): nock.Scope {
+  return nock('https://www.deribit.com')
     .get('/api/v2/public/get_index?currency=BTC')
     .reply(
       200,
@@ -162,8 +162,8 @@ export function mockCurrencyEndpointBTC() {
     )
 }
 
-export function mockBookDataEndpointETH() {
-  nock('https://www.deribit.com')
+export function mockBookDataEndpointETH(): nock.Scope {
+  return nock('https://www.deribit.com')
     .get('/api/v2/public/get_book_summary_by_currency?currency=ETH&kind=option')
     .reply(200, bookSummary.eth, [
       'X-Powered-By',
@@ -181,8 +181,8 @@ export function mockBookDataEndpointETH() {
     ])
 }
 
-export function mockBookDataEndpointBTC() {
-  nock('https://www.deribit.com')
+export function mockBookDataEndpointBTC(): nock.Scope {
+  return nock('https://www.deribit.com')
     .get('/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=option')
     .reply(200, bookSummary.btc, [
       'X-Powered-By',
@@ -200,8 +200,8 @@ export function mockBookDataEndpointBTC() {
     ])
 }
 
-export function mockInstrumentsETH() {
-  nock('https://www.deribit.com')
+export function mockInstrumentsETH(): nock.Scope {
+  return nock('https://www.deribit.com')
     .get('/api/v2/public/get_instruments?currency=ETH')
     .reply(200, instruments.eth, [
       'X-Powered-By',
@@ -219,8 +219,8 @@ export function mockInstrumentsETH() {
     ])
 }
 
-export function mockInstrumentsBTC() {
-  nock('https://www.deribit.com', { encodedQueryParams: true })
+export function mockInstrumentsBTC(): nock.Scope {
+  return nock('https://www.deribit.com', { encodedQueryParams: true })
     .get('/api/v2/public/get_instruments?currency=BTC')
     .reply(200, instruments.btc, [
       'X-Powered-By',

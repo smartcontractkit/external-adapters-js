@@ -85,7 +85,7 @@ function getChangesetFileDirs() {
     })
 }
 
-function getChangelogMarkdown(changelogMap: any) {
+function getChangelogMarkdown(changelogMap: { [key: string]: [string] }) {
   const indent = '\u00A0\u00A0'
   let markdown = ''
   for (const property in changelogMap) {

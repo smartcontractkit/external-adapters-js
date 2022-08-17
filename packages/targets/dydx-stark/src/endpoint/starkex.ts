@@ -1,7 +1,12 @@
 import assert from 'assert'
 import { ethers, BigNumber } from 'ethers'
 import * as starkwareCrypto from '@authereum/starkware-crypto'
-import { Logger, AdapterInputError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
+import {
+  Logger,
+  AdapterInputError,
+  AdapterDataProviderError,
+  RPCCustomError,
+} from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
 import { Decimal } from 'decimal.js'
 
@@ -114,11 +119,12 @@ export const getKeyPair = async (
   try {
     wallet = new ethers.Wallet(privateKey)
     flatSig = await wallet.signMessage(starkMessage)
-  } catch (e: any) {
+  } catch (e) {
+    const error = e as RPCCustomError
     throw new AdapterDataProviderError({
       network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      message: util.mapRPCErrorMessage(error?.code, error?.message),
+      cause: error,
     })
   }
 
