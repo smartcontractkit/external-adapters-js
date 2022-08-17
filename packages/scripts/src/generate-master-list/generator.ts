@@ -112,7 +112,7 @@ const getPackage = (adapterPath: string, verbose = false) => {
   let version = 'Unknown'
   try {
     const packagePath = adapterPath + '/package.json'
-    const packageJson = getJsonFile(packagePath) as Package
+    const packageJson = getJsonFile(packagePath) as unknown as Package
 
     if (packageJson.version) version = wrapCode(packageJson.version)
 
