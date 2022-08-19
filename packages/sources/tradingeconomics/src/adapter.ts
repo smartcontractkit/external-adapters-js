@@ -56,7 +56,7 @@ interface Message {
   topic: string
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any */ s
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (
   config?: Config,
 ): MakeWSHandler<
