@@ -3828,6 +3828,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.49
+    "@types/sinon": 10.0.13
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
