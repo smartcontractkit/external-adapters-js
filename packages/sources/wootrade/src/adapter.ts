@@ -44,6 +44,7 @@ interface Message {
   }
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> => {
   const getSubscription = (symbol?: string, subscribe = true) => {
     if (!symbol) return undefined

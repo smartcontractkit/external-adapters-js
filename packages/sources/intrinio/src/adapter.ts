@@ -52,6 +52,7 @@ export const makeExecute: ExecuteFactory<Config, TInputParameters> = (config?: C
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   // https://github.com/intrinio/intrinio-realtime-node-sdk
 

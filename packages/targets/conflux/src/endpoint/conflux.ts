@@ -4,6 +4,7 @@ import { Conflux } from 'js-conflux-sdk'
 import { ethers } from 'ethers'
 import { Config } from '../config'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const sendFulfillment = async (
   provider: any,
   account: any,

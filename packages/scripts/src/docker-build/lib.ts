@@ -97,6 +97,7 @@ async function makeDockerComposeFile(
           },
         },
         environment: Object.entries(flattenedSchemasByLocation[next.location]?.schema ?? {}).map(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ([k, v]: [any, any]) => {
             return `${v.originalKey}=$\{${k}}`
           },

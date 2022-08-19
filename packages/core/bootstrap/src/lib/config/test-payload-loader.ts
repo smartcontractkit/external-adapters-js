@@ -22,6 +22,7 @@ type TestPayload<D extends AdapterData> = (Payload<D> & { isDefault: false }) | 
  */
 export function loadTestPayload<D extends AdapterData>(): TestPayload<D> {
   const ajv = new Ajv()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const schema: JSONSchemaType<Payload<any>> = {
     type: 'object',
     required: ['requests'],

@@ -39,6 +39,7 @@ export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (config?: Config): MakeWSHandler<any> => {
   // TODO: WS message types
   const getPair = (input: AdapterRequest<endpoints.price.TInputParameters>) => {

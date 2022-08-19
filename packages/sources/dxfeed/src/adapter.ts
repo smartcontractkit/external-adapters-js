@@ -46,6 +46,7 @@ export type DXFeedMessage = {
   }
 }[]
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (
   config?: Config,
 ): MakeWSHandler<

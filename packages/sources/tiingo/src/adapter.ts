@@ -95,6 +95,7 @@ export const customParams: InputParameters<TInputParameters> = {
   },
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const makeWSHandler = (config?: Config): MakeWSHandler<any> => {
   // TODO: WS message types
   const getBaseTicker = (input: AdapterRequest): string | undefined => {

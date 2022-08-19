@@ -46,6 +46,7 @@ interface Message {
   best_ask: string
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (
   config?: Config,
 ): MakeWSHandler<

@@ -16,6 +16,7 @@ const indexerToNetwork: Record<string, string> = {
   lotus: 'filecoin',
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const getValidAddresses = (
   protocolOutput: AdapterResponse,
   validator: Validator<TInputParameters>,

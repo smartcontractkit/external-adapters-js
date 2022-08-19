@@ -66,6 +66,7 @@ export interface WSError {
 export const BAD_PARAMETERS = 'bad_parameters'
 export const BAD_PARAMETER = 'bad_parameter'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (config?: Config): MakeWSHandler => {
   return () => {
     const defaultConfig = config || makeConfig()

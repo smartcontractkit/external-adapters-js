@@ -41,6 +41,7 @@ interface Message {
   mid: number
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (
   config?: Config,
 ): MakeWSHandler<

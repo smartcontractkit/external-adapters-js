@@ -121,6 +121,7 @@ export const getAccessToken = async (
   }
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
   // TODO: full WS message types
   let token: AccessToken | undefined

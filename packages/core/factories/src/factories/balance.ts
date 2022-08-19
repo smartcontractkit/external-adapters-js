@@ -23,6 +23,7 @@ const WARNING_UNSUPPORTED_PARAMS = 'No Operation: this provider does not support
 const ERROR_MISSING_ADDRESS = 'No Operation: address param is missing'
 
 export type IsSupported = (coin: string, chain: string) => boolean
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BalancesResponse = DataResponse<Account[], any>
 export type GetBalance = (account: Account, config: BalanceConfig) => Promise<BalancesResponse>
 export type GetBalances = (accounts: Account[], config: BalanceConfig) => Promise<BalancesResponse>
@@ -80,6 +81,7 @@ const toValidAccount = (jobRunID: string, account: Account, config: BalanceConfi
     return { ...account, warning: WARNING_UNSUPPORTED_PARAMS + ` ${account.chain} ${account.coin}` }
 
   // If warning, clear and continue to processing
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { warning, ...accNoWarning } = account
   return accNoWarning
 }

@@ -3,6 +3,8 @@ import { AdapterRequest, Execute } from '@chainlink/ea-bootstrap'
 
 const mockContext = {}
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function assertError(statusCode: any, data: any, expectedJobId: any): void {
   expect(statusCode.actual).toEqual(statusCode.expected)
   expect(data.jobRunID).toEqual(expectedJobId)

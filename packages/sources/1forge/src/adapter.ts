@@ -36,6 +36,7 @@ export const makeExecute: ExecuteFactory<DefaultConfig, endpoints.TInputParamete
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (config?: DefaultConfig): MakeWSHandler => {
   const getSubscription = (symbol?: string, subscribe = true): string => {
     if (!symbol) return ''

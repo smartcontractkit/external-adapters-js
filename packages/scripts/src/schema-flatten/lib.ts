@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { writeFileSync } from 'fs'
 import $RefParser from '@apidevtools/json-schema-ref-parser'
 import * as path from 'path'

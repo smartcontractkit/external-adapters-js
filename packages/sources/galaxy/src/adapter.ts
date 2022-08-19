@@ -74,6 +74,7 @@ export const getAccessToken = async (config: Config): Promise<string> => {
   }
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
   let token: string | undefined
   const getPair = (input: AdapterRequest) => {

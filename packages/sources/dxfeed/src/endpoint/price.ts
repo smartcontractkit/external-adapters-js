@@ -117,6 +117,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   )
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const handleBatchedRequest = (
   jobRunID: string,
   request: AdapterRequest,

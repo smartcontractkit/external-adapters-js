@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as dwolla from 'dwolla-v2'
 import { InputParameters } from '@chainlink/ea-bootstrap'
 
@@ -161,7 +162,7 @@ const sendTransfer = async (data: SendRequest) => {
   })
 }
 
-export const createRequest = async (input: JobRequest) => {
+export const createRequest = async (input: JobRequest): Promise<unknown> => {
   return new Promise((resolve, reject) => {
     const data = input.data
     const method = process.env.API_METHOD || data.method || ''
@@ -178,8 +179,8 @@ export const createRequest = async (input: JobRequest) => {
           return reject({ statusCode: 400, data: 'missing required parameters' })
 
         getTransfer(getData.transfer_id)
-          .then((response: any) => {
-            response.data.result = response.data.status || ''
+          .then((response) => {
+            ;(response as Response).data.result = (response as Response).data.status || ''
             return resolve(response)
           })
           .catch(reject)

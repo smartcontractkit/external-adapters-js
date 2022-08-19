@@ -39,6 +39,7 @@ beforeEach(() => {
   })
 })
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function stateStream(initialWarmerState: { cacheWarmer: CacheWarmerState }): StateObservable<any> {
   return new StateObservable<any>(new Subject(), {
     ...initialState,

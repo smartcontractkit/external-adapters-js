@@ -19,7 +19,7 @@ describe('websocket', () => {
     server: startServer,
   }
 
-  const envVariables: any = {}
+  const envVariables: NodeJS.ProcessEnv = {}
   envVariables.WS_ENABLED = 'true'
 
   if (!process.env.RECORD) {

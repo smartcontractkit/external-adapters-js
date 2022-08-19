@@ -48,6 +48,7 @@ interface Message {
   }
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (defaultConfig?: DefaultConfig): MakeWSHandler<Message | any> =>
   // TODO : WS message types
   {

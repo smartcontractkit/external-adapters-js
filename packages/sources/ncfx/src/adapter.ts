@@ -105,6 +105,7 @@ const getPair = (input: AdapterRequest): Pair => {
   }
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> => {
   const getSubscription = (request: 'subscribe' | 'unsubscribe', pair?: string) => {
     if (!pair) return ''

@@ -56,6 +56,7 @@ interface Message {
   VOLUME24HOURTO: number
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
   // TODO: WS message types
   {
