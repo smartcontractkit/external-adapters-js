@@ -52,7 +52,7 @@ export const withCacheWarmer =
       for (const [key, childRequest] of keysToCheck) {
         // Could happen that a subscription is still loading. If that's the case, warmer will open a subscription. If the WS becomes active, on next requests warmer will be unsubscribed'      const wsHandler = await ws.makeWSHandler()
         const wsHandler = await ws.makeWSHandler()
-        const subMessage = wsHandler.subscribe(childRequest)
+        const subMessage = await wsHandler.subscribe(childRequest)
         const wsKey = subMessage && getSubsId(subMessage)
         const isActiveWSSubscription = wsKey && ws.store.getState().subscriptions.all[wsKey]?.active
         // If there is a WS subscription active, warmup subscription (if exists) should be removed, and not play for the moment

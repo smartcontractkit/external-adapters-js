@@ -4,7 +4,7 @@ import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-b
 export const supportedEndpoints = ['price']
 
 export const description =
-  'The price endpoint is used to fetch a price for a base/quote asset pair. This adapter currently only supports WS connection to the API on this endpoint.'
+  'The price endpoint is used to fetch a price for a base/quote asset pair. This adapter currently only supports WS connection to the API for price data.'
 
 export type TInputParameters = { base: string; quote: string }
 export const inputParameters: InputParameters<TInputParameters> = {
@@ -14,7 +14,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: true,
   },
   quote: {
-    aliases: ['to', 'market'],
+    aliases: ['to', 'market', 'term'],
     description: 'The currency ticker to convert to',
     required: true,
   },
@@ -23,6 +23,6 @@ export const inputParameters: InputParameters<TInputParameters> = {
 export const execute: ExecuteWithConfig<Config> = async () => {
   throw new AdapterConfigError({
     message:
-      'The Elwood Adapter does not support HTTP requests. Ensure WS_ENABLED is "true" in the adapter configuration.',
+      'The Elwood Adapter does not support HTTP-only requests for prices. Ensure WS_ENABLED is "true" in the adapter configuration.',
   })
 }
