@@ -93,6 +93,10 @@ jobs:
           aws-ecr-private: 'true' # Use of string intentional for evaluation
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
 
+      - if: github.ref == 'refs/heads/develop'
+        name: 'Trigger Image Dispatcher'
+        run: gh workflow run image-dispatcher.yaml -F workflowRunId=${{ github.run.id }}
+
       #
       #
       # ----- Public ECR publishing logic -----
