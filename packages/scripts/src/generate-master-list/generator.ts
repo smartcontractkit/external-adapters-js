@@ -1,3 +1,5 @@
+import process from 'process'
+import path from 'path'
 import { ls, test } from 'shelljs'
 import {
   compositeListDescription,
@@ -9,7 +11,6 @@ import { buildTable, TableText } from '../shared/tableUtils'
 import {
   codeList,
   getJsonFile,
-  localPathToRoot,
   saveText,
   sortText,
   unwrapCode,
@@ -44,8 +45,7 @@ const getConfigDefaults = async (adapterPath: string, verbose = false) => {
   let defaultEndpoint = 'Unknown'
   try {
     const configPath = adapterPath + '/src/config/index.ts'
-
-    const config = await require(localPathToRoot + configPath)
+    const config = await require(path.join(process.cwd(), configPath))
 
     if (config.DEFAULT_BASE_URL) defaultBaseUrl = wrapCode(config.DEFAULT_BASE_URL)
     else if (config.DEFAULT_API_ENDPOINT) defaultBaseUrl = wrapCode(config.DEFAULT_API_ENDPOINT)
@@ -65,7 +65,7 @@ const getEndpoints = async (adapterPath: string, verbose = false) => {
   try {
     const indexPath = adapterPath + '/src/endpoint/index.ts'
 
-    const endpointDetails: EndpointDetails = await require(localPathToRoot + indexPath)
+    const endpointDetails: EndpointDetails = await require(path.join(process.cwd(), indexPath))
 
     const endpoints = Object.keys(endpointDetails)
 
@@ -153,7 +153,7 @@ const getTestSupport = (adapterPath: string) => {
 
 const getWSSupport = async (adapterPath: string, verbose = false) => {
   try {
-    const adapterFile = await require(localPathToRoot + adapterPath + '/src/adapter.ts')
+    const adapterFile = await require(path.join(process.cwd(), adapterPath, '/src/adapter.ts'))
 
     return adapterFile.makeWSHandler ? '✅' : ''
   } catch (e: any) {
