@@ -4352,9 +4352,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/sources/reduce":
+"@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/non-deployable/reduce":
   version: 0.0.0-use.local
-  resolution: "@chainlink/reduce-adapter@workspace:packages/sources/reduce"
+  resolution: "@chainlink/reduce-adapter@workspace:packages/non-deployable/reduce"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -4693,9 +4693,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
+"@chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/non-deployable/token-allocation":
   version: 0.0.0-use.local
-  resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
+  resolution: "@chainlink/token-allocation-adapter@workspace:packages/non-deployable/token-allocation"
   dependencies:
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"

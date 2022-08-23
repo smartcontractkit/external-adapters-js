@@ -1345,7 +1345,7 @@ Array [
     },
   },
   Object {
-    "location": "packages/composites/token-allocation",
+    "location": "packages/non-deployable/token-allocation",
     "schema": Object {
       "AMBERDATA_ADAPTER_URL": Object {
         "originalKey": "AMBERDATA_ADAPTER_URL",
@@ -11728,7 +11728,7 @@ Array [
     },
   },
   Object {
-    "location": "packages/sources/reduce",
+    "location": "packages/non-deployable/reduce",
     "schema": Object {
       "BASE_URL": Object {
         "originalKey": "BASE_URL",
