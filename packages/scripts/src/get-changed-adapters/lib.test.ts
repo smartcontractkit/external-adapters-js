@@ -97,6 +97,7 @@ describe('get-changed-adapters cli', () => {
         sources: ['coingecko'],
         composites: ['coinpaprika'],
         targets: ['ghi'],
+        'non-deployable': ['reduce'],
         coreWasChanged: true,
       }
       const output = createOutput(changedAdapters)

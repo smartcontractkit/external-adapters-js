@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Solana-view-function
 
-![2.1.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-view-function/package.json)
+![2.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-view-function/package.json)
 
 The Solana view function adapter can be used to query account information from the Solana blockchain
 
@@ -41,12 +41,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "accounts",
     "addresses": [
       "EMtjYGwPnXdtqK5SGL8CWGv4wgdBQN79UPoy53x9bBTJ",
       "BSGfVnE6q6KemspkugEERU8x7WbQwSKwvHT1cZZ4ACVN",
       "3FMBoeddUhtqxepzkrxPrMUV3CL4bZM5QmMoLJfEpirz"
-    ]
+    ],
+    "endpoint": "accounts"
   },
   "debug": {
     "cacheKey": "jbZq83P5Srrm40cvEJPNvvqYHlQ="

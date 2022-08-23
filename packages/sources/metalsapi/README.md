@@ -1,6 +1,6 @@
 # Chainlink External Adapter for [MetalsAPI](https://metals-api.com/documentation#convertcurrency)
 
-![1.6.38](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/metalsapi/package.json)
+![1.7.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/metalsapi/package.json)
 
 Base URL https://metals-api.com/api/
 
@@ -8,10 +8,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |           Default           |
-| :-------: | :----------: | :---------: | :----: | :-----: | :-------------------------: |
-|    ✅     |   API_KEY    |             | string |         |                             |
-|           | API_ENDPOINT |             | string |         | `https://some_endpoint.com` |
+| Required? |     Name     | Description |  Type  | Options |            Default            |
+| :-------: | :----------: | :---------: | :----: | :-----: | :---------------------------: |
+|    ✅     |   API_KEY    |             | string |         |                               |
+|           | API_ENDPOINT |             | string |         | `https://metals-api.com/api/` |
 
 ---
 
@@ -43,10 +43,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "convert",
     "base": "XAU",
     "quote": "USD",
-    "amount": 1
+    "amount": 1,
+    "endpoint": "convert"
   },
   "debug": {
     "cacheKey": "/VC1KUtn1FaFM+Mo8m3yBVfFvxc="
@@ -105,9 +105,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "latest",
     "base": "XAU",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "latest"
   },
   "debug": {
     "cacheKey": "4LsxrIT483BCS93HKnZ32ylFSOU=",
@@ -118,9 +118,9 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "latest",
             "base": "XAU",
-            "quote": "USD"
+            "quote": "USD",
+            "endpoint": "latest"
           }
         }
       ]
@@ -168,9 +168,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "latest",
     "base": "BTC",
-    "quote": ["USD", "XAU"]
+    "quote": ["USD", "XAU"],
+    "endpoint": "latest"
   },
   "debug": {
     "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
@@ -181,9 +181,9 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "latest",
             "base": "BTC",
-            "quote": "USD"
+            "quote": "USD",
+            "endpoint": "latest"
           }
         }
       ]
@@ -214,9 +214,9 @@ Response:
         {
           "id": "1",
           "data": {
-            "endpoint": "latest",
             "base": "BTC",
-            "quote": "USD"
+            "quote": "USD",
+            "endpoint": "latest"
           },
           "debug": {
             "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
@@ -227,9 +227,9 @@ Response:
                 {
                   "id": "1",
                   "data": {
-                    "endpoint": "latest",
                     "base": "BTC",
-                    "quote": "USD"
+                    "quote": "USD",
+                    "endpoint": "latest"
                   }
                 }
               ]
@@ -244,9 +244,9 @@ Response:
         {
           "id": "1",
           "data": {
-            "endpoint": "latest",
             "base": "BTC",
-            "quote": "XAU"
+            "quote": "XAU",
+            "endpoint": "latest"
           },
           "debug": {
             "cacheKey": "Io9CE5GgK3Zu72UltbQi09+PByY=",
@@ -257,9 +257,9 @@ Response:
                 {
                   "id": "1",
                   "data": {
-                    "endpoint": "latest",
                     "base": "BTC",
-                    "quote": "USD"
+                    "quote": "USD",
+                    "endpoint": "latest"
                   }
                 }
               ]

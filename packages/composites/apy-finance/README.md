@@ -13,7 +13,7 @@ The adapter takes the following environment variables:
 |           |  `DEFAULT_QUOTE`   |         Currency that the price will be fetched by default.          |         |    `USD`    |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 ## Running
 

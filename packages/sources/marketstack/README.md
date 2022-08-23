@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Marketstack
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/marketstack/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/marketstack/package.json)
 
 Base URL http://api.marketstack.com/v1/
 
@@ -45,10 +45,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "stock",
     "base": "AAPL",
     "interval": "1min",
-    "limit": 1
+    "limit": 1,
+    "endpoint": "stock"
   },
   "debug": {
     "cacheKey": "08JBbsORZVWHP8RjhjYY1wlcurQ="

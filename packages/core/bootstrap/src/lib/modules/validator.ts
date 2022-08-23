@@ -13,7 +13,7 @@ import type {
   NestableValue,
 } from '../../types'
 import { cloneDeep } from 'lodash'
-import { isArray, isObject } from '../util'
+import { isObject } from '../util'
 import { AdapterError, AdapterInputError } from './error'
 import presetTokens from '../config/overrides/presetTokens.json'
 import { Requester } from './requester'
@@ -29,7 +29,7 @@ export type OverrideType = 'overrides' | 'tokenOverrides' | 'includes'
 export interface ValidatedData {
   overrides?: OverrideMap
   tokenOverrides?: OverrideMap
-  includes?: Includes[]
+  includes?: (Includes | string)[]
 }
 export interface ValidatorOptions {
   shouldThrowError: boolean
@@ -116,7 +116,7 @@ export class Validator<
 
         this.validateObjectParam(key, this.validatorOptions.shouldThrowError)
       }
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       this.parseError(error)
     }
@@ -131,7 +131,7 @@ export class Validator<
         this.mergeMap(presetMap, inputMap)
       }
       this.validated[path] = presetMap
-    } catch (e) {
+    } catch (e: any) {
       const error = e as Error
       this.parseError(error)
     }
@@ -162,11 +162,16 @@ export class Validator<
 
   validateIncludeOverrides(): void {
     try {
-      this.validated.includes = this.formatIncludeOverrides([
-        ...(Array.isArray(this.input.data?.includes) ? this.input.data.includes : []),
-        ...(this.validatorOptions.includes || []),
-      ])
-    } catch (e) {
+      const includesArray = [
+        ...(this.input.data?.includes ?? []),
+        ...this.validatorOptions.includes,
+      ]
+      if (!includesArray.every((val) => isObject(val) || typeof val === 'string')) {
+        this.throwInvalid(`'includes' array is not of type Includes[] | string[]`)
+      }
+
+      this.validated.includes = includesArray
+    } catch (e: any) {
       const error = e as Error
       this.parseError(error)
     }
@@ -222,7 +227,7 @@ export class Validator<
     // Search through `presetIncludes` to find matching override for adapter and to/from pairing.
     const pairs = (
       this.validated.includes?.filter(
-        (val: string | Includes) => typeof val !== 'string',
+        (val: Includes | string) => typeof val !== 'string',
       ) as Includes[]
     ).filter(
       (pair) =>
@@ -249,17 +254,6 @@ export class Validator<
       if (overridden.toLowerCase() === symbol.toLowerCase()) originalSymbol = original
     })
     return originalSymbol || symbol
-  }
-
-  formatIncludeOverrides = (param: Includes[]): Includes[] => {
-    const _throwInvalid = () =>
-      this.throwInvalid(`Parameter supplied with wrong format: "includes"`)
-    if (!isArray(param)) _throwInvalid()
-
-    const _isValid = Object.values(param).every((val) => isObject(val) || typeof val === 'string')
-    if (!_isValid) _throwInvalid()
-
-    return param
   }
 
   throwInvalid = (message: string): void => {

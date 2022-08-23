@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Finage
 
-![1.3.42](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json)
+![1.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finage/package.json)
 
 Base URL https://api.finage.co.uk
 
@@ -22,9 +22,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                               Options                                                | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint) | `stock` |
+| Required? |   Name   |     Description     |  Type  |                                                                  Options                                                                   | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#commodities-endpoint), [crypto](#crypto-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [stock](#stock-endpoint) | `stock` |
 
 ## Stock Endpoint
 
@@ -232,6 +232,58 @@ Response:
     "result": 50940.12
   },
   "result": 50940.12,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+---
+
+## Commodities Endpoint
+
+https://finage.co.uk/docs/api/forex-last-trade
+The result will be the price of the commodity in the currency specified
+
+`commodities` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name  |     Aliases      |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :--------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `from`, `symbol` |   The symbol of the commodity to query   | string |         |         |            |                |
+|    ✅     | quote |  `market`, `to`  | The symbol of the currency to convert to | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "commodities",
+    "from": "WTI",
+    "to": "USD"
+  },
+  "debug": {
+    "cacheKey": "de5717c8bde755478b8e999850e8e8cb7d8f0165"
+  },
+  "rateLimitMaxAge": 60000
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "symbol": "WTIUSD",
+    "price": 98.91,
+    "timestamp": 1659017220,
+    "result": 98.91
+  },
+  "result": 98.91,
   "statusCode": 200,
   "providerStatusCode": 200
 }

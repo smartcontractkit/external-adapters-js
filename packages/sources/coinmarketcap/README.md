@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmarketcap
 
-![1.4.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json)
+![1.5.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmarketcap/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -40,8 +40,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "dominance",
-    "market": "BTC"
+    "market": "BTC",
+    "endpoint": "dominance"
   },
   "debug": {
     "cacheKey": "68fvKmTaemya72URaHbma8IMB7s="
@@ -141,10 +141,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
     "base": "BTC",
-    "convert": "USD"
+    "convert": "USD",
+    "endpoint": "crypto",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI=",
@@ -155,10 +155,10 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
-            "resultPath": "price",
             "base": "BTC",
-            "convert": "USD"
+            "convert": "USD",
+            "endpoint": "crypto",
+            "resultPath": "price"
           }
         }
       ]
@@ -239,11 +239,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
     "base": "BTC",
     "convert": "USD",
-    "cid": "1100"
+    "cid": "1100",
+    "endpoint": "crypto",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "oUY8FkVhDJJrR2ZkdnoUy8toHfw=",
@@ -254,11 +254,11 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
-            "resultPath": "price",
             "base": "BTC",
             "convert": "USD",
-            "cid": "1100"
+            "cid": "1100",
+            "endpoint": "crypto",
+            "resultPath": "price"
           }
         }
       ]
@@ -336,11 +336,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
     "base": "BTC",
     "convert": "USD",
-    "slug": "BTC"
+    "slug": "BTC",
+    "endpoint": "crypto",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "XuhDCzqkRjQn9IgF+jZtUB8muFE=",
@@ -351,11 +351,11 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
-            "resultPath": "price",
             "base": "BTC",
             "convert": "USD",
-            "slug": "BTC"
+            "slug": "BTC",
+            "endpoint": "crypto",
+            "resultPath": "price"
           }
         }
       ]
@@ -433,10 +433,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "price",
     "base": "BTC",
-    "convert": "USD"
+    "convert": "USD",
+    "endpoint": "crypto",
+    "resultPath": "price"
   },
   "debug": {
     "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI=",
@@ -447,10 +447,10 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "crypto",
-            "resultPath": "price",
             "base": "BTC",
-            "convert": "USD"
+            "convert": "USD",
+            "endpoint": "crypto",
+            "resultPath": "price"
           }
         }
       ]
@@ -546,8 +546,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "globalmarketcap",
-    "market": "USD"
+    "market": "USD",
+    "endpoint": "globalmarketcap"
   },
   "debug": {
     "cacheKey": "1+HiIBSsojqbfCOU78q7iZbzdWA="
@@ -650,12 +650,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "historical",
     "base": "ETH",
     "convert": "BTC",
     "start": "2021-07-23T14",
     "count": 10,
-    "interval": "5m"
+    "interval": "5m",
+    "endpoint": "historical"
   },
   "debug": {
     "cacheKey": "JT2rxlQZgzUERZo0ldZev/lpySo="

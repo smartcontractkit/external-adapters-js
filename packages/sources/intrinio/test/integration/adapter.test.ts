@@ -1,9 +1,8 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import { util } from '@chainlink/ea-bootstrap'
 import {
   mockAuthResponse,
   mockRateResponseSuccess,
@@ -16,30 +15,28 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
+  setupExternalAdapterTest,
 } from '@chainlink/ea-test-helpers'
+import type { SuiteContext, TestOptions } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const options: TestOptions = {
+    cleanNock: false,
+    fastify: false,
+  }
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'fake-api-key',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context, options)
 
   describe('price api', () => {
     const data: AdapterRequest = {
@@ -52,7 +49,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockRateResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -88,7 +85,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -107,7 +104,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockAuthResponse()
         mockRateResponseSuccess()

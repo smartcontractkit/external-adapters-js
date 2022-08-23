@@ -1,35 +1,18 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import { mockResponseSuccess } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  beforeAll(async () => {
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
+  const envVariables = {}
+  setupExternalAdapterTest(envVariables, context)
   describe('balance api', () => {
     const data: AdapterRequest = {
       id,
@@ -52,7 +35,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

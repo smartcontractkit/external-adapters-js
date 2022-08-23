@@ -3,7 +3,7 @@ import { Config } from '@chainlink/ea-bootstrap'
 
 export const NAME = 'CURRENCYLAYER'
 
-export const DEFAULT_ENDPOINT = 'convert'
+export const DEFAULT_ENDPOINT = 'live'
 export const DEFAULT_BASE_URL = 'https://api.currencylayer.com'
 
 export const makeConfig = (prefix?: string): Config => {

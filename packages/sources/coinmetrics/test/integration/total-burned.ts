@@ -8,6 +8,7 @@ import {
   mockCoinmetricsResponseSuccess1,
   mockCoinmetricsResponseSuccess2,
 } from './fixtures'
+import { SuperTest, Test } from 'supertest'
 
 export function totalBurnedTests(context: SuiteContext): void {
   const id = '1'
@@ -26,7 +27,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseError1()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -51,7 +52,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccessMalformed1()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -74,7 +75,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccessMalformed2()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -101,7 +102,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccess1()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')
@@ -128,7 +129,7 @@ export function totalBurnedTests(context: SuiteContext): void {
         }
         mockCoinmetricsResponseSuccess2()
 
-        const response = await context.req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(data)
           .set('Accept', '*/*')

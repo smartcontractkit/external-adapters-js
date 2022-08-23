@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Eth-balance
 
-![1.2.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json)
 
 External adapter for fetching balances for ETH addresses
 
@@ -43,13 +43,13 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "addresses": [
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d"
       }
     ],
-    "minConfirmations": 0
+    "minConfirmations": 0,
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "BZf6sDQqNncsolxn6HYNEOjtIBI="
@@ -90,7 +90,6 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "addresses": [
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d"
@@ -99,7 +98,8 @@ Request:
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed"
       }
     ],
-    "minConfirmations": 0
+    "minConfirmations": 0,
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "4/IH2wCsKWE3t/W0N/+01/qy/uw="
@@ -145,13 +145,13 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "addresses": [
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed"
       }
     ],
-    "minConfirmations": 20
+    "minConfirmations": 20,
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "j4E0Rj65/LUMA0SuUweFMQj+iMI="

@@ -1,7 +1,8 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {
   const jobID = '1'
@@ -55,7 +56,7 @@ describe('execute', () => {
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
-        const data = await execute(req.testData as AdapterRequest)
+        const data = await execute(req.testData as AdapterRequest<TInputParameters>, {})
         assertSuccess({ expected: 201, actual: data.statusCode }, data, jobID)
       })
     })
@@ -67,7 +68,16 @@ describe('execute', () => {
         name: 'send 0.00',
         testData: {
           id: jobID,
-          data: { amount: '0', receiver },
+          data: {
+            amount: '0.00',
+            receiver,
+            currency: 'USD',
+            recipient_type: 'EMAIL',
+            note: 'hello!',
+            sender_item_id: '0x01',
+            email_subject: 'test tx',
+            email_message: 'this is only a test',
+          },
         },
       },
       {
@@ -89,9 +99,9 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest)
+          await execute(req.testData as AdapterRequest<TInputParameters>, {})
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 500, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

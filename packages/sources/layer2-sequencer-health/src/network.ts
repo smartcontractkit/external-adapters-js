@@ -73,7 +73,7 @@ export const getStatusByTransaction = async (
 
   // These errors come from the Sequencer when submitting an empty transaction
   const sequencerOnlineErrors: Record<Networks, string[]> = {
-    [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address'],
+    [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address', 'intrinsic gas too low'],
     // TODO: Optimism error needs to be confirmed by their team
     [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
     [Networks.Metis]: ['cannot accept 0 gas price transaction'],
@@ -118,7 +118,7 @@ export const getStatusByTransaction = async (
     })
     Logger.info(`Transaction receipt received with hash ${receipt.hash} for network: ${network}`)
     return (await receipt.wait()).confirmations > 0
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     if (sequencerOnlineErrors[network].includes(_getErrorMessage(error))) {
       Logger.debug(

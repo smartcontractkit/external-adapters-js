@@ -1,49 +1,28 @@
 import type { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { AddressInfo } from 'net'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src/index'
 import {
   mockCoingeckoConnectionFailure,
   mockCoingeckoResponseFailureRedis,
   mockCoingeckoResponseSuccess,
 } from './fixtures'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.CACHE_ENABLED = 'false'
-  process.env.COINGECKO_ADAPTER_URL = 'http://localhost:8081'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest, TestOptions } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('synth-index X coingecko', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    fastify: undefined,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const envVariables = {
+    COINGECKO_ADAPTER_URL: 'http://localhost:8081',
+    CACHE_ENABLED: 'false',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context, { fastify: true } as TestOptions)
 
   describe('when making a request to coingecko for sDEFI', () => {
     const sDEFIRequest: AdapterRequest = {
@@ -54,12 +33,11 @@ describe('synth-index X coingecko', () => {
         source: 'coingecko',
       },
     }
-
     describe('and coingecko replies with a success', () => {
       it('should reply with success', async () => {
         mockCoingeckoResponseSuccess()
 
-        const response = await req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(sDEFIRequest)
           .set('Accept', '*/*')
@@ -74,7 +52,7 @@ describe('synth-index X coingecko', () => {
         mockCoingeckoResponseFailureRedis(1)
         mockCoingeckoResponseSuccess()
 
-        const response = await req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(sDEFIRequest)
           .set('Accept', '*/*')
@@ -87,9 +65,12 @@ describe('synth-index X coingecko', () => {
     })
     describe('and coingecko replies with a failure repeatedly', () => {
       it('should try 3 times and then fail', async () => {
-        mockCoingeckoConnectionFailure((fastify.server.address() as AddressInfo).port, 4)
+        mockCoingeckoConnectionFailure(
+          ((context.fastify as FastifyInstance).server.address() as AddressInfo).port,
+          4,
+        )
 
-        const response = await req
+        const response = await (context.req as SuperTest<Test>)
           .post('/')
           .send(sDEFIRequest)
           .set('Accept', '*/*')

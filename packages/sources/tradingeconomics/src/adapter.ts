@@ -3,14 +3,18 @@ import {
   AdapterResponse,
   APIEndpoint,
   ExecuteWithConfig,
+  IncludePair,
+  Includes,
   MakeWSHandler,
   ExecuteFactory,
+  util,
 } from '@chainlink/ea-bootstrap'
 import { Builder, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME, Config } from './config'
 import * as endpoints from './endpoint'
 import { inputParameters } from './endpoint/price'
 import overrides from './config/symbols.json'
+import includes from './config/includes.json'
 
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
@@ -62,6 +66,17 @@ export const makeWSHandler = (
   const withApiKey = (url: string, key: string, secret: string) => `${url}?client=${key}:${secret}`
   const getSubscription = (to: string) => ({ topic: 'subscribe', to })
 
+  const baseFromIncludes = includes.reduce(
+    (basesMap: { [from: string]: string }, includesSet: Includes) => {
+      const { includes } = includesSet
+      for (const includePair of includes) {
+        basesMap[includePair.from] = includesSet.from
+      }
+      return basesMap
+    },
+    {},
+  )
+
   return () => {
     const defaultConfig = config || makeConfig()
 
@@ -73,29 +88,49 @@ export const makeWSHandler = (
           defaultConfig.client.secret || '',
         ),
       },
+      noHttp: true, // Turned on due to negotiated plans having limited HTTP credits
       subscribe: (input) => {
         const validator = new Validator(
           input,
           inputParameters,
           {},
-          { shouldThrowError: false, overrides },
+          { shouldThrowError: false, overrides, includes },
         )
         if (validator.error) {
           return
         }
-        const base = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
-        return getSubscription(base)
+
+        const { from } = util.getPairOptions<IncludePair, endpoints.TInputParameters>( //TODO beware, this does not set base to uppercase like the previous version
+          NAME,
+          validator,
+          (_, i: IncludePair) => i,
+          (from: string, to: string) => ({ from, to }),
+        )
+        return getSubscription(from)
       },
       unsubscribe: () => undefined,
-      subsFromMessage: (message: Message) => {
-        return getSubscription(message?.s)
-      },
+      subsFromMessage: (message: Message) => getSubscription(message?.s),
       isError: (message: Message) => Number(message.type) > 400 && Number(message.type) < 900,
-      filter: (message: Message): boolean => {
-        return !!message.topic && message.topic !== 'keepalive'
+      filter: (message: Message): boolean => !!message.topic && message.topic !== 'keepalive',
+      toResponse: (wsResponse: Message): AdapterResponse => {
+        const base = baseFromIncludes[wsResponse?.s] ?? wsResponse?.s
+        const validator = new Validator<endpoints.TInputParameters>(
+          { id: 'tradingeconomics-ws-to-repsonse', data: { base, quote: 'USD' } },
+          inputParameters,
+          {},
+          { shouldThrowError: false, overrides, includes },
+        )
+
+        const { inverse } = util.getPairOptions<IncludePair, endpoints.TInputParameters>(
+          NAME,
+          validator,
+          (_, i: IncludePair) => i,
+          (from: string, to: string) => ({ from, to }),
+        )
+
+        const result = Requester.validateResultNumber(wsResponse, ['price'], { inverse })
+        return Requester.success(undefined, { data: { result } })
       },
-      toResponse: (wsResponse: any): AdapterResponse =>
-        Requester.success(undefined, { data: { result: wsResponse?.price } }),
     }
   }
 }

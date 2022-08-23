@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -11,6 +11,7 @@ import {
 } from './fixtures'
 import { AddressInfo } from 'net'
 import { ethers } from 'ethers'
+import { setEnvVariables } from '@chainlink/ea-test-helpers'
 
 jest.mock('ethers', () => {
   const originalModule = jest.requireActual('ethers')
@@ -81,7 +82,7 @@ describe('execute', () => {
   })
 
   afterAll(() => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()

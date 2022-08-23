@@ -1,10 +1,10 @@
 import nock from 'nock'
 
-export const mockRateResponseSuccess = (): nock =>
+export const mockRateResponseSuccess = (): nock.Scope =>
   nock('https://api.coinbase.com')
     .get('/v2/prices/BTC-USD/spot')
     .query({ symbol: 'BTC', convert: 'USD' })
-    .reply(200, (_, request) => ({ data: { base: 'BTC', currency: 'USD', amount: '57854.29' } }), [
+    .reply(200, () => ({ data: { base: 'BTC', currency: 'USD', amount: '57854.29' } }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -15,7 +15,7 @@ export const mockRateResponseSuccess = (): nock =>
       'Origin',
     ])
 
-export const mockNftResponseSuccess = (): nock =>
+export const mockNftResponseSuccess = (): nock.Scope =>
   nock('http://fake-nft.endpoint')
     .get('/api/nft/v1/GetFloorPriceEstimate')
     .query({

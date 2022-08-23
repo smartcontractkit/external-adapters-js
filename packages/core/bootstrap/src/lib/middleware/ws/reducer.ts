@@ -99,6 +99,7 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     builder.addCase(actions.connectFailed, (state, action) => {
       state.all[action.payload.connectionInfo.key].connecting = 0
       state.all[action.payload.connectionInfo.key].active = false
+      state.all[action.payload.connectionInfo.key].requestId = 0
     })
 
     builder.addCase(actions.disconnectFulfilled, (state, action) => {

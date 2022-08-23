@@ -1,29 +1,26 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
 import { server as startServer } from '../../src'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
-
+  setupExternalAdapterTest(envVariables, context)
   describe('price api', () => {
     const data: AdapterRequest = { id, data: {} }
 
     it('should return success', async () => {
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

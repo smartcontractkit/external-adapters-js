@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.tiingo.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ token: 'fake-api-key', tickers: 'aapl' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           prevClose: 48.77,
           last: 51.27,
@@ -44,7 +44,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ token: 'fake-api-key' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           adjClose: 48.77,
           adjHigh: 50.02,
@@ -76,7 +76,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ token: 'fake-api-key', tickers: 'ETHusd' })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           topOfBookData: [
             {
@@ -120,7 +120,7 @@ export const mockResponseSuccess = (): nock =>
     })
     .reply(
       200,
-      (_, request) => [
+      () => [
         {
           ticker: 'ethusd',
           baseCurrency: 'eth',

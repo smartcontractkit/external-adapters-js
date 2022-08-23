@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coin Lore
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinlore/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinlore/package.json)
 
 Base URL https://api.coinlore.net/api
 
@@ -26,10 +26,9 @@ Supported names for this endpoint are: `dominance`, `global`, `globalmarketcap`.
 
 ### Input Params
 
-| Required? |   Name   | Aliases |                                  Description                                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :------: | :-----: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           |   base   |         | When using a field of `d`, the currency to prefix the field with (e.g. `usd_d` | string |         |  `btc`  |            |                |
-|           | endpoint |         |                          The adapter endpoint to use                           | string |         |         |            |                |
+| Required? | Name | Aliases |                                  Description                                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----: | :----------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           | base |         | When using a field of `d`, the currency to prefix the field with (e.g. `usd_d` | string |         |  `btc`  |            |                |
 
 ### Example
 
@@ -39,9 +38,9 @@ Request:
 {
   "id": "1",
   "data": {
+    "base": "eth",
     "endpoint": "global",
-    "resultPath": "d",
-    "base": "eth"
+    "resultPath": "d"
   },
   "debug": {
     "cacheKey": "AO8m6F2XcBRVlyUtdLRQMQXQlEI="

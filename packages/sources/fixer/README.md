@@ -1,6 +1,6 @@
 # Chainlink Fixer External Adapter
 
-![1.3.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fixer/package.json)
+![2.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fixer/package.json)
 
 This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpoint.
 
@@ -21,9 +21,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                    Options                                                     |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#latest-endpoint), [latest](#latest-endpoint), [price](#latest-endpoint) | `convert` |
+| Required? |   Name   |     Description     |  Type  |                                                    Options                                                     | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [convert](#convert-endpoint), [forex](#latest-endpoint), [latest](#latest-endpoint), [price](#latest-endpoint) | `latest` |
 
 ## Convert Endpoint
 
@@ -45,11 +45,12 @@ Request:
 {
   "id": "1",
   "data": {
+    "endpoint": "convert",
     "base": "EUR",
     "quote": "USD"
   },
   "debug": {
-    "cacheKey": "55c3992cf1e9d0cd4f70dc1b3cea317c1fd9dbe2"
+    "cacheKey": "2633d6036edf24f9672e274cc5b60c788fd3cdea"
   }
 }
 ```
@@ -92,7 +93,7 @@ Supported names for this endpoint are: `forex`, `latest`, `price`.
 | Required? | Name  |    Aliases     |               Description                |  Type  | Options | Default | Depends On | Not Valid With |
 | :-------: | :---: | :------------: | :--------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     | base  | `coin`, `from` |   The symbol of the currency to query    | string |         |         |            |                |
-|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` | The symbol of the currency to convert to |        |         |         |            |                |
 
 ### Example
 
@@ -102,12 +103,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "latest",
     "base": "EUR",
     "quote": "USD"
   },
   "debug": {
-    "cacheKey": "7c1830561a48c6c99d6fa92ca28dfea45b0307c1"
+    "cacheKey": "55c3992cf1e9d0cd4f70dc1b3cea317c1fd9dbe2"
   }
 }
 ```

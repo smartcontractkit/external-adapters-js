@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/outlier-detection-adapter",
-  "version": "1.2.0",
+  "version": "1.2.20",
   "description": "Chainlink Outlier Detection adapter.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,9 +24,9 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@types/jest": "27.0.3",
-    "@types/node": "16.11.41",
-    "@types/sinon": "10.0.11",
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.49",
+    "@types/sinon": "10.0.13",
     "sinon": "12.0.1",
     "typescript": "4.7.4"
   }

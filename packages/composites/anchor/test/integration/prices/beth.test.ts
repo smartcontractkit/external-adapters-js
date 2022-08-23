@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
@@ -7,7 +7,6 @@ import { mockErrorFeedResponse, mockSuccessfulTerraEthFeedResp } from '../fixtur
 import { ethers, BigNumber } from 'ethers'
 import '@chainlink/terra-view-function-adapter'
 import { AddressInfo } from 'net'
-import { FastifyInstance } from '@chainlink/ea-bootstrap'
 
 const mockBethStEthResult = BigNumber.from(10).pow(18)
 const mockStETHETHPrice = BigNumber.from('1035144096528344468')
@@ -46,8 +45,8 @@ jest.mock('ethers', () => {
     ethers: {
       ...actualModule.ethers,
       providers: {
-        JsonRpcProvider: function (_: string): ethers.provider.JsonRpcProvider {
-          return {}
+        JsonRpcProvider: function (): ethers.providers.JsonRpcProvider {
+          return {} as ethers.providers.JsonRpcProvider
         },
       },
       Contract: function (address: string) {

@@ -1,51 +1,26 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockDataProviderResponses } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.CACHE_ENABLED = 'false'
-  process.env.RPC_URL = process.env.RPC_URL || 'http://localhost:8545'
-  process.env.COINMARKETCAP_ADAPTER_URL =
-    process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8082'
-
-  process.env.API_VERBOSE = 'true'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const envVariables = {
+    API_VERBOSE: 'true',
+    CACHE_ENABLED: 'false',
+    RPC_URL: process.env.RPC_URL || 'http://localhost:8545',
+    COINMARKETCAP_ADAPTER_URL: process.env.COINMARKETCAP_ADAPTER_URL || 'http://localhost:8082',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('with coinmarketcap source', () => {
     const data: AdapterRequest = {
@@ -60,7 +35,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockDataProviderResponses()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

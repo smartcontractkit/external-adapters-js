@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoAPIs
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoapis/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptoapis/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -51,14 +51,14 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "balance",
     "dataPath": "addresses",
     "addresses": [
       {
         "address": "n4VQ5YdHf7hLQ2gWQYYrcxoE5B7nWuDFNF",
         "chain": "testnet"
       }
-    ]
+    ],
+    "endpoint": "balance"
   },
   "debug": {
     "cacheKey": "bMYi1u3EPmP0Xyfhsf/Ofqh3y8c="
@@ -130,9 +130,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
     "base": "BTC",
-    "quote": "USD"
+    "quote": "USD",
+    "endpoint": "crypto"
   },
   "debug": {
     "cacheKey": "r6ZXhd+zEdyag6axryIefPg9QnI="
@@ -185,10 +185,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "difficulty",
-    "resultPath": "difficulty",
     "blockchain": "BTC",
-    "network": "mainnet"
+    "network": "mainnet",
+    "endpoint": "difficulty",
+    "resultPath": "difficulty"
   },
   "debug": {
     "cacheKey": "U8HVR1TJeCdZ2BzkbsSdtsrkEh8="

@@ -27,7 +27,7 @@ const customError = (data: ResponseSchema) => !data.success
 export const description =
   'Returns a batched price comparison from one currency to a list of other currencies.'
 
-export type TInputParameters = { base: string; quote: string }
+export type TInputParameters = { base: string; quote: string | string[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
@@ -39,7 +39,6 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: true,
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
-    type: 'string',
   },
 }
 
@@ -61,12 +60,6 @@ const handleBatchedRequest = (
     }
 
     const result = Requester.validateResultNumber(response.data, [resultPath, symbol])
-
-    payload.push([
-      CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),
-      individualRequest,
-      result,
-    ])
 
     payload.push([
       CacheKey.getCacheKey(individualRequest, Object.keys(inputParameters)),

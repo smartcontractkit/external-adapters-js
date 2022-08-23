@@ -1,5 +1,5 @@
-import { Requester } from '@chainlink/ea-bootstrap'
-import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
+import { AdapterError, Requester } from '@chainlink/ea-bootstrap'
+import { assertError, assertSuccess, setEnvVariables } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { execute } from '../../src/endpoint/write'
 import { makeConfig } from '../../src'
@@ -19,7 +19,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  process.env = oldEnv
+  setEnvVariables(oldEnv)
   if (process.env.RECORD) {
     nock.recorder.play()
   }
@@ -65,7 +65,7 @@ describe('execute', () => {
         try {
           await execute(req.testData as AdapterRequest, {}, config)
         } catch (error) {
-          const errorResp = Requester.errored(jobID, error)
+          const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
         }
       })

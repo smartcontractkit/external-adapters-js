@@ -1,4 +1,4 @@
-import type { AdapterRequest } from '@chainlink/ea-bootstrap'
+import type { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { server as startServer } from '../../../src'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
@@ -39,6 +39,8 @@ jest.mock('@chainlink/terra-view-function-adapter', () => {
             default:
               return mockSuccessfulAnchorHubContractAddress
           }
+        } else {
+          return ''
         }
       }),
     ),

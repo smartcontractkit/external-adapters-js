@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/uniswap-v3-adapter",
-  "version": "1.2.0",
+  "version": "1.2.12",
   "description": "Chainlink uniswap-v3 adapter.",
   "keywords": [
     "Chainlink",
@@ -35,11 +35,11 @@
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@types/jest": "27.0.3",
-    "@types/node": "16.11.41",
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.49",
     "@types/supertest": "2.0.12",
-    "nock": "13.2.7",
-    "supertest": "6.2.3",
+    "nock": "13.2.9",
+    "supertest": "6.2.4",
     "typescript": "4.7.4"
   }
 }

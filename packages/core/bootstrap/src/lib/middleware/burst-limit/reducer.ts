@@ -63,6 +63,25 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
 
     return state
   })
+  builder.addCase(actions.initialRequestObserved, (state) => {
+    const t = Date.now()
+    const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
+
+    for (const intervalName of storedIntervals) {
+      // remove all requests that are older than the current interval
+      const window = t - Intervals[intervalName]
+      const isInWindow = (h: Request) => h.t >= window
+      state.participants[intervalName] = sortedFilter<Request>(
+        state.participants[intervalName],
+        isInWindow,
+      )
+
+      // update total
+      state.total[intervalName] = state.participants[intervalName].length
+    }
+
+    return state
+  })
   builder.addCase(actions.requestObserved, (state, action) => {
     const request: Request = {
       id: action.payload.input?.debug?.cacheKey ?? makeId(action.payload.input),
@@ -71,14 +90,6 @@ export const requestReducer = createReducer<RequestsState>(initialRequestsState,
     const storedIntervals = [IntervalNames.SECOND, IntervalNames.MINUTE]
 
     for (const intervalName of storedIntervals) {
-      // remove all requests that are older than the current interval
-      const window = request.t - Intervals[intervalName]
-      const isInWindow = (h: Request) => h.t >= window
-      state.participants[intervalName] = sortedFilter<Request>(
-        state.participants[intervalName],
-        isInWindow,
-      )
-
       // add new request
       state.participants[intervalName] = state.participants[intervalName].concat([request])
 

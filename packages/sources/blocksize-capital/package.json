@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/blocksize-capital-adapter",
-  "version": "1.0.11",
+  "version": "1.0.23",
   "description": "Chainlink blocksize-capital adapter.",
   "keywords": [
     "Chainlink",
@@ -33,10 +33,10 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@types/jest": "27.0.3",
-    "@types/node": "16.11.41",
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.49",
     "@types/supertest": "2.0.12",
-    "supertest": "6.2.3",
+    "supertest": "6.2.4",
     "typescript": "4.7.4"
   }
 }

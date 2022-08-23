@@ -1,14 +1,16 @@
+import process from 'process'
+import path from 'path'
 import { ls, test } from 'shelljs'
 import {
   compositeListDescription,
   sourceListDescription,
   targetListDescription,
+  nonDeployableListDescription,
 } from './textAssets'
 import { buildTable, TableText } from '../shared/tableUtils'
 import {
   codeList,
   getJsonFile,
-  localPathToRoot,
   saveText,
   sortText,
   unwrapCode,
@@ -19,6 +21,7 @@ import Airtable from 'airtable'
 
 const pathToComposites = 'packages/composites/'
 const pathToSources = 'packages/sources/'
+const pathToNonDeployables = 'packages/non-deployable/'
 const pathToTargets = 'packages/targets/'
 
 const baseEaDependencies = [
@@ -42,15 +45,14 @@ const getConfigDefaults = async (adapterPath: string, verbose = false) => {
   let defaultEndpoint = 'Unknown'
   try {
     const configPath = adapterPath + '/src/config/index.ts'
-
-    const config = await require(localPathToRoot + configPath)
+    const config = await require(path.join(process.cwd(), configPath))
 
     if (config.DEFAULT_BASE_URL) defaultBaseUrl = wrapCode(config.DEFAULT_BASE_URL)
     else if (config.DEFAULT_API_ENDPOINT) defaultBaseUrl = wrapCode(config.DEFAULT_API_ENDPOINT)
     if (config.DEFAULT_ENDPOINT) defaultEndpoint = wrapCode(config.DEFAULT_ENDPOINT)
 
     return { defaultBaseUrl, defaultEndpoint }
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return { defaultBaseUrl, defaultEndpoint }
@@ -63,7 +65,7 @@ const getEndpoints = async (adapterPath: string, verbose = false) => {
   try {
     const indexPath = adapterPath + '/src/endpoint/index.ts'
 
-    const endpointDetails: EndpointDetails = await require(localPathToRoot + indexPath)
+    const endpointDetails: EndpointDetails = await require(path.join(process.cwd(), indexPath))
 
     const endpoints = Object.keys(endpointDetails)
 
@@ -80,7 +82,7 @@ const getEndpoints = async (adapterPath: string, verbose = false) => {
     batchableEndpoints = allBatchableEndpoints.length ? codeList(allBatchableEndpoints) : ''
 
     return { endpointsText, batchableEndpoints }
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return { endpointsText, batchableEndpoints }
@@ -100,7 +102,7 @@ const getEnvVars = (adapterPath: string, verbose = false) => {
     const formatted = codeList(withCheckbox)
 
     return formatted
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return 'Unknown'
@@ -130,7 +132,7 @@ const getPackage = (adapterPath: string, verbose = false) => {
     }
 
     return { dependencies, version }
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return { dependencies, version }
@@ -151,10 +153,10 @@ const getTestSupport = (adapterPath: string) => {
 
 const getWSSupport = async (adapterPath: string, verbose = false) => {
   try {
-    const adapterFile = await require(localPathToRoot + adapterPath + '/src/adapter.ts')
+    const adapterFile = await require(path.join(process.cwd(), adapterPath, '/src/adapter.ts'))
 
     return adapterFile.makeWSHandler ? '✅' : ''
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
     return 'Unknown'
@@ -280,6 +282,7 @@ export const generateMasterList = async (
     const composite = getAdapterList(pathToComposites, compositeListDescription)
     const source = getAdapterList(pathToSources, sourceListDescription)
     const target = getAdapterList(pathToTargets, targetListDescription)
+    const nonDeployable = getAdapterList(pathToNonDeployables, nonDeployableListDescription)
 
     // Fetch group-specific fields
     const allAdapters = [
@@ -299,6 +302,12 @@ export const generateMasterList = async (
         name,
         type: '`target`',
         path: pathToTargets + name,
+        redirect: getRedirectText(pathToTargets, name),
+      })),
+      ...nonDeployable.adapters.map((name) => ({
+        name,
+        type: '`non-deployable`',
+        path: pathToNonDeployables + name,
         redirect: getRedirectText(pathToTargets, name),
       })),
     ].sort((a, b) => sortText(a.name, b.name))
@@ -357,6 +366,7 @@ export const generateMasterList = async (
         { path: pathToComposites + 'README.md', text: composite.text },
         { path: pathToSources + 'README.md', text: source.text },
         { path: pathToTargets + 'README.md', text: target.text },
+        { path: pathToNonDeployables + 'README.md', text: nonDeployable.text },
         { path: 'MASTERLIST.md', text: allAdapterText },
       ])
     }
@@ -365,7 +375,7 @@ export const generateMasterList = async (
     if (output?.length && output.includes('airtable')) {
       await generateAirtableMasterList(allAdaptersTable)
     }
-  } catch (e) {
+  } catch (e: any) {
     const error = e as Error
     console.error({ error: error.message, stack: error.stack })
     throw error

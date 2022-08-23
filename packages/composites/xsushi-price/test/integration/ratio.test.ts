@@ -1,47 +1,27 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockEthereumResponseSuccess } from './fixtures'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.CACHE_ENABLED = 'false'
-  process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'http://localhost:8545'
-  process.env.API_VERBOSE = true
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    ETHEREUM_RPC_URL: process.env.ETHEREUM_RPC_URL || 'http://localhost:8545',
+    COINPAPRIKA_ADAPTER_URL: process.env.COINPAPRIKA_ADAPTER_URL || 'http://localhost:8081',
+    API_VERBOSE: true as unknown as string,
+  }
+
+  setupExternalAdapterTest(envVariables, context)
 
   describe('empty request', () => {
     const data: AdapterRequest = {
@@ -54,7 +34,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockEthereumResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

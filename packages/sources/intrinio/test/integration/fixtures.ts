@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockRateResponseSuccess = (): nock =>
+export const mockRateResponseSuccess = (): nock.Scope =>
   nock('https://api-v2.intrinio.com', {
     encodedQueryParams: true,
   })
@@ -44,7 +44,7 @@ export const mockRateResponseSuccess = (): nock =>
       ],
     )
 
-export const mockAuthResponse = (): nock =>
+export const mockAuthResponse = (): nock.Scope =>
   nock('https://realtime.intrinio.com', {
     encodedQueryParams: true,
   })

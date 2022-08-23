@@ -103,3 +103,17 @@ runs:
       if: inputs.latest || steps.check-image-exists.outputs.image-exists == 'false'
       shell: bash
       run: docker push ${{ steps.generate-image-name.outputs.image_name }}
+
+    - name: Write Shasum File
+      if: inputs.latest || steps.check-image-exists.outputs.image-exists == 'false'
+      shell: bash
+      run: docker inspect --format='{{.Id}}' ${{ steps.generate-image-name.outputs.image_name }} > ${{ inputs.adapter-name }}.shasum
+
+    - name: Upload Shasum Artifact
+      if: inputs.latest || steps.check-image-exists.outputs.image-exists == 'false'
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.adapter-name }}-shasum
+        path: ${{ inputs.adapter-name }}.shasum
+        retention-days: 1
+        if-no-files-found: error

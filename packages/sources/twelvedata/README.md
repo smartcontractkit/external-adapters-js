@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Twelvedata
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twelvedata/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twelvedata/package.json)
 
 `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
 
@@ -45,8 +45,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "closing",
-    "base": "VXX"
+    "base": "VXX",
+    "endpoint": "closing"
   },
   "debug": {
     "cacheKey": "ZWDHGGXpQ0kNUlJ7WAZMGVmrHww="
@@ -95,8 +95,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "price",
-    "base": "VXX"
+    "base": "VXX",
+    "endpoint": "price"
   },
   "debug": {
     "cacheKey": "vRWHl92FGmzqMko1oZyLtKloXNI="

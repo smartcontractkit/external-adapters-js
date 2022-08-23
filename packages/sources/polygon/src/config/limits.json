@@ -12,6 +12,9 @@
     },
     "advanced": {
       "rateLimit1h": -1
+    },
+    "enterprise": {
+      "rateLimit1h": -1
     }
   },
   "ws": {}

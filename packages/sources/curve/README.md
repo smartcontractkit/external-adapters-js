@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-![1.2.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json)
 
 This adapter allows querying Curve.fi contracts
 
@@ -51,11 +51,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "rate",
     "from": "USDC",
     "to": "USDT",
-    "amount": 1
+    "amount": 1,
+    "endpoint": "crypto",
+    "resultPath": "rate"
   },
   "debug": {
     "cacheKey": "YZV70B+kzz3Gu9THcBM+4QpTL3M="
@@ -94,13 +94,13 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "rate",
     "from": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9",
     "fromDecimals": 18,
     "to": "0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490",
     "toDecimals": 18,
-    "amount": 10
+    "amount": 10,
+    "endpoint": "crypto",
+    "resultPath": "rate"
   },
   "debug": {
     "cacheKey": "EdPqv6k2ljhklc2bKAeo4fT5Jmk="

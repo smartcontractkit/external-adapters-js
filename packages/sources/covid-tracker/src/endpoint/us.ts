@@ -90,7 +90,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (!day)
     throw new AdapterInputError({
       jobRunID,
-      message: 'Date not found in response data',
+      message: `Date ${date} not found in response data`,
       statusCode: 400,
     })
   const result = Requester.validateResultNumber(day, [resultPath])

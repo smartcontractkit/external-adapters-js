@@ -1,6 +1,6 @@
 # Chainlink Polygon External Adapter
 
-![1.5.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polygon/package.json)
+![1.6.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/polygon/package.json)
 
 This adapter is for [Polygon.io](https://polygon.io/) and supports the conversion endpoint.
 
@@ -35,11 +35,10 @@ Supported names for this endpoint are: `forex`, `price`, `tickers`.
 
 ### Input Params
 
-| Required? |   Name   |    Aliases     | Description | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :------: | :------------: | :---------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   base   | `base`, `from` |             |      |         |         |            |                |
-|    ✅     |  quote   | `quote`, `to`  |             |      |         |         |            |                |
-|           | quantity |                |             |      |         |         |            |                |
+| Required? | Name  | Aliases |             Description             | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----: | :---------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `from`  | The symbol of the currency to query |      |         |         |            |                |
+|    ✅     | quote |  `to`   | The symbol of the currency to query |      |         |         |            |                |
 
 ### Example
 
@@ -49,9 +48,9 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "tickers",
     "base": "USD",
-    "quote": "GBP"
+    "quote": "GBP",
+    "endpoint": "tickers"
   },
   "debug": {
     "cacheKey": "mHeJ4ndsgJT0zeWSJArS/54XXLQ=",
@@ -62,9 +61,9 @@ Request:
         {
           "id": "1",
           "data": {
-            "endpoint": "tickers",
             "base": "USD",
-            "quote": "GBP"
+            "quote": "GBP",
+            "endpoint": "tickers"
           }
         }
       ]
@@ -605,11 +604,11 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "conversion",
     "base": "USD",
     "quote": "GBP",
     "amount": 1,
-    "precision": 6
+    "precision": 6,
+    "endpoint": "conversion"
   },
   "debug": {
     "cacheKey": "LSis8oL66JPkLWlEfF1HOR1J8GM="

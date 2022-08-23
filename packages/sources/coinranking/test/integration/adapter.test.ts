@@ -1,40 +1,29 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import {
   mockCryptoResponseFailure,
   mockCryptoResponseSuccess,
   mockReferenceCurrenciesSuccess,
 } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
 
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    API_KEY: process.env.API_KEY || 'fake-api-key',
+  }
 
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('crypto api', () => {
     const data: AdapterRequest = {
@@ -48,7 +37,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -73,7 +62,7 @@ describe('execute', () => {
       mockReferenceCurrenciesSuccess()
       mockCryptoResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -97,7 +86,7 @@ describe('execute', () => {
       mockReferenceCurrenciesSuccess()
       mockCryptoResponseFailure()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

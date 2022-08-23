@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockDataProviderResponses = (): nock =>
+export const mockDataProviderResponses = (): nock.Scope =>
   nock('http://chainlink.wrappedeng.com', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockDataProviderResponses = (): nock =>
     .get('/deposits')
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         BCH: ['bitcoincash:qz4s4f4d6qjv487svvh82rr3sfknh3a3ggjwmtctsa'],
         BTC: [
           '37yzfCadCFzUAygGSVdQ1M7EZDxUeBryfz',

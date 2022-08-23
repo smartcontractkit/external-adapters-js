@@ -1,11 +1,19 @@
-import type { AdapterContext, AdapterImplementation, EnvDefaults } from '../types'
+import type {
+  AdapterContext,
+  AdapterImplementation,
+  BasePairInputParameters,
+  PairOptionsMap,
+  EnvDefaults,
+  IncludePair,
+} from '../types'
+import type { Validator } from './modules/validator'
 import { FastifyRequest } from 'fastify'
 import type { CacheEntry } from './middleware/cache/types'
 import { Decimal } from 'decimal.js'
 import { flatMap, values, List } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { logger } from './modules/logger'
-import { AdapterConfigError, RequiredEnvError } from './modules/error'
+import { AdapterConfigError, AdapterError, RequiredEnvError } from './modules/error'
 
 export const isString = (value: unknown): boolean =>
   typeof value === 'string' || value instanceof String
@@ -145,12 +153,19 @@ export const getWithCoalescing = async ({
   return await _self(retries)
 }
 
+export const logError = (error: AdapterError): AdapterError => {
+  logger.error({ feedId: error.feedID, type: error.metricsLabel, message: error.message })
+  return error
+}
+
 const getEnvName = (name: string, prefix = '') => {
   const envName = prefix ? `${prefix}_${name}` : name
   if (!isEnvNameValid(envName))
-    throw new AdapterConfigError({
-      message: `Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`,
-    })
+    throw logError(
+      new AdapterConfigError({
+        message: `Invalid environment var name: ${envName}. Only '/^[_a-z0-9]+$/i' is supported.`,
+      }),
+    )
   return envName
 }
 
@@ -190,9 +205,7 @@ export const getEnv = (name: string, prefix = '', context?: AdapterContext): str
 export const getRequiredEnv = (name: string, prefix = ''): string => {
   const val = getEnv(name, prefix)
   if (!val) {
-    const error = new RequiredEnvError(getEnvName(name, prefix))
-    logger.error(error.message)
-    throw error
+    throw logError(new RequiredEnvError(getEnvName(name, prefix)))
   }
   return val
 }
@@ -353,6 +366,22 @@ export const getURL = (prefix: string, required = false): string | undefined =>
 export const getRequiredURL = (prefix: string): string =>
   getRequiredEnv(ENV_ADAPTER_URL, prefix) || getRequiredEnv(LEGACY_ENV_ADAPTER_URL, prefix)
 
+export const getEnvWithFallback = (
+  primary: string,
+  fallbacks: string[],
+  prefix = '',
+): string | undefined => {
+  // Attempt primary
+  const val = getEnv(primary, prefix)
+  if (val) return val
+
+  // Attempt fallbacks
+  for (const fallback of fallbacks) {
+    const val = getEnv(fallback, prefix)
+    if (val) return val
+  }
+  return
+}
 /**
  * Get variable from environment then check for a fallback if it is not set then throw if neither are set
  * @param primary The name of environment variable to look for first
@@ -366,17 +395,12 @@ export const getRequiredEnvWithFallback = (
   fallbacks: string[],
   prefix = '',
 ): string => {
-  // Attempt primary
-  const val = getEnv(primary, prefix)
-  if (val) return val
-
-  // Attempt fallbacks
-  for (const fallback of fallbacks) {
-    const val = getEnv(fallback, prefix)
-    if (val) return val
+  const env = getEnvWithFallback(primary, fallbacks, prefix)
+  if (!env) {
+    throw logError(new RequiredEnvError(getEnvName(primary, prefix)))
   }
 
-  throw new RequiredEnvError(getEnvName(primary, prefix))
+  return env
 }
 
 export function isArraylikeAccessor(x: unknown[]): x is [number] {
@@ -537,3 +561,131 @@ export const registerUnhandledRejectionHandler = (): void => {
 
 export const getClientIp = (req: FastifyRequest): string =>
   req.ip ? req.ip : req.ips?.length ? req.ips[req.ips.length - 1] : 'unknown'
+
+export const RPCErrorMap = {
+  NETWORK_ERROR: `The provided RPC network could not be connected.`,
+  TIMEOUT: 'Request to the RPC has timed out',
+}
+
+export const mapRPCErrorMessage = (errorCode: string, errorMessage: string): string => {
+  // Try to transform error message if error is thrown from ether.js
+  if (
+    errorCode &&
+    errorMessage &&
+    RPCErrorMap[errorCode as keyof typeof RPCErrorMap] &&
+    errorMessage.includes('version')
+  ) {
+    return RPCErrorMap[errorCode as keyof typeof RPCErrorMap]
+  }
+  return errorMessage
+}
+
+// Utilizes the getPairOptionsMap method to build the TOptions map for an adapter
+// This method is used for non-batched requests which would only return a single TOptions
+// Non-batched requests will only have a single base and single quote
+export const getPairOptions = <TOptions, TInputParameters extends BasePairInputParameters>(
+  adapterName: string,
+  validator: Validator<TInputParameters>,
+  getIncludesOptions: (
+    validator: Validator<TInputParameters>,
+    include: IncludePair,
+  ) => TOptions | undefined,
+  defaultGetOptions: (base: string, quote: string) => TOptions,
+  customOverrideIncludes?: (base: string, quote: string, includes: string[]) => IncludePair,
+): TOptions => {
+  const validatedBase = validator.validated.data.base as string
+  const validatedQuote = validator.validated.data.quote as string
+  const includesOptionsMap = getPairOptionsMap<TOptions, TInputParameters>(
+    adapterName,
+    validator,
+    getIncludesOptions,
+    defaultGetOptions,
+    customOverrideIncludes,
+  )
+  return includesOptionsMap[validatedBase][validatedQuote]
+}
+
+// Utilizes the getPairOptionsMap method to build the TOptions map for an adapter
+// This method is used for batch requests which could return just a single TOptions or a PairOptionsMap (if multiple bases or quotes are passed)
+export const getBatchedPairOptions = <TOptions, TInputParameters extends BasePairInputParameters>(
+  adapterName: string,
+  validator: Validator<TInputParameters>,
+  getIncludesOptions: (
+    validator: Validator<TInputParameters>,
+    include: IncludePair,
+  ) => TOptions | undefined,
+  defaultGetOptions: (base: string, quote: string) => TOptions,
+  customOverrideIncludes?: (base: string, quote: string, includes: string[]) => IncludePair,
+): TOptions | PairOptionsMap<TOptions> => {
+  const validatedBase = validator.validated.data.base
+  const validatedQuote = validator.validated.data.quote
+  const includesOptionsMap = getPairOptionsMap<TOptions, TInputParameters>(
+    adapterName,
+    validator,
+    getIncludesOptions,
+    defaultGetOptions,
+    customOverrideIncludes,
+  )
+  return Array.isArray(validatedBase) || Array.isArray(validatedQuote)
+    ? includesOptionsMap
+    : includesOptionsMap[validatedBase][validatedQuote]
+}
+
+/**
+ * Get request options for base/quote inputs for adapters with `includes.json`. The `includes.json` contains an array
+ * of base/quote pairs with related replacement inputs to be used in their place (usually for the purpose of fetching prices through
+ * the inverse pair).
+ * @param adapterName NAME of adapter to override base symbol from overrides object
+ * @param validator Validator object containing base/quote input params to check against `includes.json`
+ * @param getIncludesOptions Method to derive request options for base/quote after validator has replaced inputs from `includes.json` if applicable
+ * @param defaultGetOptions Method to derive default request options when `getIncludesOptions` fails (ex. if `includes.json` does not include given base/quote pair)
+ * @param customOverrideIncludes Method to replace inputs for request if `includes` from request is of type (string[]) but the base/quote are not in the preset `includes` passed to the validator
+ * @returns object of request options to use for given base/quote pair from validator
+ */
+export const getPairOptionsMap = <TOptions, TInputParameters extends BasePairInputParameters>(
+  adapterName: string,
+  validator: Validator<TInputParameters>,
+  getIncludesOptions: (
+    validator: Validator<TInputParameters>,
+    include: IncludePair,
+  ) => TOptions | undefined,
+  defaultGetOptions: (base: string, quote: string) => TOptions,
+  customOverrideIncludes?: (base: string, quote: string, includes: string[]) => IncludePair,
+): PairOptionsMap<TOptions> => {
+  const validatedBase = validator.validated.data.base
+  const validatedQuote = validator.validated.data.quote
+  const includes = validator.validated.includes || []
+
+  const includesOptionsMap: PairOptionsMap<TOptions> = {}
+
+  const bases = Array.isArray(validatedBase) ? validatedBase : [validatedBase]
+  const quotes = Array.isArray(validatedQuote) ? validatedQuote : [validatedQuote]
+
+  for (const base of bases) {
+    const overrideBase = validator.overrideSymbol(adapterName, base)
+
+    includesOptionsMap[base] = includesOptionsMap[base] ?? {}
+
+    for (const quote of quotes) {
+      const overrideQuote = validator.overrideSymbol(adapterName, quote)
+
+      let baseIncludes = validator.overrideIncludes(overrideBase, overrideQuote)
+
+      if (!baseIncludes && typeof includes[0] === 'string') {
+        const defaultOverrideIncludes = (base: string, _: string, includes: string[]) => ({
+          from: base,
+          to: includes[0],
+        })
+        const getOverrideIncludes = customOverrideIncludes ?? defaultOverrideIncludes
+        baseIncludes = getOverrideIncludes(base, quote, includes as string[])
+      }
+
+      const includeOptions = baseIncludes && getIncludesOptions(validator, baseIncludes)
+
+      includesOptionsMap[base][quote] =
+        includeOptions ?? defaultGetOptions(overrideBase, overrideQuote)
+    }
+  }
+
+  return includesOptionsMap
+}

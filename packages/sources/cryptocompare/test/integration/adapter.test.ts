@@ -1,9 +1,8 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
-import { util } from '@chainlink/ea-bootstrap'
 import {
   mockPriceResponseFailure,
   mockPriceResponseSuccess,
@@ -16,33 +15,26 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import { DEFAULT_WS_API_ENDPOINT } from '../../src/config'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
 
-  beforeAll(async () => {
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'fake-api-key',
+  }
 
-    nock.restore()
-    nock.cleanAll()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('price api', () => {
     const data: AdapterRequest = {
@@ -56,7 +48,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockPriceResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -80,7 +72,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockPriceResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -104,7 +96,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockPriceResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -127,7 +119,7 @@ describe('execute', () => {
     it('should return failure', async () => {
       mockPriceResponseFailure()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -151,7 +143,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockPriceResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -187,7 +179,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -206,7 +198,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockPriceResponseSuccess() // For the first response
 

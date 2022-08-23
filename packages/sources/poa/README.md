@@ -1,6 +1,6 @@
 # Chainlink External Adapter for POA Network gas price
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/poa/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/poa/package.json)
 
 Base URL https://gasprice.poa.network/
 
@@ -40,8 +40,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "gasprice",
-    "speed": "average"
+    "speed": "average",
+    "endpoint": "gasprice"
   },
   "debug": {
     "cacheKey": "1GHxqDIBX4s/n/jRmjOhhARCCIE="

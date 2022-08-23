@@ -1,6 +1,5 @@
 import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
-import { getEnv, parseBool } from '../../util'
-import { logger } from '../../modules/logger'
+import { getEnv, parseBool, logError } from '../../util'
 import { AdapterError } from '../../modules/error'
 import type { AdapterContext } from '../../../types'
 
@@ -39,8 +38,7 @@ export function get(
       const providerConfig = getRateLimit(rateLimitConfig.name, rateLimitConfig.limits, tier)
       capacity = Number(providerConfig.minute)
     } catch (e) {
-      const error = new AdapterError(e as Partial<AdapterError>)
-      logger.error(error.message)
+      logError(new AdapterError(e as Partial<AdapterError>))
     }
   }
   let burstCapacity1s = 0
@@ -50,14 +48,14 @@ export function get(
     try {
       const limit = getHTTPLimit(rateLimitConfig.name, rateLimitConfig.limits, tier, 'rateLimit1s')
       burstCapacity1s = shouldIgnorePerSecLimit ? 0 : Number(limit)
-    } catch {
-      // Ignore
+    } catch (e) {
+      logError(new AdapterError(e as Partial<AdapterError>))
     }
     try {
       const limit = getHTTPLimit(rateLimitConfig.name, rateLimitConfig.limits, tier, 'rateLimit1m')
       burstCapacity1m = shouldIgnorePerMinLimit ? 0 : Number(limit)
-    } catch {
-      // Ignore
+    } catch (e) {
+      logError(new AdapterError(e as Partial<AdapterError>))
     }
   }
 

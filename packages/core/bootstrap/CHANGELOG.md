@@ -1,5 +1,76 @@
 # @chainlink/ea-bootstrap
 
+## 2.18.1
+
+### Patch Changes
+
+- c14139f55: Fixed an issue where the burst limiter would never recover from exceeding the limit
+
+## 2.18.0
+
+### Minor Changes
+
+- 48730a71c: Fixed websocket metric value going negative
+
+## 2.17.1
+
+### Patch Changes
+
+- cf38319c3: Support includes param in request as string[]
+
+## 2.17.0
+
+### Minor Changes
+
+- d63612a03: Refactor getIncludesOptions to be a generic util.getPairOptions method in bootstrap
+- 110f3ab5c: Added logError method, for logging for errors outside of iologger in bootstrap. Updated iologger to log error type. Added WS adapter timeout log. Updated error messages for source & composite adapters
+
+## 2.16.0
+
+### Minor Changes
+
+- afaf0017e: Add Stader Labs Adapter to Core Legos
+
+## 2.15.1
+
+### Patch Changes
+
+- 03071f0d0: Fix: On WS correctly shut down non-warmer Cache Warmers
+
+## 2.15.0
+
+### Minor Changes
+
+- 8161e1e18: fix broken endpoint override when endpoint missing from request
+
+## 2.14.1
+
+### Patch Changes
+
+- 2e9b730ba: Revert cache warmer type safety throws
+
+## 2.14.0
+
+### Minor Changes
+
+- 0d3eda653: avoid throwing hard error in batch warmer when joining a child warmer instead of a batch warmer
+
+## 2.13.0
+
+### Minor Changes
+
+- bff852d48: add better logging when batch warmer errors out
+
+## 2.12.0
+
+### Minor Changes
+
+- 6054a7b69: add better logging when batch warmer errors out
+
+### Patch Changes
+
+- 816b3d307: transform ether.js RPC errors
+
 ## 2.11.0
 
 ### Minor Changes

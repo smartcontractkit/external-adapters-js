@@ -88,9 +88,17 @@ export const getContractAddress = async (
 }
 
 export const getSynthetixBridgeName = (networkName: string, jobRunID: string): string => {
-  if (networkName === SupportedChains.ETHEREUM || networkName === SupportedChains.KOVAN)
+  if (
+    networkName === SupportedChains.ETHEREUM ||
+    networkName === SupportedChains.KOVAN ||
+    networkName === SupportedChains.GOERLI
+  )
     return 'SynthetixBridgeToOptimism'
-  if (networkName === SupportedChains.OPTIMISM || networkName === SupportedChains.KOVAN_OPTIMISM)
+  if (
+    networkName === SupportedChains.OPTIMISM ||
+    networkName === SupportedChains.KOVAN_OPTIMISM ||
+    networkName === SupportedChains.GOERLI_OPTIMISM
+  )
     return 'SynthetixBridgeToBase'
   throw new AdapterInputError({
     jobRunID,
@@ -116,7 +124,7 @@ export const getLatestBlockByChain = async (
       try {
         const latestBlock = await networkProvider.getBlockNumber()
         return [network, latestBlock]
-      } catch (e) {
+      } catch (e: any) {
         const error = e as any
         const errorPayload = {
           jobRunID,

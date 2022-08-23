@@ -1,4 +1,4 @@
-import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
@@ -20,6 +20,7 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
 import {
@@ -27,30 +28,21 @@ import {
   DEFAULT_FOREX_WS_API_ENDPOINT,
   DEFAULT_STOCK_WS_API_ENDPOINT,
 } from '../../src/config'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_KEY: process.env.API_KEY || 'fake-api-key',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('stock api', () => {
     const data: AdapterRequest = {
@@ -64,7 +56,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -87,7 +79,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -110,7 +102,7 @@ describe('execute', () => {
     it('should return failure', async () => {
       mockResponseFailure()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -134,7 +126,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -158,7 +150,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -168,92 +160,53 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
   })
-})
 
-describe('websocket', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-
-  let oldEnv: NodeJS.ProcessEnv
-  beforeAll(async () => {
-    if (!process.env.RECORD) {
-      process.env.API_KEY = 'fake-api-key'
-      process.env.WS_SOCKET_KEY = 'fake-api-key'
-      process.env.CRYPTO_WS_API_ENDPOINT = DEFAULT_CRYPTO_WS_API_ENDPOINT
-
-      mockedWsServer = mockWebSocketServer(process.env.CRYPTO_WS_API_ENDPOINT)
-      mockWebSocketProvider(WebSocketClassProvider)
+  describe('commodities api', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'commodities',
+        from: 'WTI',
+        to: 'USD',
+      },
     }
 
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
-    process.env.WS_SUBSCRIPTION_TTL = '300'
-
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    process.env = oldEnv
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
-  describe('crypto endpoint', () => {
-    const jobID = '1'
-
     it('should return success', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          endpoint: 'crypto',
-          base: 'BTC',
-          quote: 'USD',
-        },
-      }
+      mockResponseSuccess()
 
-      let flowFulfilled: Promise<boolean>
-      if (!process.env.RECORD) {
-        mockResponseSuccess() // For the first response
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
 
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockCryptoSubscribeResponse,
-          mockCryptoUnsubscribeResponse,
-          // Double mocks in flow are needed to get rid of timing issues
-          mockCryptoSubscribeResponse,
-          mockCryptoUnsubscribeResponse,
-        ])
-      }
+  describe('commodities api with invalid base', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        endpoint: 'commodities',
+        from: 'nonexisting',
+        to: 'USD',
+      },
+    }
 
-      const makeRequest = () =>
-        req
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
+    it('should return failure', async () => {
+      mockResponseFailure()
 
-      // We don't care about the first response, coming from http request
-      // This first request will start both batch warmer & websocket
-      await makeRequest()
-
-      await util.sleep(100)
-      // This final request should disable the cache warmer
-      const response = await makeRequest()
-      expect(response.body).toEqual({
-        jobRunID: '1',
-        result: 43682.66306523,
-        statusCode: 200,
-        maxAge: 30000,
-        data: { result: 43682.66306523 },
-      })
-
-      await flowFulfilled
-    }, 30000)
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
   })
 })
 
@@ -283,7 +236,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -302,7 +255,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockResponseSuccess() // For the first response
 
@@ -368,7 +321,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -388,7 +341,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockResponseSuccess() // For the first response
 
@@ -424,6 +377,93 @@ describe('websocket', () => {
         statusCode: 200,
         maxAge: 30000,
         data: { result: 1.331345 },
+      })
+
+      await flowFulfilled
+    }, 30000)
+  })
+})
+
+describe('websocket', () => {
+  let mockedWsServer: InstanceType<typeof MockWsServer>
+  let fastify: FastifyInstance
+  let req: SuperTest<Test>
+
+  let oldEnv: NodeJS.ProcessEnv
+  beforeAll(async () => {
+    if (!process.env.RECORD) {
+      process.env.API_KEY = 'fake-api-key'
+      process.env.WS_SOCKET_KEY = 'fake-api-key'
+      process.env.CRYPTO_WS_API_ENDPOINT = DEFAULT_CRYPTO_WS_API_ENDPOINT
+
+      mockedWsServer = mockWebSocketServer(process.env.CRYPTO_WS_API_ENDPOINT)
+      mockWebSocketProvider(WebSocketClassProvider)
+    }
+
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.WS_ENABLED = 'true'
+    process.env.WS_SUBSCRIPTION_TTL = '300'
+
+    fastify = await startServer()
+    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+  })
+
+  afterAll((done) => {
+    setEnvVariables(oldEnv)
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
+    fastify.close(done)
+  })
+
+  describe('crypto endpoint', () => {
+    const jobID = '1'
+
+    it('should return success', async () => {
+      const data: AdapterRequest = {
+        id: jobID,
+        data: {
+          endpoint: 'crypto',
+          base: 'BTC',
+          quote: 'USD',
+        },
+      }
+
+      let flowFulfilled = Promise.resolve(true)
+      if (!process.env.RECORD) {
+        mockResponseSuccess() // For the first response
+
+        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
+          mockCryptoSubscribeResponse,
+          mockCryptoUnsubscribeResponse,
+          // Double mocks in flow are needed to get rid of timing issues
+          mockCryptoSubscribeResponse,
+          mockCryptoUnsubscribeResponse,
+        ])
+      }
+
+      const makeRequest = () =>
+        req
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+
+      // We don't care about the first response, coming from http request
+      // This first request will start both batch warmer & websocket
+      await makeRequest()
+
+      await util.sleep(100)
+      // This final request should disable the cache warmer
+      const response = await makeRequest()
+      expect(response.body).toEqual({
+        jobRunID: '1',
+        result: 43682.66306523,
+        statusCode: 200,
+        maxAge: 30000,
+        data: { result: 43682.66306523 },
       })
 
       await flowFulfilled

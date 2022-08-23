@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/lition-adapter",
-  "version": "1.2.0",
+  "version": "1.2.12",
   "description": "Chainlink Lition adapter.",
   "keywords": [
     "Chainlink",
@@ -32,8 +32,8 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@types/jest": "27.0.3",
-    "@types/node": "16.11.41",
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.49",
     "typescript": "4.7.4"
   }
 }

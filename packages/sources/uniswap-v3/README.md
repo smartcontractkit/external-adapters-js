@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V3
 
-![1.1.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json)
+![1.2.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json)
 
 This adapter allows querying Uniswap V3 contracts
 
@@ -53,12 +53,12 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "rate",
     "from": "USDC",
     "to": "USDT",
     "amount": 1,
-    "feeTiers": [500, 3000, 10000]
+    "feeTiers": [500, 3000, 10000],
+    "endpoint": "crypto",
+    "resultPath": "rate"
   },
   "debug": {
     "cacheKey": "eCT3oN0/h/8k5nI6+fCB9HsYv7g="
@@ -96,14 +96,14 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "rate",
     "from": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     "fromDecimals": 18,
     "to": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
     "toDecimals": 18,
     "amount": 10,
-    "feeTiers": [500, 3000, 10000]
+    "feeTiers": [500, 3000, 10000],
+    "endpoint": "crypto",
+    "resultPath": "rate"
   },
   "debug": {
     "cacheKey": "FS+hwxQGdK8P/A1RFmoutg67BvI="

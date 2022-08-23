@@ -1,5 +1,105 @@
 # @chainlink/google-weather-adapter
 
+## 1.3.4
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/google-bigquery-adapter@1.2.12
+
+## 1.3.3
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/google-bigquery-adapter@1.2.11
+
+## 1.3.2
+
+### Patch Changes
+
+- @chainlink/google-bigquery-adapter@1.2.10
+
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/google-bigquery-adapter@1.2.9
+
+## 1.3.0
+
+### Minor Changes
+
+- 110f3ab5c: Added logError method, for logging for errors outside of iologger in bootstrap. Updated iologger to log error type. Added WS adapter timeout log. Updated error messages for source & composite adapters
+
+### Patch Changes
+
+- Updated dependencies [d63612a03]
+- Updated dependencies [110f3ab5c]
+  - @chainlink/ea-bootstrap@2.17.0
+  - @chainlink/google-bigquery-adapter@1.2.8
+
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [afaf0017e]
+  - @chainlink/ea-bootstrap@2.16.0
+  - @chainlink/google-bigquery-adapter@1.2.7
+
+## 1.2.6
+
+### Patch Changes
+
+- Updated dependencies [03071f0d0]
+  - @chainlink/ea-bootstrap@2.15.1
+  - @chainlink/google-bigquery-adapter@1.2.6
+
+## 1.2.5
+
+### Patch Changes
+
+- Updated dependencies [8161e1e18]
+  - @chainlink/ea-bootstrap@2.15.0
+  - @chainlink/google-bigquery-adapter@1.2.5
+
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [2e9b730ba]
+  - @chainlink/ea-bootstrap@2.14.1
+  - @chainlink/google-bigquery-adapter@1.2.4
+
+## 1.2.3
+
+### Patch Changes
+
+- Updated dependencies [0d3eda653]
+  - @chainlink/ea-bootstrap@2.14.0
+  - @chainlink/google-bigquery-adapter@1.2.3
+
+## 1.2.2
+
+### Patch Changes
+
+- Updated dependencies [bff852d48]
+  - @chainlink/ea-bootstrap@2.13.0
+  - @chainlink/google-bigquery-adapter@1.2.2
+
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/google-bigquery-adapter@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

@@ -1,5 +1,7 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { assertError, assertSuccess } from '@chainlink/ea-test-helpers'
 import { execute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 
 /**
  * Running these tests requires a connection to an AION client.
@@ -19,7 +21,7 @@ describe('AION client @integration', () => {
     }
 
     it('returns error to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
       assertError({ expected: 500, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -34,7 +36,7 @@ describe('AION client @integration', () => {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -48,7 +50,7 @@ describe('AION client @integration', () => {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -62,7 +64,7 @@ describe('AION client @integration', () => {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -76,7 +78,7 @@ describe('AION client @integration', () => {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -91,7 +93,7 @@ describe('AION client @integration', () => {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })
@@ -106,7 +108,7 @@ describe('AION client @integration', () => {
     }
 
     it('returns data to the node', async () => {
-      const resp = await execute(req)
+      const resp = await execute(req as AdapterRequest<TInputParameters>, {}, {})
       assertSuccess({ expected: 200, actual: resp.statusCode }, resp.data, jobID)
     })
   })

@@ -11,16 +11,16 @@ export const withIOLogger: <R extends AdapterRequest, C extends AdapterContext>(
   R,
   C
 > = () => async (execute, context) => async (input) => {
-  Logger.debug('Input: ', { input })
-  Logger.debug(`Received request from IP ${context.ip} and Host ${context.host}`)
+  Logger.debug('Input: ', { input, IP: `${context.ip}`, Host: `${context.host}` })
   try {
     const result = await execute(input, context)
     Logger.debug(`Output: [${result.statusCode}]: `, { output: result })
     return result
-  } catch (e) {
+  } catch (e: any) {
     const error = new AdapterError(e as Partial<AdapterError>)
     const feedID = getFeedId(input)
     const errorLog: AdapterErrorLog = {
+      type: error.metricsLabel,
       message: error.toString(),
       jobRunID: input.id,
       params: input.data,

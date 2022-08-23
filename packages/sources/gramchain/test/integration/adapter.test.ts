@@ -1,50 +1,26 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import { mockGramChainResponseSuccess } from './fixtures'
 import { DEFAULT_BASE_URL } from '../../src/config'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
-
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.CACHE_ENABLED = 'false'
-  process.env.API_ENDPOINT = process.env.API_ENDPOINT || DEFAULT_BASE_URL
-  process.env.API_VERBOSE = 'true'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.CACHE_ENABLED = 'false'
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    API_ENDPOINT: process.env.API_ENDPOINT || DEFAULT_BASE_URL,
+    API_VERBOSE: 'true',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
-
+  setupExternalAdapterTest(envVariables, context)
   describe('api', () => {
     const data: AdapterRequest = {
       id,
@@ -58,7 +34,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockGramChainResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

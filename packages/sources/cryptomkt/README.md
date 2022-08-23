@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoMKT
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json)
 
 Base URL https://api.exchange.cryptomkt.com/api/3/
 
@@ -43,10 +43,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "last",
     "base": "BTC",
-    "quote": "ARS"
+    "quote": "ARS",
+    "endpoint": "crypto",
+    "resultPath": "last"
   },
   "debug": {
     "cacheKey": "DXqgDsgrZ489uGqrEFEK7PB3vv4="

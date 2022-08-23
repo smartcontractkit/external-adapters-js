@@ -3,11 +3,12 @@ import { useFakeTimers } from 'sinon'
 import * as network from '../../src/network'
 import * as health from '../../src/endpoint/health'
 import { makeExecute } from '../../src/adapter'
+import { TInputParameters } from '../../src/endpoint'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 describe('adapter', () => {
   describe('L2 Network health check', () => {
-    let clock
+    let clock: any
     beforeEach(() => {
       clock = useFakeTimers()
     })
@@ -73,7 +74,7 @@ describe('adapter', () => {
 
   describe('Adapter health check', () => {
     const execute = makeExecute()
-    let clock
+    let clock: any
     beforeEach(() => {
       clock = useFakeTimers()
       jest.spyOn(network, 'getStatusByTransaction').mockReturnValue(Promise.resolve(false))
@@ -91,8 +92,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       expect(response.data.result).toBe(1)
@@ -108,8 +109,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       expect(response.data.result).toBe(1)
@@ -124,8 +125,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       expect(response.data.result).toBe(0)
@@ -140,8 +141,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       clock.tick(DEFAULT_DELTA_TIME + 1)
@@ -151,8 +152,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       expect(response.data.result).toBe(1)
@@ -169,8 +170,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       expect(response.data.result).toBe(1)
@@ -186,8 +187,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       expect(response.data.result).toBe(0)
@@ -202,8 +203,8 @@ describe('adapter', () => {
           data: {
             network: 'arbitrum',
           },
-        } as AdapterRequest,
-        undefined,
+        } as AdapterRequest<TInputParameters>,
+        {},
       )
 
       expect(response.data.result).toBe(1)
@@ -219,8 +220,8 @@ describe('adapter', () => {
           {
             id: '',
             data: {},
-          },
-          undefined,
+          } as AdapterRequest<TInputParameters>,
+          {},
         ),
       ).rejects.toThrow()
     })

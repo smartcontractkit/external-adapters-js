@@ -100,7 +100,12 @@ export const description = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/
 
 **NOTE: the \`price\` endpoint is temporarily still supported, however, is being deprecated. Please use the \`crypto\` endpoint instead.**`
 
-export type TInputParameters = { base: string; convert: string; cid: string; slug: string }
+export type TInputParameters = {
+  base: string | string[]
+  convert: string | string[]
+  cid: string
+  slug: string
+}
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     aliases: ['from', 'coin', 'sym', 'symbol'],

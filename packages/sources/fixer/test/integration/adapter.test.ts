@@ -1,41 +1,30 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import * as process from 'process'
 import { server as startServer } from '../../src'
-import * as nock from 'nock'
 import { mockConvertResponse, mockLatestResponse, mockResponseFailure } from './fixtures'
-import { AddressInfo } from 'net'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    process.env.CACHE_ENABLED = 'false'
-    process.env.API_KEY = process.env.API_KEY || 'fake-api-key'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+    API_KEY: process.env.API_KEY || 'fake-api-key',
+  }
 
-  afterAll((done) => {
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('convert api', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'convert',
         base: 'EUR',
         quote: 'USD',
       },
@@ -44,7 +33,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockConvertResponse()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -59,6 +48,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
+        endpoint: 'convert',
         base: 'NON-EXISTING',
         quote: 'USD',
       },
@@ -67,7 +57,7 @@ describe('execute', () => {
     it('should return failure', async () => {
       mockResponseFailure()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -83,7 +73,6 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id,
       data: {
-        endpoint: 'latest',
         base: 'EUR',
         quote: 'USD',
       },
@@ -92,7 +81,7 @@ describe('execute', () => {
     it('should return success', async () => {
       mockLatestResponse()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

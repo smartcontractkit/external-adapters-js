@@ -1,5 +1,116 @@
 # @chainlink/anchor-adapter
 
+## 3.4.12
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/terra-view-function-adapter@1.3.12
+
+## 3.4.11
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/terra-view-function-adapter@1.3.11
+
+## 3.4.10
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/terra-view-function-adapter@1.3.10
+
+## 3.4.9
+
+### Patch Changes
+
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.9
+
+## 3.4.8
+
+### Patch Changes
+
+- Updated dependencies [d63612a03]
+- Updated dependencies [110f3ab5c]
+  - @chainlink/ea-bootstrap@2.17.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.8
+
+## 3.4.7
+
+### Patch Changes
+
+- Updated dependencies [afaf0017e]
+  - @chainlink/ea-bootstrap@2.16.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.7
+
+## 3.4.6
+
+### Patch Changes
+
+- Updated dependencies [03071f0d0]
+  - @chainlink/ea-bootstrap@2.15.1
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.6
+
+## 3.4.5
+
+### Patch Changes
+
+- Updated dependencies [8161e1e18]
+  - @chainlink/ea-bootstrap@2.15.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.5
+
+## 3.4.4
+
+### Patch Changes
+
+- Updated dependencies [2e9b730ba]
+  - @chainlink/ea-bootstrap@2.14.1
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.4
+
+## 3.4.3
+
+### Patch Changes
+
+- Updated dependencies [0d3eda653]
+  - @chainlink/ea-bootstrap@2.14.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.3
+
+## 3.4.2
+
+### Patch Changes
+
+- Updated dependencies [bff852d48]
+  - @chainlink/ea-bootstrap@2.13.0
+  - @chainlink/ea-test-helpers@1.4.0
+  - @chainlink/terra-view-function-adapter@1.3.2
+
+## 3.4.1
+
+### Patch Changes
+
+- 816b3d307: catch onchain errors and set 'network'
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/terra-view-function-adapter@1.3.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 3.4.0
 
 ### Minor Changes

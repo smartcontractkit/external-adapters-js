@@ -10,7 +10,7 @@ This adapter calculates an index value from the symbols and units as defined in 
 | :-------: | :-------: | :--------------------------------: | :-----: | :---------: |
 |    ✅     | `API_KEY` | The API Key to access Xangle's API |         |             |
 
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 | Required? |    Name    |     Description     |          Options           | Defaults to |
 | :-------: | :--------: | :-----------------: | :------------------------: | :---------: |
@@ -22,12 +22,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |  Name   |    Description     |    Options     | Defaults to |
-| :-------: | :-----: | :----------------: | :------------: | :---------: |
-|    ✅     | `index` | The index to query | `xbci`, `xlci` |             |
+| Required? |  Name   |    Description     |        Options        | Defaults to |
+| :-------: | :-----: | :----------------: | :-------------------: | :---------: |
+|    ✅     | `index` | The index to query | `xbci`, `xlci`, `x30` |             |
 
 **Additional environment input params must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 ### Sample Input
 

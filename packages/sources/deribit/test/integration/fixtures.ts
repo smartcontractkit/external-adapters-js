@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockResponseSuccess = (): nock.Scope =>
   nock('https://www.deribit.com/api/v2/public', {
     encodedQueryParams: true,
   })
@@ -8,7 +8,7 @@ export const mockResponseSuccess = (): nock =>
     .query({ currency: 'ETH' })
     .reply(
       200,
-      (_, request) => ({
+      () => ({
         jsonrpc: '2.0',
         result: [
           [1634508000000, 69.53224969265713],

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for SatoshiTango
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/satoshitango/package.json)
 
 Base URL https://api.satoshitango.com/v3
 
@@ -43,10 +43,10 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "crypto",
-    "resultPath": "bid",
     "base": "BTC",
-    "quote": "ARS"
+    "quote": "ARS",
+    "endpoint": "crypto",
+    "resultPath": "bid"
   },
   "debug": {
     "cacheKey": "DXqgDsgrZ489uGqrEFEK7PB3vv4="

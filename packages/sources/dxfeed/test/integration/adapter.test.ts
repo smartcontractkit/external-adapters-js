@@ -1,5 +1,4 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
+import { AdapterRequest, FastifyInstance, util } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 import * as process from 'process'
 import request, { SuperTest, Test } from 'supertest'
@@ -18,31 +17,24 @@ import {
   mockWebSocketServer,
   MockWsServer,
   mockWebSocketFlow,
+  setEnvVariables,
 } from '@chainlink/ea-test-helpers'
 import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('dxfeed', () => {
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.API_USERNAME = process.env.API_USERNAME || 'fake-api-username'
-    process.env.API_PASSWORD = process.env.API_PASSWORD || 'fake-api-password'
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.rec()
-    }
-  })
+  const envVariables = {
+    API_USERNAME: process.env.API_USERNAME || 'fake-api-username',
+    API_PASSWORD: process.env.API_PASSWORD || 'fake-api-password',
+  }
 
-  afterAll((done) => {
-    if (util.parseBool(process.env.RECORD)) {
-      nock.recorder.play()
-    }
-    nock.restore()
-    nock.cleanAll()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('price endpoint', () => {
     const priceRequest: AdapterRequest = {
@@ -54,7 +46,7 @@ describe('dxfeed', () => {
 
     it('should reply with success', async () => {
       mockPriceEndpoint()
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(priceRequest)
         .set('Accept', '*/*')
@@ -91,7 +83,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
-    process.env = oldEnv
+    setEnvVariables(oldEnv)
     nock.restore()
     nock.cleanAll()
     nock.enableNetConnect()
@@ -109,7 +101,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled = Promise.resolve(true)
       if (!process.env.RECORD) {
         mockPriceEndpoint() // For the first response
 

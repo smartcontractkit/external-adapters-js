@@ -39,7 +39,7 @@ const buildResultPath = (path: string) => (request: AdapterRequest) => {
   if (!quote)
     throw new AdapterError({
       jobRunID: request.id,
-      message: 'Missing quote',
+      message: `Missing quote for path ${path}`,
       statusCode: 400,
     })
   if (Array.isArray(quote)) return ''

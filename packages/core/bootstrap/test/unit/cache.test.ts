@@ -1,12 +1,28 @@
-import type { AdapterContext, AdapterRequest, AdapterRequestData, Execute } from '../../src/types'
+import type {
+  AdapterContext,
+  AdapterData,
+  AdapterRequest,
+  AdapterRequestData,
+  AdapterResponse,
+  Execute,
+} from '../../src/types'
 import { useFakeTimers } from 'sinon'
-import { AdapterCache, defaultOptions, withCache } from '../../src/lib/middleware/cache'
+import { CacheOptions, defaultOptions, withCache } from '../../src/lib/middleware/cache'
 import { LocalLRUCache } from '../../src/lib/middleware/cache/local'
 
 const mockCacheKey = 'mockCacheKey'
 const mockBatchCacheKey = 'mockBatchCacheKey'
 
-const callAndExpect = async (fn: any, n: number, result: any) => {
+type Fn = {
+  (input: AdapterRequest<AdapterData>, context: AdapterContext): Promise<
+    AdapterResponse<AdapterData>
+  >
+  (arg0: { debug: { cacheKey: string; batchCacheKey: string } }):
+    | AdapterRequest<AdapterData>
+    | PromiseLike<AdapterRequest<AdapterData>>
+}
+
+const callAndExpect = async (fn: Fn, n: number, result: number) => {
   while (n--) {
     const { data } = await fn({
       debug: { cacheKey: mockCacheKey, batchCacheKey: mockBatchCacheKey },
@@ -38,7 +54,7 @@ const counterFrom =
 describe('cache', () => {
   afterEach(() => {
     // We need to reset the local cache instance after each test so that we can start a fresh test with notihing cached
-    LocalLRUCache.cacheInstance = null
+    LocalLRUCache.cacheInstance = {} as LocalLRUCache
   })
 
   // describe('options defaults', () => {
@@ -119,9 +135,9 @@ describe('cache', () => {
     // })
 
     it(`invalidates cache - after configured ttl of 35s`, async () => {
-      context.cache.minimumAge = 1000 * 35
+      ;(context.cache as CacheOptions).minimumAge = 1000 * 35
 
-      const counter = await withCache()(counterFrom(0), context)
+      const counter = (await withCache()(counterFrom(0), context)) as Fn
       await callAndExpect(counter, 3, 0)
 
       await clock.tickAsync(1000 * 30 + 1)

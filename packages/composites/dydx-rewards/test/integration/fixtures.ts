@@ -1,10 +1,12 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 import expectedTestData1 from '../mock-data/expected-test-data-1.json'
 import expectedTestData2 from '../mock-data/expected-test-data-2.json'
 import expectedTestData3 from '../mock-data/expected-test-data-3.json'
+import expectedTestData4 from '../mock-data/expected-test-data-4.json'
 import mockRewards from '../mock-data/rewards.json'
 
-const fileUploadMatches = (expected) => (body) => {
+const fileUploadMatches = (expected: string) => (body: string) => {
   const lines = body.split('\r\n')
   return lines.length === 7 && lines[4] === expected
 }
@@ -13,16 +15,20 @@ export const mockEthNode = (): nock.Scope =>
   nock('http://127.0.0.1:8545', { encodedQueryParams: true })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x2a' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x2a' }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_getBlockByNumber',
       params: ['latest', false],
@@ -31,7 +37,7 @@ export const mockEthNode = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: {
@@ -83,36 +89,44 @@ export const mockEthNode = (): nock.Scope =>
       ],
     )
     .post('/', { method: 'eth_gasPrice', params: [], id: /^\d+$/, jsonrpc: '2.0' })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x47868c00' }), [
-      'Date',
-      'Tue, 14 Sep 2021 09:19:34 GMT',
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x47868c00' }),
+      [
+        'Date',
+        'Tue, 14 Sep 2021 09:19:34 GMT',
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_getTransactionCount',
       params: ['0x63fac9201494f0bd17b9892b9fae4d52fe3bd377', 'pending'],
       id: /^\d+$/,
       jsonrpc: '2.0',
     })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x0' }), [
-      'Date',
-      'Tue, 14 Sep 2021 09:19:34 GMT',
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x0' }),
+      [
+        'Date',
+        'Tue, 14 Sep 2021 09:19:34 GMT',
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_estimateGas',
       params: [
@@ -128,31 +142,39 @@ export const mockEthNode = (): nock.Scope =>
       id: /^\d+$/,
       jsonrpc: '2.0',
     })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0xbcc9' }), [
-      'Date',
-      'Tue, 14 Sep 2021 09:19:35 GMT',
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0xbcc9' }),
+      [
+        'Date',
+        'Tue, 14 Sep 2021 09:19:35 GMT',
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', { method: 'eth_blockNumber', params: [], id: /^\d+$/, jsonrpc: '2.0' })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0x19edc7b' }), [
-      'Date',
-      'Tue, 14 Sep 2021 09:19:36 GMT',
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x19edc7b' }),
+      [
+        'Date',
+        'Tue, 14 Sep 2021 09:19:36 GMT',
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_sendRawTransaction',
       params: [
@@ -163,7 +185,7 @@ export const mockEthNode = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x9c1d509ceb5a9997d2dcbcf950546db7080bf86a8a68617d63c38d585497c692',
@@ -189,7 +211,7 @@ export const mockEthNode = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: {
@@ -611,6 +633,38 @@ export function mockIpfsResponseSuccess(): void {
         '1',
         'Date',
         'Fri, 14 Jan 2022 10:27:25 GMT',
+        'Transfer-Encoding',
+        'chunked',
+      ],
+    )
+    .post('/api/v0/add', fileUploadMatches(JSON.stringify(expectedTestData4)))
+    .query({ 'stream-channels': 'true', 'cid-version': '1', progress: 'false' })
+    .reply(
+      200,
+      {
+        Name: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Hash: 'bafkreicybmu5ce2ujt6cr5gwrhzkyxghfvaxodihadfq2cngryxokzotum',
+        Size: '807',
+      },
+      [
+        'Access-Control-Allow-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Access-Control-Expose-Headers',
+        'X-Stream-Output, X-Chunked-Output, X-Content-Length',
+        'Connection',
+        'close',
+        'Content-Type',
+        'application/json',
+        'Server',
+        'go-ipfs/0.9.1',
+        'Trailer',
+        'X-Stream-Error',
+        'Vary',
+        'Origin',
+        'X-Chunked-Output',
+        '1',
+        'Date',
+        'Mon, 13 Sep 2021 15:25:10 GMT',
         'Transfer-Encoding',
         'chunked',
       ],

@@ -1,7 +1,5 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
 import process from 'process'
-import nock from 'nock'
 import { server as startServer } from '../../src'
 import {
   mockResponseWithMultipleRaces,
@@ -9,45 +7,25 @@ import {
   mockResponseWithNoRaces,
   mockStatusLevelResponse,
 } from './fixtures'
-import { AddressInfo } from 'net'
-
-let oldEnv: NodeJS.ProcessEnv
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { SuperTest, Test } from 'supertest'
 
 const MOCK_KEY = 'mock-key'
 
-beforeAll(() => {
-  oldEnv = JSON.parse(JSON.stringify(process.env))
-  process.env.API_KEY = MOCK_KEY
-  process.env.API_VERBOSE = process.env.API_VERBOSE || 'true'
-  if (process.env.RECORD) {
-    nock.recorder.rec()
-  }
-})
-
-afterAll(() => {
-  process.env = oldEnv
-  if (process.env.RECORD) {
-    nock.recorder.play()
-  }
-
-  nock.restore()
-  nock.cleanAll()
-  nock.enableNetConnect()
-})
-
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
+  const context: SuiteContext = {
+    req: null,
+    server: startServer,
+  }
 
-  beforeAll(async () => {
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    API_KEY: process.env.API_KEY || MOCK_KEY,
+    API_VERBOSE: process.env.API_VERBOSE || 'true',
+  }
 
-  afterAll((done) => {
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(envVariables, context)
 
   describe('with no races', () => {
     const data: AdapterRequest = {
@@ -64,7 +42,7 @@ describe('execute', () => {
     mockResponseWithNoRaces(MOCK_KEY)
 
     it('should return error', async () => {
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -90,7 +68,7 @@ describe('execute', () => {
     mockResponseWithMultipleRaces(MOCK_KEY)
 
     it('should return error', async () => {
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -115,7 +93,7 @@ describe('execute', () => {
     mockResponseWithNationalAndState(MOCK_KEY)
 
     it('should return success', async () => {
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -141,7 +119,7 @@ describe('execute', () => {
     mockStatusLevelResponse(MOCK_KEY)
 
     it('should return success', async () => {
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

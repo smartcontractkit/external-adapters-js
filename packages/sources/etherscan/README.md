@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EtherScan
 
-![1.2.41](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherscan/package.json)
+![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherscan/package.json)
 
 Base URL https://api.etherscan.io
 
@@ -40,8 +40,8 @@ Request:
 {
   "id": "1",
   "data": {
-    "endpoint": "gasprice",
-    "speed": "fast"
+    "speed": "fast",
+    "endpoint": "gasprice"
   },
   "debug": {
     "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="

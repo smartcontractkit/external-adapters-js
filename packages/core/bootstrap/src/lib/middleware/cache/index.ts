@@ -265,7 +265,7 @@ export const withCache =
       ): Promise<AdapterResponse | void | undefined> => {
         try {
           return await fn()
-        } catch (e) {
+        } catch (e: any) {
           const error = new AdapterError(e as Partial<AdapterError>)
           const response = await handleFailedCacheRead(
             adapterRequest,
@@ -329,9 +329,9 @@ export const withCache =
             observe.cacheSet({ statusCode, maxAge })
             logger.trace(`Cache: SET ${key}`, entry)
 
-            // Individually cache batch requests
-            if (data?.results) {
-              for (const batchParticipant of Object.values(data.results)) {
+            //Cache batch requests
+            if (data?.results?.length) {
+              const batchEntries = data.results.map((batchParticipant) => {
                 const [key, , result] = batchParticipant
                 const childKey = adapterCacheToUse.getKey(key)
                 const debugBatchablePropertyPath = debug
@@ -344,9 +344,10 @@ export const withCache =
                   maxAge,
                   debug: debugBatchablePropertyPath,
                 }
-                await cacheToUse.setResponse(childKey, entryBatchParticipant, maxAge)
-                logger.trace(`Cache Split Batch: SET ${childKey}`, entryBatchParticipant)
-              }
+                return { key: childKey, entry: entryBatchParticipant, maxAge }
+              })
+
+              await cache.setBatchResponse(batchEntries)
             }
           }
           // Notify pending requests by removing the in-flight mark

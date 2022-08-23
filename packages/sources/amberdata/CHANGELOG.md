@@ -1,5 +1,125 @@
 # @chainlink/amberdata-adapter
 
+## 1.8.5
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ea-factories@1.2.11
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.8.4
+
+### Patch Changes
+
+- Updated dependencies [48730a71c]
+  - @chainlink/ea-bootstrap@2.18.0
+  - @chainlink/ea-factories@1.2.10
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.8.3
+
+### Patch Changes
+
+- 04ea6e448: Updated with better approach to ignore unused var linting and to avoid type coercion
+
+## 1.8.2
+
+### Patch Changes
+
+- Updated dependencies [a54b4216b]
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.8.1
+
+### Patch Changes
+
+- cf38319c3: Support includes param in request as string[]
+- Updated dependencies [cf38319c3]
+  - @chainlink/ea-bootstrap@2.17.1
+  - @chainlink/ea-factories@1.2.9
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.8.0
+
+### Minor Changes
+
+- d63612a03: Refactor getIncludesOptions to be a generic util.getPairOptions method in bootstrap
+- 110f3ab5c: Added logError method, for logging for errors outside of iologger in bootstrap. Updated iologger to log error type. Added WS adapter timeout log. Updated error messages for source & composite adapters
+
+### Patch Changes
+
+- Updated dependencies [d63612a03]
+- Updated dependencies [110f3ab5c]
+  - @chainlink/ea-bootstrap@2.17.0
+  - @chainlink/ea-factories@1.2.8
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.7.7
+
+### Patch Changes
+
+- Updated dependencies [afaf0017e]
+  - @chainlink/ea-bootstrap@2.16.0
+  - @chainlink/ea-factories@1.2.7
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.7.6
+
+### Patch Changes
+
+- Updated dependencies [03071f0d0]
+  - @chainlink/ea-bootstrap@2.15.1
+  - @chainlink/ea-factories@1.2.6
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.7.5
+
+### Patch Changes
+
+- Updated dependencies [8161e1e18]
+  - @chainlink/ea-bootstrap@2.15.0
+  - @chainlink/ea-factories@1.2.5
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.7.4
+
+### Patch Changes
+
+- Updated dependencies [2e9b730ba]
+  - @chainlink/ea-bootstrap@2.14.1
+  - @chainlink/ea-factories@1.2.4
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.7.3
+
+### Patch Changes
+
+- Updated dependencies [0d3eda653]
+  - @chainlink/ea-bootstrap@2.14.0
+  - @chainlink/ea-factories@1.2.3
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.7.2
+
+### Patch Changes
+
+- Updated dependencies [bff852d48]
+  - @chainlink/ea-bootstrap@2.13.0
+  - @chainlink/ea-factories@1.2.2
+  - @chainlink/ea-test-helpers@1.4.0
+
+## 1.7.1
+
+### Patch Changes
+
+- Updated dependencies [6054a7b69]
+- Updated dependencies [816b3d307]
+  - @chainlink/ea-bootstrap@2.12.0
+  - @chainlink/ea-factories@1.2.1
+  - @chainlink/ea-test-helpers@1.4.0
+
 ## 1.7.0
 
 ### Minor Changes

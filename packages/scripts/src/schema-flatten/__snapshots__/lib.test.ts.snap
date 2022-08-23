@@ -112,8 +112,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -269,8 +269,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -462,8 +462,8 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -658,8 +658,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -819,8 +819,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -1065,8 +1065,8 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -1258,8 +1258,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -1345,7 +1345,7 @@ Array [
     },
   },
   Object {
-    "location": "packages/composites/token-allocation",
+    "location": "packages/non-deployable/token-allocation",
     "schema": Object {
       "AMBERDATA_ADAPTER_URL": Object {
         "originalKey": "AMBERDATA_ADAPTER_URL",
@@ -1449,8 +1449,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -1607,8 +1607,8 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -1757,8 +1757,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -1902,8 +1902,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -2055,8 +2055,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -2204,8 +2204,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -2353,8 +2353,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -2502,8 +2502,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -2651,8 +2651,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -2800,8 +2800,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -2956,8 +2956,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -3105,8 +3105,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -3250,8 +3250,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -3399,8 +3399,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -3548,8 +3548,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -3693,8 +3693,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -3838,8 +3838,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -3991,8 +3991,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -4136,8 +4136,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -4289,8 +4289,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -4438,8 +4438,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -4583,8 +4583,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -4728,8 +4728,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -4873,8 +4873,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -5018,8 +5018,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -5167,8 +5167,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -5312,8 +5312,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -5461,8 +5461,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -5606,8 +5606,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -5755,8 +5755,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -5904,8 +5904,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -6053,8 +6053,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -6198,8 +6198,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -6347,8 +6347,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -6492,8 +6492,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -6645,8 +6645,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -6790,8 +6790,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -6948,8 +6948,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -7106,8 +7106,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -7260,8 +7260,8 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -7410,8 +7410,8 @@ Array [
         "originalKey": "API_ENDPOINT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -7564,8 +7564,8 @@ Array [
         "originalKey": "API_KEY",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -7709,8 +7709,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -7858,8 +7858,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -8007,8 +8007,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -8156,8 +8156,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -8310,8 +8310,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -8464,8 +8464,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -8613,8 +8613,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -8763,8 +8763,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -8917,8 +8917,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -9066,8 +9066,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -9217,8 +9217,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -9371,8 +9371,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -9520,8 +9520,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -9669,8 +9669,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -9819,8 +9819,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -9973,8 +9973,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -10127,8 +10127,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -10281,8 +10281,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -10431,8 +10431,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -10585,8 +10585,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -10734,8 +10734,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -10879,8 +10879,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -11033,8 +11033,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -11183,8 +11183,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -11336,8 +11336,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -11490,8 +11490,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -11640,8 +11640,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -11728,7 +11728,7 @@ Array [
     },
   },
   Object {
-    "location": "packages/sources/reduce",
+    "location": "packages/non-deployable/reduce",
     "schema": Object {
       "BASE_URL": Object {
         "originalKey": "BASE_URL",
@@ -11794,8 +11794,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -11939,8 +11939,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -12093,8 +12093,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -12243,8 +12243,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -12393,8 +12393,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -12538,8 +12538,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -12687,8 +12687,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -12841,8 +12841,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -12995,8 +12995,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -13163,8 +13163,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -13308,8 +13308,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -13458,8 +13458,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -13607,8 +13607,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -13756,8 +13756,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -13905,8 +13905,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -14058,8 +14058,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -14208,8 +14208,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -14366,8 +14366,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -14528,8 +14528,8 @@ Array [
         "originalKey": "RPC_URL",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {
@@ -14687,8 +14687,8 @@ Array [
         "originalKey": "EA_PORT",
         "type": "string",
       },
-      "EXPERIMENTAL_METRICS_ENABLED": Object {
-        "originalKey": "EXPERIMENTAL_METRICS_ENABLED",
+      "METRICS_ENABLED": Object {
+        "originalKey": "METRICS_ENABLED",
         "type": "string",
       },
       "RATE_LIMIT_ENABLED": Object {

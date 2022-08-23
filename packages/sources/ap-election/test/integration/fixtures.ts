@@ -1,7 +1,7 @@
 import nock from 'nock'
 
-export const mockResponseWithNoRaces = (apikey) => {
-  nock('https://api.ap.org/v2', { encodedQueryParams: true })
+export const mockResponseWithNoRaces = (apikey: string): nock.Scope => {
+  return nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2021-06-08')
     .query({
       statePostal: 'VA',
@@ -73,8 +73,8 @@ export const mockResponseWithNoRaces = (apikey) => {
     )
 }
 
-export const mockResponseWithMultipleRaces = (apikey) => {
-  nock('https://api.ap.org/v2', { encodedQueryParams: true })
+export const mockResponseWithMultipleRaces = (apikey: string): nock.Scope => {
+  return nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2021-06-08')
     .query({
       statePostal: 'VA',
@@ -301,8 +301,8 @@ export const mockResponseWithMultipleRaces = (apikey) => {
     )
 }
 
-export const mockResponseWithNationalAndState = (apikey) => {
-  nock('https://api.ap.org/v2', { encodedQueryParams: true })
+export const mockResponseWithNationalAndState = (apikey: string): nock.Scope => {
+  return nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2020-11-08')
     .query({
       statePostal: 'US',
@@ -452,8 +452,8 @@ export const mockResponseWithNationalAndState = (apikey) => {
     )
 }
 
-export const mockStatusLevelResponse = (apikey) => {
-  nock('https://api.ap.org/v2', { encodedQueryParams: true })
+export const mockStatusLevelResponse = (apikey: string): nock.Scope => {
+  return nock('https://api.ap.org/v2', { encodedQueryParams: true })
     .get('/elections/2021-06-08')
     .query({
       statePostal: 'CA',
