@@ -1,5 +1,4 @@
 {
-
   "name": "@chainlink/{{ADAPTER_NAME_FULL}}",
   "version": "0.0.0",
   "description": "Chainlink {{ADAPTER_NAME_CAPITALIZE}}.",
