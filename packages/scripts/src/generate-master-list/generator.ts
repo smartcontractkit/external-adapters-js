@@ -3,6 +3,7 @@ import {
   compositeListDescription,
   sourceListDescription,
   targetListDescription,
+  nonDeployableListDescription,
 } from './textAssets'
 import { buildTable, TableText } from '../shared/tableUtils'
 import {
@@ -19,6 +20,7 @@ import Airtable from 'airtable'
 
 const pathToComposites = 'packages/composites/'
 const pathToSources = 'packages/sources/'
+const pathToNonDeployables = 'packages/non-deployable/'
 const pathToTargets = 'packages/targets/'
 
 const baseEaDependencies = [
@@ -280,6 +282,7 @@ export const generateMasterList = async (
     const composite = getAdapterList(pathToComposites, compositeListDescription)
     const source = getAdapterList(pathToSources, sourceListDescription)
     const target = getAdapterList(pathToTargets, targetListDescription)
+    const nonDeployable = getAdapterList(pathToNonDeployables, nonDeployableListDescription)
 
     // Fetch group-specific fields
     const allAdapters = [
@@ -299,6 +302,12 @@ export const generateMasterList = async (
         name,
         type: '`target`',
         path: pathToTargets + name,
+        redirect: getRedirectText(pathToTargets, name),
+      })),
+      ...nonDeployable.adapters.map((name) => ({
+        name,
+        type: '`non-deployable`',
+        path: pathToNonDeployables + name,
         redirect: getRedirectText(pathToTargets, name),
       })),
     ].sort((a, b) => sortText(a.name, b.name))
@@ -357,6 +366,7 @@ export const generateMasterList = async (
         { path: pathToComposites + 'README.md', text: composite.text },
         { path: pathToSources + 'README.md', text: source.text },
         { path: pathToTargets + 'README.md', text: target.text },
+        { path: pathToNonDeployables + 'README.md', text: nonDeployable.text },
         { path: 'MASTERLIST.md', text: allAdapterText },
       ])
     }

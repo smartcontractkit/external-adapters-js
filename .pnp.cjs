@@ -137,10 +137,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/the-graph"\
       },\
       {\
-        "name": "@chainlink/token-allocation-adapter",\
-        "reference": "workspace:packages/composites/token-allocation"\
-      },\
-      {\
         "name": "@chainlink/vesper-adapter",\
         "reference": "workspace:packages/composites/vesper"\
       },\
@@ -179,6 +175,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "k6",\
         "reference": "workspace:packages/k6"\
+      },\
+      {\
+        "name": "@chainlink/reduce-adapter",\
+        "reference": "workspace:packages/non-deployable/reduce"\
+      },\
+      {\
+        "name": "@chainlink/token-allocation-adapter",\
+        "reference": "workspace:packages/non-deployable/token-allocation"\
       },\
       {\
         "name": "@chainlink/observation",\
@@ -609,10 +613,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/por-address-list"\
       },\
       {\
-        "name": "@chainlink/reduce-adapter",\
-        "reference": "workspace:packages/sources/reduce"\
-      },\
-      {\
         "name": "@chainlink/renvm-address-set-adapter",\
         "reference": "workspace:packages/sources/renvm-address-set"\
       },\
@@ -892,7 +892,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/por-indexer-adapter", ["workspace:packages/composites/por-indexer"]],\
       ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
       ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
-      ["@chainlink/reduce-adapter", ["workspace:packages/sources/reduce"]],\
+      ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],\
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
@@ -912,7 +912,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
-      ["@chainlink/token-allocation-adapter", ["workspace:packages/composites/token-allocation"]],\
+      ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
@@ -4308,7 +4308,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/apy-finance-adapter", "workspace:packages/composites/apy-finance"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["ethers", "npm:5.4.7"],\
@@ -4617,7 +4617,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@solana/web3.js", "npm:1.44.0"],\
             ["@types/bn.js", "npm:5.1.0"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -4998,7 +4998,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["decimal.js", "npm:10.3.1"],\
@@ -5127,7 +5127,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/curve-3pool-adapter", "workspace:packages/composites/curve-3pool"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["ethers", "npm:5.4.7"],\
@@ -5165,7 +5165,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/defi-dozen-adapter", "workspace:packages/composites/defi-dozen"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5184,7 +5184,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/defi-pulse-adapter", "workspace:packages/composites/defi-pulse"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["ethers", "npm:5.6.8"],\
@@ -5273,7 +5273,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dxdao-adapter", "workspace:packages/composites/dxdao"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["ethers", "npm:5.6.8"],\
@@ -5474,7 +5474,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],\
+            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
@@ -6420,7 +6420,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/linear-finance-adapter", "workspace:packages/composites/linear-finance"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6918,7 +6918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
             ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],\
+            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
@@ -6953,10 +6953,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/reduce-adapter", [\
-        ["workspace:packages/sources/reduce", {\
-          "packageLocation": "./packages/sources/reduce/",\
+        ["workspace:packages/non-deployable/reduce", {\
+          "packageLocation": "./packages/non-deployable/reduce/",\
           "packageDependencies": [\
-            ["@chainlink/reduce-adapter", "workspace:packages/sources/reduce"],\
+            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -7035,7 +7035,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/savax-price-adapter", "workspace:packages/composites/savax-price"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7055,7 +7055,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/set-token-index-adapter", "workspace:packages/composites/set-token-index"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7210,7 +7210,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/synth-index-adapter", "workspace:packages/composites/synth-index"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7334,10 +7334,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/token-allocation-adapter", [\
-        ["workspace:packages/composites/token-allocation", {\
-          "packageLocation": "./packages/composites/token-allocation/",\
+        ["workspace:packages/non-deployable/token-allocation", {\
+          "packageLocation": "./packages/non-deployable/token-allocation/",\
           "packageDependencies": [\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
             ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
@@ -7536,7 +7536,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/vesper-adapter", "workspace:packages/composites/vesper"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["ethers", "npm:5.6.8"],\
@@ -7645,7 +7645,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/xsushi-price-adapter", "workspace:packages/composites/xsushi-price"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/token-allocation-adapter", "workspace:packages/composites/token-allocation"],\
+            ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.49"],\
             ["@types/supertest", "npm:2.0.12"],\

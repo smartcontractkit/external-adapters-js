@@ -5,7 +5,11 @@ on:
     branches:
       - master
       - develop
-  pull_request: ~
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - '**/package.json'
+      - '.changeset/**'
 
 jobs:
   packages:
