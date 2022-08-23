@@ -3,6 +3,10 @@
 # a corresponding event handler to generate releases based on this signal
 
 on:
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+    branches: [develop]
   workflow_dispatch:
     inputs:
       workflowRunId:
