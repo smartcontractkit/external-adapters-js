@@ -1,7 +1,7 @@
 {
   "name": "@chainlink/elwood-adapter",
   "version": "0.0.0",
-  "description": "Chainlink elwood adapter.",
+  "description": "Chainlink Elwood adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
