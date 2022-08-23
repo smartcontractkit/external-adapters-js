@@ -83,6 +83,5 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [set-token-index](./set-token-index/README.md)
 - [synth-index](./synth-index/README.md)
 - [the-graph](./the-graph/README.md)
-- [token-allocation](./token-allocation/README.md)
 - [vesper](./vesper/README.md)
 - [xsushi-price](./xsushi-price/README.md)

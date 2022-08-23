@@ -19,7 +19,13 @@ export interface WorkspacePackage {
 /**
  * Types of adapters that are publically consumed
  */
-export const PUBLIC_ADAPTER_TYPES = ['composites', 'sources', 'examples', 'targets']
+export const PUBLIC_ADAPTER_TYPES = [
+  'composites',
+  'sources',
+  'examples',
+  'targets',
+  'non-deployable',
+]
 const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspacePackages>
