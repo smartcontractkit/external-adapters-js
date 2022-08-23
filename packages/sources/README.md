@@ -106,7 +106,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [poa](./poa/README.md)
 - [polygon](./polygon/README.md)
 - [por-address-list](./por-address-list/README.md)
-- [reduce](./reduce/README.md)
 - [renvm-address-set](./renvm-address-set/README.md)
 - [satoshitango](./satoshitango/README.md)
 - [snowflake](./snowflake/README.md)

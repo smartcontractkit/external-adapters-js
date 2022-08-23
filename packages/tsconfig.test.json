@@ -90,7 +90,7 @@
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
-      "path": "./composites/token-allocation/tsconfig.test.json"
+      "path": "./non-deployable/token-allocation/tsconfig.test.json"
     },
     {
       "path": "./composites/vesper/tsconfig.test.json"
@@ -435,7 +435,7 @@
       "path": "./sources/por-address-list/tsconfig.test.json"
     },
     {
-      "path": "./sources/reduce/tsconfig.test.json"
+      "path": "./non-deployable/reduce/tsconfig.test.json"
     },
     {
       "path": "./sources/renvm-address-set/tsconfig.test.json"
