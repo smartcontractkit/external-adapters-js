@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.18.1
+
+### Patch Changes
+
+- c14139f55: Fixed an issue where the burst limiter would never recover from exceeding the limit
+
 ## 2.18.0
 
 ### Minor Changes

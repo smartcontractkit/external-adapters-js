@@ -52,6 +52,8 @@ export const withBurstLimit =
     if (!store || !config?.enabled || (!config.burstCapacity1m && !config.burstCapacity1s))
       return await execute(input, context)
 
+    store.dispatch(actions.initialRequestObserved())
+
     const state = store.getState()
     const { requests }: { requests: RequestsState } = state
 

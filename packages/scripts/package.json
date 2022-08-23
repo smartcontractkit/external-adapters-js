@@ -1,8 +1,8 @@
 {
   "name": "@chainlink/ea-scripts",
-  "version": "2.4.10",
+  "version": "2.4.11",
   "dependencies": {
-    "@actions/core": "1.9.0",
+    "@actions/core": "1.9.1",
     "@apidevtools/json-schema-ref-parser": "9.0.9",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",

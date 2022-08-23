@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cryptex-adapter",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Chainlink cryptex adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.47",
+    "@types/node": "16.11.49",
     "@types/supertest": "2.0.11",
     "nock": "13.2.9",
     "supertest": "6.2.4",

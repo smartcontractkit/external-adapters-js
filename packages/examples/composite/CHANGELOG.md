@@ -1,5 +1,19 @@
 # @chainlink/example-composite-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/example-source-adapter@0.2.12
+
+## 1.3.0
+
+### Minor Changes
+
+- 763ae3a7f: Updated example composite adapter with an example of an endpoint and the use of another EA
+
 ## 1.2.10
 
 ### Patch Changes

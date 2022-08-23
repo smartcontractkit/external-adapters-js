@@ -150,6 +150,9 @@
       "path": "./sources/armanino"
     },
     {
+      "path": "./sources/bank-frick"
+    },
+    {
       "path": "./sources/bea"
     },
     {
@@ -316,6 +319,9 @@
     },
     {
       "path": "./sources/galaxis"
+    },
+    {
+      "path": "./sources/galaxy"
     },
     {
       "path": "./sources/gemini"

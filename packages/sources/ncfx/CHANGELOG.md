@@ -1,5 +1,19 @@
 # @chainlink/ncfx-adapter
 
+## 2.1.1
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.0
+
+### Minor Changes
+
+- 18a79758a: Updated ncfx forex subscription handling
+
 ## 2.0.1
 
 ### Patch Changes

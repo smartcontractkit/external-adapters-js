@@ -1,5 +1,13 @@
 # @chainlink/ap-election-adapter
 
+## 1.3.12
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.3.11
 
 ### Patch Changes
