@@ -43,7 +43,13 @@ export class LocalLRUCache implements ICache {
   }
 
   setResponse(key: string, value: any, maxAge: number) {
-    return Promise.resolve(this.client.set(key, value, maxAge))
+    this.client.set(key, value, maxAge)
+  }
+
+  setBatchResponse(batchEntries: { key: string; entry: CacheEntry; maxAge: number }[]) {
+    batchEntries.forEach((batchParticipant) => {
+      this.client.set(batchParticipant.key, batchParticipant.entry, batchParticipant.maxAge)
+    })
   }
 
   setFlightMarker(key: string, maxAge: number) {

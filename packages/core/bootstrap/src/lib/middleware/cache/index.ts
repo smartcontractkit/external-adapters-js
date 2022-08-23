@@ -331,9 +331,7 @@ export const withCache =
 
             //Cache batch requests
             if (data?.results?.length) {
-              const pipelineQue: Promise<string | null | boolean>[] = []
-
-              data.results.forEach((batchParticipant) => {
+              const batchEntries = data.results.map((batchParticipant) => {
                 const [key, , result] = batchParticipant
                 const childKey = adapterCacheToUse.getKey(key)
                 const debugBatchablePropertyPath = debug
@@ -346,14 +344,10 @@ export const withCache =
                   maxAge,
                   debug: debugBatchablePropertyPath,
                 }
-                const cacheResponsePromise = cacheToUse.setResponse(
-                  childKey,
-                  entryBatchParticipant,
-                  maxAge,
-                )
-                pipelineQue.push(cacheResponsePromise)
+                return { key: childKey, entry: entryBatchParticipant, maxAge }
               })
-              await Promise.all(pipelineQue)
+
+              await cache.setBatchResponse(batchEntries)
             }
           }
           // Notify pending requests by removing the in-flight mark
