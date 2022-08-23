@@ -43,7 +43,7 @@ export class LocalLRUCache implements ICache {
   }
 
   setResponse(key: string, value: any, maxAge: number) {
-    this.client.set(key, value, maxAge)
+    return this.client.set(key, value, maxAge)
   }
 
   setBatchResponse(batchEntries: { key: string; entry: CacheEntry; maxAge: number }[]) {
