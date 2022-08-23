@@ -10,31 +10,7 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
-
-type SubscribeRequest = {
-  action: 'subscribe' | 'unsubscribe'
-  stream: 'index'
-  symbol: string
-  index_freq: number
-}
-
-type PriceResponse = {
-  type: 'Index'
-  data: {
-    price: string
-    symbol: string
-    timestamp: string
-  }
-  sequence: number
-}
-
-type HeartbeatResponse = {
-  type: 'heartbeat'
-  data: string
-  sequence: number
-}
-
-type ResponseMessage = PriceResponse | HeartbeatResponse
+import { PriceResponse, ResponseMessage, SubscribeRequest } from './types'
 
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
