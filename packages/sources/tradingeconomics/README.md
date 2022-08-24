@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tradingeconomics
 
-![2.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json)
+![2.1.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradingeconomics/package.json)
 
 This adapter uses the Tradingeconomics WS stream
 
