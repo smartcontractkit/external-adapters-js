@@ -87,7 +87,7 @@ export class Requester {
         }
 
         if (n === 1) {
-          const providerStatusCode: number | undefined = error?.response?.status ?? 0 // 0 -> connection error
+          const providerStatusCode = error?.response?.status ?? 0 // 0 -> connection error
           record(config.method, providerStatusCode)
           const errorInput = {
             statusCode: 200,
