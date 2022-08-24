@@ -5669,7 +5669,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
             ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -12275,6 +12275,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/jest", [\
+        ["npm:27.0.3", {\
+          "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.3-c4c49cbce2-3683a99458.zip/node_modules/@types/jest/",\
+          "packageDependencies": [\
+            ["@types/jest", "npm:27.0.3"],\
+            ["jest-diff", "npm:27.5.1"],\
+            ["pretty-format", "npm:27.5.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:27.5.2", {\
           "packageLocation": "./.yarn/cache/@types-jest-npm-27.5.2-f8ba570ba6-7e11c6826a.zip/node_modules/@types/jest/",\
           "packageDependencies": [\
@@ -12482,6 +12491,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-14.18.24-022c012e7e-631b86787a.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:14.18.24"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:16.11.41", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.41-e10b7bd53b-808e4d6575.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:16.11.41"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -26882,6 +26898,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/nock-npm-13.2.6-f66672256f-d135a8036b.zip/node_modules/nock/",\
           "packageDependencies": [\
             ["nock", "npm:13.2.6"],\
+            ["debug", "virtual:e9a07d9e500f265638a80b6a2d60a63d2c1402dd6a58d2f05af9d82e52be33df29a16291c32b33b9e23f1a0efea054868bd3312893433fe0583e4dba376fe47e#npm:4.3.4"],\
+            ["json-stringify-safe", "npm:5.0.1"],\
+            ["lodash", "npm:4.17.21"],\
+            ["propagate", "npm:2.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:13.2.7", {\
+          "packageLocation": "./.yarn/cache/nock-npm-13.2.7-a7218c9ff7-0d7d3163ca.zip/node_modules/nock/",\
+          "packageDependencies": [\
+            ["nock", "npm:13.2.7"],\
             ["debug", "virtual:e9a07d9e500f265638a80b6a2d60a63d2c1402dd6a58d2f05af9d82e52be33df29a16291c32b33b9e23f1a0efea054868bd3312893433fe0583e4dba376fe47e#npm:4.3.4"],\
             ["json-stringify-safe", "npm:5.0.1"],\
             ["lodash", "npm:4.17.21"],\
