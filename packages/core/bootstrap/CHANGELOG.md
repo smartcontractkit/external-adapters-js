@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.18.2
+
+### Patch Changes
+
+- 3b7c79459: Improved redis cache performance with auto-pipelining
+
 ## 2.18.1
 
 ### Patch Changes

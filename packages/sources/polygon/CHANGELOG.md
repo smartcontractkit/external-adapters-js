@@ -1,5 +1,17 @@
 # @chainlink/polygon-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- a8b4a0111: Add enterprise tier to limits.json
+
+### Patch Changes
+
+- Updated dependencies [3b7c79459]
+  - @chainlink/ea-bootstrap@2.18.2
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.6.12
 
 ### Patch Changes

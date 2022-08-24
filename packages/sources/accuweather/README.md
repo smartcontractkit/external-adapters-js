@@ -1,6 +1,6 @@
 # Chainlink External Adapter for AccuWeather
 
-![1.3.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/accuweather/package.json)
+![1.3.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/accuweather/package.json)
 
 [AccuWeather](https://www.accuweather.com/)
 
