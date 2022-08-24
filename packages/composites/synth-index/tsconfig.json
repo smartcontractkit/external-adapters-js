@@ -12,6 +12,6 @@
   "references": [
     { "path": "../../core/test-helpers" },
     { "path": "../../core/bootstrap" },
-    { "path": "../token-allocation" }
+    { "path": "../../non-deployable/token-allocation" }
   ]
 }
