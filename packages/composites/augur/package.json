@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/luxon": "1.27.1",
-    "@types/node": "16.11.49",
+    "@types/node": "16.11.51",
     "typescript": "4.7.4"
   }
 }
