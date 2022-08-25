@@ -60,31 +60,29 @@ export const makeWSHandler =
   () => {
     const wsConfig = config || makeConfig()
 
-    const handleSubscription =
-      (action: 'subscribe' | 'unsubscribe') =>
-      (input: AdapterRequest): SubscribeRequest | undefined => {
-        try {
-          const subscriptionMsg = getSubscribeRequest(getPair(input), action)
+    const handleSubscription = (action: 'subscribe' | 'unsubscribe') => (input: AdapterRequest) => {
+      try {
+        const subscriptionMsg = getSubscribeRequest(getPair(input), action)
 
-          const data: AxiosRequestConfig = {
-            url: wsConfig.api?.baseURL,
-            headers: {
-              ...wsConfig.api?.headers,
-              apiKey: wsConfig.apiKey ?? '',
-            },
-            method: 'post',
-            data: subscriptionMsg,
-          }
-
-          Requester.request(data)
-
-          return subscriptionMsg
-        } catch (e) {
-          const error = e as any
-          Logger.error(error.message)
-          return undefined
+        const data: AxiosRequestConfig = {
+          url: wsConfig.api?.baseURL,
+          headers: {
+            ...wsConfig.api?.headers,
+            apiKey: wsConfig.apiKey ?? '',
+          },
+          method: 'post',
+          data: subscriptionMsg,
         }
+
+        Requester.request(data)
+
+        return subscriptionMsg
+      } catch (e) {
+        const error = e as Error
+        Logger.error(error.message)
+        return undefined
       }
+    }
 
     return {
       connection: { url: `${wsConfig?.ws?.baseWsURL}?apiKey=${wsConfig.apiKey}` },
@@ -92,14 +90,12 @@ export const makeWSHandler =
       subscribe: handleSubscription('subscribe'),
       unsubscribe: handleSubscription('unsubscribe'),
       subsFromMessage: (message: ResponseMessage) => {
-        Logger.debug({ msg: `subsFromMessage`, message })
         if (!('type' in message && message.type === 'Index')) return
         const subInMessage = getSubscribeRequest(message.data?.symbol, 'subscribe')
         if (!message.data?.symbol || !subInMessage) return
         return subInMessage
       },
       toResponse: (message: PriceResponse, input: AdapterRequest) => {
-        Logger.debug({ msg: `toResponse`, message })
         const result = Requester.validateResultNumber(message.data.price)
         return Requester.success(input.id, { data: { result } }, wsConfig.verbose)
       },
