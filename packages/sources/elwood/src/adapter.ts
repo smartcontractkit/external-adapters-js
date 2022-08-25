@@ -64,6 +64,14 @@ export const makeWSHandler =
       try {
         const subscriptionMsg = getSubscribeRequest(getPair(input), action)
 
+        /*
+        Note: normally handleSubscription just returns the subscription string for use in the WS connection,
+        but Elwood is unique in that it subscribes to WS feeds using a POST request. Waiting for
+        the return value from the async request would require updating every instance of
+        wsHandler.subscribe and wsHandler.unsubscribe in the core framework, so this is left
+        as a send-and-forget request until the core framework supports this style of subscription.
+        */
+
         const data: AxiosRequestConfig = {
           url: wsConfig.api?.baseURL,
           headers: {
