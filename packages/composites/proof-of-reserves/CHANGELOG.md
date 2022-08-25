@@ -1,5 +1,61 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.12.11
+
+### Patch Changes
+
+- Updated dependencies [cf37d46fc]
+- Updated dependencies [3b7c79459]
+- Updated dependencies [cf37d46fc]
+  - @chainlink/reduce-adapter@1.4.0
+  - @chainlink/ea-bootstrap@2.18.2
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.13
+  - @chainlink/por-indexer-adapter@1.2.15
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/ada-balance-adapter@2.5.13
+  - @chainlink/amberdata-adapter@1.8.6
+  - @chainlink/blockchain.com-adapter@1.3.13
+  - @chainlink/blockchair-adapter@1.3.13
+  - @chainlink/blockcypher-adapter@1.4.13
+  - @chainlink/btc.com-adapter@1.3.13
+  - @chainlink/celsius-address-list-adapter@1.0.34
+  - @chainlink/chain-reserve-wallet-adapter@2.3.13
+  - @chainlink/cryptoapis-adapter@1.2.13
+  - @chainlink/eth-balance-adapter@1.3.13
+  - @chainlink/gemini-adapter@2.2.13
+  - @chainlink/lotus-adapter@2.2.13
+  - @chainlink/renvm-address-set-adapter@1.5.6
+  - @chainlink/sochain-adapter@1.3.13
+  - @chainlink/wbtc-address-set-adapter@1.4.15
+  - @chainlink/wrapped-adapter@2.2.13
+
+## 1.12.10
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.12
+  - @chainlink/por-indexer-adapter@1.2.14
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/ada-balance-adapter@2.5.12
+  - @chainlink/amberdata-adapter@1.8.5
+  - @chainlink/blockchain.com-adapter@1.3.12
+  - @chainlink/blockchair-adapter@1.3.12
+  - @chainlink/blockcypher-adapter@1.4.12
+  - @chainlink/btc.com-adapter@1.3.12
+  - @chainlink/celsius-address-list-adapter@1.0.33
+  - @chainlink/chain-reserve-wallet-adapter@2.3.12
+  - @chainlink/cryptoapis-adapter@1.2.12
+  - @chainlink/eth-balance-adapter@1.3.12
+  - @chainlink/gemini-adapter@2.2.12
+  - @chainlink/lotus-adapter@2.2.12
+  - @chainlink/reduce-adapter@1.3.12
+  - @chainlink/renvm-address-set-adapter@1.5.5
+  - @chainlink/sochain-adapter@1.3.12
+  - @chainlink/wbtc-address-set-adapter@1.4.14
+  - @chainlink/wrapped-adapter@2.2.12
+
 ## 1.12.9
 
 ### Patch Changes

@@ -323,7 +323,7 @@
       "path": "../../sources/por-address-list"
     },
     {
-      "path": "../../sources/reduce"
+      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"

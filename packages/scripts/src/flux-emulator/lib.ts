@@ -191,7 +191,7 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
 
     // Determine if adapter is source, composite or target
     let pathToAdapter = ''
-    const adapterTypes = ['sources', 'composites', 'targets']
+    const adapterTypes = ['sources', 'composites', 'targets', 'non-deployable']
     for (const type of adapterTypes) {
       const path = `packages/${type}/${inputs.adapter}`
       if (shell.test('-d', path)) {

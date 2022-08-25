@@ -1,5 +1,21 @@
 # @chainlink/dydx-rewards-adapter
 
+## 1.4.14
+
+### Patch Changes
+
+- Updated dependencies [3b7c79459]
+  - @chainlink/ea-bootstrap@2.18.2
+  - @chainlink/ipfs-adapter@1.3.13
+
+## 1.4.13
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ipfs-adapter@1.3.12
+
 ## 1.4.12
 
 ### Patch Changes

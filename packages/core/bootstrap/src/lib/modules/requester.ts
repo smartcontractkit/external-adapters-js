@@ -87,16 +87,21 @@ export class Requester {
         }
 
         if (n === 1) {
-          const providerStatusCode: number | undefined = error?.response?.status ?? 0 // 0 -> connection error
+          const providerStatusCode = error?.response?.status ?? 0 // 0 -> connection error
           record(config.method, providerStatusCode)
-          throw new AdapterConnectionError({
+          const errorInput = {
             statusCode: 200,
             providerStatusCode,
             message: error?.message,
             cause: error,
             errorResponse: error?.response?.data?.error,
             url,
-          })
+          }
+          if (providerStatusCode === 0) {
+            throw new AdapterConnectionError(errorInput)
+          } else {
+            throw new AdapterDataProviderError(errorInput)
+          }
         }
 
         return await _delayRetry(
