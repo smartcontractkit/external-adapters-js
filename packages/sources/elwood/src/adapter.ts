@@ -1,4 +1,10 @@
-import { AxiosRequestConfig, Builder, Logger, Validator } from '@chainlink/ea-bootstrap'
+import {
+  AxiosRequestConfig,
+  Builder,
+  Logger,
+  UnknownWSMessage,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import {
   AdapterRequest,
   APIEndpoint,
@@ -11,7 +17,7 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
-import { PriceResponse, ResponseMessage, SubscribeRequest } from './types'
+import { PriceResponse, SubscribeRequest } from './types'
 
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
@@ -53,11 +59,7 @@ const getSubscribeRequest = (
 })
 
 export const makeWSHandler =
-  (
-    config?: Config,
-  ): MakeWSHandler<
-    ResponseMessage | any // TODO: full WS message types
-  > =>
+  (config?: Config): MakeWSHandler<UnknownWSMessage> =>
   () => {
     const wsConfig = config || makeConfig()
 
@@ -98,20 +100,34 @@ export const makeWSHandler =
       noHttp: true,
       subscribe: handleSubscription('subscribe'),
       unsubscribe: handleSubscription('unsubscribe'),
-      subsFromMessage: (message: ResponseMessage) => {
-        if (!(util.isObject(message) && message.type === 'Index')) return
-        const subInMessage = getSubscribeRequest(message.data?.symbol, 'subscribe')
-        if (!message.data?.symbol || !subInMessage) return
-        return subInMessage
+      subsFromMessage: (wsMessage: UnknownWSMessage) => {
+        if (!util.isObject(wsMessage)) return
+        const message = wsMessage as Record<string, unknown>
+
+        if (!(message.type === 'Index' && util.isObject(message.data))) return
+        const messageWithData = message as { data: Record<string, unknown> } & Record<
+          string,
+          unknown
+        >
+
+        if (typeof messageWithData.data.symbol !== 'string') return
+
+        return getSubscribeRequest(messageWithData.data.symbol, 'subscribe')
       },
-      toResponse: (message: PriceResponse, input: AdapterRequest) => {
-        const result = Requester.validateResultNumber(message?.data?.price)
+      toResponse: (wsMessage: UnknownWSMessage, input: AdapterRequest) => {
+        const result = Requester.validateResultNumber((wsMessage as PriceResponse).data.price)
         return Requester.success(input.id, { data: { result } }, wsConfig.verbose)
       },
-      filter: (message: ResponseMessage) => util.isObject(message) && message.type === 'Index',
-      isError: (message: ResponseMessage) =>
-        util.isObject(message) &&
-        message.type === 'Index' &&
-        !(message.data?.price && message.data?.symbol),
+      filter: (wsMessage: UnknownWSMessage) => {
+        if (!util.isObject(wsMessage)) return false
+        const message = wsMessage as Record<string, unknown>
+        return message.type === 'Index' && util.isObject(message.data) // Confirms wsMessage can be used as PriceResponse for our purposes
+      },
+      isError: (wsMessage: UnknownWSMessage) => {
+        return (
+          typeof (wsMessage as PriceResponse).data.symbol !== 'string' ||
+          typeof (wsMessage as PriceResponse).data.price !== 'string'
+        )
+      },
     }
   }
