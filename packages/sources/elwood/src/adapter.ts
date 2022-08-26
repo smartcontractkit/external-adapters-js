@@ -7,6 +7,7 @@ import {
   ExecuteFactory,
   MakeWSHandler,
   Requester,
+  util,
 } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
@@ -98,17 +99,19 @@ export const makeWSHandler =
       subscribe: handleSubscription('subscribe'),
       unsubscribe: handleSubscription('unsubscribe'),
       subsFromMessage: (message: ResponseMessage) => {
-        if (!('type' in message && message.type === 'Index')) return
+        if (!(util.isObject(message) && message.type === 'Index')) return
         const subInMessage = getSubscribeRequest(message.data?.symbol, 'subscribe')
         if (!message.data?.symbol || !subInMessage) return
         return subInMessage
       },
       toResponse: (message: PriceResponse, input: AdapterRequest) => {
-        const result = Requester.validateResultNumber(message.data.price)
+        const result = Requester.validateResultNumber(message?.data?.price)
         return Requester.success(input.id, { data: { result } }, wsConfig.verbose)
       },
-      filter: (message: ResponseMessage) => 'type' in message && message.type === 'Index',
+      filter: (message: ResponseMessage) => util.isObject(message) && message.type === 'Index',
       isError: (message: ResponseMessage) =>
-        message.type === 'Index' && !(message.data?.price && message.data?.symbol),
+        util.isObject(message) &&
+        message.type === 'Index' &&
+        !(message.data?.price && message.data?.symbol),
     }
   }
