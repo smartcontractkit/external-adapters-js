@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nftx-adapter",
-  "version": "2.2.13",
+  "version": "2.2.14",
   "description": "Chainlink nftx adapter.",
   "keywords": [
     "Chainlink",

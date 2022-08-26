@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoMKT
 
-![1.3.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json)
+![1.3.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptomkt/package.json)
 
 Base URL https://api.exchange.cryptomkt.com/api/3/
 
