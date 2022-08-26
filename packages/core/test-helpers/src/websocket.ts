@@ -77,7 +77,6 @@ export const mockWebSocketFlow = async (
       }
 
       connection.on('message', (received) => {
-        console.log({ received })
         let exchange
 
         if (parsedFlow.length === 0 && options.errorOnUnexpectedMessage) {
