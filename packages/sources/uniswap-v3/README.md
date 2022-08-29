@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V3
 
-![1.2.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json)
+![1.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json)
 
 This adapter allows querying Uniswap V3 contracts
 

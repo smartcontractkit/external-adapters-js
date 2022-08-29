@@ -5,11 +5,14 @@ import {
   AdapterRequest,
   ExecuteFactory,
   APIEndpoint,
+  util,
+  IncludePair,
 } from '@chainlink/ea-bootstrap'
 import { Requester, Validator, Builder } from '@chainlink/ea-bootstrap'
-import { makeConfig, DEFAULT_WS_API_ENDPOINT } from './config'
+import { makeConfig, DEFAULT_WS_API_ENDPOINT, NAME } from './config'
 import * as endpoints from './endpoint'
 import overrides from './config/symbols.json'
+import includes from './config/includes.json'
 
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
@@ -61,12 +64,21 @@ export const makeWSHandler = (
       input,
       endpoints.forex.inputParameters,
       {},
-      { shouldThrowError: false, overrides },
+      { shouldThrowError: false, includes, overrides },
     )
-    if (validator.error) return
-    const base = validator.validated.data.base.toUpperCase()
-    const quote = validator.validated.data.quote.toUpperCase()
-    return `${base}${quote}`
+    if (validator.error) return { pair: '', inverse: false }
+
+    const { from, to, inverse } = util.getPairOptions<IncludePair, endpoints.TInputParameters>(
+      NAME,
+      validator,
+      (_, i: IncludePair) => i,
+      (from: string, to: string) => ({ from, to }),
+    )
+
+    return {
+      pair: `${from.toUpperCase()}${to.toUpperCase()}`,
+      inverse,
+    }
   }
   return () => {
     const defaultConfig = config || makeConfig()
@@ -78,7 +90,7 @@ export const makeWSHandler = (
         if (!input.data.endpoint) return true
         return endpoints.forex.supportedEndpoints.indexOf(input.data.endpoint) === -1
       },
-      subscribe: (input: AdapterRequest) => getSubscription(getPair(input)),
+      subscribe: (input: AdapterRequest) => getSubscription(getPair(input).pair),
       unsubscribe: () => undefined, // Tradermade does not support unsubscribing.
       subsFromMessage: (message: Message) => {
         if (!message.symbol) return ''
@@ -86,8 +98,9 @@ export const makeWSHandler = (
       },
       isError: () => false, // No error
       filter: (message: Message) => !!message.mid,
-      toResponse: (message: Message) => {
-        const result = Requester.validateResultNumber(message, ['mid'])
+      toResponse: (message: Message, input: AdapterRequest) => {
+        const { inverse } = getPair(input)
+        const result = Requester.validateResultNumber(message, ['mid'], { inverse })
         return Requester.success('1', { data: { result } })
       },
     }

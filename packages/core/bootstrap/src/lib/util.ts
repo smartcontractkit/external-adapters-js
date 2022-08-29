@@ -29,6 +29,7 @@ export const baseEnvDefaults: EnvDefaults = {
   EA_PORT: '8080',
   EA_HOST: '::',
   METRICS_PORT: '9080',
+  METRICS_ENABLED: 'true',
   RETRY: '1',
   API_TIMEOUT: '30000',
   CACHE_ENABLED: 'true',
