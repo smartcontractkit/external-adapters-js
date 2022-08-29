@@ -105,6 +105,8 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     builder.addCase(actions.disconnectFulfilled, (state, action) => {
       // Remove connection
       const { key } = action.payload.config.connectionInfo
+      // Check if connection is missing in state
+      if (!(key in state.all)) return
       state.all[key].active = false
       state.all[key].connecting = 0 // turn off connecting
       state.all[key].requestId = 0
@@ -206,7 +208,8 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     builder.addCase(actions.unsubscribeFulfilled, (state, action) => {
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
-
+      // Check if subscription is missing in state
+      if (!(key in state.all)) return
       state.all[key].active = false
       state.all[key].unsubscribed = true
       state.all[key].subscribing = 0
