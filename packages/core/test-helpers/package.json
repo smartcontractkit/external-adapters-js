@@ -27,7 +27,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
-    "hardhat": "2.9.9",
+    "hardhat": "2.10.2",
     "mock-socket": "9.1.5",
     "nock": "13.2.9",
     "supertest": "6.2.4",
