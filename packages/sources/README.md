@@ -55,6 +55,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [dwolla](./dwolla/README.md)
 - [dxfeed](./dxfeed/README.md)
 - [dxfeed-secondary](./dxfeed-secondary/README.md)
+- [elwood](./elwood/README.md)
 - [ens](./ens/README.md)
 - [enzyme](./enzyme/README.md)
 - [eodhistoricaldata](./eodhistoricaldata/README.md)

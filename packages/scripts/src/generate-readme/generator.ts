@@ -18,6 +18,7 @@ const testEnvOverrides = {
   API_VERBOSE: 'true',
   EA_PORT: '0',
   LOG_LEVEL: 'debug',
+  METRICS_ENABLED: 'false',
   NODE_ENV: undefined,
   RECORD: undefined,
   WS_ENABLED: undefined,
