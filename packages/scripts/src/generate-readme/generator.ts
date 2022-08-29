@@ -1,10 +1,11 @@
+import path from 'path'
+import process from 'process'
 import { cat, exec, test } from 'shelljs'
 import { buildTable, TableText } from '../shared/tableUtils'
 import {
   capitalize,
   codeList,
   getJsonFile,
-  localPathToRoot,
   saveText,
   wrapCode,
   wrapJson,
@@ -17,6 +18,7 @@ const testEnvOverrides = {
   API_VERBOSE: 'true',
   EA_PORT: '0',
   LOG_LEVEL: 'debug',
+  METRICS_ENABLED: 'false',
   NODE_ENV: undefined,
   RECORD: undefined,
   WS_ENABLED: undefined,
@@ -93,14 +95,14 @@ export class ReadmeGenerator {
       this.adapterPath + 'src/config.ts',
       this.adapterPath + 'src/config/index.ts',
     ])
-    const configFile = await require(localPathToRoot + configPath)
+    const configFile = await require(path.join(process.cwd(), configPath))
     this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
     this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
 
     const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
-    this.endpointDetails = await require(localPathToRoot + endpointPath)
+    this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
   }
 
   buildReadme(): void {

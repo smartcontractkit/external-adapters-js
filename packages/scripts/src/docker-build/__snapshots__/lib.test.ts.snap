@@ -4179,13 +4179,13 @@ Object {
     "reduce-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/sources/reduce",
+          "location": "packages/non-deployable/reduce",
           "package": "@chainlink/reduce-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "sources",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [
@@ -4711,13 +4711,13 @@ Object {
     "token-allocation-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/composites/token-allocation",
+          "location": "packages/non-deployable/token-allocation",
           "package": "@chainlink/token-allocation-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "composites",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [
@@ -9320,13 +9320,13 @@ Object {
     "reduce-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/sources/reduce",
+          "location": "packages/non-deployable/reduce",
           "package": "@chainlink/reduce-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "sources",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [
@@ -9852,13 +9852,13 @@ Object {
     "token-allocation-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/composites/token-allocation",
+          "location": "packages/non-deployable/token-allocation",
           "package": "@chainlink/token-allocation-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "composites",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [
@@ -14461,13 +14461,13 @@ Object {
     "reduce-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/sources/reduce",
+          "location": "packages/non-deployable/reduce",
           "package": "@chainlink/reduce-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "sources",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [
@@ -14993,13 +14993,13 @@ Object {
     "token-allocation-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/composites/token-allocation",
+          "location": "packages/non-deployable/token-allocation",
           "package": "@chainlink/token-allocation-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "composites",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [
@@ -19602,13 +19602,13 @@ Object {
     "reduce-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/sources/reduce",
+          "location": "packages/non-deployable/reduce",
           "package": "@chainlink/reduce-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "sources",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [
@@ -20134,13 +20134,13 @@ Object {
     "token-allocation-adapter": Object {
       "build": Object {
         "args": Object {
-          "location": "packages/composites/token-allocation",
+          "location": "packages/non-deployable/token-allocation",
           "package": "@chainlink/token-allocation-adapter",
         },
         "context": ".",
         "dockerfile": "./Dockerfile",
         "labels": Object {
-          "com.chainlinklabs.external-adapter-type": "composites",
+          "com.chainlinklabs.external-adapter-type": "non-deployable",
         },
       },
       "environment": Array [

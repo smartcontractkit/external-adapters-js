@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/example-composite-adapter",
-  "version": "1.3.0",
+  "version": "1.3.3",
   "description": "Chainlink example composite adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.49",
+    "@types/node": "16.11.51",
     "typescript": "4.7.4"
   }
 }

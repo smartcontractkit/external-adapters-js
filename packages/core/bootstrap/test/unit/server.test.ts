@@ -64,6 +64,11 @@ describe('server', () => {
     expect(response.data.message).toBe('OK')
   })
 
+  it('metrics returns 200', async () => {
+    const response = await axios.get('http://localhost:9080/metrics')
+    expect(response.status).toBe(200)
+  })
+
   it('handles simple request', async () => {
     const response = await axios.post('http://localhost:8080/', {
       data: {
