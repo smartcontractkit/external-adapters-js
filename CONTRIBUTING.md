@@ -33,8 +33,7 @@ $ yarn new source my-new-adapter
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
 
-Follow the checklist outlined in [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) for the remaining development steps.
-
+You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md)
 _Note - at the moment, adding a new adapter will also add the following lines to `tsconfig.json`:_
 
 ```
