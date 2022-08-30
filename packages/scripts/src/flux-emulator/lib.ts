@@ -45,6 +45,7 @@ const testEnvOverrides = {
   NODE_ENV: undefined,
   RECORD: undefined,
   WS_ENABLED: undefined,
+  METRICS_ENABLED: 'false',
 }
 
 export interface Inputs {
@@ -174,6 +175,8 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
       break
     }
   }
+
+  logInfo('Running integration tests')
 
   const integrationTestOutput = shell
     .exec(`yarn test ${pathToAdapter}/test/integration/*.test.ts`, {
