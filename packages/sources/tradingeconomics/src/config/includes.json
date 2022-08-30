@@ -108,5 +108,16 @@
         "inverse": true
       }
     ]
+  },
+  {
+    "from": "ZAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDZAR:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
   }
 ]

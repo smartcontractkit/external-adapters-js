@@ -64,3 +64,9 @@ export const targetListDescription = `# Chainlink Target External Adapters
 External Adapters that write data to a location, often a blockchain.
 
 ${genSig}`
+
+export const nonDeployableListDescription = `# Chainlink Non-deployable Adapters
+
+External Adapters used as dependencies for other adapters that are not mean to be ran independently.
+
+${genSig}`

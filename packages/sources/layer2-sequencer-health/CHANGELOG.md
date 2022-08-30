@@ -1,5 +1,38 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 1.6.3
+
+### Patch Changes
+
+- Updated dependencies [5a1adab07]
+- Updated dependencies [ed54a688b]
+- Updated dependencies [530753225]
+- Updated dependencies [88fdcb137]
+  - @chainlink/ea-bootstrap@2.19.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.6.2
+
+### Patch Changes
+
+- Updated dependencies [3b7c79459]
+  - @chainlink/ea-bootstrap@2.18.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.6.1
+
+### Patch Changes
+
+- Updated dependencies [c14139f55]
+  - @chainlink/ea-bootstrap@2.18.1
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.6.0
+
+### Minor Changes
+
+- 33c515d0d: add updated gas too low error message when checking for Arbitrum Nitro health
+
 ## 1.5.11
 
 ### Patch Changes

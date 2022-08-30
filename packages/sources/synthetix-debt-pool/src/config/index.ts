@@ -10,6 +10,8 @@ export enum SupportedChains {
   OPTIMISM = 'mainnet-ovm',
   KOVAN = 'kovan',
   KOVAN_OPTIMISM = 'kovan-ovm',
+  GOERLI = 'goerli',
+  GOERLI_OPTIMISM = 'goerli-ovm',
 }
 
 export interface Config extends DefaultConfig {
@@ -58,6 +60,10 @@ const getRPCUrlPrefix = (networkName: SupportedChains): string => {
       return 'OPTIMISM'
     case SupportedChains.KOVAN_OPTIMISM:
       return 'KOVAN_OPTIMISM'
+    case SupportedChains.GOERLI:
+      return 'GOERLI'
+    case SupportedChains.GOERLI_OPTIMISM:
+      return 'GOERLI_OPTIMISM'
   }
 }
 
@@ -71,5 +77,9 @@ const getDefaultAddressResolverProxyAddress = (networkName: SupportedChains): st
       return '0x1Cb059b7e74fD21665968C908806143E744D5F30'
     case SupportedChains.KOVAN_OPTIMISM:
       return '0x7a6f9eDDC03Db81927eA4131919343f93CA9b6a7'
+    case SupportedChains.GOERLI:
+      return '0x58719E8Ef4d201541e44505a2ACB3424481d6681'
+    case SupportedChains.GOERLI_OPTIMISM:
+      return '0x9Fc84992dF5496797784374B810E04238728743d'
   }
 }

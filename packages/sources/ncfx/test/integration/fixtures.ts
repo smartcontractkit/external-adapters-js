@@ -144,7 +144,7 @@ export const mockForexLoginResponse = {
 }
 
 export const mockForexResponse = {
-  request: 'ncfx_forex',
+  request: { request: 'subscribe', ccy: 'EURUSD' },
   response: {
     USDAED: { price: 3.673, timestamp: '2022-08-01T07:14:54.909Z' },
     AUDUSD: { price: 0.70067, timestamp: '2022-08-01T07:14:53.604Z' },
@@ -240,6 +240,6 @@ export const mockForexResponse = {
 }
 
 export const mockForexUnsubscribeResponse = {
-  request: '',
+  request: { request: 'unsubscribe', ccy: 'EURUSD' },
   response: undefined,
 }
