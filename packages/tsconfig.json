@@ -3,6 +3,12 @@
   "include": [],
   "references": [
     {
+      "path": "./non-deployable/token-allocation"
+    },
+    {
+      "path": "./non-deployable/reduce"
+    },
+    {
       "path": "./composites/anchor"
     },
     {
@@ -88,9 +94,6 @@
     },
     {
       "path": "./composites/the-graph"
-    },
-    {
-      "path": "./composites/token-allocation"
     },
     {
       "path": "./composites/vesper"
@@ -273,6 +276,9 @@
       "path": "./sources/dxfeed-secondary"
     },
     {
+      "path": "./sources/elwood"
+    },
+    {
       "path": "./sources/ens"
     },
     {
@@ -430,9 +436,6 @@
     },
     {
       "path": "./sources/por-address-list"
-    },
-    {
-      "path": "./sources/reduce"
     },
     {
       "path": "./sources/renvm-address-set"

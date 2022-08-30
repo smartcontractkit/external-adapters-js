@@ -1,5 +1,28 @@
 # @chainlink/set-token-index-adapter
 
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies [5a1adab07]
+- Updated dependencies [ed54a688b]
+- Updated dependencies [530753225]
+- Updated dependencies [88fdcb137]
+  - @chainlink/ea-bootstrap@2.19.0
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.6.1
+
+## 1.2.15
+
+### Patch Changes
+
+- Updated dependencies [cf37d46fc]
+- Updated dependencies [3b7c79459]
+- Updated dependencies [cf37d46fc]
+  - @chainlink/token-allocation-adapter@1.6.0
+  - @chainlink/ea-bootstrap@2.18.2
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.2.14
 
 ### Patch Changes

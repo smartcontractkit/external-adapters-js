@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ada-balance-adapter",
-  "version": "2.5.12",
+  "version": "2.5.14",
   "description": "Chainlink ada-balance adapter.",
   "keywords": [
     "Chainlink",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.49",
+    "@types/node": "16.11.51",
     "typescript": "4.7.4"
   }
 }
