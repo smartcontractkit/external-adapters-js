@@ -97,14 +97,19 @@ export const connectionsReducer = createReducer<ConnectionsState>(
     })
 
     builder.addCase(actions.connectFailed, (state, action) => {
-      state.all[action.payload.connectionInfo.key].connecting = 0
-      state.all[action.payload.connectionInfo.key].active = false
-      state.all[action.payload.connectionInfo.key].requestId = 0
+      const { key } = action.payload.connectionInfo
+      // Check if connection is missing in state
+      if (!(key in state.all)) return
+      state.all[key].connecting = 0
+      state.all[key].active = false
+      state.all[key].requestId = 0
     })
 
     builder.addCase(actions.disconnectFulfilled, (state, action) => {
       // Remove connection
       const { key } = action.payload.config.connectionInfo
+      // Check if connection is missing in state
+      if (!(key in state.all)) return
       state.all[key].active = false
       state.all[key].connecting = 0 // turn off connecting
       state.all[key].requestId = 0
@@ -112,6 +117,8 @@ export const connectionsReducer = createReducer<ConnectionsState>(
 
     builder.addCase(actions.subscriptionErrorHandler, (state, action) => {
       const { key } = action.payload.connectionInfo
+      // Check if connection is missing in state
+      if (!(key in state.all)) return
       state.all[key].shouldNotRetryConnecting = action.payload.shouldNotRetryConnection
     })
 
@@ -206,7 +213,8 @@ export const subscriptionsReducer = createReducer<SubscriptionsState>(
     builder.addCase(actions.unsubscribeFulfilled, (state, action) => {
       // Remove subscription
       const key = getSubsId(action.payload.subscriptionMsg)
-
+      // Check if subscription is missing in state
+      if (!(key in state.all)) return
       state.all[key].active = false
       state.all[key].unsubscribed = true
       state.all[key].subscribing = 0
