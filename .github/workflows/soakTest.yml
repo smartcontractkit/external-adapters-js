@@ -207,7 +207,7 @@ jobs:
                 --namespace adapters \
                 --create-namespace \
                 -f ./k8s/values.yaml \
-                --set image.tag=${IMAGE_TAG} \
+                --set image.tag=${IMAGE_TAG}-${adapter} \
                 --set name=k6-${PR_NUMBER}-${adapter} \
                 --wait
             done
@@ -218,3 +218,5 @@ jobs:
         uses: jakejarvis/wait-action@master
         with:
           time: '2m'
+
+      # TODO: Need to clean up deployed adapters
