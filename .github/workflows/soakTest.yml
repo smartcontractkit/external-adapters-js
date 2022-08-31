@@ -170,6 +170,12 @@ jobs:
       - name: Check helm version
         run: helm version
 
+      - uses: webiny/action-post-run@2.0.1
+        name: Clean up deployments
+        with:
+          working-directory: ./external-adapters-js
+          run: ./packages/scripts/src/ephemeral-adapters/cleanup.sh ${PR_NUMBER}
+
       - name: Deploy adapters
         working-directory: ./external-adapters-js
         env:
@@ -217,6 +223,4 @@ jobs:
       - name: Wait 2 Minutes for tests to run
         uses: jakejarvis/wait-action@master
         with:
-          time: '2m'
-
-      # TODO: Need to clean up deployed adapters
+          time: '10m'
