@@ -142,6 +142,7 @@
     "@chainlink/sportsdataio-adapter": "workspace:*",
     "@chainlink/stader-labs-adapter": "workspace:*",
     "@chainlink/stasis-adapter": "workspace:*",
+    "@chainlink/swell-address-list-adapter": "workspace:*",
     "@chainlink/synthetix-debt-pool-adapter": "workspace:*",
     "@chainlink/taapi-adapter": "workspace:*",
     "@chainlink/terra-view-function-adapter": "workspace:*",

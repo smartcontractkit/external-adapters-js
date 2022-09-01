@@ -350,6 +350,9 @@
       "path": "../../sources/stasis"
     },
     {
+      "path": "../../sources/swell-address-list"
+    },
+    {
       "path": "../../sources/synthetix-debt-pool"
     },
     {
