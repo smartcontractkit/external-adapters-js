@@ -1,5 +1,29 @@
 # @chainlink/ea-bootstrap
 
+## 2.19.0
+
+### Minor Changes
+
+- 88fdcb137: Changed METRICS_ENABLED environment variable to 'true' which enables metrics endpoint by default
+
+### Patch Changes
+
+- 5a1adab07: Make data provider errors be correctly labeled as "dataProviderError" instead of "connectionError"
+- ed54a688b: Increase Redis timeout & max items to reflect max load
+- 530753225: Await subscribe for WS connections
+
+## 2.18.2
+
+### Patch Changes
+
+- 3b7c79459: Improved redis cache performance with auto-pipelining
+
+## 2.18.1
+
+### Patch Changes
+
+- c14139f55: Fixed an issue where the burst limiter would never recover from exceeding the limit
+
 ## 2.18.0
 
 ### Minor Changes

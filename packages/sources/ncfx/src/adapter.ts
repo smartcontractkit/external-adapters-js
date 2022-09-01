@@ -133,23 +133,15 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> => 
         },
       },
       noHttp: true,
-      subscribe: (input: AdapterRequest) =>
-        isForexEndpoint(input.data.endpoint)
-          ? 'ncfx_forex'
-          : getSubscription('subscribe', getPair(input).pair),
-      unsubscribe: (input: AdapterRequest) =>
-        isForexEndpoint(input.data.endpoint)
-          ? ''
-          : getSubscription('unsubscribe', getPair(input).pair),
+      subscribe: (input: AdapterRequest) => getSubscription('subscribe', getPair(input).pair),
+      unsubscribe: (input: AdapterRequest) => getSubscription('unsubscribe', getPair(input).pair),
       subsFromMessage: (message: Message, subscriptionMsg: any, input: AdapterRequest) => {
-        if (isForexEndpoint(input.data.endpoint)) return 'ncfx_forex'
         if (Array.isArray(message) && message.length > 0) {
           const pairMessage = message.find((m) => m.currencyPair === subscriptionMsg.ccy)
           if (!pairMessage) return ''
           return getSubscription('subscribe', `${pairMessage.currencyPair || pairMessage.ccy}`)
         }
-
-        return getSubscription('subscribe', `${message}`)
+        return getSubscription('subscribe', getPair(input).pair)
       },
       isError: (message: Message) => Number(message.type) > 400 && Number(message.type) < 900,
       filter: (message: Message) =>

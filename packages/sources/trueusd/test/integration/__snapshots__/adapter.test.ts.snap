@@ -3,11 +3,11 @@
 exports[`execute should return success for token 1`] = `
 Object {
   "data": Object {
-    "result": 137.87276643,
+    "result": 1213602213.6176918,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 137.87276643,
+  "result": 1213602213.6176918,
   "statusCode": 200,
 }
 `;
@@ -15,11 +15,11 @@ Object {
 exports[`execute should return success for trust 1`] = `
 Object {
   "data": Object {
-    "result": 140,
+    "result": 1217813909.066,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 140,
+  "result": 1217813909.066,
   "statusCode": 200,
 }
 `;
@@ -27,11 +27,11 @@ Object {
 exports[`execute should return success when given a chain 1`] = `
 Object {
   "data": Object {
-    "result": 21,
+    "result": 1795,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 21,
+  "result": 1795,
   "statusCode": 200,
 }
 `;
@@ -39,11 +39,11 @@ Object {
 exports[`execute should return success when given a chain and resultPath 1`] = `
 Object {
   "data": Object {
-    "result": 20.72,
+    "result": 3791570.06,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 20.72,
+  "result": 3791570.06,
   "statusCode": 200,
 }
 `;

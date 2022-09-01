@@ -28,6 +28,7 @@ export interface ChangedAdapters {
   sources: string[]
   composites: string[]
   targets: string[]
+  'non-deployable': string[]
   coreWasChanged: boolean
 }
 
@@ -54,6 +55,7 @@ export const generateFilteredAdaptersListByType = (changedFiles: string[]): Chan
     sources: filterFilesToAdapters(changedFiles, 'sources'),
     composites: filterFilesToAdapters(changedFiles, 'composites'),
     targets: filterFilesToAdapters(changedFiles, 'targets'),
+    'non-deployable': filterFilesToAdapters(changedFiles, 'non-deployable'),
     coreWasChanged: coreChanges.length > 0 ? true : false,
   }
   return changedAdapters
@@ -102,7 +104,12 @@ export const createOutput = (adapters: ChangedAdapters): string => {
   }
 
   // combine adapters lists to create bash usable array of adapters to test
-  const combinedAdapters = [...adapters.sources, ...adapters.composites, ...adapters.targets]
+  const combinedAdapters = [
+    ...adapters.sources,
+    ...adapters.composites,
+    ...adapters.targets,
+    ...adapters['non-deployable'],
+  ]
 
   // remove all adapters not in the allow list
   const allowedAdapters = combinedAdapters.filter(function (adapter) {

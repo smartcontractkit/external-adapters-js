@@ -4,10 +4,12 @@ This adapter only supports WS connections. Make sure WS is enabled in your confi
 
 ### Environment Variables
 
-| Required? |     Name     |           Description            | Options | Defaults to |
-| :-------: | :----------: | :------------------------------: | :-----: | :---------: |
-|    ✅     | API_USERNAME | The username to the NCFX account |         |             |
-|    ✅     | API_PASSWORD | The password to the NCFX account |         |             |
+| Required? |       Name        |              Description               | Options | Defaults to |
+| :-------: | :---------------: | :------------------------------------: | :-----: | :---------: |
+|    ✅     |   API_USERNAME    |    The username to the NCFX account    |         |             |
+|    ✅     |   API_PASSWORD    |    The password to the NCFX account    |         |             |
+|    ✅     | FOREX_WS_USERNAME | The username to the NCFX forex account |         |             |
+|    ✅     | FOREX_WS_PASSWORD | The password to the NCFX forex account |         |             |
 
 ---
 

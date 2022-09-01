@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/trueusd-adapter",
-  "version": "1.5.3",
+  "version": "1.6.3",
   "description": "Chainlink TrueUSD adapter.",
   "keywords": [
     "Chainlink",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.11.47",
+    "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
     "nock": "13.2.9",
     "supertest": "6.2.4",

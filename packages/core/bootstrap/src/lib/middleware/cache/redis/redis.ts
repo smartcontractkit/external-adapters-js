@@ -88,6 +88,30 @@ export class RedisCache implements ICache {
     )
   }
 
+  async setBatchResponse(batchEntries: { key: string; entry: CacheEntry; maxAge: number }[]) {
+    const pipelineQue: Promise<string | null>[] = []
+
+    batchEntries.forEach((batchParticipant) => {
+      const entry = JSON.stringify(batchParticipant.entry)
+      const cacheResponse = this.client.set(batchParticipant.key, entry, {
+        PX: batchParticipant.maxAge,
+      })
+      pipelineQue.push(cacheResponse)
+    })
+
+    try {
+      await Promise.all(pipelineQue)
+      metrics.redis_commands_sent_count
+        .labels({ status: metrics.CMD_SENT_STATUS.SUCCESS, function_name: 'setBatchResponse' })
+        .inc()
+    } catch (e) {
+      metrics.redis_commands_sent_count
+        .labels({ status: metrics.CMD_SENT_STATUS.FAIL, function_name: 'setBatchResponse' })
+        .inc()
+      throw e
+    }
+  }
+
   async setFlightMarker(key: string, maxAge: number): Promise<string | null> {
     return this.contextualTimeout(this.client.set(key, 'true', { PX: maxAge }), 'setFlightMarker', {
       key,
