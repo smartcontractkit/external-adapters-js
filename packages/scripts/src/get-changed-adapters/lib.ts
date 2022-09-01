@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import fs from 'fs'
 import { SoakTestBlacklist } from './soakTestBlacklist'
+
 const { red } = chalk
 
 const usageString = `Requires 1 argument of the changed files file path.`
@@ -47,17 +48,14 @@ export const loadChangedFileList = (file: string): string[] => {
  * @param {string[]} changedFiles The list of changed files
  * @returns {ChangedAdapters} The changed adapters object with all changes for each adapter type
  */
-export const generateFilteredAdaptersListByType = (changedFiles: string[]): ChangedAdapters => {
+export const generateFilteredAdaptersListByType = (changedFiles: string[]): ChangedAdapters => ({
   // Build lists of unique adapters changed for each type in each file
-  const changedAdapters: ChangedAdapters = {
-    sources: filterFilesToAdapters(changedFiles, 'sources') as string[],
-    composites: filterFilesToAdapters(changedFiles, 'composites') as string[],
-    targets: filterFilesToAdapters(changedFiles, 'targets') as string[],
-    'non-deployable': filterFilesToAdapters(changedFiles, 'non-deployable') as string[],
-    coreWasChanged: filterFilesToAdapters(changedFiles, 'core', true) as boolean,
-  }
-  return changedAdapters
-}
+  sources: filterFilesToAdapters(changedFiles, 'sources') as string[],
+  composites: filterFilesToAdapters(changedFiles, 'composites') as string[],
+  targets: filterFilesToAdapters(changedFiles, 'targets') as string[],
+  'non-deployable': filterFilesToAdapters(changedFiles, 'non-deployable') as string[],
+  coreWasChanged: filterFilesToAdapters(changedFiles, 'core', true) as boolean,
+})
 
 /**
  * Filter changed files into a specific adapter type removing any changes that
@@ -94,11 +92,11 @@ const filterFilesToAdapters = (
  * @returns {string} The bash array formatted string of adapters with changes.
  */
 export const createOutput = (adapters: ChangedAdapters): string => {
-  const combinedAdapters = [...adapters.sources, ...adapters.composites, ...adapters.targets, ...adapters['non-deployable'],]
+  // Exclude non-deployable here, because they are not deployable
+  const combinedAdapters = [...adapters.sources, ...adapters.composites, ...adapters.targets]
 
-  if (adapters.coreWasChanged) combinedAdapters.push('coingecko', 'reference-transform')
-  //TODO remove the following line
-  combinedAdapters.push('coingecko', 'reference-transform')
+  if (adapters.coreWasChanged)
+    combinedAdapters.push('coingecko', 'coinmarketcap', 'coinpaprika', 'tiingo')
 
   const allowedAdapters = combinedAdapters.filter((a) => !SoakTestBlacklist.includes(a))
 
