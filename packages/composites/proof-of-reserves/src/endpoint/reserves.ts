@@ -15,6 +15,7 @@ export type TInputParameters = {
   addresses?: string[]
   disableAddressValidation?: boolean
   disableDuplicateAddressFiltering?: boolean
+  contractAddress?: string
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -64,7 +65,14 @@ const inputParameters: InputParameters<TInputParameters> = {
       'If this is set to `true` and a duplicate address is contained in the request, the balance of that address will be counted twice.',
     default: false,
   },
+  contractAddress: {
+    required: false,
+    type: 'boolean',
+    description:
+      'An ethereum contract to fetch the address list from, when `protocol` is set to `list` and `addresses` are not given',
+  },
 }
+
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, config.options)
 

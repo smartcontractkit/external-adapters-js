@@ -1,4 +1,6 @@
-export const POR_ADDRESS_LIST_ABI = [
+import { ethers } from 'ethers'
+
+export const POR_ADDRESS_LIST_ABI: ethers.ContractInterface = [
   {
     inputs: [
       {
