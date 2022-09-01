@@ -657,6 +657,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/stasis"\
       },\
       {\
+        "name": "@chainlink/swell-address-list-adapter",\
+        "reference": "workspace:packages/sources/swell-address-list"\
+      },\
+      {\
         "name": "@chainlink/synthetix-debt-pool-adapter",\
         "reference": "workspace:packages/sources/synthetix-debt-pool"\
       },\
@@ -915,6 +919,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
       ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
+      ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
       ["@chainlink/synth-index-adapter", ["workspace:packages/composites/synth-index"]],\
       ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
       ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],\
@@ -5496,6 +5501,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
             ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
+            ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
             ["@chainlink/synthetix-debt-pool-adapter", "workspace:packages/sources/synthetix-debt-pool"],\
             ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],\
             ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
@@ -7249,6 +7255,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/swell-address-list-adapter", [\
+        ["workspace:packages/sources/swell-address-list", {\
+          "packageLocation": "./packages/sources/swell-address-list/",\
+          "packageDependencies": [\
+            ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.47"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
         }]\
