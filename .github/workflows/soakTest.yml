@@ -183,9 +183,12 @@ jobs:
 
       - uses: webiny/action-post-run@2.0.1
         name: Clean up deployments
+        env:
+          PR_NUMBER: ${{ steps.findPr.outputs.pr }}
+          ADAPTER_NAMES: ${{ steps.build-adapters.outputs.BUILD_ADAPTERS }}
         with:
           working-directory: ./external-adapters-js
-          run: ./packages/scripts/src/ephemeral-adapters/cleanup.sh ${PR_NUMBER}
+          run: ./packages/scripts/src/ephemeral-adapters/cleanup.sh
 
       - name: Deploy adapters
         working-directory: ./external-adapters-js
