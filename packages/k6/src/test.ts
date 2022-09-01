@@ -13,17 +13,10 @@ if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }
 
-// set the k6 running options
-export const options = {
-  vus: 1,
-  duration: testDuration,
-  thresholds: {
-    http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-    http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
-  },
+let scaleupDuration = '1m'
+if (__ENV.SCALEUP_DURATION) {
+  scaleupDuration = __ENV.SCALEUP_DURATION
 }
-
-export const errorRate = new Rate('errors')
 
 // load the test data, if data was generated then load it from the generated file
 let payloadData: Payload[] = []
@@ -34,6 +27,23 @@ if (__ENV.PAYLOAD_GENERATED) {
     return f
   })
 }
+
+// set the k6 running options
+export const options = {
+  vus: 1,
+  duration: testDuration,
+  stages: [
+    { duration: scaleupDuration, target: payloadData.length / 2 },
+    { duration: scaleupDuration, target: payloadData.length },
+    { duration: testDuration, target: payloadData },
+  ],
+  thresholds: {
+    http_req_failed: ['rate<0.01'], // http errors should be less than 1%
+    http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
+  },
+}
+
+export const errorRate = new Rate('errors')
 
 interface LoadTestGroupUrls {
   [loadTestGroup: string]: {

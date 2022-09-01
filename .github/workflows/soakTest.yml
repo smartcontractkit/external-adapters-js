@@ -129,6 +129,7 @@ jobs:
               echo "CI_ADAPTER_NAME=${adapter}" >> ./.env
               echo "QA_RELEASE_TAG=${PR_NUMBER}" >> ./.env
               echo "PR_NUMBER=${PR_NUMBER}" >> ./.env
+              echo "TEST_DURATION=10m" >> ./.env
               cat ./.env
 
               yarn build
