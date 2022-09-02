@@ -4,18 +4,12 @@ import http from 'k6/http'
 import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
 
-// For future use
-const GROUP_COUNT = 1
+const GROUP_COUNT = 10
 
 // load the test duration from the environment or default to 12 hours
 let testDuration = '12h'
 if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
-}
-
-let scaleupDuration = '1m'
-if (__ENV.SCALEUP_DURATION) {
-  scaleupDuration = __ENV.SCALEUP_DURATION
 }
 
 // load the test data, if data was generated then load it from the generated file
@@ -32,11 +26,6 @@ if (__ENV.PAYLOAD_GENERATED) {
 export const options = {
   vus: 1,
   duration: testDuration,
-  stages: [
-    { duration: scaleupDuration, target: payloadData.length / 2 },
-    { duration: scaleupDuration, target: payloadData.length },
-    { duration: testDuration, target: payloadData },
-  ],
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
     http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
@@ -98,7 +87,7 @@ function getLoadTestGroupsUrls(): LoadTestGroupUrls {
   }
 }
 
-function buildRequests() {
+function buildRequests(i: number) {
   const batchRequests: Parameters<typeof http.batch>[0] = {}
   const params = {
     headers: {
@@ -106,13 +95,14 @@ function buildRequests() {
     },
   }
   const urls = getLoadTestGroupsUrls()
+  const limit = payloadData.length / Math.min(GROUP_COUNT - i, 1)
   for (const [loadTestGroup, adaptersByAdapterName] of Object.entries(urls)) {
     for (const [adapterName, url] of Object.entries(adaptersByAdapterName)) {
-      for (const payload of payloadData) {
-        batchRequests[`Group-${loadTestGroup}-${adapterName}-${payload.name}`] = {
-          method: payload.method,
+      for (let j = 0; j < limit; j++) {
+        batchRequests[`Group-${loadTestGroup}-${adapterName}-${payloadData[j].name}`] = {
+          method: payloadData[j].method,
           url,
-          body: payload.data,
+          body: payloadData[j].data,
           params,
         }
       }
@@ -122,10 +112,12 @@ function buildRequests() {
   return batchRequests
 }
 
-const batchRequests = buildRequests()
+const stagedBatchRequests = new Array(GROUP_COUNT).fill(0).map((_, i) => buildRequests(i))
+
+let iteration = 0
 
 export default (): void => {
-  const responses = http.batch(batchRequests)
+  const responses = http.batch(stagedBatchRequests[Math.min(iteration++, GROUP_COUNT - 1)])
   for (const [name, response] of Object.entries(responses)) {
     const result = check(response, {
       [`${name} returned 200`]: (r) => r.status == 200,
