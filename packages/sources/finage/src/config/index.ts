@@ -24,7 +24,7 @@ export const makeConfig = (prefix?: string): Config => {
   const stockWsUrl = util.getEnv(ENV_STOCK_WS_API_ENDPOINT) || DEFAULT_STOCK_WS_API_ENDPOINT
   const forexWsUrl = util.getEnv(ENV_FOREX_WS_API_ENDPOINT) || DEFAULT_FOREX_WS_API_ENDPOINT
   const cryptoWsUrl = util.getEnv(ENV_CRYPTO_WS_API_ENDPOINT) || DEFAULT_CRYPTO_WS_API_ENDPOINT
-  const socketKey = util.getEnv('WS_SOCKET_KEY')
+  const socketKey = util.getRequiredEnv('WS_SOCKET_KEY')
   return {
     ...config,
     api: {
