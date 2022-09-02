@@ -5,6 +5,7 @@ import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
 
 const GROUP_COUNT = 10
+const UNIQUE_PAYLOAD_LIMIT = 50
 
 // load the test duration from the environment or default to 12 hours
 let testDuration = '12h'
@@ -28,7 +29,7 @@ export const options = {
   duration: testDuration,
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-    http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
+    http_req_duration: ['p(90)<200'], // 90% of requests should be below 200ms
   },
 }
 
@@ -95,7 +96,7 @@ function buildRequests(i: number) {
     },
   }
   const urls = getLoadTestGroupsUrls()
-  const limit = payloadData.length / Math.min(GROUP_COUNT - i, 1)
+  const limit = Math.min(payloadData.length, UNIQUE_PAYLOAD_LIMIT) / Math.min(GROUP_COUNT - i, 1)
   for (const [loadTestGroup, adaptersByAdapterName] of Object.entries(urls)) {
     for (const [adapterName, url] of Object.entries(adaptersByAdapterName)) {
       for (let j = 0; j < limit; j++) {
