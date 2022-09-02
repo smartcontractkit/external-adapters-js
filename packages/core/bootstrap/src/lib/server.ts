@@ -36,6 +36,8 @@ export const initHandler =
     middleware: Middleware<AdapterRequest<D>>[],
   ) =>
   async (): Promise<FastifyInstance> => {
+    console.log('force framework update')
+
     const app = Fastify({
       trustProxy: true,
       logger: false,
