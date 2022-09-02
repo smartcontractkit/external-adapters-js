@@ -18,6 +18,9 @@ jobs:
       contents: read
       checks: write
       pull-requests: write
+    concurrency:
+      group: qa-soaktest-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v2
       - uses: jwalton/gh-find-current-pr@v1
