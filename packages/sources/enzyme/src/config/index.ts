@@ -23,7 +23,7 @@ export const makeConfig = (prefix?: string): Config => {
   )
 
   const chainId =
-    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '42') ||
+    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
     util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
 
   return {
