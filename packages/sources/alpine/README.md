@@ -4,9 +4,10 @@ This adapter gets the tvl of Ethereum vaults as well as the block numbers of the
 
 ### Environment Variables
 
-| Required? |        Name        |         Description          | Options | Defaults to |
-| :-------: | :----------------: | :--------------------------: | :-----: | :---------: |
-|           | {network}\_RPC_URL | RPC url for Ethereum/Polygon |         |             |
+| Required? |        Name         |           Description           | Options | Defaults to |
+| :-------: | :-----------------: | :-----------------------------: | :-----: | :---------: |
+|           | {network}\_RPC_URL  |  RPC url for Ethereum/Polygon   |         |             |
+|           | {network}\_CHAIN_ID | The blockchain id to connect to |         |             |
 
 ---
 

@@ -5,9 +5,10 @@ addresses from a deployed smart contract.
 
 ### Environment Variables
 
-| Required? |  Name   |                                           Description                                           | Options | Defaults to |
-| :-------: | :-----: | :---------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | RPC_URL | The RPC URL for the chain where the smart contract holding the custodial addresses is deployed. |         |             |
+| Required? |   Name   |                                           Description                                           | Options | Defaults to |
+| :-------: | :------: | :---------------------------------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | RPC_URL  | The RPC URL for the chain where the smart contract holding the custodial addresses is deployed. |         |             |
+|           | CHAIN_ID |                                 The blockchain id to connect to                                 |         |      1      |
 
 ---
 

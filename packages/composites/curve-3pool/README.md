@@ -48,10 +48,11 @@ This composite adapter uses the Token Allocation adapter to compute `lp_token_pr
 
 The adapter takes the following environment variables:
 
-| Required? |        Name        |                             Description                              | Options | Defaults to |
-| :-------: | :----------------: | :------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `ETHEREUM_RPC_URL` | The Ethereum blockchain RPC endpoint to get the needed on-chain data |         |             |
-|           |  `DEFAULT_QUOTE`   |         Currency that the price will be fetched by default.          |         |    `USD`    |
+| Required? |        Name         |                             Description                              | Options | Defaults to |
+| :-------: | :-----------------: | :------------------------------------------------------------------: | :-----: | :---------: |
+|    ✅     | `ETHEREUM_RPC_URL`  | The Ethereum blockchain RPC endpoint to get the needed on-chain data |         |             |
+|           | `ETHEREUM_CHAIN_ID` |                   The blockchain id to connect to                    |         |      1      |
+|           |   `DEFAULT_QUOTE`   |         Currency that the price will be fetched by default.          |         |    `USD`    |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
 This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.

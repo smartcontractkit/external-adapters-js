@@ -7,6 +7,6 @@ export const DEFAULT_ENDPOINT = 'wallet'
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.rpcUrl = util.getRequiredEnv('RPC_URL')
-  config.defaultEndpoint = DEFAULT_ENDPOINT
+  config.chainId = parseInt(util.getEnv('CHAIN_ID') || '1') || util.getEnv('CHAIN_ID')
   return config
 }

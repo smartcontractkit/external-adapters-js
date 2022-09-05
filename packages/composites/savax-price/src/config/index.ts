@@ -19,5 +19,7 @@ export const makeConfig = (prefix?: string): Config => {
     defaultEndpoint: DEFAULT_ENDPOINT,
     sAvaxAddress,
     rpcUrl: util.getRequiredEnv('AVALANCHE_RPC_URL', prefix),
+    chainId:
+      parseInt(util.getEnv('AVALANCHE_CHAIN_ID') || '43114') || util.getEnv('AVALANCHE_CHAIN_ID'),
   }
 }

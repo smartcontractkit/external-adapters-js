@@ -14,7 +14,13 @@ export const makeConfig = (prefix?: string): Config => {
   config.defaultEndpoint = DEFAULT_ENDPOINT
   config.adapterSpecificParams = {
     polygonRpcUrl: util.getEnv('POLYGON_RPC_URL') || '',
+    polygonChainId:
+      parseInt(util.getEnv('POLYGON_CHAIN_ID') || '137') ||
+      (util.getEnv('POLYGON_CHAIN_ID') as string),
     fantomRpcUrl: util.getEnv('FANTOM_RPC_URL') || '',
+    fantomChainId:
+      parseInt(util.getEnv('FANTOM_CHAIN_ID') || '250') ||
+      (util.getEnv('FANTOM_CHAIN_ID') as string),
   }
   return config
 }

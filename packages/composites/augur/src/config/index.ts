@@ -5,13 +5,18 @@ import { Requester, util } from '@chainlink/ea-bootstrap'
 export type Config = DefaultConfig & {
   wallet: ethers.Wallet
 }
+export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
+export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
 
 export const NAME = 'AUGUR'
 
 export const makeConfig = (prefix?: string): Config => {
   const rpcUrl = util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix)
+  const chainId =
+    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
+    util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
   const privateKey = util.getRequiredEnv('PRIVATE_KEY', prefix)
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
   const wallet = new ethers.Wallet(privateKey, provider)
 
   return {

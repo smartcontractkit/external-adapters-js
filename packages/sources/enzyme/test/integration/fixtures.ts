@@ -121,16 +121,16 @@ export function mockEthereumResponseSuccess(): nock.Scope {
         },
         'latest',
       ],
-      id: 44,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
       200,
-      {
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
-        id: 44,
+        id: request.id,
         result: '0x0000000000000000000000000000000000000000000000000de0b6b3a7640000',
-      },
+      }),
       [
         'Content-Type',
         'application/json',

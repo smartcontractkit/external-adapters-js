@@ -14,9 +14,10 @@ priceWithFees =  price * (1 + vaultFee)
 
 The adapter takes the following environment variables:
 
-| Required? |        Name        |    Description    | Options | Defaults to |
-| :-------: | :----------------: | :---------------: | :-----: | :---------: |
-|    ✅     | `ETHEREUM_RPC_URL` | URL of RPC to use |         |             |
+| Required? |        Name         |           Description           | Options | Defaults to |
+| :-------: | :-----------------: | :-----------------------------: | :-----: | :---------: |
+|    ✅     | `ETHEREUM_RPC_URL`  |        URL of RPC to use        |         |             |
+|           | `ETHEREUM_CHAIN_ID` | The blockchain id to connect to |         |      1      |
 
 **Additional environment variables must be set for the Uniswap V2 adapter.**
 

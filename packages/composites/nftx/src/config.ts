@@ -8,6 +8,9 @@ export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 export const DEFAULT_ENDPOINT = 'price'
 export const NAME = 'NFTX_VAULT_PRICE'
 
+export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
+export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
+
 export type Config = BaseConfig & {
   provider: ethers.providers.Provider
 }
@@ -19,9 +22,13 @@ export const makeConfig = (prefix?: string): Config => {
     prefix,
   )
 
+  const chainId =
+    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
+    util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
+
   return {
     ...Requester.getDefaultConfig(prefix),
-    provider: new ethers.providers.JsonRpcProvider(rpcUrl),
+    provider: new ethers.providers.JsonRpcProvider(rpcUrl, chainId),
     defaultEndpoint: DEFAULT_ENDPOINT,
   }
 }

@@ -9,6 +9,8 @@ export const DEFAULT_ENDPOINT = 'stmatic'
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
   config.api.baseURL ||= util.getEnv('POLYGON_RPC_URL') || ''
+  config.chainId =
+    parseInt(util.getEnv('POLYGON_CHAIN_ID') || '137') || util.getEnv('POLYGON_CHAIN_ID')
   config.defaultEndpoint = DEFAULT_ENDPOINT
   return config
 }

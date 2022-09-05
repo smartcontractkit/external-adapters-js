@@ -6,6 +6,8 @@ export const NAME = 'UNISWAP_V2'
 
 export const ENV_ETHEREUM_RPC_URL = 'ETHEREUM_RPC_URL'
 export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
+export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
+export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
 export const ENV_BLOCKCHAIN_NETWORK = 'BLOCKCHAIN_NETWORK'
 export const ENV_ROUTER_CONTRACT = 'ROUTER_CONTRACT'
 
@@ -21,12 +23,18 @@ export type Config = BaseConfig & {
 }
 
 export const makeConfig: ConfigFactory<Config> = (prefix: string | undefined) => {
+  const rpcUrl = util.getRequiredEnvWithFallback(
+    ENV_ETHEREUM_RPC_URL,
+    [ENV_FALLBACK_RPC_URL],
+    prefix,
+  )
+  const chainId =
+    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
+    util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
   return {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
-    provider: new ethers.providers.JsonRpcProvider(
-      util.getRequiredEnvWithFallback(ENV_ETHEREUM_RPC_URL, [ENV_FALLBACK_RPC_URL], prefix),
-    ),
+    provider: new ethers.providers.JsonRpcProvider(rpcUrl, chainId),
     network: util.getEnv(ENV_BLOCKCHAIN_NETWORK, prefix) || DEFAULT_BLOCKCHAIN_NETWORK,
     uniswapRouter: util.getEnv(ENV_ROUTER_CONTRACT, prefix) || DEFAULT_ROUTER_CONTRACT,
   }

@@ -22,10 +22,12 @@ export type Config = BaseConfig & {
 }
 
 export const makeConfig: ConfigFactory<Config> = (prefix) => {
+  const rpcUrl = util.getRequiredEnv(ENV_RPC_URL, prefix)
+  const chainId = parseInt(util.getEnv('CHAIN_ID') || '1') || util.getEnv('CHAIN_ID')
   return {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,
-    provider: new ethers.providers.JsonRpcProvider(util.getRequiredEnv(ENV_RPC_URL, prefix)),
+    provider: new ethers.providers.JsonRpcProvider(rpcUrl, chainId),
     addressProviderAddress: util.getEnv(ENV_ADDRESS_PROVIDER, prefix) || DEFAULT_ADDRESS_PROVIDER,
     exchangeProviderId:
       Number(util.getEnv(ENV_EXCHANGE_PROVIDER_ID, prefix)) || DEFAULT_EXCHANGE_PROVIDER_ID,

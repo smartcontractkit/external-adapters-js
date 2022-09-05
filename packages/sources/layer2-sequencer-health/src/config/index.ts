@@ -31,6 +31,15 @@ export const RPC_ENDPOINTS = {
   [Networks.Metis]: util.getEnv('METIS_RPC_ENDPOINT') || DEFAULT_METIS_RPC_ENDPOINT,
 }
 
+export const CHAIN_IDS = {
+  [Networks.Arbitrum]:
+    parseInt(util.getEnv('ARBITRUM_CHAIN_ID') || '42161') || util.getEnv('ARBITRUM_CHAIN_ID'),
+  [Networks.Optimism]:
+    parseInt(util.getEnv('OPTIMISM_CHAIN_ID') || '10') || util.getEnv('OPTIMISM_CHAIN_ID'),
+  [Networks.Metis]:
+    parseInt(util.getEnv('METIS_CHAIN_ID') || '1088') || util.getEnv('METIS_CHAIN_ID'),
+}
+
 const DEFAULT_OPTIMISM_HEALTH_ENDPOINT = 'https://mainnet-sequencer.optimism.io/health'
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://tokenapi.metis.io/andromeda/health'
 export const HEALTH_ENDPOINTS = {

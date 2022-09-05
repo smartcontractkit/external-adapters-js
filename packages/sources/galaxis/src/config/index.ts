@@ -24,9 +24,11 @@ export interface ExtendedConfig extends Config {
 export const makeConfig = (prefix?: string): ExtendedConfig => {
   const config = Requester.getDefaultConfig(prefix)
   config.rpcUrl = util.getRequiredEnv('POLYGON_RPC_URL', prefix)
+  config.chainId =
+    parseInt(util.getEnv('POLYGON_CHAIN_ID') || '137') || util.getEnv('POLYGON_CHAIN_ID')
   config.api.baseURL = util.getEnv('API_ENDPOINT', prefix) || DEFAULT_API_ENDPOINT
   config.defaultEndpoint = DEFAULT_ENDPOINT
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const ecRegistryAddress =
     util.getEnv('EC_REGISTRY_ADDRESS', prefix) || DEFAULT_EC_REGISTRY_ADDRESS
   const ecRegistryMapAddress =

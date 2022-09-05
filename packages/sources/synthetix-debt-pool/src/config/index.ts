@@ -18,6 +18,7 @@ export interface Config extends DefaultConfig {
   chains: {
     [key: string]: {
       rpcURL: string
+      chainId: string | number | undefined
       chainAddressResolverProxyAddress: string
     }
   }
@@ -33,12 +34,17 @@ export const makeConfig = (prefix?: string): Config => {
   for (const chainName of Object.values(SupportedChains)) {
     const envVarPrefix = getRPCUrlPrefix(chainName)
     const chainRpcURL = util.getEnv('RPC_URL', envVarPrefix)
+    const chainId =
+      parseInt(util.getEnv('CHAIN_ID', envVarPrefix) || getDefaultChainId(chainName)) ||
+      util.getEnv('CHAIN_ID', envVarPrefix)
+
     const chainAddressResolverProxyAddress =
       util.getEnv('ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS', envVarPrefix) ||
       getDefaultAddressResolverProxyAddress(chainName)
     if (chainRpcURL) {
       config.chains[chainName] = {
         rpcURL: chainRpcURL,
+        chainId,
         chainAddressResolverProxyAddress,
       }
     }
@@ -81,5 +87,22 @@ const getDefaultAddressResolverProxyAddress = (networkName: SupportedChains): st
       return '0x58719E8Ef4d201541e44505a2ACB3424481d6681'
     case SupportedChains.GOERLI_OPTIMISM:
       return '0x9Fc84992dF5496797784374B810E04238728743d'
+  }
+}
+
+const getDefaultChainId = (networkName: SupportedChains): string => {
+  switch (networkName) {
+    case SupportedChains.ETHEREUM:
+      return '1'
+    case SupportedChains.KOVAN:
+      return '42'
+    case SupportedChains.OPTIMISM:
+      return '10'
+    case SupportedChains.KOVAN_OPTIMISM:
+      return '69'
+    case SupportedChains.GOERLI:
+      return '5'
+    case SupportedChains.GOERLI_OPTIMISM:
+      return '420'
   }
 }

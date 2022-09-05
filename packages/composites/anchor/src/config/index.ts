@@ -13,6 +13,9 @@ export const DEFAULT_LUNA_TERRA_FEED_ADDRESS = 'terra1gfy9nxj2xwd4vcupzfelk34u3q
 export const DEFAULT_ETH_TERRA_FEED_ADDRESS = 'terra1a39jndcuh64ef2qzt5w8mh46m5ysc34a9qd2e5'
 export const DEFAULT_FEED_DECIMALS = 8
 
+export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
+export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
+
 export interface Config extends DefaultConfig {
   anchorVaultContractAddress: string
   terraBLunaHubContractAddress: string
@@ -28,6 +31,9 @@ export const makeConfig = (prefix?: string): Config => {
   return {
     ...Requester.getDefaultConfig(prefix),
     rpcUrl: util.getRequiredEnvWithFallback('ETHEREUM_RPC_URL', ['RPC_URL'], prefix),
+    chainId:
+      parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
+      util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]),
     defaultEndpoint: util.getEnv('API_ENDPOINT', prefix) || DEFAULT_ENDPOINT,
     anchorVaultContractAddress:
       util.getEnv('ANCHOR_VAULT_CONTRACT_ADDRESS', prefix) || DEFAULT_ANCHOR_VAULT_CONTRACT_ADDRESS,
