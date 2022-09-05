@@ -22,7 +22,12 @@ describe('execute', () => {
     address = await deploy(hardhatConfig.TESTING_PRIVATE_KEY, rpcUrl)
     provider = new ethers.providers.JsonRpcProvider(rpcUrl)
     contract = new ethers.Contract(address, abi, provider)
-    execute = makeExecute({ rpcUrl, privateKey: hardhatConfig.TESTING_PRIVATE_KEY, api: {} }) as {
+    execute = makeExecute({
+      rpcUrl,
+      privateKey: hardhatConfig.TESTING_PRIVATE_KEY,
+      api: {},
+      chainId: '1',
+    }) as {
       (arg0: { id: string; data: Record<string, unknown>; meta: AdapterRequestMeta }): any
       (input: AdapterRequest): Promise<AdapterResponse>
     }
