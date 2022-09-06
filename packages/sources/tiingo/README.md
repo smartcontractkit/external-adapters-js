@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Tiingo
 
-![1.12.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json)
+![1.12.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json)
 
 Base URL https://api.tiingo.com
 
