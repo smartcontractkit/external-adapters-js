@@ -15,7 +15,7 @@ A typical workflow of a Chainlink job for this external adapter could look like:
 | Required? |       Name        |                             Description                             | Options | Defaults to |
 | :-------: | :---------------: | :-----------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | ETHEREUM_RPC_URL  |  RPC endpoint for that client. For example `http://localhost:8545`  |         |             |
-|           | ETHEREUM_CHAIN_ID |                   The blockchain id to connect to                   |         |      1      |
+|           | ETHEREUM_CHAIN_ID |                     The chain id to connect to                      |         |      1      |
 |    ✅     |    PRIVATE_KEY    | The private key of a funded account, to sign the transactions from. |         |             |
 |    ✅     | CONTRACT_ADDRESS  |       The contract address that the contract is deployed to.        |         |             |
 

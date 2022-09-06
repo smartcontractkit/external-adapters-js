@@ -9,7 +9,7 @@ The adapter takes the following environment variables:
 | Required? |         Name         |                   Description                   | Options |                 Defaults to                  |
 | :-------: | :------------------: | :---------------------------------------------: | :-----: | :------------------------------------------: |
 |    ✅     | `AVALANCHE_RPC_URL`  | The RPC URL to connect to the Avalanche network |         |                                              |
-|           | `AVALANCHE_CHAIN_ID` |         The blockchain id to connect to         |         |                    43114                     |
+|           | `AVALANCHE_CHAIN_ID` |           The chain id to connect to            |         |                    43114                     |
 |           |   `SAVAX_ADDRESS`    |        The address of the `sAVAX` token         |         | `0x2b2C81e08f1Af8835a78Bb2A90AE924ACE0eA4bE` |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**

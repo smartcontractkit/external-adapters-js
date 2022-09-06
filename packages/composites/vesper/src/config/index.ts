@@ -15,6 +15,7 @@ export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 
 export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
 export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
+export const DEFAULT_CHAIN_ID = '1'
 
 export const makeConfig: types.ConfigFactory<Config> = (prefix) => {
   const rpcUrl = util.getRequiredEnvWithFallback(
@@ -23,8 +24,9 @@ export const makeConfig: types.ConfigFactory<Config> = (prefix) => {
     prefix,
   )
   const chainId =
-    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
-    util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
+    parseInt(
+      util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || DEFAULT_CHAIN_ID,
+    ) || util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
   return {
     ...Requester.getDefaultConfig(prefix),
     rpcUrl,

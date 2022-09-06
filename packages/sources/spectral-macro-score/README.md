@@ -8,7 +8,7 @@ Used to retrieve a MACRO Score for a given token ID.
 | :-------: | :---------------: | :----------------------------------------------------------------: | :-----: | :------------------------------------------------------------: |
 |    ✅     |      API_KEY      | An API key that can be obtained from the data provider's dashboard |         |                                                                |
 |    ✅     | ETHEREUM_RPC_URL  |                          Ethereum RPC URL                          |         |                                                                |
-|           | ETHEREUM_CHAIN_ID |                Ethereum blockchain id to connect to                |         |                               1                                |
+|           | ETHEREUM_CHAIN_ID |                     The chain id to connect to                     |         |                               1                                |
 |    ✅     |    NFC_ADDRESS    |                    Address of the NFC contract                     |         |                                                                |
 |           |   API_ENDPOINT    |                      MACRO Score API Endpoint                      |         | https://xzff24vr3m.execute-api.us-east-2.amazonaws.com/default |
 

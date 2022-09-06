@@ -20,6 +20,7 @@ export const ENV_TRADER_SCORE_C = 'TRADER_SCORE_C'
 
 export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
 export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
+export const DEFAULT_CHAIN_ID = '1'
 
 export interface ExtendedConfig extends Config {
   wallet: ethers.Wallet
@@ -42,8 +43,9 @@ export const makeConfig = (prefix?: string): ExtendedConfig => {
     prefix,
   )
   const chainId =
-    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
-    util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
+    parseInt(
+      util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || DEFAULT_CHAIN_ID,
+    ) || util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
   const provider = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
   const wallet = new ethers.Wallet(privateKey, provider)
 

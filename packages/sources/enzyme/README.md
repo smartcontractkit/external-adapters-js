@@ -7,7 +7,7 @@ Adapter to interact with Enzyme contracts.
 | Required? |       Name        |                                Description                                 | Options | Defaults to |
 | :-------: | :---------------: | :------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | ETHEREUM_RPC_URL  | An http(s) RPC URL to a blockchain node that can read the Enzyme contracts |         |             |
-|           | ETHEREUM_CHAIN_ID |                      The blockchain id to connect to                       |         |      1      |
+|           | ETHEREUM_CHAIN_ID |                         The chain id to connect to                         |         |      1      |
 
 ---
 

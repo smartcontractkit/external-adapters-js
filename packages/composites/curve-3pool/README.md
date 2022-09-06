@@ -51,7 +51,7 @@ The adapter takes the following environment variables:
 | Required? |        Name         |                             Description                              | Options | Defaults to |
 | :-------: | :-----------------: | :------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | `ETHEREUM_RPC_URL`  | The Ethereum blockchain RPC endpoint to get the needed on-chain data |         |             |
-|           | `ETHEREUM_CHAIN_ID` |                   The blockchain id to connect to                    |         |      1      |
+|           | `ETHEREUM_CHAIN_ID` |                      The chain id to connect to                      |         |      1      |
 |           |   `DEFAULT_QUOTE`   |         Currency that the price will be fetched by default.          |         |    `USD`    |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**

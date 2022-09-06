@@ -15,7 +15,7 @@ The adapter takes the following environment variables:
 | Required? |        Name         |           Description           | Options |                 Defaults to                  |
 | :-------: | :-----------------: | :-----------------------------: | :-----: | :------------------------------------------: |
 |    ✅     | `ETHEREUM_RPC_URL`  |    URL of Ethereum RPC node     |         |                                              |
-|           | `ETHEREUM_CHAIN_ID` | The blockchain id to connect to |         |                      1                       |
+|           | `ETHEREUM_CHAIN_ID` |   The chain id to connect to    |         |                      1                       |
 |           |  `XSUSHI_ADDRESS`   | The address of the xSUSHI token |         | `0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272` |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**

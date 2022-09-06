@@ -8,7 +8,7 @@ addresses from a deployed smart contract.
 | Required? |   Name   |                                           Description                                           | Options | Defaults to |
 | :-------: | :------: | :---------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     | RPC_URL  | The RPC URL for the chain where the smart contract holding the custodial addresses is deployed. |         |             |
-|           | CHAIN_ID |                                 The blockchain id to connect to                                 |         |      1      |
+|           | CHAIN_ID |                                   The chain id to connect to                                    |         |      1      |
 
 ---
 

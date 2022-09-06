@@ -11,13 +11,13 @@ Adapter that checks the Layer 2 Sequencer status
 |           |  `NETWORK_TIMEOUT_LIMIT`   |         Maximum time in milliseconds to wait for a transaction receipt          |         |                5000 (5 secs)                 |
 |           |  `ARBITRUM_RPC_ENDPOINT`   |                              Arbitrum RPC Endpoint                              |         |         https://arb1.arbitrum.io/rpc         |
 |           | `ARBITRUM_HEALTH_ENDPOINT` |                            Arbitrum Health Endpoint                             |         |                                              |
-|           |    `ARBITRUM_CHAIN_ID`     |                         The blockchain id to connect to                         |         |                    42161                     |
+|           |    `ARBITRUM_CHAIN_ID`     |                           The chain id to connect to                            |         |                    42161                     |
 |           |  `OPTIMISM_RPC_ENDPOINT`   |                              Optimism RPC Endpoint                              |         |         https://mainnet.optimism.io          |
 |           | `OPTIMISM_HEALTH_ENDPOINT` |                            Optimism Health Endpoint                             |         | https://mainnet-sequencer.optimism.io/health |
-|           |    `OPTIMISM_CHAIN_ID`     |                         The blockchain id to connect to                         |         |                      10                      |
+|           |    `OPTIMISM_CHAIN_ID`     |                           The chain id to connect to                            |         |                      10                      |
 |           |    `METIS_RPC_ENDPOINT`    |                               Metis RPC Endpoint                                |         |    https://andromeda.metis.io/?owner=1088    |
 |           |  `METIS_HEALTH_ENDPOINT`   |                              Metis Health Endpoint                              |         |  https://tokenapi.metis.io/andromeda/health  |
-|           |      `METIS_CHAIN_ID`      |                         The blockchain id to connect to                         |         |                     1088                     |
+|           |      `METIS_CHAIN_ID`      |                           The chain id to connect to                            |         |                     1088                     |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 

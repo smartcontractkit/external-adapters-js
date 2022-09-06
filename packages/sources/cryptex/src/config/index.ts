@@ -10,6 +10,7 @@ export const ENV_FALLBACK_RPC_URL = 'RPC_URL'
 
 export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
 export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
+export const DEFAULT_CHAIN_ID = '1'
 
 const DEFAULT_BTC_MCAP_ADDRESS = '0x47E1e89570689c13E723819bf633548d611D630C'
 const DEFAULT_TOTAL_MCAP_ADDRESS = '0xEC8761a0A73c34329CA5B1D3Dc7eD07F30e836e2'
@@ -27,8 +28,9 @@ export const makeConfig = (prefix?: string): Config => {
     prefix,
   )
   const chainId =
-    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
-    util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
+    parseInt(
+      util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || DEFAULT_CHAIN_ID,
+    ) || util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
   return {
     ...Requester.getDefaultConfig(prefix),
     defaultEndpoint: DEFAULT_ENDPOINT,

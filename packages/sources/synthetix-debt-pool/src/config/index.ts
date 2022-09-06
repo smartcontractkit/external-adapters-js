@@ -5,6 +5,16 @@ export const NAME = 'SYNTHETIX_DEBT_POOL'
 
 export const DEFAULT_ENDPOINT = 'debt'
 
+export const ENV_RPC_URL = 'RPC_URL'
+export const ENV_CHAIN_ID = 'CHAIN_ID'
+
+export const DEFAULT_ETHEREUM_CHAIN_ID = '1'
+export const DEFAULT_KOVAN_CHAIN_ID = '42'
+export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
+export const DEFAULT_KOVAN_OPTIMISM_CHAIN_ID = '69'
+export const DEFAULT_GOERLI_CHAIN_ID = '5'
+export const DEFAULT_GOERLI_OPTIMISM_CHAIN_ID = '420'
+
 export enum SupportedChains {
   ETHEREUM = 'mainnet',
   OPTIMISM = 'mainnet-ovm',
@@ -33,10 +43,10 @@ export const makeConfig = (prefix?: string): Config => {
 
   for (const chainName of Object.values(SupportedChains)) {
     const envVarPrefix = getRPCUrlPrefix(chainName)
-    const chainRpcURL = util.getEnv('RPC_URL', envVarPrefix)
+    const chainRpcURL = util.getEnv(ENV_RPC_URL, envVarPrefix)
     const chainId =
-      parseInt(util.getEnv('CHAIN_ID', envVarPrefix) || getDefaultChainId(chainName)) ||
-      util.getEnv('CHAIN_ID', envVarPrefix)
+      parseInt(util.getEnv(ENV_CHAIN_ID, envVarPrefix) || getDefaultChainId(chainName)) ||
+      util.getEnv(ENV_CHAIN_ID, envVarPrefix)
 
     const chainAddressResolverProxyAddress =
       util.getEnv('ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS', envVarPrefix) ||
@@ -93,16 +103,16 @@ const getDefaultAddressResolverProxyAddress = (networkName: SupportedChains): st
 const getDefaultChainId = (networkName: SupportedChains): string => {
   switch (networkName) {
     case SupportedChains.ETHEREUM:
-      return '1'
+      return DEFAULT_ETHEREUM_CHAIN_ID
     case SupportedChains.KOVAN:
-      return '42'
+      return DEFAULT_KOVAN_CHAIN_ID
     case SupportedChains.OPTIMISM:
-      return '10'
+      return DEFAULT_OPTIMISM_CHAIN_ID
     case SupportedChains.KOVAN_OPTIMISM:
-      return '69'
+      return DEFAULT_KOVAN_OPTIMISM_CHAIN_ID
     case SupportedChains.GOERLI:
-      return '5'
+      return DEFAULT_GOERLI_CHAIN_ID
     case SupportedChains.GOERLI_OPTIMISM:
-      return '420'
+      return DEFAULT_GOERLI_OPTIMISM_CHAIN_ID
   }
 }

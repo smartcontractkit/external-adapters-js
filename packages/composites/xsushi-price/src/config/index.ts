@@ -11,6 +11,7 @@ export const ENV_FALLBACK_CHAIN_ID = 'CHAIN_ID'
 
 export const DEFAULT_XSUSHI_ADDRESS = '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272'
 export const DEFAULT_ENDPOINT = 'price'
+export const DEFAULT_CHAIN_ID = '1'
 export const NAME = 'XSUSHI_PRICE'
 
 export type Config = BaseConfig & {
@@ -26,8 +27,9 @@ export const makeConfig = (prefix?: string): Config => {
   )
 
   const chainId =
-    parseInt(util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || '1') ||
-    util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
+    parseInt(
+      util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID]) || DEFAULT_CHAIN_ID,
+    ) || util.getEnvWithFallback(ENV_ETHEREUM_CHAIN_ID, [ENV_FALLBACK_CHAIN_ID])
 
   return {
     ...Requester.getDefaultConfig(prefix),
