@@ -1,29 +1,26 @@
 export const SoakTestBlacklist: string[] = [
   'accuweather',
-  'ada-balance', // TODO: RPC URL
+  'ada-balance', // Missing: RPC URL
   'agoric',
   'alphachain',
   'alpine',
-  'anchor', // TODO: RPC URL
+  'anchor', // Missing: RPC URL
   'ap-election',
-  'apy-finance', // TODO: Needs registry address, source adapters
+  'apy-finance', // Missing: Needs registry address, source adapters
   'augur',
   'bea',
-  'bitcoin-json-rpc', // TODO: RPC URL
+  'bitcoin-json-rpc', // Missing: RPC URL
   'blockcypher',
-  'bob', // TODO: RPC URL
-  'bsol-price', // TODO: RPC URL and addresses
+  'bob', // Missing: RPC URL
+  'bsol-price', // Missing: RPC URL and addresses
   'btc.com',
-  'circuit-breaker', // TODO: Source adapter URLs set anywhere?
   'coinapi',
   'conflux',
   'covid-tracker',
-  'crypto-volatility-index', // TODO: Requires a lot of work?
   'cryptoapis',
-  'defi-dozen', // TODO: Source adapter URLs set anywhere?
   'defi-pulse',
-  'dns-query', // TODO: Needs env var set
-  'dns-record-check', // TODO: Same as above
+  'dns-query', // Missing: env vars
+  'dns-record-check', // Missing: Same as above
   'dwolla',
   'dydx-rewards',
   'dydx-stark',
@@ -48,28 +45,24 @@ export const SoakTestBlacklist: string[] = [
   'lotus',
   'market-closure',
   'marketstack',
-  'medianizer', // TODO: Source URLs
   'ncfx',
   'nikkei',
   'oilpriceapi',
-  'onchain-gas', // TODO: WS RPC URL
-  'outlier-detection', // TODO: Source URLs
+  'onchain-gas', // Missing: WS RPC URL
   'paypal',
   'por-indexer',
-  'proof-of-reserves', // TODO: Source URLs
+  'proof-of-reserves', // Missing: Underlying source EAs
   'reduce',
   'satoshitango',
-  'set-token-index', // TODO: RPC URL needed to be set anywhere? Source URLs
   'snowflake',
-  'solana-view-function', // TODO: RPC URL
+  'solana-view-function', // Missing: RPC URL
   'spectral-macro-score',
   'sportsdataio',
   'synth-index',
   'taapi',
-  'terra-view-function', // TODO: RPC URL
+  'terra-view-function', // Missing: RPC URL
   'therundown',
   'token-allocation',
   'twelvedata',
   'unibit',
-  'wbtc-address-set', // TODO: Env vars need to be set
 ]
