@@ -11,7 +11,6 @@ export const PAGE_SIZE_MIN = 1
 export type Config = BootstrapConfig & {
   pageSize: number
   privateKey: string
-  password: string
   token: string //Set as a global variable on the first run.
   allowInsecure?: boolean //Sandbox's cert setup is difficult, so allow skipping verification in dev only.
 }
@@ -70,6 +69,5 @@ export const makeConfig = (prefix?: string): Config => {
     allowInsecure,
     apiKey: util.getRequiredEnv('API_KEY', prefix),
     privateKey: util.getRequiredEnv('PRIVATE_KEY', prefix), //Combined with the password, used to create jwt
-    password: util.getRequiredEnv('PASSWORD', prefix), //Combined with private key, used to create jwt
   }
 }
