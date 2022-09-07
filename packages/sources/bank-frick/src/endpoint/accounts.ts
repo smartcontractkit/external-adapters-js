@@ -63,11 +63,10 @@ export const generateJWT = async (
   signingAlgorithm: SigningAlgorithm = 'rsa-sha512',
 ): Promise<string> => {
   Logger.info("Generating a new JWT because we don't have one in config.token")
-  const { apiKey, password, privateKey } = config
+  const { apiKey, privateKey } = config
 
   const body = {
     key: apiKey,
-    password: password,
   }
 
   const signature = crypto.sign(signingAlgorithm, Buffer.from(JSON.stringify(body)), privateKey)
@@ -140,6 +139,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       firstPosition: position,
       maxResults: config.pageSize,
     }
+
     const response = await Requester.request<ResponseSchema>(options, customError)
     response.data.accounts.forEach((v) => {
       Logger.trace(`Evaluating ${v.account} (iban: ${v.iban}, type: ${v.type})`)
