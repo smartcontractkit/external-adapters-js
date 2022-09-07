@@ -1,18 +1,14 @@
 name: Soak test
 
 on:
-  push:
-    branches:
-      # TODO: Make it only run on releases
-      - 'feature/soak-testing-composites-3'
-      - 'release/*'
+  pull_request: ~
   workflow_dispatch:
 
 env:
   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
 jobs:
-  run-basic-checks:
+  run-soak-tests:
     name: Run Soak Tests Against Changed Adapters
     runs-on: ubuntu-latest
     environment: QA
