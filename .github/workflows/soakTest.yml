@@ -229,7 +229,6 @@ jobs:
             done
           fi
 
-      # TODO Figure out how to adjust time in k6 so we can vary it
       - name: Wait 15 Minutes for tests to run
         uses: jakejarvis/wait-action@master
         with:

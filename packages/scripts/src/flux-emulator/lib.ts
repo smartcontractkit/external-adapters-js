@@ -18,7 +18,6 @@ const { red, blue } = chalk
 const logInfo = (msg: string) => console.log(blue.bold(msg))
 
 const throwError = (msg: string): never => {
-  //TODO address w/ typescript
   process.exitCode = 1
   throw red.bold(msg)
 }
