@@ -4,7 +4,7 @@ import { wsRedactPaths } from '../middleware/ws/config'
 import { cloneDeep } from 'lodash'
 import { configRedactPaths } from '../config'
 
-export const paths = [...wsRedactPaths, ...configRedactPaths]
+const paths = [...wsRedactPaths, ...(configRedactPaths || [])]
 
 const sensitiveKeys = [
   /cookie/i,
