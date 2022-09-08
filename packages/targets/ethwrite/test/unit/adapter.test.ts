@@ -14,15 +14,21 @@ let execute: {
   (arg0: { id: string; data: Record<string, unknown>; meta: AdapterRequestMeta }): any
   (input: AdapterRequest): Promise<AdapterResponse>
 }
+const chainId = 31337
 
 describe('execute', () => {
   beforeAll(async () => {
     chain = await startChain(4444)
     rpcUrl = 'http://localhost:4444'
-    address = await deploy(hardhatConfig.TESTING_PRIVATE_KEY, rpcUrl)
+    address = await deploy(hardhatConfig.TESTING_PRIVATE_KEY, rpcUrl, chainId)
     provider = new ethers.providers.JsonRpcProvider(rpcUrl)
     contract = new ethers.Contract(address, abi, provider)
-    execute = makeExecute({ rpcUrl, privateKey: hardhatConfig.TESTING_PRIVATE_KEY, api: {} }) as {
+    execute = makeExecute({
+      rpcUrl,
+      privateKey: hardhatConfig.TESTING_PRIVATE_KEY,
+      api: {},
+      chainId: chainId,
+    }) as {
       (arg0: { id: string; data: Record<string, unknown>; meta: AdapterRequestMeta }): any
       (input: AdapterRequest): Promise<AdapterResponse>
     }

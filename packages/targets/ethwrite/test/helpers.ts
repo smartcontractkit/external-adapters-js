@@ -25,8 +25,8 @@ export const byteCode =
   '22d80029'
 
 // https://docs.ethers.io/ethers.js/html/api-contract.html#deploying-a-contract
-export async function deploy(privateKey: string, rpcUrl: string): Promise<string> {
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+export async function deploy(privateKey: string, rpcUrl: string, chainId: number): Promise<string> {
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
   const wallet = new ethers.Wallet(privateKey, provider)
   const factory = new ethers.ContractFactory(abi, byteCode, wallet)
   const contract = await factory.deploy()

@@ -20,7 +20,8 @@ export const INTERMEDIARY_TOKEN = 'ETH'
  */
 export const execute: PriceExecute = async (input, _, config, usdPerEth) => {
   const rpcUrl = config.rpcUrl
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const chainId = config.chainId
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
   let ethPerStETH
   let bEthPerStETH
   try {

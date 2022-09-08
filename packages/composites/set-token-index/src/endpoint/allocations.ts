@@ -86,7 +86,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
   const contractAddress = validator.validated.data.contractAddress
   const setAddress = validator.validated.data.setAddress
 
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const index = new ethers.Contract(contractAddress, ABI, provider)
 
   try {
