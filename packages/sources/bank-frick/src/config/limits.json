@@ -1,4 +1,10 @@
 {
-  "http": {},
+  "http": {
+    "production": {
+      "rateLimit1s": 1,
+      "rateLimit1m": 30,
+      "note": "rate limits specified here are best guesses, the docs don't specify them"
+    }
+  },
   "ws": {}
 }

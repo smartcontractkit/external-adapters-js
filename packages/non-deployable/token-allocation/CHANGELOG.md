@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.6.3
+
+### Patch Changes
+
+- Updated dependencies [7f7e620ac]
+  - @chainlink/kaiko-adapter@1.5.9
+
 ## 1.6.2
 
 ### Patch Changes
