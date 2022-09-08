@@ -7,7 +7,9 @@ The CCIP Read adapter acts as the gateway server for the CCIP Read protocol as o
 | Required? |           Name           |                                                    Description                                                     | Options | Defaults to |
 | :-------: | :----------------------: | :----------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
 |    ✅     |         RPC_URL          |                                       The RPC URL to connect to the L1 chain                                       |         |             |
+|           |         CHAIN_ID         |                                             The chain id to connect to                                             |         |      1      |
 |           |        L2_RPC_URL        |          The L2 RPC URL to connect to the L2 chain. Required if using the optimism-metis global endpoint.          |         |             |
+|           |       L2_CHAIN_ID        |                                             The chain id to connect to                                             |         |      1      |
 |           | ADDRESS_MANAGER_CONTRACT | The address of the AddresssManager contract in the L1 chain. Required if using the optimism-metis global endpoint. |         |             |
 
 ---

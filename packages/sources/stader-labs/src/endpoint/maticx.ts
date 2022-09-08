@@ -26,6 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(
     config.adapterSpecificParams?.polygonRpcUrl.toString(),
+    config.adapterSpecificParams?.polygonChainId,
   )
 
   const rateProvider = new ethers.Contract(MATICX_RATE_PROVIDER, rateProviderAbi, provider)

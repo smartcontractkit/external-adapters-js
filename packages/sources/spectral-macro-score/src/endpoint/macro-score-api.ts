@@ -85,7 +85,7 @@ export const execute = async (
       tokenInt: `${tokenIdInt}`,
     },
   }
-  const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, tickSetId)
+  const tickSet = await getTickSet(config.nfcAddress, config.rpcUrl, tickSetId, config.chainId)
   const response = await Requester.request<ScoreResponse[]>(options, customError)
   const score = Requester.validateResultNumber(response.data[0], ['score'])
   const tick = computeTickWithScore(score, tickSet)

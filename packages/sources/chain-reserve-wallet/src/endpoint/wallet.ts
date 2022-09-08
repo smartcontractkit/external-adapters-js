@@ -100,7 +100,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const chain = networkChainMap[`${network}_${chainId}`]
 
   const rpcUrl = config.rpcUrl
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl, config.chainId)
   const walletProviderContract = new ethers.Contract(contractAddress, abi, provider)
   let addresses: string[]
   try {
