@@ -2,8 +2,9 @@ import { uuid } from '../util'
 import pino from 'pino'
 import { wsRedactPaths } from '../middleware/ws/config'
 import { cloneDeep } from 'lodash'
+import { configRedactPaths } from '../config/logging'
 
-export const paths = [...wsRedactPaths]
+const paths = [...wsRedactPaths, ...configRedactPaths]
 
 const sensitiveKeys = [
   /cookie/i,
@@ -13,6 +14,7 @@ const sensitiveKeys = [
   /secret/i,
   /token/i,
   /api[-._]?key/i,
+  /client/i,
 ]
 
 export const censor = (v: string): string => {
