@@ -34,6 +34,8 @@ const payloadData = new SharedArray('payloadData', () => {
   return JSON.parse(open(payloadPath)) as Payload[]
 })
 
+// upon completion, dump the summary to SUMMARY_OUTPUT_PATH, if it's defined
+
 function buildRequests() {
   const requests = []
   const params = {
@@ -143,6 +145,7 @@ export default (): void => {
   const before = new Date().getTime()
 
   const config = requests[(vu.idInTest - 1) % uniqueRequests]
+  console.log(config)
   const response = http.post(adapterUrl, config.body, config.params)
   const after = new Date().getTime()
   const diff = (after - before) / 1000
