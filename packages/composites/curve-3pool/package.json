@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/curve-3pool-adapter",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "Chainlink Curve 3Pool adapter",
   "keywords": [
     "Chainlink",

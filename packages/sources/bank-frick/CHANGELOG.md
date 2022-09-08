@@ -1,5 +1,11 @@
 # @chainlink/bank-frick-adapter
 
+## 0.0.5
+
+### Patch Changes
+
+- 09f5f1021: Remove PASSWORD from config, add tier to limits.json
+
 ## 0.0.4
 
 ### Patch Changes
