@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.23
+
+### Patch Changes
+
+- Updated dependencies [7f7e620ac]
+- Updated dependencies [09f5f1021]
+  - @chainlink/kaiko-adapter@1.5.9
+  - @chainlink/bank-frick-adapter@0.0.5
+
 ## 1.3.22
 
 ### Patch Changes

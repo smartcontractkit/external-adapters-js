@@ -1,5 +1,11 @@
 # @chainlink/kaiko-adapter
 
+## 1.5.9
+
+### Patch Changes
+
+- 7f7e620ac: Remove symbol mapping for UNI
+
 ## 1.5.8
 
 ### Patch Changes
