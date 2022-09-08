@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.19.1
+
+### Patch Changes
+
+- 05a3f9464: Prevent updating properties of WS connection/subscription missing from state
+
 ## 2.19.0
 
 ### Minor Changes

@@ -1,5 +1,14 @@
 # @chainlink/augur-adapter
 
+## 1.2.15
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/sportsdataio-adapter@1.3.7
+  - @chainlink/therundown-adapter@1.3.15
+
 ## 1.2.14
 
 ### Patch Changes
