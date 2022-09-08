@@ -2,9 +2,9 @@ import { uuid } from '../util'
 import pino from 'pino'
 import { wsRedactPaths } from '../middleware/ws/config'
 import { cloneDeep } from 'lodash'
-import { configRedactPaths } from '../config'
+import { configRedactPaths } from '../config/logging'
 
-const paths = [...wsRedactPaths, ...(configRedactPaths || [])]
+const paths = [...wsRedactPaths, ...configRedactPaths]
 
 const sensitiveKeys = [
   /cookie/i,
