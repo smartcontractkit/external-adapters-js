@@ -11,5 +11,11 @@ describe('Logger', () => {
         'http://test.com/endpoint?cookie=REDACTED&randomParam=1234',
       )
     })
+
+    it('properly redacts sensitive param (client)', () => {
+      expect(censor('http://test.com/endpoint?client=user:secret')).toBe(
+        'http://test.com/endpoint?client=REDACTED',
+      )
+    })
   })
 })
