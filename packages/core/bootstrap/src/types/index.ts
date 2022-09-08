@@ -268,6 +268,7 @@ export type Config = {
   }
   rpcUrl?: string
   rpcPort?: number
+  chainId?: number | string
 }
 export interface DefaultConfig extends Config {
   verbose: boolean

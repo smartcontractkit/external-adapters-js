@@ -14,6 +14,7 @@ describe('execute', () => {
 
   const envVariables = {
     RPC_URL: process.env.RPC_URL || 'https://test-rpc-url:8545',
+    CHAIN_ID: process.env['CHAIN_ID'] || '42',
   }
 
   setupExternalAdapterTest(envVariables, context)
@@ -22,6 +23,7 @@ describe('execute', () => {
     const data: AdapterRequest = {
       id: '1',
       data: {
+        endpoint: 'wallet',
         network: 'bitcoin',
         chainId: 'mainnet',
         contractAddress: '0x0123456789abcdef0123456789abcdef01234567',
@@ -38,6 +40,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+
       expect(response.body).toMatchSnapshot()
     })
   })

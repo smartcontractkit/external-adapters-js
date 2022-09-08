@@ -64,7 +64,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const { to: address, data, abi: optimismGatewayStubABI = [] } = validator.validated.data
-  const l1Provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const l1Provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const addressManager = new ethers.Contract(
     config.addressManagerContract,
     ADDRESS_MANAGER_ABI,
@@ -79,7 +79,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const elements = getElementsToConstructProof(stateBatchHeader)
   const lastElemIdx = elements.length - 1
   const treeProof = getMerkleTreeProof(elements, lastElemIdx)
-  const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl)
+  const l2Provider = new ethers.providers.JsonRpcProvider(config.l2RpcUrl, config.l2ChainId)
   let l2Proof: { accountProof: string; storageProof: Record<string, unknown>[] }
   try {
     l2Proof = await getProofFromL2Resolver(

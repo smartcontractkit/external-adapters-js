@@ -40,6 +40,7 @@ describe('execute', () => {
 
   const envVariables = {
     API_KEY: process.env.API_KEY || 'fake-api-key',
+    WS_SOCKET_KEY: process.env.WS_SOCKET_KEY || 'test_socket_key',
   }
 
   setupExternalAdapterTest(envVariables, context)

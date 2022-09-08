@@ -1,5 +1,5 @@
 import { Logger, Requester, AxiosRequestConfig } from '@chainlink/ea-bootstrap'
-import { HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
+import { CHAIN_IDS, HEALTH_ENDPOINTS, Networks, RPC_ENDPOINTS } from './config'
 import { BigNumber, ethers } from 'ethers'
 import { AdapterResponseEmptyError } from '@chainlink/ea-bootstrap'
 
@@ -68,7 +68,8 @@ export const getStatusByTransaction = async (
   timeout: number,
 ): Promise<boolean> => {
   const rpcEndpoint = RPC_ENDPOINTS[network]
-  const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
+  const chainId = CHAIN_IDS[network]
+  const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint, chainId)
   const wallet = new ethers.Wallet(DEFAULT_PRIVATE_KEY, provider)
 
   // These errors come from the Sequencer when submitting an empty transaction

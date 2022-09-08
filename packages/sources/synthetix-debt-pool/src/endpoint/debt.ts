@@ -47,7 +47,10 @@ export const getDebtIssued = async (
           statusCode: 500,
           message: `Chain ${network} not configured`,
         })
-      const networkProvider = new ethers.providers.JsonRpcProvider(config.chains[network].rpcURL)
+      const networkProvider = new ethers.providers.JsonRpcProvider(
+        config.chains[network].rpcURL,
+        config.chains[network].chainId,
+      )
       try {
         const addressResolverAddress = await getAddressResolver(
           networkProvider,

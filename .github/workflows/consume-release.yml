@@ -28,13 +28,24 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+            let artifactsPage
+            const allArtifacts = []
+            let page = 1 // First page
+
+            do {
+              artifactsPage = await github.rest.actions.listWorkflowRunArtifacts({
               ...context.repo,
               run_id: process.env.WORKFLOW_RUN_ID,
+              page,
+              per_page: 100, // Max results per page
             });
+              allArtifacts.push(...artifactsPage.data.artifacts)
+              page += 1
+            } while (artifactsPage.data.artifacts.length > 0);
+
             // Create whitespace separated URLs for downloading ECR adapter images based on uploaded workflow artifacts 
             const pathPrefix = process.env.AWS_PRIVATE_ECR_PATH
-            return allArtifacts.data.artifacts
+            return allArtifacts
               .map(({name}) => `${pathPrefix}/adapters/${name.replace('-shasum', '')}`)
               .join(' ')
       - name: 'Trigger Image Dispatcher'

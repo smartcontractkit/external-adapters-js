@@ -308,7 +308,7 @@ export const mockDataProviderResponses = (): void => {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0xd5147bc8e386d91cc5dbe72099dac6c9b99276f5', data: '0x95d89b41' }, 'latest'],
-      id: 46,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
@@ -333,7 +333,7 @@ export const mockDataProviderResponses = (): void => {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0xc944e90c64b2c07662a292be6244bdf05cda44a7', data: '0x95d89b41' }, 'latest'],
-      id: 46,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
@@ -358,7 +358,7 @@ export const mockDataProviderResponses = (): void => {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0x0d8775f648430679a709e98d2b0cb6250d2887ef', data: '0x95d89b41' }, 'latest'],
-      id: 46,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
@@ -383,7 +383,7 @@ export const mockDataProviderResponses = (): void => {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0x58b6a8a3302369daec383334672404ee733ab239', data: '0x95d89b41' }, 'latest'],
-      id: 46,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
@@ -408,7 +408,7 @@ export const mockDataProviderResponses = (): void => {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0x967da4048cd07ab37855c090aaf366e4ce1b9f48', data: '0x95d89b41' }, 'latest'],
-      id: 46,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
@@ -433,7 +433,7 @@ export const mockDataProviderResponses = (): void => {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0x1776e1f26f98b1a5df9cd347953a26dd3cb46671', data: '0x95d89b41' }, 'latest'],
-      id: 46,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
