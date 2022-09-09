@@ -25,7 +25,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: true,
   },
   metricName: {
-    description: 'The NFT contract address',
+    description: 'The metric name to query',
     type: 'string',
     default: 'ETH_FLOOR_PRICE_ESTIMATE_BASE',
   },
