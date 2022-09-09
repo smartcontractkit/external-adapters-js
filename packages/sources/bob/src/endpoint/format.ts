@@ -47,7 +47,7 @@ type ResponseSchema = {
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const jobRunID = validator.validated.id
 
   const chainId = validator.validated.data.chainId
