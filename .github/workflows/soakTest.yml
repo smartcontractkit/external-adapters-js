@@ -30,7 +30,6 @@ jobs:
           aws-region: ${{ secrets.QA_SDLC_AWS_REGION }}
           role-to-assume: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
-
       - name: Save AWS Profile
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.QA_SDLC_AWS_ACCESS_KEY_ID }}
