@@ -17,25 +17,17 @@ export const mockRateResponseSuccess = (): nock.Scope =>
 
 export const mockNftResponseSuccess = (): nock.Scope =>
   nock('http://fake-nft.endpoint')
-    .get('/api/nft/v1/GetFloorPriceEstimate')
+    .get('/api/nft/quant/v1/GetCollectionLatestMetric')
     .query({
       networkName: 'ethereum-mainnet',
       contractAddress: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
-      startDay: '2022-05-25T12:00:00.000Z',
-      endDay: '2022-05-25T12:00:00.000Z',
+      metricName: 'ETH_FLOOR_PRICE_ESTIMATE_BASE',
     })
     .reply(
       200,
       {
-        floorPriceDailyValue: [
-          {
-            date: '2022-05-11T00:00:00Z',
-            multiplier: 1,
-            priceStdDev: 0.12498363928979012,
-            logFloorPrice: 4.569591987976991,
-            adjustedFloorPrice: 85.16651572690085,
-          },
-        ],
+        value: { floor_price_estimate: '67.09079293', updated_at: '2022-09-09T06:12:31Z' },
+        metricName: 'eth_floor_price_estimate_base',
       },
       [
         'Content-Type',
