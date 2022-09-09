@@ -30,6 +30,7 @@ import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
+import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
@@ -104,7 +105,6 @@ import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
-import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as snowflake from '@chainlink/snowflake-adapter'
@@ -168,6 +168,7 @@ export default {
   coinbase,
   coincodex,
   coingecko,
+  coingecko_test,
   coinlore,
   coinmarketcap,
   coinmetrics,
@@ -242,7 +243,6 @@ export default {
   poa,
   polygon,
   por_address_list,
-  reduce,
   renvm_adapter_address,
   satoshitango,
   snowflake,

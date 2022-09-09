@@ -4,6 +4,7 @@ import * as path from 'path'
 import { snakeCase } from 'snake-case'
 import { getWorkspacePackages } from '../workspace'
 import { collisionPackageTypeMap, forceRenameMap, getCollisionIgnoreMapFrom } from './config'
+import { BaseSettings } from '@chainlink/external-adapter-framework/config'
 
 export async function writeAllFlattenedSchemas(): Promise<void> {
   const data = await flattenAllSchemas()
@@ -45,8 +46,29 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
           resolve,
         })
 
-        const collisionIgnoreMap = getCollisionIgnoreMapFrom(bootstrapPackage)
+        //Framework currently doesn't have a schema that's available in the monorepo, and we can ref ea-bootstrap because many bootstrap envvars aren't used by the framework
+        //If we encounter a framework version flag for framework, merge framework.BaseSettings and env.json["properties"] to generate files/documentation containing framework envvars
+        if ('frameworkVersion' in schema && schema['frameworkVersion'] === '3') {
+          const reduced: { [key: string]: any } = {}
+          Object.entries(BaseSettings).forEach(([key, value]) => {
+            reduced[key] = {
+              type: value.type,
+              description: value.description,
+              default: 'default' in value ? value.default : undefined,
+              options: value.type === 'enum' ? value.options : undefined,
+            }
+          })
+          schema.properties = {
+            ...reduced,
+            ...schema.properties,
+            NPM_AUTH_TOKEN: {
+              type: 'string',
+              description: 'NPM auth token for fetching private packages',
+            },
+          }
+        }
 
+        const collisionIgnoreMap = getCollisionIgnoreMapFrom(bootstrapPackage)
         try {
           return {
             schema: flattenAllOf(

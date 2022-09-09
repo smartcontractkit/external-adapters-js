@@ -34,7 +34,7 @@ import * as server from './lib/server'
 import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import { FastifyInstance } from 'fastify'
-
+import { register } from 'prom-client'
 export * from './types'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
@@ -98,6 +98,12 @@ export const makeMiddleware = <C extends Config, D extends AdapterData>(
   const metricsMiddleware: Middleware<AdapterRequest<D>>[] = metrics.METRICS_ENABLED
     ? [metrics.withMetrics(), Debug.withDebug()]
     : [Debug.withDebug()]
+
+  // Metrics are always registered when both v2 and the framework are invoked, causing duplicate registration even if METRICs_ENABLED is false
+  // This is a workaround to clear the metric registry within V2 to prevent collisions with the framework. Necessary for legos and generators to work
+  if (!metrics.METRICS_ENABLED) {
+    register.clear()
+  }
 
   return [
     ErrorBackoff.withErrorBackoff(storeSlice('errorBackoff')),

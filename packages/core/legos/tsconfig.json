@@ -107,6 +107,9 @@
       "path": "../../sources/coingecko"
     },
     {
+      "path": "../../sources/coingecko-test"
+    },
+    {
       "path": "../../sources/coinlore"
     },
     {
@@ -327,9 +330,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"
