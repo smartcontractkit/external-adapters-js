@@ -27,15 +27,15 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-region: ${{ secrets.QA_SDLC_AWS_REGION }}
-          role-to-assume: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.QA_AWS_REGION }}
+          role-to-assume: ${{ secrets.QA_AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
       - name: Save AWS Profile
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.QA_SDLC_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.QA_SDLC_AWS_SECRET_KEY }}
-          AWS_REGION: ${{ secrets.QA_SDLC_AWS_REGION }}
-          AWS_ROLE_TO_ASSUME: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
+          AWS_REGION: ${{ secrets.QA_AWS_REGION }}
+          AWS_ROLE_TO_ASSUME: ${{ secrets.QA_AWS_ROLE_TO_ASSUME }}
         run: |
           mkdir ~/.aws
           touch ~/.aws/config
