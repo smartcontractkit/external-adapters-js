@@ -54,7 +54,12 @@ export const getTokenAllocations = async (
   const { pairContractAddress } = validator.validated.data
   let tvlInWei
   try {
-    tvlInWei = await getTvlAtAddressInWei(pairContractAddress, wethContractAddress, config.RPC_URL)
+    tvlInWei = await getTvlAtAddressInWei(
+      pairContractAddress,
+      wethContractAddress,
+      config.RPC_URL,
+      config.chainId,
+    )
   } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
@@ -75,8 +80,9 @@ const getTvlAtAddressInWei = async (
   pairContractAddress: string,
   wethContractAddress: string,
   jsonRpcUrl: string | undefined,
+  chainId: string | number | undefined,
 ): Promise<BigNumber> => {
-  const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl, chainId)
   Logger.info(
     `Fetching TVL for contract '${pairContractAddress}' using WETH contract address ${wethContractAddress}`,
   )

@@ -42,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       statusCode: 400,
     })
 
-  const networkProvider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const networkProvider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   let contracts
   try {
     contracts = await initializeENS(networkProvider)

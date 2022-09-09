@@ -110,7 +110,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const jobRunID = validator.validated.id
   const controllerAddress = config.controllerAddress
 
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
 
   const controller = new ethers.Contract(controllerAddress, controllerABI, provider)
 

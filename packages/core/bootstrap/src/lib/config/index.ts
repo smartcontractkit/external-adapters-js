@@ -19,13 +19,6 @@ export const constants = {
   ENV_API_VERBOSE,
 }
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const cloneNoSecrets = (config: Partial<Config>): Partial<Config> =>
-  (({ apiKey, api, ...o }) => {
-    const { auth, headers, params, ...apiNoSecrets } = api || {}
-    return { api: apiNoSecrets, ...o }
-  })(config)
-
 export function getDefaultConfig(
   prefix = '',
   requireKey = false,
@@ -60,5 +53,5 @@ export function getDefaultConfig(
 }
 
 export function logConfig(config: Config): void {
-  logger.debug('Adapter configuration:', { config: config && cloneNoSecrets(config) })
+  logger.debug('Adapter configuration:', { config })
 }

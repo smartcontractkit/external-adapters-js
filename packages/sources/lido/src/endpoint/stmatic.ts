@@ -24,7 +24,7 @@ export const execute: ExecuteWithConfig<Config> = async (
 ): Promise<AdapterResponse> => {
   const validator = new Validator(request, inputParameters)
   const jobRunID = validator.validated.id
-  const provider = new ethers.providers.JsonRpcProvider(config.api?.baseURL)
+  const provider = new ethers.providers.JsonRpcProvider(config.api?.baseURL, config.chainId)
 
   const rateProvider = new ethers.Contract(STMATIC_RATE_PROVIDER, rateProviderAbi, provider)
 

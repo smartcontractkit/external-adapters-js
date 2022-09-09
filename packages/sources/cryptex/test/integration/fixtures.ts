@@ -6,7 +6,7 @@ export function mockEthereumResponseSuccess(): void {
     .post('/', {
       method: 'eth_chainId',
       params: [],
-      id: 42,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(200, { jsonrpc: '2.0', id: 42, result: '0x1' }, [
@@ -26,7 +26,7 @@ export function mockEthereumResponseSuccess(): void {
     .post('/', {
       method: 'eth_chainId',
       params: [],
-      id: 42,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(200, { jsonrpc: '2.0', id: 42, result: '0x1' }, [
@@ -46,7 +46,7 @@ export function mockEthereumResponseSuccess(): void {
     .post('/', {
       method: 'eth_chainId',
       params: [],
-      id: 42,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(200, { jsonrpc: '2.0', id: 42, result: '0x1' }, [
@@ -66,7 +66,7 @@ export function mockEthereumResponseSuccess(): void {
     .post('/', {
       method: 'eth_chainId',
       params: [],
-      id: 43,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(200, { jsonrpc: '2.0', id: 43, result: '0x1' }, [
@@ -86,7 +86,7 @@ export function mockEthereumResponseSuccess(): void {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0x47e1e89570689c13e723819bf633548d611d630c', data: '0xfeaf968c' }, 'latest'],
-      id: 44,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(
@@ -115,7 +115,7 @@ export function mockEthereumResponseSuccess(): void {
     .post('/', {
       method: 'eth_chainId',
       params: [],
-      id: 45,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(200, { jsonrpc: '2.0', id: 45, result: '0x1' }, [
@@ -135,7 +135,7 @@ export function mockEthereumResponseSuccess(): void {
     .post('/', {
       method: 'eth_call',
       params: [{ to: '0xec8761a0a73c34329ca5b1d3dc7ed07f30e836e2', data: '0xfeaf968c' }, 'latest'],
-      id: 46,
+      id: /^\d+$/,
       jsonrpc: '2.0',
     })
     .reply(

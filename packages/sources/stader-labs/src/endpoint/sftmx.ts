@@ -26,6 +26,7 @@ export const execute: ExecuteWithConfig<Config> = async (
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(
     config.adapterSpecificParams?.fantomRpcUrl.toString(),
+    config.adapterSpecificParams?.fantomChainId,
   )
 
   const rateProvider = new ethers.Contract(SFTMX_RATE_PROVIDER, rateProviderAbi, provider)

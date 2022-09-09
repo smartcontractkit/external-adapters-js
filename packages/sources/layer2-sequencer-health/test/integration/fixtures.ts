@@ -20,7 +20,7 @@ export const mockResponseSuccessHealth = (): void => {
 export const mockResponseSuccessBlock = (): void => {
   // #2 Option: Check block height
   nock('https://arb1.arbitrum.io/rpc')
-    .post('', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 1 })
+    .post('', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
       'Content-Type',
       'application/json',
@@ -33,7 +33,7 @@ export const mockResponseSuccessBlock = (): void => {
     ])
 
   nock('https://mainnet.optimism.io')
-    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 1 })
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
       'Content-Type',
       'application/json',
@@ -72,7 +72,7 @@ export const mockResponseFailureHealth = (): void => {
 export const mockResponseFailureBlock = (): void => {
   // #2 Option: Check block height
   nock('https://arb1.arbitrum.io/rpc')
-    .post('', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 1 })
+    .post('', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
       'Content-Type',
       'application/json',
@@ -85,7 +85,7 @@ export const mockResponseFailureBlock = (): void => {
     ])
 
   nock('https://mainnet.optimism.io')
-    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 1 })
+    .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
       'Content-Type',
       'application/json',
