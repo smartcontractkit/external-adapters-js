@@ -2206,16 +2206,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bob-adapter@workspace:packages/composites/bob":
+"@chainlink/bob-adapter@workspace:packages/sources/bob":
   version: 0.0.0-use.local
-  resolution: "@chainlink/bob-adapter@workspace:packages/composites/bob"
+  resolution: "@chainlink/bob-adapter@workspace:packages/sources/bob"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/json-rpc-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
     ethers: ^5.4.6
+    nock: 13.2.9
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown

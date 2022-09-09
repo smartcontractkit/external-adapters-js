@@ -88,28 +88,6 @@ export const mockGetWorkspacePackagesResponse = [
     },
   },
   {
-    location: 'packages/composites/bob',
-    name: '@chainlink/bob-adapter',
-    descopedName: 'bob-adapter',
-    type: 'composites',
-    version: '1.0.36',
-    tsconf: {
-      extends: '../../tsconfig.base.json',
-      compilerOptions: [Object],
-      include: [Array],
-      exclude: [Array],
-      references: [Array],
-    },
-    environment: {
-      $id: 'https://external-adapters.chainlinklabs.com/schemas/bob.json',
-      title: '@chainlink/bob env var schema',
-      required: [],
-      type: 'object',
-      properties: {},
-      allOf: [Array],
-    },
-  },
-  {
     location: 'packages/composites/bsol-price',
     name: '@chainlink/bsol-price-adapter',
     descopedName: 'bsol-price-adapter',
