@@ -2206,7 +2206,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bob-adapter@workspace:packages/sources/bob":
+"@chainlink/bob-adapter@workspace:*, @chainlink/bob-adapter@workspace:packages/sources/bob":
   version: 0.0.0-use.local
   resolution: "@chainlink/bob-adapter@workspace:packages/sources/bob"
   dependencies:
@@ -3091,6 +3091,7 @@ __metadata:
     "@chainlink/blockcypher-adapter": "workspace:*"
     "@chainlink/blocksize-capital-adapter": "workspace:*"
     "@chainlink/blockstream-adapter": "workspace:*"
+    "@chainlink/bob-adapter": "workspace:*"
     "@chainlink/bravenewcoin-adapter": "workspace:*"
     "@chainlink/btc.com-adapter": "workspace:*"
     "@chainlink/cache.gold-adapter": "workspace:*"

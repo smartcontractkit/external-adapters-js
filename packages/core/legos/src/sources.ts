@@ -19,6 +19,7 @@ import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
+import * as bob from '@chainlink/bob-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
 import * as cache_gold from '@chainlink/cache.gold-adapter'
@@ -159,6 +160,7 @@ export default {
   blockcypher,
   blocksize_capital,
   blockstream,
+  bob,
   bravenewcoin,
   btc_com,
   cache_gold,

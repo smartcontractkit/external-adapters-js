@@ -5437,6 +5437,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
+            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\

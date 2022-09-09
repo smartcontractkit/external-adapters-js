@@ -74,6 +74,9 @@
       "path": "../../sources/blockstream"
     },
     {
+      "path": "../../sources/bob"
+    },
+    {
       "path": "../../sources/bravenewcoin"
     },
     {
