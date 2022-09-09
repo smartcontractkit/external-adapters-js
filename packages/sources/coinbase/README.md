@@ -92,7 +92,7 @@ Supported names for this endpoint are: `nft-floor`, `nft-floor-price`.
 | :-------: | :-------------: | :-----: | :-------------------------------------: | :----: | :-----------------------------------: | :-----------------------------: | :--------: | :------------: |
 |           |     network     |         | The blockchain network to get data from | string | `ethereum-mainnet`, `polygon-mainnet` |       `ethereum-mainnet`        |            |                |
 |    ✅     | contractAddress |         |        The NFT contract address         | string |                                       |                                 |            |                |
-|           |   metricName    |         |        The NFT contract address         | string |                                       | `ETH_FLOOR_PRICE_ESTIMATE_BASE` |            |                |
+|           |   metricName    |         |        The metric name to query         | string |                                       | `ETH_FLOOR_PRICE_ESTIMATE_BASE` |            |                |
 
 ### Example
 
