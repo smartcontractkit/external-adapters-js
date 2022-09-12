@@ -31,21 +31,6 @@ jobs:
           role-to-assume: ${{ secrets.QA_AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
 
-      - name: Save AWS Profile
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.QA_SDLC_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.QA_SDLC_AWS_SECRET_KEY }}
-          AWS_REGION: ${{ secrets.QA_SDLC_AWS_REGION }}
-          AWS_ROLE_TO_ASSUME: ${{ secrets.QA_SDLC_AWS_ROLE_TO_ASSUME }}
-        run: |
-          mkdir ~/.aws
-          touch ~/.aws/config
-          echo "[profile qa-sdlc]" >> ~/.aws/config
-          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ~/.aws/config
-          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/config
-          echo "region=${AWS_REGION}" >> ~/.aws/config
-          echo "role_arn=${AWS_ROLE_TO_ASSUME}" >> ~/.aws/config
-
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -61,13 +46,7 @@ jobs:
         with:
           node-version: '16.x'
 
-      - name: Checkout external-adapters-js repo
-        uses: actions/checkout@v2
-        with:
-          path: external-adapters-js
-
       - name: Install Yarn and setup project
-        working-directory: ./external-adapters-js
         run: |
           npm install -g yarn
           yarn install
@@ -84,7 +63,6 @@ jobs:
         run: helm plugin install https://github.com/jkroepke/helm-secrets --version v3.12.0
 
       - name: Use GH CLI to get pr info
-        working-directory: ./external-adapters-js
         id: get-pr-info
         env:
           GITHUB_TOKEN: ${{ secrets.QA_GITHUB_TOKEN }}
@@ -103,7 +81,6 @@ jobs:
 
       - name: Build the k6 payloads and images
         id: k6-payloads
-        working-directory: ./external-adapters-js
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
@@ -132,7 +109,6 @@ jobs:
           fi
 
       - name: Build adapters
-        working-directory: ./external-adapters-js
         id: build-adapters
         env:
           TEST_ADAPTERS: ${{ steps.get-pr-info.outputs.TEST_ADAPTERS }}
@@ -179,11 +155,9 @@ jobs:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           ADAPTER_NAMES: ${{ steps.build-adapters.outputs.BUILD_ADAPTERS }}
         with:
-          working-directory: ./external-adapters-js
           run: ./packages/scripts/src/ephemeral-adapters/cleanup.sh
 
       - name: Deploy adapters
-        working-directory: ./external-adapters-js
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
@@ -206,7 +180,6 @@ jobs:
           fi
 
       - name: Deploy k6
-        working-directory: ./external-adapters-js/packages/k6
         env:
           PR_NUMBER: ${{ steps.findPr.outputs.pr }}
           IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
