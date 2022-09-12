@@ -7100,7 +7100,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/jsonwebtoken", "npm:8.5.8"],\
+            ["@types/jsonwebtoken", "npm:8.5.9"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["jsonwebtoken", "npm:8.5.1"],\
@@ -12361,10 +12361,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/jsonwebtoken", [\
-        ["npm:8.5.8", {\
-          "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.8-798e14708c-56738a918c.zip/node_modules/@types/jsonwebtoken/",\
+        ["npm:8.5.9", {\
+          "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.9-79c2843a81-33815ab02d.zip/node_modules/@types/jsonwebtoken/",\
           "packageDependencies": [\
-            ["@types/jsonwebtoken", "npm:8.5.8"],\
+            ["@types/jsonwebtoken", "npm:8.5.9"],\
             ["@types/node", "npm:17.0.42"]\
           ],\
           "linkType": "HARD"\
