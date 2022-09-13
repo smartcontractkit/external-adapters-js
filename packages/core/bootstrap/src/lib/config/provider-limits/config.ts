@@ -2,6 +2,7 @@ import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits
 import { getEnv, parseBool, logError } from '../../util'
 import { AdapterError } from '../../modules/error'
 import type { AdapterContext } from '../../../types'
+import { logger } from '../../modules/logger'
 
 export interface Config {
   /**
@@ -30,8 +31,26 @@ export function get(
   const perMinuteRateLimit = getEnv('RATE_LIMIT_CAPACITY_MINUTE')
   const shouldIgnorePerSecLimit = perSecRateLimit && parseInt(perSecRateLimit) <= 0
   const shouldIgnorePerMinLimit = perMinuteRateLimit && parseInt(perMinuteRateLimit) <= 0
-  if (perSecRateLimit) capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
-  if (perMinuteRateLimit) capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
+
+  const tierList = Object.keys(rateLimitConfig.limits.http)
+  const lastTier = tierList[tierList.length - 1]
+  let highestTierLimit = rateLimitConfig.limits.http[lastTier].rateLimit1s as number
+
+  if (perSecRateLimit) {
+    capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
+  }
+
+  if (perMinuteRateLimit) {
+    capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
+    highestTierLimit = rateLimitConfig.limits.http[lastTier].rateLimit1m as number
+  }
+
+  if (capacity > highestTierLimit) {
+    logger.warn(
+      `The configured RATE_LIMIT_CAPACITY value is higher than the highest tier value from limits.json`,
+    )
+  }
+
   if (!capacity && enabled) {
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {
