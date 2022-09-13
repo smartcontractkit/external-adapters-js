@@ -10,7 +10,6 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty data', testData: { data: {} } },
       {
         name: 'unknown date format',
         testData: { id: jobID, data: { resultPath: 'deaths', date: 'not_real' } },
@@ -18,10 +17,6 @@ describe('execute', () => {
       {
         name: 'unknown date format 2',
         testData: { id: jobID, data: { resultPath: 'deaths', date: '2020111' } },
-      },
-      {
-        name: 'date not found',
-        testData: { id: jobID, data: { resultPath: 'deaths', date: '17601010' } },
       },
     ]
 

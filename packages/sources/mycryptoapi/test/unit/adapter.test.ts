@@ -11,18 +11,9 @@ describe('execute', () => {
   describe('validation error', () => {
     const requests = [
       {
-        name: 'empty body',
-        testData: {},
-      },
-      {
-        name: 'empty data',
-        testData: { data: {} },
-      },
-      {
-        name: 'no speed param',
+        name: 'invalid speed type',
         testData: {
-          id: jobID,
-          data: { endpoint: 'not_real' },
+          data: { speed: 1 },
         },
       },
     ]
@@ -30,7 +21,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest<TInputParameters>, {})
+          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
