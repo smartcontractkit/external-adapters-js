@@ -15,9 +15,6 @@ Object {
     "result": "1010000.0999999",
   },
   "jobRunID": "1",
-  "metricsMeta": Object {
-    "feedId": "{\\"data\\":{\\"ibanIDs\\":[\\"LI6808811000000012345\\",\\"LI6808811000000045345\\"]}}",
-  },
   "result": "1010000.0999999",
   "statusCode": 200,
 }
