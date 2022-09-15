@@ -19,8 +19,25 @@ export interface Config {
   enabled: boolean
 }
 
+export interface RateLimitConfig {
+  limits: Limits
+  name: string
+}
+
+export function getLastTierLimit(rateLimitConfig: RateLimitConfig): string | undefined {
+  const { limits } = rateLimitConfig
+  let lastTier: string
+  if (Object.keys(limits).length == 0) return undefined
+  const tierList = Object.keys(limits.http)
+  if (tierList.length !== 0) {
+    lastTier = tierList[tierList.length - 1]
+    return limits.http[lastTier] as string
+  }
+  return undefined
+}
+
 export function get(
-  rateLimitConfig: { limits: Limits; name: string } = { limits: { http: {}, ws: {} }, name: '' },
+  rateLimitConfig: RateLimitConfig = { limits: { http: {}, ws: {} }, name: '' },
   context: AdapterContext,
 ): Config {
   const enabled =
@@ -31,21 +48,30 @@ export function get(
   const perMinuteRateLimit = getEnv('RATE_LIMIT_CAPACITY_MINUTE')
   const shouldIgnorePerSecLimit = perSecRateLimit && parseInt(perSecRateLimit) <= 0
   const shouldIgnorePerMinLimit = perMinuteRateLimit && parseInt(perMinuteRateLimit) <= 0
+  let highestTierLimit = 0
+  let lastTier: string | undefined = undefined
 
-  const tierList = Object.keys(rateLimitConfig.limits.http)
-  const lastTier = tierList[tierList.length - 1]
-  let highestTierLimit = rateLimitConfig.limits.http[lastTier].rateLimit1s as number
+  if (!capacity && enabled) {
+    lastTier = getLastTierLimit(rateLimitConfig)
+  }
 
   if (perSecRateLimit) {
     capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
+    if (lastTier)
+      highestTierLimit = shouldIgnorePerSecLimit
+        ? 0
+        : (rateLimitConfig.limits.http[lastTier].rateLimit1m as number)
   }
 
   if (perMinuteRateLimit) {
     capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
-    highestTierLimit = rateLimitConfig.limits.http[lastTier].rateLimit1m as number
+    if (lastTier)
+      highestTierLimit = shouldIgnorePerSecLimit
+        ? 0
+        : (rateLimitConfig.limits.http[lastTier].rateLimit1m as number)
   }
 
-  if (capacity > highestTierLimit) {
+  if (enabled && capacity > highestTierLimit) {
     logger.warn(
       `The configured RATE_LIMIT_CAPACITY value is higher than the highest tier value from limits.json`,
     )
