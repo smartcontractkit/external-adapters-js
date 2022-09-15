@@ -24,7 +24,7 @@ export const makeConfig = (prefix?: string): Config => {
   const pageSizeString = util.getEnv('PAGE_SIZE')
 
   //Get pageSize environment variable and massage it
-  let pageSize = 0
+  let pageSize = DEFAULT_PAGESIZE
   if (pageSizeString) {
     const parsed = parseInt(pageSizeString)
     if (isNaN(parsed)) {
