@@ -31,13 +31,11 @@ export const makeConfig = (prefix?: string): Config => {
       Logger.warn(
         `Received NaN for PAGE_SIZE environment variable (${pageSizeString}. Using default instead: ${DEFAULT_PAGESIZE}`,
       )
-      pageSize = DEFAULT_PAGESIZE
     } else {
       if (parsed > PAGE_SIZE_MAX || parsed < PAGE_SIZE_MIN) {
         Logger.warn(
           `Received a PAGE_SIZE environment variable that was > max (${PAGE_SIZE_MAX}) or < min (${PAGE_SIZE_MIN}). Using default instead ${DEFAULT_PAGESIZE}`,
         )
-        pageSize = DEFAULT_PAGESIZE
       } else {
         Logger.debug(`Received ${parsed} for PAGE_SIZE`)
         pageSize = parsed
