@@ -15,11 +15,11 @@ Object {
 exports[`execute nft-floor-price api should return success 1`] = `
 Object {
   "data": Object {
-    "result": 85.16651572690085,
+    "result": 67.09079293,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 85.16651572690085,
+  "result": 67.09079293,
   "statusCode": 200,
 }
 `;
