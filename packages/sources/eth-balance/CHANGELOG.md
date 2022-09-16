@@ -1,5 +1,18 @@
 # @chainlink/eth-balance-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- bbcf0eea4: Added CHAIN_ID environment variable and validation for connecting to blockchain endpoints. **WARNING:** Before upgrading, ensure the default CHAIN_ID value is correct for the chain(s) you use. If not, you need to explicitly set this env var. Please refer to the individual adapter README for more information.
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-factories@1.2.15
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.3.15
 
 ### Patch Changes
