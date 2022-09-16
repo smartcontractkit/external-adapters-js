@@ -115,6 +115,7 @@ jobs:
           IMAGE_TAG: pr${{ steps.findPr.outputs.pr }}
           IMAGE_PREFIX: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/adapters/
         run: |
+          set -ex
           GITHUB_WORKSPACE= IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
 
           BUILD_ADAPTERS=
@@ -133,8 +134,11 @@ jobs:
             echo $BUILD_NAMES
 
             docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
+            echo "before the push"
             for adapter in ${BUILD_NAMES}; do
+              echo "pushing ${adapter}"
               docker push ${IMAGE_PREFIX}${adapter}:${IMAGE_TAG}
+              echo "finshed pushing ${adapter}"
             done
           fi
 
