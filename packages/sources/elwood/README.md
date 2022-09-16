@@ -1,6 +1,6 @@
 # Elwood Adapter
 
-![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood/package.json)
+![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood/package.json)
 
 This adapter implements a WS interface for price data from the [Elwood](https://elwood.io/) platform. Note that the first request for a price will fail because the WS connection does not have enough time to start up before the first subscription request is sent.
 

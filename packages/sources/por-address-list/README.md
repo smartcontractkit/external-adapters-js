@@ -1,6 +1,6 @@
 # PoR Address List Adapter
 
-![1.0.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json)
 
 This EA fetches the list of custodial addresses that hold the funds for a PoR feed
 
@@ -8,9 +8,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |  Name   |                                     Description                                      |  Type  | Options | Default |
-| :-------: | :-----: | :----------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | RPC_URL | The RPC URL to connect to the EVM chain the address manager contract is deployed to. | string |         |         |
+| Required? |   Name   |                                     Description                                      |  Type  | Options | Default |
+| :-------: | :------: | :----------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | RPC_URL  | The RPC URL to connect to the EVM chain the address manager contract is deployed to. | string |         |         |
+|           | CHAIN_ID |                              The chain id to connect to                              | string |         |   `1`   |
 
 ---
 

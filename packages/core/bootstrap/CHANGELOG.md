@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.19.2
+
+### Patch Changes
+
+- 3a0e5aaa9: Expanded coverage of redacting secrets in logs
+
 ## 2.19.1
 
 ### Patch Changes
