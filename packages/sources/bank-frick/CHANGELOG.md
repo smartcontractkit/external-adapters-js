@@ -1,5 +1,14 @@
 # @chainlink/bank-frick-adapter
 
+## 0.0.6
+
+### Patch Changes
+
+- 90a857678: Fix bug where config.pageSize would default to 0 instead of DEFAULT_PAGE_SIZE if PAGE_SIZE was unset
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 0.0.5
 
 ### Patch Changes
