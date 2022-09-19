@@ -63,11 +63,10 @@ export const generateJWT = async (
   signingAlgorithm: SigningAlgorithm = 'rsa-sha512',
 ): Promise<string> => {
   Logger.info("Generating a new JWT because we don't have one in config.token")
-  const { apiKey, password, privateKey } = config
+  const { apiKey, privateKey } = config
 
   const body = {
     key: apiKey,
-    password: password,
   }
 
   const signature = crypto.sign(signingAlgorithm, Buffer.from(JSON.stringify(body)), privateKey)
@@ -140,7 +139,18 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       firstPosition: position,
       maxResults: config.pageSize,
     }
+
     const response = await Requester.request<ResponseSchema>(options, customError)
+
+    if (!response.data.accounts) {
+      Logger.info(`Account data not present in the Bank Frick response. Raw: ${response.data}`)
+      throw new AdapterInputError({
+        jobRunID: validator.validated.id,
+        statusCode: 500,
+        message: `Received an undefined accounts array when fetching account pages from bank frick. Is PAGE_SIZE set between 1 and 500?`,
+      })
+    }
+
     response.data.accounts.forEach((v) => {
       Logger.trace(`Evaluating ${v.account} (iban: ${v.iban}, type: ${v.type})`)
       const index = keys.indexOf(v.iban)

@@ -1,5 +1,25 @@
 # @chainlink/coinbase-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- d6a8b07f9: Updated coinbase nft floor price to use GetCollectionLatestMetric endpoint. Updated input params to match new endpoint
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.4.15
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.4.14
 
 ### Patch Changes

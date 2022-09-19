@@ -14,35 +14,11 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { endpoint: 'nft-floor-price', data: {} } },
       {
-        name: 'network not supplied',
-        testData: {
-          endpoint: 'nft-floor-price',
-          id: jobID,
-          data: { contractAddress: 'abc', start: 'abc', end: 'abc' },
-        },
-      },
-      {
         name: 'contractAddress not supplied',
         testData: {
           endpoint: 'nft-floor-price',
           id: jobID,
-          data: { network: 'abc', start: 'abc', end: 'abc' },
-        },
-      },
-      {
-        name: 'start not supplied',
-        testData: {
-          endpoint: 'nft-floor-price',
-          id: jobID,
-          data: { network: 'abc', contractAddress: 'abc', end: 'abc' },
-        },
-      },
-      {
-        name: 'end not supplied',
-        testData: {
-          endpoint: 'nft-floor-price',
-          id: jobID,
-          data: { network: 'abc', contractAddress: 'abc', start: 'abc' },
+          data: { network: 'abc' },
         },
       },
     ]
@@ -50,7 +26,7 @@ describe('execute', () => {
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest<TInputParameters>, {})
+          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)

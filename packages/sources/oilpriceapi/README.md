@@ -1,6 +1,6 @@
 # Chainlink OilpriceAPI External Adapter
 
-![2.1.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/oilpriceapi/package.json)
+![2.1.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/oilpriceapi/package.json)
 
 Base URL https://api.oilpriceapi.com/v1/
 

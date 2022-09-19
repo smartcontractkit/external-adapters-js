@@ -1,6 +1,6 @@
 # Chainlink External Adapter for View-Function
 
-![1.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function/package.json)
 
 External adapter for executing contract function and returning the result
 
@@ -8,10 +8,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |       Name       |               Description                |  Type  | Options | Default |
-| :-------: | :--------------: | :--------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ETHEREUM_RPC_URL |      RPC URL of a Mainnet ETH node       | string |         |         |
-|           |     RPC_URL      | A fallback RPC URL of a Mainnet ETH node | string |         |         |
+| Required? |       Name        |               Description                |  Type  | Options | Default |
+| :-------: | :---------------: | :--------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ETHEREUM_RPC_URL  |      RPC URL of a Mainnet ETH node       | string |         |         |
+|           |      RPC_URL      | A fallback RPC URL of a Mainnet ETH node | string |         |         |
+|           | ETHEREUM_CHAIN_ID |        The chain id to connect to        | string |         |   `1`   |
 
 ---
 

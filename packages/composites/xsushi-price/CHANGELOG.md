@@ -1,5 +1,31 @@
 # @chainlink/xsushi-price-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- bbcf0eea4: Added CHAIN_ID environment variable and validation for connecting to blockchain endpoints. **WARNING:** Before upgrading, ensure the default CHAIN_ID value is correct for the chain(s) you use. If not, you need to explicitly set this env var. Please refer to the individual adapter README for more information.
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/token-allocation-adapter@1.6.4
+
+## 1.2.18
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.6.3
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/token-allocation-adapter@1.6.2
+
 ## 1.2.16
 
 ### Patch Changes

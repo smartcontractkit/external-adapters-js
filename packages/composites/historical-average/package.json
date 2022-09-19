@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/historical-average-adapter",
-  "version": "1.2.14",
+  "version": "1.2.16",
   "description": "Chainlink historical-average adapter.",
   "keywords": [
     "Chainlink",

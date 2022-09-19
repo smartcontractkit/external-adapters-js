@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Gemini
 
-![2.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gemini/package.json)
+![2.2.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/gemini/package.json)
 
 An external adapter to get data from Gemini
 
@@ -32,7 +32,7 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 | Required? |  Name   |     Aliases     |                       Description                        |  Type  | Options |  Default   | Depends On | Not Valid With |
 | :-------: | :-----: | :-------------: | :------------------------------------------------------: | :----: | :-----: | :--------: | :--------: | :------------: |
-|    ✅     |  token  | `asset`, `coin` |             The symbol of the token to query             | string |         |   `EFIL`   |            |                |
+|           |  token  | `asset`, `coin` |             The symbol of the token to query             | string |         |   `EFIL`   |            |                |
 |           | chainId |                 | An identifier for which network of the blockchain to use | string |         | `mainnet`  |            |                |
 |           | network |                 |                                                          | string |         | `filecoin` |            |                |
 

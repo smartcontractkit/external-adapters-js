@@ -34,7 +34,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const { network, vaultAddress } = validator.validated.data
 
   const rpcUrl = network.toUpperCase() == ETH ? config.ethereumRpcUrl : config.polygonRpcUrl
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const chainId = network.toUpperCase() == ETH ? config.ethereumChainId : config.polygonChainId
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
 
   const vault = new ethers.Contract(vaultAddress, vaultAbi, provider)
   const result = (await vault.totalAssets()).toString()

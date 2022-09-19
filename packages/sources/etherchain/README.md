@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Etherchain
 
-![1.4.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json)
+![1.4.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherchain/package.json)
 
 Base URL https://www.etherchain.org
 

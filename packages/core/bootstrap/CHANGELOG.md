@@ -1,5 +1,17 @@
 # @chainlink/ea-bootstrap
 
+## 2.19.2
+
+### Patch Changes
+
+- 3a0e5aaa9: Expanded coverage of redacting secrets in logs
+
+## 2.19.1
+
+### Patch Changes
+
+- 05a3f9464: Prevent updating properties of WS connection/subscription missing from state
+
 ## 2.19.0
 
 ### Minor Changes

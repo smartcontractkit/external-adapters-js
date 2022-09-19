@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Lido
 
-![1.0.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lido/package.json)
 
 By default fetches the value of stMATIC/USD
 
@@ -8,9 +8,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       |   Description   |  Type  | Options | Default |
-| :-------: | :-------------: | :-------------: | :----: | :-----: | :-----: |
-|    ✅     | POLYGON_RPC_URL | Polygon RPC URL | string |         |         |
+| Required? |       Name       |        Description         |  Type  | Options | Default |
+| :-------: | :--------------: | :------------------------: | :----: | :-----: | :-----: |
+|    ✅     | POLYGON_RPC_URL  |      Polygon RPC URL       | string |         |         |
+|           | POLYGON_CHAIN_ID | The chain id to connect to | string |         |  `137`  |
 
 ---
 

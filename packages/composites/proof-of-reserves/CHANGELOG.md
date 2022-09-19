@@ -1,5 +1,61 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.12.14
+
+### Patch Changes
+
+- Updated dependencies [bbcf0eea4]
+- Updated dependencies [90bbe44cb]
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/celsius-address-list-adapter@2.0.0
+  - @chainlink/chain-reserve-wallet-adapter@3.0.0
+  - @chainlink/eth-balance-adapter@2.0.0
+  - @chainlink/gemini-adapter@2.2.16
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.16
+  - @chainlink/por-indexer-adapter@1.2.18
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/reduce-adapter@1.4.3
+  - @chainlink/ada-balance-adapter@2.5.16
+  - @chainlink/amberdata-adapter@1.8.9
+  - @chainlink/blockchain.com-adapter@1.3.16
+  - @chainlink/blockchair-adapter@1.3.16
+  - @chainlink/blockcypher-adapter@1.4.16
+  - @chainlink/btc.com-adapter@1.3.16
+  - @chainlink/cryptoapis-adapter@1.2.16
+  - @chainlink/lotus-adapter@2.2.16
+  - @chainlink/renvm-address-set-adapter@1.5.9
+  - @chainlink/sochain-adapter@1.3.16
+  - @chainlink/wbtc-address-set-adapter@1.4.18
+  - @chainlink/wrapped-adapter@2.2.16
+
+## 1.12.13
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.15
+  - @chainlink/por-indexer-adapter@1.2.17
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/reduce-adapter@1.4.2
+  - @chainlink/ada-balance-adapter@2.5.15
+  - @chainlink/amberdata-adapter@1.8.8
+  - @chainlink/blockchain.com-adapter@1.3.15
+  - @chainlink/blockchair-adapter@1.3.15
+  - @chainlink/blockcypher-adapter@1.4.15
+  - @chainlink/btc.com-adapter@1.3.15
+  - @chainlink/celsius-address-list-adapter@1.0.36
+  - @chainlink/chain-reserve-wallet-adapter@2.3.15
+  - @chainlink/cryptoapis-adapter@1.2.15
+  - @chainlink/eth-balance-adapter@1.3.15
+  - @chainlink/gemini-adapter@2.2.15
+  - @chainlink/lotus-adapter@2.2.15
+  - @chainlink/renvm-address-set-adapter@1.5.8
+  - @chainlink/sochain-adapter@1.3.15
+  - @chainlink/wbtc-address-set-adapter@1.4.17
+  - @chainlink/wrapped-adapter@2.2.15
+
 ## 1.12.12
 
 ### Patch Changes

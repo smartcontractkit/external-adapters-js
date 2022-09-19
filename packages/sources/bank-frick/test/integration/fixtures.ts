@@ -1,5 +1,5 @@
 import nock from 'nock'
-import { DEFAULT_BASE_URL } from '../../src/config'
+import { DEFAULT_BASE_URL, DEFAULT_PAGESIZE } from '../../src/config'
 
 export const mockAccountsSuccess = () =>
   nock(DEFAULT_BASE_URL, {
@@ -8,7 +8,7 @@ export const mockAccountsSuccess = () =>
     .get('/accounts')
     .query({
       firstPosition: 0,
-      maxResults: 0,
+      maxResults: DEFAULT_PAGESIZE,
     })
     .reply(
       200,

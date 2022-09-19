@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Stader Labs
 
-![1.0.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json)
 
 By default fetches the value of MaticX/USD
 
@@ -8,10 +8,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       |   Description   |  Type  | Options | Default |
-| :-------: | :-------------: | :-------------: | :----: | :-----: | :-----: |
-|           | POLYGON_RPC_URL | Polygon RPC URL | string |         |         |
-|           | FANTOM_RPC_URL  | Fantom RPC URL  | string |         |         |
+| Required? |       Name       |           Description           |  Type  | Options | Default |
+| :-------: | :--------------: | :-----------------------------: | :----: | :-----: | :-----: |
+|           | POLYGON_RPC_URL  |         Polygon RPC URL         | string |         |         |
+|           | POLYGON_CHAIN_ID |   The chain id to connect to    | string |         |  `137`  |
+|           |  FANTOM_RPC_URL  |         Fantom RPC URL          | string |         |         |
+|           | FANTOM_CHAIN_ID  | The blockchain id to connect to | string |         |  `250`  |
 
 ---
 

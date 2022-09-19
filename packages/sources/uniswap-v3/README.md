@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V3
 
-![1.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v3/package.json)
 
 This adapter allows querying Uniswap V3 contracts
 
@@ -12,6 +12,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------------: | :---------------------------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
 |    ✅     |  ETHEREUM_RPC_URL  |               An http(s) RPC URL to a blockchain node that can read the Uniswap V3 contracts                | string |         |                                              |
 |           |      RPC_URL       |        A fallback http(s) RPC URL to a backup blockchain node that can read the UniswapV2 contracts         | string |         |                                              |
+|           | ETHEREUM_CHAIN_ID  |                                         The chain id to connect to                                          | string |         |                     `1`                      |
 |           | BLOCKCHAIN_NETWORK |  The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET  | string |         |                  `ethereum`                  |
 |           |  QUOTER_CONTRACT   | The address of the Uniswap V3 address quoter contract. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET | string |         | `0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6` |
 |           | DEFAULT_FEE_TIERS  |                                       The Uniswap V3 fee tiers amount                                       | number |         |              `[500,3000,10000]`              |

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinmetrics
 
-![1.3.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json)
+![1.3.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinmetrics/package.json)
 
 ### Websocket support
 

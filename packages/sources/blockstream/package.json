@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/blockstream-adapter",
-  "version": "1.4.14",
+  "version": "1.4.16",
   "description": "Chainlink blockstream adapter.",
   "keywords": [
     "Chainlink",

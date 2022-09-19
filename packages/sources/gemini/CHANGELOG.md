@@ -1,5 +1,22 @@
 # @chainlink/gemini-adapter
 
+## 2.2.16
+
+### Patch Changes
+
+- 90bbe44cb: Changed 'token' input parameter to be optional
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.2.15
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.2.14
 
 ### Patch Changes

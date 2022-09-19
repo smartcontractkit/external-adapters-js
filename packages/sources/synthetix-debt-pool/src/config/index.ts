@@ -5,6 +5,16 @@ export const NAME = 'SYNTHETIX_DEBT_POOL'
 
 export const DEFAULT_ENDPOINT = 'debt'
 
+export const ENV_RPC_URL = 'RPC_URL'
+export const ENV_CHAIN_ID = 'CHAIN_ID'
+
+export const DEFAULT_ETHEREUM_CHAIN_ID = '1'
+export const DEFAULT_KOVAN_CHAIN_ID = '42'
+export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
+export const DEFAULT_KOVAN_OPTIMISM_CHAIN_ID = '69'
+export const DEFAULT_GOERLI_CHAIN_ID = '5'
+export const DEFAULT_GOERLI_OPTIMISM_CHAIN_ID = '420'
+
 export enum SupportedChains {
   ETHEREUM = 'mainnet',
   OPTIMISM = 'mainnet-ovm',
@@ -18,6 +28,7 @@ export interface Config extends DefaultConfig {
   chains: {
     [key: string]: {
       rpcURL: string
+      chainId: string | number | undefined
       chainAddressResolverProxyAddress: string
     }
   }
@@ -32,13 +43,18 @@ export const makeConfig = (prefix?: string): Config => {
 
   for (const chainName of Object.values(SupportedChains)) {
     const envVarPrefix = getRPCUrlPrefix(chainName)
-    const chainRpcURL = util.getEnv('RPC_URL', envVarPrefix)
+    const chainRpcURL = util.getEnv(ENV_RPC_URL, envVarPrefix)
+    const chainId =
+      parseInt(util.getEnv(ENV_CHAIN_ID, envVarPrefix) || getDefaultChainId(chainName)) ||
+      util.getEnv(ENV_CHAIN_ID, envVarPrefix)
+
     const chainAddressResolverProxyAddress =
       util.getEnv('ADDRESS_RESOLVER_PROXY_CONTRACT_ADDRESS', envVarPrefix) ||
       getDefaultAddressResolverProxyAddress(chainName)
     if (chainRpcURL) {
       config.chains[chainName] = {
         rpcURL: chainRpcURL,
+        chainId,
         chainAddressResolverProxyAddress,
       }
     }
@@ -81,5 +97,22 @@ const getDefaultAddressResolverProxyAddress = (networkName: SupportedChains): st
       return '0x58719E8Ef4d201541e44505a2ACB3424481d6681'
     case SupportedChains.GOERLI_OPTIMISM:
       return '0x9Fc84992dF5496797784374B810E04238728743d'
+  }
+}
+
+const getDefaultChainId = (networkName: SupportedChains): string => {
+  switch (networkName) {
+    case SupportedChains.ETHEREUM:
+      return DEFAULT_ETHEREUM_CHAIN_ID
+    case SupportedChains.KOVAN:
+      return DEFAULT_KOVAN_CHAIN_ID
+    case SupportedChains.OPTIMISM:
+      return DEFAULT_OPTIMISM_CHAIN_ID
+    case SupportedChains.KOVAN_OPTIMISM:
+      return DEFAULT_KOVAN_OPTIMISM_CHAIN_ID
+    case SupportedChains.GOERLI:
+      return DEFAULT_GOERLI_CHAIN_ID
+    case SupportedChains.GOERLI_OPTIMISM:
+      return DEFAULT_GOERLI_OPTIMISM_CHAIN_ID
   }
 }

@@ -52,7 +52,7 @@ export const customParams: InputParameters<TInputParameters> = {
 }
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const wallet = new ethers.Wallet(config.privateKey, provider)
 
   const validator = new Validator(request, customParams)

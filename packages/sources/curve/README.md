@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Curve.fi
 
-![1.3.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/curve/package.json)
 
 This adapter allows querying Curve.fi contracts
 
@@ -8,12 +8,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |         Name         | Description |  Type  | Options |                   Default                    |
-| :-------: | :------------------: | :---------: | :----: | :-----: | :------------------------------------------: |
-|    ✅     |       RPC_URL        |             | string |         |                                              |
-|           |   ADDRESS_PROVIDER   |             | string |         | `0x0000000022D53366457F9d5E68Ec105046FC4383` |
-|           | EXCHANGE_PROVIDER_ID |             | number |         |                     `2`                      |
-|           |  BLOCKCHAIN_NETWORK  |             | string |         |                  `ethereum`                  |
+| Required? |         Name         |        Description         |  Type  | Options |                   Default                    |
+| :-------: | :------------------: | :------------------------: | :----: | :-----: | :------------------------------------------: |
+|    ✅     |       RPC_URL        |                            | string |         |                                              |
+|           |       CHAIN_ID       | The chain id to connect to | string |         |                     `1`                      |
+|           |   ADDRESS_PROVIDER   |                            | string |         | `0x0000000022D53366457F9d5E68Ec105046FC4383` |
+|           | EXCHANGE_PROVIDER_ID |                            | number |         |                     `2`                      |
+|           |  BLOCKCHAIN_NETWORK  |                            | string |         |                  `ethereum`                  |
 
 ---
 

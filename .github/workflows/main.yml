@@ -7,6 +7,10 @@ on:
       - develop
   pull_request: ~
 
+concurrency:
+  group: main-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   packages:
     name: Verify dependency package archives
