@@ -31,7 +31,7 @@ export const baseEnvDefaults: EnvDefaults = {
   METRICS_PORT: '9080',
   METRICS_ENABLED: 'true',
   RETRY: '1',
-  API_TIMEOUT: '30000',
+  API_TIMEOUT: '10000',
   CACHE_ENABLED: 'true',
   CACHE_TYPE: 'local',
   CACHE_MAX_AGE: '90000', // 1.5 minutes
