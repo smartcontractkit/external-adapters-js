@@ -141,6 +141,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     }
 
     const response = await Requester.request<ResponseSchema>(options, customError)
+
+    if (!response.data.accounts) {
+      Logger.info(`Account data not present in the Bank Frick response. Raw: ${response.data}`)
+      throw new AdapterInputError({
+        jobRunID: validator.validated.id,
+        statusCode: 500,
+        message: `Received an undefined accounts array when fetching account pages from bank frick. Is PAGE_SIZE set between 1 and 500?`,
+      })
+    }
+
     response.data.accounts.forEach((v) => {
       Logger.trace(`Evaluating ${v.account} (iban: ${v.iban}, type: ${v.type})`)
       const index = keys.indexOf(v.iban)

@@ -1,11 +1,11 @@
 [
   {
-    "from": "USD",
-    "to": "IDR",
+    "from": "IDR",
+    "to": "USD",
     "includes": [
       {
-        "from": "IDR",
-        "to": "USD",
+        "from": "USD",
+        "to": "IDR",
         "inverse": true
       }
     ]
