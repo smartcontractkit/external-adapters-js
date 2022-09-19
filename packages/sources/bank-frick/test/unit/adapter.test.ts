@@ -57,6 +57,12 @@ describe('config', () => {
     expect(config.pageSize).toEqual(DEFAULT_PAGESIZE)
   })
 
+  it('unset PAGE_SIZE results in default', () => {
+    process.env.PAGE_SIZE = undefined
+    const config = makeConfig()
+    expect(config.pageSize).toEqual(DEFAULT_PAGESIZE)
+  })
+
   it('allowInsecure allowed when NODE_ENV is development', () => {
     process.env.ALLOW_INSECURE = 'true'
     process.env.NODE_ENV = 'development'

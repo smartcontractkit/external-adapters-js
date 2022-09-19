@@ -1,5 +1,13 @@
 # @chainlink/coinlore-adapter
 
+## 1.3.16
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.3.15
 
 ### Patch Changes
