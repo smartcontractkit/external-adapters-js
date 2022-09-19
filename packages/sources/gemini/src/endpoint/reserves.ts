@@ -12,7 +12,7 @@ export interface ResponseSchema {
 export type TInputParameters = { token: string; chainId: string; network: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   token: {
-    required: true,
+    required: false,
     aliases: ['asset', 'coin'],
     description: 'The symbol of the token to query',
     default: 'EFIL',

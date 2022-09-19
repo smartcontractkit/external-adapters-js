@@ -1,5 +1,13 @@
 # @chainlink/kaiko-adapter
 
+## 1.5.10
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.5.9
 
 ### Patch Changes

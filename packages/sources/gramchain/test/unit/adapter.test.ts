@@ -11,21 +11,24 @@ describe('execute', () => {
 
   describe('validation error', () => {
     const requests = [
-      { name: 'empty body', testData: {} },
-      { name: 'empty data', testData: { data: {} } },
       {
-        name: 'block not set to number',
-        testData: {
-          id: jobID,
-          data: { custodianID: '', metalCode: '', utilizationLockCode: '', block: null },
-        },
+        name: 'invalid custodianID type',
+        testData: { id: jobID, data: { custodianID: 1 } },
+      },
+      {
+        name: 'invalid metalCode type',
+        testData: { id: jobID, data: { metalCode: 1 } },
+      },
+      {
+        name: 'invalid utilizationLockCode type',
+        testData: { id: jobID, data: { utilizationLockCode: 1 } },
       },
     ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest<TInputParameters>, {})
+          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)

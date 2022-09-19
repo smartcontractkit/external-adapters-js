@@ -1,6 +1,6 @@
 # ENS Adapter
 
-![1.1.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ens/package.json)
 
 ENS Adapter
 
@@ -8,9 +8,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |  Name   |       Description        |  Type  | Options | Default |
-| :-------: | :-----: | :----------------------: | :----: | :-----: | :-----: |
-|    ✅     | RPC_URL | A valid Ethereum RPC URL | string |         |         |
+| Required? |   Name   |        Description         |  Type  | Options | Default |
+| :-------: | :------: | :------------------------: | :----: | :-----: | :-----: |
+|    ✅     | RPC_URL  |  A valid Ethereum RPC URL  | string |         |         |
+|           | CHAIN_ID | The chain id to connect to | string |         |   `1`   |
 
 ---
 
