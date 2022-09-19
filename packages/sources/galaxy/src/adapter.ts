@@ -18,7 +18,7 @@ import type {
 } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
 import * as endpoints from './endpoint'
-import { AccessTokenResponse, Pair, TickerMessage } from './types'
+import { AccessTokenResponse, AccessToken, Pair, TickerMessage } from './types'
 
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,
@@ -42,7 +42,7 @@ export const makeExecute: ExecuteFactory<Config, endpoints.TInputParameters> = (
   return async (request, context) => execute(request, context, config || makeConfig())
 }
 
-export const getAccessToken = async (config: Config): Promise<string> => {
+const getAccessToken = async (config: Config): Promise<AccessToken> => {
   try {
     const tokenResponse = await Requester.request<AccessTokenResponse>({
       url: config.api?.baseURL,
@@ -54,7 +54,10 @@ export const getAccessToken = async (config: Config): Promise<string> => {
     })
     if (!tokenResponse.data.token)
       throw new AdapterDataProviderError({ message: tokenResponse.data.message || 'Login failed' })
-    return tokenResponse.data.token
+    return {
+      token: tokenResponse.data.token,
+      created: new Date().getTime(),
+    }
   } catch (e: any) {
     const err = e as any
     const message = `Login failed ${err.message ? `with message '${err.message}'` : ''}`
@@ -69,7 +72,32 @@ export const getAccessToken = async (config: Config): Promise<string> => {
 }
 
 export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
-  let token: string | undefined
+  let token: AccessToken | undefined
+  let fetchingToken = false
+
+  const refreshToken = async (config: Config) => {
+    if (fetchingToken) return
+
+    try {
+      if (!token) {
+        // Get inital token
+        fetchingToken = true
+        token = await getAccessToken(config)
+        fetchingToken = false
+        return
+      }
+
+      // Refresh token if it is older than 30 seconds
+      if (new Date().getTime() - token.created > 30000) {
+        fetchingToken = true
+        token = await getAccessToken(config)
+        fetchingToken = false
+        return
+      }
+    } catch (error) {
+      fetchingToken = false
+    }
+  }
   const getPair = (input: AdapterRequest) => {
     const validator = new Validator(
       input,
@@ -83,12 +111,12 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
 
   return async () => {
     const config = defaultConfig || makeConfig()
-    if (!token) token = await getAccessToken(config)
+    await refreshToken(config)
 
     return {
       connection: {
         url: config.ws?.baseWsURL,
-        protocol: { headers: { ...config.api?.headers, token } },
+        protocol: { headers: { ...config.api?.headers, token: token?.token || '' } },
       },
       noHttp: true,
       subscribe: (input: AdapterRequest) => ({ type: 'subscribe', signals: [getPair(input)] }),
