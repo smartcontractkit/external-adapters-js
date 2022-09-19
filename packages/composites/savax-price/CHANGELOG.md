@@ -1,5 +1,11 @@
 # @chainlink/savax-price-adapter
 
+## 3.0.1
+
+### Patch Changes
+
+- b7805be51: Set correct default chain ID
+
 ## 3.0.0
 
 ### Major Changes
