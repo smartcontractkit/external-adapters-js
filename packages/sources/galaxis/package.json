@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/galaxis-adapter",
-  "version": "2.7.7",
+  "version": "3.0.0",
   "description": "Chainlink galaxis adapter.",
   "keywords": [
     "Chainlink",

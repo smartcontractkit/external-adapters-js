@@ -1,8 +1,8 @@
 # Chainlink External Adapter for Nomics
 
-![1.3.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
+![1.3.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nomics/package.json)
 
-An API key that can be obtained from [here](https://p.nomics.com/pricing#business-plan). A business plan is required to use Nomics data for commercial purposes.
+An API key that can be obtained from [here](https://p.nomics.com/pricing#free-plan)
 
 Base URL https://api.nomics.com/v1
 
