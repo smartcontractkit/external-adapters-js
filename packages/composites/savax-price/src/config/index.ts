@@ -10,7 +10,7 @@ export const FLOATING_POINT_DECIMALS = 18
 
 export const ENV_AVALANCHE_RPC_URL = 'AVALANCHE_RPC_URL'
 export const ENV_AVALANCHE_CHAIN_ID = 'AVALANCHE_CHAIN_ID'
-export const DEFAULT_CHAIN_ID = '1'
+export const DEFAULT_CHAIN_ID = '43114'
 
 export interface Config extends DefaultConfig {
   sAvaxAddress: string
