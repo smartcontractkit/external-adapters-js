@@ -183,7 +183,7 @@ jobs:
 
           if [ -n "$ADAPTER_NAMES" ]; then
             for adapter in ${ADAPTER_NAMES}; do
-              HELM_SECRETS_PATH=../adapter-secrets/secure-sdlc/secrets.${adapter}.yaml
+              HELM_SECRETS_PATH=./adapter-secrets/secure-sdlc/secrets.${adapter}.yaml
               if test -f "$HELM_SECRETS_PATH"
                 then
                   AWS_PROFILE=qa-sdlc HELM_SECRETS_PATH=${HELM_SECRETS_PATH} yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
