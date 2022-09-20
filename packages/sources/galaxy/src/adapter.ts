@@ -79,16 +79,7 @@ export const makeWSHandler = (defaultConfig?: Config): MakeWSHandler<any> => {
     if (fetchingToken) return
 
     try {
-      if (!token) {
-        // Get inital token
-        fetchingToken = true
-        token = await getAccessToken(config)
-        fetchingToken = false
-        return
-      }
-
-      // Refresh token if it is older than 30 seconds
-      if (new Date().getTime() - token.created > 30000) {
+      if (!token || new Date().getTime() - token.created > 30000) {
         fetchingToken = true
         token = await getAccessToken(config)
         fetchingToken = false
