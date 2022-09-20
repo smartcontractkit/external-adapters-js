@@ -113,10 +113,10 @@ For example, take a look at the [synth-index](./packages/composites/synth-index/
 5. Finally, run your tests with recording disabled (`unset RECORD`). The WebSocket connection should be replaced and mocked.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
+
 ## Running Integration Tests
 
 When running integration tests (for example `yarn test packages/sources/binance/test/integration`) make sure that metrics are disabled (`export METRICS_ENABLED=false`) and EA server is running on random available port (`export EA_PORT=0`).
-
 
 ## Generating Changesets
 
