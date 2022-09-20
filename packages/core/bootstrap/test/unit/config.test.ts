@@ -1,7 +1,7 @@
 import { constants } from '../../src/lib/config'
 import { Requester } from '../../src/lib/modules/requester'
-const { ENV_API_ENDPOINT, ENV_API_KEY, ENV_API_TIMEOUT, ENV_API_VERBOSE, DEFAULT_API_TIMEOUT } =
-  constants
+import { baseEnvDefaults } from '../../src/lib/util'
+const { ENV_API_ENDPOINT, ENV_API_KEY, ENV_API_TIMEOUT, ENV_API_VERBOSE } = constants
 
 describe('incorrect app config', () => {
   beforeEach(() => {
@@ -50,7 +50,7 @@ describe('incorrect app config', () => {
       const config = Requester.getDefaultConfig()
       expect(config).toHaveProperty('apiKey', undefined)
       expect(config).toHaveProperty('api')
-      expect(config.api).toHaveProperty('timeout', DEFAULT_API_TIMEOUT)
+      expect(config.api).toHaveProperty('timeout', parseInt(baseEnvDefaults.API_TIMEOUT))
       expect(config.api).toHaveProperty('baseURL', undefined)
     })
   })

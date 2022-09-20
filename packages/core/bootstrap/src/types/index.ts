@@ -287,6 +287,7 @@ export type EnvDefaults = { [name: string]: string }
  * `WS_ENABLED` for example usage.
  */
 export type EnvDefaultOverrides = {
+  API_TIMEOUT?: string
   CACHE_ENABLED?: 'true' | 'false'
   WS_ENABLED?: 'true' | 'false'
   WARMUP_ENABLED?: 'true' | 'false'

@@ -9,12 +9,16 @@ describe('execute', () => {
   const execute = makeExecute()
 
   describe('validation error', () => {
-    const requests = [{ name: 'empty body', testData: {} }]
+    const requests = [
+      { name: 'invalid token type', testData: { data: { token: 1 } } },
+      { name: 'invalid chainId type', testData: { data: { chainId: 1 } } },
+      { name: 'invalid network type', testData: { data: { network: 1 } } },
+    ]
 
     requests.forEach((req) => {
       it(`${req.name}`, async () => {
         try {
-          await execute(req.testData as AdapterRequest<TInputParameters>, {})
+          await execute(req.testData as unknown as AdapterRequest<TInputParameters>, {})
         } catch (error) {
           const errorResp = Requester.errored(jobID, error as AdapterError)
           assertError({ expected: 400, actual: errorResp.statusCode }, errorResp, jobID)
