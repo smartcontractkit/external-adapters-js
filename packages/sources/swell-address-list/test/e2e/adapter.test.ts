@@ -1,6 +1,6 @@
 import { assertSuccess } from '@chainlink/ea-test-helpers'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { makeExecute } from '../../src/adapter'
+import { makeExecute } from '../../src'
 import { TInputParameters } from '../../src/endpoint'
 
 describe('execute', () => {

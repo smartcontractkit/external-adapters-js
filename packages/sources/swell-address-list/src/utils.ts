@@ -1,36 +1,36 @@
 import { ethers } from 'ethers'
 import { AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
 
+interface PorInputAddress {
+  network: string
+  chainId: string
+  address: string
+}
+
 export const fetchAddressList = async (
   addressManager: ethers.Contract,
-  multicall: ethers.Contract,
   latestBlockNum: number,
   network: string,
   chainId: string,
   confirmations = 0,
-): Promise<string[]> => {
+): Promise<PorInputAddress[]> => {
   try {
     const blockTag = latestBlockNum - confirmations
     const numAddresses = await addressManager.validatorsLength({
       blockTag,
     })
-    const callData = [...Array(numAddresses.toNumber())].map((_, index) => {
-      const fragment = addressManager.interface.getFunction('validators')
-      const encodedCallData = addressManager.interface.encodeFunctionData(fragment, [index])
-      return {
-        target: addressManager.address,
-        callData: encodedCallData,
-      }
-    })
-    const response = await multicall.aggregate(callData)
-    return response.returnData.map((data: string) => {
-      const fragment = addressManager.interface.getFunction('validators')
-      const [address] = addressManager.interface.decodeFunctionResult(fragment, data)
-      return { address, network, chainId }
-    })
+    const fetchAddresses = async (index: number) => addressManager.validators(index, { blockTag })
+    const response = await Promise.all(
+      new Array(numAddresses.toNumber()).fill(0).map((_, i) => fetchAddresses(i)),
+    )
+    return response.map((address) => ({
+      address,
+      network,
+      chainId,
+    }))
   } catch (e: any) {
     throw new AdapterDataProviderError({
-      network: 'ethereum',
+      network,
       message: util.mapRPCErrorMessage(e?.code, e?.message),
       cause: e,
     })

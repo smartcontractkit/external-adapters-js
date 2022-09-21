@@ -35,8 +35,8 @@ jest.mock('ethers', () => {
       },
       Contract: function () {
         return {
-          getPoRAddressListLength: jest.fn().mockReturnValue(mockAddressListLength),
-          getPoRAddressList: jest.fn().mockReturnValue(mockExpectedAddresses),
+          validatorsLength: jest.fn().mockReturnValue(mockAddressListLength),
+          validators: jest.fn().mockImplementation((index) => mockExpectedAddresses[index]),
         }
       },
     },

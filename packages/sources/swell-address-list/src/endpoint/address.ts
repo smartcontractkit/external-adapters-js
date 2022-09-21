@@ -1,8 +1,7 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { SWNFTUpgrade_ABI } from '../abi/SWNFTUpgrade'
-import { MultiCall_ABI } from '../abi/Multicall'
 import { fetchAddressList } from '../utils'
 
 const networks = ['ethereum']
@@ -14,13 +13,6 @@ const swellNetworkChainMap: NetworkChainMap = {
   ethereum: {
     mainnet: '0xe0C8df4270F4342132ec333F6048cb703E7A9c77',
     goerli: '0x23e33FC2704Bb332C0410B006e8016E7B99CF70A',
-  },
-}
-
-const multicallNetworkChainMap: NetworkChainMap = {
-  ethereum: {
-    mainnet: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
-    goerli: '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
   },
 }
 
@@ -70,27 +62,22 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
   const contractAddress = contractAddressOverride || swellNetworkChainMap[network][chainId]
   const addressManager = new ethers.Contract(contractAddress, SWNFTUpgrade_ABI, provider)
-  const multicall = new ethers.Contract(
-    multicallNetworkChainMap[network][chainId],
-    MultiCall_ABI,
-    provider,
-  )
   const latestBlockNum = await provider.getBlockNumber()
   const addressList = await fetchAddressList(
     addressManager,
-    multicall,
     latestBlockNum,
     network,
     chainId,
     confirmations,
   )
-  return {
-    jobRunID,
-    result: addressList,
+
+  const result = {
     data: {
+      addressList,
       result: addressList,
-      statusCode: 200,
     },
     statusCode: 200,
   }
+
+  return Requester.success(jobRunID, result, config.verbose)
 }
