@@ -68,14 +68,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   } = validator.validated.data
   const jobRunID = validator.validated.id
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
-  const dummyPrivateKey = '0x0123456789012345678901234567890123456789012345678901234567890123'
-  const signer = new ethers.Wallet(dummyPrivateKey, provider)
   const contractAddress = contractAddressOverride || swellNetworkChainMap[network][chainId]
   const addressManager = new ethers.Contract(contractAddress, SWNFTUpgrade_ABI, provider)
   const multicall = new ethers.Contract(
     multicallNetworkChainMap[network][chainId],
     MultiCall_ABI,
-    signer,
+    provider,
   )
   const latestBlockNum = await provider.getBlockNumber()
   const addressList = await fetchAddressList(

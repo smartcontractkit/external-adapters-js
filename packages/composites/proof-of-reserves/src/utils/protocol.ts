@@ -10,6 +10,7 @@ import { makeRequestFactory, callAdapter } from '.'
 
 // protocol adapters
 import * as onchainList from '@chainlink/por-address-list-adapter'
+import * as swellList from '@chainlink/swell-address-list-adapter'
 import * as renVM from '@chainlink/renvm-address-set-adapter'
 import * as wBTC from '@chainlink/wbtc-address-set-adapter'
 import * as Gemini from '@chainlink/gemini-adapter'
@@ -28,6 +29,7 @@ export const adapters: AdapterImplementation[] = [
   chainReserveWallets as unknown as AdapterImplementation,
   wrapped as unknown as AdapterImplementation,
   onchainList as unknown as AdapterImplementation,
+  swellList as unknown as AdapterImplementation,
 ]
 
 export type Protocol = typeof adapters[number]['NAME']

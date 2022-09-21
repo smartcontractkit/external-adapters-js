@@ -4,18 +4,15 @@ import {
   Requester,
   AdapterInputError,
   AdapterDataProviderError,
-  util,
-  AdapterContext,
 } from '@chainlink/ea-bootstrap'
-import type { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
-import { requestSelf } from '../util'
+import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['balance']
 
 export const description =
-  'The balance endpoint will fetch the validator balance of each address in the query. Adapts the response for the Proof Of Reserves adapter.'
+  '**NOTE:** The balance output is given in Gwei!\n\n**NOTE**: The balance query is normally quite slow, no matter how many validators are being queried. API_TIMEOUT has been set to default to 60s.\n\nThe balance endpoint will fetch the validator balance of each address in the query. Adapts the response for the Proof Of Reserves adapter.'
 
-export type TInputParameters = { addresses: Address[]; minConfirmations: number }
+export type TInputParameters = { addresses: Address[]; stateId: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     aliases: ['result'],
@@ -24,36 +21,34 @@ export const inputParameters: InputParameters<TInputParameters> = {
     description:
       'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
   },
-  minConfirmations: {
+  stateId: {
     required: false,
-    aliases: ['confirmations'],
-    type: 'number',
-    default: 0,
-    description:
-      'Number (integer, min 0, max 64) of blocks that must have been confirmed after the point against which the balance is checked (i.e. balance will be sourced from {latestBlockNumber - minConfirmations}',
+    type: 'string',
+    description: 'The beacon chain state ID to query',
+    default: 'finalized',
   },
-}
-
-interface AddressWithBalance {
-  address: string
-  balance: string
 }
 
 type Address = {
   address: string
 }
 
-interface ResponseWithResult extends Partial<AxiosResponse> {
-  result: AddressWithBalance[]
+interface ResponseSchema {
+  execution_optimistic: false
+  data: [
+    {
+      index: string
+      balance: string
+    },
+  ]
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, _) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses as Address[]
-  // TODO: use?
-  // const minConfirmations = validator.validated.data.minConfirmations
+  const stateId = validator.validated.data.stateId
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterInputError({
@@ -63,52 +58,30 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, _) =>
     })
   }
 
-  let balances
-  try {
-    balances = await Promise.all(
-      addresses.map((addr, index) => getBalance(context, `${jobRunID}-${index}`, addr.address)),
-    )
-  } catch (e: any) {
+  const url = `/eth/v1/beacon/states/${stateId}/validator_balances?${addresses
+    .map((a) => `id=${a.address}`)
+    .join('&')}`
+
+  const options = { ...config.api, url }
+
+  const response = await Requester.request<ResponseSchema>(options)
+  const balances = response.data.data.map((validator) => ({
+    address: validator.index,
+    balance: validator.balance,
+  }))
+  if (balances.length != addresses.length) {
     throw new AdapterDataProviderError({
-      network: 'ethereum',
-      message: util.mapRPCErrorMessage(e?.code, e?.message),
-      cause: e,
+      jobRunID,
+      message: `Beacon node did not return the right amount of balances.`,
     })
   }
-
-  const response = {
-    jobRunID,
-    status: 200,
-    statusText: 'OK',
-    headers: {},
-    config: {},
-  }
-
-  const result: ResponseWithResult = {
+  const result = {
     ...response,
-    result: balances,
     data: {
+      balances,
       result: balances,
     },
   }
 
-  return Requester.success(jobRunID, result)
-}
-
-const getBalance = async (
-  context: AdapterContext,
-  id: string,
-  address: string,
-): Promise<AddressWithBalance> => {
-  const validatorRequest = await requestSelf(context, id, {
-    endpoint: 'validator',
-    stateId: 'finalized',
-    validatorId: address,
-  })
-  const result = validatorRequest.result
-  if (!result) throw new Error('Could not retrieve balance') // TODO: improve
-  return {
-    address,
-    balance: result.toString(),
-  }
+  return Requester.success(jobRunID, result, config.verbose)
 }
