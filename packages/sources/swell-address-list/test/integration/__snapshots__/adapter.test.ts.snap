@@ -55,12 +55,8 @@ Object {
         "network": "ethereum",
       },
     ],
-    "statusCode": 200,
   },
   "jobRunID": "1",
-  "metricsMeta": Object {
-    "feedId": "{\\"data\\":{\\"contractAddress\\":\\"0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B\\"}}",
-  },
   "result": Array [
     Object {
       "address": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
