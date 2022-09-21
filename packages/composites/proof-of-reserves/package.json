@@ -47,7 +47,6 @@
     "@chainlink/eth-beacon-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
-    "@chainlink/por-address-list-adapter": "workspace:*",
     "@chainlink/por-indexer-adapter": "workspace:*",
     "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
