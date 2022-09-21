@@ -19,10 +19,6 @@ export const makeConfig = (prefix?: string): Config => {
     api: {
       ...defaultConfig.api,
       baseURL: rpcURL,
-      headers: {
-        Authorization:
-          'Bearer api-token-0x0200e6ce18e26fd38caca7ae1bfb9e2bba7efb20ed2746ad17f2f6dda44603152d',
-      },
     },
     defaultEndpoint: DEFAULT_ENDPOINT,
   }
