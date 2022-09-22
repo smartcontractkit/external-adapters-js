@@ -41,6 +41,9 @@
       "path": "../../sources/armanino"
     },
     {
+      "path": "../../sources/bank-frick"
+    },
+    {
       "path": "../../sources/bea"
     },
     {
@@ -161,6 +164,9 @@
       "path": "../../sources/dxfeed-secondary"
     },
     {
+      "path": "../../sources/elwood"
+    },
+    {
       "path": "../../sources/ens"
     },
     {
@@ -207,6 +213,9 @@
     },
     {
       "path": "../../sources/galaxis"
+    },
+    {
+      "path": "../../sources/galaxy"
     },
     {
       "path": "../../sources/gemini"
@@ -317,7 +326,7 @@
       "path": "../../sources/por-address-list"
     },
     {
-      "path": "../../sources/reduce"
+      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"

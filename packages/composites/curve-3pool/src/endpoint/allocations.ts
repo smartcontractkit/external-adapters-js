@@ -44,7 +44,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const jobRunID = validator.validated.id
 
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const pool = new ethers.Contract(POOL_ADDRESS, stableSwap3PoolAbi, provider)
   const lpToken = new ethers.Contract(LP_TOKEN_ADDRESS, lpTokenAbi, provider)
 

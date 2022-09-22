@@ -268,6 +268,7 @@ export type Config = {
   }
   rpcUrl?: string
   rpcPort?: number
+  chainId?: number | string
 }
 export interface DefaultConfig extends Config {
   verbose: boolean
@@ -286,6 +287,7 @@ export type EnvDefaults = { [name: string]: string }
  * `WS_ENABLED` for example usage.
  */
 export type EnvDefaultOverrides = {
+  API_TIMEOUT?: string
   CACHE_ENABLED?: 'true' | 'false'
   WS_ENABLED?: 'true' | 'false'
   WARMUP_ENABLED?: 'true' | 'false'

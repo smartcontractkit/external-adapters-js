@@ -8,6 +8,7 @@ import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
 import * as armanino from '@chainlink/armanino-adapter'
+import * as bank_frick from '@chainlink/bank-frick-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
@@ -48,6 +49,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as elwood from '@chainlink/elwood-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
@@ -64,6 +66,7 @@ import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
+import * as galaxy from '@chainlink/galaxy-adapter'
 import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -141,6 +144,7 @@ export default {
   anyblock,
   ap_election,
   armanino,
+  bank_frick,
   bea,
   binance,
   binance_dex,
@@ -181,6 +185,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  elwood,
   ens,
   enzyme,
   eodhistoricaldata,
@@ -197,6 +202,7 @@ export default {
   flightaware,
   fmpcloud,
   galaxis,
+  galaxy,
   gemini,
   genesis_adapter,
   geodb,

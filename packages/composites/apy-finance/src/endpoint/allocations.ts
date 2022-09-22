@@ -32,7 +32,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
 
   const jobRunID = validator.validated.id
 
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const registry = new ethers.Contract(config.registryAddr, registryAbi, provider)
   let chainlinkRegistryAddress
   try {

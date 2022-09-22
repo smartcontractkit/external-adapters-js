@@ -97,7 +97,7 @@ export const sAvaxABI = [
 ]
 
 export const getPooledAvaxShares = async (config: Config): Promise<ethers.BigNumber> => {
-  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const sAvaxContract = new ethers.Contract(config.sAvaxAddress, sAvaxABI, provider)
   return sAvaxContract.getPooledAvaxByShares(ethers.BigNumber.from(10).pow(FLOATING_POINT_DECIMALS))
 }

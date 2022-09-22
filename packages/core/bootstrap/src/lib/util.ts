@@ -29,8 +29,9 @@ export const baseEnvDefaults: EnvDefaults = {
   EA_PORT: '8080',
   EA_HOST: '::',
   METRICS_PORT: '9080',
+  METRICS_ENABLED: 'true',
   RETRY: '1',
-  API_TIMEOUT: '30000',
+  API_TIMEOUT: '10000',
   CACHE_ENABLED: 'true',
   CACHE_TYPE: 'local',
   CACHE_MAX_AGE: '90000', // 1.5 minutes
@@ -39,10 +40,10 @@ export const baseEnvDefaults: EnvDefaults = {
   CACHE_UPDATE_AGE_ON_GET: 'false',
   CACHE_REDIS_CONNECTION_TIMEOUT: '15000', // Timeout per long lived connection (ms)
   CACHE_REDIS_HOST: '127.0.0.1', // IP address of the Redis server
-  CACHE_REDIS_MAX_QUEUED_ITEMS: '500', // Maximum length of the client's internal command queue
+  CACHE_REDIS_MAX_QUEUED_ITEMS: '3000', // Maximum length of the client's internal command queue
   CACHE_REDIS_MAX_RECONNECT_COOLDOWN: '3000', // Max cooldown time before attempting to reconnect (ms)
   CACHE_REDIS_PORT: '6379', // Port of the Redis server
-  CACHE_REDIS_TIMEOUT: '500', // Timeout per request (ms)
+  CACHE_REDIS_TIMEOUT: '1000', // Timeout per request (ms)
   RATE_LIMIT_ENABLED: 'true',
   WARMUP_ENABLED: 'true',
   WARMUP_UNHEALTHY_THRESHOLD: '3',

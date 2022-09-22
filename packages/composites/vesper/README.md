@@ -6,13 +6,14 @@ This adapter gets the total TVL from the Vesper pool in the controller.
 
 The adapter takes the following environment variables:
 
-| Required? |         Name         |                        Description                        | Options |                 Defaults to                  |
-| :-------: | :------------------: | :-------------------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     |  `ETHEREUM_RPC_URL`  | Ethereum Mainnet RPC URL to retrieve on-chain values from |         |                                              |
-|           | `CONTROLLER_ADDRESS` |               The Vesper controller address               |         | `0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217` |
+| Required? |         Name         |                    Description                    | Options |                 Defaults to                  |
+| :-------: | :------------------: | :-----------------------------------------------: | :-----: | :------------------------------------------: |
+|    ✅     |  `ETHEREUM_RPC_URL`  | Ethereum RPC URL to retrieve on-chain values from |         |                                              |
+|           | `ETHEREUM_CHAIN_ID`  |            The chain id to connect to             |         |                      1                       |
+|           | `CONTROLLER_ADDRESS` |           The Vesper controller address           |         | `0xa4F1671d3Aee73C05b552d57f2d16d3cfcBd0217` |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 ## Running
 
@@ -21,7 +22,7 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 ### Input Params
 
 **Additional environment input params must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 ### Sample Input
 

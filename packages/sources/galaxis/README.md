@@ -1,6 +1,6 @@
 # Galaxis Source Adapter
 
-![2.7.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxis/package.json)
+![3.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxis/package.json)
 
 The Galaxis EA currently fetches Sports Data from a given API and encodes a function call that can be passed on chain.
 
@@ -11,6 +11,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |               Name                |                        Description                         |  Type  | Options |                   Default                    |
 | :-------: | :-------------------------------: | :--------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
 |    ✅     |          POLYGON_RPC_URL          |       The RPC URL to connect to the Polygon network        | string |         |                                              |
+|           |         POLYGON_CHAIN_ID          |                 The chain id to connect to                 | string |         |                    `137`                     |
 |    ✅     |           API_ENDPOINT            | The API endpoint to pull team and player achievements from | string |         |                                              |
 |           |        EC_REGISTRY_ADDRESS        |         The ECRegistry contract address on Polygon         | string |         | `0x163883263274e8Ef6332cFa84F35B23c6C51dF72` |
 |    ✅     |      EC_REGISTRY_MAP_ADDRESS      |       The ECRegistryMap contract address on Polygon        | string |         | `0x139B522955D54482E7662927653ABb0bFB6F19BA` |

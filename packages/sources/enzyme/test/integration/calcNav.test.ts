@@ -15,6 +15,7 @@ const envVariables = {
   CACHE_ENABLED: 'false',
   [ENV_ETHEREUM_RPC_URL]: process.env[ENV_ETHEREUM_RPC_URL] || 'http://localhost:8545/',
   API_VERBOSE: 'true',
+  CHAIN_ID: process.env['CHAIN_ID'] || '42',
 }
 
 setupExternalAdapterTest(envVariables, context)

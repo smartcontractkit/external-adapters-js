@@ -1,6 +1,6 @@
 # Chainlink Fixer External Adapter
 
-![2.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fixer/package.json)
+![2.0.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fixer/package.json)
 
 This adapter is for [Fixer.io](https://fixer.io/) and supports the convert endpoint.
 

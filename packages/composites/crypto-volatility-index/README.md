@@ -15,7 +15,7 @@ The CVI calculation requires the following environment variables:
 |    ✅     | `[NETWORK]_RPC_URL` | Blockchain RPC endpoint to get the needed on-chain data (e.g. `ETHEREUM_RPC_URL`) |         |             |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 **The chosen data provider must support MarketCap.**
 

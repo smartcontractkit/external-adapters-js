@@ -6,13 +6,14 @@ This External Adapter pulls the price of `USD/sAVAX` from the Avalanche network.
 
 The adapter takes the following environment variables:
 
-| Required? |        Name         |                   Description                   | Options |                 Defaults to                  |
-| :-------: | :-----------------: | :---------------------------------------------: | :-----: | :------------------------------------------: |
-|    ✅     | `AVALANCHE_RPC_URL` | The RPC URL to connect to the Avalanche network |         |                                              |
-|           |   `SAVAX_ADDRESS`   |        The address of the `sAVAX` token         |         | `0x2b2C81e08f1Af8835a78Bb2A90AE924ACE0eA4bE` |
+| Required? |         Name         |                   Description                   | Options |                 Defaults to                  |
+| :-------: | :------------------: | :---------------------------------------------: | :-----: | :------------------------------------------: |
+|    ✅     | `AVALANCHE_RPC_URL`  | The RPC URL to connect to the Avalanche network |         |                                              |
+|           | `AVALANCHE_CHAIN_ID` |           The chain id to connect to            |         |                    43114                     |
+|           |   `SAVAX_ADDRESS`    |        The address of the `sAVAX` token         |         | `0x2b2C81e08f1Af8835a78Bb2A90AE924ACE0eA4bE` |
 
 **Additional environment variables must be set according to the Token Allocation adapter.**
-This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../token-allocation/README.md](../token-allocation/README.md) for more details.
+This composite adapter executes the code from the Token Allocation composite adapter. As such the same configuration and input parameters apply to this adapter. See [../../non-deployable/token-allocation/README.md](../../non-deployable/token-allocation/README.md) for more details.
 
 ## Running
 

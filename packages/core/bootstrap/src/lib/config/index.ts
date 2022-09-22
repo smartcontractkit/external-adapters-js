@@ -1,4 +1,4 @@
-import { getRandomRequiredEnv, getRandomEnv, getEnv, parseBool } from '../util'
+import { baseEnvDefaults, getRandomRequiredEnv, getRandomEnv, getEnv, parseBool } from '../util'
 import type { Config, DefaultConfig } from '../../types'
 import { logger } from '../modules/logger'
 
@@ -9,22 +9,12 @@ const ENV_API_VERBOSE = 'API_VERBOSE'
 const ENV_WS_API_ENDPOINT = 'WS_API_ENDPOINT'
 const ENV_WS_API_KEY = 'WS_API_KEY'
 
-const DEFAULT_API_TIMEOUT = 30000
-
 export const constants = {
   ENV_API_KEY,
   ENV_API_ENDPOINT,
   ENV_API_TIMEOUT,
-  DEFAULT_API_TIMEOUT,
   ENV_API_VERBOSE,
 }
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const cloneNoSecrets = (config: Partial<Config>): Partial<Config> =>
-  (({ apiKey, api, ...o }) => {
-    const { auth, headers, params, ...apiNoSecrets } = api || {}
-    return { api: apiNoSecrets, ...o }
-  })(config)
 
 export function getDefaultConfig(
   prefix = '',
@@ -45,7 +35,7 @@ export function getDefaultConfig(
     api: {
       withCredentials: !!apiKey,
       baseURL: getEnv(ENV_API_ENDPOINT, prefix),
-      timeout: parseInt(timeout || '') || DEFAULT_API_TIMEOUT,
+      timeout: parseInt(timeout || '') || parseInt(baseEnvDefaults.API_TIMEOUT),
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         Pragma: 'no-cache',
@@ -60,5 +50,5 @@ export function getDefaultConfig(
 }
 
 export function logConfig(config: Config): void {
-  logger.debug('Adapter configuration:', { config: config && cloneNoSecrets(config) })
+  logger.debug('Adapter configuration:', { config })
 }

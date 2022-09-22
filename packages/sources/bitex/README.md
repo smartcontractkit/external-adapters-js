@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Bitex
 
-![1.5.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json)
+![1.5.16](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bitex/package.json)
 
 Base URL https://bitex.la/api
 

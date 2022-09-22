@@ -22,6 +22,18 @@ export const DEFAULT_NUM_RETRIES = 2
 // number of milliseconds until next retry
 export const DEFAULT_RETRY_INTERVAL = 5 * 100
 
+export const ENV_ARBITRUM_RPC_ENDPOINT = 'ARBITRUM_RPC_ENDPOINT'
+export const ENV_OPTIMISM_RPC_ENDPOINT = 'OPTIMISM_RPC_ENDPOINT'
+export const ENV_METIS_RPC_ENDPOINT = 'METIS_RPC_ENDPOINT'
+
+export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
+export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
+export const ENV_METIS_CHAIN_ID = 'METIS_CHAIN_ID'
+
+export const DEFAULT_ARBITRUM_CHAIN_ID = '42161'
+export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
+export const DEFAULT_METIS_CHAIN_ID = '1088'
+
 export enum Networks {
   Arbitrum = 'arbitrum',
   Optimism = 'optimism',
@@ -36,9 +48,21 @@ const DEFAULT_OPTIMISM_RPC_ENDPOINT = 'https://mainnet.optimism.io'
 const DEFAULT_METIS_RPC_ENDPOINT = 'https://andromeda.metis.io/?owner=1088'
 
 export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
-  [Networks.Arbitrum]: util.getEnv('ARBITRUM_RPC_ENDPOINT') || DEFAULT_ARBITRUM_RPC_ENDPOINT,
-  [Networks.Optimism]: util.getEnv('OPTIMISM_RPC_ENDPOINT') || DEFAULT_OPTIMISM_RPC_ENDPOINT,
-  [Networks.Metis]: util.getEnv('METIS_RPC_ENDPOINT') || DEFAULT_METIS_RPC_ENDPOINT,
+  [Networks.Arbitrum]: util.getEnv(ENV_ARBITRUM_RPC_ENDPOINT) || DEFAULT_ARBITRUM_RPC_ENDPOINT,
+  [Networks.Optimism]: util.getEnv(ENV_OPTIMISM_RPC_ENDPOINT) || DEFAULT_OPTIMISM_RPC_ENDPOINT,
+  [Networks.Metis]: util.getEnv(ENV_METIS_RPC_ENDPOINT) || DEFAULT_METIS_RPC_ENDPOINT,
+}
+
+export const CHAIN_IDS = {
+  [Networks.Arbitrum]:
+    parseInt(util.getEnv(ENV_ARBITRUM_CHAIN_ID) || DEFAULT_ARBITRUM_CHAIN_ID) ||
+    util.getEnv(ENV_ARBITRUM_CHAIN_ID),
+  [Networks.Optimism]:
+    parseInt(util.getEnv(ENV_OPTIMISM_CHAIN_ID) || DEFAULT_OPTIMISM_CHAIN_ID) ||
+    util.getEnv(ENV_OPTIMISM_CHAIN_ID),
+  [Networks.Metis]:
+    parseInt(util.getEnv(ENV_METIS_CHAIN_ID) || DEFAULT_METIS_CHAIN_ID) ||
+    util.getEnv(ENV_METIS_CHAIN_ID),
 }
 
 const DEFAULT_OPTIMISM_HEALTH_ENDPOINT = 'https://mainnet-sequencer.optimism.io/health'

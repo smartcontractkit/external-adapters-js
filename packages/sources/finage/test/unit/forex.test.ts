@@ -8,6 +8,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
   process.env.API_KEY = process.env.API_KEY ?? 'test_api_key'
+  process.env.WS_SOCKET_KEY = process.env.WS_SOCKET_KEY ?? 'test_socket_key'
 
   describe('validation error', () => {
     const requests = [

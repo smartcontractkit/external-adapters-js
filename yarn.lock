@@ -5,12 +5,13 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@actions/core@npm:1.9.0":
-  version: 1.9.0
-  resolution: "@actions/core@npm:1.9.0"
+"@actions/core@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@actions/core@npm:1.9.1"
   dependencies:
     "@actions/http-client": ^2.0.1
-  checksum: 801dde1da9012a0c7d40a3e4cc55dc0756892c3e5476cfdc4fc54eb9f0fa8e5c4936d152d723a5b0b999694af401e53e03dd62335b24ad3bbb1931d122aa6288
+    uuid: ^8.3.2
+  checksum: 8f9823bed2e172fcabb65a63e136f98bbd0614bf37b5012caff4d3216471de19956e6bc0ed2767c52bccc3d02a7450a3b902a83f56bfa255477858c6341d1e2e
   languageName: node
   linkType: hard
 
@@ -1790,7 +1791,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -1806,7 +1807,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.5.0
     nock: 13.2.9
@@ -1824,7 +1825,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/ws": ^7.4.0
     ethers: ^5.4.6
     tslib: ^2.3.1
@@ -1840,7 +1841,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     fastify: ^3.27.1
@@ -1858,7 +1859,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -1871,7 +1872,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -1887,7 +1888,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "*"
     "@chainlink/ea-test-helpers": "*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^5.5.1
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -1902,7 +1903,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -1919,7 +1920,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/terra-view-function-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.5.1
     nock: 13.2.9
@@ -1936,7 +1937,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -1952,7 +1953,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -1970,7 +1971,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: 5.4.7
     nock: 13.2.9
     tslib: ^2.3.1
@@ -1985,7 +1986,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2003,9 +2004,27 @@ __metadata:
     "@chainlink/therundown-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/luxon": 1.27.1
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: 5.4.7
     luxon: ^1.27.0
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/bank-frick-adapter@workspace:*, @chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    decimal.js-light: ^2.5.1
+    nock: 13.2.9
+    supertest: 6.2.4
+    ts-node-dev: 2.0.0
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2018,7 +2037,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     nock: 13.2.9
@@ -2035,7 +2054,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2051,7 +2070,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2068,7 +2087,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2084,7 +2103,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2101,7 +2120,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/express": 4.17.13
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2118,7 +2137,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2132,7 +2151,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2146,7 +2165,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     blockcypher: ^0.3.0
     nock: 13.2.9
@@ -2163,7 +2182,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -2178,7 +2197,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2195,7 +2214,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -2209,7 +2228,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2229,7 +2248,7 @@ __metadata:
     "@solana/web3.js": ^1.33.0
     "@types/bn.js": ^5.1.0
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     bignumber.js: ^9.0.0
     bn.js: ^5.2.0
@@ -2248,7 +2267,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2264,7 +2283,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2282,7 +2301,7 @@ __metadata:
     "@ethersproject/abi": ^5.5.0
     "@ethersproject/bytes": ^5.5.0
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^5.4.6
     merkletreejs: ^0.2.18
     tslib: ^2.3.1
@@ -2297,7 +2316,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: 5.4.7
     nock: 13.2.9
@@ -2314,7 +2333,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2330,7 +2349,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: 5.4.7
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -2344,7 +2363,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     axios: ^0.24.0
     nock: 13.2.9
     tslib: ^2.3.1
@@ -2359,7 +2378,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2375,7 +2394,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2391,7 +2410,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2407,7 +2426,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2423,7 +2442,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2439,7 +2458,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2455,7 +2474,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -2472,7 +2491,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2488,7 +2507,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2504,7 +2523,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     js-conflux-sdk: ^1.5.11
@@ -2537,7 +2556,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2553,7 +2572,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.11
     ethers: ^5.6.5
     nock: 13.2.9
@@ -2572,7 +2591,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     decimal.js: ^10.3.1
     ethers: 5.0.32
     moment: ^2.29.1
@@ -2590,7 +2609,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -2608,7 +2627,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -2622,7 +2641,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2638,7 +2657,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2654,7 +2673,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2670,7 +2689,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2687,7 +2706,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: 5.4.7
     nock: 13.2.9
     tslib: ^2.3.1
@@ -2702,7 +2721,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -2721,7 +2740,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2738,7 +2757,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -2752,7 +2771,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2768,7 +2787,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.11
     ethers: ^5.5.4
     nock: ^13.2.4
@@ -2786,7 +2805,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2802,7 +2821,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     dwolla-v2: ^3.2.0
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -2817,7 +2836,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -2831,7 +2850,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2848,7 +2867,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -2864,7 +2883,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     bignumber.js: ^9.0.1
     ethers: ^5.3.0
@@ -2886,7 +2905,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -2904,11 +2923,11 @@ __metadata:
   dependencies:
     "@node-redis/client": 1.0.6
     "@reduxjs/toolkit": ^1.6.1
-    "@types/fast-redact": 3.0.1
+    "@types/fast-redact": 3.0.2
     "@types/jest": 27.5.2
-    "@types/lodash": 4.14.182
+    "@types/lodash": 4.14.185
     "@types/lru-cache": 5.1.1
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
     "@types/object-path": 0.11.1
     "@types/pino": 6.3.12
@@ -2953,7 +2972,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/object-path": 0.11.1
     object-path: ^0.11.5
     tslib: ^2.3.1
@@ -2968,7 +2987,7 @@ __metadata:
     "@chainlink/contracts": ^0.0.14
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^4.0.48
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -2979,7 +2998,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-scripts@workspace:packages/scripts"
   dependencies:
-    "@actions/core": 1.9.0
+    "@actions/core": 1.9.1
     "@apidevtools/json-schema-ref-parser": 9.0.9
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
@@ -3016,9 +3035,9 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    hardhat: 2.9.9
+    hardhat: 2.10.2
     mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
@@ -3041,6 +3060,7 @@ __metadata:
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
     "@chainlink/armanino-adapter": "workspace:*"
+    "@chainlink/bank-frick-adapter": "workspace:*"
     "@chainlink/bea-adapter": "workspace:*"
     "@chainlink/binance-adapter": "workspace:*"
     "@chainlink/binance-dex-adapter": "workspace:*"
@@ -3081,6 +3101,7 @@ __metadata:
     "@chainlink/dwolla-adapter": "workspace:*"
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/dxfeed-secondary-adapter": "workspace:*"
+    "@chainlink/elwood-adapter": "workspace:*"
     "@chainlink/ens-adapter": "workspace:*"
     "@chainlink/enzyme-adapter": "workspace:*"
     "@chainlink/eodhistoricaldata-adapter": "workspace:*"
@@ -3097,6 +3118,7 @@ __metadata:
     "@chainlink/flightaware-adapter": "workspace:*"
     "@chainlink/fmpcloud-adapter": "workspace:*"
     "@chainlink/galaxis-adapter": "workspace:*"
+    "@chainlink/galaxy-adapter": "workspace:*"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/genesis-volatility-adapter": "workspace:*"
     "@chainlink/geodb-adapter": "workspace:*"
@@ -3163,7 +3185,23 @@ __metadata:
     "@chainlink/wrapped-adapter": "workspace:*"
     "@chainlink/xbto-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/elwood-adapter@workspace:*, @chainlink/elwood-adapter@workspace:packages/sources/elwood":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.0.3
+    "@types/node": 16.11.41
+    "@types/supertest": 2.0.12
+    nock: 13.2.7
+    supertest: 6.2.3
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3176,7 +3214,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: 5.5.4
     nock: 13.2.9
@@ -3193,7 +3231,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -3210,7 +3248,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3227,7 +3265,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -3244,7 +3282,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3260,7 +3298,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3276,7 +3314,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3292,7 +3330,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3308,7 +3346,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -3325,7 +3363,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/example-source-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3338,7 +3376,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3354,7 +3392,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3375,7 +3413,7 @@ __metadata:
     "@types/babel__preset-env": 7.9.2
     "@types/eslint": 7.29.0
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@typescript-eslint/eslint-plugin": 4.33.0
     "@typescript-eslint/parser": 4.33.0
     "@vercel/ncc": 0.29.2
@@ -3386,7 +3424,7 @@ __metadata:
     lint-staged: 11.2.6
     prettier: 2.7.1
     source-map-support: 0.5.21
-    ts-node: 10.8.2
+    ts-node: 10.9.1
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
@@ -3398,7 +3436,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3414,7 +3452,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3430,7 +3468,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3446,7 +3484,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3462,7 +3500,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3475,7 +3513,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3492,10 +3530,26 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@ethercards/ec-util": ^1.0.1
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.5.1
     moment: ^2.29.2
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/galaxy-adapter@workspace:*, @chainlink/galaxy-adapter@workspace:packages/sources/galaxy":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -3510,7 +3564,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3526,7 +3580,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3542,7 +3596,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3556,7 +3610,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@google-cloud/bigquery": ^5.7.1
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3571,7 +3625,7 @@ __metadata:
     "@chainlink/google-bigquery-adapter": "workspace:*"
     "@types/convert-units": 2.3.5
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     convert-units: ^2.3.4
     geojson-validation: ^1.0.2
     tslib: ^2.3.1
@@ -3586,7 +3640,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3602,7 +3656,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3615,7 +3669,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.11
     nock: 13.2.9
     supertest: 6.2.4
@@ -3634,7 +3688,7 @@ __metadata:
     "@harmony-js/crypto": ^0.1.56
     "@harmony-js/utils": ^0.1.56
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: 5.4.7
     nock: 13.2.9
@@ -3652,7 +3706,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     nock: 13.2.9
@@ -3669,7 +3723,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3685,7 +3739,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: ^0.26.1
     decimal.js: ^10.3.1
@@ -3703,7 +3757,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: ^0.24.0
     intrinio-realtime: ^2.3.0
@@ -3721,7 +3775,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     cids: ^1.1.8
     ipfs: ^0.60.0
     ipfs-core-types: ^0.9.0
@@ -3742,7 +3796,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: ^6.2.2
@@ -3758,7 +3812,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3774,7 +3828,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3790,7 +3844,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -3809,7 +3863,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3825,7 +3879,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -3843,7 +3897,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: ^0.24.0
     csv-parse: ^4.16.0
@@ -3864,7 +3918,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3877,7 +3931,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3891,7 +3945,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.7
     nock: 13.2.9
@@ -3911,7 +3965,7 @@ __metadata:
     "@chainlink/fcsapi-adapter": "workspace:*"
     "@chainlink/finnhub-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     market-closure: ^0.1.2
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -3925,7 +3979,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3941,7 +3995,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: ^0.24.0
     nock: 13.2.9
@@ -3958,7 +4012,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -3971,7 +4025,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -3987,7 +4041,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: ^6.2.2
@@ -4003,7 +4057,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4019,7 +4073,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -4035,7 +4089,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/uniswap-v2-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.5.4
@@ -4053,7 +4107,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4069,7 +4123,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4095,7 +4149,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4111,7 +4165,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4127,7 +4181,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4143,7 +4197,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4161,7 +4215,7 @@ __metadata:
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/sinon": 10.0.13
     axios: ^0.24.0
     sinon: 12.0.1
@@ -4177,7 +4231,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4194,7 +4248,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@paypal/payouts-sdk": ^1.1.0
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/paypal__payouts-sdk": 1.0.3
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -4208,7 +4262,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4224,7 +4278,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4240,7 +4294,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.11
     ethers: ^5.5.1
     nock: 13.2.9
@@ -4258,7 +4312,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 14.18.23
+    "@types/node": 14.18.24
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -4291,7 +4345,7 @@ __metadata:
     "@chainlink/wbtc-address-set-adapter": "workspace:*"
     "@chainlink/wrapped-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -4316,14 +4370,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/sources/reduce":
+"@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/non-deployable/reduce":
   version: 0.0.0-use.local
-  resolution: "@chainlink/reduce-adapter@workspace:packages/sources/reduce"
+  resolution: "@chainlink/reduce-adapter@workspace:packages/non-deployable/reduce"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     object-path: ^0.11.5
@@ -4341,7 +4395,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4358,7 +4412,7 @@ __metadata:
     "@renproject/ren": ^2.5.1
     "@renproject/utils": ^2.5.1
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     bitcoinjs-lib: ^5.2.0
     nock: 13.2.9
@@ -4375,7 +4429,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4392,7 +4446,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.5.1
     nock: 13.2.9
@@ -4410,7 +4464,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -4427,8 +4481,8 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/jsonwebtoken": 8.5.8
-    "@types/node": 16.11.47
+    "@types/jsonwebtoken": 8.5.9
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     jsonwebtoken: ^8.5.1
     nock: 13.2.9
@@ -4446,7 +4500,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -4464,7 +4518,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@solana/web3.js": ^1.33.0
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -4479,7 +4533,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/sinon": 10.0.13
     ethers: ^5.4.2
     nock: 13.2.9
@@ -4497,7 +4551,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/luxon": 2.4.0
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     luxon: ^2.0.2
@@ -4515,7 +4569,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.6.9
     nock: 13.2.9
@@ -4532,7 +4586,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4549,7 +4603,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     nock: 13.2.9
@@ -4568,7 +4622,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.6.5
     supertest: 6.2.4
@@ -4584,7 +4638,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4601,7 +4655,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@terra-money/terra.js": ^2.0.15
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4619,7 +4673,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/graphql-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -4632,7 +4686,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4648,7 +4702,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4657,9 +4711,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation":
+"@chainlink/token-allocation-adapter@workspace:*, @chainlink/token-allocation-adapter@workspace:packages/non-deployable/token-allocation":
   version: 0.0.0-use.local
-  resolution: "@chainlink/token-allocation-adapter@workspace:packages/composites/token-allocation"
+  resolution: "@chainlink/token-allocation-adapter@workspace:packages/non-deployable/token-allocation"
   dependencies:
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"
@@ -4677,7 +4731,7 @@ __metadata:
     "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/tiingo-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.9
@@ -4693,7 +4747,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4709,7 +4763,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4725,7 +4779,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4741,7 +4795,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4757,7 +4811,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4773,7 +4827,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -4791,7 +4845,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
@@ -4809,7 +4863,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4825,7 +4879,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4841,7 +4895,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     ethers: ^5.4.6
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -4855,7 +4909,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     nock: 13.2.9
@@ -4873,7 +4927,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4889,7 +4943,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4905,7 +4959,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4921,7 +4975,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
@@ -4938,7 +4992,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 16.11.47
+    "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     ethers: ^5.5.1
     nock: 13.2.9
@@ -8626,12 +8680,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solidity-parser/parser@npm:^0.14.1":
-  version: 0.14.1
-  resolution: "@solidity-parser/parser@npm:0.14.1"
+"@solidity-parser/parser@npm:^0.14.2":
+  version: 0.14.3
+  resolution: "@solidity-parser/parser@npm:0.14.3"
   dependencies:
     antlr4ts: ^0.5.0-alpha.4
-  checksum: 616df6c31007710f2a99f8022fa5917968bbe83293cdc0154ba378aad405c0fc0b7af45cf2c99d159ff0b24b67c7a9bc01f80178d086c705682f2f8c7f771137
+  checksum: 9a27eb961c22a3b8732bd9782ce3b7912e67b2e2183acada552116dd0bbe637c33265177ab3db9610063da48aa57299d67afdeb0616450b631a0e3da865c4e88
   languageName: node
   linkType: hard
 
@@ -9218,10 +9272,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fast-redact@npm:3.0.1":
-  version: 3.0.1
-  resolution: "@types/fast-redact@npm:3.0.1"
-  checksum: 0c5d8dbddfeec833e7d801d134a6a263c9cb69d6008ad59a56216a2715de53bd70369572f6b9829c9d1be66061116c5455208a0abbec438a225d7bb1d42d0dd5
+"@types/fast-redact@npm:3.0.2":
+  version: 3.0.2
+  resolution: "@types/fast-redact@npm:3.0.2"
+  checksum: d53f271ef024aebe292d0fad7863554ba3d7ad930faa7c53d3cc5b7c059639b579de5775f9944b6be7cb4ae878da8a78df1b8f9c1de9b803026c176dd067ceb0
   languageName: node
   linkType: hard
 
@@ -9269,6 +9323,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jest@npm:27.0.3":
+  version: 27.0.3
+  resolution: "@types/jest@npm:27.0.3"
+  dependencies:
+    jest-diff: ^27.0.0
+    pretty-format: ^27.0.0
+  checksum: 3683a9945821966f6dccddf337219a5d682633687c9d30df859223db553589f63e9b2c34e69f0cc845c86ffcf115742f25c12ea03c8d33d2244890fdc0af61e2
+  languageName: node
+  linkType: hard
+
 "@types/jest@npm:27.5.2":
   version: 27.5.2
   resolution: "@types/jest@npm:27.5.2"
@@ -9293,12 +9357,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:8.5.8":
-  version: 8.5.8
-  resolution: "@types/jsonwebtoken@npm:8.5.8"
+"@types/jsonwebtoken@npm:8.5.9":
+  version: 8.5.9
+  resolution: "@types/jsonwebtoken@npm:8.5.9"
   dependencies:
     "@types/node": "*"
-  checksum: 56738a918c543dba30786066959f801212e7fb5cd4ec53cf7b8d227711ed358834feb9e5141f7f88ec7c642bb39757330a5a8917e3b22e0ff9084940d35f0d70
+  checksum: 33815ab02d1371b423118316b7706d2f2ec03eeee5e1494be72da50425d2384e5e0a09ea193f7a5ab4b4f6a9c5847147305f50e965f3d927a95bdf8adb471b2a
   languageName: node
   linkType: hard
 
@@ -9345,7 +9409,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.182, @types/lodash@npm:^4.14.159":
+"@types/lodash@npm:4.14.185":
+  version: 4.14.185
+  resolution: "@types/lodash@npm:4.14.185"
+  checksum: f81d13da5ecab110ca9c5c7cc2bedc3c9802a6acf668576aecd1b8f4b134ed81d06c15f1e600fb08f05975098280a0d97d30cddfc2cb39ec1c6b56e971ca53b3
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.14.159":
   version: 4.14.182
   resolution: "@types/lodash@npm:4.14.182"
   checksum: 7dd137aa9dbabd632408bd37009d984655164fa1ecc3f2b6eb94afe35bf0a5852cbab6183148d883e9c73a958b7fec9a9bcf7c8e45d41195add6a18c34958209
@@ -9429,17 +9500,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.23":
-  version: 14.18.23
-  resolution: "@types/node@npm:14.18.23"
-  checksum: 119d5ab18426694ade0d3feefbdb42afc5a47b9144e523293f1554f9d34b41c7f21eafc9d0f1295db5700d134aa74e7fd37556e9438f6d64dbeddf791527e1e4
+"@types/node@npm:14.18.24":
+  version: 14.18.24
+  resolution: "@types/node@npm:14.18.24"
+  checksum: 631b86787a2110048bcd45d2555e6b9265594a6c65bcdc9947004cbdf1b4b9c8f84b7f0c4f03e4b0b1d24fd821c8d39b931073e21832c8c29dc74de060efd11d
   languageName: node
   linkType: hard
 
-"@types/node@npm:16.11.47":
-  version: 16.11.47
-  resolution: "@types/node@npm:16.11.47"
-  checksum: 26811000753fd1bb9a90a563fc72942ac3ad5d5b6c97609a090c1e24210e040597ba060e55a7a46cb22cc84dafee112d741f45652139c6166e8ce0c970b4f05a
+"@types/node@npm:16.11.41":
+  version: 16.11.41
+  resolution: "@types/node@npm:16.11.41"
+  checksum: 808e4d65757bb13cf25e88dfa4e65880efef06652b04baecb051eb90cf090dda9812aa3505b31e963a48041eed7dbe0fc59c44c7c5e117da952ff951bf3a584a
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:16.11.51":
+  version: 16.11.51
+  resolution: "@types/node@npm:16.11.51"
+  checksum: b4193d3f9d4240d866db0ca50de4a8c3b68fd81754d0a572712b559497d0f34931e4246ce0b2692afc8f8def9fcc69fd176bd7176af896d07eefa6d78d886425
   languageName: node
   linkType: hard
 
@@ -9664,6 +9742,20 @@ __metadata:
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
   checksum: 205fdbe3326b7046d7eaf5e494d8084f2659086a266f3f9cf00bccc549c8e36e407f88168ad4383c8b07099957ad669f75f2532ed4bc70be2b037330f7bae019
+  languageName: node
+  linkType: hard
+
+"@types/strip-bom@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/strip-bom@npm:3.0.0"
+  checksum: cb165d0c2ce6abbef95506ebee25be02bd453600ef1792dc1754236e5d6f9c830d52bdb85978d0b08ea1f36b96a61235ac5ad99e0f4c2767fb4ea004e141d2df
+  languageName: node
+  linkType: hard
+
+"@types/strip-json-comments@npm:0.0.30":
+  version: 0.0.30
+  resolution: "@types/strip-json-comments@npm:0.0.30"
+  checksum: 829ddd389645073f347c5b1924a8c34b8813af29756576e511c46f40e218193cf93ccbade62661d47fc70f707e98f410331729b8c20edfcb2e807d51df1ad4b7
   languageName: node
   linkType: hard
 
@@ -12104,7 +12196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:3.5.3, chokidar@npm:^3.4.0":
+"chokidar@npm:3.5.3, chokidar@npm:^3.4.0, chokidar@npm:^3.5.1":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -13125,7 +13217,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:*, debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.0, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:~4.3.1, debug@npm:~4.3.2":
+"debug@npm:*, debug@npm:4, debug@npm:4.3.4, debug@npm:^4.0.0, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.0, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.3, debug@npm:^4.3.4, debug@npm:~4.3.1, debug@npm:~4.3.2":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -13143,18 +13235,6 @@ __metadata:
   dependencies:
     ms: 2.0.0
   checksum: d2f51589ca66df60bf36e1fa6e4386b318c3f1e06772280eea5b1ae9fd3d05e9c2b7fd8a7d862457d00853c75b00451aa2d7459b924629ee385287a650f58fe6
-  languageName: node
-  linkType: hard
-
-"debug@npm:4.3.3":
-  version: 4.3.3
-  resolution: "debug@npm:4.3.3"
-  dependencies:
-    ms: 2.1.2
-  peerDependenciesMeta:
-    supports-color:
-      optional: true
-  checksum: 14472d56fe4a94dbcfaa6dbed2dd3849f1d72ba78104a1a328047bb564643ca49df0224c3a17fa63533fd11dd3d4c8636cd861191232a2c6735af00cc2d4de16
   languageName: node
   linkType: hard
 
@@ -13188,6 +13268,13 @@ __metadata:
   version: 4.0.0
   resolution: "decamelize@npm:4.0.0"
   checksum: b7d09b82652c39eead4d6678bb578e3bebd848add894b76d0f6b395bc45b2d692fb88d977e7cfb93c4ed6c119b05a1347cef261174916c2e75c0a8ca57da1809
+  languageName: node
+  linkType: hard
+
+"decimal.js-light@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "decimal.js-light@npm:2.5.1"
+  checksum: f5a2c7eac1c4541c8ab8a5c8abea64fc1761cefc7794bd5f8afd57a8a78d1b51785e0c4e4f85f4895a043eaa90ddca1edc3981d1263eb6ddce60f32bf5fe66c9
   languageName: node
   linkType: hard
 
@@ -13732,6 +13819,15 @@ __metadata:
     lodash.snakecase: ^4.1.1
     node-fetch: ^2.6.2
   checksum: bccd74d866903447456ffdbb5518f107d21bef98bc378758abf9dca109cb08ad870ca1cb94de54b2a62649c3b3f4fbed2c737c35fdaab63941a94eec88962014
+  languageName: node
+  linkType: hard
+
+"dynamic-dedupe@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "dynamic-dedupe@npm:0.3.0"
+  dependencies:
+    xtend: ^4.0.0
+  checksum: 5178b99ad30a59234c63b38b453183cfd0a6cb7acbe7b94b7aea9bf0f75376fdaab6e2ea7922931cfc0152390ccb20bd024d8d80b4fc8c3c3255a2fcadf2cafb
   languageName: node
   linkType: hard
 
@@ -14459,7 +14555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethereum-cryptography@npm:^0.1.2, ethereum-cryptography@npm:^0.1.3":
+"ethereum-cryptography@npm:^0.1.3":
   version: 0.1.3
   resolution: "ethereum-cryptography@npm:0.1.3"
   dependencies:
@@ -16166,13 +16262,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"growl@npm:1.10.5":
-  version: 1.10.5
-  resolution: "growl@npm:1.10.5"
-  checksum: 4b86685de6831cebcbb19f93870bea624afee61124b0a20c49017013987cd129e73a8c4baeca295728f41d21265e1f859d25ef36731b142ca59c655fea94bb1a
-  languageName: node
-  linkType: hard
-
 "grunt-ts@npm:^6.0.0-beta.22":
   version: 6.0.0-beta.22
   resolution: "grunt-ts@npm:6.0.0-beta.22"
@@ -16252,9 +16341,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hardhat@npm:2.9.9":
-  version: 2.9.9
-  resolution: "hardhat@npm:2.9.9"
+"hardhat@npm:2.10.2":
+  version: 2.10.2
+  resolution: "hardhat@npm:2.10.2"
   dependencies:
     "@ethereumjs/block": ^3.6.2
     "@ethereumjs/blockchain": ^5.5.2
@@ -16264,7 +16353,7 @@ __metadata:
     "@ethersproject/abi": ^5.1.2
     "@metamask/eth-sig-util": ^4.0.0
     "@sentry/node": ^5.18.1
-    "@solidity-parser/parser": ^0.14.1
+    "@solidity-parser/parser": ^0.14.2
     "@types/bn.js": ^5.1.0
     "@types/lru-cache": ^5.1.0
     abort-controller: ^3.0.0
@@ -16277,7 +16366,7 @@ __metadata:
     debug: ^4.1.1
     enquirer: ^2.3.0
     env-paths: ^2.2.0
-    ethereum-cryptography: ^0.1.2
+    ethereum-cryptography: ^1.0.3
     ethereumjs-abi: ^0.6.8
     ethereumjs-util: ^7.1.4
     find-up: ^2.1.0
@@ -16289,7 +16378,7 @@ __metadata:
     lodash: ^4.17.11
     merkle-patricia-tree: ^4.2.4
     mnemonist: ^0.38.0
-    mocha: ^9.2.0
+    mocha: ^10.0.0
     p-map: ^4.0.0
     qs: ^6.7.0
     raw-body: ^2.4.1
@@ -16314,7 +16403,7 @@ __metadata:
       optional: true
   bin:
     hardhat: internal/cli/cli.js
-  checksum: 1d30f4b5e56de82608e0fc8436b8338d5f6eb79125229236d65e32f4f0da39e9649c3a7138e743c62bb2fa1b00eac91e67cdb1775cd934fb8daedb1ede6eea01
+  checksum: 3034a213d25d2727fc80e4b45a6e82dc0ae01ec7b9fb669ee3650fa8a1ba8d38f29f689440826b8747fb2647882da15efb524d077e18c7e9eb55ebd574b9052a
   languageName: node
   linkType: hard
 
@@ -17843,6 +17932,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-core-module@npm:^2.9.0":
+  version: 2.10.0
+  resolution: "is-core-module@npm:2.10.0"
+  dependencies:
+    has: ^1.0.3
+  checksum: 0f3f77811f430af3256fa7bbc806f9639534b140f8ee69476f632c3e1eb4e28a38be0b9d1b8ecf596179c841b53576129279df95e7051d694dac4ceb6f967593
+  languageName: node
+  linkType: hard
+
 "is-data-descriptor@npm:^0.1.4":
   version: 0.1.4
   resolution: "is-data-descriptor@npm:0.1.4"
@@ -18917,7 +19015,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^27.5.1":
+"jest-diff@npm:^27.0.0, jest-diff@npm:^27.5.1":
   version: 27.5.1
   resolution: "jest-diff@npm:27.5.1"
   dependencies:
@@ -21458,12 +21556,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:4.2.1":
-  version: 4.2.1
-  resolution: "minimatch@npm:4.2.1"
+"minimatch@npm:5.0.1":
+  version: 5.0.1
+  resolution: "minimatch@npm:5.0.1"
   dependencies:
-    brace-expansion: ^1.1.7
-  checksum: 2b1514e3d0f29a549912f0db7ae7b82c5cab4a8f2dd0369f1c6451a325b3f12b2cf473c95873b6157bb8df183d6cf6db82ff03614b6adaaf1d7e055beccdfd01
+    brace-expansion: ^2.0.1
+  checksum: b34b98463da4754bc526b244d680c69d4d6089451ebe512edaf6dd9eeed0279399cfa3edb19233513b8f830bf4bfcad911dddcdf125e75074100d52f724774f0
   languageName: node
   linkType: hard
 
@@ -21654,38 +21752,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mocha@npm:^9.2.0":
-  version: 9.2.2
-  resolution: "mocha@npm:9.2.2"
+"mocha@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "mocha@npm:10.0.0"
   dependencies:
     "@ungap/promise-all-settled": 1.1.2
     ansi-colors: 4.1.1
     browser-stdout: 1.3.1
     chokidar: 3.5.3
-    debug: 4.3.3
+    debug: 4.3.4
     diff: 5.0.0
     escape-string-regexp: 4.0.0
     find-up: 5.0.0
     glob: 7.2.0
-    growl: 1.10.5
     he: 1.2.0
     js-yaml: 4.1.0
     log-symbols: 4.1.0
-    minimatch: 4.2.1
+    minimatch: 5.0.1
     ms: 2.1.3
-    nanoid: 3.3.1
+    nanoid: 3.3.3
     serialize-javascript: 6.0.0
     strip-json-comments: 3.1.1
     supports-color: 8.1.1
-    which: 2.0.2
-    workerpool: 6.2.0
+    workerpool: 6.2.1
     yargs: 16.2.0
     yargs-parser: 20.2.4
     yargs-unparser: 2.0.0
   bin:
     _mocha: bin/_mocha
-    mocha: bin/mocha
-  checksum: 4d5ca4ce33fc66627e63acdf09a634e2358c9a00f61de7788b1091b6aad430da04f97f9ecb82d56dc034b623cb833b65576136fd010d77679c03fcea5bc1e12d
+    mocha: bin/mocha.js
+  checksum: ba49ddcf8015a467e744b06c396aab361b1281302e38e7c1269af25ba51ff9ab681a9c36e9046bb7491e751cd7d5ce85e276a00ce7e204f96b2c418e4595edfe
   languageName: node
   linkType: hard
 
@@ -21962,12 +22058,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:3.3.1":
-  version: 3.3.1
-  resolution: "nanoid@npm:3.3.1"
+"nanoid@npm:3.3.3":
+  version: 3.3.3
+  resolution: "nanoid@npm:3.3.3"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 4ef0969e1bbe866fc223eb32276cbccb0961900bfe79104fa5abe34361979dead8d0e061410a5c03bc3d47455685adf32c09d6f27790f4a6898fb51f7df7ec86
+  checksum: ada019402a07464a694553c61d2dca8a4353645a7d92f2830f0d487fedff403678a0bee5323a46522752b2eab95a0bc3da98b6cccaa7c0c55cd9975130e6d6f0
   languageName: node
   linkType: hard
 
@@ -22145,6 +22241,18 @@ __metadata:
   version: 1.2.14
   resolution: "noble-secp256k1@npm:1.2.14"
   checksum: 5e8cfab31455d0bfd55a371b2d8e405cef1b25c92be7a0f7b559381204a85c6bd2455af5cc46d9523aaf775e6f3d30b3ce0911dfe19d8bcd5dc8f7b4afe98074
+  languageName: node
+  linkType: hard
+
+"nock@npm:13.2.7":
+  version: 13.2.7
+  resolution: "nock@npm:13.2.7"
+  dependencies:
+    debug: ^4.1.0
+    json-stringify-safe: ^5.0.1
+    lodash: ^4.17.21
+    propagate: ^2.0.0
+  checksum: 0d7d3163ca973393d43a0334aafe59677ca6e7eea133338166be9bd06e577667da2dd2d5148046022b9e9dd4339f5ae5d0ef0274abc1462c4e896f8729c24b40
   languageName: node
   linkType: hard
 
@@ -24526,6 +24634,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"resolve@npm:^1.0.0":
+  version: 1.22.1
+  resolution: "resolve@npm:1.22.1"
+  dependencies:
+    is-core-module: ^2.9.0
+    path-parse: ^1.0.7
+    supports-preserve-symlinks-flag: ^1.0.0
+  bin:
+    resolve: bin/resolve
+  checksum: 07af5fc1e81aa1d866cbc9e9460fbb67318a10fa3c4deadc35c3ad8a898ee9a71a86a65e4755ac3195e0ea0cfbe201eb323ebe655ce90526fd61917313a34e4e
+  languageName: node
+  linkType: hard
+
 "resolve@npm:^1.1.6, resolve@npm:^1.10.0, resolve@npm:^1.14.2, resolve@npm:^1.20.0, resolve@npm:^1.9.0":
   version: 1.22.0
   resolution: "resolve@npm:1.22.0"
@@ -24545,6 +24666,19 @@ __metadata:
   dependencies:
     path-parse: ^1.0.6
   checksum: 6fd799f282ddf078c4bc20ce863e3af01fa8cb218f0658d9162c57161a2dbafe092b13015b9a4c58d0e1e801cf7aa7a4f13115fea9db98c3f9a0c43e429bad6f
+  languageName: node
+  linkType: hard
+
+"resolve@patch:resolve@^1.0.0#~builtin<compat/resolve>":
+  version: 1.22.1
+  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"
+  dependencies:
+    is-core-module: ^2.9.0
+    path-parse: ^1.0.7
+    supports-preserve-symlinks-flag: ^1.0.0
+  bin:
+    resolve: bin/resolve
+  checksum: 5656f4d0bedcf8eb52685c1abdf8fbe73a1603bb1160a24d716e27a57f6cecbe2432ff9c89c2bd57542c3a7b9d14b1882b73bfe2e9d7849c9a4c0b8b39f02b8b
   languageName: node
   linkType: hard
 
@@ -25587,7 +25721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:0.5.21, source-map-support@npm:^0.5.13, source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.20":
+"source-map-support@npm:0.5.21, source-map-support@npm:^0.5.12, source-map-support@npm:^0.5.13, source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.20":
   version: 0.5.21
   resolution: "source-map-support@npm:0.5.21"
   dependencies:
@@ -26066,7 +26200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-json-comments@npm:~2.0.1":
+"strip-json-comments@npm:^2.0.0, strip-json-comments@npm:~2.0.1":
   version: 2.0.1
   resolution: "strip-json-comments@npm:2.0.1"
   checksum: 1074ccb63270d32ca28edfb0a281c96b94dc679077828135141f27d52a5a398ef5e78bcf22809d23cadc2b81dfbe345eb5fd8699b385c8b1128907dec4a7d1e1
@@ -26190,6 +26324,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"supertest@npm:6.2.3, supertest@npm:^6.2.2":
+  version: 6.2.3
+  resolution: "supertest@npm:6.2.3"
+  dependencies:
+    methods: ^1.1.2
+    superagent: ^7.1.3
+  checksum: c1bed86c31723a4bc461153a58176fd80d675deb7d23ab7bd170213040673b35c38e3cbeab9a4eb8a325cf736176c08c6f6522e42f0293314f183e192a6681fa
+  languageName: node
+  linkType: hard
+
 "supertest@npm:6.2.4":
   version: 6.2.4
   resolution: "supertest@npm:6.2.4"
@@ -26197,16 +26341,6 @@ __metadata:
     methods: ^1.1.2
     superagent: ^8.0.0
   checksum: f2ddc4f3ba467a5c4036dd4aad41351e4b60eb13c39ecf5233ccd2ebb425504073b2b7036c973a70c7047f5c6bc1b9fef096b7bbff114d357cbe80654441db23
-  languageName: node
-  linkType: hard
-
-"supertest@npm:^6.2.2":
-  version: 6.2.3
-  resolution: "supertest@npm:6.2.3"
-  dependencies:
-    methods: ^1.1.2
-    superagent: ^7.1.3
-  checksum: c1bed86c31723a4bc461153a58176fd80d675deb7d23ab7bd170213040673b35c38e3cbeab9a4eb8a325cf736176c08c6f6522e42f0293314f183e192a6681fa
   languageName: node
   linkType: hard
 
@@ -26773,6 +26907,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tree-kill@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "tree-kill@npm:1.2.2"
+  bin:
+    tree-kill: cli.js
+  checksum: 49117f5f410d19c84b0464d29afb9642c863bc5ba40fcb9a245d474c6d5cc64d1b177a6e6713129eb346b40aebb9d4631d967517f9fbe8251c35b21b13cd96c7
+  languageName: node
+  linkType: hard
+
 "treeify@npm:^1.1.0":
   version: 1.1.0
   resolution: "treeify@npm:1.1.0"
@@ -26841,9 +26984,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:10.8.2":
-  version: 10.8.2
-  resolution: "ts-node@npm:10.8.2"
+"ts-node-dev@npm:2.0.0":
+  version: 2.0.0
+  resolution: "ts-node-dev@npm:2.0.0"
+  dependencies:
+    chokidar: ^3.5.1
+    dynamic-dedupe: ^0.3.0
+    minimist: ^1.2.6
+    mkdirp: ^1.0.4
+    resolve: ^1.0.0
+    rimraf: ^2.6.1
+    source-map-support: ^0.5.12
+    tree-kill: ^1.2.2
+    ts-node: ^10.4.0
+    tsconfig: ^7.0.0
+  peerDependencies:
+    node-notifier: "*"
+    typescript: "*"
+  peerDependenciesMeta:
+    node-notifier:
+      optional: true
+  bin:
+    ts-node-dev: lib/bin.js
+    tsnd: lib/bin.js
+  checksum: d654b401de3d13c167981481be2a375229f6bfd2aeedf43bc0b6816e57676fcbfba3afdcf209c7a06fb6bd8768ca548c2eb0a0c9d38fa42246be3f50df1b28fb
+  languageName: node
+  linkType: hard
+
+"ts-node@npm:10.9.1, ts-node@npm:^10.4.0":
+  version: 10.9.1
+  resolution: "ts-node@npm:10.9.1"
   dependencies:
     "@cspotcode/source-map-support": ^0.8.0
     "@tsconfig/node10": ^1.0.7
@@ -26875,7 +27045,19 @@ __metadata:
     ts-node-script: dist/bin-script.js
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
-  checksum: 1eede939beed9f4db35bcc88d78ef803815b99dcdbed1ecac728d861d74dc694918a7f0f437aa08d026193743a31e7e00e2ee34f875f909b5879981c1808e2a7
+  checksum: 090adff1302ab20bd3486e6b4799e90f97726ed39e02b39e566f8ab674fd5bd5f727f43615debbfc580d33c6d9d1c6b1b3ce7d8e3cca3e20530a145ffa232c35
+  languageName: node
+  linkType: hard
+
+"tsconfig@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "tsconfig@npm:7.0.0"
+  dependencies:
+    "@types/strip-bom": ^3.0.0
+    "@types/strip-json-comments": 0.0.30
+    strip-bom: ^3.0.0
+    strip-json-comments: ^2.0.0
+  checksum: 8bce05e93c673defd56d93d83d4055e49651d3947c076339c4bc15d47b7eb5029bed194087e568764213a2e4bf45c477ba9f4da16adfd92cd901af7c09e4517e
   languageName: node
   linkType: hard
 
@@ -28496,17 +28678,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"which@npm:2.0.2, which@npm:^2.0.1, which@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "which@npm:2.0.2"
-  dependencies:
-    isexe: ^2.0.0
-  bin:
-    node-which: ./bin/node-which
-  checksum: 1a5c563d3c1b52d5f893c8b61afe11abc3bab4afac492e8da5bde69d550de701cf9806235f20a47b5c8fa8a1d6a9135841de2596535e998027a54589000e66d1
-  languageName: node
-  linkType: hard
-
 "which@npm:^1.2.9":
   version: 1.3.1
   resolution: "which@npm:1.3.1"
@@ -28515,6 +28686,17 @@ __metadata:
   bin:
     which: ./bin/which
   checksum: f2e185c6242244b8426c9df1510e86629192d93c1a986a7d2a591f2c24869e7ffd03d6dac07ca863b2e4c06f59a4cc9916c585b72ee9fa1aa609d0124df15e04
+  languageName: node
+  linkType: hard
+
+"which@npm:^2.0.1, which@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "which@npm:2.0.2"
+  dependencies:
+    isexe: ^2.0.0
+  bin:
+    node-which: ./bin/node-which
+  checksum: 1a5c563d3c1b52d5f893c8b61afe11abc3bab4afac492e8da5bde69d550de701cf9806235f20a47b5c8fa8a1d6a9135841de2596535e998027a54589000e66d1
   languageName: node
   linkType: hard
 
@@ -28587,10 +28769,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"workerpool@npm:6.2.0":
-  version: 6.2.0
-  resolution: "workerpool@npm:6.2.0"
-  checksum: 3493b4f0ef979a23d2c1583d7ef85f62fc9463cc02f82829d3e7e663b517f8ae9707da0249b382e46ac58986deb0ca2232ee1081713741211bda9254b429c9bb
+"workerpool@npm:6.2.1":
+  version: 6.2.1
+  resolution: "workerpool@npm:6.2.1"
+  checksum: c2c6eebbc5225f10f758d599a5c016fa04798bcc44e4c1dffb34050cd361d7be2e97891aa44419e7afe647b1f767b1dc0b85a5e046c409d890163f655028b09d
   languageName: node
   linkType: hard
 

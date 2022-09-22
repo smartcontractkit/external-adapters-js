@@ -1,0 +1,47 @@
+{
+  "name": "@chainlink/bank-frick-adapter",
+  "version": "0.0.6",
+  "description": "Chainlink bank-frick adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "bank-frick",
+    "pound-token"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist",
+    "dev": "NODE_ENV=develop tsnd --respawn --transpile-only --project tsconfig.json './src/index.ts'"
+  },
+  "dependencies": {
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
+    "decimal.js-light": "^2.5.1",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.51",
+    "@types/supertest": "2.0.12",
+    "nock": "13.2.9",
+    "supertest": "6.2.4",
+    "ts-node-dev": "2.0.0",
+    "typescript": "4.7.4"
+  }
+}

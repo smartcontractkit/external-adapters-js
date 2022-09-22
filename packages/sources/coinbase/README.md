@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinbase
 
-![1.4.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinbase/package.json)
 
 Query information from [Coinbase's API](https://developers.coinbase.com/api/v2)
 
@@ -82,16 +82,17 @@ Response:
 
 ## NftFloorPrice Endpoint
 
+Get NFT floor price for a given network, contractAddress & metricName. Note: metricName defaults to ETH_FLOOR_PRICE_ESTIMATE_BASE; if you want to use a different metricName, you should also supply a custom resultPath
+
 Supported names for this endpoint are: `nft-floor`, `nft-floor-price`.
 
 ### Input Params
 
-| Required? |      Name       | Aliases |                            Description                            |  Type  |                Options                |      Default       | Depends On | Not Valid With |
-| :-------: | :-------------: | :-----: | :---------------------------------------------------------------: | :----: | :-----------------------------------: | :----------------: | :--------: | :------------: |
-|           |     network     |         |              The blockchain network to get data from              | string | `ethereum-mainnet`, `polygon-mainnet` | `ethereum-mainnet` |            |                |
-|    ✅     | contractAddress |         |                     The NFT contract address                      | string |                                       |                    |            |                |
-|    ✅     |      start      |         | The beginning of the time window (inclusive, yyyy-mm-dd hh:mm:ss) | string |                                       |                    |            |                |
-|    ✅     |       end       |         |    The end of the time window (inclusive, yyyy-mm-dd hh:mm:ss)    | string |                                       |                    |            |                |
+| Required? |      Name       | Aliases |               Description               |  Type  |                Options                |             Default             | Depends On | Not Valid With |
+| :-------: | :-------------: | :-----: | :-------------------------------------: | :----: | :-----------------------------------: | :-----------------------------: | :--------: | :------------: |
+|           |     network     |         | The blockchain network to get data from | string | `ethereum-mainnet`, `polygon-mainnet` |       `ethereum-mainnet`        |            |                |
+|    ✅     | contractAddress |         |        The NFT contract address         | string |                                       |                                 |            |                |
+|           |   metricName    |         |        The metric name to query         | string |                                       | `ETH_FLOOR_PRICE_ESTIMATE_BASE` |            |                |
 
 ### Example
 
@@ -103,12 +104,11 @@ Request:
   "data": {
     "network": "ethereum-mainnet",
     "contractAddress": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
-    "start": "2022-05-25T12:00:00.000Z",
-    "end": "2022-05-25T12:00:00.000Z",
+    "metricName": "ETH_FLOOR_PRICE_ESTIMATE_BASE",
     "endpoint": "nft-floor-price"
   },
   "debug": {
-    "cacheKey": "BmlGY5Kks21C8iVAMfF69gxGtf4="
+    "cacheKey": "SA0YvJOf1PUwIFpDT0mYnwqpb34="
   },
   "rateLimitMaxAge": 740
 }
@@ -120,18 +120,14 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "floorPriceDailyValue": [
-      {
-        "date": "2022-05-11T00:00:00Z",
-        "multiplier": 1,
-        "priceStdDev": 0.12498363928979012,
-        "logFloorPrice": 4.569591987976991,
-        "adjustedFloorPrice": 85.16651572690085
-      }
-    ],
-    "result": 85.16651572690085
+    "value": {
+      "floor_price_estimate": "67.09079293",
+      "updated_at": "2022-09-09T06:12:31Z"
+    },
+    "metricName": "eth_floor_price_estimate_base",
+    "result": 67.09079293
   },
-  "result": 85.16651572690085,
+  "result": 67.09079293,
   "statusCode": 200,
   "providerStatusCode": 200
 }

@@ -3,11 +3,13 @@ import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-b
 
 export const supportedEndpoints = ['nft-floor', 'nft-floor-price']
 
+export const description =
+  'Get NFT floor price for a given network, contractAddress & metricName. Note: metricName defaults to ETH_FLOOR_PRICE_ESTIMATE_BASE; if you want to use a different metricName, you should also supply a custom resultPath'
+
 export type TInputParameters = {
   network?: string
   contractAddress: string
-  start: string
-  end: string
+  metricName?: string
 }
 export const inputParameters: InputParameters<TInputParameters> = {
   network: {
@@ -22,15 +24,10 @@ export const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     required: true,
   },
-  start: {
-    required: true,
-    description: 'The beginning of the time window (inclusive, yyyy-mm-dd hh:mm:ss)',
+  metricName: {
+    description: 'The metric name to query',
     type: 'string',
-  },
-  end: {
-    required: true,
-    description: 'The end of the time window (inclusive, yyyy-mm-dd hh:mm:ss)',
-    type: 'string',
+    default: 'ETH_FLOOR_PRICE_ESTIMATE_BASE',
   },
 }
 
@@ -50,17 +47,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const network = validator.validated.data.network
+  const networkName = validator.validated.data.network
   const contractAddress = validator.validated.data.contractAddress
-  const start = validator.validated.data.start
-  const end = validator.validated.data.end
+  const metricName = validator.validated.data.metricName
+  const resultPath = validator.validated.data.resultPath
 
-  const baseURL = `${config.adapterSpecificParams?.nftBaseURL}/api/nft/v1/GetFloorPriceEstimate`
+  const baseURL = `${config.adapterSpecificParams?.nftBaseURL}/api/nft/quant/v1/GetCollectionLatestMetric`
   const params = {
-    networkName: network,
-    contractAddress: contractAddress,
-    startDay: start,
-    endDay: end,
+    networkName,
+    contractAddress,
+    metricName,
   }
 
   const options = {
@@ -74,10 +70,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (config.adapterSpecificParams?.nftApiAuthHeader)
     options.headers['CB-NFT-API-TOKEN'] = String(config.adapterSpecificParams?.nftApiAuthHeader)
   const response = await Requester.request<ResponseSchema>(options)
-  const result = Requester.validateResultNumber(response.data, [
-    'floorPriceDailyValue',
-    0,
-    'adjustedFloorPrice',
-  ])
+  const result = Requester.validateResultNumber(
+    response.data,
+    resultPath || ['value', 'floor_price_estimate'],
+  )
   return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
 }
