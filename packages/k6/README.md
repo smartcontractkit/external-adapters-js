@@ -166,7 +166,7 @@ CACHE_ENABLED=true
 
 > **Note** > `[adapter].env` can be omitted if your EA doesn't require environment variables to be tested
 
-Then, remember to set the source URL for each EA you want to run in the `[adapter]_SOURCE_URL` env var.
+After creating the adapter specific env file, remember to set the source URL for each EA you want to run in the `[adapter]_SOURCE_URL` env var.
 E.g.:
 
 ```bash
