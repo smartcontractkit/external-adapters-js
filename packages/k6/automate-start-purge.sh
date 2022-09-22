@@ -11,3 +11,4 @@ do
    docker container rm "$adapterName-mock-api"
    docker network rm "$adapterName-network"
 done
+
