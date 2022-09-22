@@ -288,6 +288,9 @@
       "path": "./sources/eth-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/eth-beacon/tsconfig.test.json"
+    },
+    {
       "path": "./sources/etherchain/tsconfig.test.json"
     },
     {
@@ -463,6 +466,9 @@
     },
     {
       "path": "./sources/stasis/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/swell-address-list/tsconfig.test.json"
     },
     {
       "path": "./sources/synthetix-debt-pool/tsconfig.test.json"

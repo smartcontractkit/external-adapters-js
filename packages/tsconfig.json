@@ -291,6 +291,9 @@
       "path": "./sources/eth-balance"
     },
     {
+      "path": "./sources/eth-beacon"
+    },
+    {
       "path": "./sources/etherchain"
     },
     {
@@ -463,6 +466,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/swell-address-list"
     },
     {
       "path": "./sources/synthetix-debt-pool"

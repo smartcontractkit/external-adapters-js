@@ -26,6 +26,8 @@
     { "path": "../../sources/renvm-address-set" },
     { "path": "../../sources/sochain" },
     { "path": "../../sources/wbtc-address-set" },
-    { "path": "../../sources/wrapped" }
+    { "path": "../../sources/wrapped" },
+    { "path": "../../sources/eth-beacon" },
+    { "path": "../../sources/swell-address-list" }
   ]
 }

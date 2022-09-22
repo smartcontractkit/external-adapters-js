@@ -20,6 +20,7 @@ import * as sochain from '@chainlink/sochain-adapter'
 import * as lotus from '@chainlink/lotus-adapter'
 import * as ethBalance from '@chainlink/eth-balance-adapter'
 import * as adaBalance from '@chainlink/ada-balance-adapter'
+import * as ethBeacon from '@chainlink/eth-beacon-adapter'
 
 // TODO: type
 export const adapters: AdapterImplementation[] = [
@@ -35,6 +36,7 @@ export const adapters: AdapterImplementation[] = [
   lotus as unknown as AdapterImplementation,
   ethBalance as unknown as AdapterImplementation,
   adaBalance as unknown as AdapterImplementation,
+  ethBeacon as unknown as AdapterImplementation,
 ]
 
 export type Indexer = typeof adapters[number]['NAME']
