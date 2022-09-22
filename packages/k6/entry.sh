@@ -33,17 +33,27 @@ else
 fi
 
 # if this is being run against a pr then post results
-if [ ! -z ${PR_NUMBER+x} ]; then 
+if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
+  TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
-    FAILURE_DATA=$(tail -n 150 ~/testResults.txt)
     # push fail data to pr as a comment
     # gh pr review ${PR_NUMBER} -R smartcontractkit/external-adapters-js -c -b "${FAILURE_DATA}"
-    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "Soak test for ${CI_ADAPTER_NAME} failed: \`${FAILURE_DATA}\`"
+    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>:warning: Soak test for ${CI_ADAPTER_NAME} failed :warning:</summary>
+
+\`\`\`
+${TEST_OUTPUT}
+\`\`\`
+</details>"
   else
     echo "test passed"
     # gh pr review ${PR_NUMBER} -R smartcontractkit/external-adapters-js -c -b "Soak tests look good"
-    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "Soak test for ${CI_ADAPTER_NAME} passed"
+    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>:heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded</summary>
+
+\`\`\`
+${TEST_OUTPUT}
+\`\`\`
+</details>"
   fi
 fi
