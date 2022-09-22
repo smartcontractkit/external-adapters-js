@@ -138,7 +138,7 @@ const instantiateStarkwareConfig = (): ExtendedConfig['starkwareConfig'] => {
     DEFAULT_STARKWARE_DUMMY_ACCOUNT_ADDRESS
   return {
     provider: new SequencerProvider({
-      baseUrl: DEFAULT_STARKWARE_SEQUENCER_ENDPOINT,
+      baseUrl,
       feederGatewayUrl: `${baseUrl}/${feederGatewayUrl}`,
       gatewayUrl: `${baseUrl}/${gatewayUrl}`,
     }),
