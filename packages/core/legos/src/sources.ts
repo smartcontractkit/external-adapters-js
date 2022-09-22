@@ -54,6 +54,7 @@ import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
 import * as eth_balance from '@chainlink/eth-balance-adapter'
+import * as eth_beacon from '@chainlink/eth-beacon-adapter'
 import * as etherchain from '@chainlink/etherchain-adapter'
 import * as etherscan from '@chainlink/etherscan-adapter'
 import * as ethgasstation from '@chainlink/ethgasstation-adapter'
@@ -113,6 +114,7 @@ import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
 import * as stader_labs from '@chainlink/stader-labs-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
+import * as swell_address_list from '@chainlink/swell-address-list-adapter'
 import * as synthetix_debt_pool from '@chainlink/synthetix-debt-pool-adapter'
 import * as taapi from '@chainlink/taapi-adapter'
 import * as terra_view_function from '@chainlink/terra-view-function-adapter'
@@ -190,6 +192,7 @@ export default {
   enzyme,
   eodhistoricaldata,
   eth_balance,
+  eth_beacon,
   etherchain,
   etherscan,
   ethgasstation,
@@ -249,6 +252,7 @@ export default {
   sportsdataio,
   stader_labs,
   stasis,
+  swell_address_list,
   synthetix_debt_pool,
   taapi,
   terra_view_function,
