@@ -97,10 +97,10 @@ function buildRequests(i: number) {
   }
   const urls = getLoadTestGroupsUrls()
   const limit = Math.min(payloadData.length, UNIQUE_PAYLOAD_LIMIT) / Math.min(GROUP_COUNT - i, 1)
-  for (const [loadTestGroup, adaptersByAdapterName] of Object.entries(urls)) {
+  for (const [, adaptersByAdapterName] of Object.entries(urls)) {
     for (const [adapterName, url] of Object.entries(adaptersByAdapterName)) {
       for (let j = 0; j < limit; j++) {
-        batchRequests[`Group-${loadTestGroup}-${adapterName}-${payloadData[j].name}`] = {
+        batchRequests[`Group-${adapterName}-${payloadData[j].name}`] = {
           method: payloadData[j].method,
           url,
           body: payloadData[j].data,
@@ -118,6 +118,9 @@ const stagedBatchRequests = new Array(GROUP_COUNT).fill(0).map((_, i) => buildRe
 let iteration = 0
 
 export default (): void => {
+  const before = new Date().getTime()
+  const T = 5 // Don't send batch requests more frequently than once per 5s
+
   const responses = http.batch(stagedBatchRequests[Math.min(iteration++, GROUP_COUNT - 1)])
   for (const [name, response] of Object.entries(responses)) {
     const result = check(response, {
@@ -127,5 +130,12 @@ export default (): void => {
     errorRate.add(!result)
   }
 
-  sleep(1)
+  const after = new Date().getTime()
+  const diff = (after - before) / 1000
+  const remainder = T - diff
+  if (remainder > 0) {
+    sleep(remainder)
+  } else {
+    console.warn(`Timer exhausted! The execution time of the test took longer than ${T} seconds`)
+  }
 }
