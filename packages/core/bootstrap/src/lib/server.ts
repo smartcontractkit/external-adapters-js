@@ -144,7 +144,7 @@ export const initHandler =
     })
 
     return new Promise((resolve) => {
-      app.listen(port, eaHost, (_, address) => {
+      app.listen({ port, host: '0.0.0.0' }, (_, address) => {
         logger.info(`Server listening on ${address}!`)
         resolve(app)
       })
