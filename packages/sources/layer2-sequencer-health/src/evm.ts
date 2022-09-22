@@ -6,7 +6,14 @@ import {
   Requester,
 } from '@chainlink/ea-bootstrap'
 import { BigNumber, ethers } from 'ethers'
-import { DEFAULT_PRIVATE_KEY, EVMNetworks, ExtendedConfig, Networks, RPC_ENDPOINTS } from './config'
+import {
+  CHAIN_IDS,
+  DEFAULT_PRIVATE_KEY,
+  EVMNetworks,
+  ExtendedConfig,
+  Networks,
+  RPC_ENDPOINTS,
+} from './config'
 import { race, ResponseSchema, retry } from './network'
 
 export const sendEVMDummyTransaction = async (
@@ -14,7 +21,8 @@ export const sendEVMDummyTransaction = async (
   timeout: number,
 ): Promise<void> => {
   const rpcEndpoint = RPC_ENDPOINTS[network]
-  const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint)
+  const chainId = CHAIN_IDS[network]
+  const provider = new ethers.providers.JsonRpcProvider(rpcEndpoint, chainId)
   const wallet = new ethers.Wallet(DEFAULT_PRIVATE_KEY, provider)
 
   const networkTx: Record<EVMNetworks, ethers.providers.TransactionRequest> = {
