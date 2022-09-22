@@ -102,7 +102,8 @@ const computePrice = async (
   additionalInput: Record<string, unknown>,
 ) => {
   const symbols = (allocations as TokenAllocations).map((t) => t.symbol)
-  const payload = await getPrices(symbols, quote, additionalInput, false)
+  const uniqueSymbols = Array.from(new Set(symbols))
+  const payload = await getPrices(uniqueSymbols, quote, additionalInput, false)
   const result = priceTotalValue(source, allocations, quote, payload)
   return { payload, result }
 }
