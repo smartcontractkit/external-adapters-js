@@ -186,7 +186,7 @@ jobs:
               HELM_SECRETS_PATH=./adapter-secrets/secure-sdlc/secrets.${adapter}.yaml
               if test -f "$HELM_SECRETS_PATH"
                 then
-                  AWS_PROFILE=qa-sdlc HELM_SECRETS_PATH=${HELM_SECRETS_PATH} yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
+                  HELM_SECRETS_PATH=${HELM_SECRETS_PATH} yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
                 else 
                   yarn qa:adapter start ${adapter} ${PR_NUMBER} ${IMAGE_TAG}
               fi
