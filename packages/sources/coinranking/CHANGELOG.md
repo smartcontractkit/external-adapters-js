@@ -1,5 +1,14 @@
 # @chainlink/coinranking-adapter
 
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.3.8
 
 ### Patch Changes
