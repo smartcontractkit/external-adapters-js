@@ -15,6 +15,7 @@ export const sendDummyStarkwareTransaction = async (config: ExtendedConfig): Pro
   const provider = config.starkwareConfig.provider
   const account = new Account(provider, config.starkwareConfig.dummyAccountAddress, starkKeyPair)
 
+  // We send an empty transaction to Starknet and see if we get back an expected error.
   await race<InvokeFunctionResponse>({
     timeout: config.timeoutLimit,
     promise: account.execute(

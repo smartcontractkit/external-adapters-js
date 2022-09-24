@@ -71,7 +71,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   // #1 Option: Direct check on health endpoint
   // #2 Option: Check block height
   // If every method succeeds, the Network is considered healthy
-  // If any method fails, an empty tx is sent. This determines the final state
+  // If any method fails, the EA sends an empty transaction to the network.  The
+  // Sequencer is considered to be healthy if the networks returns an expected
+  // error and does not timeout.
   const wrappedMethods = [checkSequencerHealth, checkNetworkProgress].map(_tryMethod)
   for (let i = 0; i < wrappedMethods.length; i++) {
     const method = wrappedMethods[i]

@@ -16,6 +16,13 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   // TODO: Optimism error needs to be confirmed by their team
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
   [Networks.Metis]: ['cannot accept 0 gas price transaction'],
+  // Sending an empty transaction to the dummy Starknet address should return one
+  // of the following error messages.  The Sequencer is considered healthy if the
+  // EA gets back one of the errors below.
+  // UNINITIALIZED_CONTRACT is thrown whenever the dummy address has not been
+  // deployed to the network
+  // OUT_OF_RANGE_FEE is thrown when the network detects a transaction sent
+  // with 0 gas
   [Networks.Starkware]: [
     'StarknetErrorCode.UNINITIALIZED_CONTRACT',
     'StarknetErrorCode.OUT_OF_RANGE_FEE',
