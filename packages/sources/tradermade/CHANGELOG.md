@@ -1,5 +1,18 @@
 ## v1.1.0
 
+## 1.9.0
+
+### Minor Changes
+
+- f787edc1b: Changed tradermade inverse from USD/IDR to IDR/USD
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.8.2
 
 ### Patch Changes

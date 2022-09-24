@@ -1,5 +1,14 @@
 # @chainlink/paxos-adapter
 
+## 1.4.9
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.4.8
 
 ### Patch Changes

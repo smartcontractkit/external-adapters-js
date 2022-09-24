@@ -1,5 +1,40 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.13.0
+
+### Minor Changes
+
+- 80d8170a5: Add eth beacon as balance option
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+- Updated dependencies [80d8170a5]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/eth-beacon-adapter@1.0.0
+  - @chainlink/swell-address-list-adapter@1.0.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.17
+  - @chainlink/por-indexer-adapter@1.2.19
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/reduce-adapter@1.4.4
+  - @chainlink/ada-balance-adapter@2.5.17
+  - @chainlink/amberdata-adapter@1.8.10
+  - @chainlink/blockchain.com-adapter@1.3.17
+  - @chainlink/blockchair-adapter@1.3.17
+  - @chainlink/blockcypher-adapter@1.4.17
+  - @chainlink/btc.com-adapter@1.3.17
+  - @chainlink/celsius-address-list-adapter@2.0.1
+  - @chainlink/chain-reserve-wallet-adapter@3.0.1
+  - @chainlink/cryptoapis-adapter@1.2.17
+  - @chainlink/eth-balance-adapter@2.0.1
+  - @chainlink/gemini-adapter@2.2.17
+  - @chainlink/lotus-adapter@2.2.17
+  - @chainlink/renvm-address-set-adapter@1.5.10
+  - @chainlink/sochain-adapter@1.3.17
+  - @chainlink/wbtc-address-set-adapter@1.4.19
+  - @chainlink/wrapped-adapter@2.2.17
+
 ## 1.12.14
 
 ### Patch Changes
