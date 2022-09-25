@@ -4490,7 +4490,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/express", "npm:4.17.13"],\
+            ["@types/express", "npm:4.17.14"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -12664,10 +12664,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/express", [\
-        ["npm:4.17.13", {\
-          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.13-0e12fe9c24-12a2a0e6c4.zip/node_modules/@types/express/",\
+        ["npm:4.17.14", {\
+          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.14-076e1b4711-15c1af46d0.zip/node_modules/@types/express/",\
           "packageDependencies": [\
-            ["@types/express", "npm:4.17.13"],\
+            ["@types/express", "npm:4.17.14"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/express-serve-static-core", "npm:4.17.29"],\
             ["@types/qs", "npm:6.9.7"],\
