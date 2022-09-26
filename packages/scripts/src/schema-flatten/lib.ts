@@ -1,10 +1,11 @@
 import { writeFileSync } from 'fs'
-import $RefParser from '@apidevtools/json-schema-ref-parser'
+import $RefParser, { JSONSchema } from '@apidevtools/json-schema-ref-parser'
 import * as path from 'path'
 import { snakeCase } from 'snake-case'
 import { getWorkspacePackages } from '../workspace'
 import { collisionPackageTypeMap, forceRenameMap, getCollisionIgnoreMapFrom } from './config'
-import { BaseSettings } from '@chainlink/external-adapter-framework/config'
+import { BaseSettings, SettingsMap } from '@chainlink/external-adapter-framework/config'
+import process from 'process'
 
 export async function writeAllFlattenedSchemas(): Promise<void> {
   const data = await flattenAllSchemas()
@@ -39,18 +40,16 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
       .filter((p) => p.type !== 'core')
       .map(async (p) => {
         const { environment, location } = p
-        if (!environment) {
-          return
-        }
-        const schema = await new $RefParser().dereference(environment.$id, {
-          resolve,
-        })
+        let schema: JSONSchema = {}
 
-        //Framework currently doesn't have a schema that's available in the monorepo, and we can ref ea-bootstrap because many bootstrap envvars aren't used by the framework
-        //If we encounter a framework version flag for framework, merge framework.BaseSettings and env.json["properties"] to generate files/documentation containing framework envvars
-        if ('frameworkVersion' in schema && schema['frameworkVersion'] === '3') {
+        //If we encounter a framework version flag for framework, merge framework.BaseSettings and adapter.CustomSettings into JSONSchema.properties
+        if (p.framework === '3') {
+          const { customSettings } = (await import(
+            path.join(process.cwd(), p.location, 'dist', 'index.js')
+          )) as SettingsMap
           const reduced: { [key: string]: any } = {}
-          Object.entries(BaseSettings).forEach(([key, value]) => {
+          const props = { ...BaseSettings, ...customSettings }
+          Object.entries(props).forEach(([key, value]) => {
             reduced[key] = {
               type: value.type,
               description: value.description,
@@ -58,14 +57,19 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
               options: value.type === 'enum' ? value.options : undefined,
             }
           })
-          schema.properties = {
-            ...reduced,
-            ...schema.properties,
-            NPM_AUTH_TOKEN: {
-              type: 'string',
-              description: 'NPM auth token for fetching private packages',
-            },
+          schema = {
+            ...schema,
+            $id: 'https://external-adapters.chainlinklabs.com/schemas/framework.json',
+            type: 'object',
+            properties: reduced,
           }
+        } else if (environment) {
+          //Environment is undefined in v3, but should never be undefined in v2
+          schema = await new $RefParser().dereference(environment.$id, {
+            resolve,
+          })
+        } else {
+          return
         }
 
         const collisionIgnoreMap = getCollisionIgnoreMapFrom(bootstrapPackage)
