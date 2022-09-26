@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 2.19.3
+
+### Patch Changes
+
+- 5e7393deb: Lower API_TIMEOUT to 10000 (10s)
+- 5e7393deb: Add API_TIMEOUT to env default overrides, with an override of 30s for Kaiko
+
 ## 2.19.2
 
 ### Patch Changes

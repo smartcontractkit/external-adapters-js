@@ -177,6 +177,8 @@ coincodex-adapter:
 
 In order to test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the `README.md` for every adapter.
 
+When running integration tests make sure that metrics are disabled (`export METRICS_ENABLED=false`) and EA server is running on random available port (`export EA_PORT=0`).
+
 Make sure you run these commands from the ROOT of this monorepo.
 
 ```sh

@@ -1,5 +1,32 @@
 # @chainlink/token-allocation-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- 63d34422f: Fixed minor bug causing duplicate ticker symbols to be sent
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [271cd9f73]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/coinmarketcap-adapter@1.5.17
+  - @chainlink/kaiko-adapter@1.5.11
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/amberdata-adapter@1.8.10
+  - @chainlink/cfbenchmarks-adapter@1.5.17
+  - @chainlink/coinapi-adapter@1.3.7
+  - @chainlink/coingecko-adapter@1.9.9
+  - @chainlink/coinmetrics-adapter@1.3.17
+  - @chainlink/coinpaprika-adapter@1.10.9
+  - @chainlink/cryptocompare-adapter@1.4.17
+  - @chainlink/finage-adapter@1.6.2
+  - @chainlink/ncfx-adapter@2.1.6
+  - @chainlink/nomics-adapter@1.3.17
+  - @chainlink/tiingo-adapter@1.12.7
+
 ## 1.6.4
 
 ### Patch Changes
