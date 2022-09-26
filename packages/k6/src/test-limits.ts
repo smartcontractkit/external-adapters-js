@@ -34,6 +34,8 @@ const payloadData = new SharedArray('payloadData', () => {
   return JSON.parse(open(payloadPath)) as Payload[]
 })
 
+// upon completion, dump the summary to SUMMARY_OUTPUT_PATH, if it's defined
+
 function buildRequests() {
   const requests = []
   const params = {
