@@ -1,0 +1,1 @@
+# @chainlink/coingecko-test-adapter

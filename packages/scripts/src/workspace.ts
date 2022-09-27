@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { readFileSync } from 'fs'
+import fs, { readFileSync } from 'fs'
 import { join } from 'path'
 import * as s from 'shelljs'
 interface TsConfig {
@@ -14,6 +14,7 @@ export interface WorkspacePackage {
   type: string
   environment: Record<string, string> | undefined
   version: string
+  framework: string
 }
 
 /**
@@ -45,6 +46,7 @@ export function getWorkspacePackages(additionalTypes: string[] = []): WorkspaceP
         descopedName: name.replace(scope, ''),
         type: location.split('/')[1],
         version: pkg.version,
+        framework: '2',
       }
     })
     .filter((v) => adapterTypes.includes(v.type))
@@ -57,10 +59,16 @@ export function getWorkspacePackages(additionalTypes: string[] = []): WorkspaceP
       }
 
       let environment: Record<string, string> | undefined
-      try {
-        environment = getJsonFile(join(p.location, 'schemas/env.json'))
-      } catch {
-        warnLog(`${join(p.location, 'schemas/env.json')} does not exist`)
+      const schemaPath = join(p.location, 'schemas/env.json')
+      if (fs.existsSync(schemaPath)) {
+        environment = getJsonFile(schemaPath)
+      } else if (p.type === 'sources' || p.type === 'composites') {
+        warnLog(
+          `Could not find env.json for ${p.descopedName}, but package is a source or composite adapter. Flagging EA as a framework adapter`,
+        )
+        p.framework = '3'
+      } else {
+        warnLog(`${schemaPath} does not exist`)
       }
 
       return { ...p, tsconf, environment }

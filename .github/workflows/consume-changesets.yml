@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - develop
-
+env:
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 jobs:
   consume-changesets:
     name: Consume changesets
@@ -15,18 +16,11 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
-
-      - name: Setup Node.js 16.x
-        uses: actions/setup-node@v2
+      - uses: ./.github/actions/setup
         with:
-          node-version: 16.x
-
-      - name: Install Dependencies
-        run: yarn
-
+          skip-setup: true
       - name: Get release notes
         run: yarn get-release-notes
-
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
@@ -35,10 +29,8 @@ jobs:
           commit: 'Consume changesets'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build Repo
         run: yarn setup
-
       - name: Generate Documentation
         run: |
           yarn generate:master-list -v

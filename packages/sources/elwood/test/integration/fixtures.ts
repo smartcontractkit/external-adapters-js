@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockSubscribeResponse = (): nock => {
+export const mockSubscribeResponse = () => {
   nock('https://api.chk.elwood.systems:443', { encodedQueryParams: true })
     .persist()
     .post('/v1/stream', {
@@ -12,7 +12,7 @@ export const mockSubscribeResponse = (): nock => {
     .reply(200, {}, [])
 }
 
-export const mockUnsubscribeResponse = (): nock => {
+export const mockUnsubscribeResponse = () => {
   nock('https://api.chk.elwood.systems:443', { encodedQueryParams: true })
     .persist()
     .post('/v1/stream', {

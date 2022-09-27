@@ -67,7 +67,7 @@ export async function main(): Promise<void | string> {
     // Test setting
     if (options.testPath) {
       const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
-      await readmeGenerator.fetchImports()
+      await readmeGenerator.loadAdapterContent()
       readmeGenerator.buildReadme()
       readmeGenerator.createReadmeFile()
       return
@@ -101,7 +101,7 @@ export async function main(): Promise<void | string> {
           options.verbose,
           adapter.skipTests,
         )
-        await readmeGenerator.fetchImports()
+        await readmeGenerator.loadAdapterContent()
         readmeGenerator.buildReadme()
         return readmeGenerator
       }),
