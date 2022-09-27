@@ -27,7 +27,7 @@ on:
 
 env:
   publicecr-name: chainlink
-
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 jobs:
   matrix-adapters:
     runs-on: ubuntu-latest
