@@ -95,28 +95,22 @@ export class ReadmeGenerator {
       this.requiredEnvVars = schema.required ?? []
     } else {
       this.frameworkVersion = 'v3'
-      //Framework adapters don't use env.json. Instead, populate with import
       if (this.verbose)
         console.log(`${this.adapterPath}: Importing framework adapter to read properties`)
 
-      console.log(process.cwd())
-      console.log(this.adapterPath)
-      process.env['METRICS_ENABLED'] = 'false'
+      //Framework adapters don't use env.json. Instead, populate "schema" with import
       const adapterImport = await import(
         path.join(process.cwd(), this.adapterPath, 'dist', 'index.js')
       )
 
       const adapter = adapterImport.adapter as Adapter
-      const name = adapterImport.NAME as string
-      this.name = name
+      this.name = adapter.name
       const customSettings = adapterImport.customSettings as SettingsMap
       this.envVars = customSettings || ([] as EnvVars)
       this.requiredEnvVars =
         Object.keys(customSettings).filter((k) => customSettings[k].required === true) ?? [] // Keys of required customSettings
-      //Note, not populating description, doesn't exist in framework
+      //Note, not populating description, doesn't exist in framework adapters
     }
-
-    // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
 

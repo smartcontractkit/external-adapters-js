@@ -40,5 +40,4 @@ export const adapter = new Adapter({
 })
 
 const server = () => expose(adapter)
-const NAME = adapter.name //Required for legos
-export { NAME, customSettings, server }
+export { customSettings, server }

@@ -1,10 +1,10 @@
 describe('legos test', () => {
-  //METRICS_ENABLED musb be false before importing sources, or you will have collisions with duplicate metrics in v2 and framework adapters
+  //METRICS_ENABLED must be false for unit tests to pass due to metric collisions between v2 and the framework
   const metricsEnabledOrig = process.env['METRICS_ENABLED']
   process.env['METRICS_ENABLED'] = 'false'
   let legos: any
   beforeAll(async () => {
-    legos = await import('../../src') //Use require, since having an import statement appear after code (setting METRICS_ENABLED) looks wrong
+    legos = await import('../../src')
   })
 
   afterAll(() => {
