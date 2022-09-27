@@ -4,8 +4,8 @@ import { Config } from '@chainlink/ea-bootstrap'
 export const NAME = 'GALAXY'
 
 export const DEFAULT_ENDPOINT = 'price'
-export const DEFAULT_BASE_URL = 'https://test.data.galaxydigital.io/v1.0/login'
-export const DEFAULT_WS_API_ENDPOINT = 'wss://prod.data.galaxydigital.io/v1.0'
+export const DEFAULT_BASE_URL = 'https://data.galaxy.com/v1.0/login'
+export const DEFAULT_WS_API_ENDPOINT = 'wss://data.galaxy.com/v1.0/ws'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
