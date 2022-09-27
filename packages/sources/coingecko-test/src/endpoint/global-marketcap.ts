@@ -1,12 +1,12 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
 import {
-  buildGlobalRequestBody,
   AdapterRequestParams,
-  ProviderResponseBody,
+  buildGlobalRequestBody,
   constructEntry,
   inputParameters,
+  ProviderResponseBody,
 } from '../globalUtils'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 

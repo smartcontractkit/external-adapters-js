@@ -1,16 +1,15 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterRequestParams } from './globalUtils'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 type Overrides = Record<string, Record<string, string>>
 
-export interface CryptoRequestParams extends AdapterRequestParams {
+export interface CryptoRequestParams {
   coinid?: string
   base?: string
-  quote?: string //TODO ad0ll edited this from required to optional to get past an error
+  quote: string
 }
 
 export const cryptoInputParams: InputParameters = {
@@ -69,7 +68,7 @@ export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
   config: AdapterConfig,
 ): AxiosRequestConfig<ProviderRequestBody> => {
-  const options: AxiosRequestConfig<ProviderRequestBody> = {
+  return {
     baseURL: config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
     url: '/simple/price',
     method: 'GET',
@@ -79,7 +78,6 @@ export const buildBatchedRequestBody = (
       x_cg_pro_api_key: config.API_KEY,
     },
   }
-  return options
 }
 
 const logger = makeLogger('CoinGecko Crypto Batched')
@@ -93,7 +91,7 @@ export const constructEntry = (
   const dataForCoin = res.data[coinId]
   const dataForQuote = dataForCoin ? dataForCoin[resultPath] : undefined
   if (!dataForQuote) {
-    logger.warn(`Data for "${requestPayload.quote}" not found for token "${coinId}".`)
+    logger.warn(`Data for "${requestPayload.quote}" not found for token "${coinId}`)
     return
   }
   const entry = {

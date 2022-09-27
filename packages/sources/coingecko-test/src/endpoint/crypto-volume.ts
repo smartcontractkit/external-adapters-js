@@ -1,6 +1,4 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { baseInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
@@ -11,27 +9,8 @@ import {
   constructEntry,
   ProviderResponseBody,
   CryptoRequestParams,
+  cryptoInputParams,
 } from '../cryptoUtils'
-import { AdapterRequestParams } from '../globalUtils'
-import { customSettings } from '../config'
-
-export const inputParameters: InputParameters = {
-  overrides: baseInputParameters['overrides'],
-  coinid: {
-    description: 'The CoinGecko id or to query',
-    required: false,
-  },
-  base: {
-    aliases: ['from', 'coin'],
-    description: 'The symbol of symbols of the currency to query',
-    required: false,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The symbol of the currency to convert to',
-    required: true,
-  },
-}
 
 const batchEndpointTransport = new BatchWarmingTransport({
   prepareRequest: (
@@ -45,35 +24,25 @@ const batchEndpointTransport = new BatchWarmingTransport({
   parseResponse: (
     params: CryptoRequestParams[],
     res: AxiosResponse<ProviderResponseBody>,
-  ): ProviderResult<AdapterRequestParams>[] => {
+  ): ProviderResult<CryptoRequestParams>[] => {
     const entries = [] as ProviderResult<CryptoRequestParams>[]
     for (const requestPayload of params) {
       const entry = constructEntry(
         res,
         requestPayload,
-        `${requestPayload.quote?.toLowerCase()}_24h_vol`,
+        `${requestPayload.quote.toLowerCase()}_24h_vol`,
       )
       if (entry) {
-        entries.push({
-          ...entry,
-          params: {
-            ...entry.params,
-            market: 'coingecko',
-          },
-        })
+        entries.push(entry)
       }
     }
     return entries
   },
 })
 
-export const endpoint: AdapterEndpoint<
-  CryptoRequestParams,
-  ProviderResult<AdapterRequestParams>[],
-  typeof customSettings
-> = {
+export const endpoint = new AdapterEndpoint({
   name: 'volume',
   aliases: ['crypto-volume'],
   transport: batchEndpointTransport,
-  inputParameters,
-}
+  inputParameters: cryptoInputParams,
+})

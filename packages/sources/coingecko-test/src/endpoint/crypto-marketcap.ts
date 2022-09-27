@@ -29,7 +29,7 @@ const batchEndpointTransport = new BatchWarmingTransport({
       const entry = constructEntry(
         res,
         requestPayload,
-        `${requestPayload.quote?.toLowerCase()}_market_cap`,
+        `${requestPayload.quote.toLowerCase()}_market_cap`,
       )
       if (entry) {
         entries.push(entry)

@@ -1,5 +1,4 @@
 import { AxiosResponse, AxiosRequestConfig } from 'axios'
-
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { RestTransport } from '@chainlink/external-adapter-framework/transports'
@@ -27,10 +26,9 @@ const restEndpointTransport = new RestTransport({
     }
   },
   parseResponse: (
-    req: AdapterRequest,
+    _: AdapterRequest,
     res: AxiosResponse<CoinsResponse[]>,
   ): AdapterResponse<CoinsResponse[]> => {
-    console.log(req)
     return {
       data: res.data,
       statusCode: 200,
@@ -38,7 +36,9 @@ const restEndpointTransport = new RestTransport({
     }
   },
   options: {
-    requestCoalescing: { enabled: true },
+    requestCoalescing: {
+      enabled: true,
+    },
   },
 })
 

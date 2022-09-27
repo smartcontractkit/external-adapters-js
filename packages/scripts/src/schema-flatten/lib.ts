@@ -4,8 +4,9 @@ import * as path from 'path'
 import { snakeCase } from 'snake-case'
 import { getWorkspacePackages } from '../workspace'
 import { collisionPackageTypeMap, forceRenameMap, getCollisionIgnoreMapFrom } from './config'
-import { BaseSettings, SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { BaseSettings } from '@chainlink/external-adapter-framework/config'
 import process from 'process'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 export async function writeAllFlattenedSchemas(): Promise<void> {
   const data = await flattenAllSchemas()
@@ -44,11 +45,11 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
 
         //If we encounter a framework version flag for framework, merge framework.BaseSettings and adapter.CustomSettings into JSONSchema.properties
         if (p.framework === '3') {
-          const { customSettings } = (await import(
+          const { adapter } = (await import(
             path.join(process.cwd(), p.location, 'dist', 'index.js')
-          )) as SettingsMap
+          )) as { adapter: Adapter }
           const reduced: { [key: string]: any } = {}
-          const props = { ...BaseSettings, ...customSettings }
+          const props = { ...BaseSettings, ...adapter.customSettings }
           Object.entries(props).forEach(([key, value]) => {
             reduced[key] = {
               type: value.type,

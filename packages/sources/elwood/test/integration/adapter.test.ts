@@ -57,7 +57,7 @@ describe('websocket', () => {
         },
       }
 
-      let flowFulfilled: Promise<boolean>
+      let flowFulfilled: Promise<boolean> | undefined
       if (!process.env.RECORD) {
         flowFulfilled = mockWebSocketFlow(mockedWsServer, [
           mockSubscribeWSResponse,
@@ -74,7 +74,7 @@ describe('websocket', () => {
         .expect(200)
 
       expect(response.body).toMatchSnapshot()
-      await flowFulfilled
+      return !process.env.RECORD ? await flowFulfilled : undefined
     }, 10_000)
   })
 })

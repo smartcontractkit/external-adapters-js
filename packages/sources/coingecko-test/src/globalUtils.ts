@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -14,7 +14,7 @@ export const inputParameters: InputParameters = {
 }
 
 export interface AdapterRequestParams {
-  market?: string // TODO ad0ll edited this from required to optional to get past an error
+  market: string
 }
 
 export interface ProviderResponseBody {
@@ -55,19 +55,19 @@ export const constructEntry = (
 ): ResultEntry | undefined => {
   const resultData = res.data.data
   if (!resultData) {
-    logger.warn(`Data not found".`)
+    logger.warn(`Data not found`)
     return
   }
 
   const totalMarketcapData = resultData[resultPath]
   if (!totalMarketcapData) {
-    logger.warn(`Data for "${resultPath}" not found".`)
+    logger.warn(`Data for "${resultPath}" not found`)
     return
   }
 
-  const result = totalMarketcapData[requestPayload.market?.toLowerCase() || ''] //TODO ad0ll changed this to get past an error
+  const result = totalMarketcapData[requestPayload.market.toLowerCase()]
   if (!result) {
-    logger.warn(`Data for "${requestPayload.market}" not found".`)
+    logger.warn(`Data for "${requestPayload.market}" not found`)
     return
   }
 

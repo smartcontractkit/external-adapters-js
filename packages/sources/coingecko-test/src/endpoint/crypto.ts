@@ -25,15 +25,9 @@ const batchEndpointTransport = new BatchWarmingTransport({
   ): ProviderResult<CryptoRequestParams>[] => {
     const entries = [] as ProviderResult<CryptoRequestParams>[]
     for (const requestPayload of params) {
-      const entry = constructEntry(res, requestPayload, requestPayload.quote?.toLowerCase() || '')
+      const entry = constructEntry(res, requestPayload, requestPayload.quote.toLowerCase())
       if (entry) {
-        entries.push({
-          ...entry,
-          params: {
-            ...entry.params,
-            market: 'coingecko',
-          },
-        })
+        entries.push(entry)
       }
     }
     return entries
@@ -42,6 +36,7 @@ const batchEndpointTransport = new BatchWarmingTransport({
 
 export const endpoint = new AdapterEndpoint({
   name: 'crypto',
+  aliases: ['crypto-batched', 'batched', 'batch'],
   transport: batchEndpointTransport,
   inputParameters: cryptoInputParams,
 })

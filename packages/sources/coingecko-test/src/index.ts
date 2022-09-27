@@ -9,7 +9,6 @@ import {
 } from './endpoint'
 import { expose } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings } from './config'
 
 export const adapter = new Adapter({
   defaultEndpoint: 'crypto',
@@ -39,5 +38,4 @@ export const adapter = new Adapter({
   },
 })
 
-const server = () => expose(adapter)
-export { customSettings, server }
+export const server = () => expose(adapter)

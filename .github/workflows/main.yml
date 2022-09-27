@@ -78,8 +78,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-        with:
-          skip-setup: true
       - name: Generate job matrix
         id: create-matrix
         run: yarn generate:gha:matrix
@@ -93,8 +91,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-        with:
-          skip-setup: true
       - name: Generate docker-compose file
         run: yarn generate:docker-compose
       - run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}

@@ -40,6 +40,10 @@ export * from './types'
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 
+// Metrics are always registered when both v2 and the framework are invoked, causing duplicate registration even if METRICs_ENABLED is false
+// This is a workaround to clear the metric registry within V2 to prevent collisions with the framework. Necessary for legos and generators to work
+register.clear()
+
 const serverReducer = combineReducers({
   errorBackoff: ErrorBackoff.reducer.rootReducer,
   burstLimit: BurstLimit.reducer.rootReducer,
@@ -98,12 +102,6 @@ export const makeMiddleware = <C extends Config, D extends AdapterData>(
   const metricsMiddleware: Middleware<AdapterRequest<D>>[] = metrics.METRICS_ENABLED
     ? [metrics.withMetrics(), Debug.withDebug()]
     : [Debug.withDebug()]
-
-  // Metrics are always registered when both v2 and the framework are invoked, causing duplicate registration even if METRICs_ENABLED is false
-  // This is a workaround to clear the metric registry within V2 to prevent collisions with the framework. Necessary for legos and generators to work
-  if (!metrics.METRICS_ENABLED) {
-    register.clear()
-  }
 
   return [
     ErrorBackoff.withErrorBackoff(storeSlice('errorBackoff')),

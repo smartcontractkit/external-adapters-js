@@ -12,7 +12,10 @@ import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-fra
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 const batchEndpointTransport = new BatchWarmingTransport({
-  prepareRequest: (_, context: AdapterContext): AxiosRequestConfig<never> => {
+  prepareRequest: (
+    _: AdapterRequestParams[],
+    context: AdapterContext,
+  ): AxiosRequestConfig<never> => {
     return buildGlobalRequestBody(context.adapterConfig.API_KEY)
   },
   parseResponse: (
