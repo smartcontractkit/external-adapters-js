@@ -43,7 +43,6 @@ export const logger = pino({
       // flipping the order of inputs (switching from winston to pino)
       const length = inputArgs.length
       let argsList
-      const censorList = CensorList.getAll()
       if (length >= 2) {
         const arg1 = inputArgs.shift()
         // if input includes message string + data object
@@ -58,7 +57,7 @@ export const logger = pino({
       }
       return method.apply(
         this,
-        argsList.map((arg) => censorLog(arg, censorList)) as [string, ...unknown[]],
+        argsList.map((arg) => censorLog(arg, CensorList.getAll())) as [string, ...unknown[]],
       )
     },
   },
@@ -68,7 +67,7 @@ export const logger = pino({
   },
 })
 
-function censorLog(obj: unknown, censorList: CensorKeyValue[]) {
+export function censorLog(obj: unknown, censorList: CensorKeyValue[]): unknown {
   let stringified = JSON.stringify(obj)
   censorList.forEach((entry) => {
     stringified = stringified.replace(entry.value, `[${entry.key} REDACTED]`)
