@@ -10,6 +10,11 @@ export interface AccessTokenResponse {
   message?: string
 }
 
+export interface AccessToken {
+  token: string
+  created: number
+}
+
 export interface Pair {
   type: string
   signals: string[]

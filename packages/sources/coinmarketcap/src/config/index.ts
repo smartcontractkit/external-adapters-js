@@ -4,7 +4,7 @@ import { Config } from '@chainlink/ea-bootstrap'
 export const NAME = 'COINMARKETCAP'
 
 export const DEFAULT_ENDPOINT = 'crypto'
-const DEFAULT_API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/'
+export const DEFAULT_API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix, true)

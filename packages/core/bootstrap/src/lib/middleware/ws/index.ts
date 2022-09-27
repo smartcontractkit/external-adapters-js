@@ -72,7 +72,7 @@ export const withWebSockets =
     // Check if adapter only supports WS
     if (wsHandler.noHttp) {
       // If so, we try to get a result from cache within API_TIMEOUT
-      const requestTimeout = Number(getEnv('API_TIMEOUT'))
+      const requestTimeout = Number(getEnv('API_TIMEOUT', undefined, context))
       const deadline = Date.now() + requestTimeout
       return await awaitResult(context, input, deadline)
     }
