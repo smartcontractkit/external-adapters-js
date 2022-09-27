@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.26
+
+### Patch Changes
+
+- Updated dependencies [e60cb853e]
+- Updated dependencies [014d53709]
+  - @chainlink/layer2-sequencer-health-adapter@2.1.0
+  - @chainlink/coingecko-test-adapter@1.0.0
+
 ## 1.3.25
 
 ### Patch Changes
