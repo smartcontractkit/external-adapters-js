@@ -1,5 +1,11 @@
 # k6
 
+## 2.5.0
+
+### Minor Changes
+
+- b07c1e7d1: Support to run k6 against multiple EAs
+
 ## 2.4.0
 
 ### Minor Changes
