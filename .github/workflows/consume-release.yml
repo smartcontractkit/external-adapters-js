@@ -25,6 +25,7 @@ jobs:
         run: |
           whoami
           git config --list
+          git clone org-25111032@github.com:smartcontractkit/infra-k8s.git
           gh workflow run --repo smartcontractkit/infra-k8s image-dispatcher.yaml -F imageRepos="${{ steps.get-artifacts.outputs.result }}" -F gitRepo=${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
