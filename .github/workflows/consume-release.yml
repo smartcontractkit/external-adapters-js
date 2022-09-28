@@ -12,13 +12,11 @@ on:
       workflowRunId:
         description: The workflow_run.id of the release workflow that has published artifacts
         required: true
-  push:
-    branches:
-      - fix/release-fix-fw
 
 jobs:
   on-success:
     runs-on: ubuntu-latest
+    if: ${{ inputs.workflowRunId || github.event.workflow_run.conclusion == 'success' }}
     environment: InfraK8s
     steps:
       - id: get-artifacts
@@ -26,7 +24,7 @@ jobs:
         uses: actions/github-script@d50f485531ba88479582bc2da03ff424389af5c1 # v6.1.1
         env:
           AWS_PRIVATE_ECR_PATH: ${{ secrets.AWS_PRIVATE_ECR_PATH }}
-          WORKFLOW_RUN_ID: 3139520139
+          WORKFLOW_RUN_ID: ${{ inputs.workflowRunId  || github.event.workflow_run.id  }}
         with:
           result-encoding: string
           script: |
@@ -51,12 +49,6 @@ jobs:
               .map(({name}) => `${pathPrefix}/adapters/${name.replace('-shasum', '')}`)
               .join(' ')
       - name: 'Trigger Image Dispatcher'
-        run: |
-          git config --list
-          git clone org-25111032@github.com:smartcontractkit/infra-k8s.git
-          ls -la infra-k8s  2> error.txt
-          ls -la infra-k8s/.github/workflows   2> error.txt
-          cat infra-k8s/.github/workflows/image-dispatcher.yaml  2> error.txt
-          gh workflow run --repo smartcontractkit/infra-k8s --ref sand image-dispatcher.yaml -F imageRepos="testing" -F gitRepo=${{ github.event.repository.name }}
+        run: gh workflow run --repo smartcontractkit/infra-k8s --ref sand image-dispatcher.yaml -F imageRepos="${{ steps.get-artifacts.outputs.result }}" -F gitRepo=${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.INFRA_K8s_PAT }}
