@@ -34,7 +34,7 @@ import type {
   BatchableProperty,
 } from '../../types'
 
-type CustomError<T = unknown> = (data: T) => boolean
+type CustomError<T = unknown> = (data: T) => boolean | string
 const defaultCustomError = () => false
 
 export class Requester {
@@ -111,12 +111,16 @@ export class Requester {
         )
       }
 
-      if (response.data && customError && customError(response.data)) {
+      const customErrorResult = customError && customError(response.data)
+      if (response.data && customErrorResult) {
         // Response error
         if (n === 1) {
-          const message = `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: ${JSON.stringify(
-            response.data,
-          )}`
+          // Show the provider response and optionally a customError message
+          const message =
+            `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.` +
+            `${typeof customErrorResult === 'string' ? ` Message: ${customErrorResult}.` : ''}` +
+            ` Response: ${JSON.stringify(response.data)}`
+
           const cause = (response.data as T & { error: Error | undefined }).error
           const providerStatusCode: number | undefined =
             (response.data as T & { error: { code: number } }).error?.code ?? response.status
@@ -132,9 +136,11 @@ export class Requester {
             ? new AdapterDataProviderError(errorPayload)
             : new AdapterCustomError(errorPayload)
         }
-
+        // Dump the provider response and optionally a customError message to console, then retry
         return await _delayRetry(
-          `Error in response from Data Provider. Retrying: ${JSON.stringify(response.data)}`,
+          `Error in response from data provider` +
+            `${typeof customErrorResult === 'string' ? ` (message: ${customErrorResult}).` : '.'}` +
+            ` Retrying: ${JSON.stringify(response.data)}`,
         )
       }
 
