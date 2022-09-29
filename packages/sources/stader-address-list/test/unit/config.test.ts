@@ -15,7 +15,7 @@ describe('config', () => {
   it('has expected root exports', () => {
     expect(adapter).toHaveProperty('NAME')
     expect(typeof adapter.NAME).toBe('string')
-    expect(adapter.NAME).toBe('SWELL_ADDRESS_LIST')
+    expect(adapter.NAME).toBe('STADER_ADDRESS_LIST')
     expect(adapter).toHaveProperty('makeExecute')
     expect(typeof adapter.makeExecute).toBe('function')
     expect(adapter).toHaveProperty('makeConfig')
