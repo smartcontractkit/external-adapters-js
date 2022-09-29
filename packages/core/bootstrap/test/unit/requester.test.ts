@@ -1,5 +1,4 @@
-import { AdapterBatchResponse } from '../../src/types'
-import { Requester } from '../../src/lib/modules/requester'
+import { AdapterBatchResponse, Requester } from '../../src'
 import {
   Server,
   SUCCESS_JSON_RESPONSE,
@@ -77,6 +76,20 @@ describe('HTTP', () => {
       } catch (error) {
         expect(server.errorCount).toEqual(3)
         expect(error.message).toEqual(customErrorMessage)
+      }
+    })
+
+    it('customError message is included when customError returns string', async () => {
+      const options = { ...baseOptions, url: server.getURL('customError') }
+      const customErrorString = () => {
+        return 'This is a custom error string'
+      }
+      try {
+        await Requester.request(options, customErrorString, 0, 0)
+        expect(false).toBe(true)
+      } catch (error) {
+        expect(server.errorCount).toEqual(1)
+        expect(error.message).toContain(customErrorString())
       }
     })
 
