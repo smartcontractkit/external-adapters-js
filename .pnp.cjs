@@ -6471,7 +6471,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.6.8"],\
             ["nock", "npm:13.2.9"],\
             ["sinon", "npm:12.0.1"],\
-            ["starknet", "npm:4.1.0"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
@@ -23492,17 +23491,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["isomorphic-fetch", [\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/isomorphic-fetch-npm-3.0.0-bce711adff-e5ab79a56c.zip/node_modules/isomorphic-fetch/",\
-          "packageDependencies": [\
-            ["isomorphic-fetch", "npm:3.0.0"],\
-            ["node-fetch", "virtual:9c0f76151f4c3b88a21fa97c32511955817ad3ef934e8c1532c5676b8cd77a1a75316118d89ec7aaf5249ebda8a4fd664be036dc2ebf4229bc67ef6fa2de5971#npm:2.6.7"],\
-            ["whatwg-fetch", "npm:3.6.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["isomorphic-ws", [\
         ["npm:4.0.1", {\
           "packageLocation": "./.yarn/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
@@ -28620,13 +28608,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pako", "npm:1.0.11"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:2.0.4", {\
-          "packageLocation": "./.yarn/cache/pako-npm-2.0.4-1d4e28f3ac-82b9b0b99d.zip/node_modules/pako/",\
-          "packageDependencies": [\
-            ["pako", "npm:2.0.4"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["param-case", [\
@@ -31845,26 +31826,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["starknet", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/cache/starknet-npm-4.1.0-3090439c5d-3fd4bcf28d.zip/node_modules/starknet/",\
-          "packageDependencies": [\
-            ["starknet", "npm:4.1.0"],\
-            ["@ethersproject/bytes", "npm:5.6.1"],\
-            ["bn.js", "npm:5.2.1"],\
-            ["elliptic", "npm:6.5.4"],\
-            ["ethereum-cryptography", "npm:1.1.2"],\
-            ["hash.js", "npm:1.1.7"],\
-            ["isomorphic-fetch", "npm:3.0.0"],\
-            ["json-bigint", "npm:1.0.0"],\
-            ["minimalistic-assert", "npm:1.0.1"],\
-            ["pako", "npm:2.0.4"],\
-            ["ts-custom-error", "npm:3.2.0"],\
-            ["url-join", "npm:4.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["static-extend", [\
         ["npm:0.1.2", {\
           "packageLocation": "./.yarn/cache/static-extend-npm-0.1.2-2720ee6882-8657485b83.zip/node_modules/static-extend/",\
@@ -33839,15 +33800,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["url-join", [\
-        ["npm:4.0.1", {\
-          "packageLocation": "./.yarn/cache/url-join-npm-4.0.1-e1f4415722-f74e868bf2.zip/node_modules/url-join/",\
-          "packageDependencies": [\
-            ["url-join", "npm:4.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["url-parse-lax", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/url-parse-lax-npm-1.0.0-72419d807b-03316acff7.zip/node_modules/url-parse-lax/",\
@@ -34905,15 +34857,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["whatwg-encoding", "npm:1.0.5"],\
             ["iconv-lite", "npm:0.4.24"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["whatwg-fetch", [\
-        ["npm:3.6.2", {\
-          "packageLocation": "./.yarn/cache/whatwg-fetch-npm-3.6.2-4bdf324792-ee976b7249.zip/node_modules/whatwg-fetch/",\
-          "packageDependencies": [\
-            ["whatwg-fetch", "npm:3.6.2"]\
           ],\
           "linkType": "HARD"\
         }]\
