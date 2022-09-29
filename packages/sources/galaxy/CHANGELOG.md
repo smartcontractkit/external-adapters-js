@@ -1,5 +1,24 @@
 # @chainlink/galaxy-source-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- cba4efd54: Updated API defaults for Galaxy
+
+## 1.1.0
+
+### Minor Changes
+
+- 22596f049: Updated Galaxy WS EA to fetch access token if existing token is older than 30 seconds. Added fetchingToken check it avoid making many duplicated token requests. Added default env overrides
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.0.5
 
 ### Patch Changes

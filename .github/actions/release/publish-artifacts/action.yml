@@ -31,13 +31,7 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '16.x'
-
-    - name: Install yarn deps
-      shell: bash
-      run: yarn
+    - uses: ./.github/actions/setup
 
     - name: Generate docker-compose file
       shell: bash

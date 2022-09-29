@@ -3,12 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./non-deployable/token-allocation"
-    },
-    {
-      "path": "./non-deployable/reduce"
-    },
-    {
       "path": "./composites/anchor"
     },
     {
@@ -120,8 +114,15 @@
       "path": "./examples/source"
     },
     {
+      "path": "./non-deployable/reduce"
+    },
+    {
+      "path": "./non-deployable/token-allocation"
+    },
+    {
       "path": "./scripts"
     },
+
     {
       "path": "./sources/1forge"
     },
@@ -219,6 +220,9 @@
       "path": "./sources/coingecko"
     },
     {
+      "path": "./sources/coingecko-test"
+    },
+    {
       "path": "./sources/coinlore"
     },
     {
@@ -289,6 +293,9 @@
     },
     {
       "path": "./sources/eth-balance"
+    },
+    {
+      "path": "./sources/eth-beacon"
     },
     {
       "path": "./sources/etherchain"
@@ -463,6 +470,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/swell-address-list"
     },
     {
       "path": "./sources/synthetix-debt-pool"

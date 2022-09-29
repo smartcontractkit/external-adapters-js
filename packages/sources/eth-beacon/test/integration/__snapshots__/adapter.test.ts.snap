@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute balance api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "416512",
+        "balance": "32081209325",
+      },
+      Object {
+        "address": "416580",
+        "balance": "32067790944",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": Array [
+    Object {
+      "address": "416512",
+      "balance": "32081209325",
+    },
+    Object {
+      "address": "416580",
+      "balance": "32067790944",
+    },
+  ],
+  "statusCode": 200,
+}
+`;

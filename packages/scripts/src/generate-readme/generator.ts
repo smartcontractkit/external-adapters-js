@@ -13,6 +13,9 @@ import {
 import { balance } from '@chainlink/ea-factories'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
+import fs from 'fs'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -43,6 +46,7 @@ const checkFilePaths = (filePaths: string[]): string => {
 export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
+  schemaPath: string
   defaultEndpoint = ''
   defaultBaseUrl = ''
   endpointDetails: EndpointDetails = {}
@@ -56,6 +60,7 @@ export class ReadmeGenerator {
   version: string
   versionBadgeUrl: string
   license: string
+  frameworkVersion: 'v2' | 'v3' = 'v2'
 
   constructor(adapterPath: string, verbose = false, skipTests = false) {
     this.verbose = verbose
@@ -65,29 +70,48 @@ export class ReadmeGenerator {
     if (!test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
 
     if (verbose) console.log(`${adapterPath}: Checking package.json`)
-
     const packagePath = checkFilePaths([adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
     this.license = packageJson.license ?? ''
-
-    if (verbose) console.log(`${adapterPath}: Checking schema/env.json`)
-
-    const schemaPath = checkFilePaths([adapterPath + 'schemas/env.json'])
-    const schema = getJsonFile(schemaPath) as Schema
-    this.schemaDescription = schema.description ?? ''
-    this.name = schema.title ?? packageJson.name ?? ''
-    this.envVars = schema.properties ?? {}
-    this.requiredEnvVars = schema.required ?? []
-
     this.adapterPath = adapterPath
+    this.schemaPath = adapterPath + 'schemas/env.json'
     this.skipTests = skipTests
     this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
   }
 
-  async fetchImports(): Promise<void> {
-    // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
+  // We need to require/import adapter contents to generate the README.
+  // We use this function instead of the constructor because we need to fetch, and constructors can't be async.
+  async loadAdapterContent(): Promise<void> {
+    if (fs.existsSync(this.schemaPath)) {
+      //Is V2. Populate self w/ env.json content
+      if (this.verbose) console.log(`${this.adapterPath}: Checking schema/env.json`)
+      const schema = getJsonFile(this.schemaPath) as Schema
+      this.frameworkVersion = 'v2'
+      this.schemaDescription = schema.description ?? ''
+      this.name = schema.title ?? packageJson.name ?? ''
+      this.envVars = schema.properties ?? {}
+      this.requiredEnvVars = schema.required ?? []
+    } else {
+      this.frameworkVersion = 'v3'
+      if (this.verbose)
+        console.log(`${this.adapterPath}: Importing framework adapter to read properties`)
+
+      //Framework adapters don't use env.json. Instead, populate "schema" with import
+      const adapterImport = await import(
+        path.join(process.cwd(), this.adapterPath, 'dist', 'index.js')
+      )
+
+      const adapter = adapterImport.adapter as Adapter
+      this.name = adapter.name
+      this.envVars = adapter.customSettings || {}
+      this.requiredEnvVars = adapter.customSettings
+        ? Object.keys(adapter.customSettings).filter((k) => customSettings[k].required === true) ??
+          [] // Keys of required customSettings
+        : []
+      //Note, not populating description, doesn't exist in framework adapters
+    }
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
 
@@ -103,6 +127,15 @@ export class ReadmeGenerator {
 
     const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
     this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
+
+    // Map V3 fields to their V2 equivalents
+    if (this.frameworkVersion === 'v3') {
+      console.log(`${this.name} is a v3 adapter, converting it to v2 format for readme generation`)
+      Object.keys(this.endpointDetails).forEach((endpointName) => {
+        const endpoint = this.endpointDetails[endpointName]
+        endpoint.supportedEndpoints = [endpointName, ...(endpoint.aliases || [])]
+      })
+    }
   }
 
   buildReadme(): void {
@@ -154,6 +187,7 @@ export class ReadmeGenerator {
     if (this.verbose) console.log(`${this.adapterPath}: Adding input parameters`)
 
     const endpointList = Object.keys(this.endpointDetails).reduce((list: string[], e) => {
+      // supportedEndpoints is not a v3 field, but is populated by a conversion function in fetchImports for v3 adapters
       const { supportedEndpoints = [] } = this.endpointDetails[e]
       for (const supportedEndpoint of supportedEndpoints) {
         list.push(`[${supportedEndpoint}](#${e.toLowerCase()}-endpoint)`)

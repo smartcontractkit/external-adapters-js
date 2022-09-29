@@ -1,5 +1,26 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- 688e3a8ae: Reverting code
+
+## 2.1.0
+
+### Minor Changes
+
+- e60cb853e: add changes to support fetching Starkware Sequencer health
+
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.0.0
 
 ### Major Changes

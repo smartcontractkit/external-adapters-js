@@ -18,6 +18,15 @@ This repository contains the source code for Chainlink external adapters. If you
 - Node.js v16
 - Yarn
 
+### Configure
+
+```sh
+  export NPM_AUTH_TOKEN= #npm token w/ read access to @chainlink scope
+  yarn config set npmRegistryServer https://registry.npmjs.org/
+  yarn config set npmAlwaysAuth true
+  yarn config set npmAuthToken $NPM_AUTH_TOKEN
+```
+
 ### Install
 
 ```sh
@@ -176,6 +185,8 @@ coincodex-adapter:
 ## Testing
 
 In order to test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the `README.md` for every adapter.
+
+When running integration tests make sure that metrics are disabled (`export METRICS_ENABLED=false`) and EA server is running on random available port (`export EA_PORT=0`).
 
 Make sure you run these commands from the ROOT of this monorepo.
 
