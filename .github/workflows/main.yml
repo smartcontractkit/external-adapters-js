@@ -11,32 +11,22 @@ concurrency:
   group: main-${{ github.ref }}
   cancel-in-progress: true
 
+env: # NPM_AUTH_TOKEN is needed for any yarn command. Having it at the top is not precise, but it's convenient
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 jobs:
   packages:
     name: Verify dependency package archives
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - name: Install Yarn
-        run: npm install -g yarn
-      - name: Re-download dependencies & verify checksum
-        run: yarn install --check-cache
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
 
   run-integration-tests:
     name: Run integration tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - name: Install Yarn
-        run: npm install -g yarn
-      - run: yarn install
-      - run: yarn setup
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
       - run: timeout 300 yarn test:ci:integration
   # Disable Codecov until we can make it reliable: sc-22561
   #      - uses: codecov/codecov-action@v2
@@ -49,14 +39,8 @@ jobs:
     name: Run unit tests
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - name: Install Yarn
-        run: npm install -g yarn
-      - run: yarn install
-      - run: yarn setup
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
       - run: yarn test:ci:unit
   # Disable Codecov until we can make it reliable: sc-22561
   #      - uses: codecov/codecov-action@v2
@@ -69,14 +53,8 @@ jobs:
     name: Run linters
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - name: Install Yarn
-        run: npm install -g yarn
-      - run: yarn install
-      - run: yarn setup
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
       - run: yarn lint
       - run: yarn setup-tests
       - run: yarn format:check
@@ -85,18 +63,8 @@ jobs:
     name: Documentation generation test
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - name: Install Yarn
-        run: |
-          npm install -g yarn
-          yarn install
-      - name: Build Repo
-        run: yarn setup
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
       - name: Test Master List Generation
         run: yarn generate:master-list -v
       - name: Test README Generation
@@ -108,10 +76,8 @@ jobs:
     outputs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
       - name: Generate job matrix
         id: create-matrix
         run: yarn generate:gha:matrix
@@ -123,12 +89,8 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      - name: Install yarn deps
-        run: yarn
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
       - name: Generate docker-compose file
         run: yarn generate:docker-compose
       - run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}

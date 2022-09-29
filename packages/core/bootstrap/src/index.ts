@@ -34,11 +34,15 @@ import * as server from './lib/server'
 import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import { FastifyInstance } from 'fastify'
-
+import { register } from 'prom-client'
 export * from './types'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
+
+// Metrics are always registered when both v2 and the framework are invoked, causing duplicate registration even if METRICs_ENABLED is false
+// This is a workaround to clear the metric registry within V2 to prevent collisions with the framework. Necessary for legos and generators to work
+register.clear()
 
 const serverReducer = combineReducers({
   errorBackoff: ErrorBackoff.reducer.rootReducer,

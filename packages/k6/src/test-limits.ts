@@ -3,7 +3,7 @@ import { SharedArray } from 'k6/data'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
-import { vu } from 'k6/execution'
+import { vu, default as exec } from 'k6/execution'
 
 // load the test duration from the environment or default to 10m
 let testDuration = '10m'
@@ -33,6 +33,8 @@ const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
 const payloadData = new SharedArray('payloadData', () => {
   return JSON.parse(open(payloadPath)) as Payload[]
 })
+
+// upon completion, dump the summary to SUMMARY_OUTPUT_PATH, if it's defined
 
 function buildRequests() {
   const requests = []
@@ -86,6 +88,7 @@ export const options = {
       {
         threshold: 'p(95)<1000', // 95% of request durations should be below 1s
         abortOnFail: true,
+        delayAbortEval: '5m',
       },
     ],
     checks: [
@@ -147,11 +150,14 @@ export default (): void => {
   const after = new Date().getTime()
   const diff = (after - before) / 1000
   const remainder = T - diff
+  const elapsedSeconds = (Date.now() - exec.scenario.startTime) / 1000
 
   const result = check(response, {
     [`returns 200 status code`]: (r) => r.status == 200,
     [`returns result within expected numeric range`]: (r) => valueWithinRange(r.json('result')),
-    [`doesn't exceed T`]: () => remainder >= 0,
+    // If the test has been running for the first five minutes we're still in the warmup stage,
+    // and we ignore request times exceeding the timeout limit
+    [`doesn't exceed T`]: () => (elapsedSeconds > 5 * 60 ? remainder >= 0 : true),
   })
 
   if (!result) {

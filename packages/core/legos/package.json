@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.25",
+  "version": "1.3.26",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -61,6 +61,7 @@
     "@chainlink/coinbase-adapter": "workspace:*",
     "@chainlink/coincodex-adapter": "workspace:*",
     "@chainlink/coingecko-adapter": "workspace:*",
+    "@chainlink/coingecko-test-adapter": "workspace:*",
     "@chainlink/coinlore-adapter": "workspace:*",
     "@chainlink/coinmarketcap-adapter": "workspace:*",
     "@chainlink/coinmetrics-adapter": "workspace:*",

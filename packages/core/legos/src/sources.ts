@@ -30,6 +30,7 @@ import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
+import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
@@ -168,6 +169,7 @@ export default {
   coinbase,
   coincodex,
   coingecko,
+  coingecko_test,
   coinlore,
   coinmarketcap,
   coinmetrics,

@@ -18,6 +18,8 @@ import {
 } from '../shared/docGenUtils'
 import { EndpointDetails, Package, Schema } from '../shared/docGenTypes'
 import Airtable from 'airtable'
+import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
+import fs from 'fs'
 
 const pathToComposites = 'packages/composites/'
 const pathToSources = 'packages/sources/'
@@ -64,18 +66,35 @@ const getEndpoints = async (adapterPath: string, verbose = false) => {
   let batchableEndpoints = 'Unknown'
   try {
     const indexPath = adapterPath + '/src/endpoint/index.ts'
+    const schemaPath = adapterPath + '/src/schemas/env.json'
 
     const endpointDetails: EndpointDetails = await require(path.join(process.cwd(), indexPath))
-
+    const schema = getJsonFile(schemaPath) as Schema
     const endpoints = Object.keys(endpointDetails)
 
-    const allSupportedEndpoints = endpoints.reduce((list: string[], e) => {
-      const supportedEndpoints = endpointDetails[e].supportedEndpoints ?? []
-      list.push(...supportedEndpoints)
-      return list
-    }, [])
+    let allSupportedEndpoints: string[] = []
+    let allBatchableEndpoints: string[] = []
+    if (!fs.existsSync(schemaPath)) {
+      console.log(
+        `${schema.title} is a v3 adapter, converting it to v2 format for master list generation`,
+      )
+      Object.keys(endpointDetails).forEach((endpointName) => {
+        const endpoint = endpointDetails[endpointName]
+        allSupportedEndpoints.push(endpointName, ...(endpoint.aliases || []))
+        if (endpoint.transport instanceof BatchWarmingTransport) {
+          allBatchableEndpoints.push(endpointName)
+        }
+      })
+    } else {
+      //Is a v2 adapter
+      allSupportedEndpoints = endpoints.reduce((list: string[], e) => {
+        const supportedEndpoints = endpointDetails[e].supportedEndpoints ?? []
+        list.push(...supportedEndpoints)
+        return list
+      }, [])
 
-    const allBatchableEndpoints = endpoints.filter((e) => endpointDetails[e].batchablePropertyPath)
+      allBatchableEndpoints = endpoints.filter((e) => endpointDetails[e].batchablePropertyPath)
+    }
 
     endpointsText = allSupportedEndpoints.length ? codeList(allSupportedEndpoints) : ''
 
