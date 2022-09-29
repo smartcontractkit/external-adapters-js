@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.27
+
+### Patch Changes
+
+- Updated dependencies [688e3a8ae]
+- Updated dependencies [cba4efd54]
+  - @chainlink/layer2-sequencer-health-adapter@2.2.0
+  - @chainlink/galaxy-adapter@1.2.0
+
 ## 1.3.26
 
 ### Patch Changes
