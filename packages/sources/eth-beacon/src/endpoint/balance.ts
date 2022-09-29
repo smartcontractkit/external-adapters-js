@@ -70,9 +70,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validatorStatus.length > 0)
     return await queryWithState(jobRunID, config, stateId, addresses, validatorStatus)
 
-  const url = `/eth/v1/beacon/states/${stateId}/validator_balances?${addresses
-    .map((a) => `id=${a.address}`)
-    .join('&')}`
+  const url = `/eth/v1/beacon/states/${stateId}/validator_balances?id=${addresses
+    .map(({ address }) => address)
+    .join(',')}`
 
   const options = { ...config.api, url }
 
