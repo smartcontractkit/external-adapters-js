@@ -16,6 +16,7 @@ import * as Gemini from '@chainlink/gemini-adapter'
 import * as celsiusAddressList from '@chainlink/celsius-address-list-adapter'
 import * as chainReserveWallets from '@chainlink/chain-reserve-wallet-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
+import * as porAddressList from '@chainlink/por-address-list-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
@@ -29,6 +30,7 @@ export const adapters: AdapterImplementation[] = [
   wrapped as unknown as AdapterImplementation,
   swellList as unknown as AdapterImplementation,
   staderList as unknown as AdapterImplementation,
+  porAddressList as unknown as AdapterImplementation,
 ]
 
 export type Protocol = typeof adapters[number]['NAME']

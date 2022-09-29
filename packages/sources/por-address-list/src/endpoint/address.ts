@@ -1,4 +1,4 @@
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import { POR_ADDRESS_LIST_ABI } from './abi'
@@ -38,13 +38,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     confirmations,
     batchSize,
   )
-  return {
+  const addresses = addressList.map((address) => ({ address }))
+
+  const response = {
     jobRunID,
-    result: addressList,
+    result: addresses,
     data: {
-      result: addressList,
+      result: addresses,
       statusCode: 200,
     },
     statusCode: 200,
   }
+  return Requester.success(jobRunID, response, config.verbose)
 }
