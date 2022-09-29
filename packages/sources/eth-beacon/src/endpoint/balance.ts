@@ -31,7 +31,6 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     type: 'array',
     description: 'A filter to apply validators by their status',
-    default: [],
   },
 }
 
@@ -67,7 +66,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   // If a status filter is given,
   // then a different Beacon endpoint needs to be used to retrieve validator status
-  if (validatorStatus.length > 0)
+  if (validatorStatus?.length > 0)
     return await queryWithState(jobRunID, config, stateId, addresses, validatorStatus)
 
   const url = `/eth/v1/beacon/states/${stateId}/validator_balances?id=${addresses

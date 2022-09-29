@@ -2,13 +2,9 @@ import nock from 'nock'
 
 export const mockBalanceSuccess = (): nock.Scope =>
   nock('http://localhost:3500', { encodedQueryParams: true })
-    .get('/eth/v1/beacon/states/finalized/validator_balances')
-    .query({
-      id: [
-        '0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21',
-        '0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
-      ],
-    })
+    .get(
+      '/eth/v1/beacon/states/finalized/validator_balances?id=0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21,0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462',
+    )
     .reply(
       200,
       {
