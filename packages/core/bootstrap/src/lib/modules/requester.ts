@@ -34,17 +34,43 @@ import type {
   BatchableProperty,
 } from '../../types'
 
-type CustomError<T = unknown> = (data: T) => boolean | string
+export type CustomErrorReturnValue = boolean | string
+type CustomError<T = unknown> = (data: T) => CustomErrorReturnValue
 const defaultCustomError = () => false
 
 export class Requester {
+  // used to return consistent error messages when failing with or without a customError
+  static generateErrorMessage<T>(
+    config: AxiosRequestConfig,
+    response?: AxiosResponse<T>,
+    append?: string,
+    customErrorResult?: CustomErrorReturnValue,
+  ): string {
+    const { baseURL, url, data, params } = config // strip noisy and sensitive data from axios config before logging/including in the response
+
+    const preamble = customErrorResult
+      ? `Caught error trying to fetch data from Data Provider.`
+      : `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.`
+
+    return (
+      preamble +
+      `${
+        customErrorResult && typeof customErrorResult === 'string'
+          ? ` Message: ${customErrorResult}.`
+          : ''
+      }` +
+      ` Request: ${JSON.stringify({ baseURL, url, data, params })},` +
+      ` Response: ${JSON.stringify(response?.data || {})}.` +
+      `${append ? ` ${append}` : ''}`
+    )
+  }
+
   static async request<T>(
     config: AxiosRequestConfig,
     customError = defaultCustomError as CustomError<T>,
     retries = Number(getEnv('RETRY')),
     delay = 1000,
   ): Promise<AxiosResponse<T>> {
-    if (typeof config === 'string') config = { url: config }
     if (typeof config.timeout === 'undefined') {
       const timeout = Number(getEnv('TIMEOUT'))
       config.timeout = !isNaN(timeout) ? timeout : 3000
@@ -87,6 +113,7 @@ export class Requester {
         }
 
         if (n <= 1) {
+          // Exhausted retries, respond with an error
           const providerStatusCode = error?.response?.status ?? 0 // 0 -> connection error
           record(config.method, providerStatusCode)
           const errorInput = {
@@ -105,22 +132,20 @@ export class Requester {
         }
 
         return await _delayRetry(
-          `Caught error trying to fetch data from Data Provider. Retrying: ${JSON.stringify(
-            error.message,
-          )}`,
+          Requester.generateErrorMessage(config, error.response, error.message),
         )
       }
 
       const customErrorResult = customError && customError(response.data) // customError is string | bool, consider it hit if true or defined
       if (response.data && customErrorResult) {
-        // Response error
+        const message = Requester.generateErrorMessage(
+          config,
+          response,
+          undefined,
+          customErrorResult,
+        )
         if (n <= 1) {
-          // Show the provider response and optionally a customError message
-          const message =
-            `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.` +
-            `${typeof customErrorResult === 'string' ? ` Message: ${customErrorResult}.` : ''}` +
-            ` Response: ${JSON.stringify(response.data)}`
-
+          // Exhausted retries, respond with an error
           const cause = (response.data as T & { error: Error | undefined }).error
           const providerStatusCode: number | undefined =
             (response.data as T & { error: { code: number } }).error?.code ?? response.status
@@ -137,11 +162,7 @@ export class Requester {
             : new AdapterCustomError(errorPayload)
         }
         // Dump the provider response and optionally a customError message to console, then retry
-        return await _delayRetry(
-          `Error in response from data provider` +
-            `${typeof customErrorResult === 'string' ? ` (message: ${customErrorResult}).` : '.'}` +
-            ` Retrying: ${JSON.stringify(response.data)}`,
-        )
+        return await _delayRetry(message)
       }
 
       // Success
