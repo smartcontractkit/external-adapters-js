@@ -68,6 +68,16 @@ describe('HTTP', () => {
       expect(data.value).toEqual(1)
     })
 
+    it('only attempts once when retries is <1', async () => {
+      const options = { ...baseOptions, url: server.getURL('error') }
+      try {
+        await Requester.request(options, undefined, 0, 0)
+        expect(false).toBe(true)
+      } catch (error) {
+        expect(server.errorCount).toEqual(1)
+      }
+    })
+
     it('retries custom errors', async () => {
       const options = { ...baseOptions, url: server.getURL('customError') }
       try {

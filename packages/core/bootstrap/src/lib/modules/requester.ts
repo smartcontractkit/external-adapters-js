@@ -86,7 +86,7 @@ export class Requester {
           })
         }
 
-        if (n === 1) {
+        if (n <= 1) {
           const providerStatusCode = error?.response?.status ?? 0 // 0 -> connection error
           record(config.method, providerStatusCode)
           const errorInput = {
@@ -111,10 +111,10 @@ export class Requester {
         )
       }
 
-      const customErrorResult = customError && customError(response.data)
+      const customErrorResult = customError && customError(response.data) // customError is string | bool, consider it hit if true or defined
       if (response.data && customErrorResult) {
         // Response error
-        if (n === 1) {
+        if (n <= 1) {
           // Show the provider response and optionally a customError message
           const message =
             `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.` +
