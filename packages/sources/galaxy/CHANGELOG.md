@@ -1,5 +1,11 @@
 # @chainlink/galaxy-source-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- cba4efd54: Updated API defaults for Galaxy
+
 ## 1.1.0
 
 ### Minor Changes
