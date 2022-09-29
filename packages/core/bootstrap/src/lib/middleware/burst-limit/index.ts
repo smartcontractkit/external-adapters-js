@@ -10,7 +10,7 @@ import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
 import { logger } from '../../modules/logger'
 import { AdapterBurstLimitError } from '../../modules/error'
-import { getEnv, parseBool, sleep } from '../../util'
+import { getEnv, sleep } from '../../util'
 
 export * as actions from './actions'
 export * as reducer from './reducer'
@@ -22,7 +22,7 @@ const availableSecondLimitCapacity = async (
   store: Store<BurstLimitState>,
   burstCapacity1s: number,
 ) => {
-  const enabled = parseBool(getEnv('RATE_LIMIT_CAPACITY'))
+  const rateLimitCapacityEnabled = getEnv('RATE_LIMIT_CAPACITY')
   const defaultSecondslimit = 429
 
   for (let retry = SECOND_LIMIT_RETRIES; retry > 0; retry--) {
@@ -32,9 +32,10 @@ const availableSecondLimitCapacity = async (
 
     const observedRequestsInSecond = selectTotalNumberOfRequestsFor(requests, IntervalNames.SECOND)
 
-    if (enabled && observedRequestsInSecond >= defaultSecondslimit) {
-      logger.debug(
-        `Per Second Burst rate limit cap of ${defaultSecondslimit} reached. ${observedRequestsInSecond} requests sent in the last minute. Waiting 1 second. Retry number: ${retry}`,
+    // Log a warn msg if rate limit capacity is setted and the default seconds limit is reached
+    if (rateLimitCapacityEnabled && observedRequestsInSecond >= defaultSecondslimit) {
+      logger.warn(
+        `RATE_LIMIT_CAPACITY configured. Per Second Burst rate limit cap of ${defaultSecondslimit} reached.`,
       )
     } else if (observedRequestsInSecond > burstCapacity1s) {
       logger.debug(

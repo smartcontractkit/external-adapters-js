@@ -1,4 +1,4 @@
-import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
+import { getRateLimit, getHTTPLimit, Limits, HTTPTier } from '../../config/provider-limits'
 import { getEnv, parseBool, logError } from '../../util'
 import { AdapterError } from '../../modules/error'
 import type { AdapterContext } from '../../../types'
@@ -24,16 +24,19 @@ export interface RateLimitConfig {
   name: string
 }
 
-export function getLastTierLimit(rateLimitConfig: RateLimitConfig): string | undefined {
+export function getLastTierLimit(
+  rateLimitConfig: RateLimitConfig,
+  rateLimit: keyof HTTPTier,
+): number {
   const { limits } = rateLimitConfig
-  let lastTier: string
-  if (Object.keys(limits).length == 0) return undefined
+  if (Object.keys(limits).length == 0) return 0
   const tierList = Object.keys(limits.http)
   if (tierList.length !== 0) {
-    lastTier = tierList[tierList.length - 1]
-    return limits.http[lastTier] as string
+    const lastTier = tierList[tierList.length - 1]
+    const highestTierLimit = rateLimitConfig.limits.http[lastTier][rateLimit] as number
+    return highestTierLimit
   }
-  return undefined
+  return 0
 }
 
 export function get(
@@ -49,26 +52,15 @@ export function get(
   const shouldIgnorePerSecLimit = perSecRateLimit && parseInt(perSecRateLimit) <= 0
   const shouldIgnorePerMinLimit = perMinuteRateLimit && parseInt(perMinuteRateLimit) <= 0
   let highestTierLimit = 0
-  let lastTier: string | undefined = undefined
-
-  if (!capacity && enabled) {
-    lastTier = getLastTierLimit(rateLimitConfig)
-  }
 
   if (perSecRateLimit) {
     capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
-    if (lastTier)
-      highestTierLimit = shouldIgnorePerSecLimit
-        ? 0
-        : (rateLimitConfig.limits.http[lastTier].rateLimit1m as number)
+    highestTierLimit = getLastTierLimit(rateLimitConfig, 'rateLimit1s')
   }
 
   if (perMinuteRateLimit) {
     capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
-    if (lastTier)
-      highestTierLimit = shouldIgnorePerSecLimit
-        ? 0
-        : (rateLimitConfig.limits.http[lastTier].rateLimit1m as number)
+    highestTierLimit = getLastTierLimit(rateLimitConfig, 'rateLimit1m')
   }
 
   if (enabled && capacity > highestTierLimit) {

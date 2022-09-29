@@ -9,7 +9,7 @@ export const DEFAULT_WS_SUBSCRIPTIONS = 10
 
 type RateLimitTimeFrame = 'rateLimit1s' | 'rateLimit1m' | 'rateLimit1h'
 
-type HTTPTier = {
+export type HTTPTier = {
   rateLimit1s?: number
   rateLimit1m?: number
   rateLimit1h?: number

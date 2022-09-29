@@ -117,8 +117,6 @@ describe('burst limit', () => {
   it('show logs burst of 429 request per seg', async () => {
     process.env.RATE_LIMIT_CAPACITY = '429'
     const burstCapacity = parseInt(process.env.RATE_LIMIT_CAPACITY)
-    console.log('burstCapacity', burstCapacity)
-
     const mockResponse = {
       data: { result: 1, statusCode: 200 },
       jobRunID: '1',
