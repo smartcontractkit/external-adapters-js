@@ -653,6 +653,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/sportsdataio"\
       },\
       {\
+        "name": "@chainlink/stader-address-list-adapter",\
+        "reference": "workspace:packages/sources/stader-address-list"\
+      },\
+      {\
         "name": "@chainlink/stader-labs-adapter",\
         "reference": "workspace:packages/sources/stader-labs"\
       },\
@@ -922,6 +926,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
       ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],\
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
+      ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
       ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
       ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
@@ -5524,6 +5529,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],\
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
+            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
             ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
             ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
@@ -7025,6 +7031,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
+            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
             ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
             ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
@@ -7263,6 +7270,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
             ["luxon", "npm:2.4.0"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/stader-address-list-adapter", [\
+        ["workspace:packages/sources/stader-address-list", {\
+          "packageLocation": "./packages/sources/stader-address-list/",\
+          "packageDependencies": [\
+            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["ethers", "npm:5.6.8"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\

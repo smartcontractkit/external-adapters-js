@@ -52,6 +52,7 @@
     "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
     "@chainlink/sochain-adapter": "workspace:*",
+    "@chainlink/stader-address-list-adapter": "workspace:*",
     "@chainlink/swell-address-list-adapter": "workspace:*",
     "@chainlink/wbtc-address-set-adapter": "workspace:*",
     "@chainlink/wrapped-adapter": "workspace:*",

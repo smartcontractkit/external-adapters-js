@@ -3183,6 +3183,7 @@ __metadata:
     "@chainlink/solana-view-function-adapter": "workspace:*"
     "@chainlink/spectral-macro-score-adapter": "workspace:*"
     "@chainlink/sportsdataio-adapter": "workspace:*"
+    "@chainlink/stader-address-list-adapter": "workspace:*"
     "@chainlink/stader-labs-adapter": "workspace:*"
     "@chainlink/stasis-adapter": "workspace:*"
     "@chainlink/swell-address-list-adapter": "workspace:*"
@@ -4406,6 +4407,7 @@ __metadata:
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
+    "@chainlink/stader-address-list-adapter": "workspace:*"
     "@chainlink/swell-address-list-adapter": "workspace:*"
     "@chainlink/wbtc-address-set-adapter": "workspace:*"
     "@chainlink/wrapped-adapter": "workspace:*"
@@ -4620,6 +4622,23 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     luxon: ^2.0.2
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/stader-address-list-adapter@workspace:*, @chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    ethers: ^5.5.1
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
