@@ -3,12 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./non-deployable/token-allocation"
-    },
-    {
-      "path": "./non-deployable/reduce"
-    },
-    {
       "path": "./composites/anchor"
     },
     {
@@ -120,8 +114,15 @@
       "path": "./examples/source"
     },
     {
+      "path": "./non-deployable/reduce"
+    },
+    {
+      "path": "./non-deployable/token-allocation"
+    },
+    {
       "path": "./scripts"
     },
+
     {
       "path": "./sources/1forge"
     },
@@ -217,6 +218,9 @@
     },
     {
       "path": "./sources/coingecko"
+    },
+    {
+      "path": "./sources/coingecko-test"
     },
     {
       "path": "./sources/coinlore"
@@ -460,6 +464,9 @@
     },
     {
       "path": "./sources/sportsdataio"
+    },
+    {
+      "path": "./sources/stader-address-list"
     },
     {
       "path": "./sources/stader-labs"

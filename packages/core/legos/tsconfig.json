@@ -107,6 +107,9 @@
       "path": "../../sources/coingecko"
     },
     {
+      "path": "../../sources/coingecko-test"
+    },
+    {
       "path": "../../sources/coinlore"
     },
     {
@@ -351,6 +354,9 @@
     },
     {
       "path": "../../sources/sportsdataio"
+    },
+    {
+      "path": "../../sources/stader-address-list"
     },
     {
       "path": "../../sources/stader-labs"

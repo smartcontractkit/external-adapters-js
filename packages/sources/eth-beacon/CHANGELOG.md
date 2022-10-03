@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 35fd235d5: Update Proof of Reserves to support Stader
+
 ## 1.0.0
 
 ### Major Changes
