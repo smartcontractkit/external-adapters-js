@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- 2201988f2: Change response schema so that the EA can be used with Proof-of-reserves EA
+
 ## 2.0.1
 
 ### Patch Changes
