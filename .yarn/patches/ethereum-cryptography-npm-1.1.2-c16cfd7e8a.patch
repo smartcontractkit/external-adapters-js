@@ -1,0 +1,17 @@
+diff --git a/utils.js b/utils.js
+index 48dac71e25592c1060017080abd97b6a8790a2ba..4732516f982a9cf6b2708db2f1d823c69c4636cc 100644
+--- a/utils.js
++++ b/utils.js
+@@ -54,10 +54,9 @@ exports.wrapHash = wrapHash;
+ exports.crypto = (() => {
+     const webCrypto = typeof self === "object" && "crypto" in self ? self.crypto : undefined;
+     const nodeRequire = typeof module !== "undefined" &&
+-        typeof module.require === "function" &&
+-        module.require.bind(module);
++        typeof module.require === "function";
+     return {
+-        node: nodeRequire && !webCrypto ? nodeRequire("crypto") : undefined,
++        node: nodeRequire && !webCrypto ? require("crypto") : undefined,
+         web: webCrypto
+     };
+ })();
