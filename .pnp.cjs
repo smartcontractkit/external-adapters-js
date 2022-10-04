@@ -37,10 +37,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/bitcoin-json-rpc"\
       },\
       {\
-        "name": "@chainlink/bob-adapter",\
-        "reference": "workspace:packages/composites/bob"\
-      },\
-      {\
         "name": "@chainlink/bsol-price-adapter",\
         "reference": "workspace:packages/composites/bsol-price"\
       },\
@@ -279,6 +275,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/blockstream-adapter",\
         "reference": "workspace:packages/sources/blockstream"\
+      },\
+      {\
+        "name": "@chainlink/bob-adapter",\
+        "reference": "workspace:packages/sources/bob"\
       },\
       {\
         "name": "@chainlink/bravenewcoin-adapter",\
@@ -794,7 +794,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],\
       ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
-      ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],\
+      ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
       ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
@@ -4600,16 +4600,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/bob-adapter", [\
-        ["workspace:packages/composites/bob", {\
-          "packageLocation": "./packages/composites/bob/",\
+        ["workspace:packages/sources/bob", {\
+          "packageLocation": "./packages/sources/bob/",\
           "packageDependencies": [\
-            ["@chainlink/bob-adapter", "workspace:packages/composites/bob"],\
+            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
           ],\
@@ -5435,6 +5437,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
+            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\
