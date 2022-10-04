@@ -15,9 +15,6 @@
       "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
     },
     {
-      "path": "./composites/bob/tsconfig.test.json"
-    },
-    {
       "path": "./composites/bsol-price/tsconfig.test.json"
     },
     {
@@ -184,6 +181,9 @@
     },
     {
       "path": "./sources/blockstream/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/bob/tsconfig.test.json"
     },
     {
       "path": "./sources/bravenewcoin/tsconfig.test.json"
