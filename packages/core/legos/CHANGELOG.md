@@ -1,5 +1,27 @@
 # @chainlink/ea
 
+## 1.3.28
+
+### Patch Changes
+
+- Updated dependencies [2201988f2]
+- Updated dependencies [35fd235d5]
+- Updated dependencies [35fd235d5]
+  - @chainlink/por-address-list-adapter@3.0.0
+  - @chainlink/eth-beacon-adapter@1.1.0
+  - @chainlink/stader-address-list-adapter@1.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.11
+  - @chainlink/wbtc-address-set-adapter@1.4.20
+
+## 1.3.27
+
+### Patch Changes
+
+- Updated dependencies [688e3a8ae]
+- Updated dependencies [cba4efd54]
+  - @chainlink/layer2-sequencer-health-adapter@2.2.0
+  - @chainlink/galaxy-adapter@1.2.0
+
 ## 1.3.26
 
 ### Patch Changes

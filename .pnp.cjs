@@ -37,10 +37,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/bitcoin-json-rpc"\
       },\
       {\
-        "name": "@chainlink/bob-adapter",\
-        "reference": "workspace:packages/composites/bob"\
-      },\
-      {\
         "name": "@chainlink/bsol-price-adapter",\
         "reference": "workspace:packages/composites/bsol-price"\
       },\
@@ -279,6 +275,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/blockstream-adapter",\
         "reference": "workspace:packages/sources/blockstream"\
+      },\
+      {\
+        "name": "@chainlink/bob-adapter",\
+        "reference": "workspace:packages/sources/bob"\
       },\
       {\
         "name": "@chainlink/bravenewcoin-adapter",\
@@ -653,6 +653,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/sportsdataio"\
       },\
       {\
+        "name": "@chainlink/stader-address-list-adapter",\
+        "reference": "workspace:packages/sources/stader-address-list"\
+      },\
+      {\
         "name": "@chainlink/stader-labs-adapter",\
         "reference": "workspace:packages/sources/stader-labs"\
       },\
@@ -790,7 +794,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],\
       ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
-      ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],\
+      ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
       ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
@@ -922,6 +926,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
       ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],\
       ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
+      ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
       ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
       ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
       ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
@@ -4595,16 +4600,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/bob-adapter", [\
-        ["workspace:packages/composites/bob", {\
-          "packageLocation": "./packages/composites/bob/",\
+        ["workspace:packages/sources/bob", {\
+          "packageLocation": "./packages/sources/bob/",\
           "packageDependencies": [\
-            ["@chainlink/bob-adapter", "workspace:packages/composites/bob"],\
+            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
           ],\
@@ -5430,6 +5437,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
+            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\
@@ -5524,6 +5532,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
             ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],\
             ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
+            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
             ["@chainlink/stader-labs-adapter", "workspace:packages/sources/stader-labs"],\
             ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
             ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
@@ -5563,7 +5572,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.8.2"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.185"],\
+            ["@types/lodash", "npm:4.14.186"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/object-hash", "npm:2.1.1"],\
@@ -6471,7 +6480,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ethers", "npm:5.6.8"],\
             ["nock", "npm:13.2.9"],\
             ["sinon", "npm:12.0.1"],\
-            ["starknet", "npm:4.1.0"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
@@ -7021,10 +7029,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
+            ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
             ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],\
             ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
+            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
             ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
             ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
             ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
@@ -7263,6 +7273,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
             ["luxon", "npm:2.4.0"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/stader-address-list-adapter", [\
+        ["workspace:packages/sources/stader-address-list", {\
+          "packageLocation": "./packages/sources/stader-address-list/",\
+          "packageDependencies": [\
+            ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["ethers", "npm:5.6.8"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -12946,10 +12975,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:4.14.185", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.185-974674435a-f81d13da5e.zip/node_modules/@types/lodash/",\
+        ["npm:4.14.186", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.186-63caeea1e5-ee0c1368a8.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.185"]\
+            ["@types/lodash", "npm:4.14.186"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -23492,17 +23521,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["isomorphic-fetch", [\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/isomorphic-fetch-npm-3.0.0-bce711adff-e5ab79a56c.zip/node_modules/isomorphic-fetch/",\
-          "packageDependencies": [\
-            ["isomorphic-fetch", "npm:3.0.0"],\
-            ["node-fetch", "virtual:9c0f76151f4c3b88a21fa97c32511955817ad3ef934e8c1532c5676b8cd77a1a75316118d89ec7aaf5249ebda8a4fd664be036dc2ebf4229bc67ef6fa2de5971#npm:2.6.7"],\
-            ["whatwg-fetch", "npm:3.6.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["isomorphic-ws", [\
         ["npm:4.0.1", {\
           "packageLocation": "./.yarn/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",\
@@ -28620,13 +28638,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pako", "npm:1.0.11"]\
           ],\
           "linkType": "HARD"\
-        }],\
-        ["npm:2.0.4", {\
-          "packageLocation": "./.yarn/cache/pako-npm-2.0.4-1d4e28f3ac-82b9b0b99d.zip/node_modules/pako/",\
-          "packageDependencies": [\
-            ["pako", "npm:2.0.4"]\
-          ],\
-          "linkType": "HARD"\
         }]\
       ]],\
       ["param-case", [\
@@ -31845,26 +31856,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["starknet", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/cache/starknet-npm-4.1.0-3090439c5d-3fd4bcf28d.zip/node_modules/starknet/",\
-          "packageDependencies": [\
-            ["starknet", "npm:4.1.0"],\
-            ["@ethersproject/bytes", "npm:5.6.1"],\
-            ["bn.js", "npm:5.2.1"],\
-            ["elliptic", "npm:6.5.4"],\
-            ["ethereum-cryptography", "npm:1.1.2"],\
-            ["hash.js", "npm:1.1.7"],\
-            ["isomorphic-fetch", "npm:3.0.0"],\
-            ["json-bigint", "npm:1.0.0"],\
-            ["minimalistic-assert", "npm:1.0.1"],\
-            ["pako", "npm:2.0.4"],\
-            ["ts-custom-error", "npm:3.2.0"],\
-            ["url-join", "npm:4.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["static-extend", [\
         ["npm:0.1.2", {\
           "packageLocation": "./.yarn/cache/static-extend-npm-0.1.2-2720ee6882-8657485b83.zip/node_modules/static-extend/",\
@@ -33839,15 +33830,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["url-join", [\
-        ["npm:4.0.1", {\
-          "packageLocation": "./.yarn/cache/url-join-npm-4.0.1-e1f4415722-f74e868bf2.zip/node_modules/url-join/",\
-          "packageDependencies": [\
-            ["url-join", "npm:4.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["url-parse-lax", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/url-parse-lax-npm-1.0.0-72419d807b-03316acff7.zip/node_modules/url-parse-lax/",\
@@ -34905,15 +34887,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["whatwg-encoding", "npm:1.0.5"],\
             ["iconv-lite", "npm:0.4.24"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["whatwg-fetch", [\
-        ["npm:3.6.2", {\
-          "packageLocation": "./.yarn/cache/whatwg-fetch-npm-3.6.2-4bdf324792-ee976b7249.zip/node_modules/whatwg-fetch/",\
-          "packageDependencies": [\
-            ["whatwg-fetch", "npm:3.6.2"]\
           ],\
           "linkType": "HARD"\
         }]\

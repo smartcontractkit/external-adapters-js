@@ -28,7 +28,7 @@ export const isNumber = (value: unknown): boolean => typeof value === 'number'
 export const baseEnvDefaults: EnvDefaults = {
   BASE_URL: '/',
   EA_PORT: '8080',
-  EA_HOST: '::',
+  EA_HOST: '0.0.0.0',
   METRICS_PORT: '9080',
   METRICS_ENABLED: 'true',
   RETRY: '1',

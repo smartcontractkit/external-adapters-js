@@ -15,9 +15,6 @@
       "path": "./composites/bitcoin-json-rpc"
     },
     {
-      "path": "./composites/bob"
-    },
-    {
       "path": "./composites/bsol-price"
     },
     {
@@ -185,6 +182,9 @@
     },
     {
       "path": "./sources/blockstream"
+    },
+    {
+      "path": "./sources/bob"
     },
     {
       "path": "./sources/bravenewcoin"
@@ -464,6 +464,9 @@
     },
     {
       "path": "./sources/sportsdataio"
+    },
+    {
+      "path": "./sources/stader-address-list"
     },
     {
       "path": "./sources/stader-labs"

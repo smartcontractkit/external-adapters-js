@@ -58,6 +58,18 @@ export const runBalanceAdapter = async (
     case porIndexer.NAME:
       next = buildPorIndexerRequest(input, confirmations)
       break
+    case ethBeacon.NAME:
+      next = {
+        id: input.jobRunID,
+        data: {
+          result: input.data.result,
+          dataPath: 'result',
+          endpoint: 'balance',
+          confirmations,
+          validatorStatus: input.data.validatorStatus,
+        },
+      }
+      break
     default:
       next = {
         id: input.jobRunID,

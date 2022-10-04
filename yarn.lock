@@ -2206,16 +2206,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bob-adapter@workspace:packages/composites/bob":
+"@chainlink/bob-adapter@workspace:*, @chainlink/bob-adapter@workspace:packages/sources/bob":
   version: 0.0.0-use.local
-  resolution: "@chainlink/bob-adapter@workspace:packages/composites/bob"
+  resolution: "@chainlink/bob-adapter@workspace:packages/sources/bob"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/json-rpc-adapter": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
     ethers: ^5.4.6
+    nock: 13.2.9
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -2942,7 +2944,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.6.1
     "@types/fast-redact": 3.0.2
     "@types/jest": 27.5.2
-    "@types/lodash": 4.14.185
+    "@types/lodash": 4.14.186
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
@@ -3089,6 +3091,7 @@ __metadata:
     "@chainlink/blockcypher-adapter": "workspace:*"
     "@chainlink/blocksize-capital-adapter": "workspace:*"
     "@chainlink/blockstream-adapter": "workspace:*"
+    "@chainlink/bob-adapter": "workspace:*"
     "@chainlink/bravenewcoin-adapter": "workspace:*"
     "@chainlink/btc.com-adapter": "workspace:*"
     "@chainlink/cache.gold-adapter": "workspace:*"
@@ -3183,6 +3186,7 @@ __metadata:
     "@chainlink/solana-view-function-adapter": "workspace:*"
     "@chainlink/spectral-macro-score-adapter": "workspace:*"
     "@chainlink/sportsdataio-adapter": "workspace:*"
+    "@chainlink/stader-address-list-adapter": "workspace:*"
     "@chainlink/stader-labs-adapter": "workspace:*"
     "@chainlink/stasis-adapter": "workspace:*"
     "@chainlink/swell-address-list-adapter": "workspace:*"
@@ -3912,7 +3916,6 @@ __metadata:
     ethers: ^5.4.6
     nock: 13.2.9
     sinon: 12.0.1
-    starknet: 4.1.0
     supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -4402,10 +4405,12 @@ __metadata:
     "@chainlink/eth-beacon-adapter": "workspace:*"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
+    "@chainlink/por-address-list-adapter": "workspace:*"
     "@chainlink/por-indexer-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
+    "@chainlink/stader-address-list-adapter": "workspace:*"
     "@chainlink/swell-address-list-adapter": "workspace:*"
     "@chainlink/wbtc-address-set-adapter": "workspace:*"
     "@chainlink/wrapped-adapter": "workspace:*"
@@ -4620,6 +4625,23 @@ __metadata:
     "@types/supertest": 2.0.12
     ethers: ^5.4.6
     luxon: ^2.0.2
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/stader-address-list-adapter@workspace:*, @chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    ethers: ^5.5.1
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -9934,10 +9956,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.185":
-  version: 4.14.185
-  resolution: "@types/lodash@npm:4.14.185"
-  checksum: f81d13da5ecab110ca9c5c7cc2bedc3c9802a6acf668576aecd1b8f4b134ed81d06c15f1e600fb08f05975098280a0d97d30cddfc2cb39ec1c6b56e971ca53b3
+"@types/lodash@npm:4.14.186":
+  version: 4.14.186
+  resolution: "@types/lodash@npm:4.14.186"
+  checksum: ee0c1368a8100bb6efb88335107473a41928fc307ff1ef4ff1278868ccddba9c04c68c36d1ffe3a0392ef4a956e1955f7de3203ec09df4f1655dd1b88485c549
   languageName: node
   linkType: hard
 
@@ -10218,7 +10240,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/rimraf@npm:^3":
+"@types/rimraf@npm:3.0.2":
   version: 3.0.2
   resolution: "@types/rimraf@npm:3.0.2"
   dependencies:
@@ -14369,7 +14391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.2":
+"dotenv@npm:16.0.2":
   version: 16.0.2
   resolution: "dotenv@npm:16.0.2"
   checksum: ca8f9ca2d67929c7771069f4c31b4e46b9932621009e658e5afd655dde2d69b77642bf36dbc9e72bc170523dfd908a9ee41c26f034c1fdc605ace3b1b4b10faf
@@ -19239,16 +19261,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-fetch@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "isomorphic-fetch@npm:3.0.0"
-  dependencies:
-    node-fetch: ^2.6.1
-    whatwg-fetch: ^3.4.1
-  checksum: e5ab79a56ce5af6ddd21265f59312ad9a4bc5a72cebc98b54797b42cb30441d5c5f8d17c5cd84a99e18101c8af6f90c081ecb8d12fd79e332be1778d58486d75
-  languageName: node
-  linkType: hard
-
 "isomorphic-ws@npm:^4.0.1":
   version: 4.0.1
   resolution: "isomorphic-ws@npm:4.0.1"
@@ -20589,13 +20601,13 @@ __metadata:
     "@types/babel__preset-env": 7.9.2
     "@types/k6": 0.37.1
     "@types/node": 17.0.14
-    "@types/rimraf": ^3
+    "@types/rimraf": 3.0.2
     babel-loader: 8.2.5
     clean-webpack-plugin: 4.0.0
     core-js: 3.20.3
-    dotenv: ^16.0.2
-    os-browserify: ^0.3.0
-    path-browserify: ^1.0.1
+    dotenv: 16.0.2
+    os-browserify: 0.3.0
+    path-browserify: 1.0.1
     typescript: 4.7.4
     webpack: 5.66.0
     webpack-cli: 4.9.2
@@ -23536,7 +23548,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"os-browserify@npm:^0.3.0":
+"os-browserify@npm:0.3.0":
   version: 0.3.0
   resolution: "os-browserify@npm:0.3.0"
   checksum: 16e37ba3c0e6a4c63443c7b55799ce4066d59104143cb637ecb9fce586d5da319cdca786ba1c867abbe3890d2cbf37953f2d51eea85e20dd6c4570d6c54bfebf
@@ -23838,13 +23850,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pako@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "pako@npm:2.0.4"
-  checksum: 82b9b0b99dd830c9103856a6dbd10f0cb2c8c32b9768184727ea381a99666de9a47a069d2e6efe6acf09336f363956b50835c196ef9311b34b7274d420eb0d88
-  languageName: node
-  linkType: hard
-
 "param-case@npm:^2.1.0":
   version: 2.1.1
   resolution: "param-case@npm:2.1.1"
@@ -23981,7 +23986,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-browserify@npm:^1.0.1":
+"path-browserify@npm:1.0.1":
   version: 1.0.1
   resolution: "path-browserify@npm:1.0.1"
   checksum: c6d7fa376423fe35b95b2d67990060c3ee304fc815ff0a2dc1c6c3cfaff2bd0d572ee67e18f19d0ea3bbe32e8add2a05021132ac40509416459fffee35200699
@@ -26797,25 +26802,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"starknet@npm:4.1.0":
-  version: 4.1.0
-  resolution: "starknet@npm:4.1.0"
-  dependencies:
-    "@ethersproject/bytes": ^5.6.1
-    bn.js: ^5.2.1
-    elliptic: ^6.5.4
-    ethereum-cryptography: ^1.0.3
-    hash.js: ^1.1.7
-    isomorphic-fetch: ^3.0.0
-    json-bigint: ^1.0.0
-    minimalistic-assert: ^1.0.1
-    pako: ^2.0.4
-    ts-custom-error: ^3.2.0
-    url-join: ^4.0.1
-  checksum: 3fd4bcf28da1d62110761c00f8c24112d178b1186c88046c343f11c6fc901ca4b36b578afb5c98779c7e87159598594bb8e4f2dc4b0693d12116a01d55be77e9
-  languageName: node
-  linkType: hard
-
 "static-extend@npm:^0.1.1":
   version: 0.1.2
   resolution: "static-extend@npm:0.1.2"
@@ -28504,13 +28490,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"url-join@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "url-join@npm:4.0.1"
-  checksum: f74e868bf25dbc8be6a8d7237d4c36bb5b6c62c72e594d5ab1347fe91d6af7ccd9eb5d621e30152e4da45c2e9a26bec21390e911ab54a62d4d82e76028374ee5
-  languageName: node
-  linkType: hard
-
 "url-parse-lax@npm:^1.0.0":
   version: 1.0.0
   resolution: "url-parse-lax@npm:1.0.0"
@@ -29500,13 +29479,6 @@ __metadata:
   dependencies:
     iconv-lite: 0.4.24
   checksum: 5be4efe111dce29ddee3448d3915477fcc3b28f991d9cf1300b4e50d6d189010d47bca2f51140a844cf9b726e8f066f4aee72a04d687bfe4f2ee2767b2f5b1e6
-  languageName: node
-  linkType: hard
-
-"whatwg-fetch@npm:^3.4.1":
-  version: 3.6.2
-  resolution: "whatwg-fetch@npm:3.6.2"
-  checksum: ee976b7249e7791edb0d0a62cd806b29006ad7ec3a3d89145921ad8c00a3a67e4be8f3fb3ec6bc7b58498724fd568d11aeeeea1f7827e7e1e5eae6c8a275afed
   languageName: node
   linkType: hard
 
