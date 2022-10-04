@@ -1,10 +1,4 @@
-import {
-  Config,
-  Validator,
-  Requester,
-  AdapterInputError,
-  AdapterDataProviderError,
-} from '@chainlink/ea-bootstrap'
+import { Config, Validator, Requester, AdapterInputError } from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['balance']
@@ -80,12 +74,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     address: validator.index,
     balance: validator.balance,
   }))
-  if (balances.length != addresses.length) {
-    throw new AdapterDataProviderError({
-      jobRunID,
-      message: `Beacon node did not return the right amount of balances.`,
-    })
-  }
+
   const result = {
     ...response,
     data: {

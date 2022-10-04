@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.30
+
+### Patch Changes
+
+- Updated dependencies [0c98ad38b]
+  - @chainlink/eth-beacon-adapter@1.1.1
+  - @chainlink/renvm-address-set-adapter@1.5.13
+  - @chainlink/wbtc-address-set-adapter@1.4.22
+
 ## 1.3.29
 
 ### Patch Changes
