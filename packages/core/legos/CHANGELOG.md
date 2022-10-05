@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.29
+
+### Patch Changes
+
+- Updated dependencies [25218e0bb]
+  - @chainlink/por-address-list-adapter@4.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.12
+  - @chainlink/wbtc-address-set-adapter@1.4.21
+
 ## 1.3.28
 
 ### Patch Changes
