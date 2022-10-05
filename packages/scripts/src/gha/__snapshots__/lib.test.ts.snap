@@ -4,6 +4,10 @@ exports[`job matrix generation should generate a job matrix consumable by gha 1`
 Object {
   "adapter": Array [
     Object {
+      "name": "anchor-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "apy-finance-adapter",
       "type": "composites",
     },
@@ -16,11 +20,23 @@ Object {
       "type": "composites",
     },
     Object {
-      "name": "bob-adapter",
+      "name": "bsol-price-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "circuit-breaker-adapter",
       "type": "composites",
     },
     Object {
       "name": "crypto-volatility-index-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "curve-3pool-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "defi-dozen-adapter",
       "type": "composites",
     },
     Object {
@@ -36,7 +52,19 @@ Object {
       "type": "composites",
     },
     Object {
+      "name": "dydx-rewards-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "google-weather-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "historical-average-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "implied-price-adapter",
       "type": "composites",
     },
     Object {
@@ -52,7 +80,15 @@ Object {
       "type": "composites",
     },
     Object {
+      "name": "nftx-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "outlier-detection-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "por-indexer-adapter",
       "type": "composites",
     },
     Object {
@@ -64,6 +100,14 @@ Object {
       "type": "composites",
     },
     Object {
+      "name": "savax-price-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "set-token-index-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "synth-index-adapter",
       "type": "composites",
     },
@@ -72,11 +116,11 @@ Object {
       "type": "composites",
     },
     Object {
-      "name": "token-allocation-adapter",
+      "name": "vesper-adapter",
       "type": "composites",
     },
     Object {
-      "name": "vesper-adapter",
+      "name": "xsushi-price-adapter",
       "type": "composites",
     },
     Object {
@@ -88,7 +132,23 @@ Object {
       "type": "examples",
     },
     Object {
+      "name": "reduce-adapter",
+      "type": "non-deployable",
+    },
+    Object {
+      "name": "token-allocation-adapter",
+      "type": "non-deployable",
+    },
+    Object {
       "name": "1forge-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "accuweather-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ada-balance-adapter",
       "type": "sources",
     },
     Object {
@@ -100,11 +160,31 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "alpine-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "amberdata-adapter",
       "type": "sources",
     },
     Object {
       "name": "anyblock-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ap-election-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "armanino-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "bank-frick-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "bea-adapter",
       "type": "sources",
     },
     Object {
@@ -136,7 +216,15 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "blocksize-capital-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "blockstream-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "bob-adapter",
       "type": "sources",
     },
     Object {
@@ -152,7 +240,19 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "ccip-read-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "celsius-address-list-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "cfbenchmarks-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "chain-reserve-wallet-adapter",
       "type": "sources",
     },
     Object {
@@ -193,6 +293,10 @@ Object {
     },
     Object {
       "name": "covid-tracker-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "cryptex-adapter",
       "type": "sources",
     },
     Object {
@@ -244,11 +348,23 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "elwood-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ens-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "enzyme-adapter",
       "type": "sources",
     },
     Object {
       "name": "eodhistoricaldata-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "eth-balance-adapter",
       "type": "sources",
     },
     Object {
@@ -288,7 +404,23 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "flightaware-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "fmpcloud-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "galaxis-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "galaxy-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "gemini-adapter",
       "type": "sources",
     },
     Object {
@@ -304,7 +436,15 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "gramchain-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "graphql-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "gsr-adapter",
       "type": "sources",
     },
     Object {
@@ -313,6 +453,14 @@ Object {
     },
     Object {
       "name": "intrinio-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ipfs-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "jpegd-adapter",
       "type": "sources",
     },
     Object {
@@ -332,11 +480,19 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "lido-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "linkpool-adapter",
       "type": "sources",
     },
     Object {
       "name": "lition-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "lotus-adapter",
       "type": "sources",
     },
     Object {
@@ -349,6 +505,10 @@ Object {
     },
     Object {
       "name": "metalsapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "mock-ea-adapter",
       "type": "sources",
     },
     Object {
@@ -369,6 +529,10 @@ Object {
     },
     Object {
       "name": "oilpriceapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "onchain-gas-adapter",
       "type": "sources",
     },
     Object {
@@ -396,7 +560,7 @@ Object {
       "type": "sources",
     },
     Object {
-      "name": "reduce-adapter",
+      "name": "por-address-list-adapter",
       "type": "sources",
     },
     Object {
@@ -408,11 +572,27 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "snowflake-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "sochain-adapter",
       "type": "sources",
     },
     Object {
+      "name": "solana-view-function-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "spectral-macro-score-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "sportsdataio-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "stader-labs-adapter",
       "type": "sources",
     },
     Object {
@@ -425,6 +605,10 @@ Object {
     },
     Object {
       "name": "taapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "terra-view-function-adapter",
       "type": "sources",
     },
     Object {
@@ -456,7 +640,23 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "uniswap-v2-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "uniswap-v3-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "upvest-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "uscpi-one-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "view-function-adapter",
       "type": "sources",
     },
     Object {
@@ -465,6 +665,10 @@ Object {
     },
     Object {
       "name": "wootrade-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "wrapped-adapter",
       "type": "sources",
     },
     Object {
@@ -499,6 +703,10 @@ exports[`job matrix generation should generate a job matrix suitable for pushing
 Object {
   "adapter": Array [
     Object {
+      "name": "anchor-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "apy-finance-adapter",
       "type": "composites",
     },
@@ -511,11 +719,23 @@ Object {
       "type": "composites",
     },
     Object {
-      "name": "bob-adapter",
+      "name": "bsol-price-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "circuit-breaker-adapter",
       "type": "composites",
     },
     Object {
       "name": "crypto-volatility-index-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "curve-3pool-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "defi-dozen-adapter",
       "type": "composites",
     },
     Object {
@@ -531,7 +751,19 @@ Object {
       "type": "composites",
     },
     Object {
+      "name": "dydx-rewards-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "google-weather-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "historical-average-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "implied-price-adapter",
       "type": "composites",
     },
     Object {
@@ -547,7 +779,15 @@ Object {
       "type": "composites",
     },
     Object {
+      "name": "nftx-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "outlier-detection-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "por-indexer-adapter",
       "type": "composites",
     },
     Object {
@@ -559,6 +799,14 @@ Object {
       "type": "composites",
     },
     Object {
+      "name": "savax-price-adapter",
+      "type": "composites",
+    },
+    Object {
+      "name": "set-token-index-adapter",
+      "type": "composites",
+    },
+    Object {
       "name": "synth-index-adapter",
       "type": "composites",
     },
@@ -567,11 +815,11 @@ Object {
       "type": "composites",
     },
     Object {
-      "name": "token-allocation-adapter",
+      "name": "vesper-adapter",
       "type": "composites",
     },
     Object {
-      "name": "vesper-adapter",
+      "name": "xsushi-price-adapter",
       "type": "composites",
     },
     Object {
@@ -583,7 +831,23 @@ Object {
       "type": "examples",
     },
     Object {
+      "name": "reduce-adapter",
+      "type": "non-deployable",
+    },
+    Object {
+      "name": "token-allocation-adapter",
+      "type": "non-deployable",
+    },
+    Object {
       "name": "1forge-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "accuweather-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ada-balance-adapter",
       "type": "sources",
     },
     Object {
@@ -595,11 +859,31 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "alpine-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "amberdata-adapter",
       "type": "sources",
     },
     Object {
       "name": "anyblock-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ap-election-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "armanino-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "bank-frick-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "bea-adapter",
       "type": "sources",
     },
     Object {
@@ -631,7 +915,15 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "blocksize-capital-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "blockstream-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "bob-adapter",
       "type": "sources",
     },
     Object {
@@ -647,7 +939,19 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "ccip-read-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "celsius-address-list-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "cfbenchmarks-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "chain-reserve-wallet-adapter",
       "type": "sources",
     },
     Object {
@@ -688,6 +992,10 @@ Object {
     },
     Object {
       "name": "covid-tracker-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "cryptex-adapter",
       "type": "sources",
     },
     Object {
@@ -739,11 +1047,23 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "elwood-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ens-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "enzyme-adapter",
       "type": "sources",
     },
     Object {
       "name": "eodhistoricaldata-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "eth-balance-adapter",
       "type": "sources",
     },
     Object {
@@ -783,7 +1103,23 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "flightaware-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "fmpcloud-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "galaxis-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "galaxy-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "gemini-adapter",
       "type": "sources",
     },
     Object {
@@ -799,7 +1135,15 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "gramchain-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "graphql-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "gsr-adapter",
       "type": "sources",
     },
     Object {
@@ -808,6 +1152,14 @@ Object {
     },
     Object {
       "name": "intrinio-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "ipfs-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "jpegd-adapter",
       "type": "sources",
     },
     Object {
@@ -827,11 +1179,19 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "lido-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "linkpool-adapter",
       "type": "sources",
     },
     Object {
       "name": "lition-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "lotus-adapter",
       "type": "sources",
     },
     Object {
@@ -844,6 +1204,10 @@ Object {
     },
     Object {
       "name": "metalsapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "mock-ea-adapter",
       "type": "sources",
     },
     Object {
@@ -864,6 +1228,10 @@ Object {
     },
     Object {
       "name": "oilpriceapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "onchain-gas-adapter",
       "type": "sources",
     },
     Object {
@@ -891,7 +1259,7 @@ Object {
       "type": "sources",
     },
     Object {
-      "name": "reduce-adapter",
+      "name": "por-address-list-adapter",
       "type": "sources",
     },
     Object {
@@ -903,11 +1271,27 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "snowflake-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "sochain-adapter",
       "type": "sources",
     },
     Object {
+      "name": "solana-view-function-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "spectral-macro-score-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "sportsdataio-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "stader-labs-adapter",
       "type": "sources",
     },
     Object {
@@ -920,6 +1304,10 @@ Object {
     },
     Object {
       "name": "taapi-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "terra-view-function-adapter",
       "type": "sources",
     },
     Object {
@@ -951,7 +1339,23 @@ Object {
       "type": "sources",
     },
     Object {
+      "name": "uniswap-v2-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "uniswap-v3-adapter",
+      "type": "sources",
+    },
+    Object {
       "name": "upvest-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "uscpi-one-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "view-function-adapter",
       "type": "sources",
     },
     Object {
@@ -960,6 +1364,10 @@ Object {
     },
     Object {
       "name": "wootrade-adapter",
+      "type": "sources",
+    },
+    Object {
+      "name": "wrapped-adapter",
       "type": "sources",
     },
     Object {
