@@ -114,8 +114,8 @@ describe('burst limit', () => {
     expect(middleware(request, {})).rejects.toThrow()
   })
 
-  it('show logs burst of 429 request per seg', async () => {
-    process.env.RATE_LIMIT_CAPACITY = '429'
+  it('show logs if custom rate limit is setted', async () => {
+    process.env.RATE_LIMIT_CAPACITY = '10'
     const burstCapacity = parseInt(process.env.RATE_LIMIT_CAPACITY)
     const mockResponse = {
       data: { result: 1, statusCode: 200 },
@@ -138,8 +138,8 @@ describe('burst limit', () => {
     const context: AdapterContext = {
       limits: {
         enabled: true,
-        burstCapacity1s: burstCapacity,
-        burstCapacity1m: 0,
+        burstCapacity1s: 0,
+        burstCapacity1m: burstCapacity,
         totalCapacity: 0,
       },
     }

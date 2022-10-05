@@ -1,4 +1,9 @@
-import { getRateLimit, getHTTPLimit, Limits, HTTPTier } from '../../config/provider-limits'
+import {
+  getRateLimit,
+  getHTTPLimit,
+  RateLimitConfig,
+  getLastTierLimitValue,
+} from '../../config/provider-limits'
 import { getEnv, parseBool, logError } from '../../util'
 import { AdapterError } from '../../modules/error'
 import type { AdapterContext } from '../../../types'
@@ -19,26 +24,6 @@ export interface Config {
   enabled: boolean
 }
 
-export interface RateLimitConfig {
-  limits: Limits
-  name: string
-}
-
-export function getLastTierLimit(
-  rateLimitConfig: RateLimitConfig,
-  rateLimit: keyof HTTPTier,
-): number {
-  const { limits } = rateLimitConfig
-  if (Object.keys(limits).length == 0) return 0
-  const tierList = Object.keys(limits.http)
-  if (tierList.length !== 0) {
-    const lastTier = tierList[tierList.length - 1]
-    const highestTierLimit = rateLimitConfig.limits.http[lastTier][rateLimit] as number
-    return highestTierLimit
-  }
-  return 0
-}
-
 export function get(
   rateLimitConfig: RateLimitConfig = { limits: { http: {}, ws: {} }, name: '' },
   context: AdapterContext,
@@ -55,12 +40,12 @@ export function get(
 
   if (perSecRateLimit) {
     capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
-    highestTierLimit = getLastTierLimit(rateLimitConfig, 'rateLimit1s')
+    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'rateLimit1s')
   }
 
   if (perMinuteRateLimit) {
     capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
-    highestTierLimit = getLastTierLimit(rateLimitConfig, 'rateLimit1m')
+    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'rateLimit1m')
   }
 
   if (enabled && capacity > highestTierLimit) {

@@ -10,7 +10,7 @@ import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
 import { logger } from '../../modules/logger'
 import { AdapterBurstLimitError } from '../../modules/error'
-import { getEnv, sleep } from '../../util'
+import { sleep } from '../../util'
 
 export * as actions from './actions'
 export * as reducer from './reducer'
@@ -22,9 +22,6 @@ const availableSecondLimitCapacity = async (
   store: Store<BurstLimitState>,
   burstCapacity1s: number,
 ) => {
-  const rateLimitCapacityEnabled = getEnv('RATE_LIMIT_CAPACITY')
-  const defaultSecondslimit = 429
-
   for (let retry = SECOND_LIMIT_RETRIES; retry > 0; retry--) {
     store.dispatch(actions.updateIntervals())
     const state = store.getState()
@@ -32,12 +29,7 @@ const availableSecondLimitCapacity = async (
 
     const observedRequestsInSecond = selectTotalNumberOfRequestsFor(requests, IntervalNames.SECOND)
 
-    // Log a warn msg if rate limit capacity is setted and the default seconds limit is reached
-    if (rateLimitCapacityEnabled && observedRequestsInSecond >= defaultSecondslimit) {
-      logger.warn(
-        `RATE_LIMIT_CAPACITY configured. Per Second Burst rate limit cap of ${defaultSecondslimit} reached.`,
-      )
-    } else if (observedRequestsInSecond > burstCapacity1s) {
+    if (observedRequestsInSecond > burstCapacity1s) {
       logger.debug(
         `Per Second Burst rate limit cap of ${burstCapacity1s} reached. ${observedRequestsInSecond} requests sent in the last minute. Waiting 1 second. Retry number: ${retry}`,
       )
@@ -71,11 +63,15 @@ export const withBurstLimit =
         requests,
         IntervalNames.MINUTE,
       )
+
       if (
         input.id !== WARMUP_BATCH_REQUEST_ID && // Always allow Batch Warmer requests through
         observedRequestsInMinute > config.burstCapacity1m * MINUTE_LIMIT_WARMER_BUFFER
         // TODO: determine BATCH_REQUEST_BUFFER dynamically based on (number of batch warmers * 3)
       ) {
+        if (config.enabled) {
+          logger.warn(`External Adapter custom rate limit capacity is being used`)
+        }
         logger.warn(
           `External Adapter backing off. Provider's limit of ${
             config.burstCapacity1m * MINUTE_LIMIT_WARMER_BUFFER
@@ -92,8 +88,10 @@ export const withBurstLimit =
     // Limit by Second
     if (config.burstCapacity1s) {
       const availableCapacity = await availableSecondLimitCapacity(store, config.burstCapacity1s)
-
       if (!availableCapacity) {
+        if (config.enabled) {
+          logger.warn(`External Adapter custom rate limit capacity is being used`)
+        }
         logger.warn(
           `External Adapter backing off. Provider's burst limit of ${config.burstCapacity1s} requests per second reached.`,
         )
