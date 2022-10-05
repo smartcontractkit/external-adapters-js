@@ -1,7 +1,5 @@
-import * as JSONRPC from '@chainlink/json-rpc-adapter'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { Validator, Requester, AdapterDataProviderError, util } from '@chainlink/ea-bootstrap'
-import { DEFAULT_RPC_URL, ExtendedConfig } from '../config'
 import { ethers } from 'ethers'
 
 export const NAME = 'format'
@@ -13,10 +11,6 @@ export const description =
 export type TInputParameters = { url?: string; chainId?: string; blockNumber: number }
 
 export const inputParameters: InputParameters<TInputParameters> = {
-  url: {
-    description: 'Blockchain RPC endpoint',
-    required: false,
-  },
   chainId: {
     description: 'An identifier for which network of the blockchain to use',
     required: false,
@@ -50,38 +44,27 @@ type ResponseSchema = {
   uncles: string[]
 }
 
-export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, context, config) => {
+export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
-  const url = validator.validated.data.url || config.RPC_URL || DEFAULT_RPC_URL
-  const provider = new ethers.providers.JsonRpcProvider(url)
+  const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
   const jobRunID = validator.validated.id
 
   const chainId = validator.validated.data.chainId
   const blockNumber = validator.validated.data.blockNumber
 
   try {
-    const block = await provider.getBlock(blockNumber)
-    const _execute = JSONRPC.makeExecute(config)
-    const response = await _execute(
-      {
-        ...request,
-        data: {
-          ...(request.data as JSONRPC.types.request.TInputParameters),
-          method: 'eth_getBlockByHash',
-          params: [block.hash, false] as string[],
-        },
-      },
-      context,
-    )
+    const fullBlock: ResponseSchema = await provider.send('eth_getBlockByNumber', [
+      ethers.utils.hexlify(blockNumber),
+      false,
+    ])
     const coder = new ethers.utils.AbiCoder()
-    const responseData = response.data.result as unknown as ResponseSchema
     const encodedResult = coder.encode(
       ['uint8', 'bytes32', 'bytes32'],
-      [chainId, responseData.hash, responseData.receiptsRoot],
+      [chainId, fullBlock.hash, fullBlock.receiptsRoot],
     )
     const result = encodedResult.slice(2)
-    return Requester.success(jobRunID, { data: { responseData, result } }, config.verbose)
+    return Requester.success(jobRunID, { data: { result } }, config.verbose)
   } catch (e: any) {
     throw new AdapterDataProviderError({
       network: 'ethereum',
