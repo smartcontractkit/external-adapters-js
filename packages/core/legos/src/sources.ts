@@ -19,6 +19,7 @@ import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
+import * as bob from '@chainlink/bob-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
 import * as btc_com from '@chainlink/btc.com-adapter'
 import * as cache_gold from '@chainlink/cache.gold-adapter'
@@ -113,6 +114,7 @@ import * as sochain from '@chainlink/sochain-adapter'
 import * as solana_view_function from '@chainlink/solana-view-function-adapter'
 import * as spectral_macro_score from '@chainlink/spectral-macro-score-adapter'
 import * as sportsdataio from '@chainlink/sportsdataio-adapter'
+import * as stader_address_list from '@chainlink/stader-address-list-adapter'
 import * as stader_labs from '@chainlink/stader-labs-adapter'
 import * as stasis from '@chainlink/stasis-adapter'
 import * as swell_address_list from '@chainlink/swell-address-list-adapter'
@@ -158,6 +160,7 @@ export default {
   blockcypher,
   blocksize_capital,
   blockstream,
+  bob,
   bravenewcoin,
   btc_com,
   cache_gold,
@@ -252,6 +255,7 @@ export default {
   solana_view_function,
   spectral_macro_score,
   sportsdataio,
+  stader_address_list,
   stader_labs,
   stasis,
   swell_address_list,

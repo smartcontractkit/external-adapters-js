@@ -25,6 +25,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [blockcypher](./blockcypher/README.md)
 - [blocksize-capital](./blocksize-capital/README.md)
 - [blockstream](./blockstream/README.md)
+- [bob](./bob/README.md)
 - [bravenewcoin](./bravenewcoin/README.md)
 - [btc.com](./btc.com/README.md)
 - [cache.gold](./cache.gold/README.md)
