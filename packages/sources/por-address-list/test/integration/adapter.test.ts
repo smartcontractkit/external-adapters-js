@@ -61,6 +61,8 @@ describe('execute', () => {
       id,
       data: {
         contractAddress: '0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B',
+        network: 'ethereum',
+        chainId: 'mainnet',
       },
     }
 

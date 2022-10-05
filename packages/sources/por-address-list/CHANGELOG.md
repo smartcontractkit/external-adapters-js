@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 4.0.0
+
+### Major Changes
+
+- 25218e0bb: Added new required network and chainId params
+
 ## 3.0.0
 
 ### Major Changes

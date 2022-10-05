@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- 0c98ad38b: Remove input vs. output length check
+
 ## 1.1.0
 
 ### Minor Changes
