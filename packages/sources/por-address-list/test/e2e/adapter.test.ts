@@ -18,6 +18,8 @@ describe('execute', () => {
             contractAddress: '0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B',
             batchSize: 3,
             confirmations: 0,
+            network: 'ethereum',
+            chainId: 'mainnet',
           },
         },
       },
@@ -27,6 +29,8 @@ describe('execute', () => {
           id: '1',
           data: {
             contractAddress: '0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B',
+            network: 'ethereum',
+            chainId: 'mainnet',
           },
         },
       },
@@ -37,6 +41,8 @@ describe('execute', () => {
           data: {
             contractAddress: '0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B',
             confirmations: 1,
+            network: 'ethereum',
+            chainId: 'mainnet',
           },
         },
       },
@@ -47,6 +53,8 @@ describe('execute', () => {
           data: {
             contractAddress: '0x203E97cF02dB2aE52c598b2e5e6c6A778EB1987B',
             batchSize: 10,
+            network: 'ethereum',
+            chainId: 'mainnet',
           },
         },
       },
