@@ -10,7 +10,7 @@ import * as actions from './actions'
 import { WARMUP_BATCH_REQUEST_ID } from '../cache-warmer/config'
 import { logger } from '../../modules/logger'
 import { AdapterBurstLimitError } from '../../modules/error'
-import { sleep } from '../../util'
+import { getEnv, sleep } from '../../util'
 
 export * as actions from './actions'
 export * as reducer from './reducer'
@@ -49,6 +49,8 @@ export const withBurstLimit =
   async (execute, context) =>
   async (input) => {
     const config = context.limits
+    const customCapacitySet = getEnv('RATE_LIMIT_CAPACITY')
+
     if (!store || !config?.enabled || (!config.burstCapacity1m && !config.burstCapacity1s))
       return await execute(input, context)
 
@@ -69,11 +71,10 @@ export const withBurstLimit =
         observedRequestsInMinute > config.burstCapacity1m * MINUTE_LIMIT_WARMER_BUFFER
         // TODO: determine BATCH_REQUEST_BUFFER dynamically based on (number of batch warmers * 3)
       ) {
-        if (config.enabled) {
-          logger.warn(`External Adapter custom rate limit capacity is being used`)
-        }
         logger.warn(
-          `External Adapter backing off. Provider's limit of ${
+          `${
+            customCapacitySet ? 'CUSTOM RATE LIMIT CAPACITY CONFIGURED: ' : ''
+          }External Adapter backing off. Provider's limit of ${
             config.burstCapacity1m * MINUTE_LIMIT_WARMER_BUFFER
           } requests per minute reached. ${observedRequestsInMinute} requests sent in the last minute.`,
         )
@@ -89,11 +90,12 @@ export const withBurstLimit =
     if (config.burstCapacity1s) {
       const availableCapacity = await availableSecondLimitCapacity(store, config.burstCapacity1s)
       if (!availableCapacity) {
-        if (config.enabled) {
-          logger.warn(`External Adapter custom rate limit capacity is being used`)
-        }
         logger.warn(
-          `External Adapter backing off. Provider's burst limit of ${config.burstCapacity1s} requests per second reached.`,
+          `${
+            customCapacitySet ? 'CUSTOM RATE LIMIT CAPACITY CONFIGURED: ' : ''
+          }External Adapter backing off. Provider's burst limit of ${
+            config.burstCapacity1s
+          } requests per second reached.`,
         )
         throw new AdapterBurstLimitError({
           jobRunID: input.id,
