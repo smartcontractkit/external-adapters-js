@@ -36,6 +36,8 @@ This EA fetches the list of custodial addresses that hold the funds for a PoR fe
 |           |  confirmations  |         |        The number of confirmations to query data from        |      |         |         |            |                |
 |    ✅     | contractAddress |         |     The contract address holding the custodial addresses     |      |         |         |            |                |
 |           |    batchSize    |         | The number of addresses to fetch from the contract at a time |      |         |  `10`   |            |                |
+|    ✅     |     network     |         |       The network name to associate with the addresses       |      |         |         |            |                |
+|    ✅     |     chainId     |         |         The chain ID to associate with the addresses         |      |         |         |            |                |
 
 ### Example
 
