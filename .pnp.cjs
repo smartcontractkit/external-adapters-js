@@ -19104,10 +19104,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=e0408b&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A.", {\
-          "packageLocation": "./.yarn/cache/ethereum-cryptography-patch-112ee6a560-58355969c5.zip/node_modules/ethereum-cryptography/",\
+        ["patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=6c4d44&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A.", {\
+          "packageLocation": "./.yarn/cache/ethereum-cryptography-patch-efed515e30-58355969c5.zip/node_modules/ethereum-cryptography/",\
           "packageDependencies": [\
-            ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=e0408b&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
+            ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=6c4d44&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
             ["@noble/hashes", "npm:1.1.2"],\
             ["@noble/secp256k1", "npm:1.6.3"],\
             ["@scure/bip32", "npm:1.1.0"],\
@@ -21178,7 +21178,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["debug", "virtual:e9a07d9e500f265638a80b6a2d60a63d2c1402dd6a58d2f05af9d82e52be33df29a16291c32b33b9e23f1a0efea054868bd3312893433fe0583e4dba376fe47e#npm:4.3.4"],\
             ["enquirer", "npm:2.3.6"],\
             ["env-paths", "npm:2.2.1"],\
-            ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=e0408b&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
+            ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=6c4d44&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
             ["ethereumjs-abi", "npm:0.6.8"],\
             ["ethereumjs-util", "npm:7.1.5"],\
             ["find-up", "npm:2.1.0"],\
@@ -31883,7 +31883,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@ethersproject/bytes", "npm:5.6.1"],\
             ["bn.js", "npm:5.2.1"],\
             ["elliptic", "npm:6.5.4"],\
-            ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=e0408b&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
+            ["ethereum-cryptography", "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch::version=1.1.2&hash=6c4d44&locator=%40chainlink%2Fexternal-adapters-js%40workspace%3A."],\
             ["hash.js", "npm:1.1.7"],\
             ["isomorphic-fetch", "npm:3.0.0"],\
             ["json-bigint", "npm:1.0.0"],\
