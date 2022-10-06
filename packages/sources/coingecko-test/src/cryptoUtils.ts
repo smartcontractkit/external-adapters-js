@@ -1,8 +1,8 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 
 type Overrides = Record<string, Record<string, string>>
 
@@ -67,7 +67,7 @@ interface ResultEntryWithoutOverrides {
 export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
   config: AdapterConfig,
-): AxiosRequestConfig<ProviderRequestBody> => {
+): HttpRequestConfig<ProviderRequestBody> => {
   return {
     baseURL: config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
     url: '/simple/price',
@@ -83,7 +83,7 @@ export const buildBatchedRequestBody = (
 const logger = makeLogger('CoinGecko Crypto Batched')
 
 export const constructEntry = (
-  res: AxiosResponse<ProviderResponseBody>,
+  res: HttpResponse<ProviderResponseBody>,
   requestPayload: CryptoRequestParams,
   resultPath: string,
 ): ResultEntryWithoutOverrides | undefined => {

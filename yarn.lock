@@ -2441,12 +2441,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-test-adapter@workspace:packages/sources/coingecko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.0.62
+    "@chainlink/external-adapter-framework": 0.0.67
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    axios: ^0.27.2
-    fastify: ^4.6.0
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -3021,7 +3019,7 @@ __metadata:
     "@apidevtools/json-schema-ref-parser": 9.0.9
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/external-adapter-framework": 0.0.62
+    "@chainlink/external-adapter-framework": 0.0.67
     "@types/command-line-args": 5.2.0
     "@types/command-line-usage": 5.0.2
     "@types/jest": 27.5.2
@@ -3443,28 +3441,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:0.0.62":
-  version: 0.0.62
-  resolution: "@chainlink/external-adapter-framework@npm:0.0.62"
+"@chainlink/external-adapter-framework@npm:0.0.67":
+  version: 0.0.67
+  resolution: "@chainlink/external-adapter-framework@npm:0.0.67"
   dependencies:
-    ajv: ^8.11.0
-    axios: ^0.27.2
+    ajv: 8.11.0
+    axios: 0.27.2
     bufferutil: ^4.0.6
-    eventsource: ^2.0.2
-    fastify: ^4.5.3
-    ioredis: ^5.0.4
-    pino: ^8.5.0
+    eventsource: 2.0.2
+    fastify: 4.7.0
+    ioredis: 5.2.3
+    pino: 8.6.1
     prom-client: 13.2.0
-    ts-node: ^10.9.1
-    typescript: ^4.6.3
     utf-8-validate: ^5.0.9
-    ws: ^8.5.0
+    ws: 8.9.0
   dependenciesMeta:
     bufferutil:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: ec98a1ee2de8552a18abe8ced2252a7eba644b5a5baa30eae9e0ace43e63a5f86b2e5dc7268f2d347a581fc26fbfe0470894a77c7925ee6385037d7f7f7ae46e
+  checksum: 1817d49dd4ff8473296f9da2908c40eae4b2616d1e579583b086fa1430c75d8da859ac59d4fc9eeb0e41a813d080abb385c944769ba72986be8fe168a92261b9
   languageName: node
   linkType: hard
 
@@ -7607,7 +7603,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/ajv-compiler@npm:^3.1.1":
+"@fastify/ajv-compiler@npm:^3.3.1":
   version: 3.3.1
   resolution: "@fastify/ajv-compiler@npm:3.3.1"
   dependencies:
@@ -7639,7 +7635,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/fast-json-stringify-compiler@npm:^4.0.0":
+"@fastify/fast-json-stringify-compiler@npm:^4.1.0":
   version: 4.1.0
   resolution: "@fastify/fast-json-stringify-compiler@npm:4.1.0"
   dependencies:
@@ -10987,6 +10983,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ajv@npm:8.11.0, ajv@npm:^8.0.0, ajv@npm:^8.0.1, ajv@npm:^8.1.0, ajv@npm:^8.10.0, ajv@npm:^8.11.0, ajv@npm:^8.6.2":
+  version: 8.11.0
+  resolution: "ajv@npm:8.11.0"
+  dependencies:
+    fast-deep-equal: ^3.1.1
+    json-schema-traverse: ^1.0.0
+    require-from-string: ^2.0.2
+    uri-js: ^4.2.2
+  checksum: 5e0ff226806763be73e93dd7805b634f6f5921e3e90ca04acdf8db81eed9d8d3f0d4c5f1213047f45ebbf8047ffe0c840fa1ef2ec42c3a644899f69aa72b5bef
+  languageName: node
+  linkType: hard
+
 "ajv@npm:^6.10.0, ajv@npm:^6.11.0, ajv@npm:^6.12.3, ajv@npm:^6.12.4, ajv@npm:^6.12.5, ajv@npm:^6.12.6":
   version: 6.12.6
   resolution: "ajv@npm:6.12.6"
@@ -10996,18 +11004,6 @@ __metadata:
     json-schema-traverse: ^0.4.1
     uri-js: ^4.2.2
   checksum: 874972efe5c4202ab0a68379481fbd3d1b5d0a7bd6d3cc21d40d3536ebff3352a2a1fabb632d4fd2cc7fe4cbdcd5ed6782084c9bbf7f32a1536d18f9da5007d4
-  languageName: node
-  linkType: hard
-
-"ajv@npm:^8.0.0, ajv@npm:^8.0.1, ajv@npm:^8.1.0, ajv@npm:^8.10.0, ajv@npm:^8.11.0, ajv@npm:^8.6.2":
-  version: 8.11.0
-  resolution: "ajv@npm:8.11.0"
-  dependencies:
-    fast-deep-equal: ^3.1.1
-    json-schema-traverse: ^1.0.0
-    require-from-string: ^2.0.2
-    uri-js: ^4.2.2
-  checksum: 5e0ff226806763be73e93dd7805b634f6f5921e3e90ca04acdf8db81eed9d8d3f0d4c5f1213047f45ebbf8047ffe0c840fa1ef2ec42c3a644899f69aa72b5bef
   languageName: node
   linkType: hard
 
@@ -11453,7 +11449,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"avvio@npm:^8.1.3":
+"avvio@npm:^8.2.0":
   version: 8.2.0
   resolution: "avvio@npm:8.2.0"
   dependencies:
@@ -11513,6 +11509,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:0.27.2":
+  version: 0.27.2
+  resolution: "axios@npm:0.27.2"
+  dependencies:
+    follow-redirects: ^1.14.9
+    form-data: ^4.0.0
+  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
+  languageName: node
+  linkType: hard
+
 "axios@npm:^0.21.1, axios@npm:^0.21.4":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
@@ -11537,16 +11543,6 @@ __metadata:
   dependencies:
     follow-redirects: ^1.14.8
   checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.27.2":
-  version: 0.27.2
-  resolution: "axios@npm:0.27.2"
-  dependencies:
-    follow-redirects: ^1.14.9
-    form-data: ^4.0.0
-  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
   languageName: node
   linkType: hard
 
@@ -15564,7 +15560,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventsource@npm:^2.0.2":
+"eventsource@npm:2.0.2":
   version: 2.0.2
   resolution: "eventsource@npm:2.0.2"
   checksum: c0072d972753e10c705d9b2285b559184bf29d011bc208973dde9c8b6b8b7b6fdad4ef0846cecb249f7b1585e860fdf324cbd2ac854a76bc53649e797496e99a
@@ -15957,6 +15953,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastify@npm:4.7.0":
+  version: 4.7.0
+  resolution: "fastify@npm:4.7.0"
+  dependencies:
+    "@fastify/ajv-compiler": ^3.3.1
+    "@fastify/error": ^3.0.0
+    "@fastify/fast-json-stringify-compiler": ^4.1.0
+    abstract-logging: ^2.0.1
+    avvio: ^8.2.0
+    find-my-way: ^7.2.0
+    light-my-request: ^5.6.1
+    pino: ^8.5.0
+    process-warning: ^2.0.0
+    proxy-addr: ^2.0.7
+    rfdc: ^1.3.0
+    secure-json-parse: ^2.5.0
+    semver: ^7.3.7
+    tiny-lru: ^9.0.2
+  checksum: 76bc9fb37a36623468d99d9bba2b7166199e663d1f9d0b44b731a6c84c6aa298b6c0d29c6e935c5c0cce18df6d60e48a29dca468f7a155caca05d861a875f80f
+  languageName: node
+  linkType: hard
+
 "fastify@npm:^3.27.1":
   version: 3.29.0
   resolution: "fastify@npm:3.29.0"
@@ -15977,28 +15995,6 @@ __metadata:
     semver: ^7.3.2
     tiny-lru: ^8.0.1
   checksum: ed2964035e34843d08c09eee80f5f14bd8cc0ab9b46ac9d146c6821b586a359a93e1354fca4004ac14e37b267afe5bb1ba3ddb555ecf09b74d9b6bf2f9893ba1
-  languageName: node
-  linkType: hard
-
-"fastify@npm:^4.5.3, fastify@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "fastify@npm:4.6.0"
-  dependencies:
-    "@fastify/ajv-compiler": ^3.1.1
-    "@fastify/error": ^3.0.0
-    "@fastify/fast-json-stringify-compiler": ^4.0.0
-    abstract-logging: ^2.0.1
-    avvio: ^8.1.3
-    find-my-way: ^7.0.0
-    light-my-request: ^5.5.1
-    pino: ^8.0.0
-    process-warning: ^2.0.0
-    proxy-addr: ^2.0.7
-    rfdc: ^1.3.0
-    secure-json-parse: ^2.4.0
-    semver: ^7.3.7
-    tiny-lru: ^8.0.2
-  checksum: ac696de3a3675023223b2814196ffac28bb212daeb45feb2fb4b8b4385f66742eaef8367070d81d9281a29dc1603dc906d54e0e020713e7466784a948e5b925c
   languageName: node
   linkType: hard
 
@@ -16131,14 +16127,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-my-way@npm:^7.0.0":
-  version: 7.2.0
-  resolution: "find-my-way@npm:7.2.0"
+"find-my-way@npm:^7.2.0":
+  version: 7.3.0
+  resolution: "find-my-way@npm:7.3.0"
   dependencies:
     fast-deep-equal: ^3.1.3
     fast-querystring: ^1.0.0
     safe-regex2: ^2.0.0
-  checksum: 87b763507ce4e1dd53066b7e0af8a57ee21dbeeab68ed908579d82a8de23791d370d8e9f9b2d2f604e66df17fcc2cac3f3a2d59d0c3f6ea10121da177a20f731
+  checksum: 48ee8e9a4cbe1b9ca686e3012af43f76f7339fc9e882b201915cdfc83cd59cc0be4a24e51c68744f9b6f53ab9a652be53997bdca7ea5b5c1219a89ebb40d681d
   languageName: node
   linkType: hard
 
@@ -17852,7 +17848,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ioredis@npm:^5.0.4":
+"ioredis@npm:5.2.3":
   version: 5.2.3
   resolution: "ioredis@npm:5.2.3"
   dependencies:
@@ -21341,7 +21337,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"light-my-request@npm:^5.5.1":
+"light-my-request@npm:^5.6.1":
   version: 5.6.1
   resolution: "light-my-request@npm:5.6.1"
   dependencies:
@@ -24297,6 +24293,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pino@npm:8.6.1":
+  version: 8.6.1
+  resolution: "pino@npm:8.6.1"
+  dependencies:
+    atomic-sleep: ^1.0.0
+    fast-redact: ^3.1.1
+    on-exit-leak-free: ^2.1.0
+    pino-abstract-transport: v1.0.0
+    pino-std-serializers: ^6.0.0
+    process-warning: ^2.0.0
+    quick-format-unescaped: ^4.0.3
+    real-require: ^0.2.0
+    safe-stable-stringify: ^2.3.1
+    sonic-boom: ^3.1.0
+    thread-stream: ^2.0.0
+  bin:
+    pino: bin.js
+  checksum: 1201cf2b47c8860b8e5811c20ddf6db000158d98dd04da2f09d59e797c3d7c391819d6279a526699b3fd8c13c357e86e0bb32ded15d2815ca8d97a407de47c9f
+  languageName: node
+  linkType: hard
+
 "pino@npm:^6.0.0, pino@npm:^6.13.0":
   version: 6.14.0
   resolution: "pino@npm:6.14.0"
@@ -24314,7 +24331,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^8.0.0, pino@npm:^8.5.0":
+"pino@npm:^8.5.0":
   version: 8.6.0
   resolution: "pino@npm:8.6.0"
   dependencies:
@@ -25985,7 +26002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secure-json-parse@npm:^2.4.0":
+"secure-json-parse@npm:^2.5.0":
   version: 2.5.0
   resolution: "secure-json-parse@npm:2.5.0"
   checksum: 84147a32615ce0d93d2fbba60cde85ae362f45cc948ea134e4d6d1e678bb4b7f3a5ce9b9692ed052baefeb2e1c8ba183b34920390e6a089925b97b0d8f7ab064
@@ -27629,10 +27646,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-lru@npm:^8.0.1, tiny-lru@npm:^8.0.2":
+"tiny-lru@npm:^8.0.1":
   version: 8.0.2
   resolution: "tiny-lru@npm:8.0.2"
   checksum: ec4d884914626760eef05cd57850f21a153adeeb7c4242eb8d44a031f1bd8489f18c1bf5d6f10f0a11c5dcfe03b302f26b00f2b879b38853599486bf0dca8c97
+  languageName: node
+  linkType: hard
+
+"tiny-lru@npm:^9.0.2":
+  version: 9.0.3
+  resolution: "tiny-lru@npm:9.0.3"
+  checksum: 8ded11a875d622a2d4c3ee2d33331ddfaa80f86b5b280bad17810ecbfd94d774c1726948f91031527bb03e2fd38c4385bd4db27fd5614b3c59fe3fa7d3359451
   languageName: node
   linkType: hard
 
@@ -27897,7 +27921,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:10.9.1, ts-node@npm:^10.4.0, ts-node@npm:^10.9.1":
+"ts-node@npm:10.9.1, ts-node@npm:^10.4.0":
   version: 10.9.1
   resolution: "ts-node@npm:10.9.1"
   dependencies:
@@ -28184,16 +28208,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.3":
-  version: 4.8.3
-  resolution: "typescript@npm:4.8.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 8286a5edcaf3d68e65c451aa1e7150ad1cf53ee0813c07ec35b7abdfdb10f355ecaa13c6a226a694ae7a67785fd7eeebf89f845da0b4f7e4a35561ddc459aba0
-  languageName: node
-  linkType: hard
-
 "typescript@patch:typescript@4.7.4#~builtin<compat/typescript>":
   version: 4.7.4
   resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"
@@ -28201,16 +28215,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 9096d8f6c16cb80ef3bf96fcbbd055bf1c4a43bd14f3b7be45a9fbe7ada46ec977f604d5feed3263b4f2aa7d4c7477ce5f9cd87de0d6feedec69a983f3a4f93e
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
-  version: 4.8.3
-  resolution: "typescript@patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=f456af"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 0404a09c625df01934ef774b45ce1ca57ccae41cd625fcdbb82056715320d9329e70d9d75c2c732ec6ef947444ca978c189a332b71fa21f5c1437d5a83e24906
   languageName: node
   linkType: hard
 
@@ -29759,6 +29763,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 3a990b32ed08c72070d5e8913e14dfcd831919205be52a3ff0b4cdd998c8d554f167c9df3841605cde8b11d607768cacab3e823c58c96a5c08c987e093eb767a
+  languageName: node
+  linkType: hard
+
+"ws@npm:8.9.0":
+  version: 8.9.0
+  resolution: "ws@npm:8.9.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 23aa0f021b2eb65c108ec4c3e08c0d81ba01f82b500432dfe327fd6be36079c1d81fdb0eac6464d2a0eb49904d34a9ab8c59619d673fa07b8346f83aeb0cbf12
   languageName: node
   linkType: hard
 

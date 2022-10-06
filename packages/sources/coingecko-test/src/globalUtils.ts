@@ -1,7 +1,7 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -37,7 +37,7 @@ interface ResultEntry {
   params: AdapterRequestParams
 }
 
-export const buildGlobalRequestBody = (apiKey?: string): AxiosRequestConfig<never> => {
+export const buildGlobalRequestBody = (apiKey?: string): HttpRequestConfig<never> => {
   return {
     baseURL: apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
     url: '/global',
@@ -49,7 +49,7 @@ export const buildGlobalRequestBody = (apiKey?: string): AxiosRequestConfig<neve
 }
 
 export const constructEntry = (
-  res: AxiosResponse<ProviderResponseBody>,
+  res: HttpResponse<ProviderResponseBody>,
   requestPayload: AdapterRequestParams,
   resultPath: 'total_market_cap' | 'market_cap_percentage',
 ): ResultEntry | undefined => {
