@@ -1,6 +1,14 @@
 import legos from '../../src'
 
 describe('legos test', () => {
+  let originalMetricsEnabled: string | undefined
+  beforeAll(() => {
+    originalMetricsEnabled = process.env.METRICS_ENABLED
+    process.env.METRICS_ENABLED = 'false'
+  })
+  afterAll(() => {
+    process.env.METRICS_ENABLED = originalMetricsEnabled
+  })
   it('has no unnacceptable characters', function () {
     for (const source of legos.sources) {
       const pattern = new RegExp(/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/)
