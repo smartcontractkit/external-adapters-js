@@ -22,11 +22,13 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v2
+
       - uses: jwalton/gh-find-current-pr@v1
         id: findPr
         with:
           # Can be "open", "closed", or "all".  Defaults to "open".
           state: all
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -51,12 +53,6 @@ jobs:
           sudo dpkg -i "$TEMP_DEB" &&
           rm -f "$TEMP_DEB"
 
-      - name: Checkout external-adapters-js repo
-        uses: actions/checkout@v2
-        with:
-          path: external-adapters-js
-
-      - run: cd external-adapters-js
       - uses: ./.github/actions/setup # Yarn install > setup
 
       - name: Find current PR

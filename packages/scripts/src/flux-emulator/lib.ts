@@ -205,7 +205,6 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
     { integrationTestPayloads: [] },
   )
 
-  //TODO get names for the payloads (based on what the flux emulator names would be)
   nameAndData.push(
     ...integrationTestPayloads.map((data: Record<string, any>) => ({
       name: 'integration-test',
@@ -216,7 +215,6 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
   const payloadPath = pathToAdapter + '/test-payload.json'
   if (shell.test('-f', payloadPath)) {
     const examplePayload = JSON.parse(shell.cat(payloadPath).toString())
-    //TODO get names for the payloads (based on what the flux emulator names would be)
     nameAndData.push({ name: 'test-payload', data: examplePayload })
   }
 
