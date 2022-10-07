@@ -16,6 +16,7 @@ const exampleReferenceContractConfigResponse: ReferenceContractConfigResponse = 
       symbol: '',
       path: '',
       status: '',
+      category: '',
     },
   ],
 }

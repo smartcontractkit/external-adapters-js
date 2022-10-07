@@ -6,7 +6,7 @@ const sourceEnvironmentVariables = [
 
 const assetEnvironmentVariables = [
   { envKey: 'DERIBIT_ADAPTER_URL', value: 'deribit' },
-  { envKey: 'OILPRICEAPI_COM_ADAPTER_URL', value: 'oilpriceapi' },
+  { envKey: 'OILPRICEAPI_ADAPTER_URL', value: 'oilpriceapi' },
   { envKey: 'DXFEED_ADAPTER_URL', value: 'dxfeed' },
 ]
 
