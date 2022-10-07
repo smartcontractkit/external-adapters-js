@@ -31,9 +31,17 @@ describe('Logger', () => {
       const redacted = censorLog('mock-api-key', CensorList.getAll())
       expect(redacted).toEqual('[API_KEY REDACTED]')
     })
+    it('properly redacts API_KEY (string with added text)', () => {
+      const redacted = censorLog('Bearer mock-api-key', CensorList.getAll())
+      expect(redacted).toEqual('Bearer [API_KEY REDACTED]')
+    })
     it('properly redacts API_KEY (object)', () => {
       const redacted = censorLog({ apiKey: 'mock-api-key' }, CensorList.getAll())
       expect(redacted).toEqual({ apiKey: '[API_KEY REDACTED]' })
+    })
+    it('properly redacts API_KEY (object with added text)', () => {
+      const redacted = censorLog({ apiKey: 'Bearer mock-api-key' }, CensorList.getAll())
+      expect(redacted).toEqual({ apiKey: 'Bearer [API_KEY REDACTED]' })
     })
     it('properly redacts API_KEY (multiple nested values)', () => {
       const redacted = censorLog(
