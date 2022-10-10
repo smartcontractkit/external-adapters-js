@@ -1,7 +1,7 @@
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
-import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
 
 export interface CryptoRequestParams {
   coinid?: string

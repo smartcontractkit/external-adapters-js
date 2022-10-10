@@ -1,6 +1,9 @@
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
+import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  BatchWarmingTransport,
+  HttpRequestConfig,
+  HttpResponse,
+} from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
   CryptoRequestParams,
@@ -10,14 +13,13 @@ import {
   ProviderResponseBody,
   cryptoInputParams,
 } from '../crypto-utils'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const batchEndpointTransport = new BatchWarmingTransport({
   prepareRequest: (
     params: CryptoRequestParams[],
-    config: AdapterConfig,
+    context: AdapterContext,
   ): HttpRequestConfig<ProviderRequestBody> => {
-    const requestBody = buildBatchedRequestBody(params, config)
+    const requestBody = buildBatchedRequestBody(params, context.adapterConfig)
     requestBody.params.include_24hr_vol = true
     return requestBody
   },
