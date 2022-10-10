@@ -29,7 +29,7 @@ describe('evm', () => {
 
     it('Stale blocks are unhealthy after Delta seconds', async () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
+        Promise.resolve(
           getMockAxiosResponse({
             result: '0x1',
           }),
@@ -54,7 +54,7 @@ describe('evm', () => {
       // If blocks change, is not considered stale
       for (let i = 0; i < config.delta / timeBetweenCalls; i++) {
         jest.spyOn(Requester, 'request').mockReturnValue(
-          Promise<AxiosResponse>.resolve(
+          Promise.resolve(
             getMockAxiosResponse({
               result: i.toString(16),
             }),
@@ -74,7 +74,7 @@ describe('evm', () => {
       config.delta = 30
       config.deltaBlocks = 5
       jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
+        Promise.resolve(
           getMockAxiosResponse({
             result: '0xa',
           }),
@@ -84,7 +84,7 @@ describe('evm', () => {
       expect(await checkBlockHeight(config)).toBe(true)
 
       jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
+        Promise.resolve(
           getMockAxiosResponse({
             result: '0x6',
           }),
@@ -93,7 +93,7 @@ describe('evm', () => {
       expect(await checkBlockHeight(config)).toBe(true)
 
       jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
+        Promise.resolve(
           getMockAxiosResponse({
             result: '0x5',
           }),
@@ -102,7 +102,7 @@ describe('evm', () => {
       expect(await checkBlockHeight(config)).toBe(true)
 
       jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
+        Promise.resolve(
           getMockAxiosResponse({
             result: '0x4',
           }),
@@ -111,7 +111,7 @@ describe('evm', () => {
       await expect(checkBlockHeight(config)).rejects.toThrow()
 
       jest.spyOn(Requester, 'request').mockReturnValue(
-        Promise<AxiosResponse>.resolve(
+        Promise.resolve(
           getMockAxiosResponse({
             result: '0x3',
           }),

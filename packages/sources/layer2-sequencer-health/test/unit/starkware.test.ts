@@ -1,7 +1,6 @@
 import { ExtendedConfig, makeConfig } from '../../src/config'
 import * as starkware from '../../src/starkware'
 import * as network from '../../src/network'
-import { GetBlockResponse } from 'starknet'
 import { useFakeTimers } from 'sinon'
 
 describe('starkware', () => {
@@ -33,7 +32,7 @@ describe('starkware', () => {
         it('returns true', async () => {
           const fn = starkware.checkStarkwareSequencerPendingTransactions()
           jest.spyOn(network, 'retry').mockReturnValueOnce(
-            Promise<GetBlockResponse>.resolve({
+            Promise.resolve({
               parent_hash: 'hash-one',
               transactions: ['tx1', 'tx2'],
             }),
@@ -43,7 +42,7 @@ describe('starkware', () => {
           const timeToNextCall = config.delta - 10 * 1000
           clock.tick(timeToNextCall)
           jest.spyOn(network, 'retry').mockReturnValueOnce(
-            Promise<GetBlockResponse>.resolve({
+            Promise.resolve({
               parent_hash: 'hash-two',
               transactions: ['tx1', 'tx2'],
             }),
@@ -58,7 +57,7 @@ describe('starkware', () => {
         beforeEach(async () => {
           fn = starkware.checkStarkwareSequencerPendingTransactions()
           jest.spyOn(network, 'retry').mockReturnValueOnce(
-            Promise<GetBlockResponse>.resolve({
+            Promise.resolve({
               parent_hash: 'hash-one',
               transactions: ['tx1', 'tx2'],
             }),
@@ -71,7 +70,7 @@ describe('starkware', () => {
             const timeToNextCall = config.delta - 10 * 1000
             clock.tick(timeToNextCall)
             jest.spyOn(network, 'retry').mockReturnValueOnce(
-              Promise<GetBlockResponse>.resolve({
+              Promise.resolve({
                 parent_hash: 'hash-one',
                 transactions: ['tx1', 'tx2', 'tx3'],
               }),
@@ -85,7 +84,7 @@ describe('starkware', () => {
             const timeToNextCall = config.delta - 10 * 1000
             clock.tick(timeToNextCall)
             jest.spyOn(network, 'retry').mockReturnValueOnce(
-              Promise<GetBlockResponse>.resolve({
+              Promise.resolve({
                 parent_hash: 'hash-one',
                 transactions: ['tx1', 'tx2'],
               }),
