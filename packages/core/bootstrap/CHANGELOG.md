@@ -1,5 +1,16 @@
 # @chainlink/ea-bootstrap
 
+## 2.20.0
+
+### Minor Changes
+
+- b9982adc8: requestor now accepts customError functions that return either a string or a boolean and includes message if string
+
+### Patch Changes
+
+- f710272c6: Only clear metrics registry when METRICS_ENABLED=false
+- 991fc76af: Change default EA HOST value to 0.0.0.0
+
 ## 2.19.3
 
 ### Patch Changes
