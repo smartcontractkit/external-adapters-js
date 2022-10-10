@@ -12,7 +12,7 @@ import {
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: 'crypto',
-  name: 'coingecko',
+  name: 'COINGECKO',
   endpoints: [crypto, coins, cryptoMarketcap, cryptoVolume, dominance, globalMarketcap],
   overrides: overrides['coingecko'],
 })
