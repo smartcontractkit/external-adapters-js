@@ -2148,7 +2148,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-test-adapter@workspace:packages/sources/coingecko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.0.69
+    "@chainlink/external-adapter-framework": 0.1.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2728,7 +2728,7 @@ __metadata:
     "@apidevtools/json-schema-ref-parser": 9.0.9
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/external-adapter-framework": 0.0.69
+    "@chainlink/external-adapter-framework": 0.1.0
     "@types/command-line-args": 5.2.0
     "@types/command-line-usage": 5.0.2
     "@types/jest": 27.5.2
@@ -3151,9 +3151,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:0.0.69":
-  version: 0.0.69
-  resolution: "@chainlink/external-adapter-framework@npm:0.0.69"
+"@chainlink/external-adapter-framework@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@chainlink/external-adapter-framework@npm:0.1.0"
   dependencies:
     ajv: 8.11.0
     axios: 0.27.2
@@ -3170,7 +3170,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 9d31bd8ce12f5cc0eacff554272d2cb15c18b9adb688e8ab10462810c401beb3be656d53f64addae922bac4de98a1b00d7f1db023db7c1e93ba197aca5cd6f6d
+  checksum: 13f2ccf79bd48cf2a7c822a40ba5f3483ee4776bfb3e0971d9bfb41435ead5b0cceff7866c444ab9c00aa33a07183dabe8ff4162bc057a1b10c4f17ab6ae508f
   languageName: node
   linkType: hard
 
