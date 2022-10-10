@@ -8,7 +8,6 @@ module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {
     test: './test.ts',
-    testCryptocompare: './test-cryptocompare.ts',
     reproTest: './repro-test.ts',
     testLimits: './test-limits.ts',
     testLimitsMultiple: './test-limits-multiple.ts',

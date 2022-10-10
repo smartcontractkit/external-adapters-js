@@ -37,10 +37,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/bitcoin-json-rpc"\
       },\
       {\
-        "name": "@chainlink/bob-adapter",\
-        "reference": "workspace:packages/composites/bob"\
-      },\
-      {\
         "name": "@chainlink/bsol-price-adapter",\
         "reference": "workspace:packages/composites/bsol-price"\
       },\
@@ -279,6 +275,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/blockstream-adapter",\
         "reference": "workspace:packages/sources/blockstream"\
+      },\
+      {\
+        "name": "@chainlink/bob-adapter",\
+        "reference": "workspace:packages/sources/bob"\
       },\
       {\
         "name": "@chainlink/bravenewcoin-adapter",\
@@ -794,7 +794,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],\
       ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
-      ["@chainlink/bob-adapter", ["workspace:packages/composites/bob"]],\
+      ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
       ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
       ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
@@ -4600,16 +4600,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/bob-adapter", [\
-        ["workspace:packages/composites/bob", {\
-          "packageLocation": "./packages/composites/bob/",\
+        ["workspace:packages/sources/bob", {\
+          "packageLocation": "./packages/sources/bob/",\
           "packageDependencies": [\
-            ["@chainlink/bob-adapter", "workspace:packages/composites/bob"],\
+            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["ethers", "npm:5.6.8"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
           ],\
@@ -5435,6 +5437,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
+            ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
             ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
             ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\
@@ -5569,7 +5572,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.8.2"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.185"],\
+            ["@types/lodash", "npm:4.14.186"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/object-hash", "npm:2.1.1"],\
@@ -5668,6 +5671,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["class-validator", "npm:0.13.2"],\
             ["command-line-args", "npm:5.2.1"],\
             ["command-line-usage", "npm:6.1.3"],\
+            ["json-schema-ref-parser", "npm:9.0.9"],\
             ["mockserver-client", "npm:5.11.2"],\
             ["rxjs", "npm:7.4.0"],\
             ["shelljs", "npm:0.8.5"],\
@@ -12972,10 +12976,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:4.14.185", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.185-974674435a-f81d13da5e.zip/node_modules/@types/lodash/",\
+        ["npm:4.14.186", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.186-63caeea1e5-ee0c1368a8.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.185"]\
+            ["@types/lodash", "npm:4.14.186"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24803,6 +24807,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/json-schema-npm-0.4.0-e776313070-66389434c3.zip/node_modules/json-schema/",\
           "packageDependencies": [\
             ["json-schema", "npm:0.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["json-schema-ref-parser", [\
+        ["npm:9.0.9", {\
+          "packageLocation": "./.yarn/cache/json-schema-ref-parser-npm-9.0.9-1203e379cb-e05166a84c.zip/node_modules/json-schema-ref-parser/",\
+          "packageDependencies": [\
+            ["json-schema-ref-parser", "npm:9.0.9"],\
+            ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"]\
           ],\
           "linkType": "HARD"\
         }]\
