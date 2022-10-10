@@ -18,18 +18,26 @@ import * as redis from './redis'
 import * as metrics from './metrics'
 import { CacheOptions, CacheImplOptions, CacheEntry, Cache } from './types'
 
-const DEFAULT_CACHE_KEY_GROUP = uuid()
+const UUID = uuid()
 
 export const defaultOptions = (
   shouldUseLocal?: boolean,
   adapterContext?: AdapterContext,
 ): CacheOptions => {
+  let cacheGroupKey = ''
+  if (adapterContext?.name) {
+    cacheGroupKey =
+      adapterContext?.name + (getEnv('CACHE_KEY_GROUP') ? `-${getEnv('CACHE_KEY_GROUP')}` : '')
+  } else {
+    cacheGroupKey = UUID + (getEnv('CACHE_KEY_GROUP') ? `-${getEnv('CACHE_KEY_GROUP')}` : '')
+  }
+
   return {
     enabled: parseBool(getEnv('CACHE_ENABLED', undefined, adapterContext)),
     cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
     cacheBuilder: defaultCacheBuilder(),
     key: {
-      group: getEnv('CACHE_KEY_GROUP') || DEFAULT_CACHE_KEY_GROUP,
+      group: cacheGroupKey,
     },
     // Request coalescing
     requestCoalescing: {
