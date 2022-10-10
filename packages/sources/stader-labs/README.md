@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Stader Labs
 
-![2.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json)
+![2.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json)
 
 By default fetches the value of MaticX/USD
 
