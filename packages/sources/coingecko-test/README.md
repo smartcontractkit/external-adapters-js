@@ -1,14 +1,12 @@
-# Chainlink External Adapter for CoinGecko
+# COINGECKO
 
-![0.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   |             Description             |  Type  | Options | Default |
-| :-------: | :-----: | :---------------------------------: | :----: | :-----: | :-----: |
-|           | API_KEY | An optional API key for the Pro API | string |         |         |
+There are no environment variables for this adapter.
 
 ---
 
@@ -16,9 +14,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                   Options                                                                                                                                                                                                                                                   | Default  |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [batch](#crypto-endpoint), [batched](#crypto-endpoint), [coins](#coins-endpoint), [crypto-batched](#crypto-endpoint), [crypto-marketcap](#cryptomarketcap-endpoint), [crypto-volume](#cryptovolume-endpoint), [cryptoMarketcap](#cryptomarketcap-endpoint), [cryptoVolume](#cryptovolume-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalMarketcap](#globalmarketcap-endpoint), [market_cap_percentage](#dominance-endpoint), [total_market_cap](#globalmarketcap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                   Options                                                                                                                                                                                                                                                   | Default |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [batch](#crypto-endpoint), [batched](#crypto-endpoint), [coins](#coins-endpoint), [crypto-batched](#crypto-endpoint), [crypto-marketcap](#cryptomarketcap-endpoint), [crypto-volume](#cryptovolume-endpoint), [cryptoMarketcap](#cryptomarketcap-endpoint), [cryptoVolume](#cryptovolume-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalMarketcap](#globalmarketcap-endpoint), [market_cap_percentage](#dominance-endpoint), [total_market_cap](#globalmarketcap-endpoint) |         |
 
 ## Coins Endpoint
 
@@ -108,12 +106,11 @@ Supported names for this endpoint are: `crypto-volume`, `cryptoVolume`.
 
 ### Input Params
 
-| Required? |   Name    |    Aliases     |                          Description                          | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :------------: | :-----------------------------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|           | overrides |                | Override the mapping of token symbols to another token symbol |      |         |         |            |                |
-|           |  coinid   |                |                 The CoinGecko id or to query                  |      |         |         |            |                |
-|           |   base    | `coin`, `from` |        The symbol of symbols of the currency to query         |      |         |         |            |                |
-|    ✅     |   quote   | `market`, `to` |           The symbol of the currency to convert to            |      |         |         |            |                |
+| Required? |  Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           | coinid |                |          The CoinGecko id or to query          | string |         |         |            |                |
+|           |  base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote  | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
