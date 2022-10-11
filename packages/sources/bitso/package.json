@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bitso-adapter",
-  "version": "1.4.17",
+  "version": "1.4.18",
   "description": "Chainlink Bitso adapter.",
   "keywords": [
     "Chainlink",
