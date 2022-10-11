@@ -75,6 +75,7 @@ Detailed here is optional configuration that can be provided to any EA through e
     - [Request Coalescing](#request-coalescing)
   - [Metrics](#metrics)
   - [Websockets](#websockets)
+  - [Logging Censorship](#logging-censorship)
 
 ---
 
@@ -304,3 +305,11 @@ From the moment the subscription is confirmed, the adapter will start receiving 
 |           | `WS_SUBSCRIPTION_UNRESPONSIVE_TTL` | Unresponsive subscription expiration time in ms. If the adapter doesn't receive messages from an open subscription during this time, a resubscription will be tried. |         |  `120000`   |
 
 \*For the websockets to be effective, **caching needs to be enabled**
+
+## Logging Censorship
+
+The framework globally censors logs to avoid leaking sensitive information. To determine what to redact, a pre-determined list of sensitive env vars (i.e. `API_KEY`) is used to compile a map of these env vars to their sensitive values.
+
+RegExp's of the sensitive values are then used to find matches during logging to be replaced by `[{ENV_VAR REDACTED}]` (i.e. `[API_KEY REDACTED]`).
+
+In certain scenarios, env var values are altered by an adapter such as Base64 encoding. Pino's built in redact capabilities are used to censor paths in these cases.
