@@ -1,51 +1,60 @@
-# Bob adapter for Chainlink
+# Chainlink External Adapter for BOB
+
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bob/package.json)
 
 The adapter provides an interface for retrieving data from the source blockchain.
 
-## Configuration
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-The adapter takes the following environment variables:
+## Environment Variables
 
-| Required? |   Name    |       Description       | Options |       Defaults to       |
-| :-------: | :-------: | :---------------------: | :-----: | :---------------------: |
-|    No     | `RPC_URL` | Blockchain RPC endpoint |         | `http://localhost:8545` |
+| Required? |   Name   |        Description         |  Type  | Options | Default |
+| :-------: | :------: | :------------------------: | :----: | :-----: | :-----: |
+|    ✅     | RPC_URL  |  Blockchain RPC endpoint   | string |         |         |
+|           | CHAIN_ID | The chain id to connect to | string |         |   `1`   |
 
-This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) adapter by calling `"method": "getblockchainfo"`.
+---
 
-## Running
+## Input Parameters
 
-## See the [Composite Adapter README](../README.md) for more information on how to get started.
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-## Endpoints
+| Required? |   Name   |     Description     |  Type  |          Options           | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [format](#format-endpoint) | `format` |
 
-- `endpoint`: The parameter to query for. Default: "format"
-- Currently, there is only one "endpoint:" format. This adapter was designed so that adding new internal endpoints would be easy to implement.
+## Format Endpoint
 
-### Format Endpoint:
+The format endpoint encodes the chainId, block hash, and block receiptsRoot as bytes and returns that without a 0x prefix.
 
-## The format endpoint encodes the chainId, block hash, and block receiptsRoot as bytes and returns that without a 0x prefix.
+`format` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |     Name      |                       Description                        | Options |       Defaults to       |
-| :-------: | :-----------: | :------------------------------------------------------: | :-----: | :---------------------: |
-|    Yes    |   `chainID`   | An identifier for which network of the blockchain to use |         |                         |
-|    Yes    | `blockNumber` |                Block number to query for                 |         |                         |
-|    No     |     `url`     |                 Blockchain RPC endpoint                  |         | `http://localhost:8545` |
+| Required? |    Name     | Aliases |                       Description                        | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------: | :-----: | :------------------------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|           |   chainId   |         | An identifier for which network of the blockchain to use |      |         |         |            |                |
+|    ✅     | blockNumber |         |                Block number to query for                 |      |         |         |            |                |
 
-### Sample Input
+### Example
+
+Request:
 
 ```json
 {
-  "jobID": "1",
+  "id": "1",
   "data": {
     "chainId": 1,
-    "blockNumber": 1500000
+    "blockNumber": 1500000,
+    "endpoint": "format"
+  },
+  "debug": {
+    "cacheKey": "Q9Q+thx4ZKpxST2OPGKjPF9selY="
   }
 }
 ```
 
-### Sample Output
+Response:
 
 ```json
 {
@@ -58,12 +67,6 @@ This composite adapter incorporates the [`json-rpc`](../../sources/json-rpc) ada
 }
 ```
 
-## Testing
+---
 
-Testing is dependent on the type of node you're connecting to. You can set a local environment variable `RPC_URL` to point to an RPC connection. Otherwise, the adapter will default to `"http://localhost:8545"`.
-
-Make sure you run these commands from the ROOT of this monorepo.
-
-```bash
-yarn test bob-adapter
-```
+MIT License
