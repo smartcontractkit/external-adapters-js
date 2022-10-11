@@ -24,20 +24,12 @@ export const defaultOptions = (
   shouldUseLocal?: boolean,
   adapterContext?: AdapterContext,
 ): CacheOptions => {
-  let cacheGroupKey = ''
-  if (adapterContext?.name) {
-    cacheGroupKey =
-      adapterContext?.name + (getEnv('CACHE_KEY_GROUP') ? `-${getEnv('CACHE_KEY_GROUP')}` : '')
-  } else {
-    cacheGroupKey = UUID + (getEnv('CACHE_KEY_GROUP') ? `-${getEnv('CACHE_KEY_GROUP')}` : '')
-  }
-
   return {
     enabled: parseBool(getEnv('CACHE_ENABLED', undefined, adapterContext)),
     cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
     cacheBuilder: defaultCacheBuilder(),
     key: {
-      group: cacheGroupKey,
+      group: `${adapterContext?.name || UUID}-${getEnv('CACHE_KEY_GROUP') || ''}`,
     },
     // Request coalescing
     requestCoalescing: {
