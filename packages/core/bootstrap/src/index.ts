@@ -40,9 +40,12 @@ export * from './types'
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
 type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
 
-// Metrics are always registered when both v2 and the framework are invoked, causing duplicate registration even if METRICs_ENABLED is false
-// This is a workaround to clear the metric registry within V2 to prevent collisions with the framework. Necessary for legos and generators to work
-register.clear()
+// Metrics are always registered when both v2 and the framework are invoked, causing duplicate registration unless cleared
+// The below is a workaround to avoid conflicts by clearing the register on import when METRICS_ENABLED is false
+// This workaround is (and must be) present in both v2 and the framework to avoid conflicts
+if (process.env['METRICS_ENABLED'] === 'false') {
+  register.clear()
+}
 
 const serverReducer = combineReducers({
   errorBackoff: ErrorBackoff.reducer.rootReducer,
