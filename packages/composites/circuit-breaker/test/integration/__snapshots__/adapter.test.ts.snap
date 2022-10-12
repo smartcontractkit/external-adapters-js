@@ -3,6 +3,7 @@
 exports[`execute valid result method should return correct result value with the second source if the first one fail by 500 error 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": 3139.726053759448,
   },
   "debug": undefined,
@@ -16,6 +17,7 @@ Object {
 exports[`execute valid result method should return correct result value with the second source if the first one fail by conection refuse 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": 3139.726053759448,
   },
   "debug": undefined,
@@ -29,6 +31,7 @@ Object {
 exports[`execute valid result method should return correct result values 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": 3068.06,
   },
   "debug": undefined,

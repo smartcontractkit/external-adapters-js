@@ -34,6 +34,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema>(reqConfig)
   const result = Requester.validateResultNumber(response.data, ['latestPrice'])
+  const marketOpen = Requester.getMarketOpenFlag(response.data, ['isUSMarketOpen'])
 
-  return Requester.success(jobRunID, Requester.withResult(response, result), config.verbose)
+  return Requester.success(
+    jobRunID,
+    Requester.withResult(response, result, undefined, { marketOpen }),
+    config.verbose,
+  )
 }

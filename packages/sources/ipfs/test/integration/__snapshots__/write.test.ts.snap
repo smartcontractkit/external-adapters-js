@@ -3,6 +3,7 @@
 exports[`execute successful calls simple text 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
   },
   "debug": undefined,

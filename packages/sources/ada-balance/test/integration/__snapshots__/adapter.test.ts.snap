@@ -3,6 +3,7 @@
 exports[`execute fetch wallet balance should return success 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": "5000000",
   },
   "debug": undefined,

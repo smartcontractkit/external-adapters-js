@@ -3,6 +3,7 @@
 exports[`execute successful calls custom cid 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": "some simple text",
   },
   "debug": undefined,
@@ -15,6 +16,7 @@ Object {
 exports[`execute successful calls id not supplied 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": "Hello, <YOUR NAME HERE>",
   },
   "debug": undefined,
@@ -27,6 +29,7 @@ Object {
 exports[`execute successful calls simple cid 1`] = `
 Object {
   "data": Object {
+    "marketOpen": undefined,
     "result": "Hello, <YOUR NAME HERE>",
   },
   "debug": undefined,

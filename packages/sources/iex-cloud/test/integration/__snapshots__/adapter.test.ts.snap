@@ -27,6 +27,7 @@ Object {
 exports[`execute stock api should return success 1`] = `
 Object {
   "data": Object {
+    "marketOpen": false,
     "result": 48.77,
   },
   "jobRunID": "1",

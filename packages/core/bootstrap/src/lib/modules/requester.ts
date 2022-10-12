@@ -159,6 +159,52 @@ export class Requester {
     return await _retry(retries)
   }
 
+  static getMarketOpenFlag<T extends unknown>(
+    data: T,
+    path?: ResultPath,
+    customMapper?: Record<string, boolean> | ((val: unknown) => boolean),
+    missingDataErrorMsg = 'Data provider response empty',
+    missingResultsErrorMsg = 'Market open flag could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
+  ): boolean {
+    if (
+      typeof data === 'undefined' ||
+      data === null ||
+      (isObject(data) && Object.keys(data as Record<string, unknown>).length === 0)
+    ) {
+      logger.error(missingDataErrorMsg, { data, path })
+      throw new AdapterResponseEmptyError({
+        message: missingDataErrorMsg,
+        statusCode: 502,
+      })
+    }
+    const result = path ? this.getResult(data, path) : data
+
+    if (typeof result === 'undefined' || result === null) {
+      logger.error(missingResultsErrorMsg, { data, path })
+      throw new AdapterResponseInvalidError({
+        message: missingResultsErrorMsg,
+        statusCode: 502,
+      })
+    }
+
+    if (typeof result !== 'string' && isNaN(Number(result))) {
+      const message =
+        'Invalid result received. This is likely an issue with the data provider or the input params/overrides.'
+      logger.error(message, { data, path })
+      throw new AdapterResponseInvalidError({
+        message,
+        statusCode: 400,
+      })
+    }
+
+    if (customMapper) {
+      return customMapper instanceof Function
+        ? customMapper(result)
+        : customMapper[result as string]
+    }
+    return !!result
+  }
+
   static validateResultNumber<T extends unknown>(
     data: T,
     path?: ResultPath,
@@ -227,23 +273,39 @@ export class Requester {
     return data[path[0]]
   }
 
+  static addAdditionalFields(
+    additionalFields: Record<string, unknown>,
+    initialValue: PayloadAndLiftedResult<unknown>,
+  ): PayloadAndLiftedResult<unknown> {
+    return Object.keys(additionalFields).reduce(
+      (acc: PayloadAndLiftedResult<unknown>, key: string) => ({
+        ...acc,
+        [key]: additionalFields[key],
+      }),
+      initialValue,
+    )
+  }
+
   /**
    * Extend a typed Axios response with a single result or group of results
    * @param response Axios response object
    * @param result (optional) a single result value
    * @param results (optional) a group of results from a batch request
+   * @param additionalFields (optional) an object containing any additional fields to add to the 'data' object
    */
-
   static withResult<T extends Record<string, unknown> | unknown>(
     response: AxiosResponse<T>,
     result?: number | string,
     results?: AdapterBatchResponse,
+    additionalFields?: Record<string, unknown>,
   ): AxiosReponseWithResult<T> {
     const isObj = deepType(response.data) === 'object'
     if (isObj) {
       const output = response as AxiosReponseWithResult<T>
       if (result) output.data.result = result
       if (results) output.data.results = results
+      if (additionalFields)
+        output.data = Requester.addAdditionalFields(additionalFields, output.data)
       return output
     }
     const output = {
@@ -252,6 +314,7 @@ export class Requester {
     } as AxiosReponseWithResult<T>
     if (result) output.data.result = result
     if (results) output.data.results = results
+    if (additionalFields) output.data = Requester.addAdditionalFields(additionalFields, output.data)
     return output
   }
 
@@ -296,7 +359,9 @@ export class Requester {
 
     const adapterResponse = {
       jobRunID,
-      data: verbose ? response.data : { result: response.data?.result },
+      data: verbose
+        ? response.data
+        : { result: response.data?.result, marketOpen: response.data?.marketOpen },
       result: response.data?.result,
       statusCode: 200,
       debug,
@@ -355,6 +420,11 @@ interface SingleResult {
   result?: number | string
 }
 
+interface SingleResultWithMarketOpen {
+  result?: number | string
+  marketOpen?: boolean
+}
+
 /**
  * A lifted result is derived from a raw response,
  * where the response payload will be slightly normalized,
@@ -378,7 +448,7 @@ interface SingleResult {
  * }
  * ```
  */
-type LiftedResult = SingleResult & BatchedResult
+type LiftedResult = SingleResult & BatchedResult & SingleResultWithMarketOpen
 
 /**
  * An Axios response with a result or results added to the response data.
@@ -390,7 +460,8 @@ type AxiosResponseWithLiftedResult<T> = AxiosResponse<T & LiftedResult>
  *
  * The original response data will be store under the key of payload.
  */
-type AxiosResponseWithPayloadAndLiftedResult<T> = AxiosResponse<{ payload: T } & LiftedResult>
+type PayloadAndLiftedResult<T> = { payload: T } & LiftedResult
+type AxiosResponseWithPayloadAndLiftedResult<T> = AxiosResponse<PayloadAndLiftedResult<T>>
 
 type AxiosReponseWithResult<T extends Record<string, unknown> | unknown> = T extends Record<
   string,
