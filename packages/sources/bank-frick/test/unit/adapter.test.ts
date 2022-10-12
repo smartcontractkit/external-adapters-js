@@ -25,14 +25,12 @@ describe('config', () => {
   const oldProcess: typeof process.env = {
     API_KEY: process.env.API_KEY,
     PRIVATE_KEY: process.env.PRIVATE_KEY,
-    PASSWORD: process.env.PASSWORD,
     PAGE_SIZE: process.env.PAGE_SIZE,
     NODE_ENV: process.env.NODE_ENV,
   }
   beforeAll(() => {
     process.env.API_KEY = 'SOME_API_KEY'
     process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
-    process.env.PASSWORD = 'SOME_PASSWORD'
   })
   afterAll(() => {
     //Restore the environment variables to what they were prior to testing

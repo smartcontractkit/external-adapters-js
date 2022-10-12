@@ -14,6 +14,7 @@ import { flatMap, values, List } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { logger } from './modules/logger'
 import { AdapterConfigError, AdapterError, RequiredEnvError } from './modules/error'
+import { CensorList, CensorKeyValue, configRedactEnvVars } from './config/logging'
 
 export const isString = (value: unknown): boolean =>
   typeof value === 'string' || value instanceof String
@@ -686,4 +687,19 @@ export const getPairOptionsMap = <TOptions, TInputParameters extends BasePairInp
   }
 
   return includesOptionsMap
+}
+
+// Build list of values to censor in logs using the predefined list of sensitive env vars
+export const buildCensorList = (): void => {
+  const censorList: CensorKeyValue[] = []
+  configRedactEnvVars.forEach((envVar) => {
+    const value = process.env[envVar]
+    if (value) {
+      censorList.push({
+        key: envVar,
+        value: new RegExp(value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi'),
+      })
+    }
+  })
+  CensorList.set(censorList)
 }
