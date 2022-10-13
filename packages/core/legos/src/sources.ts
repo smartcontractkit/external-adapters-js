@@ -130,6 +130,7 @@ import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
 import * as uniswap_v3 from '@chainlink/uniswap-v3-adapter'
+import * as universal from '@chainlink/universal-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
 import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as view_function from '@chainlink/view-function-adapter'
@@ -271,6 +272,7 @@ export default {
   unibit,
   uniswap_v2,
   uniswap_v3,
+  universal,
   upvest,
   uscpi_one,
   view_function,

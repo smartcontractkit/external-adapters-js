@@ -1,0 +1,5 @@
+{
+ "requests": [{
+    "code": "return '0x01'"
+ }]
+}

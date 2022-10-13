@@ -119,7 +119,9 @@
     {
       "path": "./scripts"
     },
-
+    {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
+    },
     {
       "path": "./sources/1forge"
     },
@@ -512,6 +514,9 @@
     },
     {
       "path": "./sources/uniswap-v3"
+    },
+    {
+      "path": "./sources/universal"
     },
     {
       "path": "./sources/upvest"

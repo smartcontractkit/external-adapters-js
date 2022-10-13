@@ -717,6 +717,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/uniswap-v3"\
       },\
       {\
+        "name": "@chainlink/universal-adapter",\
+        "reference": "workspace:packages/sources/universal"\
+      },\
+      {\
         "name": "@chainlink/upvest-adapter",\
         "reference": "workspace:packages/sources/upvest"\
       },\
@@ -945,6 +949,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
       ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
       ["@chainlink/uniswap-v3-adapter", ["workspace:packages/sources/uniswap-v3"]],\
+      ["@chainlink/universal-adapter", ["workspace:packages/sources/universal"]],\
       ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
       ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
       ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],\
@@ -5240,6 +5245,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],\
             ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
             ["@chainlink/uniswap-v3-adapter", "workspace:packages/sources/uniswap-v3"],\
+            ["@chainlink/universal-adapter", "workspace:packages/sources/universal"],\
             ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],\
             ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],\
             ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
@@ -7330,6 +7336,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.4.1"],\
             ["ethers", "npm:5.7.1"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/universal-adapter", [\
+        ["workspace:packages/sources/universal", {\
+          "packageLocation": "./packages/sources/universal/",\
+          "packageDependencies": [\
+            ["@chainlink/universal-adapter", "workspace:packages/sources/universal"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/crypto-js", "npm:4.1.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/jsrsasign", "npm:10.5.4"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["crypto-js", "npm:4.1.1"],\
+            ["jsrsasign", "npm:10.5.27"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -12043,6 +12070,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/crypto-js", [\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.1-1c4ce3312a-ea3d6a67b6.zip/node_modules/@types/crypto-js/",\
+          "packageDependencies": [\
+            ["@types/crypto-js", "npm:4.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/debug", [\
         ["npm:4.1.7", {\
           "packageLocation": "./.yarn/cache/@types-debug-npm-4.1.7-f54c81f8db-0a7b89d8ed.zip/node_modules/@types/debug/",\
@@ -12255,6 +12291,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/jsonwebtoken", "npm:8.5.9"],\
             ["@types/node", "npm:18.8.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/jsrsasign", [\
+        ["npm:10.5.4", {\
+          "packageLocation": "./.yarn/cache/@types-jsrsasign-npm-10.5.4-d09a7fde68-e0ec7dcd53.zip/node_modules/@types/jsrsasign/",\
+          "packageDependencies": [\
+            ["@types/jsrsasign", "npm:10.5.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16672,6 +16717,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/crypto-js-npm-3.3.0-5b307000b5-193923143a.zip/node_modules/crypto-js/",\
           "packageDependencies": [\
             ["crypto-js", "npm:3.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/crypto-js-npm-4.1.1-38a3b8c19d-b3747c12ee.zip/node_modules/crypto-js/",\
+          "packageDependencies": [\
+            ["crypto-js", "npm:4.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24203,6 +24255,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["extsprintf", "npm:1.3.0"],\
             ["json-schema", "npm:0.4.0"],\
             ["verror", "npm:1.10.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["jsrsasign", [\
+        ["npm:10.5.27", {\
+          "packageLocation": "./.yarn/cache/jsrsasign-npm-10.5.27-d5f5e14a11-77ebac65d3.zip/node_modules/jsrsasign/",\
+          "packageDependencies": [\
+            ["jsrsasign", "npm:10.5.27"]\
           ],\
           "linkType": "HARD"\
         }]\

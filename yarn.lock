@@ -2910,6 +2910,7 @@ __metadata:
     "@chainlink/unibit-adapter": "workspace:*"
     "@chainlink/uniswap-v2-adapter": "workspace:*"
     "@chainlink/uniswap-v3-adapter": "workspace:*"
+    "@chainlink/universal-adapter": "workspace:*"
     "@chainlink/upvest-adapter": "workspace:*"
     "@chainlink/uscpi-one-adapter": "workspace:*"
     "@chainlink/view-function-adapter": "workspace:*"
@@ -4662,6 +4663,25 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.1.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/universal-adapter@workspace:*, @chainlink/universal-adapter@workspace:packages/sources/universal":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/universal-adapter@workspace:packages/sources/universal"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/crypto-js": ^4
+    "@types/jest": 27.5.2
+    "@types/jsrsasign": ^10.5.4
+    "@types/supertest": 2.0.12
+    crypto-js: ^4.1.1
+    jsrsasign: ^10.5.27
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
@@ -9042,6 +9062,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/crypto-js@npm:^4":
+  version: 4.1.1
+  resolution: "@types/crypto-js@npm:4.1.1"
+  checksum: ea3d6a67b69f88baeb6af96004395903d2367a41bd5cd86306da23a44dd96589749495da50974a9b01bb5163c500764c8a33706831eade036bddae016417e3ea
+  languageName: node
+  linkType: hard
+
 "@types/debug@npm:^4.1.5":
   version: 4.1.7
   resolution: "@types/debug@npm:4.1.7"
@@ -9233,6 +9260,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 33815ab02d1371b423118316b7706d2f2ec03eeee5e1494be72da50425d2384e5e0a09ea193f7a5ab4b4f6a9c5847147305f50e965f3d927a95bdf8adb471b2a
+  languageName: node
+  linkType: hard
+
+"@types/jsrsasign@npm:^10.5.4":
+  version: 10.5.4
+  resolution: "@types/jsrsasign@npm:10.5.4"
+  checksum: e0ec7dcd534fe9a672a9b306f951f24eef1019b4d879d57e29a154eeb38cfb47f59239c2af1d202da211357feb452b96c45b8229ef3c440cf6d96606f4e5cff1
   languageName: node
   linkType: hard
 
@@ -12960,6 +12994,13 @@ __metadata:
   version: 3.3.0
   resolution: "crypto-js@npm:3.3.0"
   checksum: 193923143a4784b2f974366068d96fe8280168fd3fef2bfea9551a5c3e32096f5a8fa49ff4eeb5bd0b9716d325618d38cfbe6125e359a4ef488fbca93e600824
+  languageName: node
+  linkType: hard
+
+"crypto-js@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "crypto-js@npm:4.1.1"
+  checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
   languageName: node
   linkType: hard
 
@@ -19773,6 +19814,13 @@ __metadata:
     json-schema: 0.4.0
     verror: 1.10.0
   checksum: 2ad1b9fdcccae8b3d580fa6ced25de930eaa1ad154db21bbf8478a4d30bbbec7925b5f5ff29b933fba9412b16a17bd484a8da4fdb3663b5e27af95dd693bab2a
+  languageName: node
+  linkType: hard
+
+"jsrsasign@npm:^10.5.27":
+  version: 10.5.27
+  resolution: "jsrsasign@npm:10.5.27"
+  checksum: 77ebac65d39399e7702002ed75a39f6af9bfe0f839f19c65a878e6f2d5a96fb19433628509c344e25531794d84c913dbd7b1c522188883c5258fd531fb992e17
   languageName: node
   linkType: hard
 
