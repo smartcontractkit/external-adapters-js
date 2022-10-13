@@ -58,7 +58,12 @@ export const endpointResultPaths: {
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `crypto` endpoint instead.**'
 
-export type TInputParameters = { coinid: string; base: string | string[]; quote: string | string[] }
+export type TInputParameters = {
+  coinid: string
+  base: string | string[]
+  quote: string | string[]
+  precision: string
+}
 export const inputParameters: InputParameters<TInputParameters> = {
   coinid: {
     description:
@@ -74,6 +79,11 @@ export const inputParameters: InputParameters<TInputParameters> = {
     aliases: ['to', 'market'],
     description: 'The symbol of the currency to convert to',
     required: true,
+  },
+  precision: {
+    description: 'Data precision setting',
+    default: 'full',
+    required: false,
   },
 }
 
@@ -133,6 +143,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
   const jobRunID = validator.validated.id
   const base = validator.validated.data.base
   const quote = validator.validated.data.quote
+  const precision = validator.validated.data.precision
   const coinid = validator.validated.data.coinid
 
   let ids: string
@@ -169,6 +180,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, context, confi
     include_market_cap: endpoint === 'marketcap',
     include_24hr_vol: endpoint === 'volume',
     x_cg_pro_api_key: config.apiKey,
+    precision,
   }
 
   const options = {
