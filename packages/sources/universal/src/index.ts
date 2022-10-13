@@ -1,10 +1,16 @@
-import { expose } from '@chainlink/ea-bootstrap'
+import { AdapterContext, expose } from '@chainlink/ea-bootstrap'
 import { makeExecute, endpointSelector } from './adapter'
 import * as endpoints from './endpoint'
 import { makeConfig, NAME } from './config'
 import * as rateLimit from './config/limits.json'
 
-const adapterContext = { name: NAME, rateLimit }
+const envDefaultOverrides = { WARMUP_ENABLED: 'false' }
+const adapterContext = { name: NAME, rateLimit, envDefaultOverrides }
 
-const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
+const { server } = expose(
+  adapterContext as AdapterContext,
+  makeExecute(),
+  undefined,
+  endpointSelector,
+)
 export { NAME, makeExecute, makeConfig, server, endpoints }
