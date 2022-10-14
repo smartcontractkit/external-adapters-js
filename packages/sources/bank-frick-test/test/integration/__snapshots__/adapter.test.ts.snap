@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute accounts successful request 1`] = `
+Object {
+  "data": 1010000.0999999,
+  "result": 1010000.0999999,
+  "statusCode": 200,
+}
+`;
