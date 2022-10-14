@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.21.0
+
+### Minor Changes
+
+- 3c1a320b5: Added new logging censorship implementation
+
 ## 2.20.0
 
 ### Minor Changes
