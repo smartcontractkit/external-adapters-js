@@ -1,5 +1,5 @@
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { expose } from '@chainlink/external-adapter-framework'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import overrides from './config/overrides.json'
 import {
   coins,

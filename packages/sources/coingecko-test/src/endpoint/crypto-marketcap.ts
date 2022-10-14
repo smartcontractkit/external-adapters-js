@@ -1,9 +1,6 @@
-import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import {
-  BatchWarmingTransport,
-  HttpRequestConfig,
-  HttpResponse,
-} from '@chainlink/external-adapter-framework/transports'
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
   CryptoRequestParams,
@@ -13,13 +10,14 @@ import {
   ProviderResponseBody,
   cryptoInputParams,
 } from '../crypto-utils'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const batchEndpointTransport = new BatchWarmingTransport({
   prepareRequest: (
     params: CryptoRequestParams[],
-    context: AdapterContext,
+    config: AdapterConfig,
   ): HttpRequestConfig<ProviderRequestBody> => {
-    const requestBody = buildBatchedRequestBody(params, context.adapterConfig)
+    const requestBody = buildBatchedRequestBody(params, config)
     requestBody.params.include_market_cap = true
     return requestBody
   },

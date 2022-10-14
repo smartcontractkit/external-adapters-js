@@ -1,9 +1,6 @@
-import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import {
-  BatchWarmingTransport,
-  HttpRequestConfig,
-  HttpResponse,
-} from '@chainlink/external-adapter-framework/transports'
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
   buildGlobalRequestBody,
@@ -12,13 +9,11 @@ import {
   constructEntry,
   inputParameters,
 } from '../global-utils'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const batchEndpointTransport = new BatchWarmingTransport({
-  prepareRequest: (
-    _: AdapterRequestParams[],
-    context: AdapterContext,
-  ): HttpRequestConfig<never> => {
-    return buildGlobalRequestBody(context.adapterConfig.API_KEY)
+  prepareRequest: (_: AdapterRequestParams[], config: AdapterConfig): HttpRequestConfig<never> => {
+    return buildGlobalRequestBody(config.API_KEY)
   },
   parseResponse: (
     params: AdapterRequestParams[],
