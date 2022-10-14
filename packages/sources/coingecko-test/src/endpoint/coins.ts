@@ -1,9 +1,9 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import {
-  RestTransport,
   HttpRequestConfig,
   HttpResponse,
+  RestTransport,
 } from '@chainlink/external-adapter-framework/transports'
 import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
