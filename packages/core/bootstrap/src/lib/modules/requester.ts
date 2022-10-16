@@ -159,13 +159,12 @@ export class Requester {
     return await _retry(retries)
   }
 
-  static getMarketOpenFlag<T extends unknown>(
+  static validateResult<T extends unknown>(
     data: T,
+    missingDataErrorMsg: string,
+    missingResultsErrorMsg: string,
     path?: ResultPath,
-    customMapper?: Record<string, boolean> | ((val: unknown) => boolean),
-    missingDataErrorMsg = 'Data provider response empty',
-    missingResultsErrorMsg = 'Market open flag could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
-  ): boolean {
+  ): unknown {
     if (
       typeof data === 'undefined' ||
       data === null ||
@@ -186,23 +185,7 @@ export class Requester {
         statusCode: 502,
       })
     }
-
-    if (typeof result !== 'string' && isNaN(Number(result))) {
-      const message =
-        'Invalid result received. This is likely an issue with the data provider or the input params/overrides.'
-      logger.error(message, { data, path })
-      throw new AdapterResponseInvalidError({
-        message,
-        statusCode: 400,
-      })
-    }
-
-    if (customMapper) {
-      return customMapper instanceof Function
-        ? customMapper(result)
-        : customMapper[result as string]
-    }
-    return !!result
+    return result
   }
 
   static validateResultNumber<T extends unknown>(
@@ -212,30 +195,10 @@ export class Requester {
     missingDataErrorMsg = 'Data provider response empty',
     missingResultsErrorMsg = 'Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
   ): number {
-    if (
-      typeof data === 'undefined' ||
-      data === null ||
-      (isObject(data) && Object.keys(data as Record<string, unknown>).length === 0)
-    ) {
-      logger.error(missingDataErrorMsg, { data, path })
-      throw new AdapterResponseEmptyError({
-        message: missingDataErrorMsg,
-        statusCode: 502,
-      })
-    }
-    const result = path ? this.getResult(data, path) : data
-
-    if (typeof result === 'undefined' || result === null) {
-      logger.error(missingResultsErrorMsg, { data, path })
-      throw new AdapterResponseInvalidError({
-        message: missingResultsErrorMsg,
-        statusCode: 502,
-      })
-    }
-
+    const result = this.validateResult(data, missingDataErrorMsg, missingResultsErrorMsg, path)
     if (Number(result) === 0 || isNaN(Number(result))) {
       const message =
-        'Invalid result received. This is likely an issue with the data provider or the input params/overrides.'
+        'Invalid result number received. This is likely an issue with the data provider or the input params/overrides.'
       logger.error(message, { data, path })
       throw new AdapterResponseInvalidError({
         message,
@@ -245,6 +208,33 @@ export class Requester {
     const num = Number(result)
     if (options?.inverse && num != 0) return 1 / num
     return num
+  }
+
+  static validateResultBool<T extends unknown>(
+    data: T,
+    path?: ResultPath,
+    customMapper?: Record<string, boolean> | ((val: unknown) => boolean),
+    missingDataErrorMsg = 'Data provider response empty',
+    missingResultsErrorMsg = 'Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
+  ): boolean {
+    const result = this.validateResult(data, missingDataErrorMsg, missingResultsErrorMsg, path)
+    const bool = customMapper
+      ? customMapper instanceof Function
+        ? customMapper(result)
+        : customMapper[result as string]
+      : result
+
+    if (typeof bool !== 'boolean') {
+      const message =
+        'Invalid result bool received. This is likely an issue with the data provider or the input params/overrides.'
+      logger.error(message, { data, path })
+      throw new AdapterResponseInvalidError({
+        message,
+        statusCode: 400,
+      })
+    }
+
+    return Boolean(result)
   }
 
   static getResult<T extends unknown>(data: T, path: ResultPath): unknown {
@@ -273,19 +263,6 @@ export class Requester {
     return data[path[0]]
   }
 
-  static addAdditionalFields(
-    additionalFields: Record<string, unknown>,
-    initialValue: PayloadAndLiftedResult<unknown>,
-  ): PayloadAndLiftedResult<unknown> {
-    return Object.keys(additionalFields).reduce(
-      (acc: PayloadAndLiftedResult<unknown>, key: string) => ({
-        ...acc,
-        [key]: additionalFields[key],
-      }),
-      initialValue,
-    )
-  }
-
   /**
    * Extend a typed Axios response with a single result or group of results
    * @param response Axios response object
@@ -304,8 +281,7 @@ export class Requester {
       const output = response as AxiosReponseWithResult<T>
       if (result) output.data.result = result
       if (results) output.data.results = results
-      if (additionalFields)
-        output.data = Requester.addAdditionalFields(additionalFields, output.data)
+      if (additionalFields) output.data.additionalFields = additionalFields
       return output
     }
     const output = {
@@ -314,7 +290,7 @@ export class Requester {
     } as AxiosReponseWithResult<T>
     if (result) output.data.result = result
     if (results) output.data.results = results
-    if (additionalFields) output.data = Requester.addAdditionalFields(additionalFields, output.data)
+    if (additionalFields) output.data.additionalFields = additionalFields
     return output
   }
 
@@ -344,6 +320,21 @@ export class Requester {
   }
 
   /**
+   * Adds all fields from 'additionalFields' to 'data' object, and removes the original 'data.additionalFields' to avoid duplication
+   * @param response The response data object
+   */
+  static addAdditionalFieldsToData(response: Partial<AxiosResponse>): Record<string, unknown> {
+    if (response.data?.additionalFields) {
+      const { additionalFields, ...rest } = response.data
+      return {
+        ...rest,
+        ...additionalFields,
+      }
+    }
+    return response.data
+  }
+
+  /**
    * Conforms the .request() response to the expected Chainlink response structure
    * @param jobRunID
    * @param response The response data object
@@ -356,12 +347,11 @@ export class Requester {
     batchablePropertyPath?: BatchableProperty[],
   ): AdapterResponse {
     const debug = batchablePropertyPath ? { batchablePropertyPath } : undefined
+    const data = this.addAdditionalFieldsToData(response)
 
     const adapterResponse = {
       jobRunID,
-      data: verbose
-        ? response.data
-        : { result: response.data?.result, marketOpen: response.data?.marketOpen },
+      data: verbose ? data : { result: data?.result, ...response.data?.additionalFields },
       result: response.data?.result,
       statusCode: 200,
       debug,
@@ -420,9 +410,8 @@ interface SingleResult {
   result?: number | string
 }
 
-interface SingleResultWithMarketOpen {
-  result?: number | string
-  marketOpen?: boolean
+interface ResultAdditionalFields {
+  additionalFields?: Record<string, unknown>
 }
 
 /**
@@ -448,7 +437,7 @@ interface SingleResultWithMarketOpen {
  * }
  * ```
  */
-type LiftedResult = SingleResult & BatchedResult & SingleResultWithMarketOpen
+type LiftedResult = SingleResult & BatchedResult & ResultAdditionalFields
 
 /**
  * An Axios response with a result or results added to the response data.

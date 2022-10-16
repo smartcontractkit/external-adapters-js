@@ -34,7 +34,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const response = await Requester.request<ResponseSchema>(reqConfig)
   const result = Requester.validateResultNumber(response.data, ['latestPrice'])
-  const marketOpen = Requester.getMarketOpenFlag(response.data, ['isUSMarketOpen'])
+  const marketOpen = Requester.validateResultBool(response.data, ['isUSMarketOpen'])
 
   return Requester.success(
     jobRunID,

@@ -42367,7 +42367,6 @@ Object {
 exports[`full request services request for epoch 0 correctly 1`] = `
 Object {
   "data": Object {
-    "marketOpen": undefined,
     "result": 1,
   },
   "debug": undefined,

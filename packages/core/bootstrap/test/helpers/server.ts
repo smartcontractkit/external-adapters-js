@@ -6,6 +6,7 @@ const SUCCESS_JSON_PATH = 'successJSON'
 export const SUCCESS_JSON_RESPONSE = {
   result: 'success',
   value: 1,
+  bool: true,
 }
 
 const SUCCESS_ARRAY_PATH = 'successArray'

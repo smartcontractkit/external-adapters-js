@@ -194,7 +194,75 @@ describe('HTTP', () => {
         expect(false).toBe(true)
       } catch (error) {
         expect(error.message).toEqual(
-          'Invalid result received. This is likely an issue with the data provider or the input params/overrides.',
+          'Invalid result number received. This is likely an issue with the data provider or the input params/overrides.',
+        )
+      }
+    })
+  })
+
+  describe('Requester.validateResultBool', () => {
+    it('returns the desired value', async () => {
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
+      const result = Requester.validateResultBool(data, ['bool'])
+      expect(result).toEqual(true)
+    })
+
+    it('returns the desired value using customMapper object', async () => {
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
+      const result = Requester.validateResultBool(data, ['result'], { success: true })
+      expect(result).toEqual(true)
+    })
+
+    it('returns the desired value using customMapper function', async () => {
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
+      const result = Requester.validateResultBool(data, ['result'], (value) => value === 'success')
+      expect(result).toEqual(true)
+    })
+
+    it('errors if the value is not a boolean', async () => {
+      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
+        options,
+        undefined,
+        1,
+        0,
+      )
+      expect(server.errorCount).toEqual(0)
+      expect(data.result).toEqual('success')
+      expect(data.value).toEqual(1)
+      try {
+        Requester.validateResultBool(data, ['result'])
+        expect(false).toBe(true)
+      } catch (error) {
+        expect(error.message).toEqual(
+          'Invalid result bool received. This is likely an issue with the data provider or the input params/overrides.',
         )
       }
     })
