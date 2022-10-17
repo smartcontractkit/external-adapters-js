@@ -107,10 +107,7 @@ export const getRandomRequiredEnv = (
 }
 
 // We generate an UUID per instance
-export const uuid = (): string => {
-  if (!process.env.UUID) process.env.UUID = uuidv4()
-  return process.env.UUID
-}
+export const uuid = (): string => uuidv4()
 
 /**
  * Return a value used for exponential backoff in milliseconds.

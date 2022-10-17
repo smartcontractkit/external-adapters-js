@@ -29,16 +29,3 @@ jobs:
           commit: 'Consume changesets'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build Repo
-        run: yarn setup
-      - name: Generate Documentation
-        run: |
-          yarn generate:master-list -v
-          yarn generate:readme -a -v
-          git add .
-          yarn lint-staged
-          git commit --amend --no-edit
-          git push --force
-          echo "README(s) generated successfully."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
