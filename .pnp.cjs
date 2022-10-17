@@ -381,6 +381,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/cryptocompare"\
       },\
       {\
+        "name": "@chainlink/cryptocompare-test-adapter",\
+        "reference": "workspace:packages/sources/cryptocompare-test"\
+      },\
+      {\
         "name": "@chainlink/cryptoid-adapter",\
         "reference": "workspace:packages/sources/cryptoid"\
       },\
@@ -855,6 +859,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
       ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],\
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
+      ["@chainlink/cryptocompare-test-adapter", ["workspace:packages/sources/cryptocompare-test"]],\
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],\
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],\
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
@@ -4933,6 +4938,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/cryptocompare-test-adapter", [\
+        ["workspace:packages/sources/cryptocompare-test", {\
+          "packageLocation": "./packages/sources/cryptocompare-test/",\
+          "packageDependencies": [\
+            ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.2.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/cryptoid-adapter", [\
         ["workspace:packages/sources/cryptoid", {\
           "packageLocation": "./packages/sources/cryptoid/",\
@@ -5283,6 +5306,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
             ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
+            ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
             ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],\
             ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],\
             ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\
@@ -5834,6 +5858,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.2.2", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.2.2-7f28489a6b-3f0b83f68f.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.2.2"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.7.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
             ["prom-client", "npm:13.2.0"],\
             ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
           ],\
