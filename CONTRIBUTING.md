@@ -13,6 +13,7 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 7. [Generating Changesets](#Generating-Changesets)
 8. [Common Patterns](#Common-Patterns)
 9. [Soak Testing (Chainlink Labs)](<#Soak-Testing-(Chainlink-Labs)>)
+10. [Logging Censorship](#logging-censorship)
 
 ## Creating A New Adapter
 
@@ -235,4 +236,26 @@ When you are done testing please remember to tear down any adapters and k6 deplo
 
 ```bash
 PR_NUMBER=${UNIQUE_NAME} ./packages/scripts/src/ephemeral-adapters/cleanup.sh
+```
+
+## Logging Censorship
+
+If you are introducing a new env var that contains sensitive data, ensure that it is added to our logging configurations to help censor it in the logs. Follow the steps below to do so.
+
+In the case that the env var's value it not altered by the adapter such as Base64 encoding, add the env var to the `configRedactEnvVars` list in packages/core/bootstrap/src/lib/config/logging.ts
+
+In the case that the env var's value is altered in the adapter prior to use, add the JSON path of the key containing the sensitive value (i.e. `config.api.apiKey`) to the `redactPaths` list in packages/core/bootstrap/src/lib/config/logging.ts
+
+As an example, the path `config.api.apiKey` would alter logs in the following way:
+
+```js
+{
+  "config": {
+    ...
+    "api": {
+      ...
+      "apiKey": "[REDACTED]"
+    }
+  }
+}
 ```

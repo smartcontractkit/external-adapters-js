@@ -4555,7 +4555,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko-test/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.1.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.2.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5347,7 +5347,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.1.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.2.0"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -5652,20 +5652,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.1.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.1.0-25b45d2940-13f2ccf79b.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.2.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.2.0-a1a3c4e52b-97eba76dd3.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.1.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.2.0"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
-            ["bufferutil", "npm:4.0.6"],\
             ["eventsource", "npm:2.0.2"],\
             ["fastify", "npm:4.7.0"],\
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["prom-client", "npm:13.2.0"],\
-            ["utf-8-validate", "npm:5.0.9"],\
-            ["ws", "virtual:6b5485bae0e4733e19169c4f15801b9b169a1b0b0612adff01902081de9cac7b169aa0211327d2a022e5a1057620b4c2b1cd569ae8233883b020ba78794768ff#npm:8.9.0"]\
+            ["ws", "virtual:a1a3c4e52b55c187e7804c5938db0a1b970e6ccbcb01ad7b734985cb7f650189ecb207073f0bcd5aaa38c6ca2424288a569b43f458e509d81359a08139c5ad5d#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34661,6 +34659,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-e447ee6a95/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:a1a3c4e52b55c187e7804c5938db0a1b970e6ccbcb01ad7b734985cb7f650189ecb207073f0bcd5aaa38c6ca2424288a569b43f458e509d81359a08139c5ad5d#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-ea6b8e5de9/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:a1a3c4e52b55c187e7804c5938db0a1b970e6ccbcb01ad7b734985cb7f650189ecb207073f0bcd5aaa38c6ca2424288a569b43f458e509d81359a08139c5ad5d#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

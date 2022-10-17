@@ -19,9 +19,3 @@ export const getWSConfig = (endpoint?: string, context?: AdapterContext): WSConf
   subscriptionPriorityList: (getEnv('WS_SUBSCRIPTION_PRIORITY_LIST') || []) as Array<string>, // TODO: load array,
   defaultHeartbeatIntervalInMS: Number(getEnv('DEFAULT_WS_HEARTBEAT_INTERVAL')),
 })
-
-export const wsRedactPaths = [
-  'payload.wsHandler.connection.protocol.query.api_key',
-  'payload.connectionInfo.url',
-  'payload.wsHandler.connection.url',
-]
