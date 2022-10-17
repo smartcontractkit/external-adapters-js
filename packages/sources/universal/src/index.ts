@@ -4,7 +4,12 @@ import * as endpoints from './endpoint'
 import { makeConfig, NAME } from './config'
 import * as rateLimit from './config/limits.json'
 
-const envDefaultOverrides = { WARMUP_ENABLED: 'false' }
+const envDefaultOverrides = {
+  WARMUP_ENABLED: 'false',
+  CACHE_ENABLED: 'false',
+  RATE_LIMIT_ENABLED: 'false',
+  REQUEST_COALESCING_ENABLED: 'false',
+}
 const adapterContext = { name: NAME, rateLimit, envDefaultOverrides }
 
 const { server } = expose(

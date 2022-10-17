@@ -26,12 +26,12 @@ describe('execute', () => {
       mockSandbox()
       const response = await (context.req as SuperTest<Test>)
         .post('/')
-        .send({ id, data: { code: "return '0x01'" } })
+        .send({ id, data: { source: "return '0x01'" } })
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body.data.result).toBe('0x01')
+      expect(response.body.result).toBe('0x01')
     })
 
     it('should return success for request with HTTP requests & args', async () => {
@@ -41,7 +41,7 @@ describe('execute', () => {
         .send({
           id,
           data: {
-            httpQueries: [
+            queries: [
               {
                 url: 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
               },
@@ -49,7 +49,7 @@ describe('execute', () => {
                 url: 'https://api.coinpaprika.com/v1/tickers/btc-bitcoin',
               },
             ],
-            code: "return '0x02'",
+            source: "return '0x02'",
             args: ['bitcoin', 'usd', 'btc-bitcoin'],
           },
         })
@@ -57,33 +57,35 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body.data.result).toBe('0x02')
+      expect(response.body.result).toBe('0x02')
     })
   })
 
   describe('error in provided JavaScript', () => {
-    it('should return compilation error', async () => {
+    it('should return syntax error', async () => {
       mockSandbox()
       const response = await (context.req as SuperTest<Test>)
         .post('/')
-        .send({ id, data: { code: 'return )' } })
+        .send({ id, data: { source: 'return )' } })
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(400)
-      expect(response.body.data.error).toBe('Javascript Compilation Error: Syntax Error')
+        .expect(406)
+      expect(response.body.error).toBe(
+        '0x4a6176615363726970742053796e746178204572726f723a20556e657870656374656420746f6b656e20272927',
+      )
     })
 
     it('should return error if an invalid type is returned from sandbox', async () => {
       mockSandbox()
       const response = await (context.req as SuperTest<Test>)
         .post('/')
-        .send({ id, data: { code: 'return 1' } })
+        .send({ id, data: { source: 'return 1' } })
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(400)
-      expect(response.body.data.error).toBe('source code did not return a valid hex string')
+        .expect(406)
+      expect(response.body.errorString).toBe('source code did not return a valid hex string')
     })
 
     it('should return error if the returned hex string is too long', async () => {
@@ -93,14 +95,17 @@ describe('execute', () => {
         .send({
           id,
           data: {
-            code: "return '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'",
+            source:
+              "return '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'",
           },
         })
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(400)
-      expect(response.body.data.error).toBe('returned hex string is longer than 130 characters')
+        .expect(406)
+      expect(response.body.data.errorString).toBe(
+        'returned hex string is longer than 130 characters',
+      )
     })
   })
 })

@@ -19,4 +19,6 @@ const privateKey = keys.privateKey
   .replace('-----BEGIN RSA PRIVATE KEY-----\n', '')
   .replace('\n-----END RSA PRIVATE KEY-----\n', '')
   .replace(/\n/g, '')
-console.log(`PUBLICKEY:\n\n${publicKey}\n\nPRIVATEKEY:\n\n${privateKey}\n\n`)
+console.log(
+  `SANDBOX_PUBLIC_AUTH_KEY:\n\n${publicKey}\n\nSANDBOX_PRIVATE_AUTH_KEY:\n\n${privateKey}\n\n`,
+)
