@@ -18,7 +18,7 @@ import * as redis from './redis'
 import * as metrics from './metrics'
 import { CacheOptions, CacheImplOptions, CacheEntry, Cache } from './types'
 
-const DEFAULT_CACHE_KEY_GROUP = uuid()
+const UUID = uuid()
 
 export const defaultOptions = (
   shouldUseLocal?: boolean,
@@ -29,7 +29,7 @@ export const defaultOptions = (
     cacheImplOptions: shouldUseLocal ? local.defaultOptions() : defaultCacheImplOptions(),
     cacheBuilder: defaultCacheBuilder(),
     key: {
-      group: getEnv('CACHE_KEY_GROUP') || DEFAULT_CACHE_KEY_GROUP,
+      group: `${adapterContext?.name || UUID}-${getEnv('CACHE_KEY_GROUP') || ''}`,
     },
     // Request coalescing
     requestCoalescing: {
