@@ -18,11 +18,13 @@ export const makeConfig = (prefix?: string): Config => {
       'set the URL of the FaaS sandbox authentication key using the SANDBOX_PRIVATE_AUTH_KEY config variable',
     )
   }
-  const maxHexStringResponseLength = parseInt(process.env['MAX_HEXSTRING_RESPONSE_LENGTH'] ?? '130')
+  const maxHexStringLength = parseInt(process.env['MAX_HEXSTRING_LENGTH'] ?? '130')
+  const sandboxTimeout = parseInt(process.env['SANDBOX_TIMEOUT'] ?? '30000')
   config.adapterSpecificParams = {
     sandboxURL,
     sandboxAuthPrivateKey,
-    maxHexStringResponseLength,
+    maxHexStringLength,
+    sandboxTimeout,
   }
   return config
 }

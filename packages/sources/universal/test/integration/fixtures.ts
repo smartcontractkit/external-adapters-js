@@ -26,9 +26,8 @@ export const mockSandbox = (): nock.Scope =>
   })
     // basic request
     .post('/execute', (body) => {
-      if (body.code !== "return '0x01'") return false
+      if (body.source !== "return '0x01'") return false
       try {
-        checkRequestAuthorization(body)
         return true
       } catch {
         return false
@@ -47,7 +46,7 @@ export const mockSandbox = (): nock.Scope =>
     // request with http requests & args
     .post('/execute', (body) => {
       if (
-        JSON.stringify(body.httpQueries) !==
+        JSON.stringify(body.queries) !==
           JSON.stringify([
             {
               url: 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
@@ -57,7 +56,7 @@ export const mockSandbox = (): nock.Scope =>
             },
           ]) ||
         JSON.stringify(body.args) !== JSON.stringify(['bitcoin', 'usd', 'btc-bitcoin']) ||
-        body.code !== "return '0x02'"
+        body.source !== "return '0x02'"
       )
         return false
       try {
@@ -79,7 +78,7 @@ export const mockSandbox = (): nock.Scope =>
     ])
     // request with error in code
     .post('/execute', (body) => {
-      if (body.code !== 'return )') return false
+      if (body.source !== 'return )') return false
       try {
         checkRequestAuthorization(body)
         return true
@@ -87,19 +86,28 @@ export const mockSandbox = (): nock.Scope =>
         return false
       }
     })
-    .reply(200, () => ({ error: 'Javascript Compilation Error: Syntax Error' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      () => ({
+        error: {
+          name: 'JavaScript Syntax Error',
+          message: "Unexpected token ')'",
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     // with invalid result
     .post('/execute', (body) => {
-      if (body.code !== 'return 1') return false
+      if (body.source !== 'return 1') return false
       try {
         checkRequestAuthorization(body)
         return true
@@ -119,7 +127,7 @@ export const mockSandbox = (): nock.Scope =>
     ])
     .post('/execute', (body) => {
       if (
-        body.code !==
+        body.source !==
         "return '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'"
       )
         return false
