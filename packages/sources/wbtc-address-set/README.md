@@ -1,6 +1,6 @@
 # Chainlink External Adapters for querying wBTC custodial address set
 
-![1.4.18](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wbtc-address-set/package.json)
+![1.4.24](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/wbtc-address-set/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

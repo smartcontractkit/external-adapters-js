@@ -1,5 +1,27 @@
 # @chainlink/bob-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.0.0
+
+### Major Changes
+
+- bf98388f4: Moved BOB adapter to source adapters. RPC_URL environment variable is now required and has no defaults. Added CHAIN_ID environment variable and validation for connecting to blockchain endpoints. **WARNING:** Before upgrading, ensure the default CHAIN_ID value is correct for the chain(s) you use. If not, you need to explicitly set this env var. Please refer to the individual adapter README for more information.
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.2.17
 
 ### Patch Changes
