@@ -11,6 +11,6 @@ export const adapter = new Adapter({
   envDefaultOverrides: {
     API_ENDPOINT: 'https://olbsandbox.bankfrick.li/webapi/v2',
   },
-}) as unknown as Adapter
+})
 
 export const server = () => expose(adapter)

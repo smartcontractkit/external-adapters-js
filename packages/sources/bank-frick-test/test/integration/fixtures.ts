@@ -21,7 +21,6 @@ export const mockAccountsSuccess = () =>
           },
           {
             account: 'something',
-
             iban: 'LI6808811000000045345',
             balance: 999999.1,
           },

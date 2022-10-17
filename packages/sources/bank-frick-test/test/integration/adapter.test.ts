@@ -3,6 +3,8 @@ import { SuperTest, Test } from 'supertest'
 import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
 import { generateJWT } from '../../src/util'
 import { setupExternalAdapterTest, SuiteContext } from './setup'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { customSettings } from '../../src/config'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -17,7 +19,6 @@ describe('execute', () => {
     server: async (): Promise<FastifyInstance> => {
       process.env.API_KEY = 'SOME_API_KEY'
       process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
-      process.env.CACHE_ENABLED = 'false'
       process.env.NODE_ENV = 'development'
       const server = (await import('../../src')).server
       return server() as Promise<FastifyInstance>
@@ -38,28 +39,8 @@ describe('execute', () => {
         API_KEY: 'SOME_API_KEY',
         PRIVATE_KEY: 'SOME_PRIVATE_KEY',
         API_ENDPOINT: 'https://olbsandbox.bankfrick.li/webapi/v2',
-      } as any)
+      } as AdapterConfig<typeof customSettings>)
       expect(token).toEqual('SOME_TOKEN')
-    })
-
-    it('successful request', async () => {
-      const data = {
-        id,
-        data: {
-          ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
-        },
-      }
-      mockAuthorizeSuccess()
-      mockAccountsSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
     })
 
     it('account not found', async () => {
@@ -81,6 +62,26 @@ describe('execute', () => {
         //We care that the error is there, but don't want to match on content since the stack and message can change between runs
         error: expect.any(Object),
       })
+    })
+
+    it('successful request', async () => {
+      const data = {
+        id,
+        data: {
+          ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
+        },
+      }
+      mockAuthorizeSuccess()
+      mockAccountsSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
     })
   })
 })

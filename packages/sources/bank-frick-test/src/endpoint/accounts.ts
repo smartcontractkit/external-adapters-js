@@ -15,8 +15,11 @@ import {
   makeLogger,
   sleep,
 } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framework/config'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterDependencies, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
@@ -60,15 +63,15 @@ const FatalErrors: { [key: number]: string } = {
  * also has complex retry logic that will attempt to refresh the JWT when certain HTTP errors occur
  */
 export class BankFrickAccountsTransport
-  implements Transport<AdapterInputParameters, number, typeof customSettings>
+  implements Transport<AdapterInputParameters, { result: number }, typeof customSettings>
 {
   // Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
   // Each instance of the EA will have their own token by design
   token!: string
-  cache!: Cache<AdapterResponse<number>>
+  cache!: Cache<AdapterResponse<{ result: number }>>
 
   async initialize(dependencies: AdapterDependencies): Promise<void> {
-    this.cache = dependencies.cache as Cache<AdapterResponse<number>>
+    this.cache = dependencies.cache as Cache<AdapterResponse<{ result: number }>>
   }
 
   async hasBeenSetUp() {
@@ -170,7 +173,7 @@ export class BankFrickAccountsTransport
   async setup(
     req: AdapterRequest<AdapterInputParameters>,
     config: AdapterConfig<typeof customSettings>,
-  ): Promise<AdapterResponse<number>> {
+  ): Promise<AdapterResponse<{ result: number }>> {
     const { ibanIDs, signingAlgorithm } = req.requestContext.data
     const { PAGE_SIZE = 500 } = config
 
@@ -224,21 +227,17 @@ export class BankFrickAccountsTransport
 
     // 404 if one or more accounts were not found
     if (keys.length > 0) {
-      logger.error(`Could not find all accounts, returning 404: ${keys.join(', ')}`)
-      const res = {
-        data: 0,
-        statusCode: 404,
-        result: 0,
-      } as AdapterResponse<number>
-      await this.cache.set(req.requestContext.cacheKey, res, config.CACHE_MAX_AGE)
+      throw new AdapterInputError({ statusCode: 404, message: 'Could not find all accounts' })
     }
 
     logger.debug('Was able to find all accounts, returning balance across all accounts: ', sum)
     const res = {
-      data: sum,
+      data: {
+        result: sum,
+      },
       statusCode: 200,
       result: sum,
-    } as AdapterResponse<number>
+    }
     await this.cache.set(req.requestContext.cacheKey, res, config.CACHE_MAX_AGE)
     return res
   }
@@ -248,4 +247,4 @@ export const accountsRestEndpoint = new AdapterEndpoint({
   name: 'accounts',
   transport: new BankFrickAccountsTransport(),
   inputParameters,
-})
+}) as AdapterEndpoint<AdapterInputParameters, { result: number }, SettingsMap>
