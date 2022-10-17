@@ -1,5 +1,7 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
-
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
   CryptoRequestParams,
   ProviderRequestBody,
@@ -7,21 +9,19 @@ import {
   constructEntry,
   ProviderResponseBody,
   cryptoInputParams,
-} from '../cryptoUtils'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { AdapterEndpoint, AdapterContext } from '@chainlink/external-adapter-framework/adapter'
+} from '../crypto-utils'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const batchEndpointTransport = new BatchWarmingTransport({
   prepareRequest: (
     params: CryptoRequestParams[],
-    context: AdapterContext,
-  ): AxiosRequestConfig<ProviderRequestBody> => {
-    return buildBatchedRequestBody(params, context.adapterConfig)
+    config: AdapterConfig,
+  ): HttpRequestConfig<ProviderRequestBody> => {
+    return buildBatchedRequestBody(params, config)
   },
   parseResponse: (
     params: CryptoRequestParams[],
-    res: AxiosResponse<ProviderResponseBody>,
+    res: HttpResponse<ProviderResponseBody>,
   ): ProviderResult<CryptoRequestParams>[] => {
     const entries = [] as ProviderResult<CryptoRequestParams>[]
     for (const requestPayload of params) {
@@ -34,7 +34,7 @@ const batchEndpointTransport = new BatchWarmingTransport({
   },
 })
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PriceEndpoint({
   name: 'crypto',
   aliases: ['crypto-batched', 'batched', 'batch'],
   transport: batchEndpointTransport,

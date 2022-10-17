@@ -6,7 +6,6 @@ Object {
     "message": "base parameter must be of type string",
     "name": "AdapterError",
   },
-  "jobRunID": "1",
   "status": "errored",
   "statusCode": 400,
 }

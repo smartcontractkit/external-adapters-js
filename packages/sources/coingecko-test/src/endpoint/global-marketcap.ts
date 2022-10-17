@@ -1,22 +1,23 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
-  AdapterRequestParams,
   buildGlobalRequestBody,
+  AdapterRequestParams,
+  ProviderResponseBody,
   constructEntry,
   inputParameters,
-  ProviderResponseBody,
-} from '../globalUtils'
-import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+} from '../global-utils'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const batchEndpointTransport = new BatchWarmingTransport({
-  prepareRequest: (_, context: AdapterContext): AxiosRequestConfig<never> => {
-    return buildGlobalRequestBody(context.adapterConfig.API_KEY)
+  prepareRequest: (_: AdapterRequestParams[], config: AdapterConfig): HttpRequestConfig<never> => {
+    return buildGlobalRequestBody(config.API_KEY)
   },
   parseResponse: (
     params: AdapterRequestParams[],
-    res: AxiosResponse<ProviderResponseBody>,
+    res: HttpResponse<ProviderResponseBody>,
   ): ProviderResult<AdapterRequestParams>[] => {
     const entries = [] as ProviderResult<AdapterRequestParams>[]
     for (const requestPayload of params) {
