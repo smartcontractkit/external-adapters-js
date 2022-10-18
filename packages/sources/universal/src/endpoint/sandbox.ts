@@ -1,5 +1,4 @@
 import {
-  AdapterError,
   AdapterResponse,
   Method,
   Requester,
@@ -108,31 +107,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const secrets = validator.validated.data.secrets
   const args = validator.validated.data.args
 
+  const buildErrorResponse = buildErrorResponseFactory(
+    jobRunID,
+    config.adapterSpecificParams?.maxHexStringLength as number,
+  )
+
   if (validator.validated.data.codeLocation && validator.validated.data.codeLocation !== 0)
-    throw new AdapterError({
-      jobRunID,
-      statusCode: 400,
-      name: 'Invalid Input',
-      message:
-        "Only 'onchain' code location is currently supported (represented by the enum value 0)",
-    })
+    return buildErrorResponse('invalid value for codeLocation') as unknown as AdapterResponse
 
   if (validator.validated.data.secretsLocation && validator.validated.data.secretsLocation !== 0)
-    throw new AdapterError({
-      jobRunID,
-      statusCode: 400,
-      name: 'Invalid Input',
-      message:
-        "Only 'onchain' secrets location is currently supported (represented by the enum value 0)",
-    })
+    return buildErrorResponse('invalid value for secretsLocation') as unknown as AdapterResponse
 
   if (validator.validated.data.language && validator.validated.data.language !== 0)
-    throw new AdapterError({
-      jobRunID,
-      statusCode: 400,
-      name: 'Invalid Input',
-      message: "Only 'javascript' code is currently supported (represented by the enum value 0)",
-    })
+    return buildErrorResponse('invalid value for language') as unknown as AdapterResponse
 
   // TODO: inline-replace any instance of the string `$(secrets[x])` within the URL & headers w/ decrypted secrets
 
@@ -156,6 +143,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const adapterResponse = buildAdapterResponse(
     jobRunID,
     config.adapterSpecificParams?.maxHexStringLength as number,
+    buildErrorResponse,
     sandboxResponse,
   ) as unknown as AdapterResponse
   Logger.debug({
@@ -169,10 +157,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 const buildAdapterResponse = (
   jobRunID: string,
   maxHexStringLength: number,
+  buildErrorResponse: (errorString: string) => UniversalAdapterResponse,
   sandboxResponse: AxiosResponse<SandboxResponse>,
 ): UniversalAdapterResponse => {
-  const buildErrorResponse = buildErrorResponseFactory(jobRunID, maxHexStringLength)
-
   if (sandboxResponse.data.error) {
     const adapterResponse = buildErrorResponse(
       `${sandboxResponse.data.error.name ?? ''}: ${sandboxResponse.data.error.message ?? ''}`,
@@ -221,7 +208,7 @@ const buildErrorResponseFactory = (jobRunID: string, maxHexStringLength: number)
   return (errorString: string): UniversalAdapterResponse => {
     const adapterResponse = {
       jobRunID,
-      statusCode: 406,
+      statusCode: 200,
       data: {
         result: '',
       },

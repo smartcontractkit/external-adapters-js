@@ -70,7 +70,7 @@ describe('execute', () => {
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(406)
+        .expect(200)
       expect(response.body.error).toBe(
         '0x4a6176615363726970742053796e746178204572726f723a20556e657870656374656420746f6b656e20272927',
       )
@@ -84,7 +84,7 @@ describe('execute', () => {
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(406)
+        .expect(200)
       expect(response.body.errorString).toBe('source code did not return a valid hex string')
     })
 
@@ -102,7 +102,7 @@ describe('execute', () => {
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(406)
+        .expect(200)
       expect(response.body.data.errorString).toBe(
         'returned hex string is longer than 130 characters',
       )
