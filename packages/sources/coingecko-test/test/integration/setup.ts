@@ -2,12 +2,12 @@ import request, { SuperTest, Test } from 'supertest'
 import { AddressInfo } from 'net'
 import * as process from 'process'
 import * as nock from 'nock'
-import { FastifyInstance } from 'fastify'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
-  server: () => Promise<FastifyInstance>
-  fastify?: FastifyInstance
+  server: () => Promise<ServerInstance>
+  fastify?: ServerInstance
 }
 
 export type EnvVariables = { [key: string]: string }
@@ -19,7 +19,7 @@ export const setupExternalAdapterTest = (
   context: SuiteContext,
   options: TestOptions = { cleanNock: true, fastify: false },
 ): void => {
-  let fastify: FastifyInstance
+  let fastify: ServerInstance
 
   beforeAll(async () => {
     process.env['METRICS_ENABLED'] = 'false'

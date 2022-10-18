@@ -2152,8 +2152,6 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    axios: ^0.27.2
-    fastify: ^4.6.0
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -10830,7 +10828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.27.2, axios@npm:^0.27.2":
+"axios@npm:0.27.2":
   version: 0.27.2
   resolution: "axios@npm:0.27.2"
   dependencies:
@@ -15230,7 +15228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:4.7.0, fastify@npm:^4.6.0":
+"fastify@npm:4.7.0":
   version: 4.7.0
   resolution: "fastify@npm:4.7.0"
   dependencies:
