@@ -1,5 +1,12 @@
 # @chainlink/medianizer-adapter
 
+## 1.2.19
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+
 ## 1.2.18
 
 ### Patch Changes
