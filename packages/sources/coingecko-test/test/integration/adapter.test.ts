@@ -47,11 +47,11 @@ describe('execute', () => {
     const dataWithOverride = {
       id,
       data: {
-        base: 'OHM',
+        base: 'OHMV2',
         quote: 'USD',
         overrides: {
           coingecko: {
-            OHM: 'olympus',
+            OHMV2: 'olympus',
           },
         },
       },
@@ -73,11 +73,11 @@ describe('execute', () => {
     const dataWithArray = {
       id,
       data: {
-        base: ['OHM', 'ETH'],
+        base: ['OHMV2', 'ETH'],
         quote: 'USD',
         overrides: {
           coingecko: {
-            OHM: 'olympus',
+            OHMV2: 'olympus',
           },
         },
       },

@@ -46,11 +46,11 @@ describe('execute', () => {
     const dataWithOverride = {
       id,
       data: {
-        base: 'OHM',
+        base: 'OHMV2',
         quote: 'USD',
         overrides: {
           coingecko: {
-            OHM: 'olympus',
+            OHMV2: 'olympus',
           },
         },
       },
