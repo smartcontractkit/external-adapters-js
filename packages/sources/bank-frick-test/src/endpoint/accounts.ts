@@ -170,7 +170,7 @@ export class BankFrickAccountsTransport
    * Fetches pages of data from the Bank Frick API, scans for accounts by IBAN, and returns the balance
    * of all found accounts. Returns a 404 if any IBAN isn't found.
    */
-  async setup(
+  async foregroundExecute(
     req: AdapterRequest<AdapterInputParameters>,
     config: AdapterConfig<typeof customSettings>,
   ): Promise<AdapterResponse<{ result: number }>> {
