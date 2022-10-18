@@ -1,6 +1,5 @@
 {
  "requests": [{
-  "from": "LINK",
-  "to": "USD"
+  "ibanIDs": ["LI6808811000000045345"]
  }]
 }
