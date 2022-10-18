@@ -1,6 +1,6 @@
 import {
   AdapterContext,
-  AdapterEndpoint,
+  PriceEndpoint,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import {
@@ -14,7 +14,7 @@ import { DEFAULT_WS_API_ENDPOINT } from '../config'
 export const cryptoInputParams = {
   base: {
     aliases: ['from', 'coin', 'fsym'],
-    description: 'The symbol of the currency to query',
+    description: 'The symbol of symbols of the currency to query',
     required: true,
     type: 'string',
   },
@@ -91,7 +91,7 @@ export const transport = new WebSocketTransport({
   },
 })
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PriceEndpoint({
   name: 'crypto',
   transport,
   inputParameters: cryptoInputParams,

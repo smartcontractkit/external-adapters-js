@@ -4943,7 +4943,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare-test/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.2.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.3.6"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5863,10 +5863,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.2.2", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.2.2-7f28489a6b-3f0b83f68f.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.3.6", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.6-476579406d-f33a492a43.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.2.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.3.6"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
