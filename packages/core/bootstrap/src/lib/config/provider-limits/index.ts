@@ -108,15 +108,23 @@ const parseLimits = (limits: Limits): Limits => {
   return { http, ws }
 }
 
-export function getLastTierLimitValue(limits: Limits, rateLimit: RateLimitTimeFrame): number {
+export function getLastTierLimitValue(
+  limits: Limits,
+  protocol: 'ws' | 'http',
+  rateLimit: string,
+): number {
   if (Object.keys(limits).length == 0) return 0
-  const tierList = Object.keys(limits.http)
-  if (tierList.length !== 0) {
-    const lastTier = tierList[tierList.length - 1]
-    const highestTierLimit = limits.http[lastTier][rateLimit] as number
-    return highestTierLimit
+  const protocolConfig = limits[protocol]
+  const tiers = Object.keys(limits[protocol])
+  let highestValue = 0
+  for (const tierIndex in tiers) {
+    const tierName = tiers[tierIndex]
+    const rateLimitValue = protocolConfig[tierName][rateLimit as keyof HTTPTier & keyof WSTier]
+    if (rateLimitValue > highestValue) {
+      highestValue = rateLimitValue
+    }
   }
-  return 0
+  return highestValue
 }
 
 const calculateWSLimits = (providerLimit: WSTier): WSTier => {

@@ -40,12 +40,12 @@ export function get(
 
   if (perSecRateLimit) {
     capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
-    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'rateLimit1s')
+    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'http', 'rateLimit1s')
   }
 
   if (perMinuteRateLimit) {
     capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
-    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'rateLimit1m')
+    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'http', 'rateLimit1m')
   }
 
   if (enabled && capacity > highestTierLimit) {
