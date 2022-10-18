@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ethgasstation-adapter",
-  "version": "1.4.19",
+  "version": "1.4.20",
   "description": "Chainlink ethgasstation adapter.",
   "keywords": [
     "Chainlink",

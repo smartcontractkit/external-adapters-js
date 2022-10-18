@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- d7df8c3d0: Update overrides
+
 ## 1.1.1
 
 ### Patch Changes

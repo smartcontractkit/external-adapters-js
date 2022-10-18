@@ -1,5 +1,17 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- 865e6c7c7: Add patch for the ethereum-cryptopgraphy package so that the EA can successfully build using the StarknetJS dependency. In addition to the patch, this change also adds support for tracking the health of the Starkware Sequencer.
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.2.2
 
 ### Patch Changes
