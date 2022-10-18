@@ -70,6 +70,7 @@
     "the-graph",
     "token-allocation",
     "vesper",
-    "xsushi-price"
+    "xsushi-price",
+    "bank-frick-test"
   ]
 }
