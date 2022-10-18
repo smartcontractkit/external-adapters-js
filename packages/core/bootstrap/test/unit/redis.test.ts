@@ -1,7 +1,3 @@
-import {
-  RedisSocketOptions,
-  RedisTlsSocketOptions,
-} from '@node-redis/client/dist/lib/client/socket'
 import { defaultOptions, redactOptions, RedisCache } from '../../src/lib/middleware/cache/redis'
 import { CacheEntry } from '../../src/lib/middleware/cache/types'
 import { logger } from '../../src/lib/modules/logger'
@@ -9,7 +5,7 @@ import { mockCreateRedisClient } from '../helpers/redis'
 import { TimeoutError } from 'promise-timeout'
 
 // These will be hoisted to the top
-jest.mock('@node-redis/client', () => ({
+jest.mock('redis', () => ({
   createClient: () => mockCreateRedisClient(),
 }))
 
@@ -41,8 +37,7 @@ describe('Redis cache', () => {
     const options = defaultOptions()
     const redacted = redactOptions(options)
 
-    delete (redacted.socket as RedisSocketOptions).reconnectStrategy
-    delete (redacted.socket as RedisTlsSocketOptions).path
+    delete redacted.socket?.reconnectStrategy
 
     const expected = JSON.parse(JSON.stringify(options))
     expected.url = 'redis://*****@'
@@ -64,7 +59,7 @@ describe('Redis cache', () => {
 
   it('reconnect strategy returns time to reconnect', () => {
     process.env.CACHE_REDIS_MAX_RECONNECT_COOLDOWN = '150'
-    const reconnectStrategy = (defaultOptions().socket as RedisSocketOptions).reconnectStrategy as (
+    const reconnectStrategy = defaultOptions().socket?.reconnectStrategy as (
       retries: number,
     ) => number
 

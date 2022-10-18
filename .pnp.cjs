@@ -5260,7 +5260,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/core/bootstrap/",\
           "packageDependencies": [\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@node-redis/client", "npm:1.0.6"],\
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.8.5"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -10757,19 +10756,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@noble-secp256k1-npm-1.7.0-f0260161c3-540a2b8e52.zip/node_modules/@noble/secp256k1/",\
           "packageDependencies": [\
             ["@noble/secp256k1", "npm:1.7.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@node-redis/client", [\
-        ["npm:1.0.6", {\
-          "packageLocation": "./.yarn/cache/@node-redis-client-npm-1.0.6-6d93c74190-480b204c7e.zip/node_modules/@node-redis/client/",\
-          "packageDependencies": [\
-            ["@node-redis/client", "npm:1.0.6"],\
-            ["cluster-key-slot", "npm:1.1.0"],\
-            ["generic-pool", "npm:3.8.2"],\
-            ["redis-parser", "npm:3.0.0"],\
-            ["yallist", "npm:4.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
