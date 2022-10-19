@@ -1,11 +1,8 @@
+import request, { SuperTest, Test } from 'supertest'
+import { AddressInfo } from 'net'
 import * as process from 'process'
+import * as nock from 'nock'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { SuperTest, Test } from 'supertest'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Server, WebSocket } from 'mock-socket'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { endpoint } from '../../src/endpoint/crypto'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -17,55 +14,39 @@ export type EnvVariables = { [key: string]: string }
 
 export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 
-export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): void => {
-  // Extend mock WebSocket class to bypass protocol headers error
-  class MockWebSocket extends WebSocket {
-    constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
-      super(url, protocol instanceof Object ? undefined : protocol)
-    }
-    // Mock WebSocket does not come with built on function which adapter handlers could be using for ws
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    on(_: Event) {
-      return
-    }
-  }
+export const setupExternalAdapterTest = (
+  envVariables: NodeJS.ProcessEnv,
+  context: SuiteContext,
+  options: TestOptions = { cleanNock: true, fastify: false },
+): void => {
+  let fastify: ServerInstance
 
-  // Need to disable typing, the mock-socket impl does not implement the ws interface fully
-  provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
-const base = 'ETH'
-const quote = 'BTC'
-const price = 1234
-
-export const mockWebSocketServer = (URL: string) => {
-  const mockWsServer = new Server(URL, { mock: false })
-  mockWsServer.on('connection', (socket) => {
-    const parseMessage = () => {
-      socket.send(
-        JSON.stringify({
-          TYPE: '5',
-          FROMSYMBOL: base,
-          TOSYMBOL: quote,
-          PRICE: price,
-        }),
-      )
+  beforeAll(async () => {
+    process.env['METRICS_ENABLED'] = 'false'
+    for (const key in envVariables) {
+      process.env[key] = envVariables[key]
     }
-    parseMessage()
+
+    if (process.env['RECORD']) {
+      nock.recorder.rec()
+    }
+    fastify = await context.server()
+
+    // eslint-disable-next-line require-atomic-updates
+    context.req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+
+    // Only for edge cases when someone needs to use the fastify instance outside this function
+    if (options.fastify) {
+      // eslint-disable-next-line require-atomic-updates
+      context.fastify = fastify
+    }
   })
-  return mockWsServer
-}
 
-export const createAdapter = (): PriceAdapter<SettingsMap> => {
-  return new PriceAdapter({
-    name: 'test',
-    defaultEndpoint: 'crypto',
-    endpoints: [endpoint],
+  afterAll(async () => {
+    if (process.env['RECORD']) {
+      nock.recorder.play()
+    }
+
+    await fastify.close()
   })
-}
-
-export function setEnvVariables(envVariables: NodeJS.ProcessEnv): void {
-  for (const key in envVariables) {
-    process.env[key] = envVariables[key]
-  }
 }

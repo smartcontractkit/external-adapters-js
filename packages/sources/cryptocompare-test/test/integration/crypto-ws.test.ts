@@ -1,7 +1,12 @@
 import * as process from 'process'
 import { AddressInfo } from 'net'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
-import { mockWebSocketProvider, mockWebSocketServer, createAdapter, setEnvVariables } from './setup'
+import {
+  mockWebSocketProvider,
+  mockWebSocketServer,
+  createAdapter,
+  setEnvVariables,
+} from './setup-ws'
 import { ServerInstance, expose } from '@chainlink/external-adapter-framework'
 import request, { SuperTest, Test } from 'supertest'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
@@ -17,6 +22,7 @@ describe('websocket', () => {
 
   const data: AdapterRequestBody = {
     data: {
+      endpoint: 'crypto-ws',
       base: 'ETH',
       quote: 'BTC',
     },
