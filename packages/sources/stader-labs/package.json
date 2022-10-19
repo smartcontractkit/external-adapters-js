@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/stader-labs-adapter",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Chainlink stader-labs adapter.",
   "keywords": [
     "Chainlink",

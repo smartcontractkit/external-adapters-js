@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.22.1
+
+### Patch Changes
+
+- 26b046b1e: Fixed conflicting redis client dependencies
+
 ## 2.22.0
 
 ### Minor Changes
