@@ -2645,7 +2645,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
-    "@node-redis/client": 1.0.6
     "@reduxjs/toolkit": ^1.6.1
     "@types/fast-redact": 3.0.2
     "@types/jest": 27.5.2
@@ -7961,18 +7960,6 @@ __metadata:
   version: 1.7.0
   resolution: "@noble/secp256k1@npm:1.7.0"
   checksum: 540a2b8e527ee1e5522af1c430e54945ad373883cac983b115136cd0950efa1f2c473ee6a36d8e69b6809b3ee586276de62f5fa705c77a9425721e81bada8116
-  languageName: node
-  linkType: hard
-
-"@node-redis/client@npm:1.0.6":
-  version: 1.0.6
-  resolution: "@node-redis/client@npm:1.0.6"
-  dependencies:
-    cluster-key-slot: 1.1.0
-    generic-pool: 3.8.2
-    redis-parser: 3.0.0
-    yallist: 4.0.0
-  checksum: 480b204c7ecb8869bc145b06dc0b05dc91224842a6d567bb3048587fb54e83548adeed18e7eddc5aee33e0f2272f4510cee2e46be04531786159469bd5d89fb5
   languageName: node
   linkType: hard
 
@@ -24430,7 +24417,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis-parser@npm:3.0.0, redis-parser@npm:^3.0.0":
+"redis-parser@npm:^3.0.0":
   version: 3.0.0
   resolution: "redis-parser@npm:3.0.0"
   dependencies:
