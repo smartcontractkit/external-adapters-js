@@ -5,13 +5,14 @@ import {
   RedisScripts,
   RedisClientType,
   RedisClientOptions,
-} from '@node-redis/client'
+  RedisFunctions,
+} from 'redis'
 import { logger } from '../../../modules/logger'
 import type { ICache, CacheEntry } from '../types'
 import * as metrics from './metrics'
 import { getEnv } from '../../../util'
 
-export type RedisOptions = RedisClientOptions<RedisModules, RedisScripts> & {
+export type RedisOptions = RedisClientOptions<RedisModules, RedisFunctions, RedisScripts> & {
   maxAge: number
   timeout: number
   type: 'redis'
@@ -50,7 +51,7 @@ export const redactOptions = (opts: RedisOptions): RedisOptions => {
 
 export class RedisCache implements ICache {
   options: RedisOptions
-  client: RedisClientType<RedisModules, RedisScripts>
+  client: RedisClientType<RedisModules, RedisFunctions, RedisScripts>
   constructor(options: RedisOptions) {
     logger.info('Creating new redis client instance...')
 
