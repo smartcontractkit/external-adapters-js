@@ -2872,6 +2872,7 @@ __metadata:
     "@chainlink/mock-ea-adapter": "workspace:*"
     "@chainlink/mycryptoapi-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
+    "@chainlink/ncfx-test-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
@@ -3860,7 +3861,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test":
+"@chainlink/ncfx-test-adapter@workspace:*, @chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test":
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test"
   dependencies:

@@ -5208,6 +5208,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/mock-ea-adapter", "workspace:packages/sources/mock-ea"],\
             ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
+            ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
@@ -5680,7 +5681,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:4170a85110def41bbf5bf9aa149d38dfbbdf7728a4096e8669f85a553c6ce3dc59149f8913d233d30b1ff3fca65767b9694098b8657eddd86a4daa4f512dc872#npm:8.9.0"]\
+            ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6460,7 +6461,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -34643,10 +34644,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:4170a85110def41bbf5bf9aa149d38dfbbdf7728a4096e8669f85a553c6ce3dc59149f8913d233d30b1ff3fca65767b9694098b8657eddd86a4daa4f512dc872#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-3f4a5fcf86/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+        ["virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-da6438ed33/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:4170a85110def41bbf5bf9aa149d38dfbbdf7728a4096e8669f85a553c6ce3dc59149f8913d233d30b1ff3fca65767b9694098b8657eddd86a4daa4f512dc872#npm:8.9.0"],\
+            ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
