@@ -27,7 +27,7 @@ export const cryptoInputParams = {
 } as const
 
 interface Message {
-  PRICE: number
+  PRICE?: number // Cryptocompare does not provide the price in updates from all exchanges
   TYPE: string
   MARKET: string
   FLAGS: number
@@ -69,7 +69,7 @@ export const transport = new WebSocketTransport({
     },
     message(message: Message): ProviderResult<PriceEndpointParams>[] | undefined {
       logger.trace(message, 'Got response from websocket')
-      if (message.TYPE === '5') {
+      if (message.TYPE === '5' && 'PRICE' in message) {
         return [
           { params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL }, value: message.PRICE },
         ]
