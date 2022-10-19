@@ -581,6 +581,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ncfx"\
       },\
       {\
+        "name": "@chainlink/ncfx-test-adapter",\
+        "reference": "workspace:packages/sources/ncfx-test"\
+      },\
+      {\
         "name": "@chainlink/nikkei-adapter",\
         "reference": "workspace:packages/sources/nikkei"\
       },\
@@ -898,6 +902,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
       ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
+      ["@chainlink/ncfx-test-adapter", ["workspace:packages/sources/ncfx-test"]],\
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
@@ -5663,6 +5668,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.3.7", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.7-4170a85110-7b984ec45d.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.3.7"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.7.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:4170a85110def41bbf5bf9aa149d38dfbbdf7728a4096e8669f85a553c6ce3dc59149f8913d233d30b1ff3fca65767b9694098b8657eddd86a4daa4f512dc872#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@chainlink/external-adapters-js", [\
@@ -6423,6 +6443,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/ncfx-test-adapter", [\
+        ["workspace:packages/sources/ncfx-test", {\
+          "packageLocation": "./packages/sources/ncfx-test/",\
+          "packageDependencies": [\
+            ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.3.7"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -34605,10 +34643,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-da6438ed33/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+        ["virtual:4170a85110def41bbf5bf9aa149d38dfbbdf7728a4096e8669f85a553c6ce3dc59149f8913d233d30b1ff3fca65767b9694098b8657eddd86a4daa4f512dc872#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-3f4a5fcf86/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"],\
+            ["ws", "virtual:4170a85110def41bbf5bf9aa149d38dfbbdf7728a4096e8669f85a553c6ce3dc59149f8913d233d30b1ff3fca65767b9694098b8657eddd86a4daa4f512dc872#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
