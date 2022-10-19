@@ -2,12 +2,11 @@ import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
 import { AddressInfo } from 'net'
 import nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
-import { server as startServer } from '../../src'
+import { makeConfig, server as startServer } from '../../src'
 import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
 import {} from '../../src/endpoint'
 import type { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
-import { generateJWT } from '../../dist/endpoint/accounts'
-import { makeConfig } from '../../dist/config'
+import { generateJWT } from '../../src/endpoint/accounts'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -25,9 +24,7 @@ describe('execute', () => {
 
     process.env.API_KEY = 'SOME_API_KEY'
     process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
-    process.env.PASSWORD = 'SOME_PASSWORD'
     process.env.CACHE_ENABLED = 'false'
-    process.env.ALLOW_INSECURE = 'true'
     process.env.NODE_ENV = 'development'
 
     if (process.env.RECORD) {

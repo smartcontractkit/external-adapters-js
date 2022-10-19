@@ -1,4 +1,7 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
   CryptoRequestParams,
   ProviderRequestBody,
@@ -6,23 +9,21 @@ import {
   constructEntry,
   ProviderResponseBody,
   cryptoInputParams,
-} from '../cryptoUtils'
-import { AdapterContext, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+} from '../crypto-utils'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const batchEndpointTransport = new BatchWarmingTransport({
   prepareRequest: (
     params: CryptoRequestParams[],
-    context: AdapterContext,
-  ): AxiosRequestConfig<ProviderRequestBody> => {
-    const requestBody = buildBatchedRequestBody(params, context.adapterConfig)
+    config: AdapterConfig,
+  ): HttpRequestConfig<ProviderRequestBody> => {
+    const requestBody = buildBatchedRequestBody(params, config)
     requestBody.params.include_market_cap = true
     return requestBody
   },
   parseResponse: (
     params: CryptoRequestParams[],
-    res: AxiosResponse<ProviderResponseBody>,
+    res: HttpResponse<ProviderResponseBody>,
   ): ProviderResult<CryptoRequestParams>[] => {
     const entries = [] as ProviderResult<CryptoRequestParams>[]
     for (const requestPayload of params) {

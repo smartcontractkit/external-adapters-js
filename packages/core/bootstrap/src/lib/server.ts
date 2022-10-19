@@ -15,7 +15,7 @@ import { loadTestPayload } from './config/test-payload-loader'
 import { logger } from './modules/logger'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './config/provider-limits/config'
-import { getClientIp, getEnv, toObjectWithNumbers } from './util'
+import { buildCensorList, getClientIp, getEnv, toObjectWithNumbers } from './util'
 import { Limits } from './config/provider-limits'
 import process from 'process'
 import { serverShutdown } from './store'
@@ -66,6 +66,9 @@ export const initHandler =
       cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
       context.cache = cacheOptions
     }
+
+    // Build list of env var values to censor in logs
+    buildCensorList()
 
     if (METRICS_ENABLED) {
       setupMetricsServer(name)

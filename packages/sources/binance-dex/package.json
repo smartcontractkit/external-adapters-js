@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/binance-dex-adapter",
-  "version": "1.6.10",
+  "version": "1.6.12",
   "license": "MIT",
   "keywords": [
     "Chainlink",

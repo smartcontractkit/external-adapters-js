@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/linkpool-adapter",
-  "version": "1.2.18",
+  "version": "1.2.20",
   "description": "Chainlink linkpool adapter.",
   "keywords": [
     "Chainlink",

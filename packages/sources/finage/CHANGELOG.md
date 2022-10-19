@@ -1,5 +1,21 @@
 ## v1.1.0
 
+## 1.6.5
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.6.4
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.6.3
 
 ### Patch Changes

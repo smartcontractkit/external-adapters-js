@@ -1,5 +1,21 @@
 # @chainlink/coinpaprika-adapter
 
+## 1.10.12
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.10.11
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.10.10
 
 ### Patch Changes
