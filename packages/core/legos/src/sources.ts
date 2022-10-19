@@ -95,6 +95,7 @@ import * as metalsapi from '@chainlink/metalsapi-adapter'
 import * as mock_ea from '@chainlink/mock-ea-adapter'
 import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
+import * as ncfx_test from '@chainlink/ncfx-test-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
@@ -236,6 +237,7 @@ export default {
   mock_ea,
   mycryptoapi,
   ncfx,
+  ncfx_test,
   nikkei,
   nomics,
   oilpriceapi,
