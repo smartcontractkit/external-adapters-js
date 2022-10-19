@@ -107,8 +107,9 @@ export class ReadmeGenerator {
       this.name = adapter.name
       this.envVars = adapter.customSettings || {}
       this.requiredEnvVars = adapter.customSettings
-        ? Object.keys(adapter.customSettings).filter((k) => customSettings[k].required === true) ??
-          [] // Keys of required customSettings
+        ? Object.keys(adapter.customSettings).filter(
+            (k) => adapter.customSettings[k].required === true,
+          ) ?? [] // Keys of required customSettings
         : []
       //Note, not populating description, doesn't exist in framework adapters
     }

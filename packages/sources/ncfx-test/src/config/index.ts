@@ -2,6 +2,9 @@ export const CRYPTO_DEFAULT_BASE_WS_URL = 'wss://feed.newchangefx.com/cryptodata
 export const FOREX_DEFAULT_BASE_WS_URL =
   'wss://fiat-ws.eu-west-2.apingxelb.v1.newchangefx.com/sub/fiat/ws/ref'
 
+// Needed for README generator
+export const DEFAULT_ENDPOINT = 'crypto'
+
 export const customSettings = {
   API_USERNAME: {
     description: 'Username for the NCFX API',

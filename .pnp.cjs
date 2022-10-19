@@ -5670,10 +5670,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.3.7", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.7-4170a85110-7b984ec45d.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.3.9", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.9-bbf99259a1-64e3e525b4.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.3.7"],\
+            ["@chainlink/external-adapter-framework", "npm:0.3.9"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -6453,7 +6453,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx-test/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.3.7"],\
+            ["@chainlink/external-adapter-framework", "npm:0.3.9"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
