@@ -4,6 +4,7 @@ import { expose } from '@chainlink/external-adapter-framework'
 import request, { SuperTest, Test } from 'supertest'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { sleep } from '@chainlink/external-adapter-framework/util'
+import { AddressInfo } from 'net'
 
 let adapterServer: ServerInstance | undefined
 
@@ -64,7 +65,7 @@ describe('execute', () => {
   beforeAll(async () => {
     try {
       adapterServer = await expose(adapter)
-      req = request('localhost:8080')
+      req = request(`http://localhost:${(adapterServer?.server.address() as AddressInfo).port}`)
     } catch {
       throw new Error('Could not start server when running CryptoCompare e2e tests')
     }
