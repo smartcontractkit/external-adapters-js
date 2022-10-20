@@ -581,6 +581,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ncfx"\
       },\
       {\
+        "name": "@chainlink/ncfx-test-adapter",\
+        "reference": "workspace:packages/sources/ncfx-test"\
+      },\
+      {\
         "name": "@chainlink/nikkei-adapter",\
         "reference": "workspace:packages/sources/nikkei"\
       },\
@@ -898,6 +902,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
       ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
+      ["@chainlink/ncfx-test-adapter", ["workspace:packages/sources/ncfx-test"]],\
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
@@ -5203,6 +5208,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/mock-ea-adapter", "workspace:packages/sources/mock-ea"],\
             ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
+            ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
@@ -5258,7 +5264,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/core/bootstrap/",\
           "packageDependencies": [\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@node-redis/client", "npm:1.0.6"],\
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.8.5"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -5654,6 +5659,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.6-476579406d-f33a492a43.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
             ["@chainlink/external-adapter-framework", "npm:0.3.6"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.7.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.3.9", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.9-bbf99259a1-64e3e525b4.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.3.9"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -6421,6 +6441,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/ncfx-test-adapter", [\
+        ["workspace:packages/sources/ncfx-test", {\
+          "packageLocation": "./packages/sources/ncfx-test/",\
+          "packageDependencies": [\
+            ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.3.9"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
@@ -10755,19 +10793,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@noble-secp256k1-npm-1.7.0-f0260161c3-540a2b8e52.zip/node_modules/@noble/secp256k1/",\
           "packageDependencies": [\
             ["@noble/secp256k1", "npm:1.7.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@node-redis/client", [\
-        ["npm:1.0.6", {\
-          "packageLocation": "./.yarn/cache/@node-redis-client-npm-1.0.6-6d93c74190-480b204c7e.zip/node_modules/@node-redis/client/",\
-          "packageDependencies": [\
-            ["@node-redis/client", "npm:1.0.6"],\
-            ["cluster-key-slot", "npm:1.1.0"],\
-            ["generic-pool", "npm:3.8.2"],\
-            ["redis-parser", "npm:3.0.0"],\
-            ["yallist", "npm:4.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\

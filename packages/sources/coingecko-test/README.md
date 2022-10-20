@@ -1,6 +1,6 @@
 # COINGECKO
 
-![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json)
+![1.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,9 +14,9 @@ There are no environment variables for this adapter.
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                   Options                                                                                                                                                                                                                                                   | Default |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [batch](#crypto-endpoint), [batched](#crypto-endpoint), [coins](#coins-endpoint), [crypto-batched](#crypto-endpoint), [crypto-marketcap](#cryptomarketcap-endpoint), [crypto-volume](#cryptovolume-endpoint), [cryptoMarketcap](#cryptomarketcap-endpoint), [cryptoVolume](#cryptovolume-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalMarketcap](#globalmarketcap-endpoint), [market_cap_percentage](#dominance-endpoint), [total_market_cap](#globalmarketcap-endpoint) |         |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                   Options                                                                                                                                                                                                                                                   | Default  |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [batch](#crypto-endpoint), [batched](#crypto-endpoint), [coins](#coins-endpoint), [crypto-batched](#crypto-endpoint), [crypto-marketcap](#cryptomarketcap-endpoint), [crypto-volume](#cryptovolume-endpoint), [cryptoMarketcap](#cryptomarketcap-endpoint), [cryptoVolume](#cryptovolume-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalMarketcap](#globalmarketcap-endpoint), [market_cap_percentage](#dominance-endpoint), [total_market_cap](#globalmarketcap-endpoint) | `crypto` |
 
 ## Coins Endpoint
 
