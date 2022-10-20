@@ -109,6 +109,7 @@ import * as polygon from '@chainlink/polygon-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
+import * as rocket_pool from '@chainlink/rocket-pool-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as snowflake from '@chainlink/snowflake-adapter'
 import * as sochain from '@chainlink/sochain-adapter'
@@ -251,6 +252,7 @@ export default {
   por_address_list,
   reduce,
   renvm_adapter_address,
+  rocket_pool,
   satoshitango,
   snowflake,
   sochain,

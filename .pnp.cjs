@@ -633,6 +633,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/renvm-address-set"\
       },\
       {\
+        "name": "@chainlink/rocket-pool-adapter",\
+        "reference": "workspace:packages/sources/rocket-pool"\
+      },\
+      {\
         "name": "@chainlink/satoshitango-adapter",\
         "reference": "workspace:packages/sources/satoshitango"\
       },\
@@ -923,6 +927,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],\
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
+      ["@chainlink/rocket-pool-adapter", ["workspace:packages/sources/rocket-pool"]],\
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
       ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
@@ -5220,8 +5225,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
+            ["@chainlink/rocket-pool-adapter", "workspace:packages/sources/rocket-pool"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
@@ -6843,6 +6848,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["bitcoinjs-lib", "npm:5.2.0"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/rocket-pool-adapter", [\
+        ["workspace:packages/sources/rocket-pool", {\
+          "packageLocation": "./packages/sources/rocket-pool/",\
+          "packageDependencies": [\
+            ["@chainlink/rocket-pool-adapter", "workspace:packages/sources/rocket-pool"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\

@@ -338,10 +338,10 @@
       "path": "../../sources/por-address-list"
     },
     {
-      "path": "../../non-deployable/reduce"
+      "path": "../../sources/renvm-address-set"
     },
     {
-      "path": "../../sources/renvm-address-set"
+      "path": "../../sources/rocket-pool"
     },
     {
       "path": "../../sources/satoshitango"

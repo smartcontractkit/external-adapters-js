@@ -119,7 +119,6 @@
     {
       "path": "./scripts"
     },
-
     {
       "path": "./sources/1forge"
     },
@@ -449,6 +448,9 @@
     },
     {
       "path": "./sources/renvm-address-set"
+    },
+    {
+      "path": "./sources/rocket-pool"
     },
     {
       "path": "./sources/satoshitango"
