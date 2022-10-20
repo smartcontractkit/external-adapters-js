@@ -1,7 +1,7 @@
 import { mockCryptoSuccess, mockDominanceSuccess } from './fixtures'
 import { SuperTest, Test } from 'supertest'
 import { setupExternalAdapterTest, SuiteContext } from './setup'
-import { FastifyInstance } from 'fastify'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 describe('execute', () => {
   const id = '1'
@@ -12,7 +12,7 @@ describe('execute', () => {
       process.env['RATE_LIMIT_CAPACITY_SECOND'] = '6'
       process.env['METRICS_ENABLED'] = 'false'
       const server = (await import('../../src')).server
-      return server() as Promise<FastifyInstance>
+      return server() as Promise<ServerInstance>
     },
   }
 
@@ -47,11 +47,11 @@ describe('execute', () => {
     const dataWithOverride = {
       id,
       data: {
-        base: 'OHM',
+        base: 'OHMV2',
         quote: 'USD',
         overrides: {
           coingecko: {
-            OHM: 'olympus',
+            OHMV2: 'olympus',
           },
         },
       },
@@ -73,11 +73,11 @@ describe('execute', () => {
     const dataWithArray = {
       id,
       data: {
-        base: ['OHM', 'ETH'],
+        base: ['OHMV2', 'ETH'],
         quote: 'USD',
         overrides: {
           coingecko: {
-            OHM: 'olympus',
+            OHMV2: 'olympus',
           },
         },
       },
