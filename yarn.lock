@@ -2844,6 +2844,7 @@ __metadata:
     "@chainlink/finnhub-adapter": "workspace:*"
     "@chainlink/fixer-adapter": "workspace:*"
     "@chainlink/flightaware-adapter": "workspace:*"
+    "@chainlink/fluent-finance-adapter": "workspace:*"
     "@chainlink/fmpcloud-adapter": "workspace:*"
     "@chainlink/galaxis-adapter": "workspace:*"
     "@chainlink/galaxy-adapter": "workspace:*"
@@ -3281,6 +3282,22 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/fluent-finance-adapter@workspace:*, @chainlink/fluent-finance-adapter@workspace:packages/sources/fluent-finance":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/fluent-finance-adapter@workspace:packages/sources/fluent-finance"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
