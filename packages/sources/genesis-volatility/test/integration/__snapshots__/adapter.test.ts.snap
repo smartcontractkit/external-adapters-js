@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute adapter api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 89.31,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 89.31,
+  "statusCode": 200,
+}
+`;

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute basic should return success 1`] = `
+Object {
+  "data": Object {
+    "code": "090001",
+    "createdOn": 1638467668319,
+    "data": Array [
+      Array [
+        "10531",
+      ],
+    ],
+    "message": "Statement executed successfully.",
+    "requestId": "e68f6b77-72bd-4b7f-8719-247ac70f6f82",
+    "result": 10531,
+    "resultSetMetaData": Object {
+      "format": "jsonv2",
+      "numRows": 1,
+      "partitionInfo": Array [
+        Object {
+          "rowCount": 1,
+          "uncompressedSize": 9,
+        },
+      ],
+      "rowType": Array [
+        Object {
+          "byteLength": null,
+          "collation": null,
+          "database": "test_database",
+          "length": null,
+          "name": "CONFIRMED",
+          "nullable": true,
+          "precision": 38,
+          "scale": 0,
+          "schema": "test_schema",
+          "table": "JHU_DASHBOARD_COVID_19_GLOBAL",
+          "type": "fixed",
+        },
+      ],
+    },
+    "sqlState": "00000",
+    "statementHandle": "01a0af12-0000-5d4d-0000-000131664085",
+    "statementStatusUrl": "/api/statements/01a0af11-0000-5d4e-0000-0001316650a5?requestId=e68f6b77-72bd-4b7f-8719-247ac70f6f82",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 10531,
+  "statusCode": 200,
+}
+`;

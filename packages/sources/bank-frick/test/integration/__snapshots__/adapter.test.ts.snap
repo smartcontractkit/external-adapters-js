@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute accounts account not found 1`] = `
+Object {
+  "error": Any<Object>,
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 404,
+}
+`;
+
+exports[`execute accounts successful request 1`] = `
+Object {
+  "data": Object {
+    "result": "1010000.0999999",
+  },
+  "jobRunID": "1",
+  "result": "1010000.0999999",
+  "statusCode": 200,
+}
+`;

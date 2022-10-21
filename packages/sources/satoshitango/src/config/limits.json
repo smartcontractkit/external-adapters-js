@@ -1,0 +1,9 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1m": 4,
+      "note": "Docs say '60req/10m or IP gets banned', but reduced due to differences in observed rate limiting"
+    }
+  },
+  "ws": {}
+}

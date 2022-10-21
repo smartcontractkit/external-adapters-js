@@ -1,0 +1,8 @@
+{
+ "requests": [{
+  "primarySource": "coingecko", 
+  "secondarySource": "coinmarketcap",
+  "base": "ETH",
+  "quote": "USD"
+ }]
+}

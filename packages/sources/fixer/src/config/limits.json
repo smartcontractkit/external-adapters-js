@@ -1,0 +1,18 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1h": 1.369,
+      "note": "only mentions monthly limit"
+    },
+    "basic": {
+      "rateLimit1h": 13.69
+    },
+    "professional": {
+      "rateLimit1h": 136.98
+    },
+    "professionalplus": {
+      "rateLimit1h": 684.93
+    }
+  },
+  "ws": {}
+}

@@ -1,0 +1,9 @@
+{
+  "http": {
+    "default": {
+      "rateLimit1h": -1,
+      "note": "should be using own node"
+    }
+  },
+  "ws": {}
+}

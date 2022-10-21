@@ -1,0 +1,33 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1s": 3,
+      "rateLimit1h": 200
+    },
+    "prototype": {
+      "rateLimit1s": 5,
+      "rateLimit1h": 208.33
+    },
+    "beta": {
+      "rateLimit1s": 8,
+      "rateLimit1h": 458.33
+    },
+    "production": {
+      "rateLimit1s": 12,
+      "rateLimit1h": 1000
+    },
+    "business": {
+      "rateLimit1s": 15,
+      "rateLimit1h": 2083.33
+    },
+    "leader": {
+      "rateLimit1s": 22,
+      "rateLimit1h": 5000
+    },
+    "babyunicorn": {
+      "rateLimit1s": 25,
+      "rateLimit1h": 10416.66
+    }
+  },
+  "ws": {}
+}

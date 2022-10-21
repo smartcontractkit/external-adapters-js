@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute stock api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 164.77,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 164.77,
+  "statusCode": 200,
+}
+`;

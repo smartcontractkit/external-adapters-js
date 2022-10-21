@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with coinmarketcap source should return success 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "BAT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "GRT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "LINK": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "LPT": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "NMR": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "OCEAN": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 130.27,
+          },
+        },
+      },
+      "RENFIL": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 130.27,
+          },
+        },
+      },
+    },
+    "result": 6844.061590000509,
+    "sources": Array [],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 6844.061590000509,
+  "statusCode": 200,
+}
+`;

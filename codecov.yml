@@ -1,0 +1,46 @@
+# TODO: Reenable once coverage reports are consistent
+comment:
+  false
+  # layout: 'reach, diff, flags, files'
+  # behavior: default
+  # coverage:
+  #   status:
+  #     project:
+  #       default:
+  #         target: auto
+  #         threshold: 1%
+  #     patch:
+  #       default:
+  #         target: 90%
+
+ignore:
+  - '.yarn'
+  - '.husky'
+  - '.github'
+  - '.vscode'
+  - 'grafana'
+  - '**/*.test.ts'
+  - '**/tests/'
+  - '**/test/'
+  - '**/generated/'
+  - '**/dist/'
+  - '**/vendor/'
+  - '**/schemas/'
+  - 'tsconfig.tsbuildinfo'
+
+flag_management:
+  default_rules:
+    statuses:
+      # Project-wide coverage must increase on every PR, with a 1% leeway
+      - name_prefix: project-
+        type: project
+        target: auto
+        threshold: 1%
+        informational: true # TODO: Delete once coverage reports are consistent
+        if_ci_failed: success # TODO: Delete once coverage reports are consistent
+      # Every PR must have a minimum of 90% coverage on adjusted lines
+      - name_prefix: patch-
+        type: patch
+        target: 90%
+        informational: true # TODO: Delete once coverage reports are consistent
+        if_ci_failed: success # TODO: Delete once coverage reports are consistent

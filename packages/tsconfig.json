@@ -1,0 +1,558 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./composites/anchor"
+    },
+    {
+      "path": "./composites/apy-finance"
+    },
+    {
+      "path": "./composites/augur"
+    },
+    {
+      "path": "./composites/bitcoin-json-rpc"
+    },
+    {
+      "path": "./composites/bsol-price"
+    },
+    {
+      "path": "./composites/circuit-breaker"
+    },
+    {
+      "path": "./composites/crypto-volatility-index"
+    },
+    {
+      "path": "./composites/curve-3pool"
+    },
+    {
+      "path": "./composites/defi-dozen"
+    },
+    {
+      "path": "./composites/defi-pulse"
+    },
+    {
+      "path": "./composites/dns-record-check"
+    },
+    {
+      "path": "./composites/dxdao"
+    },
+    {
+      "path": "./composites/dydx-rewards"
+    },
+    {
+      "path": "./composites/google-weather"
+    },
+    {
+      "path": "./composites/historical-average"
+    },
+    {
+      "path": "./composites/implied-price"
+    },
+    {
+      "path": "./composites/linear-finance"
+    },
+    {
+      "path": "./composites/market-closure"
+    },
+    {
+      "path": "./composites/medianizer"
+    },
+    {
+      "path": "./composites/nftx"
+    },
+    {
+      "path": "./composites/outlier-detection"
+    },
+    {
+      "path": "./composites/por-indexer"
+    },
+    {
+      "path": "./composites/proof-of-reserves"
+    },
+    {
+      "path": "./composites/reference-transform"
+    },
+    {
+      "path": "./composites/savax-price"
+    },
+    {
+      "path": "./composites/set-token-index"
+    },
+    {
+      "path": "./composites/synth-index"
+    },
+    {
+      "path": "./composites/the-graph"
+    },
+    {
+      "path": "./composites/vesper"
+    },
+    {
+      "path": "./composites/xsushi-price"
+    },
+    {
+      "path": "./core/factories"
+    },
+    {
+      "path": "./core/legos"
+    },
+    {
+      "path": "./core/reference-data-reader"
+    },
+    {
+      "path": "./core/test-helpers"
+    },
+    {
+      "path": "./examples/composite"
+    },
+    {
+      "path": "./examples/source"
+    },
+    {
+      "path": "./non-deployable/reduce"
+    },
+    {
+      "path": "./non-deployable/token-allocation"
+    },
+    {
+      "path": "./scripts"
+    },
+    {
+      "path": "./sources/1forge"
+    },
+    {
+      "path": "./sources/accuweather"
+    },
+    {
+      "path": "./sources/ada-balance"
+    },
+    {
+      "path": "./sources/alphachain"
+    },
+    {
+      "path": "./sources/alphavantage"
+    },
+    {
+      "path": "./sources/alpine"
+    },
+    {
+      "path": "./sources/amberdata"
+    },
+    {
+      "path": "./sources/anyblock"
+    },
+    {
+      "path": "./sources/ap-election"
+    },
+    {
+      "path": "./sources/armanino"
+    },
+    {
+      "path": "./sources/bank-frick"
+    },
+    {
+      "path": "./sources/bea"
+    },
+    {
+      "path": "./sources/binance"
+    },
+    {
+      "path": "./sources/binance-dex"
+    },
+    {
+      "path": "./sources/bitex"
+    },
+    {
+      "path": "./sources/bitso"
+    },
+    {
+      "path": "./sources/blockchain.com"
+    },
+    {
+      "path": "./sources/blockchair"
+    },
+    {
+      "path": "./sources/blockcypher"
+    },
+    {
+      "path": "./sources/blocksize-capital"
+    },
+    {
+      "path": "./sources/blockstream"
+    },
+    {
+      "path": "./sources/bob"
+    },
+    {
+      "path": "./sources/bravenewcoin"
+    },
+    {
+      "path": "./sources/btc.com"
+    },
+    {
+      "path": "./sources/cache.gold"
+    },
+    {
+      "path": "./sources/ccip-read"
+    },
+    {
+      "path": "./sources/celsius-address-list"
+    },
+    {
+      "path": "./sources/cfbenchmarks"
+    },
+    {
+      "path": "./sources/chain-reserve-wallet"
+    },
+    {
+      "path": "./sources/coinapi"
+    },
+    {
+      "path": "./sources/coinbase"
+    },
+    {
+      "path": "./sources/coincodex"
+    },
+    {
+      "path": "./sources/coingecko"
+    },
+    {
+      "path": "./sources/coingecko-test"
+    },
+    {
+      "path": "./sources/coinlore"
+    },
+    {
+      "path": "./sources/coinmarketcap"
+    },
+    {
+      "path": "./sources/coinmetrics"
+    },
+    {
+      "path": "./sources/coinpaprika"
+    },
+    {
+      "path": "./sources/coinranking"
+    },
+    {
+      "path": "./sources/covid-tracker"
+    },
+    {
+      "path": "./sources/cryptex"
+    },
+    {
+      "path": "./sources/cryptoapis"
+    },
+    {
+      "path": "./sources/cryptoapis-v2"
+    },
+    {
+      "path": "./sources/cryptocompare"
+    },
+    {
+      "path": "./sources/cryptoid"
+    },
+    {
+      "path": "./sources/cryptomkt"
+    },
+    {
+      "path": "./sources/currencylayer"
+    },
+    {
+      "path": "./sources/curve"
+    },
+    {
+      "path": "./sources/deribit"
+    },
+    {
+      "path": "./sources/dns-query"
+    },
+    {
+      "path": "./sources/dwolla"
+    },
+    {
+      "path": "./sources/dxfeed"
+    },
+    {
+      "path": "./sources/dxfeed-secondary"
+    },
+    {
+      "path": "./sources/elwood"
+    },
+    {
+      "path": "./sources/ens"
+    },
+    {
+      "path": "./sources/enzyme"
+    },
+    {
+      "path": "./sources/eodhistoricaldata"
+    },
+    {
+      "path": "./sources/eth-balance"
+    },
+    {
+      "path": "./sources/eth-beacon"
+    },
+    {
+      "path": "./sources/etherchain"
+    },
+    {
+      "path": "./sources/etherscan"
+    },
+    {
+      "path": "./sources/ethgasstation"
+    },
+    {
+      "path": "./sources/ethgaswatch"
+    },
+    {
+      "path": "./sources/expert-car-broker"
+    },
+    {
+      "path": "./sources/fcsapi"
+    },
+    {
+      "path": "./sources/finage"
+    },
+    {
+      "path": "./sources/finnhub"
+    },
+    {
+      "path": "./sources/fixer"
+    },
+    {
+      "path": "./sources/flightaware"
+    },
+    {
+      "path": "./sources/fluent-finance"
+    },
+    {
+      "path": "./sources/fmpcloud"
+    },
+    {
+      "path": "./sources/galaxis"
+    },
+    {
+      "path": "./sources/galaxy"
+    },
+    {
+      "path": "./sources/gemini"
+    },
+    {
+      "path": "./sources/genesis-volatility"
+    },
+    {
+      "path": "./sources/geodb"
+    },
+    {
+      "path": "./sources/google-bigquery"
+    },
+    {
+      "path": "./sources/gramchain"
+    },
+    {
+      "path": "./sources/graphql"
+    },
+    {
+      "path": "./sources/gsr"
+    },
+    {
+      "path": "./sources/iex-cloud"
+    },
+    {
+      "path": "./sources/intrinio"
+    },
+    {
+      "path": "./sources/ipfs"
+    },
+    {
+      "path": "./sources/jpegd"
+    },
+    {
+      "path": "./sources/json-rpc"
+    },
+    {
+      "path": "./sources/kaiko"
+    },
+    {
+      "path": "./sources/layer2-sequencer-health"
+    },
+    {
+      "path": "./sources/lcx"
+    },
+    {
+      "path": "./sources/lido"
+    },
+    {
+      "path": "./sources/linkpool"
+    },
+    {
+      "path": "./sources/lition"
+    },
+    {
+      "path": "./sources/lotus"
+    },
+    {
+      "path": "./sources/marketstack"
+    },
+    {
+      "path": "./sources/messari"
+    },
+    {
+      "path": "./sources/metalsapi"
+    },
+    {
+      "path": "./sources/mock-ea"
+    },
+    {
+      "path": "./sources/mycryptoapi"
+    },
+    {
+      "path": "./sources/ncfx"
+    },
+    {
+      "path": "./sources/ncfx-test"
+    },
+    {
+      "path": "./sources/nikkei"
+    },
+    {
+      "path": "./sources/nomics"
+    },
+    {
+      "path": "./sources/oilpriceapi"
+    },
+    {
+      "path": "./sources/onchain-gas"
+    },
+    {
+      "path": "./sources/openexchangerates"
+    },
+    {
+      "path": "./sources/orchid-bandwidth"
+    },
+    {
+      "path": "./sources/paxos"
+    },
+    {
+      "path": "./sources/paypal"
+    },
+    {
+      "path": "./sources/poa"
+    },
+    {
+      "path": "./sources/polygon"
+    },
+    {
+      "path": "./sources/por-address-list"
+    },
+    {
+      "path": "./sources/renvm-address-set"
+    },
+    {
+      "path": "./sources/satoshitango"
+    },
+    {
+      "path": "./sources/snowflake"
+    },
+    {
+      "path": "./sources/sochain"
+    },
+    {
+      "path": "./sources/solana-view-function"
+    },
+    {
+      "path": "./sources/spectral-macro-score"
+    },
+    {
+      "path": "./sources/sportsdataio"
+    },
+    {
+      "path": "./sources/stader-address-list"
+    },
+    {
+      "path": "./sources/stader-labs"
+    },
+    {
+      "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/swell-address-list"
+    },
+    {
+      "path": "./sources/synthetix-debt-pool"
+    },
+    {
+      "path": "./sources/taapi"
+    },
+    {
+      "path": "./sources/terra-view-function"
+    },
+    {
+      "path": "./sources/therundown"
+    },
+    {
+      "path": "./sources/tiingo"
+    },
+    {
+      "path": "./sources/tradermade"
+    },
+    {
+      "path": "./sources/tradingeconomics"
+    },
+    {
+      "path": "./sources/trueusd"
+    },
+    {
+      "path": "./sources/twelvedata"
+    },
+    {
+      "path": "./sources/unibit"
+    },
+    {
+      "path": "./sources/uniswap-v2"
+    },
+    {
+      "path": "./sources/uniswap-v3"
+    },
+    {
+      "path": "./sources/upvest"
+    },
+    {
+      "path": "./sources/uscpi-one"
+    },
+    {
+      "path": "./sources/view-function"
+    },
+    {
+      "path": "./sources/wbtc-address-set"
+    },
+    {
+      "path": "./sources/wootrade"
+    },
+    {
+      "path": "./sources/wrapped"
+    },
+    {
+      "path": "./sources/xbto"
+    },
+    {
+      "path": "./targets/agoric"
+    },
+    {
+      "path": "./targets/conflux"
+    },
+    {
+      "path": "./targets/dydx-stark"
+    },
+    {
+      "path": "./targets/ethwrite"
+    },
+    {
+      "path": "./targets/harmony"
+    }
+  ]
+}

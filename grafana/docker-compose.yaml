@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+  remotedev:
+    image: jhen0409/remotedev-server
+    ports:
+      - '8000:8000'
+
+  # https://github.com/grafana/grafana/blob/main/Dockerfile
+  grafana:
+    image: grafana/grafana
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_home:/usr/share/grafana
+      - grafana_logs:/var/log/grafana
+      - grafana_plugins:/var/lib/grafana/plugins
+      - ./config/grafana.ini:/etc/grafana/grafana.ini
+      - ./config/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_INSTALL_PLUGINS=redis-app
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./generated/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  load-test:
+    image: loadimpact/k6
+    volumes:
+      - ../packages/k6/dist:/load
+      - ./generated/repro-test-payloads.json:/repro-test-payloads.json
+    environment:
+      - LOAD_TEST_ADAPTER_NAME=${LOAD_TEST_ADAPTER_NAME}
+      - LOAD_TEST_ITERATIONS=${LOAD_TEST_ITERATIONS}
+      - PAYLOAD_PATH=/repro-test-payloads.json
+    command: run /load/reproTest.js
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  grafana_home:
+  grafana_logs:
+  grafana_plugins:

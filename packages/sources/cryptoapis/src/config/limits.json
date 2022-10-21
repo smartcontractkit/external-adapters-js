@@ -1,0 +1,25 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1s": 3,
+      "rateLimit1h": 20.83
+    },
+    "growth": {
+      "rateLimit1s": 10,
+      "rateLimit1h": 104.166666667
+    },
+    "startup": {
+      "rateLimit1s": 20,
+      "rateLimit1h": 312.5
+    },
+    "partnership": {
+      "rateLimit1s": 30,
+      "rateLimit1h": 937.5
+    },
+    "professional": {
+      "rateLimit1s": 40,
+      "rateLimit1h": 2812.5
+    }
+  },
+  "ws": {}
+}

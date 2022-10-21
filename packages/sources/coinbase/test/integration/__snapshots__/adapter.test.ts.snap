@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute exchange rate api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 57854.29,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 57854.29,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute nft-floor-price api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 67.09079293,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 67.09079293,
+  "statusCode": 200,
+}
+`;

@@ -1,0 +1,19 @@
+{
+  "http": {
+    "public": {
+      "rateLimit1s": 6,
+      "rateLimit1m": 180
+    },
+    "private": {
+      "rateLimit1s": 10,
+      "rateLimit1m": 300
+    }
+  },
+  "ws": {
+    "public": {
+      "connections": 1,
+      "subscriptions": 100,
+      "note": "Connections: 1 per 4 seconds per IP; Messages: 100 per second per IP.(https://docs.pro.coinbase.com/#overview34)"
+    }
+  }
+}

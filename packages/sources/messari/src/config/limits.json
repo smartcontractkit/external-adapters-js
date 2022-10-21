@@ -1,0 +1,14 @@
+{
+  "http": {
+    "nokey": {
+      "rateLimit1m": 20,
+      "rateLimit1h": 41.666,
+      "note": "only specifies limits with and without a key"
+    },
+    "apikey": {
+      "rateLimit1m": 30,
+      "rateLimit1h": 83.333
+    }
+  },
+  "ws": {}
+}

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`merkle tree should construct a merkle tree with matching root 1`] = `"f9096745e9a694fbc45fec9c97663ccdb8d98286196a2e19369076dfc7baaf70"`;

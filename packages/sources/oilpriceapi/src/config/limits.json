@@ -1,0 +1,15 @@
+{
+  "http": {
+    "hobby": {
+      "rateLimit1h": 13.69,
+      "note": "only mentions monthly limits"
+    },
+    "business": {
+      "rateLimit1h": 136.9
+    },
+    "enterprise": {
+      "rateLimit1h": 684.93
+    }
+  },
+  "ws": {}
+}

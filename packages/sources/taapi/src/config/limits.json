@@ -1,0 +1,20 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1m": 1
+    },
+    "basic": {
+      "rateLimit1s": 1
+    },
+    "pro": {
+      "rateLimit1s": 10
+    },
+    "expert": {
+      "rateLimit1s": 20
+    },
+    "privatevps": {
+      "rateLimit1s": 50
+    }
+  },
+  "ws": {}
+}

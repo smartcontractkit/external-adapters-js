@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute balance api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+        "balance": "0",
+        "chain": "mainnet",
+        "coin": "BTC",
+      },
+      Object {
+        "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+        "balance": "2188",
+        "chain": "mainnet",
+        "coin": "BTC",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "3D8DJLwUXFfZvE8yJRu729MZ8uLy25SuLz",
+      "balance": "0",
+      "chain": "mainnet",
+      "coin": "BTC",
+    },
+    Object {
+      "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+      "balance": "2188",
+      "chain": "mainnet",
+      "coin": "BTC",
+    },
+  ],
+  "statusCode": 200,
+}
+`;

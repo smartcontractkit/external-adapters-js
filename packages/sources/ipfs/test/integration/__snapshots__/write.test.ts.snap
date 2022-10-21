@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute successful calls simple text 1`] = `
+Object {
+  "data": Object {
+    "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
+  },
+  "debug": undefined,
+  "jobRunID": "1",
+  "result": "QmXLpPi3yorJmGe6NsdBfyWSFvLnkX12EJR5zitwv4q8Tf",
+  "statusCode": 200,
+}
+`;

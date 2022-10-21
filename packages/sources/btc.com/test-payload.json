@@ -1,0 +1,16 @@
+{
+    "requests": [{
+        "addresses": [
+          {
+            "address": "3EyjZ6CtEZEKyc719NZMyWaJpJG5jsVJL1",
+            "coin": "btc"
+          },
+          {
+            "address": "38bzm6nhQMFJe71jJw1U7CbgNrVNpkonZF",
+            "coin": "btc"
+          }
+        ],
+        "dataPath": "addresses"
+      }
+    ]
+}

@@ -1,0 +1,24 @@
+# Build artifacts
+packages/**/*.zip
+dist
+**/tsconfig.tsbuildinfo
+**/tsconfig.test.tsbuildinfo
+.DS_Store
+
+# Yarn 2
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+node_modules
+*generated*
+vendor
+coverage
+
+# Helm and K6
+cl-adapter-*
+packages/k6/src/config/ws.json
+packages/k6/src/config/http.json

@@ -1,0 +1,9 @@
+{
+  "http": {
+    "free": {
+      "rateLimit1s": 5,
+      "note": "different endpoints have different limits, this is for /api/v1/ticker/24hr which we currently use"
+    }
+  },
+  "ws": {}
+}

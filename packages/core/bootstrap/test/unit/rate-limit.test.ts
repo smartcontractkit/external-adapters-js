@@ -1,0 +1,308 @@
+import type {
+  AdapterRequest,
+  AdapterContext,
+  Execute,
+  AdapterRequestWithRateLimit,
+} from '../../src/types'
+import { createStore, Store } from 'redux'
+import { useFakeTimers } from 'sinon'
+import * as rateLimit from '../../src/lib/middleware/rate-limit'
+import { Config, get } from '../../src/lib/config/provider-limits/config'
+import {
+  IntervalNames,
+  Intervals,
+  selectParticiantsHeartbeatsFor,
+  selectTotalNumberOfHeartbeatsFor,
+} from '../../src/lib/middleware/rate-limit/reducer'
+import { Limits } from '../../src/lib/config/provider-limits'
+
+const counterFrom =
+  (i = 0) =>
+  async (request: AdapterRequest) => {
+    const result = i++
+    return {
+      jobRunID: request.id,
+      data: { jobRunID: request.id, statusCode: 200, data: request, result },
+      result,
+      statusCode: 200,
+    }
+  }
+
+const expectRequestToBe =
+  (field: string, expected: number): Execute<AdapterRequestWithRateLimit, AdapterContext> =>
+  (input) => {
+    return new Promise((resolve) => {
+      expect(input[field as keyof AdapterRequestWithRateLimit]).toBe(expected)
+      resolve({
+        jobRunID: input.id,
+        data: {
+          statusCode: 200,
+          result: 1,
+        },
+        result: 1,
+        statusCode: 200,
+      })
+    })
+  }
+
+const getMaxAge = (config: Config, store: Store, input: AdapterRequest) => {
+  const requestTypeId = rateLimit.makeId(input)
+  const state = store.getState()
+  const { heartbeats } = state
+  const maxThroughput = rateLimit.computeThroughput(
+    config,
+    heartbeats,
+    IntervalNames.HOUR,
+    requestTypeId,
+  )
+  return rateLimit.maxAgeFor(maxThroughput, Intervals[IntervalNames.MINUTE])
+}
+
+const mockLimits = {
+  http: {
+    free: {
+      rateLimit1s: 10,
+      rateLimit1m: 50,
+      note: '1s found in ToS, 1m found at https://www.coingecko.com/en/api',
+    },
+    analyst: {
+      rateLimit1m: 500,
+      rateLimit1h: 690,
+    },
+    chainlink: {
+      rateLimit1m: 500,
+      rateLimit1h: 4166,
+    },
+    pro: {
+      rateLimit1m: 500,
+      rateLimit1h: 6900,
+    },
+  },
+  ws: {},
+}
+
+describe('Rate Limit Middleware', () => {
+  const capacity = 50
+  const context: AdapterContext = {}
+
+  let oldEnv: NodeJS.ProcessEnv
+
+  beforeAll(() => {
+    process.env.RATE_LIMIT_ENABLED = String(true)
+    process.env.RATE_LIMIT_CAPACITY = String(capacity)
+    process.env.RATE_LIMIT_API_PROVIDER = 'coingecko'
+    context.limits = get({ limits: {} as Limits, name: '' }, {})
+  })
+
+  beforeEach(() => {
+    oldEnv = process.env
+  })
+
+  afterEach(() => {
+    process.env = oldEnv
+  })
+
+  describe('config', () => {
+    it('it uses the lowest tier if RATE_LIMIT_CAPACITY_SEC and RATE_LIMIT_CAPACITY_M are not set', () => {
+      const coingeckoLowestRatePerSec = 10
+      const coingeckoLowestRatePerMin = 50
+      const config = get({ name: 'coingecko', limits: mockLimits }, {})
+      expect(config.burstCapacity1s).toEqual(coingeckoLowestRatePerSec)
+      expect(config.burstCapacity1m).toEqual(coingeckoLowestRatePerMin)
+      expect(config.totalCapacity).toEqual(capacity)
+    })
+
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_SECOND = '0'
+      const config = get({ name: 'coingecko', limits: mockLimits }, {})
+      expect(config.burstCapacity1s).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
+    })
+
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_MINUTE is set to 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_MINUTE = '0'
+      const config = get({ name: 'coingecko', limits: mockLimits }, {})
+      expect(config.burstCapacity1m).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
+    })
+
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_SECOND is set to less than 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_SECOND = '-1'
+      const config = get({ name: 'coingecko', limits: mockLimits }, {})
+      expect(config.burstCapacity1s).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
+    })
+
+    it('sets the burstCapacity1s and capacity to 0 if RATE_LIMIT_CAPACITY_MINUTE is set to less than 0', () => {
+      process.env.RATE_LIMIT_CAPACITY_MINUTE = '-1'
+      const config = get({ name: 'coingecko', limits: mockLimits }, {})
+      expect(config.burstCapacity1m).toBe(0)
+      expect(config.totalCapacity).toBe(capacity)
+    })
+  })
+
+  describe('Max Age Calculation', () => {
+    let clock: sinon.SinonFakeTimers
+    beforeEach(() => {
+      clock = useFakeTimers()
+    })
+
+    afterEach(() => {
+      clock.restore()
+    })
+
+    it('Max Age is added to the request', async () => {
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const input = { id: '6', data: { base: 1 } }
+
+      const execute = await rateLimit.withRateLimit(store)(
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits as Config, store, input)),
+        context,
+      )
+      await execute(input, context)
+    })
+
+    it('Max Age increases on every request', async () => {
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const withRateLimit = rateLimit.withRateLimit(store)
+
+      for (let i = 0; i <= 5; i++) {
+        const input = { id: String(i), data: { base: 1 } }
+        const execute = await withRateLimit(
+          expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits as Config, store, input)),
+          context,
+        )
+        await execute(input, context)
+      }
+    })
+
+    it('Max Age is re-calculated on every request based on hearbeats per minute', async () => {
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const withRateLimit = rateLimit.withRateLimit(store)
+
+      for (let i = 1; i <= 5; i++) {
+        const input = { id: String(i), data: { base: i } }
+        const execute = await withRateLimit(
+          expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits as Config, store, input)),
+          context,
+        )
+        await execute(input, context)
+      }
+
+      const input = { id: '1', data: { base: 1 } }
+      // After passing the first minute, the max age should be reduced due to expired participants
+      clock.tick(Intervals.MINUTE + 1)
+      let execute = await withRateLimit(counterFrom(0), {})
+      await execute({ id: '1', data: { base: 1 } }, context)
+
+      execute = await withRateLimit(
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits as Config, store, input)),
+        context,
+      )
+      await execute({ id: '1', data: { base: 1 } }, context)
+    })
+
+    it('Max Age is lower on recurrent participants', async () => {
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const withRateLimit = rateLimit.withRateLimit(store)
+      const uniquePair = 'unique'
+      for (let i = 1; i <= 10; i++) {
+        const isUnique = i % 2 === 0
+        const execute = await withRateLimit(counterFrom(0), context)
+        await execute({ id: String(i), data: { base: isUnique ? uniquePair : i } }, {})
+      }
+
+      const input = { id: '1', data: { base: 11 } }
+      let execute = await withRateLimit(
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits as Config, store, input)),
+        context,
+      )
+      await execute(input, context)
+
+      const input2 = { id: '1', data: { base: uniquePair } }
+      execute = await withRateLimit(
+        expectRequestToBe('rateLimitMaxAge', getMaxAge(context.limits as Config, store, input2)),
+        context,
+      )
+      await execute(input2, context)
+    })
+  })
+
+  describe('Request Storing', () => {
+    let clock: sinon.SinonFakeTimers
+    beforeEach(() => {
+      clock = useFakeTimers()
+    })
+
+    afterEach(() => {
+      clock.restore()
+    })
+
+    it(`Total requests are windowed stored`, async () => {
+      const intervalName = IntervalNames.HOUR
+      const interval = Intervals[intervalName]
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0), context)
+      for (let i = 0; i <= 5; i++) {
+        await execute({ id: String(i), data: {} }, context)
+      }
+      let state = store.getState()
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(7)
+
+      clock.tick(interval - 1)
+      await execute({ id: '6', data: {} }, context)
+      state = store.getState()
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(8)
+
+      clock.tick(2)
+      await execute({ id: '6', data: {} }, context)
+      state = store.getState()
+      expect(selectTotalNumberOfHeartbeatsFor(state.heartbeats, intervalName)).toBe(3)
+    })
+
+    it(`Participant requests are windowed stored`, async () => {
+      const intervalName = IntervalNames.HOUR
+      const interval = Intervals[intervalName]
+      const store = createStore(rateLimit.reducer.rootReducer, {})
+      const execute = await rateLimit.withRateLimit(store)(counterFrom(0), context)
+      for (let i = 0; i <= 5; i++) {
+        await execute({ id: String(i), data: { base: i } }, context)
+      }
+
+      let state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(
+          state.heartbeats,
+          intervalName,
+          rateLimit.makeId({ id: '1', data: { base: 1 } }),
+        ).length,
+      ).toBe(1)
+
+      const input = { id: '5', data: { base: 5 } }
+      await execute(input, context)
+      state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
+          .length,
+      ).toBe(2)
+
+      // Just before the first sec/minute/hour/day requests should be still stored
+      clock.tick(interval - 1)
+      await execute(input, context)
+      state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
+          .length,
+      ).toBe(3)
+
+      // Right after the first sec/minute/hour/day, first request should have been expired
+      clock.tick(2)
+      await execute(input, context)
+      state = store.getState()
+      expect(
+        selectParticiantsHeartbeatsFor(state.heartbeats, intervalName, rateLimit.makeId(input))
+          .length,
+      ).toBe(2)
+    })
+  })
+})

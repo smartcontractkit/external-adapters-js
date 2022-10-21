@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute with from/to should return success 1`] = `
+Object {
+  "data": Object {
+    "payload": Object {
+      "SUSHI": Object {
+        "quote": Object {
+          "USD": Object {
+            "price": 3.2489646804045,
+          },
+        },
+      },
+    },
+    "result": 3.8885895671986153,
+    "sources": Array [],
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 3.8885895671986153,
+  "statusCode": 200,
+}
+`;

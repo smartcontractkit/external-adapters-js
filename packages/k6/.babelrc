@@ -1,0 +1,18 @@
+{
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "node": "10"
+        },
+        "debug": true,
+
+        "useBuiltIns": "usage",
+        "corejs": 3
+      }
+    ],
+    "@babel/typescript"
+  ],
+  "plugins": ["@babel/proposal-class-properties", "@babel/proposal-object-rest-spread"]
+}

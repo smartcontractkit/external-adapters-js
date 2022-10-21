@@ -1,0 +1,29 @@
+name: Generate READMEs
+
+on:
+  push:
+    branches:
+      - changeset-release/develop
+env:
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+jobs:
+  generate-readmes:
+    name: Generate READMEs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - name: Generate Documentation
+        run: |
+          yarn generate:master-list -v
+          yarn generate:readme -a -v
+          git add .
+          yarn lint-staged
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --amend --no-edit
+          git push --force
+          echo "README(s) generated successfully."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,19 @@
+{
+  "http": {
+    "default": {
+      "rateLimit1h": -1,
+      "note": "claims no rate limits"
+    }
+  },
+  "ws": {
+    "pro": {
+      "connections": 1,
+      "subscriptions": -1,
+      "note": "limited. https://www.kaiko.com/pages/kaiko-pricing"
+    },
+    "enterprise": {
+      "connections": -1,
+      "subscriptions": -1
+    }
+  }
+}

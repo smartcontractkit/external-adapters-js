@@ -1,0 +1,71 @@
+{
+  "name": "@chainlink/proof-of-reserves-adapter",
+  "version": "1.14.7",
+  "description": "Chainlink BTC Proof of Reserves composite adapter. Combines multiple adapters to find total balance in custody for wBTC or renBTC.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "BTC",
+    "Bitcoin",
+    "blockchain",
+    "oracle",
+    "Proof of Reserves"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "author": "Kristijan Rebernisak <kristijan.rebernisak@smartcontract.com>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "dependencies": {
+    "@chainlink/ada-balance-adapter": "workspace:*",
+    "@chainlink/amberdata-adapter": "workspace:*",
+    "@chainlink/bitcoin-json-rpc-adapter": "workspace:*",
+    "@chainlink/blockchain.com-adapter": "workspace:*",
+    "@chainlink/blockchair-adapter": "workspace:*",
+    "@chainlink/blockcypher-adapter": "workspace:*",
+    "@chainlink/btc.com-adapter": "workspace:*",
+    "@chainlink/celsius-address-list-adapter": "workspace:*",
+    "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
+    "@chainlink/cryptoapis-adapter": "workspace:*",
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-test-helpers": "workspace:*",
+    "@chainlink/eth-balance-adapter": "workspace:*",
+    "@chainlink/eth-beacon-adapter": "workspace:*",
+    "@chainlink/gemini-adapter": "workspace:*",
+    "@chainlink/lotus-adapter": "workspace:*",
+    "@chainlink/por-address-list-adapter": "workspace:*",
+    "@chainlink/por-indexer-adapter": "workspace:*",
+    "@chainlink/reduce-adapter": "workspace:*",
+    "@chainlink/renvm-address-set-adapter": "workspace:*",
+    "@chainlink/sochain-adapter": "workspace:*",
+    "@chainlink/stader-address-list-adapter": "workspace:*",
+    "@chainlink/swell-address-list-adapter": "workspace:*",
+    "@chainlink/wbtc-address-set-adapter": "workspace:*",
+    "@chainlink/wrapped-adapter": "workspace:*",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.6",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.11.51",
+    "@types/supertest": "2.0.12",
+    "nock": "13.2.9",
+    "supertest": "6.2.4",
+    "typescript": "4.7.4"
+  }
+}

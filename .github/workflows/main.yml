@@ -1,0 +1,96 @@
+name: Test & build
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request: ~
+
+concurrency:
+  group: main-${{ github.ref }}
+  cancel-in-progress: true
+
+env: # NPM_AUTH_TOKEN is needed for any yarn command. Having it at the top is not precise, but it's convenient
+  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+jobs:
+  packages:
+    name: Verify dependency package archives
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+
+  run-integration-tests:
+    name: Run integration tests
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - run: timeout 300 yarn test:ci:integration
+  # Disable Codecov until we can make it reliable: sc-22561
+  #      - uses: codecov/codecov-action@v2
+  #        with:
+  #          flags: integration
+  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
+  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+
+  run-unit-tests:
+    name: Run unit tests
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - run: yarn test:ci:unit
+  # Disable Codecov until we can make it reliable: sc-22561
+  #      - uses: codecov/codecov-action@v2
+  #        with:
+  #          flags: unit
+  #          fail_ci_if_error: false # TODO: Set back to true once coverage reports are consistent
+  #          override_commit: ${{ github.sha }} # PR merge commit, what checkout@v2 uses by default
+
+  run-basic-checks:
+    name: Run linters
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - run: yarn lint
+      - run: yarn setup-tests
+      - run: yarn format:check
+
+  run-docmentation-check:
+    name: Documentation generation test
+    runs-on: [self-hosted, sdlc-ghr-prod]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - name: Test Master List Generation
+        run: yarn generate:master-list -v
+      - name: Test README Generation
+        run: yarn generate:readme -a -v
+
+  # Read build strategy matrix of adapters, from a json file
+  matrix-adapters:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.create-matrix.outputs.result }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - name: Generate job matrix
+        id: create-matrix
+        run: yarn generate:gha:matrix
+
+  build-adapters:
+    needs: [run-basic-checks, matrix-adapters]
+    name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.matrix-adapters.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+      - name: Generate docker-compose file
+        run: yarn generate:docker-compose
+      - run: docker-compose -f docker-compose.generated.yaml build ${{ matrix.adapter.name }}

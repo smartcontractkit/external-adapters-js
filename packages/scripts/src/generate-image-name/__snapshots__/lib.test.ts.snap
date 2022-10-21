@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateImageName when an adapter name is provided should generate a valid name with name:coinmarketcap-adapter, branch:, prefix:, latest: 1`] = `"coinmarketcap-adapter:0.1.0"`;
+
+exports[`generateImageName when an adapter name is provided should generate a valid name with name:coinmarketcap-adapter, branch:, prefix:, latest:TRUE 1`] = `"coinmarketcap-adapter:latest"`;
+
+exports[`generateImageName when an adapter name is provided should generate a valid name with name:coinmarketcap-adapter, branch:, prefix:aws/, latest: 1`] = `"aws/coinmarketcap-adapter:0.1.0"`;
+
+exports[`generateImageName when an adapter name is provided should generate a valid name with name:coinmarketcap-adapter, branch:, prefix:aws/, latest:TRUE 1`] = `"aws/coinmarketcap-adapter:latest"`;
+
+exports[`generateImageName when an adapter name is provided should generate a valid name with name:coinmarketcap-adapter, branch:develop, prefix:, latest: 1`] = `"coinmarketcap-adapter:develop-0.1.0"`;
+
+exports[`generateImageName when an adapter name is provided should generate a valid name with name:coinmarketcap-adapter, branch:develop, prefix:aws/, latest: 1`] = `"aws/coinmarketcap-adapter:develop-0.1.0"`;
+
+exports[`generateImageName when an adapter name is provided should generate a valid name with name:coinmarketcap-adapter, branch:develop, prefix:aws/, latest:TRUE 1`] = `"aws/coinmarketcap-adapter:develop-latest"`;

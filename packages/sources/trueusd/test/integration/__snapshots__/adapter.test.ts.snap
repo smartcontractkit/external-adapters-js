@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute should return success for token 1`] = `
+Object {
+  "data": Object {
+    "result": 1213602213.6176918,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1213602213.6176918,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute should return success for trust 1`] = `
+Object {
+  "data": Object {
+    "result": 1217813909.066,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1217813909.066,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute should return success when given a chain 1`] = `
+Object {
+  "data": Object {
+    "result": 1795,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 1795,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute should return success when given a chain and resultPath 1`] = `
+Object {
+  "data": Object {
+    "result": 3791570.06,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 3791570.06,
+  "statusCode": 200,
+}
+`;

@@ -1,0 +1,16 @@
+name: Matrix Adapters
+
+description: Read build strategy matrix of adapters, from a json file
+
+outputs:
+  result:
+    value: ${{ steps.create-matrix.outputs.result }}
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: ./.github/actions/setup
+    - name: Generate job matrix
+      id: create-matrix
+      shell: bash
+      run: yarn generate:gha:matrix

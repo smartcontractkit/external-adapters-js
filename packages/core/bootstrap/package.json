@@ -1,0 +1,63 @@
+{
+  "name": "@chainlink/ea-bootstrap",
+  "version": "2.22.2",
+  "description": "Bootstrap an external adapter with this package",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "dev:remotedev": "./remotedev.sh",
+    "dev:metrics": "docker-compose up -d"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
+    "ajv": "^8.6.2",
+    "axios": "^0.24.0",
+    "decimal.js": "^10.3.1",
+    "fast-redact": "^3.0.1",
+    "fastify": "^3.27.1",
+    "lodash": "^4.17.21",
+    "lru-cache": "^6.0.0",
+    "object-hash": "^2.2.0",
+    "object-path": "^0.11.5",
+    "pino": "^6.13.0",
+    "pino-pretty": "^5.1.3",
+    "prom-client": "^13.2.0",
+    "promise-timeout": "^1.3.0",
+    "redis": "^4.0.0",
+    "redux": "^4.1.1",
+    "redux-logger": "^3.0.6",
+    "redux-observable": "^1.2.0",
+    "remote-redux-devtools": "^0.5.16",
+    "rxjs": "^6.6.3",
+    "tslib": "^2.1.0",
+    "uuid": "^8.3.0",
+    "ws": "^7.4.4"
+  },
+  "devDependencies": {
+    "@types/fast-redact": "3.0.2",
+    "@types/jest": "27.5.2",
+    "@types/lodash": "4.14.186",
+    "@types/lru-cache": "5.1.1",
+    "@types/node": "16.11.51",
+    "@types/object-hash": "2.1.1",
+    "@types/object-path": "0.11.1",
+    "@types/pino": "6.3.12",
+    "@types/pino-pretty": "4.7.5",
+    "@types/promise-timeout": "1.3.0",
+    "@types/redux-logger": "3.0.9",
+    "@types/remote-redux-devtools": "0.5.5",
+    "@types/sinon": "10.0.13",
+    "@types/uuid": "8.3.4",
+    "@types/ws": "7.4.7",
+    "mock-socket": "9.1.5",
+    "sinon": "14.0.0",
+    "typescript": "4.7.4"
+  }
+}

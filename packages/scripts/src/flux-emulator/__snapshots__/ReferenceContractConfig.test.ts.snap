@@ -1,0 +1,440 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`flux emulator config editing should add an adpater to a feed 1`] = `
+Array [
+  Object {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST",
+      "to": "THIS",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST / THIS",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "ea-adapterName2",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  Object {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST2",
+      "to": "THIS2",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST2 / THIS2",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "ea-adapterName2",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "ea-adapterName2",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
+exports[`flux emulator config editing should add an adpater to a feed 2`] = `
+Array [
+  Object {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST",
+      "to": "THIS",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST / THIS",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "ea-adapterName2",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  Object {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST2",
+      "to": "THIS2",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST2 / THIS2",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "ea-adapterName2",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "ea-adapterName2",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
+exports[`flux emulator config editing should add an adpater to a feed 3`] = `
+Array [
+  Object {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST",
+      "to": "THIS",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST / THIS",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "ea-adapterName2",
+          "ea-adapterName1",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "ea-adapterName1",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  Object {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST2",
+      "to": "THIS2",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST2 / THIS2",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "ea-adapterName2",
+          "ea-adapterName1",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "ea-adapterName2",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
+exports[`flux emulator config editing should convert the config to a k6 payload 1`] = `
+Array [
+  Object {
+    "data": "{\\"data\\":{\\"from\\":\\"TEST\\",\\"to\\":\\"THIS\\"}}",
+    "id": "86f45dcc-90db-4c39-b385-53945c5a9a30",
+    "method": "POST",
+    "name": "TEST / THIS",
+  },
+  Object {
+    "data": "{\\"data\\":{\\"from\\":\\"TEST2\\",\\"to\\":\\"THIS2\\"}}",
+    "id": "86f45dcc-90db-4c39-b385-53945c5a9a30",
+    "method": "POST",
+    "name": "TEST2 / THIS2",
+  },
+  Object {
+    "data": "{\\"data\\":{\\"from\\":\\"TEST3\\",\\"to\\":\\"THIS3\\"}}",
+    "id": "86f45dcc-90db-4c39-b385-53945c5a9a30",
+    "method": "POST",
+    "name": "TEST3 / THIS3",
+  },
+]
+`;
+
+exports[`flux emulator config editing should fail if the post of the config is unsuccessful 1`] = `[Error: Request failed with status code 500]`;
+
+exports[`flux emulator config editing should parse a feed 1`] = `
+Array [
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST",
+      "to": "THIS",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST / THIS",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "adapterName1",
+          "adapterName2",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "adapterName1",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST2",
+      "to": "THIS2",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST2 / THIS2",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "adapterName1",
+          "adapterName2",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "adapterName2",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST3",
+      "to": "THIS3",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST3 / THIS3",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": Array [
+          "adapterName3",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
+exports[`flux emulator config editing should remove an adapter from a feed 1`] = `
+Array [
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST",
+      "to": "THIS",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST / THIS",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "adapterName2",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST2",
+      "to": "THIS2",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST2 / THIS2",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "adapterName2",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "adapterName2",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST3",
+      "to": "THIS3",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST3 / THIS3",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": Array [
+          "adapterName3",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
+exports[`flux emulator config editing should remove an adapter from a feed 2`] = `
+Array [
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST",
+      "to": "THIS",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST / THIS",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "adapterName2",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000000",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST2",
+      "to": "THIS2",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST2 / THIS2",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000000",
+        "dataProviders": Array [
+          "adapterName2",
+        ],
+        "name": "nodeName",
+      },
+      Object {
+        "address": "0x0000000000000000000000000000000000000002",
+        "dataProviders": Array [
+          "adapterName2",
+        ],
+        "name": "nodeName2",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
+exports[`flux emulator config editing should remove an adapter from a feed 3`] = `Array []`;

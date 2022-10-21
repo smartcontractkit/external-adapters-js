@@ -1,0 +1,9 @@
+{
+  "http": {
+    "professionalstocksusstockmarket": {
+      "rateLimit1h": -1,
+      "note": "No rate limit"
+    }
+  },
+  "ws": {}
+}

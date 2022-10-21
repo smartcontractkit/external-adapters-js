@@ -1,0 +1,15 @@
+{
+  "http": {
+    "developer": {
+      "rateLimit1h": 13.69,
+      "note": "only mentions monthly limits"
+    },
+    "enterprise": {
+      "rateLimit1h": 136.9
+    },
+    "unlimited": {
+      "rateLimit1h": -1
+    }
+  },
+  "ws": {}
+}
