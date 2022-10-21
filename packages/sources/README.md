@@ -73,6 +73,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [finnhub](./finnhub/README.md)
 - [fixer](./fixer/README.md)
 - [flightaware](./flightaware/README.md)
+- [fluent-finance](./fluent-finance/README.md)
 - [fmpcloud](./fmpcloud/README.md)
 - [galaxis](./galaxis/README.md)
 - [galaxy](./galaxy/README.md)

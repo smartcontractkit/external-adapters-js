@@ -1,6 +1,6 @@
 # COINGECKO
 
-![1.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -38,11 +38,12 @@ Supported names for this endpoint are: `batch`, `batched`, `crypto`, `crypto-bat
 
 ### Input Params
 
-| Required? |  Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           | coinid |                |          The CoinGecko id or to query          | string |         |         |            |                |
-|           |  base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     | quote  | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? |   Name    |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           |  coinid   |                |          The CoinGecko id or to query          | string |         |         |            |                |
+|           |   base    | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     |   quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+|           | precision |                |             Data precision setting             |        |         | `full`  |            |                |
 
 ### Example
 
@@ -56,11 +57,12 @@ Supported names for this endpoint are: `crypto-marketcap`, `cryptoMarketcap`.
 
 ### Input Params
 
-| Required? |  Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           | coinid |                |          The CoinGecko id or to query          | string |         |         |            |                |
-|           |  base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     | quote  | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? |   Name    |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           |  coinid   |                |          The CoinGecko id or to query          | string |         |         |            |                |
+|           |   base    | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     |   quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+|           | precision |                |             Data precision setting             |        |         | `full`  |            |                |
 
 ### Example
 
@@ -106,11 +108,12 @@ Supported names for this endpoint are: `crypto-volume`, `cryptoVolume`.
 
 ### Input Params
 
-| Required? |  Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|           | coinid |                |          The CoinGecko id or to query          | string |         |         |            |                |
-|           |  base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     | quote  | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? |   Name    |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           |  coinid   |                |          The CoinGecko id or to query          | string |         |         |            |                |
+|           |   base    | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     |   quote   | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+|           | precision |                |             Data precision setting             |        |         | `full`  |            |                |
 
 ### Example
 
