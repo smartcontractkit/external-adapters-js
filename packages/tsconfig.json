@@ -75,6 +75,9 @@
       "path": "./composites/reference-transform"
     },
     {
+      "path": "./composites/rocket-pool"
+    },
+    {
       "path": "./composites/savax-price"
     },
     {
@@ -118,6 +121,9 @@
     },
     {
       "path": "./scripts"
+    },
+    {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
     },
     {
       "path": "./sources/1forge"
@@ -448,9 +454,6 @@
     },
     {
       "path": "./sources/renvm-address-set"
-    },
-    {
-      "path": "./sources/rocket-pool"
     },
     {
       "path": "./sources/satoshitango"
