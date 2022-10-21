@@ -473,6 +473,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/flightaware"\
       },\
       {\
+        "name": "@chainlink/fluent-finance-adapter",\
+        "reference": "workspace:packages/sources/fluent-finance"\
+      },\
+      {\
         "name": "@chainlink/fmpcloud-adapter",\
         "reference": "workspace:packages/sources/fmpcloud"\
       },\
@@ -871,6 +875,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
+      ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
       ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
       ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
@@ -5185,6 +5190,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],\
             ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
+            ["@chainlink/fluent-finance-adapter", "workspace:packages/sources/fluent-finance"],\
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],\
             ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
@@ -5803,6 +5809,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/fluent-finance-adapter", [\
+        ["workspace:packages/sources/fluent-finance", {\
+          "packageLocation": "./packages/sources/fluent-finance/",\
+          "packageDependencies": [\
+            ["@chainlink/fluent-finance-adapter", "workspace:packages/sources/fluent-finance"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
           ],\
