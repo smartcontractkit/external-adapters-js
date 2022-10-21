@@ -116,7 +116,7 @@ const awaitResult = async (
       jobRunID: input.id,
       feedID: getFeedId(input),
       statusCode: 500,
-      message: 'timed out waiting for result to be cached',
+      message: 'WS Data Provider has not provided value yet. Retry the request after some time',
     }),
   )
 }
