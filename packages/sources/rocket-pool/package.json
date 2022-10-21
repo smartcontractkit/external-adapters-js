@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/rocket-pool-adapter",
-  "version": "0.2.21",
+  "version": "0.0.1",
   "description": "Chainlink rocket-pool adapter.",
   "keywords": [
     "Chainlink",
@@ -30,7 +30,8 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "ethers": "^5.4.6"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",

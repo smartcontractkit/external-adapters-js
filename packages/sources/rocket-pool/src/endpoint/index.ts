@@ -1,5 +1,5 @@
-import type { TInputParameters as ExampleInputParameters } from './example'
+import type { TInputParameters as RethEthInputParameters } from './reth'
 
-export type TInputParameters = ExampleInputParameters
+export type TInputParameters = RethEthInputParameters
 
-export * as example from './example'
+export * as reth from './reth'

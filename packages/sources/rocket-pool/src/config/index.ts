@@ -1,14 +1,27 @@
-import { Requester } from '@chainlink/ea-bootstrap'
+import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/ea-bootstrap'
+import { ethers } from 'ethers'
 
-export const NAME = 'EXAMPLE' // This should be filled in with a name corresponding to the data provider using UPPERCASE and _underscores_.
+export const NAME = 'ROCKET_POOL'
 
-export const DEFAULT_ENDPOINT = 'example'
-export const DEFAULT_BASE_URL = 'http://localhost:18081'
+export const DEFAULT_ENDPOINT = 'reth'
+export const ETHEREUM_CHAIN_ID = '1'
+export const DEFAULT_ETH_USD_PROXY_ADDRESS = '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
+export const RETH_TOKEN_CONTRACT = '0xae78736Cd615f374D3085123A210448E74Fc6393'
 
 export const makeConfig = (prefix?: string): Config => {
-  const config = Requester.getDefaultConfig(prefix)
-  config.api.baseURL = config.api.baseURL || DEFAULT_BASE_URL
-  config.defaultEndpoint = DEFAULT_ENDPOINT
+  const ethereumRpcUrl = util.getRequiredEnv('ETHEREUM_RPC_URL')
+  const priceRpcUrl = util.getRequiredEnvWithFallback('PRICE_RPC_URL', ['ETHEREUM_RPC_URL'])
+  const priceChainId = util.getEnv('PRICE_CHAIN_ID') ?? ETHEREUM_CHAIN_ID
+  const ethUsdProxy = util.getEnv('ETH_USD_PROXY_ADDRESS') ?? DEFAULT_ETH_USD_PROXY_ADDRESS
+
+  const config = {
+    ...Requester.getDefaultConfig(prefix),
+    defaultEndpoint: DEFAULT_ENDPOINT,
+    ethereumProvider: new ethers.providers.JsonRpcProvider(ethereumRpcUrl, ETHEREUM_CHAIN_ID),
+    priceProvider: new ethers.providers.JsonRpcProvider(priceRpcUrl, priceChainId),
+    ethUsdProxy,
+  }
+
   return config
 }
