@@ -1,3 +1,4 @@
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
 
 export const mockETHSuccess = (): nock.Scope =>
@@ -11,7 +12,7 @@ export const mockETHSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x1',
@@ -39,7 +40,7 @@ export const mockETHSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000e764a8d003dfd22',
@@ -67,7 +68,7 @@ export const mockETHSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -99,7 +100,7 @@ export const mockUSDSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x1',
@@ -127,7 +128,7 @@ export const mockUSDSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000e764a8d003dfd22',
@@ -155,7 +156,7 @@ export const mockUSDSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000012',
@@ -183,7 +184,7 @@ export const mockUSDSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '1',
@@ -211,7 +212,7 @@ export const mockUSDSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -240,7 +241,7 @@ export const mockUSDSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000000000000008',
@@ -268,7 +269,7 @@ export const mockUSDSuccess = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result: '0x0000000000000000000000000000000000000000000000000000001e013ed2cf',

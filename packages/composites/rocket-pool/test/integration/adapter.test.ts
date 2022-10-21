@@ -5,7 +5,6 @@ import request, { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { mockETHSuccess, mockUSDSuccess } from './fixtures'
 import { ethers } from 'ethers'
-import { AggregatorV2V3Interface__factory } from '@chainlink/contracts/ethers/v0.6/factories/AggregatorV2V3Interface__factory'
 
 jest.mock('ethers', () => ({
   ...jest.requireActual('ethers'),
@@ -33,7 +32,7 @@ jest.mock('@chainlink/contracts/ethers/v0.6/factories/AggregatorV2V3Interface__f
     '@chainlink/contracts/ethers/v0.6/factories/AggregatorV2V3Interface__factory',
   ),
   AggregatorV2V3Interface__factory: {
-    connect: function (): AggregatorV2V3Interface__factory.connect {
+    connect: function () {
       return {
         latestAnswer: async () => {
           return jest.requireActual('ethers').BigNumber.from('129000000000')

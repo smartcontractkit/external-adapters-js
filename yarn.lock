@@ -4232,6 +4232,7 @@ __metadata:
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
     decimal.js: ^10.3.1
     ethers: ^5.4.6
     nock: 13.2.9

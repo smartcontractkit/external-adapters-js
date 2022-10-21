@@ -6867,6 +6867,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
             ["decimal.js", "npm:10.4.1"],\
             ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
