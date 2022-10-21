@@ -1,5 +1,12 @@
 # @chainlink/ea-bootstrap
 
+## 2.22.2
+
+### Patch Changes
+
+- 572b89314: Fixed a potential issue where log censoring could crash the EA due to circular references
+- 068dd3672: changed websocket only request timeout message
+
 ## 2.22.1
 
 ### Patch Changes

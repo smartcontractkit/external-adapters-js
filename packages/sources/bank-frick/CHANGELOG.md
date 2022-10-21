@@ -1,5 +1,14 @@
 # @chainlink/bank-frick-adapter
 
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 0.0.11
 
 ### Patch Changes
