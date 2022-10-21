@@ -18,8 +18,8 @@ jobs:
         run: |
           yarn generate:master-list -v
           yarn generate:readme -a -v
-          git restore .yarnrc.yml
-          git add .
+          git add MASTERLIST.md
+          git add "*README.md"
           yarn lint-staged
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
