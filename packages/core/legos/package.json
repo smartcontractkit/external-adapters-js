@@ -98,6 +98,7 @@
     "@chainlink/finnhub-adapter": "workspace:*",
     "@chainlink/fixer-adapter": "workspace:*",
     "@chainlink/flightaware-adapter": "workspace:*",
+    "@chainlink/fluent-finance-adapter": "workspace:*",
     "@chainlink/fmpcloud-adapter": "workspace:*",
     "@chainlink/galaxis-adapter": "workspace:*",
     "@chainlink/galaxy-adapter": "workspace:*",
