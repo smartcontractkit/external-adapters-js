@@ -2,6 +2,7 @@ import { Requester, util } from '@chainlink/ea-bootstrap'
 import { Config } from '@chainlink/ea-bootstrap'
 import { ethers } from 'ethers'
 import rethAbi from '../abis/rethAbi.json'
+
 export const NAME = 'ROCKET_POOL'
 
 export const DEFAULT_ENDPOINT = 'reth'
