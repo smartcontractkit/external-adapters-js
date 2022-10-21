@@ -20,6 +20,8 @@ jobs:
           yarn generate:readme -a -v
           git add .
           yarn lint-staged
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git commit --amend --no-edit
           git push --force
           echo "README(s) generated successfully."
