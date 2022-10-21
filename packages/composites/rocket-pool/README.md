@@ -4,10 +4,10 @@
 
 The adapter takes the following environment variables:
 
-| Required? |        Name        |           Description            | Options | Defaults to |
-| :-------: | :----------------: | :------------------------------: | :-----: | :---------: |
-|    ✅     | `ETHEREUM_RPC_URL` | Rocket-pool _required_ parameter |         |             |
-|           |      `OPTION`      | Rocket-pool _optional_ parameter |         |   `true`    |
+|        Name         | Required? |                                                     Description                                                      | Options | Defaults to |
+| :-----------------: | :-------: | :------------------------------------------------------------------------------------------------------------------: | :-----: | :---------: |
+| `ETHEREUM_RPC_URL`  |    ✅     |                             RPC URL to Ethereum mainnet. Used for rETH staking contract.                             |         |             |
+| `<network>_RPC_URL` |    ✅     | RPC URL to network(s) desired. Used to fetch latest value of ETH/USD from Chainlink price feed on the given network. |         |             |
 
 ## Running
 
@@ -15,10 +15,11 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+|         Name         | Required? |                                  Description                                   |   Options    |                 Defaults to                  |
+| :------------------: | :-------: | :----------------------------------------------------------------------------: | :----------: | :------------------------------------------: |
+|       `quote`        |           |                        Quote currency to pull price for                        | `ETH`, `USD` |                    `ETH`                     |
+|      `network`       |           | Network to query for price feed (EA must have `<network>_RPC_URL` configured). |              |                  `ethereum`                  |
+| `ethUsdProxyAddress` |           |            Address for the ETH/USD price feed on the given network.            |              | `0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419` |
 
 ### Sample Input
 
@@ -26,7 +27,6 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 {
   "id": "1",
   "data": {
-    "base": "ETH",
     "quote": "USD"
   }
 }
@@ -36,11 +36,12 @@ See the [Composite Adapter README](../README.md) for more information on how to 
 
 ```json
 {
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
+  "jobRunID": "1",
+  "result": 1342.2278052102286,
+  "providerStatusCode": 200,
+  "statusCode": 200,
   "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
+    "result": 1342.2278052102286
+  }
 }
 ```
