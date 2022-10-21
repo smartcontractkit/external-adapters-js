@@ -2,6 +2,7 @@ import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-fra
 import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -13,7 +14,7 @@ export const inputParameters: InputParameters = {
   },
 }
 
-export interface AdapterRequestParams {
+export interface GlobalRequestParams {
   market: string
 }
 
@@ -34,7 +35,22 @@ export interface ProviderResponseBody {
 
 interface ResultEntry {
   value: number
-  params: AdapterRequestParams
+  params: GlobalRequestParams
+}
+
+export type GlobalEndpointTypes = {
+  Request: {
+    Params: GlobalRequestParams
+  }
+  Response: {
+    Data: ProviderResponseBody
+    Result: number
+  }
+  CustomSettings: SettingsMap
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderResponseBody
+  }
 }
 
 export const buildGlobalRequestBody = (apiKey?: string): HttpRequestConfig<never> => {
@@ -50,7 +66,7 @@ export const buildGlobalRequestBody = (apiKey?: string): HttpRequestConfig<never
 
 export const constructEntry = (
   res: HttpResponse<ProviderResponseBody>,
-  requestPayload: AdapterRequestParams,
+  requestPayload: GlobalRequestParams,
   resultPath: 'total_market_cap' | 'market_cap_percentage',
 ): ResultEntry | undefined => {
   const resultData = res.data.data

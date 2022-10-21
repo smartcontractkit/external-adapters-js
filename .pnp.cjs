@@ -4570,7 +4570,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko-test/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.3.6"],\
+            ["@chainlink/external-adapter-framework", "npm:0.5.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5362,7 +5362,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.3.6"],\
+            ["@chainlink/external-adapter-framework", "npm:0.5.1"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -5667,21 +5667,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.3.6", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.6-476579406d-f33a492a43.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.3.6"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:0.27.2"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.7.0"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.3.9", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.9-bbf99259a1-64e3e525b4.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -5693,7 +5678,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"]\
+            ["ws", "virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.5.1", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.5.1-ecedc1f471-b002289fc5.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.5.1"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.7.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -34695,23 +34695,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-da6438ed33/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:476579406d9e55b446d5edcef597f458c92f39c13752561d640ee5ade2de779e3544285353d983bfc6f15ca1fc3ee1c71f79237c779f2896cbf1c29b2a608285#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -34789,6 +34772,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bufferutil", null],\
             ["safe-buffer", "npm:5.0.1"],\
             ["ultron", "npm:1.1.1"],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-4d2b44eebc/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
             ["utf-8-validate", null]\
           ],\
           "packagePeers": [\
