@@ -22,8 +22,8 @@ jobs:
           yarn lint-staged
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit --amend --no-edit
-          git push --force
+          git commit -m "Generated README(s)"
+          git push
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
