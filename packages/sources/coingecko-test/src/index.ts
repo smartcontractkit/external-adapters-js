@@ -1,4 +1,4 @@
-import { expose } from '@chainlink/external-adapter-framework'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import overrides from './config/overrides.json'
 import {
@@ -38,4 +38,4 @@ export const adapter = new PriceAdapter({
   },
 })
 
-export const server = () => expose(adapter)
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

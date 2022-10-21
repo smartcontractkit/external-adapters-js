@@ -39,7 +39,7 @@ const restEndpointTransport = new RestTransport<EndpointTypes>({
       params,
     }
   },
-  parseResponse: (req, res) => {
+  parseResponse: (_, res) => {
     return {
       data: res.data,
       statusCode: 200,

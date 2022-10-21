@@ -10,7 +10,7 @@ import {
 } from '../global-utils'
 
 const batchEndpointTransport = new BatchWarmingTransport<GlobalEndpointTypes>({
-  prepareRequest: (params, config): HttpRequestConfig<never> => {
+  prepareRequest: (_, config): HttpRequestConfig<never> => {
     return buildGlobalRequestBody(config.API_KEY)
   },
   parseResponse: (params, res): ProviderResult<GlobalEndpointTypes>[] => {
