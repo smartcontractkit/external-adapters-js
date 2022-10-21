@@ -68,7 +68,14 @@ export const logger = pino({
 })
 
 export function censorLog(obj: unknown, censorList: CensorKeyValue[]): unknown {
-  let stringified = JSON.stringify(obj)
+  let stringified = ''
+  try {
+    // JSON.stringify(obj) will fail if obj contains a circular reference.
+    // If it fails, we fall back to replacing it with "[Unknown]".
+    stringified = JSON.stringify(obj)
+  } catch (e) {
+    return '[Unknown]'
+  }
   censorList.forEach((entry) => {
     stringified = stringified.replace(entry.value, `[${entry.key} REDACTED]`)
   })
