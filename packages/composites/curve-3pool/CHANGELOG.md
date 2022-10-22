@@ -1,5 +1,15 @@
 # @chainlink/curve-3pool-adapter
 
+## 3.0.6
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.5
+
 ## 3.0.5
 
 ### Patch Changes
