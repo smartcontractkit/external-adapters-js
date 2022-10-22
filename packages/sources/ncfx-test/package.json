@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ncfx-test-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink ncfx-test adapter.",
   "keywords": [
     "Chainlink",
