@@ -3886,7 +3886,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    mock-socket: ^9.1.5
+    mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -21914,7 +21914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mock-socket@npm:9.1.5, mock-socket@npm:^9.1.5":
+"mock-socket@npm:9.1.5":
   version: 9.1.5
   resolution: "mock-socket@npm:9.1.5"
   checksum: a01586bc2850eb5809eda6de0c7ab19255c1e0eb217a805f86ba662bb4aab00b919032d67e7c826c6c12bcfb2fbe19cecbacf0ab6184936487edc4ba37d3ba53
