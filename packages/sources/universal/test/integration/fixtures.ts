@@ -76,6 +76,30 @@ export const mockSandbox = (): nock.Scope =>
       'Vary',
       'Origin',
     ])
+    // request using secrets
+    .post('/execute', (body) => {
+      if (
+        JSON.stringify(body.secrets) !== JSON.stringify({ test: '0x64' }) &&
+        JSON.stringify(body.source) !== 'return secrets.test'
+      )
+        return false
+      try {
+        checkRequestAuthorization(body)
+        return true
+      } catch {
+        return false
+      }
+    })
+    .reply(200, () => ({ success: '0x64' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
     // request with error in code
     .post('/execute', (body) => {
       if (body.source !== 'return )') return false

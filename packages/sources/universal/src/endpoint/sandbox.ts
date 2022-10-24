@@ -1,5 +1,6 @@
 import {
   AdapterResponse,
+  AxiosResponse,
   Method,
   Requester,
   Validator,
@@ -7,9 +8,11 @@ import {
   Config,
   ExecuteWithConfig,
   InputParameters,
-  AxiosResponse,
 } from '@chainlink/ea-bootstrap'
 import { TimestampedRequestSigner } from '../utils/timestampedRequestSigner'
+import { buildAdapterResponse, buildErrorResponseFactory } from '../utils/buildResponse'
+import type { Base64ByteString } from '../utils/secretsDecrypter'
+import { decrypt } from '../utils/secretsDecrypter'
 
 export const supportedEndpoints = ['sandbox']
 
@@ -20,7 +23,8 @@ export type TInputParameters = {
   source: string
   queries?: HttpQuery[]
   args?: string[]
-  secrets?: string
+  secrets?: Base64ByteString
+  secretsOwner?: string
   codeLocation?: Location.Onchain
   secretsLocation?: Location.Onchain
   language?: Language.JavaScript
@@ -34,6 +38,12 @@ enum Language {
   JavaScript = 0,
 }
 
+type HttpQuery = {
+  HttpVerb: 'Get'
+  url: string
+  headers: Record<string, string>
+}
+
 export const inputParameters: InputParameters<TInputParameters> = {
   source: {
     description: 'JavaScript source code to be executed',
@@ -43,7 +53,10 @@ export const inputParameters: InputParameters<TInputParameters> = {
     description: 'HTTP queries to be performed and passed to the source code',
   },
   secrets: {
-    description: 'Bytes string representing an encrypted secrets object',
+    description: 'Bytes string representing an encrypted secrets object in base64 format',
+  },
+  secretsOwner: {
+    description: 'Owner of the encrypted secrets used for signature verification',
   },
   args: {
     description: 'Array of on-chain arguments which are passed to the source code',
@@ -62,36 +75,13 @@ export const inputParameters: InputParameters<TInputParameters> = {
   },
 }
 
-type SandboxResponse = {
+export type SandboxResponse = {
   success?: string
   error?: {
     name: string
     message: string
   }
 }
-
-type UniversalAdapterResponse = {
-  jobRunID: string
-  statusCode: number
-  result: string
-  error: string
-  errorString?: string
-  data: {
-    result: string
-    error: string
-    errorString?: string
-  }
-  providerStatusCode?: number
-}
-
-type HttpQuery = {
-  HttpVerb: 'Get'
-  url: string
-  headers: Record<string, string>
-}
-
-// a hexstring will start with '0x'
-type hexstring = string
 
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const requestStartTime = Date.now()
@@ -105,6 +95,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const queries = validator.validated.data.queries
   const source = validator.validated.data.source
   const secrets = validator.validated.data.secrets
+  const secretsOwner = validator.validated.data.secretsOwner
   const args = validator.validated.data.args
 
   const buildErrorResponse = buildErrorResponseFactory(
@@ -121,9 +112,27 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   if (validator.validated.data.language && validator.validated.data.language !== 0)
     return buildErrorResponse('invalid value for language') as unknown as AdapterResponse
 
-  // TODO: inline-replace any instance of the string `$(secrets[x])` within the URL & headers w/ decrypted secrets
+  let decryptedSecrets: Record<string, unknown> = {}
 
-  const sandboxRequestData = { queries, source, secrets, args }
+  if (secrets) {
+    try {
+      decryptedSecrets = await decrypt(
+        config.adapterSpecificParams?.secretsDecryptionPrivateKey as string,
+        secrets,
+        secretsOwner,
+      )
+    } catch (untypedError) {
+      const error = untypedError as Error
+      if (
+        error.message === 'encrypted secrets not signed by secrets owner' ||
+        error.message === 'decrypted secrets are not a valid JSON string'
+      )
+        return buildErrorResponse(error.message) as unknown as AdapterResponse
+      throw error
+    }
+  }
+
+  const sandboxRequestData = { queries, source, secrets: decryptedSecrets, args }
 
   const url = config.adapterSpecificParams?.sandboxURL as string
   const privateKey = config.adapterSpecificParams?.sandboxAuthPrivateKey as string
@@ -138,7 +147,16 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     timeout: config.adapterSpecificParams?.sandboxTimeout as number,
   }
 
-  const sandboxResponse = await Requester.request<SandboxResponse>(options)
+  let sandboxResponse: AxiosResponse<SandboxResponse>
+  try {
+    sandboxResponse = await Requester.request<SandboxResponse>(options)
+  } catch (untypedError) {
+    const error = untypedError as Error
+    if (error.name == 'Data Provider Request Timeout error') {
+      return buildErrorResponse('computation duration exceeded') as unknown as AdapterResponse
+    }
+    throw error
+  }
 
   const adapterResponse = buildAdapterResponse(
     jobRunID,
@@ -152,81 +170,4 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     response: adapterResponse,
   })
   return adapterResponse
-}
-
-const buildAdapterResponse = (
-  jobRunID: string,
-  maxHexStringLength: number,
-  buildErrorResponse: (errorString: string) => UniversalAdapterResponse,
-  sandboxResponse: AxiosResponse<SandboxResponse>,
-): UniversalAdapterResponse => {
-  if (sandboxResponse.data.error) {
-    const adapterResponse = buildErrorResponse(
-      `${sandboxResponse.data.error.name ?? ''}: ${sandboxResponse.data.error.message ?? ''}`,
-    )
-    adapterResponse.providerStatusCode = sandboxResponse.status
-    Logger.error(adapterResponse)
-    return adapterResponse
-  }
-
-  if (isHexString(sandboxResponse.data.success)) {
-    if (sandboxResponse.data.success.length > maxHexStringLength) {
-      const adapterResponse = buildErrorResponse(
-        `returned hex string is longer than ${maxHexStringLength} characters`,
-      )
-      adapterResponse.providerStatusCode = sandboxResponse.status
-      Logger.error(adapterResponse)
-      return adapterResponse
-    }
-    const adapterResponse = {
-      jobRunID,
-      statusCode: 200,
-      result: sandboxResponse.data.success,
-      error: '',
-      data: {
-        result: sandboxResponse.data.success,
-        error: '',
-      },
-      providerStatusCode: sandboxResponse.status,
-    }
-    Logger.debug(adapterResponse)
-    return adapterResponse
-  }
-
-  const adapterResponse = buildErrorResponse('source code did not return a valid hex string')
-  Logger.debug({ requestStartTime: Date.now() })
-  return adapterResponse
-}
-
-const isHexString = (result?: unknown): result is string => {
-  if (typeof result !== 'string' || result.slice(0, 2) !== '0x') return false
-  const hexstringRegex = /[0-9A-Fa-f]/g
-  return hexstringRegex.test(result.slice(2))
-}
-
-const buildErrorResponseFactory = (jobRunID: string, maxHexStringLength: number) => {
-  return (errorString: string): UniversalAdapterResponse => {
-    const adapterResponse = {
-      jobRunID,
-      statusCode: 200,
-      data: {
-        result: '',
-      },
-      result: '',
-    } as UniversalAdapterResponse
-    adapterResponse.errorString = errorString
-    adapterResponse.data.errorString = adapterResponse.errorString
-    adapterResponse.error = buildErrorHexString(adapterResponse.errorString, maxHexStringLength)
-    adapterResponse.data.error = adapterResponse.error
-    return adapterResponse
-  }
-}
-
-const buildErrorHexString = (
-  errorString: string,
-  maxHexStringResponseLength: number,
-): hexstring => {
-  const buf = Buffer.from(errorString)
-  const shortBuf = buf.subarray(0, maxHexStringResponseLength - 2)
-  return '0x' + shortBuf.toString('hex')
 }
