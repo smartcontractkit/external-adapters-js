@@ -67,6 +67,7 @@ import * as finage from '@chainlink/finage-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
+import * as fluent_finance from '@chainlink/fluent-finance-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
 import * as galaxy from '@chainlink/galaxy-adapter'
@@ -95,6 +96,7 @@ import * as metalsapi from '@chainlink/metalsapi-adapter'
 import * as mock_ea from '@chainlink/mock-ea-adapter'
 import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
+import * as ncfx_test from '@chainlink/ncfx-test-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
@@ -208,6 +210,7 @@ export default {
   finnhub,
   fixer,
   flightaware,
+  fluent_finance,
   fmpcloud,
   galaxis,
   galaxy,
@@ -236,6 +239,7 @@ export default {
   mock_ea,
   mycryptoapi,
   ncfx,
+  ncfx_test,
   nikkei,
   nomics,
   oilpriceapi,

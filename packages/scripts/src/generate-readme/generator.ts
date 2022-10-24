@@ -84,6 +84,12 @@ export class ReadmeGenerator {
   // We need to require/import adapter contents to generate the README.
   // We use this function instead of the constructor because we need to fetch, and constructors can't be async.
   async loadAdapterContent(): Promise<void> {
+    const configPath = checkFilePaths([
+      this.adapterPath + 'src/config.ts',
+      this.adapterPath + 'src/config/index.ts',
+    ])
+    const configFile = await require(path.join(process.cwd(), configPath))
+
     if (fs.existsSync(this.schemaPath)) {
       //Is V2. Populate self w/ env.json content
       if (this.verbose) console.log(`${this.adapterPath}: Checking schema/env.json`)
@@ -93,6 +99,7 @@ export class ReadmeGenerator {
       this.name = schema.title ?? packageJson.name ?? ''
       this.envVars = schema.properties ?? {}
       this.requiredEnvVars = schema.required ?? []
+      this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
     } else {
       this.frameworkVersion = 'v3'
       if (this.verbose)
@@ -107,20 +114,16 @@ export class ReadmeGenerator {
       this.name = adapter.name
       this.envVars = adapter.customSettings || {}
       this.requiredEnvVars = adapter.customSettings
-        ? Object.keys(adapter.customSettings).filter((k) => customSettings[k].required === true) ??
-          [] // Keys of required customSettings
+        ? Object.keys(adapter.customSettings).filter(
+            (k) => adapter.customSettings[k].required === true,
+          ) ?? [] // Keys of required customSettings
         : []
       //Note, not populating description, doesn't exist in framework adapters
+      this.defaultEndpoint = adapter.defaultEndpoint ?? ''
     }
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
 
-    const configPath = checkFilePaths([
-      this.adapterPath + 'src/config.ts',
-      this.adapterPath + 'src/config/index.ts',
-    ])
-    const configFile = await require(path.join(process.cwd(), configPath))
-    this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
     this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
 
     if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)

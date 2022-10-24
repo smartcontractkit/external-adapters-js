@@ -327,6 +327,9 @@
       "path": "./sources/flightaware/tsconfig.test.json"
     },
     {
+      "path": "./sources/fluent-finance/tsconfig.test.json"
+    },
+    {
       "path": "./sources/fmpcloud/tsconfig.test.json"
     },
     {
@@ -409,6 +412,9 @@
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/ncfx-test/tsconfig.test.json"
     },
     {
       "path": "./sources/nikkei/tsconfig.test.json"

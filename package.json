@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.41.0",
+  "version": "1.42.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -74,5 +74,9 @@
   "lint-staged": {
     "*.{js,css,md,ts,json,yml,yaml}": "prettier --write"
   },
-  "packageManager": "yarn@3.2.2"
+  "packageManager": "yarn@3.2.3",
+  "resolutions": {
+    "ethereum-cryptography@^1.1.2": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch",
+    "ethereum-cryptography@^1.0.3": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch"
+  }
 }

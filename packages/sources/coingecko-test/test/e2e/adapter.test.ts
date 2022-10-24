@@ -1,12 +1,12 @@
-import { FastifyInstance } from 'fastify'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 /* eslint-disable max-nested-callbacks */
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
+  let fastify: ServerInstance
   let req: SuperTest<Test>
 
   beforeAll(async () => {
@@ -15,7 +15,7 @@ describe('execute', () => {
     process.env['CACHE_POLLING_SLEEP_MS'] = '500'
 
     const { server } = await import('../../src')
-    fastify = (await server()) as FastifyInstance
+    fastify = (await server()) as ServerInstance
     req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
   })
 
@@ -46,11 +46,11 @@ describe('execute', () => {
     const dataWithOverride = {
       id,
       data: {
-        base: 'OHM',
+        base: 'OHMV2',
         quote: 'USD',
         overrides: {
           coingecko: {
-            OHM: 'olympus',
+            OHMV2: 'olympus',
           },
         },
       },

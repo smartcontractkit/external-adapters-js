@@ -1,12 +1,13 @@
+import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
-import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
 
 export interface CryptoRequestParams {
   coinid?: string
   base?: string
   quote: string
+  precision: string
 }
 
 export const cryptoInputParams = {
@@ -26,6 +27,11 @@ export const cryptoInputParams = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
     required: true,
+  },
+  precision: {
+    description: 'Data precision setting',
+    default: 'full',
+    required: false,
   },
 } as const
 
@@ -48,6 +54,22 @@ interface ResultEntry {
     quote: string
     base?: string
     coinid?: string
+    precision: string
+  }
+}
+
+export type CryptoEndpointTypes = {
+  Request: {
+    Params: CryptoRequestParams
+  }
+  Response: {
+    Data: ProviderResponseBody
+    Result: number
+  }
+  CustomSettings: SettingsMap
+  Provider: {
+    RequestBody: ProviderRequestBody
+    ResponseBody: ProviderResponseBody
   }
 }
 
