@@ -1,24 +1,35 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import {
-  HttpRequestConfig,
-  HttpResponse,
-  RestTransport,
-} from '@chainlink/external-adapter-framework/transports'
-import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
+import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
 
 export const inputParameters: InputParameters = {}
 
-export interface CoinsResponse {
+interface CoinsResponse {
   id: string
   symbol: string
   name: string
 }
 
-const restEndpointTransport = new RestTransport({
-  prepareRequest: (_: AdapterRequest, config: AdapterConfig): HttpRequestConfig<CoinsResponse> => {
+type EndpointTypes = {
+  Request: {
+    Params: EmptyObject
+  }
+  Response: {
+    Data: CoinsResponse
+    Result: null
+  }
+  CustomSettings: SettingsMap
+  Provider: {
+    RequestBody: never
+    ResponseBody: CoinsResponse
+  }
+}
+
+const restEndpointTransport = new RestTransport<EndpointTypes>({
+  prepareRequest: (_, config) => {
     const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
     const params = config.API_KEY ? { x_cg_pro_api_key: config.API_KEY } : undefined
     return {
@@ -28,15 +39,12 @@ const restEndpointTransport = new RestTransport({
       params,
     }
   },
-  parseResponse: (
-    _: AdapterRequest,
-    res: HttpResponse<CoinsResponse[]>,
-  ): AdapterResponse<CoinsResponse[]> => {
+  parseResponse: (_, res) => {
     return {
       data: res.data,
       statusCode: 200,
-      result: res.data,
-    } as AdapterResponse<CoinsResponse[]>
+      result: null,
+    }
   },
   options: {
     requestCoalescing: {
@@ -45,7 +53,7 @@ const restEndpointTransport = new RestTransport({
   },
 })
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'coins',
   transport: restEndpointTransport,
   inputParameters,
