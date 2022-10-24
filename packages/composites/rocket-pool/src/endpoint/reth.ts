@@ -1,8 +1,14 @@
 import { Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { getLatestAnswer } from '@chainlink/ea-reference-data-reader'
-import { DEFAULT_ETH_USD_PROXY_ADDRESS, RocketPoolConfig } from '../config'
+import {
+  DEFAULT_ETH_USD_PROXY_ADDRESS,
+  DEFAULT_RETH_STORAGE_ADDRESS,
+  RocketPoolConfig,
+} from '../config'
 import { Decimal } from 'decimal.js'
+import { ethers } from 'ethers'
+import rocketStorageAbi from '../abis/rocketStorageAbi.json'
 
 export const supportedEndpoints = ['reth']
 
@@ -10,6 +16,7 @@ export type TInputParameters = {
   quote: 'ETH' | 'USD'
   network: string
   ethUsdProxyAddress: string
+  rethStorageAddress: string
 }
 
 export const description =
@@ -35,16 +42,23 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     default: DEFAULT_ETH_USD_PROXY_ADDRESS,
   },
+  rethStorageAddress: {
+    description: 'Address for the Rocket Storage contract on the Ethereum network',
+    type: 'string',
+    required: false,
+    default: DEFAULT_RETH_STORAGE_ADDRESS,
+  },
 }
 
 export const execute: ExecuteWithConfig<RocketPoolConfig> = async (request, _, config) => {
-  const { rethContract } = config
+  const { provider } = config
 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  const { ethUsdProxyAddress, network, quote } = validator.validated.data
+  const { ethUsdProxyAddress, network, quote, rethStorageAddress } = validator.validated.data
 
+  const rethContract = new ethers.Contract(rethStorageAddress, rocketStorageAbi, provider)
   const rethEthExchangeRate = new Decimal((await rethContract.getExchangeRate()).toString())
   const rethDecimals = new Decimal((await rethContract.decimals()).toString())
 
