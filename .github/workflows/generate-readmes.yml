@@ -18,10 +18,13 @@ jobs:
         run: |
           yarn generate:master-list -v
           yarn generate:readme -a -v
-          git add .
+          git add MASTERLIST.md
+          git add "*README.md"
           yarn lint-staged
-          git commit --amend --no-edit
-          git push --force
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Generated README(s)"
+          git push
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

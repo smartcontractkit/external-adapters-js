@@ -67,6 +67,7 @@ import * as finage from '@chainlink/finage-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
+import * as fluent_finance from '@chainlink/fluent-finance-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
 import * as galaxy from '@chainlink/galaxy-adapter'
@@ -209,6 +210,7 @@ export default {
   finnhub,
   fixer,
   flightaware,
+  fluent_finance,
   fmpcloud,
   galaxis,
   galaxy,

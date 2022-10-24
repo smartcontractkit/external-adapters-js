@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EthGasStation
 
-![1.4.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgasstation/package.json)
+![1.4.22](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgasstation/package.json)
 
 Base URL https://ethgasstation.info/
 

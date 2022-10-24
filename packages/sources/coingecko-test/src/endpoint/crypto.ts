@@ -1,29 +1,19 @@
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
-  CryptoRequestParams,
-  ProviderRequestBody,
   buildBatchedRequestBody,
   constructEntry,
-  ProviderResponseBody,
+  CryptoEndpointTypes,
   cryptoInputParams,
 } from '../crypto-utils'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-const batchEndpointTransport = new BatchWarmingTransport({
-  prepareRequest: (
-    params: CryptoRequestParams[],
-    config: AdapterConfig,
-  ): HttpRequestConfig<ProviderRequestBody> => {
+const batchEndpointTransport = new BatchWarmingTransport<CryptoEndpointTypes>({
+  prepareRequest: (params, config) => {
     return buildBatchedRequestBody(params, config)
   },
-  parseResponse: (
-    params: CryptoRequestParams[],
-    res: HttpResponse<ProviderResponseBody>,
-  ): ProviderResult<CryptoRequestParams>[] => {
-    const entries = [] as ProviderResult<CryptoRequestParams>[]
+  parseResponse: (params, res) => {
+    const entries = [] as ProviderResult<CryptoEndpointTypes>[]
     for (const requestPayload of params) {
       const entry = constructEntry(res, requestPayload, requestPayload.quote.toLowerCase())
       if (entry) {
@@ -34,7 +24,7 @@ const batchEndpointTransport = new BatchWarmingTransport({
   },
 })
 
-export const endpoint = new PriceEndpoint({
+export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
   name: 'crypto',
   aliases: ['crypto-batched', 'batched', 'batch'],
   transport: batchEndpointTransport,
