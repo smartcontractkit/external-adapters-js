@@ -43,6 +43,14 @@ yarn setup
 
 Runs the setup step for all adapters. Typically this step just compiles TypeScript, but may involve other tasks.
 
+### Clean
+
+```sh
+yarn clean
+```
+
+Clears all build files/directories. Useful in case of issues when installing dependencies or running setup.
+
 ### Folder Structure
 
 ```
@@ -92,7 +100,7 @@ yarn start
 
 1. All of the external-adapters have a service that is created when the repo's docker-compose file is generated.
 
-This can be done by running the following command in the root of the repository:
+This can be done by running the following command in the root of the repository (after `yarn && yarn setup`):
 
 ```sh
 yarn generate:docker-compose
