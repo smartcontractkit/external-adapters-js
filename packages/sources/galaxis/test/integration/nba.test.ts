@@ -110,7 +110,7 @@ describe('nba', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     fastify = await startServer()
     req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-    process.env.POLYGON_RPC_URL = process.env.POLYGON_RPC_URL || 'fake-polygon-rpc-url'
+    process.env.ETHEREUM_RPC_URL = process.env.ETHEREUM_RPC_URL || 'fake-polygon-rpc-url'
     process.env.CACHE_ENABLED = 'false'
     process.env.CHAIN_BATCH_WRITE_ADAPTER_ADDRESS = mockBatchWriterAddress
 
