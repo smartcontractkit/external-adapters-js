@@ -4,7 +4,7 @@ import { customSettings } from './config'
 import { expose } from '@chainlink/external-adapter-framework'
 
 export const adapter = new Adapter({
-  name: 'bank-frick',
+  name: 'BANK_FRICK',
   defaultEndpoint: 'accounts',
   endpoints: [accountsRestEndpoint],
   customSettings,
