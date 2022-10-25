@@ -1,10 +1,10 @@
-import { FastifyInstance } from 'fastify'
 import { SuperTest, Test } from 'supertest'
 import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
 import { generateJWT } from '../../src/util'
 import { setupExternalAdapterTest, SuiteContext } from './setup'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from '../../src/config'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -16,12 +16,12 @@ describe('execute', () => {
 
   const context: SuiteContext = {
     req: null,
-    server: async (): Promise<FastifyInstance> => {
+    server: async () => {
       process.env.API_KEY = 'SOME_API_KEY'
       process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
       process.env.NODE_ENV = 'development'
       const server = (await import('../../src')).server
-      return server() as Promise<FastifyInstance>
+      return server() as Promise<ServerInstance>
     },
   }
 

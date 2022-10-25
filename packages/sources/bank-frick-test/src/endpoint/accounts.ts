@@ -14,8 +14,9 @@ import {
   AdapterResponse,
   makeLogger,
   sleep,
+  SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
-import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import {
   AdapterError,
   AdapterInputError,
@@ -54,6 +55,14 @@ const FatalErrors: { [key: number]: string } = {
   423: "Authorization is valid, but the user's account is locked",
 }
 
+export type AccountsEndpointTypes = {
+  Request: {
+    Params: AdapterInputParameters
+  }
+  Response: SingleNumberResultResponse
+  CustomSettings: typeof customSettings
+}
+
 /**
  * RestTransport implementation for Bank Frick, which has unusually complex requirements for an EA
  * The RestTransport is generally built to make a single request and return a single response.
@@ -62,20 +71,14 @@ const FatalErrors: { [key: number]: string } = {
  * This transport does all the heavy lifting in setup(), which is where the paging happens, and it
  * also has complex retry logic that will attempt to refresh the JWT when certain HTTP errors occur
  */
-export class BankFrickAccountsTransport
-  implements Transport<AdapterInputParameters, { result: number }, typeof customSettings>
-{
+export class BankFrickAccountsTransport implements Transport<AccountsEndpointTypes> {
   // Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
   // Each instance of the EA will have their own token by design
   token!: string
-  cache!: Cache<AdapterResponse<{ result: number }>>
+  cache!: Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
 
   async initialize(dependencies: AdapterDependencies): Promise<void> {
-    this.cache = dependencies.cache as Cache<AdapterResponse<{ result: number }>>
-  }
-
-  async hasBeenSetUp() {
-    return false // Return false since we aren't coalescing requests
+    this.cache = dependencies.cache as Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
   }
 
   /**
@@ -171,9 +174,9 @@ export class BankFrickAccountsTransport
    * of all found accounts. Returns a 404 if any IBAN isn't found.
    */
   async foregroundExecute(
-    req: AdapterRequest<AdapterInputParameters>,
+    req: AdapterRequest<AccountsEndpointTypes['Request']>,
     config: AdapterConfig<typeof customSettings>,
-  ): Promise<AdapterResponse<{ result: number }>> {
+  ): Promise<AdapterResponse<AccountsEndpointTypes['Response']>> {
     const { ibanIDs, signingAlgorithm } = req.requestContext.data
     const { PAGE_SIZE = 500 } = config
 
@@ -237,14 +240,23 @@ export class BankFrickAccountsTransport
       },
       statusCode: 200,
       result: sum,
-    }
+    } as AdapterResponse<AccountsEndpointTypes['Response']>
     await this.cache.set(req.requestContext.cacheKey, res, config.CACHE_MAX_AGE)
     return res
   }
 }
 
-export const accountsRestEndpoint = new AdapterEndpoint({
+export const accountsRestEndpoint = new AdapterEndpoint<AccountsEndpointTypes>({
   name: 'accounts',
   transport: new BankFrickAccountsTransport(),
   inputParameters,
-}) as AdapterEndpoint<AdapterInputParameters, { result: number }, SettingsMap>
+  cacheKeyGenerator: (data) => {
+    const sortedData = Object.keys(data)
+      .sort()
+      .reduce((a: Record<string, unknown>, i) => {
+        a[i] = data[i]
+        return a
+      }, {})
+    return `accounts-${JSON.stringify(sortedData)}`
+  },
+})

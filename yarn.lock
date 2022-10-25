@@ -1799,12 +1799,12 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": 0.2.0
+    "@chainlink/external-adapter-framework": 0.5.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    axios: ^0.27.2
-    fastify: ^4.6.0
+    axios: 0.27.2
+    fastify: ^3.27.1
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1

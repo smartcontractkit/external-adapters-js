@@ -4172,12 +4172,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.2.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.5.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
-            ["fastify", "npm:4.7.0"],\
+            ["fastify", "npm:3.29.2"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
