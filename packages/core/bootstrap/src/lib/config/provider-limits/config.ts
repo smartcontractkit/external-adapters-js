@@ -49,15 +49,12 @@ export function get(
   }
 
   if (enabled && capacity > highestTierLimit) {
-    // logger.warn(
-    //   `The configured RATE_LIMIT_CAPACITY value is higher than the highest tier value from limits.json`,
-    // )
     logger.warn(
       `The configured ${
-        perSecRateLimit
-          ? 'RATE_LIMIT_CAPACITY_SECOND'
-          : perMinuteRateLimit
+        perMinuteRateLimit
           ? 'RATE_LIMIT_CAPACITY_MINUTE'
+          : perSecRateLimit
+          ? 'RATE_LIMIT_CAPACITY_SECOND'
           : 'RATE_LIMIT_CAPACITY'
       } value ${capacity} is higher than the highest tier value from limits.json ${highestTierLimit}`,
     )
