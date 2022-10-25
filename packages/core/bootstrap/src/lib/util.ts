@@ -703,3 +703,17 @@ export const buildCensorList = (): void => {
   })
   CensorList.set(censorList)
 }
+
+// Logs warnings based on env vars to properly inform of risks involved with using particular settings
+export const logEnvVarWarnings = (): void => {
+  if (
+    process.env['LOG_LEVEL']?.toUpperCase() === 'DEBUG' ||
+    process.env['LOG_LEVEL']?.toUpperCase() === 'TRACE'
+  ) {
+    logger.warn(
+      `LOG_LEVEL has been set to ${process.env[
+        'LOG_LEVEL'
+      ].toUpperCase()}. Setting higher log levels results in increased memory usage and potentially slower performance.`,
+    )
+  }
+}
