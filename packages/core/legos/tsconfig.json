@@ -218,6 +218,9 @@
       "path": "../../sources/flightaware"
     },
     {
+      "path": "../../sources/fluent-finance"
+    },
+    {
       "path": "../../sources/fmpcloud"
     },
     {

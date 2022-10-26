@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ncfx-test-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink ncfx-test adapter.",
   "keywords": [
     "Chainlink",
@@ -37,7 +37,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
-    "mock-socket": "^9.1.5",
+    "mock-socket": "9.1.5",
     "nock": "13.2.9",
     "supertest": "6.2.4",
     "typescript": "4.7.4"

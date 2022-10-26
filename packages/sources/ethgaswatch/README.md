@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EthGasWatch
 
-![1.3.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgaswatch/package.json)
+![1.3.22](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ethgaswatch/package.json)
 
 Base URL https://ethgas.watch
 
