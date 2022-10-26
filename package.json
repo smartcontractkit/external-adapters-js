@@ -35,7 +35,8 @@
     "qa:dependencies": "ts-node-transpile-only ./packages/scripts/src/adapter-dependencies",
     "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters",
     "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate",
-    "get-release-notes": "ts-node-transpile-only ./packages/scripts/src/get-release-notes"
+    "get-release-notes": "ts-node-transpile-only ./packages/scripts/src/get-release-notes",
+    "framework-bump": "./packages/scripts/src/framework/version-bump.sh"
   },
   "dependencies": {
     "@babel/core": "7.18.13",
