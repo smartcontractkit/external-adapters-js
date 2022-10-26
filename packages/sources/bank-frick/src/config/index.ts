@@ -1,5 +1,7 @@
 import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
 import { Config as BootstrapConfig } from '@chainlink/ea-bootstrap'
+import { SigningAlgorithm } from '../types'
+import crypto from 'crypto'
 
 export const NAME = 'BANK_FRICK'
 export const DEFAULT_BASE_URL = 'https://olbsandbox.bankfrick.li/webapi/v2'
@@ -12,7 +14,6 @@ export type Config = BootstrapConfig & {
   pageSize: number
   privateKey: string
   token: string //Set as a global variable on the first run.
-  allowInsecure?: boolean //Sandbox's cert setup is difficult, so allow skipping verification in dev only.
 }
 
 //Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
@@ -43,16 +44,38 @@ export const makeConfig = (prefix?: string): Config => {
     }
   }
 
-  let allowInsecure = false
-  if (process.env.ALLOW_INSECURE === 'true') {
-    if (process.env.NODE_ENV !== 'development') {
-      Logger.warn(
-        "ALLOW_INSECURE is true, but NODE_ENV isn't set to development. Ignoring the variable and setting ALLOW_INSECURE to false",
-      )
-    } else {
-      Logger.debug('ALLOW_INSECURE is true. Will skip certificate verification for requests')
-      allowInsecure = true
+  let privateKey = util.getRequiredEnv('PRIVATE_KEY')
+
+  // Some internal creds have 'BEGIN PRIVATE KEY', but all production creds use 'BEGIN RSA PRIVATE KEY'. This captures both.
+  if (!privateKey.match(/-----?BEGIN ([A-Z ])*PRIVATE KEY-----?/)) {
+    Logger.info(
+      "Could not find 'BEGIN PRIVATE KEY' in PRIVATE_KEY envvar. Assuming it's a base64 encoded string",
+    )
+    privateKey = Buffer.from(privateKey, 'base64').toString('utf8')
+  }
+
+  // Attempt to sign a message using any of the supported SigningAlgorithm
+  let successfulSigning = false
+  const algorithms: SigningAlgorithm[] = ['rsa-sha512', 'rsa-sha384', 'rsa-sha256']
+  Logger.debug(
+    'Attempting to sign a test message with any of the following SigningAlgorithms: ',
+    algorithms,
+  )
+
+  for (const algo of algorithms) {
+    try {
+      crypto.sign(algo, Buffer.from('test'), privateKey)
+      successfulSigning = true
+      Logger.debug(`Successfully signed a test message with SigningAlgorithm ${algo}`)
+      break
+    } catch (e) {
+      Logger.debug(`Failed to sign with algorithm ${algo}`)
     }
+  }
+  if (!successfulSigning) {
+    throw new Error(`Could not sign a message using any of the following algorithms: ${algorithms}
+      The PRIVATE_KEY config item must be either a string containing the full private key (including newlines
+      and the BEGIN/END PRIVATE KEY lines), or a base64 encoded string that can be decoded into the full private key`)
   }
 
   return {
@@ -64,8 +87,7 @@ export const makeConfig = (prefix?: string): Config => {
     defaultEndpoint: DEFAULT_ENDPOINT,
     token,
     pageSize,
-    allowInsecure,
     apiKey: util.getRequiredEnv('API_KEY', prefix),
-    privateKey: util.getRequiredEnv('PRIVATE_KEY', prefix), //Combined with the password, used to create jwt
+    privateKey, //Combined with the password, used to create jwt
   }
 }

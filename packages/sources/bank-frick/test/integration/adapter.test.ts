@@ -7,6 +7,7 @@ import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
 import {} from '../../src/endpoint'
 import type { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
 import { generateJWT } from '../../src/endpoint/accounts'
+import { generatePrivateKeyString } from '../util'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -23,7 +24,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
 
     process.env.API_KEY = 'SOME_API_KEY'
-    process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
+    process.env.PRIVATE_KEY = generatePrivateKeyString()
     process.env.CACHE_ENABLED = 'false'
     process.env.NODE_ENV = 'development'
 

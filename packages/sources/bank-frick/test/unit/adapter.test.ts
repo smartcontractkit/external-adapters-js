@@ -5,6 +5,7 @@ import { makeExecute } from '../../src'
 import { assertError } from '@chainlink/ea-test-helpers/dist'
 import * as process from 'process'
 import { DEFAULT_PAGESIZE, PAGE_SIZE_MAX, PAGE_SIZE_MIN, makeConfig } from '../../src/config'
+import { generatePrivateKeyString } from '../util'
 
 describe('adapter', () => {
   it('has expected root exports', () => {
@@ -28,9 +29,10 @@ describe('config', () => {
     PAGE_SIZE: process.env.PAGE_SIZE,
     NODE_ENV: process.env.NODE_ENV,
   }
+
   beforeAll(() => {
     process.env.API_KEY = 'SOME_API_KEY'
-    process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
+    process.env.PRIVATE_KEY = generatePrivateKeyString()
   })
   afterAll(() => {
     //Restore the environment variables to what they were prior to testing
@@ -61,17 +63,32 @@ describe('config', () => {
     expect(config.pageSize).toEqual(DEFAULT_PAGESIZE)
   })
 
-  it('allowInsecure allowed when NODE_ENV is development', () => {
-    process.env.ALLOW_INSECURE = 'true'
-    process.env.NODE_ENV = 'development'
+  // Test that key supports
+  // Note that a rsa-512 privateKey is generated in the beforeAll block above
+  it('privateKey can be a full form string', () => {
     const config = makeConfig()
-    expect(config.allowInsecure).toEqual(true)
+    expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
   })
-  it("allowInsecure is blocked when NODE_ENV isn't development", () => {
-    process.env.ALLOW_INSECURE = 'true'
-    process.env.NODE_ENV = 'production'
+  it('privateKey can be a base64 encoded string', () => {
+    process.env.PRIVATE_KEY = new Buffer(generatePrivateKeyString()).toString('base64')
     const config = makeConfig()
-    expect(config.allowInsecure).toEqual(false)
+    expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
+  })
+
+  it('privateKey can be recognized with header variations', () => {
+    let key = generatePrivateKeyString()
+    key = key.replace(/-----(BEGIN|END) PRIVATE KEY-----/g, '-----$1 RSA PRIVATE KEY-----')
+    process.env.PRIVATE_KEY = key
+    makeConfig()
+    key = key.replace(/-----(BEGIN|END) PRIVATE KEY-----/g, '-----$1 ENCRYPTED PRIVATE KEY-----')
+    process.env.PRIVATE_KEY = key
+    makeConfig()
+  })
+
+  it('privateKey must be a valid key', () => {
+    jest.setTimeout(20000)
+    process.env.PRIVATE_KEY = 'Deliberately invalid key'
+    expect(() => makeConfig()).toThrow()
   })
 })
 
@@ -81,6 +98,7 @@ describe('accounts', () => {
 
   beforeAll(() => {
     execute = makeExecute()
+    process.env.PRIVATE_KEY = generatePrivateKeyString()
   })
 
   describe('validation errors', () => {
