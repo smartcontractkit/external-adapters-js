@@ -1,29 +1,41 @@
 import EthCrypto from 'eth-crypto'
+import type { Encrypted } from 'eth-crypto'
 
 export type Base64ByteString = string
 
 type HexString = string
 type Address = HexString
+type JSONstring = string
 
 export const decrypt = async (
   privateKey: string,
   encryptedBytesString: Base64ByteString,
   secretsOwner?: Address,
 ): Promise<Record<string, unknown>> => {
-  const encryptedHexString: HexString = Buffer.from(encryptedBytesString, 'base64').toString('hex')
+  let encryptedHexString: HexString
+  let encryptedObject: Encrypted
+  let decrypted: JSONstring
+  let decryptedPayload: { signature: string; message: string }
+  let signer: Address
 
-  const encryptedObject = EthCrypto.cipher.parse(encryptedHexString)
+  try {
+    encryptedHexString = Buffer.from(encryptedBytesString, 'base64').toString('hex')
 
-  const decrypted = await EthCrypto.decryptWithPrivateKey(privateKey, encryptedObject)
-  const decryptedPayload: { signature: string; message: string } = JSON.parse(decrypted)
+    encryptedObject = EthCrypto.cipher.parse(encryptedHexString)
 
-  const senderAddress = EthCrypto.recover(
-    decryptedPayload.signature,
-    EthCrypto.hash.keccak256(decryptedPayload.message),
-  )
+    decrypted = await EthCrypto.decryptWithPrivateKey(privateKey, encryptedObject)
+    decryptedPayload = JSON.parse(decrypted)
+
+    signer = EthCrypto.recover(
+      decryptedPayload.signature,
+      EthCrypto.hash.keccak256(decryptedPayload.message),
+    )
+  } catch {
+    throw Error('encrypted secrets are invalid')
+  }
 
   // check signature (NOTE: the ability off signature checking temporary & will be removed)
-  if (process.env['SIGNATURE_CHECK']?.toLowerCase() === 'true' && senderAddress !== secretsOwner)
+  if (process.env['SIGNATURE_CHECK']?.toLowerCase() === 'true' && signer !== secretsOwner)
     throw Error('encrypted secrets not signed by secrets owner')
 
   try {

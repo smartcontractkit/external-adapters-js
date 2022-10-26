@@ -149,6 +149,25 @@ describe('execute', () => {
       expect(response.body.data.errorString).toBe('encrypted secrets not signed by secrets owner')
     })
 
+    it('should return error if encrypted secrets are invalid', async () => {
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send({
+          id,
+          data: {
+            secrets:
+              'nQHNqjf8U9SHKrb4ggP7ICDIWxrrZQwn46qhmEDFZtJZP6+iQJP5bUGifBWUGUtiUOkhOpIFLsZtAgJkE0NlXiJVWs02/s+9PfXSZBjLkRyD2QN3X+TY4yTsXEVD3pWp6ybEp6Eik5FWCUScRkh/EXRd4VJbexzGM3StxTYBqaRgcKsdR/lkRg+Ku6kiIVxMZ5EaYJi2OcNFg1Vm2V71d3vv4gf+E7G0cCY13lJ9skS2I8OA5A99EIFgPzt2fY++z/vdhMhaF3gOe94UoK0zj/WNwoxnRf7/ocOE+5nUksiHyzT92YqQWGJ6RgvXT4U96Tq+eH9jbGGCfVTdEzZRPX6lYZs6nQKlkSrk2TIT',
+            secretsOwner: '0xFEad1807bd62618f33770FeB34D37D32FbB4479F',
+            source: 'return secrets.test',
+          },
+        })
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body.data.errorString).toBe('encrypted secrets are invalid')
+    })
+
     it('should return error if decrypted secrets are not a valid JSON string', async () => {
       const response = await (context.req as SuperTest<Test>)
         .post('/')

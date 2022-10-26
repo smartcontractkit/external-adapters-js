@@ -123,12 +123,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       )
     } catch (untypedError) {
       const error = untypedError as Error
-      if (
-        error.message === 'encrypted secrets not signed by secrets owner' ||
-        error.message === 'decrypted secrets are not a valid JSON string'
-      )
-        return buildErrorResponse(error.message) as unknown as AdapterResponse
-      throw error
+      return buildErrorResponse(error.message) as unknown as AdapterResponse
     }
   }
 
