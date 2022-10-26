@@ -2943,6 +2943,7 @@ __metadata:
     "@chainlink/por-address-list-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
+    "@chainlink/rocket-pool-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
@@ -4288,6 +4289,25 @@ __metadata:
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     bitcoinjs-lib: ^5.2.0
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/rocket-pool-adapter@workspace:*, @chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool"
+  dependencies:
+    "@chainlink/contracts": ^0.0.14
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-reference-data-reader": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    decimal.js: ^10.3.1
+    ethers: ^5.4.6
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
