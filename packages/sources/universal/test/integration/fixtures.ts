@@ -26,7 +26,7 @@ export const mockSandbox = (): nock.Scope =>
   })
     // basic request
     .post('/execute', (body) => {
-      if (body.source !== "return '0x01'") return false
+      if (body.source !== 'return 1') return false
       try {
         return true
       } catch {
@@ -56,7 +56,7 @@ export const mockSandbox = (): nock.Scope =>
             },
           ]) ||
         JSON.stringify(body.args) !== JSON.stringify(['bitcoin', 'usd', 'btc-bitcoin']) ||
-        body.source !== "return '0x02'"
+        body.source !== 'return 2'
       )
         return false
       try {
@@ -90,7 +90,7 @@ export const mockSandbox = (): nock.Scope =>
         return false
       }
     })
-    .reply(200, () => ({ success: '0x64' }), [
+    .reply(200, () => ({ success: '0x30783634' }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -150,11 +150,7 @@ export const mockSandbox = (): nock.Scope =>
       'Origin',
     ])
     .post('/execute', (body) => {
-      if (
-        body.source !==
-        "return '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'"
-      )
-        return false
+      if (body.source !== `return '${stringWith257Chars}'`) return false
       try {
         checkRequestAuthorization(body)
         return true
@@ -166,7 +162,7 @@ export const mockSandbox = (): nock.Scope =>
       200,
       () => ({
         success:
-          '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+          '0x74686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e20746869734973203874686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e2074686973497354656e20746869732049732039',
       }),
       [
         'Content-Type',
@@ -195,3 +191,6 @@ const checkRequestAuthorization = (input: ValidInputWithSignature) => {
   if (!timestampSignature.verifySignature(requestHash, input.signature))
     throw Error('The signature for the request is invalid')
 }
+
+export const stringWith257Chars =
+  'thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIs 8thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen thisIsTen this Is 9'

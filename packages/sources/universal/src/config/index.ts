@@ -24,12 +24,12 @@ export const makeConfig = (prefix?: string): Config => {
       'set the key used to decrypt user secrets using the SECRETS_DECRYPTION_PRIVATE_KEY config variable',
     )
   }
-  const maxHexStringLength = parseInt(process.env['MAX_HEXSTRING_LENGTH'] ?? '130')
+  const maxResponseBytes = parseInt(process.env['MAX_RESPONSE_BYTES'] ?? '256')
   const sandboxTimeout = parseInt(process.env['SANDBOX_TIMEOUT'] ?? '30000')
   config.adapterSpecificParams = {
     sandboxURL,
     sandboxAuthPrivateKey,
-    maxHexStringLength,
+    maxResponseBytes,
     sandboxTimeout,
     secretsDecryptionPrivateKey,
   }

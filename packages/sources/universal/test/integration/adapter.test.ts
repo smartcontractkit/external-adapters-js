@@ -2,7 +2,7 @@ import { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
-import { mockSandbox } from './fixtures'
+import { mockSandbox, stringWith257Chars } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
@@ -29,7 +29,7 @@ describe('execute', () => {
       mockSandbox()
       const response = await (context.req as SuperTest<Test>)
         .post('/')
-        .send({ id, data: { source: "return '0x01'" } })
+        .send({ id, data: { source: 'return 1' } })
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
@@ -52,7 +52,7 @@ describe('execute', () => {
                 url: 'https://api.coinpaprika.com/v1/tickers/btc-bitcoin',
               },
             ],
-            source: "return '0x02'",
+            source: 'return 2',
             args: ['bitcoin', 'usd', 'btc-bitcoin'],
           },
         })
@@ -79,7 +79,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body.result).toBe('0x64')
+      expect(response.body.result).toBe('0x30783634')
     })
   })
 
@@ -117,17 +117,14 @@ describe('execute', () => {
         .send({
           id,
           data: {
-            source:
-              "return '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'",
+            source: `return '${stringWith257Chars}'`,
           },
         })
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body.data.errorString).toBe(
-        'returned hex string is longer than 130 characters',
-      )
+      expect(response.body.data.errorString).toBe('returned value is larger than 256 bytes')
     })
 
     it('should return error if secrets signature is invalid', async () => {
