@@ -41,13 +41,13 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     description:
       'The time interval to use in the query. NOTE: Changing this will likely require changing `millisecondsAgo` accordingly',
-    default: '1m',
+    default: '2m',
   },
   millisecondsAgo: {
     required: false,
     description:
       'Number of milliseconds from the current time that will determine start_time to use in the query',
-    default: 1800000,
+    default: 86400000,// 24 hours
   },
   sort: {
     required: false,
