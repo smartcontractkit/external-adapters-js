@@ -1,133 +1,21 @@
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
-  makeLogger,
-  ProviderResult,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
-import { cryptoInputParams } from '../crypto-utils'
-import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framework/config'
+  ProviderCryptoQuoteData,
+  ProviderCryptoResponseBody,
+  CryptoEndpointTypes,
+  CryptoEndpointParams,
+  cryptoEndpointInputParams,
+  endpoints,
+} from '../crypto-utils'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { DEFAULT_API_ENDPOINT, defaultEndpoint } from '../config'
-import { ProviderRequestBody } from '@chainlink/external-adapter-framework/examples/coingecko/src/crypto-utils'
+import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
+import { wsTransport } from './crypto-ws'
 
 const logger = makeLogger('CryptoCompare Crypto')
-
-const cryptoEndpointInputParams = {
-  ...cryptoInputParams,
-  endpoint: {
-    default: defaultEndpoint,
-    type: 'string',
-  },
-} as const
-
-export type CryptoEndpointParams = PriceEndpointParams & {
-  endpoint?: string
-}
-
-export interface ProviderCryptoQuoteData {
-  TYPE: string
-  MARKET: string
-  FROMSYMBOL: string
-  TOSYMBOL: string
-  FLAGS: string
-  PRICE: number
-  LASTUPDATE: number
-  MEDIAN: number
-  LASTVOLUME: number
-  LASTVOLUMETO: number
-  LASTTRADEID: string
-  VOLUMEDAY: number
-  VOLUMEDAYTO: number
-  VOLUME24HOUR: number
-  VOLUME24HOURTO: number
-  OPENDAY: number
-  HIGHDAY: number
-  LOWDAY: number
-  OPEN24HOUR: number
-  HIGH24HOUR: number
-  LOW24HOUR: number
-  LASTMARKET: string
-  VOLUMEHOUR: number
-  VOLUMEHOURTO: number
-  OPENHOUR: number
-  HIGHHOUR: number
-  LOWHOUR: number
-  TOPTIERVOLUME24HOUR: number
-  TOPTIERVOLUME24HOURTO: number
-  CHANGE24HOUR: number
-  CHANGEPCT24HOUR: number
-  CHANGEDAY: number
-  CHANGEPCTDAY: number
-  CHANGEHOUR: number
-  CHANGEPCTHOUR: number
-  CONVERSIONTYPE: string
-  CONVERSIONSYMBOL: string
-  SUPPLY: number
-  MKTCAP: number
-  MKTCAPPENALTY: number
-  TOTALVOLUME24H: number
-  TOTALVOLUME24HTO: number
-  TOTALTOPTIERVOLUME24H: number
-  TOTALTOPTIERVOLUME24HTO: number
-  IMAGEURL: string
-}
-
-export interface ProviderCryptoResponseBody {
-  RAW: {
-    [fsym: string]: {
-      [tsym: string]: ProviderCryptoQuoteData
-    }
-  }
-  DISPLAY: {
-    [fsym: string]: {
-      [tsym: string]: {
-        FROMSYMBOL: string
-        TOSYMBOL: string
-        MARKET: string
-        PRICE: string
-        LASTUPDATE: string
-        LASTVOLUME: string
-        LASTVOLUMETO: string
-        LASTTRADEID: string
-        VOLUMEDAY: string
-        VOLUMEDAYTO: string
-        VOLUME24HOUR: string
-        VOLUME24HOURTO: string
-        OPENDAY: string
-        HIGHDAY: string
-        LOWDAY: string
-        OPEN24HOUR: string
-        HIGH24HOUR: string
-        LOW24HOUR: string
-        LASTMARKET: string
-        VOLUMEHOUR: string
-        VOLUMEHOURTO: string
-        OPENHOUR: string
-        HIGHHOUR: string
-        LOWHOUR: string
-        TOPTIERVOLUME24HOUR: string
-        TOPTIERVOLUME24HOURTO: string
-        CHANGE24HOUR: string
-        CHANGEPCT24HOUR: string
-        CHANGEDAY: string
-        CHANGEPCTDAY: string
-        CHANGEHOUR: string
-        CHANGEPCTHOUR: string
-        CONVERSIONTYPE: string
-        CONVERSIONSYMBOL: string
-        SUPPLY: string
-        MKTCAP: string
-        MKTCAPPENALTY: string
-        TOTALVOLUME24H: string
-        TOTALVOLUME24HTO: string
-        TOTALTOPTIERVOLUME24H: string
-        TOTALTOPTIERVOLUME24HTO: string
-        IMAGEURL: string
-      }
-    }
-  }
-}
 
 export const buildBatchedRequestBody = (
   params: PriceEndpointParams[],
@@ -149,10 +37,7 @@ export const buildBatchedRequestBody = (
 
 interface ResultEntry {
   value: number
-  params: {
-    quote: string
-    base: string
-  }
+  params: CryptoEndpointParams
 }
 
 type KeyOfType<T, V> = keyof {
@@ -197,24 +82,12 @@ export const constructEntry = (
   }
 }
 
-type CryptoBatchEndpointTypes = {
-  Request: {
-    Params: CryptoEndpointParams
-  }
-  Response: SingleNumberResultResponse
-  CustomSettings: SettingsMap
-  Provider: {
-    RequestBody: ProviderRequestBody
-    ResponseBody: ProviderCryptoResponseBody
-  }
-}
-
-const batchEndpointTransport = new BatchWarmingTransport<CryptoBatchEndpointTypes>({
+const batchEndpointTransport = new BatchWarmingTransport<CryptoEndpointTypes>({
   prepareRequest: (params, config) => {
     return buildBatchedRequestBody(params, config)
   },
   parseResponse: (params, res) => {
-    const entries = [] as ProviderResult<CryptoBatchEndpointTypes>[]
+    const entries = [] as ProviderResult<CryptoEndpointTypes>[]
     for (const requestPayload of params) {
       const entry = constructEntry(res, requestPayload)
       if (entry) {
@@ -225,9 +98,22 @@ const batchEndpointTransport = new BatchWarmingTransport<CryptoBatchEndpointType
   },
 })
 
-export const endpoint = new PriceEndpoint({
-  name: 'crypto',
-  aliases: ['price', 'volume', 'marketcap'],
-  transport: batchEndpointTransport,
+export const routingTransport = new RoutingTransport<CryptoEndpointTypes>(
+  {
+    HTTP: batchEndpointTransport,
+    WS: wsTransport,
+  },
+  (req) => {
+    if (req.requestContext.data.endpoint === 'crypto-ws') {
+      return 'WS'
+    }
+    return 'HTTP'
+  },
+)
+
+export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
+  name: defaultEndpoint,
+  aliases: endpoints,
+  transport: routingTransport,
   inputParameters: cryptoEndpointInputParams,
 })
