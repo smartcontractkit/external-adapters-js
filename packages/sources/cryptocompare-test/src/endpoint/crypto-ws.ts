@@ -77,6 +77,7 @@ export const transport = new WebSocketTransport<CryptoWsEndpointTypes>({
         ]
       }
       if (message.MESSAGE === 'INVALID_SUB') {
+        // TODO: Add error response here once supported by EA framework
         logger.error(message, 'asset not supported by data provider')
         return
       }
