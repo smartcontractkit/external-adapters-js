@@ -30,7 +30,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
-    "@chainlink/external-adapter-framework": "0.5.1",
+    "@chainlink/external-adapter-framework": "0.5.2",
     "axios": "0.27.2",
     "fastify": "^3.27.1",
     "tslib": "^2.3.1"
