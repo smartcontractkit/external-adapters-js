@@ -10,12 +10,18 @@ export const makeConfig = (prefix?: string): Config => {
   config.defaultEndpoint = 'sandbox'
   const sandboxURL = process.env['SANDBOX_URL']
   const sandboxAuthPrivateKey = process.env['SANDBOX_PRIVATE_AUTH_KEY']
+  const secretsDecryptionPrivateKey = process.env['SECRETS_DECRYPTION_PRIVATE_KEY']
   if (!sandboxURL) {
     throw Error('set the URL of the FaaS sandbox using the SANDBOX_URL config variable')
   }
   if (!sandboxAuthPrivateKey) {
     throw Error(
       'set the URL of the FaaS sandbox authentication key using the SANDBOX_PRIVATE_AUTH_KEY config variable',
+    )
+  }
+  if (!secretsDecryptionPrivateKey) {
+    throw Error(
+      'set the key used to decrypt user secrets using the SECRETS_DECRYPTION_PRIVATE_KEY config variable',
     )
   }
   const maxHexStringLength = parseInt(process.env['MAX_HEXSTRING_LENGTH'] ?? '130')
@@ -25,6 +31,7 @@ export const makeConfig = (prefix?: string): Config => {
     sandboxAuthPrivateKey,
     maxHexStringLength,
     sandboxTimeout,
+    secretsDecryptionPrivateKey,
   }
   return config
 }
