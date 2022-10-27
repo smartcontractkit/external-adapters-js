@@ -75,6 +75,9 @@
       "path": "./composites/reference-transform"
     },
     {
+      "path": "./composites/rocket-pool"
+    },
+    {
       "path": "./composites/savax-price"
     },
     {

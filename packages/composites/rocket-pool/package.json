@@ -1,13 +1,17 @@
 {
-  "name": "@chainlink/coingecko-test-adapter",
-  "version": "1.2.0",
-  "description": "Chainlink coingecko-test adapter.",
+  "name": "@chainlink/rocket-pool-adapter",
+  "version": "0.0.1",
+  "description": "Chainlink external adapter for Rocket Pool price feeds.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "coingecko-test"
+    "rocket-pool",
+    "RETH",
+    "rETH",
+    "rocket",
+    "pool"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,15 +29,17 @@
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
-    "start": "yarn server:dist",
-    "dev": "NODE_ENV=develop tsnd --respawn --transpile-only --project tsconfig.json './src/index.ts'",
-    "test": "jest"
+    "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.5.2",
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/ea-reference-data-reader": "workspace:*",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
+    "@chainlink/contracts": "^0.0.14",
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
