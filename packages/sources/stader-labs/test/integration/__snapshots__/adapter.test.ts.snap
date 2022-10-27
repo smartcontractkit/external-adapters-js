@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute BNBx endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 28917028197,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 28917028197,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute MaticX endpoint should return success 1`] = `
 Object {
   "data": Object {
