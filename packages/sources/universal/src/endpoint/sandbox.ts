@@ -100,7 +100,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const buildErrorResponse = buildErrorResponseFactory(
     jobRunID,
-    config.adapterSpecificParams?.maxHexStringLength as number,
+    config.adapterSpecificParams?.maxResponseBytes as number,
   )
 
   if (validator.validated.data.codeLocation && validator.validated.data.codeLocation !== 0)
@@ -155,7 +155,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const adapterResponse = buildAdapterResponse(
     jobRunID,
-    config.adapterSpecificParams?.maxHexStringLength as number,
+    config.adapterSpecificParams?.maxResponseBytes as number,
     buildErrorResponse,
     sandboxResponse,
   ) as unknown as AdapterResponse

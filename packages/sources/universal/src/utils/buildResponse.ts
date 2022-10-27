@@ -21,7 +21,7 @@ type hexstring = string
 
 export const buildAdapterResponse = (
   jobRunID: string,
-  maxHexStringLength: number,
+  maxResponseBytes: number,
   buildErrorResponse: (errorString: string) => UniversalAdapterResponse,
   sandboxResponse: AxiosResponse<SandboxResponse>,
 ): UniversalAdapterResponse => {
@@ -35,9 +35,10 @@ export const buildAdapterResponse = (
   }
 
   if (isHexString(sandboxResponse.data.success)) {
-    if (sandboxResponse.data.success.length > maxHexStringLength) {
+    // each hex char encodes 1/2 of a byte (excluding preceeding '0x')
+    if (sandboxResponse.data.success.length - 2 > maxResponseBytes * 2) {
       const adapterResponse = buildErrorResponse(
-        `returned hex string is longer than ${maxHexStringLength} characters`,
+        `returned value is larger than ${maxResponseBytes} bytes`,
       )
       adapterResponse.providerStatusCode = sandboxResponse.status
       Logger.error(adapterResponse)
@@ -69,7 +70,7 @@ const isHexString = (result?: unknown): result is string => {
   return hexstringRegex.test(result.slice(2))
 }
 
-export const buildErrorResponseFactory = (jobRunID: string, maxHexStringLength: number) => {
+export const buildErrorResponseFactory = (jobRunID: string, maxResponseBytes: number) => {
   return (errorString: string): UniversalAdapterResponse => {
     const adapterResponse = {
       jobRunID,
@@ -81,17 +82,14 @@ export const buildErrorResponseFactory = (jobRunID: string, maxHexStringLength: 
     } as UniversalAdapterResponse
     adapterResponse.errorString = errorString
     adapterResponse.data.errorString = adapterResponse.errorString
-    adapterResponse.error = buildErrorHexString(adapterResponse.errorString, maxHexStringLength)
+    adapterResponse.error = buildErrorHexString(adapterResponse.errorString, maxResponseBytes)
     adapterResponse.data.error = adapterResponse.error
     return adapterResponse
   }
 }
 
-export const buildErrorHexString = (
-  errorString: string,
-  maxHexStringResponseLength: number,
-): hexstring => {
+export const buildErrorHexString = (errorString: string, maxResponseBytes: number): hexstring => {
   const buf = Buffer.from(errorString)
-  const shortBuf = buf.subarray(0, maxHexStringResponseLength - 2)
+  const shortBuf = buf.subarray(0, maxResponseBytes - 2)
   return '0x' + shortBuf.toString('hex')
 }
