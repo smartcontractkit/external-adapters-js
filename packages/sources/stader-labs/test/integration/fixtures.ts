@@ -134,3 +134,72 @@ export const mockSFTMXSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+
+export const mockBNBxSuccess = (): nock.Scope =>
+  nock('https://test-rpc-bsc-url:443', { encodedQueryParams: true })
+    .persist()
+    .post('/', { method: 'eth_chainId', params: [], id: 42, jsonrpc: '2.0' })
+    .reply(200, { jsonrpc: '2.0', id: 42, result: '0x38' }, [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .post('/', {
+      method: 'eth_call',
+      params: [
+        {
+          to: '0x7276241a669489e4bbb76f63d2a43bfe63080f2f',
+          data: '0xca0506e80000000000000000000000000000000000000000000000000de0b6b3a7640000',
+        },
+        'latest',
+      ],
+      id: 44,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      {
+        jsonrpc: '2.0',
+        id: 44,
+        result: '0x0000000000000000000000000000000000000000000000000e78bb1b7261b5ff',
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .post('/', {
+      method: 'eth_call',
+      params: [{ to: '0x0567f2323251f0aab15c8dfb1967e4e8a7d42aee', data: '0x50d25bcd' }, 'latest'],
+      id: 43,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      {
+        jsonrpc: '2.0',
+        id: 43,
+        result: '0x0000000000000000000000000000000000000000000000000000000674dd5cf1',
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )

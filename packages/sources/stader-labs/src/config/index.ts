@@ -12,10 +12,18 @@ export const ENV_FANTOM_RPC_URL = 'FANTOM_RPC_URL'
 export const ENV_FANTOM_CHAIN_ID = 'FANTOM_CHAIN_ID'
 export const DEFAULT_FANTOM_CHAIN_ID = '250'
 
+export const ENV_BSC_RPC_URL = 'BSC_RPC_URL'
+export const ENV_BSC_CHAIN_ID = 'BSC_CHAIN_ID'
+export const DEFAULT_BSC_CHAIN_ID = '56'
+
 export const MATIC_AGGREGATOR_PROXY = '0xAB594600376Ec9fD91F8e885dADF0CE036862dE0'
 export const MATICX_RATE_PROVIDER = '0xeE652bbF72689AA59F0B8F981c9c90e2A8Af8d8f'
 export const FANTOM_AGGREGATOR_PROXY = '0xf4766552d15ae4d256ad41b6cf2933482b0680dc'
 export const SFTMX_RATE_PROVIDER = '0xb458bfc855ab504a8a327720fcef98886065529b'
+export const BSC_AGGREGATOR_PROXY = '0x0567f2323251f0aab15c8dfb1967e4e8a7d42aee'
+export const BNBX_RATE_PROVIDER = '0x7276241a669489E4BBB76f63d2A43Bfe63080F2F'
+
+export const BNBX_RATE_MULTIPLIER = '1000000000000000000'
 
 export const makeConfig = (prefix?: string): Config => {
   const config = Requester.getDefaultConfig(prefix)
@@ -29,6 +37,10 @@ export const makeConfig = (prefix?: string): Config => {
     fantomChainId:
       parseInt(util.getEnv(ENV_FANTOM_CHAIN_ID) || DEFAULT_FANTOM_CHAIN_ID) ||
       (util.getEnv(ENV_FANTOM_CHAIN_ID) as string),
+    bscRpcUrl: util.getEnv(ENV_BSC_RPC_URL) || '',
+    bscChainId:
+      parseInt(util.getEnv(ENV_BSC_CHAIN_ID) || DEFAULT_BSC_CHAIN_ID) ||
+      (util.getEnv(ENV_BSC_CHAIN_ID) as string),
   }
   return config
 }
