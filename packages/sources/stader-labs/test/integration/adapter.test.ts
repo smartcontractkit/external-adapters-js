@@ -1,7 +1,7 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import process from 'process'
 import { server as startServer } from '../../src'
-import { mockMaticXSuccess, mockSFTMXSuccess } from './fixtures'
+import { mockBNBxSuccess, mockMaticXSuccess, mockSFTMXSuccess } from './fixtures'
 import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
@@ -15,6 +15,7 @@ describe('execute', () => {
   const envVariables = {
     POLYGON_RPC_URL: process.env.POLYGON_RPC_URL || 'https://test-rpc-polygon-url/',
     FANTOM_RPC_URL: process.env.FANTOM_RPC_URL || 'https://test-rpc-fantom-url/',
+    BSC_RPC_URL: process.env.BSC_RPC_URL || 'https://test-rpc-bsc-url/',
   }
 
   setupExternalAdapterTest(envVariables, context)
@@ -57,6 +58,29 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('BNBx endpoint', () => {
+    const data: AdapterRequest = {
+      id: '1',
+      data: {
+        endpoint: 'bnbx',
+      },
+    }
+
+    it('should return success', async () => {
+      mockBNBxSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
       expect(response.body).toMatchSnapshot()
     })
   })
