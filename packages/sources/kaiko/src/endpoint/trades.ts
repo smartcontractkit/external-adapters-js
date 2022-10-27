@@ -47,7 +47,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
     required: false,
     description:
       'Number of milliseconds from the current time that will determine start_time to use in the query',
-    default: 86400000,// 24 hours
+    default: 86_400_000, // 24 hours
   },
   sort: {
     required: false,
