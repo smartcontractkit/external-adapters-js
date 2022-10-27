@@ -4,9 +4,9 @@ import { ethers } from 'ethers'
 import { BATCH_WRITER_ABI, EC_REGISTRY_ABI, EC_REGISTRY_MAP_ABI } from '../abis'
 
 export const NAME = 'GALAXIS'
-export const ENV_POLYGON_RPC_URL = 'POLYGON_RPC_URL'
-export const ENV_POLYGON_CHAIN_ID = 'POLYGON_CHAIN_ID'
-export const DEFAULT_CHAIN_ID = '137'
+export const ENV_ETHEREUM_RPC_URL = 'ETHEREUM_RPC_URL'
+export const ENV_ETHEREUM_CHAIN_ID = 'ETHEREUM_CHAIN_ID'
+export const DEFAULT_CHAIN_ID = '1'
 
 export const DEFAULT_ENDPOINT = 'nba'
 export const DEFAULT_EC_REGISTRY_ADDRESS = '0xD8193087E51f7c7D42e0947290acf3dc41Ba22C5'
@@ -26,10 +26,10 @@ export interface ExtendedConfig extends Config {
 
 export const makeConfig = (prefix?: string): ExtendedConfig => {
   const config = Requester.getDefaultConfig(prefix)
-  config.rpcUrl = util.getRequiredEnv(ENV_POLYGON_RPC_URL, prefix)
+  config.rpcUrl = util.getRequiredEnv(ENV_ETHEREUM_RPC_URL, prefix)
   config.chainId =
-    parseInt(util.getEnv(ENV_POLYGON_CHAIN_ID) || DEFAULT_CHAIN_ID) ||
-    util.getEnv(ENV_POLYGON_CHAIN_ID)
+    parseInt(util.getEnv(ENV_ETHEREUM_CHAIN_ID) || DEFAULT_CHAIN_ID) ||
+    util.getEnv(ENV_ETHEREUM_CHAIN_ID)
   config.api.baseURL = util.getEnv('API_ENDPOINT', prefix) || DEFAULT_API_ENDPOINT
   config.defaultEndpoint = DEFAULT_ENDPOINT
   const provider = new ethers.providers.JsonRpcProvider(config.rpcUrl, config.chainId)
