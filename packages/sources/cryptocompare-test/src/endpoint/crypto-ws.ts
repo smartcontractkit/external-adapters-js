@@ -1,18 +1,19 @@
-import {
-  AdapterContext,
-  PriceEndpoint,
-  PriceEndpointParams,
-} from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import {
   WebSocketTransport,
   WebSocketRawData,
-  WebSocket,
 } from '@chainlink/external-adapter-framework/transports/websocket'
-import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
+import {
+  ProviderResult,
+  makeLogger,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { DEFAULT_WS_API_ENDPOINT } from '../config'
 import { cryptoInputParams } from '../crypto-utils'
+import { CryptoEndpointParams } from './crypto'
+import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
-interface Message {
+interface WSSuccessType {
   PRICE?: number // Cryptocompare does not provide the price in updates from all exchanges
   TYPE: string
   MARKET: string
@@ -26,20 +27,32 @@ interface Message {
   MESSAGE?: string
 }
 
-export interface WSErrorType {
+interface WSErrorType {
   TYPE: string
   MESSAGE: string
   PARAMETER: string
   INFO: string
 }
 
+export type WsMessage = WSSuccessType | WSErrorType
+
 const logger = makeLogger('CryptoCompareCryptoEndpoint')
 
-export const transport = new WebSocketTransport({
-  url: (context: AdapterContext) =>
-    `${DEFAULT_WS_API_ENDPOINT}?api_key=${context.adapterConfig.API_KEY}`,
+type CryptoWsEndpointTypes = {
+  Request: {
+    Params: CryptoEndpointParams
+  }
+  Response: SingleNumberResultResponse
+  CustomSettings: SettingsMap
+  Provider: {
+    WsMessage: WsMessage
+  }
+}
+
+export const transport = new WebSocketTransport<CryptoWsEndpointTypes>({
+  url: (context) => `${DEFAULT_WS_API_ENDPOINT}?api_key=${context.adapterConfig.API_KEY}`,
   handlers: {
-    open(connection: WebSocket) {
+    open(connection) {
       return new Promise((resolve, reject) => {
         // Set up listener
         connection.on('message', (data: WebSocketRawData) => {
@@ -53,11 +66,14 @@ export const transport = new WebSocketTransport({
         })
       })
     },
-    message(message: Message): ProviderResult<PriceEndpointParams>[] | undefined {
+    message(message): ProviderResult<CryptoWsEndpointTypes>[] | undefined {
       logger.trace(message, 'Got response from websocket')
       if (message.TYPE === '5' && 'PRICE' in message) {
         return [
-          { params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL }, value: message.PRICE },
+          {
+            params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL },
+            value: message.PRICE as number,
+          },
         ]
       }
       if (message.MESSAGE === 'INVALID_SUB') {
@@ -68,11 +84,11 @@ export const transport = new WebSocketTransport({
     },
   },
   builders: {
-    subscribeMessage: (params: PriceEndpointParams) => {
-      return { action: 'SubAdd', subs: [`5~CCCAGG~${`${params.base}~${params.quote}`}`] }
+    subscribeMessage: (params) => {
+      return { action: 'SubAdd', subs: [`5~CCCAGG~${params.base}~${params.quote}`] }
     },
-    unsubscribeMessage: (params: PriceEndpointParams) => {
-      return { action: 'SubRemove', subs: [`5~CCCAGG~${`${params.base}~${params.quote}`}`] }
+    unsubscribeMessage: (params) => {
+      return { action: 'SubRemove', subs: [`5~CCCAGG~${params.base}~${params.quote}`] }
     },
   },
 })

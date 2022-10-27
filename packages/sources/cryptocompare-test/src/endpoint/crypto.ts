@@ -1,10 +1,15 @@
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import {
+  makeLogger,
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { cryptoInputParams } from '../crypto-utils'
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { DEFAULT_API_ENDPOINT, defaultEndpoint } from '../config'
+import { ProviderRequestBody } from '@chainlink/external-adapter-framework/examples/coingecko/src/crypto-utils'
 
 const logger = makeLogger('CryptoCompare Crypto')
 
@@ -192,18 +197,24 @@ export const constructEntry = (
   }
 }
 
-const batchEndpointTransport = new BatchWarmingTransport({
-  prepareRequest: (
-    params: CryptoEndpointParams[],
-    config: AdapterConfig,
-  ): HttpRequestConfig<never> => {
+type CryptoBatchEndpointTypes = {
+  Request: {
+    Params: CryptoEndpointParams
+  }
+  Response: SingleNumberResultResponse
+  CustomSettings: SettingsMap
+  Provider: {
+    RequestBody: ProviderRequestBody
+    ResponseBody: ProviderCryptoResponseBody
+  }
+}
+
+const batchEndpointTransport = new BatchWarmingTransport<CryptoBatchEndpointTypes>({
+  prepareRequest: (params, config) => {
     return buildBatchedRequestBody(params, config)
   },
-  parseResponse: (
-    params: CryptoEndpointParams[],
-    res: HttpResponse<ProviderCryptoResponseBody>,
-  ): ProviderResult<CryptoEndpointParams>[] => {
-    const entries = [] as ProviderResult<CryptoEndpointParams>[]
+  parseResponse: (params, res) => {
+    const entries = [] as ProviderResult<CryptoBatchEndpointTypes>[]
     for (const requestPayload of params) {
       const entry = constructEntry(res, requestPayload)
       if (entry) {
