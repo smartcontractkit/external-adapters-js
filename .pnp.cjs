@@ -117,6 +117,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/reference-transform"\
       },\
       {\
+        "name": "@chainlink/rocket-pool-adapter",\
+        "reference": "workspace:packages/composites/rocket-pool"\
+      },\
+      {\
         "name": "@chainlink/savax-price-adapter",\
         "reference": "workspace:packages/composites/savax-price"\
       },\
@@ -928,6 +932,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
       ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],\
       ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
+      ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
       ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
       ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
       ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
@@ -4617,7 +4622,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko-test/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.5.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.5.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5280,6 +5285,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
             ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
+            ["@chainlink/rocket-pool-adapter", "workspace:packages/composites/rocket-pool"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
@@ -5408,7 +5414,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.5.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.5.2"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -5724,14 +5730,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0"]\
+            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.5.1", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.5.1-ecedc1f471-b002289fc5.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.5.2", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.5.2-89b5fa8068-4af5f395c4.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.5.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.5.2"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -5739,7 +5745,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0"]\
+            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6919,6 +6925,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["bitcoinjs-lib", "npm:5.2.0"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/rocket-pool-adapter", [\
+        ["workspace:packages/composites/rocket-pool", {\
+          "packageLocation": "./packages/composites/rocket-pool/",\
+          "packageDependencies": [\
+            ["@chainlink/rocket-pool-adapter", "workspace:packages/composites/rocket-pool"],\
+            ["@chainlink/contracts", "npm:0.0.14"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["decimal.js", "npm:10.4.1"],\
+            ["ethers", "npm:5.7.1"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -34771,6 +34798,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-e9c14653d7/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-78c8603bdf/0/cache/ws-npm-7.2.3-e2147dfc25-979c59a706.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -34797,23 +34841,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bufferutil", null],\
             ["safe-buffer", "npm:5.0.1"],\
             ["ultron", "npm:1.1.1"],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-4d2b44eebc/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:ecedc1f47156acfa5cd537ee58a6583a13ca784db4f465ad0827c5ef6a76ba32f4a7eb22857ac95781aed6d5e742022bb065adf7514b1a1698e26724410ae82c#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
             ["utf-8-validate", null]\
           ],\
           "packagePeers": [\

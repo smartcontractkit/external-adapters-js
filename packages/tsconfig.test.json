@@ -75,6 +75,9 @@
       "path": "./composites/reference-transform/tsconfig.test.json"
     },
     {
+      "path": "./composites/rocket-pool/tsconfig.test.json"
+    },
+    {
       "path": "./composites/savax-price/tsconfig.test.json"
     },
     {
