@@ -1,5 +1,15 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.5.23
+
+### Patch Changes
+
+- 315ae9384: CID for OHMv2
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.5.22
 
 ### Patch Changes
