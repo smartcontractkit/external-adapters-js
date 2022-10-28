@@ -1,6 +1,7 @@
 import { generateKeyPairSync } from 'crypto'
 
-export const generatePrivateKeyString = () => {
+type AllowedPkFormats = 'pkcs1' | 'pkcs8'
+export const generatePrivateKeyString = (privateKeyFormat: AllowedPkFormats = 'pkcs8') => {
   const s = generateKeyPairSync('rsa', {
     modulusLength: 2048, // options
     publicKeyEncoding: {
@@ -8,7 +9,7 @@ export const generatePrivateKeyString = () => {
       format: 'pem',
     },
     privateKeyEncoding: {
-      type: 'pkcs8',
+      type: privateKeyFormat,
       format: 'pem',
     },
   })

@@ -45,7 +45,6 @@ export const makeConfig = (prefix?: string): Config => {
   }
 
   let privateKey = util.getRequiredEnv('PRIVATE_KEY')
-
   // Some internal creds have 'BEGIN PRIVATE KEY', but all production creds use 'BEGIN RSA PRIVATE KEY'. This captures both.
   if (!privateKey.match(/-----?BEGIN ([A-Z ])*PRIVATE KEY-----?/)) {
     Logger.info(
@@ -53,17 +52,13 @@ export const makeConfig = (prefix?: string): Config => {
     )
     privateKey = Buffer.from(privateKey, 'base64').toString('utf8')
   }
-
   // Attempt to sign a message using any of the supported SigningAlgorithm
   let successfulSigning = false
   const algorithms: SigningAlgorithm[] = ['rsa-sha512', 'rsa-sha384', 'rsa-sha256']
-  Logger.debug(
-    'Attempting to sign a test message with any of the following SigningAlgorithms: ',
-    algorithms,
-  )
 
   for (const algo of algorithms) {
     try {
+      Logger.debug('Attempting to sign a message with the following algorithm: ', algo)
       crypto.sign(algo, Buffer.from('test'), privateKey)
       successfulSigning = true
       Logger.debug(`Successfully signed a test message with SigningAlgorithm ${algo}`)
@@ -72,8 +67,9 @@ export const makeConfig = (prefix?: string): Config => {
       Logger.debug(`Failed to sign with algorithm ${algo}`)
     }
   }
+
   if (!successfulSigning) {
-    throw new Error(`Could not sign a message using any of the following algorithms: ${algorithms}
+    throw new Error(`Could not sign a message with the provided PRIVATE_KEY using any of the following algorithms: ${algorithms}
       The PRIVATE_KEY config item must be either a string containing the full private key (including newlines
       and the BEGIN/END PRIVATE KEY lines), or a base64 encoded string that can be decoded into the full private key`)
   }

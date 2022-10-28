@@ -1,10 +1,10 @@
 import * as adapter from '../../src'
+import { makeExecute } from '../../src'
 import { AdapterError, AdapterRequest, Requester } from '@chainlink/ea-bootstrap/dist'
 import { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
-import { makeExecute } from '../../src'
 import { assertError } from '@chainlink/ea-test-helpers/dist'
 import * as process from 'process'
-import { DEFAULT_PAGESIZE, PAGE_SIZE_MAX, PAGE_SIZE_MIN, makeConfig } from '../../src/config'
+import { DEFAULT_PAGESIZE, makeConfig, PAGE_SIZE_MAX, PAGE_SIZE_MIN } from '../../src/config'
 import { generatePrivateKeyString } from '../util'
 
 describe('adapter', () => {
@@ -70,17 +70,15 @@ describe('config', () => {
     expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
   })
   it('privateKey can be a base64 encoded string', () => {
-    process.env.PRIVATE_KEY = new Buffer(generatePrivateKeyString()).toString('base64')
+    process.env.PRIVATE_KEY = Buffer.from(generatePrivateKeyString()).toString('base64')
     const config = makeConfig()
     expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
   })
 
-  it('privateKey can be recognized with header variations', () => {
-    let key = generatePrivateKeyString()
+  it('privateKey works with header variations (RSA header)', () => {
+    let key = generatePrivateKeyString('pkcs1') // pkcs8 is default, must be pkcs1 for the RSA PRIVATE KEY header/footer to match the body
     key = key.replace(/-----(BEGIN|END) PRIVATE KEY-----/g, '-----$1 RSA PRIVATE KEY-----')
-    process.env.PRIVATE_KEY = key
-    makeConfig()
-    key = key.replace(/-----(BEGIN|END) PRIVATE KEY-----/g, '-----$1 ENCRYPTED PRIVATE KEY-----')
+    expect(key).toContain('BEGIN RSA PRIVATE KEY')
     process.env.PRIVATE_KEY = key
     makeConfig()
   })
