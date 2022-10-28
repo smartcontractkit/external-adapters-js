@@ -6,13 +6,13 @@ Base URL https://olbsandbox.bankfrick.li/webapi/v2
 
 ## Environment Variables
 
-| Required? |      Name      |                                                      Description                                                      |  Type   | Options | Default |
-| :-------: | :------------: | :-------------------------------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: |
-|    ✅     |    API_KEY     |                  API key to use. Must be generated in the Bank Frick UI using the PRIVATE_KEY below.                  | string  |         |         |
-|    ✅     |    PASSWORD    |                                         Password for the Bank Frick account.                                          | string  |         |         |
-|    ✅     |  PRIVATE_KEY   |                      RSA key used to produce and verify signatures when authorizing the client.                       | string  |         |         |
-|           |   PAGE_SIZE    |                    The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500.                    | number  |         |  `500`  |
-|           | ALLOW_INSECURE | Allows skipping cert verification, useful when running against the sandbox. Only available when NODE_ENV=development. | boolean |         |         |
+| Required? |      Name      |                                                             Description                                                              |  Type   | Options | Default |
+| :-------: | :------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: |
+|    ✅     |    API_KEY     |                         API key to use. Must be generated in the Bank Frick UI using the PRIVATE_KEY below.                          | string  |         |         |
+|    ✅     |    PASSWORD    |                                                 Password for the Bank Frick account.                                                 | string  |         |         |
+|    ✅     |  PRIVATE_KEY   | RSA key used to produce and verify signatures when authorizing the client. Can be a raw multiline string or a base64 encoded string. | string  |         |         |
+|           |   PAGE_SIZE    |                           The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500.                            | number  |         |  `500`  |
+|           | ALLOW_INSECURE |        Allows skipping cert verification, useful when running against the sandbox. Only available when NODE_ENV=development.         | boolean |         |         |
 
 ---
 

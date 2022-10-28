@@ -32,12 +32,17 @@ export const generateJWT = async (
         `PRIVATE_KEY: ${PRIVATE_KEY}`,
     )
   }
+  let privateKey = PRIVATE_KEY
+
+  if (!privateKey.match(/-----?BEGIN ([A-Z ])*PRIVATE KEY-----?/)) {
+    privateKey = Buffer.from(privateKey, 'base64').toString('utf8')
+  }
 
   const data: TokenRequestBody = {
     key: API_KEY,
   }
 
-  const signature = crypto.sign(signingAlgorithm, Buffer.from(JSON.stringify(data)), PRIVATE_KEY)
+  const signature = crypto.sign(signingAlgorithm, Buffer.from(JSON.stringify(data)), privateKey)
   const options: AxiosRequestConfig<TokenRequestBody> = {
     method: 'POST',
     baseURL: API_ENDPOINT,
