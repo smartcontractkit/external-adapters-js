@@ -6,7 +6,7 @@ import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framewor
 import { DEFAULT_WS_API_ENDPOINT } from '../config'
 import { CryptoEndpointTypes } from '../crypto-utils'
 
-const logger = makeLogger('CryptoCompareCryptoEndpoint')
+const logger = makeLogger('CryptoCompare WS')
 
 export const wsTransport = new WebSocketTransport<CryptoEndpointTypes>({
   url: (context) => `${DEFAULT_WS_API_ENDPOINT}?api_key=${context.adapterConfig.API_KEY}`,

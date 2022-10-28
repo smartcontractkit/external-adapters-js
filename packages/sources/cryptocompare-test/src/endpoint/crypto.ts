@@ -15,7 +15,7 @@ import { DEFAULT_API_ENDPOINT, defaultEndpoint } from '../config'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
 import { wsTransport } from './crypto-ws'
 
-const logger = makeLogger('CryptoCompare Crypto')
+const logger = makeLogger('CryptoCompare HTTP')
 
 export const buildBatchedRequestBody = (
   params: PriceEndpointParams[],
