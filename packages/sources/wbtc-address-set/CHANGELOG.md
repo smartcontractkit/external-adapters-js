@@ -1,5 +1,15 @@
 # @chainlink/wbtc-address-set-adapter
 
+## 1.4.28
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/proof-of-reserves-adapter@1.14.8
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.4.27
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 # Bank Frick Adapter
 
-![0.0.12](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bank-frick/package.json)
+![0.0.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bank-frick/package.json)
 
 Adapter for fetching account information from Bank Frick
 
