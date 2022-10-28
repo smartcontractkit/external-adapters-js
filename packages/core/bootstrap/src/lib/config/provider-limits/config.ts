@@ -1,7 +1,13 @@
-import { getRateLimit, getHTTPLimit, Limits } from '../../config/provider-limits'
+import {
+  getRateLimit,
+  getHTTPLimit,
+  RateLimitConfig,
+  getLastTierLimitValue,
+} from '../../config/provider-limits'
 import { getEnv, parseBool, logError } from '../../util'
 import { AdapterError } from '../../modules/error'
 import type { AdapterContext } from '../../../types'
+import { logger } from '../../modules/logger'
 
 export interface Config {
   /**
@@ -19,7 +25,7 @@ export interface Config {
 }
 
 export function get(
-  rateLimitConfig: { limits: Limits; name: string } = { limits: { http: {}, ws: {} }, name: '' },
+  rateLimitConfig: RateLimitConfig = { limits: { http: {}, ws: {} }, name: '' },
   context: AdapterContext,
 ): Config {
   const enabled =
@@ -30,8 +36,30 @@ export function get(
   const perMinuteRateLimit = getEnv('RATE_LIMIT_CAPACITY_MINUTE')
   const shouldIgnorePerSecLimit = perSecRateLimit && parseInt(perSecRateLimit) <= 0
   const shouldIgnorePerMinLimit = perMinuteRateLimit && parseInt(perMinuteRateLimit) <= 0
-  if (perSecRateLimit) capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
-  if (perMinuteRateLimit) capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
+  let highestTierLimit = 0
+
+  if (perSecRateLimit) {
+    capacity = shouldIgnorePerSecLimit ? 0 : parseInt(perSecRateLimit)
+    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'http', 'rateLimit1s')
+  }
+
+  if (perMinuteRateLimit) {
+    capacity = shouldIgnorePerMinLimit ? 0 : parseInt(perMinuteRateLimit)
+    highestTierLimit = getLastTierLimitValue(rateLimitConfig.limits, 'http', 'rateLimit1m')
+  }
+
+  if (enabled && capacity > highestTierLimit) {
+    logger.warn(
+      `The configured ${
+        perMinuteRateLimit
+          ? 'RATE_LIMIT_CAPACITY_MINUTE'
+          : perSecRateLimit
+          ? 'RATE_LIMIT_CAPACITY_SECOND'
+          : 'RATE_LIMIT_CAPACITY'
+      } value ${capacity} is higher than the highest tier value from limits.json ${highestTierLimit}`,
+    )
+  }
+
   if (!capacity && enabled) {
     const tier = getEnv('RATE_LIMIT_API_TIER') || ''
     try {

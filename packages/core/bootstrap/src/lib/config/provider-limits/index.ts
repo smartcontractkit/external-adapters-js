@@ -7,7 +7,7 @@ export const BURST_UNDEFINED_QUOTA_MULTIPLE = 2
 export const DEFAULT_WS_CONNECTIONS = 2
 export const DEFAULT_WS_SUBSCRIPTIONS = 10
 
-type RateLimitTimeFrame = 'rateLimit1s' | 'rateLimit1m' | 'rateLimit1h'
+export type RateLimitTimeFrame = 'rateLimit1s' | 'rateLimit1m' | 'rateLimit1h'
 
 type HTTPTier = {
   rateLimit1s?: number
@@ -28,6 +28,11 @@ export interface Limits {
   ws: {
     [tierName: string]: WSTier
   }
+}
+
+export interface RateLimitConfig {
+  limits: Limits
+  name: string
 }
 
 interface ProviderRateLimit {
@@ -101,6 +106,25 @@ const parseLimits = (limits: Limits): Limits => {
   const http = lowercase(limits.http)
   const ws = lowercase(limits?.ws)
   return { http, ws }
+}
+
+export function getLastTierLimitValue(
+  limits: Limits,
+  protocol: 'ws' | 'http',
+  rateLimit: string,
+): number {
+  if (Object.keys(limits).length == 0) return 0
+  const protocolConfig = limits[protocol]
+  const tiers = Object.keys(limits[protocol])
+  let highestValue = 0
+  for (const tierIndex in tiers) {
+    const tierName = tiers[tierIndex]
+    const rateLimitValue = protocolConfig[tierName][rateLimit as keyof HTTPTier & keyof WSTier]
+    if (rateLimitValue > highestValue) {
+      highestValue = rateLimitValue
+    }
+  }
+  return highestValue
 }
 
 const calculateWSLimits = (providerLimit: WSTier): WSTier => {
