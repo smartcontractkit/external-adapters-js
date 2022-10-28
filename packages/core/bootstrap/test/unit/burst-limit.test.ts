@@ -113,4 +113,46 @@ describe('burst limit', () => {
     // This next one will fail on the burst limiter.
     expect(middleware(request, {})).rejects.toThrow()
   })
+
+  it('show logs if custom rate limit is setted', async () => {
+    process.env.RATE_LIMIT_CAPACITY = '10'
+    const burstCapacity = parseInt(process.env.RATE_LIMIT_CAPACITY)
+    const mockResponse = {
+      data: { result: 1, statusCode: 200 },
+      jobRunID: '1',
+      result: 1,
+      statusCode: 200,
+    }
+    const execute: Execute = async () => {
+      return mockResponse
+    }
+
+    const request = {
+      id: '1',
+      data: {
+        endpoint: 'testDownstreamEndpoint',
+        source: 'SOMESOURCEADAPTER',
+      },
+    }
+
+    const context: AdapterContext = {
+      limits: {
+        enabled: true,
+        burstCapacity1s: 0,
+        burstCapacity1m: burstCapacity,
+        totalCapacity: 0,
+      },
+    }
+
+    const store = createStore(burstLimitReducer.rootReducer, {})
+    const middleware = await withBurstLimit(store)(execute, context)
+
+    // Perform initial requests; these should pass
+    for (let i = 0; i < burstCapacity; i++) {
+      await middleware(request, {})
+      clock.tickAsync(2000)
+    }
+    // This next one will fail on the burst limiter.
+    expect(middleware(request, {})).rejects.toThrow()
+  })
 })
