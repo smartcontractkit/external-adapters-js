@@ -21,6 +21,7 @@ export const description =
 
 export type TInputParameters = {
   source: string
+  numAllowedQueries?: number
   queries?: HttpQuery[]
   args?: string[]
   secrets?: Base64ByteString
@@ -48,6 +49,9 @@ export const inputParameters: InputParameters<TInputParameters> = {
   source: {
     description: 'JavaScript source code to be executed',
     required: true,
+  },
+  numAllowedQueries: {
+    description: 'Number of HTTP queries that can be performed in a request',
   },
   queries: {
     description: 'HTTP queries to be performed and passed to the source code',
@@ -80,6 +84,7 @@ export type SandboxResponse = {
   error?: {
     name: string
     message: string
+    details?: string
   }
 }
 
@@ -93,6 +98,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const jobRunID = validator.validated.id
 
   const queries = validator.validated.data.queries
+  const numAllowedQueries = validator.validated.data.numAllowedQueries
   const source = validator.validated.data.source
   const secrets = validator.validated.data.secrets
   const secretsOwner = validator.validated.data.secretsOwner
@@ -127,7 +133,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     }
   }
 
-  const sandboxRequestData = { queries, source, secrets: decryptedSecrets, args }
+  const sandboxRequestData = { queries, numAllowedQueries, source, secrets: decryptedSecrets, args }
 
   const url = config.adapterSpecificParams?.sandboxURL as string
   const privateKey = config.adapterSpecificParams?.sandboxAuthPrivateKey as string
