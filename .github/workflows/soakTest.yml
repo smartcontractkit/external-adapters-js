@@ -46,21 +46,7 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.QA_KUBECONFIG }}
 
-      - name: Install SOPS
-        run: |
-          TEMP_DEB="temp-sops-v3.7.1.linux" &&
-          wget -O "$TEMP_DEB" https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux &&
-          sudo dpkg -i "$TEMP_DEB" &&
-          rm -f "$TEMP_DEB"
-
       - uses: ./.github/actions/setup # Yarn install > setup
-
-      - name: Find current PR
-        uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-        with:
-          # Can be "open", "closed", or "all".  Defaults to "open".
-          state: all
 
       - name: Install SOPS
         run: |
