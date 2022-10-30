@@ -1,5 +1,18 @@
 # @chainlink/galaxis-adapter
 
+## 4.0.0
+
+### Major Changes
+
+- d73ce96a4: POLYGON_RPC_URL and POLYGON_CHAIN_ID environment variables are changed to ETHEREUM_RPC_URL and ETHEREUM_CHAIN_ID. Default for ETHEREUM_CHAIN_ID is set to '1'.
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 3.0.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- 4972b1fd3: Bump framework version
+
 ## 1.2.0
 
 ### Minor Changes
