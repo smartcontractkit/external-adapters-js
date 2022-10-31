@@ -720,6 +720,8 @@ export const logEnvVarWarnings = (): void => {
     logger.warn(`The adapter is running with DEBUG mode on.`)
   }
   if (process.env['NODE_ENV'] === 'development') {
-    logger.warn(`The adapter is running with NODE_ENV set to development.`)
+    logger.warn(
+      `The adapter is running with NODE_ENV set to development. YOU SHOULD NOT BE RUNNING THIS IN PRODUCTION!`,
+    )
   }
 }
