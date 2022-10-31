@@ -95,6 +95,8 @@ const presetIds: { [symbol: string]: number } = {
   STETH: 8085,
   '1INCH': 8104,
   WOM: 5328,
+  OHMV2: 9067,
+  OHM: 9067,
 }
 
 export const description = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
