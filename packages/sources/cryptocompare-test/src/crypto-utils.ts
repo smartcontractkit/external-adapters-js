@@ -168,7 +168,7 @@ export type CryptoEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: SettingsMap
   Provider: {
-    RequestBody: ProviderCryptoResponseBody
+    RequestBody: never
     ResponseBody: ProviderCryptoResponseBody
     WsMessage: WsMessage
   }
