@@ -1,14 +1,14 @@
 import { expose } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { cryptoEndpoint } from './endpoint'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { defaultEndpoint } from './config'
+import { customSettings, defaultEndpoint } from './config'
 import overrides from './config/overrides.json'
 
-export const adapter = new PriceAdapter<SettingsMap>({
+export const adapter = new PriceAdapter({
   name: 'CRYPTOCOMPARE',
   defaultEndpoint,
   endpoints: [cryptoEndpoint],
+  customSettings,
   rateLimiting: {
     tiers: {
       free: {

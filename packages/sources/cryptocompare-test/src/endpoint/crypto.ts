@@ -11,7 +11,7 @@ import {
   endpoints,
 } from '../crypto-utils'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { DEFAULT_API_ENDPOINT, defaultEndpoint } from '../config'
+import { customSettings, DEFAULT_API_ENDPOINT, defaultEndpoint } from '../config'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
 import { wsTransport } from './crypto-ws'
 
@@ -19,14 +19,14 @@ const logger = makeLogger('CryptoCompare HTTP')
 
 export const buildBatchedRequestBody = (
   params: PriceEndpointParams[],
-  config: AdapterConfig,
+  config: AdapterConfig<typeof customSettings>,
 ): HttpRequestConfig<never> => {
   return {
-    baseURL: DEFAULT_API_ENDPOINT,
+    baseURL: config.API_ENDPOINT || DEFAULT_API_ENDPOINT,
     url: '/data/pricemultifull',
     method: 'GET',
     headers: {
-      authorization: `Apikey ${config.apiKey}`,
+      authorization: `Apikey ${config.API_KEY}`,
     },
     params: {
       fsyms: [...new Set(params.map((p) => p.base.toUpperCase()))].join(','),

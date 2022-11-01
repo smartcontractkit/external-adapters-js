@@ -1,6 +1,5 @@
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { defaultEndpoint } from './config'
+import { customSettings, defaultEndpoint } from './config'
 import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
 export const cryptoInputParams = {
@@ -166,7 +165,7 @@ export type CryptoEndpointTypes = {
     Params: CryptoEndpointParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: SettingsMap
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderCryptoResponseBody
