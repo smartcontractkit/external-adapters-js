@@ -134,26 +134,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.18.10":
-  version: 7.18.10
-  resolution: "@babel/core@npm:7.18.10"
+"@babel/core@npm:7.18.13":
+  version: 7.18.13
+  resolution: "@babel/core@npm:7.18.13"
   dependencies:
     "@ampproject/remapping": ^2.1.0
     "@babel/code-frame": ^7.18.6
-    "@babel/generator": ^7.18.10
+    "@babel/generator": ^7.18.13
     "@babel/helper-compilation-targets": ^7.18.9
     "@babel/helper-module-transforms": ^7.18.9
     "@babel/helpers": ^7.18.9
-    "@babel/parser": ^7.18.10
+    "@babel/parser": ^7.18.13
     "@babel/template": ^7.18.10
-    "@babel/traverse": ^7.18.10
-    "@babel/types": ^7.18.10
+    "@babel/traverse": ^7.18.13
+    "@babel/types": ^7.18.13
     convert-source-map: ^1.7.0
     debug: ^4.1.0
     gensync: ^1.0.0-beta.2
     json5: ^2.2.1
     semver: ^6.3.0
-  checksum: 3a3fcd878430a9e1cb165f755c89fff45acc4efe4dd3a2ba356e89af331cb1947886b9782d56902a49af19ba3c24f08cf638a632699b9c5a4d8305c57c6a150d
+  checksum: c7ee5b2c10bc5b0325e31fb5da4cb4bc03f9d5f5c00ec3481a018917bcc6b7b040de0690c606a424f57e5fc26d218d64e7718d0e5d7d8614d39c8cd898fab9b3
   languageName: node
   linkType: hard
 
@@ -180,7 +180,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.18.10, @babel/generator@npm:^7.19.3, @babel/generator@npm:^7.7.2":
+"@babel/generator@npm:^7.18.13, @babel/generator@npm:^7.19.6":
+  version: 7.19.6
+  resolution: "@babel/generator@npm:7.19.6"
+  dependencies:
+    "@babel/types": ^7.19.4
+    "@jridgewell/gen-mapping": ^0.3.2
+    jsesc: ^2.5.1
+  checksum: 734fcb1fbef182e7b8967459cb39b81edd2701dd13170c154b368d4e086842f72ef214798c5a37e67e0a695dfb34b13143277bedcd9795b3b1b83da8e1d236c6
+  languageName: node
+  linkType: hard
+
+"@babel/generator@npm:^7.19.3, @babel/generator@npm:^7.7.2":
   version: 7.19.3
   resolution: "@babel/generator@npm:7.19.3"
   dependencies:
@@ -415,6 +426,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-string-parser@npm:^7.19.4":
+  version: 7.19.4
+  resolution: "@babel/helper-string-parser@npm:7.19.4"
+  checksum: b2f8a3920b30dfac81ec282ac4ad9598ea170648f8254b10f475abe6d944808fb006aab325d3eb5a8ad3bea8dfa888cfa6ef471050dae5748497c110ec060943
+  languageName: node
+  linkType: hard
+
 "@babel/helper-validator-identifier@npm:^7.18.6, @babel/helper-validator-identifier@npm:^7.19.1":
   version: 7.19.1
   resolution: "@babel/helper-validator-identifier@npm:7.19.1"
@@ -469,6 +487,15 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: 854f1390328a8cea5d95ed2a8655a8976cdb41e72393845df0f86088dc777817a5e015a1a61739d312accccf1a22358fb70707a013d25596251cceba2c8985ee
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.18.13, @babel/parser@npm:^7.19.6":
+  version: 7.19.6
+  resolution: "@babel/parser@npm:7.19.6"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 9a3dca4ee3acd7e4fc3b58e1e1526a11fa334acbfe437f8ebf91dfaf48e943c147ef64b1733ba0a55af57d1eccafbf4e4a4afc46a15becd921971fe2ddf309bf
   languageName: node
   linkType: hard
 
@@ -1422,7 +1449,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.18.10, @babel/traverse@npm:^7.19.0, @babel/traverse@npm:^7.19.1, @babel/traverse@npm:^7.19.3, @babel/traverse@npm:^7.7.2":
+"@babel/traverse@npm:^7.18.13":
+  version: 7.19.6
+  resolution: "@babel/traverse@npm:7.19.6"
+  dependencies:
+    "@babel/code-frame": ^7.18.6
+    "@babel/generator": ^7.19.6
+    "@babel/helper-environment-visitor": ^7.18.9
+    "@babel/helper-function-name": ^7.19.0
+    "@babel/helper-hoist-variables": ^7.18.6
+    "@babel/helper-split-export-declaration": ^7.18.6
+    "@babel/parser": ^7.19.6
+    "@babel/types": ^7.19.4
+    debug: ^4.1.0
+    globals: ^11.1.0
+  checksum: 3fafa244f7d0b696a9d38f5da016a8f8db4b08ac60a067b299a8f54d91fb7c70c3edf06f921221d333137e65ffb64392526e68fdcf596ec91e95720037789d66
+  languageName: node
+  linkType: hard
+
+"@babel/traverse@npm:^7.19.0, @babel/traverse@npm:^7.19.1, @babel/traverse@npm:^7.19.3, @babel/traverse@npm:^7.7.2":
   version: 7.19.3
   resolution: "@babel/traverse@npm:7.19.3"
   dependencies:
@@ -1448,6 +1493,17 @@ __metadata:
     "@babel/helper-validator-identifier": ^7.19.1
     to-fast-properties: ^2.0.0
   checksum: 34a5b3db3b99a1a80ec2a784c2bb0e48769a38f1526dc377a5753a3ac5e5704663c405a393117ecc7a9df9da07b01625be7c4c3fee43ae46aba23b0c40928d77
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.18.13, @babel/types@npm:^7.19.4":
+  version: 7.19.4
+  resolution: "@babel/types@npm:7.19.4"
+  dependencies:
+    "@babel/helper-string-parser": ^7.19.4
+    "@babel/helper-validator-identifier": ^7.19.1
+    to-fast-properties: ^2.0.0
+  checksum: 4032f6407093f80dd4f4764be676f7527d2a5c0381586967cd79683cf8af01cdc16745a381b9cef045f702f0c9b0dffd880d84ee55dad59ba01bd23d5d52a8e0
   languageName: node
   linkType: hard
 
@@ -2148,7 +2204,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-test-adapter@workspace:packages/sources/coingecko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.5.1
+    "@chainlink/external-adapter-framework": 0.5.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2725,7 +2781,7 @@ __metadata:
     "@apidevtools/json-schema-ref-parser": 9.0.9
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/external-adapter-framework": 0.5.1
+    "@chainlink/external-adapter-framework": 0.5.2
     "@types/command-line-args": 5.2.0
     "@types/command-line-usage": 5.0.2
     "@types/jest": 27.5.2
@@ -2887,6 +2943,7 @@ __metadata:
     "@chainlink/por-address-list-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
+    "@chainlink/rocket-pool-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
@@ -3150,9 +3207,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:0.5.1":
-  version: 0.5.1
-  resolution: "@chainlink/external-adapter-framework@npm:0.5.1"
+"@chainlink/external-adapter-framework@npm:0.5.2":
+  version: 0.5.2
+  resolution: "@chainlink/external-adapter-framework@npm:0.5.2"
   dependencies:
     ajv: 8.11.0
     axios: 0.27.2
@@ -3162,7 +3219,7 @@ __metadata:
     pino: 8.6.1
     prom-client: 13.2.0
     ws: 8.9.0
-  checksum: b002289fc537a918d25a76a34a7510038141ec040ea404e60edb6b1c777d3d6a4970fdfafe93d8cf24ea2b0d6f9bfae0ea4f17bd7a322750d9b3808841b3deee
+  checksum: 4af5f395c455645d44f552c9bba285fdc8b1a8f558fcded6fd8281a5522c98ef5d5aa4616ceb915612f3f5f065a68dc54c4093cde6e71dab2fec5329f57bcc96
   languageName: node
   linkType: hard
 
@@ -3186,7 +3243,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/external-adapters-js@workspace:."
   dependencies:
-    "@babel/core": 7.18.10
+    "@babel/core": 7.18.13
     "@babel/preset-env": 7.18.10
     "@babel/preset-typescript": 7.17.12
     "@changesets/cli": 2.18.1
@@ -3886,7 +3943,7 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
-    mock-socket: ^9.1.5
+    mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -4232,6 +4289,25 @@ __metadata:
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     bitcoinjs-lib: ^5.2.0
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/rocket-pool-adapter@workspace:*, @chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool"
+  dependencies:
+    "@chainlink/contracts": ^0.0.14
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-reference-data-reader": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    decimal.js: ^10.3.1
+    ethers: ^5.4.6
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -19910,7 +19986,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "k6@workspace:packages/k6"
   dependencies:
-    "@babel/core": 7.18.10
+    "@babel/core": 7.18.13
     "@babel/plugin-proposal-class-properties": 7.17.12
     "@babel/plugin-proposal-object-rest-spread": 7.18.9
     "@babel/preset-env": 7.18.10
@@ -21914,7 +21990,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mock-socket@npm:9.1.5, mock-socket@npm:^9.1.5":
+"mock-socket@npm:9.1.5":
   version: 9.1.5
   resolution: "mock-socket@npm:9.1.5"
   checksum: a01586bc2850eb5809eda6de0c7ab19255c1e0eb217a805f86ba662bb4aab00b919032d67e7c826c6c12bcfb2fbe19cecbacf0ab6184936487edc4ba37d3ba53

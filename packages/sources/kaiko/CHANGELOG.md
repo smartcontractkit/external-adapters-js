@@ -1,5 +1,15 @@
 # @chainlink/kaiko-adapter
 
+## 1.5.17
+
+### Patch Changes
+
+- 2e7bdc585: Update config defaults to enable more reliable prices
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.5.16
 
 ### Patch Changes

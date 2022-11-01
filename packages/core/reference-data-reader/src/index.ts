@@ -11,35 +11,50 @@ export interface RoundData {
   answeredInRound: BigNumber
 }
 
-export type ReferenceDataPrice = (
+export type ReferenceLatestPrice = (
   network: string,
   contractAddress: string,
   multiply: number,
   meta?: Record<string, unknown>,
+  computeDecimals?: boolean,
+) => Promise<number>
+
+export type ReferenceLatestAnswer = (
+  network: string,
+  contractAddress: string,
+  multiply: number,
+  computeDecimals?: boolean,
 ) => Promise<number>
 
 export type ReferenceDataRound = (network: string, contractAddress: string) => Promise<RoundData>
 
-export const getLatestAnswer: ReferenceDataPrice = async (
+export const getLatestAnswer: ReferenceLatestPrice = async (
   network,
   contractAddress: string,
   multiply: number,
   meta?: Record<string, unknown>,
+  computeDecimals?: boolean,
 ): Promise<number> => {
-  if (!meta || !meta.latestAnswer) return getRpcLatestAnswer(network, contractAddress, multiply)
+  if (!meta || !meta.latestAnswer)
+    return getRpcLatestAnswer(network, contractAddress, multiply, computeDecimals)
 
   return (meta.latestAnswer as number) / multiply
 }
-export const getRpcLatestAnswer: ReferenceDataPrice = async (
+export const getRpcLatestAnswer: ReferenceLatestAnswer = async (
   network,
   contractAddress: string,
   multiply: number,
+  computeDecimals?: boolean,
 ): Promise<number> => {
   try {
     const rpcUrl = getRpcUrl(network)
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
     const aggregator = AggregatorV2V3Interface__factory.connect(contractAddress, provider)
-    return (await aggregator.latestAnswer()).div(multiply).toNumber()
+    const decimals = computeDecimals ? await aggregator.decimals() : 0
+    return (await aggregator.latestAnswer())
+      .div(multiply)
+      .div(new BigNumber(10).pow(decimals))
+      .toNumber()
   } catch (e: any) {
     throw new AdapterDataProviderError({
       network,

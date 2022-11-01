@@ -1,5 +1,15 @@
 # @chainlink/ea-bootstrap
 
+## 2.23.0
+
+### Minor Changes
+
+- 221ab1e5f: Warn on custom rate limit capacity
+
+### Patch Changes
+
+- 13eb04f5a: Added warning log when LOG_LEVEL set to DEBUG or TRACE
+
 ## 2.22.2
 
 ### Patch Changes

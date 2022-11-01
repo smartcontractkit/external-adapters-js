@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.42.0",
+  "version": "1.43.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -35,10 +35,11 @@
     "qa:dependencies": "ts-node-transpile-only ./packages/scripts/src/adapter-dependencies",
     "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters",
     "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate",
-    "get-release-notes": "ts-node-transpile-only ./packages/scripts/src/get-release-notes"
+    "get-release-notes": "ts-node-transpile-only ./packages/scripts/src/get-release-notes",
+    "framework-bump": "./packages/scripts/src/framework/version-bump.sh"
   },
   "dependencies": {
-    "@babel/core": "7.18.10",
+    "@babel/core": "7.18.13",
     "@babel/preset-env": "7.18.10",
     "@babel/preset-typescript": "7.17.12",
     "@changesets/cli": "2.18.1",

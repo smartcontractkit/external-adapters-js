@@ -78,6 +78,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [por-indexer](./por-indexer/README.md)
 - [proof-of-reserves](./proof-of-reserves/README.md)
 - [reference-transform](./reference-transform/README.md)
+- [rocket-pool](./rocket-pool/README.md)
 - [savax-price](./savax-price/README.md)
 - [set-token-index](./set-token-index/README.md)
 - [synth-index](./synth-index/README.md)
