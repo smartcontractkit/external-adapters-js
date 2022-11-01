@@ -16,14 +16,16 @@ env: # NPM_AUTH_TOKEN is needed for any yarn command. Having it at the top is no
 jobs:
   packages:
     name: Verify dependency package archives
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    #    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
 
   run-integration-tests:
     name: Run integration tests
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    #    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
@@ -37,7 +39,8 @@ jobs:
 
   run-unit-tests:
     name: Run unit tests
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    #    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
@@ -51,7 +54,8 @@ jobs:
 
   run-basic-checks:
     name: Run linters
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    #    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
@@ -61,7 +65,8 @@ jobs:
 
   run-docmentation-check:
     name: Documentation generation test
-    runs-on: [self-hosted, sdlc-ghr-prod]
+    #    runs-on: [self-hosted, sdlc-ghr-prod]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
