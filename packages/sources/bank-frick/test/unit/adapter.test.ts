@@ -75,9 +75,8 @@ describe('config', () => {
     expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
   })
 
-  it('privateKey works with header variations (RSA header)', () => {
-    let key = generatePrivateKeyString('pkcs1') // pkcs8 is default, must be pkcs1 for the RSA PRIVATE KEY header/footer to match the body
-    key = key.replace(/-----(BEGIN|END) PRIVATE KEY-----/g, '-----$1 RSA PRIVATE KEY-----')
+  it('privateKey works with header variations (pkcs1 header)', () => {
+    const key = generatePrivateKeyString('pkcs1') // pkcs8 is default, must be pkcs1 for the RSA PRIVATE KEY header/footer to match the body
     expect(key).toContain('BEGIN RSA PRIVATE KEY')
     process.env.PRIVATE_KEY = key
     makeConfig()
