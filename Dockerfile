@@ -1,4 +1,4 @@
-FROM node:16 as builder
+FROM node:18 as builder
 ARG location
 ARG package
 
@@ -10,7 +10,7 @@ RUN yarn
 RUN yarn workspace $package build
 RUN yarn bundle $location -o $location/bundle
 
-FROM node:16-alpine
+FROM node:18-alpine
 ARG location
 
 EXPOSE 8080

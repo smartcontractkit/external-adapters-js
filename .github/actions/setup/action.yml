@@ -18,7 +18,7 @@ runs:
       shell: bash
     - uses: actions/setup-node@v3
       with:
-        node-version: 16
+        node-version: 18
     - name: Install yarn
       run: npm i -g yarn
       shell: bash
