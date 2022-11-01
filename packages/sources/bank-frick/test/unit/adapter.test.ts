@@ -63,12 +63,11 @@ describe('config', () => {
     expect(config.pageSize).toEqual(DEFAULT_PAGESIZE)
   })
 
-  // Test that key supports
-  // Note that a rsa-512 privateKey is generated in the beforeAll block above
   it('privateKey can be a full form string', () => {
     const config = makeConfig()
     expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
   })
+
   it('privateKey can be a base64 encoded string', () => {
     process.env.PRIVATE_KEY = Buffer.from(generatePrivateKeyString()).toString('base64')
     const config = makeConfig()
