@@ -1793,6 +1793,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/bank-frick-test-adapter@workspace:*, @chainlink/bank-frick-test-adapter@workspace:packages/sources/bank-frick-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/bank-frick-test-adapter@workspace:packages/sources/bank-frick-test"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.5.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    axios: 0.27.2
+    fastify: ^3.27.1
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/bea-adapter@workspace:*, @chainlink/bea-adapter@workspace:packages/sources/bea":
   version: 0.0.0-use.local
   resolution: "@chainlink/bea-adapter@workspace:packages/sources/bea"
@@ -2842,6 +2861,7 @@ __metadata:
     "@chainlink/ap-election-adapter": "workspace:*"
     "@chainlink/armanino-adapter": "workspace:*"
     "@chainlink/bank-frick-adapter": "workspace:*"
+    "@chainlink/bank-frick-test-adapter": "workspace:*"
     "@chainlink/bea-adapter": "workspace:*"
     "@chainlink/binance-adapter": "workspace:*"
     "@chainlink/binance-dex-adapter": "workspace:*"
