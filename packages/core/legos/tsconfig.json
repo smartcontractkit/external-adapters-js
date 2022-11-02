@@ -122,6 +122,9 @@
       "path": "../../sources/coinmetrics"
     },
     {
+      "path": "../../sources/coinmetrics-test"
+    },
+    {
       "path": "../../sources/coinpaprika"
     },
     {
@@ -339,9 +342,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"
