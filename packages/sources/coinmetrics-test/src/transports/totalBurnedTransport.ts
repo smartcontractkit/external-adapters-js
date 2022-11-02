@@ -123,11 +123,11 @@ export class TotalBurnedTransport extends RestTransport<TotalBurnedEndpointTypes
     /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
     while (true) {
       logger.trace('Sending request to data provider...')
-      providerResponse = await axiosRequest<
+      providerResponse = (await axiosRequest<
         TotalBurnedEndpointTypes['Provider']['RequestBody'],
         TotalBurnedEndpointTypes['Provider']['ResponseBody'],
         TotalBurnedEndpointTypes['CustomSettings']
-      >(request, config)
+      >(request, config)) as any
 
       const assetMetricsList = providerResponse.data?.data
       if (!Array.isArray(assetMetricsList)) {
