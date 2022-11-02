@@ -33,6 +33,7 @@ export interface ResponseSchema {
   data: AssetMetrics[]
   next_page_token?: string
   next_page_url?: string
+  totalBurnedTKN: BigNumber
 }
 
 // Common frequencies for FeeTotNtv, RevNtv and IssTotNtv metrics
@@ -118,16 +119,16 @@ export class TotalBurnedTransport extends RestTransport<TotalBurnedEndpointTypes
       msBetweenRetries: config.REST_TRANSPORT_MS_BETWEEN_RATE_LIMIT_RETRIES,
     })
 
+    let providerResponse
     let totalBurnedTKN = BigNumber.from('0')
-    let providerResponse: AdapterResponse<TotalBurnedEndpointTypes['Response']>
     /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
     while (true) {
       logger.trace('Sending request to data provider...')
-      providerResponse = (await axiosRequest<
+      providerResponse = await axiosRequest<
         TotalBurnedEndpointTypes['Provider']['RequestBody'],
         TotalBurnedEndpointTypes['Provider']['ResponseBody'],
         TotalBurnedEndpointTypes['CustomSettings']
-      >(request, config)) as any
+      >(request, config)
 
       const assetMetricsList = providerResponse.data?.data
       if (!Array.isArray(assetMetricsList)) {
@@ -150,12 +151,11 @@ export class TotalBurnedTransport extends RestTransport<TotalBurnedEndpointTypes
       request.params.next_page_token = nextPageToken
     }
 
+    // Add totalBurnedTKN to response data
+    providerResponse.data.totalBurnedTKN = totalBurnedTKN
+
     logger.debug(`Got response from provider, parsing (raw body: ${providerResponse.data})`)
-    const parsedResponse = await this.config.parseResponse(
-      req,
-      { ...providerResponse, totalBurnedTKN } as any,
-      config,
-    )
+    const parsedResponse = await this.config.parseResponse(req, providerResponse, config)
 
     if (config.API_VERBOSE) {
       parsedResponse.data = providerResponse.data

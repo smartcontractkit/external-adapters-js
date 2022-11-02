@@ -77,7 +77,7 @@ const totalBurnedTransport = new TotalBurnedTransport({
       data: config.API_VERBOSE ? res.data : undefined,
       providerStatusCode: res.status,
       statusCode: 200,
-      result: ethers.utils.formatEther((res as any).totalBurnedTKN.toString()),
+      result: ethers.utils.formatEther(res.data.totalBurnedTKN.toString()),
     }
   },
   options: {
