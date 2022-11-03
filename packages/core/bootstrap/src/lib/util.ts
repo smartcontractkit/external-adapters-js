@@ -716,4 +716,12 @@ export const logEnvVarWarnings = (): void => {
       ].toUpperCase()}. Setting higher log levels results in increased memory usage and potentially slower performance.`,
     )
   }
+  if (process.env['DEBUG'] === 'true') {
+    logger.warn(`The adapter is running with DEBUG mode on.`)
+  }
+  if (process.env['NODE_ENV'] === 'development') {
+    logger.warn(
+      `The adapter is running with NODE_ENV set to development. YOU SHOULD NOT BE RUNNING THIS IN PRODUCTION!`,
+    )
+  }
 }

@@ -40,6 +40,7 @@
     "@chainlink/ap-election-adapter": "workspace:*",
     "@chainlink/armanino-adapter": "workspace:*",
     "@chainlink/bank-frick-adapter": "workspace:*",
+    "@chainlink/bank-frick-test-adapter": "workspace:*",
     "@chainlink/bea-adapter": "workspace:*",
     "@chainlink/binance-adapter": "workspace:*",
     "@chainlink/binance-dex-adapter": "workspace:*",
