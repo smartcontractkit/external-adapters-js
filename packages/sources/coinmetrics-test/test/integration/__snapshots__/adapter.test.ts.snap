@@ -1,13 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute burned api should return success 1`] = `
+Object {
+  "providerStatusCode": 200,
+  "result": "1580.43730192317682277",
+  "statusCode": 200,
+}
+`;
+
 exports[`execute price api should return success 1`] = `
 Object {
-  "data": Object {
-    "result": 10,
-  },
-  "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 10,
+  "result": 1552.8,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute total-burned api should return success 1`] = `
+Object {
+  "providerStatusCode": 200,
+  "result": "40741.188143386670627111",
   "statusCode": 200,
 }
 `;
