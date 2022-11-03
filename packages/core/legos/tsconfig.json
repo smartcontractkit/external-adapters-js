@@ -317,6 +317,9 @@
       "path": "../../sources/nomics"
     },
     {
+      "path": "../../sources/novaposhta"
+    },
+    {
       "path": "../../sources/oilpriceapi"
     },
     {
@@ -342,9 +345,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"

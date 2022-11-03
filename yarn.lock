@@ -2952,6 +2952,7 @@ __metadata:
     "@chainlink/ncfx-test-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
+    "@chainlink/novaposhta-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
     "@chainlink/onchain-gas-adapter": "workspace:*"
     "@chainlink/openexchangerates-adapter": "workspace:*"
@@ -2961,9 +2962,7 @@ __metadata:
     "@chainlink/poa-adapter": "workspace:*"
     "@chainlink/polygon-adapter": "workspace:*"
     "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
-    "@chainlink/rocket-pool-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
@@ -4022,6 +4021,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/novaposhta-adapter@workspace:*, @chainlink/novaposhta-adapter@workspace:packages/sources/novaposhta":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/novaposhta-adapter@workspace:packages/sources/novaposhta"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/observation@workspace:packages/observation":
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
@@ -4316,7 +4331,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/rocket-pool-adapter@workspace:*, @chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
+"@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
   version: 0.0.0-use.local
   resolution: "@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool"
   dependencies:
