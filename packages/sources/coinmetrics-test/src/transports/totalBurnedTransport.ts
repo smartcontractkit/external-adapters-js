@@ -36,6 +36,15 @@ export interface ResponseSchema {
   totalBurnedTKN: BigNumber
 }
 
+export interface ProviderRequestBody {
+  asset: string
+  frequency: string
+  pageSize: number
+  startTime: string
+  endTime: string
+  isBurnedEndpointMode: false
+}
+
 // Common frequencies for FeeTotNtv, RevNtv and IssTotNtv metrics
 export enum Frequency {
   ONE_DAY = '1d',
@@ -56,7 +65,7 @@ export type TotalBurnedEndpointTypes = {
   }
   CustomSettings: SettingsMap
   Provider: {
-    RequestBody: never
+    RequestBody: ProviderRequestBody
     ResponseBody: ResponseSchema
   }
 }
@@ -112,6 +121,8 @@ export class TotalBurnedTransport extends RestTransport<TotalBurnedEndpointTypes
     }
 
     const request = await this.config.prepareRequest(req, config)
+    // extract isBurnedEndpointMode so it won't be sent in the request params
+    const { isBurnedEndpointMode, ...params } = request.params
 
     logger.trace('Check if we are under rate limits to perform request')
     await this.waitUntilUnderRateLimit({
@@ -128,7 +139,7 @@ export class TotalBurnedTransport extends RestTransport<TotalBurnedEndpointTypes
         TotalBurnedEndpointTypes['Provider']['RequestBody'],
         TotalBurnedEndpointTypes['Provider']['ResponseBody'],
         TotalBurnedEndpointTypes['CustomSettings']
-      >(request, config)
+      >({ ...request, params }, config)
 
       const assetMetricsList = providerResponse.data?.data
       if (!Array.isArray(assetMetricsList)) {
@@ -145,7 +156,7 @@ export class TotalBurnedTransport extends RestTransport<TotalBurnedEndpointTypes
       if (
         !nextPageToken ||
         assetMetricsList.length < request.params.pageSize ||
-        request.params.isBurnedEndpointMode
+        isBurnedEndpointMode
       )
         break
       request.params.next_page_token = nextPageToken

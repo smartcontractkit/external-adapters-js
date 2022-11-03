@@ -1,15 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { ethers } from 'ethers'
-import {
-  DEFAULT_PAGE_SIZE,
-  Frequency,
-  METRICS,
-  TotalBurnedEndpointTypes,
-  TotalBurnedTransport,
-} from '../transports'
+import { METRICS, TotalBurnedEndpointTypes, TotalBurnedTransport } from '../transports'
 
-export const totalBurnedInputParameters: InputParameters = {
+export const burnedInputParameters: InputParameters = {
   asset: {
     description:
       'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
@@ -18,34 +12,14 @@ export const totalBurnedInputParameters: InputParameters = {
   },
   frequency: {
     description: 'At which interval to calculate the number of coins/tokens burned',
-    options: [Frequency.ONE_DAY, Frequency.ONE_BLOCK],
-    type: 'string',
-    required: false,
-    default: Frequency.ONE_DAY,
-  },
-  pageSize: {
-    description: 'Number of results to get per page. From 1 to 10000',
-    default: DEFAULT_PAGE_SIZE,
-    type: 'number',
-    required: false,
-  },
-  startTime: {
-    description:
-      'The start time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
-    type: 'string',
-    required: false,
-  },
-  endTime: {
-    description:
-      'The end time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
     type: 'string',
     required: false,
   },
 }
 
-const totalBurnedTransport = new TotalBurnedTransport({
+const burnedTransport = new TotalBurnedTransport({
   prepareRequest: (input, config) => {
-    const { asset, frequency, pageSize, startTime, endTime } = input.requestContext.data
+    const { asset, frequency } = input.requestContext.data
 
     const params: {
       assets: string
@@ -53,16 +27,15 @@ const totalBurnedTransport = new TotalBurnedTransport({
       frequency: string
       page_size: number
       api_key: string
-      start_time: string
-      end_time: string
+      next_page_token?: string
+      isBurnedEndpointMode: boolean
     } = {
       assets: (asset as string).toLowerCase(),
       metrics: METRICS,
       frequency,
-      page_size: pageSize,
+      page_size: 1,
       api_key: config.API_KEY as string,
-      start_time: startTime,
-      end_time: endTime,
+      isBurnedEndpointMode: true,
     }
 
     return {
@@ -87,7 +60,7 @@ const totalBurnedTransport = new TotalBurnedTransport({
 })
 
 export const endpoint = new AdapterEndpoint<TotalBurnedEndpointTypes>({
-  name: 'total-burned',
-  transport: totalBurnedTransport,
-  inputParameters: totalBurnedInputParameters,
+  name: 'burned',
+  transport: burnedTransport,
+  inputParameters: burnedInputParameters,
 })
