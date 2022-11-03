@@ -48,12 +48,8 @@ export class Requester {
   ): string {
     const { baseURL, url, data, params } = config // strip noisy and sensitive data from axios config before logging/including in the response
 
-    const preamble = customErrorResult
-      ? `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.`
-      : `Caught error trying to fetch data from Data Provider.`
-
     return (
-      preamble +
+      `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.` +
       `${
         customErrorResult && typeof customErrorResult === 'string'
           ? ` Message: ${customErrorResult}.`
