@@ -41,7 +41,6 @@ export const checkSequencerHealth: NetworkHealthCheck = async (
   network: Networks,
 ): Promise<undefined | boolean> => {
   if (!HEALTH_ENDPOINTS[network]?.endpoint) {
-    Logger.debug(`Health endpoint not available for network: ${network}`)
     return
   }
   const response = await Requester.request({
