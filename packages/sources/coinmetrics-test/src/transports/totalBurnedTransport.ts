@@ -1,4 +1,4 @@
-import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { RestTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
@@ -10,6 +10,7 @@ import { axiosRequest } from '@chainlink/external-adapter-framework/transports/u
 import * as rateLimitMetrics from '@chainlink/external-adapter-framework/rate-limiting/metrics'
 import { ethers, BigNumber } from 'ethers'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import { customSettings } from '../config'
 
 const logger = makeLogger('Coinmetrics TotalBurnedTransport')
 
@@ -63,7 +64,7 @@ export type TotalBurnedEndpointTypes = {
     Data: ResponseSchema | undefined
     Result: string
   }
-  CustomSettings: SettingsMap
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: ProviderRequestBody
     ResponseBody: ResponseSchema

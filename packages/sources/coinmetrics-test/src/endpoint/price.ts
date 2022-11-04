@@ -3,9 +3,8 @@ import {
   priceEndpointInputParameters,
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { RestTransport } from '@chainlink/external-adapter-framework/transports'
-import { DEFAULT_API_ENDPOINT } from '../config'
+import { customSettings, DEFAULT_API_ENDPOINT } from '../config'
 import { validateResultNumber } from '../global-utils'
 
 export interface ResponseSchema {
@@ -29,7 +28,7 @@ type EndpointTypes = {
     Data: ResponseSchema | undefined
     Result: number
   }
-  CustomSettings: SettingsMap
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
