@@ -5,7 +5,7 @@ Adapter that checks the Layer 2 Sequencer status
 ### Environment Variables
 
 | Required? |               Name                |                                   Description                                   | Options |                           Defaults to                            |
-| :-------: | :-------------------------------: | :-----------------------------------------------------------------------------: | :-----: | :--------------------------------------------------------------: | --- | --- | ------------------------------------------ |
+| :-------: | :-------------------------------: | :-----------------------------------------------------------------------------: | :-----: | :--------------------------------------------------------------: |
 |           |              `DELTA`              | Maximum time in milliseconds from last seen block to consider sequencer healthy |         |                          120000 (2 min)                          |
 |           |          `DELTA_BLOCKS`           |           Maximum allowed number of blocks that Nodes can fall behind           |         |                                6                                 |
 |           |      `NETWORK_TIMEOUT_LIMIT`      |         Maximum time in milliseconds to wait for a transaction receipt          |         |                          5000 (5 secs)                           |
@@ -17,7 +17,7 @@ Adapter that checks the Layer 2 Sequencer status
 |           |        `OPTIMISM_CHAIN_ID`        |                           The chain id to connect to                            |         |                                10                                |
 |           |       `METIS_RPC_ENDPOINT`        |                               Metis RPC Endpoint                                |         |              https://andromeda.metis.io/?owner=1088              |
 |           |      `METIS_HEALTH_ENDPOINT`      |                              Metis Health Endpoint                              |         |            https://tokenapi.metis.io/andromeda/health            |
-|           |         `METIS_CHAIN_ID`          |                           The chain id to connect to                            |         |                               1088                               |     |     | https://tokenapi.metis.io/andromeda/health |
+|           |         `METIS_CHAIN_ID`          |                           The chain id to connect to                            |         |                               1088                               |
 |           |  `STARKWARE_SEQUENCER_ENDPOINT`   |                       The Starkware Sequencer's endpoint                        |         |                https://alpha-mainnet.starknet.io                 |
 |           |  `STARKWARE_FEEDER_GATEWAY_URL`   |                  The Starkware Sequencer's feeder gateway URL                   |         |                          feeder_gateway                          |
 |           |      `STARKWARE_GATEWAY_URL`      |                      The Starkware Sequencer's gateway URL                      |         |                             gateway                              |

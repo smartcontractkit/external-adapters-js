@@ -241,6 +241,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/bank-frick"\
       },\
       {\
+        "name": "@chainlink/bank-frick-test-adapter",\
+        "reference": "workspace:packages/sources/bank-frick-test"\
+      },\
+      {\
         "name": "@chainlink/bea-adapter",\
         "reference": "workspace:packages/sources/bea"\
       },\
@@ -799,6 +803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],\
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
       ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
+      ["@chainlink/bank-frick-test-adapter", ["workspace:packages/sources/bank-frick-test"]],\
       ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
       ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],\
@@ -4165,6 +4170,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/bank-frick-test-adapter", [\
+        ["workspace:packages/sources/bank-frick-test", {\
+          "packageLocation": "./packages/sources/bank-frick-test/",\
+          "packageDependencies": [\
+            ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.5.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:0.27.2"],\
+            ["fastify", "npm:3.29.2"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/bea-adapter", [\
         ["workspace:packages/sources/bea", {\
           "packageLocation": "./packages/sources/bea/",\
@@ -5207,6 +5233,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],\
             ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
+            ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
             ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],\
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],\

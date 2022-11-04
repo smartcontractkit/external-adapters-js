@@ -123,6 +123,9 @@
       "path": "./scripts/tsconfig.test.json"
     },
     {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter/tsconfig.test.json"
+    },
+    {
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
@@ -154,6 +157,9 @@
     },
     {
       "path": "./sources/bank-frick/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/bank-frick-test/tsconfig.test.json"
     },
     {
       "path": "./sources/bea/tsconfig.test.json"
