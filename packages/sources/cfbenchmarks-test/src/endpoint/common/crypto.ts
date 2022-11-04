@@ -1,21 +1,18 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import {
   PriceEndpoint,
-  priceEndpointInputParameters,
+  PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
 import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { transport as rest, transportSecondary as restSecondary } from '../rest/crypto'
-import {
-  transport as websocket,
-  transportSecondary as websocketSecondary,
-} from '../websocket/crypto'
+import { makeRestTransport } from '../rest/crypto'
+import { makeWsTransport } from '../websocket/crypto'
 import { customSettings } from '../../config'
 
 export type Params = { index?: string; base?: string; quote?: string }
 
-const extendedInputParameters: InputParameters = {
+const inputParameters: InputParameters & PriceEndpointInputParameters = {
   index: {
     description: 'The ID of the index. Takes priority over base/quote when provided.',
     type: 'string',
@@ -35,11 +32,6 @@ const extendedInputParameters: InputParameters = {
   },
 }
 
-export const inputParameters = {
-  ...priceEndpointInputParameters,
-  ...extendedInputParameters,
-}
-
 export type EndpointTypes = {
   Request: {
     Params: Params
@@ -51,47 +43,11 @@ export type EndpointTypes = {
   CustomSettings: typeof customSettings
 }
 
-const idOverrideFromBaseQuote: { [base: string]: { [quote: string]: string } } = {
-  BTC: {
-    USD: 'BRTI',
-  },
-}
-export const overrideId = (base: string, quote: string): string | undefined =>
-  idOverrideFromBaseQuote[base][quote]
-
-export const getPrimaryId = (base: string, quote: string): string => `${base}/${quote}_RTI`
-export const getSecondaryId = (base: string, quote: string): string => `U_${base}/${quote}_RTI`
-
-export const getIdFromBaseQuote = (
-  base: string,
-  quote: string,
-  type: 'primary' | 'secondary',
-): string => {
-  const override = overrideId(base, quote)
-  if (override) return override
-
-  if (type === 'secondary') return getSecondaryId(base, quote)
-  return getPrimaryId(base, quote)
-}
-
-const overridenBaseQuoteFromId: { [id: string]: { base: string; quote: string } } = {
-  BRTI: { base: 'BTC', quote: 'USD' },
-}
-export const getBaseQuoteFromId = (id: string): { base: string; quote: string } => {
-  const override = overridenBaseQuoteFromId[id]
-  if (override) return override
-
-  const noPrefix = id.replace('U_', '')
-  const noSuffix = noPrefix.replace('_RTI', '')
-  const [base, quote] = noSuffix.split('/')
-  return { base, quote }
-}
-
 export const additionalInputValidation = (
   { index, base, quote }: Params,
   shouldThrowError = false,
 ): void => {
-  // Base and quote must be provided or index must be provided
+  // Base and quote must be provided OR index must be provided
   if (!(index || (base && quote))) {
     const missingInput = !index ? 'index' : 'base /or quote'
     if (shouldThrowError) {
@@ -104,7 +60,12 @@ export const additionalInputValidation = (
 }
 
 export const routingTransport = new RoutingTransport(
-  { websocket, rest, restSecondary, websocketSecondary },
+  {
+    rest: makeRestTransport('primary'),
+    restSecondary: makeRestTransport('secondary'),
+    websocket: makeWsTransport('primary'),
+    websocketSecondary: makeWsTransport('secondary'),
+  },
   ({ requestContext: { data: params } }, config) => {
     additionalInputValidation(params)
 
