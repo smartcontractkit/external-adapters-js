@@ -62,13 +62,16 @@ export const buildAdapterResponse = (
     return adapterResponse
   }
 
-  const adapterResponse = buildErrorResponse('source code did not return a valid hex string')
+  const adapterResponse = buildErrorResponse(
+    'returned value must be a valid hex string with an even length',
+  )
   Logger.debug({ requestStartTime: Date.now() })
   return adapterResponse
 }
 
 const isHexString = (result?: unknown): result is string => {
-  if (typeof result !== 'string' || result.slice(0, 2) !== '0x') return false
+  if (typeof result !== 'string' || result.slice(0, 2) !== '0x' || result.length % 2 !== 0)
+    return false
   const hexstringRegex = /[0-9A-Fa-f]/g
   return hexstringRegex.test(result.slice(2))
 }
@@ -96,5 +99,6 @@ export const buildErrorResponseFactory = (jobRunID: string, maxResponseBytes: nu
 export const buildErrorHexString = (errorString: string, maxResponseBytes: number): hexstring => {
   const buf = Buffer.from(errorString)
   const shortBuf = buf.subarray(0, maxResponseBytes - 2)
-  return '0x' + shortBuf.toString('hex')
+  if (shortBuf.length % 2 === 0) return '0x' + shortBuf.toString('hex')
+  return '0x0' + shortBuf.toString('hex')
 }

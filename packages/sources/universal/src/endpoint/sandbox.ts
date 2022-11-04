@@ -165,10 +165,12 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     buildErrorResponse,
     sandboxResponse,
   ) as unknown as AdapterResponse
+
   Logger.debug({
     requestStartTime,
     requestDuration: Date.now() - requestStartTime,
     response: adapterResponse,
   })
+
   return adapterResponse
 }
