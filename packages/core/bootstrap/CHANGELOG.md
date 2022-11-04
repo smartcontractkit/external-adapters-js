@@ -1,5 +1,15 @@
 # @chainlink/ea-bootstrap
 
+## 2.24.0
+
+### Minor Changes
+
+- 842651f93: Show request data when requester.request fails
+
+### Patch Changes
+
+- e8576df4e: Added warning logs for DEBUG and NODE_ENV
+
 ## 2.23.0
 
 ### Minor Changes

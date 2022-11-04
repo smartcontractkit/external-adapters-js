@@ -1,5 +1,15 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.3.4
+
+### Patch Changes
+
+- 8038c75f0: Changed spammy missing endpoint log to debug
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.3.3
 
 ### Patch Changes
