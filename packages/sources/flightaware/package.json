@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/flightaware-adapter",
-  "version": "1.2.23",
+  "version": "1.2.24",
   "description": "Chainlink Flightaware adapter.",
   "keywords": [
     "Chainlink",
