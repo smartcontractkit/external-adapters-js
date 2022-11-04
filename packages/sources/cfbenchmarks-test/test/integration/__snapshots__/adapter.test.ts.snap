@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute values endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 39829.3,
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": 39829.3,
+  "statusCode": 200,
+}
+`;
+
+exports[`rest crypto endpoint should return success 1`] = `
+Object {
+  "error": Object {
+    "message": "Required parameter base must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
