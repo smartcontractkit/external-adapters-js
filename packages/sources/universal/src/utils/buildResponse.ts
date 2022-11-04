@@ -8,10 +8,12 @@ export interface UniversalAdapterResponse {
   result: string
   error: string
   errorString?: string
+  details?: string
   data: {
     result: string
     error: string
     errorString?: string
+    details?: string
   }
   providerStatusCode?: number
 }
@@ -22,12 +24,13 @@ type hexstring = string
 export const buildAdapterResponse = (
   jobRunID: string,
   maxResponseBytes: number,
-  buildErrorResponse: (errorString: string) => UniversalAdapterResponse,
+  buildErrorResponse: (errorString: string, details?: string) => UniversalAdapterResponse,
   sandboxResponse: AxiosResponse<SandboxResponse>,
 ): UniversalAdapterResponse => {
   if (sandboxResponse.data.error) {
     const adapterResponse = buildErrorResponse(
       `${sandboxResponse.data.error.name ?? ''}: ${sandboxResponse.data.error.message ?? ''}`,
+      sandboxResponse.data.error.details,
     )
     adapterResponse.providerStatusCode = sandboxResponse.status
     Logger.error(adapterResponse)
@@ -74,7 +77,7 @@ const isHexString = (result?: unknown): result is string => {
 }
 
 export const buildErrorResponseFactory = (jobRunID: string, maxResponseBytes: number) => {
-  return (errorString: string): UniversalAdapterResponse => {
+  return (errorString: string, details?: string): UniversalAdapterResponse => {
     const adapterResponse = {
       jobRunID,
       statusCode: 200,
@@ -85,6 +88,8 @@ export const buildErrorResponseFactory = (jobRunID: string, maxResponseBytes: nu
     } as UniversalAdapterResponse
     adapterResponse.errorString = errorString
     adapterResponse.data.errorString = adapterResponse.errorString
+    adapterResponse.details = details
+    adapterResponse.data.details = details
     adapterResponse.error = buildErrorHexString(adapterResponse.errorString, maxResponseBytes)
     adapterResponse.data.error = adapterResponse.error
     return adapterResponse
