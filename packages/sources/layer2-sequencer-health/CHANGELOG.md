@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 8038c75f0: Changed spammy missing endpoint log to debug
+- 8038c75f0: Moved missing endpoint log to adapter startup
 - Updated dependencies [e8576df4e]
 - Updated dependencies [842651f93]
   - @chainlink/ea-bootstrap@2.24.0
