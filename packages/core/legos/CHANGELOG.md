@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.39
+
+### Patch Changes
+
+- Updated dependencies [4c7a9e07c]
+  - @chainlink/stader-address-list-adapter@1.1.0
+  - @chainlink/renvm-address-set-adapter@1.5.21
+  - @chainlink/wbtc-address-set-adapter@1.4.30
+
 ## 1.3.38
 
 ### Patch Changes
