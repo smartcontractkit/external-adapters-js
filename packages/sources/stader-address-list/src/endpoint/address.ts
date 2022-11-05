@@ -12,7 +12,7 @@ type NetworkChainMap = { [network: string]: { [chain: string]: string } }
 const staderNetworkChainMap: NetworkChainMap = {
   ethereum: {
     mainnet: '',
-    goerli: '0x50FD3384783EE49011E7b57d7A3430a762b3f3F2',
+    goerli: '0x00eA010E050Ba28976059241B2cF558b96D1d2B7',
   },
 }
 

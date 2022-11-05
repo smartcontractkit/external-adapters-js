@@ -25,7 +25,7 @@ export const fetchAddressList = async (
     const fetchAddresses = async (index: number) =>
       addressManager.validatorsRegistry(index, { blockTag })
     const response = await Promise.all<validatorsRegistryResponse>(
-      new Array(numAddresses.toNumber()).fill(0).map((_, i) => fetchAddresses(i + 1)),
+      new Array(numAddresses.toNumber()).fill(0).map((_, i) => fetchAddresses(i)),
     )
     return response.map(([pubKey, registrationStatus]) => ({
       address: pubKey,
