@@ -1,6 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { ethers } from 'ethers'
+import { DEFAULT_API_ENDPOINT } from '../config'
 import { METRICS, TotalBurnedEndpointTypes, TotalBurnedTransport } from '../transports'
 
 export const burnedInputParameters: InputParameters = {
@@ -39,7 +40,7 @@ const burnedTransport = new TotalBurnedTransport({
     }
 
     return {
-      url: `${config.API_ENDPOINT}/timeseries/asset-metrics`,
+      url: `${config.API_ENDPOINT || DEFAULT_API_ENDPOINT}/timeseries/asset-metrics`,
       method: 'GET',
       params,
     }
