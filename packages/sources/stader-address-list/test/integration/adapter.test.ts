@@ -36,9 +36,7 @@ jest.mock('ethers', () => {
       Contract: function () {
         return {
           validatorCount: jest.fn().mockReturnValue(mockAddressListLength),
-          validatorsRegistry: jest
-            .fn()
-            .mockImplementation((index) => mockExpectedAddresses[index - 1]), // 1 indexed instead of 0 indexed
+          validatorsRegistry: jest.fn().mockImplementation((index) => mockExpectedAddresses[index]),
         }
       },
     },
