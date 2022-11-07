@@ -36,6 +36,7 @@ describe('websocket', () => {
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['API_KEY'] = 'someKey'
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)

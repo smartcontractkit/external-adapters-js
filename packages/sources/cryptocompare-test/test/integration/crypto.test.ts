@@ -18,6 +18,7 @@ describe('execute', () => {
 
   const envVariables = {
     CACHE_ENABLED: 'false',
+    API_KEY: 'someKey',
   }
 
   setupExternalAdapterTest(envVariables, context)
