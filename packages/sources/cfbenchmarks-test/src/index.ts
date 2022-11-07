@@ -2,7 +2,7 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from './config'
-import { crypto } from './endpoint'
+import { crypto, requestTransforms } from './endpoint'
 
 export const makeAdapter = (): PriceAdapter<SettingsMap> =>
   new PriceAdapter({
@@ -10,6 +10,7 @@ export const makeAdapter = (): PriceAdapter<SettingsMap> =>
     endpoints: [crypto],
     defaultEndpoint: crypto.name,
     customSettings,
+    requestTransforms,
   })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(makeAdapter())

@@ -24,30 +24,22 @@ export const makeRestTransport = (
   type: 'primary' | 'secondary',
 ): BatchWarmingTransport<RestEndpointTypes> => {
   return new BatchWarmingTransport<RestEndpointTypes>({
-    prepareRequest: (
-      [{ base, quote, index }],
-      { DEFAULT_API_ENDPOINT, SECONDARY_API_ENDPOINT },
-    ) => {
+    prepareRequest: ([{ index }], { DEFAULT_API_ENDPOINT, SECONDARY_API_ENDPOINT }) => {
       return {
         baseURL: type === 'primary' ? DEFAULT_API_ENDPOINT : SECONDARY_API_ENDPOINT,
         url: '/v1/values',
         method: 'GET',
         params: {
-          id:
-            index ||
-            // If there is no index set
-            // we know that base and quote exist from the extra validation in the routing handler
-            // coerce to strings
-            getIdFromBaseQuote(base as string, quote as string, type),
+          id: index,
         },
       }
     },
-    parseResponse: ([{ base, quote }], res) => {
+    parseResponse: ([{ index }], res) => {
       const values = res.data.payload.sort((a, b) => b.time - a.time) // Descending
       const value = Number(values[0].value)
       return [
         {
-          params: { base, quote },
+          params: { index },
           value,
         },
       ]

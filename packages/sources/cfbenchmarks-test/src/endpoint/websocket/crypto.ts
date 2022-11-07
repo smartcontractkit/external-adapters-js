@@ -63,11 +63,11 @@ export const makeWsTransport = (
       message(message) {
         logger.trace(message, 'Got response from websocket')
         if (message.type === 'value') {
-          const { base, quote } = getBaseQuoteFromId(message.id)
+          const index = message.id
           const value = Number(message.value)
           return [
             {
-              params: { base, quote },
+              params: { index },
               value,
             },
           ]
@@ -77,28 +77,18 @@ export const makeWsTransport = (
       },
     },
     builders: {
-      subscribeMessage: ({ base, quote, index }) => {
+      subscribeMessage: ({ index }) => {
         return {
           type: 'subscribe',
-          id:
-            index ||
-            // If there is no index set
-            // we know that base and quote exist from the extra validation in the routing handler
-            // coerce to strings
-            getIdFromBaseQuote(base as string, quote as string, type),
+          id: index,
           stream: 'value',
         }
       },
 
-      unsubscribeMessage: ({ base, quote, index }) => {
+      unsubscribeMessage: ({ index }) => {
         return {
           type: 'unsubscribe',
-          id:
-            index ||
-            // If there is no index set
-            // we know that base and quote exist from the extra validation in the routing handler
-            // coerce to strings
-            getIdFromBaseQuote(base as string, quote as string, type),
+          id: index,
           stream: 'value',
         }
       },

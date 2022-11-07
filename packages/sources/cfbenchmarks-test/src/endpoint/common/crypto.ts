@@ -2,15 +2,18 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import {
   PriceEndpoint,
   PriceEndpointInputParameters,
+  RequestTransform,
 } from '@chainlink/external-adapter-framework/adapter'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
+import { AdapterRequest, EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { makeRestTransport } from '../rest/crypto'
 import { makeWsTransport } from '../websocket/crypto'
 import { customSettings } from '../../config'
+import { getIdFromBaseQuote } from '../../utils'
 
 export type Params = { index?: string; base?: string; quote?: string }
+type RequestParams = { Params: Params }
 
 const inputParameters: InputParameters & PriceEndpointInputParameters = {
   index: {
@@ -33,9 +36,7 @@ const inputParameters: InputParameters & PriceEndpointInputParameters = {
 }
 
 export type EndpointTypes = {
-  Request: {
-    Params: Params
-  }
+  Request: RequestParams
   Response: {
     Data: EmptyObject
     Result: number
@@ -56,6 +57,25 @@ export const additionalInputValidation = (
         message: `Error: missing ${missingInput} input parameters`,
       })
     }
+  }
+}
+
+export const requestTransform = (req: AdapterRequest<RequestParams>): void => {
+  if (req.requestContext.data.index) {
+    // If an id was given, clear base quote to ensure an exact match in the cache
+    delete req.requestContext.data.base
+    delete req.requestContext.data.quote
+  } else {
+    const isSecondary = process.env.API_SECONDARY
+    const type = isSecondary ? 'secondary' : 'primary'
+    // If there is no index set
+    // we know that base and quote exist from the extra validation in the routing handler
+    // coerce to strings
+    req.requestContext.data.index = getIdFromBaseQuote(
+      req.requestContext.data.base as string,
+      req.requestContext.data.quote as string,
+      type,
+    )
   }
 }
 
