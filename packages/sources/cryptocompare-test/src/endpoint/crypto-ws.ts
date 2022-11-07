@@ -8,7 +8,36 @@ import { DEFAULT_WS_API_ENDPOINT } from '../config'
 
 const logger = makeLogger('CryptoCompare WS')
 
-export const wsTransport = new WebSocketTransport<CryptoEndpointTypes>({
+interface WSSuccessType {
+  PRICE?: number // Cryptocompare does not provide the price in updates from all exchanges
+  TYPE: string
+  MARKET: string
+  FLAGS: number
+  FROMSYMBOL: string
+  TOSYMBOL: string
+  VOLUMEDAY: number
+  VOLUME24HOUR: number
+  VOLUMEDAYTO: number
+  VOLUME24HOURTO: number
+  MESSAGE?: string
+}
+
+interface WSErrorType {
+  TYPE: string
+  MESSAGE: string
+  PARAMETER: string
+  INFO: string
+}
+
+export type WsMessage = WSSuccessType | WSErrorType
+
+type WsEndpointTypes = CryptoEndpointTypes & {
+  Provider: {
+    WsMessage: WsMessage
+  }
+}
+
+export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   url: (context) =>
     `${context.adapterConfig.WS_API_ENDPOINT || DEFAULT_WS_API_ENDPOINT}?api_key=${
       context.adapterConfig.WS_API_KEY || context.adapterConfig.API_KEY
@@ -28,7 +57,7 @@ export const wsTransport = new WebSocketTransport<CryptoEndpointTypes>({
         })
       })
     },
-    message(message): ProviderResult<CryptoEndpointTypes>[] | undefined {
+    message(message): ProviderResult<WsEndpointTypes>[] | undefined {
       logger.trace(message, 'Got response from websocket')
       if (message.TYPE === '5' && 'PRICE' in message) {
         return [

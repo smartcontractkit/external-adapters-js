@@ -17,6 +17,13 @@ import { wsTransport } from './crypto-ws'
 
 const logger = makeLogger('CryptoCompare HTTP')
 
+type BatchEndpointTypes = CryptoEndpointTypes & {
+  Provider: {
+    RequestBody: never
+    ResponseBody: ProviderCryptoResponseBody
+  }
+}
+
 export const buildBatchedRequestBody = (
   params: PriceEndpointParams[],
   config: AdapterConfig<typeof customSettings>,
@@ -82,12 +89,12 @@ export const constructEntry = (
   }
 }
 
-const batchEndpointTransport = new BatchWarmingTransport<CryptoEndpointTypes>({
+const batchEndpointTransport = new BatchWarmingTransport<BatchEndpointTypes>({
   prepareRequest: (params, config) => {
     return buildBatchedRequestBody(params, config)
   },
   parseResponse: (params, res) => {
-    const entries = [] as ProviderResult<CryptoEndpointTypes>[]
+    const entries = [] as ProviderResult<BatchEndpointTypes>[]
     for (const requestPayload of params) {
       const entry = constructEntry(res, requestPayload)
       if (entry) {

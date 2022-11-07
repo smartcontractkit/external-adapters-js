@@ -137,38 +137,10 @@ export interface ProviderCryptoResponseBody {
   }
 }
 
-interface WSSuccessType {
-  PRICE?: number // Cryptocompare does not provide the price in updates from all exchanges
-  TYPE: string
-  MARKET: string
-  FLAGS: number
-  FROMSYMBOL: string
-  TOSYMBOL: string
-  VOLUMEDAY: number
-  VOLUME24HOUR: number
-  VOLUMEDAYTO: number
-  VOLUME24HOURTO: number
-  MESSAGE?: string
-}
-
-interface WSErrorType {
-  TYPE: string
-  MESSAGE: string
-  PARAMETER: string
-  INFO: string
-}
-
-export type WsMessage = WSSuccessType | WSErrorType
-
 export type CryptoEndpointTypes = {
   Request: {
     Params: CryptoEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
-  Provider: {
-    RequestBody: never
-    ResponseBody: ProviderCryptoResponseBody
-    WsMessage: WsMessage
-  }
 }
