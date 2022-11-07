@@ -2,7 +2,6 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import {
   PriceEndpoint,
   PriceEndpointInputParameters,
-  RequestTransform,
 } from '@chainlink/external-adapter-framework/adapter'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
 import { AdapterRequest, EmptyObject } from '@chainlink/external-adapter-framework/util'

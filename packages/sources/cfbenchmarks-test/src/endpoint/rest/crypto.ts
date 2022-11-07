@@ -1,7 +1,6 @@
 import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports'
 import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { EndpointTypes } from '../common/crypto'
-import { getIdFromBaseQuote } from '../../utils'
 
 interface PayloadValue {
   value: string

@@ -5,7 +5,6 @@ import {
 } from '@chainlink/external-adapter-framework/transports/websocket'
 import { WebSocket } from '@chainlink/external-adapter-framework/transports/websocket'
 import { EndpointTypes } from '../common/crypto'
-import { getIdFromBaseQuote, getBaseQuoteFromId } from '../../utils'
 
 interface Message {
   type: 'subscribe' | 'unsubscribe' | 'value'
