@@ -120,8 +120,8 @@ export class Server {
     this.errorCount = 0
   }
 
-  getBaseURL(): string {
-    return `http://localhost:${this.port}`
+  getURL(endpoint: Endpoint): string {
+    return `http://localhost:${this.port}/${endpoint}`
   }
 
   getExpectedResponse(endpoint: Endpoint): typeof responseLookup[keyof typeof responseLookup] {
