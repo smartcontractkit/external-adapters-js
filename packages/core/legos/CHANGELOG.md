@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.3.38
+
+### Patch Changes
+
+- Updated dependencies [b81138056]
+  - @chainlink/tradingeconomics-adapter@2.2.10
+
 ## 1.3.37
 
 ### Patch Changes
