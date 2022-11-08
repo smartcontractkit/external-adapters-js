@@ -43,23 +43,20 @@ export type EndpointTypes = {
   CustomSettings: typeof customSettings
 }
 
-export const additionalInputValidation = (
-  { index, base, quote }: Params,
-  shouldThrowError = false,
-): void => {
+export const additionalInputValidation = ({ index, base, quote }: Params): void => {
   // Base and quote must be provided OR index must be provided
   if (!(index || (base && quote))) {
     const missingInput = !index ? 'index' : 'base /or quote'
-    if (shouldThrowError) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Error: missing ${missingInput} input parameters`,
-      })
-    }
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Error: missing ${missingInput} input parameters`,
+    })
   }
 }
 
 export const requestTransform = (req: AdapterRequest<RequestParams>): void => {
+  // TODO: Move additional input validations to proper location after framework supports it
+  additionalInputValidation(req.requestContext.data)
   if (req.requestContext.data.index) {
     // If an id was given, clear base quote to ensure an exact match in the cache
     delete req.requestContext.data.base
@@ -85,9 +82,7 @@ export const routingTransport = new RoutingTransport(
     websocket: makeWsTransport('primary'),
     websocketSecondary: makeWsTransport('secondary'),
   },
-  ({ requestContext: { data: params } }, config) => {
-    additionalInputValidation(params)
-
+  (_, config) => {
     /* [TODO]: once framework level transport selectors are added to request use here to route */
     if (config?.API_SECONDARY) {
       if (config?.WS_ENABLED) return 'websocketSecondary'

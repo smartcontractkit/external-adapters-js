@@ -1,9 +1,5 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import {
-  WebSocketTransport,
-  WebSocketRawData,
-} from '@chainlink/external-adapter-framework/transports/websocket'
-import { WebSocket } from '@chainlink/external-adapter-framework/transports/websocket'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { EndpointTypes } from '../common/crypto'
 
 interface Message {
@@ -44,21 +40,6 @@ export const makeWsTransport = (
     },
 
     handlers: {
-      open(connection: WebSocket) {
-        return new Promise((resolve, reject) => {
-          // Set up listener
-          connection.on('message', (data: WebSocketRawData) => {
-            const parsed = JSON.parse(data.toString())
-            if (parsed.MESSAGE === 'STREAMERWELCOME') {
-              logger.info('Got logged in response, connection is ready')
-              resolve()
-            } else {
-              reject(new Error('Unexpected message after WS connection open'))
-            }
-          })
-        })
-      },
-
       message(message) {
         logger.trace(message, 'Got response from websocket')
         if (message.type === 'value') {

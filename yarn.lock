@@ -2130,7 +2130,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-test-adapter@workspace:packages/sources/cfbenchmarks-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.10.3
+    "@chainlink/external-adapter-framework": 0.10.4
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3244,9 +3244,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:0.10.3":
-  version: 0.10.3
-  resolution: "@chainlink/external-adapter-framework@npm:0.10.3"
+"@chainlink/external-adapter-framework@npm:0.10.4":
+  version: 0.10.4
+  resolution: "@chainlink/external-adapter-framework@npm:0.10.4"
   dependencies:
     ajv: 8.11.0
     axios: 0.27.2
@@ -3257,7 +3257,7 @@ __metadata:
     pino-pretty: 9.1.0
     prom-client: 13.2.0
     ws: 8.9.0
-  checksum: 0468ed5e33365e44914deee74f70ddbb25e12a4d875d59d0b89becc3a34febe5ff3c454c3ca65983a8a3efbb740980d10a9b556983b09ff98e9218294f4ecc39
+  checksum: 90750fa5e10a424571b4f9f9b36987cfac548b082d4af5376354f5820361c4f4790773d0dbe438d156dc1589dd4aea3d1d1532949bb543106ca245118c06e5a2
   languageName: node
   linkType: hard
 

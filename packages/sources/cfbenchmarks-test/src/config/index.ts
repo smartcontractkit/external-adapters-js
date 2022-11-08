@@ -14,6 +14,7 @@ export const customSettings = {
     description: 'The default REST API base url',
     type: 'string',
     required: false,
+    default: 'https://www.cfbenchmarks.com/api',
   },
   DEFAULT_WS_API_ENDPOINT: {
     description: 'The default WebSocket API base url',
@@ -43,6 +44,13 @@ export const customSettings = {
     description: 'Toggle to set the default endpoint to use WebSockets',
     type: 'boolean',
     required: false,
-    default: false,
+    default: true,
+    validate: (value?: boolean) => {
+      if (!value) {
+        return 'WS_ENABLED must be set to true. Non-WS endpoints are not supported yet.'
+      } else {
+        return
+      }
+    },
   },
 } as const

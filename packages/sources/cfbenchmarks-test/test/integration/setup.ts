@@ -31,50 +31,19 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
   provider.set(MockWebSocket as any) // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-const base = 'ETH'
-const quote = 'BTC'
-const price = 1234
-
 export const mockWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    const parseMessage = () => {
+    socket.on('message', (_) => {
       socket.send(
         JSON.stringify({
-          TYPE: '5',
-          FROMSYMBOL: base,
-          TOSYMBOL: quote,
-          PRICE: price,
-        }),
-      )
-    }
-    parseMessage()
-  })
-
-  mockWsServer.on('subscribe', (socket) => {
-    socket.send(
-      JSON.stringify([
-        {
           type: 'value',
           time: 1645203822000,
           id: 'BRTI',
           value: '40067.00',
-        },
-      ]),
-    )
-  })
-
-  mockWsServer.on('unsubscribe', (socket) => {
-    socket.send(
-      JSON.stringify([
-        {
-          type: 'unsubscribe',
-          id: 'BRTI',
-          stream: 'value',
-          success: true,
-        },
-      ]),
-    )
+        }),
+      )
+    })
   })
 
   return mockWsServer
