@@ -6,7 +6,7 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import { mockWebSocketProvider, mockWebSocketServer, setEnvVariables } from './setup'
 // import { mockResponseSuccess } from './fixtures'
-import { makeAdapter } from '../../src'
+import { createAdapter } from './setup'
 
 // describe('rest', () => {
 //   jest.setTimeout(10000)
@@ -29,7 +29,7 @@ import { makeAdapter } from '../../src'
 //     process.env['WS_ENABLED'] = 'false'
 //     process.env['API_USERNAME'] = 'fake-api-username'
 //     process.env['API_PASSWORD'] = 'fake-api-password'
-//     fastify = await expose(makeAdapter())
+//     fastify = await expose(createAdapter())
 //     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 //     mockResponseSuccess()
 //     // Send initial request to start background execute
@@ -87,7 +87,7 @@ describe('websocket', () => {
     mockWebSocketProvider(WebSocketClassProvider)
     mockWebSocketServer(wsEndpoint)
 
-    fastify = await expose(makeAdapter())
+    fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
     // Send initial request to start background execute
@@ -134,7 +134,7 @@ describe('input validation', () => {
     process.env['API_USERNAME'] = 'fake-api-username'
     process.env['API_PASSWORD'] = 'fake-api-password'
 
-    fastify = await expose(makeAdapter())
+    fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
   })
 

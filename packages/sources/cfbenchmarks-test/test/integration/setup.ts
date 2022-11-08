@@ -3,6 +3,9 @@ import { SuperTest, Test } from 'supertest'
 import { Server, WebSocket } from 'mock-socket'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { customSettings } from '../../src/config'
+import { crypto, requestTransforms } from '../../src/endpoint'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -47,6 +50,16 @@ export const mockWebSocketServer = (URL: string): Server => {
   })
 
   return mockWsServer
+}
+
+export const createAdapter = (): PriceAdapter<typeof customSettings> => {
+  return new PriceAdapter({
+    name: 'CFBENCHMARKS',
+    endpoints: [crypto],
+    defaultEndpoint: crypto.name,
+    customSettings,
+    requestTransforms,
+  })
 }
 
 export function setEnvVariables(envVariables: NodeJS.ProcessEnv): void {
