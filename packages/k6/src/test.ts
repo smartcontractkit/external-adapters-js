@@ -3,6 +3,7 @@ import { SharedArray } from 'k6/data'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
+import { validateOutputs } from './output-test'
 
 const GROUP_COUNT = 10
 const UNIQUE_PAYLOAD_LIMIT = 50
@@ -129,6 +130,8 @@ export default (): void => {
 
     errorRate.add(!result)
   }
+  const adapterName = __ENV.LOAD_TEST_ADAPTER_NAME
+  validateOutputs(responses, adapterName)
 
   const after = new Date().getTime()
   const diff = (after - before) / 1000
