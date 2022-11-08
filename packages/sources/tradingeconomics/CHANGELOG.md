@@ -1,5 +1,11 @@
 # @chainlink/tradingeconomics-adapter
 
+## 2.2.10
+
+### Patch Changes
+
+- b81138056: Added crypto pair overrides
+
 ## 2.2.9
 
 ### Patch Changes
