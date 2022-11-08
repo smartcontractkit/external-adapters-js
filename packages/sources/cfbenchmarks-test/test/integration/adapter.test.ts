@@ -5,9 +5,8 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import { mockWebSocketProvider, mockWebSocketServer, setEnvVariables } from './setup'
-import { mockResponseSuccess } from './fixtures'
+// import { mockResponseSuccess } from './fixtures'
 import { makeAdapter } from '../../src'
-import { Server } from 'mock-socket'
 
 // describe('rest', () => {
 //   jest.setTimeout(10000)
