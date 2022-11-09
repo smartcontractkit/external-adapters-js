@@ -44,6 +44,9 @@
       "path": "../../sources/bank-frick"
     },
     {
+      "path": "../../sources/bank-frick-test"
+    },
+    {
       "path": "../../sources/bea"
     },
     {
@@ -249,6 +252,9 @@
     },
     {
       "path": "../../sources/gsr"
+    },
+    {
+      "path": "../../sources/gsr-test"
     },
     {
       "path": "../../sources/iex-cloud"

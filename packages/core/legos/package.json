@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.38",
+  "version": "1.3.40",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -40,6 +40,7 @@
     "@chainlink/ap-election-adapter": "workspace:*",
     "@chainlink/armanino-adapter": "workspace:*",
     "@chainlink/bank-frick-adapter": "workspace:*",
+    "@chainlink/bank-frick-test-adapter": "workspace:*",
     "@chainlink/bea-adapter": "workspace:*",
     "@chainlink/binance-adapter": "workspace:*",
     "@chainlink/binance-dex-adapter": "workspace:*",
@@ -109,6 +110,7 @@
     "@chainlink/gramchain-adapter": "workspace:*",
     "@chainlink/graphql-adapter": "workspace:*",
     "@chainlink/gsr-adapter": "workspace:*",
+    "@chainlink/gsr-test-adapter": "workspace:*",
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",

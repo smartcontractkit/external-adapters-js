@@ -1,5 +1,23 @@
 # @chainlink/ea
 
+## 1.3.40
+
+### Patch Changes
+
+- Updated dependencies [ee928416a]
+- Updated dependencies [69c847214]
+  - @chainlink/gsr-test-adapter@1.0.0
+  - @chainlink/fluent-finance-adapter@1.1.0
+
+## 1.3.39
+
+### Patch Changes
+
+- Updated dependencies [4c7a9e07c]
+  - @chainlink/stader-address-list-adapter@1.1.0
+  - @chainlink/renvm-address-set-adapter@1.5.21
+  - @chainlink/wbtc-address-set-adapter@1.4.30
+
 ## 1.3.38
 
 ### Patch Changes

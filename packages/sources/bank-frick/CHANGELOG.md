@@ -1,5 +1,18 @@
 # @chainlink/bank-frick-adapter
 
+## 0.1.0
+
+### Minor Changes
+
+- 0c785a13a: Lets users pass PRIVATE_KEY as a base64 string and cleans up artifacts from deprecated ALLOW_INSECURE envvar
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 0.0.13
 
 ### Patch Changes

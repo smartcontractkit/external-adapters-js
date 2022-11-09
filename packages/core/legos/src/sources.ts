@@ -9,6 +9,7 @@ import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
 import * as armanino from '@chainlink/armanino-adapter'
 import * as bank_frick from '@chainlink/bank-frick-adapter'
+import * as bank_frick_test from '@chainlink/bank-frick-test-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
@@ -78,6 +79,7 @@ import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
+import * as gsr_test from '@chainlink/gsr-test-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -152,6 +154,7 @@ export default {
   ap_election,
   armanino,
   bank_frick,
+  bank_frick_test,
   bea,
   binance,
   binance_dex,
@@ -221,6 +224,7 @@ export default {
   gramchain,
   graphql,
   gsr,
+  gsr_test,
   iex_adapter,
   intrinio,
   ipfs,
