@@ -2948,6 +2948,7 @@ __metadata:
     "@chainlink/gramchain-adapter": "workspace:*"
     "@chainlink/graphql-adapter": "workspace:*"
     "@chainlink/gsr-adapter": "workspace:*"
+    "@chainlink/gsr-test-adapter": "workspace:*"
     "@chainlink/iex-cloud-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
@@ -3243,6 +3244,22 @@ __metadata:
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
+
+"@chainlink/external-adapter-framework@npm:0.10.0":
+  version: 0.10.0
+  resolution: "@chainlink/external-adapter-framework@npm:0.10.0"
+  dependencies:
+    ajv: 8.11.0
+    axios: 0.27.2
+    eventsource: 2.0.2
+    fastify: 4.7.0
+    ioredis: 5.2.3
+    pino: 8.6.1
+    prom-client: 13.2.0
+    ws: 8.9.0
+  checksum: 5c3f888dce5cc3a0e2c54cb3ea527a0909548028322d736b4f9c740fbcf039f1ff1ad078098a163fbc7719ae113f87c7757753646b683ce5345c7df1bc74f404
+  languageName: node
+  linkType: hard
 
 "@chainlink/external-adapter-framework@npm:0.10.4":
   version: 0.10.4
@@ -3582,6 +3599,25 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/gsr-test-adapter@workspace:*, @chainlink/gsr-test-adapter@workspace:packages/sources/gsr-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gsr-test-adapter@workspace:packages/sources/gsr-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.10.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    "@types/ws": ^8
+    axios: 0.27.2
+    crypto: 1.0.1
+    mock-socket: ^9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
@@ -9856,6 +9892,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ws@npm:^8":
+  version: 8.5.3
+  resolution: "@types/ws@npm:8.5.3"
+  dependencies:
+    "@types/node": "*"
+  checksum: 0ce46f850d41383fcdc2149bcacc86d7232fa7a233f903d2246dff86e31701a02f8566f40af5f8b56d1834779255c04ec6ec78660fe0f9b2a69cf3d71937e4ae
+  languageName: node
+  linkType: hard
+
 "@types/yaml@npm:1.9.7":
   version: 1.9.7
   resolution: "@types/yaml@npm:1.9.7"
@@ -13126,6 +13171,13 @@ __metadata:
   version: 2.0.0
   resolution: "crypto-random-string@npm:2.0.0"
   checksum: 0283879f55e7c16fdceacc181f87a0a65c53bc16ffe1d58b9d19a6277adcd71900d02bb2c4843dd55e78c51e30e89b0fec618a7f170ebcc95b33182c28f05fd6
+  languageName: node
+  linkType: hard
+
+"crypto@npm:1.0.1":
+  version: 1.0.1
+  resolution: "crypto@npm:1.0.1"
+  checksum: 087fe3165bd94c333a49e6ed66a0193911f63eac38a24f379b3001a5fe260a59c413646e53a0f67875ba13902b2686d81dc703cb2c147a4ec727dcdc04e5645e
   languageName: node
   linkType: hard
 
@@ -22061,7 +22113,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mock-socket@npm:9.1.5":
+"mock-socket@npm:9.1.5, mock-socket@npm:^9.1.5":
   version: 9.1.5
   resolution: "mock-socket@npm:9.1.5"
   checksum: a01586bc2850eb5809eda6de0c7ab19255c1e0eb217a805f86ba662bb4aab00b919032d67e7c826c6c12bcfb2fbe19cecbacf0ab6184936487edc4ba37d3ba53
@@ -27555,7 +27607,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:*, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1":
+"tslib@npm:*, tslib@npm:2.4.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
