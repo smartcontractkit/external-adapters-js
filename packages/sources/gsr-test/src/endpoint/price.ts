@@ -108,7 +108,7 @@ const getToken = async (config: AdapterConfig<typeof customSettings>) => {
     },
   }
 
-  const response = await axios<AccessTokenResponse>(data)
+  const response = await axios(data)
 
   if (!response.data.success) {
     logger.error('Unable to get access token')

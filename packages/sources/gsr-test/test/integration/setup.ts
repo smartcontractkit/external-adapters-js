@@ -6,6 +6,7 @@ import { Server, WebSocket } from 'mock-socket'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { endpoint } from '../../src/endpoint/price'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { customSettings } from '../../src/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -41,16 +42,18 @@ const price = 1234
 export const mockWebSocketServer = (URL: string) => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.send(
-      JSON.stringify({
-        type: 'tick',
-        data: {
-          symbol: `${base.toUpperCase()}.${quote.toUpperCase()}`,
-          price,
-          ts: new Date().getTime() * 1000000,
-        },
-      }),
-    )
+    socket.on('message', () => {
+      socket.send(
+        JSON.stringify({
+          type: 'ticker',
+          data: {
+            symbol: `${base.toUpperCase()}.${quote.toUpperCase()}`,
+            price,
+            ts: new Date().getTime() * 1000000,
+          },
+        }),
+      )
+    })
   })
   return mockWsServer
 }
@@ -60,6 +63,7 @@ export const createAdapter = (): PriceAdapter<SettingsMap> => {
     name: 'test',
     defaultEndpoint: 'price',
     endpoints: [endpoint],
+    customSettings,
   })
 }
 

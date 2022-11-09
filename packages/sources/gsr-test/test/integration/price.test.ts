@@ -12,6 +12,7 @@ describe('websocket', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let mockWsServer: Server | undefined
+  let spy: jest.SpyInstance
   const wsEndpoint = 'ws://localhost:9090'
 
   jest.setTimeout(30_000)
@@ -31,6 +32,11 @@ describe('websocket', () => {
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['WS_USER_ID'] = process.env['WS_USER_ID'] || 'test-user-id'
+    process.env['WS_PUBLIC_KEY'] = process.env['WS_PUBLIC_KEY'] || 'test-pub-key'
+    process.env['WS_PRIVATE_KEY'] = process.env['WS_PRIVATE_KEY'] || 'test-priv-key'
+    const mockDate = new Date('2022-05-10T16:09:27.193Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     // Start mock web socket server
     mockTokenSuccess()
@@ -42,10 +48,11 @@ describe('websocket', () => {
 
     // Send initial request to start background execute
     await req.post('/').send(data)
-    await sleep(5000)
+    await sleep(5_000)
   })
 
   afterAll((done) => {
+    spy.mockRestore()
     setEnvVariables(oldEnv)
     mockWsServer?.close()
     fastify?.close(done())
@@ -61,18 +68,8 @@ describe('websocket', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
 
-      let response = await makeRequest()
-      expect(response.body).toEqual({
-        result: 1234,
-        statusCode: 200,
-        data: { result: 1234 },
-      })
-
-      await sleep(5000)
-
-      // WS subscription and cache should be expired by now
-      response = await makeRequest()
-      expect(response.statusCode).toEqual(504)
+      const response = await makeRequest()
+      expect(response.body).toMatchSnapshot()
     }, 30000)
     it('should return error (empty body)', async () => {
       const makeRequest = () =>
