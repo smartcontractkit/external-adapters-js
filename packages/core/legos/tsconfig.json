@@ -257,6 +257,9 @@
       "path": "../../sources/gsr"
     },
     {
+      "path": "../../sources/gsr-test"
+    },
+    {
       "path": "../../sources/iex-cloud"
     },
     {
