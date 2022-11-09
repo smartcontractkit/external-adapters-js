@@ -18,26 +18,26 @@ export const adapter = new Adapter({
   overrides: overrides['coinpaprika'],
   rateLimiting: {
     tiers: {
-      "free": {
-        "rateLimit1s": 10,
-        "rateLimit1h": 69.44,
-        "note": "50k/mo for free"
+      free: {
+        rateLimit1s: 10,
+        rateLimit1h: 69.44,
+        note: '50k/mo for free',
       },
-      "pro": {
-        "rateLimit1s": 10,
-        "rateLimit1h": 347.22,
-        "note": "250k/mo for pro"
+      pro: {
+        rateLimit1s: 10,
+        rateLimit1h: 347.22,
+        note: '250k/mo for pro',
       },
-      "business": {
-        "rateLimit1s": 10,
-        "rateLimit1h": 1388.888,
-        "note": "1mil/mo for business"
+      business: {
+        rateLimit1s: 10,
+        rateLimit1h: 1388.888,
+        note: '1mil/mo for business',
       },
-      "enterprise": {
-        "rateLimit1s": 10,
-        "note": "unlimited per month"
-      }
-    }
+      enterprise: {
+        rateLimit1s: 10,
+        note: 'unlimited per month',
+      },
+    },
   },
   endpoints: [
     coins,
