@@ -4824,8 +4824,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinpaprika-test/",\
           "packageDependencies": [\
             ["@chainlink/coinpaprika-test-adapter", "workspace:packages/sources/coinpaprika-test"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/external-adapter-framework", "npm:0.5.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

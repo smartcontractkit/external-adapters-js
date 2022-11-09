@@ -2348,8 +2348,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-test-adapter@workspace:packages/sources/coinpaprika-test"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/external-adapter-framework": 0.5.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
