@@ -68,6 +68,7 @@
     "@chainlink/coingecko-test-adapter": "workspace:*",
     "@chainlink/coinlore-adapter": "workspace:*",
     "@chainlink/coinmarketcap-adapter": "workspace:*",
+    "@chainlink/coinmarketcap-test-adapter": "workspace:*",
     "@chainlink/coinmetrics-adapter": "workspace:*",
     "@chainlink/coinmetrics-test-adapter": "workspace:*",
     "@chainlink/coinpaprika-adapter": "workspace:*",
