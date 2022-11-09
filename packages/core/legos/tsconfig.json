@@ -233,6 +233,9 @@
       "path": "../../sources/galaxy"
     },
     {
+      "path": "../../sources/galaxy-test"
+    },
+    {
       "path": "../../sources/gemini"
     },
     {

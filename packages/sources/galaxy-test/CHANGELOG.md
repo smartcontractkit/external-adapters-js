@@ -1,0 +1,1 @@
+# @chainlink/galaxy-test-adapter

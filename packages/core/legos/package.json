@@ -103,6 +103,7 @@
     "@chainlink/fmpcloud-adapter": "workspace:*",
     "@chainlink/galaxis-adapter": "workspace:*",
     "@chainlink/galaxy-adapter": "workspace:*",
+    "@chainlink/galaxy-test-adapter": "workspace:*",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/genesis-volatility-adapter": "workspace:*",
     "@chainlink/geodb-adapter": "workspace:*",
