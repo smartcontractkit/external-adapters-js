@@ -1,5 +1,11 @@
 # @chainlink/fluent-finance-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 69c847214: Fix: Allow 0 balances
+
 ## 1.0.2
 
 ### Patch Changes
