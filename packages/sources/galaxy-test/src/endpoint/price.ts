@@ -19,7 +19,6 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   url: () => DEFAULT_WS_API_ENDPOINT,
   options: async (context) => {
     const token = await getAccessToken(context.adapterConfig)
-    console.log({ token })
     return {
       headers: { token: token?.token || '' },
     }

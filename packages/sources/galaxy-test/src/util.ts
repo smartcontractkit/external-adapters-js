@@ -20,8 +20,8 @@ export const getAccessToken = async (
         url: config.API_ENDPOINT || DEFAULT_BASE_URL,
         method: 'GET',
         headers: {
-          'X-GALAXY-APIKEY': config.API_KEY || '',
-          'X-GALAXY-PASSWORD': config.API_PASSWORD || '',
+          'X-GALAXY-APIKEY': config.API_KEY,
+          'X-GALAXY-PASSWORD': config.API_PASSWORD,
         },
       },
       config,

@@ -18,8 +18,8 @@ describe('Price Endpoint', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let mockPriceWsServer: Server | undefined
-  const tokenEndpoint = 'https://test-url.com'
-  const wsEndpoint = 'ws://localhost:9090'
+  const tokenEndpoint = process.env.API_ENDPOINT || 'https://test-url.com'
+  const wsEndpoint = process.env.WS_API_ENDPOINT || 'ws://localhost:9090'
 
   jest.setTimeout(10000)
 
@@ -43,11 +43,6 @@ describe('Price Endpoint', () => {
     process.env['API_KEY'] = 'test-key'
     process.env['API_PASSWORD'] = 'test-password'
     process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
-
-    setEnvVariables({
-      API_KEY: 'test-key',
-      API_PASSWORD: 'test-password',
-    })
 
     mockTokenResponse()
     mockWebSocketProvider(WebSocketClassProvider)
