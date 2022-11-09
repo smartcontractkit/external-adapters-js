@@ -1,6 +1,6 @@
 # Stader Address List Adapter
 
-![1.0.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-address-list/package.json)
 
 This EA fetches the list of custodial addresses that hold the funds for a PoR feed
 

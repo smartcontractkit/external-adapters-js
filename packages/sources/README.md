@@ -15,6 +15,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [ap-election](./ap-election/README.md)
 - [armanino](./armanino/README.md)
 - [bank-frick](./bank-frick/README.md)
+- [bank-frick-test](./bank-frick-test/README.md)
 - [bea](./bea/README.md)
 - [binance](./binance/README.md)
 - [binance-dex](./binance-dex/README.md)

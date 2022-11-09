@@ -1,5 +1,20 @@
 # @chainlink/stader-address-list-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 4c7a9e07c: Update Görli contract address & change to 0 indexed lookup of validators
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.0.6
 
 ### Patch Changes

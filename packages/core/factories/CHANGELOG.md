@@ -1,5 +1,13 @@
 # @chainlink/ea-factories
 
+## 1.2.23
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+
 ## 1.2.22
 
 ### Patch Changes
