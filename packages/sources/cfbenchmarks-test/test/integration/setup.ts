@@ -5,7 +5,8 @@ import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
-import { crypto, requestTransforms } from '../../src/endpoint'
+import { crypto } from '../../src/endpoint'
+import { requestTransforms } from '../../src/endpoint/common/crypto'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
