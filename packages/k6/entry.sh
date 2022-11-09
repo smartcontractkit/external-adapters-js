@@ -32,11 +32,15 @@ else
   STATUS=${PIPESTATUS[0]}
 fi
 
+# DEBUG
+echo "TEST_FILE: "${TEST_FILE}
+echo `ls ~/`
+
 # if this is being run against a pr then post results
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
-  TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(tail -n 150 ~/output-*-raw.txt)
+  TEST_OUTPUT=$(tail -n 1500 ~/testResults.txt)
+  TEST_OUTPUT_ASSERTIONS=$(tail -n 1500 ~/output-*-raw.txt)
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
     # push fail data to pr as a comment
