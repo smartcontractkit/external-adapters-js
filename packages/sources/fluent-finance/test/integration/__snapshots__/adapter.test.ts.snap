@@ -3,11 +3,11 @@
 exports[`execute price api should return success 1`] = `
 Object {
   "data": Object {
-    "result": 35299.55,
+    "result": 24681.55,
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": 35299.55,
+  "result": 24681.55,
   "statusCode": 200,
 }
 `;
