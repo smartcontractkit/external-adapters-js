@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.40
+
+### Patch Changes
+
+- Updated dependencies [ee928416a]
+- Updated dependencies [69c847214]
+  - @chainlink/gsr-test-adapter@1.0.0
+  - @chainlink/fluent-finance-adapter@1.1.0
+
 ## 1.3.39
 
 ### Patch Changes
