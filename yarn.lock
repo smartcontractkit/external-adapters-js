@@ -2941,6 +2941,7 @@ __metadata:
     "@chainlink/fmpcloud-adapter": "workspace:*"
     "@chainlink/galaxis-adapter": "workspace:*"
     "@chainlink/galaxy-adapter": "workspace:*"
+    "@chainlink/galaxy-test-adapter": "workspace:*"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/genesis-volatility-adapter": "workspace:*"
     "@chainlink/geodb-adapter": "workspace:*"
@@ -3245,7 +3246,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:0.11.0":
+"@chainlink/external-adapter-framework@npm:0.11.0, @chainlink/external-adapter-framework@npm:^0.11.0":
   version: 0.11.0
   resolution: "@chainlink/external-adapter-framework@npm:0.11.0"
   dependencies:
@@ -3459,6 +3460,22 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/galaxy-test-adapter@workspace:*, @chainlink/galaxy-test-adapter@workspace:packages/sources/galaxy-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/galaxy-test-adapter@workspace:packages/sources/galaxy-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": ^0.11.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: ^9.1.5
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
