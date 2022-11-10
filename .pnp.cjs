@@ -421,6 +421,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/elwood"\
       },\
       {\
+        "name": "@chainlink/elwood-test-adapter",\
+        "reference": "workspace:packages/sources/elwood-test"\
+      },\
+      {\
         "name": "@chainlink/ens-adapter",\
         "reference": "workspace:packages/sources/ens"\
       },\
@@ -870,6 +874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
       ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
+      ["@chainlink/elwood-test-adapter", ["workspace:packages/sources/elwood-test"]],\
       ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
       ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
@@ -5283,6 +5288,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
+            ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
             ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
             ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],\
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],\
@@ -5340,9 +5346,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
-            ["@chainlink/rocket-pool-adapter", "workspace:packages/composites/rocket-pool"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
@@ -5532,6 +5536,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.7"],\
             ["supertest", "npm:6.2.3"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/elwood-test-adapter", [\
+        ["workspace:packages/sources/elwood-test", {\
+          "packageLocation": "./packages/sources/elwood-test/",\
+          "packageDependencies": [\
+            ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:0.27.2"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
           ],\

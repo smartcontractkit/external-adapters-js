@@ -179,6 +179,9 @@
       "path": "../../sources/elwood"
     },
     {
+      "path": "../../sources/elwood-test"
+    },
+    {
       "path": "../../sources/ens"
     },
     {
@@ -348,9 +351,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"

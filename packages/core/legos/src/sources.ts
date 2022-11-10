@@ -54,6 +54,7 @@ import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
+import * as elwood_test from '@chainlink/elwood-test-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
@@ -111,7 +112,6 @@ import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
-import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as snowflake from '@chainlink/snowflake-adapter'
@@ -200,6 +200,7 @@ export default {
   dxfeed,
   dxfeed_secondary,
   elwood,
+  elwood_test,
   ens,
   enzyme,
   eodhistoricaldata,
@@ -257,7 +258,6 @@ export default {
   poa,
   polygon,
   por_address_list,
-  reduce,
   renvm_adapter_address,
   satoshitango,
   snowflake,
