@@ -5773,6 +5773,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["npm:0.11.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.11.0-1021d1546d-c394a23e79.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.7.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:0.3.9", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.3.9-bbf99259a1-64e3e525b4.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -6001,7 +6017,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy-test/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-test-adapter", "workspace:packages/sources/galaxy-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.10.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -19272,6 +19288,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["fast-copy", [\
+        ["npm:2.1.7", {\
+          "packageLocation": "./.yarn/cache/fast-copy-npm-2.1.7-b95a8375c3-af8016c174.zip/node_modules/fast-copy/",\
+          "packageDependencies": [\
+            ["fast-copy", "npm:2.1.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["fast-decode-uri-component", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/fast-decode-uri-component-npm-1.0.1-578ba9fecf-427a48fe09.zip/node_modules/fast-decode-uri-component/",\
@@ -20973,6 +20998,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/heap-npm-0.2.7-198a59506f-b0f3963a79.zip/node_modules/heap/",\
           "packageDependencies": [\
             ["heap", "npm:0.2.7"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["help-me", [\
+        ["npm:4.1.0", {\
+          "packageLocation": "./.yarn/cache/help-me-npm-4.1.0-8345c492e3-521b1b3f8c.zip/node_modules/help-me/",\
+          "packageDependencies": [\
+            ["help-me", "npm:4.1.0"],\
+            ["glob", "npm:8.0.3"],\
+            ["readable-stream", "npm:3.6.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -28684,6 +28720,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["readable-stream", "npm:3.6.0"],\
             ["rfdc", "npm:1.3.0"],\
             ["split2", "npm:3.2.2"],\
+            ["strip-json-comments", "npm:3.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:9.1.0", {\
+          "packageLocation": "./.yarn/cache/pino-pretty-npm-9.1.0-5ec4fa06f1-44416ebfcc.zip/node_modules/pino-pretty/",\
+          "packageDependencies": [\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["colorette", "npm:2.0.19"],\
+            ["dateformat", "npm:4.6.3"],\
+            ["fast-copy", "npm:2.1.7"],\
+            ["fast-safe-stringify", "npm:2.1.1"],\
+            ["help-me", "npm:4.1.0"],\
+            ["joycon", "npm:3.1.1"],\
+            ["minimist", "npm:1.2.6"],\
+            ["on-exit-leak-free", "npm:2.1.0"],\
+            ["pino-abstract-transport", "npm:1.0.0"],\
+            ["pump", "npm:3.0.0"],\
+            ["readable-stream", "npm:4.2.0"],\
+            ["secure-json-parse", "npm:2.5.0"],\
+            ["sonic-boom", "npm:3.2.0"],\
             ["strip-json-comments", "npm:3.1.1"]\
           ],\
           "linkType": "HARD"\
