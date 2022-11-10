@@ -5,9 +5,11 @@ import {
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import axios from 'axios'
 import { customSettings } from '../config'
+
+const logger = makeLogger('ElwoodWsPrice')
 
 export type SubscribeRequest = {
   action: 'subscribe' | 'unsubscribe'
@@ -60,24 +62,43 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
         `${context.adapterConfig.WS_API_ENDPOINT}?apiKey=${context.adapterConfig.API_KEY}`,
       handlers: {
         message(message) {
-          if (!message.data) {
+          if (message.type !== 'Index') {
             return
           }
-          if (message.type === 'Index') {
-            const [base, quote] = message.data.symbol.split('-')
-            const value = Number(message.data.price)
 
-            return [
-              {
-                params: {
-                  base,
-                  quote,
-                },
-                value,
-              },
-            ]
+          if (!message.data) {
+            logger.warn(`Got no data in WS message of type Index`)
+            return
           }
-          return
+
+          if (typeof message.data?.symbol !== 'string') {
+            logger.warn(
+              `Got non string symbol "${message.data?.symbol}" in WS message of type Index`,
+            )
+            return
+          }
+
+          const [base, quote] = message.data.symbol.split('-')
+          if (!base || !quote) {
+            logger.warn(`Got invalid symbol "${message.data?.symbol}" in WS message of type Index`)
+            return
+          }
+
+          const value = Number(message.data.price)
+          if (value < 0) {
+            logger.warn(`Got invalid price "${message.data.price}" in WS message of type Index`)
+            return
+          }
+
+          return [
+            {
+              params: {
+                base,
+                quote,
+              },
+              value,
+            },
+          ]
         },
       },
       builders: {

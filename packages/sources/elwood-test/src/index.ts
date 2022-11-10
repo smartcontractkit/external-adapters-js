@@ -1,6 +1,6 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { cryptoEndpoint } from './endpoints'
+import { cryptoEndpoint } from './endpoint'
 import { customSettings } from './config'
 
 export const adapter = new PriceAdapter({
