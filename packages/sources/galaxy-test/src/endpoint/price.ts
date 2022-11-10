@@ -1,4 +1,3 @@
-import { DEFAULT_WS_API_ENDPOINT } from '../config'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   PriceEndpoint,
@@ -16,7 +15,7 @@ const getPair = (params: AdapterRequestParams) => {
 }
 
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT || DEFAULT_WS_API_ENDPOINT,
+  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
   options: async (context) => {
     const token = await getAccessToken(context.adapterConfig)
     return {

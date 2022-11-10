@@ -6,7 +6,7 @@ import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { customSettings, DEFAULT_BASE_URL } from './config'
+import { customSettings } from './config'
 import { AccessToken, AccessTokenResponse } from './types'
 
 const logger = makeLogger('GalaxyUtil')
@@ -17,11 +17,11 @@ export const getAccessToken = async (
   try {
     const tokenResponse = await axiosRequest<never, AccessTokenResponse, typeof customSettings>(
       {
-        url: config.API_ENDPOINT || DEFAULT_BASE_URL,
+        url: config.API_ENDPOINT,
         method: 'GET',
         headers: {
-          'X-GALAXY-APIKEY': config.API_KEY,
-          'X-GALAXY-PASSWORD': config.API_PASSWORD,
+          'X-GALAXY-APIKEY': config.WS_API_KEY,
+          'X-GALAXY-PASSWORD': config.WS_API_PASSWORD,
         },
       },
       config,

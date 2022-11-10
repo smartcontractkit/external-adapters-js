@@ -40,8 +40,8 @@ describe('Price Endpoint', () => {
     process.env['METRICS_ENABLED'] = 'false'
     process.env['API_ENDPOINT'] = tokenEndpoint
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['API_KEY'] = 'test-key'
-    process.env['API_PASSWORD'] = 'test-password'
+    process.env['WS_API_KEY'] = 'test-key'
+    process.env['WS_API_PASSWORD'] = 'test-password'
     process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
 
     mockTokenResponse()
