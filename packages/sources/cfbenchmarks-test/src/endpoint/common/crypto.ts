@@ -57,15 +57,11 @@ export const additionalInputValidation = ({ index, base, quote }: Params): void 
 export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void => {
   // TODO: Move additional input validations to proper location after framework supports it
   additionalInputValidation(req.requestContext.data)
-  if (req.requestContext.data.index) {
-    // If an id was given, clear base quote to ensure an exact match in the cache
-    delete req.requestContext.data.base
-    delete req.requestContext.data.quote
-  } else {
+  if (!req.requestContext.data.index) {
     const isSecondary = process.env.API_SECONDARY
     const type = isSecondary ? 'secondary' : 'primary'
     // If there is no index set
-    // we know that base and quote exist from the extra validation in the routing handler
+    // we know that base and quote exist from the extra input validation above
     // coerce to strings
     req.requestContext.data.index = getIdFromBaseQuote(
       req.requestContext.data.base as string,
@@ -73,6 +69,9 @@ export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void
       type,
     )
   }
+  // Clear base quote to ensure an exact match in the cache with index
+  delete req.requestContext.data.base
+  delete req.requestContext.data.quote
 }
 
 export const routingTransport = new RoutingTransport(
