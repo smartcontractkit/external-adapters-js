@@ -16,7 +16,7 @@ const getPair = (params: AdapterRequestParams) => {
 }
 
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
-  url: () => DEFAULT_WS_API_ENDPOINT,
+  url: (context) => context.adapterConfig.WS_API_ENDPOINT || DEFAULT_WS_API_ENDPOINT,
   options: async (context) => {
     const token = await getAccessToken(context.adapterConfig)
     return {
