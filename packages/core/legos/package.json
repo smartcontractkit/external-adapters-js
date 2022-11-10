@@ -85,6 +85,7 @@
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",
     "@chainlink/elwood-adapter": "workspace:*",
+    "@chainlink/elwood-test-adapter": "workspace:*",
     "@chainlink/ens-adapter": "workspace:*",
     "@chainlink/enzyme-adapter": "workspace:*",
     "@chainlink/eodhistoricaldata-adapter": "workspace:*",

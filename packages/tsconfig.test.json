@@ -291,6 +291,9 @@
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
+      "path": "./sources/elwood-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/ens/tsconfig.test.json"
     },
     {
