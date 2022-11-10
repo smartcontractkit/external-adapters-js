@@ -6,7 +6,7 @@ import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 export const adapter = new PriceAdapter({
-  name: 'galaxy',
+  name: 'GALAXY',
   endpoints: [price],
   defaultEndpoint: price.name,
   customSettings,
