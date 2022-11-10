@@ -2922,6 +2922,7 @@ __metadata:
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/dxfeed-secondary-adapter": "workspace:*"
     "@chainlink/elwood-adapter": "workspace:*"
+    "@chainlink/elwood-test-adapter": "workspace:*"
     "@chainlink/ens-adapter": "workspace:*"
     "@chainlink/enzyme-adapter": "workspace:*"
     "@chainlink/eodhistoricaldata-adapter": "workspace:*"
@@ -3030,6 +3031,23 @@ __metadata:
     "@types/supertest": 2.0.12
     nock: 13.2.7
     supertest: 6.2.3
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/elwood-test-adapter@workspace:*, @chainlink/elwood-test-adapter@workspace:packages/sources/elwood-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/elwood-test-adapter@workspace:packages/sources/elwood-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.11.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    axios: 0.27.2
+    mock-socket: ^9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
