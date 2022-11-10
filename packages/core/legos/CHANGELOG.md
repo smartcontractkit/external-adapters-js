@@ -1,5 +1,22 @@
 # @chainlink/ea
 
+## 1.3.41
+
+### Patch Changes
+
+- Updated dependencies [7afa9620f]
+- Updated dependencies [07781d25d]
+- Updated dependencies [81f5e595c]
+- Updated dependencies [d2b0ac153]
+- Updated dependencies [919ab1ca3]
+- Updated dependencies [07781d25d]
+  - @chainlink/galaxy-test-adapter@1.0.0
+  - @chainlink/coingecko-test-adapter@1.2.2
+  - @chainlink/gsr-test-adapter@1.0.1
+  - @chainlink/ncfx-test-adapter@1.0.1
+  - @chainlink/cfbenchmarks-test-adapter@1.0.0
+  - @chainlink/elwood-test-adapter@1.0.0
+
 ## 1.3.40
 
 ### Patch Changes
