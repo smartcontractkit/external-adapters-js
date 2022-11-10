@@ -27,6 +27,7 @@ import * as cache_gold from '@chainlink/cache.gold-adapter'
 import * as ccip_read from '@chainlink/ccip-read-adapter'
 import * as celsius_address_list from '@chainlink/celsius-address-list-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
+import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
@@ -72,6 +73,7 @@ import * as fluent_finance from '@chainlink/fluent-finance-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
 import * as galaxy from '@chainlink/galaxy-adapter'
+import * as galaxy_test from '@chainlink/galaxy-test-adapter'
 import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -172,6 +174,7 @@ export default {
   ccip_read,
   celsius_address_list,
   cfbenchmarks,
+  cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
   coinbase,
@@ -217,6 +220,7 @@ export default {
   fmpcloud,
   galaxis,
   galaxy,
+  galaxy_test,
   gemini,
   genesis_adapter,
   geodb,

@@ -123,9 +123,6 @@
       "path": "./scripts/tsconfig.test.json"
     },
     {
-      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter/tsconfig.test.json"
-    },
-    {
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
@@ -211,6 +208,9 @@
     },
     {
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/cfbenchmarks-test/tsconfig.test.json"
     },
     {
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
@@ -346,6 +346,9 @@
     },
     {
       "path": "./sources/galaxy/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/galaxy-test/tsconfig.test.json"
     },
     {
       "path": "./sources/gemini/tsconfig.test.json"
