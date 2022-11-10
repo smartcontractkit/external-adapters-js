@@ -27,11 +27,17 @@ const buildIdOverrideFromBaseQuote = (
 const idOverrideFromBaseQuote: IdToBaseQuoteLookup =
   buildIdOverrideFromBaseQuote(overridenBaseQuoteFromId)
 
-export const overrideId = (base: string, quote: string): string | undefined =>
-  idOverrideFromBaseQuote[base][quote]
+export const overrideId = (base: string, quote: string): string | undefined => {
+  const baseOverride = idOverrideFromBaseQuote[base]
+  if (baseOverride) {
+    return baseOverride[quote]
+  } else {
+    return undefined
+  }
+}
 
-export const getPrimaryId = (base: string, quote: string): string => `${base}/${quote}_RTI`
-export const getSecondaryId = (base: string, quote: string): string => `U_${base}/${quote}_RTI`
+export const getPrimaryId = (base: string, quote: string): string => `${base}${quote}_RTI`
+export const getSecondaryId = (base: string, quote: string): string => `U_${base}${quote}_RTI`
 
 export const getIdFromBaseQuote = (
   base: string,
