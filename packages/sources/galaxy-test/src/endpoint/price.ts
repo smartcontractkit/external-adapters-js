@@ -11,8 +11,8 @@ import { AdapterRequestParams, PriceEndpointTypes } from '../types'
 const SPLIT_PAIR_REGEX = /[_/]+/
 
 const getPair = (params: AdapterRequestParams) => {
-  const { base = '', quote = '' } = params
-  return base && quote && `markPrice_${base.toUpperCase()}/${quote.toUpperCase()}`
+  const { base, quote } = params
+  return `markPrice_${base.toUpperCase()}/${quote.toUpperCase()}`
 }
 
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
@@ -37,9 +37,8 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
     },
   },
   builders: {
-    subscribeMessage: (params) => JSON.stringify({ type: 'subscribe', signals: [getPair(params)] }),
-    unsubscribeMessage: (params) =>
-      JSON.stringify({ type: 'unsubscribe', signals: [getPair(params)] }),
+    subscribeMessage: (params) => ({ type: 'subscribe', signals: [getPair(params)] }),
+    unsubscribeMessage: (params) => ({ type: 'unsubscribe', signals: [getPair(params)] }),
   },
 })
 
