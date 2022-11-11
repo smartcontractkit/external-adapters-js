@@ -1,7 +1,7 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { RestTransport } from '@chainlink/external-adapter-framework/transports'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
+import { DEFAULT_INTERVAL, DEFAULT_MILLISECONDS, DEFAULT_SORT } from '../config'
 
 const inputParameters = {
   base: {
@@ -35,28 +35,87 @@ const inputParameters = {
   },
 } as const
 
+export interface RequestParams {
+  base: string
+  quote: string
+  interval?: string
+  millisecondsAgo?: number
+  sort?: string
+}
+
+export interface ResponseSchema {
+  query: {
+    page_size: number
+    start_time: string
+    interval: string
+    sort: string
+    base_asset: string
+    sources: boolean
+    ch: boolean
+    include_exchanges: string[]
+    exclude_exchanges: string[]
+    quote_asset: string
+    data_version: string
+    commodity: string
+    request_time: string
+    instruments: string[]
+    start_timestamp: number
+  }
+  time: string
+  timestamp: number
+  data: { timestamp: number; price: string }[]
+  result: string
+  access: {
+    access_range: { start_timestamp: number; end_timestamp: number }
+    data_range: { start_timestamp: number; end_timestamp: number }
+  }
+}
+
 type EndpointTypes = {
   Request: {
-    Params: EmptyObject
+    Params: RequestParams
   }
   Response: {
-    Data: any
+    Data: ResponseSchema
     Result: null
   }
   CustomSettings: SettingsMap
   Provider: {
     RequestBody: never
-    ResponseBody: any
+    ResponseBody: ResponseSchema
   }
 }
 
+const calculateStartTime = (millisecondsAgo: number) => {
+  const date = new Date()
+  date.setTime(date.getTime() - millisecondsAgo)
+  return date
+}
+
 const restEndpointTransport = new RestTransport<EndpointTypes>({
-  prepareRequest: (_, config) => {
+  prepareRequest: (req, config) => {
+    const data = req.requestContext.data
+    const base = data.base
+    const quote = data.quote
+    const url = `/spot_exchange_rate/${base}/${quote}`
+
+    const interval = data.interval || DEFAULT_INTERVAL
+    const start_time = calculateStartTime(data.millisecondsAgo || DEFAULT_MILLISECONDS)
+    const sort = data.sort || DEFAULT_SORT
+
+    const params = { interval, sort, start_time }
     return {
       baseURL: config.API_ENDPOINT,
+      url,
+      params,
     }
   },
   parseResponse: (_, res) => {
+    // console.log(req.requestContext.priceMeta.inverse)
+    const data = res.data.data.filter((x) => x.price !== null)
+    if (data.length == 0) {
+      throw 'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.'
+    }
     return {
       data: res.data,
       statusCode: 200,
