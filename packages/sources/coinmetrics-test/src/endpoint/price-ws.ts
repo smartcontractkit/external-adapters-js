@@ -77,14 +77,17 @@ export const handleAssetMetricsMessage = (
   message: WsAssetMetricsMessage,
 ): ProviderResult<WsAssetMetricsEndpointTypes>[] | undefined => {
   logger.trace(message, 'Got response from websocket')
-  //Cast message to all of its known types so we can check which variant we received
   if ('error' in message) {
+    // Is WsAssetMetricsErrorResponse
     logger.error(message, `Error response from websocket`)
   } else if ('warning' in message) {
+    // Is WsAssetMetricsWarningResponse
     logger.warn(message, `Warning response from websocket`)
   } else if ('type' in message && message.type === 'reorg') {
+    // Is WsAssetMetricsReorgResponse
     logger.info(message, `Reorg response from websocket`)
   } else if (
+    // Is WsAssetMetricsSuccessResponse
     'ReferenceRateUSD' in message ||
     'ReferenceRateEUR' in message ||
     'ReferenceRateBTC' in message ||

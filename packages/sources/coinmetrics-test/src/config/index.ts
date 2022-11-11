@@ -1,8 +1,5 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-export const DEFAULT_API_ENDPOINT = 'https://api.coinmetrics.io/v4'
-export const DEFAULT_WS_API_ENDPOINT = 'wss://api.coinmetrics.io/v4'
-
 // Quote values are used to find a dynamic property in the DP response, in the form of ReferenceRate{quote}
 // Since we use hard property names in response types, we need to make sure that only expected quote values appear in params
 export enum VALID_QUOTES {
@@ -22,14 +19,12 @@ export const customSettings = {
   WS_API_ENDPOINT: {
     description: 'The websocket url for coinmetrics',
     type: 'string',
-    required: true,
-    default: DEFAULT_WS_API_ENDPOINT,
+    default: 'wss://api.coinmetrics.io/v4',
   },
   API_ENDPOINT: {
     description: 'The API url for coinmetrics',
     type: 'string',
-    required: true,
-    default: DEFAULT_API_ENDPOINT,
+    default: 'https://api.coinmetrics.io/v4',
   },
 } as const
 
