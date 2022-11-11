@@ -2,8 +2,8 @@ import { check, sleep } from 'k6'
 import { SharedArray } from 'k6/data'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
-import { Payload } from './config/types'
-import { validateOutputs } from './output-test'
+import { Payload, Assertion } from './config/types'
+import { validateOutput } from './output-test'
 
 const GROUP_COUNT = 10
 const UNIQUE_PAYLOAD_LIMIT = 50
@@ -23,6 +23,14 @@ if (__ENV.PAYLOAD_GENERATED) {
     return f
   })
 }
+
+let assertions: Assertion[] = []
+const assertionsPath =
+  __ENV.ASSERTIONS_PATH || `../src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`
+assertions = new SharedArray('assertionsPath', function () {
+  const f = JSON.parse(open(assertionsPath))
+  return f
+})
 
 // set the k6 running options
 export const options = {
@@ -127,11 +135,14 @@ export default (): void => {
     const result = check(response, {
       [`${name} returned 200`]: (r) => r.status == 200,
     })
+    validateOutput(response, assertions)
+
+    // console.log(response.request.url)
+    // console.log(response.request.body.toString())
+    // console.log(response.body?.toString())
 
     errorRate.add(!result)
   }
-  const adapterName = __ENV.LOAD_TEST_ADAPTER_NAME
-  validateOutputs(responses, adapterName)
 
   const after = new Date().getTime()
   const diff = (after - before) / 1000

@@ -39,8 +39,8 @@ echo `ls ~/`
 # if this is being run against a pr then post results
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
-  TEST_OUTPUT=$(tail -n 1500 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(tail -n 1500 ~/output-*-raw.txt)
+  TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
+  TEST_OUTPUT_ASSERTIONS=$(cat output.log | grep "Assertion failed" | tail -n 150)
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
     # push fail data to pr as a comment
@@ -50,6 +50,11 @@ if [ ! -z ${PR_NUMBER+x} ]; then
 \`\`\`
 ${TEST_OUTPUT}
 \`\`\`
+
+\`\`\`
+${TEST_OUTPUT_ASSERTIONS}
+\`\`\`
+
 </details>"
   else
     echo "test passed"
@@ -57,12 +62,13 @@ ${TEST_OUTPUT}
     gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>:heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded</summary>
 
 \`\`\`
-${TEST_OUTPUT_ASSERTIONS}
+${TEST_OUTPUT}
 \`\`\`
 
 \`\`\`
-${TEST_OUTPUT}
+${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
+
 </details>"
   fi
 fi

@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "yarn webpack",
-    "test": "yarn build && k6 run dist/test.js",
+    "test": "yarn build && k6 run --logformat raw dist/test.js 2>~/output.log",
     "test:cryptocompare": "yarn build && k6 run dist/testCryptocompare.js",
     "test:limit": "yarn build && node ./dist/testLimitsMultiple.js"
   }
