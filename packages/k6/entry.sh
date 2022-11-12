@@ -24,7 +24,7 @@ echo "env PR_NUMBER=${PR_NUMBER}"
 STATUS=0
 if [ $# -eq 0 ]; then
   # used in k8s
-  k6 run /load/dist/${TEST_TO_RUN} | tee ~/testResults.txt
+  k6 run --logformat raw /load/dist/${TEST_TO_RUN} 2>~/output.log | tee ~/testResults.txt
   STATUS=${PIPESTATUS[0]}
 else
   # used in local runs when you want to pass specific args to the test
@@ -33,8 +33,7 @@ else
 fi
 
 # DEBUG
-echo "TEST_FILE: "${TEST_FILE}
-echo `ls ~/`
+
 
 # if this is being run against a pr then post results
 if [ ! -z ${PR_NUMBER+x} ]; then
@@ -52,6 +51,7 @@ ${TEST_OUTPUT}
 \`\`\`
 
 \`\`\`
+echo "PAYLOAD_GENERATED: "${PAYLOAD_GENERATED}" ASSERTIONS_PATH: "${ASSERTIONS_PATH}" PAYLOAD_PATH: "${PAYLOAD_PATH}
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
 
@@ -66,6 +66,7 @@ ${TEST_OUTPUT}
 \`\`\`
 
 \`\`\`
+echo "PAYLOAD_GENERATED: "${PAYLOAD_GENERATED}" ASSERTIONS_PATH: "${ASSERTIONS_PATH}" PAYLOAD_PATH: "${PAYLOAD_PATH}
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
 

@@ -130,17 +130,13 @@ export default (): void => {
   const before = new Date().getTime()
   const T = 5 // Don't send batch requests more frequently than once per 5s
 
+  console.log(`Assertions loaded for ${__ENV.CI_ADAPTER_NAME} ${assertions.length}`)
   const responses = http.batch(stagedBatchRequests[Math.min(iteration++, GROUP_COUNT - 1)])
   for (const [name, response] of Object.entries(responses)) {
     const result = check(response, {
       [`${name} returned 200`]: (r) => r.status == 200,
     })
     validateOutput(response, assertions)
-
-    // console.log(response.request.url)
-    // console.log(response.request.body.toString())
-    // console.log(response.body?.toString())
-
     errorRate.add(!result)
   }
 
