@@ -26,7 +26,7 @@ if (__ENV.PAYLOAD_GENERATED) {
 
 let assertions: Assertion[] = []
 const assertionsPath =
-  __ENV.ASSERTIONS_PATH || `/load/src/config/assertions/coingecko-assertions.json`
+  __ENV.ASSERTIONS_PATH || `/load/src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`
 assertions = new SharedArray('assertionsPath', function () {
   const f = JSON.parse(open(assertionsPath))
   return f
@@ -125,13 +125,11 @@ function buildRequests(i: number) {
 const stagedBatchRequests = new Array(GROUP_COUNT).fill(0).map((_, i) => buildRequests(i))
 
 let iteration = 0
-
 console.log(`Assertions loaded for ${__ENV.CI_ADAPTER_NAME} ${assertions.length}`)
 
 export default (): void => {
   const before = new Date().getTime()
   const T = 5 // Don't send batch requests more frequently than once per 5s
-
   const responses = http.batch(stagedBatchRequests[Math.min(iteration++, GROUP_COUNT - 1)])
   for (const [name, response] of Object.entries(responses)) {
     const result = check(response, {
