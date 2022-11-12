@@ -32,14 +32,11 @@ else
   STATUS=${PIPESTATUS[0]}
 fi
 
-# DEBUG
-
-
 # if this is being run against a pr then post results
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(cat output.log | grep "Assertion failed" | tail -n 150)
+  TEST_OUTPUT_ASSERTIONS=$(tail -n 150 ~/output.log)
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
     # push fail data to pr as a comment
@@ -51,7 +48,6 @@ ${TEST_OUTPUT}
 \`\`\`
 
 \`\`\`
-PAYLOAD_GENERATED: ${PAYLOAD_GENERATED} ASSERTIONS_PATH: ${ASSERTIONS_PATH} PAYLOAD_PATH: ${PAYLOAD_PATH}
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
 
@@ -66,7 +62,6 @@ ${TEST_OUTPUT}
 \`\`\`
 
 \`\`\`
-PAYLOAD_GENERATED: ${PAYLOAD_GENERATED} ASSERTIONS_PATH: ${ASSERTIONS_PATH} PAYLOAD_PATH: ${PAYLOAD_PATH}
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
 
