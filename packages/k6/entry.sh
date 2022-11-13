@@ -36,7 +36,9 @@ fi
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion" | sort | uniq)
+  TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion failed" | sort | uniq)
+  TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions loaded for" | sort | uniq)
+  TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
     # push fail data to pr as a comment
@@ -46,12 +48,20 @@ if [ ! -z ${PR_NUMBER+x} ]; then
 \`\`\`
 ${TEST_OUTPUT}
 \`\`\`
+</details>
 
+<details><summary>Assertions applied ${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
 \`\`\`
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
+</details>
 
-</details>"
+<details><summary>Output sample</summary>
+\`\`\`
+${TEST_OUTPUT_SAMPLE}
+\`\`\`
+</details>
+"
   else
     echo "test passed"
     # gh pr review ${PR_NUMBER} -R smartcontractkit/external-adapters-js -c -b "Soak tests look good"
@@ -60,11 +70,19 @@ ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
 ${TEST_OUTPUT}
 \`\`\`
+</details>
 
+<details><summary>Assertions applied ${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
 \`\`\`
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
+</details>
 
-</details>"
+<details><summary>Output sample</summary>
+\`\`\`
+${TEST_OUTPUT_SAMPLE}
+\`\`\`
+</details>
+"
   fi
 fi

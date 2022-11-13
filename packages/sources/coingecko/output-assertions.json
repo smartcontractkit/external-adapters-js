@@ -1,8 +1,1 @@
-[
-  {
-    "request": { "endpoint": "/crypto", "data": { "from": "SUSHI", "to": "ETH" } },
-    "expectedResponse": {
-      "result": { "greaterThan": 0, "minPrecision": 10 }
-    }
-  }
-]
+[]
