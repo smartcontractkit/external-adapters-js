@@ -36,7 +36,7 @@ fi
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(sort ~/output.log | uniq)
+  TEST_OUTPUT_ASSERTIONS=$(tail -n 500 ~/output.log)
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
     # push fail data to pr as a comment
