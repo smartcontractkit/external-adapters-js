@@ -6,9 +6,9 @@
     }
   },
   {
-    "request": { "endpoint": "/", "data": { "from": "BADGER", "to": "ETH" } },
+    "request": { "endpoint": "/", "data": { "from": "AAVE", "to": "USD" } },
     "expectedResponse": {
-      "result": { "minPrecision": 10 }
+      "result": { "minPrecision": 30 }
     }
   }
 ]
