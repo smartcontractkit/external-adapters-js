@@ -12,7 +12,7 @@ if [ ! -z ${TEST_FILE+x} ]; then
   TEST_TO_RUN=${TEST_FILE}
 fi
 
-echo "env TEST_DURATION=${TEST_DURATION}"
+echo "env TEST_DURATION=2m" # ${TEST_DURATION}
 echo "env TEST_FILE=${TEST_FILE}"
 echo "env WS_ENABLED=${WS_ENABLED}"
 echo "env PAYLOAD_GENERATED=${PAYLOAD_GENERATED}"

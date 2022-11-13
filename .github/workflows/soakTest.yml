@@ -199,17 +199,3 @@ jobs:
         uses: jakejarvis/wait-action@master
         with:
           time: '15m'
-      - name: 'Upload adapter output sample to artifacts'
-        uses: actions/upload-artifact@v3
-        with:
-          name: output-raw
-          path: |
-            ~/output-*-raw
-          retention-days: 5
-      - name: 'Upload adapter output assertion results to artifacts'
-        uses: actions/upload-artifact@v3
-        with:
-          name: output-assertions
-          path: |
-            ~/output-*-assertions
-          retention-days: 5
