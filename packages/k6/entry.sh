@@ -50,16 +50,20 @@ ${TEST_OUTPUT}
 \`\`\`
 </details>
 
-<details><summary>Assertions applied ${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
+<details><summary>${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
+
 \`\`\`
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
+
 </details>
 
 <details><summary>Output sample</summary>
+
 \`\`\`
 ${TEST_OUTPUT_SAMPLE}
 \`\`\`
+
 </details>
 "
   else
@@ -70,18 +74,23 @@ ${TEST_OUTPUT_SAMPLE}
 \`\`\`
 ${TEST_OUTPUT}
 \`\`\`
+
 </details>
 
 <details><summary>Assertions applied ${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
+
 \`\`\`
 ${TEST_OUTPUT_ASSERTIONS}
 \`\`\`
+
 </details>
 
 <details><summary>Output sample</summary>
+
 \`\`\`
 ${TEST_OUTPUT_SAMPLE}
 \`\`\`
+
 </details>
 "
   fi
