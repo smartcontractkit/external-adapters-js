@@ -12,7 +12,7 @@ if [ ! -z ${TEST_FILE+x} ]; then
   TEST_TO_RUN=${TEST_FILE}
 fi
 
-echo "env TEST_DURATION=2m" # ${TEST_DURATION}
+echo "env TEST_DURATION=${TEST_DURATION}"
 echo "env TEST_FILE=${TEST_FILE}"
 echo "env WS_ENABLED=${WS_ENABLED}"
 echo "env PAYLOAD_GENERATED=${PAYLOAD_GENERATED}"
@@ -36,7 +36,7 @@ fi
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(tail -n 500 ~/output.log)
+  TEST_OUTPUT_ASSERTIONS=$(tail -n 15 ~/output.log)
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
     # push fail data to pr as a comment
