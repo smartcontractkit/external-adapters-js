@@ -4,7 +4,6 @@ import {
 } from '@chainlink/external-adapter-framework/transports/websocket'
 import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { CryptoEndpointTypes } from '../crypto-utils'
-import { DEFAULT_WS_API_ENDPOINT } from '../config'
 
 const logger = makeLogger('CryptoCompare WS')
 
@@ -39,7 +38,7 @@ type WsEndpointTypes = CryptoEndpointTypes & {
 
 export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
   url: (context) =>
-    `${context.adapterConfig.WS_API_ENDPOINT || DEFAULT_WS_API_ENDPOINT}?api_key=${
+    `${context.adapterConfig.WS_API_ENDPOINT}?api_key=${
       context.adapterConfig.WS_API_KEY || context.adapterConfig.API_KEY
     }`,
   handlers: {

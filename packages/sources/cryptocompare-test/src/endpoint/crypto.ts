@@ -11,7 +11,7 @@ import {
   endpoints,
 } from '../crypto-utils'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { customSettings, DEFAULT_API_ENDPOINT, defaultEndpoint } from '../config'
+import { customSettings, defaultEndpoint } from '../config'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
 import { wsTransport } from './crypto-ws'
 
@@ -29,7 +29,7 @@ export const buildBatchedRequestBody = (
   config: AdapterConfig<typeof customSettings>,
 ): HttpRequestConfig<never> => {
   return {
-    baseURL: config.API_ENDPOINT || DEFAULT_API_ENDPOINT,
+    baseURL: config.API_ENDPOINT,
     url: '/data/pricemultifull',
     method: 'GET',
     headers: {
