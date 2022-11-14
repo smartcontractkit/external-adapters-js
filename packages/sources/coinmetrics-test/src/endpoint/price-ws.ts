@@ -16,10 +16,10 @@ export type WsAssetMetricsSuccessResponse = {
   cm_sequence_id: number
   // Below are metrics fields, where the currency at the end is the quote currency
   // Variants for each of config.VALID_QUOTES should be present here
-  ReferenceRateUSD?: number
-  ReferenceRateEUR?: number
-  ReferenceRateETH?: number
-  ReferenceRateBTC?: number
+  ReferenceRateUSD?: string
+  ReferenceRateEUR?: string
+  ReferenceRateETH?: string
+  ReferenceRateBTC?: string
 }
 export type WsAssetMetricsErrorResponse = {
   error: {
@@ -95,8 +95,8 @@ export const handleAssetMetricsMessage = (
   ) {
     return Object.values(VALID_QUOTES)
       .filter((quote) => {
-        const val = message[`ReferenceRate${quote}`]
-        return val && val > 0
+        const val = Number(message[`ReferenceRate${quote}`])
+        return val > 0
       })
       .map((quote) => {
         return {
@@ -104,7 +104,7 @@ export const handleAssetMetricsMessage = (
             base: message.asset,
             quote,
           },
-          value: message[`ReferenceRate${quote}`] || 0, //We have checked for undefined already, this is here so tsc doesn't complain
+          value: Number(message[`ReferenceRate${quote}`]) || 0, //We have checked for undefined already, this is here so tsc doesn't complain
         }
       })
   } else {
