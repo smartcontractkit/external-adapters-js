@@ -1,53 +1,139 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import { AddressInfo } from 'net'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
-import { server as startServer } from '../../src'
-import { mockPriceSuccess } from './fixtures'
+import {
+  mockCryptoResponseSuccess,
+  mockFilteredResponseSuccess,
+  mockGlobalMarketResponseSuccess,
+} from './fixtures'
+import { SuperTest, Test } from 'supertest'
+import { setupExternalAdapterTest, SuiteContext } from './setup'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-  let oldEnv: NodeJS.ProcessEnv
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
+  const context: SuiteContext = {
+    req: null,
+    server: async () => {
+      process.env['API_KEY'] = 'fake-api-key'
+      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '6'
+      process.env['METRICS_ENABLED'] = 'false'
+      const server = (await import('../../src')).server
+      return server() as Promise<ServerInstance>
+    },
+  }
 
-    process.env.CACHE_ENABLED = 'false'
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
+  const envVariables = {
+    CACHE_ENABLED: 'false',
+  }
 
-  afterAll((done) => {
-    process.env = oldEnv
+  setupExternalAdapterTest(envVariables, context)
 
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
-
-  describe('price api', () => {
-    const data: AdapterRequest = {
+  describe('globalmarketcap endpoint', () => {
+    const data = {
       id,
       data: {
-        base: 'ETH',
-        quote: 'USD',
+        endpoint: 'globalmarketcap',
       },
     }
 
     it('should return success', async () => {
-      mockPriceSuccess()
+      mockGlobalMarketResponseSuccess()
 
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('crypto endpoint', () => {
+    const data = {
+      id,
+      data: {
+        from: 'BTC',
+        to: 'EUR',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCryptoResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('volume endpoint', () => {
+    const data = {
+      id,
+      data: {
+        endpoint: 'volume',
+        from: 'BTC',
+        to: 'EUR',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCryptoResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('marketcap endpoint', () => {
+    const data = {
+      id,
+      data: {
+        endpoint: 'marketcap',
+        from: 'BTC',
+        to: 'EUR',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCryptoResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('filtered endpoint', () => {
+    const data = {
+      id,
+      data: {
+        from: 'LINK',
+        endpoint: 'filtered',
+        exchanges: 'binance,coinbase',
+      },
+    }
+
+    it('should return success', async () => {
+      mockFilteredResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')

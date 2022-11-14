@@ -1,27 +1,22 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-// import overrides from './config/overrides.json'
-import { filtered } from './endpoint'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import overrides from './config/overrides.json'
+import rateLimits from './config/limits.json'
+import { filtered, globalmarketcap, crypto, marketcap, volume } from './endpoint'
+import { customSettings } from './config'
 
-export const adapter = new Adapter({
-  defaultEndpoint: 'filtered',
+export const adapter = new PriceAdapter({
+  defaultEndpoint: crypto.name,
   name: 'NOMICS',
-  endpoints: [filtered],
+  customSettings,
+  endpoints: [filtered, globalmarketcap, crypto, marketcap, volume],
   envDefaultOverrides: {
     API_ENDPOINT: 'https://api.nomics.com/v1',
   },
-  // rateLimiting: {
-  //   tiers: {
-  //     "free": {
-  //       "rateLimit1s": 2,
-  //       "rateLimit1m": 60,
-  //       "note": "1 req/s, presumably allows for bursts"
-  //     },
-  //     "paid": {
-  //       "rateLimit1h": -1
-  //     }
-  //   },
-  // },
+  overrides: overrides['nomics'],
+  rateLimiting: {
+    tiers: rateLimits,
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

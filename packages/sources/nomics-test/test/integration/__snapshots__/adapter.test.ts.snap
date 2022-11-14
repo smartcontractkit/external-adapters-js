@@ -1,13 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price api should return success 1`] = `
+exports[`execute crypto endpoint should return success 1`] = `
 Object {
   "data": Object {
-    "result": 10,
+    "result": 53835.22386957,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 10,
+  "result": 53835.22386957,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute filtered endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 77.77,
+  },
+  "result": 77.77,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute globalmarketcap endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 2810702841731,
+  },
+  "result": 2810702841731,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute marketcap endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1014798653606,
+  },
+  "result": 1014798653606,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute volume endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 59672098927.86,
+  },
+  "result": 59672098927.86,
   "statusCode": 200,
 }
 `;
