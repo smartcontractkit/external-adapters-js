@@ -40,7 +40,7 @@ const wsResponseBody: WsAssetMetricsSuccessResponse = {
   height: 9999999,
   hash: 'YWxsIHlvdXIgYmFzZSBhcmU=',
   parent_hash: 'YmVsb25nIHRvIHVzCg==',
-  ReferenceRateUSD: 1500,
+  ReferenceRateUSD: '1500',
 }
 
 export const mockWebSocketServer = (URL: string) => {

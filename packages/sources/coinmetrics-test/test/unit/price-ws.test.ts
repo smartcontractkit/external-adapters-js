@@ -20,7 +20,7 @@ const EXAMPLE_SUCCESS_MESSAGE: WsAssetMetricsSuccessResponse = {
   parent_hash: 'iriwwfnpfpuffp',
   type: 'price',
   cm_sequence_id: 9,
-  ReferenceRateUSD: 1500,
+  ReferenceRateUSD: '1500',
 }
 
 const EXAMPLE_WARNING_MESSAGE: WsAssetMetricsWarningResponse = {
