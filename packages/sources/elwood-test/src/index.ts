@@ -4,7 +4,7 @@ import { cryptoEndpoint } from './endpoint'
 import { customSettings } from './config'
 
 export const adapter = new PriceAdapter({
-  name: 'CRYPTOCOMPARE',
+  name: 'ELWOOD',
   defaultEndpoint: 'crypto',
   customSettings,
   endpoints: [cryptoEndpoint],
