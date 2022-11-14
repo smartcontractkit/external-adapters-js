@@ -353,6 +353,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinmetrics"\
       },\
       {\
+        "name": "@chainlink/coinmetrics-test-adapter",\
+        "reference": "workspace:packages/sources/coinmetrics-test"\
+      },\
+      {\
         "name": "@chainlink/coinpaprika-adapter",\
         "reference": "workspace:packages/sources/coinpaprika"\
       },\
@@ -846,6 +850,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
       ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
       ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
+      ["@chainlink/coinmetrics-test-adapter", ["workspace:packages/sources/coinmetrics-test"]],\
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
@@ -4753,6 +4758,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/coinmetrics-test-adapter", [\
+        ["workspace:packages/sources/coinmetrics-test", {\
+          "packageLocation": "./packages/sources/coinmetrics-test/",\
+          "packageDependencies": [\
+            ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/coinpaprika-adapter", [\
         ["workspace:packages/sources/coinpaprika", {\
           "packageLocation": "./packages/sources/coinpaprika/",\
@@ -5276,6 +5299,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinlore-adapter", "workspace:packages/sources/coinlore"],\
             ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
+            ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],\
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],\
@@ -5827,6 +5851,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.11.1-45ce78645d-d759f6fba2.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
             ["@chainlink/external-adapter-framework", "npm:0.11.1"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.7.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.12.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.12.0-73e28ca792-f9d04a24e3.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
