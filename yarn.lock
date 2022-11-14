@@ -2299,6 +2299,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/coinmetrics-test-adapter@workspace:*, @chainlink/coinmetrics-test-adapter@workspace:packages/sources/coinmetrics-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/coinmetrics-test-adapter@workspace:packages/sources/coinmetrics-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.12.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: ^9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/coinpaprika-adapter@workspace:*, @chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
@@ -2921,6 +2937,7 @@ __metadata:
     "@chainlink/coinlore-adapter": "workspace:*"
     "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/coinmetrics-adapter": "workspace:*"
+    "@chainlink/coinmetrics-test-adapter": "workspace:*"
     "@chainlink/coinpaprika-adapter": "workspace:*"
     "@chainlink/coinranking-adapter": "workspace:*"
     "@chainlink/covid-tracker-adapter": "workspace:*"
