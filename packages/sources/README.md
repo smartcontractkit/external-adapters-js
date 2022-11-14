@@ -43,6 +43,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [coinlore](./coinlore/README.md)
 - [coinmarketcap](./coinmarketcap/README.md)
 - [coinmetrics](./coinmetrics/README.md)
+- [coinmetrics-test](./coinmetrics-test/README.md)
 - [coinpaprika](./coinpaprika/README.md)
 - [coinranking](./coinranking/README.md)
 - [covid-tracker](./covid-tracker/README.md)
