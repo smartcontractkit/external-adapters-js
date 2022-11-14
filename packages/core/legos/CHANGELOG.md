@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.42
+
+### Patch Changes
+
+- Updated dependencies [d369bce53]
+- Updated dependencies [b9b2246a0]
+  - @chainlink/elwood-test-adapter@1.0.1
+  - @chainlink/coinmetrics-test-adapter@1.0.0
+
 ## 1.3.41
 
 ### Patch Changes
