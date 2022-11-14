@@ -27,8 +27,8 @@ export const makeWsTransport = (
   type: 'primary' | 'secondary',
 ): WebSocketTransport<WsEndpointTypes> => {
   return new WebSocketTransport<WsEndpointTypes>({
-    url: ({ adapterConfig: { DEFAULT_WS_API_ENDPOINT, SECONDARY_WS_API_ENDPOINT } }) => {
-      return type === 'primary' ? DEFAULT_WS_API_ENDPOINT : SECONDARY_WS_API_ENDPOINT
+    url: ({ adapterConfig: { WS_API_ENDPOINT, SECONDARY_WS_API_ENDPOINT } }) => {
+      return type === 'primary' ? WS_API_ENDPOINT : SECONDARY_WS_API_ENDPOINT
     },
 
     options: ({ adapterConfig: { API_USERNAME, API_PASSWORD } }) => {
