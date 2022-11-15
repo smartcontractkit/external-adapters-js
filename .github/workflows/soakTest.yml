@@ -48,6 +48,15 @@ jobs:
 
       - uses: ./.github/actions/setup # Yarn install > setup
 
+      - name: Check AWS CLI version
+        run: aws --version
+
+      - name: Check kubectl version
+        run: kubectl version
+
+      - name: Check helm version
+        run: helm version
+
       - name: Install SOPS
         run: |
           TEMP_DEB="temp-sops_3.7.1_amd64.deb" &&
@@ -130,20 +139,12 @@ jobs:
 
             docker-compose -f docker-compose.generated.yaml build ${BUILD_NAMES}
             for adapter in ${BUILD_NAMES}; do
+              aws ecr create-repository --repository-name adapters/${adapter} || true
               docker push ${IMAGE_PREFIX}${adapter}:${IMAGE_TAG}
             done
           fi
 
           echo "::set-output name=BUILD_ADAPTERS::${BUILD_ADAPTERS}"
-
-      - name: Check AWS CLI version
-        run: aws --version
-
-      - name: Check kubectl version
-        run: kubectl version
-
-      - name: Check helm version
-        run: helm version
 
       - uses: webiny/action-post-run@2.0.1
         name: Clean up deployments
