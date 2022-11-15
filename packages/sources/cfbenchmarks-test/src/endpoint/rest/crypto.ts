@@ -23,9 +23,9 @@ export const makeRestTransport = (
   type: 'primary' | 'secondary',
 ): BatchWarmingTransport<RestEndpointTypes> => {
   return new BatchWarmingTransport<RestEndpointTypes>({
-    prepareRequest: ([{ index }], { DEFAULT_API_ENDPOINT, SECONDARY_API_ENDPOINT }) => {
+    prepareRequest: ([{ index }], { API_ENDPOINT, SECONDARY_API_ENDPOINT }) => {
       return {
-        baseURL: type === 'primary' ? DEFAULT_API_ENDPOINT : SECONDARY_API_ENDPOINT,
+        baseURL: type === 'primary' ? API_ENDPOINT : SECONDARY_API_ENDPOINT,
         url: '/v1/values',
         method: 'GET',
         params: {
