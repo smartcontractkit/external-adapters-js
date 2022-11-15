@@ -6,4 +6,4 @@ yarn lint-staged
 
 # Check for npm tokens and block commits if found
 ! git diff --cached --name-only \
-| xargs -r -I {} sh -c 'echo "Checking {}" && grep -q -E "npm_[A-Za-z0-9]{36}" {} && echo "NPM token found in file {} staged for commit, remove it!"'
+| xargs -n 1 -r -I {} sh -c 'echo "Checking {}" && grep -q -E "npm_[A-Za-z0-9]{36}" {} && echo "NPM token found in file {} staged for commit, remove it!" || exit 255'
