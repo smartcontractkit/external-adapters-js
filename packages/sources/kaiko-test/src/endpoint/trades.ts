@@ -1,7 +1,8 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { RestTransport } from '@chainlink/external-adapter-framework/transports'
 import { DEFAULT_INTERVAL, DEFAULT_MILLISECONDS, DEFAULT_SORT } from '../config'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { customSettings } from '../config'
 
 const inputParameters = {
   base: {
@@ -76,10 +77,12 @@ type EndpointTypes = {
     Params: RequestParams
   }
   Response: {
-    Data: ResponseSchema
-    Result: null
+    Data: {
+      result: number
+    }
+    Result: number
   }
-  CustomSettings: SettingsMap
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: never
     ResponseBody: ResponseSchema
@@ -95,8 +98,8 @@ const calculateStartTime = (millisecondsAgo: number) => {
 const restEndpointTransport = new RestTransport<EndpointTypes>({
   prepareRequest: (req, config) => {
     const data = req.requestContext.data
-    const base = data.base
-    const quote = data.quote
+    const base = data.base.toLowerCase()
+    const quote = data.quote.toLowerCase()
     const url = `/spot_exchange_rate/${base}/${quote}`
 
     const interval = data.interval || DEFAULT_INTERVAL
@@ -108,18 +111,30 @@ const restEndpointTransport = new RestTransport<EndpointTypes>({
       baseURL: config.API_ENDPOINT,
       url,
       params,
+      headers: { 'X-Api-Key': config.API_KEY },
     }
   },
-  parseResponse: (_, res) => {
-    // console.log(req.requestContext.priceMeta.inverse)
+  parseResponse: (req, res) => {
+    const inverse = (
+      req.requestContext as unknown as { data: RequestParams; priceMeta: { inverse: boolean } }
+    ).priceMeta.inverse
     const data = res.data.data.filter((x) => x.price !== null)
     if (data.length == 0) {
-      throw 'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.'
+      throw new AdapterError({
+        message:
+          'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.',
+      })
+    }
+    let price = Number(res.data.data[0].price)
+    if (inverse && price != 0) {
+      price = 1 / price
     }
     return {
-      data: res.data,
+      data: {
+        result: price,
+      },
       statusCode: 200,
-      result: null,
+      result: price,
     }
   },
   options: {
