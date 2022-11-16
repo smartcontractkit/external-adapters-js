@@ -8,7 +8,13 @@ interface PorInputAddress {
   registrationStatus: boolean
 }
 
-type validatorsRegistryResponse = [pubKey: string, registrationStatus: boolean]
+type validatorsRegistryResponse = [
+  pubKey: string,
+  withdrawal_credentials: string,
+  signature: string,
+  deposit_data_root: string,
+  registrationStatus: boolean,
+]
 
 export const fetchAddressList = async (
   addressManager: ethers.Contract,
@@ -27,7 +33,7 @@ export const fetchAddressList = async (
     const response = await Promise.all<validatorsRegistryResponse>(
       new Array(numAddresses.toNumber()).fill(0).map((_, i) => fetchAddresses(i)),
     )
-    return response.map(([pubKey, registrationStatus]) => ({
+    return response.map(([pubKey, , , , registrationStatus]) => ({
       address: pubKey,
       registrationStatus,
       network,
