@@ -152,6 +152,9 @@
       "path": "../../sources/cryptocompare"
     },
     {
+      "path": "../../sources/cryptocompare-test"
+    },
+    {
       "path": "../../sources/cryptoid"
     },
     {

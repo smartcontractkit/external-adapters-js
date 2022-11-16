@@ -76,6 +76,7 @@
     "@chainlink/cryptoapis-adapter": "workspace:*",
     "@chainlink/cryptoapis-v2-adapter": "workspace:*",
     "@chainlink/cryptocompare-adapter": "workspace:*",
+    "@chainlink/cryptocompare-test-adapter": "workspace:*",
     "@chainlink/cryptoid-adapter": "workspace:*",
     "@chainlink/cryptomkt-adapter": "workspace:*",
     "@chainlink/currencylayer-adapter": "workspace:*",
