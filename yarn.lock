@@ -2481,6 +2481,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/cryptocompare-test-adapter@workspace:*, @chainlink/cryptocompare-test-adapter@workspace:packages/sources/cryptocompare-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/cryptocompare-test-adapter@workspace:packages/sources/cryptocompare-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.12.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/cryptoid-adapter@workspace:*, @chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid"
@@ -2929,6 +2945,7 @@ __metadata:
     "@chainlink/cryptoapis-adapter": "workspace:*"
     "@chainlink/cryptoapis-v2-adapter": "workspace:*"
     "@chainlink/cryptocompare-adapter": "workspace:*"
+    "@chainlink/cryptocompare-test-adapter": "workspace:*"
     "@chainlink/cryptoid-adapter": "workspace:*"
     "@chainlink/cryptomkt-adapter": "workspace:*"
     "@chainlink/currencylayer-adapter": "workspace:*"

@@ -385,6 +385,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/cryptocompare"\
       },\
       {\
+        "name": "@chainlink/cryptocompare-test-adapter",\
+        "reference": "workspace:packages/sources/cryptocompare-test"\
+      },\
+      {\
         "name": "@chainlink/cryptoid-adapter",\
         "reference": "workspace:packages/sources/cryptoid"\
       },\
@@ -860,6 +864,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
       ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],\
       ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
+      ["@chainlink/cryptocompare-test-adapter", ["workspace:packages/sources/cryptocompare-test"]],\
       ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],\
       ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],\
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
@@ -4956,6 +4961,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/cryptocompare-test-adapter", [\
+        ["workspace:packages/sources/cryptocompare-test", {\
+          "packageLocation": "./packages/sources/cryptocompare-test/",\
+          "packageDependencies": [\
+            ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/cryptoid-adapter", [\
         ["workspace:packages/sources/cryptoid", {\
           "packageLocation": "./packages/sources/cryptoid/",\
@@ -5307,6 +5330,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
             ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],\
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
+            ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
             ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],\
             ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],\
             ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\

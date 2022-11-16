@@ -264,6 +264,9 @@
       "path": "./sources/cryptocompare/tsconfig.test.json"
     },
     {
+      "path": "./sources/cryptocompare-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/cryptoid/tsconfig.test.json"
     },
     {
