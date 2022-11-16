@@ -1,19 +1,17 @@
-# Galaxy test Source Adapter
+# GALAXY
 
-![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy-test/package.json)
-
-Base URL https://data.galaxy.com/v1.0/login
+![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy-test/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |                                            Description                                            |  Type  | Options |               Default                |
-| :-------: | :-------------: | :-----------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------: |
-|           |  API_ENDPOINT   | The endpoint to fetch the Galaxy access token from (required to establish a websocket connection) | string |         | `https://data.galaxy.com/v1.0/login` |
-|           | WS_API_ENDPOINT |                             The websocket endpoint to pull data from                              | string |         |   `wss://data.galaxy.com/v1.0/ws`    |
-|    ✅     |     API_KEY     |                                      Key for the Galaxy API                                       | string |         |                                      |
-|    ✅     |  API_PASSWORD   |                                    Password for the Galaxy API                                    | string |         |                                      |
+| Required? |      Name       |           Description            |  Type  | Options |               Default                |
+| :-------: | :-------------: | :------------------------------: | :----: | :-----: | :----------------------------------: |
+|           |  API_ENDPOINT   | Base URL for the REST Galaxy API | string |         | `https://data.galaxy.com/v1.0/login` |
+|           | WS_API_ENDPOINT |    WS URL for the Galaxy API     | string |         |   `wss://data.galaxy.com/v1.0/ws`    |
+|    ✅     |   WS_API_KEY    |      Key for the Galaxy API      | string |         |                                      |
+|    ✅     | WS_API_PASSWORD |   Password for the Galaxy API    | string |         |                                      |
 
 ---
 
