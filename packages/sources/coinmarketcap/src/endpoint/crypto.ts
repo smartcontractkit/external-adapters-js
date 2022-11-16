@@ -97,6 +97,7 @@ const presetIds: { [symbol: string]: number } = {
   WOM: 5328,
   OHMV2: 9067,
   OHM: 9067,
+  MIM: 162,
 }
 
 export const description = `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest
