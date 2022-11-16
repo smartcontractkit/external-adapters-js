@@ -6,9 +6,8 @@ const restTransport = new RestTransport<GlobalEndpointTypes>({
   prepareRequest: (req, config) => {
     const market = req.requestContext.data.market
     return {
-      baseURL: 'https://pro-api.coinmarketcap.com/v1/',
+      baseURL: config.API_ENDPOINT,
       url: '/global-metrics/quotes/latest',
-      method: 'GET',
       headers: {
         'X-CMC_PRO_API_KEY': config.API_KEY || '',
       },

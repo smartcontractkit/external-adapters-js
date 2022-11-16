@@ -5,9 +5,8 @@ import { GlobalEndpointTypes, inputParameters } from '../global-utils'
 const restTransport = new RestTransport<GlobalEndpointTypes>({
   prepareRequest: (_, config) => {
     return {
-      baseURL: 'https://pro-api.coinmarketcap.com/v1/',
+      baseURL: config.API_ENDPOINT,
       url: '/global-metrics/quotes/latest',
-      method: 'GET',
       headers: {
         'X-CMC_PRO_API_KEY': config.API_KEY || '',
       },

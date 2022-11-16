@@ -139,9 +139,8 @@ const restTransport = new RestTransport<EndpointTypes>({
       skip_invalid: data.skipInvalid,
     }
     return {
-      baseURL: 'https://pro-api.coinmarketcap.com/v1/',
+      baseURL: config.API_ENDPOINT,
       url: '/cryptocurrency/quotes/historical',
-      method: 'GET',
       headers: {
         'X-CMC_PRO_API_KEY': config.API_KEY || '',
       },
