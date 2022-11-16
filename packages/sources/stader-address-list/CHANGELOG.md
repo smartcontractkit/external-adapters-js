@@ -1,5 +1,11 @@
 # @chainlink/stader-address-list-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 9b0aa0e35: Update contract ABI
+
 ## 1.1.0
 
 ### Minor Changes
