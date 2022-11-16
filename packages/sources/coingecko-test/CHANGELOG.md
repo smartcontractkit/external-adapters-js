@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- 07781d25d: Bumped framework version
+
 ## 1.2.1
 
 ### Patch Changes
