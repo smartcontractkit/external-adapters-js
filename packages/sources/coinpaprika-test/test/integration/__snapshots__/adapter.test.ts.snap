@@ -20,16 +20,6 @@ Object {
 }
 `;
 
-exports[`execute crypto single endpoint should return success 1`] = `
-Object {
-  "data": Object {
-    "result": 3949.2425813062,
-  },
-  "result": 3949.2425813062,
-  "statusCode": 200,
-}
-`;
-
 exports[`execute crypto volume endpoint should return success 1`] = `
 Object {
   "data": Object {

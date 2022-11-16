@@ -1,4 +1,4 @@
-import { mockCryptoSingleResponseSuccess, mockCryptoResponseSuccess } from './fixtures'
+import { mockCryptoResponseSuccess } from './fixtures'
 import { SuperTest, Test } from 'supertest'
 import { setupExternalAdapterTest, SuiteContext } from './setup'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
@@ -21,30 +21,6 @@ describe('execute', () => {
   }
 
   setupExternalAdapterTest(envVariables, context)
-
-  describe('crypto single endpoint', () => {
-    const data = {
-      id,
-      data: {
-        base: 'ETH',
-        quote: 'USD',
-        endpoint: 'crypto-single',
-      },
-    }
-
-    it('should return success', async () => {
-      mockCryptoSingleResponseSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-  })
 
   describe('crypto batch endpoint', () => {
     const data = {

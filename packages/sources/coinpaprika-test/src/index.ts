@@ -5,7 +5,6 @@ import {
   coins,
   dominance,
   globalmarketcap,
-  crypto_single,
   crypto,
   crypto_volume,
   crypto_market_cap,
@@ -13,7 +12,7 @@ import {
 } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: 'crypto',
+  defaultEndpoint: crypto.name,
   name: 'COINPAPRIKA',
   overrides: overrides['coinpaprika'],
   rateLimiting: {
@@ -39,16 +38,7 @@ export const adapter = new Adapter({
       },
     },
   },
-  endpoints: [
-    coins,
-    dominance,
-    globalmarketcap,
-    crypto_single,
-    crypto,
-    crypto_volume,
-    crypto_market_cap,
-    vwap,
-  ],
+  endpoints: [coins, dominance, globalmarketcap, crypto, crypto_volume, crypto_market_cap, vwap],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
