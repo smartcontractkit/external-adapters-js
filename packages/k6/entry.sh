@@ -39,13 +39,13 @@ if [ ! -z ${PR_NUMBER+x} ]; then
   TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion failed" | sort | uniq)
   TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
   TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
-  #TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
+  TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
   #TEST_OUTPUT_PARAMS_MESSAGE=$(if [ "$TEST_OUTPUT_PARAM_NUM" -lt 1000 ]; then; echo ":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage."; fi)
+  TEST_OUTPUT_PARAMS_MESSAGE=$TEST_OUTPUT_PARAM_NUM
 
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
     SOAK_TEST_MESSAGE=":warning: Soak test for ${CI_ADAPTER_NAME} failed :warning:"
-    # push fail data to pr as a comment
   else
     echo "test passed"
     SOAK_TEST_MESSAGE=":heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded"
