@@ -51,6 +51,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [cryptoapis](./cryptoapis/README.md)
 - [cryptoapis-v2](./cryptoapis-v2/README.md)
 - [cryptocompare](./cryptocompare/README.md)
+- [cryptocompare-test](./cryptocompare-test/README.md)
 - [cryptoid](./cryptoid/README.md)
 - [cryptomkt](./cryptomkt/README.md)
 - [currencylayer](./currencylayer/README.md)

@@ -1,5 +1,18 @@
 # @chainlink/ea
 
+## 1.3.44
+
+### Patch Changes
+
+- Updated dependencies [cf8609ad5]
+- Updated dependencies [367e6c179]
+- Updated dependencies [9b0aa0e35]
+  - @chainlink/cryptocompare-test-adapter@1.0.0
+  - @chainlink/coinmarketcap-adapter@1.5.25
+  - @chainlink/stader-address-list-adapter@1.2.0
+  - @chainlink/renvm-address-set-adapter@1.5.22
+  - @chainlink/wbtc-address-set-adapter@1.4.31
+
 ## 1.3.43
 
 ### Patch Changes
