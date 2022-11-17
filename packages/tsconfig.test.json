@@ -240,6 +240,9 @@
       "path": "./sources/coinmetrics/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinmetrics-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinpaprika/tsconfig.test.json"
     },
     {
@@ -259,6 +262,9 @@
     },
     {
       "path": "./sources/cryptocompare/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/cryptocompare-test/tsconfig.test.json"
     },
     {
       "path": "./sources/cryptoid/tsconfig.test.json"

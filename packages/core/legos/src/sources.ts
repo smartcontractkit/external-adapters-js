@@ -37,6 +37,7 @@ import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
+import * as coinmetrics_test from '@chainlink/coinmetrics-test-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
@@ -44,6 +45,7 @@ import * as cryptex from '@chainlink/cryptex-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
+import * as cryptocompare_test from '@chainlink/cryptocompare-test-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
@@ -185,6 +187,7 @@ export default {
   coinlore,
   coinmarketcap,
   coinmetrics,
+  coinmetrics_test,
   coinpaprika,
   coinranking,
   covid_tracker,
@@ -192,6 +195,7 @@ export default {
   cryptoapis,
   cryptoapis_v2,
   cryptocompare,
+  cryptocompare_test,
   cryptoid,
   cryptomkt,
   currencylayer,

@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.5.25
+
+### Patch Changes
+
+- 367e6c179: Add MIM/USD override for CMC
+
 ## 1.5.24
 
 ### Patch Changes

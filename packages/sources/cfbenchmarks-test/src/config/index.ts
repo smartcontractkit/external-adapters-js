@@ -10,13 +10,13 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
-  DEFAULT_API_ENDPOINT: {
+  API_ENDPOINT: {
     description: 'The default REST API base url',
     type: 'string',
     required: false,
     default: 'https://www.cfbenchmarks.com/api',
   },
-  DEFAULT_WS_API_ENDPOINT: {
+  WS_API_ENDPOINT: {
     description: 'The default WebSocket API base url',
     type: 'string',
     required: false,
