@@ -37,47 +37,27 @@ if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
   TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion failed" | sort | uniq)
-  TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions loaded for" | sort | uniq)
+  TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
   TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
+  TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
+  TEST_OUTPUT_PARAMS_MESSAGE=$(if [ "$TEST_OUTPUT_PARAM_NUM" -lt 1000 ]; then; echo ":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage."; fi)
+
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
+    SOAK_TEST_MESSAGE=":warning: Soak test for ${CI_ADAPTER_NAME} failed :warning:"
     # push fail data to pr as a comment
-    # gh pr review ${PR_NUMBER} -R smartcontractkit/external-adapters-js -c -b "${FAILURE_DATA}"
-    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>:warning: Soak test for ${CI_ADAPTER_NAME} failed :warning:</summary>
-
-\`\`\`
-${TEST_OUTPUT}
-\`\`\`
-</details>
-
-<details><summary>${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
-
-\`\`\`
-${TEST_OUTPUT_ASSERTIONS}
-\`\`\`
-
-</details>
-
-<details><summary>Output sample</summary>
-
-\`\`\`
-${TEST_OUTPUT_SAMPLE}
-\`\`\`
-
-</details>
-"
   else
     echo "test passed"
-    # gh pr review ${PR_NUMBER} -R smartcontractkit/external-adapters-js -c -b "Soak tests look good"
-    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>:heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded</summary>
+    SOAK_TEST_MESSAGE=":heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded"
+  fi
+  gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>${SOAK_TEST_MESSAGE}</summary>
 
 \`\`\`
 ${TEST_OUTPUT}
 \`\`\`
-
 </details>
 
-<details><summary>Assertions applied ${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
+<details><summary>${TEST_OUTPUT_ASSERTIONS_COUNT} ${TEST_OUTPUT_PARAMS_MESSAGE}</summary>
 
 \`\`\`
 ${TEST_OUTPUT_ASSERTIONS}
@@ -93,5 +73,4 @@ ${TEST_OUTPUT_SAMPLE}
 
 </details>
 "
-  fi
 fi

@@ -60,9 +60,7 @@ export const validateOutput = (
     return
   }
   const body = JSON.parse(response.body.toString())
-  console.log(
-    `request: ${response.request.url} ${response.request.body} response: ${response.body}`,
-  )
+  console.log(`request: ${response.request.body} response: ${response.body}`)
   for (const assertion of assertions) {
     if (!matchRequest(assertion.request, response.request)) {
       continue

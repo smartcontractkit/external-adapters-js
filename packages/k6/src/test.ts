@@ -125,7 +125,7 @@ function buildRequests(i: number) {
 const stagedBatchRequests = new Array(GROUP_COUNT).fill(0).map((_, i) => buildRequests(i))
 
 let iteration = 0
-console.log(`Assertions loaded for ${__ENV.CI_ADAPTER_NAME} ${assertions.length}`)
+console.log(`Assertions applied ${assertions.length}`)
 
 export default (): void => {
   const before = new Date().getTime()
