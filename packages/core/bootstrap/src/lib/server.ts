@@ -17,6 +17,7 @@ import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './config/provider-limits/config'
 import {
   buildCensorList,
+  envVarValidations,
   getClientIp,
   getEnv,
   logEnvVarWarnings,
@@ -30,6 +31,7 @@ const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
 const baseUrl = getEnv('BASE_URL') as string
 const eaHost = getEnv('EA_HOST') as string
+const maxPayloadSize = parseInt(getEnv('MAX_PAYLOAD_SIZE_LIMIT') as string)
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -42,10 +44,6 @@ export const initHandler =
     middleware: Middleware<AdapterRequest<D>>[],
   ) =>
   async (): Promise<FastifyInstance> => {
-    const app = Fastify({
-      trustProxy: true,
-      logger: false,
-    })
     const name = adapterContext.name || ''
     const envDefaultOverrides = adapterContext.envDefaultOverrides || {}
     for (const key in envDefaultOverrides) {
@@ -53,6 +51,16 @@ export const initHandler =
         process.env[key] = envDefaultOverrides[key as keyof EnvDefaultOverrides]
       }
     }
+
+    // Validate env vars and fail startup if conditions not met
+    envVarValidations()
+
+    const app = Fastify({
+      trustProxy: true,
+      logger: false,
+      bodyLimit: maxPayloadSize,
+    })
+
     const rateLimit: Limits = adapterContext.rateLimit || { http: {}, ws: {} }
     let context: AdapterContext = {
       name,

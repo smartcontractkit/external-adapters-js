@@ -45,6 +45,7 @@ export const baseEnvDefaults: EnvDefaults = {
   CACHE_REDIS_MAX_RECONNECT_COOLDOWN: '3000', // Max cooldown time before attempting to reconnect (ms)
   CACHE_REDIS_PORT: '6379', // Port of the Redis server
   CACHE_REDIS_TIMEOUT: '1000', // Timeout per request (ms)
+  MAX_PAYLOAD_SIZE_LIMIT: '1048576', // Default to Fastify server default of 1MB (bytes)
   RATE_LIMIT_ENABLED: 'true',
   WARMUP_ENABLED: 'true',
   WARMUP_UNHEALTHY_THRESHOLD: '3',
@@ -722,6 +723,28 @@ export const logEnvVarWarnings = (): void => {
   if (process.env['NODE_ENV'] === 'development') {
     logger.warn(
       `The adapter is running with NODE_ENV set to development. YOU SHOULD NOT BE RUNNING THIS IN PRODUCTION!`,
+    )
+  }
+  if (getEnv('MAX_PAYLOAD_SIZE_LIMIT') !== baseEnvDefaults.MAX_PAYLOAD_SIZE_LIMIT) {
+    logger.warn(
+      `MAX_PAYLOAD_SIZE_LIMIT has been set to ${process.env['MAX_PAYLOAD_SIZE_LIMIT']}. This setting should only be set when absolutely necessary.`,
+    )
+  }
+}
+
+// Method to validate env vars and throw error if conditions not met
+// Use for env vars that could be fatal if set incorrectly
+export const envVarValidations = (): void => {
+  const maxPayloadSize = parseInt(getEnv('MAX_PAYLOAD_SIZE_LIMIT') as string)
+  if (
+    maxPayloadSize < parseInt(baseEnvDefaults.MAX_PAYLOAD_SIZE_LIMIT) ||
+    maxPayloadSize > 1073741824
+  ) {
+    logger.fatal(
+      `MAX_PAYLOAD_SIZE_LIMIT set to ${maxPayloadSize}. MAX_PAYLOAD_SIZE_LIMIT must be set between 1048576 (1MB) and 1073741824 (1GB), inclusive`,
+    )
+    throw new Error(
+      'MAX_PAYLOAD_SIZE_LIMIT must be set between 1048576 (1MB) and 1073741824 (1GB), inclusive',
     )
   }
 }
