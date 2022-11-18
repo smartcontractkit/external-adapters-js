@@ -25,10 +25,12 @@ if (__ENV.PAYLOAD_GENERATED) {
 }
 
 let assertions: Assertion[] = []
-const assertionsPath =
-  __ENV.ASSERTIONS_PATH || `/load/src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`
-assertions = new SharedArray('assertionsPath', function () {
-  const f = JSON.parse(open(assertionsPath))
+const assertionsPaths = (__ENV.ASSERTIONS_PATHS && __ENV.ASSERTIONS_PATHS.split(',')) || [
+  '/load/src/config/assertions/assertions.json',
+  `/load/src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`,
+]
+assertions = new SharedArray('assertionsPaths', function () {
+  const f = assertionsPaths.map((assertionsPath: string) => JSON.parse(open(assertionsPath)))
   return f
 })
 

@@ -40,8 +40,9 @@ if [ ! -z ${PR_NUMBER+x} ]; then
   TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
   TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
   TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
-  #TEST_OUTPUT_PARAMS_MESSAGE=$(if [ "$TEST_OUTPUT_PARAM_NUM" -lt 1000 ]; then; echo ":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage."; fi)
-  TEST_OUTPUT_PARAMS_MESSAGE=$TEST_OUTPUT_PARAM_NUM
+  if [ "$TEST_OUTPUT_PARAM_NUM" -lt 100 ]; then
+    TEST_OUTPUT_PARAMS_MESSAGE=":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage."
+  fi
 
   if [ $STATUS -ne 0 ]; then
     echo "test failed"

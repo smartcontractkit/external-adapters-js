@@ -1,11 +1,5 @@
 [
   {
-    "request": { "endpoint": "/" },
-    "expectedResponse": {
-      "result": { "greaterThan": 0 }
-    }
-  },
-  {
     "request": { "endpoint": "/", "data": { "from": "AAVE", "to": "USD" } },
     "expectedResponse": {
       "result": { "minPrecision": 30 }
