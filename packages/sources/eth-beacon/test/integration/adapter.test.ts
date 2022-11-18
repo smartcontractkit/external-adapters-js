@@ -2,7 +2,7 @@ import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
 import { mockBalanceSuccess } from './fixtures'
-import { setupExternalAdapterTest, SuiteContext } from '@chainlink/ea-test-helpers/dist'
+import { setupExternalAdapterTest, SuiteContext } from '@chainlink/ea-test-helpers'
 import process from 'process'
 
 describe('execute', () => {
