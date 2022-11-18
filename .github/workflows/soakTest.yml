@@ -200,4 +200,4 @@ jobs:
         with:
           time: '15m'
       - name: Check output
-        run: kubectl cp
+        run: kubectl get pods --namespace adapters
