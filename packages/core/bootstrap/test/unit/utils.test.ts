@@ -27,6 +27,7 @@ import {
   getClientIp,
   getPairOptions,
   getBatchedPairOptions,
+  envVarValidations,
 } from '../../src/lib/util'
 import { Validator } from '../../src/lib/modules/validator'
 
@@ -606,6 +607,26 @@ describe('utils', () => {
       )
 
       expect(pairOptions).toEqual({ base: 'USD', quote: 'LINK', inverse: true })
+    })
+  })
+  describe('fatal env var validations', () => {
+    it('MAX_PAYLOAD_SIZE_LIMIT set over limit', () => {
+      process.env['MAX_PAYLOAD_SIZE_LIMIT'] = '100000000000'
+      try {
+        envVarValidations()
+        expect(false).toEqual(true)
+      } catch {
+        expect(true).toEqual(true)
+      }
+    })
+    it('MAX_PAYLOAD_SIZE_LIMIT set under limit', () => {
+      process.env['MAX_PAYLOAD_SIZE_LIMIT'] = '100'
+      try {
+        envVarValidations()
+        expect(false).toEqual(true)
+      } catch {
+        expect(true).toEqual(true)
+      }
     })
   })
 })
