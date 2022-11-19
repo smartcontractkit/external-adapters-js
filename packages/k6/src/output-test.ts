@@ -44,7 +44,7 @@ const assert = (body: any, expectedResponse: ExpectedResponse, request: any) => 
             assertion,
             key,
             output: body,
-            request: { url: request.url, data: request.body },
+            request: { url: request.url, data: JSON.parse(request.body.toString()) },
           })
         }
       })
@@ -67,7 +67,11 @@ export const validateOutput = (
     }
     const result = assert(body, assertion.expectedResponse, response.request)
     if (result.output.length) {
-      console.log('Assertion failed: ', result.output)
+      for (const output of result.output) {
+        console.log(
+          `Failed ${output.assertion} key:${output.key} output: ${output.output} request.data: ${output.request.data}`,
+        )
+      }
     }
   }
 }
