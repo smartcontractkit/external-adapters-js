@@ -199,5 +199,15 @@ jobs:
         uses: jakejarvis/wait-action@master
         with:
           time: '15m'
-      - name: Check output
-        run: kubectl get pods --namespace adapters
+      - name: Copy output
+        run: |
+          kubectl get pods --namespace adapters
+          kubectl cp $(kubectl get pod -l app=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}"):home/k6/output.log output.log -n adapters
+          kubectl cp $(kubectl get pod -l app=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}"):output.log output.log -n adapters
+      - name: 'Upload adapter output assertion results to artifacts'
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-assertions
+          path: |
+            output.log
+          retention-days: 5

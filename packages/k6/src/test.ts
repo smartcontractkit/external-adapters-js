@@ -30,7 +30,9 @@ const assertionsPaths = (__ENV.ASSERTIONS_PATHS && __ENV.ASSERTIONS_PATHS.split(
   `/load/src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`,
 ]
 assertions = new SharedArray('assertionsPaths', function () {
-  const f = assertionsPaths.map((assertionsPath: string) => JSON.parse(open(assertionsPath)))
+  const f = assertionsPaths
+    .map((assertionsPath: string) => JSON.parse(open(assertionsPath)))
+    .reduce((lst, item) => lst.concat(item), [])
   return f
 })
 
