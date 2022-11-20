@@ -43,9 +43,9 @@ if [ ! -z ${PR_NUMBER+x} ]; then
   if [ "$TEST_OUTPUT_PARAM_NUM" -lt 10 ]; then
     TEST_OUTPUT_PARAMS_MESSAGE=":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage. "
   elif [ -z "$TEST_OUTPUT_ASSERTIONS" ]; then
-    TEST_OUTPUT_PARAMS_MESSAGE=":warning: " 
+    TEST_OUTPUT_PARAMS_MESSAGE=":heavy_check_mark: " 
   else
-    TEST_OUTPUT_PARAMS_MESSAGE=":heavy_check_mark: "
+    TEST_OUTPUT_PARAMS_MESSAGE=":warning: "
   fi
 
   if [ $STATUS -ne 0 ]; then
