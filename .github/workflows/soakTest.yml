@@ -208,8 +208,9 @@ jobs:
           kubectl get pods --namespace adapters
           if [ -n "$TEST_ADAPTERS" ]; then
             for adapter in ${TEST_ADAPTERS}; do
-              kubectl cp $(kubectl get pod -l app=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}"):home/k6/output.log output.log -n adapters
-              kubectl cp $(kubectl get pod -l app=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}"):output.log output.log -n adapters
+              kubectl describe pod qa-ea-${adapter}-${PR_NUMBER} -n adapters
+              #kubectl cp $(kubectl get pod -l app=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}"):home/k6/output.log output.log -n adapters
+              #kubectl cp $(kubectl get pod -l app=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}"):output.log output.log -n adapters
             done
           fi
       - name: 'Upload adapter output assertion results to artifacts'
