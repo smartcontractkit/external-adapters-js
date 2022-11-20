@@ -208,7 +208,7 @@ jobs:
           if [ -n "$TEST_ADAPTERS" ]; then
             for adapter in ${TEST_ADAPTERS}; do
               POD=$(kubectl get pod -l app.kubernetes.io/name=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}")
-              kubectl exec $POD -- ls -la
+              kubectl exec $POD -n adapters -- ls -la
               kubectl cp $POD:/home/k6/output.log ./output.log -n adapters
               kubectl cp $(kubectl get pod -l app.kubernetes.io/name=qa-ea-${adapter}-${PR_NUMBER} -n adapters -o jsonpath="{.items[0].metadata.name}"):./output.log ./output.log -n adapters
             done

@@ -42,6 +42,8 @@ if [ ! -z ${PR_NUMBER+x} ]; then
   TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
   if [ "$TEST_OUTPUT_PARAM_NUM" -lt 10 ]; then
     TEST_OUTPUT_PARAMS_MESSAGE=":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage. "
+  elif [ -z "$TEST_OUTPUT_ASSERTIONS" ]; then
+    TEST_OUTPUT_PARAMS_MESSAGE=":warning: " 
   else
     TEST_OUTPUT_PARAMS_MESSAGE=":heavy_check_mark: "
   fi
