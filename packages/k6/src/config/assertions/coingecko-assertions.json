@@ -2,7 +2,7 @@
   {
     "request": { "endpoint": "/" },
     "expectedResponse": {
-      "result": { "minPrecision": 14 }
+      "result": { "minPrecision": 12 }
     }
   }
 ]
