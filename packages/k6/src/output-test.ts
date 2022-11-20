@@ -69,7 +69,9 @@ export const validateOutput = (
     if (result.output.length) {
       for (const output of result.output) {
         console.log(
-          `Failed ${output.assertion} key:${output.key} output: ${output.output} request.data: ${output.request.data}`,
+          `Failed ${output.assertion} key:${output.key} output: ${JSON.stringify(
+            output.output,
+          )} request.data: ${JSON.stringify(output.request.data)}`,
         )
       }
     }
