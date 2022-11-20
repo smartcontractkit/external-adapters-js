@@ -1,8 +1,8 @@
 [
   {
-    "request": { "endpoint": "/", "data": { "from": "AAVE", "to": "USD" } },
+    "request": { "endpoint": "/" },
     "expectedResponse": {
-      "result": { "minPrecision": 30 }
+      "result": { "minPrecision": 16 }
     }
   }
 ]
