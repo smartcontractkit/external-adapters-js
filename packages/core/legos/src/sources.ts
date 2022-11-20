@@ -27,6 +27,7 @@ import * as cache_gold from '@chainlink/cache.gold-adapter'
 import * as ccip_read from '@chainlink/ccip-read-adapter'
 import * as celsius_address_list from '@chainlink/celsius-address-list-adapter'
 import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
+import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
@@ -36,6 +37,7 @@ import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
+import * as coinmetrics_test from '@chainlink/coinmetrics-test-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
@@ -43,6 +45,7 @@ import * as cryptex from '@chainlink/cryptex-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
 import * as cryptoapis_v2 from '@chainlink/cryptoapis-v2-adapter'
 import * as cryptocompare from '@chainlink/cryptocompare-adapter'
+import * as cryptocompare_test from '@chainlink/cryptocompare-test-adapter'
 import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
@@ -53,6 +56,7 @@ import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
+import * as elwood_test from '@chainlink/elwood-test-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
@@ -72,6 +76,7 @@ import * as fluent_finance from '@chainlink/fluent-finance-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
 import * as galaxy from '@chainlink/galaxy-adapter'
+import * as galaxy_test from '@chainlink/galaxy-test-adapter'
 import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -79,6 +84,7 @@ import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
+import * as gsr_test from '@chainlink/gsr-test-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -171,6 +177,7 @@ export default {
   ccip_read,
   celsius_address_list,
   cfbenchmarks,
+  cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
   coinbase,
@@ -180,6 +187,7 @@ export default {
   coinlore,
   coinmarketcap,
   coinmetrics,
+  coinmetrics_test,
   coinpaprika,
   coinranking,
   covid_tracker,
@@ -187,6 +195,7 @@ export default {
   cryptoapis,
   cryptoapis_v2,
   cryptocompare,
+  cryptocompare_test,
   cryptoid,
   cryptomkt,
   currencylayer,
@@ -197,6 +206,7 @@ export default {
   dxfeed,
   dxfeed_secondary,
   elwood,
+  elwood_test,
   ens,
   enzyme,
   eodhistoricaldata,
@@ -216,6 +226,7 @@ export default {
   fmpcloud,
   galaxis,
   galaxy,
+  galaxy_test,
   gemini,
   genesis_adapter,
   geodb,
@@ -223,6 +234,7 @@ export default {
   gramchain,
   graphql,
   gsr,
+  gsr_test,
   iex_adapter,
   intrinio,
   ipfs,

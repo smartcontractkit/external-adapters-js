@@ -88,7 +88,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const filteredAddressList = addressList.filter(
     ({ registrationStatus }) => registrationStatus === includedRegistrationStatus,
   )
-
   const result = {
     data: {
       validatorStatus,
