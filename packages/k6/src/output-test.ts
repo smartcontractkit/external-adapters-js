@@ -1,23 +1,46 @@
 import { RefinedResponse } from 'k6/http'
 import { AssertionRequest, Assertion, AssertionResult, ExpectedResponse } from './config/types'
 
-const assertValue = (assertionName: string, value: number, condition: number | string) => {
-  switch (assertionName) {
-    case 'greaterThan': {
-      return value > condition
-    }
-    case 'minPrecision': {
-      const s = value.toString()
-      if (s.indexOf('.') == -1) {
-        return condition == 0
+const assertValue = (
+  assertionName: string,
+  value: number | Array<string | number>,
+  condition: number | string,
+) => {
+  switch (typeof value) {
+    case 'number': {
+      switch (assertionName) {
+        case 'greaterThan': {
+          return value > condition
+        }
+        case 'minPrecision': {
+          const s = value.toString()
+          if (s.indexOf('.') == -1) {
+            return condition == 0
+          }
+          return s.length - s.indexOf('.') - 1 >= condition
+        }
+        case 'lessThan': {
+          return value < condition
+        }
+        default:
+          return false
       }
-      return s.length - s.indexOf('.') - 1 >= condition
     }
-    case 'lessThan': {
-      return value < condition
+    default: {
+      switch (assertionName) {
+        case 'minItems': {
+          return Array.isArray(value) && value.length <= condition
+        }
+        case 'contains': {
+          return Array.isArray(value) && value.includes(condition)
+        }
+        case 'hasKey': {
+          return Object.keys(value).includes(String(condition))
+        }
+        default:
+          return false
+      }
     }
-    default:
-      return false
   }
 }
 
