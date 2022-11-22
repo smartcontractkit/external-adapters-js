@@ -17,7 +17,7 @@ export interface ResponseSchema {
 const customError = (data: ResponseSchema) => data.success === false
 
 export const description =
-  'Get shipment status by tracking number (https://developers.novaposhta.ua).'
+  'Get shipment status by tracking number (https://developers.novaposhta.ua/view/model/a99d2f28-8512-11ec-8ced-005056b2dbe1/method/a9ae7bc9-8512-11ec-8ced-005056b2dbe1).'
 
 export type TInputParameters = { number: string }
 export const inputParameters: InputParameters<TInputParameters> = {
@@ -36,22 +36,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const number = validator.validated.data.number
   const resultPath = validator.validated.data.resultPath
 
-  const data =
-    '{' +
-    '"apiKey": "",' +
-    '"modelName": "TrackingDocument",' +
-    '"calledMethod": "getStatusDocuments",' +
-    '"methodProperties": {' +
-    '"Documents" : [' +
-    '{' +
-    '"DocumentNumber": "' +
-    number +
-    '",' +
-    '"Phone": ""' +
-    '}' +
-    ']' +
-    '}' +
-    '}'
+  const data = {
+    apiKey: '',
+    modelName: 'TrackingDocument',
+    calledMethod: 'getStatusDocuments',
+    methodProperties: {
+      Documents: [
+        {
+          DocumentNumber: number,
+          Phone: '',
+        },
+      ],
+    },
+  }
 
   const options = {
     ...config.api,
@@ -59,7 +56,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     headers: {
       'Content-Type': 'application/json',
     },
-    data: data,
+    data: JSON.stringify(data),
   }
 
   const response = await Requester.request<ResponseSchema>(options, customError)

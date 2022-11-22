@@ -1,7 +1,7 @@
 {
   "http": {
     "NOVAPOSHTA": {
-      "rateLimit1s": 100
+      "rateLimit1s": 10
     }
   },
   "ws": {}

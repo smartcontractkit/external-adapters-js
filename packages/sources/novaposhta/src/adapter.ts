@@ -7,7 +7,7 @@ import {
   APIEndpoint,
 } from '@chainlink/ea-bootstrap'
 import { makeConfig } from './config'
-import * as endpoints from './endpoint' // The endpoints must be exported as shown in endpoint/index.ts for README generation.
+import * as endpoints from './endpoint'
 
 export const execute: ExecuteWithConfig<Config, endpoints.TInputParameters> = async (
   request,

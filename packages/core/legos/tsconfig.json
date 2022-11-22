@@ -344,6 +344,9 @@
       "path": "../../sources/polygon"
     },
     {
+      "path": "../../non-deployable/reduce"
+    },
+    {
       "path": "../../sources/por-address-list"
     },
     {
