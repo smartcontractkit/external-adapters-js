@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket websocket endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1234,
+  },
+  "result": 1234,
+  "statusCode": 200,
+}
+`;
