@@ -130,6 +130,9 @@ const stagedBatchRequests = new Array(GROUP_COUNT).fill(0).map((_, i) => buildRe
 
 let iteration = 0
 console.log(`Assertions applied ${assertions.length}`)
+for (const assertion of assertions) {
+  console.log(`Assertion: ${JSON.stringify(assertion)}`)
+}
 
 export default (): void => {
   const before = new Date().getTime()

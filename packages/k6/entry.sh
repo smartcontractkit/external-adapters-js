@@ -36,13 +36,14 @@ fi
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Failed " | sort | uniq)
+  TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion: " | sort)
+  TEST_OUTPUT_ASSERTIONS_FAILED=$(cat ~/output.log | grep "Failed: " | sort | uniq)
   TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
   TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
   TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
   if [ "$TEST_OUTPUT_PARAM_NUM" -lt 10 ]; then
     TEST_OUTPUT_PARAMS_MESSAGE=":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage. "
-  elif [ -z "$TEST_OUTPUT_ASSERTIONS" ]; then
+  elif [ -z "$TEST_OUTPUT_ASSERTIONS_FAILED" ]; then
     TEST_OUTPUT_PARAMS_MESSAGE=":heavy_check_mark: " 
   else
     TEST_OUTPUT_PARAMS_MESSAGE=":warning: "
@@ -65,7 +66,11 @@ ${TEST_OUTPUT}
 <details><summary>${TEST_OUTPUT_PARAMS_MESSAGE}${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
 
 \`\`\`
+Applied:
 ${TEST_OUTPUT_ASSERTIONS}
+
+Failed:
+${TEST_OUTPUT_ASSERTIONS_FAILED}
 \`\`\`
 
 </details>
