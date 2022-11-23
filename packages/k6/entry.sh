@@ -36,7 +36,7 @@ fi
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
-  TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion: " | sort)
+  TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion: " | sort | uniq)
   TEST_OUTPUT_ASSERTIONS_FAILED=$(cat ~/output.log | grep "Failed: " | sort | uniq)
   TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
   TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
@@ -45,6 +45,7 @@ if [ ! -z ${PR_NUMBER+x} ]; then
     TEST_OUTPUT_PARAMS_MESSAGE=":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage. "
   elif [ -z "$TEST_OUTPUT_ASSERTIONS_FAILED" ]; then
     TEST_OUTPUT_PARAMS_MESSAGE=":heavy_check_mark: " 
+    TEST_OUTPUT_ASSERTIONS_FAILED="(no failed assertions)"
   else
     TEST_OUTPUT_PARAMS_MESSAGE=":warning: "
   fi
