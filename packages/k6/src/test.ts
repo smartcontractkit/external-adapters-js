@@ -2,7 +2,8 @@ import { check, sleep } from 'k6'
 import { SharedArray } from 'k6/data'
 import http from 'k6/http'
 import { Rate } from 'k6/metrics'
-import { Payload } from './config/types'
+import { Payload, Assertion } from './config/types'
+import { validateOutput } from './output-test'
 
 const GROUP_COUNT = 10
 const UNIQUE_PAYLOAD_LIMIT = 50
@@ -22,6 +23,18 @@ if (__ENV.PAYLOAD_GENERATED) {
     return f
   })
 }
+
+let assertions: Assertion[] = []
+const assertionsPaths = (__ENV.ASSERTIONS_PATHS && __ENV.ASSERTIONS_PATHS.split(',')) || [
+  '/load/src/config/assertions/assertions.json',
+  `/load/src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`,
+]
+assertions = new SharedArray('assertionsPaths', function () {
+  const f = assertionsPaths
+    .map((assertionsPath: string) => JSON.parse(open(assertionsPath)))
+    .reduce((lst, item) => lst.concat(item), [])
+  return f
+})
 
 // set the k6 running options
 export const options = {
@@ -116,17 +129,20 @@ function buildRequests(i: number) {
 const stagedBatchRequests = new Array(GROUP_COUNT).fill(0).map((_, i) => buildRequests(i))
 
 let iteration = 0
+console.log(`Assertions applied ${assertions.length}`)
+for (const assertion of assertions) {
+  console.log(`Assertion: ${JSON.stringify(assertion)}`)
+}
 
 export default (): void => {
   const before = new Date().getTime()
   const T = 5 // Don't send batch requests more frequently than once per 5s
-
   const responses = http.batch(stagedBatchRequests[Math.min(iteration++, GROUP_COUNT - 1)])
   for (const [name, response] of Object.entries(responses)) {
     const result = check(response, {
       [`${name} returned 200`]: (r) => r.status == 200,
     })
-
+    validateOutput(response, assertions)
     errorRate.add(!result)
   }
 
