@@ -38,6 +38,7 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
 const base = 'ETH'
 const quote = 'USD'
 const price = 1234
+const time = 1669345393482
 
 export const mockWebSocketServer = (URL: string) => {
   const mockWsServer = new Server(URL, { mock: false })
@@ -49,7 +50,7 @@ export const mockWebSocketServer = (URL: string) => {
           data: {
             symbol: `${base.toUpperCase()}.${quote.toUpperCase()}`,
             price,
-            ts: new Date().getTime() * 1000000,
+            ts: time * 1e6,
           },
         }),
       )
