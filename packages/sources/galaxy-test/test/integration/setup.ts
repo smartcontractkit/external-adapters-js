@@ -42,8 +42,10 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
 export const mockPriceWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.send(JSON.stringify(mockSubscribeResponse))
-    socket.send(JSON.stringify(mockPriceResponse))
+    setTimeout(() => {
+      socket.send(JSON.stringify(mockSubscribeResponse))
+      socket.send(JSON.stringify(mockPriceResponse))
+    }, 100)
   })
   return mockWsServer
 }

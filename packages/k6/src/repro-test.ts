@@ -3,6 +3,7 @@ import { SharedArray } from 'k6/data'
 import http, { BatchRequests } from 'k6/http'
 import { Rate } from 'k6/metrics'
 import { Payload } from './config/types'
+import { validateOutputs } from './output-test'
 
 // load the test iterations from the environment or default to 100
 let iterations = 100
@@ -65,7 +66,8 @@ export default (): void => {
     const result = check(response, {
       [`${name} returned 200`]: (r) => r.status == 200,
     })
-
     errorRate.add(!result)
   }
+  const adapterName = __ENV.LOAD_TEST_ADAPTER_NAME
+  validateOutputs(responses, adapterName)
 }
