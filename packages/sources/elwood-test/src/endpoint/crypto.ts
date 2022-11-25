@@ -45,10 +45,7 @@ type CryptoEndpointTypes = {
   Request: {
     Params: PriceEndpointParams
   }
-  Response: {
-    Data: SingleNumberResultResponse
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
     WsMessage: ResponseMessage
@@ -96,7 +93,13 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
                 base,
                 quote,
               },
-              value,
+              response: {
+                result: value,
+                data: { result: value },
+                timestamps: {
+                  providerIndicatedTime: new Date(message.data.timestamp).getTime(),
+                },
+              },
             },
           ]
         },
