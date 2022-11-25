@@ -7,5 +7,10 @@ Object {
   },
   "result": 10000,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1652198967193,
+    "providerDataStreamEstablished": 1652198967193,
+    "providerIndicatedTime": 1667881098736,
+  },
 }
 `;
