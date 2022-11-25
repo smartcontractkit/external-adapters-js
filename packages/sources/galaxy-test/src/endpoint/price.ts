@@ -23,14 +23,21 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
     }
   },
   handlers: {
-    open: () => undefined,
     message(message) {
       if (message.type !== 'signal_update') return []
       const [_, base, quote] = message.signal.split(SPLIT_PAIR_REGEX)
       return [
         {
           params: { base, quote },
-          value: message.value,
+          response: {
+            result: message.value,
+            data: {
+              result: message.value,
+            },
+            timestamps: {
+              providerIndicatedTime: Math.round(message.ts * 1000), // Provider indicated time is sent in seconds
+            },
+          },
         },
       ]
     },
