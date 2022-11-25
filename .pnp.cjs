@@ -4573,7 +4573,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks-test/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.11.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
