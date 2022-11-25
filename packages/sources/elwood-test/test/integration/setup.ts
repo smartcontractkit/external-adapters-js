@@ -34,16 +34,20 @@ export const mockWebSocketServer = (URL: string) => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     const parseMessage = () => {
-      socket.send(
-        JSON.stringify({
-          type: 'Index',
-          data: {
-            price: '10000',
-            symbol: 'ETH-USD',
-            timestamp: '2022-11-08T04:18:18.736534617Z',
-          },
-          sequence: 123,
-        }),
+      setTimeout(
+        () =>
+          socket.send(
+            JSON.stringify({
+              type: 'Index',
+              data: {
+                price: '10000',
+                symbol: 'ETH-USD',
+                timestamp: '2022-11-08T04:18:18.736534617Z',
+              },
+              sequence: 123,
+            }),
+          ),
+        10,
       )
     }
     parseMessage()

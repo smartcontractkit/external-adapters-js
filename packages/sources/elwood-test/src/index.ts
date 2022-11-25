@@ -8,10 +8,6 @@ export const adapter = new PriceAdapter({
   defaultEndpoint: 'crypto',
   customSettings,
   endpoints: [cryptoEndpoint],
-  envDefaultOverrides: {
-    API_ENDPOINT: 'https://api.chk.elwood.systems/v1/stream',
-    WS_API_ENDPOINT: 'wss://api.chk.elwood.systems/v1/stream',
-  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
