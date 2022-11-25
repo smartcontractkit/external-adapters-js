@@ -163,7 +163,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
               result: message.data.price,
             },
             timestamps: {
-              providerIndicatedTime: message.data.ts,
+              providerIndicatedTime: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
             },
           },
         },
