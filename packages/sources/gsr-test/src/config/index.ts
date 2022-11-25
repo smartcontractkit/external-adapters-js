@@ -1,12 +1,12 @@
 export const customSettings = {
   API_ENDPOINT: {
     type: 'string',
-    description: 'The user ID used to authenticate',
+    description: 'The HTTP API endpoint to use',
     default: 'https://oracle.prod.gsr.io/v1',
   },
   WS_API_ENDPOINT: {
     type: 'string',
-    description: 'The user ID used to authenticate',
+    description: 'The WS API endpoint to use',
     default: 'wss://oracle.prod.gsr.io/oracle',
   },
   WS_USER_ID: {
