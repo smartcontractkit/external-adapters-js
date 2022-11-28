@@ -11,8 +11,6 @@ concurrency:
   group: main-${{ github.ref }}
   cancel-in-progress: true
 
-env: # NPM_AUTH_TOKEN is needed for any yarn command. Having it at the top is not precise, but it's convenient
-  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 jobs:
   packages:
     name: Verify dependency package archives
