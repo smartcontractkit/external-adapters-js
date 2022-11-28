@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- 6abb413ab: bump framework version
+
 ## 1.0.1
 
 ### Patch Changes

@@ -99,12 +99,21 @@ export const handleAssetMetricsMessage = (
         return val > 0
       })
       .map((quote) => {
+        const result = Number(message[`ReferenceRate${quote}`]) || 0 //We have checked for undefined already, this is here so tsc doesn't complain
         return {
           params: {
             base: message.asset,
             quote,
           },
-          value: Number(message[`ReferenceRate${quote}`]) || 0, //We have checked for undefined already, this is here so tsc doesn't complain
+          response: {
+            result,
+            data: {
+              result,
+            },
+            timestamps: {
+              providerIndicatedTime: new Date(message.time).getTime(),
+            },
+          },
         }
       })
   } else {

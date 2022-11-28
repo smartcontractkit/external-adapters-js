@@ -16,6 +16,7 @@ describe('websocket', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let mockWsServer: Server | undefined
+  let spy: jest.SpyInstance
   const wsEndpoint = 'ws://localhost:9090/v4/timeseries-stream/asset-metrics'
 
   jest.setTimeout(30_000)
@@ -42,6 +43,9 @@ describe('websocket', () => {
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebSocketServer(wsEndpoint)
 
+    const mockDate = new Date('2022-05-10T16:09:27.193Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
     fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
@@ -51,6 +55,7 @@ describe('websocket', () => {
   })
 
   afterAll((done) => {
+    spy.mockRestore()
     setEnvVariables(oldEnv)
     mockWsServer?.close()
     fastify?.close(done())
@@ -66,18 +71,17 @@ describe('websocket', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
 
-      let response = await makeRequest()
+      const response = await makeRequest()
       expect(response.body).toEqual({
         result: 1500,
         statusCode: 200,
         data: { result: 1500 },
+        timestamps: {
+          providerDataReceived: 1652198967193,
+          providerDataStreamEstablished: 1652198967193,
+          providerIndicatedTime: 1591649644000,
+        },
       })
-
-      await sleep(5000)
-
-      // WS subscription and cache should be expired by now
-      response = await makeRequest()
-      expect(response.statusCode).toEqual(504)
     }, 30000)
     it('should return error (empty body)', async () => {
       const makeRequest = () =>

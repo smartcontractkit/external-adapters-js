@@ -1,5 +1,26 @@
 # @chainlink/ea
 
+## 1.3.45
+
+### Patch Changes
+
+- Updated dependencies [9c52f1b52]
+- Updated dependencies [d84137e10]
+- Updated dependencies [f6064c16c]
+- Updated dependencies [1f8c821c6]
+- Updated dependencies [1542a53c2]
+- Updated dependencies [b0ed53787]
+- Updated dependencies [6abb413ab]
+  - @chainlink/eth-beacon-adapter@1.2.0
+  - @chainlink/galaxy-test-adapter@1.0.1
+  - @chainlink/coinmetrics-test-adapter@1.0.2
+  - @chainlink/coinmarketcap-adapter@1.5.26
+  - @chainlink/elwood-test-adapter@1.0.2
+  - @chainlink/gsr-test-adapter@1.0.2
+  - @chainlink/cfbenchmarks-test-adapter@1.0.2
+  - @chainlink/renvm-address-set-adapter@1.5.23
+  - @chainlink/wbtc-address-set-adapter@1.4.32
+
 ## 1.3.44
 
 ### Patch Changes

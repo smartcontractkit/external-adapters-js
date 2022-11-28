@@ -39,7 +39,15 @@ export const makeRestTransport = (
       return [
         {
           params: { index },
-          value,
+          response: {
+            result: value,
+            data: {
+              result: value,
+            },
+            timestamps: {
+              providerIndicatedTime: values[0].time,
+            },
+          },
         },
       ]
     },

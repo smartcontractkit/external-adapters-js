@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-test-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- f6064c16c: bump framework version
+
 ## 1.0.1
 
 ### Patch Changes
