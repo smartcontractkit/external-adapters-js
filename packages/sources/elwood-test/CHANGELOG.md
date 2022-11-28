@@ -1,5 +1,18 @@
 # @chainlink/elwood-test-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- f850f4831: Bump framework version
+- 917400c7b: Bump framework version
+
+## 1.0.2
+
+### Patch Changes
+
+- 1542a53c2: Bump framework version
+
 ## 1.0.1
 
 ### Patch Changes

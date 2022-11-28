@@ -18,6 +18,7 @@ describe('Price Endpoint', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let mockPriceWsServer: Server | undefined
+  let spy: jest.SpyInstance
   const tokenEndpoint = process.env.API_ENDPOINT || 'https://test-url.com'
   const wsEndpoint = process.env.WS_API_ENDPOINT || 'ws://localhost:9090'
 
@@ -43,6 +44,8 @@ describe('Price Endpoint', () => {
     process.env['WS_API_KEY'] = 'test-key'
     process.env['WS_API_PASSWORD'] = 'test-password'
     process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
+    const mockDate = new Date('2022-05-10T16:09:27.193Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     mockTokenResponse()
     mockWebSocketProvider(WebSocketClassProvider)
@@ -57,6 +60,7 @@ describe('Price Endpoint', () => {
   })
 
   afterAll((done) => {
+    spy.mockRestore()
     setEnvVariables(oldEnv)
     mockPriceWsServer?.close()
     fastify?.close(done())
@@ -71,18 +75,17 @@ describe('Price Endpoint', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
 
-    let response = await makeRequest()
+    const response = await makeRequest()
     expect(response.body).toEqual({
       result: 1279.2012582120603,
       statusCode: 200,
       data: { result: 1279.2012582120603 },
+      timestamps: {
+        providerDataReceived: 1652198967193,
+        providerDataStreamEstablished: 1652198967193,
+        providerIndicatedTime: 1667970828970,
+      },
     })
-
-    await sleep(5000)
-
-    // WS subscription and cache should be expired by now
-    response = await makeRequest()
-    expect(response.statusCode).toEqual(504)
   }, 30000)
   it('should return error (empty body)', async () => {
     const makeRequest = () =>

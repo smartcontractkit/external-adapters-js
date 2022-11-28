@@ -115,9 +115,33 @@ const queryWithState = async (
   const url = `/eth/v1/beacon/states/${stateId}/validators/`
 
   const responses = await Promise.all(
-    addresses.map(({ address }) => {
+    addresses.map(async ({ address }) => {
       const options = { ...config.api, url: url + address }
-      return Requester.request<StateResponseSchema>(options)
+      try {
+        return await Requester.request<StateResponseSchema>(options)
+      } catch {
+        // If address is an invalid validator on the beacon chain, swallow 404 and return a 0 balance
+        return {
+          data: {
+            execution_optimistic: false,
+            data: {
+              index: '0',
+              balance: '0',
+              status: 'failed',
+              validator: {
+                pubkey: address,
+                withdrawal_credentials: '',
+                effective_balance: '0',
+                slashed: false,
+                activation_eligibility_epoch: '',
+                activation_epoch: '',
+                exit_epoch: '',
+                withdrawable_epoch: '',
+              },
+            },
+          } as StateResponseSchema,
+        }
+      }
     }),
   )
 

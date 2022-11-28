@@ -49,7 +49,15 @@ export const makeWsTransport = (
           return [
             {
               params: { index },
-              value,
+              response: {
+                result: value,
+                data: {
+                  result: value,
+                },
+                timestamps: {
+                  providerIndicatedTime: message.time,
+                },
+              },
             },
           ]
         }

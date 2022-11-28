@@ -27,7 +27,7 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
+    process.env['WS_SUBSCRIPTION_TTL'] = '50000'
     process.env['CACHE_MAX_AGE'] = '5000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
