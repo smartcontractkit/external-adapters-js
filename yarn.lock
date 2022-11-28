@@ -2130,7 +2130,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-test-adapter@workspace:packages/sources/cfbenchmarks-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.11.1
+    "@chainlink/external-adapter-framework": 0.13.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2303,7 +2303,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-test-adapter@workspace:packages/sources/coinmetrics-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.12.0
+    "@chainlink/external-adapter-framework": 0.13.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2771,7 +2771,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.6.1
     "@types/fast-redact": 3.0.2
     "@types/jest": 27.5.2
-    "@types/lodash": 4.14.186
+    "@types/lodash": 4.14.189
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
@@ -3074,7 +3074,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-test-adapter@workspace:packages/sources/elwood-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.11.0
+    "@chainlink/external-adapter-framework": 0.13.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3315,23 +3315,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/external-adapter-framework@npm:0.11.1":
-  version: 0.11.1
-  resolution: "@chainlink/external-adapter-framework@npm:0.11.1"
-  dependencies:
-    ajv: 8.11.0
-    axios: 0.27.2
-    eventsource: 2.0.2
-    fastify: 4.7.0
-    ioredis: 5.2.3
-    pino: 8.6.1
-    pino-pretty: 9.1.0
-    prom-client: 13.2.0
-    ws: 8.9.0
-  checksum: d759f6fba22b330956e70e85c1eea10c51d6fb026dc0457ea41bc11b0fe6e6fa8cf84eea142817bcb231556b8fbd71173a3631dc6237b6371e730a1f695ed8c7
-  languageName: node
-  linkType: hard
-
 "@chainlink/external-adapter-framework@npm:0.12.0":
   version: 0.12.0
   resolution: "@chainlink/external-adapter-framework@npm:0.12.0"
@@ -3346,6 +3329,23 @@ __metadata:
     prom-client: 13.2.0
     ws: 8.9.0
   checksum: f9d04a24e32d3fb89fe58a9e782c193a35028b03a2a29bc84dd86ee810f12f08289e6fa61961730f195e66d3bd1299e2a85a06fd2a939bb0524454670f6a54a4
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:0.13.2":
+  version: 0.13.2
+  resolution: "@chainlink/external-adapter-framework@npm:0.13.2"
+  dependencies:
+    ajv: 8.11.0
+    axios: 0.27.2
+    eventsource: 2.0.2
+    fastify: 4.9.2
+    ioredis: 5.2.3
+    pino: 8.6.1
+    pino-pretty: 9.1.0
+    prom-client: 13.2.0
+    ws: 8.9.0
+  checksum: 1c4078e76cc9140bfd821eaa5203786564d4eabb6f4e338da49be48adda8d3f5a75275abae9bda09e1b409a652eb6d4406b90f031a766ad89bd420854e29651e
   languageName: node
   linkType: hard
 
@@ -3557,7 +3557,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-test-adapter@workspace:packages/sources/galaxy-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.11.1
+    "@chainlink/external-adapter-framework": 0.13.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3694,7 +3694,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gsr-test-adapter@workspace:packages/sources/gsr-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.11.0
+    "@chainlink/external-adapter-framework": 0.13.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4359,7 +4359,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 14.18.30
+    "@types/node": 14.18.33
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -9574,10 +9574,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.186":
-  version: 4.14.186
-  resolution: "@types/lodash@npm:4.14.186"
-  checksum: ee0c1368a8100bb6efb88335107473a41928fc307ff1ef4ff1278868ccddba9c04c68c36d1ffe3a0392ef4a956e1955f7de3203ec09df4f1655dd1b88485c549
+"@types/lodash@npm:4.14.189":
+  version: 4.14.189
+  resolution: "@types/lodash@npm:4.14.189"
+  checksum: 096d1e0954794fb76bd6a0ea443067f02004b53e3c59ac6e3fed88817a1468fc2e6614abdf44341f5e0fdff5f9a3c94a934cc9ff7126e07efbcd94355a21fe45
   languageName: node
   linkType: hard
 
@@ -9665,10 +9665,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.30":
-  version: 14.18.30
-  resolution: "@types/node@npm:14.18.30"
-  checksum: 347b2aa53631a2b2056f5d7b98e695eac40e8a83cbc4ee40ab7b2684f1fd4ada3d6522343a3f1ab610fbcd8457c4ad77103240474d568c905d62c1b5d6666589
+"@types/node@npm:14.18.33":
+  version: 14.18.33
+  resolution: "@types/node@npm:14.18.33"
+  checksum: 4e23f95186d8ae1d38c999bc6b46fe94e790da88744b0a3bfeedcbd0d9ffe2cb0ff39e85f43014f6739e5270292c1a1f6f97a1fc606fd573a0c17fda9a1d42de
   languageName: node
   linkType: hard
 
@@ -15576,6 +15576,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastify@npm:4.9.2":
+  version: 4.9.2
+  resolution: "fastify@npm:4.9.2"
+  dependencies:
+    "@fastify/ajv-compiler": ^3.3.1
+    "@fastify/error": ^3.0.0
+    "@fastify/fast-json-stringify-compiler": ^4.1.0
+    abstract-logging: ^2.0.1
+    avvio: ^8.2.0
+    find-my-way: ^7.3.0
+    light-my-request: ^5.6.1
+    pino: ^8.5.0
+    process-warning: ^2.0.0
+    proxy-addr: ^2.0.7
+    rfdc: ^1.3.0
+    secure-json-parse: ^2.5.0
+    semver: ^7.3.7
+    tiny-lru: ^9.0.2
+  checksum: 78d931a569b8ef30ceade1c3f6c820ad36eebb4caf1551e4c3f181fd4750309c4912e3db85fbeeb1cabf087454d7cc1568f2614e17aef44f69461268968c87a3
+  languageName: node
+  linkType: hard
+
 "fastify@npm:^3.27.1":
   version: 3.29.2
   resolution: "fastify@npm:3.29.2"
@@ -15728,7 +15750,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-my-way@npm:^7.2.0":
+"find-my-way@npm:^7.2.0, find-my-way@npm:^7.3.0":
   version: 7.3.1
   resolution: "find-my-way@npm:7.3.1"
   dependencies:

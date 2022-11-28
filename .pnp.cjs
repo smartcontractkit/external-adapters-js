@@ -4573,7 +4573,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks-test/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.11.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4768,7 +4768,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics-test/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5448,7 +5448,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.8.5"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.186"],\
+            ["@types/lodash", "npm:4.14.189"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/object-hash", "npm:2.1.1"],\
@@ -5603,7 +5603,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood-test/",\
           "packageDependencies": [\
             ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5871,10 +5871,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.11.1", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.11.1-45ce78645d-d759f6fba2.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.12.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.12.0-73e28ca792-f9d04a24e3.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.11.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -5887,14 +5887,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.12.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.12.0-73e28ca792-f9d04a24e3.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.13.2", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.13.2-505a72a1b3-1c4078e76c.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.7.0"],\
+            ["fastify", "npm:4.9.2"],\
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
@@ -6131,7 +6131,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy-test/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-test-adapter", "workspace:packages/sources/galaxy-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.11.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6286,7 +6286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr-test/",\
           "packageDependencies": [\
             ["@chainlink/gsr-test-adapter", "workspace:packages/sources/gsr-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7031,7 +7031,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.30"],\
+            ["@types/node", "npm:14.18.33"],\
             ["decimal.js", "npm:10.4.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
@@ -12670,10 +12670,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/lodash", [\
-        ["npm:4.14.186", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.186-63caeea1e5-ee0c1368a8.zip/node_modules/@types/lodash/",\
+        ["npm:4.14.189", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.189-7aa430cca4-096d1e0954.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.186"]\
+            ["@types/lodash", "npm:4.14.189"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12777,17 +12777,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.30", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.30-eb05cec55d-347b2aa536.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:14.18.30"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:14.18.31", {\
           "packageLocation": "./.yarn/cache/@types-node-npm-14.18.31-4604e70753-df33021d67.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:14.18.31"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:14.18.33", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.33-cf91207517-4e23f95186.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:14.18.33"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -19618,6 +19618,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/fastify-npm-4.7.0-7e1cc46a76-76bc9fb37a.zip/node_modules/fastify/",\
           "packageDependencies": [\
             ["fastify", "npm:4.7.0"],\
+            ["@fastify/ajv-compiler", "npm:3.3.1"],\
+            ["@fastify/error", "npm:3.0.0"],\
+            ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
+            ["abstract-logging", "npm:2.0.1"],\
+            ["avvio", "npm:8.2.0"],\
+            ["find-my-way", "npm:7.3.1"],\
+            ["light-my-request", "npm:5.6.1"],\
+            ["pino", "npm:8.6.1"],\
+            ["process-warning", "npm:2.0.0"],\
+            ["proxy-addr", "npm:2.0.7"],\
+            ["rfdc", "npm:1.3.0"],\
+            ["secure-json-parse", "npm:2.5.0"],\
+            ["semver", "npm:7.3.8"],\
+            ["tiny-lru", "npm:9.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:4.9.2", {\
+          "packageLocation": "./.yarn/cache/fastify-npm-4.9.2-b0699ef254-78d931a569.zip/node_modules/fastify/",\
+          "packageDependencies": [\
+            ["fastify", "npm:4.9.2"],\
             ["@fastify/ajv-compiler", "npm:3.3.1"],\
             ["@fastify/error", "npm:3.0.0"],\
             ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\

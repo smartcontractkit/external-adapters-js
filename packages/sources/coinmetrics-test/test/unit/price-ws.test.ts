@@ -90,7 +90,7 @@ describe('price-ws message handler', () => {
     const res = handleAssetMetricsMessage({ ...EXAMPLE_SUCCESS_MESSAGE })
     expect(res).toBeDefined()
     expect(res?.length).toEqual(1)
-    expect(res?.[0].value).toEqual(1500)
+    expect(res?.[0].response.result).toEqual(1500)
   })
 
   it('warning message results in undefined', () => {
