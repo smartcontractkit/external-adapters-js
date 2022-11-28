@@ -1,9 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 . "$(dirname "$0")/_/husky.sh"
 
 yarn lint-staged
 
-
-# Check for npm tokens and block commits if found
-! git diff --cached --name-only \
-| xargs -n 1 -r -I {} sh -c 'echo "Checking {}" && grep -q -E "npm_[A-Za-z0-9]{36}" {} && echo "NPM token found in file {} staged for commit, remove it!" || exit 255'
+for line in $(git diff --cached --name-only)
+do
+  # Check for npm tokens and block commits if found
+  if grep -qiE "npm_[A-Za-z0-9]{36}" "$line"; then
+    echo "NPM token found in file \"$line\" staged for commit, remove it!"
+    exit 1
+  fi
+done
