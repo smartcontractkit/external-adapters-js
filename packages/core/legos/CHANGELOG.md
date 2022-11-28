@@ -1,5 +1,17 @@
 # @chainlink/ea
 
+## 1.3.46
+
+### Patch Changes
+
+- Updated dependencies [f850f4831]
+- Updated dependencies [917400c7b]
+  - @chainlink/cfbenchmarks-test-adapter@1.0.3
+  - @chainlink/coinmetrics-test-adapter@1.0.3
+  - @chainlink/elwood-test-adapter@1.0.3
+  - @chainlink/galaxy-test-adapter@1.0.2
+  - @chainlink/gsr-test-adapter@1.0.3
+
 ## 1.3.45
 
 ### Patch Changes
