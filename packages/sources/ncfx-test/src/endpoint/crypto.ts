@@ -1,22 +1,24 @@
 import { CRYPTO_DEFAULT_BASE_WS_URL, customSettings } from '../config'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import {
+  makeLogger,
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
-  AdapterContext,
   PriceEndpoint,
   priceEndpointInputParameters,
+  PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import {
-  WebSocket,
-  WebSocketRawData,
-} from '@chainlink/external-adapter-framework/transports/websocket'
+import { WebSocketRawData } from '@chainlink/external-adapter-framework/transports/websocket'
 
-interface AdapterRequestParams {
-  base: string
-  quote: string
+interface Change {
+  period: string
+  change: number
+  percentage: number
 }
 
-interface ProviderMessage {
+type WsMessage = {
   timestamp: string
   currencyPair: string
   bid?: number
@@ -25,18 +27,23 @@ interface ProviderMessage {
   changes: Change[]
 }
 
-interface Change {
-  period: string
-  change: number
-  percentage: number
+export type EndpointTypes = {
+  Request: {
+    Params: PriceEndpointParams
+  }
+  Response: SingleNumberResultResponse
+  CustomSettings: typeof customSettings
+  Provider: {
+    WsMessage: WsMessage[]
+  }
 }
 
 const logger = makeLogger('NcfxCryptoEndpoint')
 
-export const cryptoTransport = new WebSocketTransport({
+export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
   url: () => CRYPTO_DEFAULT_BASE_WS_URL,
   handlers: {
-    open(connection: WebSocket, context: AdapterContext<typeof customSettings>) {
+    open(connection, context) {
       return new Promise((resolve, reject) => {
         // Set up listener
         connection.on('message', (data: WebSocketRawData) => {
@@ -59,26 +66,38 @@ export const cryptoTransport = new WebSocketTransport({
       })
     },
 
-    message(message: ProviderMessage[]): ProviderResult<AdapterRequestParams>[] {
+    message(message: WsMessage[]): ProviderResult<EndpointTypes>[] {
       if (!Array.isArray(message)) {
         logger.debug('WS message is not array, skipping')
         return []
       }
-      return message.map((m) => {
-        const [base, quote] = m.currencyPair.split('/')
-        return {
-          params: { base, quote },
-          value: m.mid,
-        }
-      })
+      return message
+        .filter((m) => {
+          return m.mid && m.mid > 0
+        })
+        .map((m) => {
+          const [base, quote] = m.currencyPair.split('/')
+          return {
+            params: { base, quote },
+            response: {
+              result: m.mid || 0, // Already validated in the filter above
+              data: {
+                result: m.mid || 0, // Already validated in the filter above
+              },
+              timestamps: {
+                providerIndicatedTime: new Date(m.timestamp).getTime(),
+              },
+            },
+          }
+        })
     },
   },
   builders: {
-    subscribeMessage: (params: AdapterRequestParams) => ({
+    subscribeMessage: (params) => ({
       request: 'subscribe',
       ccy: `${params.base}/${params.quote}`,
     }),
-    unsubscribeMessage: (params: AdapterRequestParams) => ({
+    unsubscribeMessage: (params) => ({
       request: 'unsubscribe',
       ccy: `${params.base}/${params.quote}`,
     }),
