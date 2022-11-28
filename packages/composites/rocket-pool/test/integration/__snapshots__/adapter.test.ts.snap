@@ -3,11 +3,11 @@
 exports[`execute reth endpoint returns rETH/ETH exchange rate as a hex string 1`] = `
 Object {
   "data": Object {
-    "result": "0x0e6ed27d66680000",
+    "result": "0x0000000000000000000000000000000000000000000000000e6ed27d66680000",
   },
   "jobRunID": "1",
   "providerStatusCode": 200,
-  "result": "0x0e6ed27d66680000",
+  "result": "0x0000000000000000000000000000000000000000000000000e6ed27d66680000",
   "statusCode": 200,
 }
 `;

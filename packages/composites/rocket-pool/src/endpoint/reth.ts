@@ -7,7 +7,7 @@ import {
   RocketPoolConfig,
 } from '../config'
 import { Decimal } from 'decimal.js'
-import { ethers } from 'ethers'
+import { ethers, utils } from 'ethers'
 import rocketStorageAbi from '../abis/rocketStorageAbi.json'
 
 export const supportedEndpoints = ['reth']
@@ -68,7 +68,7 @@ export const execute: ExecuteWithConfig<RocketPoolConfig> = async (request, _, c
     const ethUsd = await getLatestAnswer(network, ethUsdProxyAddress, 1, undefined, true)
     result = result.mul(new Decimal(ethUsd)).toNumber()
   } else {
-    result = rethEthExchangeRate.toHexString()
+    result = utils.hexZeroPad(rethEthExchangeRate.toHexString(), 32)
   }
 
   return Requester.success(jobRunID, { data: { result }, status: 200 }, config.verbose)
