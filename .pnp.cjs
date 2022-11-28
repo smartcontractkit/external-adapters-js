@@ -4573,7 +4573,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks-test/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4768,7 +4768,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics-test/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5603,7 +5603,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood-test/",\
           "packageDependencies": [\
             ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5887,10 +5887,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.13.1", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.13.1-09dcb3d638-c92c90946a.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.13.2", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.13.2-505a72a1b3-1c4078e76c.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.13.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -6131,7 +6131,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy-test/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-test-adapter", "workspace:packages/sources/galaxy-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6286,7 +6286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr-test/",\
           "packageDependencies": [\
             ["@chainlink/gsr-test-adapter", "workspace:packages/sources/gsr-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
