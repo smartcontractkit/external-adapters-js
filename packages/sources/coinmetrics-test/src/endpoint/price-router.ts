@@ -1,4 +1,4 @@
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
+import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './price-ws'
 import { customSettings, priceInputParameters } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'

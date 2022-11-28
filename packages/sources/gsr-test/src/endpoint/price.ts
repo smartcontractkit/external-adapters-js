@@ -1,4 +1,4 @@
-import { customSettings, DEFAULT_API_ENDPOINT, DEFAULT_WS_API_ENDPOINT } from '../config'
+import { customSettings } from '../config'
 import {
   makeLogger,
   ProviderResult,
@@ -98,7 +98,7 @@ const getToken = async (config: AdapterConfig<typeof customSettings>) => {
   const signature = generateSignature(userId, publicKey, privateKey, ts, rawTokenData?.token)
   const tokenOrKey = rawTokenData ? { token: rawTokenData.token } : { apiKey: publicKey }
   const data = {
-    url: `${config.API_ENDPOINT || DEFAULT_API_ENDPOINT}/token`,
+    url: `${config.API_ENDPOINT}/token`,
     method: rawTokenData ? 'PUT' : 'POST',
     data: {
       ...tokenOrKey,
@@ -126,7 +126,7 @@ const getToken = async (config: AdapterConfig<typeof customSettings>) => {
 }
 
 export const wsTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT || DEFAULT_WS_API_ENDPOINT,
+  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
   options: async (context) => ({
     headers: {
       'x-auth-token': await getToken(context.adapterConfig),
@@ -151,15 +151,21 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
         return
       }
 
-      // TODO: Once ingestion timestamps are supported, store `message.data.ts`
-
       return [
         {
           params: {
             base: pair[0].toString(),
             quote: pair[1].toString(),
           },
-          value: message.data.price,
+          response: {
+            result: message.data.price,
+            data: {
+              result: message.data.price,
+            },
+            timestamps: {
+              providerIndicatedTime: Math.round(message.data.ts / 1e6), // Value from provider is in nanoseconds
+            },
+          },
         },
       ]
     },

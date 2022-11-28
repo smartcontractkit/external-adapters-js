@@ -1,0 +1,8 @@
+[
+  {
+    "request": { "endpoint": "/" },
+    "expectedResponse": {
+      "result": { "greaterThan": 0 }
+    }
+  }
+]

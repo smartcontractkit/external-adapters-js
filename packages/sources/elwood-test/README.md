@@ -1,14 +1,16 @@
 # ELWOOD
 
-![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood-test/package.json)
+![1.0.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood-test/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   | Description |  Type  | Options | Default |
-| :-------: | :-----: | :---------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY |   API key   | string |         |         |
+| Required? |      Name       |            Description            |  Type  | Options |                  Default                   |
+| :-------: | :-------------: | :-------------------------------: | :----: | :-----: | :----------------------------------------: |
+|    ✅     |     API_KEY     |              API key              | string |         |                                            |
+|           | WS_API_ENDPOINT | The websocket url for coinmetrics | string |         |  `wss://api.chk.elwood.systems/v1/stream`  |
+|           |  API_ENDPOINT   |    The API url for coinmetrics    | string |         | `https://api.chk.elwood.systems/v1/stream` |
 
 ---
 
