@@ -5,8 +5,7 @@ on:
   push:
     branches:
       - master
-env:
-  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
 jobs:
   airtable-generation:
     name: Airtable Master List Generation
