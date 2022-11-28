@@ -18,15 +18,6 @@ This repository contains the source code for Chainlink external adapters. If you
 - Node.js v16
 - Yarn
 
-### Configure
-
-```sh
-  export NPM_AUTH_TOKEN= #npm token w/ read access to @chainlink scope
-  yarn config set npmRegistryServer https://registry.npmjs.org/
-  yarn config set npmAlwaysAuth true
-  yarn config set npmAuthToken $NPM_AUTH_TOKEN
-```
-
 ### Install
 
 ```sh

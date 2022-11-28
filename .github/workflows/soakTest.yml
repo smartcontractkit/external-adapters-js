@@ -4,9 +4,6 @@ on:
   pull_request: ~
   workflow_dispatch:
 
-env:
-  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
 jobs:
   run-soak-tests:
     name: Run Soak Tests Against Changed Adapters
