@@ -1,5 +1,15 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.14.12
+
+### Patch Changes
+
+- Updated dependencies [9c52f1b52]
+  - @chainlink/eth-beacon-adapter@1.2.0
+  - @chainlink/por-indexer-adapter@1.2.32
+  - @chainlink/renvm-address-set-adapter@1.5.23
+  - @chainlink/wbtc-address-set-adapter@1.4.32
+
 ## 1.14.11
 
 ### Patch Changes

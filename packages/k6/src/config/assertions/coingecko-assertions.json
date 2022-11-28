@@ -1,0 +1,14 @@
+[
+  {
+    "request": { "endpoint": "/" },
+    "expectedResponse": {
+      "result": { "minPrecision": 10 }
+    }
+  },
+  {
+    "request": { "endpoint": "/", "data": { "from": "BADGER", "to": "ETH" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 12 }
+    }
+  }
+]

@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 1.5.26
+
+### Patch Changes
+
+- 1f8c821c6: Add KLAY override
+
 ## 1.5.25
 
 ### Patch Changes

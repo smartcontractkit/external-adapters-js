@@ -35,7 +35,7 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
 const wsResponseBody: WsAssetMetricsSuccessResponse = {
   cm_sequence_id: 0,
   type: 'price',
-  time: Date.now().toString(),
+  time: '2020-06-08T20:54:04.000000000Z',
   asset: 'eth',
   height: 9999999,
   hash: 'YWxsIHlvdXIgYmFzZSBhcmU=',
@@ -47,7 +47,7 @@ export const mockWebSocketServer = (URL: string) => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     const parseMessage = () => {
-      socket.send(JSON.stringify(wsResponseBody))
+      setTimeout(() => socket.send(JSON.stringify(wsResponseBody)), 10)
     }
     parseMessage()
   })
