@@ -3,8 +3,7 @@ name: Clean up on PR close
 on:
   pull_request:
     types: [closed]
-env:
-  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
 jobs:
   cleanup-ephemeral-adapters-on-pr-close:
     name: Cleanup Ephemeral Adapters used for testing

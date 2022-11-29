@@ -12,22 +12,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Check NPM_AUTH_TOKEN is defined # .yarnrc.yml requires NPM_AUTH_TOKEN to be set as an env var specifically
-      if: ${{ env.NPM_AUTH_TOKEN  == '' }}
-      run: exit 1
-      shell: bash
     - uses: actions/setup-node@v3
       with:
         node-version: 16
     - name: Install yarn
       run: npm i -g yarn
-      shell: bash
-    - run: |
-        yarn config set npmRegistryServer https://registry.npmjs.org/
-        yarn config set npmAlwaysAuth true
-        yarn config set npmAuthToken ${{ env.NPM_AUTH_TOKEN}}
-      shell: bash
-    - run: yarn prettier --write .yarnrc.yml #`yarn config set` strips the newline from .yarnrc.yml, so restore it
       shell: bash
     - name: yarn install
       run: |
