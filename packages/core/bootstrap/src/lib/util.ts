@@ -707,21 +707,28 @@ export const buildCensorList = (): void => {
 // Logs warnings based on env vars to properly inform of risks involved with using particular settings
 export const logEnvVarWarnings = (): void => {
   if (
-    process.env['LOG_LEVEL']?.toUpperCase() === 'DEBUG' ||
-    process.env['LOG_LEVEL']?.toUpperCase() === 'TRACE'
+    getEnv('LOG_LEVEL')?.toUpperCase() === 'DEBUG' ||
+    getEnv('LOG_LEVEL')?.toUpperCase() === 'TRACE'
   ) {
     logger.warn(
-      `LOG_LEVEL has been set to ${process.env[
-        'LOG_LEVEL'
-      ].toUpperCase()}. Setting higher log levels results in increased memory usage and potentially slower performance.`,
+      `LOG_LEVEL has been set to ${getEnv(
+        'LOG_LEVEL',
+      )?.toUpperCase()}. Setting higher log levels results in increased memory usage and potentially slower performance.`,
     )
   }
-  if (process.env['DEBUG'] === 'true') {
+  if (parseBool(getEnv('DEBUG')) === true) {
     logger.warn(`The adapter is running with DEBUG mode on.`)
   }
-  if (process.env['NODE_ENV'] === 'development') {
+  if (getEnv('NODE_ENV') === 'development') {
     logger.warn(
       `The adapter is running with NODE_ENV set to development. YOU SHOULD NOT BE RUNNING THIS IN PRODUCTION!`,
+    )
+  }
+  if (parseBool(getEnv('METRICS_ENABLED')) === false) {
+    logger.warn(
+      `METRICS_ENABLED has been set to ${getEnv(
+        'METRICS_ENABLED',
+      )}. Metrics should not be disabled in a production environment.`,
     )
   }
 }
