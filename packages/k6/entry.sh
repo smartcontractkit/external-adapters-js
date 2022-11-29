@@ -24,7 +24,7 @@ echo "env PR_NUMBER=${PR_NUMBER}"
 STATUS=0
 if [ $# -eq 0 ]; then
   # used in k8s
-  k6 run /load/dist/${TEST_TO_RUN} | tee ~/testResults.txt
+  k6 run --logformat raw /load/dist/${TEST_TO_RUN} 2>~/output.log | tee ~/testResults.txt
   STATUS=${PIPESTATUS[0]}
 else
   # used in local runs when you want to pass specific args to the test
@@ -36,24 +36,52 @@ fi
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt)
+  TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion: " | sort | uniq)
+  TEST_OUTPUT_ASSERTIONS_FAILED=$(cat ~/output.log | grep "Failed: " | sort | uniq)
+  TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
+  TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
+  TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
+  if [ "$TEST_OUTPUT_PARAM_NUM" -lt 10 ]; then
+    TEST_OUTPUT_PARAMS_MESSAGE=":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage. "
+  elif [ -z "$TEST_OUTPUT_ASSERTIONS_FAILED" ]; then
+    TEST_OUTPUT_PARAMS_MESSAGE=":heavy_check_mark: " 
+    TEST_OUTPUT_ASSERTIONS_FAILED="(no failed assertions)"
+  else
+    TEST_OUTPUT_PARAMS_MESSAGE=":warning: "
+  fi
+
   if [ $STATUS -ne 0 ]; then
     echo "test failed"
-    # push fail data to pr as a comment
-    # gh pr review ${PR_NUMBER} -R smartcontractkit/external-adapters-js -c -b "${FAILURE_DATA}"
-    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>:warning: Soak test for ${CI_ADAPTER_NAME} failed :warning:</summary>
-
-\`\`\`
-${TEST_OUTPUT}
-\`\`\`
-</details>"
+    SOAK_TEST_MESSAGE=":warning: Soak test for ${CI_ADAPTER_NAME} failed :warning:"
   else
     echo "test passed"
-    # gh pr review ${PR_NUMBER} -R smartcontractkit/external-adapters-js -c -b "Soak tests look good"
-    gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>:heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded</summary>
+    SOAK_TEST_MESSAGE=":heavy_check_mark: Soak test for ${CI_ADAPTER_NAME} succeeded"
+  fi
+  gh pr comment ${PR_NUMBER} -R smartcontractkit/external-adapters-js -b "<details><summary>${SOAK_TEST_MESSAGE}</summary>
 
 \`\`\`
 ${TEST_OUTPUT}
 \`\`\`
-</details>"
-  fi
+</details>
+
+<details><summary>${TEST_OUTPUT_PARAMS_MESSAGE}${TEST_OUTPUT_ASSERTIONS_COUNT}</summary>
+
+\`\`\`
+Applied:
+${TEST_OUTPUT_ASSERTIONS}
+
+Failed:
+${TEST_OUTPUT_ASSERTIONS_FAILED}
+\`\`\`
+
+</details>
+
+<details><summary>Output sample</summary>
+
+\`\`\`
+${TEST_OUTPUT_SAMPLE}
+\`\`\`
+
+</details>
+"
 fi

@@ -156,6 +156,9 @@
       "path": "./sources/bank-frick/tsconfig.test.json"
     },
     {
+      "path": "./sources/bank-frick-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/bea/tsconfig.test.json"
     },
     {
@@ -207,6 +210,9 @@
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
     },
     {
+      "path": "./sources/cfbenchmarks-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
     },
     {
@@ -234,6 +240,9 @@
       "path": "./sources/coinmetrics/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinmetrics-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinpaprika/tsconfig.test.json"
     },
     {
@@ -253,6 +262,9 @@
     },
     {
       "path": "./sources/cryptocompare/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/cryptocompare-test/tsconfig.test.json"
     },
     {
       "path": "./sources/cryptoid/tsconfig.test.json"
@@ -283,6 +295,9 @@
     },
     {
       "path": "./sources/elwood/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/elwood-test/tsconfig.test.json"
     },
     {
       "path": "./sources/ens/tsconfig.test.json"
@@ -342,6 +357,9 @@
       "path": "./sources/galaxy/tsconfig.test.json"
     },
     {
+      "path": "./sources/galaxy-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/gemini/tsconfig.test.json"
     },
     {
@@ -361,6 +379,9 @@
     },
     {
       "path": "./sources/gsr/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/gsr-test/tsconfig.test.json"
     },
     {
       "path": "./sources/iex-cloud/tsconfig.test.json"

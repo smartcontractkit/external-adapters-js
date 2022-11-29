@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/bank-frick-adapter",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "Chainlink bank-frick adapter.",
   "keywords": [
     "Chainlink",

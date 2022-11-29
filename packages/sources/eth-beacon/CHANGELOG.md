@@ -1,5 +1,20 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- 9c52f1b52: When queried with status, invalid validators return a 0 balance instead of erroring
+
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.1.7
 
 ### Patch Changes

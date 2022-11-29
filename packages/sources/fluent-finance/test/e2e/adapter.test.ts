@@ -8,6 +8,8 @@ describe('execute', () => {
   const execute = makeExecute()
 
   describe('successful calls @e2e', () => {
+    jest.setTimeout(10000)
+
     const requests = [
       {
         name: 'Successfully returns a result',

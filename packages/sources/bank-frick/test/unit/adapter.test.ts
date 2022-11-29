@@ -1,10 +1,11 @@
 import * as adapter from '../../src'
+import { makeExecute } from '../../src'
 import { AdapterError, AdapterRequest, Requester } from '@chainlink/ea-bootstrap/dist'
 import { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
-import { makeExecute } from '../../src'
 import { assertError } from '@chainlink/ea-test-helpers/dist'
 import * as process from 'process'
-import { DEFAULT_PAGESIZE, PAGE_SIZE_MAX, PAGE_SIZE_MIN, makeConfig } from '../../src/config'
+import { DEFAULT_PAGESIZE, makeConfig, PAGE_SIZE_MAX, PAGE_SIZE_MIN } from '../../src/config'
+import { generatePrivateKeyString } from '../util'
 
 describe('adapter', () => {
   it('has expected root exports', () => {
@@ -28,9 +29,10 @@ describe('config', () => {
     PAGE_SIZE: process.env.PAGE_SIZE,
     NODE_ENV: process.env.NODE_ENV,
   }
+
   beforeAll(() => {
     process.env.API_KEY = 'SOME_API_KEY'
-    process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
+    process.env.PRIVATE_KEY = generatePrivateKeyString()
   })
   afterAll(() => {
     //Restore the environment variables to what they were prior to testing
@@ -61,17 +63,28 @@ describe('config', () => {
     expect(config.pageSize).toEqual(DEFAULT_PAGESIZE)
   })
 
-  it('allowInsecure allowed when NODE_ENV is development', () => {
-    process.env.ALLOW_INSECURE = 'true'
-    process.env.NODE_ENV = 'development'
+  it('privateKey can be a full form string', () => {
     const config = makeConfig()
-    expect(config.allowInsecure).toEqual(true)
+    expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
   })
-  it("allowInsecure is blocked when NODE_ENV isn't development", () => {
-    process.env.ALLOW_INSECURE = 'true'
-    process.env.NODE_ENV = 'production'
+
+  it('privateKey can be a base64 encoded string', () => {
+    process.env.PRIVATE_KEY = Buffer.from(generatePrivateKeyString()).toString('base64')
     const config = makeConfig()
-    expect(config.allowInsecure).toEqual(false)
+    expect(config.privateKey).toContain('BEGIN PRIVATE KEY')
+  })
+
+  it('privateKey works with header variations (pkcs1 header)', () => {
+    const key = generatePrivateKeyString('pkcs1') // pkcs8 is default, must be pkcs1 for the RSA PRIVATE KEY header/footer to match the body
+    expect(key).toContain('BEGIN RSA PRIVATE KEY')
+    process.env.PRIVATE_KEY = key
+    makeConfig()
+  })
+
+  it('privateKey must be a valid key', () => {
+    jest.setTimeout(20000)
+    process.env.PRIVATE_KEY = 'Deliberately invalid key'
+    expect(() => makeConfig()).toThrow()
   })
 })
 
@@ -81,6 +94,7 @@ describe('accounts', () => {
 
   beforeAll(() => {
     execute = makeExecute()
+    process.env.PRIVATE_KEY = generatePrivateKeyString()
   })
 
   describe('validation errors', () => {

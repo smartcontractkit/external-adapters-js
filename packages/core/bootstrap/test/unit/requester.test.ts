@@ -6,20 +6,21 @@ import {
   SUCCESS_BATCHLIKE_RESPONSE,
   ERROR_CUSTOM_RESPONSE,
 } from '../helpers/server'
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 describe('HTTP', () => {
+  const server = new Server()
+
   const errorMessage = 'Request failed with status code 500'
-  const customErrorMessage =
-    'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: {"result":"error","value":1}'
+
   const baseOptions = {
+    baseURL: server.getBaseURL(),
     timeout: 100,
     url: '',
   }
   const customError = (data: typeof ERROR_CUSTOM_RESPONSE) => {
     return data.result !== 'success'
   }
-
-  const server = new Server()
 
   beforeAll(() => {
     server.start()
@@ -34,29 +35,29 @@ describe('HTTP', () => {
 
   describe('Requester.request', () => {
     it('returns an error from an endpoint', async () => {
-      const options = { ...baseOptions, url: server.getURL('error') }
+      const options = { ...baseOptions, url: '/error' }
       try {
         await Requester.request(options, undefined, 1, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(server.errorCount).toEqual(1)
         expect(error.message).toEqual(errorMessage)
       }
     })
 
     it('accepts custom retry amounts', async () => {
-      const options = { ...baseOptions, url: server.getURL('error') }
+      const options = { ...baseOptions, url: '/error' }
       try {
         await Requester.request(options, undefined, 9, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(server.errorCount).toEqual(9)
         expect(error.message).toEqual(errorMessage)
       }
     })
 
     it('retries errored statuses', async () => {
-      const options = { ...baseOptions, url: server.getURL('errorsTwice') }
+      const options = { ...baseOptions, url: '/errorsTwice' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
         options,
         undefined,
@@ -69,42 +70,70 @@ describe('HTTP', () => {
     })
 
     it('only attempts once when retries is <1', async () => {
-      const options = { ...baseOptions, url: server.getURL('error') }
+      const options = { ...baseOptions, url: '/error' }
       try {
         await Requester.request(options, undefined, 0, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(server.errorCount).toEqual(1)
       }
     })
 
     it('retries custom errors', async () => {
-      const options = { ...baseOptions, url: server.getURL('customError') }
+      const options = { ...baseOptions, url: '/customError' }
       try {
         await Requester.request(options, customError, 3, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
+        const errorResponse: AxiosResponse<typeof ERROR_CUSTOM_RESPONSE> = {
+          ...(error as AxiosResponse),
+          data: ERROR_CUSTOM_RESPONSE,
+        }
         expect(server.errorCount).toEqual(3)
-        expect(error.message).toEqual(customErrorMessage)
+        expect(error.message).toEqual(
+          Requester.generateErrorMessage(options, errorResponse, undefined, true),
+        )
+      }
+    })
+
+    it('error message contains request info', async () => {
+      const options: AxiosRequestConfig = {
+        ...baseOptions,
+        url: '/customError',
+        params: { a: '123', b: '456' },
+        data: {
+          c: '789',
+          d: '101',
+        },
+      }
+      try {
+        await Requester.request(options, customError, 1, 0)
+        expect(false).toBe(true)
+      } catch (error: any) {
+        expect(server.errorCount).toEqual(1)
+        expect(error.message).toContain(options.baseURL)
+        expect(error.message).toContain(options.url)
+        expect(error.message).toContain(JSON.stringify(options.data))
+        expect(error.message).toContain(JSON.stringify(options.params))
       }
     })
 
     it('customError message is included when customError returns string', async () => {
-      const options = { ...baseOptions, url: server.getURL('customError') }
+      const options = { ...baseOptions, url: '/customError' }
       const customErrorString = () => {
         return 'This is a custom error string'
       }
       try {
-        await Requester.request(options, customErrorString, 0, 0)
+        await Requester.request(options, customErrorString, 1, 0)
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(server.errorCount).toEqual(1)
         expect(error.message).toContain(customErrorString())
       }
     })
 
     it('returns the result from an endpoint', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
@@ -112,7 +141,7 @@ describe('HTTP', () => {
     })
 
     it('accepts optional customError param', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request(options, customError)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
@@ -120,7 +149,7 @@ describe('HTTP', () => {
     })
 
     it('accepts optional retries param with customError', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request(options, customError, 1)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
@@ -128,7 +157,7 @@ describe('HTTP', () => {
     })
 
     it('accepts optional retries param without customError', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options, undefined, 1)
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
@@ -136,7 +165,7 @@ describe('HTTP', () => {
     })
 
     it('accepts optional delay param with customError', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof ERROR_CUSTOM_RESPONSE>(
         options,
         customError,
@@ -149,7 +178,7 @@ describe('HTTP', () => {
     })
 
     it('accepts optional delay param without customError', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
         options,
         undefined,
@@ -164,7 +193,7 @@ describe('HTTP', () => {
 
   describe('Requester.validateResultNumber', () => {
     it('returns the desired value', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
         options,
         undefined,
@@ -179,7 +208,7 @@ describe('HTTP', () => {
     })
 
     it('errors if the value is not a number', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
         options,
         undefined,
@@ -192,7 +221,7 @@ describe('HTTP', () => {
       try {
         Requester.validateResultNumber(data, ['result'])
         expect(false).toBe(true)
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toEqual(
           'Invalid result received. This is likely an issue with the data provider or the input params/overrides.',
         )
@@ -202,7 +231,7 @@ describe('HTTP', () => {
 
   describe('Requester.getResult', () => {
     it('returns the desired value', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
         options,
         undefined,
@@ -217,7 +246,7 @@ describe('HTTP', () => {
     })
 
     it('does not error if the value is not a number', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const { data } = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
         options,
         undefined,
@@ -232,7 +261,7 @@ describe('HTTP', () => {
     })
 
     it('returns undefined if the input is not data', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const response = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(
         options,
         undefined,
@@ -265,7 +294,7 @@ describe('HTTP', () => {
 
   describe('Requester.success', () => {
     it('returns a Chainlink result', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const response = await Requester.request(options, undefined, 1, 0)
       const result = Requester.success('1', response)
       expect(result.jobRunID).toEqual('1')
@@ -277,14 +306,14 @@ describe('HTTP', () => {
 
   describe('Requester.withResult', () => {
     it('Adds a single result from JSON response', async () => {
-      const options = { ...baseOptions, url: server.getURL('successJSON') }
+      const options = { ...baseOptions, url: '/successJSON' }
       const response = await Requester.request<typeof SUCCESS_JSON_RESPONSE>(options)
       const result = Requester.validateResultNumber(response.data, ['value'])
       const withResult = Requester.withResult(response, result)
       expect(withResult.data.result).toEqual(1)
     })
     it('Adds a single result from Array response', async () => {
-      const options = { ...baseOptions, url: server.getURL('successArray') }
+      const options = { ...baseOptions, url: '/successArray' }
       const response = await Requester.request<typeof SUCCESS_ARRAY_RESPONSE>(options)
       const result = Requester.validateResultNumber(response.data, [0])
       const withResult = Requester.withResult(response, result)
@@ -292,7 +321,7 @@ describe('HTTP', () => {
       expect(withResult.data.payload).toEqual(SUCCESS_ARRAY_RESPONSE)
     })
     it('Adds results', async () => {
-      const options = { ...baseOptions, url: server.getURL('successBatchlike') }
+      const options = { ...baseOptions, url: '/successBatchlike' }
       const response = await Requester.request<typeof SUCCESS_BATCHLIKE_RESPONSE>(options)
       const results: AdapterBatchResponse = response.data.value.map((v) => [
         'somekey',

@@ -1,6 +1,6 @@
 # Fluent Finance Adapter
 
-![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json)
 
 Fluent Finance Adapter for retrieving bank balances
 
@@ -69,15 +69,15 @@ Response:
         "number": "9000000003482",
         "name": "*Checking Account*",
         "type": "SAVINGS",
-        "balance": 10618,
-        "availableBalance": 10618,
+        "balance": 0,
+        "availableBalance": 0,
         "active": true,
         "currencyCode": "USD"
       }
     ],
-    "result": 35299.55
+    "result": 24681.55
   },
-  "result": 35299.55,
+  "result": 24681.55,
   "statusCode": 200,
   "providerStatusCode": 200
 }

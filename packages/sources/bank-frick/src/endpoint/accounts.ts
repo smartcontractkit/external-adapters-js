@@ -1,10 +1,15 @@
-import { AxiosRequestConfig, Logger, Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  AxiosRequestConfig,
+  ExecuteWithConfig,
+  InputParameters,
+  Logger,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import type { Config } from '../config'
-import { Account, SigningAlgorithm } from '../types'
-import * as https from 'https'
-import * as crypto from 'crypto'
 import { setToken } from '../config'
+import { Account, SigningAlgorithm } from '../types'
+import * as crypto from 'crypto'
 import { AdapterInputError } from '@chainlink/ea-bootstrap/dist'
 import { Decimal } from 'decimal.js-light'
 
@@ -80,9 +85,6 @@ export const generateJWT = async (
     },
     data: body,
   }
-  if (config.allowInsecure) {
-    options.httpsAgent = new https.Agent({ rejectUnauthorized: false })
-  }
   Logger.debug('Signature: ', signature)
   const response = await Requester.request<TokenResponseSchema>(options, customTokenResponseError)
   setToken(response.data.token) //Sets token at config level for future runs
@@ -119,11 +121,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     ...config.api,
     headers,
     url,
-  }
-
-  if (config.allowInsecure) {
-    //Bypasses cert issues with the sandbox, only available when NODE_ENV is development
-    options.httpsAgent = new https.Agent({ rejectUnauthorized: false })
   }
 
   let position = 0 //What record we're on

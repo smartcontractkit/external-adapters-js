@@ -1,5 +1,67 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.14.12
+
+### Patch Changes
+
+- Updated dependencies [9c52f1b52]
+  - @chainlink/eth-beacon-adapter@1.2.0
+  - @chainlink/por-indexer-adapter@1.2.32
+  - @chainlink/renvm-address-set-adapter@1.5.23
+  - @chainlink/wbtc-address-set-adapter@1.4.32
+
+## 1.14.11
+
+### Patch Changes
+
+- Updated dependencies [9b0aa0e35]
+  - @chainlink/stader-address-list-adapter@1.2.0
+  - @chainlink/por-indexer-adapter@1.2.31
+  - @chainlink/renvm-address-set-adapter@1.5.22
+  - @chainlink/wbtc-address-set-adapter@1.4.31
+
+## 1.14.10
+
+### Patch Changes
+
+- Updated dependencies [4c7a9e07c]
+  - @chainlink/stader-address-list-adapter@1.1.0
+  - @chainlink/por-indexer-adapter@1.2.30
+  - @chainlink/renvm-address-set-adapter@1.5.21
+  - @chainlink/wbtc-address-set-adapter@1.4.30
+
+## 1.14.9
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.24
+  - @chainlink/por-indexer-adapter@1.2.29
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/reduce-adapter@1.4.11
+  - @chainlink/ada-balance-adapter@2.5.24
+  - @chainlink/amberdata-adapter@1.8.17
+  - @chainlink/blockchain.com-adapter@1.3.24
+  - @chainlink/blockchair-adapter@1.3.24
+  - @chainlink/blockcypher-adapter@1.4.24
+  - @chainlink/btc.com-adapter@1.3.24
+  - @chainlink/celsius-address-list-adapter@2.0.8
+  - @chainlink/chain-reserve-wallet-adapter@3.0.8
+  - @chainlink/cryptoapis-adapter@1.2.24
+  - @chainlink/eth-balance-adapter@2.0.8
+  - @chainlink/eth-beacon-adapter@1.1.8
+  - @chainlink/gemini-adapter@2.2.24
+  - @chainlink/lotus-adapter@2.2.24
+  - @chainlink/por-address-list-adapter@4.0.7
+  - @chainlink/renvm-address-set-adapter@1.5.20
+  - @chainlink/sochain-adapter@1.3.24
+  - @chainlink/stader-address-list-adapter@1.0.7
+  - @chainlink/swell-address-list-adapter@1.0.7
+  - @chainlink/wbtc-address-set-adapter@1.4.29
+  - @chainlink/wrapped-adapter@2.2.24
+
 ## 1.14.8
 
 ### Patch Changes

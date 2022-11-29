@@ -1,5 +1,111 @@
 # @chainlink/ea
 
+## 1.3.46
+
+### Patch Changes
+
+- Updated dependencies [f850f4831]
+- Updated dependencies [917400c7b]
+  - @chainlink/cfbenchmarks-test-adapter@1.0.3
+  - @chainlink/coinmetrics-test-adapter@1.0.3
+  - @chainlink/elwood-test-adapter@1.0.3
+  - @chainlink/galaxy-test-adapter@1.0.2
+  - @chainlink/gsr-test-adapter@1.0.3
+
+## 1.3.45
+
+### Patch Changes
+
+- Updated dependencies [9c52f1b52]
+- Updated dependencies [d84137e10]
+- Updated dependencies [f6064c16c]
+- Updated dependencies [1f8c821c6]
+- Updated dependencies [1542a53c2]
+- Updated dependencies [b0ed53787]
+- Updated dependencies [6abb413ab]
+  - @chainlink/eth-beacon-adapter@1.2.0
+  - @chainlink/galaxy-test-adapter@1.0.1
+  - @chainlink/coinmetrics-test-adapter@1.0.2
+  - @chainlink/coinmarketcap-adapter@1.5.26
+  - @chainlink/elwood-test-adapter@1.0.2
+  - @chainlink/gsr-test-adapter@1.0.2
+  - @chainlink/cfbenchmarks-test-adapter@1.0.2
+  - @chainlink/renvm-address-set-adapter@1.5.23
+  - @chainlink/wbtc-address-set-adapter@1.4.32
+
+## 1.3.44
+
+### Patch Changes
+
+- Updated dependencies [cf8609ad5]
+- Updated dependencies [367e6c179]
+- Updated dependencies [9b0aa0e35]
+  - @chainlink/cryptocompare-test-adapter@1.0.0
+  - @chainlink/coinmarketcap-adapter@1.5.25
+  - @chainlink/stader-address-list-adapter@1.2.0
+  - @chainlink/renvm-address-set-adapter@1.5.22
+  - @chainlink/wbtc-address-set-adapter@1.4.31
+
+## 1.3.43
+
+### Patch Changes
+
+- Updated dependencies [3d0c2d6b9]
+- Updated dependencies [3f5b31e08]
+  - @chainlink/coinmetrics-test-adapter@1.0.1
+  - @chainlink/cfbenchmarks-test-adapter@1.0.1
+
+## 1.3.42
+
+### Patch Changes
+
+- Updated dependencies [d369bce53]
+- Updated dependencies [b9b2246a0]
+  - @chainlink/elwood-test-adapter@1.0.1
+  - @chainlink/coinmetrics-test-adapter@1.0.0
+
+## 1.3.41
+
+### Patch Changes
+
+- Updated dependencies [7afa9620f]
+- Updated dependencies [07781d25d]
+- Updated dependencies [81f5e595c]
+- Updated dependencies [d2b0ac153]
+- Updated dependencies [919ab1ca3]
+- Updated dependencies [07781d25d]
+  - @chainlink/galaxy-test-adapter@1.0.0
+  - @chainlink/coingecko-test-adapter@1.2.2
+  - @chainlink/gsr-test-adapter@1.0.1
+  - @chainlink/ncfx-test-adapter@1.0.1
+  - @chainlink/cfbenchmarks-test-adapter@1.0.0
+  - @chainlink/elwood-test-adapter@1.0.0
+
+## 1.3.40
+
+### Patch Changes
+
+- Updated dependencies [ee928416a]
+- Updated dependencies [69c847214]
+  - @chainlink/gsr-test-adapter@1.0.0
+  - @chainlink/fluent-finance-adapter@1.1.0
+
+## 1.3.39
+
+### Patch Changes
+
+- Updated dependencies [4c7a9e07c]
+  - @chainlink/stader-address-list-adapter@1.1.0
+  - @chainlink/renvm-address-set-adapter@1.5.21
+  - @chainlink/wbtc-address-set-adapter@1.4.30
+
+## 1.3.38
+
+### Patch Changes
+
+- Updated dependencies [b81138056]
+  - @chainlink/tradingeconomics-adapter@2.2.10
+
 ## 1.3.37
 
 ### Patch Changes

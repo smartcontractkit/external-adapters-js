@@ -238,6 +238,21 @@ When you are done testing please remember to tear down any adapters and k6 deplo
 PR_NUMBER=${UNIQUE_NAME} ./packages/scripts/src/ephemeral-adapters/cleanup.sh
 ```
 
+### Output testing
+
+Soak testing additionally can test the responses output. The output testing runs against assertions placed in `./packages/k6/src/config/assertions`. Common assertions are in `assertions.json`, adapter-specific ones will be loaded from `${adapterName}-assertions.json`. Assertions can be applied for all the requests or specific set of parameters. See examples in the folder.
+
+The output testing checks the variety of input parameters, should be at least 10. For new adapters various parameters should be defined in `test-payload.json`. The input parameters should cover the most common use cases.
+
+Available types of assertions:
+
+- `minPrecision` - minimum precision for a numeric value
+- `greaterThan` - minimum numeric value
+- `lessThan` - maximum numeric value
+- `minItems` - list contains at least the required number of items
+- `contains` - list contains a specific item (string or number)
+- `hasKey` - an object contains a specific key
+
 ## Logging Censorship
 
 If you are introducing a new env var that contains sensitive data, ensure that it is added to our logging configurations to help censor it in the logs. Follow the steps below to do so.

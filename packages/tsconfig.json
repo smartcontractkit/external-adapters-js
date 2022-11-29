@@ -156,6 +156,9 @@
       "path": "./sources/bank-frick"
     },
     {
+      "path": "./sources/bank-frick-test"
+    },
+    {
       "path": "./sources/bea"
     },
     {
@@ -207,6 +210,9 @@
       "path": "./sources/cfbenchmarks"
     },
     {
+      "path": "./sources/cfbenchmarks-test"
+    },
+    {
       "path": "./sources/chain-reserve-wallet"
     },
     {
@@ -234,6 +240,9 @@
       "path": "./sources/coinmetrics"
     },
     {
+      "path": "./sources/coinmetrics-test"
+    },
+    {
       "path": "./sources/coinpaprika"
     },
     {
@@ -253,6 +262,9 @@
     },
     {
       "path": "./sources/cryptocompare"
+    },
+    {
+      "path": "./sources/cryptocompare-test"
     },
     {
       "path": "./sources/cryptoid"
@@ -283,6 +295,9 @@
     },
     {
       "path": "./sources/elwood"
+    },
+    {
+      "path": "./sources/elwood-test"
     },
     {
       "path": "./sources/ens"
@@ -342,6 +357,9 @@
       "path": "./sources/galaxy"
     },
     {
+      "path": "./sources/galaxy-test"
+    },
+    {
       "path": "./sources/gemini"
     },
     {
@@ -361,6 +379,9 @@
     },
     {
       "path": "./sources/gsr"
+    },
+    {
+      "path": "./sources/gsr-test"
     },
     {
       "path": "./sources/iex-cloud"
