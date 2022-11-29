@@ -186,7 +186,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'price',
-  aliases: ['price-ws'],
+  aliases: ['price-ws', 'crypto'],
   transport: wsTransport,
   inputParameters: priceEndpointInputParameters,
 })

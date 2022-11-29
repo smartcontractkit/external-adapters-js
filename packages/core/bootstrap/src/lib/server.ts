@@ -21,6 +21,7 @@ import {
   getClientIp,
   getEnv,
   logEnvVarWarnings,
+  parseBool,
   toObjectWithNumbers,
 } from './util'
 import { Limits } from './config/provider-limits'
@@ -165,7 +166,7 @@ export const initHandler =
 
     return new Promise((resolve) => {
       app.listen(port, eaHost, (_, address) => {
-        logger.info(`Server listening on ${address}!`)
+        logger.info(`Server listening on ${address}`)
         resolve(app)
       })
     })
@@ -176,7 +177,8 @@ function setupMetricsServer(name: string) {
     logger: false,
   })
   const metricsPort = parseInt(getEnv('METRICS_PORT') as string)
-  const endpoint = getEnv('METRICS_USE_BASE_URL') ? join(baseUrl, 'metrics') : '/metrics'
+  const endpoint = parseBool(getEnv('METRICS_USE_BASE_URL')) ? join(baseUrl, 'metrics') : '/metrics'
+  logger.info(`Metrics endpoint: http://${eaHost}:${metricsPort}${endpoint}`)
 
   setupMetrics(name)
 
@@ -185,7 +187,5 @@ function setupMetricsServer(name: string) {
     res.send(await client.register.metrics())
   })
 
-  metricsApp.listen(metricsPort, eaHost, () =>
-    logger.info(`Monitoring listening on port ${metricsPort}!`),
-  )
+  metricsApp.listen(metricsPort, eaHost)
 }
