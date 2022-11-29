@@ -280,7 +280,6 @@ When enabled, a metrics endpoint is opened on `/metrics`, which can be prepended
 |           |   `METRICS_ENABLED`    |                          Enables metrics collection.                           |         |   `true`    |
 |           | `METRICS_USE_BASE_URL` | Set to "true" to have the internal metrics endpoint use the supplied base url. |         |   `false`   |
 |           |     `METRICS_PORT`     |                   The port the metrics endpoint is served on                   |         |   `9080`    |
-|           |     `METRICS_NAME`     |                    set to apply a label of to each metric.                     |         |  undefined  |
 
 To run Prometheus and Grafana with development setup:
 
