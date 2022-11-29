@@ -405,6 +405,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/curve"\
       },\
       {\
+        "name": "@chainlink/dar-adapter",\
+        "reference": "workspace:packages/sources/dar"\
+      },\
+      {\
         "name": "@chainlink/deribit-adapter",\
         "reference": "workspace:packages/sources/deribit"\
       },\
@@ -870,6 +874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
       ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
       ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
+      ["@chainlink/dar-adapter", ["workspace:packages/sources/dar"]],\
       ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
@@ -5071,6 +5076,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/dar-adapter", [\
+        ["workspace:packages/sources/dar", {\
+          "packageLocation": "./packages/sources/dar/",\
+          "packageDependencies": [\
+            ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/defi-dozen-adapter", [\
         ["workspace:packages/composites/defi-dozen", {\
           "packageLocation": "./packages/composites/defi-dozen/",\
@@ -5335,6 +5357,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],\
             ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\
             ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],\
+            ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
             ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],\
             ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],\
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],\
@@ -5400,9 +5423,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
-            ["@chainlink/rocket-pool-adapter", "workspace:packages/composites/rocket-pool"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\

@@ -50,6 +50,7 @@ import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as curve from '@chainlink/curve-adapter'
+import * as dar from '@chainlink/dar-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
@@ -200,6 +201,7 @@ export default {
   cryptomkt,
   currencylayer,
   curve,
+  dar,
   deribit,
   dns_query,
   dwolla,
