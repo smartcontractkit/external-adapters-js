@@ -752,5 +752,6 @@ export const envVarValidations = (): void => {
     )
     throw new Error(
       'MAX_PAYLOAD_SIZE_LIMIT must be set between 1048576 (1MB) and 1073741824 (1GB), inclusive',
+    )
   }
 }

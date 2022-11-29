@@ -106,6 +106,7 @@ const queryInBatches = async (
     )
   }
 
+  // Make request to beacon API for every batch
   const responses = await Promise.all(
     batchedAddresses.map((address) => {
       const options: AxiosRequestConfig = {
@@ -116,15 +117,17 @@ const queryInBatches = async (
       return Requester.request<StateResponseSchema>(options)
     }),
   )
+
+  // Flatten the results into single array for validators and balances
   const validatorBatches = responses.map(({ data }) => data)
   const balances: BalanceResponse[] = []
   const validators: ValidatorState[] = []
   validatorBatches.forEach(({ data }) => {
-    data.forEach((data) => {
-      validators.push(data)
+    data.forEach((validator) => {
+      validators.push(validator)
       balances.push({
-        address: data.validator.pubkey,
-        balance: data.balance,
+        address: validator.validator.pubkey,
+        balance: validator.balance,
       })
     })
   })
