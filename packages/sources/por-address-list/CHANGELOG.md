@@ -1,5 +1,14 @@
 # @chainlink/por-address-list-source-adapter
 
+## 4.0.8
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 4.0.7
 
 ### Patch Changes
