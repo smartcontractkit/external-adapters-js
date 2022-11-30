@@ -114,12 +114,11 @@ export const constructEntry = (
     entry.params.base = requestPayload.base
   }
 
-  const res2: ProviderResult<CryptoEndpointTypes> = {
+  return {
     response: {
-      result: entry.value,
       data: res.data,
+      result: dataForQuote,
     },
     params: requestPayload,
   }
-  return res2
 }
