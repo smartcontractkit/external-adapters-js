@@ -26,6 +26,8 @@
 
 - [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `<ADAPTER_PACKAGE>/schemas/env.json` and `<ADAPTER_PACKAGE>/README.md`
 - [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `infra-k8s` configuration file.
+- [ ] If a new adapter was made, or an existing one was modified so that its environment variables have changed, update the relevant `adapter-secrets` configuration file or update the [soak testing blacklist](/packages/scripts/src/get-changed-adapters/soakTestBlacklist.ts).
+- [ ] If a new adapter was made, or a new endpoint was added, update the `test-payload.json` file with relevant requests.
 - [ ] The branch naming follows git flow (`feature/x`, `chore/x`, `release/x`, `hotfix/x`, `fix/x`) or is created from Clubhouse/Shortcut
 - [ ] This is related to a maximum of one Clubhouse/Shortcut story or GitHub issue
 - [ ] Types are safe (avoid TypeScript/TSLint features like any and disable, instead use more specific types)
