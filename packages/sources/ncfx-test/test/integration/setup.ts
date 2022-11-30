@@ -2,15 +2,11 @@ import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
 import { Server, WebSocket } from 'mock-socket'
 import { customSettings } from '../../src/config'
-import { cryptoTransport } from '../../src/endpoint/crypto'
-import { forexTransport } from '../../src/endpoint/forex'
+import { cryptoEndpoint } from '../../src/endpoint/crypto'
+import { forexEndpoint } from '../../src/endpoint/forex'
 import { loginResponse, mockCryptoResponse, mockForexResponse } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import {
-  PriceAdapter,
-  PriceEndpoint,
-  priceEndpointInputParameters,
-} from '@chainlink/external-adapter-framework/adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import includes from '../../src/config/includes.json'
 
@@ -59,23 +55,12 @@ export const mockForexWebSocketServer = (URL: string): Server => {
 }
 
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
-  const cryptoEndpoint = new PriceEndpoint({
-    name: 'crypto',
-    transport: cryptoTransport,
-    inputParameters: priceEndpointInputParameters,
-  })
-
-  const forexEndpoint = new PriceEndpoint({
-    name: 'forex',
-    transport: forexTransport,
-    inputParameters: priceEndpointInputParameters,
-  })
-
   return new PriceAdapter({
     name: 'test',
     defaultEndpoint: 'crypto',
     endpoints: [cryptoEndpoint, forexEndpoint],
     includes,
+    customSettings,
   })
 }
 

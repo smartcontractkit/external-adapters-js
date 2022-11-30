@@ -5,7 +5,7 @@ export const loginResponse = {
 
 export const mockCryptoResponse = [
   {
-    timestamp: '2022-01-20T01:17:11',
+    timestamp: '2022-08-01T07:14:54.909Z',
     currencyPair: 'ETH/USD',
     bid: 3106.8495,
     offer: 3107.1275,
