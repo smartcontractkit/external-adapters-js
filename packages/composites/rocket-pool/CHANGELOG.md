@@ -1,5 +1,14 @@
 # @chainlink/rocket-pool-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-reference-data-reader@1.3.24
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/gsr-test-adapter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chainlink gsr-test adapter.",
   "keywords": [
     "Chainlink",
