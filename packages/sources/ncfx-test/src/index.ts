@@ -3,8 +3,6 @@ import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from './config'
 import { crypto, forex } from './endpoint'
 import includes from './config/includes.json'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 export const adapter = new PriceAdapter({
   name: 'NCFX',
@@ -14,5 +12,4 @@ export const adapter = new PriceAdapter({
   includes,
 })
 
-export const server = (): Promise<ServerInstance | undefined> =>
-  expose(adapter as unknown as Adapter<SettingsMap>)
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
