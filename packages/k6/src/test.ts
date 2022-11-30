@@ -14,6 +14,8 @@ if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }
 
+console.log(`Running load tests ${__ENV.PAYLOAD_GENERATED}`)
+
 // load the test data, if data was generated then load it from the generated file
 let payloadData: Payload[] = []
 if (__ENV.PAYLOAD_GENERATED) {
