@@ -35,7 +35,7 @@ fi
 # if this is being run against a pr then post results
 if [ ! -z ${PR_NUMBER+x} ]; then
   echo "pr was set, sending pass/fail data to pr";
-  TEST_OUTPUT=$(tail -n 150 ~/testResults.txt ~/output.txt)$(echo $TEST_TO_RUN)
+  TEST_OUTPUT=$(tail -n 150 ~/testResults.txt ~/output.txt ${PAYLOAD_PATH} /load/src/config/http.json)$(echo ${PAYLOAD_PATH})
   TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion: " | sort | uniq)
   TEST_OUTPUT_ASSERTIONS_FAILED=$(cat ~/output.log | grep "Failed: " | sort | uniq)
   TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
