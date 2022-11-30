@@ -13,7 +13,7 @@ export const METRICS_ENABLED = parseBool(
 export const setupMetrics = (name: string): void => {
   client.collectDefaultMetrics()
   client.register.setDefaultLabels({
-    app_name: getEnv('METRICS_NAME') || name || 'N/A',
+    app_name: name || 'N/A',
     app_version: getEnv('npm_package_version'),
   })
 }

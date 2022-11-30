@@ -1,5 +1,12 @@
-import { Config, Validator, Requester, AdapterInputError } from '@chainlink/ea-bootstrap'
+import {
+  Config,
+  Validator,
+  Requester,
+  AdapterInputError,
+  AxiosRequestConfig,
+} from '@chainlink/ea-bootstrap'
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { DEFAULT_BATCH_SIZE } from '../config'
 
 export const supportedEndpoints = ['balance']
 
@@ -32,16 +39,6 @@ type Address = {
   address: string
 }
 
-interface ResponseSchema {
-  execution_optimistic: false
-  data: [
-    {
-      index: string
-      balance: string
-    },
-  ]
-}
-
 export const execute: ExecuteWithConfig<Config> = async (request, _, config) => {
   const validator = new Validator(request, inputParameters)
 
@@ -58,101 +55,82 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  // If a status filter is given,
-  // then a different Beacon endpoint needs to be used to retrieve validator status
-  if (validatorStatus?.length > 0)
-    return await queryWithState(jobRunID, config, stateId, addresses, validatorStatus)
-
-  const url = `/eth/v1/beacon/states/${stateId}/validator_balances?id=${addresses
-    .map(({ address }) => address)
-    .join(',')}`
-
-  const options = { ...config.api, url }
-
-  const response = await Requester.request<ResponseSchema>(options)
-  const balances = response.data.data.map((validator) => ({
-    address: validator.index,
-    balance: validator.balance,
-  }))
-
-  const result = {
-    ...response,
-    data: {
-      balances,
-      result: balances,
-    },
-  }
-
-  return Requester.success(jobRunID, result, config.verbose)
+  return await queryInBatches(jobRunID, config, stateId, addresses, validatorStatus)
 }
 
 interface StateResponseSchema {
   execution_optimistic: false
-  data: {
-    index: string
-    balance: string
-    status: string
-    validator: {
-      pubkey: string
-      withdrawal_credentials: string
-      effective_balance: string
-      slashed: boolean
-      activation_eligibility_epoch: string
-      activation_epoch: string
-      exit_epoch: string
-      withdrawable_epoch: string
-    }
+  data: ValidatorState[]
+}
+
+interface ValidatorState {
+  index: string
+  balance: string
+  status: string
+  validator: {
+    pubkey: string
+    withdrawal_credentials: string
+    effective_balance: string
+    slashed: boolean
+    activation_eligibility_epoch: string
+    activation_epoch: string
+    exit_epoch: string
+    withdrawable_epoch: string
   }
 }
 
-const queryWithState = async (
+interface BalanceResponse {
+  address: string
+  balance: string
+}
+
+const queryInBatches = async (
   jobRunID: string,
   config: Config,
   stateId: string,
   addresses: Address[],
   validatorStatus: string[],
 ) => {
-  const url = `/eth/v1/beacon/states/${stateId}/validators/`
+  const url = `/eth/v1/beacon/states/${stateId}/validators`
+  const statusList = validatorStatus?.join(',')
+  const batchSize = Number(config.adapterSpecificParams?.batchSize) || DEFAULT_BATCH_SIZE
+  const batchedAddresses = []
+  // Separate the address set into the specified batch size
+  // Add the batches as comma-separated lists to a new list used to make the requests
+  for (let i = 0; i < addresses.length / batchSize; i++) {
+    batchedAddresses.push(
+      addresses
+        .slice(i * batchSize, i * batchSize + batchSize)
+        .map(({ address }) => address)
+        .join(','),
+    )
+  }
 
+  // Make request to beacon API for every batch
   const responses = await Promise.all(
-    addresses.map(async ({ address }) => {
-      const options = { ...config.api, url: url + address }
-      try {
-        return await Requester.request<StateResponseSchema>(options)
-      } catch {
-        // If address is an invalid validator on the beacon chain, swallow 404 and return a 0 balance
-        return {
-          data: {
-            execution_optimistic: false,
-            data: {
-              index: '0',
-              balance: '0',
-              status: 'failed',
-              validator: {
-                pubkey: address,
-                withdrawal_credentials: '',
-                effective_balance: '0',
-                slashed: false,
-                activation_eligibility_epoch: '',
-                activation_epoch: '',
-                exit_epoch: '',
-                withdrawable_epoch: '',
-              },
-            },
-          } as StateResponseSchema,
-        }
+    batchedAddresses.map((address) => {
+      const options: AxiosRequestConfig = {
+        ...config.api,
+        url,
+        params: { id: address, status: statusList },
       }
+      return Requester.request<StateResponseSchema>(options)
     }),
   )
 
-  const validators = responses.map(({ data }) => data)
-  const filteredValidators = validators.filter((validator) =>
-    validatorStatus.includes(validator.data.status),
-  )
-  const balances = filteredValidators.map(({ data }) => ({
-    address: data.validator.pubkey,
-    balance: data.balance,
-  }))
+  // Flatten the results into single array for validators and balances
+  const validatorBatches = responses.map(({ data }) => data)
+  const balances: BalanceResponse[] = []
+  const validators: ValidatorState[] = []
+  validatorBatches.forEach(({ data }) => {
+    data.forEach((validator) => {
+      validators.push(validator)
+      balances.push({
+        address: validator.validator.pubkey,
+        balance: validator.balance,
+      })
+    })
+  })
 
   const result = {
     data: {
