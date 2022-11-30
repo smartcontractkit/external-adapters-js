@@ -1,5 +1,39 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.14.13
+
+### Patch Changes
+
+- fc46b78fc: Updated env vars list in schema
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+- Updated dependencies [fc46b78fc]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/eth-beacon-adapter@1.3.0
+  - @chainlink/por-indexer-adapter@1.2.33
+  - @chainlink/renvm-address-set-adapter@1.5.24
+  - @chainlink/wbtc-address-set-adapter@1.4.33
+  - @chainlink/bitcoin-json-rpc-adapter@1.3.25
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/reduce-adapter@1.4.12
+  - @chainlink/ada-balance-adapter@2.5.25
+  - @chainlink/amberdata-adapter@1.8.18
+  - @chainlink/blockchain.com-adapter@1.3.25
+  - @chainlink/blockchair-adapter@1.3.25
+  - @chainlink/blockcypher-adapter@1.4.25
+  - @chainlink/btc.com-adapter@1.3.25
+  - @chainlink/celsius-address-list-adapter@2.0.9
+  - @chainlink/chain-reserve-wallet-adapter@3.0.9
+  - @chainlink/cryptoapis-adapter@1.2.25
+  - @chainlink/eth-balance-adapter@2.0.9
+  - @chainlink/gemini-adapter@2.2.25
+  - @chainlink/lotus-adapter@2.2.25
+  - @chainlink/por-address-list-adapter@4.0.8
+  - @chainlink/sochain-adapter@1.3.25
+  - @chainlink/stader-address-list-adapter@1.2.1
+  - @chainlink/swell-address-list-adapter@1.0.8
+  - @chainlink/wrapped-adapter@2.2.25
+
 ## 1.14.12
 
 ### Patch Changes
