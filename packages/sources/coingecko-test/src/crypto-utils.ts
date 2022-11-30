@@ -2,7 +2,7 @@ import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framewor
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
-import { ProviderResult } from '../../../../../ea-framework-js/dist/src/util'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 export interface CryptoRequestParams {
   coinid?: string

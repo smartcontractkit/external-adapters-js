@@ -3,7 +3,7 @@ import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { ProviderResult } from '../../../../../ea-framework-js/dist/src/util'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
