@@ -1,6 +1,6 @@
 # Fluent Finance Adapter
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json)
+![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fluent-finance/package.json)
 
 Fluent Finance Adapter for retrieving bank balances
 
