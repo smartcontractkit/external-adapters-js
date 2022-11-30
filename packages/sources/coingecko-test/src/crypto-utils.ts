@@ -2,6 +2,7 @@ import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framewor
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
+import { ProviderResult } from '../../../../../ea-framework-js/dist/src/util'
 
 export interface CryptoRequestParams {
   coinid?: string
@@ -95,7 +96,7 @@ export const constructEntry = (
   res: HttpResponse<ProviderResponseBody>,
   requestPayload: CryptoRequestParams,
   resultPath: string,
-): ResultEntry | undefined => {
+): ProviderResult<CryptoEndpointTypes> | undefined => {
   const coinId = requestPayload.coinid ?? (requestPayload.base as string)
   const dataForCoin = res.data[coinId]
   const dataForQuote = dataForCoin ? dataForCoin[resultPath] : undefined
@@ -112,5 +113,13 @@ export const constructEntry = (
   } else {
     entry.params.base = requestPayload.base
   }
-  return entry
+
+  const res2: ProviderResult<CryptoEndpointTypes> = {
+    response: {
+      result: entry.value,
+      data: res.data,
+    },
+    params: requestPayload,
+  }
+  return res2
 }

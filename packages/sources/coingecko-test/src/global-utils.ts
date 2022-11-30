@@ -1,8 +1,9 @@
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
-import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
+import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { ProviderResult } from '../../../../../ea-framework-js/dist/src/util'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -31,11 +32,6 @@ export interface ProviderResponseBody {
     market_cap_change_percentage_24h_usd: number
     updated_at: number
   }
-}
-
-interface ResultEntry {
-  value: number
-  params: GlobalRequestParams
 }
 
 export type GlobalEndpointTypes = {
@@ -68,7 +64,7 @@ export const constructEntry = (
   res: HttpResponse<ProviderResponseBody>,
   requestPayload: GlobalRequestParams,
   resultPath: 'total_market_cap' | 'market_cap_percentage',
-): ResultEntry | undefined => {
+): ProviderResult<GlobalEndpointTypes> | undefined => {
   const resultData = res.data.data
   if (!resultData) {
     logger.warn(`Data not found`)
@@ -89,6 +85,9 @@ export const constructEntry = (
 
   return {
     params: requestPayload,
-    value: result,
+    response: {
+      data: res.data,
+      result,
+    },
   }
 }
