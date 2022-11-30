@@ -3,6 +3,7 @@ export const customSettings = {
     description: 'API key',
     type: 'string',
     required: true,
+    sensitive: true,
   },
   WS_API_ENDPOINT: {
     description: 'The websocket url for coinmetrics',
