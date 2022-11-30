@@ -14,10 +14,12 @@ if (__ENV.TEST_DURATION) {
   testDuration = __ENV.TEST_DURATION
 }
 
+console.log('from test.ts')
+
 // load the test data, if data was generated then load it from the generated file
 let payloadData: Payload[] = []
 if (__ENV.PAYLOAD_GENERATED) {
-  const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
+  const payloadPath = __ENV.PAYLOAD_PATH || '/load/src/config/http.json'
   payloadData = new SharedArray('payloadData', function () {
     const f = JSON.parse(open(payloadPath))
     return f
