@@ -20,7 +20,7 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   handlers: {
     message(message) {
       if (message.errors) {
-        logger.error('WS message errors', message.errors)
+        logger.error(`Got error from DP: ${message.errors}`)
         return []
       }
       return [
