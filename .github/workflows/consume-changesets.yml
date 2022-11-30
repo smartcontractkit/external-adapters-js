@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - develop
-env:
-  NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
 jobs:
   consume-changesets:
     name: Consume changesets
