@@ -24,7 +24,7 @@ echo "env PR_NUMBER=${PR_NUMBER}"
 STATUS=0
 if [ $# -eq 0 ]; then
   # used in k8s
-  k6 run --log-format raw /load/dist/${TEST_TO_RUN} 2>~/output.log | tee ~/testResults.txt
+  k6 run --http-debug --log-format raw /load/dist/${TEST_TO_RUN} 2>~/output.log | tee ~/testResults.txt
   STATUS=${PIPESTATUS[0]}
 else
   # used in local runs when you want to pass specific args to the test
