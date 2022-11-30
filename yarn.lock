@@ -2239,7 +2239,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-test-adapter@workspace:packages/sources/coingecko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.11.0
+    "@chainlink/external-adapter-framework": ^0.13.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3332,7 +3332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/external-adapter-framework@npm:0.13.2":
+"@chainlink/external-adapter-framework@npm:0.13.2, @chainlink/external-adapter-framework@npm:^0.13.2":
   version: 0.13.2
   resolution: "@chainlink/external-adapter-framework@npm:0.13.2"
   dependencies:
