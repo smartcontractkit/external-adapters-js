@@ -9,7 +9,7 @@ import {
   ProviderResult,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
-import { customSettings, FOREX_DEFAULT_BASE_WS_URL } from '../config'
+import { customSettings } from '../config'
 
 interface WsMessage {
   [pair: string]: { price: number; timestamp: string }
@@ -29,7 +29,7 @@ export type EndpointTypes = {
 const logger = makeLogger('NcfxForexEndpoint')
 
 export const forexTransport = new WebSocketTransport<EndpointTypes>({
-  url: () => FOREX_DEFAULT_BASE_WS_URL,
+  url: (context) => context.adapterConfig.FOREX_WS_API_ENDPOINT,
   options: (context) => {
     const forexEncodedCreds =
       context.adapterConfig.FOREX_WS_USERNAME && context.adapterConfig.FOREX_WS_PASSWORD

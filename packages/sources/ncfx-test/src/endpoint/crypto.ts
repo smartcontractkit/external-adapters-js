@@ -1,4 +1,4 @@
-import { CRYPTO_DEFAULT_BASE_WS_URL, customSettings } from '../config'
+import { customSettings } from '../config'
 import {
   makeLogger,
   ProviderResult,
@@ -41,7 +41,7 @@ export type EndpointTypes = {
 const logger = makeLogger('NcfxCryptoEndpoint')
 
 export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
-  url: () => CRYPTO_DEFAULT_BASE_WS_URL,
+  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
   handlers: {
     open(connection, context) {
       return new Promise((resolve, reject) => {

@@ -12,12 +12,12 @@ import { Server } from 'mock-socket'
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 
 describe('Crypto Endpoint', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let mockCryptoWsServer: Server | undefined
+  let spy: jest.SpyInstance
   const wsCryptoEndpoint = 'ws://localhost:9090'
 
   jest.setTimeout(10000)
@@ -39,11 +39,17 @@ describe('Crypto Endpoint', () => {
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_API_ENDPOINT'] = wsCryptoEndpoint
     process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
+    process.env['API_USERNAME'] = 'test-api-username'
+    process.env['API_PASSWORD'] = 'test-api-password'
+    process.env['FOREX_WS_USERNAME'] = 'test-forex-api-username'
+    process.env['FOREX_WS_PASSWORD'] = 'test-forex-api-password'
+    const mockDate = new Date('2022-08-01T07:14:54.909Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockCryptoWsServer = mockCryptoWebSocketServer(wsCryptoEndpoint)
 
-    fastify = await expose(createAdapter() as unknown as Adapter)
+    fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
     // Send initial request to start background execute
@@ -52,6 +58,7 @@ describe('Crypto Endpoint', () => {
   })
 
   afterAll((done) => {
+    spy.mockRestore()
     setEnvVariables(oldEnv)
     mockCryptoWsServer?.close()
     fastify?.close(done())
@@ -65,18 +72,8 @@ describe('Crypto Endpoint', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
 
-    let response = await makeRequest()
-    expect(response.body).toEqual({
-      result: 3106.9885,
-      statusCode: 200,
-      data: { result: 3106.9885 },
-    })
-
-    await sleep(5000)
-
-    // WS subscription and cache should be expired by now
-    response = await makeRequest()
-    expect(response.statusCode).toEqual(504)
+    const response = await makeRequest()
+    expect(response.body).toMatchSnapshot()
   }, 30000)
   it('should return error (empty body)', async () => {
     const makeRequest = () =>
@@ -132,6 +129,7 @@ describe('Forex endpoint', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let mockForexWsServer: Server | undefined
+  let spy: jest.SpyInstance
   const wsForexEndpoint = 'ws://localhost:9090'
 
   jest.setTimeout(10000)
@@ -152,13 +150,19 @@ describe('Forex endpoint', () => {
     process.env['CACHE_MAX_AGE'] = '5000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
-    process.env['WS_API_ENDPOINT'] = wsForexEndpoint
+    process.env['FOREX_WS_API_ENDPOINT'] = wsForexEndpoint
     process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
+    process.env['API_USERNAME'] = 'te`st-api-username'
+    process.env['API_PASSWORD'] = 'test-api-password'
+    process.env['FOREX_WS_USERNAME'] = 'test-forex-api-username'
+    process.env['FOREX_WS_PASSWORD'] = '`test-forex-api-password'
+    const mockDate = new Date('2022-08-01T07:14:54.909Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockForexWsServer = mockForexWebSocketServer(wsForexEndpoint)
 
-    fastify = await expose(createAdapter() as unknown as Adapter)
+    fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
     // Send initial request to start background execute
@@ -167,6 +171,7 @@ describe('Forex endpoint', () => {
   })
 
   afterAll((done) => {
+    spy.mockRestore()
     setEnvVariables(oldEnv)
     mockForexWsServer?.close()
     fastify?.close(done())
@@ -181,18 +186,8 @@ describe('Forex endpoint', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
 
-    let response = await makeRequest()
-    expect(response.body).toEqual({
-      result: 0.7819647646677041,
-      statusCode: 200,
-      data: { result: 0.7819647646677041 },
-    })
-
-    await sleep(5000)
-
-    // WS subscription and cache should be expired by now
-    response = await makeRequest()
-    expect(response.statusCode).toEqual(504)
+    const response = await makeRequest()
+    expect(response.body).toMatchSnapshot()
   }, 30000)
   it('should return error (empty body)', async () => {
     const makeRequest = () =>
