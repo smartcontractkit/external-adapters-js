@@ -11,6 +11,7 @@ import {
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { AdapterRequestBody, AdapterRequestData } from '@chainlink/external-adapter-framework/util'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -68,4 +69,19 @@ export function setEnvVariables(envVariables: NodeJS.ProcessEnv): void {
   for (const key in envVariables) {
     process.env[key] = envVariables[key]
   }
+}
+
+export async function getAdapterResponse(
+  req: SuperTest<Test>,
+  requestData: Record<string, unknown> | AdapterRequestBody<AdapterRequestData>,
+): Promise<Test> {
+  const makeRequest = () =>
+    req
+      .post('/')
+      .send(requestData)
+      .set('Accept', '*/*')
+      .set('Content-Type', 'application/json')
+      .expect('Content-Type', /json/)
+
+  return await makeRequest()
 }

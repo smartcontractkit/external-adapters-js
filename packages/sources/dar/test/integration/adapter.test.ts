@@ -5,6 +5,7 @@ import {
   mockPriceWebSocketServer,
   createAdapter,
   setEnvVariables,
+  getAdapterResponse,
 } from './setup'
 import request, { SuperTest, Test } from 'supertest'
 import { Server } from 'mock-socket'
@@ -22,6 +23,18 @@ describe('Price Endpoint', () => {
   const tokenEndpoint = process.env.API_ENDPOINT || 'https://test-url.com'
   const wsEndpoint = process.env.WS_API_ENDPOINT || 'ws://localhost:9090'
 
+  const envVars = {
+    WS_SUBSCRIPTION_TTL: '5000',
+    CACHE_MAX_AGE: '5000',
+    CACHE_POLLING_MAX_RETRIES: '0',
+    METRICS_ENABLED: 'false',
+    API_ENDPOINT: tokenEndpoint,
+    WS_API_ENDPOINT: wsEndpoint,
+    WS_API_KEY: 'test-key',
+    WS_API_USERNAME: 'test-user',
+    RATE_LIMIT_CAPACITY_SECOND: '2',
+  }
+
   jest.setTimeout(10000)
 
   const priceData: AdapterRequestBody = {
@@ -35,15 +48,7 @@ describe('Price Endpoint', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
-    process.env['CACHE_MAX_AGE'] = '5000'
-    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
-    process.env['METRICS_ENABLED'] = 'false'
-    process.env['API_ENDPOINT'] = tokenEndpoint
-    process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['WS_API_KEY'] = 'test-key'
-    process.env['WS_API_USERNAME'] = 'test-user'
-    process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
+    setEnvVariables(envVars)
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -67,16 +72,8 @@ describe('Price Endpoint', () => {
   })
 
   it('should return success', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send(priceData)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-
-    const response = await makeRequest()
-    expect(response.body).toEqual({
+    const response = await getAdapterResponse(req, priceData)
+    const expected = {
       result: 1272.12,
       statusCode: 200,
       data: { result: 1272.12 },
@@ -85,54 +82,27 @@ describe('Price Endpoint', () => {
         providerDataStreamEstablished: 1652198967193,
         providerIndicatedTime: 1669808788232,
       },
-    })
+    }
+    expect(response.body).toEqual(expected)
   }, 30000)
+
   it('should return error (empty body)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({})
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-
-    const response = await makeRequest()
+    const response = await getAdapterResponse(req, {})
     expect(response.statusCode).toEqual(400)
   }, 30000)
+
   it('should return error (empty data)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({ data: {} })
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-
-    const response = await makeRequest()
+    const response = await getAdapterResponse(req, { data: {} })
     expect(response.statusCode).toEqual(400)
   }, 30000)
+
   it('should return error (empty base)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({ data: { quote: 'BTC' } })
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-
-    const response = await makeRequest()
+    const response = await getAdapterResponse(req, { data: { quote: 'BTC' } })
     expect(response.statusCode).toEqual(400)
   }, 30000)
-  it('should return error (empty quote)', async () => {
-    const makeRequest = () =>
-      req
-        .post('/')
-        .send({ data: { base: 'ETH' } })
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
 
-    const response = await makeRequest()
+  it('should return error (empty quote)', async () => {
+    const response = await getAdapterResponse(req, { data: { base: 'ETH' } })
     expect(response.statusCode).toEqual(400)
   }, 30000)
 })
