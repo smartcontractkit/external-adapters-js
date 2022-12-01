@@ -1,5 +1,11 @@
 # @chainlink/gsr-test-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- 22542130d: Add "crypto" endpoint alias
+
 ## 1.0.3
 
 ### Patch Changes

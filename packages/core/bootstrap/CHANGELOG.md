@@ -1,5 +1,14 @@
 # @chainlink/ea-bootstrap
 
+## 2.25.0
+
+### Minor Changes
+
+- fc46b78fc: Made max payload size configurable with min/max limits
+- 1de0689c6: Deprecated the METRICS_NAME env var so the app_name label will always use the adapter name. Current users of this env var would notice metric name changes from their unique one.
+  Added a warning log when METRICS_ENABLED is set to false.
+  Added a log to show the full metrics endpoint on startup rather than just the port number.
+
 ## 2.24.0
 
 ### Minor Changes

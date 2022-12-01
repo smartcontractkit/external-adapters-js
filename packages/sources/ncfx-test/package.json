@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ncfx-test-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink ncfx-test adapter.",
   "keywords": [
     "Chainlink",
@@ -30,7 +30,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.3.9",
+    "@chainlink/external-adapter-framework": "0.13.2",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
