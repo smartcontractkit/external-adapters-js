@@ -14,3 +14,14 @@ Object {
   },
 }
 `;
+
+exports[`websocket price endpoint should return cached subscribe error 1`] = `
+Object {
+  "errorMessage": "Symbol is not supported",
+  "statusCode": 400,
+  "timestamps": Object {
+    "providerDataReceived": 1652198967193,
+    "providerDataStreamEstablished": 1652198967193,
+  },
+}
+`;
