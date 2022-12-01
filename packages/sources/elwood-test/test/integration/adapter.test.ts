@@ -3,7 +3,7 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { AddressInfo } from 'net'
 import * as nock from 'nock'
 import request, { SuperTest, Test } from 'supertest'
-import { mockSubscribeResponse, mockUnsubscribeResponse } from './fixtures'
+import { mockSubscribeError, mockSubscribeResponse, mockUnsubscribeResponse } from './fixtures'
 import { mockWebSocketProvider, mockWebSocketServer } from './setup'
 
 describe('websocket', () => {
@@ -15,7 +15,6 @@ describe('websocket', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_ENABLED'] = 'true'
     process.env['API_KEY'] = apiKey
     process.env['WS_SUBSCRIPTION_TTL'] = '3000'
     process.env['METRICS_ENABLED'] = 'false'
@@ -65,6 +64,25 @@ describe('websocket', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+
+      expect(response.body).toMatchSnapshot()
+    }, 10_000)
+    it('should return cached subscribe error', async () => {
+      mockSubscribeError(apiKey)
+      const data = {
+        data: {
+          base: 'XXX',
+          quote: 'USD',
+        },
+      }
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
 
       expect(response.body).toMatchSnapshot()
     }, 10_000)

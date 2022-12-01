@@ -1,5 +1,14 @@
 # @chainlink/elwood-adapter
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.0.10
 
 ### Patch Changes
