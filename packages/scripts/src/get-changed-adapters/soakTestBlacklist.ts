@@ -17,6 +17,7 @@ export const SoakTestBlacklist: string[] = [
   'coinapi',
   'conflux',
   'covid-tracker',
+  'crypto-volatility-index',
   'cryptoapis',
   'defi-pulse',
   'dns-query', // Missing: env vars
