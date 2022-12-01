@@ -21,8 +21,8 @@ Object {
   "result": 4226.71,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1669841452017,
-    "providerDataRequested": 1669841452001,
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
   },
 }
 `;
@@ -40,8 +40,8 @@ Object {
   "result": 100,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1669841453025,
-    "providerDataRequested": 1669841453018,
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
   },
 }
 `;
@@ -200,8 +200,8 @@ Object {
   "result": 18.127134683884314,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1669841457024,
-    "providerDataRequested": 1669841457017,
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
     "providerIndicatedTime": 1635189786,
   },
 }
@@ -361,8 +361,8 @@ Object {
   "result": 2744386468602.4453,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1669841456026,
-    "providerDataRequested": 1669841456017,
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
     "providerIndicatedTime": 1635189786,
   },
 }
@@ -379,8 +379,8 @@ Object {
   "result": 499351414399.08246,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1669841455021,
-    "providerDataRequested": 1669841455014,
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
   },
 }
 `;
@@ -396,8 +396,8 @@ Object {
   "result": 17345604238.153397,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1669841454019,
-    "providerDataRequested": 1669841454014,
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
   },
 }
 `;

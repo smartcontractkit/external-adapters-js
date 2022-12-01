@@ -41,7 +41,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
+      })
     })
 
     const dataWithOverride = {
@@ -67,7 +72,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
+      })
     })
 
     const dataWithArray = {
@@ -117,7 +127,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
+      })
     })
   })
 
@@ -141,7 +156,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
+      })
     })
   })
 
@@ -164,7 +184,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
+      })
     })
   })
 
@@ -187,7 +212,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
+      })
     })
   })
 })
