@@ -80,7 +80,7 @@ describe('Price Endpoint', () => {
       timestamps: {
         providerDataReceived: 1652198967193,
         providerDataStreamEstablished: 1652198967193,
-        providerIndicatedTime: 1669808788232,
+        providerIndicatedTime: 1669979114400,
       },
     }
     expect(response.body).toEqual(expected)

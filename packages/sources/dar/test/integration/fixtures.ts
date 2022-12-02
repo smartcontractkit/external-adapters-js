@@ -6,6 +6,7 @@ export const mockPriceResponse = {
   quoteCurrency: 'USD',
   price: 1272.12,
   publishedAt: '2022-11-30T11:46:28.2323078Z',
+  effectiveTime: 1669979114.4,
   errors: '',
 }
 

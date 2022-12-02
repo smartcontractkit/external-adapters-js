@@ -13,6 +13,7 @@ export interface ProviderMessage {
   quoteCurrency: string
   price: number
   publishedAt: string
+  effectiveTime: number
   errors: string
 }
 
