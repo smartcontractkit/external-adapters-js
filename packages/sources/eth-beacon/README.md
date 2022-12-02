@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Ethereum Beacon API
 
-![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json)
 
 External adapter for reading from the Ethereum PoS Beacon chain's API
 
@@ -8,9 +8,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |       Name       |            Description             |  Type  | Options | Default |
-| :-------: | :--------------: | :--------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ETHEREUM_RPC_URL | RPC URL of an Ethereum beacon node | string |         |         |
+| Required? |       Name       |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :--------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ETHEREUM_RPC_URL |                            RPC URL of an Ethereum beacon node                             | string |         |         |
+|           |    BATCH_SIZE    | The size of batches the addresses are split into for each request to the consensus client | string |         |  `15`   |
 
 ---
 
@@ -71,39 +72,60 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "balances": [
+    "validators": [
       {
-        "address": "416512",
-        "balance": "32081209325"
+        "index": "416512",
+        "balance": "32081209325",
+        "status": "active_ongoing",
+        "validator": {
+          "pubkey": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
+          "withdrawal_credentials": "0x00f50428677c60f997aadeab24aabf7fceaef491c96a52b463ae91f95611cf71",
+          "effective_balance": "32000000000",
+          "slashed": false,
+          "activation_eligibility_epoch": "0",
+          "activation_epoch": "0",
+          "exit_epoch": "18446744073709551615",
+          "withdrawable_epoch": "18446744073709551615"
+        }
       },
       {
-        "address": "416580",
-        "balance": "32067790944"
+        "index": "416580",
+        "balance": "32067790944",
+        "status": "active_ongoing",
+        "validator": {
+          "pubkey": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
+          "withdrawal_credentials": "0x00f50428677c60f997aadeab24aabf7fceaef491c96a52b463ae91f95611cf71",
+          "effective_balance": "32000000000",
+          "slashed": false,
+          "activation_eligibility_epoch": "0",
+          "activation_epoch": "0",
+          "exit_epoch": "18446744073709551615",
+          "withdrawable_epoch": "18446744073709551615"
+        }
       }
     ],
     "result": [
       {
-        "address": "416512",
+        "address": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
         "balance": "32081209325"
       },
       {
-        "address": "416580",
+        "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
         "balance": "32067790944"
       }
     ]
   },
   "result": [
     {
-      "address": "416512",
+      "address": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
       "balance": "32081209325"
     },
     {
-      "address": "416580",
+      "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
       "balance": "32067790944"
     }
   ],
-  "statusCode": 200,
-  "providerStatusCode": 200
+  "statusCode": 200
 }
 ```
 
@@ -145,57 +167,33 @@ Response:
   "data": {
     "validators": [
       {
-        "execution_optimistic": true,
-        "data": {
-          "index": "416512",
-          "balance": "32081209325",
-          "status": "active",
-          "validator": {
-            "pubkey": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
-            "withdrawal_credentials": "",
-            "effective_balance": "32081209325",
-            "slashed": false,
-            "activation_eligibility_epoch": "",
-            "activation_epoch": "",
-            "exit_epoch": "",
-            "withdrawable_epoch": ""
-          }
+        "index": "416512",
+        "balance": "32081209325",
+        "status": "active_ongoing",
+        "validator": {
+          "pubkey": "0x8bdb63ea991f42129d6defa8d3cc5926108232c89824ad50d57f49a0310de73e81e491eae6587bd1465fa5fd8e4dee21",
+          "withdrawal_credentials": "0x010000000000000000000000e0c8df4270f4342132ec333f6048cb703e7a9c77",
+          "effective_balance": "32000000000",
+          "slashed": false,
+          "activation_eligibility_epoch": "142627",
+          "activation_epoch": "142641",
+          "exit_epoch": "18446744073709551615",
+          "withdrawable_epoch": "18446744073709551615"
         }
       },
       {
-        "execution_optimistic": true,
-        "data": {
-          "index": "416580",
-          "balance": "32067790944",
-          "status": "active",
-          "validator": {
-            "pubkey": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
-            "withdrawal_credentials": "",
-            "effective_balance": "32067790944",
-            "slashed": false,
-            "activation_eligibility_epoch": "",
-            "activation_epoch": "",
-            "exit_epoch": "",
-            "withdrawable_epoch": ""
-          }
-        }
-      },
-      {
-        "execution_optimistic": false,
-        "data": {
-          "index": "0",
-          "balance": "0",
-          "status": "failed",
-          "validator": {
-            "pubkey": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-            "withdrawal_credentials": "",
-            "effective_balance": "0",
-            "slashed": false,
-            "activation_eligibility_epoch": "",
-            "activation_epoch": "",
-            "exit_epoch": "",
-            "withdrawable_epoch": ""
-          }
+        "index": "416580",
+        "balance": "32067790944",
+        "status": "active_ongoing",
+        "validator": {
+          "pubkey": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
+          "withdrawal_credentials": "0x010000000000000000000000e0c8df4270f4342132ec333f6048cb703e7a9c77",
+          "effective_balance": "32000000000",
+          "slashed": false,
+          "activation_eligibility_epoch": "143203",
+          "activation_epoch": "143209",
+          "exit_epoch": "18446744073709551615",
+          "withdrawable_epoch": "18446744073709551615"
         }
       }
     ],

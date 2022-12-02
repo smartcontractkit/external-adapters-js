@@ -1,5 +1,11 @@
 # @chainlink/elwood-test-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- d3b95f80e: Added error caching for failed subscribe/unsubscribe messages
+
 ## 1.0.3
 
 ### Patch Changes

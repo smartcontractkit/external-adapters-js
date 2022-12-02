@@ -1,5 +1,11 @@
 # @chainlink/ncfx-test-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- 6065bed93: Bumped framework version and fixed breaking changes
+
 ## 1.0.1
 
 ### Patch Changes

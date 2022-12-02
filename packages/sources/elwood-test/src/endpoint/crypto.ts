@@ -123,16 +123,42 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
 
   override async sendMessages(
     context: EndpointContext<CryptoEndpointTypes>,
-    subscribes: unknown[],
-    unsubscribes: unknown[],
+    subscribes: SubscribeRequest[],
+    unsubscribes: SubscribeRequest[],
   ): Promise<void> {
     const messages = subscribes.concat(unsubscribes)
     for (const message of messages) {
-      axios.request({
-        url: `${context.adapterConfig.API_ENDPOINT}?apiKey=${context.adapterConfig.API_KEY}`,
-        method: 'post',
-        data: message,
-      })
+      axios
+        .request({
+          url: `${context.adapterConfig.API_ENDPOINT}?apiKey=${context.adapterConfig.API_KEY}`,
+          method: 'post',
+          data: message,
+        })
+        .catch(async (error) => {
+          logger.debug(`Failed to ${message.action} the ${message.symbol} pair`)
+          const base = message.symbol.split('-')[0]
+          const quote = message.symbol.split('-')[1]
+          const defaultErrorMsg = `Failed to ${message.action} the ${message.symbol} pair`
+          if (error.response) {
+            await this.responseCache.write([
+              {
+                params: {
+                  base,
+                  quote,
+                },
+                response: {
+                  statusCode: error.response.data['error']['code'] || 500,
+                  errorMessage: error.response.data['error']['message'] || defaultErrorMsg,
+                  timestamps: {
+                    providerDataReceived: Date.now(),
+                    providerIndicatedTime: undefined,
+                    providerDataStreamEstablished: this.providerDataStreamEstablished,
+                  },
+                },
+              },
+            ])
+          }
+        })
     }
   }
 })()
