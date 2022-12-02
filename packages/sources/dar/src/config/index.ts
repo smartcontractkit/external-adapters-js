@@ -24,3 +24,5 @@ export const customSettings = {
     sensitive: true,
   },
 } as const
+
+export const WS_HEARTBEAT_MS = 60000

@@ -6,8 +6,17 @@ import {
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { PriceEndpointTypes } from '../types'
 import { getAuthToken } from '../util'
+import { WS_HEARTBEAT_MS } from '../config'
 
 const logger = makeLogger('DarPriceEndpoint')
+
+function heartbeat(connection: WebSocket): NodeJS.Timeout | undefined {
+  if (!connection) return
+  if (connection.readyState !== 1) return
+  logger.debug('pinging....')
+  connection.send('Ping')
+  return setTimeout(() => heartbeat(connection), WS_HEARTBEAT_MS)
+}
 
 export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
   url: (context) => context.adapterConfig.WS_API_ENDPOINT,
@@ -18,6 +27,12 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
     }
   },
   handlers: {
+    open(connection) {
+      const heartbeatTimeout = heartbeat(connection)
+      connection.on('close', async () => {
+        clearTimeout(heartbeatTimeout)
+      })
+    },
     message(message) {
       if (message.errors) {
         logger.error(`Got error from DP: ${message.errors}`)
