@@ -96,7 +96,7 @@ export const constructEntry = (
   requestPayload: CryptoRequestParams,
   resultPath: string,
 ): ResultEntry | undefined => {
-  const coinId = requestPayload.coinid ?? (requestPayload.base as string)
+  const coinId = (requestPayload.coinid ?? (requestPayload.base as string)).toLowerCase()
   const dataForCoin = res.data[coinId]
   const dataForQuote = dataForCoin ? dataForCoin[resultPath] : undefined
   if (!dataForQuote) {
