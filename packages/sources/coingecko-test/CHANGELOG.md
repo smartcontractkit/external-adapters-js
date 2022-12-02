@@ -1,5 +1,12 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- 7604a7f3c: Added/fixed static overrides.
+  Ensure the coin ID is always lower-case.
+
 ## 1.2.2
 
 ### Patch Changes
