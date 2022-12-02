@@ -88,6 +88,7 @@ export const validateOutput = (
     if (!matchRequest(assertion.request, response.request)) {
       continue
     }
+    console.log(`Assertion applied: ${JSON.stringify(assertion)}`)
     const result = assert(body, assertion.expectedResponse, response.request)
     if (result.output.length) {
       for (const output of result.output) {

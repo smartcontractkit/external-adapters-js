@@ -38,15 +38,16 @@ if [ ! -z ${PR_NUMBER+x} ]; then
   TEST_OUTPUT=$(tail -n 150 ~/testResults.txt ~/output.txt)
   TEST_OUTPUT_ASSERTIONS=$(cat ~/output.log | grep "Assertion: " | sort | uniq)
   TEST_OUTPUT_ASSERTIONS_FAILED=$(cat ~/output.log | grep "Failed: " | sort | uniq)
-  TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertions applied" | sort | uniq)
+  TEST_OUTPUT_ASSERTIONS_LOADED_COUNT=$(cat ~/output.log | grep "Assertion loaded: " | sort | uniq | wc -l)
+  TEST_OUTPUT_ASSERTIONS_COUNT=$(cat ~/output.log | grep "Assertion applied: " | sort | uniq | wc -l)
   TEST_OUTPUT_SAMPLE=$(cat ~/output.log | grep "request: " | tail -n 200)
   TEST_OUTPUT_PARAM_NUM=$(sed 's/^request: \(.*\) response.*/\1/' ~/output.log | sort | uniq | wc -l)
   if [ "$TEST_OUTPUT_PARAM_NUM" -lt 10 ]; then
     TEST_OUTPUT_MESSAGE=":warning: Only $TEST_OUTPUT_PARAM_NUM unique input parameter sets. Update test-payload.json to increase the coverage. "
-  elif [ -z "$TEST_OUTPUT_ASSERTIONS_COUNT" ]; then
-    TEST_OUTPUT_MESSAGE=":warning: No assertions applied"
+  elif [ "$TEST_OUTPUT_PARAM_NUM" -eq 0 ]; then
+    TEST_OUTPUT_MESSAGE=":warning: Assertions loaded: ${TEST_OUTPUT_ASSERTIONS_LOADED_COUNT}, applied: ${TEST_OUTPUT_ASSERTIONS_COUNT}"
   elif [ -z "$TEST_OUTPUT_ASSERTIONS_FAILED"]; then
-    TEST_OUTPUT_MESSAGE=":heavy_check_mark: ${TEST_OUTPUT_ASSERTIONS_COUNT}" 
+    TEST_OUTPUT_MESSAGE=":heavy_check_mark: Assertions loaded: ${TEST_OUTPUT_ASSERTIONS_LOADED_COUNT}, applied: ${TEST_OUTPUT_ASSERTIONS_COUNT}" 
     TEST_OUTPUT_ASSERTIONS_FAILED="(no failed assertions)"
   else
     TEST_OUTPUT_MESSAGE=":warning: Assertions failed"
