@@ -3,7 +3,7 @@ import { AssertionRequest, Assertion, AssertionResult, ExpectedResponse } from '
 
 const assertValue = (
   assertionName: string,
-  value: number | Array<string | number>,
+  value: number | Array<string | number> | string,
   condition: number | string,
 ) => {
   switch (typeof value) {
@@ -21,6 +21,21 @@ const assertValue = (
         }
         case 'lessThan': {
           return value < condition
+        }
+        default:
+          return false
+      }
+    }
+    case 'string': {
+      switch (assertionName) {
+        case 'hasFormat': {
+          switch (condition) {
+            case 'hex': {
+              return !!value.match(/^(0x)?[0-9a-fA-F]+$/)
+            }
+            default:
+              return false
+          }
         }
         default:
           return false
