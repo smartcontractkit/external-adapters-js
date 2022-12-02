@@ -9,6 +9,17 @@ export const signingAlgorithms: SigningAlgorithm[] = ['rsa-sha256', 'rsa-sha384'
 const MAX_PAGE_SIZE = 500
 
 export const customSettings = {
+  API_ENDPOINT: {
+    description: 'The endpoint to use for making requests to the Bank Frick API',
+    type: 'string',
+    required: false,
+    default: 'https://olbsandbox.bankfrick.li',
+  },
+  API_KEY: {
+    description: 'The API key to use for making requests to the Bank Frick API',
+    type: 'string',
+    required: true,
+  },
   PAGE_SIZE: {
     description: 'The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500.',
     type: 'number',

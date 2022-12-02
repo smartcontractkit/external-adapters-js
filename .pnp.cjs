@@ -405,10 +405,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/curve"\
       },\
       {\
-        "name": "@chainlink/dar-adapter",\
-        "reference": "workspace:packages/sources/dar"\
-      },\
-      {\
         "name": "@chainlink/deribit-adapter",\
         "reference": "workspace:packages/sources/deribit"\
       },\
@@ -543,6 +539,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/gsr-adapter",\
         "reference": "workspace:packages/sources/gsr"\
+      },\
+      {\
+        "name": "@chainlink/gsr-test-adapter",\
+        "reference": "workspace:packages/sources/gsr-test"\
       },\
       {\
         "name": "@chainlink/iex-cloud-adapter",\
@@ -870,7 +870,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
       ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
       ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
-      ["@chainlink/dar-adapter", ["workspace:packages/sources/dar"]],\
       ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
       ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
       ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
@@ -922,6 +921,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
       ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
+      ["@chainlink/gsr-test-adapter", ["workspace:packages/sources/gsr-test"]],\
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
@@ -4202,7 +4202,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.5.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4573,7 +4573,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cfbenchmarks-test/",\
           "packageDependencies": [\
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4696,7 +4696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko-test/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4769,7 +4769,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics-test/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5072,24 +5072,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@chainlink/dar-adapter", [\
-        ["workspace:packages/sources/dar", {\
-          "packageLocation": "./packages/sources/dar/",\
-          "packageDependencies": [\
-            ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["mock-socket", "npm:9.1.5"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
       ["@chainlink/defi-dozen-adapter", [\
         ["workspace:packages/composites/defi-dozen", {\
           "packageLocation": "./packages/composites/defi-dozen/",\
@@ -5354,7 +5336,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptomkt-adapter", "workspace:packages/sources/cryptomkt"],\
             ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\
             ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],\
-            ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
             ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],\
             ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],\
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],\
@@ -5389,6 +5370,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
+            ["@chainlink/gsr-test-adapter", "workspace:packages/sources/gsr-test"],\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
@@ -5421,6 +5403,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
             ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
+            ["@chainlink/rocket-pool-adapter", "workspace:packages/composites/rocket-pool"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
             ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
@@ -5549,7 +5532,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -5621,7 +5604,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood-test/",\
           "packageDependencies": [\
             ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5873,6 +5856,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
+        ["npm:0.11.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.11.0-1021d1546d-c394a23e79.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.7.0"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:0.12.0", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.12.0-73e28ca792-f9d04a24e3.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -5885,14 +5884,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
+            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.14.3", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.14.3-dcbcbedc42-a322965c4c.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.13.2", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.13.2-505a72a1b3-1c4078e76c.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -5901,22 +5900,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:0.5.2", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.5.2-89b5fa8068-4af5f395c4.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.5.2"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:0.27.2"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.7.0"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"]\
+            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6118,7 +6102,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy-test/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-test-adapter", "workspace:packages/sources/galaxy-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6255,7 +6239,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.11"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/gsr-test-adapter", [\
+        ["workspace:packages/sources/gsr-test", {\
+          "packageLocation": "./packages/sources/gsr-test/",\
+          "packageDependencies": [\
+            ["@chainlink/gsr-test-adapter", "workspace:packages/sources/gsr-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6727,7 +6729,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx-test/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
+            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -35056,6 +35058,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
+        ["virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-eae5f433a7/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -35094,23 +35113,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-e447ee6a95/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-e9c14653d7/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:89b5fa8068748c2f8a8d681431cb87facb87a9ffca59fc8ab9f2b4bd8db46308ab76ce96a29335754144643e6dbf7a8de561a18d280762c9f0140a335be81b7d#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\

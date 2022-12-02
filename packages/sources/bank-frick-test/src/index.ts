@@ -8,9 +8,6 @@ export const adapter = new Adapter({
   defaultEndpoint: 'accounts',
   endpoints: [accountsRestEndpoint],
   customSettings,
-  envDefaultOverrides: {
-    API_ENDPOINT: 'https://olbsandbox.bankfrick.li/webapi/v2',
-  },
 })
 
 export const server = () => expose(adapter)

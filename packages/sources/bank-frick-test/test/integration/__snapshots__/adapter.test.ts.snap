@@ -15,5 +15,9 @@ Object {
   },
   "result": 1010000.0999999,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
+  },
 }
 `;
