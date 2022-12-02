@@ -17,7 +17,7 @@ if (__ENV.TEST_DURATION) {
 // load the test data, if data was generated then load it from the generated file
 let payloadData: Payload[] = []
 if (__ENV.PAYLOAD_GENERATED) {
-  const payloadPath = __ENV.PAYLOAD_PATH || '/load/src/config/http.json'
+  const payloadPath = __ENV.PAYLOAD_PATH || '../src/config/http.json'
   payloadData = new SharedArray('payloadData', function () {
     const f = JSON.parse(open(payloadPath))
     return f
@@ -31,7 +31,13 @@ const assertionsPaths = (__ENV.ASSERTIONS_PATHS && __ENV.ASSERTIONS_PATHS.split(
 ]
 assertions = new SharedArray('assertionsPaths', function () {
   const f = assertionsPaths
-    .map((assertionsPath: string) => JSON.parse(open(assertionsPath)))
+    .map((assertionsPath: string) => {
+      try {
+        return JSON.parse(open(assertionsPath))
+      } catch {
+        return []
+      }
+    })
     .reduce((lst, item) => lst.concat(item), [])
   return f
 })
