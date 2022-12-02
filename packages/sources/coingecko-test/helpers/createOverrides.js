@@ -8,9 +8,7 @@ const main = async () => {
     'coingecko'
   ]
 
-  const response = await axios.get(
-    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&page=10',
-  )
+  const response = await axios.get('https://api.coingecko.com/api/v3/coins/list')
 
   const mapped = response.data.reduce((acc, coin) => {
     const symbol = coin['symbol'].toUpperCase()
