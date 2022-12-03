@@ -1,12 +1,12 @@
 [
   {
-    "request": { "endpoint": "reth" },
+    "request": { "data": { "endpoint": "reth" } },
     "expectedResponse": {
       "result": { "hasFormat": "hex" }
     }
   },
   {
-    "request": { "endpoint": "reth", "data": { "quote": "USD" } },
+    "request": { "data": { "quote": "USD", "endpoint": "reth" } },
     "expectedResponse": {
       "result": {
         "greaterThan": 0,
