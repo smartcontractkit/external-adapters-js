@@ -61,9 +61,8 @@ const assertValue = (
 
 const matchRequest = (assertionRequest: AssertionRequest, requestBody: any) => {
   const assertionRequestData = assertionRequest.data || assertionRequest
-  return Object.entries(assertionRequestData).every(
-    (entry) => requestBody.data[entry[0]] == entry[1],
-  )
+  const requestData = requestBody.data.data || requestBody.data
+  return Object.entries(assertionRequestData).every((entry) => requestData[entry[0]] == entry[1])
 }
 
 const assert = (body: any, expectedResponse: ExpectedResponse, request: any) => {
@@ -97,10 +96,10 @@ export const validateOutput = (
     return
   }
   const body = JSON.parse(response.body.toString())
+  const requestBody = JSON.parse(response.request.body)
   console.log(`request: ${response.request.body} response: ${response.body}`)
   for (const assertion of assertions) {
-    console.log(`DEBUG: ${JSON.stringify(assertion.request)} ${JSON.stringify(body)}`)
-    if (!matchRequest(assertion.request, body)) {
+    if (!matchRequest(assertion.request, requestBody)) {
       continue
     }
     console.log(`Assertion applied: ${JSON.stringify(assertion)}`)
