@@ -60,7 +60,8 @@ const assertValue = (
 }
 
 const matchRequest = (assertionRequest: AssertionRequest, requestBody: any) => {
-  return Object.entries(assertionRequest.data).every(
+  const assertionRequestData = assertionRequest.data || assertionRequest
+  return Object.entries(assertionRequestData).every(
     (entry) => requestBody.data[entry[0]] == entry[1],
   )
 }
