@@ -28,6 +28,7 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
     constructor(url: string, protocol: string | string[] | Record<string, string> | undefined) {
       super(url, protocol instanceof Object ? undefined : protocol)
     }
+
     // Mock WebSocket does not come with built on function which adapter handlers could be using for ws
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     on(_: Event) {
@@ -53,6 +54,7 @@ export const mockPriceWebSocketServer = (URL: string): Server => {
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   const priceEndpoint = new PriceEndpoint({
     name: 'price',
+    aliases: ['crypto'],
     transport: priceTransport,
     inputParameters: priceEndpointInputParameters,
   })
