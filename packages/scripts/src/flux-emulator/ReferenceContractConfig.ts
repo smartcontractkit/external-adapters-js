@@ -6,6 +6,10 @@ import console from 'console'
 import { AxiosRequestConfig } from 'axios'
 import { randomUUID } from 'crypto'
 
+const rddAliases: { [name: string]: string } = {
+  cvi: 'crypto-volatility-index',
+} as const
+
 // ReferenceContractConfig is the shape of reference data for a given data feed,
 // which includes the address of the feed, contract version, and the node operators (nodes)
 // that are being contracted for this feed.
@@ -210,9 +214,24 @@ export const addAdapterToConfig = (
 ): ReferenceContractConfig[] => {
   for (const config of masterConfig) {
     for (const node of config.nodes) {
-      if (node.dataProviders.includes(adapterName)) {
+      for (const dataProvider of node.dataProviders) {
+        const [name, params] = dataProvider.split('?')
+        if (name !== adapterName && (!rddAliases[name] || rddAliases[name] !== adapterName))
+          continue
+
         // add adapter to the qaFeed
-        qaConfig = addAdapterToNode(config, node, qaConfig, ephemeralAdapterName)
+        if (!params) {
+          qaConfig = addAdapterToNode(config, node, qaConfig, ephemeralAdapterName)
+        } else {
+          const configWithParams = JSON.parse(JSON.stringify(config)) as ReferenceContractConfig
+          const paramsList = params.split('&')
+          configWithParams.name = `${configWithParams.name} ${paramsList.join(' ')}`
+          for (const param of paramsList) {
+            const [key, value] = param.split('=')
+            configWithParams.data[key] = value
+          }
+          qaConfig = addAdapterToNode(configWithParams, node, qaConfig, ephemeralAdapterName)
+        }
       }
     }
   }
