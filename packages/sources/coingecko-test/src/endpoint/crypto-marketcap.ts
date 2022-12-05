@@ -1,6 +1,5 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
   buildBatchedRequestBody,
   constructEntry,
@@ -14,20 +13,10 @@ const batchEndpointTransport = new BatchWarmingTransport<CryptoEndpointTypes>({
     requestBody.params.include_market_cap = true
     return requestBody
   },
-  parseResponse: (params, res) => {
-    const entries = [] as ProviderResult<CryptoEndpointTypes>[]
-    for (const requestPayload of params) {
-      const entry = constructEntry(
-        res,
-        requestPayload,
-        `${requestPayload.quote.toLowerCase()}_market_cap`,
-      )
-      if (entry) {
-        entries.push(entry)
-      }
-    }
-    return entries
-  },
+  parseResponse: (params, res) =>
+    params.map((requestPayload) =>
+      constructEntry(res, requestPayload, `${requestPayload.quote.toLowerCase()}_market_cap`),
+    ),
 })
 
 export const endpoint = new AdapterEndpoint({
