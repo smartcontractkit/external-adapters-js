@@ -202,6 +202,7 @@ Object {
   "timestamps": Object {
     "providerDataReceived": 1652198967193,
     "providerDataRequested": 1652198967193,
+    "providerIndicatedTime": 1635189786000,
   },
 }
 `;
@@ -362,6 +363,7 @@ Object {
   "timestamps": Object {
     "providerDataReceived": 1652198967193,
     "providerDataRequested": 1652198967193,
+    "providerIndicatedTime": 1635189786000,
   },
 }
 `;

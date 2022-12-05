@@ -113,6 +113,9 @@ export const constructEntry = (
     response: {
       data: res.data,
       result,
+      timestamps: {
+        providerIndicatedTime: resultData.updated_at * 1000,
+      },
     },
   }
 }
