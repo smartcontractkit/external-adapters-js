@@ -3,7 +3,7 @@ import { AssertionRequest, Assertion, AssertionResult, ExpectedResponse } from '
 
 const assertValue = (
   assertionName: string,
-  value: number | Array<string | number>,
+  value: number | Array<string | number> | string,
   condition: number | string,
 ) => {
   switch (typeof value) {
@@ -21,6 +21,21 @@ const assertValue = (
         }
         case 'lessThan': {
           return value < condition
+        }
+        default:
+          return false
+      }
+    }
+    case 'string': {
+      switch (assertionName) {
+        case 'hasFormat': {
+          switch (condition) {
+            case 'hex': {
+              return !!value.match(/^(0x)?[0-9a-fA-F]+$/)
+            }
+            default:
+              return false
+          }
         }
         default:
           return false
@@ -44,12 +59,10 @@ const assertValue = (
   }
 }
 
-const matchRequest = (assertionRequest: AssertionRequest, request: Record<string, any>) => {
-  const requestBody = JSON.stringify(JSON.parse(request.body).data)
-  return (
-    request.url.includes(assertionRequest.endpoint) &&
-    (!assertionRequest.data || requestBody == JSON.stringify(assertionRequest.data))
-  )
+const matchRequest = (assertionRequest: AssertionRequest, requestBody: any) => {
+  const assertionRequestData = assertionRequest.data || assertionRequest
+  const requestData = requestBody.data.data || requestBody.data
+  return Object.entries(assertionRequestData).every((entry) => requestData[entry[0]] == entry[1])
 }
 
 const assert = (body: any, expectedResponse: ExpectedResponse, request: any) => {
@@ -83,11 +96,13 @@ export const validateOutput = (
     return
   }
   const body = JSON.parse(response.body.toString())
+  const requestBody = JSON.parse(response.request.body)
   console.log(`request: ${response.request.body} response: ${response.body}`)
   for (const assertion of assertions) {
-    if (!matchRequest(assertion.request, response.request)) {
+    if (!matchRequest(assertion.request, requestBody)) {
       continue
     }
+    console.log(`Assertion applied: ${JSON.stringify(assertion)}`)
     const result = assert(body, assertion.expectedResponse, response.request)
     if (result.output.length) {
       for (const output of result.output) {
