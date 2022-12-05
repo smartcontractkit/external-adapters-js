@@ -541,10 +541,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/gsr"\
       },\
       {\
-        "name": "@chainlink/gsr-test-adapter",\
-        "reference": "workspace:packages/sources/gsr-test"\
-      },\
-      {\
         "name": "@chainlink/iex-cloud-adapter",\
         "reference": "workspace:packages/sources/iex-cloud"\
       },\
@@ -921,7 +917,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
       ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
       ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
-      ["@chainlink/gsr-test-adapter", ["workspace:packages/sources/gsr-test"]],\
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
@@ -5370,7 +5365,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/gsr-test-adapter", "workspace:packages/sources/gsr-test"],\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
@@ -6254,24 +6248,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.11"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/gsr-test-adapter", [\
-        ["workspace:packages/sources/gsr-test", {\
-          "packageLocation": "./packages/sources/gsr-test/",\
-          "packageDependencies": [\
-            ["@chainlink/gsr-test-adapter", "workspace:packages/sources/gsr-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
