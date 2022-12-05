@@ -1,4 +1,4 @@
-# @chainlink/example-source-adapter
+# @chainlink/gsr-adapter
 
 ## 1.0.30
 
