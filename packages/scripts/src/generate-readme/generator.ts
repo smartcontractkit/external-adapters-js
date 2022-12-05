@@ -100,6 +100,12 @@ export class ReadmeGenerator {
       this.envVars = schema.properties ?? {}
       this.requiredEnvVars = schema.required ?? []
       this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
+      this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
+
+      if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
+
+      const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
+      this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
     } else {
       this.frameworkVersion = 'v3'
       if (this.verbose)
@@ -113,6 +119,14 @@ export class ReadmeGenerator {
       const adapter = adapterImport.adapter as Adapter
       this.name = adapter.name
       this.envVars = adapter.customSettings || {}
+
+      this.endpointDetails = adapter.endpoints?.length
+        ? adapter.endpoints.reduce(
+            (obj, endpoint) => Object.assign(obj, { [endpoint.name]: endpoint }),
+            {},
+          )
+        : {}
+
       this.requiredEnvVars = adapter.customSettings
         ? Object.keys(adapter.customSettings).filter(
             (k) => adapter.customSettings[k].required === true,
@@ -120,20 +134,7 @@ export class ReadmeGenerator {
         : []
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
-    }
 
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
-
-    this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
-
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
-
-    const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
-    this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
-
-    // Map V3 fields to their V2 equivalents
-    if (this.frameworkVersion === 'v3') {
-      console.log(`${this.name} is a v3 adapter, converting it to v2 format for readme generation`)
       Object.keys(this.endpointDetails).forEach((endpointName) => {
         const endpoint = this.endpointDetails[endpointName]
         endpoint.supportedEndpoints = [endpointName, ...(endpoint.aliases || [])]
