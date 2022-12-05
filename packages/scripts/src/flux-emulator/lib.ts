@@ -215,7 +215,11 @@ export const writeK6Payload = async (inputs: Inputs): Promise<void> => {
   const payloadPath = pathToAdapter + '/test-payload.json'
   if (shell.test('-f', payloadPath)) {
     const examplePayload = JSON.parse(shell.cat(payloadPath).toString())
-    nameAndData.push({ name: 'test-payload', data: examplePayload })
+    if ('requests' in examplePayload && Array.isArray(examplePayload.requests)) {
+      examplePayload.requests.forEach((request: any, index: number) => {
+        nameAndData.push({ name: `test-payload-${index}`, data: request })
+      })
+    }
   }
 
   if (!nameAndData.length) throwError(`No test payloads found for ${inputs.adapter} adapter`)

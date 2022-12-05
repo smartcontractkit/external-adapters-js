@@ -1,5 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`flux emulator config editing should add an adapter with params to a feed 1`] = `
+Array [
+  Object {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST4",
+      "source": "sourceName4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4 source=sourceName4",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": Array [
+          "ea-compositeName4",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
+exports[`flux emulator config editing should add an adapter with params to a feed 2`] = `
+Array [
+  Object {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST4",
+      "source": "sourceName4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4 source=sourceName4",
+    "nodes": Array [
+      Object {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": Array [
+          "ea-compositeName4",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+]
+`;
+
 exports[`flux emulator config editing should add an adpater to a feed 1`] = `
 Array [
   Object {
@@ -212,6 +272,7 @@ exports[`flux emulator config editing should parse a feed 1`] = `
 Array [
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": Object {
       "from": "TEST",
@@ -220,7 +281,7 @@ Array [
     "deviationThreshold": 2,
     "name": "TEST / THIS",
     "nodes": Array [
-      Object {
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
         "dataProviders": Array [
           "adapterName1",
@@ -228,7 +289,7 @@ Array [
         ],
         "name": "nodeName",
       },
-      Object {
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000002",
         "dataProviders": Array [
           "adapterName1",
@@ -243,6 +304,7 @@ Array [
   },
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000000",
+    "category": "test",
     "contractVersion": 4,
     "data": Object {
       "from": "TEST2",
@@ -251,7 +313,7 @@ Array [
     "deviationThreshold": 2,
     "name": "TEST2 / THIS2",
     "nodes": Array [
-      Object {
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000000",
         "dataProviders": Array [
           "adapterName1",
@@ -259,7 +321,7 @@ Array [
         ],
         "name": "nodeName",
       },
-      Object {
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000002",
         "dataProviders": Array [
           "adapterName2",
@@ -274,6 +336,7 @@ Array [
   },
   ReferenceContractConfig {
     "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
     "contractVersion": 4,
     "data": Object {
       "from": "TEST3",
@@ -282,10 +345,34 @@ Array [
     "deviationThreshold": 2,
     "name": "TEST3 / THIS3",
     "nodes": Array [
-      Object {
+      FeedNode {
         "address": "0x0000000000000000000000000000000000000003",
         "dataProviders": Array [
           "adapterName3",
+        ],
+        "name": "nodeName",
+      },
+    ],
+    "path": "test-this",
+    "precision": 18,
+    "status": "live",
+    "symbol": "Ξ",
+  },
+  ReferenceContractConfig {
+    "address": "0x0000000000000000000000000000000000000003",
+    "category": "test",
+    "contractVersion": 4,
+    "data": Object {
+      "from": "TEST4",
+      "to": "THIS4",
+    },
+    "deviationThreshold": 2,
+    "name": "TEST4 / THIS4",
+    "nodes": Array [
+      FeedNode {
+        "address": "0x0000000000000000000000000000000000000003",
+        "dataProviders": Array [
+          "compositeName4?source=sourceName4",
         ],
         "name": "nodeName",
       },
