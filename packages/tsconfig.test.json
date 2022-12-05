@@ -381,9 +381,6 @@
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {
-      "path": "./sources/gsr-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/iex-cloud/tsconfig.test.json"
     },
     {
