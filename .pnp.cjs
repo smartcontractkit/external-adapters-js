@@ -4767,7 +4767,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics-test/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5075,7 +5075,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dar/",\
           "packageDependencies": [\
             ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5547,7 +5547,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@apidevtools/json-schema-ref-parser", "npm:9.0.9"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/command-line-args", "npm:5.2.0"],\
             ["@types/command-line-usage", "npm:5.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
@@ -5871,22 +5871,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@chainlink/external-adapter-framework", [\
-        ["npm:0.11.0", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.11.0-1021d1546d-c394a23e79.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.11.0"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:0.27.2"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.7.0"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:0.12.0", {\
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.12.0-73e28ca792-f9d04a24e3.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
@@ -5895,22 +5879,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
             ["fastify", "npm:4.7.0"],\
-            ["ioredis", "npm:5.2.3"],\
-            ["pino", "npm:8.6.1"],\
-            ["pino-pretty", "npm:9.1.0"],\
-            ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:0.13.2", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.13.2-505a72a1b3-1c4078e76c.zip/node_modules/@chainlink/external-adapter-framework/",\
-          "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
-            ["ajv", "npm:8.11.0"],\
-            ["axios", "npm:0.27.2"],\
-            ["eventsource", "npm:2.0.2"],\
-            ["fastify", "npm:4.9.2"],\
             ["ioredis", "npm:5.2.3"],\
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
