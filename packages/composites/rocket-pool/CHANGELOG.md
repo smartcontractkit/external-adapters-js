@@ -1,5 +1,11 @@
 # @chainlink/rocket-pool-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 79c3ff165: Change rETH endpoint to return hex string of contract exchange rate by default.
+
 ## 1.0.2
 
 ### Patch Changes

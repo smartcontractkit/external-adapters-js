@@ -1,5 +1,11 @@
 # @chainlink/galaxy-test-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- 03439a222: Add crypto alias to galaxy-test's price endpoint
+
 ## 1.0.2
 
 ### Patch Changes
