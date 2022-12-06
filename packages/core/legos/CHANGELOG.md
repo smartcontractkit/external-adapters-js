@@ -1,5 +1,19 @@
 # @chainlink/ea
 
+## 1.3.49
+
+### Patch Changes
+
+- Updated dependencies [3344df573]
+- Updated dependencies [03439a222]
+- Updated dependencies [dc347f5bf]
+- Updated dependencies [f6ce8d651]
+- Updated dependencies [3eae590c0]
+  - @chainlink/coingecko-test-adapter@1.3.0
+  - @chainlink/galaxy-test-adapter@1.0.3
+  - @chainlink/dar-adapter@1.0.0
+  - @chainlink/gsr-adapter@2.0.0
+
 ## 1.3.48
 
 ### Patch Changes
