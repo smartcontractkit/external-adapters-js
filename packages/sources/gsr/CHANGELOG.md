@@ -1,5 +1,11 @@
 # @chainlink/gsr-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 3eae590c0: Upgraded EA framework from v2 to v3
+
 ## 1.0.30
 
 ### Patch Changes
