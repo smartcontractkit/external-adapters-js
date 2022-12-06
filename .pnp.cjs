@@ -4696,7 +4696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko-test/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5621,7 +5621,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood-test/",\
           "packageDependencies": [\
             ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6150,7 +6150,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy-test/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-test-adapter", "workspace:packages/sources/galaxy-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6287,7 +6287,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/gsr/",\
           "packageDependencies": [\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
