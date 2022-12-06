@@ -279,6 +279,9 @@
       "path": "./sources/curve/tsconfig.test.json"
     },
     {
+      "path": "./sources/dar/tsconfig.test.json"
+    },
+    {
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {

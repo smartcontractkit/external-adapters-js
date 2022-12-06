@@ -2580,6 +2580,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/dar-adapter@workspace:*, @chainlink/dar-adapter@workspace:packages/sources/dar":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dar-adapter@workspace:packages/sources/dar"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.13.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: ^9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/defi-dozen-adapter@workspace:packages/composites/defi-dozen":
   version: 0.0.0-use.local
   resolution: "@chainlink/defi-dozen-adapter@workspace:packages/composites/defi-dozen"
@@ -2951,6 +2967,7 @@ __metadata:
     "@chainlink/cryptomkt-adapter": "workspace:*"
     "@chainlink/currencylayer-adapter": "workspace:*"
     "@chainlink/curve-adapter": "workspace:*"
+    "@chainlink/dar-adapter": "workspace:*"
     "@chainlink/deribit-adapter": "workspace:*"
     "@chainlink/dns-query-adapter": "workspace:*"
     "@chainlink/dwolla-adapter": "workspace:*"
@@ -3017,7 +3034,6 @@ __metadata:
     "@chainlink/por-address-list-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
-    "@chainlink/rocket-pool-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
@@ -4441,7 +4457,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/rocket-pool-adapter@workspace:*, @chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
+"@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
   version: 0.0.0-use.local
   resolution: "@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool"
   dependencies:

@@ -279,6 +279,9 @@
       "path": "./sources/curve"
     },
     {
+      "path": "./sources/dar"
+    },
+    {
       "path": "./sources/deribit"
     },
     {
