@@ -17,6 +17,7 @@ describe('execute', () => {
   const context: SuiteContext = {
     req: null,
     server: async () => {
+      process.env.API_ENDPOINT = 'https://olbsandbox.bankfrick.li/webapi/v2'
       process.env.API_KEY = 'SOME_API_KEY'
       process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
       process.env.NODE_ENV = 'development'
@@ -81,7 +82,12 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
+      })
     })
   })
 })

@@ -7,14 +7,14 @@ import {
   SigningAlgorithm,
 } from '../types'
 import { customSettings } from '../config'
-import { Transport } from '@chainlink/external-adapter-framework/transports'
+import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { generateJWT } from '../util'
 import {
   AdapterRequest,
   AdapterResponse,
   makeLogger,
-  sleep,
   SingleNumberResultResponse,
+  sleep,
 } from '@chainlink/external-adapter-framework/util'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import {
@@ -23,7 +23,8 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterDependencies, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 
 const logger = makeLogger('BankFrickTransport')
 
@@ -75,10 +76,13 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
   // Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
   // Each instance of the EA will have their own token by design
   token!: string
-  cache!: Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
 
-  async initialize(dependencies: AdapterDependencies): Promise<void> {
+  cache!: Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
+  responseCache!: ResponseCache<any>
+
+  async initialize(dependencies: TransportDependencies<AccountsEndpointTypes>): Promise<void> {
     this.cache = dependencies.cache as Cache<AdapterResponse<AccountsEndpointTypes['Response']>>
+    this.responseCache = dependencies.responseCache
   }
 
   /**
@@ -202,6 +206,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
     let position = 0
     const keys = ibanIDs
     logger.info("Fetching accounts from Bank Frick's API...")
+    const providerDataRequested = Date.now()
     while (keys.length > 0) {
       // TODO Fetching and processing pages can be run concurrently
       const axiosRequest = this.prepareRequest(position, req.requestContext.data, config)
@@ -227,6 +232,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
       }
       position += PAGE_SIZE || 0
     }
+    const providerDataReceived = Date.now()
 
     // 404 if one or more accounts were not found
     if (keys.length > 0) {
@@ -240,6 +246,10 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
       },
       statusCode: 200,
       result: sum,
+      timestamps: {
+        providerDataReceived,
+        providerDataRequested,
+      },
     } as AdapterResponse<AccountsEndpointTypes['Response']>
     await this.cache.set(req.requestContext.cacheKey, res, config.CACHE_MAX_AGE)
     return res
