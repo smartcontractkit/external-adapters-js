@@ -4202,7 +4202,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5868,7 +5868,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
+            ["ws", "virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -5884,7 +5884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
+            ["ws", "virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -5900,14 +5900,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
+            ["ws", "virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.14.1", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.14.1-139adf3fb9-9182666594.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.14.3", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.14.3-dcbcbedc42-a322965c4c.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.14.1"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.3"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -5916,7 +5916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
+            ["ws", "virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -35074,23 +35074,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-cfe3fe4896/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
-          "packageDependencies": [\
-            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"],\
-            ["@types/bufferutil", null],\
-            ["@types/utf-8-validate", null],\
-            ["bufferutil", null],\
-            ["utf-8-validate", null]\
-          ],\
-          "packagePeers": [\
-            "@types/bufferutil",\
-            "@types/utf-8-validate",\
-            "bufferutil",\
-            "utf-8-validate"\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.9", {\
           "packageLocation": "./.yarn/__virtual__/ws-virtual-12b244aa98/0/cache/ws-npm-7.5.9-26f12a5ed6-c3c100a181.zip/node_modules/ws/",\
           "packageDependencies": [\
@@ -35146,6 +35129,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/ws-virtual-78c8603bdf/0/cache/ws-npm-7.2.3-e2147dfc25-979c59a706.zip/node_modules/ws/",\
           "packageDependencies": [\
             ["ws", "virtual:cc37d237282e2943a3e9095c48dbb8050f6a0be2392d193bcea3f122c8cb8afd8058b8064f60f08aae5d3cf0cd5f7a880342ef35676a0712b2a67e37c4fb5737#npm:7.2.3"],\
+            ["@types/bufferutil", null],\
+            ["@types/utf-8-validate", null],\
+            ["bufferutil", null],\
+            ["utf-8-validate", null]\
+          ],\
+          "packagePeers": [\
+            "@types/bufferutil",\
+            "@types/utf-8-validate",\
+            "bufferutil",\
+            "utf-8-validate"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-cac64425ae/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+          "packageDependencies": [\
+            ["ws", "virtual:dcbcbedc42f9ee4c2f774f86a88325c1ecb037fa3282c19e5d4404c4337deedfa66800cefddc32b517ed566cfcde2e1a60e85e25c170e7809e9f499e9a2fec27#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
