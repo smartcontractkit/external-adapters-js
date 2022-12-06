@@ -117,7 +117,9 @@ export const constructEntry = (
   return {
     ...entry,
     response: {
-      data: res.data,
+      data: {
+        [coinId]: dataForCoin,
+      },
       result: dataForQuote,
     },
   }
