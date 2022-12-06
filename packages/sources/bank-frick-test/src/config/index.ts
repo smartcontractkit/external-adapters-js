@@ -13,7 +13,7 @@ export const customSettings = {
     description: 'The endpoint to use for making requests to the Bank Frick API',
     type: 'string',
     required: false,
-    default: 'https://olbsandbox.bankfrick.li',
+    default: 'https://olbsandbox.bankfrick.li/webapi/v2',
   },
   API_KEY: {
     description: 'The API key to use for making requests to the Bank Frick API',
