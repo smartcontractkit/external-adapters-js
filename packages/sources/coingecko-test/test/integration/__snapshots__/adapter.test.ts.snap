@@ -30,9 +30,6 @@ Object {
 exports[`execute crypto api should return success for override 1`] = `
 Object {
   "data": Object {
-    "ethereum": Object {
-      "usd": 3015.64,
-    },
     "olympus": Object {
       "usd": 100,
     },
