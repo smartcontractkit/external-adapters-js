@@ -10,7 +10,10 @@ import {
   ProviderResult,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { customSettings } from '../config'
 
 interface WsMessage {
@@ -85,13 +88,14 @@ export const forexTransport = new WebSocketTransport<EndpointTypes>({
 function customInputValidation(
   _: PriceEndpointParams,
   config: AdapterConfig<typeof customSettings>,
-): void {
+): AdapterError | undefined {
   if (!config.FOREX_WS_USERNAME || !config.FOREX_WS_PASSWORD) {
-    throw new AdapterInputError({
+    return new AdapterInputError({
       statusCode: 400,
       message: 'Forex endpoint credentials are not set',
     })
   }
+  return
 }
 
 export const forexEndpoint = new PriceEndpoint<EndpointTypes>({
