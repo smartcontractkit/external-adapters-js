@@ -1797,8 +1797,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-test-adapter@workspace:packages/sources/bank-frick-test"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
@@ -2130,7 +2128,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-test-adapter@workspace:packages/sources/cfbenchmarks-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.13.2
+    "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12

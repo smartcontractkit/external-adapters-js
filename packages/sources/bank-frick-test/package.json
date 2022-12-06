@@ -28,8 +28,6 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/external-adapter-framework": "0.14.3",
     "axios": "0.27.2",
     "fastify": "^3.27.1",
