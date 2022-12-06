@@ -1,5 +1,12 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- 255af9e8a: Bumped v3 framework version
+- 1c73ae21f: Only cache data related to the specified request
+
 ## 1.3.0
 
 ### Minor Changes

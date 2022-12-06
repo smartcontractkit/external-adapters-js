@@ -1,5 +1,11 @@
 # @chainlink/elwood-test-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- 255af9e8a: Bumped v3 framework version
+
 ## 1.1.0
 
 ### Minor Changes

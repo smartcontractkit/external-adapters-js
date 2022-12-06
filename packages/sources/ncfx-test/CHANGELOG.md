@@ -1,5 +1,11 @@
 # @chainlink/ncfx-test-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- 6ed6512f8: Made FOREX_WS_USERNAME and FOREX_WS_PASSWORD optional env vars
+
 ## 1.0.2
 
 ### Patch Changes

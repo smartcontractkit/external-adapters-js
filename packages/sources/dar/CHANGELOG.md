@@ -1,5 +1,11 @@
 # @chainlink/dar-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- 6d57b64a5: Update framework version
+
 ## 1.0.0
 
 ### Major Changes
