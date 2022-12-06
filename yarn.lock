@@ -4117,7 +4117,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.13.2
+    "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12

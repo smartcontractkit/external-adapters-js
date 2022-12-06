@@ -41,8 +41,6 @@ describe('Crypto Endpoint', () => {
     process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
     process.env['API_USERNAME'] = 'test-api-username'
     process.env['API_PASSWORD'] = 'test-api-password'
-    process.env['FOREX_WS_USERNAME'] = 'test-forex-api-username'
-    process.env['FOREX_WS_PASSWORD'] = 'test-forex-api-password'
     const mockDate = new Date('2022-08-01T07:14:54.909Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
