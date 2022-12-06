@@ -2239,14 +2239,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-test-adapter@workspace:packages/sources/coingecko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.11.0
+    "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: ^1.2.0
     nock: 13.2.9
     supertest: 6.2.4
-    tslib: ^2.3.1
+    tslib: 2.4.0
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
@@ -2576,6 +2576,22 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.1.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/dar-adapter@workspace:*, @chainlink/dar-adapter@workspace:packages/sources/dar":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dar-adapter@workspace:packages/sources/dar"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.13.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: ^9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
@@ -2951,6 +2967,7 @@ __metadata:
     "@chainlink/cryptomkt-adapter": "workspace:*"
     "@chainlink/currencylayer-adapter": "workspace:*"
     "@chainlink/curve-adapter": "workspace:*"
+    "@chainlink/dar-adapter": "workspace:*"
     "@chainlink/deribit-adapter": "workspace:*"
     "@chainlink/dns-query-adapter": "workspace:*"
     "@chainlink/dwolla-adapter": "workspace:*"
@@ -2985,7 +3002,6 @@ __metadata:
     "@chainlink/gramchain-adapter": "workspace:*"
     "@chainlink/graphql-adapter": "workspace:*"
     "@chainlink/gsr-adapter": "workspace:*"
-    "@chainlink/gsr-test-adapter": "workspace:*"
     "@chainlink/iex-cloud-adapter": "workspace:*"
     "@chainlink/intrinio-adapter": "workspace:*"
     "@chainlink/ipfs-adapter": "workspace:*"
@@ -3018,7 +3034,6 @@ __metadata:
     "@chainlink/por-address-list-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
-    "@chainlink/rocket-pool-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"
     "@chainlink/sochain-adapter": "workspace:*"
@@ -3075,7 +3090,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-test-adapter@workspace:packages/sources/elwood-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.13.2
+    "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3543,7 +3558,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-test-adapter@workspace:packages/sources/galaxy-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.13.2
+    "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3664,23 +3679,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.11
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 4.7.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/gsr-test-adapter@workspace:*, @chainlink/gsr-test-adapter@workspace:packages/sources/gsr-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/gsr-test-adapter@workspace:packages/sources/gsr-test"
-  dependencies:
-    "@chainlink/external-adapter-framework": 0.13.2
+    "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4102,7 +4101,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.13.2
+    "@chainlink/external-adapter-framework": 0.14.3
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -4459,7 +4458,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/rocket-pool-adapter@workspace:*, @chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
+"@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool":
   version: 0.0.0-use.local
   resolution: "@chainlink/rocket-pool-adapter@workspace:packages/composites/rocket-pool"
   dependencies:
