@@ -77,7 +77,7 @@ describe('execute', () => {
   })
 
   describe('reth endpoint', () => {
-    it('returns rETH/ETH price with no input params', async () => {
+    it('returns rETH/ETH exchange rate as a hex string', async () => {
       const data: AdapterRequest = { id, data: {} }
       mockETHSuccess()
 
@@ -91,7 +91,7 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
 
-    it('returns rETH/USD price with "quote: USD" input param', async () => {
+    it('returns rETH/USD price when "quote: USD" is passed as an input param', async () => {
       const data: AdapterRequest = { id, data: { quote: 'USD' } }
       mockUSDSuccess()
 

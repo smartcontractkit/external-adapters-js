@@ -50,6 +50,7 @@ import * as cryptoid from '@chainlink/cryptoid-adapter'
 import * as cryptomkt from '@chainlink/cryptomkt-adapter'
 import * as currencylayer from '@chainlink/currencylayer-adapter'
 import * as curve from '@chainlink/curve-adapter'
+import * as dar from '@chainlink/dar-adapter'
 import * as deribit from '@chainlink/deribit-adapter'
 import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
@@ -84,7 +85,6 @@ import * as google_bigquery from '@chainlink/google-bigquery-adapter'
 import * as gramchain from '@chainlink/gramchain-adapter'
 import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
-import * as gsr_test from '@chainlink/gsr-test-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
@@ -200,6 +200,7 @@ export default {
   cryptomkt,
   currencylayer,
   curve,
+  dar,
   deribit,
   dns_query,
   dwolla,
@@ -234,7 +235,6 @@ export default {
   gramchain,
   graphql,
   gsr,
-  gsr_test,
   iex_adapter,
   intrinio,
   ipfs,

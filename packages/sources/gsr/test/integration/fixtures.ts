@@ -1,10 +1,10 @@
 import nock from 'nock'
 
-export const mockTokenResponse = (): nock.Scope => {
-  return nock('https://test-url.com', {
+export const mockTokenSuccess = (): nock.Scope =>
+  nock('https://oracle.prod.gsr.io', {
     encodedQueryParams: true,
   })
-    .post('/token', {
+    .post('/v1/token', {
       apiKey: 'test-pub-key',
       userId: 'test-user-id',
       ts: 1652198967193000000,
@@ -29,31 +29,3 @@ export const mockTokenResponse = (): nock.Scope => {
         'Origin',
       ],
     )
-    .persist(true)
-}
-
-export const mockSubscribeResponse = {
-  request: { action: 'subscribe', symbols: ['ETH.USDT'] },
-  response: [
-    {
-      type: 'ok',
-      text: 'Subscribed to ETH.USDT',
-      data: { action: 'subscribe', symbols: ['ETH.USD'] },
-    },
-    {
-      type: 'ticker',
-      data: { symbol: 'ETH.USDT', price: 12345, ts: 1649763026422917115 },
-    },
-  ],
-}
-
-export const mockUnsubscribeResponse = {
-  request: { action: 'unsubscribe', symbols: ['ETH.USDT'] },
-  response: [
-    {
-      type: 'ok',
-      text: 'Unsubscribed to ETH.USDT',
-      data: { action: 'unsubscribe', symbols: ['ETH.USDT'] },
-    },
-  ],
-}

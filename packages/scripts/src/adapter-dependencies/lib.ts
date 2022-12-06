@@ -5,7 +5,7 @@ import { Schema } from '../shared/docGenTypes'
 
 const canAccessFile = (path: string): boolean => shell.test('-f', path)
 
-const directories = ['composites', 'core', 'sources', 'targets']
+const directories = ['composites', 'core', 'sources', 'targets', 'non-deployable']
 
 const loadSchemaFile = (adapterName: string): Schema | undefined => {
   if (adapterName === 'ea-bootstrap') adapterName = 'bootstrap'

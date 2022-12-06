@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coingecko-test-adapter",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Chainlink coingecko-test adapter.",
   "keywords": [
     "Chainlink",
@@ -30,8 +30,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.11.0",
-    "tslib": "^2.3.1"
+    "@chainlink/external-adapter-framework": "0.13.2",
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",

@@ -7,28 +7,27 @@ import {
   RocketPoolConfig,
 } from '../config'
 import { Decimal } from 'decimal.js'
-import { ethers } from 'ethers'
+import { ethers, utils } from 'ethers'
 import rocketStorageAbi from '../abis/rocketStorageAbi.json'
 
 export const supportedEndpoints = ['reth']
 
 export type TInputParameters = {
-  quote: 'ETH' | 'USD'
+  quote: string
   network: string
   ethUsdProxyAddress: string
   rethStorageAddress: string
 }
 
 export const description =
-  'This endpoint returns the price of rETH/ETH according to the staking contract on Ethereum mainnet (L1).'
+  'This endpoint returns the exchange rate of rETH/ETH according to the staking contract on Ethereum mainnet (L1), optionally as a price feed.'
 
 export const inputParameters: InputParameters<TInputParameters> = {
   quote: {
     description: 'Quote currency to pull price for',
     type: 'string',
     required: false,
-    options: ['ETH', 'USD'],
-    default: 'ETH',
+    options: ['USD'],
   },
   network: {
     description: 'Network to query for price feed (EA must have `<network>_RPC_URL` configured).',
@@ -59,19 +58,18 @@ export const execute: ExecuteWithConfig<RocketPoolConfig> = async (request, _, c
   const { ethUsdProxyAddress, network, quote, rethStorageAddress } = validator.validated.data
 
   const rethContract = new ethers.Contract(rethStorageAddress, rocketStorageAbi, provider)
-  const rethEthExchangeRate = new Decimal((await rethContract.getExchangeRate()).toString())
-  const rethDecimals = new Decimal((await rethContract.decimals()).toString())
+  const rethEthExchangeRate = await rethContract.getExchangeRate()
 
-  let result = rethEthExchangeRate.div(new Decimal(10).pow(rethDecimals))
-
+  let result
   if (quote === 'USD') {
+    const rethDecimals = new Decimal((await rethContract.decimals()).toString())
+    result = new Decimal(rethEthExchangeRate.toString()).div(new Decimal(10).pow(rethDecimals))
+
     const ethUsd = await getLatestAnswer(network, ethUsdProxyAddress, 1, undefined, true)
-    result = result.mul(new Decimal(ethUsd))
+    result = result.mul(new Decimal(ethUsd)).toNumber()
+  } else {
+    result = utils.hexZeroPad(rethEthExchangeRate.toHexString(), 32)
   }
 
-  return Requester.success(
-    jobRunID,
-    { data: { result: result.toNumber() }, status: 200 },
-    config.verbose,
-  )
+  return Requester.success(jobRunID, { data: { result }, status: 200 }, config.verbose)
 }

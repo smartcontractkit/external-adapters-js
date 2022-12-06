@@ -26,12 +26,18 @@ if (__ENV.PAYLOAD_GENERATED) {
 
 let assertions: Assertion[] = []
 const assertionsPaths = (__ENV.ASSERTIONS_PATHS && __ENV.ASSERTIONS_PATHS.split(',')) || [
-  '/load/src/config/assertions/assertions.json',
-  `/load/src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`,
+  '../src/config/assertions/assertions.json',
+  `../src/config/assertions/${__ENV.CI_ADAPTER_NAME}-assertions.json`,
 ]
 assertions = new SharedArray('assertionsPaths', function () {
   const f = assertionsPaths
-    .map((assertionsPath: string) => JSON.parse(open(assertionsPath)))
+    .map((assertionsPath: string) => {
+      try {
+        return JSON.parse(open(assertionsPath))
+      } catch {
+        return []
+      }
+    })
     .reduce((lst, item) => lst.concat(item), [])
   return f
 })
@@ -129,9 +135,8 @@ function buildRequests(i: number) {
 const stagedBatchRequests = new Array(GROUP_COUNT).fill(0).map((_, i) => buildRequests(i))
 
 let iteration = 0
-console.log(`Assertions applied ${assertions.length}`)
 for (const assertion of assertions) {
-  console.log(`Assertion: ${JSON.stringify(assertion)}`)
+  console.log(`Assertion loaded: ${JSON.stringify(assertion)}`)
 }
 
 export default (): void => {

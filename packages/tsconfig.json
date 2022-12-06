@@ -279,6 +279,9 @@
       "path": "./sources/curve"
     },
     {
+      "path": "./sources/dar"
+    },
+    {
       "path": "./sources/deribit"
     },
     {
@@ -379,9 +382,6 @@
     },
     {
       "path": "./sources/gsr"
-    },
-    {
-      "path": "./sources/gsr-test"
     },
     {
       "path": "./sources/iex-cloud"
