@@ -214,7 +214,11 @@ export class ReadmeGenerator {
       ? buildTable(tableText, paramHeaders)
       : 'There are no input parameters for this adapter.'
 
-    this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
+    if (this.frameworkVersion === 'v3') {
+      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)\n\n${inputParamTable}\n\n`
+    } else {
+      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
+    }
   }
 
   addEndpointSections(): void {
