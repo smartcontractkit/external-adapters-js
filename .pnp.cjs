@@ -4202,7 +4202,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.13.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5868,7 +5868,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"]\
+            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -5884,7 +5884,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"]\
+            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -5900,7 +5900,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"]\
+            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.14.1", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.14.1-139adf3fb9-9182666594.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.14.1"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.9.2"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -35058,10 +35074,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-eae5f433a7/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+        ["virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-cfe3fe4896/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:505a72a1b390d6274415963912ad2888efb52dfefad2dce97a8581872dc2fe50746725a5004c19dc0b4f92135ea1aa55c06c73a7336f840e900d51d251df9c0a#npm:8.9.0"],\
+            ["ws", "virtual:139adf3fb9b120f2b06a6599e9953229626b64f03ee8ae5f570e82382e3ea0f1dc60253e60b1f800e326a882c29e6321d68530269ea88ce530976726dc2c78ae#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
