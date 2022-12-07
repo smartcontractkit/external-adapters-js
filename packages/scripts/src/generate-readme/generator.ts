@@ -15,7 +15,7 @@ import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
 import fs from 'fs'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { WorkspaceAdapter } from '../workspace'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -46,6 +46,7 @@ const checkFilePaths = (filePaths: string[]): string => {
 export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
+  adapterType: string
   schemaPath: string
   defaultEndpoint = ''
   defaultBaseUrl = ''
@@ -62,23 +63,21 @@ export class ReadmeGenerator {
   license: string
   frameworkVersion: 'v2' | 'v3' = 'v2'
 
-  constructor(adapterPath: string, verbose = false, skipTests = false) {
+  constructor(adapter: WorkspaceAdapter, verbose = false) {
     this.verbose = verbose
+    this.adapterPath = adapter.location
 
-    if (!adapterPath.endsWith('/')) adapterPath += '/'
-
-    if (!test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
-
-    if (verbose) console.log(`${adapterPath}: Checking package.json`)
-    const packagePath = checkFilePaths([adapterPath + 'package.json'])
+    if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
+    if (!test('-d', this.adapterPath)) throw Error(`${this.adapterPath} is not a directory`)
+    if (verbose) console.log(`${this.adapterPath}: Checking package.json`)
+    const packagePath = checkFilePaths([this.adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
     this.license = packageJson.license ?? ''
-    this.adapterPath = adapterPath
-    this.schemaPath = adapterPath + 'schemas/env.json'
-    this.skipTests = skipTests
-    this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
+    this.schemaPath = this.adapterPath + 'schemas/env.json'
+    this.skipTests = adapter.skipTests
+    this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
   }
 
   // We need to require/import adapter contents to generate the README.
@@ -103,7 +102,6 @@ export class ReadmeGenerator {
       this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
 
       if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
-
       const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
       this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
     } else {
@@ -140,6 +138,26 @@ export class ReadmeGenerator {
         : []
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
+    }
+
+    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
+    this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
+
+    if (fs.existsSync(this.adapterPath + 'src/endpoint/index.ts')) {
+      if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
+      const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
+      this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
+    } else {
+      if (this.verbose) console.log(`${this.adapterPath}: Could not find enpoint details`)
+      this.endpointDetails = []
+    }
+    // Map V3 fields to their V2 equivalents
+    if (this.frameworkVersion === 'v3') {
+      console.log(`${this.name} is a v3 adapter, converting it to v2 format for readme generation`)
+      Object.keys(this.endpointDetails).forEach((endpointName) => {
+        const endpoint = this.endpointDetails[endpointName]
+        endpoint.supportedEndpoints = [endpointName, ...(endpoint.aliases || [])]
+      })
     }
   }
 
