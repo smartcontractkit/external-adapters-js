@@ -30,16 +30,29 @@ export const PUBLIC_ADAPTER_TYPES = [
 const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspacePackages>
-export function getWorkspacePackages(additionalTypes: string[] = []): WorkspacePackage[] {
+
+export function getWorkspacePackages(
+  additionalTypes: string[] = [],
+  changedFromBranch = '',
+): WorkspacePackage[] {
   const adapterTypes = PUBLIC_ADAPTER_TYPES.concat(additionalTypes)
+
   return s
-    .exec('yarn workspaces list --json', { silent: true })
+    .exec(
+      changedFromBranch
+        ? `yarn workspaces list --json --since=${changedFromBranch}`
+        : 'yarn workspaces list --json',
+      { silent: true },
+    )
     .split('\n')
     .filter(Boolean)
-    .map((v) => JSON.parse(v))
+    .map((v) => {
+      console.log(v)
+      return JSON.parse(v)
+    })
     .map(({ location, name }: WorkspacePackage) => {
+      console.log(location, name)
       const pkg: { version: string } = getJsonFile(join(location, 'package.json'))
-
       return {
         location,
         name,

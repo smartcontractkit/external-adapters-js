@@ -23,15 +23,7 @@ jobs:
       - uses: ./.github/actions/setup
       - name: Generate Documentation
         run: |
-          source .github/get-changed-adapters-array.sh
-          ADAPTERS=$(getChangedAdapterArray)
-
-          yarn generate:master-list -v
-          if [[ "$ADAPTERS" == "BUILD_ALL" ||  -z "$ADAPTERS" || -n "$BUILD_ALL" || -z "$UPSTREAM_BRANCH"  ]]; then
-            yarn generate:readme -a -v
-          else
-            yarn generate:readme $ADAPTERS -v
-          fi
+          yarn generate:readme 
           git add MASTERLIST.md
           git add "*README.md"
           yarn lint-staged
@@ -42,5 +34,5 @@ jobs:
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UPSTREAM_BRANCH: ${{ github.base_ref }}
+          UPSTREAM_BRANCH: origin/${{ github.base_ref }}
           BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}

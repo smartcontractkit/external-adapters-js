@@ -4,6 +4,8 @@ import { Transport } from '@chainlink/external-adapter-framework/transports'
 export type Adapter = {
   name: string
   skipTests?: boolean
+  location?: string
+  type?: string
 }
 
 export type Blacklist = { blacklist: string[] }

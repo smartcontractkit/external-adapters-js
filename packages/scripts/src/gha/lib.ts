@@ -1,5 +1,4 @@
-import { DockerLabels, generateFileJSON } from '../docker-build/lib'
-import * as child_process from 'child_process'
+import { getWorkspacePackages, WorkspacePackage } from '../workspace'
 
 interface JobMatrix {
   adapter: {
@@ -22,63 +21,38 @@ type MatrixOutput = {
 }
 
 // Function to correct adapter directory names to their full formal name, used in partial runs
-const calculateMatrixValue = (name: string, type: string): MatrixOutput => {
-  if (type === 'examples') {
-    name = `example-${name}-adapter`
+
+const calculateMatrixValue = (adapter: WorkspacePackage): MatrixOutput => {
+  let name = ''
+  if (adapter.type === 'example') {
+    name = `example-${adapter.descopedName}`
   } else {
-    name = `${name}-adapter`
+    name = `${adapter.descopedName}`
   }
   return {
     name,
-    type,
+    type: adapter.type,
   }
 }
 
 export async function getJobMatrix(): Promise<JobMatrix> {
-  let shouldBuildAll = process.argv[2] === '-a' || process.env['BUILD_ALL'] === 'true'
-  let adapters: MatrixOutput[] = []
-
-  //Attempt partial build, which can become a full build if we detect changes to core or scripts
-  if (!shouldBuildAll) {
-    const expression = new RegExp(
-      /packages\/(sources|composites|examples|targets|non-deployable)\/(.*)\/.*/,
-      'g',
-    )
-    const output = child_process
-      .execSync(`git diff --name-only ${process.env['UPSTREAM_BRANCH'] || 'origin/develop'}...HEAD`)
-      .toString()
-      .split('\n')
-
-    const found: { [key: string]: MatrixOutput } = {}
-    for (let i = 0; i < output.length; i++) {
-      const line = output[i]
-      Array.from(line.matchAll(expression)).forEach((m) => {
-        found[m[2]] = calculateMatrixValue(m[2], m[1])
-      })
-      if (line.match(/packages\/(core|scripts)/)) {
-        shouldBuildAll = true
-        break
-      }
-    }
-    adapters = Object.values(found)
-  }
+  let adapters = getWorkspacePackages([], process.env['UPSTREAM_BRANCH'])
+  //legos will always change because it depends on all adapters, so ignore it when considering if we need to build all
+  const shouldBuildAll =
+    process.argv[2] === '-a' ||
+    process.env['BUILD_ALL'] === 'true' ||
+    adapters.find((p) => p.type === 'core' && !p.location.includes('lego'))
+  // TODO below is commented out to test, revert before merge
+  // || adapters.find(p => (p.type === "core" && !p.location.includes("lego")) || p.type === "scripts")
 
   // shouldBuildAll is forcefully set to true if we encounter a core or script change in the diff, so we have to explicitly
   // check if its true after evaluating the diff.
   if (shouldBuildAll) {
-    //Full build, get data from docker-compose.generated.yaml
-    const branch = process.env.BRANCH || ''
-    const prefix = process.env.IMAGE_PREFIX || ''
-    const useLatest = !!process.env.LATEST
-    const dockerfile = await generateFileJSON({ prefix, branch, useLatest }, { context: '.' })
-
-    adapters = Object.entries(dockerfile.services).map(([k, v]) => ({
-      name: k,
-      type: v.build.labels[DockerLabels.EA_TYPE],
-    }))
+    console.log('Building all adapters')
+    adapters = getWorkspacePackages() //Unfiltered list of all adapters{
   }
 
   return {
-    adapter: Array.from(adapters),
+    adapter: adapters.map(calculateMatrixValue),
   }
 }

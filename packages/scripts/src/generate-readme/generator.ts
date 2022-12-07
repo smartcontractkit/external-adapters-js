@@ -16,6 +16,7 @@ import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '..
 import fs from 'fs'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { WorkspacePackage } from '../workspace'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -46,6 +47,7 @@ const checkFilePaths = (filePaths: string[]): string => {
 export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
+  adapterType: string
   schemaPath: string
   defaultEndpoint = ''
   defaultBaseUrl = ''
@@ -62,23 +64,22 @@ export class ReadmeGenerator {
   license: string
   frameworkVersion: 'v2' | 'v3' = 'v2'
 
-  constructor(adapterPath: string, verbose = false, skipTests = false) {
+  constructor(adapter: WorkspacePackage, verbose = false) {
     this.verbose = verbose
+    console.log(adapter)
+    this.adapterPath = adapter.location
 
-    if (!adapterPath.endsWith('/')) adapterPath += '/'
-
-    if (!test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
-
-    if (verbose) console.log(`${adapterPath}: Checking package.json`)
-    const packagePath = checkFilePaths([adapterPath + 'package.json'])
+    if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
+    if (!test('-d', this.adapterPath)) throw Error(`${this.adapterPath} is not a directory`)
+    if (verbose) console.log(`${this.adapterPath}: Checking package.json`)
+    const packagePath = checkFilePaths([this.adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
     this.version = packageJson.version ?? ''
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
     this.license = packageJson.license ?? ''
-    this.adapterPath = adapterPath
-    this.schemaPath = adapterPath + 'schemas/env.json'
-    this.skipTests = skipTests
-    this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
+    this.schemaPath = this.adapterPath + 'schemas/env.json'
+    this.skipTests = adapter.skipTests
+    this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
   }
 
   // We need to require/import adapter contents to generate the README.
@@ -100,12 +101,6 @@ export class ReadmeGenerator {
       this.envVars = schema.properties ?? {}
       this.requiredEnvVars = schema.required ?? []
       this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
-      this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
-
-      if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
-
-      const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
-      this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
     } else {
       this.frameworkVersion = 'v3'
       if (this.verbose)
@@ -119,20 +114,6 @@ export class ReadmeGenerator {
       const adapter = adapterImport.adapter as Adapter
       this.name = adapter.name
       this.envVars = adapter.customSettings || {}
-
-      this.endpointDetails = adapter.endpoints?.length
-        ? adapter.endpoints.reduce(
-            (accumulator, endpoint) =>
-              Object.assign(accumulator, {
-                [endpoint.name]: {
-                  ...endpoint,
-                  supportedEndpoints: [endpoint.name, ...(endpoint.aliases || [])],
-                },
-              }),
-            {},
-          )
-        : {}
-
       this.requiredEnvVars = adapter.customSettings
         ? Object.keys(adapter.customSettings).filter(
             (k) => adapter.customSettings[k].required === true,
@@ -140,6 +121,26 @@ export class ReadmeGenerator {
         : []
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
+    }
+
+    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
+    this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
+
+    if (fs.existsSync(this.adapterPath + 'src/endpoint/index.ts')) {
+      if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
+      const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
+      this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
+    } else {
+      if (this.verbose) console.log(`${this.adapterPath}: Could not find enpoint details`)
+      this.endpointDetails = []
+    }
+    // Map V3 fields to their V2 equivalents
+    if (this.frameworkVersion === 'v3') {
+      console.log(`${this.name} is a v3 adapter, converting it to v2 format for readme generation`)
+      Object.keys(this.endpointDetails).forEach((endpointName) => {
+        const endpoint = this.endpointDetails[endpointName]
+        endpoint.supportedEndpoints = [endpointName, ...(endpoint.aliases || [])]
+      })
     }
   }
 
@@ -215,11 +216,7 @@ export class ReadmeGenerator {
       ? buildTable(tableText, paramHeaders)
       : 'There are no input parameters for this adapter.'
 
-    if (this.frameworkVersion === 'v3') {
-      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)\n\n${inputParamTable}\n\n`
-    } else {
-      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
-    }
+    this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
   }
 
   addEndpointSections(): void {

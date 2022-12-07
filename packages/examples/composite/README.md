@@ -1,52 +1,41 @@
-# Chainlink Example Composite Adapter
+# Chainlink Composite External Adapter for Example Data Provider
 
-A template to be used as an example for new [Composite External Adapters](../../composites)
+![1.3.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/examples/composite/package.json)
 
-(please fill out with corresponding information)
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-An example composite adapter description
+## Environment Variables
 
-## Configuration
+| Required? |       Name       | Description |  Type   | Options | Default |
+| :-------: | :--------------: | :---------: | :-----: | :-----: | :-----: |
+|    ✅     | ETHEREUM_RPC_URL |             | string  |         |         |
+|           |      OPTION      |             | boolean |         | `true`  |
 
-The adapter takes the following environment variables:
+---
 
-| Required? |        Name        |         Description          | Options | Defaults to |
-| :-------: | :----------------: | :--------------------------: | :-----: | :---------: |
-|    ✅     | `ETHEREUM_RPC_URL` | Example _required_ parameter |         |             |
-|           |      `OPTION`      | Example _optional_ parameter |         |   `true`    |
+## Input Parameters
 
-## Running
+Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-See the [Composite Adapter README](../README.md) for more information on how to get started.
+| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [example](#example-endpoint) | `example` |
+
+## Example Endpoint
+
+`example` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |            Name            |               Description                |       Options       | Defaults to |
-| :-------: | :------------------------: | :--------------------------------------: | :-----------------: | :---------: |
-|    ✅     | `base`, `from`, or `coin`  |   The symbol of the currency to query    | `BTC`, `ETH`, `USD` |             |
-|    ✅     | `quote`, `to`, or `market` | The symbol of the currency to convert to | `BTC`, `ETH`, `USD` |             |
+| Required? | Name  |    Aliases     |        Description        | Type | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :-----------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` |   Base asset to convert   |      |         |         |            |                |
+|    ✅     | quote | `market`, `to` | Quote asset to convert to |      |         |         |            |                |
 
-### Sample Input
+### Example
 
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "ETH",
-    "quote": "USD"
-  }
-}
-```
+There are no examples for this endpoint.
 
-### Sample Output
+---
 
-```json
-{
-  "jobRunID": "278c97ffadb54a5bbb93cfec5f7b5503",
-  "data": {
-    "price": 77777.77,
-    "result": 77777.77
-  },
-  "statusCode": 200
-}
-```
+MIT License
