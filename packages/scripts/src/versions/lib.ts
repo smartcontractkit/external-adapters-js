@@ -1,4 +1,4 @@
-import { getWorkspacePackages } from '../workspace'
+import { getWorkspaceAdapters } from '../workspace'
 import Console from 'console'
 import Transform from 'stream'
 
@@ -24,7 +24,7 @@ function table(input: unknown[]) {
 }
 
 export function printWorkspacePackages(): void {
-  const workspacePackages = getWorkspacePackages(['core'])
+  const workspacePackages = getWorkspaceAdapters(['core'])
   const packagesByType: { [type: string]: { 'Package Name': string; Version: string }[] } = {}
 
   for (const pkg of workspacePackages) {

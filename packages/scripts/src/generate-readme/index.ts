@@ -4,11 +4,14 @@ import commandLineUsage from 'command-line-usage'
 import { Adapter, Blacklist, BooleanMap } from '../shared/docGenTypes'
 import { getJsonFile } from '../shared/docGenUtils'
 import { ReadmeGenerator } from './generator'
+import { getWorkspaceAdapters, getWorkspacePackages } from '../workspace'
 
 const pathToBlacklist = 'packages/scripts/src/generate-readme/readmeBlacklist.json'
 
-const pathToSources = 'packages/sources/'
-
+const findTypeAndName = new RegExp(
+  // For example, packages/(sources)/(coinbase)
+  /packages\/(sources|composites|examples|targets|non-deployable)\/(.*)/,
+)
 export async function main(): Promise<void | string> {
   try {
     // Define CLI options
@@ -62,8 +65,6 @@ export async function main(): Promise<void | string> {
       return
     }
 
-    console.log('Generating READMEs')
-
     // Test setting
     if (options.testPath) {
       const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
@@ -73,34 +74,57 @@ export async function main(): Promise<void | string> {
       return
     }
 
-    // Fetch list of adapters
-    let adapters: Adapter[] = []
+    // Legos will always change because it depends on all adapters, so ignore it when considering if we need to build all
+    const shouldBuildAll =
+      options.all ||
+      getWorkspacePackages(process.env['UPSTREAM_BRANCH']).find(
+        (p) => (p.type === 'core' && !p.location.includes('legos')) || p.type === 'scripts',
+      )
 
-    if (options.all) {
-      adapters = shell
-        .ls('-A', pathToSources)
-        .filter((name) => name !== 'README.md')
-        .map((name) => ({ name }))
-    } else if (options.adapters?.length) {
-      adapters = options.adapters.map((name: string) => ({ name }))
+    let adapters = shouldBuildAll
+      ? getWorkspaceAdapters()
+      : getWorkspaceAdapters([], process.env['UPSTREAM_BRANCH'])
+    options.verbose &&
+      console.log(
+        `Adapters being considered for readme generation: `,
+        adapters.map((a) => `${a.name}: ${a.location}`),
+      )
+
+    const initialAdapterLength = adapters.length
+
+    // If specific adapters are passed to the command line, only select those
+    if (options.adapters?.length) {
+      options.verbose &&
+        console.log(`Reducing list of adapters to ones specified on the command line`)
+      adapters = adapters.filter((p) => {
+        return (
+          (options.adapters as string[]).includes(p.descopedName) || // p.descopedName example: "coinbase-adapter"
+          (options.adapters as string[]).includes(p.descopedName.replace(/-adapter$/, '')) // "coinbase" (without "-adapter")
+        )
+      })
     }
 
-    // Filter list by blacklist
     const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
     const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {
       map[a] = true
       return map
     }, {})
-    adapters = adapters.filter((a) => !adapterInBlacklist[a.name])
+    options.verbose && console.log(`Removing blacklisted and non-source adapters from the list`)
+    adapters = adapters
+      .filter((a) => !adapterInBlacklist[a.name]) // Remove blacklisted adapters
+      .filter((p) => p.type === 'sources') // Remove non-source adapters
+
+    options.verbose &&
+      console.log(`Filtered ${initialAdapterLength - adapters.length} adapters from the list`) // Verbose because this message is confusing if you're not familiar with generate-readme
+    console.log(
+      'Generating README(s) for the following adapters: ',
+      adapters.map((a) => a.name),
+    )
 
     // Collect new README versions
     const readmeQueue = await Promise.all(
       adapters.map(async (adapter: Adapter) => {
-        const readmeGenerator = new ReadmeGenerator(
-          pathToSources + adapter.name,
-          options.verbose,
-          adapter.skipTests,
-        )
+        const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
         await readmeGenerator.loadAdapterContent()
         readmeGenerator.buildReadme()
         return readmeGenerator
