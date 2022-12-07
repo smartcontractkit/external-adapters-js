@@ -25,7 +25,8 @@
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
-    "start": "yarn server:dist"
+    "start": "yarn server:dist",
+    "fake": "fake"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "0.12.0",

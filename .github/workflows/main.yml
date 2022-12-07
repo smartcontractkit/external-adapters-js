@@ -6,7 +6,12 @@ on:
       - master
       - develop
   pull_request: ~
-
+  workflow_dispatch:
+    inputs:
+      BUILD_ALL:
+        description: true is certain steps should be run against all adapters or false if they should only run against some adapters
+        required: false
+        default: false
 concurrency:
   group: main-${{ github.ref }}
   cancel-in-progress: true
@@ -62,11 +67,29 @@ jobs:
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup
       - name: Test Master List Generation
         run: yarn generate:master-list -v
       - name: Test README Generation
-        run: yarn generate:readme -a -v
+        run: |
+          source .github/get-changed-adapters-array.sh
+          ADAPTERS=$(getChangedAdapterArray)
+
+          # If getChangedAdapters returns BUILD_ALL or an empty array, if BUILD_ALL was passed to the workflow as input, 
+          # or if there's no UPSTREAM_BRANCH (manual run), then we need generate all READMEs
+          # getChangedAdapters returns BUILD_ALL if the source branch contains a change to /core, /scripts, /non-deployable, or /grafana
+          if [[ "$ADAPTERS" == "BUILD_ALL" ||  -z "$ADAPTERS" || -n "$BUILD_ALL" || -z "$UPSTREAM_BRANCH"  ]]; then
+            yarn generate:readme -a -v
+          else
+            yarn generate:readme $ADAPTERS -v
+          fi
+        env:
+          UPSTREAM_BRANCH: ${{ github.base_ref }}
+          BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
+    env:
+      METRICS_ENABLED: false
 
   # Read build strategy matrix of adapters, from a json file
   matrix-adapters:
@@ -75,11 +98,14 @@ jobs:
       matrix: ${{ steps.create-matrix.outputs.result }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup
       - name: Generate job matrix
         id: create-matrix
         run: yarn generate:gha:matrix
-
+    env:
+      BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
   build-adapters:
     needs: [run-basic-checks, matrix-adapters]
     name: (${{ matrix.adapter.type }}) Build ${{matrix.adapter.name}} adapter

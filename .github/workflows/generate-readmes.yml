@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - changeset-release/develop
+  workflow_dispatch:
+    inputs:
+      BUILD_ALL:
+        description: true is certain steps should be run against all adapters or false if they should only run against some adapters
+        required: false
+        default: false
 
 jobs:
   generate-readmes:
@@ -12,11 +18,20 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup
       - name: Generate Documentation
         run: |
+          source .github/get-changed-adapters-array.sh
+          ADAPTERS=$(getChangedAdapterArray)
+
           yarn generate:master-list -v
-          yarn generate:readme -a -v
+          if [[ "$ADAPTERS" == "BUILD_ALL" ||  -z "$ADAPTERS" || -n "$BUILD_ALL" || -z "$UPSTREAM_BRANCH"  ]]; then
+            yarn generate:readme -a -v
+          else
+            yarn generate:readme $ADAPTERS -v
+          fi
           git add MASTERLIST.md
           git add "*README.md"
           yarn lint-staged
@@ -27,3 +42,5 @@ jobs:
           echo "README(s) generated successfully."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM_BRANCH: ${{ github.base_ref }}
+          BUILD_ALL: ${{ github.event.inputs.BUILD_ALL }}
