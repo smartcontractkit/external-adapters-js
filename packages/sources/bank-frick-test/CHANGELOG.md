@@ -1,5 +1,11 @@
 # @chainlink/bank-frick-test-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- 43062ec95: Update to latest framework version
+
 ## 1.0.1
 
 ### Patch Changes
