@@ -1,5 +1,20 @@
 # @chainlink/ea
 
+## 1.3.51
+
+### Patch Changes
+
+- Updated dependencies [b98296089]
+  - @chainlink/bank-frick-test-adapter@1.0.3
+  - @chainlink/cfbenchmarks-test-adapter@1.0.5
+  - @chainlink/coingecko-test-adapter@1.3.2
+  - @chainlink/coinmetrics-test-adapter@1.0.5
+  - @chainlink/dar-adapter@1.0.2
+  - @chainlink/elwood-test-adapter@1.1.2
+  - @chainlink/galaxy-test-adapter@1.0.5
+  - @chainlink/gsr-adapter@2.0.2
+  - @chainlink/ncfx-test-adapter@1.0.4
+
 ## 1.3.50
 
 ### Patch Changes

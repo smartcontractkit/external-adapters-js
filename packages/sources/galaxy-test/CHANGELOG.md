@@ -1,5 +1,11 @@
 # @chainlink/galaxy-test-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- b98296089: Bumped v3 framework version
+
 ## 1.0.4
 
 ### Patch Changes
