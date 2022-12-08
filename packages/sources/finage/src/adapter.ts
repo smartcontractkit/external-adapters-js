@@ -81,7 +81,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       )
       if (validator.error) return
       const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
-      const to = validator.validated.data.quote.toUpperCase()
+      const to = validator.overrideSymbol(NAME, validator.validated.data.quote).toUpperCase()
       return `${from}${to}`
     }
 
@@ -94,7 +94,7 @@ export const makeWSHandler = (config?: Config): MakeWSHandler<Message | any> =>
       )
       if (validator.error) return
       const from = validator.overrideSymbol(NAME, validator.validated.data.base).toUpperCase()
-      const to = validator.validated.data.quote.toUpperCase()
+      const to = validator.overrideSymbol(NAME, validator.validated.data.quote).toUpperCase()
       return `${from}/${to}` // Note that this adds the "/", whereas the REST endpoint doesn't use this
     }
     const isForex = (input: AdapterRequest): boolean =>
