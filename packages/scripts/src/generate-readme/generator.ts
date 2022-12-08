@@ -122,7 +122,13 @@ export class ReadmeGenerator {
 
       this.endpointDetails = adapter.endpoints?.length
         ? adapter.endpoints.reduce(
-            (obj, endpoint) => Object.assign(obj, { [endpoint.name]: endpoint }),
+            (accumulator, endpoint) =>
+              Object.assign(accumulator, {
+                [endpoint.name]: {
+                  ...endpoint,
+                  supportedEndpoints: [endpoint.name, ...(endpoint.aliases || [])],
+                },
+              }),
             {},
           )
         : {}
@@ -134,11 +140,6 @@ export class ReadmeGenerator {
         : []
       //Note, not populating description, doesn't exist in framework adapters
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
-
-      Object.keys(this.endpointDetails).forEach((endpointName) => {
-        const endpoint = this.endpointDetails[endpointName]
-        endpoint.supportedEndpoints = [endpointName, ...(endpoint.aliases || [])]
-      })
     }
   }
 
