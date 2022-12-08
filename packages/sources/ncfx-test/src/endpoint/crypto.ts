@@ -104,7 +104,7 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
   },
 })
 
-export const cryptoEndpoint = new PriceEndpoint({
+export const cryptoEndpoint = new PriceEndpoint<EndpointTypes>({
   name: 'crypto',
   transport: cryptoTransport,
   inputParameters: priceEndpointInputParameters,

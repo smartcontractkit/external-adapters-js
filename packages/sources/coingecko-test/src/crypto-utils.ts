@@ -2,6 +2,7 @@ import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framewor
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 export interface CryptoRequestParams {
   coinid?: string
@@ -48,16 +49,6 @@ export interface ProviderResponseBody {
   }
 }
 
-interface ResultEntry {
-  value: number
-  params: {
-    quote: string
-    base?: string
-    coinid?: string
-    precision: string
-  }
-}
-
 export type CryptoEndpointTypes = {
   Request: {
     Params: CryptoRequestParams
@@ -95,22 +86,41 @@ export const constructEntry = (
   res: HttpResponse<ProviderResponseBody>,
   requestPayload: CryptoRequestParams,
   resultPath: string,
-): ResultEntry | undefined => {
-  const coinId = requestPayload.coinid ?? (requestPayload.base as string)
+): ProviderResult<CryptoEndpointTypes> => {
+  const coinId = (requestPayload.coinid ?? (requestPayload.base as string)).toLowerCase()
   const dataForCoin = res.data[coinId]
   const dataForQuote = dataForCoin ? dataForCoin[resultPath] : undefined
-  if (!dataForQuote) {
-    logger.warn(`Data for "${requestPayload.quote}" not found for token "${coinId}`)
-    return
-  }
   const entry = {
     params: requestPayload,
-    value: dataForQuote,
-  } as ResultEntry
+  }
+
+  if (!dataForQuote) {
+    let errorMessage = `Coingecko provided no data for token "${coinId}"`
+    if (dataForCoin && !dataForQuote) {
+      errorMessage = `Coingecko provided no "${requestPayload.quote}" data for token "${coinId}"`
+    }
+    logger.warn(errorMessage)
+    return {
+      ...entry,
+      response: {
+        statusCode: 502,
+        errorMessage,
+      },
+    }
+  }
+
   if (requestPayload.coinid) {
     entry.params.coinid = requestPayload.coinid
   } else {
     entry.params.base = requestPayload.base
   }
-  return entry
+  return {
+    ...entry,
+    response: {
+      data: {
+        [coinId]: dataForCoin,
+      },
+      result: dataForQuote,
+    },
+  }
 }

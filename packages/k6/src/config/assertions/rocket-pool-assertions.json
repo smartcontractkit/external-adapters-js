@@ -1,0 +1,17 @@
+[
+  {
+    "request": { "data": { "endpoint": "reth" } },
+    "expectedResponse": {
+      "result": { "hasFormat": "hex" }
+    }
+  },
+  {
+    "request": { "data": { "quote": "USD", "endpoint": "reth" } },
+    "expectedResponse": {
+      "result": {
+        "greaterThan": 0,
+        "minPrecision": 12
+      }
+    }
+  }
+]

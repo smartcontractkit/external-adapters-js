@@ -13,12 +13,10 @@ export const customSettings = {
   FOREX_WS_USERNAME: {
     description: 'Username for Forex websocket endpoint',
     type: 'string',
-    required: true,
   },
   FOREX_WS_PASSWORD: {
     description: 'Password for the Forex websocket endpoint',
     type: 'string',
-    required: true,
     sensitive: true,
   },
   WS_API_ENDPOINT: {

@@ -1,5 +1,17 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.0.5
+
+### Patch Changes
+
+- b98296089: Bumped v3 framework version
+
+## 1.0.4
+
+### Patch Changes
+
+- 6d57b64a5: Tick framework version
+
 ## 1.0.3
 
 ### Patch Changes

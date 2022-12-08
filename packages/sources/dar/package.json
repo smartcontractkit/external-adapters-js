@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/gsr-test-adapter",
-  "version": "1.0.4",
-  "description": "Chainlink gsr-test adapter.",
+  "name": "@chainlink/dar-adapter",
+  "version": "1.0.2",
+  "description": "Chainlink dar adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "gsr-test"
+    "dar"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,16 +28,13 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.13.2",
-    "axios": "0.27.2",
-    "crypto": "1.0.1",
-    "tslib": "2.4.0"
+    "@chainlink/external-adapter-framework": "0.14.5",
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "16.11.51",
     "@types/supertest": "2.0.12",
-    "@types/ws": "^8",
     "mock-socket": "^9.1.5",
     "nock": "13.2.9",
     "supertest": "6.2.4",

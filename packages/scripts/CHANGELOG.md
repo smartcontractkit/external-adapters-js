@@ -1,5 +1,17 @@
 # @chainlink/ea-scripts
 
+## 2.4.27
+
+### Patch Changes
+
+- b98296089: Bumped v3 framework version
+
+## 2.4.26
+
+### Patch Changes
+
+- 6d57b64a5: Tick framework version for ea-scripts
+
 ## 2.4.25
 
 ### Patch Changes

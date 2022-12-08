@@ -50,6 +50,7 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
 
 export const priceEndpoint = new PriceEndpoint({
   name: 'price',
+  aliases: ['crypto'],
   transport: priceTransport,
   inputParameters: priceEndpointInputParameters,
 })

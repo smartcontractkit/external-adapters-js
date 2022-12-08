@@ -1,5 +1,37 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- b98296089: Bumped v3 framework version
+
+## 1.3.1
+
+### Patch Changes
+
+- 255af9e8a: Bumped v3 framework version
+- 1c73ae21f: Only cache data related to the specified request
+
+## 1.3.0
+
+### Minor Changes
+
+- dc347f5bf: Updated EA framework version
+  Cache errored responses
+  Fix FLOKI override ID
+
+### Patch Changes
+
+- 3344df573: Added more overrides and fixed overrides helper
+
+## 1.2.3
+
+### Patch Changes
+
+- 7604a7f3c: Added/fixed static overrides.
+  Ensure the coin ID is always lower-case.
+
 ## 1.2.2
 
 ### Patch Changes

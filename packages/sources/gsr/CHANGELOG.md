@@ -1,4 +1,22 @@
-# @chainlink/example-source-adapter
+# @chainlink/gsr-adapter
+
+## 2.0.2
+
+### Patch Changes
+
+- b98296089: Bumped v3 framework version
+
+## 2.0.1
+
+### Patch Changes
+
+- 255af9e8a: Bumped v3 framework version
+
+## 2.0.0
+
+### Major Changes
+
+- 3eae590c0: Upgraded EA framework from v2 to v3
 
 ## 1.0.30
 

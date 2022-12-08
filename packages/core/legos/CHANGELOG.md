@@ -1,5 +1,62 @@
 # @chainlink/ea
 
+## 1.3.51
+
+### Patch Changes
+
+- Updated dependencies [b98296089]
+  - @chainlink/bank-frick-test-adapter@1.0.3
+  - @chainlink/cfbenchmarks-test-adapter@1.0.5
+  - @chainlink/coingecko-test-adapter@1.3.2
+  - @chainlink/coinmetrics-test-adapter@1.0.5
+  - @chainlink/dar-adapter@1.0.2
+  - @chainlink/elwood-test-adapter@1.1.2
+  - @chainlink/galaxy-test-adapter@1.0.5
+  - @chainlink/gsr-adapter@2.0.2
+  - @chainlink/ncfx-test-adapter@1.0.4
+
+## 1.3.50
+
+### Patch Changes
+
+- Updated dependencies [43062ec95]
+- Updated dependencies [255af9e8a]
+- Updated dependencies [6d57b64a5]
+- Updated dependencies [6ed6512f8]
+- Updated dependencies [1c73ae21f]
+- Updated dependencies [6d57b64a5]
+- Updated dependencies [6d57b64a5]
+  - @chainlink/bank-frick-test-adapter@1.0.2
+  - @chainlink/coingecko-test-adapter@1.3.1
+  - @chainlink/elwood-test-adapter@1.1.1
+  - @chainlink/galaxy-test-adapter@1.0.4
+  - @chainlink/gsr-adapter@2.0.1
+  - @chainlink/coinmetrics-test-adapter@1.0.4
+  - @chainlink/ncfx-test-adapter@1.0.3
+  - @chainlink/cfbenchmarks-test-adapter@1.0.4
+  - @chainlink/dar-adapter@1.0.1
+
+## 1.3.49
+
+### Patch Changes
+
+- Updated dependencies [3344df573]
+- Updated dependencies [03439a222]
+- Updated dependencies [dc347f5bf]
+- Updated dependencies [f6ce8d651]
+- Updated dependencies [3eae590c0]
+  - @chainlink/coingecko-test-adapter@1.3.0
+  - @chainlink/galaxy-test-adapter@1.0.3
+  - @chainlink/dar-adapter@1.0.0
+  - @chainlink/gsr-adapter@2.0.0
+
+## 1.3.48
+
+### Patch Changes
+
+- Updated dependencies [7604a7f3c]
+  - @chainlink/coingecko-test-adapter@1.2.3
+
 ## 1.3.47
 
 ### Patch Changes
