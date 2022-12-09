@@ -67,7 +67,7 @@ export class LambdaController {
     try {
       await this.deleteLambdaFunction(leastRecentlyUsedFunction)
     } catch (error) {
-      this.logger.error(`Error deleteing lambda function ${leastRecentlyUsedFunction}: ${error}`)
+      this.logger.error(`Error deleting lambda function ${leastRecentlyUsedFunction}: ${error}`)
       return 1
     }
 
