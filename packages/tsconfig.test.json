@@ -120,6 +120,9 @@
       "path": "./scripts/tsconfig.test.json"
     },
     {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter/tsconfig.test.json"
+    },
+    {
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
@@ -511,6 +514,12 @@
     },
     {
       "path": "./sources/uniswap-v3/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/universal/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/universal-v3/tsconfig.test.json"
     },
     {
       "path": "./sources/upvest/tsconfig.test.json"
