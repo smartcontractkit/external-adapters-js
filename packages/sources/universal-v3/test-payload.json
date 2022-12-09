@@ -1,6 +1,7 @@
 {
  "requests": [{
     "source": "return OCR2DR.encodeUint256(1)",
+    "requestId": "1",
     "subscriptionId": "1"
  }]
 }
