@@ -1,5 +1,12 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- 045897b8e: Include "result" in "data" object
+  Include "precision" in data provider request
+
 ## 1.3.2
 
 ### Patch Changes

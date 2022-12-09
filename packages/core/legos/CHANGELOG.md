@@ -1,5 +1,18 @@
 # @chainlink/ea
 
+## 1.3.52
+
+### Patch Changes
+
+- Updated dependencies [045897b8e]
+- Updated dependencies [8fc54f24b]
+- Updated dependencies [5a0e5fb2e]
+- Updated dependencies [f4a2f483b]
+  - @chainlink/coingecko-test-adapter@1.4.0
+  - @chainlink/elwood-adapter@2.0.0
+  - @chainlink/finage-adapter@1.6.11
+  - @chainlink/galaxy-adapter@2.0.0
+
 ## 1.3.51
 
 ### Patch Changes
