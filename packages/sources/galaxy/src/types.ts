@@ -1,9 +1,5 @@
-export interface TickerMessage {
-  type: string
-  signal: string
-  ts: number
-  value: number
-}
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { customSettings } from './config'
 
 export interface AccessTokenResponse {
   token?: string
@@ -15,7 +11,25 @@ export interface AccessToken {
   created: number
 }
 
-export interface Pair {
+export interface AdapterRequestParams {
+  base: string
+  quote: string
+}
+
+export interface ProviderMessage {
   type: string
-  signals: string[]
+  signal: string
+  ts: number
+  value: number
+}
+
+export type PriceEndpointTypes = {
+  Request: {
+    Params: AdapterRequestParams
+  }
+  Response: SingleNumberResultResponse
+  CustomSettings: typeof customSettings
+  Provider: {
+    WsMessage: ProviderMessage
+  }
 }
