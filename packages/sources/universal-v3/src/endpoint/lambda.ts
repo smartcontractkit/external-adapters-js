@@ -126,14 +126,16 @@ class Lambda implements LambdaTransport {
     req: AdapterRequest<Request>,
     config: AdapterConfig<typeof customSettings>,
   ): Promise<AdapterResponse<Response>> => {
-    const { requestId, source, subscriptionId, secrets, secretsOwner, args, numAllowedQueries, maxResponseBytes} = req.requestContext.data
-    const source = req.requestContext.data.source
-    const subscriptionId = req.requestContext.data.subscriptionId
-    const secrets = req.requestContext.data.secrets
-    const secretsOwner = req.requestContext.data.secretsOwner
-    const args = req.requestContext.data.args
-    const numAllowedQueries = req.requestContext.data.numAllowedQueries
-    const maxResponseBytes = req.requestContext.data.maxResponseBytes
+    const {
+      requestId,
+      source,
+      subscriptionId,
+      secrets,
+      secretsOwner,
+      args,
+      numAllowedQueries,
+      maxResponseBytes,
+    } = req.requestContext.data
 
     const responseBuilder = new ResponseBuilder(config)
 
