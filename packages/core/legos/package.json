@@ -161,7 +161,6 @@
     "@chainlink/unibit-adapter": "workspace:*",
     "@chainlink/uniswap-v2-adapter": "workspace:*",
     "@chainlink/uniswap-v3-adapter": "workspace:*",
-    "@chainlink/universal-adapter": "workspace:*",
     "@chainlink/universal-v3-adapter": "workspace:*",
     "@chainlink/upvest-adapter": "workspace:*",
     "@chainlink/uscpi-one-adapter": "workspace:*",
