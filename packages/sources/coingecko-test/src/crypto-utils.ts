@@ -76,6 +76,7 @@ export const buildBatchedRequestBody = (
       ids: [...new Set(params.map((p) => p.coinid ?? p.base))].join(','),
       vs_currencies: [...new Set(params.map((p) => p.quote))].join(','),
       x_cg_pro_api_key: config.API_KEY,
+      precision: params[0].precision,
     },
   }
 }
