@@ -15,8 +15,7 @@
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
-    "start": "yarn server:dist",
-    "fake": "fake"
+    "start": "yarn server:dist"
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
