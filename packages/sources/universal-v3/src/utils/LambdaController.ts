@@ -50,9 +50,9 @@ export class LambdaController {
     this.initalized = true
   }
 
-  // This background tasks monitors all deployed Lambda functions.
-  // It is used by the backgroundExecuter of the EAv3 framework
-  // When LAMBDA_MAX_DEPLOYED_FUNCTIONS is reached, the least recently used function will be deleted
+  // This background tasks monitors all deployed Lambda functions used by the backgroundExecuter of the EAv3 framework.
+  // When LAMBDA_MAX_DEPLOYED_FUNCTIONS is reached, the least recently used function will be deleted.
+  // The returned number is how many milliseconds to wait before the next execution.
   public lambdaPruner = async (): Promise<number> => {
     if (!this.deployedLambdaFunctions) {
       throw Error('LambdaController class not initalized')
@@ -66,13 +66,13 @@ export class LambdaController {
 
     try {
       await this.deleteLambdaFunction(leastRecentlyUsedFunction)
+      delete this.deployedLambdaFunctions.timeLastUsed[leastRecentlyUsedFunction]
+      this.deployedLambdaFunctions.count--
     } catch (error) {
       this.logger.error(`Error deleting lambda function ${leastRecentlyUsedFunction}: ${error}`)
       return 1
     }
 
-    delete this.deployedLambdaFunctions.timeLastUsed[leastRecentlyUsedFunction]
-    this.deployedLambdaFunctions.count--
     return 1
   }
 
