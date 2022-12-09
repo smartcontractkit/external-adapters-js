@@ -537,6 +537,9 @@
       "path": "./sources/uniswap-v3"
     },
     {
+      "path": "./sources/universal-v3"
+    },
+    {
       "path": "./sources/upvest"
     },
     {

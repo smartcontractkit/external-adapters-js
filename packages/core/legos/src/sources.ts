@@ -113,7 +113,6 @@ import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
-import * as reduce from '@chainlink/reduce-adapter'
 import * as renvm_adapter_address from '@chainlink/renvm-address-set-adapter'
 import * as satoshitango from '@chainlink/satoshitango-adapter'
 import * as snowflake from '@chainlink/snowflake-adapter'
@@ -137,6 +136,7 @@ import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
 import * as uniswap_v3 from '@chainlink/uniswap-v3-adapter'
+import * as universal_v3 from '@chainlink/universal-v3-adapter'
 import * as upvest from '@chainlink/upvest-adapter'
 import * as uscpi_one from '@chainlink/uscpi-one-adapter'
 import * as view_function from '@chainlink/view-function-adapter'
@@ -261,7 +261,6 @@ export default {
   poa,
   polygon,
   por_address_list,
-  reduce,
   renvm_adapter_address,
   satoshitango,
   snowflake,
@@ -285,6 +284,7 @@ export default {
   unibit,
   uniswap_v2,
   uniswap_v3,
+  universal_v3,
   upvest,
   uscpi_one,
   view_function,

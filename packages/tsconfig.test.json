@@ -537,6 +537,9 @@
       "path": "./sources/uniswap-v3/tsconfig.test.json"
     },
     {
+      "path": "./sources/universal-v3/tsconfig.test.json"
+    },
+    {
       "path": "./sources/upvest/tsconfig.test.json"
     },
     {
