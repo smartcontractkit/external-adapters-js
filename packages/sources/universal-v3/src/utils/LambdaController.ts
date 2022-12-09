@@ -67,7 +67,7 @@ export class LambdaController {
     try {
       await this.deleteLambdaFunction(leastRecentlyUsedFunction)
     } catch (error) {
-      this.logger.error(error as Error)
+      this.logger.error(`Error deleteing lambda function ${leastRecentlyUsedFunction}: ${error}`)
       return 1
     }
 
@@ -279,7 +279,7 @@ export class LambdaController {
       this.lambda.listFunctions({ Marker }, async (err, data) => {
         if (err) {
           this.logger.error(`Unexpected Lambda listFunctions error: ${err}`)
-          throw Error('Error fetching list of deployed Lambda functions')
+          throw Error(`Error fetching list of deployed Lambda functions: ${err}`)
         }
 
         const functions = data.Functions
