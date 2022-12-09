@@ -55,7 +55,9 @@ export async function getJobMatrix(): Promise<JobMatrix> {
       Array.from(line.matchAll(expression)).forEach((m) => {
         found[m[2]] = calculateMatrixValue(m[2], m[1])
       })
-      if (line.match(/packages\/(core|scripts)/)) {
+      // TODO scripts is temporarily commented out to demo. This should NOT appear in the final PR
+      // if (line.match(/packages\/(core|scripts)/)) {
+      if (line.match(/packages\/(core)/)) {
         shouldBuildAll = true
         break
       }
