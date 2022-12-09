@@ -57,7 +57,6 @@ import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
-import * as elwood_test from '@chainlink/elwood-test-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
@@ -206,7 +205,6 @@ export default {
   dxfeed,
   dxfeed_secondary,
   elwood,
-  elwood_test,
   ens,
   enzyme,
   eodhistoricaldata,
