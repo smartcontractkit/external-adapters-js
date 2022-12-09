@@ -93,10 +93,10 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
     _: AdapterInputParameters,
     config: AdapterConfig<typeof customSettings>,
   ): AxiosRequestConfig<BankFrickAccountsRequestSchema> {
-    const { API_ENDPOINT, BASE_URL, PAGE_SIZE } = config
+    const { API_ENDPOINT, PAGE_SIZE } = config
 
     return {
-      baseURL: API_ENDPOINT + BASE_URL,
+      baseURL: API_ENDPOINT,
       url: 'accounts',
       method: 'GET',
       params: {
