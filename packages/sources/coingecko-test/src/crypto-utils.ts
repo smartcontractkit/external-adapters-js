@@ -2,7 +2,10 @@ import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framewor
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import {
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 
 export interface CryptoRequestParams {
   coinid?: string
@@ -53,10 +56,7 @@ export type CryptoEndpointTypes = {
   Request: {
     Params: CryptoRequestParams
   }
-  Response: {
-    Data: ProviderResponseBody
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: SettingsMap
   Provider: {
     RequestBody: ProviderRequestBody
@@ -89,14 +89,14 @@ export const constructEntry = (
 ): ProviderResult<CryptoEndpointTypes> => {
   const coinId = (requestPayload.coinid ?? (requestPayload.base as string)).toLowerCase()
   const dataForCoin = res.data[coinId]
-  const dataForQuote = dataForCoin ? dataForCoin[resultPath] : undefined
+  const result = dataForCoin ? dataForCoin[resultPath] : undefined
   const entry = {
     params: requestPayload,
   }
 
-  if (!dataForQuote) {
+  if (!result) {
     let errorMessage = `Coingecko provided no data for token "${coinId}"`
-    if (dataForCoin && !dataForQuote) {
+    if (dataForCoin && !result) {
       errorMessage = `Coingecko provided no "${requestPayload.quote}" data for token "${coinId}"`
     }
     logger.warn(errorMessage)
@@ -118,9 +118,9 @@ export const constructEntry = (
     ...entry,
     response: {
       data: {
-        [coinId]: dataForCoin,
+        result,
       },
-      result: dataForQuote,
+      result,
     },
   }
 }
