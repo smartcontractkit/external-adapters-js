@@ -3,7 +3,10 @@ import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import {
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -38,10 +41,7 @@ export type GlobalEndpointTypes = {
   Request: {
     Params: GlobalRequestParams
   }
-  Response: {
-    Data: ProviderResponseBody
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: SettingsMap
   Provider: {
     RequestBody: never
@@ -111,7 +111,7 @@ export const constructEntry = (
   return {
     params: requestPayload,
     response: {
-      data: res.data,
+      data: { result },
       result,
       timestamps: {
         providerIndicatedTime: resultData.updated_at * 1000,
