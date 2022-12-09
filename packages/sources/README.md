@@ -63,7 +63,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [dxfeed](./dxfeed/README.md)
 - [dxfeed-secondary](./dxfeed-secondary/README.md)
 - [elwood](./elwood/README.md)
-- [elwood-test](./elwood-test/README.md)
 - [ens](./ens/README.md)
 - [enzyme](./enzyme/README.md)
 - [eodhistoricaldata](./eodhistoricaldata/README.md)

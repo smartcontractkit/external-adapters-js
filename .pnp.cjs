@@ -433,10 +433,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/elwood"\
       },\
       {\
-        "name": "@chainlink/elwood-test-adapter",\
-        "reference": "workspace:packages/sources/elwood-test"\
-      },\
-      {\
         "name": "@chainlink/ens-adapter",\
         "reference": "workspace:packages/sources/ens"\
       },\
@@ -889,7 +885,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
       ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
-      ["@chainlink/elwood-test-adapter", ["workspace:packages/sources/elwood-test"]],\
       ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
       ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
@@ -5359,7 +5354,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
             ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
             ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],\
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],\
@@ -5601,24 +5595,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.0.3"],\
-            ["@types/node", "npm:16.11.41"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.7"],\
-            ["supertest", "npm:6.2.3"],\
-            ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/elwood-test-adapter", [\
-        ["workspace:packages/sources/elwood-test", {\
-          "packageLocation": "./packages/sources/elwood-test/",\
-          "packageDependencies": [\
-            ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -12524,15 +12500,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/jest", [\
-        ["npm:27.0.3", {\
-          "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.3-c4c49cbce2-3683a99458.zip/node_modules/@types/jest/",\
-          "packageDependencies": [\
-            ["@types/jest", "npm:27.0.3"],\
-            ["jest-diff", "npm:27.5.1"],\
-            ["pretty-format", "npm:27.5.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:27.5.2", {\
           "packageLocation": "./.yarn/cache/@types-jest-npm-27.5.2-f8ba570ba6-7e11c6826a.zip/node_modules/@types/jest/",\
           "packageDependencies": [\
@@ -12740,13 +12707,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-14.18.33-cf91207517-4e23f95186.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:14.18.33"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:16.11.41", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.41-e10b7bd53b-808e4d6575.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:16.11.41"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -27422,17 +27382,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["nock", [\
-        ["npm:13.2.7", {\
-          "packageLocation": "./.yarn/cache/nock-npm-13.2.7-a7218c9ff7-0d7d3163ca.zip/node_modules/nock/",\
-          "packageDependencies": [\
-            ["nock", "npm:13.2.7"],\
-            ["debug", "virtual:40f53b1ba1d401651db5200a9f0e185d9eec8e29ee543f0cc61943e48cfea842697b714f8870e4f57da4c0ae44d4f0d34db9ce53ec0b421028713432ce63c183#npm:4.3.4"],\
-            ["json-stringify-safe", "npm:5.0.1"],\
-            ["lodash", "npm:4.17.21"],\
-            ["propagate", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:13.2.9", {\
           "packageLocation": "./.yarn/cache/nock-npm-13.2.9-de18b54858-04a2dc60b4.zip/node_modules/nock/",\
           "packageDependencies": [\
@@ -32058,24 +32007,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:7.1.5", {\
-          "packageLocation": "./.yarn/cache/superagent-npm-7.1.5-b82717b291-4782ca099b.zip/node_modules/superagent/",\
-          "packageDependencies": [\
-            ["superagent", "npm:7.1.5"],\
-            ["component-emitter", "npm:1.3.0"],\
-            ["cookiejar", "npm:2.1.3"],\
-            ["debug", "virtual:40f53b1ba1d401651db5200a9f0e185d9eec8e29ee543f0cc61943e48cfea842697b714f8870e4f57da4c0ae44d4f0d34db9ce53ec0b421028713432ce63c183#npm:4.3.4"],\
-            ["fast-safe-stringify", "npm:2.1.1"],\
-            ["form-data", "npm:4.0.0"],\
-            ["formidable", "npm:2.0.1"],\
-            ["methods", "npm:1.1.2"],\
-            ["mime", "npm:2.6.0"],\
-            ["qs", "npm:6.11.0"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["semver", "npm:7.3.8"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:8.0.0", {\
           "packageLocation": "./.yarn/cache/superagent-npm-8.0.0-23cfd5d736-14343e5932.zip/node_modules/superagent/",\
           "packageDependencies": [\
@@ -32105,15 +32036,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["supertest", [\
-        ["npm:6.2.3", {\
-          "packageLocation": "./.yarn/cache/supertest-npm-6.2.3-280f27cd97-c1bed86c31.zip/node_modules/supertest/",\
-          "packageDependencies": [\
-            ["supertest", "npm:6.2.3"],\
-            ["methods", "npm:1.1.2"],\
-            ["superagent", "npm:7.1.5"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:6.2.4", {\
           "packageLocation": "./.yarn/cache/supertest-npm-6.2.4-6901daa695-f2ddc4f3ba.zip/node_modules/supertest/",\
           "packageDependencies": [\
