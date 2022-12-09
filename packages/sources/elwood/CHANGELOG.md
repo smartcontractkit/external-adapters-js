@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- 8fc54f24b: Upgraded EA framework from v2 to v3
+
 ## 1.1.2
 
 ### Patch Changes

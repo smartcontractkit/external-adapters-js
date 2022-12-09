@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finage-adapter",
-  "version": "1.6.10",
+  "version": "1.6.11",
   "description": "Chainlink Finage adapter.",
   "keywords": [
     "Chainlink",

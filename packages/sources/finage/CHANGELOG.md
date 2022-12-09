@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 1.6.11
+
+### Patch Changes
+
+- 5a0e5fb2e: Add quote override support for Finage WS
+
 ## 1.6.10
 
 ### Patch Changes
