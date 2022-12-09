@@ -77,7 +77,6 @@ import * as fluent_finance from '@chainlink/fluent-finance-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
 import * as galaxy from '@chainlink/galaxy-adapter'
-import * as galaxy_test from '@chainlink/galaxy-test-adapter'
 import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -227,7 +226,6 @@ export default {
   fmpcloud,
   galaxis,
   galaxy,
-  galaxy_test,
   gemini,
   genesis_adapter,
   geodb,

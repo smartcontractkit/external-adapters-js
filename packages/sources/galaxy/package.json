@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/galaxy-test-adapter",
+  "name": "@chainlink/galaxy-adapter",
   "version": "1.0.5",
-  "description": "Chainlink galaxy-test adapter.",
+  "description": "Chainlink Galaxy adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "galaxy-test"
+    "galaxy"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
