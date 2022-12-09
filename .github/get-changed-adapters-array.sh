@@ -26,10 +26,8 @@ function getChangedAdapterArray(){
     # TODO Below temporarily has scripts cut out to demo. Scripts should trigger a full build in the final PR.
     if [[ $line =~ ^packages/(core|non-deployable) ||  $line =~ grafana/ ]]; then
       echo "BUILD_ALL"
-      return
     fi
     # Note that "packages/examples" is omitted below because the workflows that call this (generate-readme) can't run against them
-    if [[ $line =~ ^packages/(sources|composites|non-deployable|targets)/([a-zA-Z-]*)/.*$ ]]; then
     if [[ $line =~ ^packages/(sources|composites|non-deployable|targets)/([a-zA-Z-]*)/.*$ ]]; then
       adapterName=$(echo "$line" |
       sed  -e 's/packages\/sources\/\(.*\)\/.*/\1/g' \
