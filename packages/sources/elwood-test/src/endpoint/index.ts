@@ -1,1 +1,0 @@
-export { cryptoEndpoint } from './crypto'
