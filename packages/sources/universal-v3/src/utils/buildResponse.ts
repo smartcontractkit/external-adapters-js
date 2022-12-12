@@ -142,15 +142,13 @@ export class ResponseBuilder {
     if (typeof unknownResponse === 'object') {
       const sandboxResponse = unknownResponse as SandboxError
 
-      if (
+      return (
         typeof sandboxResponse.error === 'object' &&
         (!sandboxResponse.error.message || typeof sandboxResponse.error.message === 'string') &&
         (!sandboxResponse.error.details || typeof sandboxResponse.error.details === 'string') &&
         (!sandboxResponse.error.userHttpQueries ||
           Array.isArray(sandboxResponse.error.userHttpQueries))
-      ) {
-        return true
-      }
+      )
     }
 
     return false
