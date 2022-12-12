@@ -300,9 +300,6 @@
       "path": "./sources/elwood"
     },
     {
-      "path": "./sources/elwood-test"
-    },
-    {
       "path": "./sources/ens"
     },
     {
@@ -358,9 +355,6 @@
     },
     {
       "path": "./sources/galaxy"
-    },
-    {
-      "path": "./sources/galaxy-test"
     },
     {
       "path": "./sources/gemini"

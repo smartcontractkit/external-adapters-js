@@ -1,28 +1,56 @@
-import { AdapterConfigError } from '@chainlink/ea-bootstrap'
-import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  PriceEndpoint,
+  priceEndpointInputParameters,
+} from '@chainlink/external-adapter-framework/adapter'
+import { getAccessToken } from '../util'
+import { AdapterRequestParams, PriceEndpointTypes } from '../types'
 
-export const supportedEndpoints = ['price']
+// Split by the characters "_" and "/" as pairs are in this format: "markPrice_BTC/USD"
+const SPLIT_PAIR_REGEX = /[_/]+/
 
-export const description =
-  'The price endpoint is used to fetch a price for a base/quote asset pair. This adapter currently only supports WS connection to the API on this endpoint.'
-
-export type TInputParameters = { base: string; quote: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  base: {
-    aliases: ['from', 'coin'],
-    description: 'The currency ticker to query',
-    required: true,
-  },
-  quote: {
-    aliases: ['to', 'market'],
-    description: 'The currency ticker to convert to',
-    required: true,
-  },
+const getPair = (params: AdapterRequestParams) => {
+  const { base, quote } = params
+  return `markPrice_${base.toUpperCase()}/${quote.toUpperCase()}`
 }
 
-export const execute: ExecuteWithConfig<Config> = async () => {
-  throw new AdapterConfigError({
-    message:
-      'The Galaxy Adapter does not support HTTP requests. Ensure WS_ENABLED is "true" in the adapter configuration.',
-  })
-}
+export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
+  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  options: async (context) => {
+    const token = await getAccessToken(context.adapterConfig)
+    return {
+      headers: { token: token?.token || '' },
+    }
+  },
+  handlers: {
+    message(message) {
+      if (message.type !== 'signal_update') return []
+      const [_, base, quote] = message.signal.split(SPLIT_PAIR_REGEX)
+      return [
+        {
+          params: { base, quote },
+          response: {
+            result: message.value,
+            data: {
+              result: message.value,
+            },
+            timestamps: {
+              providerIndicatedTime: Math.round(message.ts * 1000), // Provider indicated time is sent in seconds
+            },
+          },
+        },
+      ]
+    },
+  },
+  builders: {
+    subscribeMessage: (params) => ({ type: 'subscribe', signals: [getPair(params)] }),
+    unsubscribeMessage: (params) => ({ type: 'unsubscribe', signals: [getPair(params)] }),
+  },
+})
+
+export const priceEndpoint = new PriceEndpoint({
+  name: 'price',
+  aliases: ['crypto'],
+  transport: priceTransport,
+  inputParameters: priceEndpointInputParameters,
+})

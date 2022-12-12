@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.7.11
+
+### Patch Changes
+
+- Updated dependencies [5a0e5fb2e]
+  - @chainlink/finage-adapter@1.6.11
+
 ## 1.7.10
 
 ### Patch Changes

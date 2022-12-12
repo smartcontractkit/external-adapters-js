@@ -1,5 +1,11 @@
 # @chainlink/bank-frick-test-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- a8a33addb: accounts and authorize now use the same URL (\$API_ENDPOINT)
+
 ## 1.0.3
 
 ### Patch Changes

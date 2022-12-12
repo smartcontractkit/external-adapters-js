@@ -300,9 +300,6 @@
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
-      "path": "./sources/elwood-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ens/tsconfig.test.json"
     },
     {
@@ -358,9 +355,6 @@
     },
     {
       "path": "./sources/galaxy/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/galaxy-test/tsconfig.test.json"
     },
     {
       "path": "./sources/gemini/tsconfig.test.json"

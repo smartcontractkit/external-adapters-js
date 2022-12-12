@@ -2972,7 +2972,6 @@ __metadata:
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/dxfeed-secondary-adapter": "workspace:*"
     "@chainlink/elwood-adapter": "workspace:*"
-    "@chainlink/elwood-test-adapter": "workspace:*"
     "@chainlink/ens-adapter": "workspace:*"
     "@chainlink/enzyme-adapter": "workspace:*"
     "@chainlink/eodhistoricaldata-adapter": "workspace:*"
@@ -2992,7 +2991,6 @@ __metadata:
     "@chainlink/fmpcloud-adapter": "workspace:*"
     "@chainlink/galaxis-adapter": "workspace:*"
     "@chainlink/galaxy-adapter": "workspace:*"
-    "@chainlink/galaxy-test-adapter": "workspace:*"
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/genesis-volatility-adapter": "workspace:*"
     "@chainlink/geodb-adapter": "workspace:*"
@@ -3071,22 +3069,6 @@ __metadata:
 "@chainlink/elwood-adapter@workspace:*, @chainlink/elwood-adapter@workspace:packages/sources/elwood":
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.0.3
-    "@types/node": 16.11.41
-    "@types/supertest": 2.0.12
-    nock: 13.2.7
-    supertest: 6.2.3
-    tslib: ^2.3.1
-    typescript: 4.7.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/elwood-test-adapter@workspace:*, @chainlink/elwood-test-adapter@workspace:packages/sources/elwood-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/elwood-test-adapter@workspace:packages/sources/elwood-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.14.5
     "@types/jest": 27.5.2
@@ -3505,22 +3487,6 @@ __metadata:
 "@chainlink/galaxy-adapter@workspace:*, @chainlink/galaxy-adapter@workspace:packages/sources/galaxy":
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    nock: 13.2.9
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 4.7.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/galaxy-test-adapter@workspace:*, @chainlink/galaxy-test-adapter@workspace:packages/sources/galaxy-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/galaxy-test-adapter@workspace:packages/sources/galaxy-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.14.5
     "@types/jest": 27.5.2
@@ -9437,16 +9403,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:27.0.3":
-  version: 27.0.3
-  resolution: "@types/jest@npm:27.0.3"
-  dependencies:
-    jest-diff: ^27.0.0
-    pretty-format: ^27.0.0
-  checksum: 3683a9945821966f6dccddf337219a5d682633687c9d30df859223db553589f63e9b2c34e69f0cc845c86ffcf115742f25c12ea03c8d33d2244890fdc0af61e2
-  languageName: node
-  linkType: hard
-
 "@types/jest@npm:27.5.2":
   version: 27.5.2
   resolution: "@types/jest@npm:27.5.2"
@@ -9618,13 +9574,6 @@ __metadata:
   version: 14.18.33
   resolution: "@types/node@npm:14.18.33"
   checksum: 4e23f95186d8ae1d38c999bc6b46fe94e790da88744b0a3bfeedcbd0d9ffe2cb0ff39e85f43014f6739e5270292c1a1f6f97a1fc606fd573a0c17fda9a1d42de
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:16.11.41":
-  version: 16.11.41
-  resolution: "@types/node@npm:16.11.41"
-  checksum: 808e4d65757bb13cf25e88dfa4e65880efef06652b04baecb051eb90cf090dda9812aa3505b31e963a48041eed7dbe0fc59c44c7c5e117da952ff951bf3a584a
   languageName: node
   linkType: hard
 
@@ -19350,7 +19299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^27.0.0, jest-diff@npm:^27.5.1":
+"jest-diff@npm:^27.5.1":
   version: 27.5.1
   resolution: "jest-diff@npm:27.5.1"
   dependencies:
@@ -21899,7 +21848,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime@npm:2.6.0, mime@npm:^2.4.6, mime@npm:^2.5.0":
+"mime@npm:2.6.0, mime@npm:^2.4.6":
   version: 2.6.0
   resolution: "mime@npm:2.6.0"
   bin:
@@ -22644,18 +22593,6 @@ __metadata:
   version: 1.2.14
   resolution: "noble-secp256k1@npm:1.2.14"
   checksum: 5e8cfab31455d0bfd55a371b2d8e405cef1b25c92be7a0f7b559381204a85c6bd2455af5cc46d9523aaf775e6f3d30b3ce0911dfe19d8bcd5dc8f7b4afe98074
-  languageName: node
-  linkType: hard
-
-"nock@npm:13.2.7":
-  version: 13.2.7
-  resolution: "nock@npm:13.2.7"
-  dependencies:
-    debug: ^4.1.0
-    json-stringify-safe: ^5.0.1
-    lodash: ^4.17.21
-    propagate: ^2.0.0
-  checksum: 0d7d3163ca973393d43a0334aafe59677ca6e7eea133338166be9bd06e577667da2dd2d5148046022b9e9dd4339f5ae5d0ef0274abc1462c4e896f8729c24b40
   languageName: node
   linkType: hard
 
@@ -26887,25 +26824,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superagent@npm:^7.1.3":
-  version: 7.1.5
-  resolution: "superagent@npm:7.1.5"
-  dependencies:
-    component-emitter: ^1.3.0
-    cookiejar: ^2.1.3
-    debug: ^4.3.4
-    fast-safe-stringify: ^2.1.1
-    form-data: ^4.0.0
-    formidable: ^2.0.1
-    methods: ^1.1.2
-    mime: ^2.5.0
-    qs: ^6.10.3
-    readable-stream: ^3.6.0
-    semver: ^7.3.7
-  checksum: 4782ca099b18a0933705f93ac4678290bcfcd5e57ca1286dd4f733c7fbb554ca0c7cc1c97261254dc29623ac258aa64fc40aaa18da960cbe759085efa3e4b8f6
-  languageName: node
-  linkType: hard
-
 "superagent@npm:^8.0.0":
   version: 8.0.0
   resolution: "superagent@npm:8.0.0"
@@ -26929,16 +26847,6 @@ __metadata:
   version: 0.14.2
   resolution: "superstruct@npm:0.14.2"
   checksum: c5c4840f432da82125b923ec45faca5113217e83ae416e314d80eae012b8bb603d2e745025d173450758d116348820bc7028157f8c9a72b6beae879f94b837c0
-  languageName: node
-  linkType: hard
-
-"supertest@npm:6.2.3":
-  version: 6.2.3
-  resolution: "supertest@npm:6.2.3"
-  dependencies:
-    methods: ^1.1.2
-    superagent: ^7.1.3
-  checksum: c1bed86c31723a4bc461153a58176fd80d675deb7d23ab7bd170213040673b35c38e3cbeab9a4eb8a325cf736176c08c6f6522e42f0293314f183e192a6681fa
   languageName: node
   linkType: hard
 

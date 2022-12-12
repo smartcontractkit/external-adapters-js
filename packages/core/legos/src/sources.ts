@@ -57,7 +57,6 @@ import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
-import * as elwood_test from '@chainlink/elwood-test-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
 import * as eodhistoricaldata from '@chainlink/eodhistoricaldata-adapter'
@@ -77,7 +76,6 @@ import * as fluent_finance from '@chainlink/fluent-finance-adapter'
 import * as fmpcloud from '@chainlink/fmpcloud-adapter'
 import * as galaxis from '@chainlink/galaxis-adapter'
 import * as galaxy from '@chainlink/galaxy-adapter'
-import * as galaxy_test from '@chainlink/galaxy-test-adapter'
 import * as gemini from '@chainlink/gemini-adapter'
 import * as genesis_adapter from '@chainlink/genesis-volatility-adapter'
 import * as geodb from '@chainlink/geodb-adapter'
@@ -207,7 +205,6 @@ export default {
   dxfeed,
   dxfeed_secondary,
   elwood,
-  elwood_test,
   ens,
   enzyme,
   eodhistoricaldata,
@@ -227,7 +224,6 @@ export default {
   fmpcloud,
   galaxis,
   galaxy,
-  galaxy_test,
   gemini,
   genesis_adapter,
   geodb,

@@ -24,6 +24,7 @@ export const SoakTestBlacklist: string[] = [
   'dwolla',
   'dydx-rewards',
   'dydx-stark',
+  'dxdao',
   'etherscan',
   'ethgasstation',
   'ethwrite',
