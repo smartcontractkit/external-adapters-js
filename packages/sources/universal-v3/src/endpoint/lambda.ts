@@ -1,13 +1,8 @@
 import type {
   Transport,
-  TransportGenerics,
   TransportDependencies,
 } from '@chainlink/external-adapter-framework/transports'
-import type {
-  AdapterRequest,
-  AdapterResponse,
-  RequestGenerics,
-} from '@chainlink/external-adapter-framework/util'
+import type { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import type { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import type { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import type { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
@@ -15,7 +10,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { LambdaController } from '../utils/LambdaController'
 import { customSettings } from '../index'
 import { decrypt } from '../utils/secretsDecrypter'
-import type { SandboxOutput, Response } from '../utils/buildResponse'
+import type { Response } from '../utils/buildResponse'
 import { ResponseBuilder } from '../utils/buildResponse'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
@@ -27,25 +22,28 @@ export const inputParameters: InputParameters = {
   },
   subscriptionId: {
     description: 'Subscription Id used by the request',
+    type: 'number',
     required: true,
   },
   requestId: {
     description: 'Request Id unique to each request',
-    required: true,
+    type: 'string',
   },
   maxResponseBytes: {
     description: 'Maximum size of response data, in bytes',
+    type: 'number',
   },
   numAllowedQueries: {
     description: 'Number of HTTP queries that can be performed in a request',
+    type: 'number',
   },
   secrets: {
     description: 'Base64 bytestring representing an encrypted secrets object in base64 format',
-    dependsOn: ['secretsOwner', 'subscriptionId'],
+    type: 'string',
   },
   secretsOwner: {
     description: 'Owner of the encrypted secrets used for signature verification',
-    dependsOn: ['secrets', 'subscriptionId'],
+    type: 'string',
   },
   args: {
     description: 'Array of on-chain arguments which are passed to the source code',
@@ -73,8 +71,8 @@ export const inputParameters: InputParameters = {
 
 interface Input {
   source: string
-  subscriptionId: string
-  requestId: string
+  subscriptionId: number
+  requestId?: string
   numAllowedQueries?: number
   maxResponseBytes?: number
   args?: string[]
@@ -95,25 +93,21 @@ enum Language {
   JavaScript = 0,
 }
 
-interface Request extends RequestGenerics {
+interface Request {
   Params: Input
 }
 
-interface AdapterIO extends TransportGenerics {
+interface LambdaEnpointTypes {
   Request: Request
   Response: Response
   CustomSettings: typeof customSettings
 }
 
-interface LambdaTransport extends Transport<AdapterIO> {
-  lambdaController: LambdaController
-}
-
-class Lambda implements LambdaTransport {
+class Lambda implements Transport<LambdaEnpointTypes> {
   lambdaController!: LambdaController
 
   initialize = async (
-    _dependencies: TransportDependencies<AdapterIO>,
+    _dependencies: TransportDependencies<LambdaEnpointTypes>,
     config: AdapterConfig<typeof customSettings>,
   ): Promise<void> => {
     this.lambdaController = new LambdaController(config)
@@ -157,7 +151,7 @@ class Lambda implements LambdaTransport {
       }
     }
 
-    let sandboxOutput: SandboxOutput
+    let sandboxOutput: unknown
     try {
       sandboxOutput = await this.lambdaController.executeRequestInLambda(
         `${config.LAMBDA_FUNCTION_NAME_PREFIX}${subscriptionId}`,

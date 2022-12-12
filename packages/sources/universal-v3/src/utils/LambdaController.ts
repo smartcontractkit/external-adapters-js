@@ -2,12 +2,13 @@ import AWS, { Lambda } from 'aws-sdk'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import type { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from '..'
-import type { SandboxOutput } from './buildResponse'
+
+type SandboxOutput = unknown
 
 interface SandboxRequestData {
   source: string
-  requestId: string
   secrets: Record<string, unknown>
+  requestId?: string
   args?: string[]
   numAllowedQueries?: number
   maxResponseBytes?: number
@@ -20,9 +21,13 @@ interface DeployedLambdaFunctions {
   count: number
 }
 
+interface LambdaFunctionInfo {
+  functionName: string
+  timeOfDeployment: number
+}
+
 export class LambdaController {
-  private deployedLambdaFunctions?: DeployedLambdaFunctions
-  private initalized = false
+  private deployedLambdaFunctions!: DeployedLambdaFunctions
   private lambda: AWS.Lambda
   private logger = makeLogger('LambdaController')
 
@@ -31,9 +36,6 @@ export class LambdaController {
   }
 
   public initalize = async (): Promise<void> => {
-    if (this.initalized) {
-      throw Error('LambdaController already initalized')
-    }
     AWS.config.update({
       region: process.env['AWS_REGION'] as string,
       credentials: {
@@ -41,23 +43,41 @@ export class LambdaController {
         secretAccessKey: this.config.AWS_SECRET_ACCESS_KEY,
       },
     })
-    this.deployedLambdaFunctions = await this.getDeployedLambdaFunctions()
+    const lambdaFunctions = await this.getDeployedLambdaFunctions()
+
+    // Sort Lambda functions by original deployment time from newest to oldest
+    lambdaFunctions.sort((a, b) => b.timeOfDeployment - a.timeOfDeployment)
+
+    /* This fill timeLastUsed with a dummy value, ordered from newest to oldest.
+     * This means that the newest deployed Lambda function will be deleted before the
+     * oldest deployed Lambda function in the event LAMBDA_MAX_DEPLOYED_FUNCTIONS is exceeded.
+     *
+     * Since n is always less than Date.now(), this functionality still maintains that the
+     * leastRecentlyUsed lambda function is deleted first.
+     *
+     * This functionality is required because AWS.Lambda.listFunctions() does not provide
+     * data on the time a function was last invoked, only the time it was originally deployed.
+     */
+    let n = 0
+    const timeLastUsed: Record<string, TimeLastUsed> = {}
+    lambdaFunctions.forEach(({ functionName }) => {
+      timeLastUsed[functionName] = n
+      n++
+    })
+
+    this.deployedLambdaFunctions = { timeLastUsed, count: lambdaFunctions.length }
+
     this.logger.debug(
       `${this.deployedLambdaFunctions?.count} Deployed Lambda functions: ${Object.keys(
-        this.deployedLambdaFunctions.timeLastUsed,
+        this.deployedLambdaFunctions?.timeLastUsed,
       )}`,
     )
-    this.initalized = true
   }
 
   // This background tasks monitors all deployed Lambda functions used by the backgroundExecuter of the EAv3 framework.
   // When LAMBDA_MAX_DEPLOYED_FUNCTIONS is reached, the least recently used function will be deleted.
   // The returned number is how many milliseconds to wait before the next execution.
   public lambdaPruner = async (): Promise<number> => {
-    if (!this.deployedLambdaFunctions) {
-      throw Error('LambdaController class not initalized')
-    }
-
     if (this.deployedLambdaFunctions.count < this.config.LAMBDA_MAX_DEPLOYED_FUNCTIONS) {
       return this.config.LAMBDA_PRUNER_LOOP_WAIT_MS
     }
@@ -81,10 +101,6 @@ export class LambdaController {
     sandboxRequestData: SandboxRequestData,
     retryCount: number,
   ): Promise<SandboxOutput> => {
-    if (!this.deployedLambdaFunctions) {
-      throw Error('LambdaController not initalized')
-    }
-
     const invokeRequest: Lambda.InvocationRequest = {
       FunctionName,
       Payload: JSON.stringify(sandboxRequestData),
@@ -118,32 +134,51 @@ export class LambdaController {
   ): void => {
     this.logger.debug(`Lambda response: ${JSON.stringify(data)}`)
 
-    const lambdaResponse = JSON.parse(data.Payload as unknown as string)
+    // TODO!!!!!
+    // This must be placed in a try-catch since payload is untrusted
+    let lambdaResponse: Record<string, unknown>
+    try {
+      lambdaResponse = JSON.parse(data.Payload as unknown as string)
+    } catch {
+      resolve(
+        JSON.stringify({
+          error: {
+            name: 'Sandbox Error',
+            message: 'Invalid output from source code.',
+          },
+        }),
+      )
+      return
+    }
 
     if (!lambdaResponse.errorMessage) {
-      resolve(JSON.parse(lambdaResponse.body))
+      resolve(lambdaResponse.body)
       return
     }
 
     if (
       (lambdaResponse.errorMessage as string).includes('Runtime exited with error: signal: killed')
     ) {
-      resolve({
-        error: {
-          name: 'Runtime Error',
-          message: 'JavaScript execution failed. Check RAM usage.',
-        },
-      })
+      resolve(
+        JSON.stringify({
+          error: {
+            name: 'Runtime Error',
+            message: 'JavaScript execution failed. Check RAM usage.',
+          },
+        }),
+      )
       return
     }
 
     if ((lambdaResponse.errorMessage as string).includes('Task timed out')) {
-      resolve({
-        error: {
-          name: 'Timeout Error',
-          message: 'JavaScript execution time exceeded',
-        },
-      })
+      resolve(
+        JSON.stringify({
+          error: {
+            name: 'Timeout Error',
+            message: 'JavaScript execution time exceeded',
+          },
+        }),
+      )
       return
     }
 
@@ -159,17 +194,19 @@ export class LambdaController {
     resolve: (value: SandboxOutput | PromiseLike<SandboxOutput>) => void,
     reject: (reason?: unknown) => void,
   ): void => {
-    this.logger.trace(`Lambda error: ${err}`)
+    if (retryCount <= 0) {
+      this.logger.error(`Lambda retry count exceeded`)
+      reject(err)
+      return
+    }
+    retryCount = retryCount - 1
+    this.logger.trace(`Lambda error: ${JSON.stringify(err)}`)
     switch (err.code) {
       // Function created, but still being initalized
       case 'ResourceConflictException':
-        this.retryLambdaExecution(
-          FunctionName,
-          sandboxRequestData,
-          retryCount,
-          resolve,
-          reject,
-          err,
+        setTimeout(
+          () => resolve(this.executeRequestInLambda(FunctionName, sandboxRequestData, retryCount)),
+          this.config.LAMBDA_RETRY_TIME_MS,
         )
         return
       // Function not yet created for subscriptionId
@@ -178,38 +215,13 @@ export class LambdaController {
         return
       // Unknown error
       default:
-        this.logger.error(`Unexpected Lambda error: ${err}`)
-        this.retryLambdaExecution(
-          FunctionName,
-          sandboxRequestData,
-          retryCount,
-          resolve,
-          reject,
-          err,
+        this.logger.error(`Unexpected Lambda error: ${JSON.stringify(err)}`)
+        setTimeout(
+          () => resolve(this.executeRequestInLambda(FunctionName, sandboxRequestData, retryCount)),
+          this.config.LAMBDA_RETRY_TIME_MS,
         )
         return
     }
-  }
-
-  private retryLambdaExecution = (
-    FunctionName: string,
-    sandboxRequestData: SandboxRequestData,
-    retryCount: number,
-    resolve: (value: SandboxOutput | PromiseLike<SandboxOutput>) => void,
-    reject: (reason?: unknown) => void,
-    err: AWS.AWSError,
-  ): void => {
-    if (retryCount <= 0) {
-      this.logger.error(`Lambda retry count exceeded`)
-      reject(err)
-      return
-    }
-
-    // Retry after LAMBDA_RETRY_TIME_MS
-    setTimeout(
-      () => resolve(this.executeRequestInLambda(FunctionName, sandboxRequestData, retryCount--)),
-      this.config.LAMBDA_RETRY_TIME_MS,
-    )
   }
 
   private createLambdaAndExecute = (
@@ -255,11 +267,10 @@ export class LambdaController {
 
         this.logger.debug(`Lambda creation response: ${JSON.stringify(data)}`)
 
-        // Disabling no-non-null-assert since executeRequestInLambda already ensures initalization
-        /* eslint-disable @typescript-eslint/no-non-null-assertion */
-        this.deployedLambdaFunctions!.timeLastUsed[FunctionName] = Date.now()
-        this.deployedLambdaFunctions!.count++
-        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+        if (typeof this.deployedLambdaFunctions.timeLastUsed[FunctionName] === 'undefined') {
+          this.deployedLambdaFunctions.count++
+        }
+        this.deployedLambdaFunctions.timeLastUsed[FunctionName] = Date.now()
 
         setTimeout(
           () => resolve(this.executeRequestInLambda(FunctionName, sandboxRequestData, retryCount)),
@@ -272,47 +283,43 @@ export class LambdaController {
   // This recursive function returns all deployed Lambda functions as a Record from the name to
   // the time the function was last used.  The TimeLastUsed is initally set to zero.
   // Documentation on lambda.listFunctions: https://docs.aws.amazon.com/lambda/latest/dg/API_ListFunctions.html
-  private getDeployedLambdaFunctions = async (
-    Marker?: string,
-  ): Promise<DeployedLambdaFunctions> => {
+  private getDeployedLambdaFunctions = async (Marker?: string): Promise<LambdaFunctionInfo[]> => {
     return new Promise((resolve) => {
       this.lambda.listFunctions({ Marker }, async (err, data) => {
         if (err) {
-          this.logger.error(`Unexpected Lambda listFunctions error: ${err}`)
-          throw Error(`Error fetching list of deployed Lambda functions: ${err}`)
+          this.logger.error(`Unexpected Lambda listFunctions error: ${JSON.stringify(err)}`)
+          throw Error(`Error fetching list of deployed Lambda functions: ${JSON.stringify(err)}`)
+          return
         }
 
         const functions = data.Functions
 
         if (!functions) {
-          resolve({ count: 0, timeLastUsed: {} })
+          resolve([])
           return
         }
 
-        let deployedLambdaFunctions: DeployedLambdaFunctions = { count: 0, timeLastUsed: {} }
+        let lambdaFunctions: LambdaFunctionInfo[] = []
 
         // Each call to getDeployedLambdaFunctions fetches up to 50 Lambda functions at a time.
         // If more than 50 Lambda functions exist, the next page must be fetched using the NextMarker.
         if (data.NextMarker) {
-          deployedLambdaFunctions = await this.getDeployedLambdaFunctions(data.NextMarker)
+          lambdaFunctions = await this.getDeployedLambdaFunctions(data.NextMarker)
         }
 
-        functions.forEach(({ FunctionName }) => {
-          if (FunctionName) deployedLambdaFunctions.timeLastUsed[FunctionName] = 0
+        functions.forEach(({ FunctionName, LastModified }) => {
+          if (FunctionName) {
+            const timeOfDeployment = LastModified ? Date.parse(LastModified) : Date.now()
+            lambdaFunctions.push({ functionName: FunctionName, timeOfDeployment })
+          }
         })
 
-        deployedLambdaFunctions.count = Object.keys(deployedLambdaFunctions.timeLastUsed).length
-
-        resolve(deployedLambdaFunctions)
+        resolve(lambdaFunctions)
       })
     })
   }
 
   private getLeastRecentlyUsedFunction = async (): Promise<string> => {
-    if (!this.deployedLambdaFunctions) {
-      throw Error('LambdaController class not initalized')
-    }
-
     let oldestTime: number | undefined
     let oldestFunction = ''
 
@@ -332,16 +339,16 @@ export class LambdaController {
     return oldestFunction
   }
 
-  private deleteLambdaFunction = async (FunctionName: string) => {
+  private deleteLambdaFunction = async (FunctionName: string): Promise<string | void> => {
     return new Promise((resolve, reject) => {
       this.lambda.deleteFunction({ FunctionName }, (err) => {
         if (err) {
-          reject(`Error deleting Lambda function ${FunctionName}: ${err}`)
+          reject(`Error deleting Lambda function ${FunctionName}: ${JSON.stringify(err)}`)
           return
         }
 
         this.logger.debug(`Successfully deleted Lambda function ${FunctionName}`)
-        resolve('successful delete')
+        resolve()
       })
     })
   }

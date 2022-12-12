@@ -7643,8 +7643,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["aws-sdk", "npm:2.1272.0"],\
+            ["aws-sdk-mock", "npm:5.8.0"],\
             ["axios", "npm:1.2.1"],\
             ["eth-crypto", "npm:2.5.0"],\
+            ["fastify", "npm:4.10.2"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
@@ -11678,9 +11680,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["type-detect", "npm:4.0.8"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.0.0", {\
+          "packageLocation": "./.yarn/cache/@sinonjs-commons-npm-2.0.0-3716f24f20-5023ba17ed.zip/node_modules/@sinonjs/commons/",\
+          "packageDependencies": [\
+            ["@sinonjs/commons", "npm:2.0.0"],\
+            ["type-detect", "npm:4.0.8"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@sinonjs/fake-timers", [\
+        ["npm:7.1.2", {\
+          "packageLocation": "./.yarn/cache/@sinonjs-fake-timers-npm-7.1.2-2a6b119ac7-c84773d797.zip/node_modules/@sinonjs/fake-timers/",\
+          "packageDependencies": [\
+            ["@sinonjs/fake-timers", "npm:7.1.2"],\
+            ["@sinonjs/commons", "npm:1.8.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:8.1.0", {\
           "packageLocation": "./.yarn/cache/@sinonjs-fake-timers-npm-8.1.0-95c51c96db-09b5a158ce.zip/node_modules/@sinonjs/fake-timers/",\
           "packageDependencies": [\
@@ -11704,6 +11722,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@sinonjs/samsam", "npm:6.1.1"],\
             ["@sinonjs/commons", "npm:1.8.3"],\
+            ["lodash.get", "npm:4.4.2"],\
+            ["type-detect", "npm:4.0.8"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:7.0.1", {\
+          "packageLocation": "./.yarn/cache/@sinonjs-samsam-npm-7.0.1-d14786a4c3-291efb158d.zip/node_modules/@sinonjs/samsam/",\
+          "packageDependencies": [\
+            ["@sinonjs/samsam", "npm:7.0.1"],\
+            ["@sinonjs/commons", "npm:2.0.0"],\
             ["lodash.get", "npm:4.4.2"],\
             ["type-detect", "npm:4.0.8"]\
           ],\
@@ -14508,6 +14536,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["util", "npm:0.12.5"],\
             ["uuid", "npm:8.0.0"],\
             ["xml2js", "npm:0.4.19"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["aws-sdk-mock", [\
+        ["npm:5.8.0", {\
+          "packageLocation": "./.yarn/cache/aws-sdk-mock-npm-5.8.0-e101eccb4d-c0b06d63d3.zip/node_modules/aws-sdk-mock/",\
+          "packageDependencies": [\
+            ["aws-sdk-mock", "npm:5.8.0"],\
+            ["aws-sdk", "npm:2.1272.0"],\
+            ["sinon", "npm:14.0.2"],\
+            ["traverse", "npm:0.6.7"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -19707,6 +19747,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["secure-json-parse", "npm:2.5.0"],\
             ["semver", "npm:7.3.8"],\
             ["tiny-lru", "npm:8.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:4.10.2", {\
+          "packageLocation": "./.yarn/cache/fastify-npm-4.10.2-8dbf3b451b-1050bb3610.zip/node_modules/fastify/",\
+          "packageDependencies": [\
+            ["fastify", "npm:4.10.2"],\
+            ["@fastify/ajv-compiler", "npm:3.3.1"],\
+            ["@fastify/error", "npm:3.0.0"],\
+            ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
+            ["abstract-logging", "npm:2.0.1"],\
+            ["avvio", "npm:8.2.0"],\
+            ["content-type", "npm:1.0.4"],\
+            ["find-my-way", "npm:7.3.1"],\
+            ["light-my-request", "npm:5.6.1"],\
+            ["pino", "npm:8.6.1"],\
+            ["process-warning", "npm:2.0.0"],\
+            ["proxy-addr", "npm:2.0.7"],\
+            ["rfdc", "npm:1.3.0"],\
+            ["secure-json-parse", "npm:2.5.0"],\
+            ["semver", "npm:7.3.8"],\
+            ["tiny-lru", "npm:10.0.1"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -27538,6 +27600,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["path-to-regexp", "npm:1.8.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:5.1.3", {\
+          "packageLocation": "./.yarn/cache/nise-npm-5.1.3-5a75ee43b7-3dd8495c7a.zip/node_modules/nise/",\
+          "packageDependencies": [\
+            ["nise", "npm:5.1.3"],\
+            ["@sinonjs/commons", "npm:2.0.0"],\
+            ["@sinonjs/fake-timers", "npm:7.1.2"],\
+            ["@sinonjs/text-encoding", "npm:0.7.2"],\
+            ["just-extend", "npm:4.2.1"],\
+            ["path-to-regexp", "npm:1.8.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["no-case", [\
@@ -31326,6 +31400,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supports-color", "npm:7.2.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:14.0.2", {\
+          "packageLocation": "./.yarn/cache/sinon-npm-14.0.2-76bb0b1579-de7730cd77.zip/node_modules/sinon/",\
+          "packageDependencies": [\
+            ["sinon", "npm:14.0.2"],\
+            ["@sinonjs/commons", "npm:2.0.0"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
+            ["@sinonjs/samsam", "npm:7.0.1"],\
+            ["diff", "npm:5.1.0"],\
+            ["nise", "npm:5.1.3"],\
+            ["supports-color", "npm:7.2.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["sisteransi", [\
@@ -32754,6 +32841,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["tiny-lru", [\
+        ["npm:10.0.1", {\
+          "packageLocation": "./.yarn/cache/tiny-lru-npm-10.0.1-a2c23f17a4-58b5f17a35.zip/node_modules/tiny-lru/",\
+          "packageDependencies": [\
+            ["tiny-lru", "npm:10.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:8.0.2", {\
           "packageLocation": "./.yarn/cache/tiny-lru-npm-8.0.2-b190e31fd1-ec4d884914.zip/node_modules/tiny-lru/",\
           "packageDependencies": [\
@@ -32937,6 +33031,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["tr46", "npm:2.1.0"],\
             ["punycode", "npm:2.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["traverse", [\
+        ["npm:0.6.7", {\
+          "packageLocation": "./.yarn/cache/traverse-npm-0.6.7-542f9ebd45-21018085ab.zip/node_modules/traverse/",\
+          "packageDependencies": [\
+            ["traverse", "npm:0.6.7"]\
           ],\
           "linkType": "HARD"\
         }]\

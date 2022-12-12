@@ -39,7 +39,14 @@ export class ResponseBuilder {
     this.maxResponseBytes = config.MAX_RESPONSE_BYTES
   }
 
-  public buildResponse = (sandboxOutput: unknown): AdapterResponse<Response> => {
+  public buildResponse = (sandboxOutputString: unknown): AdapterResponse<Response> => {
+    let sandboxOutput
+    try {
+      sandboxOutput = JSON.parse(sandboxOutputString as string)
+    } catch {
+      return this.buildGenericUserErrorResponse('Invalid output from source code')
+    }
+
     if (this.isValidSandboxError(sandboxOutput)) {
       return this.buildSandboxUserErrorResponse(sandboxOutput)
     }
@@ -54,14 +61,14 @@ export class ResponseBuilder {
         },
         statusCode: 200,
         timestamps: {
-          providerDataReceived: 0,
-          providerDataRequested: 0,
-          providerIndicatedTime: 0,
+          providerDataReceived: NaN,
+          providerDataRequested: NaN,
+          providerIndicatedTime: NaN,
         },
       }
     }
 
-    return this.buildGenericUserErrorResponse('Invalid output from provided source code')
+    return this.buildGenericUserErrorResponse('Invalid output from source code')
   }
 
   public buildSandboxUserErrorResponse = (
@@ -80,9 +87,9 @@ export class ResponseBuilder {
       },
       statusCode: 200,
       timestamps: {
-        providerDataReceived: 0,
-        providerDataRequested: 0,
-        providerIndicatedTime: 0,
+        providerDataReceived: NaN,
+        providerDataRequested: NaN,
+        providerIndicatedTime: NaN,
       },
     }
   }
@@ -97,9 +104,9 @@ export class ResponseBuilder {
       },
       statusCode: 200,
       timestamps: {
-        providerDataReceived: 0,
-        providerDataRequested: 0,
-        providerIndicatedTime: 0,
+        providerDataReceived: NaN,
+        providerDataRequested: NaN,
+        providerIndicatedTime: NaN,
       },
     }
   }
@@ -111,43 +118,24 @@ export class ResponseBuilder {
 
     const successResponse = unknownResponse as SandboxSuccess
 
-    if (
+    return (
       this.isValidHexString(successResponse.success) &&
       Array.isArray(successResponse.userHttpQueries)
-    ) {
-      return true
-    }
-
-    return false
+    )
   }
 
   private isValidHexString = (result: unknown): result is hexstring => {
-    if (typeof result !== 'string') {
-      return false
-    }
-
     // 0x0 is a represents empty bytes according to the Solidity docs
-    if (result === '0x0') {
-      return true
-    }
-
-    const hexstringRegex = /[0-9A-Fa-f]/g
-
-    if (
-      // Ensures the 0x prefix is present
-      result.slice(0, 2) === '0x' &&
-      // Ensures the length is even
-      result.length % 2 === 0 &&
-      // Ensures only valid hex characters appear after the 0x prefix
-      hexstringRegex.test(result.slice(2))
-    ) {
-      // Ensures response is <= maxResponseBytes
-      if ((result.length - 2) * 2 <= this.maxResponseBytes) {
-        return true
-      }
-    }
-
-    return false
+    const hexStringRegex = /^0x[0-9A-Fa-f]+$/g
+    return (
+      typeof result === 'string' &&
+      // Test for a prefixed hex string
+      hexStringRegex.test(result) &&
+      // 0x0 is a represents empty bytes according to the Solidity docs, otherwise length should be even
+      (result === '0x0' || result.length % 2 === 0) &&
+      // Response should be under the maximum bytes limit
+      (result.length - 2) * 2 <= this.maxResponseBytes
+    )
   }
 
   private isValidSandboxError = (unknownResponse: unknown): unknownResponse is SandboxError => {
@@ -170,7 +158,7 @@ export class ResponseBuilder {
 
   private stringToValidHexString = (input: string): hexstring | '' => {
     if (input.length === 0) {
-      return ''
+      return '0x0'
     }
 
     const buf = Buffer.from(input)
