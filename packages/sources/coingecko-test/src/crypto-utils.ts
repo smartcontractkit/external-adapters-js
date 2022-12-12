@@ -11,19 +11,18 @@ export interface CryptoRequestParams {
   coinid?: string
   base?: string
   quote: string
-  precision: string
 }
 
 export const cryptoInputParams = {
   coinid: {
-    description: 'The CoinGecko id or to query',
+    description: 'The Coingecko id to query',
     type: 'string',
     required: false,
   },
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
-    description: 'The symbol of symbols of the currency to query',
+    description: 'The symbol of the currency to query',
     required: false,
   },
   quote: {
@@ -31,11 +30,6 @@ export const cryptoInputParams = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
     required: true,
-  },
-  precision: {
-    description: 'Data precision setting',
-    default: 'full',
-    required: false,
   },
 } as const
 
@@ -69,7 +63,7 @@ export const buildBatchedRequestBody = (
       ids: [...new Set(params.map((p) => p.coinid ?? p.base))].join(','),
       vs_currencies: [...new Set(params.map((p) => p.quote))].join(','),
       x_cg_pro_api_key: config.API_KEY,
-      precision: params[0].precision,
+      precision: 'full',
     },
   }
 }
