@@ -432,9 +432,6 @@
       "path": "./sources/ncfx/tsconfig.test.json"
     },
     {
-      "path": "./sources/ncfx-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/nikkei/tsconfig.test.json"
     },
     {

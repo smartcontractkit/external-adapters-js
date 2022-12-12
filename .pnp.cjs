@@ -609,10 +609,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ncfx"\
       },\
       {\
-        "name": "@chainlink/ncfx-test-adapter",\
-        "reference": "workspace:packages/sources/ncfx-test"\
-      },\
-      {\
         "name": "@chainlink/nikkei-adapter",\
         "reference": "workspace:packages/sources/nikkei"\
       },\
@@ -936,7 +932,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
       ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
-      ["@chainlink/ncfx-test-adapter", ["workspace:packages/sources/ncfx-test"]],\
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
@@ -5393,7 +5388,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/mock-ea-adapter", "workspace:packages/sources/mock-ea"],\
             ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
@@ -6645,23 +6639,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/ncfx-test-adapter", [\
-        ["workspace:packages/sources/ncfx-test", {\
-          "packageLocation": "./packages/sources/ncfx-test/",\
-          "packageDependencies": [\
-            ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\

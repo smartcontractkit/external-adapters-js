@@ -3016,7 +3016,6 @@ __metadata:
     "@chainlink/mock-ea-adapter": "workspace:*"
     "@chainlink/mycryptoapi-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
-    "@chainlink/ncfx-test-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
@@ -4015,21 +4014,6 @@ __metadata:
 "@chainlink/ncfx-adapter@workspace:*, @chainlink/ncfx-adapter@workspace:packages/sources/ncfx":
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": 27.5.2
-    "@types/node": 16.11.51
-    "@types/supertest": 2.0.12
-    supertest: 6.2.4
-    tslib: ^2.3.1
-    typescript: 4.7.4
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/ncfx-test-adapter@workspace:*, @chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test"
   dependencies:
     "@chainlink/external-adapter-framework": 0.14.5
     "@types/jest": 27.5.2

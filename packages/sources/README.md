@@ -107,7 +107,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [mock-ea](./mock-ea/README.md)
 - [mycryptoapi](./mycryptoapi/README.md)
 - [ncfx](./ncfx/README.md)
-- [ncfx-test](./ncfx-test/README.md)
 - [nikkei](./nikkei/README.md)
 - [nomics](./nomics/README.md)
 - [oilpriceapi](./oilpriceapi/README.md)
