@@ -69,7 +69,7 @@ export const customSettings = {
       if (failedAlgos.length > 0) {
         return `Failed to sign a dummy body using $PRIVATE_KEY with the following algorithms ${failedAlgos.join(
           ',',
-        )}.The PRIVATE_KEY config item must be either a string containing the full private key (including newlines
+        )}. The PRIVATE_KEY config item must be either a string containing the full private key (including newlines
       and the BEGIN/END PRIVATE KEY lines), or a base64 encoded string that can be decoded into the full private key`
       } else {
         logger.debug('$PRIVATE_KEY successfully signed a dummy body with all supported algorithms')
