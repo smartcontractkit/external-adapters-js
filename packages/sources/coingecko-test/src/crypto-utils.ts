@@ -22,7 +22,7 @@ export const cryptoInputParams = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
-    description: 'The symbol of the currency to query',
+    description: 'The symbol of symbols of the currency to query',
     required: false,
   },
   quote: {
