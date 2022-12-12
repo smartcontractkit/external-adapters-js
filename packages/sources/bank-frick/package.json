@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/bank-frick-test-adapter",
-  "version": "1.0.4",
-  "description": "Chainlink bank-frick-test adapter.",
+  "name": "@chainlink/bank-frick-adapter",
+  "version": "0.1.1",
+  "description": "Chainlink bank-frick adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "bank-frick-test"
+    "bank-frick"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

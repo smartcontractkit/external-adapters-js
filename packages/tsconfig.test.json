@@ -156,7 +156,7 @@
       "path": "./sources/bank-frick/tsconfig.test.json"
     },
     {
-      "path": "./sources/bank-frick-test/tsconfig.test.json"
+      "path": "./sources/bank-frick/tsconfig.test.json"
     },
     {
       "path": "./sources/bea/tsconfig.test.json"
