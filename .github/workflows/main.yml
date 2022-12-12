@@ -62,7 +62,7 @@ jobs:
       - run: yarn setup-tests
       - run: yarn format:check
 
-  run-docmentation-check:
+  run-documentation-check:
     name: Documentation generation test
     runs-on: [self-hosted, sdlc-ghr-prod]
     steps:
