@@ -1,5 +1,11 @@
 # @chainlink/defi-dozen-adapter
 
+## 1.2.31
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.7.11
+
 ## 1.2.30
 
 ### Patch Changes

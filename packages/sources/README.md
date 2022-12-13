@@ -82,7 +82,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [fmpcloud](./fmpcloud/README.md)
 - [galaxis](./galaxis/README.md)
 - [galaxy](./galaxy/README.md)
-- [galaxy-test](./galaxy-test/README.md)
 - [gemini](./gemini/README.md)
 - [genesis-volatility](./genesis-volatility/README.md)
 - [geodb](./geodb/README.md)

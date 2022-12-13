@@ -1,5 +1,11 @@
 # @chainlink/galaxy-source-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- f4a2f483b: Update Galaxy adapter to use v3 framework instead of v2
+
 ## 1.2.8
 
 ### Patch Changes
