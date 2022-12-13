@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.54
+
+### Patch Changes
+
+- Updated dependencies [4d02034ae]
+- Updated dependencies [b8f76de53]
+  - @chainlink/coingecko-test-adapter@1.5.0
+  - @chainlink/bank-frick-adapter@1.0.0
+
 ## 1.3.53
 
 ### Patch Changes
