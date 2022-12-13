@@ -16,15 +16,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |               Options                |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [priceRouter](#pricerouter-endpoint) | `price-ws` |
+| Required? |   Name   |     Description     |  Type  |            Options             |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [price-ws](#price-ws-endpoint) | `price-ws` |
 
-## PriceRouter Endpoint
+## Price-ws Endpoint
 
-`priceRouter` is the only supported name for this endpoint.
+`price-ws` is the only supported name for this endpoint.
 
 ### Input Params
 
