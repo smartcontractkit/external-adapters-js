@@ -1,21 +1,18 @@
 # Bank Frick Adapter
 
-![0.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bank-frick/package.json)
-
 Adapter for fetching account information from Bank Frick
 
 Base URL https://olbsandbox.bankfrick.li/webapi/v2
 
-This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
-
 ## Environment Variables
 
-| Required? |     Name     |                                                             Description                                                              |  Type  | Options |                   Default                   |
-| :-------: | :----------: | :----------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------: |
-|           | API_ENDPOINT |                                                   The URL for the Bank Frick API.                                                    | string |         | `https://olbsandbox.bankfrick.li/webapi/v2` |
-|    ✅     |   API_KEY    |                         API key to use. Must be generated in the Bank Frick UI using the PRIVATE_KEY below.                          | string |         |                                             |
-|    ✅     | PRIVATE_KEY  | RSA key used to produce and verify signatures when authorizing the client. Can be a raw multiline string or a base64 encoded string. | string |         |                                             |
-|           |  PAGE_SIZE   |                           The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500.                            | number |         |                    `500`                    |
+| Required? |      Name      |                                                             Description                                                              |  Type   | Options | Default |
+| :-------: | :------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: |
+|    ✅     |    API_KEY     |                         API key to use. Must be generated in the Bank Frick UI using the PRIVATE_KEY below.                          | string  |         |         |
+|    ✅     |    PASSWORD    |                                                 Password for the Bank Frick account.                                                 | string  |         |         |
+|    ✅     |  PRIVATE_KEY   | RSA key used to produce and verify signatures when authorizing the client. Can be a raw multiline string or a base64 encoded string. | string  |         |         |
+|           |   PAGE_SIZE    |                           The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500.                            | number  |         |  `500`  |
+|           | ALLOW_INSECURE |        Allows skipping cert verification, useful when running against the sandbox. Only available when NODE_ENV=development.         | boolean |         |         |
 
 ---
 
@@ -65,9 +62,9 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": "1010000.0999999"
+    "result": 1010000.0999999
   },
-  "result": "1010000.0999999",
+  "result": 1010000.0999999,
   "statusCode": 200
 }
 ```
