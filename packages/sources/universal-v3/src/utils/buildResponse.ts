@@ -1,9 +1,9 @@
 import type { AxiosRequestConfig } from 'axios'
-import type { ResponseGenerics, AdapterResponse } from '@chainlink/external-adapter-framework/util'
+import type { AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import type { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from '..'
 
-export interface Response extends ResponseGenerics {
+export interface Response {
   Data: {
     result: hexstring | ''
     error: hexstring | ''
