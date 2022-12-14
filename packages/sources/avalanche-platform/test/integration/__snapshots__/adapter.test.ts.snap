@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute balance api (stakeAmount) should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
+        "balance": "2000000000",
+      },
+      Object {
+        "address": "NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX",
+        "balance": "1009000000",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
+      "balance": "2000000000",
+    },
+    Object {
+      "address": "NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX",
+      "balance": "1009000000",
+    },
+  ],
+  "statusCode": 200,
+}
+`;
+
+exports[`execute balance api (potentialReward) should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
+        "balance": "2000000000",
+      }
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
+      "balance": "2000000000",
+    }
+  ],
+  "statusCode": 200,
+}
+`;
