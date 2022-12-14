@@ -300,6 +300,9 @@
       "path": "./sources/dxfeed-secondary/tsconfig.test.json"
     },
     {
+      "path": "./sources/dxfeed-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {

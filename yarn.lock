@@ -2752,6 +2752,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/dxfeed-test-adapter@workspace:*, @chainlink/dxfeed-test-adapter@workspace:packages/sources/dxfeed-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dxfeed-test-adapter@workspace:packages/sources/dxfeed-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.14.5
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/dydx-rewards-adapter@workspace:packages/composites/dydx-rewards":
   version: 0.0.0-use.local
   resolution: "@chainlink/dydx-rewards-adapter@workspace:packages/composites/dydx-rewards"
@@ -2986,6 +3002,7 @@ __metadata:
     "@chainlink/dwolla-adapter": "workspace:*"
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/dxfeed-secondary-adapter": "workspace:*"
+    "@chainlink/dxfeed-test-adapter": "workspace:*"
     "@chainlink/elwood-adapter": "workspace:*"
     "@chainlink/ens-adapter": "workspace:*"
     "@chainlink/enzyme-adapter": "workspace:*"
