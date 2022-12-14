@@ -1,13 +1,10 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import { AddressInfo } from 'net'
-import nock from 'nock'
-import request, { SuperTest, Test } from 'supertest'
-import { makeConfig, server as startServer } from '../../src'
+import { SuperTest, Test } from 'supertest'
 import { mockAccountsSuccess, mockAuthorizeSuccess } from './fixtures'
-import {} from '../../src/endpoint'
-import type { TInputParameters as AccountInputParameters } from '../../src/endpoint/accounts'
-import { generateJWT } from '../../src/endpoint/accounts'
-import { generatePrivateKeyString } from '../util'
+import { generateJWT } from '../../src/util'
+import { setupExternalAdapterTest, SuiteContext } from './setup'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { customSettings } from '../../src/config'
+import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 jest.mock('crypto', () => ({
   ...jest.requireActual('crypto'),
@@ -16,65 +13,35 @@ jest.mock('crypto', () => ({
 
 describe('execute', () => {
   const id = '1'
-  let fastify: FastifyInstance
-  let req: SuperTest<Test>
-  let oldEnv: NodeJS.ProcessEnv
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
+  const context: SuiteContext = {
+    req: null,
+    server: async () => {
+      process.env.API_ENDPOINT = 'https://olbsandbox.bankfrick.li/webapi/v2'
+      process.env.API_KEY = 'SOME_API_KEY'
+      process.env.PRIVATE_KEY = 'SOME_PRIVATE_KEY'
+      process.env.NODE_ENV = 'development'
+      const server = (await import('../../src')).server
+      return server() as Promise<ServerInstance>
+    },
+  }
 
-    process.env.API_KEY = 'SOME_API_KEY'
-    process.env.PRIVATE_KEY = generatePrivateKeyString()
-    process.env.CACHE_ENABLED = 'false'
-    process.env.NODE_ENV = 'development'
-
-    if (process.env.RECORD) {
-      nock.recorder.rec()
-    }
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
-  })
-
-  afterAll((done) => {
-    jest.clearAllMocks()
-    process.env = oldEnv
-
-    if (process.env.RECORD) {
-      nock.recorder.play()
-    }
-
-    nock.restore()
-    nock.cleanAll()
-    nock.enableNetConnect()
-    fastify.close(done)
-  })
+  setupExternalAdapterTest(
+    {
+      CACHE_ENABLED: 'false',
+    },
+    context,
+  )
 
   describe('accounts', () => {
     it('successful authorization', async () => {
-      const config = makeConfig()
       mockAuthorizeSuccess()
-      const token = await generateJWT(config)
+      const token = await generateJWT({
+        API_KEY: 'SOME_API_KEY',
+        PRIVATE_KEY: 'SOME_PRIVATE_KEY',
+        API_ENDPOINT: 'https://olbsandbox.bankfrick.li/webapi/v2',
+      } as AdapterConfig<typeof customSettings>)
       expect(token).toEqual('SOME_TOKEN')
-    })
-
-    it('successful request', async () => {
-      const data: AdapterRequest<AccountInputParameters> = {
-        id,
-        data: {
-          ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
-        },
-      }
-      mockAuthorizeSuccess()
-      mockAccountsSuccess()
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
     })
 
     it('account not found', async () => {
@@ -85,7 +52,7 @@ describe('execute', () => {
         },
       }
       mockAccountsSuccess() //We are able to find accounts, BUT, the one we want isn't there
-      const response = await req
+      const response = await (context.req as SuperTest<Test>)
         .post('/')
         .send(data)
         .set('Accept', '*/*')
@@ -95,6 +62,31 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot({
         //We care that the error is there, but don't want to match on content since the stack and message can change between runs
         error: expect.any(Object),
+      })
+    })
+
+    it('successful request', async () => {
+      const data = {
+        id,
+        data: {
+          ibanIDs: ['LI6808811000000012345', 'LI6808811000000045345'],
+        },
+      }
+      mockAuthorizeSuccess()
+      mockAccountsSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot({
+        timestamps: {
+          providerDataReceived: expect.any(Number),
+          providerDataRequested: expect.any(Number),
+        },
       })
     })
   })

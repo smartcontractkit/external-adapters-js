@@ -1,11 +1,13 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute, endpointSelector } from './adapter'
-import * as endpoints from './endpoint'
-import { makeConfig, NAME } from './config'
-import type * as types from './types'
-import * as rateLimit from './config/limits.json'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { accountsRestEndpoint } from './endpoint/accounts'
+import { customSettings } from './config'
+import { expose } from '@chainlink/external-adapter-framework'
 
-const adapterContext = { name: NAME, rateLimit }
+export const adapter = new Adapter({
+  name: 'BANK_FRICK',
+  defaultEndpoint: 'accounts',
+  endpoints: [accountsRestEndpoint],
+  customSettings,
+})
 
-const { server } = expose(adapterContext, makeExecute(), undefined, endpointSelector)
-export { NAME, makeExecute, makeConfig, server, types, endpoints }
+export const server = () => expose(adapter)
