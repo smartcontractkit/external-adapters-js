@@ -8,6 +8,7 @@ import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
 import * as armanino from '@chainlink/armanino-adapter'
+import * as avalanche_platform from '@chainlink/avalanche-platform-adapter'
 import * as bank_frick from '@chainlink/bank-frick-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
@@ -155,6 +156,7 @@ export default {
   anyblock,
   ap_election,
   armanino,
+  avalanche_platform,
   bank_frick,
   bea,
   binance,

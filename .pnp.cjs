@@ -237,6 +237,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/armanino"\
       },\
       {\
+        "name": "@chainlink/avalanche-platform-adapter",\
+        "reference": "workspace:packages/sources/avalanche-platform"\
+      },\
+      {\
         "name": "@chainlink/bank-frick-adapter",\
         "reference": "workspace:packages/sources/bank-frick"\
       },\
@@ -810,6 +814,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
       ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],\
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
+      ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
       ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
       ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
@@ -4160,6 +4165,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/avalanche-platform-adapter", [\
+        ["workspace:packages/sources/avalanche-platform", {\
+          "packageLocation": "./packages/sources/avalanche-platform/",\
+          "packageDependencies": [\
+            ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/bank-frick-adapter", [\
         ["workspace:packages/sources/bank-frick", {\
           "packageLocation": "./packages/sources/bank-frick/",\
@@ -5275,6 +5298,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],\
             ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],\
             ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
+            ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
             ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],\
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
