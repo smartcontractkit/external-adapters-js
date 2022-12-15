@@ -34,47 +34,59 @@ const META_CONNECT = '/meta/connect'
 const SERVICE_SUB = '/service/sub'
 const SERVICE_DATA = '/service/data'
 
-const handshakeMsg = [
-  {
-    id: 1,
-    version: '1.0',
-    minimumVersion: '1.0',
-    channel: META_HANDSHAKE,
-    supportedConnectionTypes: ['websocket', 'long-polling', 'callback-polling'],
-    advice: {
-      timeout: 60000,
-      interval: 0,
-    },
-  },
-]
-
-const firstHeartbeatMsg = [
-  {
-    id: 2,
-    channel: META_CONNECT,
-    connectionType: 'websocket',
-    clientId: '',
-    advice: {
-      timeout: 60000,
-    },
-  },
-]
-
-const heartbeatMsg = [
-  {
-    id: 3,
-    channel: META_CONNECT,
-    clientId: '',
-    connectionType: 'websocket',
-  },
-]
-
 class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
-  connectionClientId = ''
+  private _connectionClientId = ''
+  id = 1
+
+  get connectionClientId() {
+    return this._connectionClientId
+  }
+
+  set connectionClientId(id) {
+    this._connectionClientId = id
+  }
+  get handshakeMsg() {
+    return [
+      {
+        id: this.id,
+        version: '1.0',
+        minimumVersion: '1.0',
+        channel: META_HANDSHAKE,
+        supportedConnectionTypes: ['websocket', 'long-polling', 'callback-polling'],
+        advice: {
+          timeout: 60000,
+          interval: 0,
+        },
+      },
+    ]
+  }
+  get firstHeartbeatMsg() {
+    return [
+      {
+        id: ++this.id,
+        clientId: this.connectionClientId,
+        channel: META_CONNECT,
+        connectionType: 'websocket',
+        advice: {
+          timeout: 60000,
+        },
+      },
+    ]
+  }
+  get heartbeatMsg() {
+    return [
+      {
+        id: ++this.id,
+        clientId: this.connectionClientId,
+        channel: META_CONNECT,
+        connectionType: 'websocket',
+      },
+    ]
+  }
 }
 
 export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTransport({
-  url: (context) => context.adapterConfig.WS_API_ENDPOINT,
+  url: (context) => context.adapterConfig.WS_API_ENDPOINT || '',
   handlers: {
     open(connection) {
       return new Promise((resolve) => {
@@ -82,18 +94,15 @@ export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTranspor
           const message: DXFeedMessage[0] = JSON.parse(data.toString())[0]
           if (message.clientId && message.channel === '/meta/handshake') {
             wsTransport.connectionClientId = message.clientId
-            firstHeartbeatMsg[0].clientId = message.clientId
-            connection.send(JSON.stringify(firstHeartbeatMsg))
+            connection.send(JSON.stringify(wsTransport.firstHeartbeatMsg))
           }
 
           if (message.channel === '/meta/connect') {
-            heartbeatMsg[0].clientId = wsTransport.connectionClientId
-            heartbeatMsg[0].id = parseInt(message.id) + 1
-            connection.send(JSON.stringify(heartbeatMsg))
+            connection.send(JSON.stringify(wsTransport.heartbeatMsg))
             resolve()
           }
         })
-        connection.send(JSON.stringify(handshakeMsg))
+        connection.send(JSON.stringify(wsTransport.handshakeMsg))
       })
     },
     message(message) {
@@ -106,7 +115,6 @@ export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTranspor
       if (Array.isArray(message) && message[0].channel === SERVICE_DATA) {
         const base = message[0].data[1][0]
         const price = message[0].data[1][6]
-        console.log('returned to be saved in cache', base, price)
         return [
           {
             params: { base },

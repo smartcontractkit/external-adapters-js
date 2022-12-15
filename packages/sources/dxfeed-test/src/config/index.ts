@@ -2,18 +2,15 @@ export const customSettings = {
   API_USERNAME: {
     description: 'username for dxfeed API',
     type: 'string',
-    default: '',
   },
   API_PASSWORD: {
     description: 'password for dxfeed API',
     type: 'string',
     sensitive: true,
-    default: '',
   },
   WS_API_ENDPOINT: {
     description: 'The websocket url for dxfeed',
     type: 'string',
-    default: '',
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',

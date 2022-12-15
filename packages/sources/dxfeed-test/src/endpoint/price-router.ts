@@ -4,7 +4,6 @@ import { batchTransport } from './price'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { wsTransport } from './price-ws'
 import { customSettings } from '../config'
-import * as process from 'process'
 
 export const inputParameters = {
   base: {
@@ -79,7 +78,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
     REST: batchTransport,
   },
   (_, adapterConfig) => {
-    if ((adapterConfig && adapterConfig.WS_ENABLED) || process.env['WS_ENABLED'] === 'true') {
+    if (adapterConfig && adapterConfig.WS_ENABLED) {
       return 'WS'
     }
     return 'REST'
@@ -87,7 +86,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
 )
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
-  name: 'price-ws',
+  name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
   transport: routingTransport,
   inputParameters: inputParameters,

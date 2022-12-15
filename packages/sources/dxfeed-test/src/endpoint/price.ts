@@ -20,9 +20,9 @@ export const batchTransport = new BatchWarmingTransport<EndpointTypes>({
       },
     }
     const username = config.API_USERNAME
-    const password = config.API_USERNAME
+    const password = config.API_PASSWORD
 
-    if (username.length > 0 || password.length > 0) {
+    if (username && password) {
       return { ...requestConfig, auth: { username, password } }
     }
     return requestConfig
