@@ -13,8 +13,9 @@ describe('execute', () => {
   }
 
   const envVariables = {
+    METRICS_ENABLED: 'false',
     CACHE_ENABLED: 'false',
-    ETHEREUM_RPC_URL: process.env.ETHEREUM_RPC_URL || 'http://localhost:3500',
+    RPC_URL: process.env.RPC_URL || 'http://localhost:3500',
   }
 
   setupExternalAdapterTest(envVariables, context)

@@ -35,7 +35,7 @@ Object {
     "result": Array [
       Object {
         "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
-        "balance": "2000000000",
+        "balance": "182188941",
       }
     ],
   },
@@ -43,7 +43,7 @@ Object {
   "result": Array [
     Object {
       "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
-      "balance": "2000000000",
+      "balance": "182188941",
     }
   ],
   "statusCode": 200,
