@@ -34,6 +34,9 @@ const META_CONNECT = '/meta/connect'
 const SERVICE_SUB = '/service/sub'
 const SERVICE_DATA = '/service/data'
 
+const tickerIndex = 0
+const priceIndex = 6
+
 class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
   private _connectionClientId = ''
   id = 1
@@ -113,8 +116,8 @@ export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTranspor
       }
 
       if (Array.isArray(message) && message[0].channel === SERVICE_DATA) {
-        const base = message[0].data[1][0]
-        const price = message[0].data[1][6]
+        const base = message[0].data[1][tickerIndex]
+        const price = message[0].data[1][priceIndex]
         return [
           {
             params: { base },
