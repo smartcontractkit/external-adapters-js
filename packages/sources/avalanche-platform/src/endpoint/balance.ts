@@ -115,10 +115,8 @@ const queryPlatformChain = async (
   addresses: Address[],
   field: string,
 ) => {
-  const url = '/ext/bc/P'
   const options: AxiosRequestConfig = {
     ...config.api,
-    url,
     method: 'POST',
     data: {
       jsonrpc: '2.0',
