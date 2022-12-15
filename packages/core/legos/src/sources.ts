@@ -9,7 +9,6 @@ import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
 import * as armanino from '@chainlink/armanino-adapter'
 import * as bank_frick from '@chainlink/bank-frick-adapter'
-import * as bank_frick_test from '@chainlink/bank-frick-test-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
@@ -157,7 +156,6 @@ export default {
   ap_election,
   armanino,
   bank_frick,
-  bank_frick_test,
   bea,
   binance,
   binance_dex,
