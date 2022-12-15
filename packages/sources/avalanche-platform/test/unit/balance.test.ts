@@ -6,7 +6,7 @@ describe('execute', () => {
   const jobID = '1'
   const execute = makeExecute()
 
-  process.env.RPC_URL = process.env.RPC_URL || 'fake_rpc_url'
+  process.env.P_CHAIN_RPC_URL = process.env.P_CHAIN_RPC_URL || 'fake_rpc_url'
 
   describe('validation error', () => {
     const requests = [

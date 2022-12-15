@@ -36,7 +36,7 @@ Object {
       Object {
         "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
         "balance": "182188941",
-      }
+      },
     ],
   },
   "jobRunID": "1",
@@ -44,7 +44,7 @@ Object {
     Object {
       "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
       "balance": "182188941",
-    }
+    },
   ],
   "statusCode": 200,
 }

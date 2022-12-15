@@ -1,9 +1,8 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockBalanceSuccess } from './fixtures'
+import { mockPotentialRewardSuccess, mockStakeAmountSuccess } from './fixtures'
 import { setupExternalAdapterTest, SuiteContext } from '@chainlink/ea-test-helpers'
-import process from 'process'
 
 describe('execute', () => {
   const id = '1'
@@ -15,7 +14,7 @@ describe('execute', () => {
   const envVariables = {
     METRICS_ENABLED: 'false',
     CACHE_ENABLED: 'false',
-    RPC_URL: process.env.RPC_URL || 'http://localhost:3500',
+    P_CHAIN_RPC_URL: 'http://localhost:3500/ext/bc/P',
   }
 
   setupExternalAdapterTest(envVariables, context)
@@ -37,7 +36,7 @@ describe('execute', () => {
         },
       }
 
-      mockBalanceSuccess()
+      mockStakeAmountSuccess()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
@@ -65,7 +64,7 @@ describe('execute', () => {
         },
       }
 
-      mockBalanceSuccess()
+      mockPotentialRewardSuccess()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
