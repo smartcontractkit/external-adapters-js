@@ -41,14 +41,14 @@ export async function getJobMatrix(): Promise<JobMatrix> {
   const shouldBuildAll =
     process.argv[2] === '-a' ||
     process.env['BUILD_ALL'] === 'true' ||
-    adapters.find((p) => p.type === 'core' && !p.location.includes('lego'))
-  // TODO below is commented out to test, revert before merge
-  // || adapters.find(p => (p.type === "core" && !p.location.includes("lego")) || p.type === "scripts")
+    adapters.find(
+      (p) => (p.type === 'core' && !p.location.includes('lego')) || p.type === 'scripts',
+    )
 
   // shouldBuildAll is forcefully set to true if we encounter a core or script change in the diff, so we have to explicitly
   // check if its true after evaluating the diff.
   if (shouldBuildAll) {
-    console.log('Building all adapters')
+    console.log('Full build triggered, returning all adapters')
     adapters = getWorkspacePackages() //Unfiltered list of all adapters{
   }
 

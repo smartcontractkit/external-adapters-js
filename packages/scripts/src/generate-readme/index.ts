@@ -81,9 +81,13 @@ export async function main(): Promise<void | string> {
 
     // If all isn't passed, but some core or script package has changed, build all
     // Legos will always change because it depends on all adapters, so ignore it when considering if we need to build all
-    //TODO scripts temporarily commented out to test, revert before merge
-    // if(!options.all && adapters.find(p => (p.type === "core" && !p.location.includes("legos")) || p.type === "scripts")){
-    if (!options.all && adapters.find((p) => p.type === 'core' && !p.location.includes('legos'))) {
+    if (
+      !options.all &&
+      adapters.find(
+        (p) => (p.type === 'core' && !p.location.includes('legos')) || p.type === 'scripts',
+      )
+    ) {
+      console.log('Changes to core or scripts detected, generating READMEs for all adapters')
       adapters = getWorkspacePackages() //Unfiltered list of all adapters when core or scripts are changed
     }
 
@@ -92,8 +96,8 @@ export async function main(): Promise<void | string> {
       adapters = adapters.filter((p) => {
         return (
           (options.adapters as string[]).includes(p.descopedName) || // p.descopedName example: "coinbase-adapter"
-          (options.adapters as string[]).includes(p.descopedName.replace(/-adapter$/, ''))
-        ) // "coinbase" (without "-adapter")
+          (options.adapters as string[]).includes(p.descopedName.replace(/-adapter$/, '')) // "coinbase" (without "-adapter")
+        )
       })
     }
 

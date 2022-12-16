@@ -66,7 +66,6 @@ export class ReadmeGenerator {
 
   constructor(adapter: WorkspacePackage, verbose = false) {
     this.verbose = verbose
-    console.log(adapter)
     this.adapterPath = adapter.location
 
     if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
