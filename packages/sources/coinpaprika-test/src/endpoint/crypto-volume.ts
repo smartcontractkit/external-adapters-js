@@ -1,17 +1,21 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { buildBatchedRequestBody, constructEntry, EndpointTypes } from '../crypto-utils'
-import { cryptoInputParams } from '@chainlink/external-adapter-framework/examples/coingecko/src/crypto-utils'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  buildBatchedRequestBody,
+  constructEntry,
+  EndpointTypes,
+  inputParameters,
+} from '../crypto-utils'
 
-const batchEndpointTransport = new BatchWarmingTransport<EndpointTypes>({
-  prepareRequest: (params, config) => {
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
     return buildBatchedRequestBody(params, config)
   },
   parseResponse: (params, res) => {
     const entries = [] as ProviderResult<EndpointTypes>[]
     for (const requestPayload of params) {
-      const entry = constructEntry(res, requestPayload, 'volume_24h')
+      const entry = constructEntry(res.data, requestPayload, 'volume_24h')
       if (entry) {
         entries.push(entry)
       }
@@ -22,6 +26,6 @@ const batchEndpointTransport = new BatchWarmingTransport<EndpointTypes>({
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'volume',
-  transport: batchEndpointTransport,
-  inputParameters: cryptoInputParams,
+  transport: httpTransport,
+  inputParameters: inputParameters,
 })

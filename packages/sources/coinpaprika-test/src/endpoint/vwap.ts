@@ -1,6 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
 import { buildUrlPath } from '../crypto-utils'
@@ -60,47 +60,51 @@ type EndpointTypes = {
 
 const formatUtcDate = (date: Date) => date.toISOString().split('T')[0]
 
-const restEndpointTransport = new RestTransport<EndpointTypes>({
-  prepareRequest: (req, config) => {
-    const coin = req.requestContext.data.coinid ?? req.requestContext.data.base
-    const url = buildUrlPath('v1/tickers/:coin/historical', { coin: coin?.toLowerCase() })
+const restEndpointTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      const coin = param.coinid ?? param.base
+      const url = buildUrlPath('v1/tickers/:coin/historical', { coin: coin?.toLowerCase() })
 
-    const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
-    const headers: { Authorization?: string } = {}
-    if (config.API_KEY) {
-      headers['Authorization'] = config.API_KEY
-    }
+      const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
+      const headers: { Authorization?: string } = {}
+      if (config.API_KEY) {
+        headers['Authorization'] = config.API_KEY
+      }
 
-    const endDate = new Date()
-    const subMs = req.requestContext.data.hours * 60 * 60 * 1000
-    const startDate = new Date(endDate.getTime() - subMs)
+      const endDate = new Date()
+      const subMs = param.hours * 60 * 60 * 1000
+      const startDate = new Date(endDate.getTime() - subMs)
 
-    const params = {
-      start: formatUtcDate(startDate),
-      interval: `${req.requestContext.data.hours}h`,
-    }
+      const reqParams = {
+        start: formatUtcDate(startDate),
+        interval: `${param.hours}h`,
+      }
 
-    return {
-      baseURL,
-      url,
-      method: 'GET',
-      params,
-      headers,
-    }
+      return {
+        params: { coinid: param.coinid, base: param.base },
+        request: {
+          baseURL,
+          url,
+          method: 'GET',
+          params: reqParams,
+          headers,
+        },
+      }
+    })
   },
-  parseResponse: (_, res) => {
-    return {
-      data: {
-        result: res.data[0].price,
+  parseResponse: (params, res) => {
+    return [
+      {
+        params: { coinid: params[0].coinid, base: params[0].base },
+        response: {
+          data: {
+            result: res.data[0].price,
+          },
+          result: res.data[0].price,
+        },
       },
-      statusCode: 200,
-      result: res.data[0].price,
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+    ]
   },
 })
 

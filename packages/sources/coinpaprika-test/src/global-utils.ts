@@ -1,8 +1,8 @@
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinPaprika Global Batched')
 
@@ -33,19 +33,11 @@ export interface GlobalResponseBody {
   last_updated: number
 }
 
-interface ResultEntry {
-  value: number
-  params: GlobalRequestParams
-}
-
 export type GlobalEndpointTypes = {
   Request: {
     Params: GlobalRequestParams
   }
-  Response: {
-    Data: number
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: SettingsMap
   Provider: {
     RequestBody: GlobalResponseBody
@@ -53,22 +45,24 @@ export type GlobalEndpointTypes = {
   }
 }
 
-export const buildGlobalRequestBody = (apiKey?: string): HttpRequestConfig<GlobalResponseBody> => {
+export const buildGlobalRequestBody = (params: GlobalRequestParams[], apiKey?: string) => {
   return {
-    baseURL: apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
-    url: '/v1/global',
-    method: 'GET',
-    headers: apiKey ? { Authorization: apiKey } : {},
+    params,
+    request: {
+      baseURL: apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
+      url: '/v1/global',
+      method: 'GET',
+      headers: apiKey ? { Authorization: apiKey } : undefined,
+    },
   }
 }
 
 export const constructEntry = (
-  res: HttpResponse<GlobalResponseBody>,
+  res: GlobalResponseBody,
   requestPayload: GlobalRequestParams,
   resultPath: '_dominance_percentage' | 'market_cap_',
-): ResultEntry | undefined => {
-  const resultData: GlobalResponseBody = res.data
-  if (!resultData) {
+) => {
+  if (!res) {
     logger.warn(`Data not found`)
     return
   }
@@ -82,7 +76,7 @@ export const constructEntry = (
       ? `${marketMap[requestPayload.market.toUpperCase()]}${resultPath}`
       : `market_cap_${requestPayload.market.toLowerCase()}`
 
-  const result = resultData[propertyPath as keyof GlobalResponseBody] as number
+  const result = Number(res[propertyPath as keyof GlobalResponseBody])
 
   if (!result) {
     logger.warn(`Data for "${requestPayload.market}" not found`)
@@ -91,6 +85,11 @@ export const constructEntry = (
 
   return {
     params: requestPayload,
-    value: result,
+    response: {
+      data: {
+        result,
+      },
+      result,
+    },
   }
 }

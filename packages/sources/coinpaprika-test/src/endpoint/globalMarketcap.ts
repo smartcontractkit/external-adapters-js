@@ -1,6 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   buildGlobalRequestBody,
   constructEntry,
@@ -8,14 +8,14 @@ import {
   inputParameters,
 } from '../global-utils'
 
-const batchEndpointTransport = new BatchWarmingTransport<GlobalEndpointTypes>({
-  prepareRequest: (_, config) => {
-    return buildGlobalRequestBody(config.API_KEY)
+const httpTransport = new HttpTransport<GlobalEndpointTypes>({
+  prepareRequests: (params, config) => {
+    return buildGlobalRequestBody(params, config.API_KEY)
   },
   parseResponse: (params, res) => {
     const entries = [] as ProviderResult<GlobalEndpointTypes>[]
     for (const requestPayload of params) {
-      const entry = constructEntry(res, requestPayload, 'market_cap_')
+      const entry = constructEntry(res.data, requestPayload, 'market_cap_')
       if (entry) {
         entries.push(entry)
       }
@@ -26,6 +26,6 @@ const batchEndpointTransport = new BatchWarmingTransport<GlobalEndpointTypes>({
 
 export const endpoint = new AdapterEndpoint({
   name: 'globalmarketcap',
-  transport: batchEndpointTransport,
+  transport: httpTransport,
   inputParameters,
 })

@@ -1,7 +1,7 @@
 import { AdapterConfig, SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinPaprika Crypto Batched')
 
@@ -74,10 +74,7 @@ export type EndpointTypes = {
   Request: {
     Params: CryptoRequestParams
   }
-  Response: {
-    Data: number
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: SettingsMap
   Provider: {
     RequestBody: CryptoRequestBody
@@ -99,15 +96,6 @@ export type EndpointTypesSingle = {
   Provider: {
     RequestBody: CryptoRequestBody
     ResponseBody: CryptoResponseSchema
-  }
-}
-
-interface ResultEntry {
-  value: number
-  params: {
-    quote: string
-    base?: string
-    coinid?: string
   }
 }
 
@@ -173,32 +161,32 @@ export const buildUrlPath = (pathTemplate = '', params = {}, whitelist = ''): st
   return pathTemplate
 }
 
-export const buildBatchedRequestBody = (
-  params: CryptoRequestParams[],
-  config: AdapterConfig,
-): HttpRequestConfig<CryptoRequestBody> => {
+export const buildBatchedRequestBody = (params: CryptoRequestParams[], config: AdapterConfig) => {
   const headers: { Authorization?: string } = {}
   if (config.API_KEY) {
     headers['Authorization'] = config.API_KEY
   }
   return {
-    baseURL: config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
-    url: 'v1/tickers',
-    method: 'GET',
-    headers,
-    params: {
-      quotes: [...new Set(params.map((p) => p.quote.toUpperCase()))].join(','),
+    params,
+    request: {
+      baseURL: config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
+      url: 'v1/tickers',
+      method: 'GET',
+      headers,
+      params: {
+        quotes: [...new Set(params.map((p) => p.quote.toUpperCase()))].join(','),
+      },
     },
   }
 }
 
 export const constructEntry = (
-  res: HttpResponse<CryptoResponseSchema[]>,
+  res: CryptoResponseSchema[],
   requestPayload: CryptoRequestParams,
   resultPath: 'price' | 'market_cap' | 'volume_24h',
-): ResultEntry | undefined => {
+) => {
   const coinId = requestPayload.coinid ?? (requestPayload.base as string)
-  const dataForCoin = res.data.find((s) => s.id === coinId)
+  const dataForCoin = res.find((s) => s.id === coinId)
   const dataForQuote = dataForCoin
     ? dataForCoin.quotes[requestPayload.quote][resultPath]
     : undefined
@@ -208,8 +196,13 @@ export const constructEntry = (
   }
   const entry = {
     params: requestPayload,
-    value: dataForQuote,
-  } as ResultEntry
+    response: {
+      data: {
+        result: dataForQuote,
+      },
+      result: dataForQuote,
+    },
+  }
   if (requestPayload.coinid) {
     entry.params.coinid = requestPayload.coinid
   } else {

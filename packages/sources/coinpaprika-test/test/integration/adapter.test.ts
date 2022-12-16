@@ -4,6 +4,16 @@ import { setupExternalAdapterTest, SuiteContext } from './setup'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 describe('execute', () => {
+  let spy: jest.SpyInstance
+  beforeAll(async () => {
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    done()
+  })
   const id = '1'
 
   const context: SuiteContext = {

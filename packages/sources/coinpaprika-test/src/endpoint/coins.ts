@@ -1,9 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
 import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 export const inputParameters: InputParameters = {}
 
@@ -29,36 +29,39 @@ type EndpointTypes = {
   }
 }
 
-const restEndpointTransport = new RestTransport<EndpointTypes>({
-  prepareRequest: (_, config) => {
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
     const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
     const headers: { Authorization?: string } = {}
     if (config.API_KEY) {
       headers['Authorization'] = config.API_KEY
     }
     return {
-      baseURL,
-      url: '/v1/coins',
-      method: 'GET',
-      headers,
+      params,
+      request: {
+        baseURL,
+        url: '/v1/coins',
+        method: 'GET',
+        headers,
+      },
     }
   },
-  parseResponse: (_, res) => {
-    return {
-      data: res.data,
-      statusCode: 200,
-      result: null,
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+  parseResponse: (params, res) => {
+    return [
+      {
+        params,
+        response: {
+          data: res.data,
+          statusCode: 200,
+          result: null,
+        },
+      },
+    ]
   },
 })
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'coins',
-  transport: restEndpointTransport,
+  transport: httpTransport,
   inputParameters,
 })
