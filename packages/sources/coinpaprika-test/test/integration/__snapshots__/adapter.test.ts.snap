@@ -69,3 +69,17 @@ Object {
   },
 }
 `;
+
+exports[`execute vwap endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4000,
+  },
+  "result": 4000,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
+}
+`;

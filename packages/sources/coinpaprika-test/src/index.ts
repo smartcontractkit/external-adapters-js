@@ -8,6 +8,7 @@ import {
   dominance,
   globalmarketcap,
   coins,
+  vwap,
 } from './endpoint'
 
 export const adapter = new Adapter({
@@ -37,7 +38,7 @@ export const adapter = new Adapter({
       },
     },
   },
-  endpoints: [crypto, crypto_market_cap, crypto_volume, dominance, globalmarketcap, coins],
+  endpoints: [crypto, crypto_market_cap, crypto_volume, dominance, globalmarketcap, coins, vwap],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

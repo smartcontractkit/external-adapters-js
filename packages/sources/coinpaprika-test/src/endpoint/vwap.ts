@@ -82,7 +82,7 @@ const restEndpointTransport = new HttpTransport<EndpointTypes>({
       }
 
       return {
-        params: { coinid: param.coinid, base: param.base },
+        params: [{ coinid: param.coinid, base: param.base, hours: param.hours }],
         request: {
           baseURL,
           url,
@@ -96,7 +96,7 @@ const restEndpointTransport = new HttpTransport<EndpointTypes>({
   parseResponse: (params, res) => {
     return [
       {
-        params: { coinid: params[0].coinid, base: params[0].base },
+        params: { coinid: params[0].coinid, base: params[0].base, hours: params[0].hours },
         response: {
           data: {
             result: res.data[0].price,
