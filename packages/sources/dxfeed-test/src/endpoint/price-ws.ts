@@ -48,6 +48,7 @@ class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
   set connectionClientId(id) {
     this._connectionClientId = id
   }
+
   get handshakeMsg() {
     return [
       {
@@ -63,6 +64,7 @@ class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
       },
     ]
   }
+
   get firstHeartbeatMsg() {
     return [
       {
@@ -76,6 +78,7 @@ class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
       },
     ]
   }
+
   get heartbeatMsg() {
     return [
       {
@@ -90,6 +93,7 @@ class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
 
 export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTransport({
   url: (context) => context.adapterConfig.WS_API_ENDPOINT || '',
+
   handlers: {
     open(connection) {
       return new Promise((resolve) => {
@@ -109,31 +113,32 @@ export const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTranspor
       })
     },
     message(message) {
-      //If dxfeed errors there is no information about failed feeds/params in the message, returning empty array
+      // If dxfeed errors there is no information about failed feeds/params in the message, returning empty array. We need strict comparison because dxfeed sends info messages also that don't contain `successful` property.
       if (message[0].successful === false) {
         logger.warn('Dxfeed returned unsuccessful message')
         return []
       }
 
-      if (Array.isArray(message) && message[0].channel === SERVICE_DATA) {
-        const base = message[0].data[1][tickerIndex]
-        const price = message[0].data[1][priceIndex]
-        return [
-          {
-            params: { base },
-            response: {
-              result: price,
-              data: {
-                result: price,
-              },
-            },
-          },
-        ]
-      } else {
+      if (!Array.isArray(message) || message[0].channel !== SERVICE_DATA) {
         return []
       }
+
+      const base = message[0].data[1][tickerIndex]
+      const price = message[0].data[1][priceIndex]
+      return [
+        {
+          params: { base },
+          response: {
+            result: price,
+            data: {
+              result: price,
+            },
+          },
+        },
+      ]
     },
   },
+
   builders: {
     subscribeMessage: (params) => {
       return [

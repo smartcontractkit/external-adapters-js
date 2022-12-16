@@ -9,7 +9,7 @@ export const inputParameters = {
   base: {
     aliases: ['from', 'coin', 'market'],
     type: 'string',
-    description: 'The symbol of symbols of the currency to query',
+    description: 'The symbol of the currency to query',
     required: true,
   },
 } as const
@@ -78,7 +78,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
     REST: batchTransport,
   },
   (_, adapterConfig) => {
-    if (adapterConfig && adapterConfig.WS_ENABLED) {
+    if (adapterConfig?.WS_ENABLED) {
       return 'WS'
     }
     return 'REST'

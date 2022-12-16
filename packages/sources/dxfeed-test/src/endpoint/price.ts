@@ -1,15 +1,12 @@
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { EndpointTypes } from './price-router'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import quoteEventSymbols from '../config/quoteSymbols.json'
 
 const logger = makeLogger('DxFeed Price Batched')
 
-const quoteEventSymbols: { [key: string]: boolean } = {
-  'USO/USD:AFX': true,
-}
-
-export const batchTransport = new BatchWarmingTransport<EndpointTypes>({
-  prepareRequest: (params, config) => {
+export const batchTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
     const requestConfig = {
       baseURL: config.API_ENDPOINT,
       url: '/events.json',
@@ -23,9 +20,15 @@ export const batchTransport = new BatchWarmingTransport<EndpointTypes>({
     const password = config.API_PASSWORD
 
     if (username && password) {
-      return { ...requestConfig, auth: { username, password } }
+      return {
+        params,
+        request: { ...requestConfig, auth: { username, password } },
+      }
     }
-    return requestConfig
+    return {
+      params,
+      request: requestConfig,
+    }
   },
   parseResponse: (params, res) => {
     return params.map((requestPayload) => {
@@ -33,7 +36,9 @@ export const batchTransport = new BatchWarmingTransport<EndpointTypes>({
         params: requestPayload,
       }
       let result: number
-      const events = quoteEventSymbols[requestPayload.base] ? 'Quote' : 'Trade'
+      const events = quoteEventSymbols[requestPayload.base as keyof typeof quoteEventSymbols]
+        ? 'Quote'
+        : 'Trade'
       try {
         if (events === 'Quote') {
           result = res.data[events][requestPayload.base].bidPrice
