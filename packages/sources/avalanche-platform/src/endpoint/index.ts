@@ -1,5 +1,5 @@
-import type { TInputParameters as ExampleInputParameters } from './balance'
+import type { TInputParameters as BalanceInputParameters } from './balance'
 
-export type TInputParameters = ExampleInputParameters
+export type TInputParameters = BalanceInputParameters
 
 export * as balance from './balance'
