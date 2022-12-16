@@ -1,7 +1,7 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { SuperTest, Test } from 'supertest'
 import { server as startServer } from '../../src'
-import { mockPotentialRewardSuccess, mockStakeAmountSuccess } from './fixtures'
+import { mockBalanceSuccess } from './fixtures'
 import { setupExternalAdapterTest, SuiteContext } from '@chainlink/ea-test-helpers'
 
 describe('execute', () => {
@@ -36,7 +36,7 @@ describe('execute', () => {
         },
       }
 
-      mockStakeAmountSuccess()
+      mockBalanceSuccess()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
@@ -64,7 +64,7 @@ describe('execute', () => {
         },
       }
 
-      mockPotentialRewardSuccess()
+      mockBalanceSuccess()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
