@@ -1,36 +1,42 @@
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { buildCryptoRequestBody, CryptoEndpointTypes, inputParameters } from '../crypto-utils'
+import {
+  buildCryptoRequestBody,
+  CryptoEndpointTypes,
+  inputParameters,
+  RequestParams,
+} from '../crypto-utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
-const restEndpointTransport = new RestTransport<CryptoEndpointTypes>({
-  prepareRequest: (req, config) => {
-    return buildCryptoRequestBody(config.API_ENDPOINT, config.API_KEY, req.requestContext.data)
+const httpTransport = new HttpTransport<CryptoEndpointTypes>({
+  prepareRequests: (params, config) => {
+    return buildCryptoRequestBody(config.API_ENDPOINT, config.API_KEY, params)
   },
-  parseResponse: (_, res) => {
+  parseResponse: (params, res) => {
     if (!res.data.length) {
       throw new AdapterError({
         message:
           'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.',
       })
     }
-    return {
-      data: {
-        result: Number(res.data[0]['1d'].volume),
-      },
-      statusCode: 200,
-      result: Number(res.data[0]['1d'].volume),
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+
+    return res.data.map((response) => {
+      const requestParam = params.find((param) => param.base === response.symbol) as RequestParams
+      return {
+        params: { base: response.symbol, quote: requestParam.quote },
+        response: {
+          data: {
+            result: Number(response['1d'].volume),
+          },
+          result: Number(response['1d'].volume),
+        },
+      }
+    })
   },
 })
 
 export const endpoint = new AdapterEndpoint<CryptoEndpointTypes>({
   name: 'volume',
-  transport: restEndpointTransport,
+  transport: httpTransport,
   inputParameters,
 })

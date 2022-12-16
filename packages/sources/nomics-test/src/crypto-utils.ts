@@ -1,9 +1,9 @@
 import { customSettings } from './config'
-import { HttpRequestConfig } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters = {
   base: {
-    aliases: ['from', 'coin', 'ids'],
+    aliases: ['from', 'coin'],
     required: true,
     type: 'string',
     description: 'The symbol of symbols of the currency to query',
@@ -101,12 +101,7 @@ export type CryptoEndpointTypes = {
   Request: {
     Params: RequestParams
   }
-  Response: {
-    Data: {
-      result: number
-    }
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
     RequestBody: ProviderResponseBody
@@ -114,20 +109,45 @@ export type CryptoEndpointTypes = {
   }
 }
 
+const getMappedQuotes = (requestParams: RequestParams[]) => {
+  const quoteGroupMap: Record<string, { ids: string[]; convert: string }> = {}
+  requestParams.forEach((param) => {
+    const base = param.base.toUpperCase()
+    const quote = param.quote.toUpperCase()
+
+    if (!quoteGroupMap[quote]) {
+      quoteGroupMap[quote] = {
+        convert: quote,
+        ids: [],
+      }
+    }
+
+    if (!quoteGroupMap[quote].ids) {
+      quoteGroupMap[quote].ids = [base]
+    } else {
+      quoteGroupMap[quote].ids.push(base)
+    }
+  })
+
+  return quoteGroupMap
+}
+
 export const buildCryptoRequestBody = (
   baseUrl = '',
   apiKey: string,
-  data: RequestParams,
-): HttpRequestConfig<ProviderResponseBody> => {
-  const baseURL = baseUrl
-  const params = {
-    ids: data.base.toUpperCase(),
-    convert: data.quote.toUpperCase(),
-    key: apiKey,
-  }
-  return {
-    baseURL,
-    url: '/currencies/ticker',
-    params,
-  }
+  requestParams: RequestParams[],
+) => {
+  // Nomics supports batching only for base params (ids) so we are grouping requestParams by quotes meaning we will send N number of requests to DP where the N is number of unique quotes
+  const groupedQuotes = getMappedQuotes(requestParams)
+
+  return Object.values(groupedQuotes).map((record) => {
+    return {
+      params: requestParams.filter((param) => param.quote === record.convert),
+      request: {
+        baseURL: baseUrl,
+        url: '/currencies/ticker',
+        params: { ...record, key: apiKey, ids: record.ids.join('') },
+      },
+    }
+  })
 }

@@ -4,4 +4,10 @@ export const customSettings = {
     type: 'string',
     required: true,
   },
+  API_ENDPOINT: {
+    description: 'An API endpoint for nomics',
+    type: 'string',
+    default: 'https://api.nomics.com/v1',
+    required: false,
+  },
 } as const

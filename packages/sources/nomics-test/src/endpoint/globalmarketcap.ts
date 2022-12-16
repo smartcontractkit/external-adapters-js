@@ -1,8 +1,8 @@
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings } from '../config'
-import { EmptyObject } from '@chainlink/external-adapter-framework/util'
+import { EmptyObject, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters: InputParameters = {}
 
@@ -56,12 +56,7 @@ export type EndpointTypes = {
   Request: {
     Params: EmptyObject
   }
-  Response: {
-    Data: {
-      result: number
-    }
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
     RequestBody: { key: string }
@@ -69,37 +64,38 @@ export type EndpointTypes = {
   }
 }
 
-const restEndpointTransport = new RestTransport<EndpointTypes>({
-  prepareRequest: (_, config) => {
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
     const baseURL = config.API_ENDPOINT
-    const params = {
+    const requestParams = {
       key: config.API_KEY,
     }
-
     return {
-      baseURL,
-      url: '/global-ticker',
       params,
-    }
-  },
-  parseResponse: (_, res) => {
-    return {
-      data: {
-        result: Number(res.data.market_cap),
+      request: {
+        baseURL,
+        url: '/global-ticker',
+        params: requestParams,
       },
-      statusCode: 200,
-      result: Number(res.data.market_cap),
     }
   },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+  parseResponse: (params, res) => {
+    return [
+      {
+        params,
+        response: {
+          data: {
+            result: Number(res.data.market_cap),
+          },
+          result: Number(res.data.market_cap),
+        },
+      },
+    ]
   },
 })
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'globalmarketcap',
-  transport: restEndpointTransport,
+  transport: httpTransport,
   inputParameters,
 })

@@ -7,6 +7,10 @@ Object {
   },
   "result": 53835.22386957,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;
 
@@ -17,6 +21,10 @@ Object {
   },
   "result": 77.77,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;
 
@@ -27,6 +35,10 @@ Object {
   },
   "result": 2810702841731,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;
 
@@ -37,15 +49,9 @@ Object {
   },
   "result": 1014798653606,
   "statusCode": 200,
-}
-`;
-
-exports[`execute volume endpoint should return success 1`] = `
-Object {
-  "data": Object {
-    "result": 59672098927.86,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
   },
-  "result": 59672098927.86,
-  "statusCode": 200,
 }
 `;

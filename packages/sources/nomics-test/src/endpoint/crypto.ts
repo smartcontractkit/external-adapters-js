@@ -1,13 +1,18 @@
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { buildCryptoRequestBody, CryptoEndpointTypes, inputParameters } from '../crypto-utils'
+import {
+  buildCryptoRequestBody,
+  CryptoEndpointTypes,
+  inputParameters,
+  RequestParams,
+} from '../crypto-utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
-const restEndpointTransport = new RestTransport<CryptoEndpointTypes>({
-  prepareRequest: (req, config) => {
-    return buildCryptoRequestBody(config.API_ENDPOINT, config.API_KEY, req.requestContext.data)
+const httpTransport = new HttpTransport<CryptoEndpointTypes>({
+  prepareRequests: (params, config) => {
+    return buildCryptoRequestBody(config.API_ENDPOINT, config.API_KEY, params)
   },
-  parseResponse: (_, res) => {
+  parseResponse: (params, res) => {
     if (!res.data.length) {
       throw new AdapterError({
         message:
@@ -15,24 +20,24 @@ const restEndpointTransport = new RestTransport<CryptoEndpointTypes>({
       })
     }
 
-    return {
-      data: {
-        result: Number(res.data[0].price),
-      },
-      statusCode: 200,
-      result: Number(res.data[0].price),
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+    return res.data.map((response) => {
+      const requestParam = params.find((param) => param.base === response.symbol) as RequestParams
+      return {
+        params: { base: response.symbol, quote: requestParam.quote },
+        response: {
+          data: {
+            result: Number(response.price),
+          },
+          result: Number(response.price),
+        },
+      }
+    })
   },
 })
 
 export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
   name: 'crypto',
   aliases: ['price'],
-  transport: restEndpointTransport,
+  transport: httpTransport,
   inputParameters,
 })

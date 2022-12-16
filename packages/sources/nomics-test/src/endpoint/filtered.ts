@@ -1,8 +1,9 @@
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings } from '../config'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -24,7 +25,7 @@ interface ResponseSchema {
 
 interface RequestParams {
   base: string
-  exchange: string
+  exchanges: string
 }
 
 interface ProviderRequestBody {
@@ -37,12 +38,7 @@ export type FilteredEndpointTypes = {
   Request: {
     Params: RequestParams
   }
-  Response: {
-    Data: {
-      result: number
-    }
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
     RequestBody: ProviderRequestBody
@@ -50,45 +46,49 @@ export type FilteredEndpointTypes = {
   }
 }
 
-const restEndpointTransport = new RestTransport<FilteredEndpointTypes>({
-  prepareRequest: (p, config) => {
+const httpTransport = new HttpTransport<FilteredEndpointTypes>({
+  prepareRequests: (params, config) => {
     const baseURL = config.API_ENDPOINT
-    const params = {
-      currency: p.requestContext.data.base,
-      key: config.API_KEY,
-      exchanges: p.requestContext.data.exchanges,
-    }
+    return params.map((param) => {
+      const requestParams = {
+        currency: param.base,
+        key: config.API_KEY,
+        exchanges: param.exchanges,
+      }
 
-    return {
-      baseURL,
-      url: '/prices/restricted',
-      params,
-    }
+      return {
+        params: [{ base: param.base, exchanges: param.exchanges }],
+        request: {
+          baseURL,
+          url: '/prices/restricted',
+          params: requestParams,
+        },
+      }
+    })
   },
-  parseResponse: (_, res) => {
+  parseResponse: (params, res) => {
     if (!res.data || !Object.keys(res.data).length) {
       throw new AdapterError({
         message:
           'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.',
       })
     }
-    return {
-      data: {
-        result: res.data.price,
+    return [
+      {
+        params: { exchanges: params[0].exchanges, base: params[0].base },
+        response: {
+          data: {
+            result: res.data.price,
+          },
+          result: res.data.price,
+        },
       },
-      statusCode: 200,
-      result: res.data.price,
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+    ]
   },
 })
 
 export const endpoint = new AdapterEndpoint<FilteredEndpointTypes>({
   name: 'filtered',
-  transport: restEndpointTransport,
+  transport: httpTransport,
   inputParameters,
 })
