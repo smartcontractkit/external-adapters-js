@@ -1,19 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute trades endpoint should return failure 1`] = `
-Object {
-  "error": Object {
-    "errorResponse": "Invalid base or quote",
-    "message": "Request failed with status code 400",
-    "name": "AdapterError",
-    "url": "/spot_exchange_rate/xxx/usd",
-  },
-  "providerStatusCode": 400,
-  "status": "errored",
-  "statusCode": 200,
-}
-`;
-
 exports[`execute trades endpoint should return success 1`] = `
 Object {
   "data": Object {
@@ -21,5 +7,9 @@ Object {
   },
   "result": 4097.271668358277,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;

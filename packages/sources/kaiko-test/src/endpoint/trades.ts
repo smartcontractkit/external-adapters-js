@@ -1,8 +1,7 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
-import { DEFAULT_INTERVAL, DEFAULT_MILLISECONDS, DEFAULT_SORT } from '../config'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { customSettings } from '../config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 const inputParameters = {
   base: {
@@ -39,9 +38,9 @@ const inputParameters = {
 export interface RequestParams {
   base: string
   quote: string
-  interval?: string
-  millisecondsAgo?: number
-  sort?: string
+  interval: string
+  millisecondsAgo: number
+  sort: string
 }
 
 export interface ResponseSchema {
@@ -76,12 +75,7 @@ type EndpointTypes = {
   Request: {
     Params: RequestParams
   }
-  Response: {
-    Data: {
-      result: number
-    }
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
     RequestBody: never
@@ -95,57 +89,58 @@ const calculateStartTime = (millisecondsAgo: number) => {
   return date
 }
 
-const restEndpointTransport = new RestTransport<EndpointTypes>({
-  prepareRequest: (req, config) => {
-    const data = req.requestContext.data
-    const base = data.base.toLowerCase()
-    const quote = data.quote.toLowerCase()
-    const url = `/spot_exchange_rate/${base}/${quote}`
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      const base = param.base.toLowerCase()
+      const quote = param.quote.toLowerCase()
+      const url = `/spot_exchange_rate/${base}/${quote}`
 
-    const interval = data.interval || DEFAULT_INTERVAL
-    const start_time = calculateStartTime(data.millisecondsAgo || DEFAULT_MILLISECONDS)
-    const sort = data.sort || DEFAULT_SORT
+      const interval = param.interval
+      const start_time = calculateStartTime(param.millisecondsAgo)
+      const sort = param.sort
 
-    const params = { interval, sort, start_time }
-    return {
-      baseURL: config.API_ENDPOINT,
-      url,
-      params,
-      headers: { 'X-Api-Key': config.API_KEY },
-    }
+      const requestParams = { interval, sort, start_time }
+      return {
+        params: [{ ...param }],
+        request: {
+          baseURL: config.API_ENDPOINT,
+          url,
+          params: requestParams,
+          headers: { 'X-Api-Key': config.API_KEY },
+        },
+      }
+    })
   },
-  parseResponse: (req, res) => {
-    const inverse = (
-      req.requestContext as unknown as { data: RequestParams; priceMeta: { inverse: boolean } }
-    ).priceMeta.inverse
-    const data = res.data.data.filter((x) => x.price !== null)
-    if (data.length == 0) {
-      throw new AdapterError({
-        message:
-          'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.',
-      })
-    }
-    let price = Number(res.data.data[0].price)
-    if (inverse && price != 0) {
-      price = 1 / price
-    }
-    return {
-      data: {
-        result: price,
-      },
-      statusCode: 200,
-      result: price,
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      const data = res.data.data.filter((x) => x.price !== null)
+      if (data.length === 0) {
+        return {
+          params: param,
+          response: {
+            statusCode: 400,
+            errorMessage:
+              'Kaiko is not returning any price data for this price pair, likely due to too low trading volume for the requested interval. This is not an issue with the external adapter.',
+          },
+        }
+      }
+      const price = Number(res.data.data[0].price)
+      return {
+        params: param,
+        response: {
+          data: {
+            result: price,
+          },
+          result: price,
+        },
+      }
+    })
   },
 })
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'trades',
-  transport: restEndpointTransport,
+  transport: httpTransport,
   inputParameters,
 })

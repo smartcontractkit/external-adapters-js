@@ -1,6 +1,6 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { customSettings, DEFAULT_API_ENDPOINT } from './config'
+import { customSettings } from './config'
 import { trades } from './endpoint'
 import includes from './config/includes.json'
 import overrides from './config/overrides.json'
@@ -20,7 +20,6 @@ export const adapter = new PriceAdapter({
   },
   envDefaultOverrides: {
     API_TIMEOUT: 10000,
-    API_ENDPOINT: DEFAULT_API_ENDPOINT,
   },
   includes,
   overrides: overrides['kaiko'],
