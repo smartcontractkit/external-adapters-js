@@ -321,6 +321,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinapi"\
       },\
       {\
+        "name": "@chainlink/coinapi-test-adapter",\
+        "reference": "workspace:packages/sources/coinapi-test"\
+      },\
+      {\
         "name": "@chainlink/coinbase-adapter",\
         "reference": "workspace:packages/sources/coinbase"\
       },\
@@ -834,6 +838,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
+      ["@chainlink/coinapi-test-adapter", ["workspace:packages/sources/coinapi-test"]],\
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
       ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],\
       ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],\
@@ -4600,6 +4605,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/coinapi-test-adapter", [\
+        ["workspace:packages/sources/coinapi-test", {\
+          "packageLocation": "./packages/sources/coinapi-test/",\
+          "packageDependencies": [\
+            ["@chainlink/coinapi-test-adapter", "workspace:packages/sources/coinapi-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.15.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/coinbase-adapter", [\
         ["workspace:packages/sources/coinbase", {\
           "packageLocation": "./packages/sources/coinbase/",\
@@ -5296,6 +5319,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
+            ["@chainlink/coinapi-test-adapter", "workspace:packages/sources/coinapi-test"],\
             ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],\
             ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
@@ -5835,6 +5859,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.14.5-71a7e5a10e-6df9f8c983.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
             ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.9.2"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.15.1", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.15.1-9e21403fe5-245b066cf4.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.15.1"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
