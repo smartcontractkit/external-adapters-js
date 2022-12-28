@@ -1,3 +1,41 @@
-Tests that run the adapter and send an end to end request using mocked API endpoints.
+# Intrinio
 
-See `packages/source/curve/test/integration` and `packages/composite/synth-index/test/integration` for reference. The integration tests are used for the example input/outputs during README generation.
+This adapter uses the Intrinio WS stream
+
+### Environment variables
+
+| Required? |   Name    |     Description     | Options | Defaults to |
+| :-------: | :-------: | :-----------------: | :-----: | :---------: |
+|    ✅     | `API_KEY` | Your API client key |         |             |
+
+**NOTE: `iex` is the default (and only) websocket subscription**
+
+### Input Params
+
+| Required? |            Name            |           Description            |     Options      | Defaults to |
+| :-------: | :------------------------: | :------------------------------: | :--------------: | :---------: |
+|    ✅     | `base`, `from`, or `asset` | The symbol of the asset to query | one of `SYMBOLS` |             |
+
+### Sample Input
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "FTSE"
+  }
+}
+```
+
+### Sample Output
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 6663.73
+  },
+  "result": 6663.73,
+  "statusCode": 200
+}
+```
