@@ -4,6 +4,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.nomics.com/v1', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/currencies/ticker')
     .query({ ids: 'BTC', convert: 'EUR', key: 'fake-api-key' })
     .reply(
@@ -97,6 +98,7 @@ export const mockGlobalMarketResponseSuccess = (): nock.Scope =>
   nock('https://api.nomics.com/v1', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/global-ticker')
     .query({ key: 'fake-api-key' })
     .reply(
@@ -406,6 +408,7 @@ export const mockFilteredResponseSuccess = (): nock.Scope =>
   nock('https://api.nomics.com/v1', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/prices/restricted')
     .query({ currency: 'LINK', key: 'fake-api-key', exchanges: 'binance,coinbase' })
     .reply(

@@ -2,7 +2,6 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings } from '../config'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters: InputParameters = {
@@ -68,9 +67,15 @@ const httpTransport = new HttpTransport<FilteredEndpointTypes>({
   },
   parseResponse: (params, res) => {
     if (!res.data || !Object.keys(res.data).length) {
-      throw new AdapterError({
-        message:
-          'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.',
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            statusCode: 400,
+            errorMessage:
+              'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+          },
+        }
       })
     }
     return [

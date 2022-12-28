@@ -1,6 +1,6 @@
 {
  "requests": [{
-  "from": "LINK",
-  "to": "USD"
+  "from": "BTC",
+  "to": "EUR"
  }]
 }

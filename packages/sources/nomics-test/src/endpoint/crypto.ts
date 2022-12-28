@@ -6,7 +6,6 @@ import {
   inputParameters,
   RequestParams,
 } from '../crypto-utils'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -14,9 +13,15 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   },
   parseResponse: (params, res) => {
     if (!res.data.length) {
-      throw new AdapterError({
-        message:
-          'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.',
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            statusCode: 400,
+            errorMessage:
+              'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+          },
+        }
       })
     }
 

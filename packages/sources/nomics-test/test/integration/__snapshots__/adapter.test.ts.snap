@@ -55,3 +55,17 @@ Object {
   },
 }
 `;
+
+exports[`execute volume endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 59672098927.86,
+  },
+  "result": 59672098927.86,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
+}
+`;

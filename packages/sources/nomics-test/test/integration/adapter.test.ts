@@ -59,6 +59,7 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
   })
+
   describe('crypto endpoint', () => {
     const data = {
       id,
