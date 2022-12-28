@@ -1952,6 +1952,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/blocksize-capital-test-adapter@workspace:*, @chainlink/blocksize-capital-test-adapter@workspace:packages/sources/blocksize-capital-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/blocksize-capital-test-adapter@workspace:packages/sources/blocksize-capital-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.14.5
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/blockstream-adapter@workspace:*, @chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
@@ -2915,6 +2931,7 @@ __metadata:
     "@chainlink/blockchair-adapter": "workspace:*"
     "@chainlink/blockcypher-adapter": "workspace:*"
     "@chainlink/blocksize-capital-adapter": "workspace:*"
+    "@chainlink/blocksize-capital-test-adapter": "workspace:*"
     "@chainlink/blockstream-adapter": "workspace:*"
     "@chainlink/bob-adapter": "workspace:*"
     "@chainlink/bravenewcoin-adapter": "workspace:*"
@@ -3009,7 +3026,6 @@ __metadata:
     "@chainlink/poa-adapter": "workspace:*"
     "@chainlink/polygon-adapter": "workspace:*"
     "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"

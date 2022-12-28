@@ -71,6 +71,9 @@
       "path": "../../sources/blocksize-capital"
     },
     {
+      "path": "../../sources/blocksize-capital-test"
+    },
+    {
       "path": "../../sources/blockstream"
     },
     {
@@ -241,7 +244,6 @@
     {
       "path": "../../sources/galaxy"
     },
-
     {
       "path": "../../sources/gemini"
     },
@@ -352,9 +354,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"

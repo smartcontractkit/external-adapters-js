@@ -18,6 +18,7 @@ import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
+import * as blocksize_capital_test from '@chainlink/blocksize-capital-test-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bob from '@chainlink/bob-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
@@ -165,6 +166,7 @@ export default {
   blockchair,
   blockcypher,
   blocksize_capital,
+  blocksize_capital_test,
   blockstream,
   bob,
   bravenewcoin,
