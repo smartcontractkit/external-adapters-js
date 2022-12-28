@@ -1880,7 +1880,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/express": 4.17.14
+    "@types/express": 4.17.15
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2768,7 +2768,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.6.1
     "@types/fast-redact": 3.0.2
     "@types/jest": 27.5.2
-    "@types/lodash": 4.14.189
+    "@types/lodash": 4.14.191
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
@@ -9328,7 +9328,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-serve-static-core@npm:^4.17.18":
+"@types/express-serve-static-core@npm:^4.17.31":
   version: 4.17.31
   resolution: "@types/express-serve-static-core@npm:4.17.31"
   dependencies:
@@ -9339,15 +9339,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:4.17.14":
-  version: 4.17.14
-  resolution: "@types/express@npm:4.17.14"
+"@types/express@npm:4.17.15":
+  version: 4.17.15
+  resolution: "@types/express@npm:4.17.15"
   dependencies:
     "@types/body-parser": "*"
-    "@types/express-serve-static-core": ^4.17.18
+    "@types/express-serve-static-core": ^4.17.31
     "@types/qs": "*"
     "@types/serve-static": "*"
-  checksum: 15c1af46d02de834e4a225eccaa9d85c0370fdbb3ed4e1bc2d323d24872309961542b993ae236335aeb3e278630224a6ea002078d39e651d78a3b0356b1eaa79
+  checksum: b4acd8a836d4f6409cdf79b12d6e660485249b62500cccd61e7997d2f520093edf77d7f8498ca79d64a112c6434b6de5ca48039b8fde2c881679eced7e96979b
   languageName: node
   linkType: hard
 
@@ -9495,10 +9495,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.189":
-  version: 4.14.189
-  resolution: "@types/lodash@npm:4.14.189"
-  checksum: 096d1e0954794fb76bd6a0ea443067f02004b53e3c59ac6e3fed88817a1468fc2e6614abdf44341f5e0fdff5f9a3c94a934cc9ff7126e07efbcd94355a21fe45
+"@types/lodash@npm:4.14.191":
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
   languageName: node
   linkType: hard
 
