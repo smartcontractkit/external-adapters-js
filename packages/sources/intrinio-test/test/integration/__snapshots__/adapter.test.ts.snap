@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint rest should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 24.25,
+  },
+  "result": 24.25,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
+  },
+}
+`;
+
+exports[`execute price endpoint websocket should return success 1`] = `
+Object {
+  "error": Object {
+    "message": "Request body does not specify an endpoint, and there is no default endpoint configured for this adapter.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;

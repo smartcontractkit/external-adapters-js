@@ -241,7 +241,6 @@
     {
       "path": "../../sources/galaxy"
     },
-
     {
       "path": "../../sources/gemini"
     },
@@ -268,6 +267,9 @@
     },
     {
       "path": "../../sources/intrinio"
+    },
+    {
+      "path": "../../sources/intrinio-test"
     },
     {
       "path": "../../sources/ipfs"
@@ -352,9 +354,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"

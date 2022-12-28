@@ -84,6 +84,7 @@ import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
+import * as intrinio_test from '@chainlink/intrinio-test-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
 import * as jpegd from '@chainlink/jpegd-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
@@ -231,6 +232,7 @@ export default {
   gsr,
   iex_adapter,
   intrinio,
+  intrinio_test,
   ipfs,
   jpegd,
   json_adapter,
