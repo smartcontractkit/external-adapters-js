@@ -87,10 +87,7 @@ export const mockWebSocketServer = (url: string) => {
     socket.on('message', (_) => {
       socket.send(
         JSON.stringify({
-          base: 'ETH',
-          // TYPE: '5',
-          // FROMSYMBOL: base,
-          // PRICE: price,
+          base: 'APPL',
         }),
       )
     })

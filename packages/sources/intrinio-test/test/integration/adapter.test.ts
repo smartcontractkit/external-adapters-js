@@ -62,8 +62,7 @@ describe('execute', () => {
     let req: SuperTest<Test>
     let mockWsServer: Server | undefined
     let spy: jest.SpyInstance
-    // const wsEndpoint = `wss://realtime.intrinio.com/socket/websocket?vsn=1.0.0&token=fake-api-token`
-    const wsEndpoint = `ws://localhost:9090`
+    const wsEndpoint = `wss://realtime.intrinio.com/socket/websocket?vsn=1.0.0&token=fake-api-token`
 
     jest.setTimeout(100000)
 
@@ -81,7 +80,6 @@ describe('execute', () => {
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
       process.env['WS_ENABLED'] = 'true'
-      process.env['WS_API_ENDPOINT'] = wsEndpoint
       process.env['API_KEY'] = 'fake-api-key'
 
       const mockDate = new Date('2022-11-11T11:11:11.111Z')

@@ -28,7 +28,6 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/external-adapter-framework": "0.15.1",
     "axios": "^0.24.0",
     "tslib": "2.4.0"

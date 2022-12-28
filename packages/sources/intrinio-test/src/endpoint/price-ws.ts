@@ -1,23 +1,19 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
 import { IntrinioRealtime } from './util'
 
-const logger = makeLogger('Intrinio Price Websocket')
-
 export type IntrinioFeedMessage = {
-  [x: string]: string
-  // channel: string
-  // clientId?: string
-  // id: string
-  // data: [string, [string, number, number, number, number, string, number, string, number, number]]
-  // successful?: boolean
-  // advice?: {
-  //   interval: number
-  //   timeout: number
-  //   reconnect: string
-  // }
-}[]
+  topic: string
+  payload: {
+    type: string
+    timestamp: number
+    ticker: string
+    size: number
+    price: number
+  }
+  event: string
+}
 
 export type EndpointTypes = {
   Request: {
@@ -31,30 +27,52 @@ export type EndpointTypes = {
 }
 
 let ws: IntrinioRealtime
+
 export const wsTransport = new WebSocketTransport<EndpointTypes>({
   url: (context) => {
     const { API_KEY } = context.adapterConfig
-    ws = new IntrinioRealtime({
-      api_key: API_KEY,
-      provider: 'iex',
-    })
-    return ws._makeSocketUrl as unknown as string | Promise<string>
+    if (!ws) {
+      ws = new IntrinioRealtime({
+        api_key: API_KEY,
+        provider: 'iex',
+      })
+    }
+    return ws._makeSocketUrl.bind(ws)()
   },
   handlers: {
-    message: (message) => {
-      console.log('message', message)
+    open: (connection) => {
+      const heartbeatMsg = JSON.stringify(ws._makeHeartbeatMessage())
+      connection.send(heartbeatMsg)
+      return Promise.resolve()
+    },
+    message(message: IntrinioFeedMessage) {
+      if (message.event == 'quote' && message.payload?.type == 'last') {
+        const base = message.payload.ticker
+        const price = message.payload.price
+        return [
+          {
+            params: { base },
+            response: {
+              result: price,
+              data: {
+                result: price,
+              },
+              timestamps: {
+                providerIndicatedTime: new Date(message.payload.timestamp).getTime(),
+              },
+            },
+          },
+        ]
+      }
       return []
     },
   },
   builders: {
     subscribeMessage: (params) => {
-      logger.trace(`suscribed`)
-      console.log('subscribe', params)
-      return params
+      return ws._makeJoinMessage(params.base)
     },
     unsubscribeMessage: (params) => {
-      console.log('unsubscribe', params)
-      return params
+      return ws._makeLeaveMessage(params.base)
     },
   },
 })

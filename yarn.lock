@@ -3716,7 +3716,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/external-adapter-framework": 0.15.1
     "@types/jest": 27.5.2
     "@types/node": 16.11.51

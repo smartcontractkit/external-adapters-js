@@ -4,7 +4,6 @@
 
 import * as https from 'https'
 import * as events from 'events'
-import { Logger } from '@chainlink/ea-bootstrap'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const EventEmitter = events.EventEmitter
@@ -95,7 +94,7 @@ export class IntrinioRealtime extends EventEmitter {
     let handled = false
     e = 'IntrinioRealtime | ' + e
     if (this.listenerCount('error') > 0) {
-      Logger.error(e)
+      console.error(e)
       handled = true
     }
     if (!handled) {
@@ -167,7 +166,7 @@ export class IntrinioRealtime extends EventEmitter {
   }
 
   _refreshToken() {
-    Logger.debug('Requesting auth token...')
+    console.debug('Requesting auth token...')
 
     return new Promise<void>((fulfill, reject) => {
       const { host, path } = this._makeAuthUrl()
@@ -182,16 +181,16 @@ export class IntrinioRealtime extends EventEmitter {
 
       axios(options)
         .then((response: AxiosResponse) => {
-          Logger.debug('Received auth token!')
+          console.debug('Received auth token!')
           this.token = response.data
           fulfill()
         })
         .catch((error) => {
           if (error.response.status === 401) {
-            Logger.error('IntrinioRealtime | Unable to authorize')
+            console.error('IntrinioRealtime | Unable to authorize')
             reject(error.response)
           } else {
-            Logger.error(
+            console.error(
               'IntrinioRealtime | Could not get auth token: Status code ' + error.response.status,
               reject(error.response),
             )
