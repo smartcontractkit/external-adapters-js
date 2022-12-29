@@ -33,12 +33,7 @@ export const routingTransport = new RoutingTransport<ForexEndpointTypes>(
     WS: wsTransport,
     REST: httpTransport,
   },
-  (_, adapterConfig) => {
-    if (adapterConfig?.WS_ENABLED) {
-      return 'WS'
-    }
-    return 'REST'
-  },
+  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'REST'),
 )
 
 export const endpoint = new PriceEndpoint<ForexEndpointTypes>({

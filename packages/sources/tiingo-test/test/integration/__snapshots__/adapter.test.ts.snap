@@ -98,3 +98,30 @@ Object {
 }
 `;
 
+exports[`execute websocket crypto endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 2930.4483973989,
+  },
+  "result": 2930.4483973989,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1668165071111,
+    "providerDataStreamEstablished": 1668165071111,
+  },
+}
+`;
+
+exports[`execute websocket iex endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 170.28,
+  },
+  "result": 170.28,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1668165071111,
+    "providerDataStreamEstablished": 1668165071111,
+  },
+}
+`;

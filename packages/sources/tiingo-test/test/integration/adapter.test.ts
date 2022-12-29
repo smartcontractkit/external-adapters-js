@@ -17,7 +17,7 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { sleep } from '@chainlink/external-adapter-framework/util'
 
 describe('execute', () => {
-  xdescribe('http', () => {
+  describe('http', () => {
     let spy: jest.SpyInstance
     beforeAll(async () => {
       const mockDate = new Date('2022-01-01T11:11:11.111Z')
@@ -213,7 +213,7 @@ describe('execute', () => {
     })
   })
 
-  xdescribe('websocket crypto endpoint', () => {
+  describe('websocket crypto endpoint', () => {
     let fastify: ServerInstance | undefined
     let req: SuperTest<Test>
     let mockWsServer: Server | undefined
@@ -243,9 +243,7 @@ describe('execute', () => {
       spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
       mockWebSocketProvider(WebSocketClassProvider)
-      mockWsServer = mockCryptoWebSocketServer(wsEndpoint)
-
-      console.log(mockWsServer)
+      mockWsServer = mockCryptoWebSocketServer(wsEndpoint + '/crypto-synth')
 
       fastify = await expose(createAdapter())
       req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
@@ -277,7 +275,7 @@ describe('execute', () => {
     }, 30000)
   })
 
-  fdescribe('websocket iex endpoint', () => {
+  describe('websocket iex endpoint', () => {
     let fastify: ServerInstance | undefined
     let req: SuperTest<Test>
     let mockWsServer: Server | undefined
@@ -307,7 +305,7 @@ describe('execute', () => {
       spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
       mockWebSocketProvider(WebSocketClassProvider)
-      mockWsServer = mockIexWebSocketServer(wsEndpoint)
+      mockWsServer = mockIexWebSocketServer(wsEndpoint + '/iex')
 
       fastify = await expose(createAdapter())
       req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)

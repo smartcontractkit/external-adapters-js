@@ -35,6 +35,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
       if (!message?.data?.length || message.messageType !== 'A') {
         return []
       }
+      // Tiingo returns pair information combined without delimiter, like `eurusd` which makes it not possible to have base and quote. Once params are passed in the message handler we can use them to have correct base and quote in the response.
       const [base, quote] = message.data[tickerIndex].split('/')
       return [
         {
