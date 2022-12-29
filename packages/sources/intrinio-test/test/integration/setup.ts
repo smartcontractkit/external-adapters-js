@@ -8,6 +8,7 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { Adapter, PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { endpoint } from '../../src/endpoint/price-router'
+import { customSettings } from '../../src/config'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -108,6 +109,7 @@ export const createAdapter = (): PriceAdapter<SettingsMap> => {
     name: 'INTRINIO',
     endpoints: [endpoint],
     defaultEndpoint: endpoint.name,
+    customSettings: customSettings,
   })
 }
 

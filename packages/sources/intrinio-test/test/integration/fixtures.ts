@@ -51,36 +51,3 @@ export const mockAuthResponse = (): nock.Scope =>
     .get('/auth')
     .query({ api_key: 'fake-api-key' })
     .reply(200, 'fake-api-token', ['Transfer-Encoding', 'chunked'])
-
-export const mockSubscribeResponse = {
-  request: {
-    topic: 'iex:securities:AAPL',
-    event: 'phx_join',
-    payload: {},
-    ref: null,
-  },
-  response: [
-    {
-      topic: 'iex:securities:AAPL',
-      payload: {
-        type: 'last',
-        timestamp: 1646336888.345325,
-        ticker: 'AAPL',
-        size: 100,
-        price: 166.91,
-      },
-      event: 'quote',
-    },
-  ],
-}
-
-export const mockUnsubscribeResponse = {
-  request: {
-    topic: 'iex:securities:AAPL',
-    event: 'phx_leave',
-    payload: {},
-    ref: null,
-  },
-
-  response: '',
-}

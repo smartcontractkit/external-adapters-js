@@ -1,7 +1,7 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Server } from 'mock-socket'
 import request, { SuperTest, Test } from 'supertest'
-import { mockPriceSuccess } from './fixtures'
+import { mockAuthResponse, mockPriceSuccess } from './fixtures'
 import {
   createAdapter,
   mockWebSocketProvider,
@@ -14,7 +14,7 @@ import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { AddressInfo } from 'net'
 
-describe('execute', () => {
+fdescribe('execute', () => {
   describe('price endpoint rest', () => {
     const context: SuiteContext = {
       req: null,
@@ -92,6 +92,7 @@ describe('execute', () => {
       req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
       // Send initial request to start background execute
+      mockAuthResponse()
       await req.post('/').send(data)
       await sleep(5000)
     })
@@ -104,6 +105,8 @@ describe('execute', () => {
     })
 
     it('should return success', async () => {
+      mockAuthResponse()
+
       const makeRequest = () =>
         req
           .post('/')
