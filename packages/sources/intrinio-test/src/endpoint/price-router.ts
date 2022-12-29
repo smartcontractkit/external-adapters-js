@@ -19,7 +19,7 @@ export interface RequestParams {
 }
 
 export interface ProviderRequestBody {
-  base: string
+  api_key: string
 }
 
 export interface ProviderResponseBody {

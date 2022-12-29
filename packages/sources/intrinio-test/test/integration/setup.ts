@@ -84,13 +84,21 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
 export const mockWebSocketServer = (url: string) => {
   const mockWsServer = new Server(url, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.on('message', (_) => {
-      socket.send(
-        JSON.stringify({
-          base: 'APPL',
-        }),
-      )
-    })
+    socket.send(
+      JSON.stringify([
+        {
+          topic: 'iex:securities:AAPL',
+          payload: {
+            type: 'last',
+            timestamp: 1646336888.345325,
+            ticker: 'AAPL',
+            size: 100,
+            price: 166.91,
+          },
+          event: 'quote',
+        },
+      ]),
+    )
   })
   return mockWsServer
 }

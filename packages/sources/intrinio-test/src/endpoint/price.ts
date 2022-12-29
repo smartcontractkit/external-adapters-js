@@ -10,7 +10,6 @@ export const batchTransport = new HttpTransport<EndpointTypes>({
       const requestConfig = {
         baseURL: config.API_ENDPOINT,
         url: `securities/${symbol.base}/prices/realtime`,
-        method: 'GET',
         params: {
           api_key: config.API_KEY,
         },

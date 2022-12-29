@@ -46,7 +46,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
       return Promise.resolve()
     },
     message(message: IntrinioFeedMessage) {
-      if (message.event == 'quote' && message.payload?.type == 'last') {
+      if (message.event === 'quote' && message.payload?.type === 'last') {
         const base = message.payload.ticker
         const price = message.payload.price
         return [
