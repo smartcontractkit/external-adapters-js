@@ -1,9 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
-import { buildUrlPath } from '../crypto-utils'
+import { customSettings, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -51,7 +49,7 @@ type EndpointTypes = {
     }
     Result: number
   }
-  CustomSettings: SettingsMap
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: RequestBody
     ResponseBody: Response[]
@@ -64,7 +62,7 @@ const restEndpointTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const coin = param.coinid ?? param.base
-      const url = buildUrlPath('v1/tickers/:coin/historical', { coin: coin?.toLowerCase() })
+      const url = `v1/tickers/${coin?.toLowerCase()}/historical`
 
       const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
       const headers: { Authorization?: string } = {}
@@ -94,17 +92,17 @@ const restEndpointTransport = new HttpTransport<EndpointTypes>({
     })
   },
   parseResponse: (params, res) => {
-    return [
-      {
-        params: { coinid: params[0].coinid, base: params[0].base, hours: params[0].hours },
+    return params.map((param) => {
+      return {
+        params: { coinid: param.coinid, base: param.base, hours: param.hours },
         response: {
           data: {
             result: res.data[0].price,
           },
           result: res.data[0].price,
         },
-      },
-    ]
+      }
+    })
   },
 })
 

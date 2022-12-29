@@ -1,7 +1,6 @@
-import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
+import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT, customSettings } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinPaprika Global Batched')
@@ -38,7 +37,7 @@ export type GlobalEndpointTypes = {
     Params: GlobalRequestParams
   }
   Response: SingleNumberResultResponse
-  CustomSettings: SettingsMap
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: GlobalResponseBody
     ResponseBody: GlobalResponseBody
@@ -79,8 +78,13 @@ export const constructEntry = (
   const result = Number(res[propertyPath as keyof GlobalResponseBody])
 
   if (!result) {
-    logger.warn(`Data for "${requestPayload.market}" not found`)
-    return
+    return {
+      params: requestPayload,
+      response: {
+        errorMessage: `Data for "${requestPayload.market}" is not found`,
+        statusCode: 400,
+      },
+    }
   }
 
   return {
