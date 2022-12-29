@@ -22,7 +22,7 @@ export const adapter = new PriceAdapter({
     API_TIMEOUT: 10000,
   },
   includes,
-  overrides: overrides['kaiko'],
+  overrides: overrides.kaiko,
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

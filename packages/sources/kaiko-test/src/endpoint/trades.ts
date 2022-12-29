@@ -43,6 +43,12 @@ export interface RequestParams {
   sort: string
 }
 
+export interface RequestBody {
+  interval: string
+  sort: string
+  start_time: string
+}
+
 export interface ResponseSchema {
   query: {
     page_size: number
@@ -78,7 +84,7 @@ type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: never
+    RequestBody: RequestBody
     ResponseBody: ResponseSchema
   }
 }
@@ -141,6 +147,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'trades',
+  aliases: ['price'],
   transport: httpTransport,
   inputParameters,
 })
