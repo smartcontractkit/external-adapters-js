@@ -7,22 +7,22 @@ export const adapter = new Adapter({
   defaultEndpoint: crypto.name,
   name: 'COINAPI',
   customSettings,
-  // rateLimiting: {
-  // tiers: {
-  //   "free": {
-  //     "rateLimit1h": 4.16
-  //   },
-  //   "startup": {
-  //     "rateLimit1h": 41.66
-  //   },
-  //   "streamer": {
-  //     "rateLimit1h": 416.66
-  //   },
-  //   "professional": {
-  //     "rateLimit1h": 4166.66
-  //   }
-  // }
-  // },
+  rateLimiting: {
+    tiers: {
+      free: {
+        rateLimit1h: 4.16,
+      },
+      startup: {
+        rateLimit1h: 41.66,
+      },
+      streamer: {
+        rateLimit1h: 416.66,
+      },
+      professional: {
+        rateLimit1h: 4166.66,
+      },
+    },
+  },
   endpoints: [crypto, assets],
 })
 

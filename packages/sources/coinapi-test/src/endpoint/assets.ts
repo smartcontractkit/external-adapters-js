@@ -62,7 +62,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
         url: 'assets',
         params: {
           apikey: config.API_KEY,
-          filter_asset_id: params.map((p) => p.base).join(','),
+          filter_asset_id: [...new Set(params.map((p) => p.base))].join(','),
         },
       },
     }
