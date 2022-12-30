@@ -146,7 +146,7 @@ export const buildCryptoRequestBody = (
       request: {
         baseURL: baseUrl,
         url: '/currencies/ticker',
-        params: { ...record, key: apiKey, ids: record.ids.join('') },
+        params: { ...record, key: apiKey, ids: [...new Set(...record.ids)].join('') },
       },
     }
   })
