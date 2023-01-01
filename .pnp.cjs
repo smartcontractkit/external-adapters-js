@@ -776,6 +776,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tradingeconomics"\
       },\
       {\
+        "name": "@chainlink/tradingeconomics-test-adapter",\
+        "reference": "workspace:packages/sources/tradingeconomics-test"\
+      },\
+      {\
         "name": "@chainlink/trueusd-adapter",\
         "reference": "workspace:packages/sources/trueusd"\
       },\
@@ -1044,6 +1048,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradermade-test-adapter", ["workspace:packages/sources/tradermade-test"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
+      ["@chainlink/tradingeconomics-test-adapter", ["workspace:packages/sources/tradingeconomics-test"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
       ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
@@ -7025,6 +7030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
             ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
+            ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],\
             ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
@@ -7457,6 +7463,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
             ["ws", "virtual:1dec7dbd5a4c81f9d324d14923601bbaeec0be79c9b024d3ffbd58bc01936b6e0f705c25f56c7cc2cd81695309929e12db6472661bf6db8d727b07794d3bc5e4#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.15.1", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.15.1-9e21403fe5-245b066cf4.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.15.1"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.9.2"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9335,6 +9357,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/tradingeconomics-test-adapter", [\
+        ["workspace:packages/sources/tradingeconomics-test", {\
+          "packageLocation": "./packages/sources/tradingeconomics-test/",\
+          "packageDependencies": [\
+            ["@chainlink/tradingeconomics-test-adapter", "workspace:packages/sources/tradingeconomics-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.15.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
           ],\
           "linkType": "SOFT"\
         }]\

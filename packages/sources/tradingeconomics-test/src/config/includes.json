@@ -1,0 +1,173 @@
+[
+  {
+    "from": "CAD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDCAD:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CHF",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDCHF:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CNY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDCNY:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "JPY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDJPY:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "KRW",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDKRW:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MXN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDMXN:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PLN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDPLN:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SEK",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDSEK:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "SGD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDSGD:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "TRY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDTRY:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "ZAR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USDZAR:CUR",
+        "to": "",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "BTCUSD:CUR",
+        "to": ""
+      }
+    ]
+  },
+  {
+    "from": "ETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "ETHUSD:CUR",
+        "to": ""
+      }
+    ]
+  },
+  {
+    "from": "LTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "LTCUSD:CUR",
+        "to": ""
+      }
+    ]
+  },
+  {
+    "from": "BNB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "BNBUSD:CUR",
+        "to": ""
+      }
+    ]
+  },
+  {
+    "from": "XMR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "XMRUSD:CUR",
+        "to": ""
+      }
+    ]
+  }
+]

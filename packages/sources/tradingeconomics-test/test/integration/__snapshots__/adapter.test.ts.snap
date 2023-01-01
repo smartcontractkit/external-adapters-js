@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint rest should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.15591,
+  },
+  "result": 1.15591,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": Any<Number>,
+    "providerDataRequested": Any<Number>,
+  },
+}
+`;
+
+exports[`execute price endpoint websocket should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.28778,
+  },
+  "result": 1.28778,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1668165071111,
+    "providerDataStreamEstablished": 1668165071111,
+    "providerIndicatedTime": 1659472542655,
+  },
+}
+`;

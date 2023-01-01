@@ -145,6 +145,7 @@ import * as tp from '@chainlink/tp-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
+import * as tradingeconomics_test from '@chainlink/tradingeconomics-test-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
 import * as twosigma from '@chainlink/twosigma-adapter'
@@ -307,6 +308,7 @@ export default {
   tradermade,
   tradermade_test,
   tradingeconomics,
+  tradingeconomics_test,
   trueusd,
   twelvedata,
   twosigma,
