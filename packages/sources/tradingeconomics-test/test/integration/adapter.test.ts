@@ -60,7 +60,7 @@ fdescribe('execute', () => {
     })
   })
 
-  fdescribe('price endpoint websocket', () => {
+  describe('price endpoint websocket', () => {
     let fastify: ServerInstance | undefined
     let req: SuperTest<Test>
     let mockWsServer: Server | undefined
