@@ -1,4 +1,4 @@
-import { EmptyObject, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import {
   PriceEndpoint,
@@ -7,21 +7,23 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings } from '../config'
 
-interface Message {
-  type: 'subscribe' | 'unsubscribe' | 'value'
-  id: string
-  value: string
-  time: number
-}
-export interface WsErrorType {
-  TYPE: string
-  MESSAGE: string
-  PARAMETER: string
-  INFO: string
+const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
+interface BaseMessage {
+  jsonrpc: string
+  id?: string | number | null
 }
 
-export type Params = { index?: string; base?: string; quote?: string }
-type RequestParams = { Params: Params }
+export interface Message extends BaseMessage {
+  method: 'vwap'
+  params: {
+    updates: {
+      ticker: string
+      price?: number
+      size?: number
+      volume?: number
+    }[]
+  }
+}
 
 const inputParameters: InputParameters & PriceEndpointInputParameters = {
   base: {
@@ -39,66 +41,68 @@ const inputParameters: InputParameters & PriceEndpointInputParameters = {
 }
 
 export type EndpointTypes = {
-  Request: RequestParams
-  Response: {
-    Data: EmptyObject
-    Result: number
+  Request: {
+    Params: { base: string; quote: string }
   }
+  Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
-}
-
-export type WsEndpointTypes = EndpointTypes & {
   Provider: {
-    WsMessage: Message
+    WsMessage: Message[]
   }
 }
 
-const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
+let api_key: string | undefined
 
-export const makeWsTransport = new WebSocketTransport<WsEndpointTypes>({
-  url: ({ adapterConfig: { WS_API_ENDPOINT } }) => {
-    console.log('ws_endpoint', WS_API_ENDPOINT)
+export const makeWsTransport = new WebSocketTransport<EndpointTypes>({
+  url: ({ adapterConfig: { WS_API_ENDPOINT, API_KEY } }) => {
+    api_key = API_KEY
     return WS_API_ENDPOINT
   },
   handlers: {
-    message(message) {
-      logger.trace(message, 'Got response from websocket')
-      if (message.type === 'value') {
-        const index = message.id
-        const value = Number(message.value)
-        return [
-          {
-            params: { index },
-            response: {
-              result: value,
-              data: {
-                result: value,
-              },
-              timestamps: {
-                providerIndicatedTime: message.time,
-              },
+    open: (connection) => {
+      connection.send({
+        jsonrpc: '2.0',
+        method: 'authentication_logon',
+        params: { api_key },
+      })
+      return Promise.resolve()
+    },
+    message: (message) => {
+      const [_, msg] = message
+      if (!(msg.method === 'vwap' || 'method' in msg)) return []
+      const [updates] = msg.params.updates
+      const base = updates.ticker.substring(0, 3)
+      const quote = updates.ticker.substring(3)
+      return [
+        {
+          params: { base, quote },
+          response: {
+            result: updates.price as number,
+            data: {
+              result: updates.price as number,
+            },
+            timestamps: {
+              providerIndicatedTime: new Date(Date.now()).getTime(),
             },
           },
-        ]
-      }
-
-      return
+        },
+      ]
     },
   },
   builders: {
-    subscribeMessage: ({ index }) => {
+    subscribeMessage: (input) => {
       return {
-        type: 'subscribe',
-        id: index,
-        stream: 'value',
+        jsonrpc: '2.0',
+        method: 'vwap_subscribe',
+        params: { tickers: [`${input.base}${input.quote}`] },
       }
     },
 
-    unsubscribeMessage: ({ index }) => {
+    unsubscribeMessage: (input) => {
       return {
-        type: 'unsubscribe',
-        id: index,
-        stream: 'value',
+        jsonrpc: '2.0',
+        method: 'vwap_unsubscribe',
+        params: { tickers: [`${input.base}${input.quote}`] },
       }
     },
   },

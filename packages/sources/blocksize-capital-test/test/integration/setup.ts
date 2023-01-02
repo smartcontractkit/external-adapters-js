@@ -6,6 +6,7 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
 import { price } from '../../src/endpoint'
+import { mockLoginResponse } from './fixtures'
 
 export type SuiteContext = {
   req: SuperTest<Test> | null
@@ -36,19 +37,45 @@ export const mockWebSocketProvider = (provider: typeof WebSocketClassProvider): 
 
 export const mockWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
-  mockWsServer.on('connection', (socket) => {
-    socket.on('message', (_) => {
-      socket.send(
-        JSON.stringify({
-          type: 'value',
-          time: 1645203822000,
-          id: 'BRTI',
-          value: '40067.00',
-        }),
-      )
-    })
+
+  mockWsServer.on('open', (socket) => {
+    socket.send(JSON.stringify(mockLoginResponse))
   })
 
+  mockWsServer.on('connection', (socket) => {
+    socket.send(
+      JSON.stringify([
+        {
+          jsonrpc: '2.0',
+          id: 0,
+          result: {
+            snapshot: [
+              {
+                ticker: 'ETHEUR',
+                price: 2398.6491068570076,
+                size: 1238.9841055992033,
+                volume: 32265.21,
+              },
+            ],
+          },
+        },
+        {
+          jsonrpc: '2.0',
+          method: 'vwap',
+          params: {
+            updates: [
+              {
+                ticker: 'ETHEUR',
+                price: 2400.209999999564,
+                size: 0.06804130000001375,
+                volume: 163.31340867300332,
+              },
+            ],
+          },
+        },
+      ]),
+    )
+  })
   return mockWsServer
 }
 

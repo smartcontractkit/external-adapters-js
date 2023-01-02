@@ -4,6 +4,8 @@ import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework
 import { Server } from 'mock-socket'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
+import { DEFAULT_BASE_WS_URL } from '../../src/config'
+import { mockLoginResponse } from './fixtures'
 import { createAdapter, mockWebSocketProvider, mockWebSocketServer, setEnvVariables } from './setup'
 
 describe('websocket', () => {
@@ -11,14 +13,13 @@ describe('websocket', () => {
   let req: SuperTest<Test>
   let spy: jest.SpyInstance
   let mockWsServer: Server | undefined
-  const wsEndpoint = 'ws://localhost:9090'
 
   jest.setTimeout(10000)
 
   const data: AdapterRequestBody = {
     data: {
       base: 'ETH',
-      quote: 'BTC',
+      quote: 'EUR',
     },
   }
 
@@ -30,14 +31,15 @@ describe('websocket', () => {
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_ENABLED'] = 'true'
-    process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['API_KEY'] = 'fake-api-key'
+    process.env['WS_API_ENDPOINT'] = DEFAULT_BASE_WS_URL
 
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebSocketServer(wsEndpoint)
+    mockWsServer = mockWebSocketServer(DEFAULT_BASE_WS_URL)
 
     fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
@@ -64,16 +66,7 @@ describe('websocket', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
       const response = await makeRequest()
-      expect(response.body).toEqual({
-        result: 40067,
-        statusCode: 200,
-        data: { result: 40067 },
-        timestamps: {
-          providerDataReceived: 1652198967193,
-          providerDataStreamEstablished: 1652198967193,
-          providerIndicatedTime: 1645203822000,
-        },
-      })
+      expect(response.body).toMatchSnapshot()
     }, 30000)
   })
 })

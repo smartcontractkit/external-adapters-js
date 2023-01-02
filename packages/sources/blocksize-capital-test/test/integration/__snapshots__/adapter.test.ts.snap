@@ -1,13 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price api should return success 1`] = `
+exports[`websocket crypto endpoint should return success 1`] = `
 Object {
   "data": Object {
-    "result": 10,
+    "result": 2400.209999999564,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": 10,
+  "result": 2400.209999999564,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1652198967193,
+    "providerDataStreamEstablished": 1652198967193,
+    "providerIndicatedTime": 1652198967193,
+  },
 }
 `;

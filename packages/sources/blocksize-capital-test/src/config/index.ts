@@ -1,15 +1,23 @@
+export const DEFAULT_BASE_WS_URL = 'wss://data.blocksize.capital/marketdata/v1/ws'
+export const defaultEndpoint = 'price'
+
 export const customSettings = {
   API_ENDPOINT: {
     description: 'The default REST API base url',
     type: 'string',
     required: false,
-    default: 'https://www.cfbenchmarks.com/api',
+  },
+  API_KEY: {
+    description: 'The Blocksize Capital API key',
+    type: 'string',
+    // required: false,
+    // sensitive: true,
   },
   WS_API_ENDPOINT: {
     description: 'The default WebSocket API base url',
     type: 'string',
     required: false,
-    default: 'wss://www.cfbenchmarks.com/ws/v4',
+    default: DEFAULT_BASE_WS_URL,
   },
   WS_ENABLED: {
     description: 'Toggle to set the default endpoint to use WebSockets',
