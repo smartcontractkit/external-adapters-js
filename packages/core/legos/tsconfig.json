@@ -241,7 +241,6 @@
     {
       "path": "../../sources/galaxy"
     },
-
     {
       "path": "../../sources/gemini"
     },
@@ -327,6 +326,9 @@
       "path": "../../sources/nomics"
     },
     {
+      "path": "../../sources/oanda"
+    },
+    {
       "path": "../../sources/oilpriceapi"
     },
     {
@@ -352,9 +354,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"

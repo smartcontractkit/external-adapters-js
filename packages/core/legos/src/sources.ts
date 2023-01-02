@@ -103,6 +103,7 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as ncfx_test from '@chainlink/ncfx-test-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
+import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
@@ -250,6 +251,7 @@ export default {
   ncfx_test,
   nikkei,
   nomics,
+  oanda,
   oilpriceapi,
   onchain_gas,
   openexchangerates,

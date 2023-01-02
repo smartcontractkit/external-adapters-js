@@ -438,6 +438,9 @@
       "path": "./sources/nomics/tsconfig.test.json"
     },
     {
+      "path": "./sources/oanda/tsconfig.test.json"
+    },
+    {
       "path": "./sources/oilpriceapi/tsconfig.test.json"
     },
     {

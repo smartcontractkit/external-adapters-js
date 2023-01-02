@@ -3000,6 +3000,7 @@ __metadata:
     "@chainlink/ncfx-test-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
+    "@chainlink/oanda-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
     "@chainlink/onchain-gas-adapter": "workspace:*"
     "@chainlink/openexchangerates-adapter": "workspace:*"
@@ -3009,7 +3010,6 @@ __metadata:
     "@chainlink/poa-adapter": "workspace:*"
     "@chainlink/polygon-adapter": "workspace:*"
     "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"
@@ -4062,6 +4062,22 @@ __metadata:
 "@chainlink/nomics-adapter@workspace:*, @chainlink/nomics-adapter@workspace:packages/sources/nomics":
   version: 0.0.0-use.local
   resolution: "@chainlink/nomics-adapter@workspace:packages/sources/nomics"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/oanda-adapter@workspace:*, @chainlink/oanda-adapter@workspace:packages/sources/oanda":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
