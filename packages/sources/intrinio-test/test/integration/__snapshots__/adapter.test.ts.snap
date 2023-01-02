@@ -16,11 +16,15 @@ Object {
 
 exports[`execute price endpoint websocket should return success 1`] = `
 Object {
-  "error": Object {
-    "message": "Request body does not specify an endpoint, and there is no default endpoint configured for this adapter.",
-    "name": "AdapterError",
+  "data": Object {
+    "result": 166.91,
   },
-  "status": "errored",
-  "statusCode": 400,
+  "result": 166.91,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1668165071111,
+    "providerDataStreamEstablished": 1668165071111,
+    "providerIndicatedTime": 1646336888,
+  },
 }
 `;

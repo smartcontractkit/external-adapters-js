@@ -14,7 +14,7 @@ import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { AddressInfo } from 'net'
 
-fdescribe('execute', () => {
+describe('execute', () => {
   describe('price endpoint rest', () => {
     const context: SuiteContext = {
       req: null,
@@ -75,7 +75,7 @@ fdescribe('execute', () => {
     let oldEnv: NodeJS.ProcessEnv
     beforeAll(async () => {
       oldEnv = JSON.parse(JSON.stringify(process.env))
-      process.env['WS_SUBSCRIPTION_TTL'] = '5000'
+      process.env['WS_SUBSCRIPTION_TTL'] = '300'
       process.env['CACHE_MAX_AGE'] = '5000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
