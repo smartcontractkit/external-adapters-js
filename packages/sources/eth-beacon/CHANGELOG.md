@@ -1,5 +1,11 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- f6821df3e: Populate results for filtered addresses with 0 balance
+
 ## 1.3.0
 
 ### Minor Changes
