@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- 43f8d6d86: Fix override for "ARPA"
+
 ## 1.5.0
 
 ### Minor Changes
