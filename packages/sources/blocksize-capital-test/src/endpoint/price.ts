@@ -68,6 +68,10 @@ export const makeWsTransport = new WebSocketTransport<EndpointTypes>({
       return Promise.resolve()
     },
     message: (message) => {
+      if (Object.keys(message).length === 0) {
+        logger.debug('WS message is empty, skipping')
+        return []
+      }
       const [_, msg] = message
       if (!(msg.method === 'vwap' || 'method' in msg)) return []
       const [updates] = msg.params.updates

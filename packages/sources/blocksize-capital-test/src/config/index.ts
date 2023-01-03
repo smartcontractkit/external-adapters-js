@@ -10,8 +10,8 @@ export const customSettings = {
   API_KEY: {
     description: 'The Blocksize Capital API key',
     type: 'string',
-    // required: false,
-    // sensitive: true,
+    required: false,
+    sensitive: true,
   },
   WS_API_ENDPOINT: {
     description: 'The default WebSocket API base url',
