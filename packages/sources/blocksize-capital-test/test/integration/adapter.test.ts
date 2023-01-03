@@ -5,7 +5,6 @@ import { Server } from 'mock-socket'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
 import { DEFAULT_BASE_WS_URL } from '../../src/config'
-import { mockLoginResponse } from './fixtures'
 import { createAdapter, mockWebSocketProvider, mockWebSocketServer, setEnvVariables } from './setup'
 
 describe('websocket', () => {
