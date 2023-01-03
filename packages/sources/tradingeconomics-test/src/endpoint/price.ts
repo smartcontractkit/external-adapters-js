@@ -1,50 +1,61 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes } from './price-router'
+import { EndpointTypes, RequestParams } from './price-router'
 
 const logger = makeLogger('TradinEconomics HTTP')
 
+const transformInput = (input: RequestParams) => {
+  const base = input.base.replace(' ', '').split(',')
+  const quote = input.quote.replace(' ', '').split(',')
+  return base
+    .map((element, index) => {
+      return `${element}:${quote[index]}`
+    })
+    .join(',')
+}
+
 export const batchTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
-    return params.map((symbol) => {
+    return params.map((input) => {
+      const symbol = transformInput(input)
       const requestConfig = {
         baseURL: config.API_ENDPOINT,
-        url: `symbol/${symbol.base}`,
+        url: `symbol/${symbol}`,
         params: {
           c: `${config.API_CLIENT_KEY}:${config.API_CLIENT_SECRET}`,
         },
       }
       return {
-        params: [symbol],
+        params: [input],
         request: requestConfig,
       }
     })
   },
   parseResponse: (params, res) => {
-    return params.map((requestPayload) => {
-      const entry = {
-        params: requestPayload,
-      }
-
-      if (!res.data) {
-        const errorMessage = `Tradingeconomics provided no data for token "${requestPayload.base}"`
-        logger.warn(errorMessage)
-        return {
+    const entry = {
+      params: params[0],
+    }
+    if (!res.data) {
+      const errorMessage = `Tradingeconomics provided no data for token "${params[0].base}"`
+      logger.warn(errorMessage)
+      return [
+        {
           ...entry,
           response: {
             statusCode: 502,
             errorMessage,
           },
-        }
-      }
-      const result = res.data[0].Last
+        },
+      ]
+    }
+    return res.data.map((m) => {
       return {
         ...entry,
         response: {
           data: {
-            result,
+            result: m.Last,
           },
-          result,
+          result: m.Last,
         },
       }
     })

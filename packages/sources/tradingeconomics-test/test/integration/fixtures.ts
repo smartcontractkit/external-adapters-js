@@ -57,34 +57,3 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
-export const mockSubscribeRequest = {
-  request: {
-    topic: 'subscribe',
-    to: 'USDCAD:CUR',
-  },
-  response: [
-    {
-      s: 'USDCAD:CUR',
-      i: 'USDCAD',
-      pch: 0.26,
-      nch: 0.00328,
-      bid: 1.28778,
-      ask: 1.28778,
-      price: 1.28778,
-      dt: 1659472542655,
-      state: 'open',
-      type: 'currency',
-      dhigh: 1.2887,
-      dlow: 1.2831,
-      o: 1.28707,
-      prev: 1.2845,
-      topic: 'USDCAD',
-    },
-  ],
-}
-
-export const mockUnsubscribeRequest = {
-  request: undefined,
-  response: {},
-}

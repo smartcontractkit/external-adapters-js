@@ -14,7 +14,7 @@ import {
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 
-fdescribe('execute', () => {
+describe('execute', () => {
   describe('price endpoint rest', () => {
     const context: SuiteContext = {
       req: null,
@@ -35,8 +35,8 @@ fdescribe('execute', () => {
     const data = {
       id,
       data: {
-        endpoint: 'price',
-        base: 'EURUSD:CUR',
+        base: 'EURUSD',
+        quote: 'CUR',
       },
     }
 

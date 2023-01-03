@@ -69,9 +69,6 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
     return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY || '', API_CLIENT_SECRET || '')
   },
   handlers: {
-    open: () => {
-      return Promise.resolve()
-    },
     message: (message) => {
       if (Object.keys(message).length === 0) {
         logger.debug('WS message is empty, skipping')

@@ -1,12 +1,14 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { price } from './endpoint'
 import { customSettings } from './config'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import symbols from './config/symbols.json'
 
-export const adapter = new Adapter({
-  defaultEndpoint: price.name,
+export const adapter = new PriceAdapter({
   name: 'TRADINGECONOMICS',
+  defaultEndpoint: price.name,
   customSettings,
+  overrides: symbols['tradingeconomics'],
   endpoints: [price],
   rateLimiting: {
     tiers: {

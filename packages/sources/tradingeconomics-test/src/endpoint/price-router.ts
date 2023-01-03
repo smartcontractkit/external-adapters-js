@@ -2,21 +2,25 @@ import { RoutingTransport } from '@chainlink/external-adapter-framework/transpor
 import { wsTransport } from './price-ws'
 import { customSettings } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { batchTransport } from './price'
+import {
+  PriceEndpoint,
+  PriceEndpointInputParameters,
+} from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 
-export const inputParameters = {
+export const inputParameters: InputParameters & PriceEndpointInputParameters = {
   base: {
-    aliases: ['from', 'asset'],
+    aliases: ['from', 'coin', 'fsym'],
+    description: 'The symbol of symbols of the currency to query',
     required: true,
-    description: 'The symbol of the asset to query',
     type: 'string',
   },
   quote: {
-    aliases: ['to', 'term'],
-    description: 'The quote symbol of the asset to query',
+    aliases: ['to', 'market', 'tsym'],
+    description: 'The symbol of the currency to convert to',
+    required: true,
     type: 'string',
-    default: 'USD',
   },
 } as const
 
@@ -92,8 +96,8 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
   },
 )
 
-export const endpoint = new AdapterEndpoint<EndpointTypes>({
+export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'price',
   transport: routingTransport,
-  inputParameters: inputParameters,
+  inputParameters,
 })
