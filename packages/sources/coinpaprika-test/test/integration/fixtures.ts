@@ -4,6 +4,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.coinpaprika.com', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/v1/tickers')
     .query({ quotes: 'USD' })
     .reply(
@@ -120,6 +121,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
     .get(`/v1/global`)
     .reply(
       200,
@@ -149,6 +151,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
     .get('/v1/coins')
     .reply(200, [
       {
@@ -188,6 +191,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         type: 'token',
       },
     ])
+    .persist()
     .get('/v1/tickers/eth-ethereum')
     .query({ quotes: 'USD' })
     .reply(
@@ -236,6 +240,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
     .get('/v1/tickers/fake-btc-bitcoin')
     .query({ quotes: 'USD' })
     .reply(
@@ -284,6 +289,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
     .get('/v1/tickers/ampl-ampleforth/historical')
     .query({
       start: /^\d{4}-\d{2}-\d{2}$/,
@@ -297,6 +303,7 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         market_cap: 106686649,
       },
     ])
+    .persist()
     .get('/v1/tickers/eth-ethereum/historical')
     .query({
       start: /^\d{4}-\d{2}-\d{2}$/,
@@ -310,3 +317,4 @@ export const mockCryptoResponseSuccess = (): nock.Scope =>
         market_cap: 999999999,
       },
     ])
+    .persist()

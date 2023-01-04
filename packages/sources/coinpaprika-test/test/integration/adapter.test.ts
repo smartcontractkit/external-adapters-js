@@ -19,7 +19,8 @@ describe('execute', () => {
   const context: SuiteContext = {
     req: null,
     server: async () => {
-      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '6'
+      // workaround for failing integration tests that run in parallel
+      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '10000'
       process.env['METRICS_ENABLED'] = 'false'
       const server = (await import('../../src')).server
       return server() as Promise<ServerInstance>
