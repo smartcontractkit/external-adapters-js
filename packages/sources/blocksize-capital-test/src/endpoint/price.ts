@@ -51,7 +51,7 @@ export type EndpointTypes = {
   }
 }
 
-let api_key: string | undefined
+let api_key: string
 
 export const makeWsTransport = new WebSocketTransport<EndpointTypes>({
   url: ({ adapterConfig: { WS_API_ENDPOINT, API_KEY } }) => {

@@ -2,15 +2,10 @@ export const DEFAULT_BASE_WS_URL = 'wss://data.blocksize.capital/marketdata/v1/w
 export const defaultEndpoint = 'price'
 
 export const customSettings = {
-  API_ENDPOINT: {
-    description: 'The default REST API base url',
-    type: 'string',
-    required: false,
-  },
   API_KEY: {
     description: 'The Blocksize Capital API key',
     type: 'string',
-    required: false,
+    required: true,
     sensitive: true,
   },
   WS_API_ENDPOINT: {
