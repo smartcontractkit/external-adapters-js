@@ -6,10 +6,10 @@ import { batchTransport } from './price'
 import {
   PriceEndpoint,
   PriceEndpointInputParameters,
+  PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 
-export const inputParameters: InputParameters & PriceEndpointInputParameters = {
+export const inputParameters: PriceEndpointInputParameters = {
   base: {
     aliases: ['from', 'coin', 'fsym'],
     description: 'The symbol of symbols of the currency to query',
@@ -24,11 +24,6 @@ export const inputParameters: InputParameters & PriceEndpointInputParameters = {
   },
 } as const
 
-export interface RequestParams {
-  base: string
-  quote: string
-}
-
 export interface ProviderRequestBody {
   events: string
   symbols: string
@@ -36,7 +31,7 @@ export interface ProviderRequestBody {
 
 export type EndpointTypes = {
   Request: {
-    Params: RequestParams
+    Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
