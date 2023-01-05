@@ -4278,7 +4278,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/express", "npm:4.17.14"],\
+            ["@types/express", "npm:4.17.15"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5426,7 +5426,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.8.5"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.189"],\
+            ["@types/lodash", "npm:4.14.191"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/object-hash", "npm:2.1.1"],\
@@ -6909,7 +6909,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.33"],\
+            ["@types/node", "npm:14.18.36"],\
             ["decimal.js", "npm:10.4.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
@@ -12348,10 +12348,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/express", [\
-        ["npm:4.17.14", {\
-          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.14-076e1b4711-15c1af46d0.zip/node_modules/@types/express/",\
+        ["npm:4.17.15", {\
+          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.15-f269888d96-b4acd8a836.zip/node_modules/@types/express/",\
           "packageDependencies": [\
-            ["@types/express", "npm:4.17.14"],\
+            ["@types/express", "npm:4.17.15"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/express-serve-static-core", "npm:4.17.31"],\
             ["@types/qs", "npm:6.9.7"],\
@@ -12539,10 +12539,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/lodash", [\
-        ["npm:4.14.189", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.189-7aa430cca4-096d1e0954.zip/node_modules/@types/lodash/",\
+        ["npm:4.14.191", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.191-67a04a969b-ba0d5434e1.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.189"]\
+            ["@types/lodash", "npm:4.14.191"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12653,10 +12653,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.33", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.33-cf91207517-4e23f95186.zip/node_modules/@types/node/",\
+        ["npm:14.18.36", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.36-af3afe44ce-da7f479b3f.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:14.18.33"]\
+            ["@types/node", "npm:14.18.36"]\
           ],\
           "linkType": "HARD"\
         }],\
