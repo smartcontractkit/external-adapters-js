@@ -1,10 +1,10 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes, RequestParams } from './price-router'
-
+import { EndpointTypes } from './price-router'
+import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 const logger = makeLogger('TradinEconomics HTTP')
 
-const transformInput = (input: RequestParams) => {
+const transformInput = (input: PriceEndpointParams) => {
   const base = input.base.replace(' ', '').split(',')
   const quote = input.quote.replace(' ', '').split(',')
   return base
