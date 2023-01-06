@@ -16,11 +16,12 @@ export const customSettings = {
     description: 'The TradingEconomics API client key',
     type: 'string',
     required: true,
-    sensitive: true,
   },
   API_CLIENT_SECRET: {
     description: 'The TradingEconomics API client secret',
     type: 'string',
+    required: true,
+    sensitive: true,
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
