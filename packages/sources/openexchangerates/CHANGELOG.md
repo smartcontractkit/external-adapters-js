@@ -1,5 +1,13 @@
 # @chainlink/openexchangerates-adapter
 
+## 1.5.20
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.5.19
 
 ### Patch Changes
