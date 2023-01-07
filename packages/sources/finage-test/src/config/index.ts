@@ -7,11 +7,13 @@ export const customSettings = {
   API_KEY: {
     type: 'string',
     required: true,
+    sensitive: true,
     description: "An API key that can be obtained from the data provider's dashboard",
   },
   WS_SOCKET_KEY: {
     type: 'string',
     required: false,
+    sensitive: true,
     description:
       "A WEBSOCKET key that can be obtained from the data provider's dashboard (required when websocket is enabled)",
   },
