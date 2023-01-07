@@ -339,6 +339,9 @@
       "path": "./sources/finage/tsconfig.test.json"
     },
     {
+      "path": "./sources/finage-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {

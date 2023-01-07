@@ -101,6 +101,7 @@
     "@chainlink/expert-car-broker-adapter": "workspace:*",
     "@chainlink/fcsapi-adapter": "workspace:*",
     "@chainlink/finage-adapter": "workspace:*",
+    "@chainlink/finage-test-adapter": "workspace:*",
     "@chainlink/finnhub-adapter": "workspace:*",
     "@chainlink/fixer-adapter": "workspace:*",
     "@chainlink/flightaware-adapter": "workspace:*",

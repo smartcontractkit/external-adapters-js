@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute http commodities endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 98.91,
+  },
+  "result": 98.91,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+    "providerIndicatedTime": 1659017220,
+  },
+}
+`;
+
+exports[`execute http crypto endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 50940.12,
+  },
+  "result": 50940.12,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+    "providerIndicatedTime": 1638898619885,
+  },
+}
+`;
+
+exports[`execute http eod endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 26.3,
+  },
+  "result": 26.3,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+    "providerIndicatedTime": 1628884800000,
+  },
+}
+`;
+
+exports[`execute http forex endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.3443049999999999,
+  },
+  "result": 1.3443049999999999,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+    "providerIndicatedTime": 1637060382000,
+  },
+}
+`;
+
+exports[`execute http stock endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 25.8,
+  },
+  "result": 25.8,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+    "providerIndicatedTime": 1628899200621,
+  },
+}
+`;
