@@ -1,5 +1,5 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { customSettings, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from './config'
+import { customSettings, getApiEndpoint, getApiHeaders } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters = {
@@ -63,7 +63,7 @@ export interface CryptoResponseSchema {
 
 export interface CryptoRequestParams {
   coinid?: string
-  base?: string
+  base: string
   quote: string
 }
 
@@ -79,18 +79,17 @@ export type EndpointTypes = {
   }
 }
 
-export const buildBatchedRequestBody = (params: CryptoRequestParams[], config: AdapterConfig) => {
-  const headers: { Authorization?: string } = {}
-  if (config.API_KEY) {
-    headers['Authorization'] = config.API_KEY
-  }
+export const buildBatchedRequestBody = (
+  params: CryptoRequestParams[],
+  config: AdapterConfig<typeof customSettings>,
+) => {
   return {
     params,
     request: {
-      baseURL: config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
+      baseURL: getApiEndpoint(config),
       url: 'v1/tickers',
       method: 'GET',
-      headers,
+      headers: getApiHeaders(config),
       params: {
         quotes: [...new Set(params.map((p) => p.quote.toUpperCase()))].join(','),
       },

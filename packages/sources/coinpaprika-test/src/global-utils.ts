@@ -1,7 +1,8 @@
-import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT, customSettings } from './config'
+import { customSettings, getApiEndpoint, getApiHeaders } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const logger = makeLogger('CoinPaprika Global Batched')
 
@@ -44,14 +45,17 @@ export type GlobalEndpointTypes = {
   }
 }
 
-export const buildGlobalRequestBody = (params: GlobalRequestParams[], apiKey?: string) => {
+export const buildGlobalRequestBody = (
+  params: GlobalRequestParams[],
+  config: AdapterConfig<typeof customSettings>,
+) => {
   return {
     params,
     request: {
-      baseURL: apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
+      baseURL: getApiEndpoint(config),
       url: '/v1/global',
       method: 'GET',
-      headers: apiKey ? { Authorization: apiKey } : undefined,
+      headers: getApiHeaders(config),
     },
   }
 }
@@ -73,7 +77,7 @@ export const constructEntry = (
   const propertyPath =
     resultPath === '_dominance_percentage'
       ? `${marketMap[requestPayload.market.toUpperCase()]}${resultPath}`
-      : `market_cap_${requestPayload.market.toLowerCase()}`
+      : `${resultPath}${requestPayload.market.toLowerCase()}`
 
   const result = Number(res[propertyPath as keyof GlobalResponseBody])
 

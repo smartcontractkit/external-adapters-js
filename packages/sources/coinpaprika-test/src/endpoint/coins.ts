@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
+import { customSettings, getApiEndpoint, getApiHeaders } from '../config'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 export const inputParameters: InputParameters = {}
@@ -30,18 +30,14 @@ type EndpointTypes = {
 
 const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
-    const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
-    const headers: { Authorization?: string } = {}
-    if (config.API_KEY) {
-      headers['Authorization'] = config.API_KEY
-    }
+    const baseURL = getApiEndpoint(config)
     return {
       params,
       request: {
         baseURL,
         url: '/v1/coins',
         method: 'GET',
-        headers,
+        headers: getApiHeaders(config),
       },
     }
   },

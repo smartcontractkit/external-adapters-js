@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { customSettings, DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
+import { customSettings, getApiEndpoint, getApiHeaders } from '../config'
 
 export const inputParameters: InputParameters = {
   base: {
@@ -16,7 +16,6 @@ export const inputParameters: InputParameters = {
   },
   coinid: {
     description: 'The coin ID (optional to use in place of `base`)',
-    required: false,
     type: 'string',
   },
 }
@@ -30,7 +29,7 @@ interface Response {
 
 export interface RequestParams {
   coinid?: string
-  base?: string
+  base: string
   hours: number
 }
 
@@ -64,11 +63,7 @@ const restEndpointTransport = new HttpTransport<EndpointTypes>({
       const coin = param.coinid ?? param.base
       const url = `v1/tickers/${coin?.toLowerCase()}/historical`
 
-      const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
-      const headers: { Authorization?: string } = {}
-      if (config.API_KEY) {
-        headers['Authorization'] = config.API_KEY
-      }
+      const baseURL = getApiEndpoint(config)
 
       const endDate = new Date()
       const subMs = param.hours * 60 * 60 * 1000
@@ -86,7 +81,7 @@ const restEndpointTransport = new HttpTransport<EndpointTypes>({
           url,
           method: 'GET',
           params: reqParams,
-          headers,
+          headers: getApiHeaders(config),
         },
       }
     })

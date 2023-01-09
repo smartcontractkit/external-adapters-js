@@ -10,7 +10,7 @@ import {
 
 const httpTransport = new HttpTransport<GlobalEndpointTypes>({
   prepareRequests: (params, config) => {
-    return buildGlobalRequestBody(params, config.API_KEY)
+    return buildGlobalRequestBody(params, config)
   },
   parseResponse: (params, res): ProviderResult<GlobalEndpointTypes>[] => {
     const entries = [] as ProviderResult<GlobalEndpointTypes>[]
