@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.25.1
+
+### Patch Changes
+
+- 0719f739b: Treat literal "" env var values as empty
+
 ## 2.25.0
 
 ### Minor Changes
