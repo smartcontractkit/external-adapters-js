@@ -147,7 +147,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'trades',
-  aliases: ['price'],
+  aliases: ['price', 'crypto'],
   transport: httpTransport,
   inputParameters,
 })

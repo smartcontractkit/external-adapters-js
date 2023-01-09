@@ -3,6 +3,7 @@ export const customSettings = {
     description: 'API KEY for  KAIKO',
     type: 'string',
     required: true,
+    sensitive: true,
   },
   API_ENDPOINT: {
     description: 'API endpoint for  KAIKO',

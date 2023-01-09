@@ -19,7 +19,7 @@ export const adapter = new PriceAdapter({
     },
   },
   envDefaultOverrides: {
-    API_TIMEOUT: 10000,
+    API_TIMEOUT: 30000,
   },
   includes,
   overrides: overrides.kaiko,
