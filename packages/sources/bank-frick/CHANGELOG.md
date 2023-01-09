@@ -1,5 +1,11 @@
 # @chainlink/bank-frick-adapter
 
+## 1.0.0
+
+### Major Changes
+
+- b8f76de53: Converted to a v3 adapter
+
 ## 0.1.1
 
 ### Patch Changes

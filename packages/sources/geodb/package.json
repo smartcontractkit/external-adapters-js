@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/geodb-adapter",
-  "version": "1.2.25",
+  "version": "1.2.26",
   "description": "Chainlink geodb adapter.",
   "keywords": [
     "Chainlink",

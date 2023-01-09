@@ -1,14 +1,13 @@
 {
   "name": "@chainlink/bank-frick-adapter",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Chainlink bank-frick adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "bank-frick",
-    "pound-token"
+    "bank-frick"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,13 +25,12 @@
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
-    "start": "yarn server:dist",
-    "dev": "NODE_ENV=develop tsnd --respawn --transpile-only --project tsconfig.json './src/index.ts'"
+    "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "decimal.js-light": "^2.5.1",
+    "@chainlink/external-adapter-framework": "0.14.5",
+    "axios": "0.27.2",
+    "fastify": "^3.27.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
@@ -41,7 +39,6 @@
     "@types/supertest": "2.0.12",
     "nock": "13.2.9",
     "supertest": "6.2.4",
-    "ts-node-dev": "2.0.0",
     "typescript": "4.7.4"
   }
 }

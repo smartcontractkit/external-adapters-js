@@ -1,5 +1,20 @@
 # @chainlink/por-indexer-adapter
 
+## 1.2.35
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/proof-of-reserves-adapter@1.14.15
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.34
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.14.14
+
 ## 1.2.33
 
 ### Patch Changes

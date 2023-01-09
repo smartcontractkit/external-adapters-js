@@ -1,6 +1,6 @@
 # Chainlink External Adapter for 1Forge
 
-![1.6.26](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json)
+![1.6.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/1forge/package.json)
 
 Base URL https://api.1forge.com/
 

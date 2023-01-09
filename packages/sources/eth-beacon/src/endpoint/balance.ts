@@ -132,6 +132,18 @@ const queryInBatches = async (
     })
   })
 
+  // Populate balances list with addresses that were filtered out with a 0 balance
+  // Prevents empty array being returned which would ultimately fail at the reduce step
+  // Keep validators list as is to maintain the response received from consensus client
+  addresses
+    .filter(({ address }) => !balances.find((balance) => balance.address === address))
+    .forEach(({ address }) => {
+      balances.push({
+        address,
+        balance: '0',
+      })
+    })
+
   const result = {
     data: {
       validators,
