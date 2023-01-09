@@ -186,12 +186,12 @@ const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
  */
 export const getEnv = (name: string, prefix = '', context?: AdapterContext): string | undefined => {
   let envVar = process.env[getEnvName(name, prefix)]
-  if (!envVar || envVar === '') {
+  if (!envVar || envVar === '' || envVar === '""') {
     //@ts-expect-error EnvDefaultOverrides only allows specific string keys, but optional chaining
     // protects against cases where 'name' is not in EnvDefaultOverrides
     envVar = context?.envDefaultOverrides?.[name] ?? baseEnvDefaults[name]
   }
-  if (envVar === '') envVar = undefined
+  if (envVar === '' || envVar === '""') envVar = undefined
   return envVar
 }
 

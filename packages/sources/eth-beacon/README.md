@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Ethereum Beacon API
 
-![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json)
+![1.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-beacon/package.json)
 
 External adapter for reading from the Ethereum PoS Beacon chain's API
 
@@ -205,6 +205,10 @@ Response:
       {
         "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
         "balance": "32067790944"
+      },
+      {
+        "address": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "balance": "0"
       }
     ]
   },
@@ -216,6 +220,10 @@ Response:
     {
       "address": "0xb672b5976879c6423ad484ba4fa0e76069684eed8e2a8081f6730907f3618d43828d1b399d2fd22d7961824594f73462",
       "balance": "32067790944"
+    },
+    {
+      "address": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "balance": "0"
     }
   ],
   "statusCode": 200
