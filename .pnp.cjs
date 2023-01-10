@@ -7431,6 +7431,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -19458,7 +19459,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
             ["abstract-logging", "npm:2.0.1"],\
             ["avvio", "npm:8.2.0"],\
-            ["find-my-way", "npm:7.3.1"],\
+            ["find-my-way", "npm:7.4.0"],\
             ["light-my-request", "npm:5.6.1"],\
             ["pino", "npm:8.6.1"],\
             ["process-warning", "npm:2.0.0"],\
@@ -19637,6 +19638,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/find-my-way-npm-7.3.1-fbb8a4e46d-eec65665c3.zip/node_modules/find-my-way/",\
           "packageDependencies": [\
             ["find-my-way", "npm:7.3.1"],\
+            ["fast-deep-equal", "npm:3.1.3"],\
+            ["fast-querystring", "npm:1.0.0"],\
+            ["safe-regex2", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:7.4.0", {\
+          "packageLocation": "./.yarn/cache/find-my-way-npm-7.4.0-020f2aca85-8f01b63c28.zip/node_modules/find-my-way/",\
+          "packageDependencies": [\
+            ["find-my-way", "npm:7.4.0"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["fast-querystring", "npm:1.0.0"],\
             ["safe-regex2", "npm:2.0.0"]\
