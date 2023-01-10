@@ -1,6 +1,6 @@
 # Chainlink External Adapter for BOB
 
-![2.0.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bob/package.json)
+![2.0.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/bob/package.json)
 
 The adapter provides an interface for retrieving data from the source blockchain.
 
