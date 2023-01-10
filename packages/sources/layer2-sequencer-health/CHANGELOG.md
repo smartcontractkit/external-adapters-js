@@ -1,5 +1,13 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 2.3.6
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.3.5
 
 ### Patch Changes
