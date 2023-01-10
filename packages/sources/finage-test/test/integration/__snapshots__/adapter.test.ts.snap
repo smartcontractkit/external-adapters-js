@@ -74,3 +74,33 @@ Object {
   },
 }
 `;
+
+exports[`execute websocket forex endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 1.331345,
+  },
+  "result": 1.331345,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1668165071111,
+    "providerDataStreamEstablished": 1668165071111,
+    "providerIndicatedTime": 1646157588000,
+  },
+}
+`;
+
+exports[`execute websocket stock endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 163.58,
+  },
+  "result": 163.58,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1668165071111,
+    "providerDataStreamEstablished": 1668165071111,
+    "providerIndicatedTime": 1646154954689,
+  },
+}
+`;

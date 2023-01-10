@@ -5,6 +5,7 @@ import { customSettings } from '../../config'
 interface Message {
   s: string
   a: string
+  p: string
   b: string
   t: number
 }
@@ -26,10 +27,17 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
   },
   handlers: {
     message(message) {
-      if (!message.a || !message.b) {
+      if (!message.p && !message.a && !message.b) {
         return []
       }
-      const result = (Number(message.a) + Number(message.b)) / 2
+
+      let result
+      if (message.p) {
+        result = Number(message.p)
+      } else {
+        result = (Number(message.a) + Number(message.b)) / 2
+      }
+
       return [
         {
           params: { base: message.s },
