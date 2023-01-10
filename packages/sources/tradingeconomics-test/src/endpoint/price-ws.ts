@@ -3,13 +3,12 @@ import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adap
 import includes from '../config/includes.json'
 
 import { customSettings } from '../config'
+import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
 const logger = makeLogger('Tradingeconomics WS')
 
 export type EndpointTypes = {
-  Request: {
-    Params: { base: string; quote: string }
-  }
+  Request: PriceEndpointParams
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
