@@ -26,6 +26,25 @@ export interface CryptoRequestBody {
   quotes: string
 }
 
+interface CoinInfo {
+  price: number
+  volume_24h: number
+  volume_24h_change_24h: number
+  market_cap: number
+  market_cap_change_24h: number
+  percent_change_15m: number
+  percent_change_30m: number
+  percent_change_1h: number
+  percent_change_6h: number
+  percent_change_12h: number
+  percent_change_24h: number
+  percent_change_7d: number
+  percent_change_30d: number
+  percent_change_1y: number
+  ath_price: number
+  percent_from_price_ath: number
+}
+
 export interface CryptoResponseSchema {
   id: string
   name: string
@@ -38,25 +57,7 @@ export interface CryptoResponseSchema {
   first_data_at: string
   last_updated: string
   quotes: {
-    [key: string]: {
-      price: number
-      volume_24h: number
-      volume_24h_change_24h: number
-      market_cap: number
-      market_cap_change_24h: number
-      percent_change_15m: number
-      percent_change_30m: number
-      percent_change_1h: number
-      percent_change_6h: number
-      percent_change_12h: number
-      percent_change_24h: number
-      percent_change_7d: number
-      percent_change_30d: number
-      percent_change_1y: number
-      ath_price: number
-      ath_date: string
-      percent_from_price_ath: number
-    }
+    [key: string]: CoinInfo
   }
   cost?: number
 }
@@ -89,26 +90,24 @@ export const buildBatchedRequestBody = (
   // Coinpaprika supports up to 3 tickers in a single request, so we need to slice it to have 3 element chunks
   const chunkedMatrix = chunkArray(params)
 
-  return chunkedMatrix.map((chunkedParams) => {
-    return {
-      params: chunkedParams,
-      request: {
-        baseURL: getApiEndpoint(config),
-        url: 'v1/tickers',
-        method: 'GET',
-        headers: getApiHeaders(config),
-        params: {
-          quotes: [...new Set(chunkedParams.map((p) => p.quote.toUpperCase()))].join(','),
-        },
+  return chunkedMatrix.map((chunkedParams) => ({
+    params: chunkedParams,
+    request: {
+      baseURL: getApiEndpoint(config),
+      url: 'v1/tickers',
+      method: 'GET',
+      headers: getApiHeaders(config),
+      params: {
+        quotes: [...new Set(chunkedParams.map((p) => p.quote.toUpperCase()))].join(','),
       },
-    }
-  })
+    },
+  }))
 }
 
 export const constructEntry = (
   res: CryptoResponseSchema[],
   requestPayload: CryptoRequestParams,
-  resultPath: 'price' | 'market_cap' | 'volume_24h',
+  resultPath: keyof CoinInfo,
 ) => {
   const coinId = requestPayload.coinid ?? (requestPayload.base as string)
   const dataForCoin = res.find((s) => s.id === coinId)
