@@ -87,7 +87,7 @@ const presetIds: { [symbol: string]: number } = {
   LINK: 1975,
   MIM: 162,
   MKR: 1518,
-  OHM: 9067,
+  OHM: 16209,
   OHMV2: 9067,
   OKB: 3897,
   RCN: 2096,
