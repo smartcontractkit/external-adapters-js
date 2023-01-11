@@ -8,7 +8,9 @@ import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapt
 const logger = makeLogger('Tradingeconomics WS')
 
 export type EndpointTypes = {
-  Request: PriceEndpointParams
+  Request: {
+    Params: PriceEndpointParams
+  }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
