@@ -12,7 +12,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |     API_PASSWORD      |             Password for the NCFX API              | string |         |                                                                        |
 |           |   FOREX_WS_USERNAME   |       Username for Forex websocket endpoint        | string |         |                                                                        |
 |           |   FOREX_WS_PASSWORD   |     Password for the Forex websocket endpoint      | string |         |                                                                        |
-|           |    WS_API_ENDPOINT    | The WS API endpoint to use for the crypto endpoint | string |         |                `wss://feed.newchangefx.com/cryptodata`                 |
+|           |    WS_API_ENDPOINT    | The WS API endpoint to use for the crypto endpoint | string |         |                 `wss://cryptofeed.ws.newchangefx.com`                  |
 |           | FOREX_WS_API_ENDPOINT | The WS API endpoint to use for the forex endpoint  | string |         | `wss://fiat-ws.eu-west-2.apingxelb.v1.newchangefx.com/sub/fiat/ws/ref` |
 
 ---
