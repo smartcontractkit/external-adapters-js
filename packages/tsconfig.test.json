@@ -534,6 +534,9 @@
       "path": "./sources/twelvedata/tsconfig.test.json"
     },
     {
+      "path": "./sources/twosigma/tsconfig.test.json"
+    },
+    {
       "path": "./sources/unibit/tsconfig.test.json"
     },
     {

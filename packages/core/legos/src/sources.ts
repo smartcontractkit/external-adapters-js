@@ -136,6 +136,7 @@ import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
+import * as twosigma from '@chainlink/twosigma-adapter'
 import * as unibit from '@chainlink/unibit-adapter'
 import * as uniswap_v2 from '@chainlink/uniswap-v2-adapter'
 import * as uniswap_v3 from '@chainlink/uniswap-v3-adapter'
@@ -286,6 +287,7 @@ export default {
   tradingeconomics,
   trueusd,
   twelvedata,
+  twosigma,
   unibit,
   uniswap_v2,
   uniswap_v3,
