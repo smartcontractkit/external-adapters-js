@@ -23,11 +23,17 @@ export const makeRestTransport = (
   type: 'primary' | 'secondary',
 ): BatchWarmingTransport<RestEndpointTypes> => {
   return new BatchWarmingTransport<RestEndpointTypes>({
-    prepareRequest: ([{ index }], { API_ENDPOINT, SECONDARY_API_ENDPOINT }) => {
+    prepareRequest: (
+      [{ index }],
+      { API_USERNAME, API_PASSWORD, API_ENDPOINT, SECONDARY_API_ENDPOINT },
+    ) => {
+      const encodedCreds = Buffer.from(`${API_USERNAME}:${API_PASSWORD}`).toString('base64')
       return {
         baseURL: type === 'primary' ? API_ENDPOINT : SECONDARY_API_ENDPOINT,
         url: '/v1/values',
-        method: 'GET',
+        headers: {
+          Authorization: `Basic ${encodedCreds}`,
+        },
         params: {
           id: index,
         },

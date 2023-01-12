@@ -44,7 +44,7 @@ export const customSettings = {
     description: 'Toggle to set the default endpoint to use WebSockets',
     type: 'boolean',
     required: false,
-    default: true,
+    default: false,
     validate: (value?: boolean) => {
       if (!value) {
         return 'WS_ENABLED must be set to true. Non-WS endpoints are not supported yet.'
