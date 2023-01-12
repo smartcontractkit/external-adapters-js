@@ -21,6 +21,16 @@ export interface RequestParams {
   quote: string
 }
 
+interface PriceInfo {
+  volume: string
+  price_change: string
+  price_change_pct: string
+  volume_change: string
+  volume_change_pct: string
+  market_cap_change: string
+  market_cap_change_pct: string
+}
+
 export interface ResponseSchema {
   id: string
   currency: string
@@ -44,51 +54,11 @@ export interface ResponseSchema {
   rank_delta: string
   high: string
   high_timestamp: string
-  '1d': {
-    volume: string
-    price_change: string
-    price_change_pct: string
-    volume_change: string
-    volume_change_pct: string
-    market_cap_change: string
-    market_cap_change_pct: string
-  }
-  '7d': {
-    volume: string
-    price_change: string
-    price_change_pct: string
-    volume_change: string
-    volume_change_pct: string
-    market_cap_change: string
-    market_cap_change_pct: string
-  }
-  '30d': {
-    volume: string
-    price_change: string
-    price_change_pct: string
-    volume_change: string
-    volume_change_pct: string
-    market_cap_change: string
-    market_cap_change_pct: string
-  }
-  '365d': {
-    volume: string
-    price_change: string
-    price_change_pct: string
-    volume_change: string
-    volume_change_pct: string
-    market_cap_change: string
-    market_cap_change_pct: string
-  }
-  ytd: {
-    volume: string
-    price_change: string
-    price_change_pct: string
-    volume_change: string
-    volume_change_pct: string
-    market_cap_change: string
-    market_cap_change_pct: string
-  }
+  '1d': PriceInfo
+  '7d': PriceInfo
+  '30d': PriceInfo
+  '365d': PriceInfo
+  ytd: PriceInfo
 }
 
 export interface ProviderResponseBody {
@@ -146,7 +116,7 @@ export const buildCryptoRequestBody = (
       request: {
         baseURL: baseUrl,
         url: '/currencies/ticker',
-        params: { ...record, key: apiKey, ids: [...new Set(...record.ids)].join('') },
+        params: { ...record, key: apiKey, ids: [...new Set(record.ids)].join(',') },
       },
     }
   })

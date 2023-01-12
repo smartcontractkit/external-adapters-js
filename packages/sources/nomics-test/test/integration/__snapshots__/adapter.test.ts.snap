@@ -3,9 +3,9 @@
 exports[`execute crypto endpoint should return success 1`] = `
 Object {
   "data": Object {
-    "result": 53835.22386957,
+    "result": 1354.22386957,
   },
-  "result": 53835.22386957,
+  "result": 1354.22386957,
   "statusCode": 200,
   "timestamps": Object {
     "providerDataReceived": 1641035471111,

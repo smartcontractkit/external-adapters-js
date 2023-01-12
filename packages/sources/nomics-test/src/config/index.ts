@@ -3,6 +3,7 @@ export const customSettings = {
     description: 'An API key that can be obtained from https://p.nomics.com/pricing#free-plan',
     type: 'string',
     required: true,
+    sensitive: true,
   },
   API_ENDPOINT: {
     description: 'An API endpoint for nomics',

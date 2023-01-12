@@ -62,7 +62,7 @@ describe('execute', () => {
   })
 
   describe('crypto endpoint', () => {
-    const data = {
+    const firstReqParams = {
       id,
       data: {
         from: 'BTC',
@@ -70,12 +70,28 @@ describe('execute', () => {
       },
     }
 
+    const secondReqParams = {
+      id,
+      data: {
+        from: 'ETH',
+        to: 'EUR',
+      },
+    }
+
     it('should return success', async () => {
       mockCryptoResponseSuccess()
 
+      await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(firstReqParams)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect(200)
+
+      // second request to check batching
       const response = await (context.req as SuperTest<Test>)
         .post('/')
-        .send(data)
+        .send(secondReqParams)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
