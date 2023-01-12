@@ -5,14 +5,15 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
-  WS_API_ENDPOINT: {
-    description: 'The websocket url for coinmetrics',
+  API_ACCOUNT_ID: {
+    description: 'API Account ID',
     type: 'string',
-    default: 'wss://api.chk.elwood.systems/v1/stream',
+    required: true,
+    sensitive: true,
   },
-  API_ENDPOINT: {
-    description: 'The API url for coinmetrics',
+  SSE_API_ENDPOINT: {
+    description: 'Endpoint for SSE streaming prices.',
     type: 'string',
-    default: 'https://api.chk.elwood.systems/v1/stream',
+    default: 'https://api-fxtrade.oanda.com/v3',
   },
 } as const
