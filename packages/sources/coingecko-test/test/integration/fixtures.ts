@@ -8,6 +8,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
     .query({
       ids: 'ethereum',
       vs_currencies: 'USD',
+      precision: 'full',
     })
     .reply(200, () => ({ ethereum: { usd: 4226.71 } }), [
       'Content-Type',
@@ -24,6 +25,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
       ids: 'ethereum',
       vs_currencies: 'USD',
       include_market_cap: true,
+      precision: 'full',
     })
     .reply(200, () => ({ ethereum: { usd: 4208.38, usd_market_cap: 499351414399.08246 } }), [
       'Content-Type',
@@ -40,6 +42,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
       ids: 'ethereum',
       vs_currencies: 'USD',
       include_24hr_vol: true,
+      precision: 'full',
     })
     .reply(200, () => ({ ethereum: { usd: 4220.49, usd_24h_vol: 17345604238.153397 } }), [
       'Content-Type',

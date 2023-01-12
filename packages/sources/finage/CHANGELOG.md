@@ -1,5 +1,19 @@
 ## v1.1.0
 
+## 1.6.12
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.6.11
+
+### Patch Changes
+
+- 5a0e5fb2e: Add quote override support for Finage WS
+
 ## 1.6.10
 
 ### Patch Changes

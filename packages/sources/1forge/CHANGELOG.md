@@ -1,5 +1,13 @@
 # @chainlink/1forge-adapter
 
+## 1.6.27
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.6.26
 
 ### Patch Changes

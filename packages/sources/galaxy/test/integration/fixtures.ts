@@ -1,7 +1,18 @@
 import nock from 'nock'
 
-export const mockTokenResponse = (): nock.Scope => {
-  return nock('https://test-url.com', {
+export const mockSubscribeResponse = {
+  message: { type: 'subscribed', signals: ['markPrice_ETH/USD'] },
+}
+
+export const mockPriceResponse = {
+  type: 'signal_update',
+  signal: 'markPrice_ETH/USD',
+  ts: 1667970828.9702902,
+  value: 1279.2012582120603,
+}
+
+export const mockTokenResponse = (): nock.Scope =>
+  nock('https://test-url.com', {
     encodedQueryParams: true,
   })
     .get('/')
@@ -16,17 +27,3 @@ export const mockTokenResponse = (): nock.Scope => {
       'Origin',
     ])
     .persist(true)
-}
-
-export const mockSubscribeResponse = {
-  request: { type: 'subscribe', signals: ['markPrice_ETH/USD'] },
-  response: [
-    { message: { type: 'subscribed', signals: ['markPrice_ETH/USD'] } },
-    {
-      type: 'signal_update',
-      signal: 'markPrice_ETH/USD',
-      ts: 1660041469.1530244,
-      value: 1673.3236752947848,
-    },
-  ],
-}

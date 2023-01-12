@@ -1,44 +1,38 @@
-# Galaxy Source Adapter
+# GALAXY
 
-![1.2.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy/package.json)
-
-This adapter only supports WS connections. Make sure WS is enabled in your configuration in order to run this adapter.
-
-Base URL https://data.galaxy.com/v1.0/login
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/galaxy/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |                                            Description                                            |  Type  | Options |               Default                |
-| :-------: | :-------------: | :-----------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------: |
-|           |  API_ENDPOINT   | The endpoint to fetch the Galaxy access token from (required to establish a websocket connection) | string |         | `https://data.galaxy.com/v1.0/login` |
-|           | WS_API_ENDPOINT |                             The websocket endpoint to pull data from                              | string |         |   `wss://data.galaxy.com/v1.0/ws`    |
-|    ✅     |   WS_API_KEY    |                                 The API key to authenticate with                                  | string |         |                                      |
-|    ✅     | WS_API_PASSWORD |                               The API password to authenticate with                               | string |         |                                      |
+| Required? |      Name       |           Description            |  Type  | Options |               Default                |
+| :-------: | :-------------: | :------------------------------: | :----: | :-----: | :----------------------------------: |
+|           |  API_ENDPOINT   | Base URL for the REST Galaxy API | string |         | `https://data.galaxy.com/v1.0/login` |
+|           | WS_API_ENDPOINT |    WS URL for the Galaxy API     | string |         |   `wss://data.galaxy.com/v1.0/ws`    |
+|    ✅     |   WS_API_KEY    |      Key for the Galaxy API      | string |         |                                      |
+|    ✅     | WS_API_PASSWORD |   Password for the Galaxy API    | string |         |                                      |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                       Options                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-The price endpoint is used to fetch a price for a base/quote asset pair. This adapter currently only supports WS connection to the API on this endpoint.
-
-`price` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |            Description            | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :-------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` |   The currency ticker to query    |      |         |         |            |                |
-|    ✅     | quote | `market`, `to` | The currency ticker to convert to |      |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 

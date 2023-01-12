@@ -156,9 +156,6 @@
       "path": "./sources/bank-frick/tsconfig.test.json"
     },
     {
-      "path": "./sources/bank-frick-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bea/tsconfig.test.json"
     },
     {
@@ -217,6 +214,9 @@
     },
     {
       "path": "./sources/coinapi/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/coinapi-test/tsconfig.test.json"
     },
     {
       "path": "./sources/coinbase/tsconfig.test.json"
@@ -300,9 +300,6 @@
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
-      "path": "./sources/elwood-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ens/tsconfig.test.json"
     },
     {
@@ -358,9 +355,6 @@
     },
     {
       "path": "./sources/galaxy/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/galaxy-test/tsconfig.test.json"
     },
     {
       "path": "./sources/gemini/tsconfig.test.json"

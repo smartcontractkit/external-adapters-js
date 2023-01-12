@@ -2,8 +2,6 @@
 
 ![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare-test/package.json)
 
-Base URL wss://streamer.cryptocompare.com/v2
-
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
@@ -19,15 +17,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                             Options                                                                                             | Default  |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto-ws](#cryptoendpoint-endpoint), [cryptoEndpoint](#cryptoendpoint-endpoint), [marketcap](#cryptoendpoint-endpoint), [price](#cryptoendpoint-endpoint), [volume](#cryptoendpoint-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                     Options                                                                     | Default  |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto-ws](#crypto-endpoint), [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [volume](#crypto-endpoint) | `crypto` |
 
-## CryptoEndpoint Endpoint
+## Crypto Endpoint
 
-Supported names for this endpoint are: `crypto-ws`, `cryptoEndpoint`, `marketcap`, `price`, `volume`.
+Supported names for this endpoint are: `crypto`, `crypto-ws`, `marketcap`, `price`, `volume`.
 
 ### Input Params
 

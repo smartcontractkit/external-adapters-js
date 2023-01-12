@@ -241,10 +241,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/bank-frick"\
       },\
       {\
-        "name": "@chainlink/bank-frick-test-adapter",\
-        "reference": "workspace:packages/sources/bank-frick-test"\
-      },\
-      {\
         "name": "@chainlink/bea-adapter",\
         "reference": "workspace:packages/sources/bea"\
       },\
@@ -323,6 +319,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/coinapi-adapter",\
         "reference": "workspace:packages/sources/coinapi"\
+      },\
+      {\
+        "name": "@chainlink/coinapi-test-adapter",\
+        "reference": "workspace:packages/sources/coinapi-test"\
       },\
       {\
         "name": "@chainlink/coinbase-adapter",\
@@ -433,10 +433,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/elwood"\
       },\
       {\
-        "name": "@chainlink/elwood-test-adapter",\
-        "reference": "workspace:packages/sources/elwood-test"\
-      },\
-      {\
         "name": "@chainlink/ens-adapter",\
         "reference": "workspace:packages/sources/ens"\
       },\
@@ -511,10 +507,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@chainlink/galaxy-adapter",\
         "reference": "workspace:packages/sources/galaxy"\
-      },\
-      {\
-        "name": "@chainlink/galaxy-test-adapter",\
-        "reference": "workspace:packages/sources/galaxy-test"\
       },\
       {\
         "name": "@chainlink/gemini-adapter",\
@@ -823,7 +815,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/armanino-adapter", ["workspace:packages/sources/armanino"]],\
       ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
       ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
-      ["@chainlink/bank-frick-test-adapter", ["workspace:packages/sources/bank-frick-test"]],\
       ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
       ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
       ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],\
@@ -847,6 +838,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
+      ["@chainlink/coinapi-test-adapter", ["workspace:packages/sources/coinapi-test"]],\
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
       ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],\
       ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],\
@@ -889,7 +881,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
       ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
       ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
-      ["@chainlink/elwood-test-adapter", ["workspace:packages/sources/elwood-test"]],\
       ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
       ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
       ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
@@ -913,7 +904,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
       ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
       ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
-      ["@chainlink/galaxy-test-adapter", ["workspace:packages/sources/galaxy-test"]],\
       ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
       ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
       ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
@@ -4180,26 +4170,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/bank-frick/",\
           "packageDependencies": [\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["decimal.js-light", "npm:2.5.1"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["ts-node-dev", "virtual:4285c033268ce43fed9d7d7aae309e26c6f9f416b9331782ab0bd778142f9d21a61590da4341e85ac58032d3dcd310f0f10f03214ec4240b7889fe278551f16a#npm:2.0.0"],\
-            ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/bank-frick-test-adapter", [\
-        ["workspace:packages/sources/bank-frick-test", {\
-          "packageLocation": "./packages/sources/bank-frick-test/",\
-          "packageDependencies": [\
-            ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -4313,7 +4283,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/express", "npm:4.17.14"],\
+            ["@types/express", "npm:4.17.15"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4627,6 +4597,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/coinapi-test-adapter", [\
+        ["workspace:packages/sources/coinapi-test", {\
+          "packageLocation": "./packages/sources/coinapi-test/",\
+          "packageDependencies": [\
+            ["@chainlink/coinapi-test-adapter", "workspace:packages/sources/coinapi-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.15.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -5311,7 +5299,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],\
             ["@chainlink/armanino-adapter", "workspace:packages/sources/armanino"],\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/bank-frick-test-adapter", "workspace:packages/sources/bank-frick-test"],\
             ["@chainlink/bea-adapter", "workspace:packages/sources/bea"],\
             ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
             ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],\
@@ -5332,6 +5319,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
+            ["@chainlink/coinapi-test-adapter", "workspace:packages/sources/coinapi-test"],\
             ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],\
             ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
@@ -5359,7 +5347,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
             ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
             ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],\
             ["@chainlink/eodhistoricaldata-adapter", "workspace:packages/sources/eodhistoricaldata"],\
@@ -5379,7 +5366,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],\
             ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/galaxy-test-adapter", "workspace:packages/sources/galaxy-test"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],\
             ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],\
@@ -5464,7 +5450,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.8.5"],\
             ["@types/fast-redact", "npm:3.0.2"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/lodash", "npm:4.14.189"],\
+            ["@types/lodash", "npm:4.14.191"],\
             ["@types/lru-cache", "npm:5.1.1"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/object-hash", "npm:2.1.1"],\
@@ -5601,24 +5587,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.0.3"],\
-            ["@types/node", "npm:16.11.41"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.7"],\
-            ["supertest", "npm:6.2.3"],\
-            ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/elwood-test-adapter", [\
-        ["workspace:packages/sources/elwood-test", {\
-          "packageLocation": "./packages/sources/elwood-test/",\
-          "packageDependencies": [\
-            ["@chainlink/elwood-test-adapter", "workspace:packages/sources/elwood-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -5902,6 +5870,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.15.1", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.15.1-9e21403fe5-245b066cf4.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.15.1"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.9.2"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@chainlink/external-adapters-js", [\
@@ -6083,24 +6067,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:16.11.51"],\
-            ["@types/supertest", "npm:2.0.12"],\
-            ["nock", "npm:13.2.9"],\
-            ["supertest", "npm:6.2.4"],\
-            ["tslib", "npm:2.4.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
-      ["@chainlink/galaxy-test-adapter", [\
-        ["workspace:packages/sources/galaxy-test", {\
-          "packageLocation": "./packages/sources/galaxy-test/",\
-          "packageDependencies": [\
-            ["@chainlink/galaxy-test-adapter", "workspace:packages/sources/galaxy-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
@@ -6983,7 +6949,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@types/jest", "npm:27.5.2"],\
-            ["@types/node", "npm:14.18.33"],\
+            ["@types/node", "npm:14.18.36"],\
             ["decimal.js", "npm:10.4.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
@@ -12422,10 +12388,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/express", [\
-        ["npm:4.17.14", {\
-          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.14-076e1b4711-15c1af46d0.zip/node_modules/@types/express/",\
+        ["npm:4.17.15", {\
+          "packageLocation": "./.yarn/cache/@types-express-npm-4.17.15-f269888d96-b4acd8a836.zip/node_modules/@types/express/",\
           "packageDependencies": [\
-            ["@types/express", "npm:4.17.14"],\
+            ["@types/express", "npm:4.17.15"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/express-serve-static-core", "npm:4.17.31"],\
             ["@types/qs", "npm:6.9.7"],\
@@ -12524,15 +12490,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/jest", [\
-        ["npm:27.0.3", {\
-          "packageLocation": "./.yarn/cache/@types-jest-npm-27.0.3-c4c49cbce2-3683a99458.zip/node_modules/@types/jest/",\
-          "packageDependencies": [\
-            ["@types/jest", "npm:27.0.3"],\
-            ["jest-diff", "npm:27.5.1"],\
-            ["pretty-format", "npm:27.5.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:27.5.2", {\
           "packageLocation": "./.yarn/cache/@types-jest-npm-27.5.2-f8ba570ba6-7e11c6826a.zip/node_modules/@types/jest/",\
           "packageDependencies": [\
@@ -12622,10 +12579,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/lodash", [\
-        ["npm:4.14.189", {\
-          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.189-7aa430cca4-096d1e0954.zip/node_modules/@types/lodash/",\
+        ["npm:4.14.191", {\
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.191-67a04a969b-ba0d5434e1.zip/node_modules/@types/lodash/",\
           "packageDependencies": [\
-            ["@types/lodash", "npm:4.14.189"]\
+            ["@types/lodash", "npm:4.14.191"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12736,17 +12693,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:14.18.33", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.33-cf91207517-4e23f95186.zip/node_modules/@types/node/",\
+        ["npm:14.18.36", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-14.18.36-af3afe44ce-da7f479b3f.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:14.18.33"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:16.11.41", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-16.11.41-e10b7bd53b-808e4d6575.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:16.11.41"]\
+            ["@types/node", "npm:14.18.36"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -13026,24 +12976,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-stack-utils-npm-2.0.1-867718ab70-205fdbe332.zip/node_modules/@types/stack-utils/",\
           "packageDependencies": [\
             ["@types/stack-utils", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/strip-bom", [\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/@types-strip-bom-npm-3.0.0-495ea2cef5-cb165d0c2c.zip/node_modules/@types/strip-bom/",\
-          "packageDependencies": [\
-            ["@types/strip-bom", "npm:3.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/strip-json-comments", [\
-        ["npm:0.0.30", {\
-          "packageLocation": "./.yarn/cache/@types-strip-json-comments-npm-0.0.30-4d685379c3-829ddd3896.zip/node_modules/@types/strip-json-comments/",\
-          "packageDependencies": [\
-            ["@types/strip-json-comments", "npm:0.0.30"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -17361,15 +17293,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["decimal.js-light", [\
-        ["npm:2.5.1", {\
-          "packageLocation": "./.yarn/cache/decimal.js-light-npm-2.5.1-2a858493a8-f5a2c7eac1.zip/node_modules/decimal.js-light/",\
-          "packageDependencies": [\
-            ["decimal.js-light", "npm:2.5.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["decode-uri-component", [\
         ["npm:0.2.0", {\
           "packageLocation": "./.yarn/cache/decode-uri-component-npm-0.2.0-5bcc0f3597-f3749344ab.zip/node_modules/decode-uri-component/",\
@@ -17993,16 +17916,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["is-stream", "npm:1.1.0"],\
             ["lodash.snakecase", "npm:4.1.1"],\
             ["node-fetch", "virtual:09d04edbf200e49ba3d456b7ec11252ac256c6626ab30e6ba87b46f90a9b3ab6532daaa51f14ae511fd3f16bb7cd24620dc2638ae148c098925c63f72305a9ab#npm:2.6.7"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["dynamic-dedupe", [\
-        ["npm:0.3.0", {\
-          "packageLocation": "./.yarn/cache/dynamic-dedupe-npm-0.3.0-2bd097ed43-5178b99ad3.zip/node_modules/dynamic-dedupe/",\
-          "packageDependencies": [\
-            ["dynamic-dedupe", "npm:0.3.0"],\
-            ["xtend", "npm:4.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -27422,17 +27335,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["nock", [\
-        ["npm:13.2.7", {\
-          "packageLocation": "./.yarn/cache/nock-npm-13.2.7-a7218c9ff7-0d7d3163ca.zip/node_modules/nock/",\
-          "packageDependencies": [\
-            ["nock", "npm:13.2.7"],\
-            ["debug", "virtual:40f53b1ba1d401651db5200a9f0e185d9eec8e29ee543f0cc61943e48cfea842697b714f8870e4f57da4c0ae44d4f0d34db9ce53ec0b421028713432ce63c183#npm:4.3.4"],\
-            ["json-stringify-safe", "npm:5.0.1"],\
-            ["lodash", "npm:4.17.21"],\
-            ["propagate", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:13.2.9", {\
           "packageLocation": "./.yarn/cache/nock-npm-13.2.9-de18b54858-04a2dc60b4.zip/node_modules/nock/",\
           "packageDependencies": [\
@@ -32058,24 +31960,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:7.1.5", {\
-          "packageLocation": "./.yarn/cache/superagent-npm-7.1.5-b82717b291-4782ca099b.zip/node_modules/superagent/",\
-          "packageDependencies": [\
-            ["superagent", "npm:7.1.5"],\
-            ["component-emitter", "npm:1.3.0"],\
-            ["cookiejar", "npm:2.1.3"],\
-            ["debug", "virtual:40f53b1ba1d401651db5200a9f0e185d9eec8e29ee543f0cc61943e48cfea842697b714f8870e4f57da4c0ae44d4f0d34db9ce53ec0b421028713432ce63c183#npm:4.3.4"],\
-            ["fast-safe-stringify", "npm:2.1.1"],\
-            ["form-data", "npm:4.0.0"],\
-            ["formidable", "npm:2.0.1"],\
-            ["methods", "npm:1.1.2"],\
-            ["mime", "npm:2.6.0"],\
-            ["qs", "npm:6.11.0"],\
-            ["readable-stream", "npm:3.6.0"],\
-            ["semver", "npm:7.3.8"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:8.0.0", {\
           "packageLocation": "./.yarn/cache/superagent-npm-8.0.0-23cfd5d736-14343e5932.zip/node_modules/superagent/",\
           "packageDependencies": [\
@@ -32105,15 +31989,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["supertest", [\
-        ["npm:6.2.3", {\
-          "packageLocation": "./.yarn/cache/supertest-npm-6.2.3-280f27cd97-c1bed86c31.zip/node_modules/supertest/",\
-          "packageDependencies": [\
-            ["supertest", "npm:6.2.3"],\
-            ["methods", "npm:1.1.2"],\
-            ["superagent", "npm:7.1.5"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:6.2.4", {\
           "packageLocation": "./.yarn/cache/supertest-npm-6.2.4-6901daa695-f2ddc4f3ba.zip/node_modules/supertest/",\
           "packageDependencies": [\
@@ -32786,15 +32661,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["tree-kill", [\
-        ["npm:1.2.2", {\
-          "packageLocation": "./.yarn/cache/tree-kill-npm-1.2.2-3da0e5a759-49117f5f41.zip/node_modules/tree-kill/",\
-          "packageDependencies": [\
-            ["tree-kill", "npm:1.2.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["treeify", [\
         ["npm:1.1.0", {\
           "packageLocation": "./.yarn/cache/treeify-npm-1.1.0-abf9292333-aa00dded22.zip/node_modules/treeify/",\
@@ -32924,91 +32790,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/swc__wasm",\
             "@types/typescript",\
             "typescript"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:5ba7d551a636dd2978c55526d382e3e3971d9f490a2dd745fa7a2d261be2e556a23894dde6ccbad0d8530fe1c4409b9109b9614ebc012cfa704be971523c5c24#npm:10.9.1", {\
-          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-68e34407e8/0/cache/ts-node-npm-10.9.1-6c268be7f4-090adff130.zip/node_modules/ts-node/",\
-          "packageDependencies": [\
-            ["ts-node", "virtual:5ba7d551a636dd2978c55526d382e3e3971d9f490a2dd745fa7a2d261be2e556a23894dde6ccbad0d8530fe1c4409b9109b9614ebc012cfa704be971523c5c24#npm:10.9.1"],\
-            ["@cspotcode/source-map-support", "npm:0.8.1"],\
-            ["@swc/core", null],\
-            ["@swc/wasm", null],\
-            ["@tsconfig/node10", "npm:1.0.9"],\
-            ["@tsconfig/node12", "npm:1.0.11"],\
-            ["@tsconfig/node14", "npm:1.0.3"],\
-            ["@tsconfig/node16", "npm:1.0.3"],\
-            ["@types/node", null],\
-            ["@types/swc__core", null],\
-            ["@types/swc__wasm", null],\
-            ["@types/typescript", null],\
-            ["acorn", "npm:8.8.0"],\
-            ["acorn-walk", "npm:8.2.0"],\
-            ["arg", "npm:4.1.3"],\
-            ["create-require", "npm:1.1.1"],\
-            ["diff", "npm:4.0.2"],\
-            ["make-error", "npm:1.3.6"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"],\
-            ["v8-compile-cache-lib", "npm:3.0.1"],\
-            ["yn", "npm:3.1.1"]\
-          ],\
-          "packagePeers": [\
-            "@swc/core",\
-            "@swc/wasm",\
-            "@types/node",\
-            "@types/swc__core",\
-            "@types/swc__wasm",\
-            "@types/typescript",\
-            "typescript"\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["ts-node-dev", [\
-        ["npm:2.0.0", {\
-          "packageLocation": "./.yarn/cache/ts-node-dev-npm-2.0.0-a9d487396c-d654b401de.zip/node_modules/ts-node-dev/",\
-          "packageDependencies": [\
-            ["ts-node-dev", "npm:2.0.0"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
-        ["virtual:4285c033268ce43fed9d7d7aae309e26c6f9f416b9331782ab0bd778142f9d21a61590da4341e85ac58032d3dcd310f0f10f03214ec4240b7889fe278551f16a#npm:2.0.0", {\
-          "packageLocation": "./.yarn/__virtual__/ts-node-dev-virtual-5ba7d551a6/0/cache/ts-node-dev-npm-2.0.0-a9d487396c-d654b401de.zip/node_modules/ts-node-dev/",\
-          "packageDependencies": [\
-            ["ts-node-dev", "virtual:4285c033268ce43fed9d7d7aae309e26c6f9f416b9331782ab0bd778142f9d21a61590da4341e85ac58032d3dcd310f0f10f03214ec4240b7889fe278551f16a#npm:2.0.0"],\
-            ["@types/node-notifier", null],\
-            ["@types/typescript", null],\
-            ["chokidar", "npm:3.5.3"],\
-            ["dynamic-dedupe", "npm:0.3.0"],\
-            ["minimist", "npm:1.2.6"],\
-            ["mkdirp", "npm:1.0.4"],\
-            ["node-notifier", null],\
-            ["resolve", "patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"],\
-            ["rimraf", "npm:2.7.1"],\
-            ["source-map-support", "npm:0.5.21"],\
-            ["tree-kill", "npm:1.2.2"],\
-            ["ts-node", "virtual:5ba7d551a636dd2978c55526d382e3e3971d9f490a2dd745fa7a2d261be2e556a23894dde6ccbad0d8530fe1c4409b9109b9614ebc012cfa704be971523c5c24#npm:10.9.1"],\
-            ["tsconfig", "npm:7.0.0"],\
-            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
-          ],\
-          "packagePeers": [\
-            "@types/node-notifier",\
-            "@types/typescript",\
-            "node-notifier",\
-            "typescript"\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["tsconfig", [\
-        ["npm:7.0.0", {\
-          "packageLocation": "./.yarn/cache/tsconfig-npm-7.0.0-27f79fe1ca-8bce05e93c.zip/node_modules/tsconfig/",\
-          "packageDependencies": [\
-            ["tsconfig", "npm:7.0.0"],\
-            ["@types/strip-bom", "npm:3.0.0"],\
-            ["@types/strip-json-comments", "npm:0.0.30"],\
-            ["strip-bom", "npm:3.0.0"],\
-            ["strip-json-comments", "npm:2.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\

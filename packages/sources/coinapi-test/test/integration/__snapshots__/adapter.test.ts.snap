@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute http assets endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 3043.673871176232,
+  },
+  "result": 3043.673871176232,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
+}
+`;
+
+exports[`execute http crypto endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 22978.232093447674,
+  },
+  "result": 22978.232093447674,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
+}
+`;
+
+exports[`execute websocket crypto endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 16777,
+  },
+  "result": 16777,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1668165071111,
+    "providerDataStreamEstablished": 1668165071111,
+  },
+}
+`;

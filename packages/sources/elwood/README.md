@@ -1,41 +1,37 @@
-# Elwood Adapter
+# ELWOOD
 
-![1.0.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood/package.json)
-
-This adapter implements a WS interface for price data from the [Elwood](https://elwood.io/) platform. Note that the first request for a price will fail because the WS connection does not have enough time to start up before the first subscription request is sent.
-
-Base URL wss://api.chk.elwood.systems/v1/stream
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/elwood/package.json)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |  Name   |                Description                |  Type  | Options | Default |
-| :-------: | :-----: | :---------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | API_KEY | API key to use (combined WS and HTTP key) | string |         |         |
+| Required? |      Name       |            Description            |  Type  | Options |                  Default                   |
+| :-------: | :-------------: | :-------------------------------: | :----: | :-----: | :----------------------------------------: |
+|    ✅     |     API_KEY     |              API key              | string |         |                                            |
+|           | WS_API_ENDPOINT | The websocket url for coinmetrics | string |         |  `wss://api.chk.elwood.systems/v1/stream`  |
+|           |  API_ENDPOINT   |    The API url for coinmetrics    | string |         | `https://api.chk.elwood.systems/v1/stream` |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                       Options                       | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#price-endpoint), [price](#price-endpoint) | `crypto` |
 
 ## Price Endpoint
 
-The price endpoint is used to fetch a price for a base/quote asset pair. This adapter currently only supports WS connection to the API for price data.
-
-`price` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto`, `price`.
 
 ### Input Params
 
-| Required? | Name  |        Aliases         |            Description            | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :--------------------: | :-------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  |     `coin`, `from`     |   The currency ticker to query    |      |         |         |            |                |
-|    ✅     | quote | `market`, `term`, `to` | The currency ticker to convert to |      |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 

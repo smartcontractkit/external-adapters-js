@@ -1,9 +1,12 @@
 import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
-import { PRO_API_ENDPOINT, DEFAULT_API_ENDPOINT } from './config'
+import { customSettings, getApiEndpoint } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import {
+  ProviderResult,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -38,24 +41,23 @@ export type GlobalEndpointTypes = {
   Request: {
     Params: GlobalRequestParams
   }
-  Response: {
-    Data: ProviderResponseBody
-    Result: number
-  }
-  CustomSettings: SettingsMap
+  Response: SingleNumberResultResponse
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: never
     ResponseBody: ProviderResponseBody
   }
 }
 
-export const buildGlobalRequestBody = (apiKey?: string): HttpRequestConfig<never> => {
+export const buildGlobalRequestBody = (
+  config: AdapterConfig<typeof customSettings>,
+): HttpRequestConfig<never> => {
   return {
-    baseURL: apiKey ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT,
+    baseURL: getApiEndpoint(config),
     url: '/global',
     method: 'GET',
     params: {
-      x_cg_pro_api_key: apiKey,
+      x_cg_pro_api_key: config.API_KEY,
     },
   }
 }
@@ -111,7 +113,7 @@ export const constructEntry = (
   return {
     params: requestPayload,
     response: {
-      data: res.data,
+      data: { result },
       result,
       timestamps: {
         providerIndicatedTime: resultData.updated_at * 1000,

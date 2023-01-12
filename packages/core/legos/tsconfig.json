@@ -44,9 +44,6 @@
       "path": "../../sources/bank-frick"
     },
     {
-      "path": "../../sources/bank-frick-test"
-    },
-    {
       "path": "../../sources/bea"
     },
     {
@@ -105,6 +102,9 @@
     },
     {
       "path": "../../sources/coinapi"
+    },
+    {
+      "path": "../../sources/coinapi-test"
     },
     {
       "path": "../../sources/coinbase"
@@ -188,9 +188,6 @@
       "path": "../../sources/elwood"
     },
     {
-      "path": "../../sources/elwood-test"
-    },
-    {
       "path": "../../sources/ens"
     },
     {
@@ -247,9 +244,7 @@
     {
       "path": "../../sources/galaxy"
     },
-    {
-      "path": "../../sources/galaxy-test"
-    },
+
     {
       "path": "../../sources/gemini"
     },
