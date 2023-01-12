@@ -29,6 +29,7 @@ import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
+import * as coinapi_test from '@chainlink/coinapi-test-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
@@ -176,6 +177,7 @@ export default {
   cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
+  coinapi_test,
   coinbase,
   coincodex,
   coingecko,
