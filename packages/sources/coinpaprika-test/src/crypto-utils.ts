@@ -80,25 +80,26 @@ export type EndpointTypes = {
   }
 }
 
-const chunkArray = (params: CryptoRequestParams[], size = 3): CryptoRequestParams[][] =>
+const chunkArray = (params: string[], size = 3): string[][] =>
   params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
 
 export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
   config: AdapterConfig<typeof customSettings>,
 ) => {
-  // Coinpaprika supports up to 3 tickers in a single request, so we need to slice it to have 3 element chunks
-  const chunkedMatrix = chunkArray(params)
+  // Coinpaprika supports up to 3 different quotes in a single request, so we slice it to have 3 quote chunks if needed
+  const uniqueQuotes = new Set(params.map((p) => p.quote.toUpperCase()))
+  const chunkedMatrix = chunkArray([...uniqueQuotes])
 
   return chunkedMatrix.map((chunkedParams) => ({
-    params: chunkedParams,
+    params: params.filter((p) => chunkedParams.includes(p.quote.toUpperCase())),
     request: {
       baseURL: getApiEndpoint(config),
       url: 'v1/tickers',
       method: 'GET',
       headers: getApiHeaders(config),
       params: {
-        quotes: [...new Set(chunkedParams.map((p) => p.quote.toUpperCase()))].join(','),
+        quotes: chunkedParams.join(','),
       },
     },
   }))
