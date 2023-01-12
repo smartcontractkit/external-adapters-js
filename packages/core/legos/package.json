@@ -60,6 +60,7 @@
     "@chainlink/cfbenchmarks-test-adapter": "workspace:*",
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",
+    "@chainlink/coinapi-test-adapter": "workspace:*",
     "@chainlink/coinbase-adapter": "workspace:*",
     "@chainlink/coincodex-adapter": "workspace:*",
     "@chainlink/coingecko-adapter": "workspace:*",

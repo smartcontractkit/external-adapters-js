@@ -2167,6 +2167,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/coinapi-test-adapter@workspace:*, @chainlink/coinapi-test-adapter@workspace:packages/sources/coinapi-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/coinapi-test-adapter@workspace:packages/sources/coinapi-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.15.1
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/coinbase-adapter@workspace:*, @chainlink/coinbase-adapter@workspace:packages/sources/coinbase":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-adapter@workspace:packages/sources/coinbase"
@@ -2926,6 +2942,7 @@ __metadata:
     "@chainlink/cfbenchmarks-test-adapter": "workspace:*"
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
+    "@chainlink/coinapi-test-adapter": "workspace:*"
     "@chainlink/coinbase-adapter": "workspace:*"
     "@chainlink/coincodex-adapter": "workspace:*"
     "@chainlink/coingecko-adapter": "workspace:*"

@@ -104,6 +104,9 @@
       "path": "../../sources/coinapi"
     },
     {
+      "path": "../../sources/coinapi-test"
+    },
+    {
       "path": "../../sources/coinbase"
     },
     {

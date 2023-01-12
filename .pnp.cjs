@@ -321,6 +321,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinapi"\
       },\
       {\
+        "name": "@chainlink/coinapi-test-adapter",\
+        "reference": "workspace:packages/sources/coinapi-test"\
+      },\
+      {\
         "name": "@chainlink/coinbase-adapter",\
         "reference": "workspace:packages/sources/coinbase"\
       },\
@@ -838,6 +842,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
       ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
       ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
+      ["@chainlink/coinapi-test-adapter", ["workspace:packages/sources/coinapi-test"]],\
       ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
       ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],\
       ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],\
@@ -4605,6 +4610,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/coinapi-test-adapter", [\
+        ["workspace:packages/sources/coinapi-test", {\
+          "packageLocation": "./packages/sources/coinapi-test/",\
+          "packageDependencies": [\
+            ["@chainlink/coinapi-test-adapter", "workspace:packages/sources/coinapi-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.15.1"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/coinbase-adapter", [\
         ["workspace:packages/sources/coinbase", {\
           "packageLocation": "./packages/sources/coinbase/",\
@@ -5301,6 +5324,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cfbenchmarks-test-adapter", "workspace:packages/sources/cfbenchmarks-test"],\
             ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
             ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
+            ["@chainlink/coinapi-test-adapter", "workspace:packages/sources/coinapi-test"],\
             ["@chainlink/coinbase-adapter", "workspace:packages/sources/coinbase"],\
             ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],\
             ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
