@@ -22,7 +22,7 @@ export const customSettings = {
   WS_API_ENDPOINT: {
     type: 'string',
     description: 'The WS API endpoint to use for the crypto endpoint',
-    default: 'wss://feed.newchangefx.com/cryptodata',
+    default: 'wss://cryptofeed.ws.newchangefx.com',
   },
   FOREX_WS_API_ENDPOINT: {
     type: 'string',
