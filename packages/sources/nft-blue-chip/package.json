@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nft-blue-chip-adapter",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Chainlink NFT Blue Chip adapter.",
   "keywords": [
     "Chainlink",
