@@ -132,6 +132,7 @@
     "@chainlink/mock-ea-adapter": "workspace:*",
     "@chainlink/mycryptoapi-adapter": "workspace:*",
     "@chainlink/ncfx-adapter": "workspace:*",
+    "@chainlink/nft-blue-chip-adapter": "workspace:*",
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
