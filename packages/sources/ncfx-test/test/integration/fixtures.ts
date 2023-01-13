@@ -1,21 +1,20 @@
 export const loginResponse = {
   Type: 'Info',
-  Message: 'Logged in as user: user',
+  Message: 'Successfully Authenticated',
 }
 
-export const mockCryptoResponse = [
-  {
-    timestamp: '2022-08-01T07:14:54.909Z',
-    currencyPair: 'ETH/USD',
-    bid: 3106.8495,
-    offer: 3107.1275,
-    mid: 3106.9885,
-    changes: [
-      { period: '1h', change: -4.0416731, percentage: -0.12 },
-      { period: '1d', change: -54.625719, percentage: -1.72 },
-    ],
-  },
-]
+export const subscribeResponse = {
+  Type: 'Info',
+  Message: 'Subscribed to currency pair(s) ETH/USD',
+}
+
+export const mockCryptoResponse = {
+  timestamp: '2022-08-01T07:14:54.909Z',
+  currencyPair: 'ETH/USD',
+  bid: 3106.8495,
+  offer: 3107.1275,
+  mid: 3106.9885,
+}
 
 export const mockForexResponse = {
   USDAED: { price: 3.673, timestamp: '2022-08-01T07:14:54.909Z' },

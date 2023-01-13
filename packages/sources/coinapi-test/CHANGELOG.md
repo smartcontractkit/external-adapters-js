@@ -1,0 +1,1 @@
+# @chainlink/coinapi-test-adapter
