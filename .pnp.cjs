@@ -613,6 +613,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ncfx-test"\
       },\
       {\
+        "name": "@chainlink/nft-blue-chip-adapter",\
+        "reference": "workspace:packages/sources/nft-blue-chip"\
+      },\
+      {\
         "name": "@chainlink/nikkei-adapter",\
         "reference": "workspace:packages/sources/nikkei"\
       },\
@@ -937,6 +941,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
       ["@chainlink/ncfx-test-adapter", ["workspace:packages/sources/ncfx-test"]],\
+      ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
@@ -5392,6 +5397,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
             ["@chainlink/ncfx-test-adapter", "workspace:packages/sources/ncfx-test"],\
+            ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
@@ -6689,6 +6695,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/nft-blue-chip-adapter", [\
+        ["workspace:packages/sources/nft-blue-chip", {\
+          "packageLocation": "./packages/sources/nft-blue-chip/",\
+          "packageDependencies": [\
+            ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
+            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["decimal.js", "npm:10.4.1"],\
+            ["ethers", "npm:5.7.1"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/nftx-adapter", [\
         ["workspace:packages/composites/nftx", {\
           "packageLocation": "./packages/composites/nftx/",\
@@ -7471,6 +7497,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -19498,7 +19525,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@fastify/fast-json-stringify-compiler", "npm:4.1.0"],\
             ["abstract-logging", "npm:2.0.1"],\
             ["avvio", "npm:8.2.0"],\
-            ["find-my-way", "npm:7.3.1"],\
+            ["find-my-way", "npm:7.4.0"],\
             ["light-my-request", "npm:5.6.1"],\
             ["pino", "npm:8.6.1"],\
             ["process-warning", "npm:2.0.0"],\
@@ -19677,6 +19704,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/find-my-way-npm-7.3.1-fbb8a4e46d-eec65665c3.zip/node_modules/find-my-way/",\
           "packageDependencies": [\
             ["find-my-way", "npm:7.3.1"],\
+            ["fast-deep-equal", "npm:3.1.3"],\
+            ["fast-querystring", "npm:1.0.0"],\
+            ["safe-regex2", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:7.4.0", {\
+          "packageLocation": "./.yarn/cache/find-my-way-npm-7.4.0-020f2aca85-8f01b63c28.zip/node_modules/find-my-way/",\
+          "packageDependencies": [\
+            ["find-my-way", "npm:7.4.0"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["fast-querystring", "npm:1.0.0"],\
             ["safe-regex2", "npm:2.0.0"]\

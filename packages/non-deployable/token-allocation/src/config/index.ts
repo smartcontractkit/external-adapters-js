@@ -1,5 +1,9 @@
-import { Requester, util } from '@chainlink/ea-bootstrap'
-import { AdapterImplementation } from '@chainlink/ea-bootstrap'
+import {
+  AdapterImplementation as v2AdapterImplementation,
+  DefaultConfig,
+  Requester,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { Config, SourceRequestOptions } from '../types'
 import * as Amberdata from '@chainlink/amberdata-adapter'
 import * as CFBenchmarks from '@chainlink/cfbenchmarks-adapter'
@@ -14,25 +18,27 @@ import * as Kaiko from '@chainlink/kaiko-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
 import * as NCFX from '@chainlink/ncfx-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
+import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
-// TODO types
-export const adapters: AdapterImplementation[] = [
-  Amberdata as unknown as AdapterImplementation,
-  CFBenchmarks as unknown as AdapterImplementation,
-  CoinApi as unknown as AdapterImplementation,
-  CoinGecko as unknown as AdapterImplementation,
-  CoinMarketCap as unknown as AdapterImplementation,
-  CoinMetrics as unknown as AdapterImplementation,
-  CoinPaprika as unknown as AdapterImplementation,
-  CryptoCompare as unknown as AdapterImplementation,
-  Finage as unknown as AdapterImplementation,
-  Kaiko as unknown as AdapterImplementation,
-  NCFX as unknown as AdapterImplementation,
-  Nomics as unknown as AdapterImplementation,
-  Tiingo as unknown as AdapterImplementation,
+// List of v2 adapters
+export const adaptersV2: v2AdapterImplementation[] = [
+  Amberdata as unknown as v2AdapterImplementation,
+  CFBenchmarks as unknown as v2AdapterImplementation,
+  CoinApi as unknown as v2AdapterImplementation,
+  CoinGecko as unknown as v2AdapterImplementation,
+  CoinMarketCap as unknown as v2AdapterImplementation,
+  CoinMetrics as unknown as v2AdapterImplementation,
+  CoinPaprika as unknown as v2AdapterImplementation,
+  CryptoCompare as unknown as v2AdapterImplementation,
+  Finage as unknown as v2AdapterImplementation,
+  Kaiko as unknown as v2AdapterImplementation,
+  NCFX as unknown as v2AdapterImplementation,
+  Nomics as unknown as v2AdapterImplementation,
+  Tiingo as unknown as v2AdapterImplementation,
 ]
 
-export type Source = typeof adapters[number]['NAME']
+// List of v3 adapters
+export const adaptersV3: v3AdapterImplementation[] = []
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1
@@ -42,13 +48,27 @@ export const NAME = 'TOKEN_ALLOCATION'
 export const makeConfig = (prefix = ''): Config => {
   const sources: SourceRequestOptions = {}
 
-  for (const a of adapters) {
+  for (const a of adaptersV2) {
     const name = a.NAME
     const url = util.getURL(name.toUpperCase())
     if (url) {
       const defaultConfig = Requester.getDefaultConfig(prefix)
       defaultConfig.api.baseURL = url
       defaultConfig.api.method = 'post'
+      sources[name.toLowerCase()] = defaultConfig
+    }
+  }
+
+  for (const a of adaptersV3) {
+    const name = a.name
+    const url = util.getURL(name.toUpperCase())
+    if (url) {
+      const defaultConfig = {
+        api: {
+          baseURL: url,
+          method: 'post',
+        },
+      } as DefaultConfig
       sources[name.toLowerCase()] = defaultConfig
     }
   }
