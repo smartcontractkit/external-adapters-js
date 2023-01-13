@@ -435,6 +435,9 @@
       "path": "./sources/ncfx-test/tsconfig.test.json"
     },
     {
+      "path": "./sources/nft-blue-chip/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
