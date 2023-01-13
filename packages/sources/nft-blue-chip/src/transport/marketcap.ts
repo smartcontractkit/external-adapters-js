@@ -23,7 +23,7 @@ const logger = makeLogger('MarketcapTransport')
 
 const RPC_COST = 1
 
-const RPC_CHAIN_ID = 1
+const RPC_CHAIN_ID = 1 // Ethereum mainnet chain - NFT collections are tied to this
 
 const ETH_USD_FEED_PROXY = '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
 
@@ -104,6 +104,7 @@ export interface MarketcapTransportConfig {
   }
 }
 
+// Much of the code in this transport is borrowed from the framework's RestTransport as an example
 export class MarketcapTransport implements Transport<MarketcapTransportGenerics> {
   inFlightPrefix!: string
   cache!: Cache<AdapterResponse<MarketcapTransportGenerics['Response']>>
