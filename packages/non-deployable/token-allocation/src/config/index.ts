@@ -16,7 +16,7 @@ import * as CryptoCompare from '@chainlink/cryptocompare-adapter'
 import * as Finage from '@chainlink/finage-adapter'
 import * as Kaiko from '@chainlink/kaiko-adapter'
 import * as Nomics from '@chainlink/nomics-adapter'
-import * as NCFX from '@chainlink/ncfx-adapter'
+import { adapter as NCFX } from '@chainlink/ncfx-adapter'
 import * as Tiingo from '@chainlink/tiingo-adapter'
 import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
@@ -32,13 +32,12 @@ export const adaptersV2: v2AdapterImplementation[] = [
   CryptoCompare as unknown as v2AdapterImplementation,
   Finage as unknown as v2AdapterImplementation,
   Kaiko as unknown as v2AdapterImplementation,
-  NCFX as unknown as v2AdapterImplementation,
   Nomics as unknown as v2AdapterImplementation,
   Tiingo as unknown as v2AdapterImplementation,
 ]
 
 // List of v3 adapters
-export const adaptersV3: v3AdapterImplementation[] = []
+export const adaptersV3: v3AdapterImplementation[] = [NCFX as unknown as v3AdapterImplementation]
 
 export const DEFAULT_TOKEN_DECIMALS = 18
 export const DEFAULT_TOKEN_BALANCE = 1

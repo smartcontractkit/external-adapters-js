@@ -5851,7 +5851,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"]\
+            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -5867,7 +5867,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"]\
+            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }],\
@@ -5883,7 +5883,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pino", "npm:8.6.1"],\
             ["pino-pretty", "npm:9.1.0"],\
             ["prom-client", "npm:13.2.0"],\
-            ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"]\
+            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.19.0", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.19.0-9bcb395e33-081d214d5a.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.9.2"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6659,7 +6675,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/ncfx/",\
           "packageDependencies": [\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -7474,7 +7490,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
             ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
             ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -34868,10 +34884,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-e9368b994e/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
+        ["virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-e447ee6a95/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:71a7e5a10e56af0297746ea543210e40f301b08cd2cd77fb43769864ff9a173155cc160839fee370e5009e0837599b1cbecaa217c87fe65222750aa19e2f0395#npm:8.9.0"],\
+            ["ws", "virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
@@ -34885,10 +34901,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6", {\
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-e447ee6a95/0/cache/ws-npm-7.4.6-9c9a725604-3a990b32ed.zip/node_modules/ws/",\
+        ["virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0", {\
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-1f07cb0c62/0/cache/ws-npm-8.9.0-d620434feb-23aa0f021b.zip/node_modules/ws/",\
           "packageDependencies": [\
-            ["ws", "virtual:7ba09fa2d7752902868a69fa9d869609091144850ab3c24fda35b732a68f27f35b587e1475d08772fb49797b0809d63ba79750ed0faad72a34c129814f0896af#npm:7.4.6"],\
+            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"],\
             ["@types/bufferutil", null],\
             ["@types/utf-8-validate", null],\
             ["bufferutil", null],\
