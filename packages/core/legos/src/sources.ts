@@ -101,7 +101,6 @@ import * as metalsapi from '@chainlink/metalsapi-adapter'
 import * as mock_ea from '@chainlink/mock-ea-adapter'
 import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
-import * as ncfx_test from '@chainlink/ncfx-test-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
@@ -250,7 +249,6 @@ export default {
   mock_ea,
   mycryptoapi,
   ncfx,
-  ncfx_test,
   nft_blue_chip,
   nikkei,
   nomics,
