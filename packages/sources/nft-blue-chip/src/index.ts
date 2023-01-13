@@ -4,7 +4,7 @@ import { marketcapEndpoint } from './endpoint'
 import { customSettings, defaultEndpoint } from './config'
 
 export const adapter = new Adapter({
-  name: 'NFT-BLUE-CHIP',
+  name: 'NFT_BLUE_CHIP',
   defaultEndpoint,
   endpoints: [marketcapEndpoint],
   customSettings,
