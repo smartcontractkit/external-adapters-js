@@ -77,12 +77,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
     WS: wsTransport,
     REST: batchTransport,
   },
-  (_, adapterConfig) => {
-    if (adapterConfig?.WS_ENABLED) {
-      return 'WS'
-    }
-    return 'REST'
-  },
+  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'REST'),
 )
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({

@@ -39,7 +39,7 @@ const priceIndex = 6
 
 class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
   private _connectionClientId = ''
-  id = 1
+  id = 0
 
   get connectionClientId() {
     return this._connectionClientId
@@ -52,7 +52,7 @@ class DxFeedWebsocketTransport extends WebSocketTransport<EndpointTypes> {
   get handshakeMsg() {
     return [
       {
-        id: this.id,
+        id: ++this.id,
         version: '1.0',
         minimumVersion: '1.0',
         channel: META_HANDSHAKE,
