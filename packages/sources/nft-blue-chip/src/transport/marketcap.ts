@@ -250,7 +250,9 @@ export class MarketcapTransport implements Transport<MarketcapTransportGenerics>
 
     const response: AdapterResponse<MarketcapTransportGenerics['Response']> = {
       statusCode: 200,
-      data: totalMarketcapUsd,
+      data: {
+        result: totalMarketcapUsd,
+      },
       result: totalMarketcapUsd,
     }
 
