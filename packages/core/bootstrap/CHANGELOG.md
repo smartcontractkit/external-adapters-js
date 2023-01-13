@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.25.2
+
+### Patch Changes
+
+- 838c9d927: Add NFT Blue Chip Index Adapter
+
 ## 2.25.1
 
 ### Patch Changes
