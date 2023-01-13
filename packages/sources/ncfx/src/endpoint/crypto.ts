@@ -12,19 +12,12 @@ import {
 } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketRawData } from '@chainlink/external-adapter-framework/transports/websocket'
 
-interface Change {
-  period: string
-  change: number
-  percentage: number
-}
-
 type WsMessage = {
   timestamp: string
   currencyPair: string
   bid?: number
   offer?: number
   mid?: number
-  changes: Change[]
 }
 
 export type EndpointTypes = {
@@ -34,7 +27,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    WsMessage: WsMessage[]
+    WsMessage: WsMessage
   }
 }
 
@@ -48,7 +41,7 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
         // Set up listener
         connection.on('message', (data: WebSocketRawData) => {
           const parsed = JSON.parse(data.toString())
-          if (parsed.Message?.startsWith('Logged in as user')) {
+          if (parsed.Message === 'Successfully Authenticated') {
             logger.debug('Got logged in response, connection is ready')
             resolve()
           } else {
@@ -66,30 +59,27 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
       })
     },
 
-    message(message: WsMessage[]): ProviderResult<EndpointTypes>[] {
-      if (!Array.isArray(message)) {
-        logger.debug('WS message is not array, skipping')
+    message(message: WsMessage): ProviderResult<EndpointTypes>[] {
+      if (!message.currencyPair || !message.mid) {
+        logger.debug('WS message does not contain valid data, skipping')
         return []
       }
-      return message
-        .filter((m) => {
-          return m.mid && m.mid > 0
-        })
-        .map((m) => {
-          const [base, quote] = m.currencyPair.split('/')
-          return {
-            params: { base, quote },
-            response: {
-              result: m.mid || 0, // Already validated in the filter above
-              data: {
-                result: m.mid || 0, // Already validated in the filter above
-              },
-              timestamps: {
-                providerIndicatedTime: new Date(m.timestamp).getTime(),
-              },
+
+      const [base, quote] = message.currencyPair.split('/')
+      return [
+        {
+          params: { base, quote },
+          response: {
+            result: message.mid || 0, // Already validated in the filter above
+            data: {
+              result: message.mid || 0, // Already validated in the filter above
             },
-          }
-        })
+            timestamps: {
+              providerIndicatedTime: new Date(message.timestamp).getTime(),
+            },
+          },
+        },
+      ]
     },
   },
   builders: {

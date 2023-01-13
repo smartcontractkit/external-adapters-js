@@ -1,14 +1,13 @@
 import nock from 'nock'
-import { DEFAULT_BASE_URL, DEFAULT_PAGESIZE } from '../../src/config'
 
 export const mockAccountsSuccess = () =>
-  nock(DEFAULT_BASE_URL, {
+  nock(`https://olbsandbox.bankfrick.li/webapi/v2`, {
     encodedQueryParams: true,
   })
     .get('/accounts')
     .query({
       firstPosition: 0,
-      maxResults: DEFAULT_PAGESIZE,
+      maxResults: 500,
     })
     .reply(
       200,
@@ -22,7 +21,6 @@ export const mockAccountsSuccess = () =>
           },
           {
             account: 'something',
-
             iban: 'LI6808811000000045345',
             balance: 999999.1,
           },
@@ -41,7 +39,7 @@ export const mockAccountsSuccess = () =>
     )
 
 export const mockAuthorizeSuccess = () =>
-  nock(DEFAULT_BASE_URL, {
+  nock(`https://olbsandbox.bankfrick.li/webapi/v2`, {
     encodedQueryParams: true,
   })
     .persist()

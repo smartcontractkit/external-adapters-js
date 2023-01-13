@@ -1,5 +1,18 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- 43f8d6d86: Fix override for "ARPA"
+
+## 1.5.0
+
+### Minor Changes
+
+- 4d02034ae: Enable configuring the API_ENDPOINT
+  Remove "precision" input param (now hard-coded as "full")
+
 ## 1.4.0
 
 ### Minor Changes

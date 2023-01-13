@@ -156,9 +156,6 @@
       "path": "./sources/bank-frick"
     },
     {
-      "path": "./sources/bank-frick-test"
-    },
-    {
       "path": "./sources/bea"
     },
     {
@@ -217,6 +214,9 @@
     },
     {
       "path": "./sources/coinapi"
+    },
+    {
+      "path": "./sources/coinapi-test"
     },
     {
       "path": "./sources/coinbase"

@@ -1,89 +1,80 @@
-import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
-import { Config as BootstrapConfig } from '@chainlink/ea-bootstrap'
-import { SigningAlgorithm } from '../types'
 import crypto from 'crypto'
+import { SigningAlgorithm } from '../types'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
-export const NAME = 'BANK_FRICK'
-export const DEFAULT_BASE_URL = 'https://olbsandbox.bankfrick.li/webapi/v2'
-export const DEFAULT_ENDPOINT = 'accounts'
-export const DEFAULT_PAGESIZE = 500
-export const PAGE_SIZE_MAX = 500
-export const PAGE_SIZE_MIN = 1
+const logger = makeLogger('BankFrickConfig')
 
-export type Config = BootstrapConfig & {
-  pageSize: number
-  privateKey: string
-  token: string //Set as a global variable on the first run.
-}
+// Used for enum options and validation
+export const signingAlgorithms: SigningAlgorithm[] = ['rsa-sha256', 'rsa-sha384', 'rsa-sha512']
+const MAX_PAGE_SIZE = 500
 
-//Global variable to keep the token. Token is provisioned when the accounts endpoint is hit.
-let token: string
-export const setToken = (newToken: string) => (token = newToken)
-
-export const makeConfig = (prefix?: string): Config => {
-  const baseConfig = Requester.getDefaultConfig(prefix)
-  const pageSizeString = util.getEnv('PAGE_SIZE')
-
-  //Get pageSize environment variable and massage it
-  let pageSize = DEFAULT_PAGESIZE
-  if (pageSizeString) {
-    const parsed = parseInt(pageSizeString)
-    if (isNaN(parsed)) {
-      Logger.warn(
-        `Received NaN for PAGE_SIZE environment variable (${pageSizeString}. Using default instead: ${DEFAULT_PAGESIZE}`,
-      )
-    } else {
-      if (parsed > PAGE_SIZE_MAX || parsed < PAGE_SIZE_MIN) {
-        Logger.warn(
-          `Received a PAGE_SIZE environment variable that was > max (${PAGE_SIZE_MAX}) or < min (${PAGE_SIZE_MIN}). Using default instead ${DEFAULT_PAGESIZE}`,
-        )
+export const customSettings = {
+  API_ENDPOINT: {
+    description: 'The endpoint to use for making requests to the Bank Frick API',
+    type: 'string',
+    required: false,
+    default: 'https://olbsandbox.bankfrick.li/webapi/v2',
+  },
+  API_KEY: {
+    description: 'The API key to use for making requests to the Bank Frick API',
+    type: 'string',
+    required: true,
+  },
+  PAGE_SIZE: {
+    description: 'The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500.',
+    type: 'number',
+    required: false,
+    default: MAX_PAGE_SIZE,
+    validate: (value?: number) => {
+      if (!value) {
+        return ''
+      } else if (value < 1) {
+        return `PAGE_SIZE must be at least >= 1, was ${value}`
+      } else if (value > MAX_PAGE_SIZE) {
+        return `PAGE_SIZE must be <= 500, was ${value}`
       } else {
-        Logger.debug(`Received ${parsed} for PAGE_SIZE`)
-        pageSize = parsed
+        return ''
       }
-    }
-  }
-
-  let privateKey = util.getRequiredEnv('PRIVATE_KEY')
-  // Some internal creds have 'BEGIN PRIVATE KEY', but all production creds use 'BEGIN RSA PRIVATE KEY'. This captures both.
-  if (!privateKey.match(/-----?BEGIN ([A-Z ])*PRIVATE KEY-----?/)) {
-    Logger.info(
-      "Could not find 'BEGIN PRIVATE KEY' in PRIVATE_KEY envvar. Assuming it's a base64 encoded string",
-    )
-    privateKey = Buffer.from(privateKey, 'base64').toString('utf8')
-  }
-  // Attempt to sign a message using any of the supported SigningAlgorithm
-  let successfulSigning = false
-  const algorithms: SigningAlgorithm[] = ['rsa-sha512', 'rsa-sha384', 'rsa-sha256']
-
-  for (const algo of algorithms) {
-    try {
-      Logger.debug('Attempting to sign a message with the following algorithm: ', algo)
-      crypto.sign(algo, Buffer.from('test'), privateKey)
-      successfulSigning = true
-      Logger.debug(`Successfully signed a test message with SigningAlgorithm ${algo}`)
-      break
-    } catch (e) {
-      Logger.debug(`Failed to sign with algorithm ${algo}`)
-    }
-  }
-
-  if (!successfulSigning) {
-    throw new Error(`Could not sign a message with the provided PRIVATE_KEY using any of the following algorithms: ${algorithms}
-      The PRIVATE_KEY config item must be either a string containing the full private key (including newlines
-      and the BEGIN/END PRIVATE KEY lines), or a base64 encoded string that can be decoded into the full private key`)
-  }
-
-  return {
-    ...baseConfig,
-    api: {
-      ...baseConfig.api,
-      baseURL: baseConfig.api.baseURL || DEFAULT_BASE_URL,
     },
-    defaultEndpoint: DEFAULT_ENDPOINT,
-    token,
-    pageSize,
-    apiKey: util.getRequiredEnv('API_KEY', prefix),
-    privateKey, //Combined with the password, used to create jwt
-  }
-}
+  },
+  PRIVATE_KEY: {
+    description: '',
+    type: 'string',
+    required: true,
+    validate: (value: string) => {
+      // Some internal creds have 'BEGIN PRIVATE KEY', but all production creds use 'BEGIN RSA PRIVATE KEY'. This captures both.
+      if (!value.match(/-----?BEGIN ([A-Z ])*PRIVATE KEY-----?/)) {
+        logger.info(
+          "Could not find 'BEGIN PRIVATE KEY' in PRIVATE_KEY envvar. Assuming it's a base64 encoded string",
+        )
+        value = Buffer.from(value, 'base64').toString('utf8')
+      }
+
+      logger.debug(
+        'Attempting to sign a test message with any of the following SigningAlgorithms: ',
+        signingAlgorithms,
+      )
+      const failedAlgos: SigningAlgorithm[] = []
+      for (const algorithm of signingAlgorithms) {
+        const body = { example: 123 }
+        try {
+          crypto.sign(algorithm, Buffer.from(JSON.stringify(body)), value)
+          logger.trace("Successfully tested PRIVATE_KEY by signing with algorithm '%s'", algorithm)
+        } catch {
+          logger.trace("PRIVATE_KEY failed to sign message with algorithm '%s'", algorithm)
+          failedAlgos.push(algorithm)
+        }
+      }
+
+      if (failedAlgos.length > 0) {
+        return `Failed to sign a dummy body using $PRIVATE_KEY with the following algorithms ${failedAlgos.join(
+          ',',
+        )}. The PRIVATE_KEY config item must be either a string containing the full private key (including newlines
+      and the BEGIN/END PRIVATE KEY lines), or a base64 encoded string that can be decoded into the full private key`
+      } else {
+        logger.debug('$PRIVATE_KEY successfully signed a dummy body with all supported algorithms')
+        return ''
+      }
+    },
+  },
+} as const

@@ -156,9 +156,6 @@
       "path": "./sources/bank-frick/tsconfig.test.json"
     },
     {
-      "path": "./sources/bank-frick-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bea/tsconfig.test.json"
     },
     {
@@ -217,6 +214,9 @@
     },
     {
       "path": "./sources/coinapi/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/coinapi-test/tsconfig.test.json"
     },
     {
       "path": "./sources/coinbase/tsconfig.test.json"

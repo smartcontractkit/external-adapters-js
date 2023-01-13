@@ -9,7 +9,6 @@ import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
 import * as armanino from '@chainlink/armanino-adapter'
 import * as bank_frick from '@chainlink/bank-frick-adapter'
-import * as bank_frick_test from '@chainlink/bank-frick-test-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
 import * as binance_dex from '@chainlink/binance-dex-adapter'
@@ -30,6 +29,7 @@ import * as cfbenchmarks from '@chainlink/cfbenchmarks-adapter'
 import * as cfbenchmarks_test from '@chainlink/cfbenchmarks-test-adapter'
 import * as chain_reserve_wallet from '@chainlink/chain-reserve-wallet-adapter'
 import * as coinapi from '@chainlink/coinapi-adapter'
+import * as coinapi_test from '@chainlink/coinapi-test-adapter'
 import * as coinbase from '@chainlink/coinbase-adapter'
 import * as coincodex from '@chainlink/coincodex-adapter'
 import * as coingecko from '@chainlink/coingecko-adapter'
@@ -156,7 +156,6 @@ export default {
   ap_election,
   armanino,
   bank_frick,
-  bank_frick_test,
   bea,
   binance,
   binance_dex,
@@ -177,6 +176,7 @@ export default {
   cfbenchmarks_test,
   chain_reserve_wallet,
   coinapi,
+  coinapi_test,
   coinbase,
   coincodex,
   coingecko,
