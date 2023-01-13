@@ -4,7 +4,7 @@ import { Server, WebSocket } from 'mock-socket'
 import { customSettings } from '../../src/config'
 import { cryptoEndpoint } from '../../src/endpoint/crypto'
 import { forexEndpoint } from '../../src/endpoint/forex'
-import { loginResponse, mockCryptoResponse, mockForexResponse } from './fixtures'
+import { loginResponse, mockCryptoResponse, mockForexResponse, subscribeResponse } from './fixtures'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
@@ -41,6 +41,7 @@ export const mockCryptoWebSocketServer = (URL: string): Server => {
   const mockWsServer = new Server(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.send(JSON.stringify(loginResponse))
+    socket.send(JSON.stringify(subscribeResponse))
     socket.send(JSON.stringify(mockCryptoResponse))
   })
   return mockWsServer
