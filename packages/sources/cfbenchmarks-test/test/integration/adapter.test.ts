@@ -11,6 +11,16 @@ import { Server } from 'mock-socket'
 
 describe('rest', () => {
   jest.setTimeout(10000)
+  let spy: jest.SpyInstance
+  beforeAll(async () => {
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    done()
+  })
 
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
@@ -54,12 +64,7 @@ describe('rest', () => {
           .expect('Content-Type', /json/)
 
       const response = await makeRequest()
-      expect(response.body).toMatchSnapshot({
-        timestamps: {
-          providerDataReceived: expect.any(Number),
-          providerDataRequested: expect.any(Number),
-        },
-      })
+      expect(response.body).toMatchSnapshot()
     }, 30000)
   })
 })
