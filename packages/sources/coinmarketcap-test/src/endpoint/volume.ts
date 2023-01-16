@@ -12,13 +12,12 @@ const httpTransport = new HttpTransport<CryptoEndpointTypes>({
     return buildBatchedRequestBody(params, config.API_ENDPOINT)
   },
   parseResponse: (params, res) => {
-    return constructEntry(params, res.data, 'price')
+    return constructEntry(params, res.data, 'volume_24h')
   },
 })
 
 export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
-  name: 'crypto',
-  aliases: ['price'],
+  name: 'volume',
   transport: httpTransport,
   inputParameters: inputParameters,
 })

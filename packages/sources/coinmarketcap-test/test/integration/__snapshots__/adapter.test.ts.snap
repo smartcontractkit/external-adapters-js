@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute crypto endpoint with cid should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 6602.60701122,
+  },
+  "result": 6602.60701122,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
+}
+`;
+
 exports[`execute dominance endpoint should return success 1`] = `
 Object {
   "data": Object {
@@ -7,6 +21,10 @@ Object {
   },
   "result": 44.897494474523,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;
 
@@ -17,6 +35,10 @@ Object {
   },
   "result": 1939416192105.152,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;
 
@@ -151,5 +173,37 @@ Object {
     "timestamp": "2021-12-01T14:44:08.026Z",
   },
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
+}
+`;
+
+exports[`execute marketcap endpoint with slug should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 113563929433.21645,
+  },
+  "result": 113563929433.21645,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
+}
+`;
+
+exports[`execute volume endpoint with base should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 4314444687.5194,
+  },
+  "result": 4314444687.5194,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;

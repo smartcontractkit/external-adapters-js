@@ -1,37 +1,39 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
-import { GlobalEndpointTypes, inputParameters } from '../global-utils'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { GlobalEndpointTypes, inputParameters, ResultPath } from '../global-utils'
 
-const restTransport = new RestTransport<GlobalEndpointTypes>({
-  prepareRequest: (_, config) => {
+const httpTransport = new HttpTransport<GlobalEndpointTypes>({
+  prepareRequests: (params, config) => {
     return {
-      baseURL: config.API_ENDPOINT,
-      url: '/global-metrics/quotes/latest',
-      headers: {
-        'X-CMC_PRO_API_KEY': config.API_KEY || '',
+      params,
+      request: {
+        baseURL: config.API_ENDPOINT,
+        url: '/global-metrics/quotes/latest',
+        headers: {
+          'X-CMC_PRO_API_KEY': config.API_KEY,
+        },
       },
     }
   },
-  parseResponse: (req, res) => {
-    const dataKey = `${req.requestContext.data.market.toLowerCase()}_dominance`
-    const result = res.data.data[dataKey as 'btc_dominance' | 'eth_dominance']
-    return {
-      data: {
-        result,
-      },
-      statusCode: 200,
-      result: result,
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      const dataKey = `${param.market.toLowerCase()}_dominance`
+      const result = res.data.data[dataKey as ResultPath]
+      return {
+        params: param,
+        response: {
+          data: {
+            result,
+          },
+          result: result,
+        },
+      }
+    })
   },
 })
 
 export const endpoint = new AdapterEndpoint<GlobalEndpointTypes>({
   name: 'dominance',
-  transport: restTransport,
+  transport: httpTransport,
   inputParameters,
 })

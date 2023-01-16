@@ -1,5 +1,6 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
+import { customSettings } from './config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
 export const inputParameters: InputParameters = {
   market: {
@@ -72,15 +73,12 @@ export type GlobalEndpointTypes = {
   Request: {
     Params: GlobalRequestParams
   }
-  Response: {
-    Data: {
-      result: number
-    }
-    Result: number
-  }
-  CustomSettings: SettingsMap
+  Response: SingleNumberResultResponse
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: { convert: string }
     ResponseBody: GlobalResponseSchema
   }
 }
+
+export type ResultPath = 'btc_dominance' | 'eth_dominance'

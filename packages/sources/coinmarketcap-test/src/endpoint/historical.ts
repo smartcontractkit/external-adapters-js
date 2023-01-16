@@ -1,8 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 import { EmptyObject } from '@chainlink/external-adapter-framework/util'
+import { customSettings } from '../config'
 
 const inputParameters: InputParameters = {
   base: {
@@ -117,52 +117,54 @@ export type EndpointTypes = {
     Data: EmptyObject
     Result: null
   }
-  CustomSettings: SettingsMap
+  CustomSettings: typeof customSettings
   Provider: {
     RequestBody: RequestBody
     ResponseBody: ResponseSchema
   }
 }
 
-const restTransport = new RestTransport<EndpointTypes>({
-  prepareRequest: (req, config) => {
-    const data = req.requestContext.data
-    const params = {
-      symbol: data.base.toUpperCase(),
-      time_start: data.start,
-      time_end: data.end,
-      count: data.count,
-      interval: data.interval,
-      convert: data.convert.toUpperCase(),
-      convert_id: data.cid,
-      aux: data.aux,
-      skip_invalid: data.skipInvalid,
-    }
-    return {
-      baseURL: config.API_ENDPOINT,
-      url: '/cryptocurrency/quotes/historical',
-      headers: {
-        'X-CMC_PRO_API_KEY': config.API_KEY || '',
-      },
-      params,
-    }
+const httpTransport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
+    return params.map((param) => {
+      return {
+        params: [param],
+        request: {
+          baseURL: config.API_ENDPOINT,
+          url: '/cryptocurrency/quotes/historical',
+          headers: {
+            'X-CMC_PRO_API_KEY': config.API_KEY,
+          },
+          params: {
+            symbol: param.base.toUpperCase(),
+            time_start: param.start,
+            time_end: param.end,
+            count: param.count,
+            interval: param.interval,
+            convert: param.convert.toUpperCase(),
+            convert_id: param.cid,
+            aux: param.aux,
+            skip_invalid: param.skipInvalid,
+          },
+        },
+      }
+    })
   },
-  parseResponse: (_, res) => {
-    return {
-      ...res.data,
-      statusCode: 200,
-      result: null,
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
-    },
+  parseResponse: (params, res) => {
+    return params.map((param) => {
+      return {
+        params: param,
+        response: {
+          ...res.data,
+          result: null,
+        },
+      }
+    })
   },
 })
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'historical',
-  transport: restTransport,
+  transport: httpTransport,
   inputParameters,
 })

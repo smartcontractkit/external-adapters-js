@@ -157,6 +157,7 @@ export function mockSuccessfulGlobalMetricsResponse(market?: string) {
   let getPath = '/v1/global-metrics/quotes/latest'
   if (market) getPath += `?convert=${market}`
   nock('https://pro-api.coinmarketcap.com')
+    .persist()
     .get(getPath)
     .reply(
       200,
@@ -211,6 +212,69 @@ export function mockSuccessfulGlobalMetricsResponse(market?: string) {
             },
           },
           last_updated: '2021-08-13T14:44:11.999Z',
+        },
+      },
+      [
+        'X-Powered-By',
+        'Express',
+        'Content-Type',
+        'application/json; charset=utf-8',
+        'Content-Length',
+        '714',
+        'ETag',
+        'W/"2ca-B0TkX1zAQfIfnHwQo6e4kGAEMCs"',
+        'Date',
+        'Wed, 23 Jun 2021 22:38:43 GMT',
+        'Connection',
+        'close',
+      ],
+    )
+}
+
+export function mockSuccessfulCoinMarketCapResponse(query = 'id', id = '1') {
+  nock('https://pro-api.coinmarketcap.com')
+    .persist()
+    .get(`/v1/cryptocurrency/quotes/latest?convert=USD&${query}=${id}`)
+    .reply(
+      200,
+      {
+        data: {
+          [id]: {
+            id: 1,
+            name: 'Bitcoin',
+            symbol: 'BTC',
+            slug: 'bitcoin',
+            is_active: 1,
+            is_fiat: 0,
+            circulating_supply: 17199862,
+            total_supply: 17199862,
+            max_supply: 21000000,
+            date_added: '2013-04-28T00:00:00.000Z',
+            num_market_pairs: 331,
+            cmc_rank: 1,
+            last_updated: '2018-08-09T21:56:28.000Z',
+            tags: ['mineable'],
+            platform: null,
+            quote: {
+              USD: {
+                price: 6602.60701122,
+                volume_24h: 4314444687.5194,
+                percent_change_1h: 0.988615,
+                percent_change_24h: 4.37185,
+                percent_change_7d: -12.1352,
+                percent_change_30d: -12.1352,
+                market_cap: 113563929433.21645,
+                last_updated: '2018-08-09T21:56:28.000Z',
+              },
+            },
+          },
+        },
+        status: {
+          timestamp: '2021-07-23T14:39:23.626Z',
+          error_code: 0,
+          error_message: '',
+          elapsed: 10,
+          credit_count: 1,
         },
       },
       [
