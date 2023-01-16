@@ -16,6 +16,17 @@ import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/tr
 
 describe('execute', () => {
   describe('price endpoint rest', () => {
+    let spy: jest.SpyInstance
+    beforeAll(async () => {
+      const mockDate = new Date('2022-01-01T11:11:11.111Z')
+      spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+    })
+
+    afterAll((done) => {
+      spy.mockRestore()
+      done()
+    })
+
     const context: SuiteContext = {
       req: null,
       server: async () => {
@@ -51,12 +62,7 @@ describe('execute', () => {
         .expect('Content-Type', /json/)
         .expect(200)
 
-      expect(response.body).toMatchSnapshot({
-        timestamps: {
-          providerDataReceived: expect.any(Number),
-          providerDataRequested: expect.any(Number),
-        },
-      })
+      expect(response.body).toMatchSnapshot()
     })
   })
 
