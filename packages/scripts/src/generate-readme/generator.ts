@@ -159,7 +159,7 @@ export class ReadmeGenerator {
 
   addIntroSection(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Adding title and version`)
-    this.readmeText = `# ${this.name}\n\n![${this.frameworkVersion}](${this.versionBadgeUrl}) ![${this.frameworkVersion}](${this.frameworkVersionBadgeUrl})\n\n`
+    this.readmeText = `# ${this.name}\n\n![${this.version}](${this.versionBadgeUrl}) ![${this.frameworkVersion}](${this.frameworkVersionBadgeUrl})\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
     if (this.defaultBaseUrl) {
       this.readmeText += `Base URL ${this.defaultBaseUrl}\n\n`
