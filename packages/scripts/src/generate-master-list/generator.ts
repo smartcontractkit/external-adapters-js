@@ -131,6 +131,7 @@ const getEnvVars = (adapterPath: string, verbose = false) => {
 const getPackage = (adapterPath: string, verbose = false) => {
   let dependencies = 'Unknown'
   let version = 'Unknown'
+  let frameworkVersion = 'v2'
   try {
     const packagePath = adapterPath + '/package.json'
     const packageJson = getJsonFile(packagePath) as Package
@@ -139,22 +140,20 @@ const getPackage = (adapterPath: string, verbose = false) => {
 
     if (packageJson.dependencies) {
       let dependencyList = Object.keys(packageJson.dependencies)
-
       dependencyList = dependencyList.reduce((list: string[], dep) => {
         const depSplit = dep.split('/')
-        if (depSplit[0] === '@chainlink' && !baseEaDependencies.includes(depSplit[1]))
-          list.push(wrapCode(depSplit[1]))
+        if (depSplit[0] === '@chainlink' && !baseEaDependencies.includes(depSplit[1])) []
+        list.push(wrapCode(depSplit[1]))
+        if (depSplit[1] === 'external-adapter-framework') frameworkVersion = 'v3'
         return list
       }, [])
-
       dependencies = dependencyList.length ? codeList(dependencyList) : ''
     }
-
-    return { dependencies, version }
+    return { dependencies, version, frameworkVersion }
   } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
-    return { dependencies, version }
+    return { dependencies, version, frameworkVersion }
   }
 }
 
@@ -229,19 +228,21 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
 
     const version = unwrapCode(adapter[1])
     const type = unwrapCode(adapter[2])
-    const defaultApiUrl = unwrapCode(adapter[3])
-    const dependencies = unwrapCode(adapter[4])
-    const envVars = unwrapCode(adapter[5])
-    const endpoints = unwrapCode(adapter[6])
-    const defEndpoint = unwrapCode(adapter[7])
-    const batchableEndpoints = unwrapCode(adapter[8])
-    const isWSSupported = unwrapCode(adapter[9]) === '✅'
-    const hasUnitTests = unwrapCode(adapter[10]).includes('✅')
-    const hasIntegrationTests = unwrapCode(adapter[11]).includes('✅')
-    const hasE2ETests = unwrapCode(adapter[12]).includes('✅')
+    const frameworkVersion = unwrapCode(adapter[3])
+    const defaultApiUrl = unwrapCode(adapter[4])
+    const dependencies = unwrapCode(adapter[5])
+    const envVars = unwrapCode(adapter[6])
+    const endpoints = unwrapCode(adapter[7])
+    const defEndpoint = unwrapCode(adapter[8])
+    const batchableEndpoints = unwrapCode(adapter[9])
+    const isWSSupported = unwrapCode(adapter[10]) === '✅'
+    const hasUnitTests = unwrapCode(adapter[11]).includes('✅')
+    const hasIntegrationTests = unwrapCode(adapter[12]).includes('✅')
+    const hasE2ETests = unwrapCode(adapter[13]).includes('✅')
     const airtableFields = {
       Name: name,
       Version: version,
+      'Framework Version': frameworkVersion,
       Type: type,
       'Default API URL': defaultApiUrl,
       Dependencies: dependencies,
@@ -334,16 +335,16 @@ export const generateMasterList = async (
     // Fetch general fields
     const allAdaptersTable: TableText = await Promise.all(
       allAdapters.map(async (adapter) => {
-        const { dependencies, version } = getPackage(adapter.path, verbose)
+        const { dependencies, version, frameworkVersion } = getPackage(adapter.path, verbose)
         const { defaultBaseUrl, defaultEndpoint } = await getConfigDefaults(adapter.path, verbose)
         const envVars = getEnvVars(adapter.path, verbose)
         const { batchableEndpoints, endpointsText } = await getEndpoints(adapter.path, verbose)
         const wsSupport = await getWSSupport(adapter.path, verbose)
         const { e2e, integration, unit } = getTestSupport(adapter.path)
-
         return [
           adapter.redirect,
           version,
+          frameworkVersion,
           adapter.type,
           defaultBaseUrl,
           dependencies,
@@ -368,6 +369,7 @@ export const generateMasterList = async (
         buildTable(allAdaptersTable, [
           'Name',
           'Version',
+          'Framework Version',
           'Type',
           'Default API URL',
           'Dependencies',
