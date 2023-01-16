@@ -1,13 +1,14 @@
 {
-  "name": "@chainlink/ncfx-test-adapter",
-  "version": "1.0.4",
-  "description": "Chainlink ncfx-test adapter.",
+  "name": "@chainlink/nft-blue-chip-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink NFT Blue Chip adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "ncfx-test"
+    "nft-blue-chip",
+    "NFT"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,12 +26,12 @@
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
-    "start": "yarn server:dist",
-    "dev": "NODE_ENV=develop tsnd --respawn --transpile-only --project tsconfig.json './src/index.ts'",
-    "test": "jest"
+    "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.14.5",
+    "@chainlink/external-adapter-framework": "0.12.0",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

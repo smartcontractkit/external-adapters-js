@@ -1,5 +1,13 @@
 # @chainlink/fluent-finance-adapter
 
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.1.2
 
 ### Patch Changes

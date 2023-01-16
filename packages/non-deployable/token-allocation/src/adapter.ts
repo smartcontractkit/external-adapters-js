@@ -1,15 +1,38 @@
 import { Builder } from '@chainlink/ea-bootstrap'
 import type { AdapterRequest, APIEndpoint, ConfigFactory } from '@chainlink/ea-bootstrap'
-import { adapters, makeConfig as makeUpstreamConfig } from './config'
+import { adaptersV2, adaptersV3, makeConfig as makeUpstreamConfig } from './config'
 import { Config } from './types'
+import { AdapterImplementation as v2AdapterImplementation } from '@chainlink/ea-bootstrap'
+import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 
-const endpointMap = Object.fromEntries(
-  adapters.map((adapter) => {
+const endpointMap = createEndpointMap(adaptersV2, adaptersV3)
+
+function createEndpointMap(
+  adaptersV2: v2AdapterImplementation[],
+  adaptersV3: v3AdapterImplementation[],
+) {
+  const endpointList = adaptersV2.map((adapter) => {
     if (!adapter.endpoints)
       throw new Error(`${adapter.NAME} package does not have endpoints exported.`)
     return [adapter.NAME, adapter.endpoints]
-  }),
-)
+  })
+
+  // Build API endpoint map with the same structure as v2 using v3 properties
+  const v3EndpointList = adaptersV3.map((adapter) => {
+    if (!adapter.endpoints) throw new Error(`${adapter.name} package does not have endpoints set.`)
+
+    const adapterEndpointMap = {} as { [endpoint: string]: APIEndpoint }
+    adapter.endpoints.forEach((e) => {
+      adapterEndpointMap[e.name] = {
+        supportedEndpoints: e.aliases ? [e.name, ...e.aliases] : [e.name],
+        inputParameters: e.inputParameters,
+      } as APIEndpoint
+    })
+    return [adapter.name, adapterEndpointMap]
+  })
+
+  return Object.fromEntries(endpointList.concat(v3EndpointList))
+}
 
 /**
  * endPointSelector Factory that either:
