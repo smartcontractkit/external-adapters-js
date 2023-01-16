@@ -36,7 +36,7 @@ export const batchTransport = new HttpTransport<EndpointTypes>({
       params: params[0],
     }
     if (!res.data) {
-      const errorMessage = `Tradingeconomics provided no data for token "${params[0].base}"`
+      const errorMessage = `Tradingeconomics provided no data for "${params[0].base}"`
       logger.warn(errorMessage)
       return [
         {

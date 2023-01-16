@@ -5391,7 +5391,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradingeconomics-test-adapter@workspace:packages/sources/tradingeconomics-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.15.1
+    "@chainlink/external-adapter-framework": 0.18.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12

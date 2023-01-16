@@ -84,7 +84,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
     WS: wsTransport,
   },
   (_, adapterConfig) => {
-    if (adapterConfig?.WS_ENABLED) {
+    if (adapterConfig.WS_ENABLED) {
       return 'WS'
     }
     return 'REST'

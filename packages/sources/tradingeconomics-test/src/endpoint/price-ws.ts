@@ -67,7 +67,7 @@ const baseFromIncludes = includes.reduce(
 export const wsTransport = new WebSocketTransport<EndpointTypes>({
   url: (context) => {
     const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterConfig
-    return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY || '', API_CLIENT_SECRET || '')
+    return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
   },
   handlers: {
     message: (message) => {
