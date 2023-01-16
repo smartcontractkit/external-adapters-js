@@ -2183,6 +2183,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/coinapi-test-adapter@workspace:*, @chainlink/coinapi-test-adapter@workspace:packages/sources/coinapi-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/coinapi-test-adapter@workspace:packages/sources/coinapi-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.18.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/coinbase-adapter@workspace:*, @chainlink/coinbase-adapter@workspace:packages/sources/coinbase":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinbase-adapter@workspace:packages/sources/coinbase"
@@ -2943,6 +2959,7 @@ __metadata:
     "@chainlink/cfbenchmarks-test-adapter": "workspace:*"
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
+    "@chainlink/coinapi-test-adapter": "workspace:*"
     "@chainlink/coinbase-adapter": "workspace:*"
     "@chainlink/coincodex-adapter": "workspace:*"
     "@chainlink/coingecko-adapter": "workspace:*"
@@ -3014,7 +3031,7 @@ __metadata:
     "@chainlink/mock-ea-adapter": "workspace:*"
     "@chainlink/mycryptoapi-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
-    "@chainlink/ncfx-test-adapter": "workspace:*"
+    "@chainlink/nft-blue-chip-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
@@ -3323,6 +3340,23 @@ __metadata:
     prom-client: 13.2.0
     ws: 8.9.0
   checksum: 6df9f8c983df0f2d36b6a3ffb0bb281b2e10a1b5a429b7b95af6f3f117dcc91b4baafbb4a35a1c82cb86aad61af71ee5b6815a2885a31838195fabcc9ca76651
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:0.18.0":
+  version: 0.18.0
+  resolution: "@chainlink/external-adapter-framework@npm:0.18.0"
+  dependencies:
+    ajv: 8.11.0
+    axios: 0.27.2
+    eventsource: 2.0.2
+    fastify: 4.9.2
+    ioredis: 5.2.3
+    pino: 8.6.1
+    pino-pretty: 9.1.0
+    prom-client: 13.2.0
+    ws: 8.9.0
+  checksum: 3669a3fe792a2d5e85703e75adc897c2b4c1b49cf47f85d5af9cb3f7838171cd3dea4eca9c73fc5c169d8380855d5ff553d77541993f2cc95bbca6eb18c9e331
   languageName: node
   linkType: hard
 
@@ -4031,25 +4065,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.19.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
 
-"@chainlink/ncfx-test-adapter@workspace:*, @chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test":
+"@chainlink/nft-blue-chip-adapter@workspace:*, @chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip":
   version: 0.0.0-use.local
-  resolution: "@chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test"
+  resolution: "@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.12.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    decimal.js: ^10.3.1
+    ethers: ^5.4.6
     mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
@@ -4759,6 +4796,7 @@ __metadata:
     "@chainlink/cryptocompare-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.19.0
     "@chainlink/finage-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
@@ -15644,7 +15682,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-my-way@npm:^7.2.0, find-my-way@npm:^7.3.0":
+"find-my-way@npm:^7.2.0":
+  version: 7.4.0
+  resolution: "find-my-way@npm:7.4.0"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+    fast-querystring: ^1.0.0
+    safe-regex2: ^2.0.0
+  checksum: 8f01b63c28d2a95f5bea674ca4c2ea6f444af5a5d87b54e124fe8a656d26617f4be1443f13e5e7cc155ddf40c2c9604dcd2fe9cfd5d06343aa9e32e06af42a16
+  languageName: node
+  linkType: hard
+
+"find-my-way@npm:^7.3.0":
   version: 7.3.1
   resolution: "find-my-way@npm:7.3.1"
   dependencies:

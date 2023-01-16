@@ -107,6 +107,9 @@
       "path": "../../sources/coinapi"
     },
     {
+      "path": "../../sources/coinapi-test"
+    },
+    {
       "path": "../../sources/coinbase"
     },
     {
@@ -320,7 +323,7 @@
       "path": "../../sources/ncfx"
     },
     {
-      "path": "../../sources/ncfx-test"
+      "path": "../../sources/nft-blue-chip"
     },
     {
       "path": "../../sources/nikkei"

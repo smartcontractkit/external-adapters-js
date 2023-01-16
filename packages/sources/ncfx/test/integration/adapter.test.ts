@@ -1,153 +1,238 @@
-import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import { server as startServer } from '../../src'
-import request, { SuperTest, Test } from 'supertest'
+import * as process from 'process'
 import { AddressInfo } from 'net'
 import {
-  mockForexLoginResponse,
-  mockForexResponse,
-  mockForexUnsubscribeResponse,
-  mockLoginResponse,
-  mockSubscribeResponse,
-  mockUnsubscribeResponse,
-} from './fixtures'
-import {
-  mockWebSocketFlow,
   mockWebSocketProvider,
-  mockWebSocketServer,
-  MockWsServer,
+  mockCryptoWebSocketServer,
+  createAdapter,
   setEnvVariables,
-} from '@chainlink/ea-test-helpers'
-import { WebSocketClassProvider } from '@chainlink/ea-bootstrap/dist/lib/middleware/ws/recorder'
+  mockForexWebSocketServer,
+} from './setup'
+import request, { SuperTest, Test } from 'supertest'
+import { Server } from 'mock-socket'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 
-let oldEnv: NodeJS.ProcessEnv
-
-describe('price-beth', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
+describe('Crypto Endpoint', () => {
+  let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
+  let mockCryptoWsServer: Server | undefined
+  let spy: jest.SpyInstance
+  const wsCryptoEndpoint = 'ws://localhost:9090'
+
+  jest.setTimeout(10000)
+
+  const cryptoData: AdapterRequestBody = {
+    data: {
+      base: 'ETH',
+      quote: 'USD',
+    },
+  }
+
+  let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
+    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
+    process.env['CACHE_MAX_AGE'] = '5000'
+    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+    process.env['METRICS_ENABLED'] = 'false'
+    process.env['WS_API_ENDPOINT'] = wsCryptoEndpoint
+    process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
+    process.env['API_USERNAME'] = 'test-api-username'
+    process.env['API_PASSWORD'] = 'test-api-password'
+    const mockDate = new Date('2022-08-01T07:14:54.909Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    if (!process.env.RECORD) {
-      mockedWsServer = mockWebSocketServer('wss://feed.newchangefx.com/cryptodata')
-      mockWebSocketProvider(WebSocketClassProvider)
-      process.env.API_USERNAME = 'user'
-      process.env.API_PASSWORD = 'pass'
-      process.env.WS_SUBSCRIPTION_TTL = '100'
-    } else {
-      // Give enough time for request to complete, but shut down connection afterwards
-      process.env.WS_SUBSCRIPTION_TTL = '3000'
-    }
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockCryptoWsServer = mockCryptoWebSocketServer(wsCryptoEndpoint)
 
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+    fastify = await expose(createAdapter())
+    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+    // Send initial request to start background execute
+    await req.post('/').send(cryptoData)
+    await sleep(5000)
   })
 
   afterAll((done) => {
+    spy.mockRestore()
     setEnvVariables(oldEnv)
-    fastify.close(done)
+    mockCryptoWsServer?.close()
+    fastify?.close(done())
   })
-
-  describe('successful calls', () => {
-    const jobID = '1'
-
-    it('return value when fetching the USD/ETH price', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          from: 'ETH',
-          to: 'USD',
-        },
-      }
-
-      let flowFulfilled
-      if (!process.env.RECORD)
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockLoginResponse,
-          mockSubscribeResponse,
-          mockUnsubscribeResponse,
-        ])
-
-      const response = await req
+  it('should return success', async () => {
+    const makeRequest = () =>
+      req
         .post('/')
-        .send(data)
+        .send(cryptoData)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200)
 
-      expect(response.body).toMatchSnapshot()
+    const response = await makeRequest()
+    expect(response.body).toMatchSnapshot()
+  }, 30000)
+  it('should return error (empty body)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({})
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
 
-      await flowFulfilled
-    })
-  })
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
+  it('should return error (empty data)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({ data: {} })
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
+  it('should return error (empty base)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({ data: { quote: 'BTC' } })
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
+  it('should return error (empty quote)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({ data: { base: 'ETH' } })
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
 })
 
-describe('price-forex', () => {
-  let mockedWsServer: InstanceType<typeof MockWsServer>
-  let fastify: FastifyInstance
+describe('Forex endpoint', () => {
+  let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
+  let mockForexWsServer: Server | undefined
+  let spy: jest.SpyInstance
+  const wsForexEndpoint = 'ws://localhost:9090'
+
+  jest.setTimeout(10000)
+
+  const forexData: AdapterRequestBody = {
+    data: {
+      base: 'CAD',
+      quote: 'USD',
+      endpoint: 'forex',
+    },
+  }
+
+  let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_ENABLED = 'true'
+    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
+    process.env['CACHE_MAX_AGE'] = '5000'
+    process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+    process.env['METRICS_ENABLED'] = 'false'
+    process.env['FOREX_WS_API_ENDPOINT'] = wsForexEndpoint
+    process.env['RATE_LIMIT_CAPACITY_SECOND'] = '2'
+    process.env['API_USERNAME'] = 'te`st-api-username'
+    process.env['API_PASSWORD'] = 'test-api-password'
+    process.env['FOREX_WS_USERNAME'] = 'test-forex-api-username'
+    process.env['FOREX_WS_PASSWORD'] = '`test-forex-api-password'
+    const mockDate = new Date('2022-08-01T07:14:54.909Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    if (!process.env.RECORD) {
-      mockedWsServer = mockWebSocketServer(
-        'wss://fiat-ws.eu-west-2.apingxelb.v1.newchangefx.com/sub/fiat/ws/ref',
-      )
-      mockWebSocketProvider(WebSocketClassProvider)
-      process.env.FOREX_WS_USERNAME = 'user'
-      process.env.FOREX_WS_PASSWORD = 'pass'
-      process.env.WS_SUBSCRIPTION_TTL = '100'
-    } else {
-      // Give enough time for request to complete, but shut down connection afterwards
-      process.env.WS_SUBSCRIPTION_TTL = '3000'
-    }
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockForexWsServer = mockForexWebSocketServer(wsForexEndpoint)
 
-    fastify = await startServer()
-    req = request(`localhost:${(fastify.server.address() as AddressInfo).port}`)
+    fastify = await expose(createAdapter())
+    req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+    // Send initial request to start background execute
+    await req.post('/').send(forexData)
+    await sleep(5000)
   })
 
   afterAll((done) => {
-    process.env = oldEnv
-    fastify.close(done)
+    spy.mockRestore()
+    setEnvVariables(oldEnv)
+    mockForexWsServer?.close()
+    fastify?.close(done())
   })
 
-  describe('successful calls', () => {
-    const jobID = '1'
-
-    it('return value when fetching the EUR/USD price', async () => {
-      const data: AdapterRequest = {
-        id: jobID,
-        data: {
-          endpoint: 'forex',
-          from: 'EUR',
-          to: 'USD',
-        },
-      }
-
-      let flowFulfilled
-      if (!process.env.RECORD)
-        flowFulfilled = mockWebSocketFlow(mockedWsServer, [
-          mockForexLoginResponse,
-          mockForexResponse,
-          mockForexUnsubscribeResponse,
-        ])
-
-      const response = await req
+  it('should return success', async () => {
+    const makeRequest = () =>
+      req
         .post('/')
-        .send(data)
+        .send(forexData)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200)
 
-      expect(response.body).toMatchSnapshot()
+    const response = await makeRequest()
+    expect(response.body).toMatchSnapshot()
+  }, 30000)
+  it('should return error (empty body)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({})
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
 
-      await flowFulfilled
-    })
-  })
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
+  it('should return error (empty data)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({ data: {} })
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
+  it('should return error (empty base)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({ data: { quote: 'BTC' } })
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
+  it('should return error (empty quote)', async () => {
+    const makeRequest = () =>
+      req
+        .post('/')
+        .send({ data: { base: 'ETH' } })
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+
+    const response = await makeRequest()
+    expect(response.statusCode).toEqual(400)
+  }, 30000)
 })
