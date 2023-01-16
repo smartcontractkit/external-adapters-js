@@ -1,25 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`price-beth successful calls return value when fetching the USD/ETH price 1`] = `
+exports[`Crypto Endpoint should return success 1`] = `
 Object {
   "data": Object {
     "result": 3106.9885,
   },
-  "jobRunID": "1",
-  "maxAge": 30000,
   "result": 3106.9885,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1659338094909,
+    "providerDataStreamEstablished": 1659338094909,
+    "providerIndicatedTime": 1659338094909,
+  },
 }
 `;
 
-exports[`price-forex successful calls return value when fetching the EUR/USD price 1`] = `
+exports[`Forex endpoint should return success 1`] = `
 Object {
   "data": Object {
-    "result": 1.02325,
+    "result": 0.7819647646677041,
   },
-  "jobRunID": "1",
-  "maxAge": 30000,
-  "result": 1.02325,
+  "result": 0.7819647646677041,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1659338094909,
+    "providerDataStreamEstablished": 1659338094909,
+    "providerIndicatedTime": 1659338092107,
+  },
 }
 `;

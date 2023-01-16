@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- cdc721ef3: Upgraded NCFX adapter from v2 to v3. Updated NCFX crypto endpoint to use new WS API
+
 ## 2.1.15
 
 ### Patch Changes

@@ -3,7 +3,7 @@ import { assertError } from '@chainlink/ea-test-helpers'
 import type { AdapterRequest } from '@chainlink/ea-bootstrap'
 import * as ethers from 'ethers'
 import { makeExecute, priceTotalValue } from '../../src/endpoint'
-import { makeConfig, adapters } from '../../src/config'
+import { adaptersV2, adaptersV3, makeConfig } from '../../src/config'
 import { TokenAllocations } from '../../src/types'
 
 describe('execute', () => {
@@ -95,6 +95,7 @@ describe('execute', () => {
 
 describe('source adapters', () => {
   it(`all contain endpoints`, () => {
-    adapters.forEach((adapter) => expect(adapter.endpoints).toBeTruthy())
+    adaptersV2.forEach((adapter) => expect(adapter.endpoints).toBeTruthy())
+    adaptersV3.forEach((adapter) => expect(adapter.endpoints).toBeTruthy())
   })
 })
