@@ -4,7 +4,7 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('Intrinio Price')
 
-export const batchTransport = new HttpTransport<EndpointTypes>({
+export const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((symbol) => {
       const requestConfig = {

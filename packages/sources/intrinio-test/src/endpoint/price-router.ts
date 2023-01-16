@@ -1,5 +1,5 @@
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
-import { batchTransport } from './price'
+import { httpTransport } from './price'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
@@ -62,10 +62,10 @@ export type EndpointTypes = {
 export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
     WS: wsTransport,
-    REST: batchTransport,
+    REST: httpTransport,
   },
   (_, adapterConfig) => {
-    if (adapterConfig?.WS_ENABLED) {
+    if (adapterConfig.WS_ENABLED) {
       return 'WS'
     }
     return 'REST'
