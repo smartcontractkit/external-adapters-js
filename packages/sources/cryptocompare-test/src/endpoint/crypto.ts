@@ -1,11 +1,9 @@
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import {
   ProviderCryptoQuoteData,
   ProviderCryptoResponseBody,
-  CryptoEndpointTypes,
   CryptoEndpointParams,
   cryptoEndpointInputParams,
   endpoints,
@@ -17,34 +15,41 @@ import { wsTransport } from './crypto-ws'
 
 const logger = makeLogger('CryptoCompare HTTP')
 
-type BatchEndpointTypes = CryptoEndpointTypes & {
+interface ProviderRequestBody {
+  fsyms: string
+  tsyms: string
+}
+
+type BatchEndpointTypes = {
+  Request: {
+    Params: CryptoEndpointParams
+  }
+  Response: SingleNumberResultResponse
+  CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: never
+    RequestBody: ProviderRequestBody
     ResponseBody: ProviderCryptoResponseBody
   }
 }
 
 export const buildBatchedRequestBody = (
-  params: PriceEndpointParams[],
+  params: CryptoEndpointParams[],
   config: AdapterConfig<typeof customSettings>,
-): HttpRequestConfig<never> => {
+) => {
   return {
-    baseURL: config.API_ENDPOINT,
-    url: '/data/pricemultifull',
-    method: 'GET',
-    headers: {
-      authorization: `Apikey ${config.API_KEY}`,
-    },
-    params: {
-      fsyms: [...new Set(params.map((p) => p.base.toUpperCase()))].join(','),
-      tsyms: [...new Set(params.map((p) => p.quote.toUpperCase()))].join(','),
+    params,
+    request: {
+      baseURL: config.API_ENDPOINT,
+      url: '/data/pricemultifull',
+      headers: {
+        authorization: `Apikey ${config.API_KEY}`,
+      },
+      params: {
+        fsyms: [...new Set(params.map((p) => p.base.toUpperCase()))].join(','),
+        tsyms: [...new Set(params.map((p) => p.quote.toUpperCase()))].join(','),
+      },
     },
   }
-}
-
-interface ResultEntry {
-  value: number
-  params: CryptoEndpointParams
 }
 
 type KeyOfType<T, V> = keyof {
@@ -58,20 +63,31 @@ const endpointResultPaths: { [endpoint: string]: KeyOfType<ProviderCryptoQuoteDa
   volume: 'VOLUME24HOURTO',
 }
 
+const errorResponse = (payload: CryptoEndpointParams) => {
+  return {
+    params: payload,
+    response: {
+      statusCode: 400,
+      errorMessage:
+        'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+    },
+  }
+}
+
 export const constructEntry = (
-  res: HttpResponse<ProviderCryptoResponseBody>,
   requestPayload: CryptoEndpointParams,
-): ResultEntry | undefined => {
-  const dataForCoin = res.data.RAW[requestPayload.base.toUpperCase()]
+  res: ProviderCryptoResponseBody,
+) => {
+  const dataForCoin = res.RAW[requestPayload.base.toUpperCase()]
   if (!dataForCoin) {
     logger.warn(`Data for "${requestPayload.base}" not found`)
-    return
+    return errorResponse(requestPayload)
   }
 
   const dataForQuote = dataForCoin[requestPayload.quote.toUpperCase()]
   if (!dataForQuote) {
     logger.warn(`"${requestPayload.quote}" quote for "${requestPayload.base}" not found`)
-    return
+    return errorResponse(requestPayload)
   }
 
   const resultKey = endpointResultPaths[requestPayload.endpoint || defaultEndpoint]
@@ -80,23 +96,28 @@ export const constructEntry = (
     logger.warn(
       `No result for "${resultKey}" found for "${requestPayload.base}/${requestPayload.quote}"`,
     )
-    return
+    return errorResponse(requestPayload)
   }
 
   return {
     params: requestPayload,
-    value,
+    response: {
+      result: value,
+      data: {
+        result: value,
+      },
+    },
   }
 }
 
-const batchEndpointTransport = new BatchWarmingTransport<BatchEndpointTypes>({
-  prepareRequest: (params, config) => {
+const httpTransport = new HttpTransport<BatchEndpointTypes>({
+  prepareRequests: (params, config) => {
     return buildBatchedRequestBody(params, config)
   },
   parseResponse: (params, res) => {
-    const entries = [] as ProviderResult<BatchEndpointTypes>[]
+    const entries = []
     for (const requestPayload of params) {
-      const entry = constructEntry(res, requestPayload)
+      const entry = constructEntry(requestPayload, res.data)
       if (entry) {
         entries.push(entry)
       }
@@ -105,10 +126,10 @@ const batchEndpointTransport = new BatchWarmingTransport<BatchEndpointTypes>({
   },
 })
 
-export const routingTransport = new RoutingTransport<CryptoEndpointTypes>(
+export const routingTransport = new RoutingTransport<BatchEndpointTypes>(
   {
-    HTTP: batchEndpointTransport,
     WS: wsTransport,
+    REST: httpTransport,
   },
   (req) => {
     if (req.requestContext.data.endpoint === 'crypto-ws') {
@@ -118,7 +139,7 @@ export const routingTransport = new RoutingTransport<CryptoEndpointTypes>(
   },
 )
 
-export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
+export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
   name: defaultEndpoint,
   aliases: endpoints,
   transport: routingTransport,
