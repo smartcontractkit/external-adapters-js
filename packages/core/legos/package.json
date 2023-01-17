@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.57",
+  "version": "1.3.58",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -60,6 +60,7 @@
     "@chainlink/cfbenchmarks-test-adapter": "workspace:*",
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",
+    "@chainlink/coinapi-test-adapter": "workspace:*",
     "@chainlink/coinbase-adapter": "workspace:*",
     "@chainlink/coincodex-adapter": "workspace:*",
     "@chainlink/coingecko-adapter": "workspace:*",
@@ -131,7 +132,7 @@
     "@chainlink/mock-ea-adapter": "workspace:*",
     "@chainlink/mycryptoapi-adapter": "workspace:*",
     "@chainlink/ncfx-adapter": "workspace:*",
-    "@chainlink/ncfx-test-adapter": "workspace:*",
+    "@chainlink/nft-blue-chip-adapter": "workspace:*",
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
