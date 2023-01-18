@@ -78,14 +78,17 @@ export async function main(): Promise<void | string> {
     const shouldBuildAll =
       options.all ||
       getWorkspacePackages(process.env['UPSTREAM_BRANCH']).find(
-        // (p) => (p.type === 'core' && !p.location.includes('legos')) || p.type === 'scripts',
-        (p) => p.type === 'core' && !p.location.includes('legos'),
+        (p) => (p.type === 'core' && !p.location.includes('legos')) || p.type === 'scripts',
       )
 
     let adapters = shouldBuildAll
       ? getWorkspaceAdapters()
       : getWorkspaceAdapters([], process.env['UPSTREAM_BRANCH'])
-    options.verbose && console.log(`Adapters being considered for readme generation: `, adapters)
+    options.verbose &&
+      console.log(
+        `Adapters being considered for readme generation: `,
+        adapters.map((a) => `${a.name}: ${a.location}`),
+      )
 
     const initialAdapterLength = adapters.length
 
