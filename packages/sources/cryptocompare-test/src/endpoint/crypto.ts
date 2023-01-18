@@ -10,7 +10,7 @@ import {
 } from '../crypto-utils'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings, defaultEndpoint } from '../config'
-import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/routing'
+import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './crypto-ws'
 
 const logger = makeLogger('CryptoCompare HTTP')
@@ -129,14 +129,9 @@ const httpTransport = new HttpTransport<BatchEndpointTypes>({
 export const routingTransport = new RoutingTransport<BatchEndpointTypes>(
   {
     WS: wsTransport,
-    REST: httpTransport,
+    HTTP: httpTransport,
   },
-  (req) => {
-    if (req.requestContext.data.endpoint === 'crypto-ws') {
-      return 'WS'
-    }
-    return 'HTTP'
-  },
+  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
 )
 
 export const endpoint = new PriceEndpoint<BatchEndpointTypes>({

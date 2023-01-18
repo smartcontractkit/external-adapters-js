@@ -61,17 +61,34 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
       if (message.TYPE === '5' && 'PRICE' in message) {
         return [
           {
-            params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL, endpoint: 'crypto-ws' },
-            value: message.PRICE as number,
+            params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL, endpoint: 'crypto' },
+            response: {
+              result: message.PRICE as number,
+              data: {
+                result: message.PRICE as number,
+              },
+            },
           },
         ]
       }
       if (message.MESSAGE === 'INVALID_SUB') {
-        // TODO: Add error response here once supported by EA framework
+        // message.PARAMETER looks like 5~CCCAGG~BASE~QUOTE
+        const parameters = (message as WSErrorType).PARAMETER.split('~')
+        const base = parameters[2]
+        const quote = parameters[3]
         logger.error(message, 'asset not supported by data provider')
-        return
+        return [
+          {
+            params: { base, quote, endpoint: 'crypto' },
+            response: {
+              errorMessage:
+                'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+              statusCode: 400,
+            },
+          },
+        ]
       }
-      return
+      return []
     },
   },
   builders: {

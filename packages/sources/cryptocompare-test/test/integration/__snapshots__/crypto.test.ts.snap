@@ -18,6 +18,10 @@ Object {
   },
   "result": 1276.75,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;
 
@@ -28,6 +32,10 @@ Object {
   },
   "result": 156240830222.34824,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;
 
@@ -38,5 +46,9 @@ Object {
   },
   "result": 735584356.0525743,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceived": 1641035471111,
+    "providerDataRequested": 1641035471111,
+  },
 }
 `;

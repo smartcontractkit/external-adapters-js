@@ -25,4 +25,9 @@ export const customSettings = {
     type: 'string',
     sensitive: true,
   },
+  WS_ENABLED: {
+    description: 'Whether data should be returned from websocket or not',
+    type: 'boolean',
+    default: false,
+  },
 } as const
