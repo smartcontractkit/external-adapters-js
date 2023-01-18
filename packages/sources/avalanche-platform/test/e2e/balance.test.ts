@@ -17,10 +17,9 @@ describe('execute', () => {
           data: {
             addresses: [
               {
-                address: 'NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC',
+                address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
               },
             ],
-            field: 'stakeAmount',
           },
         },
       },
@@ -31,10 +30,9 @@ describe('execute', () => {
           data: {
             addresses: [
               {
-                address: 'NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC',
+                address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
               },
             ],
-            field: 'stakeAmount',
           },
         },
       },
@@ -45,13 +43,12 @@ describe('execute', () => {
           data: {
             result: [
               {
-                address: 'NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC',
+                address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
               },
               {
-                address: 'NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX',
+                address: 'P-fuji1wycv8n7d2fg9aq6unp23pnj4q0arv03ysya8jw',
               },
             ],
-            field: 'stakeAmount',
           },
         },
       },

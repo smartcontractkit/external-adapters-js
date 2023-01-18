@@ -4,12 +4,9 @@ export const mockBalanceSuccess = (): nock.Scope =>
   nock('http://localhost:3500')
     .post('/ext/bc/P', {
       jsonrpc: '2.0',
-      method: 'platform.getCurrentValidators',
+      method: 'platform.getBalance',
       params: {
-        nodeIDs: [
-          'NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC',
-          'NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX',
-        ],
+        addresses: ['P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt'],
       },
       id: '1',
     })
@@ -18,60 +15,26 @@ export const mockBalanceSuccess = (): nock.Scope =>
       {
         jsonrpc: '2.0',
         result: {
-          validators: [
+          balance: '1606136960057',
+          unlocked: '1606136960057',
+          lockedStakeable: '0',
+          lockedNotStakeable: '0',
+          balances: {
+            U8iRqJoiJm8xZHAacmvYyZVwqQx6uDNtQeP3CQ6fcgQk3JqnK: '1606136960057',
+          },
+          unlockeds: {
+            U8iRqJoiJm8xZHAacmvYyZVwqQx6uDNtQeP3CQ6fcgQk3JqnK: '1606136960057',
+          },
+          lockedStakeables: {},
+          lockedNotStakeables: {},
+          utxoIDs: [
             {
-              txID: 'taPBfrrqdXnGNde21ckvd5Rr5zFkfnGs5t5MSii9jVpd2EN5P',
-              startTime: '1645162810',
-              endTime: '167108277600',
-              stakeAmount: '2000000000',
-              nodeID: 'NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC',
-              rewardOwner: {
-                locktime: '0',
-                threshold: '1',
-                addresses: ['P-fuji16mluftw2xl8vusmuup9mgp24ghkjc6u85523zw'],
-              },
-              validationRewardOwner: {
-                locktime: '0',
-                threshold: '1',
-                addresses: ['P-fuji16mluftw2xl8vusmuup9mgp24ghkjc6u85523zw'],
-              },
-              delegationRewardOwner: {
-                locktime: '0',
-                threshold: '1',
-                addresses: ['P-fuji16mluftw2xl8vusmuup9mgp24ghkjc6u85523zw'],
-              },
-              potentialReward: '182188941',
-              delegationFee: '2.0000',
-              uptime: '0.0012',
-              connected: false,
-              delegators: null,
+              txID: '2E9jBifwAKMajtgrwmJxwuW4UtYmTauAggCgRQv2wWF7PiXwgD',
+              outputIndex: 1,
             },
             {
-              txID: 'vB3taDDmFdS1qxLasZvCpqTfUja7jZNfPzTARYLShpSwtJcnq',
-              startTime: '1',
-              endTime: '1',
-              stakeAmount: '1009000000',
-              nodeID: 'NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX',
-              rewardOwner: {
-                locktime: '0',
-                threshold: '1',
-                addresses: ['P-fuji100vvz8u2jf6g62twwxpd0qguqtaeyt2yru2aes'],
-              },
-              validationRewardOwner: {
-                locktime: '0',
-                threshold: '1',
-                addresses: ['P-fuji100vvz8u2jf6g62twwxpd0qguqtaeyt2yru2aes'],
-              },
-              delegationRewardOwner: {
-                locktime: '0',
-                threshold: '1',
-                addresses: ['P-fuji100vvz8u2jf6g62twwxpd0qguqtaeyt2yru2aes'],
-              },
-              potentialReward: '7526406',
-              delegationFee: '100.0000',
-              uptime: '0.0001',
-              connected: false,
-              delegators: null,
+              txID: '2E9jBifwAKMajtgrwmJxwuW4UtYmTauAggCgRQv2wWF7PiXwgD',
+              outputIndex: 0,
             },
           ],
         },

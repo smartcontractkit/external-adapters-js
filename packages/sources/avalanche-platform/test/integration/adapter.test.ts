@@ -26,41 +26,9 @@ describe('execute', () => {
         data: {
           result: [
             {
-              address: 'NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC',
-            },
-            {
-              address: 'NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX',
+              address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
             },
           ],
-          field: 'stakeAmount',
-        },
-      }
-
-      mockBalanceSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-
-    it('(potentialReward) should return success', async () => {
-      const data: AdapterRequest = {
-        id,
-        data: {
-          result: [
-            {
-              address: 'NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC',
-            },
-            {
-              address: 'NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX',
-            },
-          ],
-          field: 'potentialReward',
         },
       }
 

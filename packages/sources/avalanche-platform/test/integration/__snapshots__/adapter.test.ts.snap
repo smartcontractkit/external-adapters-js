@@ -5,45 +5,20 @@ Object {
   "data": Object {
     "result": Array [
       Object {
-        "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
-        "balance": "2000000000",
-      },
-      Object {
-        "address": "NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX",
-        "balance": "1009000000",
+        "addresses": Array [
+          "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
+        ],
+        "balance": "1606136960057",
       },
     ],
   },
   "jobRunID": "1",
   "result": Array [
     Object {
-      "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
-      "balance": "2000000000",
-    },
-    Object {
-      "address": "NodeID-F823qVX3w3sVb6EWKnTFvfhnmTCCX91gX",
-      "balance": "1009000000",
-    },
-  ],
-  "statusCode": 200,
-}
-`;
-
-exports[`execute balance api (potentialReward) should return success 1`] = `
-Object {
-  "data": Object {
-    "result": Array [
-      Object {
-        "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
-        "balance": "182188941",
-      },
-    ],
-  },
-  "jobRunID": "1",
-  "result": Array [
-    Object {
-      "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC",
-      "balance": "182188941",
+      "addresses": Array [
+        "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
+      ],
+      "balance": "1606136960057",
     },
   ],
   "statusCode": 200,
