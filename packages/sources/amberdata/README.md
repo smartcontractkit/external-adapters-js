@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Amberdata
 
-![1.8.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
+![1.8.20](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/amberdata/package.json)
 
 Base URL wss://ws.web3api.io
 

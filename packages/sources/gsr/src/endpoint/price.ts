@@ -29,11 +29,6 @@ export interface TokenSuccess {
   validUntil: string
 }
 
-export interface AccessToken {
-  token: string
-  validUntil: number
-}
-
 export type AccessTokenResponse = TokenError | TokenSuccess
 
 type WsMessage = {
@@ -58,71 +53,33 @@ export type EndpointTypes = {
 
 const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1000000
 
-const generateSignatureString = (
-  userId: string,
-  ts: number,
-  publicKey: string,
-  token?: string,
-): string =>
-  token
-    ? `userId=${userId}&token=${token}&ts=${ts}`
-    : `userId=${userId}&apiKey=${publicKey}&ts=${ts}`
-
-const generateSignature = (
-  userId: string,
-  publicKey: string,
-  privateKey: string,
-  ts: number,
-  existingToken?: string,
-) =>
+const generateSignature = (userId: string, publicKey: string, privateKey: string, ts: number) =>
   crypto
     .createHmac('sha256', privateKey)
-    .update(generateSignatureString(userId, ts, publicKey, existingToken))
+    .update(`userId=${userId}&apiKey=${publicKey}&ts=${ts}`)
     .digest('hex')
 
-let rawTokenData: AccessToken | undefined
-
 const getToken = async (config: AdapterConfig<typeof customSettings>) => {
-  // Re-use the token if it's valid for at least 5 more minutes
-  if (rawTokenData && rawTokenData.validUntil - new Date().getTime() >= 5 * 60 * 1000) {
-    logger.debug('Re-using existing access token')
-    return rawTokenData.token
-  }
-
   logger.debug('Fetching new access token')
 
   const userId = config.WS_USER_ID
   const publicKey = config.WS_PUBLIC_KEY
   const privateKey = config.WS_PRIVATE_KEY
   const ts = currentTimeNanoSeconds()
-  const signature = generateSignature(userId, publicKey, privateKey, ts, rawTokenData?.token)
-  const tokenOrKey = rawTokenData ? { token: rawTokenData.token } : { apiKey: publicKey }
-  const data = {
-    url: `${config.API_ENDPOINT}/token`,
-    method: rawTokenData ? 'PUT' : 'POST',
-    data: {
-      ...tokenOrKey,
-      userId,
-      ts,
-      signature,
-    },
-  }
-
-  const response = await axios(data)
+  const signature = generateSignature(userId, publicKey, privateKey, ts)
+  const response = await axios.post<AccessTokenResponse>(`${config.API_ENDPOINT}/token`, {
+    apiKey: publicKey,
+    userId,
+    ts,
+    signature,
+  })
 
   if (!response.data.success) {
     logger.error('Unable to get access token')
     throw new Error(response.data.error)
   }
 
-  rawTokenData = {
-    token: response.data.token,
-    validUntil: new Date(response.data.validUntil).getTime(),
-  }
-
-  logger.debug(`Successfully stored new access token`)
-
-  return rawTokenData.token
+  return response.data.token
 }
 
 export const wsTransport = new WebSocketTransport<EndpointTypes>({

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute marketcap endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 2973802067.8207583,
+  },
+  "result": 2973802067.8207583,
+  "statusCode": 200,
+}
+`;

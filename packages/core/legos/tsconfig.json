@@ -41,6 +41,9 @@
       "path": "../../sources/armanino"
     },
     {
+      "path": "../../sources/avalanche-platform"
+    },
+    {
       "path": "../../sources/bank-frick"
     },
     {
@@ -244,7 +247,6 @@
     {
       "path": "../../sources/galaxy"
     },
-
     {
       "path": "../../sources/gemini"
     },
@@ -285,6 +287,9 @@
       "path": "../../sources/kaiko"
     },
     {
+      "path": "../../sources/kaiko-test"
+    },
+    {
       "path": "../../sources/layer2-sequencer-health"
     },
     {
@@ -321,7 +326,7 @@
       "path": "../../sources/ncfx"
     },
     {
-      "path": "../../sources/ncfx-test"
+      "path": "../../sources/nft-blue-chip"
     },
     {
       "path": "../../sources/nikkei"
