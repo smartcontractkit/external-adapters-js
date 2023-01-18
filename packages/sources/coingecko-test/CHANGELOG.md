@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.5.2
+
+### Patch Changes
+
+- e018cf5b4: Fix override ID for "COMP"
+
 ## 1.5.1
 
 ### Patch Changes

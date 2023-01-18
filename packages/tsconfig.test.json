@@ -216,6 +216,9 @@
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinapi-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinbase/tsconfig.test.json"
     },
     {
@@ -393,6 +396,9 @@
       "path": "./sources/kaiko/tsconfig.test.json"
     },
     {
+      "path": "./sources/kaiko-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
     },
     {
@@ -429,7 +435,7 @@
       "path": "./sources/ncfx/tsconfig.test.json"
     },
     {
-      "path": "./sources/ncfx-test/tsconfig.test.json"
+      "path": "./sources/nft-blue-chip/tsconfig.test.json"
     },
     {
       "path": "./sources/nikkei/tsconfig.test.json"
