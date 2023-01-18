@@ -37,8 +37,8 @@ export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[]
   return s
     .exec(
       changedFromBranch
-        ? `yarn workspaces list --json --since=${changedFromBranch}`
-        : 'yarn workspaces list --json',
+        ? `yarn workspaces list -R --json --since=${changedFromBranch}`
+        : 'yarn workspaces list -R --json',
       { silent: true },
     )
     .split('\n')
