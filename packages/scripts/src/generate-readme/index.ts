@@ -88,8 +88,9 @@ export async function main(): Promise<void | string> {
     if (options.adapters?.length) {
       adapters = adapters.filter((p) => {
         return (
-          (options.adapters as string[]).includes(p.descopedName) || // p.descopedName example: "coinbase-adapter"
-          (options.adapters as string[]).includes(p.descopedName.replace(/-adapter$/, '')) // "coinbase" (without "-adapter")
+          p.type === 'source' && //TODO @ad0ll, this seems to mimic develop, but if composite readmes are being generated, how is that done?
+          ((options.adapters as string[]).includes(p.descopedName) || // p.descopedName example: "coinbase-adapter"
+            (options.adapters as string[]).includes(p.descopedName.replace(/-adapter$/, ''))) // "coinbase" (without "-adapter")
         )
       })
     }
