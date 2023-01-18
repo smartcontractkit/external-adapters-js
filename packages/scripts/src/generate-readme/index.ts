@@ -78,30 +78,45 @@ export async function main(): Promise<void | string> {
     const shouldBuildAll =
       options.all ||
       getWorkspacePackages(process.env['UPSTREAM_BRANCH']).find(
-        (p) => (p.type === 'core' && !p.location.includes('legos')) || p.type === 'scripts',
+        // (p) => (p.type === 'core' && !p.location.includes('legos')) || p.type === 'scripts',
+        (p) => p.type === 'core' && !p.location.includes('legos'),
       )
+
     let adapters = shouldBuildAll
       ? getWorkspaceAdapters()
       : getWorkspaceAdapters([], process.env['UPSTREAM_BRANCH'])
+    options.verbose && console.log(`Adapters being considered for readme generation: `, adapters)
 
-    // If specific adapters are passed to the command line
+    const initialAdapterLength = adapters.length
+
+    // If specific adapters are passed to the command line, only select those
     if (options.adapters?.length) {
+      options.verbose &&
+        console.log(`Reducing list of adapters to ones specified on the command line`)
       adapters = adapters.filter((p) => {
         return (
-          p.type === 'source' && //TODO @ad0ll, this seems to mimic develop, but if composite readmes are being generated, how is that done?
-          ((options.adapters as string[]).includes(p.descopedName) || // p.descopedName example: "coinbase-adapter"
-            (options.adapters as string[]).includes(p.descopedName.replace(/-adapter$/, ''))) // "coinbase" (without "-adapter")
+          (options.adapters as string[]).includes(p.descopedName) || // p.descopedName example: "coinbase-adapter"
+          (options.adapters as string[]).includes(p.descopedName.replace(/-adapter$/, '')) // "coinbase" (without "-adapter")
         )
       })
     }
 
-    // Filter list by blacklist
     const blacklist = (getJsonFile(pathToBlacklist) as Blacklist).blacklist
     const adapterInBlacklist = blacklist.reduce((map: BooleanMap, a) => {
       map[a] = true
       return map
     }, {})
-    adapters = adapters.filter((a) => !adapterInBlacklist[a.name])
+    options.verbose && console.log(`Removing blacklisted and non-source adapters from the list`)
+    adapters = adapters
+      .filter((a) => !adapterInBlacklist[a.name]) // Remove blacklisted adapters
+      .filter((p) => p.type === 'sources') // Remove non-source adapters
+
+    options.verbose &&
+      console.log(`Filtered ${initialAdapterLength - adapters.length} adapters from the list`) // Verbose because this message is confusing if you're not familiar with generate-readme
+    console.log(
+      'Generating README(s) for the following adapters: ',
+      adapters.map((a) => a.name),
+    )
 
     // Collect new README versions
     const readmeQueue = await Promise.all(
