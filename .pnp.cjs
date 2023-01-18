@@ -7030,6 +7030,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
             ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
+            ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
             ["@chainlink/bitcoin-json-rpc-adapter", "workspace:packages/composites/bitcoin-json-rpc"],\
             ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],\
             ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\

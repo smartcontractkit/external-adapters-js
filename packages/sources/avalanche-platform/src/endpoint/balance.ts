@@ -12,12 +12,7 @@ export const supportedEndpoints = ['balance']
 export const description =
   'The balance endpoint will fetch the validator balance of each address in the query. Adapts the response for the Proof of Reserves adapter.'
 
-enum Field {
-  STAKE_AMOUNT = 'stakeAmount',
-  POTENTIAL_REWARD = 'potentialReward',
-}
-
-export type TInputParameters = { addresses: Address[]; field: string }
+export type TInputParameters = { addresses: Address[] }
 export const inputParameters: InputParameters<TInputParameters> = {
   addresses: {
     aliases: ['result'],
@@ -25,12 +20,6 @@ export const inputParameters: InputParameters<TInputParameters> = {
     type: 'array',
     description:
       'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
-  },
-  field: {
-    required: true,
-    type: 'string',
-    description: 'The field that should be returned in the results',
-    options: Object.values(Field),
   },
 }
 
@@ -43,7 +32,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
 
   const jobRunID = validator.validated.id
   const addresses = validator.validated.data.addresses as Address[]
-  const field = validator.validated.data.field
 
   if (!Array.isArray(addresses) || addresses.length === 0) {
     throw new AdapterInputError({
@@ -53,75 +41,29 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
     })
   }
 
-  return await queryPlatformChain(jobRunID, config, addresses, field)
+  return await queryPlatformChain(jobRunID, config, addresses)
 }
 
 interface ResponseSchema {
   result: {
-    validators: ValidatorState[]
+    balance: string
   }
-}
-
-interface ValidatorState {
-  txID: string
-  startTime: string
-  endTime: string
-  stakeAmount: string
-  nodeID: string
-  weight: string
-  validationRewardOwner: {
-    locktime: string
-    threshold: string
-    addresses: string[]
-  }
-  delegationRewardOwner: {
-    locktime: string
-    threshold: string
-    addresses: string[]
-  }
-  potentialReward: string
-  delegationFee: string
-  uptime: string
-  connected: boolean
-  signer: {
-    publicKey: string
-    proofOfPosession: string
-  }
-  delegators: Delegator[]
-}
-
-interface Delegator {
-  txID: string
-  startTime: string
-  endTime: string
-  stakeAmount: string
-  nodeID: string
-  rewardOwner: {
-    locktime: string
-    threshold: string
-    addresses: string[]
-  }
-  potentialReward: string
 }
 
 interface BalanceResponse {
-  address: string
+  addresses: string[]
   balance: string
 }
 
-const queryPlatformChain = async (
-  jobRunID: string,
-  config: Config,
-  addresses: Address[],
-  field: string,
-) => {
+const queryPlatformChain = async (jobRunID: string, config: Config, addresses: Address[]) => {
+  const addressList = addresses.map(({ address }) => address)
   const options: AxiosRequestConfig = {
     ...config.api,
     method: 'POST',
     data: {
       jsonrpc: '2.0',
-      method: 'platform.getCurrentValidators',
-      params: { nodeIDs: addresses.map(({ address }) => address) },
+      method: 'platform.getBalance',
+      params: { addresses: addressList },
       id: jobRunID,
     },
   }
@@ -129,24 +71,12 @@ const queryPlatformChain = async (
   const response = await Requester.request<ResponseSchema>(options)
   const balances: BalanceResponse[] = []
 
-  if (field === Field.STAKE_AMOUNT) {
-    response.data.result.validators.forEach((validator) => {
-      balances.push({ address: validator.nodeID, balance: validator.stakeAmount })
-    })
-  } else if (field === Field.POTENTIAL_REWARD) {
-    const today = new Date().setHours(0, 0, 0, 0)
-    response.data.result.validators.forEach((validator) => {
-      // Filter result by endTime > today as per requirements
-      // endTime is returned in seconds, convert to miliseconds before comparison
-      if (new Date(Number(validator.endTime) * 1000).getTime() > today) {
-        balances.push({ address: validator.nodeID, balance: validator.potentialReward })
-      }
-    })
-  }
+  // Balances will only have a single entry that contains the balance for all of the addresses specified in the request
+  // The platform.getBalance method only provides the sum so all addresses are grouped in the results
+  balances.push({ addresses: addressList, balance: response.data.result.balance })
 
   const result = {
     data: {
-      validators: response.data.result.validators,
       result: balances,
     },
   }
