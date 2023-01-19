@@ -28,7 +28,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
           },
           result: entry.bid,
           timestamps: {
-            providerIndicatedTime: entry.timestamp,
+            providerIndicatedTimeUnixMs: entry.timestamp,
           },
         },
       }

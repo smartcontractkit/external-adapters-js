@@ -47,7 +47,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
             },
             result,
             timestamps: {
-              providerIndicatedTime: message.t,
+              providerIndicatedTimeUnixMs: message.t,
             },
           },
         },

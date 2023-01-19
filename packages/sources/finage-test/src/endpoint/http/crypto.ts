@@ -38,7 +38,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
           },
           result: res.data.price,
           timestamps: {
-            providerIndicatedTime: res.data.timestamp,
+            providerIndicatedTimeUnixMs: res.data.timestamp,
           },
         },
       }

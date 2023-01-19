@@ -7,6 +7,7 @@ import {
   setupExternalAdapterTest,
   SuiteContext,
   mockForexWebSocketServer,
+  mockCryptoWebSocketServer,
 } from './setup'
 import { AddressInfo } from 'net'
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
@@ -34,7 +35,7 @@ describe('execute', () => {
     const context: SuiteContext = {
       req: null,
       server: async () => {
-        process.env['RATE_LIMIT_CAPACITY_SECOND'] = '10000'
+        process.env['RATE_LIMIT_CAPACITY_SECOND'] = '5000'
         process.env['METRICS_ENABLED'] = 'false'
         const server = (await import('../../src')).server
         return server() as Promise<ServerInstance>
@@ -262,6 +263,70 @@ describe('execute', () => {
 
         mockWebSocketProvider(WebSocketClassProvider)
         mockWsServer = mockForexWebSocketServer(wsEndpoint)
+
+        fastify = await expose(createAdapter())
+        req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
+
+        // Send initial request to start background execute
+        await req.post('/').send(data)
+        await sleep(5000)
+      })
+
+      afterAll((done) => {
+        spy.mockRestore()
+        setEnvVariables(oldEnv)
+        mockWsServer?.close()
+        fastify?.close(done())
+      })
+
+      it('should return success', async () => {
+        const makeRequest = () =>
+          req
+            .post('/')
+            .send(data)
+            .set('Accept', '*/*')
+            .set('Content-Type', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+
+        const response = await makeRequest()
+        expect(response.body).toMatchSnapshot()
+      }, 30000)
+    })
+
+    describe('crypto endpoint', () => {
+      let fastify: ServerInstance | undefined
+      let req: SuperTest<Test>
+      let mockWsServer: Server | undefined
+      let spy: jest.SpyInstance
+      const wsEndpoint = 'ws://localhost:9090'
+
+      jest.setTimeout(100000)
+
+      const data = {
+        data: {
+          endpoint: 'crypto',
+          base: 'BTC',
+          quote: 'USD',
+        },
+      }
+
+      let oldEnv: NodeJS.ProcessEnv
+      beforeAll(async () => {
+        oldEnv = JSON.parse(JSON.stringify(process.env))
+        process.env['WS_SUBSCRIPTION_TTL'] = '10000'
+        process.env['CACHE_MAX_AGE'] = '10000'
+        process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+        process.env['METRICS_ENABLED'] = 'false'
+        process.env['WS_ENABLED'] = 'true'
+        process.env['WS_SOCKET_KEY'] = 'fake-api-key'
+        process.env['CRYPTO_WS_API_ENDPOINT'] = wsEndpoint
+        process.env['API_KEY'] = 'fake-api-key'
+        const mockDate = new Date('2022-11-11T11:11:11.111Z')
+        spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+        mockWebSocketProvider(WebSocketClassProvider)
+        mockWsServer = mockCryptoWebSocketServer(wsEndpoint)
 
         fastify = await expose(createAdapter())
         req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)

@@ -1,4 +1,4 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../config'
@@ -21,40 +21,43 @@ type EndpointTypes = {
   }
 }
 
-export const wsTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => {
-    return `${context.adapterConfig.CRYPTO_WS_API_ENDPOINT}/?token=${context.adapterConfig.WS_SOCKET_KEY}`
-  },
-  handlers: {
-    message(message) {
-      if (!message.p) {
-        return []
-      }
-      // Finage returns pair information combined without delimiter, like `s: ethusd` which makes it not possible to have base and quote. Once params are passed in the message handler we can use them to have correct base and quote in the response.
-      const result = Number(message.p)
-      return [
-        {
-          params: { base: message.s, quote: message.s },
-          response: {
-            data: {
+export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
+  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+    url: (context) => {
+      return `${context.adapterConfig.CRYPTO_WS_API_ENDPOINT}/?token=${context.adapterConfig.WS_SOCKET_KEY}`
+    },
+    handlers: {
+      message(message) {
+        const pair = wsTransport.getReverseMapping(message.s)
+        if (!message.p || !pair) {
+          return []
+        }
+
+        const result = Number(message.p)
+        return [
+          {
+            params: pair,
+            response: {
+              data: {
+                result,
+              },
               result,
-            },
-            result,
-            timestamps: {
-              providerIndicatedTime: message.t,
+              timestamps: {
+                providerIndicatedTimeUnixMs: message.t,
+              },
             },
           },
-        },
-      ]
+        ]
+      },
     },
-  },
 
-  builders: {
-    subscribeMessage: (params) => {
-      return { action: 'subscribe', symbols: `${params.base}${params.quote}`.toUpperCase() }
+    builders: {
+      subscribeMessage: (params) => {
+        wsTransport.setReverseMapping(`${params.base}${params.quote}`, params)
+        return { action: 'subscribe', symbols: `${params.base}${params.quote}`.toUpperCase() }
+      },
+      unsubscribeMessage: (params) => {
+        return { action: 'unsubscribe', symbols: `${params.base}${params.quote}`.toUpperCase() }
+      },
     },
-    unsubscribeMessage: (params) => {
-      return { action: 'unsubscribe', symbols: `${params.base}${params.quote}`.toUpperCase() }
-    },
-  },
-})
+  })

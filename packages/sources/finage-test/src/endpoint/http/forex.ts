@@ -26,7 +26,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
           },
           result,
           timestamps: {
-            providerIndicatedTime: res.data.timestamp,
+            providerIndicatedTimeUnixMs: res.data.timestamp,
           },
         },
       }

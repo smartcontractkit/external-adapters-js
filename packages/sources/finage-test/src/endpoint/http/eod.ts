@@ -39,7 +39,7 @@ type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: { apikey: string }
+    RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
@@ -80,7 +80,7 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
           },
           result: res.data.results[0].c,
           timestamps: {
-            providerIndicatedTime: res.data.results[0].t,
+            providerIndicatedTimeUnixMs: res.data.results[0].t,
           },
         },
       }

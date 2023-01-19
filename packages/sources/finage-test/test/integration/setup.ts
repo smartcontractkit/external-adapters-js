@@ -6,7 +6,7 @@ import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
-import { forex, stock } from '../../src/endpoint'
+import { forex, stock, crypto } from '../../src/endpoint'
 import { Server, WebSocket } from 'mock-socket'
 
 export type SuiteContext = {
@@ -134,11 +134,35 @@ export const mockForexWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
+export const mockCryptoWebSocketServer = (URL: string): Server => {
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            s: 'BTCUSD',
+            p: '43682.66306523',
+            q: '0.04582000',
+            dex: false,
+            src: 'A',
+            t: 1646151298290,
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}
+
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
     name: 'test',
     defaultEndpoint: stock.name,
-    endpoints: [stock, forex],
+    endpoints: [stock, forex, crypto],
     customSettings,
   })
 }

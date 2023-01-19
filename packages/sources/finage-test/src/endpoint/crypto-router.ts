@@ -34,7 +34,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: { apikey: string }
+    RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
@@ -42,9 +42,9 @@ export type EndpointTypes = {
 export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
     WS: wsTransport,
-    REST: httpTransport,
+    HTTP: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'REST'),
+  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
 )
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
