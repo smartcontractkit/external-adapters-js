@@ -81,8 +81,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
           {
             params: { base, quote, endpoint: 'crypto' },
             response: {
-              errorMessage:
-                'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+              errorMessage: `Requested asset - ${base}/${quote} is not supported by data provider.`,
               statusCode: 400,
             },
           },

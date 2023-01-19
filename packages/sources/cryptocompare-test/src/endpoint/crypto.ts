@@ -15,11 +15,6 @@ import { wsTransport } from './crypto-ws'
 
 const logger = makeLogger('CryptoCompare HTTP')
 
-interface ProviderRequestBody {
-  fsyms: string
-  tsyms: string
-}
-
 type BatchEndpointTypes = {
   Request: {
     Params: CryptoEndpointParams
@@ -27,7 +22,7 @@ type BatchEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ProviderCryptoResponseBody
   }
 }
@@ -63,12 +58,13 @@ const endpointResultPaths: { [endpoint: string]: KeyOfType<ProviderCryptoQuoteDa
   volume: 'VOLUME24HOURTO',
 }
 
-const errorResponse = (payload: CryptoEndpointParams) => {
+const errorResponse = (payload: CryptoEndpointParams, message?: string) => {
   return {
     params: payload,
     response: {
       statusCode: 400,
       errorMessage:
+        message ||
         'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
     },
   }
@@ -80,23 +76,24 @@ export const constructEntry = (
 ) => {
   const dataForCoin = res.RAW[requestPayload.base.toUpperCase()]
   if (!dataForCoin) {
-    logger.warn(`Data for "${requestPayload.base}" not found`)
-    return errorResponse(requestPayload)
+    const message = `Data for "${requestPayload.base}" not found`
+    logger.warn(message)
+    return errorResponse(requestPayload, message)
   }
 
   const dataForQuote = dataForCoin[requestPayload.quote.toUpperCase()]
   if (!dataForQuote) {
-    logger.warn(`"${requestPayload.quote}" quote for "${requestPayload.base}" not found`)
-    return errorResponse(requestPayload)
+    const message = `"${requestPayload.quote}" quote for "${requestPayload.base}" not found`
+    logger.warn(message)
+    return errorResponse(requestPayload, message)
   }
 
   const resultKey = endpointResultPaths[requestPayload.endpoint || defaultEndpoint]
   const value = dataForQuote[resultKey]
   if (!value) {
-    logger.warn(
-      `No result for "${resultKey}" found for "${requestPayload.base}/${requestPayload.quote}"`,
-    )
-    return errorResponse(requestPayload)
+    const message = `No result for "${resultKey}" found for "${requestPayload.base}/${requestPayload.quote}"`
+    logger.warn(message)
+    return errorResponse(requestPayload, message)
   }
 
   return {
