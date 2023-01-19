@@ -139,12 +139,15 @@ const getPackage = (adapterPath: string, verbose = false) => {
     if (packageJson.version) version = wrapCode(packageJson.version)
 
     if (packageJson.dependencies) {
+      frameworkVersion = packageJson.dependencies['@chainlink/external-adapter-framework']
+        ? 'v3'
+        : 'v2'
+
       let dependencyList = Object.keys(packageJson.dependencies)
       dependencyList = dependencyList.reduce((list: string[], dep) => {
         const depSplit = dep.split('/')
-        if (depSplit[0] === '@chainlink' && !baseEaDependencies.includes(depSplit[1])) []
-        list.push(wrapCode(depSplit[1]))
-        if (depSplit[1] === 'external-adapter-framework') frameworkVersion = 'v3'
+        if (depSplit[0] === '@chainlink' && !baseEaDependencies.includes(depSplit[1]))
+          list.push(wrapCode(depSplit[1]))
         return list
       }, [])
       dependencies = dependencyList.length ? codeList(dependencyList) : ''
@@ -341,6 +344,7 @@ export const generateMasterList = async (
         const { batchableEndpoints, endpointsText } = await getEndpoints(adapter.path, verbose)
         const wsSupport = await getWSSupport(adapter.path, verbose)
         const { e2e, integration, unit } = getTestSupport(adapter.path)
+
         return [
           adapter.redirect,
           version,

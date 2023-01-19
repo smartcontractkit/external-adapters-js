@@ -60,6 +60,7 @@ export class ReadmeGenerator {
   versionBadgeUrl: string
   license: string
   frameworkVersion: 'v2' | 'v3'
+  frameworkVersionBadgeUrl: string
 
   constructor(adapterPath: string, verbose = false, skipTests = false) {
     this.verbose = verbose
@@ -71,8 +72,13 @@ export class ReadmeGenerator {
     if (verbose) console.log(`${adapterPath}: Checking package.json`)
     const packagePath = checkFilePaths([adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
-    this.frameworkVersion =
-      packageJson.dependencies['@chainlink/external-adapter-framework'] != null ? 'v3' : 'v2'
+
+    if (packageJson.dependencies) {
+      this.frameworkVersion = packageJson.dependencies['@chainlink/external-adapter-framework']
+        ? 'v3'
+        : 'v2'
+    }
+
     this.version = packageJson.version ?? ''
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
     this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
