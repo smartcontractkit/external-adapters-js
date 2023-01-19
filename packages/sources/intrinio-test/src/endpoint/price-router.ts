@@ -18,10 +18,6 @@ export interface RequestParams {
   base: string
 }
 
-export interface ProviderRequestBody {
-  api_key: string
-}
-
 export interface ProviderResponseBody {
   last_price: number
   last_time: string
@@ -54,7 +50,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: unknown
     ResponseBody: ProviderResponseBody
   }
 }
