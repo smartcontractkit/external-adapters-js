@@ -2,7 +2,7 @@ import nock from 'nock'
 
 export function mockCoinpaprikaAdapterResponseSuccess() {
   nock('http://localhost:8081')
-    .post('/', { id: '1', data: { base: ['AVAX'], quote: 'USD', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: 'AVAX', quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
       {
@@ -10,22 +10,9 @@ export function mockCoinpaprikaAdapterResponseSuccess() {
         providerStatusCode: 200,
         statusCode: 200,
         data: {
-          results: [
-            [
-              {
-                id: '1',
-                data: {
-                  endpoint: 'crypto',
-                  resultPath: 'price',
-                  base: 'AVAX',
-                  quote: 'USD',
-                },
-                rateLimitMaxAge: 57603,
-              },
-              78.9965141378473,
-            ],
-          ],
+          result: 78.9965141378473,
         },
+        result: 78.9965141378473,
       },
       [
         'X-Powered-By',
@@ -52,7 +39,7 @@ export function mockCoinpaprikaAdapterResponseSuccess() {
 
 export function mockCoinpaprikaAdapterResponseZeroValue() {
   nock('http://localhost:8081')
-    .post('/', { id: '1', data: { base: ['AVAX'], quote: 'USD', endpoint: 'crypto' } })
+    .post('/', { id: '1', data: { base: 'AVAX', quote: 'USD', endpoint: 'crypto' } })
     .reply(
       200,
       {
@@ -60,22 +47,9 @@ export function mockCoinpaprikaAdapterResponseZeroValue() {
         providerStatusCode: 200,
         statusCode: 200,
         data: {
-          results: [
-            [
-              {
-                id: '1',
-                data: {
-                  endpoint: 'crypto',
-                  resultPath: 'price',
-                  base: 'AVAX',
-                  quote: 'USD',
-                },
-                rateLimitMaxAge: 57603,
-              },
-              0,
-            ],
-          ],
+          result: 0,
         },
+        result: 0,
       },
       [
         'X-Powered-By',

@@ -1775,6 +1775,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/avalanche-platform-adapter@workspace:*, @chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/bank-frick-adapter@workspace:*, @chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
@@ -2921,6 +2937,7 @@ __metadata:
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
     "@chainlink/armanino-adapter": "workspace:*"
+    "@chainlink/avalanche-platform-adapter": "workspace:*"
     "@chainlink/bank-frick-adapter": "workspace:*"
     "@chainlink/bea-adapter": "workspace:*"
     "@chainlink/binance-adapter": "workspace:*"
@@ -4373,6 +4390,7 @@ __metadata:
   dependencies:
     "@chainlink/ada-balance-adapter": "workspace:*"
     "@chainlink/amberdata-adapter": "workspace:*"
+    "@chainlink/avalanche-platform-adapter": "workspace:*"
     "@chainlink/bitcoin-json-rpc-adapter": "workspace:*"
     "@chainlink/blockchain.com-adapter": "workspace:*"
     "@chainlink/blockchair-adapter": "workspace:*"

@@ -1,0 +1,10 @@
+{
+ "requests": [{
+    "result": [
+      {
+        "address": "NodeID-4gPY8c21HFsLjRm3nCUS3KA8WZsEsqEKC"
+      }
+    ],
+    "field": "stakeAmount"
+  }]
+}
