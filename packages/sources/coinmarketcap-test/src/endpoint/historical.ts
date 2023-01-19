@@ -119,7 +119,7 @@ export type EndpointTypes = {
   }
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: RequestBody
+    RequestBody: never
     ResponseBody: ResponseSchema
   }
 }

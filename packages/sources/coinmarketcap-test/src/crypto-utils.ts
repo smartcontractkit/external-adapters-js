@@ -34,13 +34,6 @@ export const inputParameters = {
   },
 } as const
 
-export interface ProviderRequestBody {
-  ids: string
-  vs_currencies: string
-  include_market_cap?: boolean
-  include_24hr_vol?: boolean
-}
-
 interface PriceInfo {
   price: number
   volume_24h: number
@@ -91,7 +84,7 @@ export type CryptoEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ProviderResponseBody
   }
 }

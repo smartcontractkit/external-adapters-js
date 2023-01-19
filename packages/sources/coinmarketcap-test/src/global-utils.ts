@@ -76,7 +76,7 @@ export type GlobalEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: { convert: string }
+    RequestBody: never
     ResponseBody: GlobalResponseSchema
   }
 }
