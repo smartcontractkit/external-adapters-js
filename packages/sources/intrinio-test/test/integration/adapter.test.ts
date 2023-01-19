@@ -22,6 +22,8 @@ describe('execute', () => {
       spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
     })
 
+    jest.setTimeout(10000)
+
     afterAll((done) => {
       spy.mockRestore()
       done()
@@ -69,8 +71,6 @@ describe('execute', () => {
     let mockWsServer: Server | undefined
     let spy: jest.SpyInstance
     const wsEndpoint = `wss://realtime.intrinio.com/socket/websocket?vsn=1.0.0&token=fake-api-token`
-
-    jest.setTimeout(100000)
 
     const data: AdapterRequestBody = {
       data: {
