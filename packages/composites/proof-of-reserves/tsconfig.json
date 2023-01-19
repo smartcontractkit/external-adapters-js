@@ -12,6 +12,7 @@
     { "path": "../../core/test-helpers" },
     { "path": "../../sources/ada-balance" },
     { "path": "../../sources/amberdata" },
+    { "path": "../../sources/avalanche-platform" },
     { "path": "../../sources/blockchain.com" },
     { "path": "../../sources/blockchair" },
     { "path": "../../sources/blockcypher" },
