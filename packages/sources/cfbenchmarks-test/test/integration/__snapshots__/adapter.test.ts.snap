@@ -8,9 +8,9 @@ Object {
   "result": 39829.3,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
-    "providerIndicatedTime": 1645199637000,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1645199637000,
   },
 }
 `;

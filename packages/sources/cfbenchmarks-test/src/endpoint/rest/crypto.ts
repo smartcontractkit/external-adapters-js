@@ -18,7 +18,6 @@ export type RestEndpointTypes = EndpointTypes & {
   }
 }
 
-// NOTE: This is using the BatchWarming transport, but the actual API endpoint is not batchable
 export const makeRestTransport = (
   type: 'primary' | 'secondary',
 ): HttpTransport<RestEndpointTypes> => {
@@ -53,7 +52,7 @@ export const makeRestTransport = (
               result: value,
             },
             timestamps: {
-              providerIndicatedTime: values[0].time,
+              providerIndicatedTimeUnixMs: values[0].time,
             },
           },
         },

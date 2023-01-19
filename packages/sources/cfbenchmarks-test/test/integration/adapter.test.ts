@@ -133,9 +133,9 @@ describe('websocket', () => {
         statusCode: 200,
         data: { result: 40067 },
         timestamps: {
-          providerDataReceived: 1652198967193,
-          providerDataStreamEstablished: 1652198967193,
-          providerIndicatedTime: 1645203822000,
+          providerDataReceivedUnixMs: 1652198967193,
+          providerDataStreamEstablishedUnixMs: 1652198967193,
+          providerIndicatedTimeUnixMs: 1645203822000,
         },
       })
     }, 30000)
