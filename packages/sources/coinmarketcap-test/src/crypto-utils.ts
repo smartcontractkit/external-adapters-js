@@ -1,5 +1,6 @@
 import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export interface CryptoRequestParams {
   base: string
@@ -95,40 +96,119 @@ export type CryptoEndpointTypes = {
   }
 }
 
-const groupByBaseOptions = (params: CryptoRequestParams[]) => {
-  const id: CryptoRequestParams[] = []
-  const slug: CryptoRequestParams[] = []
-  const symbol: CryptoRequestParams[] = []
-  params.forEach((param) => {
-    let optionContainer = []
-    if (param.cid) {
-      optionContainer = id
-    } else if (param.slug) {
-      optionContainer = slug
-    } else if (param.base) {
-      optionContainer = symbol
-    }
-    optionContainer.push(param)
-  })
-  return Object.entries({ id, slug, symbol })
+// Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
+const presetIds: { [symbol: string]: number } = {
+  '1INCH': 8104,
+  AAVE: 7278,
+  BAL: 5728,
+  BAT: 1697,
+  BCH: 1831,
+  BNB: 1839,
+  BNT: 1727,
+  BTC: 1,
+  COMP: 5692,
+  CRO: 3635,
+  CRV: 6538,
+  ETC: 1321,
+  ETH: 1027,
+  FNX: 5712,
+  FTT: 4195,
+  HT: 2502,
+  KCS: 2087,
+  KLAY: 4256,
+  KNC: 1982,
+  LEO: 3957,
+  LINK: 1975,
+  MIM: 162,
+  MKR: 1518,
+  OHM: 16209,
+  OHMV2: 9067,
+  OKB: 3897,
+  RCN: 2096,
+  REN: 2539,
+  SNX: 2586,
+  STETH: 8085,
+  SUSHI: 6758,
+  UMA: 5617,
+  UNI: 7083,
+  WOM: 5328,
+  YFI: 5864,
 }
 
-export const buildBatchedRequestBody = (params: CryptoRequestParams[], endpoint: string) => {
-  //Coinmarketcap supports 3 different options for sending base params (id) - 'cid', 'slug' and 'base'. We group here to send batch requests for each such option
-  const groupedParams = groupByBaseOptions(params)
+type Payload = { payload: CryptoRequestParams; id?: string }
 
-  return groupedParams.map((group) => {
+const chunkArray = (params: string[], size = 120): string[][] =>
+  params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
+
+const groupByBaseOptions = (params: CryptoRequestParams[]) => {
+  const id: Payload[] = []
+  const slug: Payload[] = []
+  const symbol: Payload[] = []
+  const group: { id?: Payload[]; slug?: Payload[]; symbol?: Payload[] } = {}
+  params.forEach((param) => {
+    let optionContainer = []
+    // We keep original params in payload so that we  don't modify them when there is base-to-id override
+    const input: { payload: CryptoRequestParams; id?: string } = { payload: param }
+
+    if (input.payload.base && presetIds[input.payload.base]) {
+      input.id = presetIds[input.payload.base].toString()
+    }
+
+    if (input.id || input.payload.cid) {
+      optionContainer = id
+    } else if (input.payload.slug) {
+      optionContainer = slug
+    } else if (input.payload.base) {
+      optionContainer = symbol
+    }
+    optionContainer.push(input)
+  })
+  if (id.length) {
+    group.id = id
+  }
+  if (slug.length) {
+    group.slug = slug
+  }
+  if (symbol.length) {
+    group.symbol = symbol
+  }
+  return Object.entries(group)
+}
+
+export const buildBatchedRequestBody = (
+  params: CryptoRequestParams[],
+  config: AdapterConfig<typeof customSettings>,
+) => {
+  //Coinmarketcap supports 3 different options for sending base params - 'id', 'slug' and 'symbol'. We group here to send batch requests for each such option. Each option should not have more than 120 unique quotes.
+  const uniqueQuotes = new Set(params.map((p) => p.quote.toUpperCase()))
+  const chunkedMatrix = chunkArray([...uniqueQuotes])
+
+  const groupList = chunkedMatrix
+    .map((chunk) => {
+      const cParams = params.filter((param) => chunk.includes(param.quote))
+      return groupByBaseOptions(cParams)
+    })
+    .flat()
+
+  return groupList.map((group) => {
     const queryName = group[0]
     const groupedParams = group[1]
 
     return {
-      params: groupedParams,
+      params: groupedParams.map((inputParams) => inputParams.payload),
       request: {
-        baseURL: endpoint,
+        baseURL: config.API_ENDPOINT,
         url: '/cryptocurrency/quotes/latest',
+        headers: {
+          'X-CMC_PRO_API_KEY': config.API_KEY,
+        },
         params: {
-          [queryName]: [...new Set(groupedParams.map((p) => p.cid || p.slug || p.base))].join(','),
-          convert: [...new Set(groupedParams.map((p) => p.quote))].join(','),
+          [queryName]: [
+            ...new Set(
+              groupedParams.map((p) => p.id || p.payload.cid || p.payload.slug || p.payload.base),
+            ),
+          ].join(','),
+          convert: [...new Set(groupedParams.map((p) => p.payload.quote))].join(','),
         },
       },
     }

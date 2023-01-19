@@ -9,7 +9,7 @@ import {
 
 const httpTransport = new HttpTransport<CryptoEndpointTypes>({
   prepareRequests: (params, config) => {
-    return buildBatchedRequestBody(params, config.API_ENDPOINT)
+    return buildBatchedRequestBody(params, config)
   },
   parseResponse: (params, res) => {
     return constructEntry(params, res.data, 'market_cap')
