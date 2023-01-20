@@ -33,11 +33,6 @@ export interface RequestParams {
   hours: number
 }
 
-export interface RequestBody {
-  start: string
-  interval: number
-}
-
 type EndpointTypes = {
   Request: {
     Params: RequestParams
@@ -50,7 +45,7 @@ type EndpointTypes = {
   }
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: RequestBody
+    RequestBody: never
     ResponseBody: Response[]
   }
 }

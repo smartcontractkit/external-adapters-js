@@ -1,5 +1,5 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import overrides from './config/overrides.json'
 import {
   crypto,
@@ -11,7 +11,7 @@ import {
   vwap,
 } from './endpoint'
 
-export const adapter = new Adapter({
+export const adapter = new PriceAdapter({
   defaultEndpoint: crypto.name,
   name: 'COINPAPRIKA',
   overrides: overrides['coinpaprika'],

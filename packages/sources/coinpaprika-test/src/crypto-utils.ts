@@ -22,10 +22,6 @@ export const inputParameters = {
   },
 } as const
 
-export interface CryptoRequestBody {
-  quotes: string
-}
-
 interface CoinInfo {
   price: number
   volume_24h: number
@@ -75,7 +71,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: CryptoRequestBody
+    RequestBody: never
     ResponseBody: CryptoResponseSchema[]
   }
 }
