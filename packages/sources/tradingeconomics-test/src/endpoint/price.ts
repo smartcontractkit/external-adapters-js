@@ -14,7 +14,7 @@ const transformInput = (input: PriceEndpointParams) => {
     .join(',')
 }
 
-export const batchTransport = new HttpTransport<EndpointTypes>({
+export const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
     return params.map((input) => {
       const symbol = transformInput(input)

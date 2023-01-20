@@ -95,8 +95,11 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
   },
   builders: {
     subscribeMessage: (params) => {
-      // TODO beware, this assumes there is only one matching result in the limits.json list
       const values = includes.filter((element) => element.from === params.base)
+      if (values.length === 0) {
+        logger.debug('No match found for limit.json file')
+      }
+      // TODO beware, this assumes there is only one matching result in the limits.json list
       const from = values[0].includes[0].from
       return getSubscription(from)
     },

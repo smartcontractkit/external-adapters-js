@@ -2,7 +2,7 @@ import { RoutingTransport } from '@chainlink/external-adapter-framework/transpor
 import { wsTransport } from './price-ws'
 import { customSettings } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { batchTransport } from './price'
+import { httpTransport } from './price'
 import {
   PriceEndpoint,
   PriceEndpointInputParameters,
@@ -80,7 +80,7 @@ export interface ProviderResponseBody {
 
 export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
-    REST: batchTransport,
+    REST: httpTransport,
     WS: wsTransport,
   },
   (_, adapterConfig) => {
