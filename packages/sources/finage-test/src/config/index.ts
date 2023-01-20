@@ -12,10 +12,9 @@ export const customSettings = {
   },
   WS_SOCKET_KEY: {
     type: 'string',
-    required: false,
+    required: true,
     sensitive: true,
-    description:
-      "A WEBSOCKET key that can be obtained from the data provider's dashboard (required when websocket is enabled)",
+    description: "A WEBSOCKET key that can be obtained from the data provider's dashboard",
   },
   STOCK_WS_API_ENDPOINT: {
     type: 'string',

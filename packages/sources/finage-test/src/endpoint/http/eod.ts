@@ -5,7 +5,7 @@ import { customSettings } from '../../config'
 
 export const inputParameters = {
   base: {
-    aliases: ['from', 'coin'],
+    aliases: ['from', 'symbol'],
     required: true,
     type: 'string',
     description: 'The symbol of the currency to query',

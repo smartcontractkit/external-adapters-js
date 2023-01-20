@@ -7,7 +7,7 @@ import { wsTransport } from './ws/crypto-ws'
 
 export const inputParameters = {
   base: {
-    aliases: ['from', 'coin'],
+    aliases: ['from', 'coin', 'symbol'],
     required: true,
     type: 'string',
     description: 'The symbol of symbols of the currency to query',
