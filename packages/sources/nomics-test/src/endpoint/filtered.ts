@@ -27,12 +27,6 @@ interface RequestParams {
   exchanges: string
 }
 
-interface ProviderRequestBody {
-  currency: string
-  key: string
-  exchanges: string
-}
-
 export type FilteredEndpointTypes = {
   Request: {
     Params: RequestParams
@@ -40,7 +34,7 @@ export type FilteredEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ResponseSchema
   }
 }

@@ -61,12 +61,6 @@ export interface ResponseSchema {
   ytd: PriceInfo
 }
 
-export interface ProviderResponseBody {
-  ids: string
-  convert: string
-  key: string
-}
-
 export type CryptoEndpointTypes = {
   Request: {
     Params: RequestParams
@@ -74,7 +68,7 @@ export type CryptoEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderResponseBody
+    RequestBody: never
     ResponseBody: ResponseSchema[]
   }
 }
