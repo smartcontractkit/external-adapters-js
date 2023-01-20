@@ -8,8 +8,8 @@ Object {
   "result": 6602.60701122,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
@@ -22,8 +22,8 @@ Object {
   "result": 44.897494474523,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
@@ -36,8 +36,8 @@ Object {
   "result": 1939416192105.152,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
@@ -174,8 +174,8 @@ Object {
   },
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
@@ -188,8 +188,8 @@ Object {
   "result": 113563929433.21645,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
@@ -202,8 +202,8 @@ Object {
   "result": 4314444687.5194,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;

@@ -86,7 +86,7 @@ describe('execute', () => {
     })
   })
 
-  describe('volume endpoint with base', () => {
+  describe('volume endpoint with base (override to id)', () => {
     const data = {
       id,
       data: {
@@ -97,7 +97,7 @@ describe('execute', () => {
     }
 
     it('should return success', async () => {
-      mockSuccessfulCoinMarketCapResponse('symbol', 'BTC')
+      mockSuccessfulCoinMarketCapResponse('id', '1')
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')

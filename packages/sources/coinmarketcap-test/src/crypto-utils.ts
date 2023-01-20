@@ -1,6 +1,7 @@
 import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import presetIds from './config/presetids.json'
 
 export interface CryptoRequestParams {
   base: string
@@ -89,46 +90,19 @@ export type CryptoEndpointTypes = {
   }
 }
 
-// Coin IDs fetched from the ID map: https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
-const presetIds: { [symbol: string]: number } = {
-  '1INCH': 8104,
-  AAVE: 7278,
-  BAL: 5728,
-  BAT: 1697,
-  BCH: 1831,
-  BNB: 1839,
-  BNT: 1727,
-  BTC: 1,
-  COMP: 5692,
-  CRO: 3635,
-  CRV: 6538,
-  ETC: 1321,
-  ETH: 1027,
-  FNX: 5712,
-  FTT: 4195,
-  HT: 2502,
-  KCS: 2087,
-  KLAY: 4256,
-  KNC: 1982,
-  LEO: 3957,
-  LINK: 1975,
-  MIM: 162,
-  MKR: 1518,
-  OHM: 16209,
-  OHMV2: 9067,
-  OKB: 3897,
-  RCN: 2096,
-  REN: 2539,
-  SNX: 2586,
-  STETH: 8085,
-  SUSHI: 6758,
-  UMA: 5617,
-  UNI: 7083,
-  WOM: 5328,
-  YFI: 5864,
-}
-
 type Payload = { payload: CryptoRequestParams; id?: string }
+
+const errorResponse = (payload: CryptoRequestParams, message?: string) => {
+  return {
+    params: payload,
+    response: {
+      statusCode: 400,
+      errorMessage:
+        message ||
+        'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
+    },
+  }
+}
 
 const chunkArray = (params: string[], size = 120): string[][] =>
   params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
@@ -139,22 +113,23 @@ const groupByBaseOptions = (params: CryptoRequestParams[]) => {
   const symbol: Payload[] = []
   const group: { id?: Payload[]; slug?: Payload[]; symbol?: Payload[] } = {}
   params.forEach((param) => {
-    let optionContainer = []
     // We keep original params in payload so that we  don't modify them when there is base-to-id override
     const input: { payload: CryptoRequestParams; id?: string } = { payload: param }
 
-    if (input.payload.base && presetIds[input.payload.base]) {
-      input.id = presetIds[input.payload.base].toString()
+    if (
+      input.payload.base &&
+      (presetIds as Record<string, number>)[input.payload.base.toUpperCase()]
+    ) {
+      input.id = (presetIds as Record<string, number>)[input.payload.base.toUpperCase()].toString()
     }
 
     if (input.id || input.payload.cid) {
-      optionContainer = id
+      id.push(input)
     } else if (input.payload.slug) {
-      optionContainer = slug
+      slug.push(input)
     } else if (input.payload.base) {
-      optionContainer = symbol
+      symbol.push(input)
     }
-    optionContainer.push(input)
   })
   if (id.length) {
     group.id = id
@@ -178,7 +153,7 @@ export const buildBatchedRequestBody = (
 
   const groupList = chunkedMatrix
     .map((chunk) => {
-      const cParams = params.filter((param) => chunk.includes(param.quote))
+      const cParams = params.filter((param) => chunk.includes(param.quote.toUpperCase()))
       return groupByBaseOptions(cParams)
     })
     .flat()
@@ -220,34 +195,56 @@ const _keyForSlug = (data: ProviderResponseBody, slug: string) => {
   return o && o.id
 }
 
+// If there is a base-to-id override in presetId file we need to get the id of coin because that will be in the response
+const _keyForSymbol = (data: ProviderResponseBody, symbol: string) => {
+  if (data.data[symbol.toUpperCase()]) {
+    return symbol.toUpperCase()
+  }
+  if ((presetIds as Record<string, number>)[symbol.toUpperCase()]) {
+    return (presetIds as Record<string, number>)[symbol.toUpperCase()].toString()
+  }
+
+  return symbol.toUpperCase()
+}
+
 export const constructEntry = (
   params: CryptoRequestParams[],
   response: ProviderResponseBody,
   resultPath: keyof PriceInfo,
 ) => {
   return params.map((param) => {
+    const quote = param.quote.toUpperCase()
+
     let key: string | number | undefined = param.cid
     if (!key && param.slug) {
       key = _keyForSlug(response, param.slug)
     }
     if (!key) {
-      key = param.base
+      key = _keyForSymbol(response, param.base)
     }
 
-    let result
-
-    try {
-      result = response.data[key].quote[param.quote][resultPath]
-    } catch (_) {
-      return {
-        params: param,
-        response: {
-          statusCode: 400,
-          errorMessage:
-            'Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides',
-        },
-      }
+    if (!response.data[key]) {
+      return errorResponse(param, `Data for "${param.cid || param.slug || param.base}" not found`)
     }
+
+    const dataForQuote = response.data[key].quote[quote]
+    if (!dataForQuote) {
+      return errorResponse(
+        param,
+        `"${dataForQuote}" quote for "${param.cid || param.slug || param.base}" not found`,
+      )
+    }
+    const result = dataForQuote[resultPath]
+
+    if (!result) {
+      return errorResponse(
+        param,
+        `No result for "${resultPath}" found for "${param.cid || param.slug || param.base}/${
+          param.quote
+        }"`,
+      )
+    }
+
     return {
       params: param,
       response: {
