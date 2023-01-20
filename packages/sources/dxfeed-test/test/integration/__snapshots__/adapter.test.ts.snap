@@ -8,8 +8,8 @@ Object {
   "result": 239.255,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
@@ -22,8 +22,8 @@ Object {
   "result": 170,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1668165071111,
-    "providerDataStreamEstablished": 1668165071111,
+    "providerDataReceivedUnixMs": 1668165071111,
+    "providerDataStreamEstablishedUnixMs": 1668165071111,
   },
 }
 `;
