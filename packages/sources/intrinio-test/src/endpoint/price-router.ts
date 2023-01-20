@@ -50,7 +50,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: unknown
+    RequestBody: never
     ResponseBody: ProviderResponseBody
   }
 }
