@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { EndpointTypes } from '../stock-router'
+import { EndpointTypes, ResponseSchema } from '../stock-router'
 
 export const httpTransport = new HttpTransport<EndpointTypes>({
   prepareRequests: (params, config) => {
@@ -17,16 +17,17 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
   },
   parseResponse: (_, res) => {
     // Filter null values in response
-    const response = res.data.filter((e) => e)
+    const response: ResponseSchema[] = res.data.filter((e) => e)
 
     return response.map((entry) => {
+      const result = (entry.bid + entry.ask) / 2
       return {
         params: { base: entry.symbol },
         response: {
           data: {
-            result: entry.bid,
+            result,
           },
-          result: entry.bid,
+          result,
           timestamps: {
             providerIndicatedTimeUnixMs: entry.timestamp,
           },

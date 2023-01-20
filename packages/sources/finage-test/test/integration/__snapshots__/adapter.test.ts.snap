@@ -63,9 +63,9 @@ Object {
 exports[`execute http stock endpoint should return success 1`] = `
 Object {
   "data": Object {
-    "result": 25.8,
+    "result": 26.060000000000002,
   },
-  "result": 25.8,
+  "result": 26.060000000000002,
   "statusCode": 200,
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1641035471111,

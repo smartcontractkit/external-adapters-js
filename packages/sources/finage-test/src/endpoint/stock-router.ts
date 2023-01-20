@@ -18,7 +18,7 @@ interface RequestParams {
   base: string
 }
 
-interface ResponseSchema {
+export interface ResponseSchema {
   symbol: string
   ask: number
   bid: number
