@@ -55,11 +55,6 @@ export interface RequestParams {
   base: string
 }
 
-export interface ProviderRequestBody {
-  events: string
-  symbols: string
-}
-
 export type EndpointTypes = {
   Request: {
     Params: RequestParams
@@ -67,7 +62,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ProviderResponseBody
   }
 }
