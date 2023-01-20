@@ -1,6 +1,6 @@
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { PriceCryptoRequestParams, inputParameters, ProviderRequestBody } from '../../crypto-utils'
+import { PriceCryptoRequestParams, inputParameters } from '../../crypto-utils'
 import { httpTransport } from '../http/forex'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
@@ -23,7 +23,7 @@ export type ForexEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }

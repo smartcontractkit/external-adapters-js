@@ -17,11 +17,6 @@ export const inputParameters = {
   },
 } as const
 
-export interface ProviderRequestBody {
-  token: string
-  tickers: string
-}
-
 export interface ProviderResponseBody {
   ticker: string
   baseCurrency: string
@@ -56,7 +51,7 @@ export type CryptoEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }

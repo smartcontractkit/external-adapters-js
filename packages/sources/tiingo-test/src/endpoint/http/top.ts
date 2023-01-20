@@ -4,7 +4,6 @@ import {
   buildBatchedRequestBody,
   PriceCryptoRequestParams,
   inputParameters,
-  ProviderRequestBody,
 } from '../../crypto-utils'
 import { customSettings } from '../../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
@@ -36,7 +35,7 @@ type TopEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: ProviderRequestBody
+    RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }

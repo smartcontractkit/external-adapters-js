@@ -1,4 +1,4 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
 import { PriceCryptoRequestParams } from '../../crypto-utils'
@@ -24,47 +24,56 @@ type EndpointTypes = {
 }
 
 let apiKey = ''
-export const wsTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => {
-    apiKey = context.adapterConfig.API_KEY
-    return `${context.adapterConfig.WS_API_ENDPOINT}/fx`
-  },
+export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
+  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+    url: (context) => {
+      apiKey = context.adapterConfig.API_KEY
+      return `${context.adapterConfig.WS_API_ENDPOINT}/fx`
+    },
 
-  handlers: {
-    message(message) {
-      if (!message?.data?.length || message.messageType !== 'A') {
-        return []
-      }
-      // Tiingo returns pair information combined without delimiter, like `eurusd` which makes it not possible to have base and quote. Once params are passed in the message handler we can use them to have correct base and quote in the response.
-      const [base, quote] = message.data[tickerIndex].split('/')
-      return [
-        {
-          params: { base, quote },
-          response: {
-            data: {
+    handlers: {
+      message(message) {
+        const pair = wsTransport.getReverseMapping(message.data[tickerIndex])
+
+        if (!message?.data?.length || message.messageType !== 'A' || !pair) {
+          return []
+        }
+
+        return [
+          {
+            params: pair,
+            response: {
+              data: {
+                result: message.data[priceIndex],
+              },
               result: message.data[priceIndex],
             },
-            result: message.data[priceIndex],
           },
-        },
-      ]
+        ]
+      },
     },
-  },
 
-  builders: {
-    subscribeMessage: (params) => {
-      return {
-        eventName: 'subscribe',
-        authorization: apiKey,
-        eventData: { thresholdLevel: 5, tickers: [`${params.base}${params.quote}`.toLowerCase()] },
-      }
+    builders: {
+      subscribeMessage: (params) => {
+        wsTransport.setReverseMapping(`${params.base}${params.quote}`, params)
+        return {
+          eventName: 'subscribe',
+          authorization: apiKey,
+          eventData: {
+            thresholdLevel: 5,
+            tickers: [`${params.base}${params.quote}`.toLowerCase()],
+          },
+        }
+      },
+      unsubscribeMessage: (params) => {
+        return {
+          eventName: 'unsubscribe',
+          authorization: apiKey,
+          eventData: {
+            thresholdLevel: 5,
+            tickers: [`${params.base}${params.quote}`.toLowerCase()],
+          },
+        }
+      },
     },
-    unsubscribeMessage: (params) => {
-      return {
-        eventName: 'unsubscribe',
-        authorization: apiKey,
-        eventData: { thresholdLevel: 5, tickers: [`${params.base}${params.quote}`.toLowerCase()] },
-      }
-    },
-  },
-})
+  })

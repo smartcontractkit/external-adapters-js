@@ -41,7 +41,7 @@ export type IEXEndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: { token: string }
+    RequestBody: never
     ResponseBody: ProviderResponseBody[]
   }
 }

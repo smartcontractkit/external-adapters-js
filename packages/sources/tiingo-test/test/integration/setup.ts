@@ -124,6 +124,36 @@ export const mockIexWebSocketServer = (URL: string): Server => {
   return mockWsServer
 }
 
+export const mockForexWebSocketServer = (URL: string): Server => {
+  const mockWsServer = new Server(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            messageType: 'A',
+            service: 'fx',
+            data: [
+              'Q',
+              'eurusd',
+              '2022-04-14T19:33:12.474000+00:00',
+              1000000,
+              1.08267,
+              1.08272,
+              1000000,
+              1.08277,
+            ],
+          }),
+        )
+      }
+    }
+    socket.on('message', parseMessage)
+  })
+
+  return mockWsServer
+}
+
 export const createAdapter = (): PriceAdapter<typeof customSettings> => {
   return new PriceAdapter({
     name: 'test',

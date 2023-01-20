@@ -8,6 +8,7 @@ export const customSettings = {
     description: 'API key for tiingo',
     type: 'string',
     required: true,
+    sensitive: true,
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
