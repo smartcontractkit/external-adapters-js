@@ -1,5 +1,11 @@
 # @chainlink/gsr-adapter
 
+## 2.0.3
+
+### Patch Changes
+
+- d0adc1082: Fetch a new auth token on every new WS connection
+
 ## 2.0.2
 
 ### Patch Changes
