@@ -1,4 +1,4 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import includes from '../config/includes.json'
 
@@ -64,7 +64,7 @@ const baseFromIncludes = includes.reduce(
   {},
 )
 
-export const wsTransport = new WebSocketTransport<EndpointTypes>({
+export const wsTransport = new WebsocketReverseMappingTransport<EndpointTypes, string>({
   url: (context) => {
     const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterConfig
     return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
@@ -77,6 +77,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
       }
       return message.map((msg) => {
         const base = baseFromIncludes[msg?.s] ?? msg?.s
+        wsTransport.setReverseMapping(msg.i, msg.s)
         const result = {
           params: { base, quote: 'USD' },
           response: {
@@ -85,7 +86,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
               result: msg.price,
             },
             timestamps: {
-              providerIndicatedTime: new Date(msg.dt).getTime(),
+              providerIndicatedTimeUnixMs: new Date(msg.dt).getTime(),
             },
           },
         }
@@ -95,12 +96,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
   },
   builders: {
     subscribeMessage: (params) => {
-      const values = includes.filter((element) => element.from === params.base)
-      if (values.length === 0) {
-        logger.debug('No match found for limit.json file')
-      }
-      // TODO beware, this assumes there is only one matching result in the limits.json list
-      const from = values[0].includes[0].from
+      const from = wsTransport.getReverseMapping(`${params.quote}${params.base}`)
       return getSubscription(from)
     },
   },
