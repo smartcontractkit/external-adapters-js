@@ -68,7 +68,7 @@ export type WebSocketEndpointTypes = EndpointTypes & {
 
 const logger = makeLogger('TwoSigmaPriceWebsocketEndpoint')
 
-let underlyingWebSocket = WebSocket;
+let underlyingWebSocket = WebSocket
 
 export const setWebSocket = (ws: typeof WebSocket): void => {
   // Useful for mocking.
@@ -168,7 +168,7 @@ export class WebSocketHandler {
 
   handleSubscriptionUpdate(): WebSocketRequest {
     logger.debug('Subscription updated, reconnecting')
-    this.conn?.reconnect(1001, "reconnecting")
+    this.conn?.reconnect(1001, 'reconnecting')
 
     return {
       api_key: this.apiKey,
