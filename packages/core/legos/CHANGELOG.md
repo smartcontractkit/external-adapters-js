@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.3.60
+
+### Patch Changes
+
+- Updated dependencies
+  - @chainlink/twosigma-adapter@1.0.0
+
 ## 1.3.59
 
 ### Patch Changes
