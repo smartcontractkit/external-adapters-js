@@ -5439,6 +5439,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
+            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
@@ -6822,12 +6823,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/oanda/",\
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.19.0"],\
             ["@types/eventsource", "npm:1.1.9"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
+            ["decimal.js", "npm:10.4.1"],\
             ["eventsource", "npm:2.0.2"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\

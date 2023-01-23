@@ -1,6 +1,6 @@
 export const customSettings = {
   API_KEY: {
-    description: 'API key',
+    description: 'API key for REST endpoint',
     type: 'string',
     required: true,
     sensitive: true,
@@ -12,9 +12,15 @@ export const customSettings = {
     sensitive: true,
   },
   API_ENDPOINT: {
-    description: 'Endpoint for REST prices.',
+    description: 'Endpoint for REST prices',
     type: 'string',
-    default: 'https://api-fxtrade.oanda.com/v3',
+    default: 'https://exchange-rates-api.oanda.com/v2',
+  },
+  SSE_API_KEY: {
+    description: 'API key for SSE endpoint',
+    type: 'string',
+    required: true,
+    sensitive: true,
   },
   SSE_API_ENDPOINT: {
     description: 'Endpoint for SSE streaming prices.',

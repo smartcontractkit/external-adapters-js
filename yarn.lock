@@ -3045,6 +3045,7 @@ __metadata:
     "@chainlink/poa-adapter": "workspace:*"
     "@chainlink/polygon-adapter": "workspace:*"
     "@chainlink/por-address-list-adapter": "workspace:*"
+    "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"
@@ -4166,12 +4167,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.19.0
     "@types/eventsource": 1.1.9
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: 0.27.2
+    decimal.js: ^10.3.1
     eventsource: 2.0.2
     nock: 13.2.9
     supertest: 6.2.4

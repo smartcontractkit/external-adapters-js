@@ -1,1 +1,1 @@
-export { cryptoEndpoint } from './crypto'
+export { priceEndpoint } from './price'

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/oanda-adapter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Chainlink Oanda adapter.",
   "keywords": [
     "Chainlink",
@@ -28,8 +28,9 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.14.5",
+    "@chainlink/external-adapter-framework": "0.19.0",
     "axios": "0.27.2",
+    "decimal.js": "^10.3.1",
     "eventsource": "2.0.2",
     "tslib": "^2.3.1"
   },

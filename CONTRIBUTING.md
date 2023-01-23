@@ -38,6 +38,16 @@ _If on a Mac, this requires `gnu-sed` to be installed and set as the default for
 
 You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md)
 
+_Note - at the moment, adding a new adapter will also add the following lines to `tsconfig.json`:_
+
+```
+  {
+    "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter"
+  },
+```
+
+_Make sure to remove these lines after they are added. A long term solution to this will be implemented later._
+
 ## Input
 
 When flux monitor or OCR jobs from the core Chainlink node post to external adapters, the request body looks as follows:
