@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.0.1
+
+### Patch Changes
+
+- 4bade45ad: Fixed crypto websocket expected connection message
+
 ## 3.0.0
 
 ### Major Changes

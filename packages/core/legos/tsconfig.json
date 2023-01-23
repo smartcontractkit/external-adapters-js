@@ -41,6 +41,9 @@
       "path": "../../sources/armanino"
     },
     {
+      "path": "../../sources/avalanche-platform"
+    },
+    {
       "path": "../../sources/bank-frick"
     },
     {
@@ -282,6 +285,9 @@
     },
     {
       "path": "../../sources/kaiko"
+    },
+    {
+      "path": "../../sources/kaiko-test"
     },
     {
       "path": "../../sources/layer2-sequencer-health"

@@ -153,6 +153,9 @@
       "path": "./sources/armanino/tsconfig.test.json"
     },
     {
+      "path": "./sources/avalanche-platform/tsconfig.test.json"
+    },
+    {
       "path": "./sources/bank-frick/tsconfig.test.json"
     },
     {
@@ -394,6 +397,9 @@
     },
     {
       "path": "./sources/kaiko/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/kaiko-test/tsconfig.test.json"
     },
     {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"

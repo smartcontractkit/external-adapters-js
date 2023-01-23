@@ -1,10 +1,5 @@
-import {
-  AdapterConnectionError,
-  AdapterResponseInvalidError,
-  Requester,
-  Logger,
-} from '@chainlink/ea-bootstrap'
-import type { AdapterResponse, AxiosRequestConfig, AdapterRequest } from '@chainlink/ea-bootstrap'
+import { AdapterConnectionError, Requester, Logger } from '@chainlink/ea-bootstrap'
+import type { AxiosRequestConfig } from '@chainlink/ea-bootstrap'
 import { ResponsePayload, GetPrices } from './types'
 
 /**
@@ -28,71 +23,7 @@ import { ResponsePayload, GetPrices } from './types'
  * ```
  */
 
-export const getPriceProvider = (
-  source: string,
-  jobRunID: string,
-  apiConfig: AxiosRequestConfig,
-): GetPrices => {
-  if (source === 'coinpaprika') {
-    return sendBatchedRequests(source, jobRunID, apiConfig)
-  }
-  return sendIndividualRequests(source, jobRunID, apiConfig)
-}
-
-export interface BatchedAdapterResponse {
-  data: {
-    results: (AdapterResponse | number)[][]
-  }
-}
-
-const sendBatchedRequests =
-  (source: string, jobRunID: string, apiConfig: AxiosRequestConfig): GetPrices =>
-  async (symbols, quote, additionalInput, withMarketCap = false): Promise<ResponsePayload> => {
-    const sortedSymbols = symbols.sort()
-    const data: AdapterRequest = {
-      id: jobRunID,
-      data: {
-        ...additionalInput,
-        base: sortedSymbols,
-        quote,
-        endpoint: withMarketCap ? 'marketcap' : 'crypto',
-      },
-    }
-    const responseData = await sendRequestToSource<BatchedAdapterResponse>(source, {
-      ...apiConfig,
-      data,
-    })
-    const tokenPrices = responseData.data.results
-
-    return sortedSymbols.reduce((response, symbol) => {
-      const tokenPrice = tokenPrices.find((priceResponse) => {
-        const includesCacheKey = priceResponse.length > 2
-        return includesCacheKey
-          ? (priceResponse[1] as AdapterResponse).data.base === symbol
-          : (priceResponse[0] as AdapterResponse).data.base === symbol
-      })
-      if (!tokenPrice)
-        throw new AdapterResponseInvalidError({
-          jobRunID,
-          statusCode: 500,
-          message: `Cannot find token price result for symbol ${symbol}`,
-        })
-
-      const tokenPriceIncludesCacheKey = tokenPrice.length > 2
-      response[symbol] = {
-        quote: {
-          [quote]: {
-            [withMarketCap ? 'marketCap' : 'price']: tokenPriceIncludesCacheKey
-              ? tokenPrice[2]
-              : tokenPrice[1],
-          },
-        },
-      }
-      return response
-    }, {} as ResponsePayload)
-  }
-
-const sendIndividualRequests =
+export const getPriceProvider =
   (source: string, jobRunID: string, apiConfig: AxiosRequestConfig): GetPrices =>
   async (symbols, quote, additionalInput, withMarketCap = false): Promise<ResponsePayload> => {
     const results = await Promise.all(
@@ -106,11 +37,11 @@ const sendIndividualRequests =
             endpoint: withMarketCap ? 'marketcap' : 'crypto',
           },
         }
-        const responseData = await sendRequestToSource<{ data: { result: number } }>(source, {
+        const responseData = await sendRequestToSource<{ result: number }>(source, {
           ...apiConfig,
           data,
         })
-        return responseData.data.result
+        return responseData.result
       }),
     )
     const payloadEntries = symbols.map((symbol, i) => {
