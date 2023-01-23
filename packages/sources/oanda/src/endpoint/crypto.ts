@@ -22,6 +22,8 @@ import { AxiosRequestConfig } from 'axios'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util/request'
 import Decimal from 'decimal.js'
 
+import { customSettings } from '../config'
+
 const logger = makeLogger('OandaSSEPrice')
 
 // interface SSEMessage {
@@ -45,26 +47,31 @@ type CryptoEndpointTypes = TransportGenerics & {
     RequestBody: unknown //TODO
     ResponseBody: unknown //TODO
   }
+  CustomSettings: typeof customSettings
 }
 
 const prepareSSEConnectionConfig: (
   params: CryptoEndpointTypes['Request']['Params'][],
   context: EndpointContext<CryptoEndpointTypes>,
-) => SSEConfig = {
-  //TODO
-}
-
-const prepareKeepAliveRequest: (
-  context: EndpointContext<CryptoEndpointTypes>,
-) => AxiosRequestConfig<CryptoEndpointTypes['Provider']['RequestBody']> = {
-  //TODO
-}
+) => SSEConfig = (_, context) => ({
+  url: context.adapterConfig.SSE_API_ENDPOINT,
+  headers: {
+    Authorization: `Bearer: ${context.adapterConfig.API_KEY}`,
+  },
+})
 
 const prepareSubscriptionRequest: (
   params: CryptoEndpointTypes['Request']['Params'][],
   context: EndpointContext<CryptoEndpointTypes>,
 ) => AxiosRequestConfig<CryptoEndpointTypes['Provider']['RequestBody']> = {
   //TODO
+  /*
+  Use Content-Type: application/json
+
+  Max 20 streams per IP
+
+  Support inverse flags
+  */
 }
 
 const prepareUnsubscriptionRequest: (
@@ -83,14 +90,15 @@ const eventListeners: {
   {
     type: 'PRICE',
     parseResponse: (evt: MessageEvent) => {
-      const liquidBid = new Decimal(evt.bids[evt.bids.length - 1].price)
-      const liquidAsk = new Decimal(evt.asks[evt.asks.length - 1].price)
+      const { bids, asks, instrument } = evt.data
+      const liquidBid = new Decimal(bids[bids.length - 1].price)
+      const liquidAsk = new Decimal(asks[asks.length - 1].price)
 
       const price = liquidBid.add(liquidAsk).div(2).toNumber()
 
-      const assets = evt.instrument.split('_')
+      const assets = instrument.split('_')
 
-      const result: ProviderResult<T> = {
+      const result: ProviderResult<CryptoEndpointTypes> = {
         params: {
           base: assets[0],
           quote: assets[1],
@@ -106,7 +114,6 @@ const transport = new (class extends SSETransport<CryptoEndpointTypes> {
   constructor() {
     super({
       prepareSSEConnectionConfig,
-      prepareKeepAliveRequest,
       prepareSubscriptionRequest,
       prepareUnsubscriptionRequest,
       eventListeners,
@@ -267,5 +274,10 @@ export const cryptoEndpoint = new PriceEndpoint({
   aliases: ['price'],
   inputParameters: priceEndpointInputParameters,
   // transport: new OandaSSETransport(),
-  transport,
+  transport, //TODO Wrap SSE Transport in RoutingTransport with REST incorporated as well
+  /*
+    For 2 pairs, use REST:
+  This is for queries to https://developer.oanda.com/exchange-rates-api/#get-/v2/rates/spot.-ext-
+  We can query every 3-5 seconds with this key. Symbols are limited to USD/IDR and USD/INR for now.
+  */
 })

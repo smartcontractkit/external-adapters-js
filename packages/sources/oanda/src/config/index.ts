@@ -11,9 +11,14 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
+  API_ENDPOINT: {
+    description: 'Endpoint for REST prices.',
+    type: 'string',
+    default: 'https://api-fxtrade.oanda.com/v3',
+  },
   SSE_API_ENDPOINT: {
     description: 'Endpoint for SSE streaming prices.',
     type: 'string',
-    default: 'https://api-fxtrade.oanda.com/v3',
+    default: 'https://stream-fxtrade.oanda.com/v3',
   },
 } as const
