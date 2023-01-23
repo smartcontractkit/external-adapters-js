@@ -1,7 +1,7 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
-import { PriceCryptoRequestParams } from '../../crypto-utils'
+import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
 interface Message {
   service: string
@@ -14,7 +14,7 @@ const priceIndex = 5
 
 type EndpointTypes = {
   Request: {
-    Params: PriceCryptoRequestParams
+    Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
