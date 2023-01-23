@@ -60,4 +60,5 @@ export const priceEndpoint = new PriceEndpoint({
   name: 'price',
   transport: priceTransport,
   inputParameters: priceEndpointInputParameters,
+  aliases: ['crypto'],
 })
