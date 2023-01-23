@@ -1,5 +1,11 @@
 # @chainlink/dar-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- 092892dfb: Add crypto as alias for price endpoint
+
 ## 1.0.2
 
 ### Patch Changes
