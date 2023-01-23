@@ -13,4 +13,6 @@ export const makeAdapter = (): PriceAdapter<typeof customSettings> => {
   })
 }
 
+export const adapter = makeAdapter()
+
 export const server = (): Promise<ServerInstance | undefined> => expose(makeAdapter())
