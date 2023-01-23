@@ -1,6 +1,7 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
 export const inputParameters = {
   base: {
@@ -39,14 +40,9 @@ export interface ProviderResponseBody {
   }[]
 }
 
-export interface PriceCryptoRequestParams {
-  base: string
-  quote: string
-}
-
 export type CryptoEndpointTypes = {
   Request: {
-    Params: PriceCryptoRequestParams
+    Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
@@ -56,11 +52,11 @@ export type CryptoEndpointTypes = {
   }
 }
 
-const chunkArray = (params: PriceCryptoRequestParams[], size = 100): PriceCryptoRequestParams[][] =>
+const chunkArray = (params: PriceEndpointParams[], size = 100): PriceEndpointParams[][] =>
   params.length > size ? [params.slice(0, size), ...chunkArray(params.slice(size), size)] : [params]
 
 export const buildBatchedRequestBody = (
-  params: PriceCryptoRequestParams[],
+  params: PriceEndpointParams[],
   config: AdapterConfig<typeof customSettings>,
   url: string,
 ) => {
@@ -86,7 +82,7 @@ export const buildBatchedRequestBody = (
 
 export const constructEntry = (
   res: ProviderResponseBody[],
-  params: PriceCryptoRequestParams[],
+  params: PriceEndpointParams[],
   resultPath: 'close' | 'volumeNotional' | 'fxClose',
 ) => {
   if (!res?.length) {

@@ -1,6 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { buildBatchedRequestBody, PriceCryptoRequestParams } from '../../crypto-utils'
+import { buildBatchedRequestBody } from '../../crypto-utils'
 import { ForexEndpointTypes } from '../common/forex-router'
+import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
 
 export const httpTransport = new HttpTransport<ForexEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -10,7 +11,7 @@ export const httpTransport = new HttpTransport<ForexEndpointTypes>({
     return res.data.map((entry) => {
       const param = params.find(
         (p) => `${p.base}${p.quote}`.toLowerCase() === entry.ticker,
-      ) as PriceCryptoRequestParams
+      ) as PriceEndpointParams
       return {
         params: param,
         response: {

@@ -49,9 +49,9 @@ export type IEXEndpointTypes = {
 export const routingTransport = new RoutingTransport<IEXEndpointTypes>(
   {
     WS: wsTransport,
-    REST: httpTransport,
+    HTTP: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'REST'),
+  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'HTTP'),
 )
 
 export const endpoint = new AdapterEndpoint<IEXEndpointTypes>({
