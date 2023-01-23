@@ -1,5 +1,12 @@
 # @chainlink/ea
 
+## 1.3.60
+
+### Patch Changes
+
+- Updated dependencies [092892dfb]
+  - @chainlink/dar-adapter@1.0.3
+
 ## 1.3.59
 
 ### Patch Changes
