@@ -1,5 +1,27 @@
 # @chainlink/eth-beacon-adapter
 
+## 1.3.3
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.3.1
+
+### Patch Changes
+
+- f6821df3e: Populate results for filtered addresses with 0 balance
+
 ## 1.3.0
 
 ### Minor Changes

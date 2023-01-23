@@ -1,5 +1,21 @@
 # @chainlink/coinapi-adapter
 
+## 1.3.17
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.3.16
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.3.15
 
 ### Patch Changes

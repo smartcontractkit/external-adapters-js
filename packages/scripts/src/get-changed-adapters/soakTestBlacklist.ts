@@ -8,6 +8,7 @@ export const SoakTestBlacklist: string[] = [
   'ap-election',
   'apy-finance', // Missing: Needs registry address, source adapters
   'augur',
+  'avalanche-platform',
   'bea',
   'bitcoin-json-rpc', // Missing: RPC URL
   'blockcypher',

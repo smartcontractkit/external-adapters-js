@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/twelvedata-adapter",
-  "version": "1.2.25",
+  "version": "1.2.27",
   "description": "Chainlink twelvedata adapter.",
   "keywords": [
     "Chainlink",

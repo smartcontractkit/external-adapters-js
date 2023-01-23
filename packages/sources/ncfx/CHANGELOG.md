@@ -1,5 +1,25 @@
 # @chainlink/ncfx-adapter
 
+## 3.0.1
+
+### Patch Changes
+
+- 4bade45ad: Fixed crypto websocket expected connection message
+
+## 3.0.0
+
+### Major Changes
+
+- cdc721ef3: Upgraded NCFX adapter from v2 to v3. Updated NCFX crypto endpoint to use new WS API
+
+## 2.1.15
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.1.14
 
 ### Patch Changes

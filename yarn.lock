@@ -1775,6 +1775,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/avalanche-platform-adapter@workspace:*, @chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
+  dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
+    "@chainlink/ea-test-helpers": "workspace:*"
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/bank-frick-adapter@workspace:*, @chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
   version: 0.0.0-use.local
   resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
@@ -1880,7 +1896,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/express": 4.17.14
+    "@types/express": 4.17.15
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2163,6 +2179,22 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/coinapi-test-adapter@workspace:*, @chainlink/coinapi-test-adapter@workspace:packages/sources/coinapi-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/coinapi-test-adapter@workspace:packages/sources/coinapi-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.18.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
@@ -2768,7 +2800,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.6.1
     "@types/fast-redact": 3.0.2
     "@types/jest": 27.5.2
-    "@types/lodash": 4.14.189
+    "@types/lodash": 4.14.191
     "@types/lru-cache": 5.1.1
     "@types/node": 16.11.51
     "@types/object-hash": 2.1.1
@@ -2905,6 +2937,7 @@ __metadata:
     "@chainlink/anyblock-adapter": "workspace:*"
     "@chainlink/ap-election-adapter": "workspace:*"
     "@chainlink/armanino-adapter": "workspace:*"
+    "@chainlink/avalanche-platform-adapter": "workspace:*"
     "@chainlink/bank-frick-adapter": "workspace:*"
     "@chainlink/bea-adapter": "workspace:*"
     "@chainlink/binance-adapter": "workspace:*"
@@ -2926,6 +2959,7 @@ __metadata:
     "@chainlink/cfbenchmarks-test-adapter": "workspace:*"
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
+    "@chainlink/coinapi-test-adapter": "workspace:*"
     "@chainlink/coinbase-adapter": "workspace:*"
     "@chainlink/coincodex-adapter": "workspace:*"
     "@chainlink/coingecko-adapter": "workspace:*"
@@ -2985,6 +3019,7 @@ __metadata:
     "@chainlink/jpegd-adapter": "workspace:*"
     "@chainlink/json-rpc-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
+    "@chainlink/kaiko-test-adapter": "workspace:*"
     "@chainlink/layer2-sequencer-health-adapter": "workspace:*"
     "@chainlink/lcx-adapter": "workspace:*"
     "@chainlink/lido-adapter": "workspace:*"
@@ -2997,7 +3032,7 @@ __metadata:
     "@chainlink/mock-ea-adapter": "workspace:*"
     "@chainlink/mycryptoapi-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
-    "@chainlink/ncfx-test-adapter": "workspace:*"
+    "@chainlink/nft-blue-chip-adapter": "workspace:*"
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/oanda-adapter": "workspace:*"
@@ -3306,6 +3341,40 @@ __metadata:
     prom-client: 13.2.0
     ws: 8.9.0
   checksum: 6df9f8c983df0f2d36b6a3ffb0bb281b2e10a1b5a429b7b95af6f3f117dcc91b4baafbb4a35a1c82cb86aad61af71ee5b6815a2885a31838195fabcc9ca76651
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:0.18.0":
+  version: 0.18.0
+  resolution: "@chainlink/external-adapter-framework@npm:0.18.0"
+  dependencies:
+    ajv: 8.11.0
+    axios: 0.27.2
+    eventsource: 2.0.2
+    fastify: 4.9.2
+    ioredis: 5.2.3
+    pino: 8.6.1
+    pino-pretty: 9.1.0
+    prom-client: 13.2.0
+    ws: 8.9.0
+  checksum: 3669a3fe792a2d5e85703e75adc897c2b4c1b49cf47f85d5af9cb3f7838171cd3dea4eca9c73fc5c169d8380855d5ff553d77541993f2cc95bbca6eb18c9e331
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:0.19.0":
+  version: 0.19.0
+  resolution: "@chainlink/external-adapter-framework@npm:0.19.0"
+  dependencies:
+    ajv: 8.11.0
+    axios: 0.27.2
+    eventsource: 2.0.2
+    fastify: 4.9.2
+    ioredis: 5.2.3
+    pino: 8.6.1
+    pino-pretty: 9.1.0
+    prom-client: 13.2.0
+    ws: 8.9.0
+  checksum: 081d214d5ae1c88f860600653c6ffc655d890616cae89a7770981daa9f480e314e05705cfcdd8f055c025d188cbbc6e7a056f2db785ef5be49539c6d22f8db7e
   languageName: node
   linkType: hard
 
@@ -3764,6 +3833,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/kaiko-test-adapter@workspace:*, @chainlink/kaiko-test-adapter@workspace:packages/sources/kaiko-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/kaiko-test-adapter@workspace:packages/sources/kaiko-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.19.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/layer2-sequencer-health-adapter@workspace:*, @chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health":
   version: 0.0.0-use.local
   resolution: "@chainlink/layer2-sequencer-health-adapter@workspace:packages/sources/layer2-sequencer-health"
@@ -3997,25 +4081,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.19.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
 
-"@chainlink/ncfx-test-adapter@workspace:*, @chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test":
+"@chainlink/nft-blue-chip-adapter@workspace:*, @chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip":
   version: 0.0.0-use.local
-  resolution: "@chainlink/ncfx-test-adapter@workspace:packages/sources/ncfx-test"
+  resolution: "@chainlink/nft-blue-chip-adapter@workspace:packages/sources/nft-blue-chip"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.12.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    decimal.js: ^10.3.1
+    ethers: ^5.4.6
     mock-socket: 9.1.5
     nock: 13.2.9
     supertest: 6.2.4
@@ -4273,7 +4360,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@types/jest": 27.5.2
-    "@types/node": 14.18.33
+    "@types/node": 14.18.36
     decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -4286,6 +4373,7 @@ __metadata:
   dependencies:
     "@chainlink/ada-balance-adapter": "workspace:*"
     "@chainlink/amberdata-adapter": "workspace:*"
+    "@chainlink/avalanche-platform-adapter": "workspace:*"
     "@chainlink/bitcoin-json-rpc-adapter": "workspace:*"
     "@chainlink/blockchain.com-adapter": "workspace:*"
     "@chainlink/blockchair-adapter": "workspace:*"
@@ -4743,6 +4831,7 @@ __metadata:
     "@chainlink/cryptocompare-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.19.0
     "@chainlink/finage-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
@@ -9318,7 +9407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-serve-static-core@npm:^4.17.18":
+"@types/express-serve-static-core@npm:^4.17.31":
   version: 4.17.31
   resolution: "@types/express-serve-static-core@npm:4.17.31"
   dependencies:
@@ -9329,15 +9418,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:4.17.14":
-  version: 4.17.14
-  resolution: "@types/express@npm:4.17.14"
+"@types/express@npm:4.17.15":
+  version: 4.17.15
+  resolution: "@types/express@npm:4.17.15"
   dependencies:
     "@types/body-parser": "*"
-    "@types/express-serve-static-core": ^4.17.18
+    "@types/express-serve-static-core": ^4.17.31
     "@types/qs": "*"
     "@types/serve-static": "*"
-  checksum: 15c1af46d02de834e4a225eccaa9d85c0370fdbb3ed4e1bc2d323d24872309961542b993ae236335aeb3e278630224a6ea002078d39e651d78a3b0356b1eaa79
+  checksum: b4acd8a836d4f6409cdf79b12d6e660485249b62500cccd61e7997d2f520093edf77d7f8498ca79d64a112c6434b6de5ca48039b8fde2c881679eced7e96979b
   languageName: node
   linkType: hard
 
@@ -9485,10 +9574,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.14.189":
-  version: 4.14.189
-  resolution: "@types/lodash@npm:4.14.189"
-  checksum: 096d1e0954794fb76bd6a0ea443067f02004b53e3c59ac6e3fed88817a1468fc2e6614abdf44341f5e0fdff5f9a3c94a934cc9ff7126e07efbcd94355a21fe45
+"@types/lodash@npm:4.14.191":
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
   languageName: node
   linkType: hard
 
@@ -9576,10 +9665,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.33":
-  version: 14.18.33
-  resolution: "@types/node@npm:14.18.33"
-  checksum: 4e23f95186d8ae1d38c999bc6b46fe94e790da88744b0a3bfeedcbd0d9ffe2cb0ff39e85f43014f6739e5270292c1a1f6f97a1fc606fd573a0c17fda9a1d42de
+"@types/node@npm:14.18.36":
+  version: 14.18.36
+  resolution: "@types/node@npm:14.18.36"
+  checksum: da7f479b3fc996d585e60b8329987c6e310ddbf051e14f2d900ce04f7768f42fa7b760f0eb376008d3eca130ce9431018fb5c9e44027dcb7bb139c547e44b9c5
   languageName: node
   linkType: hard
 
@@ -15635,7 +15724,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-my-way@npm:^7.2.0, find-my-way@npm:^7.3.0":
+"find-my-way@npm:^7.2.0":
+  version: 7.4.0
+  resolution: "find-my-way@npm:7.4.0"
+  dependencies:
+    fast-deep-equal: ^3.1.3
+    fast-querystring: ^1.0.0
+    safe-regex2: ^2.0.0
+  checksum: 8f01b63c28d2a95f5bea674ca4c2ea6f444af5a5d87b54e124fe8a656d26617f4be1443f13e5e7cc155ddf40c2c9604dcd2fe9cfd5d06343aa9e32e06af42a16
+  languageName: node
+  linkType: hard
+
+"find-my-way@npm:^7.3.0":
   version: 7.3.1
   resolution: "find-my-way@npm:7.3.1"
   dependencies:

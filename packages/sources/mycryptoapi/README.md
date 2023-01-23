@@ -1,6 +1,6 @@
 # Chainlink External Adapter for MyCryptoApi
 
-![1.3.25](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mycryptoapi/package.json)
+![1.3.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mycryptoapi/package.json)
 
 Base URL https://gas.mycryptoapi.com/
 
