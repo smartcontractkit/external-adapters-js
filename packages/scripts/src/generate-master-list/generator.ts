@@ -228,7 +228,6 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
     let name = adapter[0]
     name = name.substring(name.indexOf('[') + 1, name.lastIndexOf(']'))
     const record = airtableRecordIds[name]
-
     const version = unwrapCode(adapter[1])
     const type = unwrapCode(adapter[2])
     const frameworkVersion = unwrapCode(adapter[3])
@@ -245,8 +244,8 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
     const airtableFields = {
       Name: name,
       Version: version,
-      'Framework Version': frameworkVersion,
       Type: type,
+      'Framework Version': frameworkVersion,
       'Default API URL': defaultApiUrl,
       Dependencies: dependencies,
       'Environment Variables': envVars,
@@ -348,8 +347,8 @@ export const generateMasterList = async (
         return [
           adapter.redirect,
           version,
-          frameworkVersion,
           adapter.type,
+          frameworkVersion,
           defaultBaseUrl,
           dependencies,
           envVars,
@@ -373,8 +372,8 @@ export const generateMasterList = async (
         buildTable(allAdaptersTable, [
           'Name',
           'Version',
-          'Framework Version',
           'Type',
+          'Framework Version',
           'Default API URL',
           'Dependencies',
           'Environment Variables (✅ = required)',
