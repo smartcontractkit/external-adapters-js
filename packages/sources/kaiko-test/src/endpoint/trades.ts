@@ -84,7 +84,7 @@ type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: RequestBody
+    RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
