@@ -365,6 +365,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/coinpaprika"\
       },\
       {\
+        "name": "@chainlink/coinpaprika-test-adapter",\
+        "reference": "workspace:packages/sources/coinpaprika-test"\
+      },\
+      {\
         "name": "@chainlink/coinranking-adapter",\
         "reference": "workspace:packages/sources/coinranking"\
       },\
@@ -861,6 +865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
       ["@chainlink/coinmetrics-test-adapter", ["workspace:packages/sources/coinmetrics-test"]],\
       ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
+      ["@chainlink/coinpaprika-test-adapter", ["workspace:packages/sources/coinpaprika-test"]],\
       ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
       ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
       ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
@@ -4819,6 +4824,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/coinpaprika-test-adapter", [\
+        ["workspace:packages/sources/coinpaprika-test", {\
+          "packageLocation": "./packages/sources/coinpaprika-test/",\
+          "packageDependencies": [\
+            ["@chainlink/coinpaprika-test-adapter", "workspace:packages/sources/coinpaprika-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.21.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/coinranking-adapter", [\
         ["workspace:packages/sources/coinranking", {\
           "packageLocation": "./packages/sources/coinranking/",\
@@ -5363,6 +5385,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
             ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
+            ["@chainlink/coinpaprika-test-adapter", "workspace:packages/sources/coinpaprika-test"],\
             ["@chainlink/coinranking-adapter", "workspace:packages/sources/coinranking"],\
             ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],\
             ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],\
