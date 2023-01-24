@@ -58,6 +58,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as dxfeed_test from '@chainlink/dxfeed-test-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
@@ -209,6 +210,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  dxfeed_test,
   elwood,
   ens,
   enzyme,
