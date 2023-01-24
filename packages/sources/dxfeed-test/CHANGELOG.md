@@ -1,0 +1,1 @@
+# @chainlink/dxfeed-test-adapter
