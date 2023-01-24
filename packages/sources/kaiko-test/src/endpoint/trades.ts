@@ -43,12 +43,6 @@ export interface RequestParams {
   sort: string
 }
 
-export interface RequestBody {
-  interval: string
-  sort: string
-  start_time: string
-}
-
 export interface ResponseSchema {
   query: {
     page_size: number
