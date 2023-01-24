@@ -71,6 +71,7 @@
     "@chainlink/coinmetrics-adapter": "workspace:*",
     "@chainlink/coinmetrics-test-adapter": "workspace:*",
     "@chainlink/coinpaprika-adapter": "workspace:*",
+    "@chainlink/coinpaprika-test-adapter": "workspace:*",
     "@chainlink/coinranking-adapter": "workspace:*",
     "@chainlink/covid-tracker-adapter": "workspace:*",
     "@chainlink/cryptex-adapter": "workspace:*",
