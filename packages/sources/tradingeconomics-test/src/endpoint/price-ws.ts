@@ -64,40 +64,41 @@ const baseFromIncludes = includes.reduce(
   {},
 )
 
-export const wsTransport = new WebsocketReverseMappingTransport<EndpointTypes, string>({
-  url: (context) => {
-    const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterConfig
-    return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
-  },
-  handlers: {
-    message: (message) => {
-      if (Object.keys(message).length === 0) {
-        logger.debug('WS message is empty, skipping')
-        return []
-      }
-      return message.map((msg) => {
-        const base = baseFromIncludes[msg?.s] ?? msg?.s
-        wsTransport.setReverseMapping(msg.i, msg.s)
-        const result = {
-          params: { base, quote: 'USD' },
-          response: {
-            result: msg.price,
-            data: {
-              result: msg.price,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: new Date(msg.dt).getTime(),
-            },
-          },
+export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
+  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+    url: (context) => {
+      const { API_CLIENT_KEY, API_CLIENT_SECRET, WS_API_ENDPOINT } = context.adapterConfig
+      return withApiKey(WS_API_ENDPOINT, API_CLIENT_KEY, API_CLIENT_SECRET)
+    },
+    handlers: {
+      message: (message) => {
+        if (Object.keys(message).length === 0) {
+          logger.debug('WS message is empty, skipping')
+          return []
         }
-        return result
-      })
+        return message.map((msg) => {
+          const base = baseFromIncludes[msg?.s] ?? msg?.s
+          wsTransport.setReverseMapping(msg.i, { base: msg.s, quote: 'USD' })
+          const result = {
+            params: { base, quote: 'USD' },
+            response: {
+              result: msg.price,
+              data: {
+                result: msg.price,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(msg.dt).getTime(),
+              },
+            },
+          }
+          return result
+        })
+      },
     },
-  },
-  builders: {
-    subscribeMessage: (params) => {
-      const from = wsTransport.getReverseMapping(`${params.quote}${params.base}`)
-      return getSubscription(from)
+    builders: {
+      subscribeMessage: (params) => {
+        const from = wsTransport.getReverseMapping(`${params.quote}${params.base}`)
+        return getSubscription(from?.quote as string)
+      },
     },
-  },
-})
+  })
