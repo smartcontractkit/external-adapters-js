@@ -303,6 +303,9 @@
       "path": "./sources/dxfeed-secondary"
     },
     {
+      "path": "./sources/dxfeed-test"
+    },
+    {
       "path": "./sources/elwood"
     },
     {
