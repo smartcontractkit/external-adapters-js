@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.58",
+  "version": "1.3.60",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -39,6 +39,7 @@
     "@chainlink/anyblock-adapter": "workspace:*",
     "@chainlink/ap-election-adapter": "workspace:*",
     "@chainlink/armanino-adapter": "workspace:*",
+    "@chainlink/avalanche-platform-adapter": "workspace:*",
     "@chainlink/bank-frick-adapter": "workspace:*",
     "@chainlink/bea-adapter": "workspace:*",
     "@chainlink/binance-adapter": "workspace:*",
