@@ -252,6 +252,9 @@
       "path": "./sources/coinpaprika/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinpaprika-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinranking/tsconfig.test.json"
     },
     {
@@ -301,6 +304,9 @@
     },
     {
       "path": "./sources/dxfeed-secondary/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/dxfeed-test/tsconfig.test.json"
     },
     {
       "path": "./sources/elwood/tsconfig.test.json"

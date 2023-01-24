@@ -2360,6 +2360,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/coinpaprika-test-adapter@workspace:*, @chainlink/coinpaprika-test-adapter@workspace:packages/sources/coinpaprika-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/coinpaprika-test-adapter@workspace:packages/sources/coinpaprika-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.21.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/coinranking-adapter@workspace:*, @chainlink/coinranking-adapter@workspace:packages/sources/coinranking":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinranking-adapter@workspace:packages/sources/coinranking"
@@ -2768,6 +2783,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/dxfeed-test-adapter@workspace:*, @chainlink/dxfeed-test-adapter@workspace:packages/sources/dxfeed-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dxfeed-test-adapter@workspace:packages/sources/dxfeed-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.21.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/dydx-rewards-adapter@workspace:packages/composites/dydx-rewards":
   version: 0.0.0-use.local
   resolution: "@chainlink/dydx-rewards-adapter@workspace:packages/composites/dydx-rewards"
@@ -2986,6 +3017,7 @@ __metadata:
     "@chainlink/coinmetrics-adapter": "workspace:*"
     "@chainlink/coinmetrics-test-adapter": "workspace:*"
     "@chainlink/coinpaprika-adapter": "workspace:*"
+    "@chainlink/coinpaprika-test-adapter": "workspace:*"
     "@chainlink/coinranking-adapter": "workspace:*"
     "@chainlink/covid-tracker-adapter": "workspace:*"
     "@chainlink/cryptex-adapter": "workspace:*"
@@ -3003,6 +3035,7 @@ __metadata:
     "@chainlink/dwolla-adapter": "workspace:*"
     "@chainlink/dxfeed-adapter": "workspace:*"
     "@chainlink/dxfeed-secondary-adapter": "workspace:*"
+    "@chainlink/dxfeed-test-adapter": "workspace:*"
     "@chainlink/elwood-adapter": "workspace:*"
     "@chainlink/ens-adapter": "workspace:*"
     "@chainlink/enzyme-adapter": "workspace:*"
