@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.58",
+  "version": "1.3.60",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -71,6 +71,7 @@
     "@chainlink/coinmetrics-adapter": "workspace:*",
     "@chainlink/coinmetrics-test-adapter": "workspace:*",
     "@chainlink/coinpaprika-adapter": "workspace:*",
+    "@chainlink/coinpaprika-test-adapter": "workspace:*",
     "@chainlink/coinranking-adapter": "workspace:*",
     "@chainlink/covid-tracker-adapter": "workspace:*",
     "@chainlink/cryptex-adapter": "workspace:*",
@@ -88,6 +89,7 @@
     "@chainlink/dwolla-adapter": "workspace:*",
     "@chainlink/dxfeed-adapter": "workspace:*",
     "@chainlink/dxfeed-secondary-adapter": "workspace:*",
+    "@chainlink/dxfeed-test-adapter": "workspace:*",
     "@chainlink/elwood-adapter": "workspace:*",
     "@chainlink/ens-adapter": "workspace:*",
     "@chainlink/enzyme-adapter": "workspace:*",

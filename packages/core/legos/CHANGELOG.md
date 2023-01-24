@@ -1,5 +1,27 @@
 # @chainlink/ea
 
+## 1.3.60
+
+### Patch Changes
+
+- Updated dependencies [2636e10f4]
+  - @chainlink/dar-adapter@1.0.3
+
+## 1.3.59
+
+### Patch Changes
+
+- Updated dependencies [bba54b419]
+- Updated dependencies [4bade45ad]
+- Updated dependencies [d0adc1082]
+- Updated dependencies [2d82ecfa2]
+  - @chainlink/kaiko-test-adapter@1.0.0
+  - @chainlink/ncfx-adapter@3.0.1
+  - @chainlink/gsr-adapter@2.0.3
+  - @chainlink/avalanche-platform-adapter@1.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.28
+  - @chainlink/wbtc-address-set-adapter@1.4.37
+
 ## 1.3.58
 
 ### Patch Changes

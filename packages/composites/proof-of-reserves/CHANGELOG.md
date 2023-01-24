@@ -1,5 +1,19 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.15.0
+
+### Minor Changes
+
+- 2d82ecfa2: Added support for the avalanche-platform balance adapter
+
+### Patch Changes
+
+- Updated dependencies [2d82ecfa2]
+  - @chainlink/avalanche-platform-adapter@1.0.0
+  - @chainlink/por-indexer-adapter@1.2.37
+  - @chainlink/renvm-address-set-adapter@1.5.28
+  - @chainlink/wbtc-address-set-adapter@1.4.37
+
 ## 1.14.16
 
 ### Patch Changes
