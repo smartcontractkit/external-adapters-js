@@ -1,4 +1,4 @@
-import { mockCryptoSuccess } from './fixtures'
+import { mockCryptoSuccess, mockVwapSuccess } from './fixtures'
 import { SuperTest, Test } from 'supertest'
 import { setupExternalAdapterTest, SuiteContext } from './setup'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
@@ -114,6 +114,30 @@ describe('execute', () => {
 
     it('should return success', async () => {
       mockCryptoSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('vwap api', () => {
+    const data = {
+      id,
+      data: {
+        endpoint: 'vwap',
+        base: 'AMPL',
+        quote: 'USD',
+      },
+    }
+
+    it('should return success', async () => {
+      mockVwapSuccess()
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
