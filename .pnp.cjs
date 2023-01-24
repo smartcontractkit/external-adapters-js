@@ -437,6 +437,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/dxfeed-secondary"\
       },\
       {\
+        "name": "@chainlink/dxfeed-test-adapter",\
+        "reference": "workspace:packages/sources/dxfeed-test"\
+      },\
+      {\
         "name": "@chainlink/elwood-adapter",\
         "reference": "workspace:packages/sources/elwood"\
       },\
@@ -886,6 +890,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
       ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
       ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],\
+      ["@chainlink/dxfeed-test-adapter", ["workspace:packages/sources/dxfeed-test"]],\
       ["@chainlink/dydx-rewards-adapter", ["workspace:packages/composites/dydx-rewards"]],\
       ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
       ["@chainlink/ea", ["workspace:packages/core/legos"]],\
@@ -5288,6 +5293,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/dxfeed-test-adapter", [\
+        ["workspace:packages/sources/dxfeed-test", {\
+          "packageLocation": "./packages/sources/dxfeed-test/",\
+          "packageDependencies": [\
+            ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.21.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/dydx-rewards-adapter", [\
         ["workspace:packages/composites/dydx-rewards", {\
           "packageLocation": "./packages/composites/dydx-rewards/",\
@@ -5398,6 +5421,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],\
             ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
             ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
+            ["@chainlink/dxfeed-test-adapter", "workspace:packages/sources/dxfeed-test"],\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
             ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
             ["@chainlink/enzyme-adapter", "workspace:packages/sources/enzyme"],\
