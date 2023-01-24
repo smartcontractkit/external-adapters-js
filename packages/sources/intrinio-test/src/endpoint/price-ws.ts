@@ -39,11 +39,6 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
     return ws._makeSocketUrl.bind(ws)()
   },
   handlers: {
-    open: (connection) => {
-      const heartbeatMsg = JSON.stringify(ws._makeHeartbeatMessage())
-      connection.send(heartbeatMsg)
-      return Promise.resolve()
-    },
     message(message) {
       return message
         .filter((msg) => msg.event === 'quote' && msg.payload?.type === 'last')
@@ -58,7 +53,7 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
                 result: price,
               },
               timestamps: {
-                providerIndicatedTime: new Date(msg.payload.timestamp).getTime(),
+                providerIndicatedTimeUnixMs: new Date(msg.payload.timestamp).getTime(),
               },
             },
           }

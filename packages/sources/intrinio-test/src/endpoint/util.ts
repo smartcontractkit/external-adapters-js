@@ -2,9 +2,12 @@
  * This code is directly copied from Intrinio's library.  We have a ticket to refactor this file.
  */
 
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import * as https from 'https'
 import * as events from 'events'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+
+const logger = makeLogger('IntrinioRealTime')
 
 const EventEmitter = events.EventEmitter
 
@@ -94,7 +97,7 @@ export class IntrinioRealtime extends EventEmitter {
     let handled = false
     e = 'IntrinioRealtime | ' + e
     if (this.listenerCount('error') > 0) {
-      console.error(e)
+      logger.error(e)
       handled = true
     }
     if (!handled) {
@@ -166,7 +169,7 @@ export class IntrinioRealtime extends EventEmitter {
   }
 
   _refreshToken() {
-    console.debug('Requesting auth token...')
+    logger.debug('Requesting auth token...')
 
     return new Promise<void>((fulfill, reject) => {
       const { host, path } = this._makeAuthUrl()
@@ -181,16 +184,16 @@ export class IntrinioRealtime extends EventEmitter {
 
       axios(options)
         .then((response: AxiosResponse) => {
-          console.debug('Received auth token!')
+          logger.debug('Received auth token!')
           this.token = response.data
           fulfill()
         })
         .catch((error) => {
           if (error.response.status === 401) {
-            console.error('IntrinioRealtime | Unable to authorize')
+            logger.error('IntrinioRealtime | Unable to authorize')
             reject(error.response)
           } else {
-            console.error(
+            logger.error(
               'IntrinioRealtime | Could not get auth token: Status code ' + error.response.status,
               reject(error.response),
             )
