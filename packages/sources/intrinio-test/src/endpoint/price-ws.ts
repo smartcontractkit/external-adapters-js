@@ -1,4 +1,7 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  TransportGenerics,
+  WebSocketTransport,
+} from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
 import { IntrinioRealtime } from './util'
@@ -26,50 +29,62 @@ export type EndpointTypes = {
   }
 }
 
-let ws: IntrinioRealtime
-export const wsTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => {
-    const { API_KEY } = context.adapterConfig
-    if (!ws) {
-      ws = new IntrinioRealtime({
-        api_key: API_KEY,
-        provider: 'iex',
-      })
-    }
-    return ws._makeSocketUrl.bind(ws)()
-  },
-  handlers: {
-    open: (connection) => {
-      const heartbeatMsg = JSON.stringify(ws._makeHeartbeatMessage())
-      connection.send(heartbeatMsg)
-    },
-    message(message) {
-      return message
-        .filter((msg) => msg.event === 'quote' && msg.payload?.type === 'last')
-        .map((msg) => {
-          const base = msg.payload.ticker
-          const price = msg.payload.price
-          return {
-            params: { base },
-            response: {
-              result: price,
-              data: {
-                result: price,
-              },
-              timestamps: {
-                providerIndicatedTimeUnixMs: new Date(msg.payload.timestamp).getTime(),
-              },
-            },
-          }
+type WebsocketTransportGenerics = TransportGenerics & {
+  Provider: {
+    WsMessage: unknown
+  }
+}
+
+export class IntrinioWebsocketTransport<
+  T extends WebsocketTransportGenerics,
+> extends WebSocketTransport<T> {
+  ws: IntrinioRealtime = null as unknown as IntrinioRealtime
+}
+
+export const wsTransport: IntrinioWebsocketTransport<EndpointTypes> =
+  new IntrinioWebsocketTransport<EndpointTypes>({
+    url: (context) => {
+      const { API_KEY } = context.adapterConfig
+      if (!wsTransport.ws) {
+        wsTransport.ws = new IntrinioRealtime({
+          api_key: API_KEY,
+          provider: 'iex',
         })
+      }
+      return wsTransport.ws._makeSocketUrl.bind(wsTransport.ws)()
     },
-  },
-  builders: {
-    subscribeMessage: (params) => {
-      return ws._makeJoinMessage(params.base)
+    handlers: {
+      open: (connection) => {
+        const heartbeatMsg = JSON.stringify(wsTransport.ws._makeHeartbeatMessage())
+        connection.send(heartbeatMsg)
+      },
+      message(message) {
+        return message
+          .filter((msg) => msg.event === 'quote' && msg.payload?.type === 'last')
+          .map((msg) => {
+            const base = msg.payload.ticker
+            const price = msg.payload.price
+            return {
+              params: { base },
+              response: {
+                result: price,
+                data: {
+                  result: price,
+                },
+                timestamps: {
+                  providerIndicatedTimeUnixMs: new Date(msg.payload.timestamp).getTime(),
+                },
+              },
+            }
+          })
+      },
     },
-    unsubscribeMessage: (params) => {
-      return ws._makeLeaveMessage(params.base)
+    builders: {
+      subscribeMessage: (params) => {
+        return wsTransport.ws._makeJoinMessage(params.base)
+      },
+      unsubscribeMessage: (params) => {
+        return wsTransport.ws._makeLeaveMessage(params.base)
+      },
     },
-  },
-})
+  })
