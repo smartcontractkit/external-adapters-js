@@ -17,7 +17,7 @@ export const cryptoInputParams = {
   },
 } as const
 
-export const endpoints = ['crypto-ws', 'price', 'volume', 'marketcap']
+export const endpoints = ['price', 'volume', 'marketcap']
 export const endpointOptions = [defaultEndpoint, ...endpoints]
 
 export const cryptoEndpointInputParams = {
