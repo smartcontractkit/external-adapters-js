@@ -1,7 +1,7 @@
-import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../../config'
 import { PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import { TiingoWebsocketReverseMappingTransport } from '../../ws-utils'
 
 interface Message {
   service: string
@@ -23,17 +23,16 @@ type EndpointTypes = {
   }
 }
 
-let apiKey = ''
-export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
-  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+export const wsTransport: TiingoWebsocketReverseMappingTransport<EndpointTypes, string> =
+  new TiingoWebsocketReverseMappingTransport<EndpointTypes, string>({
     url: (context) => {
-      apiKey = context.adapterConfig.API_KEY
+      wsTransport.apiKey = context.adapterConfig.API_KEY
       return `${context.adapterConfig.WS_API_ENDPOINT}/fx`
     },
 
     handlers: {
       message(message) {
-        const pair = wsTransport.getReverseMapping(message.data[tickerIndex])
+        const pair = wsTransport.getReverseMapping(message.data[tickerIndex].toLowerCase())
 
         if (!message?.data?.length || message.messageType !== 'A' || !pair) {
           return []
@@ -55,10 +54,10 @@ export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string
 
     builders: {
       subscribeMessage: (params) => {
-        wsTransport.setReverseMapping(`${params.base}${params.quote}`, params)
+        wsTransport.setReverseMapping(`${params.base}${params.quote}`.toLowerCase(), params)
         return {
           eventName: 'subscribe',
-          authorization: apiKey,
+          authorization: wsTransport.apiKey,
           eventData: {
             thresholdLevel: 5,
             tickers: [`${params.base}${params.quote}`.toLowerCase()],
@@ -68,7 +67,7 @@ export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string
       unsubscribeMessage: (params) => {
         return {
           eventName: 'unsubscribe',
-          authorization: apiKey,
+          authorization: wsTransport.apiKey,
           eventData: {
             thresholdLevel: 5,
             tickers: [`${params.base}${params.quote}`.toLowerCase()],
