@@ -4213,7 +4213,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/bank-frick/",\
           "packageDependencies": [\
             ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-            ["@chainlink/external-adapter-framework", "npm:0.21.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.21.3"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6002,10 +6002,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:0.21.2", {\
-          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.21.2-9247ef7523-71cf43ef93.zip/node_modules/@chainlink/external-adapter-framework/",\
+        ["npm:0.21.3", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.21.3-da497b2e24-9ca29b2517.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
-            ["@chainlink/external-adapter-framework", "npm:0.21.2"],\
+            ["@chainlink/external-adapter-framework", "npm:0.21.3"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
