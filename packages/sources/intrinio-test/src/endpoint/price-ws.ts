@@ -39,6 +39,10 @@ export const wsTransport = new WebSocketTransport<EndpointTypes>({
     return ws._makeSocketUrl.bind(ws)()
   },
   handlers: {
+    open: (connection) => {
+      const heartbeatMsg = JSON.stringify(ws._makeHeartbeatMessage())
+      connection.send(heartbeatMsg)
+    },
     message(message) {
       return message
         .filter((msg) => msg.event === 'quote' && msg.payload?.type === 'last')
