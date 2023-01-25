@@ -112,7 +112,6 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
       api_key: process.env.WS_API_KEY || 'twosigma api key not set',
       symbols: subscribes.map(buildSymbol).sort(),
     }
-    console.log('wsConnection', this.wsConnection, payload)
     this.wsConnection.send(this.serializeMessage(payload))
   }
 }
