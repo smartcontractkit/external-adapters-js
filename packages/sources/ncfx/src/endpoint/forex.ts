@@ -66,7 +66,7 @@ export const forexTransport = new WebSocketTransport<EndpointTypes>({
               result: message[pair].price,
             },
             timestamps: {
-              providerIndicatedTime: new Date(message[pair].timestamp).getTime(),
+              providerIndicatedTimeUnixMs: new Date(message[pair].timestamp).getTime(),
             },
           },
         }
