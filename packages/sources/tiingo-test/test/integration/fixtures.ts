@@ -115,6 +115,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     .query({
       token: 'fake-api-key',
       tickers: 'ethusd',
+      resampleFreq: '24hour',
     })
     .reply(
       200,

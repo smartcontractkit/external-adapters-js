@@ -74,6 +74,7 @@ export const buildBatchedRequestBody = (
           tickers: [...new Set(chunkedParams.map((p) => `${p.base}${p.quote}`.toLowerCase()))].join(
             ',',
           ),
+          resampleFreq: url === 'tiingo/crypto/prices' ? '24hour' : undefined,
         },
       },
     }
