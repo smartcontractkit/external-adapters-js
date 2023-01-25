@@ -1,1 +1,1 @@
-export { makeEndpoint as makePriceEndpoint } from './price'
+export { endpoint as priceEndpoint } from './price'

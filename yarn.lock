@@ -4905,7 +4905,6 @@ __metadata:
     "@types/ws": ^7.4.0
     mock-socket: 9.1.5
     nock: 13.2.9
-    reconnecting-websocket: ^4.4.0
     supertest: 6.2.4
     tslib: ^2.3.1
     typescript: 4.7.4
@@ -24767,13 +24766,6 @@ __metadata:
   dependencies:
     resolve: ^1.9.0
   checksum: 2a04aab4e28c05fcd6ee6768446bc8b859d8f108e71fc7f5bcbc5ef25e53330ce2c11d10f82a24591a2df4c49c4f61feabe1fd11f844c66feedd4cd7bb61146a
-  languageName: node
-  linkType: hard
-
-"reconnecting-websocket@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "reconnecting-websocket@npm:4.4.0"
-  checksum: 7ee379ff3a4bddf9d47fb6f3fb2d9450865f0ed2d91f003e6d0c12c901e8c135379a143a933e7bed7bc33133f04bdaed534bd68591c95730044dc69d32da4866
   languageName: node
   linkType: hard
 

@@ -1,16 +1,11 @@
-import ReconnectingWebSocket, { Options } from 'reconnecting-websocket'
-import WebSocket from 'ws'
-
 import {
   EndpointContext,
   PriceEndpoint,
   PriceEndpointParams,
   priceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import {
-  WebSocketClassProvider,
-  WebSocketTransport,
-} from '@chainlink/external-adapter-framework/transports'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
 
 import { customSettings } from '../config'
@@ -44,7 +39,7 @@ export type SymbolPriceData = {
   price: number // Price in quote currency units. e.g. 379.64
 }
 
-type EndpointTypes = {
+export type WebSocketEndpointTypes = {
   Request: {
     // i.e. { base, quote }
     // base is the symbol to query, e.g. AAPL
@@ -58,9 +53,6 @@ type EndpointTypes = {
     Result: number
   }
   CustomSettings: typeof customSettings
-}
-
-export type WebSocketEndpointTypes = EndpointTypes & {
   Provider: {
     WsMessage: WebSocketMessage
   }
@@ -68,112 +60,60 @@ export type WebSocketEndpointTypes = EndpointTypes & {
 
 const logger = makeLogger('TwoSigmaPriceWebsocketEndpoint')
 
-let underlyingWebSocket = WebSocket
-
-export const setWebSocket = (ws: typeof WebSocket): void => {
-  // Useful for mocking.
-  underlyingWebSocket = ws
-}
-
-export class WebSocketHandler {
-  // The Two Sigma API websocket handler
-  //
+export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndpointTypes> {
   // The API works by first sending a message to the server containing the API key
   // and a list of ticker symbols to subscribe to, after which the server begins
   // streaming price updates. However, in order to subscribe to a different set of
   // symbols, the client would need to do so on a new websocket connection as the
   // server seems to ignore all messages after the first.
-  //
-  // The EA framework doesn't explicitly support this use case so we must work
-  // around it using the ReconnectingWebSocket class. It is a wrapper over the
-  // usual WebSocket class and importantly provides the ability to force the
-  // underlying WS conn to reconnect, thus allowing us to subscribe to a different
-  // set of symbols.
 
-  apiKey: string
-  subscribedSymbols: Set<string>
-  conn?: ReconnectingWebSocket
+  override async streamHandler(
+    context: EndpointContext<WebSocketEndpointTypes>,
+    subscriptions: SubscriptionDeltas<WebSocketEndpointTypes['Request']['Params']>,
+  ): Promise<void> {
+    if (this.wsConnection && (subscriptions.new.length || subscriptions.stale.length)) {
+      logger.debug(
+        `closing WS connection for new subscriptions: ${JSON.stringify(subscriptions.desired)}`,
+      )
 
-  constructor() {
-    this.apiKey = process.env.WS_API_KEY || 'twosigma api key not set'
-    this.subscribedSymbols = new Set()
-  }
-
-  url({ adapterConfig: { WS_API_ENDPOINT } }: EndpointContext<WebSocketEndpointTypes>): string {
-    return WS_API_ENDPOINT
-  }
-
-  options(): Options {
-    // Options to be passed into the ReconnectingWebSocket constructor.
-    return {
-      WebSocket: underlyingWebSocket,
-      minReconnectionDelay: 0,
-      maxReconnectionDelay: 50, // ms
-      debug: true,
-    }
-  }
-
-  open(conn: ReconnectingWebSocket): void {
-    this.conn = conn
-  }
-
-  message(message: WebSocketMessage): ProviderResult<WebSocketEndpointTypes>[] | undefined {
-    if (!message.timestamp || !message.symbol_price_dict) {
-      logger.debug(`Received invalid message: ${message}`)
-      return undefined
+      // 'close' is an async method that doesn't return a promise. Rather than
+      // polling and waiting for the connection to close, we can simply set the
+      // variable to null and rely on the parent method to create a new connection.
+      this.wsConnection.close()
+      this.wsConnection = null
     }
 
-    const results: ProviderResult<WebSocketEndpointTypes>[] = []
-    for (const symbol in message.symbol_price_dict) {
-      const priceData = message.symbol_price_dict[symbol]
-      const params = parseBaseQuote(symbol)
-      if (params === undefined) {
-        continue
-      }
+    subscriptions.new = subscriptions.desired
+    subscriptions.stale = []
 
-      results.push({
-        params,
-        response: {
-          result: priceData.price,
-          data: {
-            result: priceData.price,
-          },
-          timestamps: {
-            providerIndicatedTime: message.timestamp * 1000, // UTC in millis
-          },
-        },
-      })
+    super.streamHandler(context, subscriptions)
+  }
+
+  override async sendMessages(
+    _context: EndpointContext<WebSocketEndpointTypes>,
+    subscribes: PriceEndpointParams[],
+    unsubscribes: unknown[],
+  ): Promise<void> {
+    // Send a single message containing the entire set of subscribed symbols rather than
+    // one message per symbol.
+
+    if (unsubscribes.length) {
+      // We explicitly set subscriptions.stale to empty.
+      logger.warn(`unexpected unsubscribes: ${JSON.stringify(unsubscribes)}`)
     }
 
-    return results
-  }
-
-  subscribeMessage(params: PriceEndpointParams): WebSocketRequest {
-    const symbol = buildSymbol(params)
-    this.subscribedSymbols.add(symbol)
-    logger.trace(
-      `Subscribing to ${symbol}, subscribed set is ${Array.from(this.subscribedSymbols)}`,
-    )
-    return this.handleSubscriptionUpdate()
-  }
-
-  unsubscribeMessage(params: PriceEndpointParams): WebSocketRequest {
-    const symbol = buildSymbol(params)
-    this.subscribedSymbols.delete(symbol)
-    logger.trace(
-      `Unsubscribing from ${symbol}, subscribed set is ${Array.from(this.subscribedSymbols)}`,
-    )
-    return this.handleSubscriptionUpdate()
-  }
-
-  handleSubscriptionUpdate(): WebSocketRequest {
-    logger.debug('Subscription updated, reconnecting')
-    this.conn?.reconnect(1001, 'reconnecting')
-
-    return {
-      api_key: this.apiKey,
-      symbols: Array.from(this.subscribedSymbols).sort(),
+    if (!subscribes.length) {
+      // No symbols to subscribe to
+      logger.debug(`nothing to subscribe to, skipping initial message`)
+      return
     }
+
+    const payload: WebSocketRequest = {
+      api_key: process.env.WS_API_KEY || 'twosigma api key not set',
+      symbols: subscribes.map(buildSymbol).sort(),
+    }
+    console.log('wsConnection', this.wsConnection, payload)
+    this.wsConnection.send(this.serializeMessage(payload))
   }
 }
 
@@ -191,28 +131,53 @@ export const buildSymbol = ({ base, quote }: PriceEndpointParams): string => {
   return `${base}/${quote}`
 }
 
-export const makeEndpoint = (): PriceEndpoint<WebSocketEndpointTypes> => {
-  // Make sure that the EA framework uses ReconnectingWebSocket instead of the
-  // usual WebSocket class.
-  WebSocketClassProvider.set(ReconnectingWebSocket)
+export const config = {
+  url: (context: EndpointContext<WebSocketEndpointTypes>): string => {
+    return context.adapterConfig.WS_API_ENDPOINT
+  },
 
-  const handler = new WebSocketHandler()
-  const transport = new WebSocketTransport({
-    url: handler.url.bind(handler),
-    options: handler.options.bind(handler),
-    handlers: {
-      open: handler.open.bind(handler),
-      message: handler.message.bind(handler),
-    },
-    builders: {
-      subscribeMessage: handler.subscribeMessage.bind(handler),
-      unsubscribeMessage: handler.unsubscribeMessage.bind(handler),
-    },
-  })
+  handlers: {
+    message: (message: WebSocketMessage): ProviderResult<WebSocketEndpointTypes>[] | undefined => {
+      if (!message.timestamp || !message.symbol_price_dict) {
+        logger.debug(`Received invalid message: ${message}`)
+        return undefined
+      }
 
-  return new PriceEndpoint({
-    name: 'price',
-    inputParameters: priceEndpointInputParameters,
-    transport,
-  })
+      const results: ProviderResult<WebSocketEndpointTypes>[] = []
+      for (const symbol in message.symbol_price_dict) {
+        const priceData = message.symbol_price_dict[symbol]
+        const params = parseBaseQuote(symbol)
+        if (params === undefined) {
+          continue
+        }
+
+        results.push({
+          params,
+          response: {
+            result: priceData.price,
+            data: {
+              result: priceData.price,
+            },
+            timestamps: {
+              providerIndicatedTime: message.timestamp * 1000, // UTC in millis
+            },
+          },
+        })
+      }
+
+      return results
+    },
+  },
+
+  // We don't want the 'subscribeMessage' and 'unsubscribeMessage' hooks because we override
+  // the 'sendMessages' on the transport to send a single message for the entire set of
+  // symbols. However, this empty object is necessary for the transport to actually call our
+  // overridden 'sendMessages'.
+  builders: {},
 }
+
+export const endpoint = new PriceEndpoint({
+  name: 'price',
+  inputParameters: priceEndpointInputParameters,
+  transport: new TwoSigmaWebsocketTransport(config),
+})

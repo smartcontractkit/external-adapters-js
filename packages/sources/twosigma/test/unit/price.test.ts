@@ -1,13 +1,18 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { EndpointContext, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports/websocket'
+import { sleep } from '@chainlink/external-adapter-framework/util'
+
 import * as price from '../../src/endpoint/price'
 
-describe('WebSocketHandler', () => {
-  let handler: price.WebSocketHandler
+const makeParam = (base: string): PriceEndpointParams => {
+  return {
+    base,
+    quote: 'USD',
+  }
+}
 
-  beforeEach(() => {
-    handler = new price.WebSocketHandler()
-  })
-
+describe('Config', () => {
   describe('url', () => {
     const context = {
       adapterConfig: {
@@ -18,19 +23,19 @@ describe('WebSocketHandler', () => {
     } as EndpointContext<price.WebSocketEndpointTypes>
 
     it('returns the endpoint URL from the config', () => {
-      expect(handler.url(context)).toEqual(context.adapterConfig.WS_API_ENDPOINT)
+      expect(price.config.url(context)).toEqual(context.adapterConfig.WS_API_ENDPOINT)
     })
   })
 
   describe('message', () => {
     it('returns empty undefined for invalid messages', () => {
-      expect(handler.message({} as price.WebSocketMessage)).toEqual(undefined)
-      expect(handler.message({ timestamp: 1672491600 } as price.WebSocketMessage)).toEqual(
-        undefined,
-      )
-      expect(handler.message({ symbol_price_dict: {} } as price.WebSocketMessage)).toEqual(
-        undefined,
-      )
+      expect(price.config.handlers.message({} as price.WebSocketMessage)).toEqual(undefined)
+      expect(
+        price.config.handlers.message({ timestamp: 1672491600 } as price.WebSocketMessage),
+      ).toEqual(undefined)
+      expect(
+        price.config.handlers.message({ symbol_price_dict: {} } as price.WebSocketMessage),
+      ).toEqual(undefined)
     })
 
     it('returns a result for each symbol', () => {
@@ -54,7 +59,7 @@ describe('WebSocketHandler', () => {
         },
       }
 
-      expect(handler.message(message)).toEqual([
+      expect(price.config.handlers.message(message)).toEqual([
         {
           params: {
             base: 'AAPL',
@@ -88,60 +93,96 @@ describe('WebSocketHandler', () => {
       ])
     })
   })
+})
 
-  describe('subscribe & unsubscribe', () => {
-    const expectModifySubscription = (
-      op: 'subscribe' | 'unsubscribe',
-      base: string,
-      subscribed: string[],
-    ) => {
-      const func = op === 'subscribe' ? handler.subscribeMessage : handler.unsubscribeMessage
-      const req = func.bind(handler)({ base, quote: 'USD' })
-      expect(req).toEqual({
-        api_key: 'twosigma api key not set',
-        symbols: subscribed.map((base) => `${base}/USD`),
-      })
+describe('TwoSigmaWebsocketTransport', () => {
+  const context = {
+    adapterConfig: {
+      WS_API_ENDPOINT: 'wss://chainlink.twosigma.com',
+      WS_API_KEY: 'abc',
+    },
+    endpointName: 'price',
+    inputParameters: {},
+  } as any as EndpointContext<price.WebSocketEndpointTypes>
+
+  let transport: price.TwoSigmaWebsocketTransport
+  let subscriptions: SubscriptionDeltas<PriceEndpointParams>
+  let connClosed: boolean
+  let sentMessages: string[]
+
+  class MockWebSocket {
+    close() {
+      connClosed = true
     }
 
-    it('subscribe works', () => {
-      const req = handler.subscribeMessage({ base: 'A', quote: 'USD' })
-      expect(req).toEqual({
-        api_key: 'twosigma api key not set',
-        symbols: ['A/USD'],
-      })
+    send(message: string) {
+      sentMessages.push(message)
+    }
+
+    addEventListener(event, listener) {
+      if (event === 'open') {
+        listener({ type: 'mock_open' })
+      }
+    }
+  }
+
+  beforeAll(() => {
+    WebSocketClassProvider.set(MockWebSocket)
+    process.env.WS_API_KEY = 'abc'
+  })
+
+  beforeEach(() => {
+    transport = new price.TwoSigmaWebsocketTransport(price.config)
+    subscriptions = {
+      desired: [makeParam('AAPL'), makeParam('AMZN')],
+      new: [makeParam('AMZN')],
+      stale: [makeParam('V')],
+    }
+    connClosed = false
+    sentMessages = []
+  })
+
+  describe('streamHandler', () => {
+    it('closes the ws connection', async () => {
+      await transport.streamHandler(context, subscriptions)
+      await sleep(100)
+      expect(connClosed).toEqual(false)
+      expect(transport.connectionClosed()).toEqual(false)
+
+      // An empty desired set means that the framework won't open a new connection.
+      subscriptions = {
+        desired: [],
+        new: [],
+        stale: [makeParam('AAPL'), makeParam('AMZN')],
+      }
+
+      await transport.streamHandler(context, subscriptions)
+      expect(connClosed).toEqual(true)
+      expect(transport.connectionClosed()).toEqual(true)
     })
 
-    it('unsubscribe works', () => {
-      handler.subscribeMessage({ base: 'A', quote: 'USD' })
-      const req = handler.unsubscribeMessage({ base: 'A', quote: 'USD' })
-      expect(req).toEqual({
-        api_key: 'twosigma api key not set',
-        symbols: [],
+    it('sends a message to subscribe', async () => {
+      await transport.streamHandler(context, subscriptions)
+      await sleep(200)
+      expect(sentMessages).toHaveLength(1)
+      expect(JSON.parse(sentMessages[0])).toEqual({
+        api_key: 'abc',
+        symbols: ['AAPL/USD', 'AMZN/USD'],
       })
-    })
 
-    it('unsubscribe works with unsubscribed symbols', () => {
-      const req = handler.unsubscribeMessage({ base: 'Z', quote: 'USD' })
-      expect(req).toEqual({
-        api_key: 'twosigma api key not set',
-        symbols: [],
+      subscriptions = {
+        desired: [makeParam('AAPL'), makeParam('AMZN'), makeParam('V')],
+        new: [makeParam('V')],
+        stale: [],
+      }
+
+      await transport.streamHandler(context, subscriptions)
+      await sleep(200)
+      expect(sentMessages).toHaveLength(2)
+      expect(JSON.parse(sentMessages[1])).toEqual({
+        api_key: 'abc',
+        symbols: ['AAPL/USD', 'AMZN/USD', 'V/USD'],
       })
-    })
-
-    it('works with a chain of operations', () => {
-      expectModifySubscription('subscribe', 'A', ['A'])
-      expectModifySubscription('subscribe', 'B', ['A', 'B'])
-      expectModifySubscription('subscribe', 'C', ['A', 'B', 'C'])
-
-      expectModifySubscription('unsubscribe', 'A', ['B', 'C'])
-      expectModifySubscription('unsubscribe', 'B', ['C'])
-      expectModifySubscription('unsubscribe', 'C', [])
-
-      expectModifySubscription('subscribe', 'A', ['A'])
-      expectModifySubscription('subscribe', 'D', ['A', 'D'])
-
-      expectModifySubscription('unsubscribe', 'D', ['A'])
-      expectModifySubscription('unsubscribe', 'A', [])
     })
   })
 })

@@ -19,7 +19,6 @@ describe('websocket', () => {
   let mockWebSockerServer: Server
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
-  let connectionIdx = 0 // Every reconnect will increment this
 
   const makeRequest = (base: string) =>
     req
@@ -28,12 +27,6 @@ describe('websocket', () => {
       .set('Accept', '*/*')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
-
-  class MockReconnectingWebSocket extends WebSocket {
-    reconnect(): void {
-      connectionIdx++
-    }
-  }
 
   jest.setTimeout(10000)
 
@@ -52,9 +45,13 @@ describe('websocket', () => {
     fastify = await server()
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
-    WebSocketClassProvider.set(MockReconnectingWebSocket)
+    WebSocketClassProvider.set(WebSocket)
+
+    let connectionIdx = 0
     mockWebSockerServer = new Server(webSocketEndpoint, { mock: false })
     mockWebSockerServer.on('connection', (socket) => {
+      connectionIdx++
+
       socket.on('message', (message) => {
         const payload: WebSocketRequest = JSON.parse(message as string)
         expect(payload.api_key).toEqual(webSocketApiKey)

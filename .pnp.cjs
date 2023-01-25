@@ -7645,7 +7645,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/ws", "npm:7.4.7"],\
             ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
-            ["reconnecting-websocket", "npm:4.4.0"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"],\
@@ -29743,15 +29742,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["rechoir", "npm:0.7.1"],\
             ["resolve", "patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["reconnecting-websocket", [\
-        ["npm:4.4.0", {\
-          "packageLocation": "./.yarn/cache/reconnecting-websocket-npm-4.4.0-c6f262f5df-7ee379ff3a.zip/node_modules/reconnecting-websocket/",\
-          "packageDependencies": [\
-            ["reconnecting-websocket", "npm:4.4.0"]\
           ],\
           "linkType": "HARD"\
         }]\
