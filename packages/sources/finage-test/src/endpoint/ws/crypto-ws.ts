@@ -28,7 +28,7 @@ export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string
     },
     handlers: {
       message(message) {
-        const pair = wsTransport.getReverseMapping(message.s)
+        const pair = wsTransport.getReverseMapping(message.s.toLowerCase())
         if (!message.p || !pair) {
           return []
         }
@@ -53,7 +53,7 @@ export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string
 
     builders: {
       subscribeMessage: (params) => {
-        wsTransport.setReverseMapping(`${params.base}${params.quote}`, params)
+        wsTransport.setReverseMapping(`${params.base}${params.quote}`.toLowerCase(), params)
         return { action: 'subscribe', symbols: `${params.base}${params.quote}`.toUpperCase() }
       },
       unsubscribeMessage: (params) => {
