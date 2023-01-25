@@ -497,6 +497,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/finage"\
       },\
       {\
+        "name": "@chainlink/finage-test-adapter",\
+        "reference": "workspace:packages/sources/finage-test"\
+      },\
+      {\
         "name": "@chainlink/finnhub-adapter",\
         "reference": "workspace:packages/sources/finnhub"\
       },\
@@ -921,6 +925,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/external-adapters-js", ["workspace:."]],\
       ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
       ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
+      ["@chainlink/finage-test-adapter", ["workspace:packages/sources/finage-test"]],\
       ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
       ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
       ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
@@ -5459,6 +5464,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],\
             ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
             ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
+            ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
             ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
             ["@chainlink/fixer-adapter", "workspace:packages/sources/fixer"],\
             ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
@@ -6095,6 +6101,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/finage-test-adapter", [\
+        ["workspace:packages/sources/finage-test", {\
+          "packageLocation": "./packages/sources/finage-test/",\
+          "packageDependencies": [\
+            ["@chainlink/finage-test-adapter", "workspace:packages/sources/finage-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.21.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
