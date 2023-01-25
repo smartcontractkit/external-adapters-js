@@ -1,4 +1,5 @@
 import { EndpointContext, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports/websocket'
 import { sleep } from '@chainlink/external-adapter-framework/util'
@@ -71,7 +72,7 @@ describe('Config', () => {
               result: 100,
             },
             timestamps: {
-              providerIndicatedTime: 1672491600000,
+              providerIndicatedTimeUnixMs: 1672491600000,
             },
           },
         },
@@ -86,7 +87,7 @@ describe('Config', () => {
               result: 200,
             },
             timestamps: {
-              providerIndicatedTime: 1672491600000,
+              providerIndicatedTimeUnixMs: 1672491600000,
             },
           },
         },
@@ -129,6 +130,7 @@ describe('TwoSigmaWebsocketTransport', () => {
   beforeAll(() => {
     WebSocketClassProvider.set(MockWebSocket)
     process.env.WS_API_KEY = 'abc'
+    metrics.initialize()
   })
 
   beforeEach(() => {

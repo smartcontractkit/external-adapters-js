@@ -158,7 +158,7 @@ export const config = {
               result: priceData.price,
             },
             timestamps: {
-              providerIndicatedTime: message.timestamp * 1000, // UTC in millis
+              providerIndicatedTimeUnixMs: message.timestamp * 1000,
             },
           },
         })

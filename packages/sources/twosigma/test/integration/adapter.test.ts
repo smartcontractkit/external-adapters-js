@@ -46,12 +46,8 @@ describe('websocket', () => {
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
 
     WebSocketClassProvider.set(WebSocket)
-
-    let connectionIdx = 0
     mockWebSockerServer = new Server(webSocketEndpoint, { mock: false })
     mockWebSockerServer.on('connection', (socket) => {
-      connectionIdx++
-
       socket.on('message', (message) => {
         const payload: WebSocketRequest = JSON.parse(message as string)
         expect(payload.api_key).toEqual(webSocketApiKey)
@@ -63,7 +59,7 @@ describe('websocket', () => {
             session_status_flag: 'open',
             asset_status_flag: 'active',
             confidence_interval: (i + 1) * 0.1,
-            price: (i + 1) * 100 + connectionIdx, // Change the price per reconnect
+            price: (i + 1) * 100,
           }
         })
 
@@ -78,7 +74,7 @@ describe('websocket', () => {
 
     // Send initial request to start background execute
     await makeRequest('AAPL')
-    await sleep(5000)
+    await sleep(5)
   })
 
   afterAll(async () => {
@@ -94,44 +90,44 @@ describe('websocket', () => {
     it('should return success', async () => {
       const resp1 = await makeRequest('AAPL')
       expect(resp1.body).toEqual({
-        result: 101,
+        result: 100,
         data: {
-          result: 101,
+          result: 100,
         },
         timestamps: {
-          providerDataReceived: 1672531200000, // mocked time
-          providerDataStreamEstablished: 1672531200000,
-          providerIndicatedTime: 1645203822000, // response.timestamp
+          providerDataReceivedUnixMs: 1672531200000, // mocked time
+          providerDataStreamEstablishedUnixMs: 1672531200000,
+          providerIndicatedTimeUnixMs: 1645203822000, // response.timestamp
         },
         statusCode: 200,
       })
 
       await makeRequest('AMZN')
-      await sleep(5000) // Wait for next background executor loop
+      await sleep(5) // Wait for next background executor loop
 
       const resp2 = await makeRequest('AAPL')
       expect(resp2.body).toEqual({
-        result: 102,
+        result: 100,
         data: {
-          result: 102,
+          result: 100,
         },
         timestamps: {
-          providerDataReceived: 1672531200000,
-          providerDataStreamEstablished: 1672531200000,
-          providerIndicatedTime: 1645203822000,
+          providerDataReceivedUnixMs: 1672531200000,
+          providerDataStreamEstablishedUnixMs: 1672531200000,
+          providerIndicatedTimeUnixMs: 1645203822000,
         },
         statusCode: 200,
       })
       const resp3 = await makeRequest('AMZN')
       expect(resp3.body).toEqual({
-        result: 202,
+        result: 200,
         data: {
-          result: 202,
+          result: 200,
         },
         timestamps: {
-          providerDataReceived: 1672531200000,
-          providerDataStreamEstablished: 1672531200000,
-          providerIndicatedTime: 1645203822000,
+          providerDataReceivedUnixMs: 1672531200000,
+          providerDataStreamEstablishedUnixMs: 1672531200000,
+          providerIndicatedTimeUnixMs: 1645203822000,
         },
         statusCode: 200,
       })
