@@ -6,6 +6,7 @@ import {
 } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings } from '../config'
+import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
 interface BaseMessage {
@@ -51,12 +52,23 @@ export type EndpointTypes = {
   }
 }
 
-let api_key: string
+type WebsocketTransportGenerics = TransportGenerics & {
+  Provider: {
+    WsMessage: unknown
+  }
+}
 
-export const websocketTransport: WebsocketReverseMappingTransport<EndpointTypes, string> =
-  new WebsocketReverseMappingTransport<EndpointTypes, string>({
+export class BlocksizeWebsocketReverseMappingTransport<
+  T extends WebsocketTransportGenerics,
+  K,
+> extends WebsocketReverseMappingTransport<T, K> {
+  api_key = ''
+}
+
+export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<EndpointTypes, string> =
+  new BlocksizeWebsocketReverseMappingTransport<EndpointTypes, string>({
     url: ({ adapterConfig: { WS_API_ENDPOINT, API_KEY } }) => {
-      api_key = API_KEY
+      websocketTransport.api_key = API_KEY
       return WS_API_ENDPOINT
     },
     handlers: {
@@ -64,16 +76,14 @@ export const websocketTransport: WebsocketReverseMappingTransport<EndpointTypes,
         connection.send({
           jsonrpc: '2.0',
           method: 'authentication_logon',
-          params: { api_key },
+          params: { api_key: websocketTransport.api_key },
         })
-        return Promise.resolve()
       },
       message: (message) => {
         if (Object.keys(message).length === 0) {
           logger.debug('WS message is empty, skipping')
           return []
         }
-
         const [_, msg] = message
         if (!(msg.method === 'vwap' || 'method' in msg)) return []
         const [updates] = msg.params.updates

@@ -1,4 +1,3 @@
-export const DEFAULT_BASE_WS_URL = 'wss://data.blocksize.capital/marketdata/v1/ws'
 export const defaultEndpoint = 'price'
 
 export const customSettings = {
@@ -12,7 +11,7 @@ export const customSettings = {
     description: 'The default WebSocket API base url',
     type: 'string',
     required: false,
-    default: DEFAULT_BASE_WS_URL,
+    default: 'wss://data.blocksize.capital/marketdata/v1/ws',
   },
   WS_ENABLED: {
     description: 'Toggle to set the default endpoint to use WebSockets',
