@@ -140,17 +140,15 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
         // We've encountered a known auth error, so try to refresh the token before making another request
         logger.info('Auth error received from the Bank Frick API, attempting to refresh the token')
         this.token = await generateJWT(config, signingAlgorithm)
-      } else if (retryNumber === config.REST_TRANSPORT_MAX_RATE_LIMIT_RETRIES) {
+      } else if (retryNumber === config.RETRY) {
         throw new AdapterError({
           statusCode: 504,
-          message: `Bank Frick transport hit the max number of retries (${config.REST_TRANSPORT_MAX_RATE_LIMIT_RETRIES} retries) and aborted`,
+          message: `Bank Frick transport hit the max number of retries (${config.RETRY} retries) and aborted`,
         })
       }
-
-      logger.debug(
-        `Sleeping for ${config.REST_TRANSPORT_MS_BETWEEN_RATE_LIMIT_RETRIES}ms before retrying`,
-      )
-      await sleep(config.REST_TRANSPORT_MS_BETWEEN_RATE_LIMIT_RETRIES)
+      const timeToSleep = (2 ** retryNumber + Math.random()) * 1000
+      logger.debug(`Sleeping for ${timeToSleep}ms before retrying`)
+      await sleep(timeToSleep)
       response = await axios.request(axiosRequest)
     }
     return response
@@ -206,7 +204,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
     let position = 0
     const keys = ibanIDs
     logger.info("Fetching accounts from Bank Frick's API...")
-    const providerDataRequested = Date.now()
+    const providerDataRequestedUnixMs = Date.now()
     while (keys.length > 0) {
       // TODO Fetching and processing pages can be run concurrently
       const axiosRequest = this.prepareRequest(position, req.requestContext.data, config)
@@ -232,7 +230,7 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
       }
       position += PAGE_SIZE || 0
     }
-    const providerDataReceived = Date.now()
+    const providerDataReceivedUnixMs = Date.now()
 
     // 404 if one or more accounts were not found
     if (keys.length > 0) {
@@ -247,8 +245,8 @@ export class BankFrickAccountsTransport implements Transport<AccountsEndpointTyp
       statusCode: 200,
       result: sum,
       timestamps: {
-        providerDataReceived,
-        providerDataRequested,
+        providerDataReceivedUnixMs,
+        providerDataRequestedUnixMs,
       },
     } as AdapterResponse<AccountsEndpointTypes['Response']>
     await this.cache.set(req.requestContext.cacheKey, res, config.CACHE_MAX_AGE)
