@@ -4,9 +4,9 @@ import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework
 import { Server } from 'mock-socket'
 import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
-import { DEFAULT_BASE_WS_URL } from '../../src/config'
 import { createAdapter, mockWebSocketProvider, mockWebSocketServer, setEnvVariables } from './setup'
 
+const DEFAULT_BASE_WS_URL = 'wss://data.blocksize.capital/marketdata/v1/ws'
 describe('websocket', () => {
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
