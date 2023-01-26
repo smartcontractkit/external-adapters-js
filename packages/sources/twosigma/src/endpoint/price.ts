@@ -10,6 +10,9 @@ import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framewor
 
 import { customSettings } from '../config'
 
+const WS_CLOSED_STATE = 3
+const WS_CONN_CLOSE_CHECK_MS = 1000
+
 // Schema of message sent to Two Sigma to start streaming symbols
 export type WebSocketRequest = {
   api_key: string
@@ -79,7 +82,16 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
       // 'close' is an async method that doesn't return a promise. Rather than
       // polling and waiting for the connection to close, we can simply set the
       // variable to null and rely on the parent method to create a new connection.
-      this.wsConnection.close()
+      const conn = this.wsConnection
+      conn.close()
+      setTimeout(() => {
+        if (conn.readyState !== WS_CLOSED_STATE) {
+          logger.warn(
+            `WS connection still in state ${conn.readyState} after ${WS_CONN_CLOSE_CHECK_MS}ms`,
+          )
+        }
+      }, WS_CONN_CLOSE_CHECK_MS)
+
       this.wsConnection = null
     }
 
