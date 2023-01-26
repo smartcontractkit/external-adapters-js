@@ -27,24 +27,70 @@ type BatchEndpointTypes = {
   }
 }
 
+// Cryptocompare has limits for `fsyms` and `tsyms` query params. 1000 characters for `fsyms` and 100 for `tsyms`. We create N number of chunks based on actual lengths of params.
+const chunkByParamsLength = (
+  params: CryptoEndpointParams[],
+  maxBatchBaseLength = 200,
+  maxBatchQuoteLength = 100,
+) => {
+  const uniqueParams: { bases: string[]; quotes: string[] } = { bases: [], quotes: [] }
+  const result: CryptoEndpointParams[][] = []
+  let temp: CryptoEndpointParams[] = []
+  const TICKER_MAX_LENGTH = 5
+  params.forEach((pair) => {
+    // Here we assume that the maximum ticker size is 5. We subtract it to be safe that we don't exceed the limit even when the last ticker has the maximum allowed length.  We also subtract the last comma.
+    const baseLimit = maxBatchBaseLength - TICKER_MAX_LENGTH - 1
+    const quoteLimit = maxBatchQuoteLength - TICKER_MAX_LENGTH - 1
+
+    // If we are over limit for either base or quote we save those in result and clean current values for next iteration
+    if (
+      uniqueParams.quotes.join(',').length > baseLimit ||
+      uniqueParams.bases.join(',').length > quoteLimit
+    ) {
+      result.push(temp)
+      uniqueParams.bases = []
+      uniqueParams.quotes = []
+      temp = []
+    }
+
+    if (!uniqueParams.quotes.includes(pair.quote.toUpperCase())) {
+      uniqueParams.quotes.push(pair.quote.toUpperCase())
+    }
+
+    if (!uniqueParams.bases.includes(pair.base.toUpperCase())) {
+      uniqueParams.bases.push(pair.base.toUpperCase())
+    }
+
+    temp.push(pair)
+  })
+  // Add remaining params to the result (this will always be lower than actual limits)
+  result.push(temp)
+
+  return result
+}
+
 export const buildBatchedRequestBody = (
   params: CryptoEndpointParams[],
   config: AdapterConfig<typeof customSettings>,
 ) => {
-  return {
-    params,
-    request: {
-      baseURL: config.API_ENDPOINT,
-      url: '/data/pricemultifull',
-      headers: {
-        authorization: `Apikey ${config.API_KEY}`,
+  const chunkedMatrix = chunkByParamsLength(params)
+
+  return chunkedMatrix.map((cParams) => {
+    return {
+      params: cParams,
+      request: {
+        baseURL: config.API_ENDPOINT,
+        url: '/data/pricemultifull',
+        headers: {
+          authorization: `Apikey ${config.API_KEY}`,
+        },
+        params: {
+          fsyms: [...new Set(cParams.map((p) => p.base.toUpperCase()))].join(','),
+          tsyms: [...new Set(cParams.map((p) => p.quote.toUpperCase()))].join(','),
+        },
       },
-      params: {
-        fsyms: [...new Set(params.map((p) => p.base.toUpperCase()))].join(','),
-        tsyms: [...new Set(params.map((p) => p.quote.toUpperCase()))].join(','),
-      },
-    },
-  }
+    }
+  })
 }
 
 type KeyOfType<T, V> = keyof {
