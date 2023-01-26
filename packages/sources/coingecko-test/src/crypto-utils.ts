@@ -5,6 +5,7 @@ import {
   ProviderResult,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
+import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/transports'
 
 export interface CryptoRequestParams {
   coinid?: string
@@ -53,7 +54,7 @@ export type CryptoEndpointTypes = {
 export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
   config: AdapterConfig<typeof customSettings>,
-) => {
+): ProviderRequestConfig<CryptoEndpointTypes> => {
   return {
     params,
     request: {
@@ -65,8 +66,6 @@ export const buildBatchedRequestBody = (
         vs_currencies: [...new Set(params.map((p) => p.quote))].join(','),
         x_cg_pro_api_key: config.API_KEY,
         precision: 'full',
-        include_market_cap: false, // TODO: Drop?
-        include_24hr_vol: false, // TODO: Drop?
       },
     },
   }

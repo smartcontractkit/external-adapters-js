@@ -6,6 +6,7 @@ import {
   ProviderResult,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
+import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -51,7 +52,7 @@ export type GlobalEndpointTypes = {
 export const buildGlobalRequestBody = (
   params: GlobalRequestParams[],
   config: AdapterConfig<typeof customSettings>,
-) => {
+): ProviderRequestConfig<GlobalEndpointTypes> => {
   return {
     params,
     request: {
