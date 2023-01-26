@@ -1,5 +1,4 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { customSettings, getApiEndpoint } from './config'
 import {
@@ -54,16 +53,21 @@ export type CryptoEndpointTypes = {
 export const buildBatchedRequestBody = (
   params: CryptoRequestParams[],
   config: AdapterConfig<typeof customSettings>,
-): HttpRequestConfig<never> => {
+) => {
   return {
-    baseURL: getApiEndpoint(config),
-    url: '/simple/price',
-    method: 'GET',
-    params: {
-      ids: [...new Set(params.map((p) => p.coinid ?? p.base))].join(','),
-      vs_currencies: [...new Set(params.map((p) => p.quote))].join(','),
-      x_cg_pro_api_key: config.API_KEY,
-      precision: 'full',
+    params,
+    request: {
+      baseURL: getApiEndpoint(config),
+      url: '/simple/price',
+      method: 'GET',
+      params: {
+        ids: [...new Set(params.map((p) => p.coinid ?? p.base))].join(','),
+        vs_currencies: [...new Set(params.map((p) => p.quote))].join(','),
+        x_cg_pro_api_key: config.API_KEY,
+        precision: 'full',
+        include_market_cap: false, // TODO: Drop?
+        include_24hr_vol: false, // TODO: Drop?
+      },
     },
   }
 }
@@ -71,12 +75,12 @@ export const buildBatchedRequestBody = (
 const logger = makeLogger('CoinGecko Crypto Batched')
 
 export const constructEntry = (
-  res: HttpResponse<ProviderResponseBody>,
+  res: ProviderResponseBody,
   requestPayload: CryptoRequestParams,
   resultPath: string,
 ): ProviderResult<CryptoEndpointTypes> => {
   const coinId = (requestPayload.coinid ?? (requestPayload.base as string)).toLowerCase()
-  const dataForCoin = res.data[coinId]
+  const dataForCoin = res[coinId]
   const result = dataForCoin ? dataForCoin[resultPath] : undefined
   const entry = {
     params: requestPayload,

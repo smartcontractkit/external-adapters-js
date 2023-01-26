@@ -30,7 +30,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "0.14.5",
+    "@chainlink/external-adapter-framework": "0.21.3",
     "tslib": "2.4.0"
   },
   "devDependencies": {
