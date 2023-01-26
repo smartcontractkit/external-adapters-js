@@ -3032,6 +3032,7 @@ __metadata:
     "@chainlink/expert-car-broker-adapter": "workspace:*"
     "@chainlink/fcsapi-adapter": "workspace:*"
     "@chainlink/finage-adapter": "workspace:*"
+    "@chainlink/finage-test-adapter": "workspace:*"
     "@chainlink/finnhub-adapter": "workspace:*"
     "@chainlink/fixer-adapter": "workspace:*"
     "@chainlink/flightaware-adapter": "workspace:*"
@@ -3484,6 +3485,22 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/finage-test-adapter@workspace:*, @chainlink/finage-test-adapter@workspace:packages/sources/finage-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/finage-test-adapter@workspace:packages/sources/finage-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.21.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
