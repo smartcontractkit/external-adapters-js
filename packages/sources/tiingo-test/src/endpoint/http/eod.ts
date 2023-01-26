@@ -19,6 +19,10 @@ interface ProviderResponseBody {
   volume: number
 }
 
+interface ErrorResponse {
+  detail: string
+}
+
 const inputParameters = {
   ticker: {
     aliases: ['base', 'from', 'coin'],
@@ -36,7 +40,7 @@ type EODEndpointTypes = {
   CustomSettings: typeof customSettings
   Provider: {
     RequestBody: never
-    ResponseBody: ProviderResponseBody[]
+    ResponseBody: ProviderResponseBody[] | ErrorResponse
   }
 }
 
@@ -54,14 +58,37 @@ export const httpTransport = new HttpTransport<EODEndpointTypes>({
     })
   },
   parseResponse: (params, res) => {
+    if ((res.data as ErrorResponse).detail) {
+      return [
+        {
+          params: params[0],
+          response: {
+            errorMessage: (res.data as ErrorResponse).detail,
+            statusCode: 400,
+          },
+        },
+      ]
+    }
+
     return params.map((entry) => {
+      const result = (res.data as ProviderResponseBody[])[0]?.close
+      if (!result) {
+        return {
+          params: { ticker: entry.ticker },
+          response: {
+            errorMessage: `Could not retrieve valid data from Data Provider for ticket ${entry.ticker}. This is likely an issue with the Data Provider or the input params/overrides`,
+            statusCode: 400,
+          },
+        }
+      }
+
       return {
         params: { ticker: entry.ticker },
         response: {
           data: {
-            result: res.data[0].close,
+            result,
           },
-          result: res.data[0].close,
+          result,
         },
       }
     })
