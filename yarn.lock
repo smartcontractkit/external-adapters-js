@@ -2436,6 +2436,8 @@ __metadata:
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    axios: 0.27.2
+    ethers: ^5.4.6
     mock-socket: ^9.1.5
     nock: 13.2.9
     supertest: 6.2.4
