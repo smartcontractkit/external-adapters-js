@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.9.1
+
+### Patch Changes
+
+- Updated dependencies [3dd345367]
+  - @chainlink/ncfx-adapter@3.0.2
+
 ## 1.9.0
 
 ### Minor Changes
