@@ -231,7 +231,7 @@ export const constructEntry = (
     if (!dataForQuote) {
       return errorResponse(
         param,
-        `"${dataForQuote}" quote for "${param.cid || param.slug || param.base}" not found`,
+        `"${param.quote}" quote for "${param.cid || param.slug || param.base}" not found`,
       )
     }
     const result = dataForQuote[resultPath]
