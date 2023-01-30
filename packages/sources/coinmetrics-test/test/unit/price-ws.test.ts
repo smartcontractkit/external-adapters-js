@@ -60,6 +60,7 @@ describe('price-ws url generator', () => {
     const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
       {
         base: 'ETH'.toUpperCase(), //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'usd'.toLowerCase(), //Deliberately use the wrong case
       },
     ])
@@ -71,10 +72,12 @@ describe('price-ws url generator', () => {
     const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
       {
         base: 'btc', //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'usd', //Deliberately use the wrong case
       },
       {
         base: 'eth', //Deliberately use the wrong case
+        //@ts-expect-error since we  are testing the failure exactly we need this so that the pipeline won't fail
         quote: 'EUR', //Deliberately use the wrong case
       },
     ])
