@@ -1,12 +1,14 @@
 import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
-import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import {
+  WebsocketReverseMappingTransport,
+  WebsocketTransportGenerics,
+} from '@chainlink/external-adapter-framework/transports/websocket'
 import {
   PriceEndpoint,
+  PriceEndpointParams,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { customSettings } from '../config'
-import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('BlocksizeCapitalWebsocketEndpoint')
 interface BaseMessage {
@@ -26,35 +28,29 @@ export interface Message extends BaseMessage {
   }
 }
 
-const inputParameters: InputParameters & PriceEndpointInputParameters = {
+const inputParameters: PriceEndpointInputParameters = {
   base: {
     aliases: ['from', 'coin'],
     type: 'string',
     description: 'The symbol of symbols of the currency to query',
-    required: false,
+    required: true,
   },
   quote: {
     aliases: ['to', 'market'],
     type: 'string',
     description: 'The symbol of the currency to convert to',
-    required: false,
+    required: true,
   },
 }
 
 export type EndpointTypes = {
   Request: {
-    Params: { base: string; quote: string }
+    Params: PriceEndpointParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
     WsMessage: Message[]
-  }
-}
-
-type WebsocketTransportGenerics = TransportGenerics & {
-  Provider: {
-    WsMessage: unknown
   }
 }
 
@@ -85,21 +81,25 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
           return []
         }
         const [_, msg] = message
-        if (!(msg.method === 'vwap' || 'method' in msg)) return []
+        if (!('method' in msg) || msg.method !== 'vwap') return []
         const [updates] = msg.params.updates
         const params = websocketTransport.getReverseMapping(updates.ticker)
         if (!params) {
-          return undefined
+          return []
         }
-        const base = params.base
-        const quote = params.quote
+
+        if (!updates.price) {
+          logger.error(`The data provider didn't return any value`)
+          return []
+        }
+
         return [
           {
-            params: { base, quote },
+            params,
             response: {
-              result: updates.price as number,
+              result: updates.price,
               data: {
-                result: updates.price as number,
+                result: updates.price,
               },
               timestamps: {
                 providerIndicatedTimeUnixMs: new Date(Date.now()).getTime(),
@@ -111,7 +111,7 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
     },
     builders: {
       subscribeMessage: (params) => {
-        const pair = `${params.base}${params.quote}`
+        const pair = `${params.base}${params.quote}`.toUpperCase()
         websocketTransport.setReverseMapping(pair, params)
         return {
           jsonrpc: '2.0',
@@ -121,7 +121,7 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
       },
 
       unsubscribeMessage: (params) => {
-        const pair = `${params.base}${params.quote}`
+        const pair = `${params.base}${params.quote}`.toUpperCase()
         return {
           jsonrpc: '2.0',
           method: 'vwap_unsubscribe',
