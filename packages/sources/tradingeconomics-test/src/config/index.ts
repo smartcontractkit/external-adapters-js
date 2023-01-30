@@ -4,13 +4,11 @@ export const customSettings = {
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     default: 'https://api.tradingeconomics.com/markets',
-    required: true,
   },
   WS_API_ENDPOINT: {
     description: 'The WS URL to retrieve data from',
     type: 'string',
     default: 'wss://stream.tradingeconomics.com/',
-    required: true,
   },
   API_CLIENT_KEY: {
     description: 'The TradingEconomics API client key',

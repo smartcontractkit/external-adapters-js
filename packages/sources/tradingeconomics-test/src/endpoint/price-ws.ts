@@ -98,7 +98,7 @@ export const wsTransport: WebsocketReverseMappingTransport<EndpointTypes, string
     builders: {
       subscribeMessage: (params) => {
         const from = wsTransport.getReverseMapping(`${params.quote}${params.base}`)
-        return getSubscription(from?.quote as string)
+        return getSubscription(from?.base as string)
       },
     },
   })

@@ -93,6 +93,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
 
 export const endpoint = new PriceEndpoint<EndpointTypes>({
   name: 'price',
+  aliases: ['forex'],
   transport: routingTransport,
   inputParameters,
 })
