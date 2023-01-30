@@ -1,6 +1,6 @@
 import {
-  TransportGenerics,
   WebSocketTransport,
+  WebsocketTransportGenerics,
 } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
@@ -26,12 +26,6 @@ export type EndpointTypes = {
   CustomSettings: typeof customSettings
   Provider: {
     WsMessage: IntrinioFeedMessage[]
-  }
-}
-
-type WebsocketTransportGenerics = TransportGenerics & {
-  Provider: {
-    WsMessage: unknown
   }
 }
 

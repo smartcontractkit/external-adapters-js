@@ -3870,7 +3870,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/intrinio-test-adapter@workspace:packages/sources/intrinio-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.21.3
+    "@chainlink/external-adapter-framework": 0.22.0
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
