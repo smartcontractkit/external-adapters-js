@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- 70a7b9abd: Add missing rest transport in cfbenchmark v3 EA
+
 ## 1.0.5
 
 ### Patch Changes

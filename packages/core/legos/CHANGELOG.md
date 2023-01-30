@@ -1,5 +1,25 @@
 # @chainlink/ea
 
+## 1.3.61
+
+### Patch Changes
+
+- Updated dependencies [23a1bd4b3]
+- Updated dependencies [3dd345367]
+- Updated dependencies [9c4413659]
+- Updated dependencies [7b7881f07]
+- Updated dependencies [70a7b9abd]
+- Updated dependencies [5c352d4e1]
+- Updated dependencies [fa05cc85b]
+- Updated dependencies [c2e455b4c]
+  - @chainlink/coinpaprika-test-adapter@1.0.0
+  - @chainlink/ncfx-adapter@3.0.2
+  - @chainlink/dxfeed-test-adapter@1.0.0
+  - @chainlink/finage-test-adapter@1.0.0
+  - @chainlink/cfbenchmarks-test-adapter@1.1.0
+  - @chainlink/bank-frick-adapter@1.0.1
+  - @chainlink/kaiko-test-adapter@1.0.1
+
 ## 1.3.60
 
 ### Patch Changes

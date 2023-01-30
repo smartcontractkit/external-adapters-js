@@ -131,6 +131,7 @@ const getEnvVars = (adapterPath: string, verbose = false) => {
 const getPackage = (adapterPath: string, verbose = false) => {
   let dependencies = 'Unknown'
   let version = 'Unknown'
+  let frameworkVersion = 'v2'
   try {
     const packagePath = adapterPath + '/package.json'
     const packageJson = getJsonFile(packagePath) as Package
@@ -138,23 +139,24 @@ const getPackage = (adapterPath: string, verbose = false) => {
     if (packageJson.version) version = wrapCode(packageJson.version)
 
     if (packageJson.dependencies) {
-      let dependencyList = Object.keys(packageJson.dependencies)
+      frameworkVersion = packageJson.dependencies['@chainlink/external-adapter-framework']
+        ? 'v3'
+        : 'v2'
 
+      let dependencyList = Object.keys(packageJson.dependencies)
       dependencyList = dependencyList.reduce((list: string[], dep) => {
         const depSplit = dep.split('/')
         if (depSplit[0] === '@chainlink' && !baseEaDependencies.includes(depSplit[1]))
           list.push(wrapCode(depSplit[1]))
         return list
       }, [])
-
       dependencies = dependencyList.length ? codeList(dependencyList) : ''
     }
-
-    return { dependencies, version }
+    return { dependencies, version, frameworkVersion }
   } catch (e: any) {
     const error = e as Error
     if (verbose) console.error({ error: error.message, stack: error.stack })
-    return { dependencies, version }
+    return { dependencies, version, frameworkVersion }
   }
 }
 
@@ -226,23 +228,24 @@ const generateAirtableMasterList = async (adapterList: TableText) => {
     let name = adapter[0]
     name = name.substring(name.indexOf('[') + 1, name.lastIndexOf(']'))
     const record = airtableRecordIds[name]
-
     const version = unwrapCode(adapter[1])
     const type = unwrapCode(adapter[2])
-    const defaultApiUrl = unwrapCode(adapter[3])
-    const dependencies = unwrapCode(adapter[4])
-    const envVars = unwrapCode(adapter[5])
-    const endpoints = unwrapCode(adapter[6])
-    const defEndpoint = unwrapCode(adapter[7])
-    const batchableEndpoints = unwrapCode(adapter[8])
-    const isWSSupported = unwrapCode(adapter[9]) === '✅'
-    const hasUnitTests = unwrapCode(adapter[10]).includes('✅')
-    const hasIntegrationTests = unwrapCode(adapter[11]).includes('✅')
-    const hasE2ETests = unwrapCode(adapter[12]).includes('✅')
+    const frameworkVersion = unwrapCode(adapter[3])
+    const defaultApiUrl = unwrapCode(adapter[4])
+    const dependencies = unwrapCode(adapter[5])
+    const envVars = unwrapCode(adapter[6])
+    const endpoints = unwrapCode(adapter[7])
+    const defEndpoint = unwrapCode(adapter[8])
+    const batchableEndpoints = unwrapCode(adapter[9])
+    const isWSSupported = unwrapCode(adapter[10]) === '✅'
+    const hasUnitTests = unwrapCode(adapter[11]).includes('✅')
+    const hasIntegrationTests = unwrapCode(adapter[12]).includes('✅')
+    const hasE2ETests = unwrapCode(adapter[13]).includes('✅')
     const airtableFields = {
       Name: name,
       Version: version,
       Type: type,
+      'Framework Version': frameworkVersion,
       'Default API URL': defaultApiUrl,
       Dependencies: dependencies,
       'Environment Variables': envVars,
@@ -334,7 +337,7 @@ export const generateMasterList = async (
     // Fetch general fields
     const allAdaptersTable: TableText = await Promise.all(
       allAdapters.map(async (adapter) => {
-        const { dependencies, version } = getPackage(adapter.path, verbose)
+        const { dependencies, version, frameworkVersion } = getPackage(adapter.path, verbose)
         const { defaultBaseUrl, defaultEndpoint } = await getConfigDefaults(adapter.path, verbose)
         const envVars = getEnvVars(adapter.path, verbose)
         const { batchableEndpoints, endpointsText } = await getEndpoints(adapter.path, verbose)
@@ -345,6 +348,7 @@ export const generateMasterList = async (
           adapter.redirect,
           version,
           adapter.type,
+          frameworkVersion,
           defaultBaseUrl,
           dependencies,
           envVars,
@@ -369,6 +373,7 @@ export const generateMasterList = async (
           'Name',
           'Version',
           'Type',
+          'Framework Version',
           'Default API URL',
           'Dependencies',
           'Environment Variables (✅ = required)',
