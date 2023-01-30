@@ -1,6 +1,6 @@
 # Chainlink External Adapter for CryptoCompare
 
-![1.4.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json)
+![1.4.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cryptocompare/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL wss://streamer.cryptocompare.com/v2
 

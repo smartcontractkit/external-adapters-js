@@ -72,6 +72,7 @@ import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
+import * as finage_test from '@chainlink/finage-test-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
@@ -225,6 +226,7 @@ export default {
   expert_car_broker,
   fcsapi,
   finage,
+  finage_test,
   finnhub,
   fixer,
   flightaware,

@@ -4,9 +4,12 @@ import {
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
-import { AdapterRequest, EmptyObject } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterRequest,
+  SingleNumberResultResponse,
+} from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-// import { makeRestTransport } from '../rest/crypto'
+import { makeRestTransport } from '../rest/crypto'
 import { makeWsTransport } from '../websocket/crypto'
 import { customSettings } from '../../config'
 import { getIdFromBaseQuote } from '../../utils'
@@ -36,10 +39,7 @@ const inputParameters: InputParameters & PriceEndpointInputParameters = {
 
 export type EndpointTypes = {
   Request: RequestParams
-  Response: {
-    Data: EmptyObject
-    Result: number
-  }
+  Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
 }
 
@@ -74,23 +74,21 @@ export const cryptoRequestTransform = (req: AdapterRequest<RequestParams>): void
   delete req.requestContext.data.quote
 }
 
-export const routingTransport = new RoutingTransport(
+export const routingTransport = new RoutingTransport<EndpointTypes>(
   {
-    // rest: makeRestTransport('primary'),
-    // restSecondary: makeRestTransport('secondary'),
+    rest: makeRestTransport('primary'),
+    restSecondary: makeRestTransport('secondary'),
     websocket: makeWsTransport('primary'),
     websocketSecondary: makeWsTransport('secondary'),
   },
   (_, config) => {
-    /* [TODO]: once framework level transport selectors are added to request use here to route */
-    // if (config?.API_SECONDARY) {
-    //   if (config?.WS_ENABLED) return 'websocketSecondary'
-    //   return 'restSecondary'
-    // }
+    if (config.API_SECONDARY) {
+      if (config.WS_ENABLED) return 'websocketSecondary'
+      return 'restSecondary'
+    }
 
-    // if (config?.WS_ENABLED) return 'websocket'
-    // return 'rest'
-    return config?.API_SECONDARY ? 'websocketSecondary' : 'websocket'
+    if (config.WS_ENABLED) return 'websocket'
+    return 'rest'
   },
 )
 

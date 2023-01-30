@@ -8,9 +8,9 @@ Object {
   "result": 3106.9885,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1659338094909,
-    "providerDataStreamEstablished": 1659338094909,
-    "providerIndicatedTime": 1659338094909,
+    "providerDataReceivedUnixMs": 1659338094909,
+    "providerDataStreamEstablishedUnixMs": 1659338094909,
+    "providerIndicatedTimeUnixMs": 1659338094909,
   },
 }
 `;
@@ -23,9 +23,9 @@ Object {
   "result": 0.7819647646677041,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1659338094909,
-    "providerDataStreamEstablished": 1659338094909,
-    "providerIndicatedTime": 1659338092107,
+    "providerDataReceivedUnixMs": 1659338094909,
+    "providerDataStreamEstablishedUnixMs": 1659338094909,
+    "providerIndicatedTimeUnixMs": 1659338092107,
   },
 }
 `;

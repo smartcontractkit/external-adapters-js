@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.60",
+  "version": "1.3.61",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -103,6 +103,7 @@
     "@chainlink/expert-car-broker-adapter": "workspace:*",
     "@chainlink/fcsapi-adapter": "workspace:*",
     "@chainlink/finage-adapter": "workspace:*",
+    "@chainlink/finage-test-adapter": "workspace:*",
     "@chainlink/finnhub-adapter": "workspace:*",
     "@chainlink/fixer-adapter": "workspace:*",
     "@chainlink/flightaware-adapter": "workspace:*",

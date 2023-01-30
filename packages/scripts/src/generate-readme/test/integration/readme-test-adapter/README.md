@@ -1,6 +1,6 @@
 # README Test Adapter
 
-![1.2.48](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json)
+![1.2.52](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
