@@ -1,8 +1,7 @@
 import { SuperTest, Test } from 'supertest'
 import { setupExternalAdapterTest, SuiteContext } from './setup'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
-import { mockCoinmetricsResponseSuccess } from './fixtures'
-import process from 'process'
+import { mockCoinmetricsResponseSuccess, mockCoinmetricsResponseSuccess2 } from './fixtures'
 
 describe('http', () => {
   let spy: jest.SpyInstance
@@ -45,6 +44,52 @@ describe('http', () => {
 
     it('should return success', async () => {
       mockCoinmetricsResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('burned endpoint', () => {
+    const data = {
+      id,
+      data: {
+        endpoint: 'burned',
+        asset: 'eth',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCoinmetricsResponseSuccess2()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('total-burned endpoint', () => {
+    const data = {
+      id,
+      data: {
+        endpoint: 'total-burned',
+        asset: 'eth',
+      },
+    }
+
+    it('should return success', async () => {
+      mockCoinmetricsResponseSuccess2(10000)
 
       const response = await (context.req as SuperTest<Test>)
         .post('/')
