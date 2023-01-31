@@ -1,7 +1,7 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { customSettings } from '../config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { BatchRequestParams } from '../price-utils'
+import { TraderMadeWebsocketReverseMappingTransport } from '../ws-utils'
 
 interface Message {
   symbol: string
@@ -22,35 +22,40 @@ type EndpointTypes = {
   }
 }
 
-let apiKey = ''
-export const wsTransport = new WebSocketTransport<EndpointTypes>({
-  url: (context) => {
-    apiKey = context.adapterConfig.WS_API_KEY as string
-    return 'wss://marketdata.tradermade.com/feedadv'
-  },
-  handlers: {
-    message(message) {
-      // Tradermade returns pair information combined without delimiter, like `symbol: eurusd` which makes it not possible to have base and quote. Once params are passed in the message handler we can use them to have correct base and quote in the response.
-      return [
-        {
-          params: { base: message.symbol, quote: message.symbol },
-          response: {
-            data: {
+export const wsTransport: TraderMadeWebsocketReverseMappingTransport<EndpointTypes, string> =
+  new TraderMadeWebsocketReverseMappingTransport<EndpointTypes, string>({
+    url: (context) => {
+      wsTransport.apiKey = context.adapterConfig.WS_API_KEY as string
+      return context.adapterConfig.WS_API_ENDPOINT
+    },
+    handlers: {
+      message(message) {
+        const pair = wsTransport.getReverseMapping(message.symbol.toLowerCase())
+
+        if (!pair) {
+          return []
+        }
+        return [
+          {
+            params: { base: pair.base, quote: pair.quote },
+            response: {
+              data: {
+                result: message.mid,
+              },
               result: message.mid,
             },
-            result: message.mid,
           },
-        },
-      ]
+        ]
+      },
     },
-  },
 
-  builders: {
-    subscribeMessage: (params) => {
-      return {
-        userKey: apiKey,
-        symbol: `${params.base}${params.quote}`.toUpperCase(),
-      }
+    builders: {
+      subscribeMessage: (params) => {
+        wsTransport.setReverseMapping(`${params.base}${params.quote}`.toLowerCase(), params)
+        return {
+          userKey: wsTransport.apiKey,
+          symbol: `${params.base}${params.quote}`.toUpperCase(),
+        }
+      },
     },
-  },
-})
+  })

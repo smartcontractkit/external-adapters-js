@@ -19,4 +19,9 @@ export const customSettings = {
       'An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api)',
     type: 'string',
   },
+  WS_API_ENDPOINT: {
+    type: 'string',
+    default: 'wss://marketdata.tradermade.com/feedadv',
+    description: 'The Websocket endpoint to connect to for forex data',
+  },
 } as const

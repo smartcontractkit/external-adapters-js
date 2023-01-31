@@ -3134,6 +3134,7 @@ __metadata:
     "@chainlink/tiingo-adapter": "workspace:*"
     "@chainlink/tiingo-test-adapter": "workspace:*"
     "@chainlink/tradermade-adapter": "workspace:*"
+    "@chainlink/tradermade-test-adapter": "workspace:*"
     "@chainlink/tradingeconomics-adapter": "workspace:*"
     "@chainlink/trueusd-adapter": "workspace:*"
     "@chainlink/twelvedata-adapter": "workspace:*"
@@ -5025,6 +5026,22 @@ __metadata:
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/tradermade-test-adapter@workspace:*, @chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.22.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
     typescript: 4.7.4
   languageName: unknown
   linkType: soft

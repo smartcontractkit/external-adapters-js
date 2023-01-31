@@ -7,9 +7,9 @@ import { wsTransport } from './forex-ws'
 export const routingTransport = new RoutingTransport<BatchEndpointTypes>(
   {
     WS: wsTransport,
-    REST: httpTransport,
+    HTTP: httpTransport,
   },
-  (_, adapterConfig) => (adapterConfig?.WS_ENABLED ? 'WS' : 'REST'),
+  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
 )
 
 export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
