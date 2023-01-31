@@ -7,23 +7,43 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import {
   makeLogger,
   ProviderResult,
-  SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 
-type WsMessage = {
-  timestamp: string
-  currencyPair: string
-  bid?: number
-  offer?: number
-  mid?: number
+// Note: this adapter is intended for the API with endpoint 'wss://cryptofeed.ws.newchangefx.com'.
+// There is another API with endpoint 'wss://feed.newchangefx.com/cryptodata' that has slightly
+// different behavior, including a different login success message and the price messages being
+// an array of price data objects for each subscribed asset.
+
+type WsMessage = WsInfoMessage | WsPriceMessage
+
+type WsInfoMessage = {
+  Type: string
+  Message: string
+}
+
+type WsPriceMessage = {
+  timestamp: string // e.g. 2023-01-31T20:10:41
+  currencyPair: string // e.g. ETH/USD
+  bid?: number // e.g. 1595.4999
+  offer?: number // e.g. 1595.5694
+  mid?: number // e.g. 1595.5346
+}
+
+type Response = {
+  Result: number
+  Data: {
+    result: number
+    bid: number
+    ask: number
+  }
 }
 
 export type EndpointTypes = {
   Request: {
     Params: PriceEndpointParams
   }
-  Response: SingleNumberResultResponse
+  Response: Response
   Settings: typeof config.settings
   Provider: {
     WsMessage: WsMessage
@@ -44,10 +64,11 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
             logger.debug('Got logged in response, connection is ready')
             resolve()
           } else {
-            reject(new Error('Unexpected message after WS connection open'))
+            reject(new Error(`Unexpected message after WS connection open: ${data.toString()}`))
           }
         })
         // Send login payload
+        logger.debug('Logging in WS connection')
         connection.send(
           JSON.stringify({
             request: 'login',
@@ -58,10 +79,15 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
       })
     },
 
-    message(message: WsMessage): ProviderResult<EndpointTypes>[] {
-      if (!message.currencyPair || !message.mid) {
+    message(message: WsMessage): ProviderResult<EndpointTypes>[] | undefined {
+      if (isInfoMessage(message)) {
+        logger.debug(`Received message ${message.Type}: ${message.Message}`)
+        return
+      }
+
+      if (!message.currencyPair || !message.mid || !message.bid || !message.offer) {
         logger.debug('WS message does not contain valid data, skipping')
-        return []
+        return
       }
 
       const [base, quote] = message.currencyPair.split('/')
@@ -72,6 +98,8 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
             result: message.mid || 0, // Already validated in the filter above
             data: {
               result: message.mid || 0, // Already validated in the filter above
+              bid: message.bid || 0, // Already validated in the filter above
+              ask: message.offer || 0, // Already validated in the filter above
             },
             timestamps: {
               providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
@@ -92,6 +120,10 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
     }),
   },
 })
+
+const isInfoMessage = (message: WsMessage): message is WsInfoMessage => {
+  return (message as WsInfoMessage).Type !== undefined
+}
 
 export const cryptoEndpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
