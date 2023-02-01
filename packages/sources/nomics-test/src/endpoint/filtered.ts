@@ -50,7 +50,7 @@ const httpTransport = new HttpTransport<FilteredEndpointTypes>({
       }
 
       return {
-        params: [{ base: param.base, exchanges: param.exchanges }],
+        params: [param],
         request: {
           baseURL,
           url: '/prices/restricted',
@@ -72,17 +72,18 @@ const httpTransport = new HttpTransport<FilteredEndpointTypes>({
         }
       })
     }
-    return [
-      {
-        params: { exchanges: params[0].exchanges, base: params[0].base },
+
+    return params.map((param) => {
+      return {
+        params: param,
         response: {
           data: {
             result: res.data.price,
           },
           result: res.data.price,
         },
-      },
-    ]
+      }
+    })
   },
 })
 
