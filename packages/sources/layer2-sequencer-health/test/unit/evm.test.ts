@@ -14,19 +14,19 @@ const getMockAxiosResponse = (response: unknown): AxiosResponse => ({
 })
 
 describe('evm', () => {
+  let clock: any
+  let config: ExtendedConfig
+
+  beforeEach(() => {
+    clock = useFakeTimers()
+    config = makeConfig()
+  })
+
+  afterEach(() => {
+    clock.restore()
+  })
+
   describe('L2 Network health check', () => {
-    let clock: any
-    let config: ExtendedConfig
-
-    beforeEach(() => {
-      clock = useFakeTimers()
-      config = makeConfig()
-    })
-
-    afterEach(() => {
-      clock.restore()
-    })
-
     it('Stale blocks are unhealthy after Delta seconds', async () => {
       jest.spyOn(Requester, 'request').mockReturnValue(
         Promise.resolve(
@@ -43,6 +43,36 @@ describe('evm', () => {
         clock.tick(timeBetweenCalls)
       }
       // After delta time passed, is considered stale
+      expect(await checkBlockHeight(config)).toBe(false)
+    })
+
+    it('Blocks are unhealthy after Delta seconds if blocks do not change', async () => {
+      const checkBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Arbitrum)
+      config.deltaBlocks = 0
+      config.delta = 30 * 1000
+      const timeBetweenCalls = 10 * 1000
+      // If blocks change, is not considered stale
+      for (let i = 0; i < config.delta / timeBetweenCalls; i++) {
+        jest.spyOn(Requester, 'request').mockReturnValue(
+          Promise.resolve(
+            getMockAxiosResponse({
+              result: '0x1',
+            }),
+          ),
+        )
+        expect(await checkBlockHeight(config)).toBe(true)
+        clock.tick(timeBetweenCalls)
+      }
+
+      // After delta time passed the current block should be considered healthy
+      clock.tick(timeBetweenCalls)
+      jest.spyOn(Requester, 'request').mockReturnValue(
+        Promise.resolve(
+          getMockAxiosResponse({
+            result: '0x2',
+          }),
+        ),
+      )
       expect(await checkBlockHeight(config)).toBe(false)
     })
 
@@ -118,6 +148,119 @@ describe('evm', () => {
         ),
       )
       await expect(checkBlockHeight(config)).rejects.toThrow()
+    })
+  })
+
+  describe('#checkOptimisticRollupBlockHeight', () => {
+    let checkOptimisticRollupBlockHeight
+
+    beforeEach(() => {
+      checkOptimisticRollupBlockHeight = evm.checkOptimisticRollupBlockHeight(Networks.Arbitrum)
+    })
+
+    describe('when some blocks have been detected', () => {
+      const initialStartTime = 10000
+      const delta = 30 * 1000
+
+      beforeEach(async () => {
+        clock.tick(initialStartTime)
+        config.delta = delta
+
+        jest.spyOn(Requester, 'request').mockReturnValue(
+          Promise.resolve(
+            getMockAxiosResponse({
+              result: '0x1',
+            }),
+          ),
+        )
+        await checkOptimisticRollupBlockHeight(config)
+      })
+
+      describe('less than delta seconds later', () => {
+        const timeBetweenCalls = 10 * 1000
+
+        beforeEach(() => {
+          clock.tick(timeBetweenCalls)
+        })
+
+        describe('when the block height has not grown until "delta" time', () => {
+          beforeEach(async () => {
+            const iterations = (delta - timeBetweenCalls) / timeBetweenCalls
+            for (let i = 0; i < iterations; i++) {
+              jest.spyOn(Requester, 'request').mockReturnValue(
+                Promise.resolve(
+                  getMockAxiosResponse({
+                    result: '0x1',
+                  }),
+                ),
+              )
+              clock.tick(timeBetweenCalls)
+            }
+          })
+
+          it('should mark the network as unhealthy in the next iteration if the block height has not grown', async () => {
+            jest.spyOn(Requester, 'request').mockReturnValue(
+              Promise.resolve(
+                getMockAxiosResponse({
+                  result: '0x1',
+                }),
+              ),
+            )
+            clock.tick(timeBetweenCalls)
+            expect(await checkOptimisticRollupBlockHeight(config)).toBe(false)
+          })
+        })
+
+        it('should mark the network as healthy if the block height has not grown', async () => {
+          jest.spyOn(Requester, 'request').mockReturnValue(
+            Promise.resolve(
+              getMockAxiosResponse({
+                result: '0x1',
+              }),
+            ),
+          )
+          expect(await checkOptimisticRollupBlockHeight(config)).toBe(true)
+        })
+
+        it('should mark the network as healthy if the block height has grown', async () => {
+          jest.spyOn(Requester, 'request').mockReturnValue(
+            Promise.resolve(
+              getMockAxiosResponse({
+                result: '0x2',
+              }),
+            ),
+          )
+          expect(await checkOptimisticRollupBlockHeight(config)).toBe(true)
+        })
+      })
+
+      describe('delta seconds later', () => {
+        beforeEach(() => {
+          clock.tick(initialStartTime + delta)
+        })
+
+        it('should mark the network as unhealthy if the block height has not grown', async () => {
+          jest.spyOn(Requester, 'request').mockReturnValue(
+            Promise.resolve(
+              getMockAxiosResponse({
+                result: '0x1',
+              }),
+            ),
+          )
+          expect(await checkOptimisticRollupBlockHeight(config)).toBe(false)
+        })
+
+        it('should mark the network as healthy if the block height has grown', async () => {
+          jest.spyOn(Requester, 'request').mockReturnValue(
+            Promise.resolve(
+              getMockAxiosResponse({
+                result: '0x2',
+              }),
+            ),
+          )
+          expect(await checkOptimisticRollupBlockHeight(config)).toBe(true)
+        })
+      })
     })
   })
 })
