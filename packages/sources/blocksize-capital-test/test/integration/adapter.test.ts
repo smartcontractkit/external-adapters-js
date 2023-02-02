@@ -6,12 +6,22 @@ import { AddressInfo } from 'net'
 import request, { SuperTest, Test } from 'supertest'
 import { createAdapter, mockWebSocketProvider, mockWebSocketServer, setEnvVariables } from './setup'
 
-const DEFAULT_BASE_WS_URL = 'wss://data.blocksize.capital/marketdata/v1/ws'
 describe('websocket', () => {
+  beforeAll(async () => {
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+  })
+
+  afterAll((done) => {
+    spy.mockRestore()
+    done()
+  })
+
   let fastify: ServerInstance | undefined
   let req: SuperTest<Test>
   let spy: jest.SpyInstance
   let mockWsServer: Server | undefined
+  const wsEndpoint = 'wss://data.blocksize.capital/marketdata/v1/ws'
 
   jest.setTimeout(10000)
 
@@ -25,20 +35,20 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_SUBSCRIPTION_TTL'] = '5000'
-    process.env['CACHE_MAX_AGE'] = '5000'
+    process.env['WS_SUBSCRIPTION_TTL'] = '1000'
+    process.env['CACHE_MAX_AGE'] = '1000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_ENABLED'] = 'true'
+    process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_KEY'] = 'fake-api-key'
-    process.env['WS_API_ENDPOINT'] = DEFAULT_BASE_WS_URL
 
     const mockDate = new Date('2022-05-10T16:09:27.193Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebSocketServer(DEFAULT_BASE_WS_URL)
+    mockWsServer = mockWebSocketServer(wsEndpoint)
 
     fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
@@ -55,7 +65,7 @@ describe('websocket', () => {
     fastify?.close(done())
   })
 
-  describe('crypto endpoint', () => {
+  describe('price endpoint', () => {
     it('should return success', async () => {
       const makeRequest = () =>
         req

@@ -2,6 +2,7 @@ import { SingleNumberResultResponse, makeLogger } from '@chainlink/external-adap
 import {
   WebsocketReverseMappingTransport,
   WebsocketTransportGenerics,
+  WebSocketRawData,
 } from '@chainlink/external-adapter-framework/transports/websocket'
 import {
   PriceEndpoint,
@@ -24,6 +25,7 @@ export interface Message extends BaseMessage {
       price?: number
       size?: number
       volume?: number
+      ts: number
     }[]
   }
 }
@@ -50,7 +52,7 @@ export type EndpointTypes = {
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    WsMessage: Message[]
+    WsMessage: Message
   }
 }
 
@@ -69,30 +71,35 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
     },
     handlers: {
       open: (connection) => {
-        connection.send({
-          jsonrpc: '2.0',
-          method: 'authentication_logon',
-          params: { api_key: websocketTransport.api_key },
+        return new Promise((resolve, reject) => {
+          connection.on('message', (data: WebSocketRawData) => {
+            const parsed = JSON.parse(data.toString())
+            if (parsed.user_id) {
+              logger.info('Got logged in response, connection is ready')
+              resolve()
+            } else {
+              reject(new Error('Failed to make WS connection'))
+            }
+          })
+          const options = {
+            jsonrpc: '2.0',
+            method: 'authentication_logon',
+            params: { api_key: websocketTransport.api_key },
+          }
+          connection.send(JSON.stringify(options))
         })
       },
       message: (message) => {
-        if (Object.keys(message).length === 0) {
-          logger.debug('WS message is empty, skipping')
-          return []
-        }
-        const [_, msg] = message
-        if (!('method' in msg) || msg.method !== 'vwap') return []
-        const [updates] = msg.params.updates
+        if (!('method' in message) || message.method !== 'vwap') return []
+        const [updates] = message.params.updates
         const params = websocketTransport.getReverseMapping(updates.ticker)
         if (!params) {
           return []
         }
-
         if (!updates.price) {
           logger.error(`The data provider didn't return any value`)
           return []
         }
-
         return [
           {
             params,
@@ -102,7 +109,7 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
                 result: updates.price,
               },
               timestamps: {
-                providerIndicatedTimeUnixMs: new Date(Date.now()).getTime(),
+                providerIndicatedTimeUnixMs: updates.ts,
               },
             },
           },

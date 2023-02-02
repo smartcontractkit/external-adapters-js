@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket crypto endpoint should return success 1`] = `
+exports[`websocket price endpoint should return success 1`] = `
 Object {
   "data": Object {
     "result": 2400.209999999564,
@@ -10,7 +10,6 @@ Object {
   "timestamps": Object {
     "providerDataReceivedUnixMs": 1652198967193,
     "providerDataStreamEstablishedUnixMs": 1652198967193,
-    "providerIndicatedTimeUnixMs": 1652198967193,
   },
 }
 `;
