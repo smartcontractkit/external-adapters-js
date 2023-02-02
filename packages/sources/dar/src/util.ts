@@ -14,6 +14,7 @@ const logger = makeLogger('DarUtil')
 export const getAuthToken = async (
   config: AdapterConfig<typeof customSettings>,
 ): Promise<string> => {
+  const providerDataRequestedUnixMs = Date.now()
   try {
     const buf = Buffer.from(`${config.WS_API_USERNAME}:${config.WS_API_KEY}`)
     const auth = buf.toString('base64')
@@ -31,14 +32,23 @@ export const getAuthToken = async (
 
     return jwtRes.data.access_token
   } catch (e: unknown) {
+    const providerDataReceivedUnixMs = Date.now()
     const err = e as any
     const message = `Login failed ${err.message ? `with message '${err.message}'` : ''}`
     const error = { ...err, message }
+
     logger.debug(message)
+
+    const timestamps = {
+      providerDataReceivedUnixMs,
+      providerIndicatedTimeUnixMs: undefined,
+      providerDataRequestedUnixMs,
+    }
+
     throw error.response
-      ? new AdapterDataProviderError(error)
+      ? new AdapterDataProviderError(error, timestamps)
       : error.request
-      ? new AdapterConnectionError(error)
+      ? new AdapterConnectionError(error, timestamps)
       : new AdapterError(error)
   }
 }
