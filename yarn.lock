@@ -1644,6 +1644,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/alphavantage-test-adapter@workspace:*, @chainlink/alphavantage-test-adapter@workspace:packages/sources/alphavantage-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/alphavantage-test-adapter@workspace:packages/sources/alphavantage-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.22.0
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/alpine-adapter@workspace:*, @chainlink/alpine-adapter@workspace:packages/sources/alpine":
   version: 0.0.0-use.local
   resolution: "@chainlink/alpine-adapter@workspace:packages/sources/alpine"
@@ -2963,6 +2978,7 @@ __metadata:
     "@chainlink/ada-balance-adapter": "workspace:*"
     "@chainlink/alphachain-adapter": "workspace:*"
     "@chainlink/alphavantage-adapter": "workspace:*"
+    "@chainlink/alphavantage-test-adapter": "workspace:*"
     "@chainlink/alpine-adapter": "workspace:*"
     "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/anyblock-adapter": "workspace:*"
@@ -3078,7 +3094,6 @@ __metadata:
     "@chainlink/poa-adapter": "workspace:*"
     "@chainlink/polygon-adapter": "workspace:*"
     "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/reduce-adapter": "workspace:*"
     "@chainlink/renvm-address-set-adapter": "workspace:*"
     "@chainlink/satoshitango-adapter": "workspace:*"
     "@chainlink/snowflake-adapter": "workspace:*"

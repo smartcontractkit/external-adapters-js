@@ -3,6 +3,7 @@ import * as accuweather from '@chainlink/accuweather-adapter'
 import * as ada_balance from '@chainlink/ada-balance-adapter'
 import * as alphachain from '@chainlink/alphachain-adapter'
 import * as alphavantage from '@chainlink/alphavantage-adapter'
+import * as alphavantage_test from '@chainlink/alphavantage-test-adapter'
 import * as alpine from '@chainlink/alpine-adapter'
 import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
@@ -156,6 +157,7 @@ export default {
   ada_balance,
   alphachain,
   alphavantage,
+  alphavantage_test,
   alpine,
   amberdata,
   anyblock,

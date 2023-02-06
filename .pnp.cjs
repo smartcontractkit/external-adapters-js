@@ -217,6 +217,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/alphavantage"\
       },\
       {\
+        "name": "@chainlink/alphavantage-test-adapter",\
+        "reference": "workspace:packages/sources/alphavantage-test"\
+      },\
+      {\
         "name": "@chainlink/alpine-adapter",\
         "reference": "workspace:packages/sources/alpine"\
       },\
@@ -826,6 +830,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],\
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],\
+      ["@chainlink/alphavantage-test-adapter", ["workspace:packages/sources/alphavantage-test"]],\
       ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
       ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
       ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
@@ -4043,6 +4048,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/alphavantage-test-adapter", [\
+        ["workspace:packages/sources/alphavantage-test", {\
+          "packageLocation": "./packages/sources/alphavantage-test/",\
+          "packageDependencies": [\
+            ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.22.0"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/alpine-adapter", [\
         ["workspace:packages/sources/alpine", {\
           "packageLocation": "./packages/sources/alpine/",\
@@ -5371,6 +5393,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],\
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
+            ["@chainlink/alphavantage-test-adapter", "workspace:packages/sources/alphavantage-test"],\
             ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],\
             ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
             ["@chainlink/anyblock-adapter", "workspace:packages/sources/anyblock"],\
@@ -5486,7 +5509,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/poa-adapter", "workspace:packages/sources/poa"],\
             ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-            ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
             ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
             ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
             ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\

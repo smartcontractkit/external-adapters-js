@@ -26,6 +26,9 @@
       "path": "../../sources/alphavantage"
     },
     {
+      "path": "../../sources/alphavantage-test"
+    },
+    {
       "path": "../../sources/alpine"
     },
     {
@@ -369,9 +372,6 @@
     },
     {
       "path": "../../sources/por-address-list"
-    },
-    {
-      "path": "../../non-deployable/reduce"
     },
     {
       "path": "../../sources/renvm-address-set"
