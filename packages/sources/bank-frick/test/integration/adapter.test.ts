@@ -84,8 +84,8 @@ describe('execute', () => {
         .expect(200)
       expect(response.body).toMatchSnapshot({
         timestamps: {
-          providerDataReceived: expect.any(Number),
-          providerDataRequested: expect.any(Number),
+          providerDataReceivedUnixMs: expect.any(Number),
+          providerDataRequestedUnixMs: expect.any(Number),
         },
       })
     })

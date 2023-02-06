@@ -1,5 +1,11 @@
 # @chainlink/bank-frick-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- 5c352d4e1: Bumped v3 framework version
+
 ## 1.0.0
 
 ### Major Changes
