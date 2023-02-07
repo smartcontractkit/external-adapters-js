@@ -74,6 +74,7 @@ import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
 import * as finage_test from '@chainlink/finage-test-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
+import * as finnhub_test from '@chainlink/finnhub-test-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
 import * as fluent_finance from '@chainlink/fluent-finance-adapter'
@@ -227,6 +228,7 @@ export default {
   finage,
   finage_test,
   finnhub,
+  finnhub_test,
   fixer,
   flightaware,
   fluent_finance,
