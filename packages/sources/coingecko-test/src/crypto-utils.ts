@@ -88,7 +88,7 @@ export const constructEntry = (
   if (!result) {
     let errorMessage = `Coingecko provided no data for token "${coinId}"`
     if (dataForCoin && !result) {
-      errorMessage = `Coingecko provided no "${requestPayload.quote}" data for token "${coinId}"`
+      errorMessage = `Coingecko provided no "${resultPath}" data for token "${coinId}"`
     }
     logger.warn(errorMessage)
     return {
