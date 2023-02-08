@@ -1,4 +1,4 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import {
   buildBatchedRequestBody,
   constructEntry,
@@ -15,7 +15,7 @@ const transport = new HttpTransport<CryptoEndpointTypes>({
     ),
 })
 
-export const endpoint = new PriceEndpoint<CryptoEndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<CryptoEndpointTypes>({
   name: 'crypto',
   aliases: ['crypto-batched', 'batched', 'batch', 'price'],
   transport,
