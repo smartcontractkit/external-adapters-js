@@ -47,13 +47,9 @@ export const setupExternalAdapterTest = (
       nock.recorder.play()
     }
 
-    const asd = 123
-    if (asd > 0) {
-      // Options.cleanNock) {
-      nock.restore()
-      nock.cleanAll()
-      nock.enableNetConnect()
-    }
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
 
     await fastify.close()
   })
