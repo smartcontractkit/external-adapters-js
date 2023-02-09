@@ -16,6 +16,11 @@ export const customSettings = {
     type: 'string',
     default: 'https://exchange-rates-api.oanda.com/v2',
   },
+  INSTRUMENTS_API_ENDPOINT: {
+    description: 'Endpoint for REST instruments list',
+    type: 'string',
+    default: 'https://api-fxtrade.oanda.com/v3',
+  },
   SSE_API_KEY: {
     description: 'API key for SSE endpoint',
     type: 'string',

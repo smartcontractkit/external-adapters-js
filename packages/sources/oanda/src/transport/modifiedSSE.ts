@@ -1,4 +1,3 @@
-import EventSource from 'eventsource'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import {
@@ -6,11 +5,9 @@ import {
   sleep,
   PartialSuccessfulResponse,
   ProviderResult,
-  ResponseTimestamps,
   TimestampedProviderResult,
 } from '@chainlink/external-adapter-framework/util'
 import {
-  SSEConfig,
   TransportDependencies,
   TransportGenerics,
 } from '@chainlink/external-adapter-framework/transports'
@@ -19,26 +16,38 @@ import {
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 
+import axios from 'axios'
+
 const logger = makeLogger('ModifiedSSETransport')
 
+export type ModifiedSSEConfig = {
+  url: string
+  config?: {
+    responseType: 'stream'
+    headers: { [header: string]: string }
+  }
+}
+
 export class ModifiedSseTransport<T extends TransportGenerics> extends StreamingTransport<T> {
-  EventSource: typeof EventSource = EventSource
   eventListeners!: {
     type: string
-    parseResponse: (evt: MessageEvent) => ProviderResult<T>
+    parseResponse: (eventt: MessageEvent<any>['data']) => ProviderResult<T>[]
   }[]
-  sseConnection?: EventSource
 
   constructor(
     private config: {
       prepareSSEConnectionConfig: (
-        subscriptions: SubscriptionDeltas<T['Request']['Params']>,
+        subscriptions: SubscriptionDeltas<T['Request']['Params']>['desired'],
         context: EndpointContext<T>,
-      ) => SSEConfig
+      ) => ModifiedSSEConfig
       eventListeners: {
         type: string
-        parseResponse: (evt: MessageEvent) => ProviderResult<T>[]
+        parseResponse: (event: MessageEvent<any>['data']) => ProviderResult<T>[]
       }[]
+      parseSubscriptionList: (
+        subscriptions: SubscriptionDeltas<T['Request']['Params']>['desired'],
+        context: EndpointContext<T>,
+      ) => Promise<(string | undefined)[]>
     },
   ) {
     super()
@@ -54,9 +63,6 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
     endpointName: string,
   ): Promise<void> {
     super.initialize(dependencies, config, endpointName)
-    if (dependencies.eventSource) {
-      this.EventSource = dependencies.eventSource
-    }
   }
 
   async streamHandler(
@@ -64,33 +70,100 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
     subscriptions: SubscriptionDeltas<T['Request']['Params']>,
   ): Promise<void> {
     if (subscriptions.new.length || subscriptions.stale.length) {
-      logger.debug('New subscriptions available, connecting to modified SSE')
-      const sseConfig = this.config.prepareSSEConnectionConfig(subscriptions, context)
-      const providerDataStreamEstablishedUnixMs = Date.now()
+      logger.info({ msg: 'Updating SSE subscriptions', subscriptions })
 
-      this.sseConnection = new this.EventSource(sseConfig.url, sseConfig.eventSourceInitDict)
+      const subsList = await this.config.parseSubscriptionList(subscriptions.desired, context)
 
-      const eventHandlerGenerator = (listener: typeof this.config.eventListeners[0]) => {
-        return (e: MessageEvent) => {
-          const providerDataReceivedUnixMs = Date.now()
-          const results = listener.parseResponse(e).map((r) => {
-            const partialResponse = r.response as PartialSuccessfulResponse<T['Response']>
-            const result = r as TimestampedProviderResult<T>
-            const timestamps = {
-              providerDataStreamEstablishedUnixMs,
-              providerDataReceivedUnixMs,
-              providerIndicatedTimeUnixMs: partialResponse.timestamps?.providerIndicatedTime,
-            } as unknown as ResponseTimestamps
-            result.response.timestamps = timestamps
-            return result
+      logger.info({ subsList })
+
+      if (subsList.some((s) => !s)) {
+        logger.error({ msg: `Cannot update SSE subscriptions, subscriptions contains invalid sub` })
+      } else {
+        const sseConfig = this.config.prepareSSEConnectionConfig(subsList as string[], context)
+
+        const providerDataStreamEstablishedUnixMs = Date.now()
+
+        const restartStream = async () => {
+          const response = await axios.get(sseConfig.url, sseConfig.config)
+
+          const stream = response?.data
+
+          const eventHandlerGenerator = (listener: typeof this.config.eventListeners[0]) => {
+            return (event: MessageEvent) => {
+              const providerDataReceivedUnixMs = Date.now()
+
+              const results = listener.parseResponse(event).map((r) => {
+                const partialResponse = r.response as PartialSuccessfulResponse<T['Response']>
+                const result = r as TimestampedProviderResult<T>
+                result.response.timestamps = {
+                  providerDataStreamEstablishedUnixMs,
+                  providerDataReceivedUnixMs,
+                  providerIndicatedTimeUnixMs:
+                    partialResponse.timestamps?.providerIndicatedTimeUnixMs,
+                }
+                return result
+              })
+              this.responseCache.write(results)
+            }
+          }
+
+          const eventHandlers = this.config.eventListeners.reduce(
+            (handlers: { [type: string]: any }, listener) => {
+              handlers[listener.type] = eventHandlerGenerator(listener)
+              return handlers
+            },
+            {},
+          )
+
+          stream.on('open', () => {
+            logger.info({ msg: 'Stream open' })
           })
-          this.responseCache.write(results)
-        }
-      }
 
-      this.config.eventListeners.forEach((listener) => {
-        this.sseConnection?.addEventListener(listener.type, eventHandlerGenerator(listener))
-      })
+          stream.on('close', () => {
+            logger.info({ msg: 'Stream closed, restarting' })
+            restartStream()
+          })
+
+          stream.on('end', () => {
+            logger.info({ msg: 'Stream ended, restarting' })
+            restartStream()
+          })
+
+          stream.on('error', (error: any) => {
+            logger.error({ msg: 'Stream error occurred', error })
+            restartStream()
+          })
+
+          stream.on('data', (data: any) => {
+            try {
+              let chunkBuffer = ''
+              data
+                .toString()
+                .split('\n')
+                .map((record: string) => {
+                  record = record.trim()
+                  if (!record) return
+                  if (chunkBuffer) {
+                    if (chunkBuffer.startsWith('{')) {
+                      record = chunkBuffer + record
+                    }
+                    chunkBuffer = ''
+                  }
+                  try {
+                    const item = JSON.parse(record)
+                    if (eventHandlers[item.type]) eventHandlers[item.type](item)
+                  } catch (e) {
+                    chunkBuffer += record
+                  }
+                })
+            } catch (error) {
+              logger.error({ msg: 'Failed to process a message', error })
+            }
+          })
+        }
+
+        await restartStream()
+      }
     }
 
     // The background execute loop no longer sleeps between executions, so we have to do it here
