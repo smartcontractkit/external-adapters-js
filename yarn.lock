@@ -4286,13 +4286,11 @@ __metadata:
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
     "@chainlink/external-adapter-framework": 0.23.2
-    "@types/eventsource": 1.1.9
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
     axios: 0.27.2
     decimal.js: ^10.3.1
-    eventsource: 2.0.2
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -9517,13 +9515,6 @@ __metadata:
   version: 3.0.0
   resolution: "@types/events@npm:3.0.0"
   checksum: 9a424c2da210957d5636e0763e8c9fc3aaeee35bf411284ddec62a56a6abe31de9c7c2e713dabdd8a76ff98b47db2bd52f61310be6609641d6234cc842ecbbe3
-  languageName: node
-  linkType: hard
-
-"@types/eventsource@npm:1.1.9":
-  version: 1.1.9
-  resolution: "@types/eventsource@npm:1.1.9"
-  checksum: 91f15a6219c541cf3050eda3015bfbf0fde6e9e6f17db0391555da6dbb4f855938277d16601e70fd5ddf307323159fe480112bcc86253c2d6d3bd71a8f33e0f5
   languageName: node
   linkType: hard
 

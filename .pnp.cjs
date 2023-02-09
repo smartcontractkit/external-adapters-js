@@ -6959,13 +6959,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
             ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
-            ["@types/eventsource", "npm:1.1.9"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
             ["decimal.js", "npm:10.4.1"],\
-            ["eventsource", "npm:2.0.2"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -12613,15 +12611,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-events-npm-3.0.0-2eee0ea973-9a424c2da2.zip/node_modules/@types/events/",\
           "packageDependencies": [\
             ["@types/events", "npm:3.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@types/eventsource", [\
-        ["npm:1.1.9", {\
-          "packageLocation": "./.yarn/cache/@types-eventsource-npm-1.1.9-699a67b89d-91f15a6219.zip/node_modules/@types/eventsource/",\
-          "packageDependencies": [\
-            ["@types/eventsource", "npm:1.1.9"]\
           ],\
           "linkType": "HARD"\
         }]\

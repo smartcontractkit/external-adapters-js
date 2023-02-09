@@ -5,56 +5,25 @@ import {
   PriceEndpointParams,
 } from '@chainlink/external-adapter-framework/adapter'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
-import { HttpTransport, TransportGenerics } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 import Decimal from 'decimal.js'
 import axios from 'axios'
 
-import { customSettings } from '../config'
 import restPairs from '../config/restPairs.json'
 import { ModifiedSseTransport } from '../transport/modifiedSSE'
+import {
+  EndpointTypes,
+  HttpGenerics,
+  InstrumentList,
+  InstrumentMap,
+  ModifiedSseGenerics,
+  RestPairs,
+} from '../types'
 
 const logger = makeLogger('OandaPrice')
-
-type RestPairs = { [base: string]: { [quote: string]: boolean } }
-
-type EndpointTypes = TransportGenerics & {
-  Request: {
-    Params: PriceEndpointParams & {
-      transport?: 'REST' | 'SSE'
-    }
-  }
-  Response: SingleNumberResultResponse
-  CustomSettings: typeof customSettings
-}
-
-type ModifiedSseGenerics = EndpointTypes & {
-  Provider: {
-    ResponseBody: {
-      type: string
-      time: string
-      bids: {
-        price: string
-        liquidity: number
-      }[]
-      asks: {
-        price: string
-        liquidity: number
-      }[]
-      closeoutBid: string
-      closeoutAsk: string
-      status: string
-      tradeable: boolean
-      instrument: string
-    }
-  }
-}
-
-type InstrumentList = { instruments: Array<{ name: string; type: string }> }
-
-type InstrumentMap = { [base: string]: { [quote: string]: string } }
 
 let instrumentMap: InstrumentMap
 
@@ -132,34 +101,6 @@ const sseTransport = new ModifiedSseTransport<ModifiedSseGenerics>({
     },
   ],
 })
-
-type HttpGenerics = EndpointTypes & {
-  Provider: {
-    RequestBody: unknown
-    ResponseBody: {
-      meta: {
-        effective_params: {
-          data_set: 'OANDA'
-          base_currencies: string[]
-          quote_currencies: string[]
-          decimal_places: null
-        }
-        endpoint: 'spot'
-        request_time: string
-        skipped_currency_pairs: []
-      }
-      quotes: [
-        {
-          base_currency: string
-          quote_currency: string
-          bid: string
-          ask: string
-          midpoint: string
-        },
-      ]
-    }
-  }
-}
 
 // See https://developer.oanda.com/exchange-rates-api/#get-/v2/rates/spot.-ext-
 const restTransport = new HttpTransport<HttpGenerics>({

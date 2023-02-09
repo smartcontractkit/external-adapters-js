@@ -28,7 +28,7 @@ export const customSettings = {
     sensitive: true,
   },
   SSE_API_ENDPOINT: {
-    description: 'Endpoint for SSE streaming prices.',
+    description: 'Endpoint for SSE streaming prices',
     type: 'string',
     default: 'https://stream-fxtrade.oanda.com/v3',
   },
