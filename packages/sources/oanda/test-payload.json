@@ -1,6 +1,44 @@
 {
- "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+ "requests": [
+    {
+      "from": "WTICO",
+      "to": "USD"
+    },
+    {
+      "from": "ETH",
+      "to": "USD"
+    },
+    {
+      "from": "EUR",
+      "to": "USD"
+    },
+    {
+      "from": "INR",
+      "to": "USD"
+    },
+    {
+      "from": "IDR",
+      "to": "USD"
+    },
+    {
+      "from": "CAD",
+      "to": "USD"
+    },
+    {
+      "from": "JPY",
+      "to": "USD"
+    },
+    {
+      "from": "XAU",
+      "to": "USD"
+    },
+    {
+      "from": "USB10Y",
+      "to": "USD"
+    },
+    {
+      "from": "SPX500",
+      "to": "USD"
+    }
+  ]
 }
