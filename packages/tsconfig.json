@@ -249,6 +249,9 @@
       "path": "./sources/coinpaprika"
     },
     {
+      "path": "./sources/coinpaprika-test"
+    },
+    {
       "path": "./sources/coinranking"
     },
     {
@@ -300,6 +303,9 @@
       "path": "./sources/dxfeed-secondary"
     },
     {
+      "path": "./sources/dxfeed-test"
+    },
+    {
       "path": "./sources/elwood"
     },
     {
@@ -337,6 +343,9 @@
     },
     {
       "path": "./sources/finage"
+    },
+    {
+      "path": "./sources/finage-test"
     },
     {
       "path": "./sources/finnhub"

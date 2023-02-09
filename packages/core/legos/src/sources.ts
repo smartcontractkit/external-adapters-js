@@ -40,6 +40,7 @@ import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
 import * as coinmetrics_test from '@chainlink/coinmetrics-test-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
+import * as coinpaprika_test from '@chainlink/coinpaprika-test-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
 import * as cryptex from '@chainlink/cryptex-adapter'
@@ -57,6 +58,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as dxfeed_test from '@chainlink/dxfeed-test-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
@@ -70,6 +72,7 @@ import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
+import * as finage_test from '@chainlink/finage-test-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
@@ -191,6 +194,7 @@ export default {
   coinmetrics,
   coinmetrics_test,
   coinpaprika,
+  coinpaprika_test,
   coinranking,
   covid_tracker,
   cryptex,
@@ -208,6 +212,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  dxfeed_test,
   elwood,
   ens,
   enzyme,
@@ -221,6 +226,7 @@ export default {
   expert_car_broker,
   fcsapi,
   finage,
+  finage_test,
   finnhub,
   fixer,
   flightaware,

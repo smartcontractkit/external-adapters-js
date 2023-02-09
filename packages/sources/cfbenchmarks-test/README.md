@@ -1,6 +1,6 @@
 # CFBENCHMARKS
 
-![1.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cfbenchmarks-test/package.json)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/cfbenchmarks-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -15,7 +15,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |       API_SECONDARY       |                 Toggle using the secondary API base URLs                 | boolean |         |                 `false`                  |
 |           |  SECONDARY_API_ENDPOINT   |   The secondary REST API base url that is toggled using API_SECONDARY    | string  |         | `https://unregprod.cfbenchmarks.com/api` |
 |           | SECONDARY_WS_API_ENDPOINT | The secondary WebSocket API base url that is toggled using API_SECONDARY | string  |         | `wss://unregprod.cfbenchmarks.com/ws/v4` |
-|           |        WS_ENABLED         |           Toggle to set the default endpoint to use WebSockets           | boolean |         |                  `true`                  |
+|           |        WS_ENABLED         |           Toggle to set the default endpoint to use WebSockets           | boolean |         |                                          |
 
 ---
 

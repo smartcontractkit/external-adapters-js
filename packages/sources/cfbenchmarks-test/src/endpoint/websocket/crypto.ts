@@ -55,7 +55,7 @@ export const makeWsTransport = (
                   result: value,
                 },
                 timestamps: {
-                  providerIndicatedTime: message.time,
+                  providerIndicatedTimeUnixMs: message.time,
                 },
               },
             },
