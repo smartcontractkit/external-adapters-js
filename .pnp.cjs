@@ -4730,7 +4730,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko-test/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4803,7 +4803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics-test/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
