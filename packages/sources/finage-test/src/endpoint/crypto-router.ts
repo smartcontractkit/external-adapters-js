@@ -1,6 +1,9 @@
 import { customSettings } from '../config'
 import { httpTransport } from './http/crypto'
-import { PriceEndpoint, PriceEndpointParams } from '@chainlink/external-adapter-framework/adapter'
+import {
+  CryptoPriceEndpoint,
+  PriceEndpointParams,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { wsTransport } from './ws/crypto-ws'
@@ -47,7 +50,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
   (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
 )
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
   transport: routingTransport,
   inputParameters: inputParameters,

@@ -1,4 +1,4 @@
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { CryptoPriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import {
@@ -24,7 +24,7 @@ const httpTransport = new HttpTransport<EndpointTypes>({
   },
 })
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
   aliases: ['price'],
   transport: httpTransport,
