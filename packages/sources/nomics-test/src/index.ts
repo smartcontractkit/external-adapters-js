@@ -18,7 +18,9 @@ export const adapter = new PriceAdapter({
         note: '1 req/s, presumably allows for bursts',
       },
       paid: {
-        rateLimit1h: -1,
+        rateLimit1s: 100,
+        rateLimit1m: 6000,
+        note: 'Considered unlimited tier, but setting reasonable limits',
       },
     },
   },
