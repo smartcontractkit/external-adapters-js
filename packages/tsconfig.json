@@ -456,6 +456,9 @@
       "path": "./sources/nomics"
     },
     {
+      "path": "./sources/novaposhta"
+    },
+    {
       "path": "./sources/oilpriceapi"
     },
     {

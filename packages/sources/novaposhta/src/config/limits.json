@@ -1,0 +1,8 @@
+{
+  "http": {
+    "NOVAPOSHTA": {
+      "rateLimit1s": 10
+    }
+  },
+  "ws": {}
+}
