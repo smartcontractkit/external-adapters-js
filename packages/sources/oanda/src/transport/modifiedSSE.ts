@@ -135,6 +135,7 @@ export class ModifiedSseTransport<T extends TransportGenerics> extends Streaming
           })
 
           stream.on('data', (data: any) => {
+            logger.error({ data })
             try {
               let chunkBuffer = ''
               data

@@ -6961,11 +6961,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
             ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@sinonjs/fake-timers", "npm:9.1.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
+            ["@types/sinonjs__fake-timers", "npm:8.1.2"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.27.2"],\
             ["decimal.js", "npm:10.4.1"],\
+            ["mocksse", "npm:1.0.4"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -27051,6 +27054,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["grunt-ts", "virtual:a36c313a8a58ce918312a8d69c11a8c7a8095d42c884f3c04f5069044b368202fa309c928c200dbc84e8a501bd2f84b4f2415be49a494d46b66ae27329073b0f#npm:6.0.0-beta.22"],\
             ["q", "npm:2.0.3"],\
             ["websocket", "npm:1.0.34"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["mocksse", [\
+        ["npm:1.0.4", {\
+          "packageLocation": "./.yarn/cache/mocksse-npm-1.0.4-e68e8b772a-3621a5f0fd.zip/node_modules/mocksse/",\
+          "packageDependencies": [\
+            ["mocksse", "npm:1.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\

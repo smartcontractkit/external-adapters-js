@@ -4288,11 +4288,14 @@ __metadata:
   resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
   dependencies:
     "@chainlink/external-adapter-framework": 0.23.2
+    "@sinonjs/fake-timers": 9.1.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
+    "@types/sinonjs__fake-timers": 8.1.2
     "@types/supertest": 2.0.12
     axios: 0.27.2
     decimal.js: ^10.3.1
+    mocksse: 1.0.4
     nock: 13.2.9
     supertest: 6.2.4
     tslib: ^2.3.1
@@ -8833,7 +8836,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sinonjs/fake-timers@npm:>=5, @sinonjs/fake-timers@npm:^9.1.2":
+"@sinonjs/fake-timers@npm:9.1.2, @sinonjs/fake-timers@npm:>=5, @sinonjs/fake-timers@npm:^9.1.2":
   version: 9.1.2
   resolution: "@sinonjs/fake-timers@npm:9.1.2"
   dependencies:
@@ -10019,7 +10022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sinonjs__fake-timers@npm:*":
+"@types/sinonjs__fake-timers@npm:*, @types/sinonjs__fake-timers@npm:8.1.2":
   version: 8.1.2
   resolution: "@types/sinonjs__fake-timers@npm:8.1.2"
   checksum: bbc73a5ab6c0ec974929392f3d6e1e8db4ebad97ec506d785301e1c3d8a4f98a35b1aa95b97035daef02886fd8efd7788a2fa3ced2ec7105988bfd8dce61eedd
@@ -22349,6 +22352,13 @@ __metadata:
     q: ~2.0
     websocket: ^1.0.30
   checksum: 44815efcaaa50806b35dba5e128a2fa1e33f145ff334f6ef873567745a022bbbbf539bbb5ef9e710a18fa011389f65a62c85b886b91095c6c661c00a4ca2aac4
+  languageName: node
+  linkType: hard
+
+"mocksse@npm:1.0.4":
+  version: 1.0.4
+  resolution: "mocksse@npm:1.0.4"
+  checksum: 3621a5f0fd4920d3cbcfbb637a1ccad1a8860149cbb020919587332f676300842d4bc1017e228fbcf67aa8dfa3fa7756b2425b0fcd81049b504ee0fc7e4d0c4a
   languageName: node
   linkType: hard
 

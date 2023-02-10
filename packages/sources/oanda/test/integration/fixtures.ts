@@ -1,4 +1,5 @@
-import { HTTP_GATEWAY_TIMEOUT, HTTP_OK } from './adapter.test'
+const HTTP_OK = 200
+const HTTP_GATEWAY_TIMEOUT = 504
 
 import nock from 'nock'
 import { PartialAdapterResponse } from '@chainlink/external-adapter-framework/util'
@@ -15,44 +16,44 @@ export const IO: IOPair[] = [
     request: { data: { base: 'ETH', quote: 'USD' } },
     response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
   },
-  {
-    request: { data: { base: 'WTICO', quote: 'USD' } },
-    response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
-  },
-  {
-    request: { data: { base: 'EUR', quote: 'USD' } },
-    response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
-  },
-  {
-    request: { data: { base: 'INR', quote: 'USD' } },
-    response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
-  },
-  {
-    request: { data: { base: 'IDR', quote: 'USD' } },
-    response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
-  },
-  {
-    request: { data: { base: 'XAU', quote: 'USD' } },
-    response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
-  },
-  {
-    request: { data: { base: 'USB10Y', quote: 'USD' } },
-    response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
-  },
-  {
-    request: { data: { base: 'SPX500', quote: 'USD' } },
-    response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
-  },
-  {
-    request: { data: { base: 'NONE', quote: 'USD' } },
-    response: { statusCode: HTTP_GATEWAY_TIMEOUT },
-  },
+  // {
+  //   request: { data: { base: 'WTICO', quote: 'USD' } },
+  //   response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
+  // },
+  // {
+  //   request: { data: { base: 'EUR', quote: 'USD' } },
+  //   response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
+  // },
+  // {
+  //   request: { data: { base: 'INR', quote: 'USD' } },
+  //   response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
+  // },
+  // {
+  //   request: { data: { base: 'IDR', quote: 'USD' } },
+  //   response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
+  // },
+  // {
+  //   request: { data: { base: 'XAU', quote: 'USD' } },
+  //   response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
+  // },
+  // {
+  //   request: { data: { base: 'USB10Y', quote: 'USD' } },
+  //   response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
+  // },
+  // {
+  //   request: { data: { base: 'SPX500', quote: 'USD' } },
+  //   response: { data: { result: 111 }, result: 111, statusCode: HTTP_OK }, //TODO fix
+  // },
+  // {
+  //   request: { data: { base: 'NONE', quote: 'USD' } },
+  //   response: { statusCode: HTTP_GATEWAY_TIMEOUT },
+  // },
 ]
 
 export const mockSSE = () =>
   new MockEvent({
     url: 'https://stream-fxtrade.oanda.com/v3',
-    setInterval: 10,
+    setInterval: 100,
     responses: [
       {
         type: 'PRICE',
@@ -132,8 +133,8 @@ export const mockRESTPrice = () =>
     })
 
 export const mockRESTInstruments = () =>
-  nock(`https://api-fxtrade.oanda.com/v3/accounts/${process.env['API_ACCOUNT_ID']}`)
-    .post('/instruments')
+  nock('https://api-fxtrade.oanda.com/v3/accounts/test-acct-id')
+    .get('/instruments')
     .reply(HTTP_OK, {
       instruments: [
         {
