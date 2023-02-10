@@ -28,7 +28,9 @@ const logger = makeLogger('OandaPrice')
 let instrumentMap: InstrumentMap
 
 // Get mapping of all available instruments keyed by base and quote assets
-const setInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) => {
+const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) => {
+  if (instrumentMap) return instrumentMap
+
   logger.info({ msg: 'Setting instrument map' })
 
   const providerDataRequestedUnixMs = Date.now()
@@ -65,6 +67,8 @@ const setInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) =
     instrumentMap[base][quote] = item.name
     return instrumentMap
   }, {})
+
+  return instrumentMap
 }
 
 // See https://developer.oanda.com/rest-live-v20/pricing-ep/
@@ -84,9 +88,24 @@ const sseTransport = new ModifiedSseTransport<ModifiedSseGenerics>({
     }
   },
   parseSubscriptionList: async (subscriptions, context) => {
-    if (!instrumentMap) await setInstrumentMap(context)
+    instrumentMap = await getInstrumentMap(context)
 
-    return subscriptions.map(({ base, quote }) => instrumentMap?.[base]?.[quote] ?? undefined)
+    const foundInstruments: Record<string, boolean> = {}
+
+    return subscriptions.reduce((instrumentList: string[], { base, quote }) => {
+      base = base.toUpperCase()
+      quote = quote.toUpperCase()
+      const instrument = instrumentMap?.[base]?.[quote]
+      if (instrument) {
+        if (!foundInstruments[instrument]) {
+          foundInstruments[instrument] = true
+          instrumentList.push(instrument)
+        }
+      } else {
+        logger.error({ msg: `${base}_${quote} instrument not found in asset list` })
+      }
+      return instrumentList
+    }, [])
   },
   eventListeners: [
     {
@@ -128,7 +147,10 @@ const restTransport = new HttpTransport<HttpGenerics>({
         request: {
           baseURL: config.API_ENDPOINT,
           url: 'rates/spot.json',
-          params: { base, quote },
+          params: {
+            base: base.toUpperCase(),
+            quote: quote.toUpperCase(),
+          },
           headers: { Authorization: `Bearer ${config.API_KEY}` },
         },
       }
@@ -154,7 +176,9 @@ const routerTransport = new RoutingTransport<EndpointTypes>(
 
     if (transport) return transport
 
-    const route = (restPairs as RestPairs)?.[base]?.[quote] ? 'REST' : 'SSE'
+    const route = (restPairs as RestPairs)?.[base.toUpperCase()]?.[quote.toUpperCase()]
+      ? 'REST'
+      : 'SSE'
 
     return route
   },
