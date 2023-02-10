@@ -8,9 +8,9 @@ Object {
   "result": 10000,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1652198967193,
-    "providerDataStreamEstablished": 1652198967193,
-    "providerIndicatedTime": 1667881098736,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataStreamEstablishedUnixMs": 1652198967193,
+    "providerIndicatedTimeUnixMs": 1667881098736,
   },
 }
 `;
@@ -20,8 +20,8 @@ Object {
   "errorMessage": "Symbol is not supported",
   "statusCode": 400,
   "timestamps": Object {
-    "providerDataReceived": 1652198967193,
-    "providerDataStreamEstablished": 1652198967193,
+    "providerDataReceivedUnixMs": 1652198967193,
+    "providerDataStreamEstablishedUnixMs": 1652198967193,
   },
 }
 `;

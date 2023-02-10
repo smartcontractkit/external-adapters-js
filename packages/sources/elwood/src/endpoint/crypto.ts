@@ -97,7 +97,7 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
                 result: value,
                 data: { result: value },
                 timestamps: {
-                  providerIndicatedTime: new Date(message.data.timestamp).getTime(),
+                  providerIndicatedTimeUnixMs: new Date(message.data.timestamp).getTime(),
                 },
               },
             },
@@ -150,9 +150,9 @@ const transport = new (class extends WebSocketTransport<CryptoEndpointTypes> {
                   statusCode: error.response.data['error']['code'] || 500,
                   errorMessage: error.response.data['error']['message'] || defaultErrorMsg,
                   timestamps: {
-                    providerDataReceived: Date.now(),
-                    providerIndicatedTime: undefined,
-                    providerDataStreamEstablished: this.providerDataStreamEstablished,
+                    providerDataReceivedUnixMs: Date.now(),
+                    providerIndicatedTimeUnixMs: undefined,
+                    providerDataStreamEstablishedUnixMs: this.providerDataStreamEstablished,
                   },
                 },
               },
