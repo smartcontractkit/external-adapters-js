@@ -7,7 +7,7 @@ import {
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 
 import Decimal from 'decimal.js'
 import axios from 'axios'
@@ -30,6 +30,9 @@ let instrumentMap: InstrumentMap
 // Get mapping of all available instruments keyed by base and quote assets
 const setInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) => {
   logger.info({ msg: 'Setting instrument map' })
+
+  const providerDataRequestedUnixMs = Date.now()
+
   const { data, status } = await axios.get<InstrumentList>(
     `${context.adapterConfig.INSTRUMENTS_API_ENDPOINT}/accounts/${context.adapterConfig.API_ACCOUNT_ID}/instruments`,
     {
@@ -40,8 +43,20 @@ const setInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) =
     },
   )
 
+  const providerDataReceivedUnixMs = Date.now()
+
   if (!data || status !== 200) {
-    throw new AdapterError({ message: 'Could not fetch asset list', providerStatusCode: status })
+    throw new AdapterDataProviderError(
+      {
+        message: 'Could not fetch asset list',
+        providerStatusCode: status,
+      },
+      {
+        providerDataReceivedUnixMs,
+        providerDataRequestedUnixMs,
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    )
   }
 
   instrumentMap = data.instruments.reduce((instrumentMap: InstrumentMap, item) => {
