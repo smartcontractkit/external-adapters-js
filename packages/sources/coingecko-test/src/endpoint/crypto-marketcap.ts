@@ -1,27 +1,27 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { BatchWarmingTransport } from '@chainlink/external-adapter-framework/transports/batch-warming'
 import {
   buildBatchedRequestBody,
   constructEntry,
   CryptoEndpointTypes,
   cryptoInputParams,
 } from '../crypto-utils'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
-const batchEndpointTransport = new BatchWarmingTransport<CryptoEndpointTypes>({
-  prepareRequest: (params, config) => {
+const transport = new HttpTransport<CryptoEndpointTypes>({
+  prepareRequests: (params, config) => {
     const requestBody = buildBatchedRequestBody(params, config)
-    requestBody.params.include_market_cap = true
+    requestBody.request.params.include_market_cap = true
     return requestBody
   },
   parseResponse: (params, res) =>
     params.map((requestPayload) =>
-      constructEntry(res, requestPayload, `${requestPayload.quote.toLowerCase()}_market_cap`),
+      constructEntry(res.data, requestPayload, `${requestPayload.quote.toLowerCase()}_market_cap`),
     ),
 })
 
 export const endpoint = new AdapterEndpoint({
   name: 'marketcap',
   aliases: ['crypto-marketcap'],
-  transport: batchEndpointTransport,
+  transport,
   inputParameters: cryptoInputParams,
 })

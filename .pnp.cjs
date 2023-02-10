@@ -4730,7 +4730,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coingecko-test/",\
           "packageDependencies": [\
             ["@chainlink/coingecko-test-adapter", "workspace:packages/sources/coingecko-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -4803,7 +4803,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/coinmetrics-test/",\
           "packageDependencies": [\
             ["@chainlink/coinmetrics-test-adapter", "workspace:packages/sources/coinmetrics-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5128,10 +5128,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/dar/",\
           "packageDependencies": [\
             ["@chainlink/dar-adapter", "workspace:packages/sources/dar"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:0.27.2"],\
             ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
@@ -5676,7 +5677,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/elwood/",\
           "packageDependencies": [\
             ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -6254,10 +6255,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/galaxy/",\
           "packageDependencies": [\
             ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-            ["@chainlink/external-adapter-framework", "npm:0.14.5"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:0.27.2"],\
             ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\

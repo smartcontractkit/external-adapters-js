@@ -2251,7 +2251,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-test-adapter@workspace:packages/sources/coingecko-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.23.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2316,7 +2316,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-test-adapter@workspace:packages/sources/coinmetrics-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.23.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -2611,10 +2611,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dar-adapter@workspace:packages/sources/dar"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.23.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    axios: 0.27.2
     mock-socket: ^9.1.5
     nock: 13.2.9
     supertest: 6.2.4
@@ -3121,7 +3122,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/elwood-adapter@workspace:packages/sources/elwood"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.23.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
@@ -3657,10 +3658,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.14.5
+    "@chainlink/external-adapter-framework": 0.23.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12
+    axios: 0.27.2
     mock-socket: ^9.1.5
     nock: 13.2.9
     supertest: 6.2.4
