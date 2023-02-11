@@ -641,6 +641,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/nomics"\
       },\
       {\
+        "name": "@chainlink/nomics-test-adapter",\
+        "reference": "workspace:packages/sources/nomics-test"\
+      },\
+      {\
         "name": "@chainlink/oilpriceapi-adapter",\
         "reference": "workspace:packages/sources/oilpriceapi"\
       },\
@@ -965,6 +969,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
+      ["@chainlink/nomics-test-adapter", ["workspace:packages/sources/nomics-test"]],\
       ["@chainlink/observation", ["workspace:packages/observation"]],\
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
@@ -5478,6 +5483,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
+            ["@chainlink/nomics-test-adapter", "workspace:packages/sources/nomics-test"],\
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
@@ -6906,6 +6912,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/nomics-test-adapter", [\
+        ["workspace:packages/sources/nomics-test", {\
+          "packageLocation": "./packages/sources/nomics-test/",\
+          "packageDependencies": [\
+            ["@chainlink/nomics-test-adapter", "workspace:packages/sources/nomics-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
