@@ -749,6 +749,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tiingo"\
       },\
       {\
+        "name": "@chainlink/tiingo-test-adapter",\
+        "reference": "workspace:packages/sources/tiingo-test"\
+      },\
+      {\
         "name": "@chainlink/tradermade-adapter",\
         "reference": "workspace:packages/sources/tradermade"\
       },\
@@ -1012,6 +1016,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
       ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
       ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
+      ["@chainlink/tiingo-test-adapter", ["workspace:packages/sources/tiingo-test"]],\
       ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
@@ -5516,6 +5521,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
             ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
+            ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
@@ -7668,6 +7674,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/tiingo-test-adapter", [\
+        ["workspace:packages/sources/tiingo-test", {\
+          "packageLocation": "./packages/sources/tiingo-test/",\
+          "packageDependencies": [\
+            ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\

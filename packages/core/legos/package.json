@@ -168,6 +168,7 @@
     "@chainlink/terra-view-function-adapter": "workspace:*",
     "@chainlink/therundown-adapter": "workspace:*",
     "@chainlink/tiingo-adapter": "workspace:*",
+    "@chainlink/tiingo-test-adapter": "workspace:*",
     "@chainlink/tradermade-adapter": "workspace:*",
     "@chainlink/tradingeconomics-adapter": "workspace:*",
     "@chainlink/trueusd-adapter": "workspace:*",

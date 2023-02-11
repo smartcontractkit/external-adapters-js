@@ -1,0 +1,1 @@
+# @chainlink/tiingo-test-adapter
