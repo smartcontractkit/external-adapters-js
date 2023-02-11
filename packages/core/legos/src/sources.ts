@@ -137,6 +137,7 @@ import * as taapi from '@chainlink/taapi-adapter'
 import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
+import * as tiingo_test from '@chainlink/tiingo-test-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
@@ -292,6 +293,7 @@ export default {
   terra_view_function,
   therundown,
   tiingo,
+  tiingo_test,
   tradermade,
   tradingeconomics,
   trueusd,
