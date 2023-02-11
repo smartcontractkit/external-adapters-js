@@ -1,5 +1,11 @@
 # @chainlink/coingecko-test-adapter
 
+## 1.5.3
+
+### Patch Changes
+
+- ae1cf06fb: Update EA framework version
+
 ## 1.5.2
 
 ### Patch Changes

@@ -1,5 +1,32 @@
 # @chainlink/ea
 
+## 1.3.62
+
+### Patch Changes
+
+- Updated dependencies [782539048]
+- Updated dependencies [c152ed06e]
+- Updated dependencies [e633da476]
+- Updated dependencies [ae1cf06fb]
+- Updated dependencies [dd4f3039c]
+- Updated dependencies [59c4a2ee4]
+- Updated dependencies [cda6dc8bd]
+- Updated dependencies [ae1cf06fb]
+  - @chainlink/tiingo-test-adapter@1.0.0
+  - @chainlink/cfbenchmarks-test-adapter@1.1.1
+  - @chainlink/coinpaprika-test-adapter@1.0.1
+  - @chainlink/dxfeed-test-adapter@1.0.1
+  - @chainlink/finage-test-adapter@1.0.1
+  - @chainlink/kaiko-test-adapter@1.0.2
+  - @chainlink/nomics-test-adapter@1.0.0
+  - @chainlink/coinmetrics-test-adapter@1.0.6
+  - @chainlink/coinmarketcap-test-adapter@1.0.0
+  - @chainlink/dar-adapter@1.0.4
+  - @chainlink/elwood-adapter@2.0.1
+  - @chainlink/galaxy-adapter@2.0.1
+  - @chainlink/intrinio-test-adapter@1.0.0
+  - @chainlink/coingecko-test-adapter@1.5.3
+
 ## 1.3.61
 
 ### Patch Changes
