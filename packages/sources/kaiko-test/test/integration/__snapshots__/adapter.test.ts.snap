@@ -8,8 +8,8 @@ Object {
   "result": 4097.271668358277,
   "statusCode": 200,
   "timestamps": Object {
-    "providerDataReceived": 1641035471111,
-    "providerDataRequested": 1641035471111,
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
   },
 }
 `;
