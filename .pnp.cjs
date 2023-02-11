@@ -561,6 +561,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/intrinio"\
       },\
       {\
+        "name": "@chainlink/intrinio-test-adapter",\
+        "reference": "workspace:packages/sources/intrinio-test"\
+      },\
+      {\
         "name": "@chainlink/ipfs-adapter",\
         "reference": "workspace:packages/sources/ipfs"\
       },\
@@ -945,6 +949,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
+      ["@chainlink/intrinio-test-adapter", ["workspace:packages/sources/intrinio-test"]],\
       ["@chainlink/ipfs-adapter", ["workspace:packages/sources/ipfs"]],\
       ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
       ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
@@ -5463,6 +5468,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
+            ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
             ["@chainlink/jpegd-adapter", "workspace:packages/sources/jpegd"],\
             ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
@@ -6469,6 +6475,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["axios", "npm:0.24.0"],\
             ["intrinio-realtime", "npm:2.3.0"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/intrinio-test-adapter", [\
+        ["workspace:packages/sources/intrinio-test", {\
+          "packageLocation": "./packages/sources/intrinio-test/",\
+          "packageDependencies": [\
+            ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["axios", "npm:0.24.0"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\

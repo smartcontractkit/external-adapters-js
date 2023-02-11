@@ -120,6 +120,7 @@
     "@chainlink/gsr-adapter": "workspace:*",
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
+    "@chainlink/intrinio-test-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",
     "@chainlink/jpegd-adapter": "workspace:*",
     "@chainlink/json-rpc-adapter": "workspace:*",
