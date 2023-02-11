@@ -1,0 +1,1 @@
+# @chainlink/coinmarketcap-test-adapter
