@@ -141,6 +141,7 @@
     "@chainlink/nft-blue-chip-adapter": "workspace:*",
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
+    "@chainlink/nomics-test-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
     "@chainlink/onchain-gas-adapter": "workspace:*",
     "@chainlink/openexchangerates-adapter": "workspace:*",

@@ -110,6 +110,7 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
+import * as nomics_test from '@chainlink/nomics-test-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
@@ -264,6 +265,7 @@ export default {
   nft_blue_chip,
   nikkei,
   nomics,
+  nomics_test,
   oilpriceapi,
   onchain_gas,
   openexchangerates,

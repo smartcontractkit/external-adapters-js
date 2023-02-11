@@ -459,6 +459,9 @@
       "path": "./sources/nomics"
     },
     {
+      "path": "./sources/nomics-test"
+    },
+    {
       "path": "./sources/oilpriceapi"
     },
     {
