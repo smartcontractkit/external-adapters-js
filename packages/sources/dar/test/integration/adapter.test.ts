@@ -78,9 +78,9 @@ describe('Price Endpoint', () => {
       statusCode: 200,
       data: { result: 1272.12 },
       timestamps: {
-        providerDataReceived: 1652198967193,
-        providerDataStreamEstablished: 1652198967193,
-        providerIndicatedTime: 1669979114400,
+        providerDataReceivedUnixMs: 1652198967193,
+        providerDataStreamEstablishedUnixMs: 1652198967193,
+        providerIndicatedTimeUnixMs: 1669979114400,
       },
     }
     expect(response.body).toEqual(expected)

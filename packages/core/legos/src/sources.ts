@@ -90,6 +90,7 @@ import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
+import * as intrinio_test from '@chainlink/intrinio-test-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
 import * as jpegd from '@chainlink/jpegd-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
@@ -110,6 +111,7 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
+import * as nomics_test from '@chainlink/nomics-test-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
@@ -136,6 +138,7 @@ import * as taapi from '@chainlink/taapi-adapter'
 import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
+import * as tiingo_test from '@chainlink/tiingo-test-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
@@ -244,6 +247,7 @@ export default {
   gsr,
   iex_adapter,
   intrinio,
+  intrinio_test,
   ipfs,
   jpegd,
   json_adapter,
@@ -264,6 +268,7 @@ export default {
   nft_blue_chip,
   nikkei,
   nomics,
+  nomics_test,
   oilpriceapi,
   onchain_gas,
   openexchangerates,
@@ -290,6 +295,7 @@ export default {
   terra_view_function,
   therundown,
   tiingo,
+  tiingo_test,
   tradermade,
   tradingeconomics,
   trueusd,

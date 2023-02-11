@@ -1,0 +1,1 @@
+# @chainlink/intrinio-test-adapter
