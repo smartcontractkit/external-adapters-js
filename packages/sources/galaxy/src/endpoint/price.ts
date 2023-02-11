@@ -35,7 +35,7 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
               result: message.value,
             },
             timestamps: {
-              providerIndicatedTime: Math.round(message.ts * 1000), // Provider indicated time is sent in seconds
+              providerIndicatedTimeUnixMs: Math.round(message.ts * 1000), // Provider indicated time is sent in seconds
             },
           },
         },

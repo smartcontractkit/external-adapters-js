@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.60",
+  "version": "1.3.61",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -120,6 +120,7 @@
     "@chainlink/gsr-adapter": "workspace:*",
     "@chainlink/iex-cloud-adapter": "workspace:*",
     "@chainlink/intrinio-adapter": "workspace:*",
+    "@chainlink/intrinio-test-adapter": "workspace:*",
     "@chainlink/ipfs-adapter": "workspace:*",
     "@chainlink/jpegd-adapter": "workspace:*",
     "@chainlink/json-rpc-adapter": "workspace:*",
@@ -140,6 +141,7 @@
     "@chainlink/nft-blue-chip-adapter": "workspace:*",
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
+    "@chainlink/nomics-test-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
     "@chainlink/onchain-gas-adapter": "workspace:*",
     "@chainlink/openexchangerates-adapter": "workspace:*",

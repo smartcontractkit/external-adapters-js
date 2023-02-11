@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest crypto endpoint should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 39829.3,
+  },
+  "result": 39829.3,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1645199637000,
+  },
+}
+`;

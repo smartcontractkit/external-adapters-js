@@ -396,6 +396,9 @@
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
+      "path": "./sources/intrinio-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/ipfs/tsconfig.test.json"
     },
     {
@@ -454,6 +457,9 @@
     },
     {
       "path": "./sources/nomics/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/nomics-test/tsconfig.test.json"
     },
     {
       "path": "./sources/oilpriceapi/tsconfig.test.json"

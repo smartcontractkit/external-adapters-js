@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.5.0
+
+### Minor Changes
+
+- 4f17877e6: Add notice of whether an EA is using V2 / V3 in their readmes
+
 ## 2.4.29
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 3.0.2
+
+### Patch Changes
+
+- 3dd345367: Fixed inverses issue. Bumped v3 framework version.
+
 ## 3.0.1
 
 ### Patch Changes
