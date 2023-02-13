@@ -1,6 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsMap } from '@chainlink/external-adapter-framework/config'
-import { RestTransport } from '@chainlink/external-adapter-framework/transports'
+import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { EmptyObject } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { DEFAULT_API_ENDPOINT, PRO_API_ENDPOINT } from '../config'
@@ -18,43 +18,44 @@ type EndpointTypes = {
     Params: EmptyObject
   }
   Response: {
-    Data: CoinsResponse
+    Data: CoinsResponse[]
     Result: null
   }
   CustomSettings: SettingsMap
   Provider: {
     RequestBody: never
-    ResponseBody: CoinsResponse
+    ResponseBody: CoinsResponse[]
   }
 }
 
-const restEndpointTransport = new RestTransport<EndpointTypes>({
-  prepareRequest: (_, config) => {
+const transport = new HttpTransport<EndpointTypes>({
+  prepareRequests: (params, config) => {
     const baseURL = config.API_KEY ? PRO_API_ENDPOINT : DEFAULT_API_ENDPOINT
-    const params = config.API_KEY ? { x_cg_pro_api_key: config.API_KEY } : undefined
+    const queryParams = config.API_KEY ? { x_cg_pro_api_key: config.API_KEY } : undefined
     return {
-      baseURL,
-      url: '/coins/list',
-      method: 'GET',
       params,
+      request: {
+        baseURL,
+        url: '/coins/list',
+        method: 'GET',
+        params: queryParams,
+      },
     }
   },
-  parseResponse: (_, res) => {
-    return {
-      data: res.data,
-      statusCode: 200,
-      result: null,
-    }
-  },
-  options: {
-    requestCoalescing: {
-      enabled: true,
+  parseResponse: (params, res) => [
+    {
+      params,
+      response: {
+        data: res.data,
+        statusCode: 200,
+        result: null,
+      },
     },
-  },
+  ],
 })
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'coins',
-  transport: restEndpointTransport,
+  transport,
   inputParameters,
 })

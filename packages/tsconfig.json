@@ -240,6 +240,9 @@
       "path": "./sources/coinmarketcap"
     },
     {
+      "path": "./sources/coinmarketcap-test"
+    },
+    {
       "path": "./sources/coinmetrics"
     },
     {
@@ -396,6 +399,9 @@
       "path": "./sources/intrinio"
     },
     {
+      "path": "./sources/intrinio-test"
+    },
+    {
       "path": "./sources/ipfs"
     },
     {
@@ -454,6 +460,9 @@
     },
     {
       "path": "./sources/nomics"
+    },
+    {
+      "path": "./sources/nomics-test"
     },
     {
       "path": "./sources/oilpriceapi"
@@ -529,6 +538,9 @@
     },
     {
       "path": "./sources/tiingo"
+    },
+    {
+      "path": "./sources/tiingo-test"
     },
     {
       "path": "./sources/tradermade"

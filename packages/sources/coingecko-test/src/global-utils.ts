@@ -1,4 +1,3 @@
-import { HttpRequestConfig, HttpResponse } from '@chainlink/external-adapter-framework/transports'
 import { customSettings, getApiEndpoint } from './config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -7,6 +6,7 @@ import {
   ProviderResult,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
+import { ProviderRequestConfig } from '@chainlink/external-adapter-framework/transports'
 
 const logger = makeLogger('CoinGecko Global Batched')
 
@@ -33,7 +33,7 @@ export interface ProviderResponseBody {
     total_volume: Record<string, number>
     market_cap_percentage: Record<string, number>
     market_cap_change_percentage_24h_usd: number
-    updated_at: number
+    updated_at: number // UNIX timestamp in seconds
   }
 }
 
@@ -50,20 +50,24 @@ export type GlobalEndpointTypes = {
 }
 
 export const buildGlobalRequestBody = (
+  params: GlobalRequestParams[],
   config: AdapterConfig<typeof customSettings>,
-): HttpRequestConfig<never> => {
+): ProviderRequestConfig<GlobalEndpointTypes> => {
   return {
-    baseURL: getApiEndpoint(config),
-    url: '/global',
-    method: 'GET',
-    params: {
-      x_cg_pro_api_key: config.API_KEY,
+    params,
+    request: {
+      baseURL: getApiEndpoint(config),
+      url: '/global',
+      method: 'GET',
+      params: {
+        x_cg_pro_api_key: config.API_KEY,
+      },
     },
   }
 }
 
 export const constructEntry = (
-  res: HttpResponse<ProviderResponseBody>,
+  res: ProviderResponseBody,
   requestPayload: GlobalRequestParams,
   resultPath: 'total_market_cap' | 'market_cap_percentage',
 ): ProviderResult<GlobalEndpointTypes> => {
@@ -71,7 +75,7 @@ export const constructEntry = (
     params: requestPayload,
   }
 
-  const resultData = res.data.data
+  const resultData = res.data
   if (!resultData) {
     const errorMessage = 'No data found'
     logger.warn(errorMessage)
@@ -116,7 +120,7 @@ export const constructEntry = (
       data: { result },
       result,
       timestamps: {
-        providerIndicatedTime: resultData.updated_at * 1000,
+        providerIndicatedTimeUnixMs: resultData.updated_at * 1000,
       },
     },
   }

@@ -240,6 +240,9 @@
       "path": "./sources/coinmarketcap/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinmarketcap-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinmetrics/tsconfig.test.json"
     },
     {
@@ -396,6 +399,9 @@
       "path": "./sources/intrinio/tsconfig.test.json"
     },
     {
+      "path": "./sources/intrinio-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/ipfs/tsconfig.test.json"
     },
     {
@@ -454,6 +460,9 @@
     },
     {
       "path": "./sources/nomics/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/nomics-test/tsconfig.test.json"
     },
     {
       "path": "./sources/oilpriceapi/tsconfig.test.json"
@@ -529,6 +538,9 @@
     },
     {
       "path": "./sources/tiingo/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/tiingo-test/tsconfig.test.json"
     },
     {
       "path": "./sources/tradermade/tsconfig.test.json"
