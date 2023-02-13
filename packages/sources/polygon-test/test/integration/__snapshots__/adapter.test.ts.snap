@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest forex api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.7536,
+  },
+  "result": 0.7536,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest forex batch api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 28.5,
+  },
+  "result": 28.5,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

@@ -152,6 +152,7 @@
     "@chainlink/poa-adapter": "workspace:*",
     "@chainlink/polkadot-balance-adapter": "workspace:*",
     "@chainlink/polygon-adapter": "workspace:*",
+    "@chainlink/polygon-test-adapter": "workspace:*",
     "@chainlink/por-address-list-adapter": "workspace:*",
     "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
