@@ -41,7 +41,7 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
         // Set up listener
         connection.on('message', (data: WebSocketRawData) => {
           const parsed = JSON.parse(data.toString())
-          if (parsed.Message === 'Successfully Authenticated') {
+          if (parsed.Message === 'Succesfully Authenticated') {
             logger.debug('Got logged in response, connection is ready')
             resolve()
           } else {
@@ -75,7 +75,7 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
               result: message.mid || 0, // Already validated in the filter above
             },
             timestamps: {
-              providerIndicatedTime: new Date(message.timestamp).getTime(),
+              providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
             },
           },
         },

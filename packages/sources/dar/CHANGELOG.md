@@ -1,5 +1,17 @@
 # @chainlink/dar-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- 59c4a2ee4: Bumped v3 framework version
+
+## 1.0.3
+
+### Patch Changes
+
+- 2636e10f4: Add crypto as alias for price endpoint
+
 ## 1.0.2
 
 ### Patch Changes

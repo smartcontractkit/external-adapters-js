@@ -1,5 +1,24 @@
 # @chainlink/token-allocation-adapter
 
+## 1.9.1
+
+### Patch Changes
+
+- Updated dependencies [3dd345367]
+  - @chainlink/ncfx-adapter@3.0.2
+
+## 1.9.0
+
+### Minor Changes
+
+- 6e9f97e33: Read result from root-level object from underlying source EAs
+  Stop batching requests to coinpaprika
+
+### Patch Changes
+
+- Updated dependencies [4bade45ad]
+  - @chainlink/ncfx-adapter@3.0.1
+
 ## 1.8.0
 
 ### Minor Changes

@@ -231,7 +231,7 @@ nock('http://localhost:3000')
       },
       result: 0.998,
     },
-    result: 0.9998,
+    result: 0.998,
     statusCode: 200,
   })
 

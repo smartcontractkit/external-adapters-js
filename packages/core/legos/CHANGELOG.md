@@ -1,5 +1,74 @@
 # @chainlink/ea
 
+## 1.3.62
+
+### Patch Changes
+
+- Updated dependencies [782539048]
+- Updated dependencies [c152ed06e]
+- Updated dependencies [e633da476]
+- Updated dependencies [ae1cf06fb]
+- Updated dependencies [dd4f3039c]
+- Updated dependencies [59c4a2ee4]
+- Updated dependencies [cda6dc8bd]
+- Updated dependencies [ae1cf06fb]
+  - @chainlink/tiingo-test-adapter@1.0.0
+  - @chainlink/cfbenchmarks-test-adapter@1.1.1
+  - @chainlink/coinpaprika-test-adapter@1.0.1
+  - @chainlink/dxfeed-test-adapter@1.0.1
+  - @chainlink/finage-test-adapter@1.0.1
+  - @chainlink/kaiko-test-adapter@1.0.2
+  - @chainlink/nomics-test-adapter@1.0.0
+  - @chainlink/coinmetrics-test-adapter@1.0.6
+  - @chainlink/coinmarketcap-test-adapter@1.0.0
+  - @chainlink/dar-adapter@1.0.4
+  - @chainlink/elwood-adapter@2.0.1
+  - @chainlink/galaxy-adapter@2.0.1
+  - @chainlink/intrinio-test-adapter@1.0.0
+  - @chainlink/coingecko-test-adapter@1.5.3
+
+## 1.3.61
+
+### Patch Changes
+
+- Updated dependencies [23a1bd4b3]
+- Updated dependencies [3dd345367]
+- Updated dependencies [9c4413659]
+- Updated dependencies [7b7881f07]
+- Updated dependencies [70a7b9abd]
+- Updated dependencies [5c352d4e1]
+- Updated dependencies [fa05cc85b]
+- Updated dependencies [c2e455b4c]
+  - @chainlink/coinpaprika-test-adapter@1.0.0
+  - @chainlink/ncfx-adapter@3.0.2
+  - @chainlink/dxfeed-test-adapter@1.0.0
+  - @chainlink/finage-test-adapter@1.0.0
+  - @chainlink/cfbenchmarks-test-adapter@1.1.0
+  - @chainlink/bank-frick-adapter@1.0.1
+  - @chainlink/kaiko-test-adapter@1.0.1
+
+## 1.3.60
+
+### Patch Changes
+
+- Updated dependencies [2636e10f4]
+  - @chainlink/dar-adapter@1.0.3
+
+## 1.3.59
+
+### Patch Changes
+
+- Updated dependencies [bba54b419]
+- Updated dependencies [4bade45ad]
+- Updated dependencies [d0adc1082]
+- Updated dependencies [2d82ecfa2]
+  - @chainlink/kaiko-test-adapter@1.0.0
+  - @chainlink/ncfx-adapter@3.0.1
+  - @chainlink/gsr-adapter@2.0.3
+  - @chainlink/avalanche-platform-adapter@1.0.0
+  - @chainlink/renvm-address-set-adapter@1.5.28
+  - @chainlink/wbtc-address-set-adapter@1.4.37
+
 ## 1.3.58
 
 ### Patch Changes

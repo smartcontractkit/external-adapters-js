@@ -8,6 +8,7 @@ import * as amberdata from '@chainlink/amberdata-adapter'
 import * as anyblock from '@chainlink/anyblock-adapter'
 import * as ap_election from '@chainlink/ap-election-adapter'
 import * as armanino from '@chainlink/armanino-adapter'
+import * as avalanche_platform from '@chainlink/avalanche-platform-adapter'
 import * as bank_frick from '@chainlink/bank-frick-adapter'
 import * as bea from '@chainlink/bea-adapter'
 import * as binance from '@chainlink/binance-adapter'
@@ -36,9 +37,11 @@ import * as coingecko from '@chainlink/coingecko-adapter'
 import * as coingecko_test from '@chainlink/coingecko-test-adapter'
 import * as coinlore from '@chainlink/coinlore-adapter'
 import * as coinmarketcap from '@chainlink/coinmarketcap-adapter'
+import * as coinmarketcap_test from '@chainlink/coinmarketcap-test-adapter'
 import * as coinmetrics from '@chainlink/coinmetrics-adapter'
 import * as coinmetrics_test from '@chainlink/coinmetrics-test-adapter'
 import * as coinpaprika from '@chainlink/coinpaprika-adapter'
+import * as coinpaprika_test from '@chainlink/coinpaprika-test-adapter'
 import * as coinranking from '@chainlink/coinranking-adapter'
 import * as covid_tracker from '@chainlink/covid-tracker-adapter'
 import * as cryptex from '@chainlink/cryptex-adapter'
@@ -56,6 +59,7 @@ import * as dns_query from '@chainlink/dns-query-adapter'
 import * as dwolla from '@chainlink/dwolla-adapter'
 import * as dxfeed from '@chainlink/dxfeed-adapter'
 import * as dxfeed_secondary from '@chainlink/dxfeed-secondary-adapter'
+import * as dxfeed_test from '@chainlink/dxfeed-test-adapter'
 import * as elwood from '@chainlink/elwood-adapter'
 import * as ens from '@chainlink/ens-adapter'
 import * as enzyme from '@chainlink/enzyme-adapter'
@@ -69,6 +73,7 @@ import * as ethgaswatch from '@chainlink/ethgaswatch-adapter'
 import * as expert_car_broker from '@chainlink/expert-car-broker-adapter'
 import * as fcsapi from '@chainlink/fcsapi-adapter'
 import * as finage from '@chainlink/finage-adapter'
+import * as finage_test from '@chainlink/finage-test-adapter'
 import * as finnhub from '@chainlink/finnhub-adapter'
 import * as fixer from '@chainlink/fixer-adapter'
 import * as flightaware from '@chainlink/flightaware-adapter'
@@ -85,6 +90,7 @@ import * as graphql from '@chainlink/graphql-adapter'
 import * as gsr from '@chainlink/gsr-adapter'
 import * as iex_adapter from '@chainlink/iex-cloud-adapter'
 import * as intrinio from '@chainlink/intrinio-adapter'
+import * as intrinio_test from '@chainlink/intrinio-test-adapter'
 import * as ipfs from '@chainlink/ipfs-adapter'
 import * as jpegd from '@chainlink/jpegd-adapter'
 import * as json_adapter from '@chainlink/json-rpc-adapter'
@@ -105,6 +111,7 @@ import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
+import * as nomics_test from '@chainlink/nomics-test-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
@@ -131,6 +138,7 @@ import * as taapi from '@chainlink/taapi-adapter'
 import * as terra_view_function from '@chainlink/terra-view-function-adapter'
 import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
+import * as tiingo_test from '@chainlink/tiingo-test-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
@@ -157,6 +165,7 @@ export default {
   anyblock,
   ap_election,
   armanino,
+  avalanche_platform,
   bank_frick,
   bea,
   binance,
@@ -185,9 +194,11 @@ export default {
   coingecko_test,
   coinlore,
   coinmarketcap,
+  coinmarketcap_test,
   coinmetrics,
   coinmetrics_test,
   coinpaprika,
+  coinpaprika_test,
   coinranking,
   covid_tracker,
   cryptex,
@@ -205,6 +216,7 @@ export default {
   dwolla,
   dxfeed,
   dxfeed_secondary,
+  dxfeed_test,
   elwood,
   ens,
   enzyme,
@@ -218,6 +230,7 @@ export default {
   expert_car_broker,
   fcsapi,
   finage,
+  finage_test,
   finnhub,
   fixer,
   flightaware,
@@ -234,6 +247,7 @@ export default {
   gsr,
   iex_adapter,
   intrinio,
+  intrinio_test,
   ipfs,
   jpegd,
   json_adapter,
@@ -254,6 +268,7 @@ export default {
   nft_blue_chip,
   nikkei,
   nomics,
+  nomics_test,
   oilpriceapi,
   onchain_gas,
   openexchangerates,
@@ -280,6 +295,7 @@ export default {
   terra_view_function,
   therundown,
   tiingo,
+  tiingo_test,
   tradermade,
   tradingeconomics,
   trueusd,

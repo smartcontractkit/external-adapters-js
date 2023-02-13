@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute balance api (stakeAmount) should return success 1`] = `
+Object {
+  "data": Object {
+    "result": Array [
+      Object {
+        "addresses": Array [
+          "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
+        ],
+        "balance": "1606136960057",
+      },
+    ],
+  },
+  "jobRunID": "1",
+  "result": Array [
+    Object {
+      "addresses": Array [
+        "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
+      ],
+      "balance": "1606136960057",
+    },
+  ],
+  "statusCode": 200,
+}
+`;
