@@ -3,6 +3,9 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { buildUrlPath } from './utils'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { customSettings } from '../config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+
+const logger = makeLogger('Polygon Conversion Logger')
 
 export const inputParameters = {
   base: {
@@ -89,6 +92,10 @@ export const httpTransport = new HttpTransport<EndpointTypes>({
     })
   },
   parseResponse: (params, res) => {
+    if (!res.data.converted) {
+      logger.error(`The data provider didn't return any value`)
+      return []
+    }
     return params.map((param) => {
       const result = res.data.converted
       return {
