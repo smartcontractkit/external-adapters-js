@@ -5,7 +5,7 @@ import {
   WebSocketRawData,
 } from '@chainlink/external-adapter-framework/transports/websocket'
 import {
-  PriceEndpoint,
+  CryptoPriceEndpoint,
   PriceEndpointParams,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
@@ -97,8 +97,17 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
           return []
         }
         if (!updates.price) {
-          logger.error(`The data provider didn't return any value`)
-          return []
+          const errorMessage = `The data provider didn't return any value`
+          logger.warn(errorMessage)
+          return [
+            {
+              params,
+              response: {
+                statusCode: 502,
+                errorMessage,
+              },
+            },
+          ]
         }
         return [
           {
@@ -138,7 +147,7 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
     },
   })
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'price',
   transport: websocketTransport,
   inputParameters,
