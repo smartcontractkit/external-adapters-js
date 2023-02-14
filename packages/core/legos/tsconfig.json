@@ -77,6 +77,9 @@
       "path": "../../sources/blocksize-capital"
     },
     {
+      "path": "../../sources/blocksize-capital-test"
+    },
+    {
       "path": "../../sources/blockstream"
     },
     {
