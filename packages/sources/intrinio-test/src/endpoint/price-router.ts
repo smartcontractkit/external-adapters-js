@@ -70,6 +70,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
 
 export const endpoint = new AdapterEndpoint<EndpointTypes>({
   name: 'price',
+  aliases: ['stock'],
   transport: routingTransport,
   inputParameters: inputParameters,
 })
