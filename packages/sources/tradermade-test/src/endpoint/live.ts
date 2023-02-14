@@ -4,13 +4,13 @@ import { BatchEndpointTypes, buildBatchedRequestBody, constructEntry } from '../
 
 const inputParameters = {
   base: {
-    aliases: ['from', 'coin', 'symbol', 'market'],
+    aliases: ['from', 'coin', 'symbol'],
     required: true,
     type: 'string',
     description: 'The symbol of symbols of the currency to query',
   },
   quote: {
-    aliases: ['to', 'market'],
+    aliases: ['to', 'market', 'convert'],
     required: false,
     type: 'string',
     description: 'The symbol of the currency to convert to',

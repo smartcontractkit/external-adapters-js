@@ -5034,7 +5034,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradermade-test-adapter@workspace:packages/sources/tradermade-test"
   dependencies:
-    "@chainlink/external-adapter-framework": 0.22.0
+    "@chainlink/external-adapter-framework": 0.23.2
     "@types/jest": 27.5.2
     "@types/node": 16.11.51
     "@types/supertest": 2.0.12

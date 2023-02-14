@@ -37,7 +37,7 @@ export const wsTransport: TraderMadeWebsocketReverseMappingTransport<EndpointTyp
         }
         return [
           {
-            params: { base: pair.base, quote: pair.quote },
+            params: pair,
             response: {
               data: {
                 result: message.mid,

@@ -8,6 +8,8 @@ export const customSettings = {
     description:
       'An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api)',
     type: 'string',
+    required: true,
+    sensitive: true,
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
@@ -18,6 +20,7 @@ export const customSettings = {
     description:
       'An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api)',
     type: 'string',
+    sensitive: true,
   },
   WS_API_ENDPOINT: {
     type: 'string',

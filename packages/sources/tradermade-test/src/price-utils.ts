@@ -83,7 +83,7 @@ export const constructEntry = (res: ResponseSchema, params: BatchRequestParams[]
         params: pair,
         response: {
           errorMessage: `No data for base - ${pair.base}, quote - ${pair.quote} `,
-          statusCode: 400,
+          statusCode: 502,
         },
       }
     }
