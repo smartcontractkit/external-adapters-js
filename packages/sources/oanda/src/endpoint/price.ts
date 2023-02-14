@@ -27,6 +27,17 @@ const logger = makeLogger('OandaPrice')
 
 let instrumentMap: InstrumentMap
 
+const inputParameters = {
+  ...priceEndpointInputParameters,
+  transport: {
+    aliases: ['method'],
+    description:
+      'An override for the transport (only use if `config/restPairs.json` does not already account for the pair)',
+    options: ['SSE', 'REST'],
+    required: false,
+  },
+}
+
 // Get mapping of all available instruments keyed by base and quote assets
 const getInstrumentMap = async (context: EndpointContext<ModifiedSseGenerics>) => {
   if (instrumentMap) return instrumentMap
@@ -187,6 +198,6 @@ const routerTransport = new RoutingTransport<EndpointTypes>(
 export const priceEndpoint = new PriceEndpoint<EndpointTypes>({
   name: 'price',
   aliases: ['forex'],
-  inputParameters: priceEndpointInputParameters,
+  inputParameters,
   transport: routerTransport,
 })
