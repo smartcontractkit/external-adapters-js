@@ -1615,6 +1615,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/alongside-test-adapter@workspace:*, @chainlink/alongside-test-adapter@workspace:packages/sources/alongside-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/alongside-test-adapter@workspace:packages/sources/alongside-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.23.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: 2.4.0
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/alphachain-adapter@workspace:*, @chainlink/alphachain-adapter@workspace:packages/sources/alphachain":
   version: 0.0.0-use.local
   resolution: "@chainlink/alphachain-adapter@workspace:packages/sources/alphachain"
@@ -2977,6 +2992,7 @@ __metadata:
     "@chainlink/1forge-adapter": "workspace:*"
     "@chainlink/accuweather-adapter": "workspace:*"
     "@chainlink/ada-balance-adapter": "workspace:*"
+    "@chainlink/alongside-test-adapter": "workspace:*"
     "@chainlink/alphachain-adapter": "workspace:*"
     "@chainlink/alphavantage-adapter": "workspace:*"
     "@chainlink/alpine-adapter": "workspace:*"

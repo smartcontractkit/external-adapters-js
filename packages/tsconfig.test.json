@@ -132,6 +132,9 @@
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/alongside-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {

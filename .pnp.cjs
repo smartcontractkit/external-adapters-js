@@ -209,6 +209,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/ada-balance"\
       },\
       {\
+        "name": "@chainlink/alongside-test-adapter",\
+        "reference": "workspace:packages/sources/alongside-test"\
+      },\
+      {\
         "name": "@chainlink/alphachain-adapter",\
         "reference": "workspace:packages/sources/alphachain"\
       },\
@@ -840,6 +844,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/accuweather-adapter", ["workspace:packages/sources/accuweather"]],\
       ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
       ["@chainlink/agoric-adapter", ["workspace:packages/targets/agoric"]],\
+      ["@chainlink/alongside-test-adapter", ["workspace:packages/sources/alongside-test"]],\
       ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
       ["@chainlink/alphavantage-adapter", ["workspace:packages/sources/alphavantage"]],\
       ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
@@ -4030,6 +4035,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/alongside-test-adapter", [\
+        ["workspace:packages/sources/alongside-test", {\
+          "packageLocation": "./packages/sources/alongside-test/",\
+          "packageDependencies": [\
+            ["@chainlink/alongside-test-adapter", "workspace:packages/sources/alongside-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/alphachain-adapter", [\
         ["workspace:packages/sources/alphachain", {\
           "packageLocation": "./packages/sources/alphachain/",\
@@ -5407,6 +5429,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],\
             ["@chainlink/accuweather-adapter", "workspace:packages/sources/accuweather"],\
             ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
+            ["@chainlink/alongside-test-adapter", "workspace:packages/sources/alongside-test"],\
             ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],\
             ["@chainlink/alphavantage-adapter", "workspace:packages/sources/alphavantage"],\
             ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],\
