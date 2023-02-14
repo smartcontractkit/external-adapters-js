@@ -149,6 +149,7 @@ export const websocketTransport: BlocksizeWebsocketReverseMappingTransport<Endpo
 
 export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'price',
+  aliases: ['crypto'],
   transport: websocketTransport,
   inputParameters,
 })
