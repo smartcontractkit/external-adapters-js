@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-test-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- c152ed06e: Bumped v3 framework version
+
 ## 1.1.0
 
 ### Minor Changes
