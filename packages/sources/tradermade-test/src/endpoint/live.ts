@@ -1,5 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { BatchEndpointTypes, buildBatchedRequestBody, constructEntry } from '../price-utils'
 
 const inputParameters = {
@@ -22,7 +22,7 @@ export const httpTransport = new HttpTransport<BatchEndpointTypes>({
   parseResponse: (params, res) => constructEntry(res.data, params),
 })
 
-export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
+export const endpoint = new AdapterEndpoint<BatchEndpointTypes>({
   name: 'live',
   aliases: ['stock', 'commodities'],
   transport: httpTransport,
