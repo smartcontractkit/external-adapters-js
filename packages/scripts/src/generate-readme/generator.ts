@@ -15,7 +15,6 @@ import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
 import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
 import fs from 'fs'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { SettingsMap } from '@chainlink/external-adapter-framework/config'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -60,7 +59,8 @@ export class ReadmeGenerator {
   version: string
   versionBadgeUrl: string
   license: string
-  frameworkVersion: 'v2' | 'v3' = 'v2'
+  frameworkVersion: 'v2' | 'v3'
+  frameworkVersionBadgeUrl: string
 
   constructor(adapterPath: string, verbose = false, skipTests = false) {
     this.verbose = verbose
@@ -72,8 +72,16 @@ export class ReadmeGenerator {
     if (verbose) console.log(`${adapterPath}: Checking package.json`)
     const packagePath = checkFilePaths([adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
+
+    if (packageJson.dependencies) {
+      this.frameworkVersion = packageJson.dependencies['@chainlink/external-adapter-framework']
+        ? 'v3'
+        : 'v2'
+    }
+
     this.version = packageJson.version ?? ''
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
+    this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
     this.license = packageJson.license ?? ''
     this.adapterPath = adapterPath
     this.schemaPath = adapterPath + 'schemas/env.json'
@@ -157,8 +165,7 @@ export class ReadmeGenerator {
 
   addIntroSection(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Adding title and version`)
-
-    this.readmeText = `# ${this.name}\n\n![${this.version}](${this.versionBadgeUrl})\n\n`
+    this.readmeText = `# ${this.name}\n\n![${this.version}](${this.versionBadgeUrl}) ![${this.frameworkVersion}](${this.frameworkVersionBadgeUrl})\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
     if (this.defaultBaseUrl) {
       this.readmeText += `Base URL ${this.defaultBaseUrl}\n\n`

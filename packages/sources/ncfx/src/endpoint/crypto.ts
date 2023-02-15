@@ -75,7 +75,7 @@ export const cryptoTransport = new WebSocketTransport<EndpointTypes>({
               result: message.mid || 0, // Already validated in the filter above
             },
             timestamps: {
-              providerIndicatedTime: new Date(message.timestamp).getTime(),
+              providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),
             },
           },
         },

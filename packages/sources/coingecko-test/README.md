@@ -1,6 +1,6 @@
 # COINGECKO
 
-![1.5.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json)
+![1.5.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coingecko-test/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,13 +17,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                 Options                                                                                                                                                                                                                                 | Default  |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [batch](#crypto-endpoint), [batched](#crypto-endpoint), [coins](#coins-endpoint), [crypto-batched](#crypto-endpoint), [crypto-marketcap](#marketcap-endpoint), [crypto-volume](#volume-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [market_cap_percentage](#dominance-endpoint), [marketcap](#marketcap-endpoint), [total_market_cap](#globalmarketcap-endpoint), [volume](#volume-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                              Options                                                                                                                                                                                                                                               | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [batch](#crypto-endpoint), [batched](#crypto-endpoint), [coins](#coins-endpoint), [crypto-batched](#crypto-endpoint), [crypto-marketcap](#marketcap-endpoint), [crypto-volume](#volume-endpoint), [crypto](#crypto-endpoint), [dominance](#dominance-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [market_cap_percentage](#dominance-endpoint), [marketcap](#marketcap-endpoint), [price](#crypto-endpoint), [total_market_cap](#globalmarketcap-endpoint), [volume](#volume-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
-Supported names for this endpoint are: `batch`, `batched`, `crypto`, `crypto-batched`.
+Supported names for this endpoint are: `batch`, `batched`, `crypto`, `crypto-batched`, `price`.
 
 ### Input Params
 

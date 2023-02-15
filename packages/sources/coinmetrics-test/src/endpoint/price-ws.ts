@@ -111,7 +111,7 @@ export const handleAssetMetricsMessage = (
               result,
             },
             timestamps: {
-              providerIndicatedTime: new Date(message.time).getTime(),
+              providerIndicatedTimeUnixMs: new Date(message.time).getTime(),
             },
           },
         }
