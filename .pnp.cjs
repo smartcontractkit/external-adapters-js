@@ -657,6 +657,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/nomics-test"\
       },\
       {\
+        "name": "@chainlink/oanda-adapter",\
+        "reference": "workspace:packages/sources/oanda"\
+      },\
+      {\
         "name": "@chainlink/oilpriceapi-adapter",\
         "reference": "workspace:packages/sources/oilpriceapi"\
       },\
@@ -989,6 +993,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
       ["@chainlink/nomics-test-adapter", ["workspace:packages/sources/nomics-test"]],\
+      ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
       ["@chainlink/observation", ["workspace:packages/observation"]],\
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
@@ -5542,6 +5547,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/nomics-test-adapter", "workspace:packages/sources/nomics-test"],\
+            ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
@@ -7012,6 +7018,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/oanda-adapter", [\
+        ["workspace:packages/sources/oanda", {\
+          "packageLocation": "./packages/sources/oanda/",\
+          "packageDependencies": [\
+            ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["axios", "npm:0.27.2"],\
+            ["decimal.js", "npm:10.4.1"],\
             ["tslib", "npm:2.4.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
           ],\

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea",
-  "version": "1.3.62",
+  "version": "1.3.63",
   "description": "Build with composable Chainlink External Adapters",
   "keywords": [
     "Chainlink",
@@ -144,6 +144,7 @@
     "@chainlink/nikkei-adapter": "workspace:*",
     "@chainlink/nomics-adapter": "workspace:*",
     "@chainlink/nomics-test-adapter": "workspace:*",
+    "@chainlink/oanda-adapter": "workspace:*",
     "@chainlink/oilpriceapi-adapter": "workspace:*",
     "@chainlink/onchain-gas-adapter": "workspace:*",
     "@chainlink/openexchangerates-adapter": "workspace:*",
