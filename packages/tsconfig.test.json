@@ -186,6 +186,9 @@
       "path": "./sources/blocksize-capital/tsconfig.test.json"
     },
     {
+      "path": "./sources/blocksize-capital-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/blockstream/tsconfig.test.json"
     },
     {
@@ -463,6 +466,9 @@
     },
     {
       "path": "./sources/nomics-test/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/oanda/tsconfig.test.json"
     },
     {
       "path": "./sources/oilpriceapi/tsconfig.test.json"
