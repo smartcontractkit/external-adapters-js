@@ -18,6 +18,11 @@ const pairHits: {
 let totalUniquePairs = 0
 let totalHits = 0
 
+const hitTrackingLevels: { [level: string]: boolean } = {
+  debug: true,
+  trace: true,
+}
+
 function heartbeat(connection: WebSocket): NodeJS.Timeout | undefined {
   if (!connection) return
   if (connection.readyState !== 1) return
@@ -41,22 +46,27 @@ export const priceTransport = new WebSocketTransport<PriceEndpointTypes>({
         clearTimeout(heartbeatTimeout)
       })
     },
-    message(message) {
+    message(message, context) {
       if (message.errors) {
         logger.error(`Got error from DP: ${message.errors}`)
         return []
       }
 
-      const { darAssetTicker: base, quoteCurrency: quote } = message
-      if (!pairHits[base]) pairHits[base] = {}
-      if (!pairHits[base][quote]) {
-        pairHits[base][quote] = 1
-        totalUniquePairs += 1
-      } else {
-        pairHits[base][quote] += 1
+      if (hitTrackingLevels[context.adapterConfig.LOG_LEVEL]) {
+        const { darAssetTicker: base, quoteCurrency: quote } = message
+
+        pairHits[base] ??= {}
+
+        if (!pairHits[base][quote]) {
+          pairHits[base][quote] = 1
+          totalUniquePairs += 1
+        } else {
+          pairHits[base][quote] += 1
+        }
+        totalHits += 1
+        logger.debug({ totalHits, totalUniquePairs, pairHits: pairHits[base][quote], base, quote })
       }
-      totalHits += 1
-      logger.info({ totalHits, totalUniquePairs, pairHits: pairHits[base][quote], base, quote })
+
       return [
         {
           params: { base: message.darAssetTicker, quote: message.quoteCurrency },
