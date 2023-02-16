@@ -31,6 +31,8 @@
     { "path": "../../sources/eth-beacon" },
     { "path": "../../sources/stader-address-list" },
     { "path": "../../sources/swell-address-list" },
-    { "path": "../../sources/por-address-list" }
+    { "path": "../../sources/por-address-list" },
+    { "path": "../../sources/moonbeam-address-list" },
+    { "path": "../../sources/polkadot-balance" }
   ]
 }

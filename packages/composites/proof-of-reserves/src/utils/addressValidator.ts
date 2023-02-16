@@ -25,13 +25,13 @@ export const getValidAddresses = (
     validatedInput.result = validateAddresses(
       validator.validated.id,
       validator.validated.data.indexer,
-      validatedInput.result as any,
+      validatedInput.data.result as any,
     ) as any
   }
   if (!util.parseBool(validator.validated.data.disableDuplicateAddressFiltering)) {
     validatedInput.result = filterDuplicates(
       validator.validated.id,
-      validatedInput.result as any,
+      validatedInput.data.result as any,
     ) as any
   }
   validatedInput.data.result = validatedInput.result

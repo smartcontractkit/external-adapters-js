@@ -4566,8 +4566,11 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/eth-balance-adapter": "workspace:*"
     "@chainlink/eth-beacon-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": 0.24.2
     "@chainlink/gemini-adapter": "workspace:*"
     "@chainlink/lotus-adapter": "workspace:*"
+    "@chainlink/moonbeam-address-list-adapter": "workspace:*"
+    "@chainlink/polkadot-balance-adapter": "workspace:*"
     "@chainlink/por-address-list-adapter": "workspace:*"
     "@chainlink/por-indexer-adapter": "workspace:*"
     "@chainlink/reduce-adapter": "workspace:*"

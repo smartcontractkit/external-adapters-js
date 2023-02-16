@@ -7298,8 +7298,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
             ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
             ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
+            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
             ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
             ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
+            ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
+            ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
             ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
             ["@chainlink/por-indexer-adapter", "workspace:packages/composites/por-indexer"],\
             ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
