@@ -22,7 +22,7 @@ const MS_BETWEEN_FAILED_REQS = 400
 
 export type EndpointTypes = {
   Request: {
-    Params: {}
+    Params: unknown
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
