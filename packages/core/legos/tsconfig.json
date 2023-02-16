@@ -77,6 +77,9 @@
       "path": "../../sources/blocksize-capital"
     },
     {
+      "path": "../../sources/blocksize-capital-test"
+    },
+    {
       "path": "../../sources/blockstream"
     },
     {
@@ -354,6 +357,9 @@
     },
     {
       "path": "../../sources/nomics-test"
+    },
+    {
+      "path": "../../sources/oanda"
     },
     {
       "path": "../../sources/oilpriceapi"
