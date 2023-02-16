@@ -1,0 +1,62 @@
+[
+  {
+    "request": { "data": { "from": "WTICO", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 2, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "ETH", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 2, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "EUR", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "INR", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "IDR", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "CAD", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "JPY", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 10, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "XAU", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 2, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "USB10Y", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 2, "greaterThan": 0 }
+    }
+  },
+  {
+    "request": { "data": { "from": "SPX500", "to": "USD" } },
+    "expectedResponse": {
+      "result": { "minPrecision": 2, "greaterThan": 0 }
+    }
+  }
+]

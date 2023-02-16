@@ -1,6 +1,6 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import {
-  PriceEndpoint,
+  CryptoPriceEndpoint,
   PriceEndpointInputParameters,
 } from '@chainlink/external-adapter-framework/adapter'
 import { RoutingTransport } from '@chainlink/external-adapter-framework/transports/meta'
@@ -92,7 +92,7 @@ export const routingTransport = new RoutingTransport<EndpointTypes>(
   },
 )
 
-export const endpoint = new PriceEndpoint<EndpointTypes>({
+export const endpoint = new CryptoPriceEndpoint<EndpointTypes>({
   name: 'crypto',
   aliases: ['values', 'price'], // Legacy aliases
   transport: routingTransport,
