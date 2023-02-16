@@ -14,6 +14,11 @@ export const inputParameters = {
     type: 'string',
     description: 'The symbol of the currency to convert to',
   },
+  transport: {
+    description: 'which transport to route to',
+    required: false,
+    type: 'string',
+  },
 } as const
 
 export const httpTransport = new HttpTransport<BatchEndpointTypes>({

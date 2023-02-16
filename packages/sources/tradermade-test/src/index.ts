@@ -34,13 +34,6 @@ export const adapter = new PriceAdapter({
       },
     },
   },
-  bootstrap: async (adapter) => {
-    if (adapter.config.WS_ENABLED && !adapter.config.WS_API_KEY) {
-      return Promise.reject(
-        'WS_API_KEY environment variable is required when WS_ENABLED is set to true',
-      )
-    }
-  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

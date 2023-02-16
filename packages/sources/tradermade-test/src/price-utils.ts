@@ -2,7 +2,11 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { customSettings } from './config'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 
-export interface BatchRequestParams {
+export type BatchRequestParams = LiveRequestParams & {
+  transport: string
+}
+
+export interface LiveRequestParams {
   base: string
   quote?: string
 }
@@ -22,11 +26,6 @@ interface ResponseSchema {
   timestamp: number
 }
 
-interface RequestBody {
-  api_key: string
-  currency: string
-}
-
 interface ResponseSchema {
   endpoint: string
   quotes: {
@@ -43,20 +42,26 @@ interface ResponseSchema {
   timestamp: number
 }
 
-export type BatchEndpointTypes = {
+export type BatchEndpointTypes = LiveEndpointTypes & {
   Request: {
     Params: BatchRequestParams
+  }
+}
+
+export type LiveEndpointTypes = {
+  Request: {
+    Params: LiveRequestParams
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
   Provider: {
-    RequestBody: RequestBody
+    RequestBody: never
     ResponseBody: ResponseSchema
   }
 }
 
-export const buildBatchedRequestBody = (
-  params: BatchRequestParams[],
+export const buildBatchedRequestBody = <T extends LiveRequestParams>(
+  params: T[],
   config: AdapterConfig<typeof customSettings>,
 ) => {
   return {
@@ -73,12 +78,16 @@ export const buildBatchedRequestBody = (
   }
 }
 
-export const constructEntry = (res: ResponseSchema, params: BatchRequestParams[]) => {
+export const constructEntry = <T extends LiveRequestParams>(res: ResponseSchema, params: T[]) => {
   return res.quotes.map((entry) => {
+    const pair = params.find(
+      (param) =>
+        `${param.base}${param.quote ?? ''}`.toUpperCase() ===
+          `${entry.base_currency}${entry.quote_currency}`.toUpperCase() ||
+        `${param.base}${param.quote ?? ''}`.toUpperCase() === entry.instrument,
+    ) as unknown as BatchRequestParams
+
     if (entry.error) {
-      const pair = params.find(
-        (param) => `${param.base}${param.quote ?? ''}`.toUpperCase() === entry.instrument,
-      ) as BatchRequestParams
       return {
         params: pair,
         response: {
@@ -88,10 +97,7 @@ export const constructEntry = (res: ResponseSchema, params: BatchRequestParams[]
       }
     }
     return {
-      params: {
-        base: entry.base_currency || (entry.instrument as string),
-        quote: entry.quote_currency,
-      },
+      params: pair,
       response: {
         data: {
           result: entry.mid,

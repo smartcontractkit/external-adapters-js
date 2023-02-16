@@ -4,13 +4,14 @@ import { BatchEndpointTypes } from '../price-utils'
 import { httpTransport, inputParameters } from './forex'
 import { wsTransport } from './forex-ws'
 
-export const routingTransport = new RoutingTransport<BatchEndpointTypes>(
-  {
-    WS: wsTransport,
-    HTTP: httpTransport,
-  },
-  (_, adapterConfig) => (adapterConfig.WS_ENABLED ? 'WS' : 'HTTP'),
-)
+const transports = {
+  websocket: wsTransport,
+  batch: httpTransport,
+}
+
+export const routingTransport = new RoutingTransport<BatchEndpointTypes>(transports, {
+  defaultTransport: 'batch',
+})
 
 export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
   name: 'forex',

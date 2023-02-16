@@ -11,11 +11,6 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
-  WS_ENABLED: {
-    description: 'Whether data should be returned from websocket or not',
-    type: 'boolean',
-    default: false,
-  },
   WS_API_KEY: {
     description:
       'An API key that can be obtained from [here](https://marketdata.tradermade.com/docs/restful-api)',

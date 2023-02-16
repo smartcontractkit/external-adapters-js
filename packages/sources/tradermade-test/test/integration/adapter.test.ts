@@ -109,6 +109,7 @@ describe('execute', () => {
         data: {
           base: 'ETH',
           quote: 'USD',
+          transport: 'websocket',
         },
       }
 
@@ -119,7 +120,6 @@ describe('execute', () => {
         process.env['CACHE_MAX_AGE'] = '10000'
         process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
         process.env['METRICS_ENABLED'] = 'false'
-        process.env['WS_ENABLED'] = 'true'
         process.env['WS_API_KEY'] = 'fake-api-key'
         process.env['API_KEY'] = 'fake-api-key'
         process.env['WS_API_ENDPOINT'] = wsEndpoint
