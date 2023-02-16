@@ -1,5 +1,14 @@
 # @chainlink/ea
 
+## 1.3.64
+
+### Patch Changes
+
+- Updated dependencies [e39eb6e6c]
+- Updated dependencies
+  - @chainlink/intrinio-test-adapter@1.0.1
+  - @chainlink/twosigma-adapter@1.0.0
+
 ## 1.3.63
 
 ### Patch Changes
