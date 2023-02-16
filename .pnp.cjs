@@ -4041,6 +4041,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@chainlink/alongside-test-adapter", "workspace:packages/sources/alongside-test"],\
             ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/crypto-js", "npm:4.1.1"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -12609,6 +12610,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/create-hash", "npm:1.2.2"],\
             ["@types/node", "npm:18.8.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/crypto-js", [\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/@types-crypto-js-npm-4.1.1-1c4ce3312a-ea3d6a67b6.zip/node_modules/@types/crypto-js/",\
+          "packageDependencies": [\
+            ["@types/crypto-js", "npm:4.1.1"]\
           ],\
           "linkType": "HARD"\
         }]\
