@@ -98,7 +98,7 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
     subscriptions.new = subscriptions.desired
     subscriptions.stale = []
 
-    super.streamHandler(context, subscriptions)
+    await super.streamHandler(context, subscriptions)
   }
 
   override async sendMessages(

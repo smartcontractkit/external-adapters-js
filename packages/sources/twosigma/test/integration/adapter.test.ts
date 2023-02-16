@@ -74,7 +74,7 @@ describe('websocket', () => {
 
     // Send initial request to start background execute
     await makeRequest('AAPL')
-    await sleep(5)
+    await sleep(5000)
   })
 
   afterAll(async () => {
@@ -103,7 +103,7 @@ describe('websocket', () => {
       })
 
       await makeRequest('AMZN')
-      await sleep(5) // Wait for next background executor loop
+      await sleep(5000) // Wait for next background executor loop
 
       const resp2 = await makeRequest('AAPL')
       expect(resp2.body).toEqual({
