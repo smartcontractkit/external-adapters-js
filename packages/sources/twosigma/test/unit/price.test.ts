@@ -120,7 +120,7 @@ describe('TwoSigmaWebsocketTransport', () => {
       sentMessages.push(message)
     }
 
-    addEventListener(event, listener) {
+    addEventListener(event: string, listener: any) {
       if (event === 'open') {
         listener({ type: 'mock_open' })
       }
