@@ -106,6 +106,7 @@ import * as marketstack from '@chainlink/marketstack-adapter'
 import * as messari from '@chainlink/messari-adapter'
 import * as metalsapi from '@chainlink/metalsapi-adapter'
 import * as mock_ea from '@chainlink/mock-ea-adapter'
+import * as moonbeam_address_list from '@chainlink/moonbeam-address-list-adapter'
 import * as mycryptoapi from '@chainlink/mycryptoapi-adapter'
 import * as ncfx from '@chainlink/ncfx-adapter'
 import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
@@ -119,6 +120,7 @@ import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
 import * as poa from '@chainlink/poa-adapter'
+import * as polkadot_balance from '@chainlink/polkadot-balance-adapter'
 import * as polygon from '@chainlink/polygon-adapter'
 import * as por_address_list from '@chainlink/por-address-list-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
@@ -263,6 +265,7 @@ export default {
   messari,
   metalsapi,
   mock_ea,
+  moonbeam_address_list,
   mycryptoapi,
   ncfx,
   nft_blue_chip,
@@ -276,6 +279,7 @@ export default {
   paxos,
   paypal,
   poa,
+  polkadot_balance,
   polygon,
   por_address_list,
   reduce,
