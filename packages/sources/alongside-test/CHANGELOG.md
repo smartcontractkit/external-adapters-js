@@ -1,1 +1,0 @@
-# @chainlink/alongside-test-adapter

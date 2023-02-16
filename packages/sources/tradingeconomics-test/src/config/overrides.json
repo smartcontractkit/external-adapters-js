@@ -1,0 +1,23 @@
+{
+  "tradingeconomics": {
+    "FTSE": "UKX:IND",
+    "N225": "NKY:IND",
+    "CAD": "USDCAD:CUR",
+    "CHF": "USDCHF:CUR",
+    "CNY": "USDCNY:CUR",
+    "JPY": "USDJPY:CUR",
+    "KRW": "USDKRW:CUR",
+    "MXN": "USDMXN:CUR",
+    "PLN": "USDPLN:CUR",
+    "SEK": "USDSEK:CUR",
+    "SGD": "USDSGD:CUR",
+    "TRY": "USDTRY:CUR",
+    "ZAR": "USDZAR:CUR",
+    "BTC": "BTCUSD:CUR",
+    "ETH": "ETHUSD:CUR",
+    "LTC": "LTCUSD:CUR",
+    "BNB": "BNBUSD:CUR",
+    "XMR": "XMRUSD:CUR",
+    "AAPL": "aap:us,gac:com"
+  }
+}

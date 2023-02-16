@@ -1,5 +1,5 @@
 ---
-'@chainlink/alongside-test-adapter': minor
+'@chainlink/alongside-adapter': major
 ---
 
 Add alongside EA v3

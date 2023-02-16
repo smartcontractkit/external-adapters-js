@@ -28,4 +28,10 @@ export const customSettings = {
     required: true,
     sensitive: true,
   },
+  INFURA_KEY: {
+    description: 'The infura key',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
 } as const
