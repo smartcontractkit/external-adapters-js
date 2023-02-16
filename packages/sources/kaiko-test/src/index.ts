@@ -10,14 +10,6 @@ export const adapter = new PriceAdapter({
   name: 'KAIKO',
   endpoints: [trades],
   customSettings,
-  rateLimiting: {
-    tiers: {
-      default: {
-        rateLimit1h: -1,
-        note: 'claims no rate limits',
-      },
-    },
-  },
   envDefaultOverrides: {
     API_TIMEOUT: 30000,
   },

@@ -4,6 +4,7 @@ export const mockCryptoSuccess = (): nock.Scope =>
   nock('https://api.coingecko.com/api/v3', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/simple/price')
     .query({
       ids: 'ethereum',
@@ -83,7 +84,6 @@ export const mockCryptoSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-
     .get('/coins/list')
     .query(() => true)
     .reply(
@@ -111,6 +111,7 @@ export const mockDominanceSuccess = (): nock.Scope =>
   nock('https://api.coingecko.com/api/v3', {
     encodedQueryParams: true,
   })
+    .persist()
     .get('/global')
     .reply(
       200,
@@ -274,4 +275,3 @@ export const mockDominanceSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-    .persist()
