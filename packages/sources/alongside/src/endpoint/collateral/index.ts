@@ -20,13 +20,9 @@ const logger = makeLogger('Alongside Balances Logger')
 
 const MS_BETWEEN_FAILED_REQS = 400
 
-export type RequestParams = {
-  type: string
-}
-
 export type EndpointTypes = {
   Request: {
-    Params: RequestParams
+    Params: {}
   }
   Response: SingleNumberResultResponse
   CustomSettings: typeof customSettings
