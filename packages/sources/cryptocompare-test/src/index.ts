@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { cryptoRouter, vwap, volume, marketacp } from './endpoint'
+import { cryptoRouter, vwap, volume, marketcap } from './endpoint'
 import { customSettings, defaultEndpoint } from './config'
 import overrides from './config/overrides.json'
 
 export const adapter = new PriceAdapter({
   name: 'CRYPTOCOMPARE',
   defaultEndpoint,
-  endpoints: [cryptoRouter, vwap, volume, marketacp],
+  endpoints: [cryptoRouter, vwap, volume, marketcap],
   customSettings,
   rateLimiting: {
     tiers: {
