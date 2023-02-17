@@ -1,5 +1,11 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { buildBatchedRequestBody, constructEntry, BatchEndpointTypes } from '../crypto-utils'
+import {
+  buildBatchedRequestBody,
+  constructEntry,
+  BatchEndpointTypes,
+  cryptoInputParams,
+} from '../crypto-utils'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
 
 export const httpTransport = new HttpTransport<BatchEndpointTypes>({
   prepareRequests: (params, config) => {
@@ -8,11 +14,17 @@ export const httpTransport = new HttpTransport<BatchEndpointTypes>({
   parseResponse: (params, res) => {
     const entries = []
     for (const requestPayload of params) {
-      const entry = constructEntry(requestPayload, res.data, 'PRICE')
+      const entry = constructEntry(requestPayload, res.data, 'VOLUME24HOURTO')
       if (entry) {
         entries.push(entry)
       }
     }
     return entries
   },
+})
+
+export const endpoint = new PriceEndpoint<BatchEndpointTypes>({
+  name: 'volume',
+  transport: httpTransport,
+  inputParameters: cryptoInputParams,
 })

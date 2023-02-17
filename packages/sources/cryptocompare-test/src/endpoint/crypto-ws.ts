@@ -67,7 +67,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
         logger.error(message, 'asset not supported by data provider')
         return [
           {
-            params: { base, quote, endpoint: 'crypto' },
+            params: { base, quote, transport: 'ws' },
             response: {
               errorMessage: `Requested asset - ${base}/${quote} is not supported or there is no price for it.`,
               statusCode: 502,
@@ -76,7 +76,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
         ]
       }
 
-      if (!('PRICE' in message)) {
+      if (message.TYPE === '5' && !('PRICE' in message)) {
         // message.PARAMETER looks like 5~CCCAGG~BASE~QUOTE
         const parameters = (message as WSErrorType).PARAMETER.split('~')
         const base = parameters[2]
@@ -84,7 +84,7 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
         logger.error(message, 'price not provided')
         return [
           {
-            params: { base, quote, endpoint: 'crypto' },
+            params: { base, quote, transport: 'ws' },
             response: {
               errorMessage: `Cryptocompare provided no price data for ${base}/${quote}`,
               statusCode: 502,
@@ -94,9 +94,10 @@ export const wsTransport = new WebSocketTransport<WsEndpointTypes>({
       }
 
       if (message.TYPE === '5') {
+        message = message as WSSuccessType
         return [
           {
-            params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL, endpoint: 'crypto' },
+            params: { base: message.FROMSYMBOL, quote: message.TOSYMBOL, transport: 'ws' },
             response: {
               result: message.PRICE as number,
               data: {

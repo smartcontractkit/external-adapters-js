@@ -20,7 +20,7 @@ describe('execute', () => {
   const context: SuiteContext = {
     req: null,
     server: async () => {
-      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '6'
+      process.env['RATE_LIMIT_CAPACITY_SECOND'] = '5000'
       process.env['METRICS_ENABLED'] = 'false'
       const server = (await import('../../src')).server
       return server() as Promise<ServerInstance>

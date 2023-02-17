@@ -36,6 +36,7 @@ describe('execute', () => {
         endpoint: 'crypto',
         base: 'ETH',
         quote: 'BTC',
+        transport: 'ws',
       },
     }
 
@@ -46,7 +47,6 @@ describe('execute', () => {
       process.env['CACHE_MAX_AGE'] = '10000'
       process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
       process.env['METRICS_ENABLED'] = 'false'
-      process.env['WS_ENABLED'] = 'true'
       process.env['WS_API_ENDPOINT'] = wsEndpoint
       process.env['API_KEY'] = 'fake-api-key'
       const mockDate = new Date('2022-11-11T11:11:11.111Z')

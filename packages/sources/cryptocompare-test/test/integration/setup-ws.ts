@@ -4,7 +4,7 @@ import { SuperTest, Test } from 'supertest'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import { Server, WebSocket } from 'mock-socket'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { endpoint } from '../../src/endpoint/crypto'
+import { endpoint } from '../../src/endpoint/crypto-router'
 import { customSettings } from '../../src/config'
 
 export type SuiteContext = {
