@@ -1,0 +1,5 @@
+{
+  "IDR": { "USD": true },
+  "INR": { "USD": true },
+  "USD": { "IDR": true, "INR": true }
+}

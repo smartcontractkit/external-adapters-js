@@ -1977,6 +1977,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/blocksize-capital-test-adapter@workspace:*, @chainlink/blocksize-capital-test-adapter@workspace:packages/sources/blocksize-capital-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/blocksize-capital-test-adapter@workspace:packages/sources/blocksize-capital-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.23.2
+    "@types/jest": 27.5.2
+    "@types/node": 16.11.51
+    "@types/supertest": 2.0.12
+    mock-socket: 9.1.5
+    nock: 13.2.9
+    supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/blockstream-adapter@workspace:*, @chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
@@ -3004,6 +3020,7 @@ __metadata:
     "@chainlink/blockchair-adapter": "workspace:*"
     "@chainlink/blockcypher-adapter": "workspace:*"
     "@chainlink/blocksize-capital-adapter": "workspace:*"
+    "@chainlink/blocksize-capital-test-adapter": "workspace:*"
     "@chainlink/blockstream-adapter": "workspace:*"
     "@chainlink/bob-adapter": "workspace:*"
     "@chainlink/bravenewcoin-adapter": "workspace:*"
@@ -3098,6 +3115,7 @@ __metadata:
     "@chainlink/nikkei-adapter": "workspace:*"
     "@chainlink/nomics-adapter": "workspace:*"
     "@chainlink/nomics-test-adapter": "workspace:*"
+    "@chainlink/oanda-adapter": "workspace:*"
     "@chainlink/oilpriceapi-adapter": "workspace:*"
     "@chainlink/onchain-gas-adapter": "workspace:*"
     "@chainlink/openexchangerates-adapter": "workspace:*"
@@ -4339,6 +4357,19 @@ __metadata:
     "@types/supertest": 2.0.12
     nock: 13.2.9
     supertest: 6.2.4
+    tslib: ^2.3.1
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/oanda-adapter@workspace:*, @chainlink/oanda-adapter@workspace:packages/sources/oanda":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
+  dependencies:
+    "@chainlink/external-adapter-framework": 0.23.2
+    "@types/node": 16.11.51
+    axios: 0.27.2
+    decimal.js: ^10.3.1
     tslib: ^2.3.1
     typescript: 4.7.4
   languageName: unknown
@@ -9357,9 +9388,9 @@ __metadata:
   linkType: hard
 
 "@sideway/formula@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@sideway/formula@npm:3.0.0"
-  checksum: 8ae26a0ed6bc84f7310be6aae6eb9d81e97f382619fc69025d346871a707eaab0fa38b8c857e3f0c35a19923de129f42d35c50b8010c928d64aab41578580ec4
+  version: 3.0.1
+  resolution: "@sideway/formula@npm:3.0.1"
+  checksum: e4beeebc9dbe2ff4ef0def15cec0165e00d1612e3d7cea0bc9ce5175c3263fc2c818b679bd558957f49400ee7be9d4e5ac90487e1625b4932e15c4aa7919c57a
   languageName: node
   linkType: hard
 
