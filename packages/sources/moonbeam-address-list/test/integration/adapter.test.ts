@@ -45,6 +45,7 @@ describe('execute', () => {
     const data = {
       data: { network: 'moonbeam', chainId: 'mainnet' },
     }
+    process.env['RPC_URL'] = 'http://localhost:9091'
     fastify = await expose(createAdapter())
     req = request(`http://localhost:${(fastify?.server.address() as AddressInfo).port}`)
     const mockDate = new Date('2022-08-01T07:14:54.909Z')
