@@ -66,7 +66,7 @@ jest.mock('@polkadot/api', () => {
                   },
                 }
 
-                const addressBalanceMap = {
+                const addressBalanceMap: Record<string, any> = {
                   '13nogjgyJcGQduHt8RtZiKKbt7Uy6py9hv1WMDZWueEcsHdh': mockPolkdotBalanceResponse1,
                   '126rjyDQEJm6V6YPDcN85hJDYraqB6hL9bFsvWLDnM8rLc3J': mockPolkdotBalanceResponse2,
                   '15vJFD1Y8nButjmgjbK5x6SYU2cQnbihM4GgkR5enkwyTVLq': mockPolkdotBalanceResponse3,
