@@ -5,6 +5,7 @@ import request, { SuperTest, Test } from 'supertest'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import { AddressInfo } from 'net'
+import * as process from 'process'
 
 let adapterServer: ServerInstance | undefined
 
@@ -60,7 +61,7 @@ describe('execute', () => {
     ...payload,
     data: {
       ...payload.data,
-      endpoint: 'crypto-ws',
+      endpoint: 'crypto',
     },
   })
 
@@ -153,6 +154,9 @@ describe('execute', () => {
   })
 
   describe('crypto websocket', () => {
+    beforeAll(() => {
+      process.env['WS_ENABLED'] = 'true'
+    })
     it('should return error message for empty data', async () => {
       const response = await req
         .post('/')

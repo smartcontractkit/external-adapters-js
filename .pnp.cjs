@@ -5083,7 +5083,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare-test/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
