@@ -5,12 +5,12 @@ import { httpTransport, inputParameters } from './forex'
 import { wsTransport } from './forex-ws'
 
 const transports = {
-  websocket: wsTransport,
-  batch: httpTransport,
+  ws: wsTransport,
+  rest: httpTransport,
 }
 
 export const routingTransport = new RoutingTransport<BatchEndpointTypes>(transports, {
-  defaultTransport: 'batch',
+  defaultTransport: 'rest',
 })
 
 export const endpoint = new PriceEndpoint<BatchEndpointTypes>({

@@ -109,7 +109,7 @@ describe('execute', () => {
         data: {
           base: 'ETH',
           quote: 'USD',
-          transport: 'websocket',
+          transport: 'ws',
         },
       }
 
