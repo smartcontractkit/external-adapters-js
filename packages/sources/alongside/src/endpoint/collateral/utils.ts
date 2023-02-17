@@ -3,6 +3,9 @@ import { bignumber, number } from 'mathjs'
 import axios from 'axios'
 import { BalanceType } from '.'
 import abi from './abi.json'
+import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+
+const logger = makeLogger('Alongside  collateral calculation logger')
 
 export class Collateral {
   provider: ethers.providers.JsonRpcProvider
@@ -168,7 +171,7 @@ export class Collateral {
         return data
       }
     } catch (error) {
-      console.log(
+      logger.error(
         `failed to fetch from ${pinataFirst ? 'Pinata' : 'Infura'}, trying ${
           pinataFirst ? 'Infura' : 'Pinata'
         }"}`,
@@ -188,7 +191,7 @@ export class Collateral {
     vaultBalances: BalanceType[],
     units: { [x: string]: number },
   ): number => {
-    console.log({
+    logger.warn({
       tradingBalances,
       vaultBalances,
       units,

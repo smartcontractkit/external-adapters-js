@@ -6,17 +6,17 @@ import {
   sleep,
 } from '@chainlink/external-adapter-framework/util'
 import CryptoJS from 'crypto-js'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Collateral } from './utils'
 import { customSettings } from '../../config'
 
-const logger = makeLogger('Alongside Balances Logger')
+const logger = makeLogger('Alongside Colateral endpoint Logger')
 
 const MS_BETWEEN_FAILED_REQS = 400
 
@@ -164,7 +164,6 @@ export class AlongsideCollateralTransport implements Transport<EndpointTypes> {
     try {
       return await axios.request(axiosRequest)
     } catch (e) {
-      console.log('error', e)
       return e as AxiosResponse
     }
   }

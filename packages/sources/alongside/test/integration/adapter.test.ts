@@ -40,9 +40,7 @@ describe('rest', () => {
   describe('portfolio api', () => {
     const data = {
       id,
-      data: {
-        type: 'TRADING',
-      },
+      data: {},
     }
 
     it('should return success', async () => {

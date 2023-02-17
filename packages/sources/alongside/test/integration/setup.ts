@@ -3,7 +3,7 @@ import request, { SuperTest, Test } from 'supertest'
 import { ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { customSettings } from '../../src/config'
-import { balances } from '../../src/endpoint'
+import { collateral } from '../../src/endpoint'
 import * as nock from 'nock'
 import { AddressInfo } from 'net'
 
@@ -61,8 +61,8 @@ export type TestOptions = { cleanNock?: boolean; fastify?: boolean }
 export const createAdapter = (): Adapter<typeof customSettings> => {
   return new Adapter({
     name: 'ALONGSIDE',
-    endpoints: [balances],
-    defaultEndpoint: balances.name,
+    endpoints: [collateral],
+    defaultEndpoint: collateral.name,
     customSettings,
   })
 }
