@@ -18,6 +18,10 @@ Object {
   },
   "result": 1276.75,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -28,6 +32,10 @@ Object {
   },
   "result": 156240830222.34824,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
@@ -38,5 +46,23 @@ Object {
   },
   "result": 735584356.0525743,
   "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute vwap api should return success 1`] = `
+Object {
+  "data": Object {
+    "result": 0.9224,
+  },
+  "result": 0.9224,
+  "statusCode": 200,
+  "timestamps": Object {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
