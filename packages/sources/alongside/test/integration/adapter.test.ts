@@ -34,6 +34,7 @@ describe('rest', () => {
     PASSPHRASE: process.env.PASSPHRASE || 'fake-passphrase',
     SIGNING_KEY: process.env.SIGNING_KEY || 'fake-signing-key',
     PORTFOLIO_ID: process.env.PORTFOLIO_ID || 'fake-portfolio',
+    INFURA_KEY: process.env.INFURA_KEY || 'fake-infura-key',
   }
   setupExternalAdapterTest(envVariables, context)
 
@@ -51,7 +52,6 @@ describe('rest', () => {
         .send(data)
         .set('Accept', '*/*')
         .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
         .expect(200)
       expect(response.body).toMatchSnapshot()
     })

@@ -1,9 +1,9 @@
 import { ethers } from 'ethers'
 import { bignumber, number } from 'mathjs'
 import axios from 'axios'
-import { BalanceType } from '.'
 import abi from './abi.json'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { BalanceType } from '.'
 
 const logger = makeLogger('Alongside  collateral calculation logger')
 
@@ -50,7 +50,6 @@ export class Collateral {
     // get all intervening fee changes
     const feeChanges = await this.getFeeChanges(indexToken, from.blockNumber, to.blockNumber)
     const initialMethodology = await this.fetchMethodology()
-
     return {
       feeWhenMethodologySet,
       feeChanges,
