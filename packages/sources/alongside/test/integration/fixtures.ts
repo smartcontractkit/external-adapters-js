@@ -897,9 +897,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   .times(3)
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: '0x1',
     }),
     [
@@ -928,9 +928,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   .times(3)
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: {
         baseFeePerGas: '0x7ff410708',
         difficulty: '0x0',
@@ -990,9 +990,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   .times(4)
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: '0x1',
     }),
     [
@@ -1027,9 +1027,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   })
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: [
         {
           address: '0xf17a3fe536f8f7847f1385ec1bc967b2ca9cae8d',
@@ -1070,9 +1070,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   .times(2)
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: {
         baseFeePerGas: '0x7ff410708',
         difficulty: '0x0',
@@ -1137,9 +1137,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   })
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: '0x00000000000000000000000000000000000000000000000000094a8660997a20',
     }),
     [
@@ -1167,9 +1167,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   .times(2)
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: '1',
     }),
     [
@@ -1204,9 +1204,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   })
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: [],
     }),
     [
@@ -1235,9 +1235,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   .times(25)
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result: '1',
     }),
     [
@@ -1271,7 +1271,7 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   })
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
       id: 1,
       result:
@@ -1309,9 +1309,9 @@ nock('https://mainnet.infura.io:443/v3/fake-infura-key')
   .times(25)
   .reply(
     200,
-    (_, request) => ({
+    () => ({
       jsonrpc: '2.0',
-      id: request['id'],
+      id: 56,
       result:
         '0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000035697066733a2f2f516d5977657648624e79554d4d70574b67503538714b686775684136736543567638546b6b6459545243365070720000000000000000000000',
     }),
