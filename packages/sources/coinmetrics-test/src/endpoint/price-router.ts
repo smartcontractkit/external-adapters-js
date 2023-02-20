@@ -17,6 +17,7 @@ export type MetricData = {
 export type AssetMetricsRequestBody = {
   base: string
   quote: VALID_QUOTES
+  transport: string
 }
 
 // Common endpoint type shared by the REST and WS transports

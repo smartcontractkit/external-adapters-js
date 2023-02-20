@@ -104,6 +104,7 @@ export const handleAssetMetricsMessage = (
           params: {
             base: message.asset,
             quote,
+            transport: 'ws',
           },
           response: {
             result,
@@ -119,7 +120,7 @@ export const handleAssetMetricsMessage = (
   } else {
     logger.warn(message, 'Unknown message type from websocket')
   }
-  return undefined
+  return []
 }
 
 export const wsTransport = new WebSocketTransport<WsAssetMetricsEndpointTypes>({

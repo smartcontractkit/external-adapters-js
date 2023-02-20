@@ -43,7 +43,7 @@ interface ResponseSchema {
 interface RequestParams {
   asset: string
   frequency: string
-  pageSize: number
+  pageSize?: number
   startTime?: string
   endTime?: string
 }
@@ -153,7 +153,8 @@ export class TotalBurnedTransport implements Transport<EndpointTypes> {
 
       if (
         !nextPageToken ||
-        assetMetricsList.length < req.requestContext.data.pageSize ||
+        (req.requestContext.data.pageSize &&
+          assetMetricsList.length < req.requestContext.data.pageSize) ||
         isBurnedEndpoint
       ) {
         lastPage = true

@@ -45,7 +45,7 @@ export const httpTransport = new HttpTransport<AssetMetricsEndpointTypes>({
           const result = Number(entry[prop as keyof MetricData])
           const quote = prop.replace('ReferenceRate', '') as VALID_QUOTES
           entries.push({
-            params: { base: entry.asset, quote },
+            params: { base: entry.asset.toUpperCase(), quote },
             response: {
               data: {
                 result,
