@@ -1,5 +1,23 @@
 # @chainlink/ea
 
+## 1.3.64
+
+### Patch Changes
+
+- Updated dependencies [e39eb6e6c]
+- Updated dependencies [5258e1166]
+  - @chainlink/intrinio-test-adapter@1.0.1
+  - @chainlink/coinranking-adapter@2.0.0
+
+## 1.3.63
+
+### Patch Changes
+
+- Updated dependencies [7e876a304]
+- Updated dependencies [fb94c36d6]
+  - @chainlink/oanda-adapter@1.0.0
+  - @chainlink/blocksize-capital-test-adapter@1.0.0
+
 ## 1.3.62
 
 ### Patch Changes

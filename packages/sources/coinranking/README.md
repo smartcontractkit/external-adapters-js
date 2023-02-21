@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Coinranking
 
-![1.3.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinranking/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinranking/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,9 +16,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                       Options                                        | Default  |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                 Options                                                                                 | Default  |
+| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto](#crypto-endpoint), [marketcap](#crypto-endpoint), [price](#crypto-endpoint), [totalMarketCap](#totalmarketcap-endpoint), [totalmcap](#totalmarketcap-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -315,6 +315,104 @@ Response:
 ```
 
 </details>
+
+---
+
+## TotalMarketCap Endpoint
+
+Returns the totalMarketCap value provided by coinranking's 'stats' endpoint
+
+Supported names for this endpoint are: `totalMarketCap`, `totalmcap`.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "totalMarketCap"
+  },
+  "debug": {
+    "cacheKey": "ow1rfzVUhrabsezQrFXAy1jncWo="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": "success",
+    "data": {
+      "referenceCurrencyRate": 1,
+      "totalCoins": 23349,
+      "totalMarkets": 37921,
+      "totalExchanges": 179,
+      "totalMarketCap": "1139638848309",
+      "total24hVolume": "85309476474",
+      "btcDominance": 41.393155263964395,
+      "bestCoins": [
+        {
+          "uuid": "fmHk13Rqw",
+          "symbol": "FLOKI*",
+          "name": "FLOKI",
+          "iconUrl": "https://cdn.coinranking.com/Yfn5I1O01/10804.png",
+          "coinrankingUrl": "https://coinranking.com/coin/fmHk13Rqw+floki-floki"
+        },
+        {
+          "uuid": "08CsQa-Ov",
+          "symbol": "WEMIX",
+          "name": "WEMIX TOKEN",
+          "iconUrl": "https://cdn.coinranking.com/1N84MQsoO/7548.png",
+          "coinrankingUrl": "https://coinranking.com/coin/08CsQa-Ov+wemixtoken-wemix"
+        },
+        {
+          "uuid": "jrP7Ptsct",
+          "symbol": "ACH**",
+          "name": "Alchemy Pay",
+          "iconUrl": "https://cdn.coinranking.com/tkKQoiNEr/alchemypay.svg",
+          "coinrankingUrl": "https://coinranking.com/coin/jrP7Ptsct+alchemypay-ach"
+        }
+      ],
+      "newestCoins": [
+        {
+          "uuid": "ZO8YGJCio",
+          "symbol": "HASHTAG",
+          "name": "Hashtag United F.C Fan Token",
+          "iconUrl": "https://cdn.coinranking.com/FYBQpoUyV/HASH.PNG",
+          "coinrankingUrl": "https://coinranking.com/coin/ZO8YGJCio+hashtagunitedfcfantoken-hashtag"
+        },
+        {
+          "uuid": "BYg5FxSE-",
+          "symbol": "FLAME",
+          "name": "Flame Chain",
+          "iconUrl": "https://cdn.coinranking.com/mv2256upC/FLAME_LOGO.png",
+          "coinrankingUrl": "https://coinranking.com/coin/BYg5FxSE-+flamechain-flame"
+        },
+        {
+          "uuid": "EK1DC7MeO",
+          "symbol": "SFIL",
+          "name": "Super File Coin",
+          "iconUrl": "https://cdn.coinranking.com/n15BzWVX7/SFIL_LOGO.png",
+          "coinrankingUrl": "https://coinranking.com/coin/EK1DC7MeO+superfilecoin-sfil"
+        }
+      ]
+    },
+    "result": 1139638848309
+  },
+  "result": 1139638848309,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

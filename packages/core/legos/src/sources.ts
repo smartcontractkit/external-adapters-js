@@ -19,6 +19,7 @@ import * as blockchain_com from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
 import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as blocksize_capital from '@chainlink/blocksize-capital-adapter'
+import * as blocksize_capital_test from '@chainlink/blocksize-capital-test-adapter'
 import * as blockstream from '@chainlink/blockstream-adapter'
 import * as bob from '@chainlink/bob-adapter'
 import * as bravenewcoin from '@chainlink/bravenewcoin-adapter'
@@ -112,6 +113,7 @@ import * as nft_blue_chip from '@chainlink/nft-blue-chip-adapter'
 import * as nikkei from '@chainlink/nikkei-adapter'
 import * as nomics from '@chainlink/nomics-adapter'
 import * as nomics_test from '@chainlink/nomics-test-adapter'
+import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
@@ -140,6 +142,7 @@ import * as therundown from '@chainlink/therundown-adapter'
 import * as tiingo from '@chainlink/tiingo-adapter'
 import * as tiingo_test from '@chainlink/tiingo-test-adapter'
 import * as tradermade from '@chainlink/tradermade-adapter'
+import * as tradermade_test from '@chainlink/tradermade-test-adapter'
 import * as tradingeconomics from '@chainlink/tradingeconomics-adapter'
 import * as trueusd from '@chainlink/trueusd-adapter'
 import * as twelvedata from '@chainlink/twelvedata-adapter'
@@ -176,6 +179,7 @@ export default {
   blockchair,
   blockcypher,
   blocksize_capital,
+  blocksize_capital_test,
   blockstream,
   bob,
   bravenewcoin,
@@ -269,6 +273,7 @@ export default {
   nikkei,
   nomics,
   nomics_test,
+  oanda,
   oilpriceapi,
   onchain_gas,
   openexchangerates,
@@ -297,6 +302,7 @@ export default {
   tiingo,
   tiingo_test,
   tradermade,
+  tradermade_test,
   tradingeconomics,
   trueusd,
   twelvedata,

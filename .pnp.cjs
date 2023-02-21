@@ -281,6 +281,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/blocksize-capital"\
       },\
       {\
+        "name": "@chainlink/blocksize-capital-test-adapter",\
+        "reference": "workspace:packages/sources/blocksize-capital-test"\
+      },\
+      {\
         "name": "@chainlink/blockstream-adapter",\
         "reference": "workspace:packages/sources/blockstream"\
       },\
@@ -653,6 +657,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/nomics-test"\
       },\
       {\
+        "name": "@chainlink/oanda-adapter",\
+        "reference": "workspace:packages/sources/oanda"\
+      },\
+      {\
         "name": "@chainlink/oilpriceapi-adapter",\
         "reference": "workspace:packages/sources/oilpriceapi"\
       },\
@@ -761,6 +769,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/tradermade"\
       },\
       {\
+        "name": "@chainlink/tradermade-test-adapter",\
+        "reference": "workspace:packages/sources/tradermade-test"\
+      },\
+      {\
         "name": "@chainlink/tradingeconomics-adapter",\
         "reference": "workspace:packages/sources/tradingeconomics"\
       },\
@@ -862,6 +874,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
       ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],\
       ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
+      ["@chainlink/blocksize-capital-test-adapter", ["workspace:packages/sources/blocksize-capital-test"]],\
       ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
       ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
       ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
@@ -984,6 +997,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],\
       ["@chainlink/nomics-test-adapter", ["workspace:packages/sources/nomics-test"]],\
+      ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
       ["@chainlink/observation", ["workspace:packages/observation"]],\
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
@@ -1024,6 +1038,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/tiingo-test-adapter", ["workspace:packages/sources/tiingo-test"]],\
       ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
       ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
+      ["@chainlink/tradermade-test-adapter", ["workspace:packages/sources/tradermade-test"]],\
       ["@chainlink/tradingeconomics-adapter", ["workspace:packages/sources/tradingeconomics"]],\
       ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
       ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
@@ -4427,6 +4442,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/blocksize-capital-test-adapter", [\
+        ["workspace:packages/sources/blocksize-capital-test", {\
+          "packageLocation": "./packages/sources/blocksize-capital-test/",\
+          "packageDependencies": [\
+            ["@chainlink/blocksize-capital-test-adapter", "workspace:packages/sources/blocksize-capital-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/blockstream-adapter", [\
         ["workspace:packages/sources/blockstream", {\
           "packageLocation": "./packages/sources/blockstream/",\
@@ -5050,7 +5083,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sources/cryptocompare-test/",\
           "packageDependencies": [\
             ["@chainlink/cryptocompare-test-adapter", "workspace:packages/sources/cryptocompare-test"],\
-            ["@chainlink/external-adapter-framework", "npm:0.12.0"],\
+            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
@@ -5425,6 +5458,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
             ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
             ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
+            ["@chainlink/blocksize-capital-test-adapter", "workspace:packages/sources/blocksize-capital-test"],\
             ["@chainlink/blockstream-adapter", "workspace:packages/sources/blockstream"],\
             ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
             ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
@@ -5518,6 +5552,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
             ["@chainlink/nomics-adapter", "workspace:packages/sources/nomics"],\
             ["@chainlink/nomics-test-adapter", "workspace:packages/sources/nomics-test"],\
+            ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
             ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
             ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
             ["@chainlink/openexchangerates-adapter", "workspace:packages/sources/openexchangerates"],\
@@ -5546,6 +5581,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
             ["@chainlink/tiingo-test-adapter", "workspace:packages/sources/tiingo-test"],\
             ["@chainlink/tradermade-adapter", "workspace:packages/sources/tradermade"],\
+            ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
             ["@chainlink/tradingeconomics-adapter", "workspace:packages/sources/tradingeconomics"],\
             ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
             ["@chainlink/twelvedata-adapter", "workspace:packages/sources/twelvedata"],\
@@ -6048,6 +6084,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.23.2-aec7cba905-856ca0129a.zip/node_modules/@chainlink/external-adapter-framework/",\
           "packageDependencies": [\
             ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["ajv", "npm:8.11.0"],\
+            ["axios", "npm:0.27.2"],\
+            ["eventsource", "npm:2.0.2"],\
+            ["fastify", "npm:4.9.2"],\
+            ["ioredis", "npm:5.2.3"],\
+            ["pino", "npm:8.6.1"],\
+            ["pino-pretty", "npm:9.1.0"],\
+            ["prom-client", "npm:13.2.0"],\
+            ["ws", "virtual:9bcb395e33af1476676205024eaeeb9ff3cc20552a16175c13c3f5040d89bbd447d2875194b826fc04ceb29c5066a6fa008e709abaa30eec3185f667e7043ce2#npm:8.9.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.24.2", {\
+          "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-0.24.2-fd6c538a18-bb67988647.zip/node_modules/@chainlink/external-adapter-framework/",\
+          "packageDependencies": [\
+            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
             ["ajv", "npm:8.11.0"],\
             ["axios", "npm:0.27.2"],\
             ["eventsource", "npm:2.0.2"],\
@@ -6994,6 +7046,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@chainlink/oanda-adapter", [\
+        ["workspace:packages/sources/oanda", {\
+          "packageLocation": "./packages/sources/oanda/",\
+          "packageDependencies": [\
+            ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
+            ["@chainlink/external-adapter-framework", "npm:0.23.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["axios", "npm:0.27.2"],\
+            ["decimal.js", "npm:10.4.1"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@chainlink/observation", [\
         ["workspace:packages/observation", {\
           "packageLocation": "./packages/observation/",\
@@ -7765,6 +7832,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:27.5.2"],\
             ["@types/node", "npm:16.11.51"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/tradermade-test-adapter", [\
+        ["workspace:packages/sources/tradermade-test", {\
+          "packageLocation": "./packages/sources/tradermade-test/",\
+          "packageDependencies": [\
+            ["@chainlink/tradermade-test-adapter", "workspace:packages/sources/tradermade-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["mock-socket", "npm:9.1.5"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.0"],\
@@ -11842,10 +11927,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@sideway/formula", [\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/@sideway-formula-npm-3.0.0-8688cb96b6-8ae26a0ed6.zip/node_modules/@sideway/formula/",\
+        ["npm:3.0.1", {\
+          "packageLocation": "./.yarn/cache/@sideway-formula-npm-3.0.1-ee371b2ddf-e4beeebc9d.zip/node_modules/@sideway/formula/",\
           "packageDependencies": [\
-            ["@sideway/formula", "npm:3.0.0"]\
+            ["@sideway/formula", "npm:3.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -24402,7 +24487,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@hapi/hoek", "npm:9.3.0"],\
             ["@hapi/topo", "npm:5.1.0"],\
             ["@sideway/address", "npm:4.1.4"],\
-            ["@sideway/formula", "npm:3.0.0"],\
+            ["@sideway/formula", "npm:3.0.1"],\
             ["@sideway/pinpoint", "npm:2.0.0"]\
           ],\
           "linkType": "HARD"\
