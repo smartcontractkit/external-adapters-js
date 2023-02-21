@@ -1,13 +1,13 @@
-import { expose } from '@chainlink/external-adapter-framework'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { cryptoEndpoint } from './endpoint'
+import { cryptoRouter, vwap, volume, marketcap } from './endpoint'
 import { customSettings, defaultEndpoint } from './config'
 import overrides from './config/overrides.json'
 
 export const adapter = new PriceAdapter({
   name: 'CRYPTOCOMPARE',
   defaultEndpoint,
-  endpoints: [cryptoEndpoint],
+  endpoints: [cryptoRouter, vwap, volume, marketcap],
   customSettings,
   rateLimiting: {
     tiers: {
@@ -25,7 +25,7 @@ export const adapter = new PriceAdapter({
       },
     },
   },
-  overrides: overrides['cryptocompare'],
+  overrides: overrides.cryptocompare,
 })
 
-export const server = () => expose(adapter)
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
