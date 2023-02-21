@@ -112,8 +112,15 @@ describe('TwoSigmaWebsocketTransport', () => {
   let sentMessages: string[]
 
   class MockWebSocket {
+    onclose?: () => void
+    readyState: number
+
     close() {
       connClosed = true
+      this.readyState = 3 // CLOSED
+      if (this.onclose) {
+        this.onclose()
+      }
     }
 
     send(message: string) {

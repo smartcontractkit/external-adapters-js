@@ -76,7 +76,7 @@ export class TwoSigmaWebsocketTransport extends WebSocketTransport<WebSocketEndp
         `closing WS connection for new subscriptions: ${JSON.stringify(subscriptions.desired)}`,
       )
 
-      const closed = new Promise<void>((resolve) => this.wsConnection.on('close', resolve))
+      const closed = new Promise<void>((resolve) => (this.wsConnection.onclose = resolve))
       this.wsConnection.close()
       await closed
     }
