@@ -120,6 +120,7 @@ import * as oanda from '@chainlink/oanda-adapter'
 import * as oilpriceapi from '@chainlink/oilpriceapi-adapter'
 import * as onchain_gas from '@chainlink/onchain-gas-adapter'
 import * as openexchangerates from '@chainlink/openexchangerates-adapter'
+import * as openexchangerates_test from '@chainlink/openexchangerates-test-adapter'
 import * as orchid_adapter from '@chainlink/orchid-bandwidth-adapter'
 import * as paxos from '@chainlink/paxos-adapter'
 import * as paypal from '@chainlink/paypal-adapter'
@@ -285,6 +286,7 @@ export default {
   oilpriceapi,
   onchain_gas,
   openexchangerates,
+  openexchangerates_test,
   orchid_adapter,
   paxos,
   paypal,
