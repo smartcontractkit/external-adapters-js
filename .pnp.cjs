@@ -564,6 +564,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/sources/iex-cloud"\
       },\
       {\
+        "name": "@chainlink/iex-cloud-test-adapter",\
+        "reference": "workspace:packages/sources/iex-cloud-test"\
+      },\
+      {\
         "name": "@chainlink/intrinio-adapter",\
         "reference": "workspace:packages/sources/intrinio"\
       },\
@@ -981,6 +985,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
       ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
       ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
+      ["@chainlink/iex-cloud-test-adapter", ["workspace:packages/sources/iex-cloud-test"]],\
       ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
       ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
       ["@chainlink/intrinio-test-adapter", ["workspace:packages/sources/intrinio-test"]],\
@@ -6617,6 +6622,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
             ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
             ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
+            ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
             ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
             ["@chainlink/intrinio-test-adapter", "workspace:packages/sources/intrinio-test"],\
             ["@chainlink/ipfs-adapter", "workspace:packages/sources/ipfs"],\
@@ -7547,6 +7553,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["supertest", "npm:6.2.4"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/iex-cloud-test-adapter", [\
+        ["workspace:packages/sources/iex-cloud-test", {\
+          "packageLocation": "./packages/sources/iex-cloud-test/",\
+          "packageDependencies": [\
+            ["@chainlink/iex-cloud-test-adapter", "workspace:packages/sources/iex-cloud-test"],\
+            ["@chainlink/external-adapter-framework", "npm:0.24.2"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
+            ["@types/supertest", "npm:2.0.12"],\
+            ["nock", "npm:13.2.9"],\
+            ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.0"],\
+            ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=a1c5e5"]\
           ],\
           "linkType": "SOFT"\
         }]\
