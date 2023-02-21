@@ -175,6 +175,7 @@ export const config = {
 
 export const endpoint = new PriceEndpoint({
   name: 'price',
+  aliases: ['stock'],
   inputParameters: priceEndpointInputParameters,
   transport: new TwoSigmaWebsocketTransport(config),
 })

@@ -17,13 +17,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |         Options          | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [price](#price-endpoint), [stock](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-`price` is the only supported name for this endpoint.
+Supported names for this endpoint are: `price`, `stock`.
 
 ### Input Params
 
