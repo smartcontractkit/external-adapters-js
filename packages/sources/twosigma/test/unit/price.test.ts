@@ -113,7 +113,7 @@ describe('TwoSigmaWebsocketTransport', () => {
 
   class MockWebSocket {
     onclose?: () => void
-    readyState: number
+    readyState?: number
 
     close() {
       connClosed = true
