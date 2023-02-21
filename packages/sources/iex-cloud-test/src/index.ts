@@ -5,7 +5,7 @@ import { crypto, eod, stock } from './endpoint'
 
 export const adapter = new PriceAdapter({
   defaultEndpoint: crypto.name,
-  name: 'IEX-CLOUD',
+  name: 'IEX_CLOUD',
   customSettings,
   endpoints: [crypto, stock, eod],
   rateLimiting: {
