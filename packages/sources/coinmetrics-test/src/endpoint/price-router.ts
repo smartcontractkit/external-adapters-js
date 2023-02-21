@@ -31,6 +31,7 @@ export const routingTransport = new RoutingTransport<AssetMetricsEndpointTypes>(
 
 export const endpoint = new AdapterEndpoint<AssetMetricsEndpointTypes>({
   name: 'price-ws',
+  aliases: ['crypto'],
   transport: routingTransport,
   inputParameters: priceInputParameters,
 })
