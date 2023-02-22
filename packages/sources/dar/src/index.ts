@@ -11,7 +11,7 @@ export const adapter = new PriceAdapter({
   defaultEndpoint: price.name,
   customSettings,
   envDefaultOverrides: {
-    CACHE_MAX_AGE: 20 * 60 * 1000,
+    CACHE_MAX_AGE: 20 * 60 * 1000, //20 minutes
   },
 })
 
